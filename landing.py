@@ -246,7 +246,21 @@ def reconcile(checkpoint, binary):
                            "git_sha256": hashlib.sha256(Path(git_path).read_bytes()).hexdigest(),
                            "noodle_sha256": runtime["observed_binary_sha256"],
                            "verifier_sha256": claim["verifier_sha256"]}
-            require(state.get("cleanup_intent") != observation, "cleanup.observation", "unchanged; owner readback or changed capability required")
+            # Git owns ref path resolution, including a shared common directory.
+            ref_lock = checked(["git", "rev-parse", "--path-format=absolute", "--git-path",
+                                "refs/heads/" + claim["worktree"] + ".lock"], root)
+            blocked = {"observation": observation, "ref_lock": ref_lock}
+            if os.path.lexists(ref_lock):
+                # This is a capability readback, not another cleanup attempt. Never remove the lock.
+                if state.get("cleanup_blocked") != blocked:
+                    state["cleanup_blocked"] = blocked
+                    save(path, state)
+                require(False, "cleanup.ref_lock", ref_lock)
+            released = state.get("cleanup_blocked") == blocked
+            # Missing legacy lock evidence means unknown, not a present->absent transition.
+            require(state.get("cleanup_intent") != observation or released,
+                    "cleanup.observation", "unchanged; owner readback or changed capability required")
+            state.pop("cleanup_blocked", None)  # Consume the observed release before calling its owner.
             state["cleanup_intent"] = observation
             save(path, state)
             checked([str(Path(binary).resolve()), "worktree", "cleanup", claim["worktree"]], root)
