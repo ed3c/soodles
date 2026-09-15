@@ -10,4 +10,6 @@ An additional probe returned outer exit 1 for a child exiting 23, with `process 
 
 The current candidate's evidence must be obtained from `runtime-evidence-<exact head>` in its actual Actions run and the local acceptance JSON. No future run is represented here as already passing. JSON contains source head/tree, observed binary/version, command exits, worktree cleanup readbacks and explicit non-claims.
 
-Next boundary: install and read back target-local trusted admission and protection, then use a real Issue through host delivery, provider verification, merge/closure and Noodle reconciliation. Upstream source/fixture success is insufficient evidence for those capabilities in soodles.
+Issue #3 was withdrawn as not planned after the owner corrected the assumption that Administration access/classic protection is a prerequisite for all automation. Those permissions are dependencies of noodles' current protection reader, not requirements of every supervised carrier.
+
+Issue #4 adds a single-Issue supervised landing boundary. Initial trust comes from the supervising session's pinned implementation and exact claim outside the candidate. Unit controls exercise refusal and lost-response transitions; the actual provider run and Noodle cleanup must be read from the Issue's execution receipt. A proposed implementation or a passing unit fixture is not recorded here as future provider success. This does not establish an unattended Actions lander, independent default-branch verifier or full production generation loop.

@@ -7,8 +7,9 @@ Migrate only exact, executable claims demonstrated in this repository.
 - Noodle owns worktrees and runtime lifecycle. This bootstrap exercises its binary in disposable fixtures; it does not start a production daemon.
 - `policy/runtime.lock.json` owns the selected release and digests. `./soodles --help` owns the command surface.
 - `./soodles acceptance verify /absolute/path/to/noodle` is the canonical local acceptance. Run focused controls while editing, then acceptance once for each final clean candidate head.
-- Local and PR self-test receipts have `authorizes_landing: false`. They cannot supply trusted provider admission, merge, Issue closure, or production reconciliation.
-- This first bootstrap has no installed guarded Issue authoring, execution-envelope issuer, or trusted lander. Keep the exact Issue and PR open until their missing authority is established and read back. Never fabricate those capabilities or use a direct merge as a substitute.
+- Local and PR self-test receipts have `authorizes_landing: false`. They cannot select or authorize their own verifier.
+- First installation uses the explicitly requested supervised fallback: the supervisor pins the landing implementation outside the candidate, admits one exact claim, and supplies raw provider readbacks. `landing.py` owns pending-write checkpoints and exact requests; the existing GitHub connector executes them under existing provider rules. No Administration access or protection-policy modification is a prerequisite.
+- Do not fabricate a production generation, independent default-branch verification, or unattended lander. An Issue is RESOLVED only after merge and closure readback plus Noodle reconciliation. Unknown writes require readback; never repeat the offered request from model memory.
 
 ## Routing and changes
 
