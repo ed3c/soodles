@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -177,6 +178,34 @@ class LandingTests(unittest.TestCase):
         self.snapshot["issue"].update(state="closed", state_reason="completed", closed_at="now")
         with self.assertRaisesRegex(soodles.Refusal, "closure.owner"):
             landing.advance(self.checkpoint, self.snapshot)
+
+    def test_network_child_keeps_proxy_route_without_provider_or_git_injection(self):
+        executable = Path(self.temp.name) / "git"
+        executable.write_text('#!/bin/sh\n[ "$1 $2 $3" = "fetch origin main" ] && '
+                              '[ "$HTTPS_PROXY" = "https://transport.invalid" ] && '
+                              '[ -z "$GH_TOKEN$GITHUB_TOKEN$GIT_DIR$GIT_CONFIG_PARAMETERS" ]\n')
+        executable.chmod(0o755)
+        with patch.dict(os.environ, {"PATH": self.temp.name + os.pathsep + os.environ["PATH"],
+                                     "HTTPS_PROXY": "https://transport.invalid", "GH_TOKEN": "secret", "GITHUB_TOKEN": "secret",
+                                     "GIT_DIR": "/foreign", "GIT_CONFIG_PARAMETERS": "foreign"}):
+            landing.fetch_main(Path(self.temp.name))
+
+    def test_corrected_verifier_resume_preserves_identity_and_cannot_repeat_provider_writes(self):
+        self.start()
+        with self.assertRaisesRegex(soodles.Refusal, "resume.phase"):
+            landing.resume(self.checkpoint, self.claim)
+        state = landing.read(self.checkpoint)
+        state.update(phase="reconciling", merge_sha="d" * 40, issue_closed_at="now", writes_offered=["merge", "close"])
+        state["claim"]["verifier_sha256"] = "old-source"
+        landing.save(self.checkpoint, state)
+        with self.assertRaisesRegex(soodles.Refusal, "resume.claim"):
+            landing.resume(self.checkpoint, {**self.claim, "issue": 99})
+        result = landing.resume(self.checkpoint, self.claim)
+        self.assertEqual(result["provider_requests"], [])
+        resumed = landing.read(self.checkpoint)
+        self.assertEqual(resumed["writes_offered"], ["merge", "close"])
+        self.assertEqual(resumed["prior_verifiers"], ["old-source"])
+        self.assertEqual(resumed["claim"], self.claim)
 
     def test_cli_help_and_malformed_input_refuse_before_checkpoint(self):
         for route in (["landing"], ["landing", "start"], ["landing", "advance"], ["landing", "reconcile"]):

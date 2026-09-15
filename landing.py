@@ -6,9 +6,10 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
 import tempfile
 
-from soodles import Refusal, checked, runtime_check, source_identity
+from soodles import Refusal, checked, clean_env, runtime_check, source_identity
 
 REPOSITORY = "ed3c/soodles"
 ACTION = "./soodles landing"
@@ -135,6 +136,7 @@ def start(claim, snapshot, checkpoint):
 def advance(checkpoint, snapshot):
     with locked(checkpoint) as path:
         state = read(path)
+        require(state.get("schema") == 1, "checkpoint.schema", state.get("schema"))
         claim = state["claim"]
         validate_claim(claim)
         validate_snapshot(claim, snapshot)
@@ -170,9 +172,39 @@ def advance(checkpoint, snapshot):
                            "reason": "Pending writes require owner readback; no retry is offered."}
 
 
+def resume(checkpoint, claim):
+    """Re-admit a corrected verifier only after provider writes are complete."""
+    validate_claim(claim)
+    with locked(checkpoint) as path:
+        state = read(path)
+        require(state.get("schema") == 1, "checkpoint.schema", state.get("schema"))
+        require(state["phase"] == "reconciling" and state.get("merge_sha") and state.get("issue_closed_at")
+                and state["writes_offered"] == ["merge", "close"], "resume.phase", state["phase"])
+        old = state["claim"]
+        require({k: v for k, v in old.items() if k != "verifier_sha256"} ==
+                {k: v for k, v in claim.items() if k != "verifier_sha256"}, "resume.claim", "identity changes are forbidden")
+        require(old["verifier_sha256"] != claim["verifier_sha256"], "resume.verifier", "unchanged")
+        state.setdefault("prior_verifiers", []).append(old["verifier_sha256"])
+        state["claim"] = claim
+        save(path, state)
+        return {"action": "reconcile", "phase": "reconciling", "provider_requests": []}
+
+
+def fetch_main(root):
+    # Network Git needs the carrier's proxy route, unlike isolated runtime fixtures.
+    env = clean_env()
+    for key in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY", "http_proxy", "https_proxy", "all_proxy", "no_proxy"):
+        if key in os.environ:
+            env[key] = os.environ[key]
+    result = subprocess.run(["git", "fetch", "origin", "main"], cwd=root, env=env, stdin=subprocess.DEVNULL,
+                            text=True, capture_output=True, timeout=45)
+    require(result.returncode == 0, "git.fetch.exit", result.returncode)
+
+
 def reconcile(checkpoint, binary):
     with locked(checkpoint) as path:
         state = read(path)
+        require(state.get("schema") == 1, "checkpoint.schema", state.get("schema"))
         claim = state["claim"]
         validate_claim(claim)
         require(state["phase"] in {"awaiting_reconcile", "reconciling", "resolved"}, "checkpoint.phase", state["phase"])
@@ -191,7 +223,7 @@ def reconcile(checkpoint, binary):
             require(state["phase"] in {"reconciling", "resolved"}, "worktree.path", "missing before cleanup intent")
         state["phase"] = "reconciling"
         save(path, state)
-        checked(["git", "fetch", "origin", "main"], root)
+        fetch_main(root)
         checked(["git", "merge-base", "--is-ancestor", state["merge_sha"], "origin/main"], root)
         checked(["git", "merge-base", "--is-ancestor", before["head"], "origin/main"], root)
         checked(["git", "merge", "--ff-only", "origin/main"], root)

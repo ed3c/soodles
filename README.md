@@ -42,4 +42,6 @@ When `reconcile` is offered:
 
 The checkpoint becomes RESOLVED only after the provider merge, completed Issue, local main and Noodle cleanup have been read back. This is a supervised fallback, not an installed unattended Actions lander or a production generation scheduler. Administration permissions and classic-protection configuration are not universal prerequisites; all existing GitHub rules still apply.
 
+If a source fix changes the pinned verifier during interrupted local reconciliation, the supervisor can use `landing resume CHECKPOINT FRESH_CLAIM`. It accepts only a changed verifier digest with identical provider/local identities after merge and closure readback; it preserves both offered writes and emits no provider request. Network Git retains the carrier's proxy route while excluding provider credentials and Git environment injection.
+
 Start with [Issue #1](https://github.com/ed3c/soodles/issues/1), the executable boundary in `soodles.py`, and `tests/test_admission.py`. `docs/` records N-class observations; it is not correctness authority.

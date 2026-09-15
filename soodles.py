@@ -178,6 +178,10 @@ def parser():
     advance = verbs.add_parser("advance", epilog="Examples: ./soodles landing advance /tmp/checkpoint.json /tmp/readback.json")
     advance.add_argument("checkpoint")
     advance.add_argument("readback")
+    resume = verbs.add_parser("resume", description="Supervisor re-admits a corrected verifier for an interrupted local reconciliation only.",
+                             epilog="Examples: ./soodles landing resume /tmp/checkpoint.json /tmp/fresh-claim.json")
+    resume.add_argument("checkpoint")
+    resume.add_argument("claim")
     reconcile = verbs.add_parser("reconcile", epilog="Examples: ./soodles landing reconcile /tmp/checkpoint.json /absolute/path/to/noodle")
     reconcile.add_argument("checkpoint")
     reconcile.add_argument("binary")
@@ -195,6 +199,8 @@ def main():
                 result = landing.start(landing.read(args.claim), landing.read(args.readback), args.checkpoint)
             elif args.verb == "advance":
                 result = landing.advance(args.checkpoint, landing.read(args.readback))
+            elif args.verb == "resume":
+                result = landing.resume(args.checkpoint, landing.read(args.claim))
             else:
                 result = landing.reconcile(args.checkpoint, args.binary)
         else:
