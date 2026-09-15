@@ -10,6 +10,7 @@ Migrate only exact, executable claims demonstrated in this repository.
 - Local and PR self-test receipts have `authorizes_landing: false`. They cannot select or authorize their own verifier.
 - First installation uses the explicitly requested supervised fallback: the supervisor pins the landing implementation outside the candidate, admits one exact claim, and supplies raw provider readbacks. `landing.py` owns pending-write checkpoints and exact requests; the existing GitHub connector executes them under existing provider rules. No Administration access or protection-policy modification is a prerequisite.
 - Do not fabricate a production generation, independent default-branch verification, or unattended lander. An Issue is RESOLVED only after merge and closure readback plus Noodle reconciliation. Unknown writes require readback; never repeat the offered request from model memory.
+- `landing advance` prepares delivery; `landing dispatch` consumes it once using fresh owner readback before emitting the connector request. Resume prepared work through that same entry; offered/legacy-unknown writes stay pending. The process-fault oracle uses provider fixtures, not live GitHub writes.
 
 ## Routing and changes
 

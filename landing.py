@@ -129,27 +129,47 @@ def start(claim, snapshot, checkpoint):
     require(not snapshot["pr"].get("merged"), "pr.merged", True)
     with locked(checkpoint) as path:
         require(not path.exists(), "checkpoint", "already admitted; use landing advance")
-        save(path, {"schema": 1, "claim": claim, "phase": "admitted", "observations": [fingerprint(snapshot)],
+        save(path, {"schema": 2, "claim": claim, "phase": "admitted", "observations": [fingerprint(snapshot)],
                     "classification": None, "scope": "supervised single-Issue landing", "writes_offered": []})
     return {"action": "readback", "checkpoint": str(path)}
 
 
+def delivery_state(path):
+    state = read(path)
+    require(state.get("schema") in (1, 2), "checkpoint.schema", state.get("schema"))
+    phase = state["phase"]
+    require(phase in {"admitted", "merge_pending", "close_pending", "awaiting_reconcile", "reconciling", "resolved"},
+            "checkpoint.phase", phase)
+    if phase in {"merge_pending", "close_pending"}:
+        action = phase.removesuffix("_pending")
+        if state["schema"] == 1:
+            # Old advance could already have emitted the request. Absence is never proof of non-delivery.
+            state["delivery"] = {"action": action, "status": "offered"}
+        delivery = state.get("delivery")
+        require(isinstance(delivery, dict) and set(delivery) == {"action", "status"}
+                and delivery["action"] == action and delivery["status"] in {"prepared", "offered"},
+                "checkpoint.delivery", delivery)
+        expected = [] if action == "merge" else ["merge"]
+        if delivery["status"] == "offered":
+            expected = [*expected, action]
+        require(state["writes_offered"] == expected, "checkpoint.writes_offered", state["writes_offered"])
+    state["schema"] = 2
+    return state
+
+
 def advance(checkpoint, snapshot):
     with locked(checkpoint) as path:
-        state = read(path)
-        require(state.get("schema") == 1, "checkpoint.schema", state.get("schema"))
+        state = delivery_state(path)
         claim = state["claim"]
         validate_claim(claim)
         validate_snapshot(claim, snapshot)
         phase = state["phase"]
-        require(phase in {"admitted", "merge_pending", "close_pending", "awaiting_reconcile", "reconciling", "resolved"}, "checkpoint.phase", phase)
         observation = fingerprint(snapshot)
         if observation not in state["observations"]:
             state["observations"].append(observation)
             state["observations"] = state["observations"][-8:]
-        request = None
         if snapshot["pr"].get("merged"):
-            require(phase != "admitted", "merge.owner", "no merge request offered by this checkpoint")
+            require("merge" in state["writes_offered"], "merge.owner", "no merge request offered by this checkpoint")
             state["merge_sha"] = snapshot["pr"]["merge_commit_sha"]
             if snapshot["issue"]["state"] == "closed":
                 require("close" in state["writes_offered"], "closure.owner", "no close request offered by this checkpoint")
@@ -158,19 +178,44 @@ def advance(checkpoint, snapshot):
                     state["phase"] = "awaiting_reconcile"
             elif phase == "merge_pending":
                 state["phase"] = "close_pending"
-                state["writes_offered"].append("close")
-                request = {"action": "close", "repository_full_name": REPOSITORY, "issue_number": claim["issue"],
-                           "state": "closed", "state_reason": "completed"}
+                state["delivery"] = {"action": "close", "status": "prepared"}
         elif phase == "admitted":
             require(snapshot["pr"].get("mergeable") is True, "pr.mergeable", snapshot["pr"].get("mergeable"))
             state["phase"] = "merge_pending"
-            state["writes_offered"].append("merge")
+            state["delivery"] = {"action": "merge", "status": "prepared"}
+        save(path, state)
+        prepared = state["phase"] in {"merge_pending", "close_pending"} and state["delivery"]["status"] == "prepared"
+        return {"action": "dispatch" if prepared else "reconcile" if state["phase"] == "awaiting_reconcile" else "readback",
+                           "phase": state["phase"], "classification": state["classification"],
+                           "reason": "Prepared intent awaits first dispatch." if prepared else
+                           "Pending writes require owner readback; no retry is offered."}
+
+
+def dispatch(checkpoint, snapshot):
+    """Consume one prepared intent for the supervisor's existing connector transport."""
+    with locked(checkpoint) as path:
+        state = delivery_state(path)
+        claim = state["claim"]
+        validate_claim(claim)
+        validate_snapshot(claim, snapshot)
+        require(state["phase"] in {"merge_pending", "close_pending"}, "dispatch.phase", state["phase"])
+        delivery = state["delivery"]
+        require(delivery["status"] == "prepared", "dispatch.status",
+                "already offered; use landing advance with owner readback")
+        if delivery["action"] == "merge":
+            require(not snapshot["pr"].get("merged") and snapshot["pr"].get("mergeable") is True,
+                    "dispatch.pr", "merge no longer eligible; use landing advance")
             request = {"action": "merge", "repository_full_name": REPOSITORY, "pr_number": claim["pr"],
                        "expected_head_sha": claim["head"], "merge_method": "merge"}
-        save(path, state)
-        return request or {"action": "reconcile" if state["phase"] == "awaiting_reconcile" else "readback",
-                           "phase": state["phase"], "classification": state["classification"],
-                           "reason": "Pending writes require owner readback; no retry is offered."}
+        else:
+            require(snapshot["pr"].get("merged") and snapshot["issue"]["state"] == "open",
+                    "dispatch.issue", "closure no longer eligible; use landing advance")
+            request = {"action": "close", "repository_full_name": REPOSITORY, "issue_number": claim["issue"],
+                       "state": "closed", "state_reason": "completed"}
+        delivery["status"] = "offered"
+        state["writes_offered"].append(delivery["action"])
+        save(path, state)  # Must precede request emission; an interrupted offer remains unknown.
+        return request
 
 
 def resume(checkpoint, claim):
@@ -178,7 +223,7 @@ def resume(checkpoint, claim):
     validate_claim(claim)
     with locked(checkpoint) as path:
         state = read(path)
-        require(state.get("schema") == 1, "checkpoint.schema", state.get("schema"))
+        require(state.get("schema") in (1, 2), "checkpoint.schema", state.get("schema"))
         require(state["phase"] == "reconciling" and state.get("merge_sha") and state.get("issue_closed_at")
                 and state["writes_offered"] == ["merge", "close"], "resume.phase", state["phase"])
         old = state["claim"]
@@ -205,7 +250,7 @@ def fetch_main(root):
 def reconcile(checkpoint, binary):
     with locked(checkpoint) as path:
         state = read(path)
-        require(state.get("schema") == 1, "checkpoint.schema", state.get("schema"))
+        require(state.get("schema") in (1, 2), "checkpoint.schema", state.get("schema"))
         claim = state["claim"]
         validate_claim(claim)
         require(state["phase"] in {"awaiting_reconcile", "reconciling", "resolved"}, "checkpoint.phase", state["phase"])
