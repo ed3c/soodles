@@ -151,6 +151,9 @@ def acceptance_verify(root, binary):
     physical["cleanup_recovery"] = cleanup_recovery_probe(runtime["binary"])
     from cleanup_lock_oracle import lock_recovery_probe
     physical["cleanup_lock_recovery"] = lock_recovery_probe(runtime["binary"], ROOT)
+    from delivery_oracle import delivery_probe
+    physical["delivery_recovery"] = delivery_probe(ROOT)
+    print(json.dumps({"delivery_recovery": physical["delivery_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_lock_recovery": physical["cleanup_lock_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_recovery": physical["cleanup_recovery"]["cases"]}), file=sys.stderr)
     if source_identity(root) != before:
@@ -184,6 +187,10 @@ def parser():
     advance = verbs.add_parser("advance", epilog="Examples: ./soodles landing advance /tmp/checkpoint.json /tmp/readback.json")
     advance.add_argument("checkpoint")
     advance.add_argument("readback")
+    dispatch = verbs.add_parser("dispatch", description="Consume one prepared intent with fresh owner readback; emit its exact connector request once.",
+                                epilog="Examples: ./soodles landing dispatch /tmp/checkpoint.json /tmp/readback.json")
+    dispatch.add_argument("checkpoint")
+    dispatch.add_argument("readback")
     resume = verbs.add_parser("resume", description="Supervisor re-admits a corrected verifier for an interrupted local reconciliation only.",
                              epilog="Examples: ./soodles landing resume /tmp/checkpoint.json /tmp/fresh-claim.json")
     resume.add_argument("checkpoint")
@@ -205,6 +212,8 @@ def main():
                 result = landing.start(landing.read(args.claim), landing.read(args.readback), args.checkpoint)
             elif args.verb == "advance":
                 result = landing.advance(args.checkpoint, landing.read(args.readback))
+            elif args.verb == "dispatch":
+                result = landing.dispatch(args.checkpoint, landing.read(args.readback))
             elif args.verb == "resume":
                 result = landing.resume(args.checkpoint, landing.read(args.claim))
             else:
