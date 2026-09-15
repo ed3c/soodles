@@ -1,0 +1,47 @@
+name: issue8-fixed-oracle
+on:
+  push:
+    branches: [soodles-8-proof]
+permissions:
+  contents: read
+jobs:
+  independent-experiment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout supervisor-selected experiment commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          path: authority
+      - name: Checkout immutable baseline as subject
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 09e6e12804fc06a6b6ac52b0ddbfb347f74d7f4c
+          persist-credentials: false
+          path: baseline
+      - name: Checkout immutable treatment as subject
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: d1c98712ec92164bd6a1a3718e22d964ea5213c0
+          persist-credentials: false
+          path: subject
+      - name: Download the independently pinned runtime
+        run: |
+          curl --fail --location --silent --show-error https://github.com/ed3c/noodle/releases/download/v0.1.19/noodle_linux_amd64.tar.gz -o /tmp/noodle.tar.gz
+          echo '7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb  /tmp/noodle.tar.gz' | sha256sum --check
+          tar -xzf /tmp/noodle.tar.gz -C /tmp noodle
+          echo '9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472  /tmp/noodle' | sha256sum --check
+          chmod 755 /tmp/noodle
+      - name: Fixed oracle with unprivileged subjects and planted negatives
+        run: |
+          sudo --preserve-env=GITHUB_SHA /usr/bin/python3 -I -B "$GITHUB_WORKSPACE/authority/proof/run_proof.py" "$GITHUB_WORKSPACE" /tmp/noodle "$RUNNER_TEMP/issue8-proof"
+      - name: Preserve experiment receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: issue8-fixed-oracle-${{ github.sha }}
+          path: ${{ runner.temp }}/issue8-proof/*
+          if-no-files-found: error
+          retention-days: 30
