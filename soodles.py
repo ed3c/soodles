@@ -149,6 +149,9 @@ def acceptance_verify(root, binary):
     physical = worktree_probe(runtime["binary"])
     from cleanup_oracle import cleanup_recovery_probe
     physical["cleanup_recovery"] = cleanup_recovery_probe(runtime["binary"])
+    from cleanup_lock_oracle import lock_recovery_probe
+    physical["cleanup_lock_recovery"] = lock_recovery_probe(runtime["binary"], ROOT)
+    print(json.dumps({"cleanup_lock_recovery": physical["cleanup_lock_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_recovery": physical["cleanup_recovery"]["cases"]}), file=sys.stderr)
     if source_identity(root) != before:
         refuse("acceptance verify", "source.identity", "changed during acceptance")
