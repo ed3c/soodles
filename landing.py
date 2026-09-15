@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import tempfile
 
@@ -213,21 +214,41 @@ def reconcile(checkpoint, binary):
         require(checked(["git", "remote", "get-url", "origin"], root) == f"https://github.com/{REPOSITORY}.git", "origin", "unexpected; no automatic correction")
         require(checked(["git", "branch", "--show-current"], root) == "main", "local.branch", "expected main")
         before = source_identity(root)
-        runtime_check(Path(__file__).resolve().parent, binary)
+        runtime = runtime_check(Path(__file__).resolve().parent, binary)
         worktree = root / ".worktrees" / claim["worktree"]
         branch = checked(["git", "branch", "--list", claim["worktree"]], root)
+        branch_head = checked(["git", "rev-parse", "refs/heads/" + claim["worktree"]], root) if branch else None
         if worktree.exists():
             require(source_identity(worktree) == {"head": claim["head"], "tree": claim["tree"]}, "worktree.identity", str(worktree))
         else:
-            require(not branch, "worktree.branch", branch)
             require(state["phase"] in {"reconciling", "resolved"}, "worktree.path", "missing before cleanup intent")
+            if branch:
+                require(state["phase"] == "reconciling", "cleanup.phase", state["phase"])
+                require(branch_head == claim["head"], "cleanup.branch_head", branch_head)
+                entries = checked(["git", "worktree", "list", "--porcelain"], root).split("\n\n")
+                for entry in entries:
+                    lines = entry.splitlines()
+                    if "branch refs/heads/" + claim["worktree"] in lines:
+                        registered = next((line[9:] for line in lines if line.startswith("worktree ")), None)
+                        require(registered == str(worktree), "cleanup.checkout", registered)
         state["phase"] = "reconciling"
         save(path, state)
         fetch_main(root)
         checked(["git", "merge-base", "--is-ancestor", state["merge_sha"], "origin/main"], root)
         checked(["git", "merge-base", "--is-ancestor", before["head"], "origin/main"], root)
         checked(["git", "merge", "--ff-only", "origin/main"], root)
-        if worktree.exists():
+        if worktree.exists() or branch:
+            git_path = shutil.which("git")
+            require(git_path is not None, "cleanup.git", "not found")
+            observation = {"path_present": worktree.exists(), "branch_head": branch_head,
+                           "main_head": checked(["git", "rev-parse", "HEAD"], root),
+                           "git_path": str(Path(git_path).resolve()),
+                           "git_sha256": hashlib.sha256(Path(git_path).read_bytes()).hexdigest(),
+                           "noodle_sha256": runtime["observed_binary_sha256"],
+                           "verifier_sha256": claim["verifier_sha256"]}
+            require(state.get("cleanup_intent") != observation, "cleanup.observation", "unchanged; owner readback or changed capability required")
+            state["cleanup_intent"] = observation
+            save(path, state)
             checked([str(Path(binary).resolve()), "worktree", "cleanup", claim["worktree"]], root)
         require(not worktree.exists(), "cleanup.path", str(worktree))
         require(not checked(["git", "branch", "--list", claim["worktree"]], root), "cleanup.branch", claim["worktree"])

@@ -147,13 +147,16 @@ def acceptance_verify(root, binary):
     if result.returncode or not re.search(r"Ran [1-9][0-9]* tests?", result.stderr) or "skipped=" in result.stderr:
         raise Refusal("acceptance verify: test discovery failed, empty, or skipped; supported help: ./soodles acceptance verify --help")
     physical = worktree_probe(runtime["binary"])
+    from cleanup_oracle import cleanup_recovery_probe
+    physical["cleanup_recovery"] = cleanup_recovery_probe(runtime["binary"])
+    print(json.dumps({"cleanup_recovery": physical["cleanup_recovery"]["cases"]}), file=sys.stderr)
     if source_identity(root) != before:
         refuse("acceptance verify", "source.identity", "changed during acceptance")
     return {"repository": "ed3c/soodles", "scope": "candidate runtime acceptance",
             "candidate": before, "runtime": runtime, "physical": physical,
             "unit_tests": {"exit": result.returncode, "output": result.stderr},
             "authorizes_landing": False,
-            "non_claims": ["Codex generation", "provider admission", "merge", "Issue closure", "checkpoint recovery"]}
+            "non_claims": ["Codex generation", "provider admission", "merge", "Issue closure", "production checkpoint recovery"]}
 
 
 def parser():
