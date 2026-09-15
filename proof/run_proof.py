@@ -24,6 +24,16 @@ assert hashlib.sha256(binary.read_bytes()).hexdigest() == BINARY
 for folder, head in (('baseline', BASE), ('subject', SUBJECT)):
     observed = subprocess.check_output(['git', '-c', 'safe.directory=' + str(workspace / folder), '-C', str(workspace / folder), 'rev-parse', 'HEAD'], text=True).strip()
     assert observed == head, (folder, observed)
+# Export only public subject source into a readable fixture; never relax runner-home permissions.
+exports = Path('/tmp/issue8-subjects')
+exports.mkdir(mode=0o755)
+for folder in ('baseline', 'subject'):
+    destination = exports / folder
+    shutil.copytree(workspace / folder, destination, ignore=shutil.ignore_patterns('.git'))
+    for path in (destination, *destination.rglob('*')):
+        os.chown(path, 0, 0)
+        path.chmod(0o755 if path.is_dir() or path.stat().st_mode & 0o111 else 0o644)
+workspace = exports
 protected = Path('/tmp/issue8-protected')
 protected.mkdir(mode=0o755)
 selector, checkpoint = protected / 'selection.json', protected / 'checkpoint.json'
