@@ -37,6 +37,10 @@ class LandingTests(unittest.TestCase):
     def start(self):
         return landing.start(self.claim, self.snapshot, self.checkpoint)
 
+    def offer(self):
+        self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "dispatch")
+        return landing.dispatch(self.checkpoint, self.snapshot)
+
     def merged(self):
         self.snapshot["pr"].update(merged=True, state="closed", merged_at="2026-09-15T12:00:00Z", merge_commit_sha="d" * 40)
         self.snapshot["merge_commit"] = {"sha": "d" * 40, "tree": {"sha": "b" * 40},
@@ -44,18 +48,84 @@ class LandingTests(unittest.TestCase):
 
     def test_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry(self):
         self.start()
-        request = landing.advance(self.checkpoint, self.snapshot)
+        request = self.offer()
         self.assertEqual(request["expected_head_sha"], self.claim["head"])
         self.assertEqual(request["merge_method"], "merge")
         self.assertEqual(landing.read(self.checkpoint)["phase"], "merge_pending")
         self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "readback")
         self.assertEqual(landing.read(self.checkpoint)["writes_offered"], ["merge"])
 
-    def test_crash_after_merge_and_close_resumes_by_readback_without_duplicate_write(self):
+    def test_prepared_intent_is_not_an_offer_and_requires_fresh_identity(self):
+        self.start()
+        self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "dispatch")
+        before = self.checkpoint.read_bytes()
+        self.assertEqual(landing.read(self.checkpoint)["writes_offered"], [])
+        changed = copy.deepcopy(self.snapshot)
+        changed["branch"]["commit"]["sha"] = "f" * 40
+        with self.assertRaisesRegex(soodles.Refusal, "base.head"):
+            landing.dispatch(self.checkpoint, changed)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+        landing.dispatch(self.checkpoint, self.snapshot)
+        with self.assertRaisesRegex(soodles.Refusal, "dispatch.status"):
+            landing.dispatch(self.checkpoint, self.snapshot)
+
+    def test_missing_or_inconsistent_delivery_evidence_cannot_dispatch(self):
+        self.start()
+        landing.advance(self.checkpoint, self.snapshot)
+        prepared = landing.read(self.checkpoint)
+        for mutation in ("missing", "wrong_action", "already_offered", "legacy_missing_offer"):
+            state = copy.deepcopy(prepared)
+            if mutation == "missing":
+                state.pop("delivery")
+            elif mutation == "wrong_action":
+                state["delivery"]["action"] = "close"
+            elif mutation == "already_offered":
+                state["writes_offered"] = ["merge"]
+            else:
+                state["schema"] = 1
+                state.pop("delivery")
+            landing.save(self.checkpoint, state)
+            before = self.checkpoint.read_bytes()
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(soodles.Refusal, "checkpoint"):
+                landing.dispatch(self.checkpoint, self.snapshot)
+            self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_legacy_unknown_preserves_identity_and_cleanup_evidence(self):
+        self.start()
+        self.offer()
+        state = landing.read(self.checkpoint)
+        state["schema"] = 1
+        state.pop("delivery")
+        state["cleanup_intent"] = {"retained": "evidence"}
+        landing.save(self.checkpoint, state)
+        self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "readback")
+        migrated = landing.read(self.checkpoint)
+        self.assertEqual(migrated["schema"], 2)
+        self.assertEqual(migrated["claim"], state["claim"])
+        self.assertEqual(migrated["cleanup_intent"], state["cleanup_intent"])
+        self.assertEqual(migrated["writes_offered"], ["merge"])
+        with self.assertRaisesRegex(soodles.Refusal, "dispatch.status"):
+            landing.dispatch(self.checkpoint, self.snapshot)
+
+    def test_prepared_but_unoffered_provider_effect_cannot_be_adopted(self):
         self.start()
         landing.advance(self.checkpoint, self.snapshot)
         self.merged()
-        request = landing.advance(self.checkpoint, self.snapshot)
+        with self.assertRaisesRegex(soodles.Refusal, "merge.owner"):
+            landing.advance(self.checkpoint, self.snapshot)
+        self.snapshot["pr"].update(merged=False, state="open")
+        self.offer()
+        self.merged()
+        landing.advance(self.checkpoint, self.snapshot)
+        self.snapshot["issue"].update(state="closed", state_reason="completed", closed_at="now")
+        with self.assertRaisesRegex(soodles.Refusal, "closure.owner"):
+            landing.advance(self.checkpoint, self.snapshot)
+
+    def test_crash_after_merge_and_close_resumes_by_readback_without_duplicate_write(self):
+        self.start()
+        self.offer()
+        self.merged()
+        request = self.offer()
         self.assertEqual((request["action"], request["issue_number"]), ("close", 1))
         self.assertEqual(landing.read(self.checkpoint)["phase"], "close_pending")
         self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "readback")
@@ -111,12 +181,12 @@ class LandingTests(unittest.TestCase):
             self.start()
         self.snapshot["pr"]["head"]["sha"] = "f" * 40
         with self.assertRaises(soodles.Refusal):
-            landing.advance(self.checkpoint, self.snapshot)
+            self.offer()
         self.assertEqual(self.checkpoint.read_bytes(), before)
 
     def test_foreign_merge_parent_or_tree_cannot_close_issue(self):
         self.start()
-        landing.advance(self.checkpoint, self.snapshot)
+        self.offer()
         self.merged()
         for field in ("parents", "tree"):
             data = copy.deepcopy(self.snapshot)
@@ -127,15 +197,15 @@ class LandingTests(unittest.TestCase):
 
     def test_wrong_closure_reason_and_closed_unmerged_do_not_resolve(self):
         self.start()
-        landing.advance(self.checkpoint, self.snapshot)
+        self.offer()
         self.snapshot["pr"]["state"] = "closed"
         with self.assertRaises(soodles.Refusal):
-            landing.advance(self.checkpoint, self.snapshot)
+            self.offer()
         self.merged()
-        landing.advance(self.checkpoint, self.snapshot)
+        self.offer()
         self.snapshot["issue"].update(state="closed", state_reason="not_planned", closed_at="now")
         with self.assertRaises(soodles.Refusal):
-            landing.advance(self.checkpoint, self.snapshot)
+            self.offer()
 
     def test_reconciliation_cannot_start_before_provider_closure(self):
         self.start()
@@ -170,14 +240,15 @@ class LandingTests(unittest.TestCase):
         self.start()
         self.merged()
         with self.assertRaisesRegex(soodles.Refusal, "merge.owner"):
-            landing.advance(self.checkpoint, self.snapshot)
+            self.offer()
         state = landing.read(self.checkpoint)
+        state["schema"] = 1
         state["phase"] = "merge_pending"
         state["writes_offered"] = ["merge"]
         landing.save(self.checkpoint, state)
         self.snapshot["issue"].update(state="closed", state_reason="completed", closed_at="now")
         with self.assertRaisesRegex(soodles.Refusal, "closure.owner"):
-            landing.advance(self.checkpoint, self.snapshot)
+            self.offer()
 
     def test_network_child_keeps_proxy_route_without_provider_or_git_injection(self):
         executable = Path(self.temp.name) / "git"
@@ -208,7 +279,7 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(resumed["claim"], self.claim)
 
     def test_cli_help_and_malformed_input_refuse_before_checkpoint(self):
-        for route in (["landing"], ["landing", "start"], ["landing", "advance"], ["landing", "reconcile"]):
+        for route in (["landing"], ["landing", "start"], ["landing", "advance"], ["landing", "dispatch"], ["landing", "reconcile"]):
             result = soodles.run(["./soodles", *route, "--help"], soodles.ROOT)
             self.assertEqual(result.returncode, 0, result.stderr)
         bad = Path(self.temp.name) / "bad.json"
