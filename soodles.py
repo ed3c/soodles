@@ -1,4 +1,4 @@
-"""Issue #1: local runtime evidence, with no provider or landing authority."""
+"""Runtime evidence and supervised single-Issue landing requests."""
 import argparse
 import hashlib
 import json
@@ -149,7 +149,7 @@ def acceptance_verify(root, binary):
     physical = worktree_probe(runtime["binary"])
     if source_identity(root) != before:
         refuse("acceptance verify", "source.identity", "changed during acceptance")
-    return {"subject": "ed3c/soodles#1", "scope": "bootstrap runtime acceptance",
+    return {"repository": "ed3c/soodles", "scope": "candidate runtime acceptance",
             "candidate": before, "runtime": runtime, "physical": physical,
             "unit_tests": {"exit": result.returncode, "output": result.stderr},
             "authorizes_landing": False,
@@ -157,8 +157,8 @@ def acceptance_verify(root, binary):
 
 
 def parser():
-    p = Parser(prog="./soodles", description="Local Noodle runtime evidence. No provider write or landing authority.",
-                                epilog="Examples: ./soodles runtime --help; ./soodles acceptance --help")
+    p = Parser(prog="./soodles", description="Noodle runtime evidence and supervised landing checkpoints.",
+                                epilog="Examples: ./soodles runtime --help; ./soodles acceptance --help; ./soodles landing --help")
     groups = p.add_subparsers(dest="group", required=True)
     for group, verb, description in (("runtime", "check", "Check the pinned host and binary before executing it."),
                                      ("acceptance", "verify", "Run all controls on a clean candidate; emit a non-authorizing receipt.")):
@@ -167,14 +167,48 @@ def parser():
         v = verbs.add_parser(verb, description=description,
                             epilog=f"Examples: ./soodles {group} {verb} /absolute/path/to/noodle")
         v.add_argument("binary", help="Explicit path to the pinned Noodle executable; no PATH fallback or installation.")
+    landing = groups.add_parser("landing", description="The supervisor supplies exact claims and raw provider readbacks. No credentials or provider writes in this process.",
+                                epilog="Examples: ./soodles landing start --help; ./soodles landing advance --help; ./soodles landing reconcile --help")
+    verbs = landing.add_subparsers(dest="verb", required=True)
+    verbs.add_parser("identity", epilog="Examples: ./soodles landing identity")
+    start = verbs.add_parser("start", epilog="Examples: ./soodles landing start /tmp/claim.json /tmp/readback.json /tmp/checkpoint.json")
+    start.add_argument("claim")
+    start.add_argument("readback")
+    start.add_argument("checkpoint")
+    advance = verbs.add_parser("advance", epilog="Examples: ./soodles landing advance /tmp/checkpoint.json /tmp/readback.json")
+    advance.add_argument("checkpoint")
+    advance.add_argument("readback")
+    resume = verbs.add_parser("resume", description="Supervisor re-admits a corrected verifier for an interrupted local reconciliation only.",
+                             epilog="Examples: ./soodles landing resume /tmp/checkpoint.json /tmp/fresh-claim.json")
+    resume.add_argument("checkpoint")
+    resume.add_argument("claim")
+    reconcile = verbs.add_parser("reconcile", epilog="Examples: ./soodles landing reconcile /tmp/checkpoint.json /absolute/path/to/noodle")
+    reconcile.add_argument("checkpoint")
+    reconcile.add_argument("binary")
     return p
 
 
 def main():
     args = parser().parse_args()
     try:
-        result = runtime_check(ROOT, args.binary) if args.group == "runtime" else acceptance_verify(ROOT, args.binary)
+        if args.group == "landing":
+            import landing
+            if args.verb == "identity":
+                result = {"verifier_sha256": landing.verifier_digest()}
+            elif args.verb == "start":
+                result = landing.start(landing.read(args.claim), landing.read(args.readback), args.checkpoint)
+            elif args.verb == "advance":
+                result = landing.advance(args.checkpoint, landing.read(args.readback))
+            elif args.verb == "resume":
+                result = landing.resume(args.checkpoint, landing.read(args.claim))
+            else:
+                result = landing.reconcile(args.checkpoint, args.binary)
+        else:
+            result = runtime_check(ROOT, args.binary) if args.group == "runtime" else acceptance_verify(ROOT, args.binary)
         print(json.dumps(result, indent=2))
+    except (KeyError, TypeError) as exc:
+        print(f"REFUSED: {args.group}: invalid input field={exc}; supported help: ./soodles {args.group} --help", file=sys.stderr)
+        return 1
     except (Refusal, OSError, ValueError, subprocess.TimeoutExpired) as exc:
         print(f"REFUSED: {exc}", file=sys.stderr)
         return 1
@@ -182,4 +216,5 @@ def main():
 
 
 if __name__ == "__main__":
+    sys.modules.setdefault("soodles", sys.modules[__name__])
     sys.exit(main())
