@@ -44,4 +44,6 @@ The checkpoint becomes RESOLVED only after the provider merge, completed Issue, 
 
 If a source fix changes the pinned verifier during interrupted local reconciliation, the supervisor can use `landing resume CHECKPOINT FRESH_CLAIM`. It accepts only a changed verifier digest with identical provider/local identities after merge and closure readback; it preserves both offered writes and emits no provider request. Network Git retains the carrier's proxy route while excluding provider credentials and Git environment injection.
 
+If Noodle stops after removing the worktree directory, `landing reconcile` can finish the remaining exact branch through Noodle. It refuses a moved branch, another checkout, or an unchanged failed cleanup observation. Canonical acceptance includes five real SIGKILL/recovery controls in `cleanup_oracle.py`; these use local provider fixtures and retain their transcripts in the runtime receipt.
+
 Start with [Issue #1](https://github.com/ed3c/soodles/issues/1), the executable boundary in `soodles.py`, and `tests/test_admission.py`. `docs/` records N-class observations; it is not correctness authority.
