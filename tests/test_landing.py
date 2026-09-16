@@ -279,7 +279,7 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(resumed["claim"], self.claim)
 
     def test_cli_help_and_malformed_input_refuse_before_checkpoint(self):
-        for route in (["landing"], ["landing", "start"], ["landing", "advance"], ["landing", "dispatch"], ["landing", "reconcile"]):
+        for route in (["landing"], ["landing", "start"], ["landing", "advance"], ["landing", "dispatch"], ["landing", "readmit"], ["landing", "reconcile"]):
             result = soodles.run(["./soodles", *route, "--help"], soodles.ROOT)
             self.assertEqual(result.returncode, 0, result.stderr)
         bad = Path(self.temp.name) / "bad.json"
@@ -290,3 +290,144 @@ class LandingTests(unittest.TestCase):
         self.assertIn("./soodles landing --help", result.stderr)
         self.assertNotIn("Traceback", result.stderr)
         self.assertFalse(self.checkpoint.exists())
+
+    def recovery_inputs(self):
+        def comparison(base, head):
+            return {"base_commit": {"sha": base}, "merge_base_commit": {"sha": base},
+                    "status": "ahead", "total_commits": 1, "commits": [{"sha": head}]}
+        moved = copy.deepcopy(self.snapshot)
+        moved["branch"]["commit"]["sha"] = moved["pr"]["base"]["sha"] = "f" * 40
+        moved["base_comparison"] = comparison("c" * 40, "f" * 40)
+        claim = {**self.claim, "base_head": "f" * 40, "head": "e" * 40, "tree": "d" * 40, "run_id": 20}
+        fresh = copy.deepcopy(moved)
+        fresh["pr"]["head"]["sha"] = "e" * 40
+        fresh["commit"] = {"sha": "e" * 40, "tree": {"sha": "d" * 40}}
+        fresh["run"].update(id=20, head_sha="e" * 40)
+        fresh["jobs"]["jobs"][0].update(run_id=20, head_sha="e" * 40)
+        fresh["candidate_comparison"] = comparison("f" * 40, "e" * 40)
+        return moved, claim, fresh
+
+    def test_dispatch_base_drift_invalidates_without_emitting_or_reusing_old_acceptance(self):
+        self.start()
+        landing.advance(self.checkpoint, self.snapshot)
+        moved, claim, fresh = self.recovery_inputs()
+        result = landing.dispatch(self.checkpoint, moved)
+        self.assertEqual(result["action"], "readmit")
+        self.assertEqual(result["invalid"], {"field": "base.head", "value": "f" * 40, "expected": "c" * 40})
+        self.assertEqual(result["next_command"], "./soodles landing readmit --help")
+        invalidated = self.checkpoint.read_bytes()
+        self.assertEqual(landing.advance(self.checkpoint, moved)["action"], "readmit")
+        self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "readmit")
+        with self.assertRaisesRegex(soodles.Refusal, "landing readmit --help"):
+            landing.dispatch(self.checkpoint, self.snapshot)
+        self.assertEqual(self.checkpoint.read_bytes(), invalidated)
+        landing.readmit(self.checkpoint, claim, fresh)
+        state = landing.read(self.checkpoint)
+        self.assertEqual(state["prior_admissions"][0]["claim"], self.claim)
+        self.assertEqual(state["prior_admissions"][0]["classification"], "SUPERSEDED")
+        self.assertEqual(state["prior_admissions"][0]["delivery"]["status"], "prepared")
+        before = self.checkpoint.read_bytes()
+        with self.assertRaisesRegex(soodles.Refusal, "readmit.phase"):
+            landing.readmit(self.checkpoint, claim, fresh)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+        landing.advance(self.checkpoint, fresh)
+        self.assertEqual(landing.dispatch(self.checkpoint, fresh)["expected_head_sha"], claim["head"])
+
+    def test_recovery_requires_forward_complete_comparison_and_original_subject(self):
+        self.start()
+        moved, _, _ = self.recovery_inputs()
+        cases = [lambda s: s.pop("base_comparison"),
+                 lambda s: s["base_comparison"].update(status="diverged"),
+                 lambda s: s["base_comparison"].update(total_commits=2),
+                 lambda s: s["base_comparison"]["base_commit"].update(sha="d" * 40),
+                 lambda s: s["base_comparison"]["merge_base_commit"].update(sha="d" * 40),
+                 lambda s: s["base_comparison"]["commits"][-1].update(sha="d" * 40),
+                 lambda s: s["pr"]["head"].update(sha="d" * 40),
+                 lambda s: s["run"].update(conclusion="failure")]
+        before = self.checkpoint.read_bytes()
+        for index, mutate in enumerate(cases):
+            data = copy.deepcopy(moved)
+            mutate(data)
+            with self.subTest(case=index), self.assertRaises(soodles.Refusal):
+                landing.advance(self.checkpoint, data)
+            self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_fresh_admission_rejects_identity_changes_stale_acceptance_and_bad_ancestry(self):
+        self.start()
+        moved, claim, fresh = self.recovery_inputs()
+        landing.advance(self.checkpoint, moved)
+        before = self.checkpoint.read_bytes()
+        for field, value in (("issue", 99), ("pr", 99), ("repository", "other/repo"),
+                             ("worktree", "other"), ("control_root", "/other"), ("verifier_sha256", "other"),
+                             ("head", self.claim["head"]), ("base_head", self.claim["base_head"]), ("run_id", 10)):
+            with self.subTest(field=field), self.assertRaises(soodles.Refusal):
+                landing.readmit(self.checkpoint, {**claim, field: value}, fresh)
+            self.assertEqual(self.checkpoint.read_bytes(), before)
+        for field in ("base_comparison", "candidate_comparison"):
+            data = copy.deepcopy(fresh)
+            data[field]["merge_base_commit"]["sha"] = "b" * 40
+            with self.subTest(field=field), self.assertRaisesRegex(soodles.Refusal, field):
+                landing.readmit(self.checkpoint, claim, data)
+            self.assertEqual(self.checkpoint.read_bytes(), before)
+        for target, key, value in (("run", "head_sha", self.claim["head"]), ("run", "conclusion", "failure"),
+                                   ("run", "run_attempt", 2), ("issue", "state", "closed")):
+            data = copy.deepcopy(fresh)
+            data[target][key] = value
+            with self.subTest(key=key), self.assertRaises(soodles.Refusal):
+                landing.readmit(self.checkpoint, claim, data)
+            self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_base_advances_again_requires_ancestry_from_observed_recovery_base(self):
+        self.start()
+        moved, claim, fresh = self.recovery_inputs()
+        landing.advance(self.checkpoint, moved)
+        new_base = "1" * 40
+        claim["base_head"] = new_base
+        fresh["branch"]["commit"]["sha"] = fresh["pr"]["base"]["sha"] = new_base
+        fresh["base_comparison"]["commits"][-1]["sha"] = new_base
+        fresh["candidate_comparison"]["base_commit"]["sha"] = new_base
+        fresh["candidate_comparison"]["merge_base_commit"]["sha"] = new_base
+        before = self.checkpoint.read_bytes()
+        with self.assertRaisesRegex(soodles.Refusal, "recovery_comparison"):
+            landing.readmit(self.checkpoint, claim, fresh)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+        fresh["recovery_comparison"] = {"base_commit": {"sha": "f" * 40}, "merge_base_commit": {"sha": "f" * 40},
+                                        "status": "ahead", "total_commits": 1, "commits": [{"sha": new_base}]}
+        landing.readmit(self.checkpoint, claim, fresh)
+        self.assertEqual(landing.read(self.checkpoint)["claim"], claim)
+
+    def test_malformed_comparison_refuses_exact_field_without_traceback_or_checkpoint_change(self):
+        self.start()
+        moved, _, _ = self.recovery_inputs()
+        sf = Path(self.temp.name) / "readback.json"
+        before = self.checkpoint.read_bytes()
+        for key, value, field in (("base_commit", [], "base_commit"), ("merge_base_commit", None, "merge_base_commit"),
+                                  ("commits", None, "commits"), ("commits", [None], "commits[-1]"),
+                                  ("total_commits", True, "total_commits")):
+            data = copy.deepcopy(moved)
+            data["base_comparison"][key] = value
+            sf.write_text(json.dumps(data))
+            result = soodles.run(["./soodles", "landing", "advance", self.checkpoint, sf], soodles.ROOT)
+            with self.subTest(field=field):
+                self.assertEqual(result.returncode, 1)
+                self.assertIn("invalid base_comparison." + field + "=", result.stderr)
+                self.assertIn("./soodles landing --help", result.stderr)
+                self.assertNotIn("Traceback", result.stderr)
+                self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_legacy_admitted_can_recover_but_legacy_pending_remains_unknown(self):
+        self.start()
+        moved, claim, fresh = self.recovery_inputs()
+        admitted = landing.read(self.checkpoint)
+        admitted.update(schema=1, cleanup_intent={"preserved": True})
+        landing.save(self.checkpoint, admitted)
+        landing.advance(self.checkpoint, moved)
+        landing.readmit(self.checkpoint, claim, fresh)
+        self.assertEqual(landing.read(self.checkpoint)["cleanup_intent"], {"preserved": True})
+        unknown = {**admitted, "phase": "merge_pending", "writes_offered": ["merge"]}
+        landing.save(self.checkpoint, unknown)
+        self.assertEqual(landing.advance(self.checkpoint, moved)["action"], "readback")
+        before = self.checkpoint.read_bytes()
+        with self.assertRaisesRegex(soodles.Refusal, "readmit.phase"):
+            landing.readmit(self.checkpoint, claim, fresh)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
