@@ -5,7 +5,7 @@ description: Drive Soodles runtime admission through its real CLI, inspect skill
 
 # Verify Soodles
 
-This is a CLI application. The initial map covers **runtime admission only**; delivery, reconciliation and quality reporting remain outside this skill's proven coverage. Read [the feature index](features/README.md), then [runtime admission](features/runtime-admission.md).
+This is a CLI application. The initial map covers **runtime admission only**; delivery, reconciliation and quality reporting remain outside this skill's proven coverage. For this feature, read [runtime admission](features/runtime-admission.md) directly. Consult [the feature index](features/README.md) when auditing map coverage. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
 
 ## Launch
 
