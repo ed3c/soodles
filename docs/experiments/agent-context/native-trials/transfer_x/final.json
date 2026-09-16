@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "recording_scope": "consumer-recorded scope, not native platform transcript",
+  "repository": "ed3c/soodles",
+  "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "common_code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "inputs_ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+  "answer": "Keep the offered merge pending and follow the current landing.advance projection for provider readback. Do not replay the historical merge request. The supplied simulated snapshot says PR 2 is open and unmerged, Issue 1 is open, and runtime evidence succeeded; it does not prove that an offered write is safe to repeat or that the Issue is resolved.",
+  "decision": {
+    "phase": "merge_pending",
+    "delivery_status": "offered",
+    "classification": null,
+    "owner": "landing.advance",
+    "action": "readback",
+    "next_kind": "provider_readback",
+    "next_operation": "advance",
+    "required": [
+      "readback"
+    ],
+    "historical_request_replayed": false,
+    "connector_payload_to_transport": null
+  },
+  "basis": [
+    "The supplied current owner output asks for provider_readback through advance, not dispatch.",
+    "AGENTS.md says unknown writes require readback and never repeat an offered request from model memory.",
+    "landing.py advance retains an offered merge_pending state when the PR is unmerged; dispatch requires delivery.status == prepared.",
+    "Runtime success cannot establish merge, closure, or Noodle reconciliation."
+  ],
+  "execution_status": "Static read-only checkpoint/provider-fixture review completed. No landing owner invocation or executable verification performed; the conclusion is not a new owner execution receipt.",
+  "next_observation": "Await materially changed simulated provider readback through the current owner's advance entry. No live provider requests are authorized by these fixtures. Preserve the checkpoint and offered-write history.",
+  "blob_identities": [
+    {
+      "path": "AGENTS.md",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "sha": "3667a6d70ea4a4fddd2df22768b0b83def179f81",
+      "record": "002-result.json"
+    },
+    {
+      "path": "docs/experiments/agent-context/observer/results/pending-input.json",
+      "ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+      "sha": "39080ae945e7bee00fcd9d84c41157f6471da12c",
+      "record": "003-result.json"
+    },
+    {
+      "path": "landing.py",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "sha": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+      "record": "004-result.json"
+    }
+  ],
+  "handoff": "/workspace/scratch/bd9d2e05d141/context39-trials/producer_x/handoff.json",
+  "omissions": [
+    "No Issue 39/PR 40 discussions, observer implementation, other trial files, browser, Codex CLI, signed downloads, source changes or production writes.",
+    "Handoff seed blob identity is inherited from the authorized handoff, not independently fetched.",
+    "No code dependencies fetched and no verifier digest validation or acceptance run.",
+    "Tool discovery metadata, functions.exec wrappers, apply_patch recorder operations and manifest construction excluded from evidence-call record."
+  ],
+  "failures": [],
+  "credential_redactions": [],
+  "presentation_truncation": "004-result.json was saved in full before display; displayed tool output was truncated. Relevant advance/dispatch functions were reread in recorded call 005.",
+  "manifest": "manifest.json; SHA-256 hashes cover all request/result files and final.json, excluding the manifest itself."
+}

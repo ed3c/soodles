@@ -1,0 +1,70 @@
+{
+  "scope": "consumer-recorded evidence, not a native platform transcript",
+  "repository": "ed3c/soodles",
+  "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+  "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "answer": "No. next:null in the supplied landing.identity output does not establish Issue resolution. The identity CLI returns the verifier digest and next:null without reading a claim, checkpoint, provider state or Noodle reconciliation. It is a completed identity query, not a RESOLVED transition.",
+  "input": {
+    "ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+    "path": "docs/experiments/agent-context/observer/results/identity-input.json",
+    "owner": "landing.identity",
+    "next": null,
+    "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a"
+  },
+  "reasoning": [
+    "soodles.py dispatches identity directly to {owner: landing.identity, verifier_sha256: landing.verifier_digest(), next: None}; unlike advance/reconcile it consumes no checkpoint.",
+    "LANDING.SUPERVISED.001 requires exact merge/closure readback and Noodle reconciliation before classification RESOLVED. A digest binds implementation bytes; it supplies no initial trust or Issue verdict.",
+    "The nearest standalone control is delivery_oracle.py terminal_projection: it constructs an explicitly fixture resolved checkpoint, invokes advance, and requires action stop, next null and unchanged checkpoint. This proves resolved-state projection, not the converse that every null next establishes resolution.",
+    "The nearest unit control test_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary also contrasts reconciling -> binary-required reconcile with fixture resolved -> stop/null. test_crash_after_merge_and_close_resumes_by_readback_without_duplicate_write keeps classification null after provider closure until reconciliation.",
+    "The matching runtime logs report those tests passing and terminal_projection next:null/checkpoint_unchanged:true, but label provider effects as fixtures and acceptance authorizes_landing:false."
+  ],
+  "runtime": {
+    "run_id": 35128051435,
+    "attempt": 1,
+    "event": "push",
+    "head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "tree": "49812e291c3199ec3f696d71fe547e488b5dc751",
+    "status": "completed",
+    "conclusion": "success",
+    "job_id": 104901887147,
+    "canonical_acceptance": "success",
+    "tests": 81,
+    "physical_zero_residue": true,
+    "authorizes_landing": false,
+    "artifact": {
+      "id": 10460406631,
+      "name": "runtime-evidence-e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "digest": "sha256:0c9292b2269db04aec997d4f6d20835148f45220a6560376cb42ff9d80c251b2",
+      "zip_downloaded": false
+    }
+  },
+  "required_for_resolution": "Current exact admitted checkpoint and matching merge/closure provider readbacks plus successful Noodle reconciliation. Those are absent from the supplied identity output; actual Issue state is not established by this review.",
+  "returned_blob_identities": {
+    "AGENTS.md": "82c8df3c6e3678d73c99bae40bed94ba22048cef",
+    "contracts/system-v1.md": "343d9b66a10a4edb312fb11a8fb8397779fc668e",
+    "identity-input.json": "4bf8530efa6c3b0fcb7ba2470ee25d45accbc8d2",
+    ".github/workflows/runtime.yml": "3a6cbbd9b6197b1b96c6ae95766ceb769e4aded0",
+    "tests/test_landing.py": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+    "landing.py": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+    "soodles.py": "893cacb63c7d0df2563f08162389f10d287c0386",
+    "delivery_oracle.py": "b29b3707adba7a193aa8c300a72431d146b392cf"
+  },
+  "capture": {
+    "evidence_calls": 14,
+    "request_result_pairs": "001 through 014",
+    "omissions": [
+      "Tool-discovery metadata calls",
+      "functions.exec outer wrappers and console projections",
+      "apply_patch recorder writes",
+      "Final report/manifest bookkeeping"
+    ],
+    "redactions": [],
+    "errors": [],
+    "limitations": [
+      "Full connector-returned objects recorded, not backend-native transport transcript.",
+      "Artifact metadata and runtime log receipt inspected; ZIP contents not downloaded.",
+      "Some user-visible console output truncated; full returned objects were saved before any further action.",
+      "No Issue39/PR40 discussions, observer code, other trial directories, browser, Codex CLI, source/provider writes or subagents used."
+    ]
+  }
+}

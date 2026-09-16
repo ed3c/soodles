@@ -1,0 +1,131 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "native-spawn-gpt-6-astra-fork-none-default-effort-readonly-v1",
+    "case": "runner-task",
+    "source_kind": "captured",
+    "session_id": "/root/runner_y2",
+    "session_id_kind": "native tool-returned canonical task path, not provider-internal session id",
+    "model": null,
+    "requested_model": "gpt-6-astra",
+    "carrier": "cloud_chatgpt_github_actions",
+    "raw_trace": "runner_y2/",
+    "capture_complete": false,
+    "events": [
+      {
+        "kind": "read_doc",
+        "path": "AGENTS.md",
+        "blob": "82c8df3c6e3678d73c99bae40bed94ba22048cef",
+        "evidence": "runner_y2/001-result.json"
+      },
+      {
+        "kind": "read_control",
+        "blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+        "evidence": "runner_y2/005-result.json"
+      },
+      {
+        "kind": "read_run",
+        "evidence": "runner_y2/007-result.json",
+        "head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+        "run_id": 35128051435,
+        "attempt": 1,
+        "conclusion": "success",
+        "acceptance_step": "success"
+      },
+      {
+        "kind": "conclude",
+        "result": "NULL_NEXT_INSUFFICIENT",
+        "evidence": "runner_y2/final.json",
+        "scope": "supervisor semantic mapping; independent audit required"
+      }
+    ],
+    "recording_scope": "consumer-recorded task evidence with disclosed exclusions; not a native platform transcript"
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "native-spawn-gpt-6-astra-fork-none-default-effort-readonly-v1",
+    "agents_blob": "82c8df3c6e3678d73c99bae40bed94ba22048cef",
+    "control_blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+    "runtime_head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "run_id": 35128051435,
+    "run_attempt": 1,
+    "checkpoint_digest": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "provider_blob": "39080ae945e7bee00fcd9d84c41157f6471da12c"
+  },
+  "calls": [
+    {
+      "request": "runner_y2/001-request.json",
+      "result": "runner_y2/001-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "runner_y2/002-request.json",
+      "result": "runner_y2/002-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "runner_y2/003-request.json",
+      "result": "runner_y2/003-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "runner_y2/004-request.json",
+      "result": "runner_y2/004-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "runner_y2/005-request.json",
+      "result": "runner_y2/005-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "runner_y2/006-request.json",
+      "result": "runner_y2/006-result.json",
+      "tool": "mcp__codex_apps__github_fetch"
+    },
+    {
+      "request": "runner_y2/007-request.json",
+      "result": "runner_y2/007-result.json",
+      "tool": "mcp__codex_apps__github_fetch"
+    },
+    {
+      "request": "runner_y2/008-request.json",
+      "result": "runner_y2/008-result.json",
+      "tool": "exec_command"
+    },
+    {
+      "request": "runner_y2/009-request.json",
+      "result": "runner_y2/009-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "runner_y2/010-request.json",
+      "result": "runner_y2/010-result.json",
+      "tool": "mcp__codex_apps__github_fetch_workflow_job_logs"
+    },
+    {
+      "request": "runner_y2/011-request.json",
+      "result": "runner_y2/011-result.json",
+      "tool": "mcp__codex_apps__github_fetch"
+    },
+    {
+      "request": "runner_y2/012-request.json",
+      "result": "runner_y2/012-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "runner_y2/013-request.json",
+      "result": "runner_y2/013-result.json",
+      "tool": "exec_command"
+    },
+    {
+      "request": "runner_y2/014-request.json",
+      "result": "runner_y2/014-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    }
+  ]
+}

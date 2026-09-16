@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "scope": "supervisor-recorded native spawn configuration; not a platform transcript export",
+  "repository": "ed3c/soodles",
+  "issue": 39,
+  "pr": 40,
+  "baseline": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "treatment": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+  "observer": "e0f17e0ad01c557103af36ed934265e08a3fafad",
+  "fixtures": "de34516e6e073622e0bd654fd97c5085bd033d01",
+  "common_code": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "requested_model": "gpt-6-astra",
+  "fork_turns": "none",
+  "reasoning_effort": "unspecified; harness default",
+  "provider_observed_model": null,
+  "native_transcript_complete": false,
+  "task_names": [
+    "/root/runner_x",
+    "/root/runner_y",
+    "/root/runner_x2",
+    "/root/runner_y2",
+    "/root/unknown_x",
+    "/root/unknown_y",
+    "/root/producer_x",
+    "/root/producer_y",
+    "/root/transfer_x",
+    "/root/transfer_y"
+  ],
+  "configured_isolation": "no inherited conversation; shared filesystem; separately assigned output dirs",
+  "limitations": [
+    "Task paths are returned by spawn_agent; no provider-internal model identity or complete task transcript export was exposed.",
+    "No branch/worktree establishes model context isolation.",
+    "First runner pair retained as recorder setup failure; bounded extra pair uses durable per-call recorder.",
+    "Consumer prompts explicitly required connector/no CLI; their compliance does not by itself establish unprompted routing from AGENTS."
+  ],
+  "handoff_edges": [
+    {
+      "producer": "/root/producer_x",
+      "consumer": "/root/transfer_x",
+      "artifact": "producer_x/handoff.json"
+    },
+    {
+      "producer": "/root/producer_y",
+      "consumer": "/root/transfer_y",
+      "artifact": "producer_y/handoff.json"
+    }
+  ]
+}

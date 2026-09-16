@@ -1,0 +1,64 @@
+{
+  "recording_scope": "consumer-recorded scope, not native platform transcript",
+  "algorithm": "sha256",
+  "excludes": [
+    "manifest.json"
+  ],
+  "files": [
+    {
+      "path": "001-request.json",
+      "sha256": "fd06ef229fedb5c5274c3e19bc6e045e1205e67c801c23a0e5fb2262c1b43667",
+      "bytes": 144
+    },
+    {
+      "path": "001-result.json",
+      "sha256": "6e3789e9ad6a2464e9c147493d157b34547453e050afc4b14a57acd914acfb6e",
+      "bytes": 4473
+    },
+    {
+      "path": "002-request.json",
+      "sha256": "0698d00a0c620e1eb52e19d6f4e5be69f4f1f6bf37e4066408b770676572ff80",
+      "bytes": 161
+    },
+    {
+      "path": "002-result.json",
+      "sha256": "993fa42e8ae9d9878e6139751a1bef5a1796a1bd20ad589ee8f11306f152032d",
+      "bytes": 6036
+    },
+    {
+      "path": "003-request.json",
+      "sha256": "1b4a860dcfb973d36175447024c9db6aa476d10dfa104a8a3130ada508e7868d",
+      "bytes": 218
+    },
+    {
+      "path": "003-result.json",
+      "sha256": "62d9f5e3b8475d639dc289825884d23cf1c68ee2e4718c452b4fbac6e10968ee",
+      "bytes": 5294
+    },
+    {
+      "path": "004-request.json",
+      "sha256": "e8fd6d37ee0dc71d184101be19420223527fa70c34280edb5418f8e67acd00b7",
+      "bytes": 162
+    },
+    {
+      "path": "004-result.json",
+      "sha256": "b57df23c9b68456d366c4dee480017081f1cd5f9e3ad841e041e9d1e93d4cb16",
+      "bytes": 40540
+    },
+    {
+      "path": "005-request.json",
+      "sha256": "ddc20178493c9cd9619ca332fdb905a03a8930cc01d91914d8f3a81e9d054946",
+      "bytes": 401
+    },
+    {
+      "path": "005-result.json",
+      "sha256": "9ba2efaa72f6805217023793ffbb19c8081f31b358967aba072334ee6d229cee",
+      "bytes": 5129
+    },
+    {
+      "path": "final.json",
+      "sha256": "481aa5f0ef43c1ddcc2ace8351db7d2ee816459f7289f419a3e83a636ec91430",
+      "bytes": 3559
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "status": "handoff prepared; consumer task unresolved",
+  "evidence_scope": "consumer-recorded evidence, not native platform transcript",
+  "documents": [
+    {
+      "path": "AGENTS.md",
+      "ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+      "content_sha256": "aaa09de880b69745a589941297495459ed59134d1a1bbb6e109cf59274038fd3",
+      "git_blob_sha1_computed_from_returned_utf8": "82c8df3c6e3678d73c99bae40bed94ba22048cef",
+      "identity_note": "Computed from returned content; GitHub fetch did not expose provider blob SHA."
+    },
+    {
+      "path": "docs/experiments/agent-context/observer/results/handoff-seed.json",
+      "ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+      "content_sha256": "9897a714ec1dfbec50591ea4875ddc45e1738a0033057ce6632e8eda6dde2def",
+      "git_blob_sha1_computed_from_returned_utf8": "363ee7d85090b5556789622ea2d7d4405f7457b0",
+      "identity_note": "Computed from returned content; GitHub fetch did not expose provider blob SHA."
+    },
+    {
+      "path": "docs/experiments/agent-context/observer/results/pending-input.json",
+      "ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+      "content_sha256": "9e125455463fcd4e8068bd188ad578e7176071e85d886923d3256b18d0b8155b",
+      "git_blob_sha1_computed_from_returned_utf8": "39080ae945e7bee00fcd9d84c41157f6471da12c",
+      "identity_note": "Computed from returned content; GitHub fetch did not expose provider blob SHA."
+    }
+  ],
+  "omissions": [
+    "Tool discovery metadata and functions.exec outer wrappers",
+    "apply_patch recorder writes and this local artifact hashing/manifest generation",
+    "No common-code files read; code ref retained for consumer",
+    "No full platform transcript or hidden platform activity available"
+  ],
+  "credential_redactions": [],
+  "failures": [],
+  "manifest": [
+    {
+      "path": "001-request.json",
+      "sha256": "7af389617fbe7dc2e90f3adeaa9d7e2609123ee2779cc5f3c60e43f12b52e53d"
+    },
+    {
+      "path": "001-result.json",
+      "sha256": "2603ca5d19ff916058dd50b4cc35b2479444fd6db1d8d4b51fe7b6618d8bfebf"
+    },
+    {
+      "path": "002-request.json",
+      "sha256": "6f3449384a2a5d92c9240447be3a9b15cf94fd4c10b16e72ab7fa8e87e3a47ea"
+    },
+    {
+      "path": "002-result.json",
+      "sha256": "1ba2cb30bbabb4668f474e39d7bd6edf3991aadbeab0b2e8cd1475dfecc9b75f"
+    },
+    {
+      "path": "003-request.json",
+      "sha256": "eb47dbed5ff941db8b49db2d974a865405c824d4987f6af18c5bff459a0c7afe"
+    },
+    {
+      "path": "003-result.json",
+      "sha256": "5c9d96da2584e6b93fc45b92ef9a52df25981095b805d0d21ab3f8f1848cb6d4"
+    },
+    {
+      "path": "handoff.json",
+      "sha256": "e23ad3a09a2470e51cc125c6c67d51ae1c31a2297250e23896fcf1f32dc8e12c"
+    }
+  ],
+  "manifest_scope": "All producer artifacts present before final.json; final.json excludes itself to avoid recursive hashing."
+}

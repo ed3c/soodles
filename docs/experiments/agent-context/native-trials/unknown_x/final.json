@@ -1,0 +1,89 @@
+{
+  "scope": "consumer-recorded evidence; not a native platform transcript",
+  "repository": "ed3c/soodles",
+  "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "common_code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "answer": {
+    "next_supported_operation": "landing advance, with the original checkpoint and fresh fixture owner readback",
+    "current_status": "merge_pending; merge delivery offered; outcome remains pending/unknown; classification null",
+    "reason": "The supplied owner next projection selects advance and requires readback. The snapshot reports an open unmerged PR and open Issue at the unchanged admitted head/base, despite successful exact-head runtime evidence. Offered merge intent cannot be dispatched a second time, invalidated or readmitted into another attempt. The unchanged snapshot does not establish a failed write or authorize retry.",
+    "prerequisites": [
+      "Preserve the original checkpoint, claim, writes_offered and supervisor-selected verifier identity.",
+      "Obtain materially changed, complete fixture provider readback for the exact PR, Issue, candidate commit, main branch, workflow run and jobs; do not send these fixture requests to live GitHub.",
+      "Use the invoked owner's help/next projection to construct any eventual invocation; the supplied observer help argv and temporary checkpoint path are provenance, not commands to replay in this read-only review.",
+      "If readback reports merged, validate closed PR with merged_at and a complete merge_commit_sha plus the corresponding merge commit readback, exact parents [admitted base, admitted head], and exact admitted tree before advancing."
+    ],
+    "after_confirmed_merge": "Only after valid merge readback may advance prepare closure; dispatch then requires its own fresh readback. Closure readback plus Noodle reconciliation is necessary before RESOLVED.",
+    "action_taken": "Read-only fixture assessment; no owner invocation, no checkpoint mutation, no source/live provider write, no dispatch or transport.",
+    "limitations": "No verifier digest or executable invocation was independently validated; conclusions are based on the supplied owner projection, snapshot and pinned source."
+  },
+  "documents": [
+    {
+      "path": "AGENTS.md",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "blob_sha": "3667a6d70ea4a4fddd2df22768b0b83def179f81",
+      "evidence": "001-result.json"
+    },
+    {
+      "path": "docs/experiments/agent-context/observer/results/pending-input.json",
+      "ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+      "blob_sha": "39080ae945e7bee00fcd9d84c41157f6471da12c",
+      "evidence": "002-result.json"
+    },
+    {
+      "path": "landing.py",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "blob_sha": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+      "evidence": "003-result.json"
+    }
+  ],
+  "capture": {
+    "included": "Exact arguments recorded before each evidence invocation; actual complete returned objects recorded immediately afterward.",
+    "omissions": [
+      "Tool discovery metadata (including one overbroad, truncated registry discovery display).",
+      "Outer functions.exec wrappers, recorder apply_patch calls, and recorder-only hashing operations.",
+      "Model reasoning and inter-agent messages."
+    ],
+    "display_truncation": "003-result.json contains the full actual returned object; only its model-facing text display was truncated.",
+    "failures": [],
+    "credential_redactions": [],
+    "signed_downloads": false,
+    "prohibited_reads": "No Issue 39/PR 40 discussions, observer implementation, other trials, or parent files inspected."
+  },
+  "manifest": {
+    "algorithm": "sha256",
+    "scope": "All six numbered request/result files; excludes final.json to avoid self-reference.",
+    "entries": [
+      {
+        "file": "001-request.json",
+        "sha256": "0698d00a0c620e1eb52e19d6f4e5be69f4f1f6bf37e4066408b770676572ff80",
+        "bytes": 161
+      },
+      {
+        "file": "001-result.json",
+        "sha256": "993fa42e8ae9d9878e6139751a1bef5a1796a1bd20ad589ee8f11306f152032d",
+        "bytes": 6036
+      },
+      {
+        "file": "002-request.json",
+        "sha256": "1b4a860dcfb973d36175447024c9db6aa476d10dfa104a8a3130ada508e7868d",
+        "bytes": 218
+      },
+      {
+        "file": "002-result.json",
+        "sha256": "62d9f5e3b8475d639dc289825884d23cf1c68ee2e4718c452b4fbac6e10968ee",
+        "bytes": 5294
+      },
+      {
+        "file": "003-request.json",
+        "sha256": "e8fd6d37ee0dc71d184101be19420223527fa70c34280edb5418f8e67acd00b7",
+        "bytes": 162
+      },
+      {
+        "file": "003-result.json",
+        "sha256": "b57df23c9b68456d366c4dee480017081f1cd5f9e3ad841e041e9d1e93d4cb16",
+        "bytes": 40540
+      }
+    ]
+  }
+}

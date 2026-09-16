@@ -1,0 +1,72 @@
+{
+  "scope": "Consumer-recorded evidence; not native platform transcript",
+  "algorithm": "sha256",
+  "manifest_excludes_itself": true,
+  "files": [
+    {
+      "path": "001-request.json",
+      "bytes": 144,
+      "sha256": "5e327c53ed734e5baf0d161082c6b50620ac3a4b4b2b048b9bb69486ad230f48"
+    },
+    {
+      "path": "001-result.json",
+      "bytes": 3064,
+      "sha256": "7b103da029f77dc16616f3bea752a5b432d38068eca74575ccacce067442e934"
+    },
+    {
+      "path": "002-request.json",
+      "bytes": 161,
+      "sha256": "ba6c19006850ace3a112c45aeebb509219d00e332463b97648154b7430b2bdf8"
+    },
+    {
+      "path": "002-result.json",
+      "bytes": 9540,
+      "sha256": "c14c48bd640b71183c32f921d423d74d8569936ba8d741a482506c0f7f927acb"
+    },
+    {
+      "path": "003-request.json",
+      "bytes": 218,
+      "sha256": "1b4a860dcfb973d36175447024c9db6aa476d10dfa104a8a3130ada508e7868d"
+    },
+    {
+      "path": "003-result.json",
+      "bytes": 5294,
+      "sha256": "62d9f5e3b8475d639dc289825884d23cf1c68ee2e4718c452b4fbac6e10968ee"
+    },
+    {
+      "path": "004-request.json",
+      "bytes": 174,
+      "sha256": "c530505883f8af4029c6a24edf89d49e76d885e22f0614d551d0730174401315"
+    },
+    {
+      "path": "004-result.json",
+      "bytes": 23058,
+      "sha256": "413d22216c80c874b4a18381fb291e5fb7eede2f3d985c2d90938bd8af9fe262"
+    },
+    {
+      "path": "005-request.json",
+      "bytes": 162,
+      "sha256": "e8fd6d37ee0dc71d184101be19420223527fa70c34280edb5418f8e67acd00b7"
+    },
+    {
+      "path": "005-result.json",
+      "bytes": 40540,
+      "sha256": "b57df23c9b68456d366c4dee480017081f1cd5f9e3ad841e041e9d1e93d4cb16"
+    },
+    {
+      "path": "006-request.json",
+      "bytes": 321,
+      "sha256": "58a387573496431739d88307fd884fe3453d607a8f39a8ea0aa4fdd0b25b4276"
+    },
+    {
+      "path": "006-result.json",
+      "bytes": 5639,
+      "sha256": "08b80ba0b7f18807fe520bc30b28d6e661c49748d0e1ea67f50d37adc3a9b80c"
+    },
+    {
+      "path": "final.json",
+      "bytes": 4423,
+      "sha256": "9f133022b7a0cd9a2ee3dac53591f1442f89464cace724dfb8e33dcb59dae27d"
+    }
+  ]
+}

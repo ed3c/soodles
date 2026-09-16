@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "scope": "Consumer-recorded bounded context-transfer review; not a native platform transcript",
+  "repository": "ed3c/soodles",
+  "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+  "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "outcome": "Pending unknown merge outcome; next required observation is fresh fixture-owned provider readback. No merge replay, dispatch, closure or RESOLVED classification is warranted.",
+  "reasoning": [
+    "Current checkpoint has schema 2, phase merge_pending, delivery action merge/status offered and writes_offered ['merge']. The merge intent has already been durably consumed.",
+    "Current owner output is landing.advance/action readback with next.kind provider_readback, operation advance and required readback. This current owner projection supersedes the handoff's expressly historical saved merge request.",
+    "Supplied provider snapshot reports PR open/unmerged and Issue open, with matching candidate/base/tree and successful exact-head run/attempt. An unmerged PR does not establish that the offered write was never delivered; it cannot authorize a retry.",
+    "Pinned landing.py advance leaves this offered/unmerged state pending and returns provider readback. dispatch requires delivery.status prepared, so dispatch of the offered state refuses.",
+    "Classification remains null. No provider merge, closure or local Noodle reconciliation is evidenced."
+  ],
+  "next_required_observation": {
+    "owner": "landing.advance",
+    "operation": "advance",
+    "kind": "provider_readback",
+    "required": "A materially changed, supervisor-supplied fixture readback of the admitted PR, issue, branch, candidate commit, run and jobs; if PR becomes merged, its validated merge SHA and dependent merge-commit readback are additionally needed.",
+    "preserve": "Preserve existing checkpoint identity, offered intent and writes_offered. Do not delete/recreate or reset checkpoint to prepared. Do not infer non-delivery from unchanged unmerged readback.",
+    "fixture_boundary": "All endpoint URLs, object IDs, paths and help argv inside pending-input are simulated data. No requests derived from them were transported to GitHub, and no indicated local path or executable was used.",
+    "limit": "The bounded review can identify the next observation, but supplied data cannot resolve the unknown provider effect. No polling loop was started."
+  },
+  "blob_identities": [
+    {
+      "path": "AGENTS.md",
+      "ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+      "sha": "82c8df3c6e3678d73c99bae40bed94ba22048cef",
+      "evidence": "002-result.json"
+    },
+    {
+      "path": "docs/experiments/agent-context/observer/results/pending-input.json",
+      "ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+      "sha": "39080ae945e7bee00fcd9d84c41157f6471da12c",
+      "evidence": "003-result.json"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+      "sha": "343d9b66a10a4edb312fb11a8fb8397779fc668e",
+      "evidence": "004-result.json",
+      "relevant_sections": "LANDING.SUPERVISED.001; durable dispatch; owner next projection"
+    },
+    {
+      "path": "landing.py",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "sha": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+      "evidence": "005-result.json",
+      "relevant_lines": "405–478"
+    }
+  ],
+  "handoff": "Only authorized producer_y/handoff.json was read; raw returned text is in 001-result.json.",
+  "recording": {
+    "requests": "001–006 requests were durably recorded via apply_patch before their evidence calls; each actual raw returned object was persisted immediately afterward.",
+    "exclusions": [
+      "Tool discovery metadata",
+      "functions.exec outer orchestration wrappers",
+      "Recorder apply_patch calls",
+      "Final artifact and manifest generation bookkeeping",
+      "Platform/internal tool transport not exposed to consumer"
+    ],
+    "failures": [],
+    "credential_redactions": [],
+    "notes": "No signed downloads. No provider/source mutations. No browser, Codex CLI, observer code, Issue39/PR40 discussion or other trial files inspected. Historical seed itself was not fetched because current owner/snapshot and handoff suffice. No executable code was run or checkpoint changed; transition conclusions are source inspection, not runtime receipts."
+  }
+}

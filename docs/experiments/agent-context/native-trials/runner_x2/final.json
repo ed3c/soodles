@@ -1,0 +1,83 @@
+{
+  "scope": "Consumer-recorded evidence scope; not a native platform transcript.",
+  "repository": "ed3c/soodles",
+  "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "common_code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "answer": "No. The supplied next:null does not establish Issue resolution. Its owner is landing.identity and its only other field identifies verifier bytes. The identity CLI branch returns this exact shape without loading any Issue, provider readback or checkpoint. next:null means this invoked identity operation has no continuation; it is not an Issue RESOLVED classification.",
+  "resolution_boundary": "AGENTS.md requires merge and closure readback plus Noodle reconciliation. The supplied object has no bound Issue, phase, classification, merge/closure readback or reconciliation evidence. Do not infer that an Issue is unresolved in reality either: its actual status is unestablished by this input.",
+  "nearest_controls": [
+    {
+      "file": "tests/test_landing.py",
+      "test": "LandingTests.test_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary",
+      "meaning": "After fixture merge/closure, next still requires reconcile with binary; only a fixture state explicitly marked phase=resolved/classification=RESOLVED yields next=null and stop without rewriting the checkpoint. This is a projection control, not proof of a real reconciliation."
+    },
+    {
+      "file": "tests/test_landing.py",
+      "test": "BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order",
+      "meaning": "Provider closure with incomplete/unavailable bound Noodle order retains null classification and worktree, requiring Noodle continuation."
+    },
+    {
+      "file": "tests/test_landing.py",
+      "test": "BoundLandingTests.test_completed_bound_order_can_reconcile_and_clean_fixture_worktree",
+      "meaning": "Completed bound-order fixture reconciles, classifies RESOLVED, sets next=null, removes fixture worktree, and retains order_id."
+    }
+  ],
+  "matching_runtime": {
+    "run_id": 35128051435,
+    "run_attempt": 1,
+    "head_sha": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "event": "push",
+    "path": ".github/workflows/runtime.yml",
+    "status": "completed",
+    "conclusion": "success",
+    "job_id": 104901887147,
+    "job": "runtime-evidence",
+    "evidence": "Attempt-specific run and job readbacks match common code. Actual job log reports all three named controls ... ok, Ran 81 tests ... OK, terminal_projection next:null/checkpoint_unchanged:true, and candidate exact head/tree with zero_residue:true and authorizes_landing:false.",
+    "limit": "This demonstrates controls in CI fixtures, not actual merge, closure or Noodle reconciliation of the supplied owner's Issue. The run is push-triggered, not a pull_request admission run."
+  },
+  "returned_blob_identities": [
+    {
+      "path": "AGENTS.md",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "sha": "3667a6d70ea4a4fddd2df22768b0b83def179f81",
+      "source": "003 returned tree"
+    },
+    {
+      "path": "docs/experiments/agent-context/observer/results/identity-input.json",
+      "ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+      "sha": "4bf8530efa6c3b0fcb7ba2470ee25d45accbc8d2",
+      "source": "010 fetch_file"
+    },
+    {
+      "path": "tests/test_landing.py",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "sha": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+      "source": "003 returned tree"
+    },
+    {
+      "path": "landing.py",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "sha": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+      "source": "003 returned tree"
+    },
+    {
+      "path": "soodles.py",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "sha": "893cacb63c7d0df2563f08162389f10d287c0386",
+      "source": "003 returned tree"
+    }
+  ],
+  "capture": {
+    "evidence_calls": 10,
+    "sequence": "Each exact request was written durably through apply_patch before invocation; complete raw returned object was written immediately before further action.",
+    "omissions": [
+      "Tool discovery metadata searches",
+      "Outer functions.exec wrapper calls",
+      "apply_patch recorder writes and bookkeeping manifest generation",
+      "Printed excerpts are abbreviated; raw result files are not."
+    ],
+    "errors": [],
+    "redactions": []
+  },
+  "constraints": "No Issue39/PR40 discussion reads, observer code reads, other trial directory reads, browser, Codex CLI, provider writes, source writes, signed download URL fetches or subagents. Source unit-test strings named secret are synthetic fixtures, not credentials. No fresh tests executed. Repository routing to Issue overridden by explicit instruction not to inspect Issue39 discussions."
+}

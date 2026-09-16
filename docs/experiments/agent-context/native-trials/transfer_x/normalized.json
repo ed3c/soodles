@@ -1,0 +1,94 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "native-spawn-gpt-6-astra-fork-none-default-effort-readonly-v1",
+    "case": "fresh-transfer",
+    "source_kind": "captured",
+    "session_id": "/root/transfer_x",
+    "session_id_kind": "native tool-returned canonical task path, not provider-internal session id",
+    "model": null,
+    "requested_model": "gpt-6-astra",
+    "carrier": "cloud_chatgpt_github_actions",
+    "raw_trace": "transfer_x/",
+    "capture_complete": false,
+    "events": [
+      {
+        "kind": "handoff",
+        "evidence": "transfer_x/001-result.json",
+        "scope": "actual producer-written local handoff"
+      },
+      {
+        "kind": "read_doc",
+        "path": "AGENTS.md",
+        "blob": "3667a6d70ea4a4fddd2df22768b0b83def179f81",
+        "evidence": "transfer_x/002-result.json"
+      },
+      {
+        "kind": "read_owner",
+        "evidence": "transfer_x/003-result.json#/checkpoint-and-owner_output",
+        "checkpoint_before": null,
+        "checkpoint_after": null,
+        "writes_offered": [
+          "merge"
+        ],
+        "scope": "read of immutable fixture; no consumer mutable checkpoint execution or final byte readback"
+      },
+      {
+        "kind": "read_provider",
+        "evidence": "transfer_x/003-result.json#/provider_snapshot",
+        "fixture_blob": "39080ae945e7bee00fcd9d84c41157f6471da12c",
+        "scope": "simulated immutable provider snapshot"
+      },
+      {
+        "kind": "conclude",
+        "result": "WAIT_FOR_PROVIDER_READBACK",
+        "evidence": "transfer_x/final.json",
+        "scope": "supervisor semantic mapping; independent audit required"
+      }
+    ],
+    "recording_scope": "consumer-recorded task evidence with disclosed exclusions; not a native platform transcript",
+    "producer_session_id": "/root/producer_x"
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "native-spawn-gpt-6-astra-fork-none-default-effort-readonly-v1",
+    "agents_blob": "3667a6d70ea4a4fddd2df22768b0b83def179f81",
+    "control_blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+    "runtime_head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "run_id": 35128051435,
+    "run_attempt": 1,
+    "checkpoint_digest": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "provider_blob": "39080ae945e7bee00fcd9d84c41157f6471da12c"
+  },
+  "calls": [
+    {
+      "request": "transfer_x/001-request.json",
+      "result": "transfer_x/001-result.json",
+      "tool": "exec_command"
+    },
+    {
+      "request": "transfer_x/002-request.json",
+      "result": "transfer_x/002-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "transfer_x/003-request.json",
+      "result": "transfer_x/003-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "transfer_x/004-request.json",
+      "result": "transfer_x/004-result.json",
+      "tool": "mcp__codex_apps__github_fetch_file"
+    },
+    {
+      "request": "transfer_x/005-request.json",
+      "result": "transfer_x/005-result.json",
+      "tool": "exec_command"
+    }
+  ]
+}

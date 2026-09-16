@@ -1,0 +1,79 @@
+{
+  "scope": "consumer-recorded bounded read-only fixture review; not a native platform transcript",
+  "repository": "ed3c/soodles",
+  "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+  "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "answer": {
+    "next_supported_operation": "Preserve merge_pending/offered and consume the current landing.advance provider_readback projection. Supply the fixture snapshot under its original pr, issue, commit, branch, run and jobs keys to the externally selected owner's advance entry only when its executable identity, actual checkpoint and supported input interface are confirmed. This review does not execute that owner.",
+    "current_snapshot_result": "The PR is unmerged and open; the Issue is open; candidate/base/run identities match the fixture claim and CI steps are successful. Nothing proves merge completion or non-delivery of the prior offered request. With the supplied phase and offered delivery, advance remains readback-only; it does not emit a new merge request. This is a source-supported prediction, not an executed receipt.",
+    "prerequisites": [
+      "Existing supervisor-selected immutable landing owner must match claim.verifier_sha256; this bounded review did not verify its five-file aggregate digest or execute its observer-path help_argv.",
+      "Preserve the original checkpoint, claim and writes_offered=['merge']; the historical /tmp checkpoint and observer executable paths in the packet are fixture context, not newly confirmed executable locations.",
+      "Use the existing owner's supported advance input interface and raw fixture snapshot. Do not invent runnable argv or treat help_argv as a transition.",
+      "Further progression needs materially changed provider fixture readback proving merge; if pr.merged becomes true, first obtain a complete confirmed pr.merge_commit_sha and its dependent merge_commit snapshot proving exact SHA, ordered base/candidate parents and candidate tree.",
+      "Actual resolution additionally needs owner-offered closure, closed/completed Issue readback and Noodle reconciliation with RESOLVED/resolved/null terminal receipt; none is supplied."
+    ],
+    "prohibited_shortcuts": [
+      "Do not dispatch or replay the already offered merge.",
+      "Do not invalidate/readmit an unknown offered write.",
+      "Do not infer closure or resolution from green CI.",
+      "Do not send any fixture subject requests to live GitHub."
+    ],
+    "completion": "Bounded review complete; simulated delivery remains unresolved and readback-only."
+  },
+  "document_blobs": [
+    {
+      "path": "AGENTS.md",
+      "ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+      "sha": "82c8df3c6e3678d73c99bae40bed94ba22048cef"
+    },
+    {
+      "path": "docs/experiments/agent-context/observer/results/pending-input.json",
+      "ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+      "sha": "39080ae945e7bee00fcd9d84c41157f6471da12c"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/SKILL.md",
+      "ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+      "sha": "5888b12bb54aa0fd77e09c6e5ec6f69b075c033e"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+      "ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+      "sha": "286f3f1ed81ff6492c7e092fca858e347988a48f"
+    },
+    {
+      "path": "landing.py",
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "sha": "f506170ec751534ac5a1d87cd0911fbd220a1e6e"
+    }
+  ],
+  "capture": {
+    "evidence_tool_calls": 5,
+    "failures": 0,
+    "excluded": [
+      "Tool-registry discovery metadata",
+      "functions.exec outer orchestration wrappers",
+      "apply_patch recorder writes and local manifest-hashing bookkeeping",
+      "Commentary and reasoning"
+    ],
+    "redactions": [],
+    "signed_downloads": false,
+    "provider_fixture_requests_executed": false,
+    "source_or_live_provider_writes": false,
+    "raw_result_note": "Every actual evidence response saved before another action. Tool display of 005 was truncated; saved JSON contains the raw returned object, not the truncated display."
+  },
+  "manifest_algorithm": "sha256; exact saved request/result bytes; final.json excluded to avoid recursive self-hash",
+  "manifest": {
+    "001-request.json": "ba6c19006850ace3a112c45aeebb509219d00e332463b97648154b7430b2bdf8",
+    "001-result.json": "c14c48bd640b71183c32f921d423d74d8569936ba8d741a482506c0f7f927acb",
+    "002-request.json": "1b4a860dcfb973d36175447024c9db6aa476d10dfa104a8a3130ada508e7868d",
+    "002-result.json": "62d9f5e3b8475d639dc289825884d23cf1c68ee2e4718c452b4fbac6e10968ee",
+    "003-request.json": "04ec4a8b2c149a0dc888777a199f243e9a191f905dd1fdff3475fb108ad6856d",
+    "003-result.json": "74d131bc37bba3a71bf805d50e0230c7c3e0d3001d53c28293f42de75b0a18a1",
+    "004-request.json": "23c9074f42aef75183597201fbd33184eaabf424de151087ce217d86a7fc1bc7",
+    "004-result.json": "ce754524aa4bf842c18c0893b34d1ad0d5a3f6c22e6b535206a4b49f61e9c219",
+    "005-request.json": "e8fd6d37ee0dc71d184101be19420223527fa70c34280edb5418f8e67acd00b7",
+    "005-result.json": "b57df23c9b68456d366c4dee480017081f1cd5f9e3ad841e041e9d1e93d4cb16"
+  }
+}

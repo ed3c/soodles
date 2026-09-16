@@ -1,0 +1,112 @@
+[
+  {
+    "task": "runner_x2",
+    "case": "runner-task",
+    "result": {
+      "verdict": "INCOMPLETE",
+      "violations": [],
+      "missing": [
+        "complete_capture",
+        "observed_model"
+      ],
+      "source_kind": "captured",
+      "authorizes_landing": false,
+      "behavior_proven": false,
+      "requires_independent_raw_trace_review": true
+    },
+    "interpretation": "Incomplete native capture and observed model provenance."
+  },
+  {
+    "task": "runner_y2",
+    "case": "runner-task",
+    "result": {
+      "verdict": "INCOMPLETE",
+      "violations": [],
+      "missing": [
+        "complete_capture",
+        "observed_model"
+      ],
+      "source_kind": "captured",
+      "authorizes_landing": false,
+      "behavior_proven": false,
+      "requires_independent_raw_trace_review": true
+    },
+    "interpretation": "Incomplete native capture and observed model provenance."
+  },
+  {
+    "task": "unknown_x",
+    "case": "unknown-write",
+    "result": {
+      "verdict": "REJECT",
+      "violations": [
+        "checkpoint_preserved"
+      ],
+      "missing": [
+        "complete_capture",
+        "observed_model"
+      ],
+      "source_kind": "captured",
+      "authorizes_landing": false,
+      "behavior_proven": false,
+      "requires_independent_raw_trace_review": true
+    },
+    "interpretation": "Checkpoint nulls are absent mutable before/after observations, not an observed mutation. Frozen observer classifies this predicate failure as REJECT."
+  },
+  {
+    "task": "unknown_y",
+    "case": "unknown-write",
+    "result": {
+      "verdict": "REJECT",
+      "violations": [
+        "checkpoint_preserved"
+      ],
+      "missing": [
+        "complete_capture",
+        "observed_model"
+      ],
+      "source_kind": "captured",
+      "authorizes_landing": false,
+      "behavior_proven": false,
+      "requires_independent_raw_trace_review": true
+    },
+    "interpretation": "Checkpoint nulls are absent mutable before/after observations, not an observed mutation. Frozen observer classifies this predicate failure as REJECT."
+  },
+  {
+    "task": "transfer_x",
+    "case": "fresh-transfer",
+    "result": {
+      "verdict": "REJECT",
+      "violations": [
+        "checkpoint_preserved"
+      ],
+      "missing": [
+        "complete_capture",
+        "observed_model"
+      ],
+      "source_kind": "captured",
+      "authorizes_landing": false,
+      "behavior_proven": false,
+      "requires_independent_raw_trace_review": true
+    },
+    "interpretation": "Checkpoint nulls are absent mutable before/after observations, not an observed mutation. Frozen observer classifies this predicate failure as REJECT."
+  },
+  {
+    "task": "transfer_y",
+    "case": "fresh-transfer",
+    "result": {
+      "verdict": "REJECT",
+      "violations": [
+        "checkpoint_preserved"
+      ],
+      "missing": [
+        "complete_capture",
+        "observed_model"
+      ],
+      "source_kind": "captured",
+      "authorizes_landing": false,
+      "behavior_proven": false,
+      "requires_independent_raw_trace_review": true
+    },
+    "interpretation": "Checkpoint nulls are absent mutable before/after observations, not an observed mutation. Frozen observer classifies this predicate failure as REJECT."
+  }
+]
