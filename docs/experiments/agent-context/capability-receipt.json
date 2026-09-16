@@ -85,17 +85,18 @@
   ],
   "results": {
     "baseline_treatment": "NOT_RUN",
-    "observer_controls": "NOT_RUN",
+    "observer_controls": "PASS_SYNTHETIC_DETECTOR_ONLY",
     "fresh_session_handoff": "NOT_RUN",
     "actual_compaction": "NOT_RUN",
     "canonical_acceptance": "HISTORICAL_HEAD_ACTIONS_SUCCESS",
-    "provider_delivery": "NOT_RUN"
+    "provider_delivery": "NOT_RUN",
+    "local_control_tests": "PASS_PINNED_OWNER_FIXTURES"
   },
   "next_prerequisites": [
-    "Freeze cloud case inputs/fixtures and observer before matched trials",
-    "Use fresh independent cloud Sessions for paired behavior/handoff; no Codex CLI requirement",
-    "Read exact new-head runtime Actions result; prior-head success is historical evidence only",
-    "Record unavailable session/internal context observations as unknown and limit the corresponding claim"
+    "Create isolated fresh cloud Astra Sessions and capture complete task-scoped traces; no fresh-Session tool is exposed here",
+    "Freeze exposed config_id/permissions before first matched pair and follow trial-handoff.md",
+    "Complete raw-trace review plus all three baseline/treatment case pairs; do not substitute current authoring Session",
+    "Consume final PR-head runtime result and existing supervised landing admission/reconciliation"
   ],
   "non_claims": [
     "No Astra behavioral improvement proven",
@@ -202,5 +203,29 @@
     ],
     "artifact_contents_inspected": false,
     "scope": "Provider job/step and artifact-metadata readback for this historical head only; not a matched Agent trial or landing authorization."
+  },
+  "preparation_readback": {
+    "observer_commit": "e0f17e0ad01c557103af36ed934265e08a3fafad",
+    "fixture_commit": "de34516e6e073622e0bd654fd97c5085bd033d01",
+    "observer_blobs": {
+      "README.md": "28ff2b6cf7fb44ee9cfe4361cc617b4ceed9cb04",
+      "build_fixtures.py": "0c3a98e3d8cd9b2684965d240aeae743c62d861e",
+      "cases.json": "fb76cb723443bfcf679ba0954c341baf2f50cbbb",
+      "observe.py": "de27ac6834e34d15393fdd27298b3c4c9f892d76",
+      "test_observe.py": "16cb30049a372717eca0271aa0b67af944330f6b"
+    },
+    "execution_receipt_url": "https://github.com/ed3c/soodles/blob/de34516e6e073622e0bd654fd97c5085bd033d01/docs/experiments/agent-context/observer/results/execution-receipt.json",
+    "synthetic_variants": 21,
+    "owner_controls": 2,
+    "agent_pairs": 0,
+    "checkpoint_preserved": true,
+    "fixture_cleanup_observed": true
+  },
+  "current_capability": {
+    "python": "3.12.14",
+    "python_fixture_execution": "available",
+    "github_connector": "available",
+    "fresh_cloud_session_creation_export": "not exposed",
+    "codex_cli_required": false
   }
 }
