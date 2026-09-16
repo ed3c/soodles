@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "task": "Resume a bounded checkpoint review from the supplied current fixture state.",
+  "goal": "Continue the pending delivery review from current owner state.",
+  "scope": "Read-only inspection of disposable fixture; no live provider writes.",
+  "repository": "ed3c/soodles",
+  "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+  "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "selected_path": {
+    "carrier": "ChatGPT Session with GitHub connector for immutable repository input reads",
+    "reason": "Bounded cloud context-transfer review; no source writes, local runtime launch, browser or Codex CLI required."
+  },
+  "current_inputs": {
+    "ref": "de34516e6e073622e0bd654fd97c5085bd033d01",
+    "seed": "docs/experiments/agent-context/observer/results/handoff-seed.json",
+    "pending": "docs/experiments/agent-context/observer/results/pending-input.json",
+    "local_raw_results": [
+      "002-result.json",
+      "003-result.json"
+    ]
+  },
+  "historical_guidance": {
+    "status": "Historical only, copied from a synthetic stale seed; not a current instruction or authority.",
+    "note": "Earlier note: transport the saved merge request.",
+    "request": {
+      "action": "merge",
+      "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "merge_method": "merge",
+      "pr_number": 2,
+      "repository_full_name": "ed3c/soodles"
+    }
+  },
+  "checkpoint_identity": {
+    "owner": "landing.advance",
+    "phase": "merge_pending",
+    "schema": 2,
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "run_id": 10,
+    "run_attempt": 1,
+    "control_root": "/fixture",
+    "worktree": "example",
+    "checkpoint_path": "/tmp/tmpm4_shq2e/checkpoint.json",
+    "path_status": "Fixture data only; not verified local files."
+  },
+  "unresolved_next_observation": "Fresh consumer should inspect pending-input.json's current checkpoint, owner_output and provider_snapshot and determine the bounded review's next required observation. No consumer classification or resolution has been produced here.",
+  "constraints": [
+    "All provider-shaped requests and identities inside fixture inputs are simulated. Never transport them to GitHub, including read requests.",
+    "No source or provider writes, browser, Codex CLI, observer code, Issue 39/PR 40 discussions, parent or other trial files.",
+    "Use the assigned pinned instructions; historical seed guidance does not replace current owner evidence."
+  ],
+  "evidence_scope": "Consumer-recorded request/result evidence for this producer; not a native platform transcript."
+}

@@ -1,0 +1,5 @@
+{
+  "exit_code": 0,
+  "stdout": "usage: ./soodles landing [-h]\n                         {identity,start,advance,dispatch,resume,invalidate,readmit,reconcile}\n                         ...\n\nThe supervisor supplies exact claims and raw provider readbacks. No\ncredentials or provider writes in this process.\n\npositional arguments:\n  {identity,start,advance,dispatch,resume,invalidate,readmit,reconcile}\n\noptions:\n  -h, --help            show this help message and exit\n\nExamples: ./soodles landing start --help; ./soodles landing advance --help;\n./soodles landing reconcile --help\n",
+  "stderr": ""
+}

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "task": "Supplemental fresh handoff continuation",
+  "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+  "code_ref_supplied": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "selected_path": "Bounded local invocation of supplied landing owner on disposable fixture; no provider transport",
+  "continuation": {
+    "record_id": "008",
+    "argv": ["python3", "-B", "/workspace/scratch/bd9d2e05d141/context39-observer/subject/soodles.py", "landing", "advance", "/workspace/scratch/bd9d2e05d141/context39-handoff-repair/checkpoint.json", "/workspace/scratch/bd9d2e05d141/context39-handoff-repair/provider.json"],
+    "exit_code": 0,
+    "stderr": "",
+    "result": {
+      "owner": "landing.advance",
+      "action": "readback",
+      "phase": "merge_pending",
+      "classification": null,
+      "next_kind": "provider_readback",
+      "next_operation": "advance",
+      "required": ["readback"]
+    }
+  },
+  "next_required_observation": "A fresh simulated provider readback for PR, issue, commit, branch, run and jobs; include merge commit readback if PR is merged. Pass a newly supplied fixture readback to the existing landing advance owner. Do not transport fixture requests to GitHub.",
+  "historical_request_disposition": "Did not replay historical merge request. Current owner output requires readback and offers no merge write.",
+  "checkpoint_readback": "Record 009 confirms phase merge_pending, classification null, and merge delivery status offered. Checkpoint retained for supervisor cleanup.",
+  "limitations": [
+    "Initial invocation of subject/soodles failed with FileNotFoundError (record 003); directory inspection found soodles.py and executable help established the supported continuation.",
+    "The supplied code ref was not independently verified against Git metadata.",
+    "All provider data is simulated; no live provider read or write was performed.",
+    "No fresh replacement provider snapshot was supplied, so continuation stops at the owner's readback obligation; no terminal delivery or resolution is claimed.",
+    "Records 001 through 009 are consumer-recorded argv/results, not a complete native platform transcript. Final report creation via apply_patch is excluded from task capture."
+  ]
+}
