@@ -195,6 +195,47 @@ class LandingTests(unittest.TestCase):
                 landing.advance(self.checkpoint, data)
         self.assertEqual(landing.read(self.checkpoint)["writes_offered"], ["merge"])
 
+    def test_merged_readback_start_keeps_confirmed_claim_without_creating_checkpoint(self):
+        self.merged()
+        self.snapshot.pop("merge_commit")
+        with self.assertRaises(landing.LandingRefusal) as raised:
+            self.start()
+        out = landing.refusal_output(raised.exception, "start")
+        self.assertEqual(out["invalid"], {"field": "merge_commit", "value": None})
+        self.assertEqual(out["next"]["operation"], "start")
+        self.assertEqual(out["next"]["known"], {"checkpoint": str(self.checkpoint), "claim": self.claim})
+        self.assertEqual(out["next"]["requests"]["merge_commit"], {
+            "method": "GET", "url": "https://api.github.com/repos/ed3c/soodles/git/commits/" + "d" * 40})
+        self.assertFalse(self.checkpoint.exists())
+        self.assertFalse(Path(str(self.checkpoint) + ".lock").exists())
+        self.merged()
+        with self.assertRaisesRegex(soodles.Refusal, "pr.merged"):
+            self.start()
+        self.assertFalse(self.checkpoint.exists())
+
+    def test_merged_readback_readmit_retains_fresh_claim_without_adopting_provider_effect(self):
+        self.start()
+        landing.invalidate(self.checkpoint)
+        fresh = {**self.claim, "head": "e" * 40, "run_id": 20}
+        self.snapshot["pr"]["head"]["sha"] = fresh["head"]
+        self.snapshot["commit"]["sha"] = fresh["head"]
+        self.snapshot["run"].update(id=20, head_sha=fresh["head"])
+        self.snapshot["jobs"]["jobs"][0].update(run_id=20, head_sha=fresh["head"])
+        self.merged()
+        self.snapshot.pop("merge_commit")
+        before = self.checkpoint.read_bytes()
+        with self.assertRaises(landing.LandingRefusal) as raised:
+            landing.readmit(self.checkpoint, fresh, self.snapshot)
+        out = landing.refusal_output(raised.exception, "readmit")
+        self.assertEqual(out["next"]["operation"], "readmit")
+        self.assertEqual(out["next"]["known"], {"checkpoint": str(self.checkpoint), "claim": fresh})
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+        self.merged()
+        self.snapshot["merge_commit"]["parents"][1]["sha"] = fresh["head"]
+        with self.assertRaisesRegex(soodles.Refusal, "readmit.pr.merged"):
+            landing.readmit(self.checkpoint, fresh, self.snapshot)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+
     def test_wrong_closure_reason_and_closed_unmerged_do_not_resolve(self):
         self.start()
         self.offer()
