@@ -1,0 +1,369 @@
+{
+  "issue": 29,
+  "pr": 30,
+  "candidate_head": "e3683a7c8b8f1f1c79c573d9d4422a85922bfb51",
+  "merge_sha": "6bed718e915ba13e7d2536bb926eea2a9138fbce",
+  "terminal": {
+    "schema": 2,
+    "claim": {
+      "repository": "ed3c/soodles",
+      "issue": 29,
+      "pr": 30,
+      "head": "e3683a7c8b8f1f1c79c573d9d4422a85922bfb51",
+      "tree": "778032a785b9446cf0ffe46d467a0c36b3481245",
+      "base_head": "11a2298d0ba3c5d80fecb00ccc554e38ef3268fe",
+      "run_id": 35071045707,
+      "run_attempt": 1,
+      "worktree": "issue-29-merge-readback",
+      "control_root": "/workspace/scratch/8d9f1ebaaa91/soodles",
+      "verifier_sha256": "f812d649046d72e7f008f3dd9565ff6c668657a70e50fcd2ab5c961227261b10"
+    },
+    "phase": "resolved",
+    "observations": [
+      "8e4338593227d61917f1fe12dbe80639c7afb61bf035e4ae894af2ed22016c82",
+      "bb1ca1f8108d64ab411fc46d715d6499183a8b915cc16990b19af94739d1f20a",
+      "2ff67a20bed41a716812c2cca69c0a2214c8133b9cf95a700d9a084ab212b7e2"
+    ],
+    "classification": "RESOLVED",
+    "scope": "supervised single-Issue landing",
+    "writes_offered": [
+      "merge",
+      "close"
+    ],
+    "delivery": {
+      "action": "close",
+      "status": "offered"
+    },
+    "merge_sha": "6bed718e915ba13e7d2536bb926eea2a9138fbce",
+    "issue_closed_at": "2026-09-16T08:01:01Z",
+    "cleanup_intent": {
+      "path_present": true,
+      "branch_head": "e3683a7c8b8f1f1c79c573d9d4422a85922bfb51",
+      "main_head": "6bed718e915ba13e7d2536bb926eea2a9138fbce",
+      "git_path": "/usr/local/bin/git",
+      "git_sha256": "2dae8066ef4d6a926561b4b0eaca7b458d4f5b56bb83760656e6baa7fc3e974f",
+      "noodle_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "verifier_sha256": "f812d649046d72e7f008f3dd9565ff6c668657a70e50fcd2ab5c961227261b10"
+    },
+    "local": {
+      "head": "6bed718e915ba13e7d2536bb926eea2a9138fbce",
+      "tree": "778032a785b9446cf0ffe46d467a0c36b3481245",
+      "removed_worktree": "issue-29-merge-readback",
+      "worktree_owner": "Noodle"
+    },
+    "owner": "landing.reconcile",
+    "action": "stop",
+    "next": null
+  },
+  "checkpoint_sha256": "289c9f079e0d86ebf1866db5d095007c1746334c5e9d6b25ddea5a51ae956fc7",
+  "local_readback": {
+    "main_head": "6bed718e915ba13e7d2536bb926eea2a9138fbce",
+    "tree": "778032a785b9446cf0ffe46d467a0c36b3481245",
+    "clean": true,
+    "task_directory_absent": true,
+    "task_branch_absent": true,
+    "worktree_readback": "worktree /workspace/scratch/8d9f1ebaaa91/soodles\nHEAD 6bed718e915ba13e7d2536bb926eea2a9138fbce\nbranch refs/heads/main\n\n"
+  },
+  "external_observer": {
+    "scope": "fixed external merged-commit observer; local provider fixtures, no GitHub writes",
+    "base_head": "11a2298d0ba3c5d80fecb00ccc554e38ef3268fe",
+    "candidate_head": "e3683a7c8b8f1f1c79c573d9d4422a85922bfb51",
+    "oracle_sha256": "6529d8cde7f0f667088f70bf1059e2c85a4a62dd520854b9587ae20879f25056",
+    "authority_commit": "6ef7557bd5fd4b739811daa597451dfdacc95ee7",
+    "publisher_sha256": "f812d649046d72e7f008f3dd9565ff6c668657a70e50fcd2ab5c961227261b10",
+    "isolation": {
+      "uid": 65534,
+      "writes": {
+        "/tmp/soodles-29-proof/delivery_oracle.py": "DENIED",
+        "/tmp/soodles-29-proof/selection.json": "DENIED",
+        "/tmp/soodles-29-proof/publisher-checkpoint.json": "DENIED"
+      }
+    },
+    "baseline": {
+      "verdict": "NOT VERIFIED",
+      "reason": "delivery: merge refusal lost exact field/value or owner",
+      "authorizes_landing": false
+    },
+    "treatment": {
+      "scope": "local durable checkpoint/process faults; supervisor provider fixture, no GitHub writes",
+      "cases": [
+        {
+          "case": "prepared_sigkill_resume",
+          "signal": "SIGKILL",
+          "first_dispatches": 1
+        },
+        {
+          "case": "merge_commit_readback_recovery",
+          "malformed_controls": 14,
+          "invalid_sha_controls": 5,
+          "foreign_stale_controls": 2,
+          "legacy_history_preserved": true,
+          "provider_fixture": true
+        },
+        {
+          "case": "lost_response_and_close_prepare_crash",
+          "provider_fixture_effects": 2,
+          "phase": "awaiting_reconcile"
+        },
+        {
+          "case": "dispatch_gap_unknown",
+          "signal": "SIGKILL",
+          "reoffers": 0
+        },
+        {
+          "case": "concurrent_dispatch",
+          "processes": 2,
+          "requests": 1
+        },
+        {
+          "case": "legacy_unknown",
+          "merge_and_close_reoffers": 0
+        },
+        {
+          "case": "head_drift",
+          "requests": 0,
+          "checkpoint_unchanged": true
+        },
+        {
+          "case": "structured_owner_refusal",
+          "conflicting_routes": 0,
+          "provider_requests": 0
+        },
+        {
+          "case": "terminal_projection",
+          "next": null,
+          "checkpoint_unchanged": true
+        }
+      ],
+      "isolated_child_uid": 65534,
+      "authorizes_landing": false
+    },
+    "planted_negatives": {
+      "wrong-subject": {
+        "verdict": "NOT VERIFIED",
+        "reason": "delivery: merge request has wrong subject",
+        "authorizes_landing": false
+      },
+      "wrong-operation": {
+        "verdict": "NOT VERIFIED",
+        "reason": "delivery: merge routes to wrong operation",
+        "authorizes_landing": false
+      },
+      "unsafe-accept": {
+        "verdict": "NOT VERIFIED",
+        "reason": "delivery: invalid merge evidence admitted",
+        "authorizes_landing": false
+      }
+    },
+    "default_branch_verifier_loaded": false,
+    "candidate_oracle_imported": false,
+    "authority_files_unchanged": true,
+    "authorizes_landing": false
+  },
+  "runtime_skill_receipt": {
+    "schema": 1,
+    "feature": "runtime-admission",
+    "classification": "VERIFIED",
+    "authorizes_landing": false,
+    "trace": [
+      {
+        "argv": [
+          "git",
+          "rev-parse",
+          "HEAD",
+          "HEAD^{tree}"
+        ],
+        "kind": "readback",
+        "purpose": "before source identity",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "e3683a7c8b8f1f1c79c573d9d4422a85922bfb51\n778032a785b9446cf0ffe46d467a0c36b3481245\n",
+        "stderr": "",
+        "seconds": 0.0021678370030713268
+      },
+      {
+        "argv": [
+          "git",
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        "kind": "readback",
+        "purpose": "before source residue",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.002190562001487706
+      },
+      {
+        "argv": [
+          "./soodles",
+          "runtime",
+          "check",
+          "/tmp/soodles-runtime/noodle"
+        ],
+        "kind": "verification",
+        "purpose": "doctor and positive admission",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "{\n  \"binary\": \"/tmp/soodles-runtime/noodle\",\n  \"repository\": \"ed3c/noodle\",\n  \"release\": \"v0.1.19\",\n  \"commit\": \"391f3154c680fc6724b8cdabf6bcec831b61065d\",\n  \"platform\": \"linux_amd64\",\n  \"asset_name\": \"noodle_linux_amd64.tar.gz\",\n  \"asset_sha256\": \"7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb\",\n  \"binary_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n  \"observed_version\": \"v0.1.19\",\n  \"observed_binary_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n  \"authorizes_landing\": false\n}\n",
+        "stderr": "",
+        "seconds": 0.07973905700055184
+      },
+      {
+        "argv": [
+          "/tmp/soodles-runtime/noodle",
+          "skills",
+          "list"
+        ],
+        "kind": "readback",
+        "purpose": "resolve project skill",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "verify-soodles\t/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/issue-29-merge-readback/.agents/skills\ttrue\t/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/issue-29-merge-readback/.agents/skills/verify-soodles\n",
+        "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n",
+        "seconds": 0.0021368800007621758
+      },
+      {
+        "argv": [
+          "./soodles",
+          "runtime",
+          "check",
+          "/tmp/soodles-verify-admission-98aqf2c4/noodle"
+        ],
+        "kind": "verification",
+        "purpose": "wrong digest rejected before execution",
+        "exit": 1,
+        "expected_exit": 1,
+        "stdout": "",
+        "stderr": "REFUSED: runtime check: invalid binary.sha256='118899a42132133149f1e47b8d1443ab20dfe7442368ca21060efd9ad64018cc'; supported help: ./soodles runtime check --help\n",
+        "seconds": 0.0458884149993537
+      },
+      {
+        "argv": [
+          "git",
+          "rev-parse",
+          "HEAD",
+          "HEAD^{tree}"
+        ],
+        "kind": "readback",
+        "purpose": "after source identity",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "e3683a7c8b8f1f1c79c573d9d4422a85922bfb51\n778032a785b9446cf0ffe46d467a0c36b3481245\n",
+        "stderr": "",
+        "seconds": 0.002160896998248063
+      },
+      {
+        "argv": [
+          "git",
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        "kind": "readback",
+        "purpose": "after source residue",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.002954539995698724
+      }
+    ],
+    "counter_scope": "Only commands issued by this driver; excludes internal subprocesses, Agent discovery and provider landing. Repeated readbacks include required before/after identity guards.",
+    "non_claims": [
+      "Agent path-cost reduction",
+      "production scheduling",
+      "provider delivery",
+      "whole-app verification"
+    ],
+    "candidate": {
+      "head": "e3683a7c8b8f1f1c79c573d9d4422a85922bfb51",
+      "tree": "778032a785b9446cf0ffe46d467a0c36b3481245"
+    },
+    "runtime": {
+      "binary": "/tmp/soodles-runtime/noodle",
+      "repository": "ed3c/noodle",
+      "release": "v0.1.19",
+      "commit": "391f3154c680fc6724b8cdabf6bcec831b61065d",
+      "platform": "linux_amd64",
+      "asset_name": "noodle_linux_amd64.tar.gz",
+      "asset_sha256": "7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb",
+      "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "observed_version": "v0.1.19",
+      "observed_binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "authorizes_landing": false
+    },
+    "skill_resolution": {
+      "name": "verify-soodles",
+      "search_path": "/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/issue-29-merge-readback/.agents/skills",
+      "path": "/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/issue-29-merge-readback/.agents/skills/verify-soodles",
+      "files_sha256": {
+        "SKILL.md": "e0ad6615c83f7ef63576e2f1347f3c774237c30f16bc3d7a6682de44c7f2d72f",
+        "features/README.md": "229e7aca4bfb62d122fff8b5b7f451632bfd3ebbe8744c052e15e8879ec9f0a8",
+        "features/delivery-recovery.md": "3986251a06a897a96250b9c42f0ebd3b462a66ec1b39cceaf751b34ec57551a5",
+        "features/runtime-admission.md": "3de848c5ad84962e638b9893d0b23d5ef9ab68a0ebaba193104b5a755e8ae3cc",
+        "features/supervised-delivery.md": "17a732be453d82b8fa73d29fc17eb2f8b2b89327b62d797ef569cbb44e4b98ed",
+        "scripts/verify_runtime.py": "1049574cdc3147373ff46eb64d741f492cfd98effbe04349ce2cf4379f951a0b"
+      },
+      "warnings": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+    },
+    "negative_control": {
+      "expected_refusal": "binary.sha256",
+      "sentinel_absent": true
+    },
+    "cleanup": {
+      "scratch_removed": true,
+      "resident_processes_started": 0
+    },
+    "counts": {
+      "top_level_commands": 7,
+      "unexpected_command_failures": 0,
+      "expected_refusals": 1,
+      "readback_invocations": 5,
+      "repeated_readbacks": 2,
+      "verification_invocations": 2,
+      "canonical_acceptance_invocations": 0
+    }
+  },
+  "provider_probe": {
+    "scope": "non-authorizing candidate checkpoint copy, real PR30 provider snapshot and owner-directed GET, no candidate writes",
+    "missing_merge_commit_refused": true,
+    "changed_raw_readback_reached": "close_pending",
+    "classification": null
+  },
+  "metrics": {
+    "scope": "recorded delivery session only; setup/debug shell commands excluded",
+    "delivery_owner_invocations": 7,
+    "delivery_owner_unexpected_failures": 0,
+    "candidate_advance_probe_invocations": 2,
+    "candidate_probe_expected_refusals": 1,
+    "provider_GETs": 39,
+    "repeated_GET_subjects_after_first": 32,
+    "provider_write_offers": [
+      "merge",
+      "close"
+    ],
+    "local_canonical_acceptance_runs_for_final_head": 1,
+    "exact_head_runtime_CI_runs": 1,
+    "standalone_local_observer_runs": {
+      "isolated_carrier_failure": 1,
+      "baseline": 1,
+      "treatment": 1,
+      "planted_negatives": 3
+    },
+    "fixed_Actions_experiments": 1,
+    "focused_landing_unittest_runs": 1,
+    "runtime_skill_drives": 2,
+    "paired_Agent_traces": false,
+    "whole_turn_command_failure_count": null
+  },
+  "limitations": [
+    "Local UID isolation probe failed with EINVAL; Actions independently proved UID 65534 isolation.",
+    "One oversized tool result could not be decoded; file-by-file read replaced it before Git writes.",
+    "Provider fault controls are fixtures; live GET probe uses a copied checkpoint, not another admission.",
+    "No full pstack maintenance pass: existing recipes already consume keyed owner output; Skill unchanged.",
+    "No shortest-path, decision-cost reduction, general DAG scheduling or unattended Agent claim."
+  ]
+}
