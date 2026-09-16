@@ -1,0 +1,116 @@
+{
+  "measurement_run": "https://github.com/ed3c/soodles/actions/runs/35043629761",
+  "job_id": 104628652533,
+  "source_commit": "ef0fe335130b05ee61f297706d6431c840fad8ad",
+  "base": "ca3bfffb4b4da6dad1c969723043e62099eb0ef1",
+  "head": "817a603bd85cafeb6048aa5a5a830566b9d88a1e",
+  "report_sha256": "3de86ed0b4f36eb8f843101ce9bf3b42370bdab9fa383fc007822cbfb544f48a",
+  "report_provenance": "Locally rendered report bytes match SHA256 emitted by the successful Actions job. Summary below parsed from actual job logs.",
+  "summary": {
+    "controls": {
+      "ast_legal_noncase": true,
+      "ast_positive": true,
+      "cc_10_11_threshold": true,
+      "clone_overlap_union": true,
+      "complete_nested_callables": true,
+      "independent_mass_recalculation": true
+    },
+    "rules": 197,
+    "table": [
+      {
+        "base_e": 0.516317443537185,
+        "base_high_mass": 355.4124191962034,
+        "base_mass": 688.3602784390661,
+        "base_native_e": 0.5243793695249062,
+        "base_native_v": 0.09579439252336448,
+        "base_sloc": 428,
+        "base_union": 30,
+        "base_v": 0.07009345794392523,
+        "head_e": 0.5491875604956601,
+        "head_high_mass": 417.6378159406196,
+        "head_mass": 760.4648138127666,
+        "head_native_e": 0.5569381883498041,
+        "head_native_v": 0.0819327731092437,
+        "head_sloc": 476,
+        "head_union": 28,
+        "head_v": 0.058823529411764705,
+        "scope": "production"
+      },
+      {
+        "base_e": 0,
+        "base_high_mass": 0,
+        "base_mass": 126.61725588139488,
+        "base_native_e": 0,
+        "base_native_v": 0.041666666666666664,
+        "base_sloc": 288,
+        "base_union": 10,
+        "base_v": 0.034722222222222224,
+        "head_e": 0,
+        "head_high_mass": 0,
+        "head_mass": 162.06253867521588,
+        "head_native_e": 0,
+        "head_native_v": 0.03389830508474576,
+        "head_sloc": 354,
+        "head_union": 10,
+        "head_v": 0.02824858757062147,
+        "scope": "tests"
+      },
+      {
+        "base_e": 0.9299606715888908,
+        "base_high_mass": 623.253311121438,
+        "base_mass": 670.1931922094878,
+        "base_native_e": 0.989006019579291,
+        "base_native_v": 0.04395604395604396,
+        "base_sloc": 273,
+        "base_union": 4,
+        "base_v": 0.014652014652014652,
+        "head_e": 0.9216600279484733,
+        "head_high_mass": 889.4261872752639,
+        "head_mass": 965.0263224011583,
+        "head_native_e": 0.9884506653992842,
+        "head_native_v": 0.051094890510948905,
+        "head_sloc": 411,
+        "head_union": 13,
+        "head_v": 0.031630170316301706,
+        "scope": "oracles"
+      },
+      {
+        "base_e": 0.65895840312195,
+        "base_high_mass": 978.6657303176414,
+        "base_mass": 1485.170726529949,
+        "base_native_e": 0.6821985734399425,
+        "base_native_v": 0.06572295247724974,
+        "base_sloc": 989,
+        "base_union": 44,
+        "base_v": 0.044489383215369056,
+        "head_e": 0.6924645484810649,
+        "head_high_mass": 1307.0640032158835,
+        "head_mass": 1887.5536748891407,
+        "head_native_e": 0.7214321735809666,
+        "head_native_v": 0.05801772763900081,
+        "head_sloc": 1241,
+        "head_union": 51,
+        "head_v": 0.0410958904109589,
+        "scope": "all_python"
+      }
+    ]
+  },
+  "artifact": [
+    {
+      "id": 10425513514,
+      "name": "soodles-quality-ca3bfffb-to-817a603b",
+      "digest": "sha256:bf46217dc6b204b7c699a9c36ab9bbf7b5e12fd81ff57e81921bb289f0f947d3",
+      "retention_days": 30
+    }
+  ],
+  "artifact_readback": "Artifact metadata and actual job logs read. Connector returned ZIP file reference; local fetch was forbidden, so no local ZIP-byte verification is claimed.",
+  "job_seconds": 19,
+  "analysis_step_seconds": 3,
+  "dependencies_setup_seconds": 9,
+  "non_claims": [
+    "No production/main modification",
+    "No acceptance authority",
+    "No paired human/agent comparison",
+    "No measured maintenance-time or delivery-time reduction"
+  ]
+}
