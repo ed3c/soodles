@@ -677,7 +677,11 @@ class BoundLandingTests(unittest.TestCase):
         with self.assertRaises(landing.LandingRefusal) as caught:
             landing.dispatch(d.checkpoint, d.snapshot)
         self.assertEqual(caught.exception.invalid["field"], "issue.body_sha256")
-        self.assertEqual(caught.exception.next_action["owner"], "GitHub")
+        self.assertEqual(caught.exception.next_action["owner"], "supervisor")
+        self.assertEqual(caught.exception.next_action["required"], ["fresh_execution_envelope"])
+        self.assertEqual(caught.exception.next_action["operation"], "dispatch")
+        self.assertEqual(caught.exception.next_action["known"]["checkpoint"], str(d.checkpoint.resolve()))
+        self.assertEqual(caught.exception.next_action["help_argv"][-2:], ["dispatch", "--help"])
         self.assertEqual(d.checkpoint.read_bytes(), before)
 
     def test_outside_delivery_paths_refuse_and_current_paths_pass(self):

@@ -110,6 +110,51 @@ class IssueExecutionTests(unittest.TestCase):
         self.assertEqual(automatic["binding"], supervised["binding"])
         self.assertTrue(supervised["published"])
 
+    def test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding(self):
+        original = self.issue["body"]
+        for route in ("automatic", "supervised"):
+            self.issue["body"] = original + "\ncurrent provider amendment"
+            with self.assertRaises(admission.AdmissionRefusal) as caught:
+                self.admit(route)
+            output = execution.refusal_output(caught.exception, route)
+            next_action = output["next"]
+            self.assertEqual(next_action["operation"], route)
+            self.assertEqual(next_action["owner"], "supervisor")
+            self.assertEqual(next_action["required"], ["fresh_execution_envelope"])
+            self.assertEqual(next_action["known"]["issue"], 18)
+            self.assertEqual(next_action["known"]["envelope"], str(self.path))
+            help_result = subprocess.run(next_action["help_argv"], capture_output=True, text=True)
+            self.assertEqual(help_result.returncode, 0, help_result.stderr)
+            self.assertIn("issue " + route, help_result.stdout)
+            self.assertNotIn("request", output)
+            self.assertNotIn("argv", next_action)
+            self.assertFalse((self.runtime / "orders-next.json").exists())
+            self.assertFalse(self.effect.exists())
+            # Only the external supervisor supplies changed authority; the guard
+            # does not rewrite the old envelope or retry on its own.
+            self.envelope["body_sha256"] = admission.body_digest(self.issue["body"])
+            self.bind_envelope()
+            current = self.admit(route)
+            self.assertTrue(current["published"])
+            self.assertEqual(current["next"]["operation"], route)
+            (self.runtime / "orders-next.json").unlink()
+            self.issue["body"] = original
+            self.envelope["body_sha256"] = admission.body_digest(original)
+            self.bind_envelope()
+
+    def test_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer(self):
+        self.admit("automatic")
+        self.promote_fixture()
+        self.issue["body"] += "\nstale at worker boundary"
+        with self.assertRaises(admission.AdmissionRefusal) as caught:
+            self.launch()
+        output = execution.refusal_output(caught.exception, "worker")
+        self.assertEqual(output["next"]["operation"], "worker")
+        self.assertIn("Noodle", output["next"]["reason"])
+        self.assertNotIn("argv", output["next"])
+        self.assertNotIn("request", output)
+        self.assertFalse(self.effect.exists())
+
     def test_illegal_binding_refuses_both_routes_before_mailbox_effects(self):
         for route in ("automatic", "supervised"):
             for change, field in (({"number": 19}, "issue.number"),

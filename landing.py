@@ -170,7 +170,7 @@ def validate_merge_commit(claim, snapshot, *, operation, checkpoint):
         raise
 
 
-def execution_binding(claim, issue=None):
+def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
     """The supervisor's claim selects external bytes; no candidate self-admission."""
     from issue_admission import AdmissionRefusal, load_external_envelope, validate_issue, validate_delivery_paths
     ref = claim.get("execution_envelope")
@@ -191,7 +191,10 @@ def execution_binding(claim, issue=None):
         return envelope
     except AdmissionRefusal as error:
         raise LandingRefusal(error.invalid["field"], error.invalid["value"],
-                             {**error.next, "help_argv": cli_argv("start", "--help")}) from error
+                             {**input_next(operation, error.next["required"], checkpoint), **error.next,
+                              "reason": "Preserve the original claim/checkpoint. Supervisor corrections use "
+                                        "invalidate/readmit only for unoffered work; unknown offered writes "
+                                        "remain readback-only. This refusal does not renew authority."}) from error
 
 
 def validate_snapshot(claim, snapshot, *, operation, checkpoint):
@@ -230,7 +233,7 @@ def validate_snapshot(claim, snapshot, *, operation, checkpoint):
         require(pr.get("state") == "closed" and pr.get("merged_at"), "pr.merge_readback", pr.get("state"))
         validate_merge_commit(claim, snapshot, operation=operation, checkpoint=checkpoint)
         require(issue.get("state") == "open" or (issue.get("state") == "closed" and issue.get("state_reason") == "completed" and issue.get("closed_at")), "issue.classification", issue.get("state_reason"))
-    execution_binding(claim, issue)
+    execution_binding(claim, issue, operation=operation, checkpoint=checkpoint)
 
 
 def start(claim, snapshot, checkpoint):
@@ -519,7 +522,7 @@ def reconcile(checkpoint, binary):
         require(checked(["git", "remote", "get-url", "origin"], root) in origins, "origin", "unexpected; no automatic correction")
         require(checked(["git", "branch", "--show-current"], root) == "main", "local.branch", "expected main")
         before = source_identity(root)
-        envelope = execution_binding(claim)
+        envelope = execution_binding(claim, operation="reconcile", checkpoint=path)
         if envelope is None:
             runtime = runtime_check(Path(__file__).resolve().parent, binary)
         else:

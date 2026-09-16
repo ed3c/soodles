@@ -12,6 +12,7 @@ from pathlib import Path
 import platform
 import re
 import subprocess
+import sys
 import tempfile
 import time
 import urllib.request
@@ -90,8 +91,16 @@ def read_owner(binding):
 
 def context(envelope_path, envelope_digest, root, reader):
     envelope = load_external_envelope(envelope_path, envelope_digest, root)
-    readback = reader(envelope["issue"])
-    return validate_issue(readback, envelope)
+    try:
+        readback = reader(envelope["issue"])
+        return validate_issue(readback, envelope)
+    except AdmissionRefusal as error:
+        # Retain only externally pinned identity, never identity from the rejected
+        # provider payload. These values locate prior input; they do not renew it.
+        error.next["known"] = {"repository": envelope["repository"], "issue": envelope["issue"],
+                               "envelope": str(Path(envelope_path).resolve()),
+                               "envelope_digest": envelope_digest}
+        raise
 
 
 def quiescent_order(binding, state):
@@ -200,14 +209,14 @@ def _admit(envelope_path, envelope_digest, root, reader, route):
                     owner="Noodle", required="quiescent_writer_and_session_readback")
             quiescent_order(binding, state)
         return {"owner": "Noodle", "action": "owned", "binding": binding,
-                "next": {"kind": "input", "owner": "Noodle", "required": ["current_order_and_session_readback"],
-                         "known": {"order_id": order_id}}, "published": False}
+                "next": continuation({"kind": "input", "owner": "Noodle", "required": ["current_order_and_session_readback"],
+                         "known": {"order_id": order_id}}, route), "published": False}
     for record in state["effect_ledger"]:
         effect = record.get("effect", {})
         if effect.get("type") == "initial_admission" and effect.get("payload", {}).get("order_id") == order_id:
             return {"owner": "Noodle", "action": "previously_admitted", "binding": binding, "published": False,
-                    "next": {"kind": "input", "owner": "Noodle", "required": ["original_order_recovery"],
-                             "known": {"order_id": order_id, "effect_id": record.get("effect_id")}}}
+                    "next": continuation({"kind": "input", "owner": "Noodle", "required": ["original_order_recovery"],
+                             "known": {"order_id": order_id, "effect_id": record.get("effect_id")}}, route)}
     # Proposal identity does not select the provider policy; the installed carrier does.
     codex = execution["carrier"].get("codex")
     require(isinstance(codex, dict) and isinstance(codex.get("model"), str),
@@ -221,8 +230,8 @@ def _admit(envelope_path, envelope_digest, root, reader, route):
     }]}
     published = publish_once(root / ".noodle/orders-next.json", proposal)
     return {"owner": "Noodle", "action": "proposal_pending", "binding": binding,
-            "published": published, "next": {"kind": "input", "owner": "Noodle",
-            "required": ["canonical_promotion_readback"], "known": {"order_id": order_id}}}
+            "published": published, "next": continuation({"kind": "input", "owner": "Noodle",
+            "required": ["canonical_promotion_readback"], "known": {"order_id": order_id}}, route)}
 
 
 def automatic(envelope_path, envelope_digest, root, reader=fetch_issue):
@@ -358,5 +367,23 @@ def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, en
     return launch_checked(binding, session, root, spawn, argv, execute)
 
 
+def continuation(next_action, operation):
+    # The invoked boundary owns this route; invalid-field text never selects it.
+    return {**next_action, "operation": operation,
+            "help_argv": [sys.executable, "-B", str(Path(__file__).resolve().parent / "soodles.py"),
+                          "issue", *([operation] if operation else []), "--help"],
+            "reason": ("Obtain changed input/readback from the named owner before re-entering this boundary. "
+                       "Preserve existing identity and history; do not retry unchanged input. "
+                       "Worker entry remains Noodle-dispatched; help does not authorize another writer.")}
+
+
 def refusal_output(error, operation):
-    return {"owner": "issue." + operation, "status": "refused", "invalid": error.invalid, "next": error.next}
+    return {"owner": "issue." + operation, "status": "refused", "invalid": error.invalid,
+            "next": continuation(error.next, operation)}
+
+
+def refusal_text(result):
+    next_action, invalid = result["next"], result["invalid"]
+    return (f"REFUSED: {result['owner']}: invalid {invalid['field']}={invalid['value']!r}; "
+            f"owner: {next_action['owner']}; required: {next_action['required']}; "
+            f"continuation: issue {next_action['operation']}; {next_action['reason']}")

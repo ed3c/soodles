@@ -152,11 +152,12 @@ def validate_issue(readback, envelope, *, completed=False):
                 "issue.closure", readback.get("state_reason"), **source)
     body = readback.get("body")
     contract = parse_contract(body)
-    require(body_digest(body) == envelope["body_sha256"], "issue.body_sha256", body_digest(body), **source)
+    amendment = {"owner": "supervisor", "required": "fresh_execution_envelope"}
+    require(body_digest(body) == envelope["body_sha256"], "issue.body_sha256", body_digest(body), **amendment)
     # Closure changes provider metadata. It never changes the admitted body bytes
     # or grants permission to execute; only the landing owner uses this readback.
     require(completed or readback.get("updated_at") == envelope["body_updated_at"],
-            "issue.updated_at", readback.get("updated_at"), **source)
+            "issue.updated_at", readback.get("updated_at"), **amendment)
     require(contract["owner"] == envelope["owner"], "envelope.owner", envelope["owner"])
     require(contract["write_paths"] == envelope["write_paths"], "envelope.write_paths", envelope["write_paths"])
     return {
