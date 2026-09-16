@@ -1,0 +1,8 @@
+[order:soodles-39] Work backlog item soodles-39
+Task: Execute ed3c/soodles#39
+
+Use Skill(execute) for methodology.
+
+{"body_sha256": "21c6b4bdb4fc5a15914d7c3e1249523ba0053122526ad6e33dbd6d2713d0a662", "body_updated_at": "2026-09-16T19:25:16Z", "envelope_sha256": "228c9e30700fe8bb42f733e2d2d5d3bf57594307e2766dc73342233f10c6a50d", "issue": 39, "repository": "ed3c/soodles", "route": "supervised", "task": "This is only Issue 39 local capability observation, not a blinded comparison or source implementation. Do not edit repository files, spawn agents, or perform provider writes. Read the current Issue contract as your Skill requires. Execute exactly one simple tool command: python3 -c 'print(\"SOODLES39_NATIVE_CAPTURE_V1\")'. Then read the admitted Noodle event emit --help and emit exactly one stage_message yourself, bound to actual NOODLE_SESSION_ID, NOODLE_ORDER_ID and integer NOODLE_STAGE_INDEX. Payload schema fields from https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go are message, blocking, outcome, order_id, stage_index. Use outcome=\"blocked\", blocking=true, message reporting the marker command result and that native capture/model observation remains with the supervisor. Use your actual environment identities, never a parent-created outcome. Exit after this event. Do not inspect observer code, trial results, other sessions or private configuration. Admitted Noodle executable: /Users/neon/.codex/experiments/noodle82-20260916/noodle"}
+
+Context: Externally admitted current Issue

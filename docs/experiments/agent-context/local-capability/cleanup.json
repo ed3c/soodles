@@ -1,0 +1,34 @@
+{
+  "process_checks": [
+    {
+      "record": "live/launch.json",
+      "pid": 24623,
+      "alive": false,
+      "group_alive": false
+    },
+    {
+      "record": "native/observation.json",
+      "pid": 26418,
+      "alive": false,
+      "group_alive": false
+    },
+    {
+      "record": "live/runtime/sessions/schedule-20260916-192923-5ce4fc/process.json",
+      "pid": 24629,
+      "alive": false,
+      "group_alive": false
+    },
+    {
+      "record": "live/runtime/sessions/soodles-39-0-execute-20260916-192945-2432f9/process.json",
+      "pid": 25537,
+      "alive": false,
+      "group_alive": false
+    }
+  ],
+  "worker_head": "5a5229c3a92d3a0183dce9b9f7bf46f072943f4a",
+  "worker_clean": true,
+  "cleanup_exit": 0,
+  "worktree_absent": true,
+  "production_issue_resolved": false,
+  "authorizes_landing": false
+}

@@ -1,0 +1,20 @@
+test_unknown_or_failed_process_exit_cannot_pass (test_capability.CapabilityControls.test_unknown_or_failed_process_exit_cannot_pass) ... FAIL
+test_native_turn_and_paired_tool_pass (test_capability.CapabilityControls.test_native_turn_and_paired_tool_pass) ... ok
+test_declared_local_scope_preserves_cloud_and_behavior_gates (test_capability.CapabilityControls.test_declared_local_scope_preserves_cloud_and_behavior_gates) ... ok
+
+======================================================================
+FAIL: test_unknown_or_failed_process_exit_cannot_pass (test_capability.CapabilityControls.test_unknown_or_failed_process_exit_cannot_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles39-local-capability-20260917/exit-control/test_capability.py", line 39, in test_unknown_or_failed_process_exit_cannot_pass
+    self.assertEqual(result['verdict'], 'INCOMPLETE')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'CAPABILITY_OBSERVED' != 'INCOMPLETE'
+- CAPABILITY_OBSERVED
++ INCOMPLETE
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=1)

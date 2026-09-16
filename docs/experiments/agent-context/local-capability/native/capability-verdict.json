@@ -1,0 +1,18 @@
+{
+  "verdict": "INCOMPLETE",
+  "missing": [
+    "successful_process_exit"
+  ],
+  "violations": [],
+  "session_id": "01a0abb2-5644-7763-bf4a-5f49de416b41",
+  "turn_id": "01a0abb2-56c7-7463-98eb-5933a6f21877",
+  "observed_harness_turn_models": [
+    "gpt-6-astra"
+  ],
+  "model_evidence_level": "native_persisted_turn_context",
+  "service_effective_model": null,
+  "service_reroute_capture": "not established by exec JSONL",
+  "capture_scope": "emitted CLI events for one bounded task, matched tool results and native turn history",
+  "full_case_capture_proven": false,
+  "authorizes_landing": false
+}

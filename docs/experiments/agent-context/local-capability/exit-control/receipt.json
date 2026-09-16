@@ -1,0 +1,14 @@
+{
+  "records": [
+    {
+      "label": "planted-defect",
+      "exit": 1
+    },
+    {
+      "label": "restored",
+      "exit": 0
+    }
+  ],
+  "scope": "post-run test sensitivity; active live discriminator bytes unchanged",
+  "authorizes_landing": false
+}

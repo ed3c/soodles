@@ -1,0 +1,66 @@
+{
+  "classification": "INCOMPLETE",
+  "issue": "ed3c/soodles#39",
+  "carrier": "local_macos_noodle_codex_exec",
+  "source_head": "5a5229c3a92d3a0183dce9b9f7bf46f072943f4a",
+  "native_verdict": {
+    "verdict": "INCOMPLETE",
+    "missing": [
+      "successful_process_exit"
+    ],
+    "violations": [],
+    "session_id": "01a0abb2-5644-7763-bf4a-5f49de416b41",
+    "turn_id": "01a0abb2-56c7-7463-98eb-5933a6f21877",
+    "observed_harness_turn_models": [
+      "gpt-6-astra"
+    ],
+    "model_evidence_level": "native_persisted_turn_context",
+    "service_effective_model": null,
+    "service_reroute_capture": "not established by exec JSONL",
+    "capture_scope": "emitted CLI events for one bounded task, matched tool results and native turn history",
+    "full_case_capture_proven": false,
+    "authorizes_landing": false
+  },
+  "typed_outcome_matches": true,
+  "cleanup": {
+    "process_checks": [
+      {
+        "record": "live/launch.json",
+        "pid": 24623,
+        "alive": false,
+        "group_alive": false
+      },
+      {
+        "record": "native/observation.json",
+        "pid": 26418,
+        "alive": false,
+        "group_alive": false
+      },
+      {
+        "record": "live/runtime/sessions/schedule-20260916-192923-5ce4fc/process.json",
+        "pid": 24629,
+        "alive": false,
+        "group_alive": false
+      },
+      {
+        "record": "live/runtime/sessions/soodles-39-0-execute-20260916-192945-2432f9/process.json",
+        "pid": 25537,
+        "alive": false,
+        "group_alive": false
+      }
+    ],
+    "worker_head": "5a5229c3a92d3a0183dce9b9f7bf46f072943f4a",
+    "worker_clean": true,
+    "cleanup_exit": 0,
+    "worktree_absent": true,
+    "production_issue_resolved": false,
+    "authorizes_landing": false
+  },
+  "full_local_cases": "NOT_RUN",
+  "cloud_results_unchanged": true,
+  "known_capture_gap": "No durable OS exit status for the Codex child. Tool, loop and read-only app-server exit statuses are not substitutes.",
+  "next_boundary": "Add an external parent recorder that waits for the Soodles issue worker/Codex process and durably records its actual exit before another newly declared probe. Do not change this observation or repeat the unchanged setup.",
+  "judge_semantics_unchanged_after_run": true,
+  "scope": "Harness persisted per-turn model identity only; no hidden model/service-route attestation. Synthetic defects test discriminator sensitivity, not document baseline efficacy.",
+  "authorizes_landing": false
+}

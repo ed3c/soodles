@@ -1,0 +1,42 @@
+{
+  "scope": "synthetic detector controls; defects in discriminator, not document baseline",
+  "records": [
+    {
+      "name": "controls-cure-and-noncases",
+      "exit": 0
+    },
+    {
+      "name": "defect-native-model",
+      "exit": 1
+    },
+    {
+      "name": "cure-native-model",
+      "exit": 0
+    },
+    {
+      "name": "defect-thread-identity",
+      "exit": 1
+    },
+    {
+      "name": "cure-thread-identity",
+      "exit": 0
+    },
+    {
+      "name": "defect-tool-result",
+      "exit": 1
+    },
+    {
+      "name": "cure-tool-result",
+      "exit": 0
+    },
+    {
+      "name": "defect-turn-model-match",
+      "exit": 1
+    },
+    {
+      "name": "cure-turn-model-match",
+      "exit": 0
+    }
+  ],
+  "authorizes_landing": false
+}

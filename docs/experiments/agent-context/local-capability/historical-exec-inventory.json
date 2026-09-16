@@ -1,0 +1,17 @@
+{
+  "scope": "Historical #18 same-binary exec JSONL inventory, not a new #39 Astra task",
+  "source_sha256": "08932bf2371159df57d5f3daf728bc9b17186f2a38647a4a891fef690a68f0fc",
+  "event_types": {
+    "thread.started": 1,
+    "item.completed": 21,
+    "turn.started": 1,
+    "item.started": 13,
+    "turn.completed": 1
+  },
+  "identity_fields": {
+    "/thread_id": 1
+  },
+  "event_count": 37,
+  "observed_model": null,
+  "new_model_turns": 0
+}

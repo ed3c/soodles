@@ -1,0 +1,34 @@
+test_configured_model_without_turn_evidence_stays_incomplete (test_capability.CapabilityControls.test_configured_model_without_turn_evidence_stays_incomplete) ... FAIL
+test_declared_local_scope_preserves_cloud_and_behavior_gates (test_capability.CapabilityControls.test_declared_local_scope_preserves_cloud_and_behavior_gates) ... ok
+test_native_turn_and_paired_tool_pass (test_capability.CapabilityControls.test_native_turn_and_paired_tool_pass) ... ok
+test_wrong_thread_turn_model_and_missing_result_cannot_pass (test_capability.CapabilityControls.test_wrong_thread_turn_model_and_missing_result_cannot_pass) ... FAIL
+test_missing_capture_or_model_or_document_is_not_success (test_cloud_observe.ObserverControls.test_missing_capture_or_model_or_document_is_not_success) ... ok
+test_planted_bad_traces_are_rejected_for_specific_reason (test_cloud_observe.ObserverControls.test_planted_bad_traces_are_rejected_for_specific_reason) ... ok
+test_valid_runner_and_legal_non_case_and_fresh_consumer (test_cloud_observe.ObserverControls.test_valid_runner_and_legal_non_case_and_fresh_consumer) ... ok
+test_wrong_head_or_skipped_acceptance_not_reused (test_cloud_observe.ObserverControls.test_wrong_head_or_skipped_acceptance_not_reused) ... ok
+
+======================================================================
+FAIL: test_configured_model_without_turn_evidence_stays_incomplete (test_capability.CapabilityControls.test_configured_model_without_turn_evidence_stays_incomplete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles39-local-capability-20260917/controls-v2/control-subject/test_capability.py", line 32, in test_configured_model_without_turn_evidence_stays_incomplete
+    self.assertEqual(result['verdict'], 'INCOMPLETE')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'CAPABILITY_OBSERVED' != 'INCOMPLETE'
+- CAPABILITY_OBSERVED
++ INCOMPLETE
+
+
+======================================================================
+FAIL: test_wrong_thread_turn_model_and_missing_result_cannot_pass (test_capability.CapabilityControls.test_wrong_thread_turn_model_and_missing_result_cannot_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles39-local-capability-20260917/controls-v2/control-subject/test_capability.py", line 42, in test_wrong_thread_turn_model_and_missing_result_cannot_pass
+    self.assertNotEqual(observe(**p)['verdict'], 'CAPABILITY_OBSERVED')
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'CAPABILITY_OBSERVED' == 'CAPABILITY_OBSERVED'
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+FAILED (failures=2)

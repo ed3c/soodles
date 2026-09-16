@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 39,
+  "body_sha256": "21c6b4bdb4fc5a15914d7c3e1249523ba0053122526ad6e33dbd6d2713d0a662",
+  "body_updated_at": "2026-09-16T19:25:16Z",
+  "owner": "ed3c supervisor / Issue 39 local experiment",
+  "write_paths": [
+    ".agents/skills/verify-soodles/SKILL.md",
+    "AGENTS.md",
+    "README.md",
+    "contracts/agent-context-design.md",
+    "contracts/system-v1.md",
+    "docs/experiments/agent-context/capability-receipt.json",
+    "docs/experiments/agent-context/local/README.md",
+    "docs/experiments/agent-context/local/capability.py",
+    "docs/experiments/agent-context/local/cloud_observe.py",
+    "docs/experiments/agent-context/local/observe.py",
+    "docs/experiments/agent-context/local/results.md",
+    "docs/experiments/agent-context/local/test_capability.py",
+    "docs/experiments/agent-context/local/test_cloud_observe.py",
+    "docs/experiments/agent-context/native-results.md",
+    "docs/experiments/agent-context/protocol.md",
+    "docs/experiments/agent-context/recovery-results.md",
+    "docs/experiments/agent-context/trial-handoff.md"
+  ],
+  "base_head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "execution": {
+    "control_root": "/Users/neon/.codex/experiments/soodles39-local-capability-20260917/control",
+    "worktree": "soodles-39-0-execute",
+    "order_id": "soodles-39",
+    "stage_index": 0,
+    "task": "This is only Issue 39 local capability observation, not a blinded comparison or source implementation. Do not edit repository files, spawn agents, or perform provider writes. Read the current Issue contract as your Skill requires. Execute exactly one simple tool command: python3 -c 'print(\"SOODLES39_NATIVE_CAPTURE_V1\")'. Then read the admitted Noodle event emit --help and emit exactly one stage_message yourself, bound to actual NOODLE_SESSION_ID, NOODLE_ORDER_ID and integer NOODLE_STAGE_INDEX. Payload schema fields from https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go are message, blocking, outcome, order_id, stage_index. Use outcome=\"blocked\", blocking=true, message reporting the marker command result and that native capture/model observation remains with the supervisor. Use your actual environment identities, never a parent-created outcome. Exit after this event. Do not inspect observer code, trial results, other sessions or private configuration. Admitted Noodle executable: /Users/neon/.codex/experiments/noodle82-20260916/noodle",
+    "source_head": "5a5229c3a92d3a0183dce9b9f7bf46f072943f4a",
+    "carrier": {
+      "platform": "darwin_arm64",
+      "noodle": {
+        "path": "/Users/neon/.codex/experiments/noodle82-20260916/noodle",
+        "sha256": "c299d2bce4e33ddd0b1c6295bd3cbeb1d29b32782fdcc9bcc9ffac2cf87ab35c"
+      },
+      "codex": {
+        "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+        "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+        "model": "gpt-6-astra",
+        "argv": [
+          "exec",
+          "--skip-git-repo-check",
+          "--json",
+          "--model",
+          "gpt-6-astra",
+          "-c",
+          "default_permissions=\"agent-default\"",
+          "-c",
+          "approval_policy=\"never\"",
+          "-c",
+          "model_reasoning_effort=\"high\"",
+          "--add-dir",
+          "/Users/neon/.codex/experiments/soodles39-local-capability-20260917/control/.noodle"
+        ]
+      }
+    }
+  }
+}
