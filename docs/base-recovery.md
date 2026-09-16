@@ -12,3 +12,11 @@ After readmission, use the returned `advance` route with fresh owner readback. T
 The standalone observer was selected before candidate acceptance with SHA-256 `dc6e1a0cfb6783edf78a3d979e1357af9ae62940d06430a35b37314d719d0545`. It imports candidate code only inside fault-injected child processes. Baseline fails; the treatment recovers after both save-boundary SIGKILLs and admits only one concurrent consumer. A planted change that clears an offered write on base drift is rejected. The publishing verifier remains `faaf6892ea1e14dfa31319aa5dcd92162cc471e3eaad8dfe1d215da5face6ccb` outside the candidate.
 
 The comparison is about observable lifecycle behavior, not measured Agent reasoning cost. Provider data in the fault experiment is a local fixture. Runtime Actions and actual Issue delivery receipts are linked from the PR; this document alone proves neither provider completion nor Noodle reconciliation. No verification-skill feature-map expansion or production scheduling is included.
+
+## Supervised amendment observations — #19
+
+At `0256f2923e978b989e25df07c74db4370d343312`, replacing a prepared candidate while keeping base unchanged produced `invalid pr.head.sha` from advance and `invalid readmit.phase=merge_pending` from readmit. Neither command offered a recovery path. The observed defect is a missing pre-offer invalidation transition, not proof that tests or architecture should be frozen.
+
+The new route is supervisor invalidation → same-Issue amendment and new execution boundary → correction of source/tests/gates → fresh candidate evidence → existing readmit. No modification or PR is required when no defect is observed. The control checks durable recovery and retains the distinction between accepted, offered, merged, closed and locally reconciled.
+
+Before production edits, the supervisor froze the extended observer outside the candidate with SHA-256 `082dcda0fa2b941b4c266cb0c59a2b46ba76bb3a5aaaedecc8184e18e1df416d`. The old source fails the new invalidation control. The same observer drives the treatment and planted negatives without importing candidate verdict logic. The publishing verifier remains the previously selected external implementation; no default-branch tip is loaded as judge. Exact runtime and delivery receipts belong to the Issue and PR, not this prose.

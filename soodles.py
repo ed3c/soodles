@@ -197,7 +197,10 @@ def parser():
                              epilog="Examples: ./soodles landing resume /tmp/checkpoint.json /tmp/fresh-claim.json")
     resume.add_argument("checkpoint")
     resume.add_argument("claim")
-    readmit = verbs.add_parser("readmit", description="Recover an invalidated, unoffered admission. The supervisor supplies a changed candidate head, fresh successful runtime evidence and raw GitHub comparisons: base_comparison (old base...new base), candidate_comparison (new base...new head), and recovery_comparison if the observed recovery base advanced again. Preserve repository, Issue, PR, worktree and verifier. No automatic rebase or provider write.",
+    invalidate = verbs.add_parser("invalidate", description="Supervisor withdraws a known-unoffered acceptance before correcting this Issue. No provider write or successful CI is needed; unknown writes require owner readback.",
+                                  epilog="Example: ./soodles landing invalidate /tmp/checkpoint.json")
+    invalidate.add_argument("checkpoint")
+    readmit = verbs.add_parser("readmit", description="Recover an invalidated, unoffered admission. The supervisor supplies a changed candidate head, fresh successful runtime evidence and raw GitHub comparisons: base_comparison when base changed (old base...new base), candidate_comparison (new base...new head), and recovery_comparison if the observed recovery base advanced again. Preserve repository, Issue, PR, worktree and verifier. No automatic rebase or provider write.",
                               epilog="Example: ./soodles landing readmit /tmp/checkpoint.json /tmp/fresh-claim.json /tmp/readback.json")
     readmit.add_argument("checkpoint")
     readmit.add_argument("claim")
@@ -223,6 +226,8 @@ def main():
                 result = landing.dispatch(args.checkpoint, landing.read(args.readback))
             elif args.verb == "resume":
                 result = landing.resume(args.checkpoint, landing.read(args.claim))
+            elif args.verb == "invalidate":
+                result = landing.invalidate(args.checkpoint)
             elif args.verb == "readmit":
                 result = landing.readmit(args.checkpoint, landing.read(args.claim), landing.read(args.readback))
             else:

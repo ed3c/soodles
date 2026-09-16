@@ -39,7 +39,9 @@ def crash(path,state):
  save(path,state)
  if state['phase']==sys.argv[2]: os.kill(os.getpid(),signal.SIGKILL)
 landing.save=crash
-if sys.argv[3]=='readmit':
+if sys.argv[3]=='invalidate':
+ landing.invalidate(sys.argv[4])
+elif sys.argv[3]=='readmit':
  landing.readmit(sys.argv[4],json.load(open(sys.argv[5])),json.load(open(sys.argv[6])))
 else:
  getattr(landing,sys.argv[3])(sys.argv[4],json.load(open(sys.argv[5])))
@@ -164,6 +166,60 @@ else:
         require(sum(p.returncode == 0 for p in processes) == 1, "concurrent readmission accepted more than once")
         require(len(json.loads(cp.read_text())["prior_admissions"]) == 1, "concurrent recovery lost history")
         cases.append({"case": "concurrent_readmission", "processes": 2, "admissions": 1})
+        # A supervisor can withdraw green evidence before correcting the same atom.
+        same_claim = {**fresh_claim, "base_head": claim["base_head"]}
+        same = copy.deepcopy(fresh)
+        same["pr"]["base"]["sha"] = same["branch"]["commit"]["sha"] = claim["base_head"]
+        same.pop("base_comparison")
+        same["candidate_comparison"] = comparison(claim["base_head"], same_claim["head"])
+        ac, ar = write("amended-claim.json", same_claim), write("amended-readback.json", same)
+        cp = admit("amendment")
+        require(json.loads(cp.read_text())["classification"] is None, "green admission resolved the Issue")
+        r = command(["invalidate", cp], "readmission_pending")
+        require(r.returncode == -signal.SIGKILL, "explicit invalidation SIGKILL was not reached")
+        before = cp.read_bytes()
+        action = invoke(["invalidate", cp])
+        require(action.get("next_command") == "./soodles landing readmit --help", "amendment has no next action")
+        require(cp.read_bytes() == before, "repeated invalidation rewrote checkpoint")
+        require(command(["dispatch", cp, sf]).returncode != 0, "old green dispatches after explicit invalidation")
+        require(cp.read_bytes() == before, "old dispatch mutated amendment")
+        failed = copy.deepcopy(same)
+        failed["run"]["conclusion"] = "failure"
+        fr = write("amended-failed.json", failed)
+        require(command(["readmit", cp, ac, fr]).returncode != 0, "failed fresh CI was accepted")
+        vc = write("amended-verifier.json", {**same_claim, "verifier_sha256": "0"*64})
+        require(command(["readmit", cp, vc, ar]).returncode != 0, "candidate promoted another verifier")
+        require(command(["readmit", cp, cf, sf]).returncode != 0, "unchanged acceptance was re-admitted")
+        require(cp.read_bytes() == before, "refused readmission changed prior admission")
+        r = command(["readmit", cp, ac, ar], "admitted")
+        require(r.returncode == -signal.SIGKILL, "amendment readmission SIGKILL was not reached")
+        state = json.loads(cp.read_text())
+        require(state["claim"] == same_claim and state["classification"] is None, "fresh green is not scoped admission")
+        require(state["prior_admissions"][-1]["claim"] == claim, "amendment lost old claim")
+        require(state["prior_admissions"][-1]["delivery"] == {"action": "merge", "status": "prepared"}, "prepared intent history lost")
+        require(invoke(["advance", cp, ar])["action"] == "dispatch", "same-base amendment cannot resume")
+        require(invoke(["dispatch", cp, ar])["expected_head_sha"] == same_claim["head"], "amendment offers old head")
+        require(json.loads(cp.read_text())["classification"] is None, "offered merge resolved the Issue")
+        cases.append({"case": "same_base_supervised_amendment", "signals": 2,
+                      "old_acceptance_dispatches": 0, "fresh_requests": 1, "terminal_classification": None})
+
+        for legacy in (False, True):
+            cp = admit("amendment-unknown-" + str(legacy))
+            invoke(["dispatch", cp, sf])
+            if legacy:
+                state = json.loads(cp.read_text())
+                state["schema"] = 1
+                state.pop("delivery")
+                cp = write("amendment-legacy.json", state)
+                if isolated:
+                    os.chown(cp, 65534, 65534)
+            before = cp.read_bytes()
+            r = command(["invalidate", cp])
+            require(r.returncode != 0 and "landing advance --help" in r.stderr,
+                    "unknown write lacks readback refusal")
+            require(cp.read_bytes() == before, "amendment erased unknown offer")
+        cases.append({"case": "amendment_preserves_offered_and_legacy_unknown", "reoffers": 0})
+
         require(initial_bytes == [hashlib.sha256(p.read_bytes()).hexdigest() for p in identity_files], "subject rewrote identity")
     return {"scope": "real child process faults; local provider fixtures, no GitHub writes",
             "cases": cases, "isolated_child_uid": 65534 if isolated else None, "authorizes_landing": False}
