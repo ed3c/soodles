@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "go",
+    "test",
+    "-overlay",
+    "/Users/neon/.codex/experiments/soodles18-order-boundary-20260916/overlay.json",
+    "./loop",
+    "-run",
+    "^TestSoodles18",
+    "-count=1",
+    "-v"
+  ],
+  "exit": 1,
+  "stdout": "=== RUN   TestSoodles18StaleInitialProposalCannotRestart\n    soodles18_observer_test.go:21: before=active after=active dispatchable=1\n    soodles18_observer_test.go:22: stale initial proposal restarted failed canonical work without new authorization\n--- FAIL: TestSoodles18StaleInitialProposalCannotRestart (0.00s)\n=== RUN   TestSoodles18IndependentInitialProposal\n--- PASS: TestSoodles18IndependentInitialProposal (0.00s)\nFAIL\nFAIL\tgithub.com/poteto/noodle/loop\t0.564s\nFAIL\n",
+  "stderr": "",
+  "elapsed": 2.471108917030506
+}
