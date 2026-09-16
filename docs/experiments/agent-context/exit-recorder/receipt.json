@@ -1,0 +1,96 @@
+{
+  "classification": "CAPABILITY_OBSERVED",
+  "issue": "ed3c/soodles#39",
+  "carrier": "local_macos_noodle_codex_exec",
+  "instrumentation": "Raw stdout is captured unchanged; first terminal event and later lines are delivered only after actual child wait and durable exit receipt. Delivery timing differs from the uninstrumented carrier.",
+  "source_head": "7323aea7f5a7dc1da34c64fdb61f3145c8e2f3ff",
+  "native_verdict": {
+    "verdict": "CAPABILITY_OBSERVED",
+    "missing": [],
+    "violations": [],
+    "session_id": "01a0abca-8a6d-7d81-89c6-c7ffc987a940",
+    "turn_id": "01a0abca-8b1b-7c90-935d-2aa700eb1be6",
+    "observed_harness_turn_models": [
+      "gpt-6-astra"
+    ],
+    "model_evidence_level": "native_persisted_turn_context",
+    "service_effective_model": null,
+    "service_reroute_capture": "not established by exec JSONL",
+    "capture_scope": "emitted CLI events for one bounded task, matched tool results and native turn history",
+    "full_case_capture_proven": false,
+    "authorizes_landing": false
+  },
+  "child_returncode": 0,
+  "exit_binding_checks": {
+    "recorder_pid_matches_noodle_process": true,
+    "record_identity_matches": true,
+    "record_worktree_matches": true,
+    "same_launch_and_exit": true,
+    "child_is_separate": true,
+    "group_retained": true,
+    "actual_wait": true,
+    "exact_worker_chain": true,
+    "recorder_fixed": true,
+    "codex_measured": true,
+    "captured_stdout_digest": true,
+    "captured_stdout_bytes": true,
+    "native_bytes_forwarded_without_event_changes": true,
+    "terminal_delivery_deferred": true,
+    "typed_outcome_matches": true
+  },
+  "cleanup": {
+    "process_checks": [
+      {
+        "record": "live/launch.json",
+        "pid": 29673,
+        "alive": false,
+        "group_alive": false
+      },
+      {
+        "record": "native/observation.json",
+        "pid": 30943,
+        "alive": false,
+        "group_alive": false
+      },
+      {
+        "record": "live/runtime/sessions/schedule-20260916-195548-14facd/process.json",
+        "pid": 29677,
+        "alive": false,
+        "group_alive": false
+      },
+      {
+        "record": "live/runtime/sessions/soodles-39-0-execute-20260916-195611-b68cd5/process.json",
+        "pid": 30271,
+        "alive": false,
+        "group_alive": false
+      },
+      {
+        "record": "process-exits/schedule-20260916-195548-14facd/exit.json",
+        "pid": 29678,
+        "pgid": 29677,
+        "alive": false,
+        "group_alive": false
+      },
+      {
+        "record": "process-exits/soodles-39-0-execute-20260916-195611-b68cd5/exit.json",
+        "pid": 30272,
+        "pgid": 30271,
+        "alive": false,
+        "group_alive": false
+      }
+    ],
+    "worker_head": "7323aea7f5a7dc1da34c64fdb61f3145c8e2f3ff",
+    "worker_clean": true,
+    "cleanup_exit": 0,
+    "worktree_absent": true,
+    "production_issue_resolved": false,
+    "authorizes_landing": false
+  },
+  "prior_wait_probe": "first-wait-recorder/native/capability-verdict.json",
+  "original_incomplete_receipt": "https://github.com/ed3c/soodles/blob/1ad24148dfb44104dfa3c5071988114ca2966fe5/docs/experiments/agent-context/local-capability/receipt.json",
+  "full_matched_cases": "NOT_RUN",
+  "cloud_results_unchanged": true,
+  "capability_judge_unchanged": true,
+  "natural_uninstrumented_exit_proven": false,
+  "authorizes_landing": false
+}

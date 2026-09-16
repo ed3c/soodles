@@ -1,0 +1,16 @@
+{
+  "verdict": "CAPABILITY_OBSERVED",
+  "missing": [],
+  "violations": [],
+  "session_id": "01a0abca-8a6d-7d81-89c6-c7ffc987a940",
+  "turn_id": "01a0abca-8b1b-7c90-935d-2aa700eb1be6",
+  "observed_harness_turn_models": [
+    "gpt-6-astra"
+  ],
+  "model_evidence_level": "native_persisted_turn_context",
+  "service_effective_model": null,
+  "service_reroute_capture": "not established by exec JSONL",
+  "capture_scope": "emitted CLI events for one bounded task, matched tool results and native turn history",
+  "full_case_capture_proven": false,
+  "authorizes_landing": false
+}

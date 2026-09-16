@@ -1,0 +1,15 @@
+test_success_and_nonzero_are_actual_child_exits (test_record_process.ProcessControls.test_success_and_nonzero_are_actual_child_exits) ... FAIL
+
+======================================================================
+FAIL: test_success_and_nonzero_are_actual_child_exits (test_record_process.ProcessControls.test_success_and_nonzero_are_actual_child_exits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles39-exit-recorder-v2-20260917/control-subject/test_record_process.py", line 30, in test_success_and_nonzero_are_actual_child_exits
+    self.assertEqual(result.returncode, code, result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 7 : 
+
+----------------------------------------------------------------------
+Ran 1 test in 0.125s
+
+FAILED (failures=1)

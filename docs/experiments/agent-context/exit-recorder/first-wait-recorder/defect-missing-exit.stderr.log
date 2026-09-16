@@ -1,0 +1,21 @@
+test_success_and_nonzero_are_actual_child_exits (test_record_process.ProcessControls.test_success_and_nonzero_are_actual_child_exits) ... ERROR
+
+======================================================================
+ERROR: test_success_and_nonzero_are_actual_child_exits (test_record_process.ProcessControls.test_success_and_nonzero_are_actual_child_exits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles39-exit-recorder-20260917/control-subject/test_record_process.py", line 31, in test_success_and_nonzero_are_actual_child_exits
+    receipt = json.loads((root / 'record/exit.json').read_text())
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpky98ovqg/record/exit.json'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.060s
+
+FAILED (errors=1)

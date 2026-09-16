@@ -1,0 +1,33 @@
+{
+  "recorder_pid": 28570,
+  "cwd": "/Users/neon/.codex/experiments/soodles39-exit-recorder-20260917/control/.worktrees/soodles-39-0-execute",
+  "argv": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-B",
+    "/Users/neon/.codex/experiments/soodles39-exit-recorder-20260917/installed/soodles.py",
+    "issue",
+    "worker",
+    "/Users/neon/.codex/experiments/soodles39-exit-recorder-20260917/execution-envelope.json",
+    "e7e830054c70578df4c6fb1812a3a75d22c148c2ebfcc94e7d3b76f7f431fd2c",
+    "exec",
+    "--skip-git-repo-check",
+    "--json",
+    "--model",
+    "gpt-6-astra",
+    "-c",
+    "default_permissions=\"agent-default\"",
+    "-c",
+    "approval_policy=\"never\"",
+    "-c",
+    "model_reasoning_effort=\"high\"",
+    "--add-dir",
+    "/Users/neon/.codex/experiments/soodles39-exit-recorder-20260917/control/.noodle"
+  ],
+  "session_id": "soodles-39-0-execute-20260916-194949-892d7f",
+  "order_id": "soodles-39",
+  "stage_index": "0",
+  "started_at": "2026-09-16T19:49:50.056597+00:00",
+  "authorizes_landing": false,
+  "child_pid": 28571,
+  "child_pgid": 28570
+}

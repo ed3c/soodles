@@ -1,0 +1,15 @@
+test_existing_record_is_preserved_without_launch (test_record_process.ProcessControls.test_existing_record_is_preserved_without_launch) ... FAIL
+
+======================================================================
+FAIL: test_existing_record_is_preserved_without_launch (test_record_process.ProcessControls.test_existing_record_is_preserved_without_launch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles39-exit-recorder-20260917/control-subject/test_record_process.py", line 84, in test_existing_record_is_preserved_without_launch
+    self.assertNotEqual(result.returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.057s
+
+FAILED (failures=1)

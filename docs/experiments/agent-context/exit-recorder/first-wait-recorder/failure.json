@@ -1,0 +1,13 @@
+{
+  "classification": "INCOMPLETE",
+  "missing": "actual worker exit receipt",
+  "scheduler_exit": 0,
+  "worker_exit": null,
+  "observed_owner_log": "session meta indicates terminal state; enqueueing completion",
+  "source_cause": "noodle@656e9ec73689c523058750e8b0a2388a15bb84fa loop/session_meta_repair.go enqueueTerminalActiveCompletions calls cook.session.ForceKill after terminal meta",
+  "inference": "Whole-group SIGKILL can race recorder wait/receipt; scheduler did record exit but worker did not. No kernel signal trace exists for this historical attempt.",
+  "first_evaluation_error": "FileNotFoundError for worker exit.json; no fabricated status",
+  "first_cleanup_refusal": "Read-only App Server PID gone but process group initially still alive; subsequently observed absent",
+  "admission_setup_refusal": "First admission invoked in archive cwd: envelope.path refused. Corrected cwd to control root; no model had started.",
+  "authorizes_landing": false
+}

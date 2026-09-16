@@ -1,0 +1,25 @@
+{
+  "owner": "issue.supervised",
+  "status": "refused",
+  "invalid": {
+    "field": "envelope.path",
+    "value": "/Users/neon/.codex/experiments/soodles39-exit-recorder-20260917/execution-envelope.json"
+  },
+  "next": {
+    "kind": "input",
+    "owner": "supervisor",
+    "required": [
+      "execution_envelope"
+    ],
+    "operation": "supervised",
+    "help_argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles39-exit-recorder-20260917/installed/soodles.py",
+      "issue",
+      "supervised",
+      "--help"
+    ],
+    "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+  }
+}

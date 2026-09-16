@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-09-16T19:57:04.097267Z",
+  "backlog": [
+    {
+      "id": "soodles-39",
+      "title": "Validate Agent context transfer with scoped Astra document patterns",
+      "status": "open",
+      "plan": "This is only Issue 39 local capability observation, not a blinded comparison or source implementation. Do not edit repository files, spawn agents, or perform provider writes. Read the current Issue contract as your Skill requires. Execute exactly one simple tool command: python3 -c 'print(\"SOODLES39_NATIVE_CAPTURE_V3\")'. Then read the admitted Noodle event emit --help and emit exactly one stage_message yourself, bound to actual NOODLE_SESSION_ID, NOODLE_ORDER_ID and integer NOODLE_STAGE_INDEX. Payload schema fields from https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go are message, blocking, outcome, order_id, stage_index. Use outcome=\"blocked\", blocking=true, message reporting the marker command result and that native capture/model observation remains with the supervisor. Use your actual environment identities, never a parent-created outcome. Exit after this event. Do not inspect observer code, trial results, other sessions or private configuration. Admitted Noodle executable: /Users/neon/.codex/experiments/noodle82-20260916/noodle"
+    }
+  ],
+  "active_summary": {
+    "total": 0
+  },
+  "tickets": [],
+  "resources": {
+    "max_concurrency": 1,
+    "active": 0,
+    "available": 1
+  },
+  "recent_history": [
+    {
+      "session_id": "schedule-20260916-195548-14facd",
+      "order_id": "schedule",
+      "task_key": "schedule",
+      "status": "completed",
+      "duration_s": 22,
+      "completed_at": "2026-09-16T19:56:11.181994Z"
+    },
+    {
+      "session_id": "soodles-39-0-execute-20260916-195611-b68cd5",
+      "order_id": "soodles-39",
+      "task_key": "execute",
+      "status": "completed",
+      "duration_s": 52,
+      "completed_at": "2026-09-16T19:57:04.09478Z"
+    }
+  ],
+  "recent_events": null,
+  "routing": {
+    "defaults": {
+      "provider": "codex",
+      "model": "gpt-6-astra"
+    },
+    "available_runtimes": [
+      "process"
+    ]
+  },
+  "task_types": [
+    {
+      "key": "execute",
+      "schedule": "Only the exact Issue/order admitted by the installed Soodles consumer."
+    }
+  ]
+}

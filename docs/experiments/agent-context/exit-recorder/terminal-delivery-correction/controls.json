@@ -1,0 +1,54 @@
+{
+  "records": [
+    {
+      "name": "restored-all-controls",
+      "exit": 0
+    },
+    {
+      "name": "defect-missing-exit",
+      "exit": 1
+    },
+    {
+      "name": "cure-missing-exit",
+      "exit": 0
+    },
+    {
+      "name": "defect-false-zero",
+      "exit": 1
+    },
+    {
+      "name": "cure-false-zero",
+      "exit": 0
+    },
+    {
+      "name": "defect-lost-signal",
+      "exit": 1
+    },
+    {
+      "name": "cure-lost-signal",
+      "exit": 0
+    },
+    {
+      "name": "defect-overwrite",
+      "exit": 1
+    },
+    {
+      "name": "cure-overwrite",
+      "exit": 0
+    },
+    {
+      "name": "prior-recorder-group-kill",
+      "exit": 1
+    },
+    {
+      "name": "corrected-recorder-group-kill",
+      "exit": 0
+    },
+    {
+      "name": "legal-noncases-and-restored",
+      "exit": 0
+    }
+  ],
+  "scope": "real subprocess detector controls; no model calls",
+  "authorizes_landing": false
+}

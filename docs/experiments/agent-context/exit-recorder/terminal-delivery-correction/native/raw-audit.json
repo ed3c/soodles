@@ -1,0 +1,80 @@
+{
+  "judge_exit": 0,
+  "event_counts": {
+    "thread.started": 1,
+    "item.completed": 10,
+    "turn.started": 1,
+    "item.started": 6,
+    "turn.completed": 1
+  },
+  "all_started_items_have_one_result": true,
+  "commands": [
+    {
+      "id": "item_2",
+      "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md'",
+      "exit_code": 0
+    },
+    {
+      "id": "item_3",
+      "command": "/bin/zsh -lc 'gh issue view 39 --repo ed3c/soodles --json number,title,body,updatedAt'",
+      "exit_code": 1
+    },
+    {
+      "id": "item_5",
+      "command": "/bin/zsh -lc \"python3 -c 'print(\\\"SOODLES39_NATIVE_CAPTURE_V3\\\")'\"",
+      "exit_code": 0
+    },
+    {
+      "id": "item_6",
+      "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/noodle82-20260916/noodle event emit --help'",
+      "exit_code": 0
+    },
+    {
+      "id": "item_8",
+      "command": "/bin/zsh -lc \"python3 - <<'PY'\nimport json\nimport os\nimport subprocess\n\nsession = os.environ['NOODLE_SESSION_ID']\norder = os.environ['NOODLE_ORDER_ID']\nstage = int(os.environ['NOODLE_STAGE_INDEX'])\nif not session or not order:\n    raise ValueError('NOODLE_SESSION_ID and NOODLE_ORDER_ID must be nonempty')\npayload = {\n    'message': 'Marker command python3 -c \\\\'print(\\\"SOODLES39_NATIVE_CAPTURE_V3\\\")\\\\' completed with exit code 0 and stdout SOODLES39_NATIVE_CAPTURE_V3. Native capture/model observation remains with the supervisor.',\n    'blocking': True,\n    'outcome': 'blocked',\n    'order_id': order,\n    'stage_index': stage,\n}\nsubprocess.run([\n    '/Users/neon/.codex/experiments/noodle82-20260916/noodle',\n    'event', 'emit', 'stage_message', '--session', session,\n    '--payload', json.dumps(payload),\n], check=True)\nPY\"",
+      "exit_code": 0
+    }
+  ],
+  "native_item_errors": [
+    {
+      "id": "item_0",
+      "type": "error",
+      "message": "clamping SessionEnd hook timeout to 3s in /Users/neon/.codex/plugins/cache/openai-codex/codex/1.0.6/hooks/hooks.json"
+    }
+  ],
+  "typed_outcomes": [
+    {
+      "type": "stage_message",
+      "payload": {
+        "message": "Marker command python3 -c 'print(\"SOODLES39_NATIVE_CAPTURE_V3\")' completed with exit code 0 and stdout SOODLES39_NATIVE_CAPTURE_V3. Native capture/model observation remains with the supervisor.",
+        "blocking": true,
+        "outcome": "blocked",
+        "order_id": "soodles-39",
+        "stage_index": 0
+      },
+      "timestamp": "2026-09-16T19:56:57.812981Z",
+      "session_id": "soodles-39-0-execute-20260916-195611-b68cd5"
+    }
+  ],
+  "child_returncode": 0,
+  "noodle_attempt_exit_code": null,
+  "exit_binding_checks": {
+    "recorder_pid_matches_noodle_process": true,
+    "record_identity_matches": true,
+    "record_worktree_matches": true,
+    "same_launch_and_exit": true,
+    "child_is_separate": true,
+    "group_retained": true,
+    "actual_wait": true,
+    "exact_worker_chain": true,
+    "recorder_fixed": true,
+    "codex_measured": true,
+    "captured_stdout_digest": true,
+    "captured_stdout_bytes": true,
+    "native_bytes_forwarded_without_event_changes": true,
+    "terminal_delivery_deferred": true,
+    "typed_outcome_matches": true
+  },
+  "full_matched_cases": "NOT_RUN",
+  "authorizes_landing": false
+}

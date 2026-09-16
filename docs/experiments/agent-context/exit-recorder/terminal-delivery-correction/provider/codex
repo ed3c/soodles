@@ -1,0 +1,8 @@
+#!/opt/homebrew/opt/python@3.14/bin/python3.14
+import hashlib,os,sys
+from pathlib import Path
+root=Path('/Users/neon/.codex/experiments/soodles39-exit-recorder-v2-20260917/installed')
+manifest={'soodles': 'cb3c6c81534e99a3ecf25f6c5d9cc2024bae2b9d2672afddb96fba37deda144d', 'soodles.py': 'b1269062b04e0b4a0a8aa7fe8108a644addf42c0a81254b4980265fbf2ed140c', 'issue_admission.py': '6c7027b804dc214151ce4a23bcfa6b02089aa72ca8f31e9fbf3cf60fda809ca8', 'issue_execution.py': '2b76cf350b06c9206a0cbf52ecdf70ee6145cf862ef999e3fdf6b99a5553de6a', 'landing.py': 'a5a4223824ebac8bd912453ea24f11fec396c02b03ecf0a055f2b0a6082a23a1', 'policy/runtime.lock.json': '08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830', '.agents/skills/schedule/SKILL.md': 'd3425452e5b92152976e9cb2f5f9214b7def129147f9f79f5bd8b9bc94ff57e4', '.agents/skills/execute/SKILL.md': '2f9b702c7710e8d875cb5071f43034725844a74e99f2f73e08c1c1cde161077b', 'docs/experiments/agent-context/local/record_process.py': 'e2d63af93afccaa463efe63f8790613877a6e113c04d7ce4c9b70d7f550f2126'}
+for name,digest in manifest.items():
+    if hashlib.sha256((root/name).read_bytes()).hexdigest()!=digest: raise SystemExit("changed installed bytes: "+name)
+os.execv('/opt/homebrew/opt/python@3.14/bin/python3.14',['/opt/homebrew/opt/python@3.14/bin/python3.14',"-B",str(root/"docs/experiments/agent-context/local/record_process.py"),'/Users/neon/.codex/experiments/soodles39-exit-recorder-v2-20260917/process-exits'+"/"+os.environ["NOODLE_SESSION_ID"],"--",'/opt/homebrew/opt/python@3.14/bin/python3.14',"-B",str(root/"soodles.py"),"issue","worker",'/Users/neon/.codex/experiments/soodles39-exit-recorder-v2-20260917/execution-envelope.json','f81dce9586cac12f416e7eda037c7c37e1e89478415ecbb71aaf6f9f66c8f4ff',*sys.argv[1:]])

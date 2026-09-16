@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-09-16T19:50:49.642221Z",
+  "orders": [
+    {
+      "id": "soodles-39",
+      "title": "Execute ed3c/soodles#39",
+      "rationale": "Externally admitted current Issue",
+      "stages": [
+        {
+          "task_key": "execute",
+          "prompt": "{\"body_sha256\": \"ed07ba8240d90b210d1212213a442a88f52557fdf648ca0d8cb23a0cafded363\", \"body_updated_at\": \"2026-09-16T19:45:23Z\", \"envelope_sha256\": \"e7e830054c70578df4c6fb1812a3a75d22c148c2ebfcc94e7d3b76f7f431fd2c\", \"issue\": 39, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"This is only Issue 39 local capability observation, not a blinded comparison or source implementation. Do not edit repository files, spawn agents, or perform provider writes. Read the current Issue contract as your Skill requires. Execute exactly one simple tool command: python3 -c 'print(\\\"SOODLES39_NATIVE_CAPTURE_V2\\\")'. Then read the admitted Noodle event emit --help and emit exactly one stage_message yourself, bound to actual NOODLE_SESSION_ID, NOODLE_ORDER_ID and integer NOODLE_STAGE_INDEX. Payload schema fields from https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go are message, blocking, outcome, order_id, stage_index. Use outcome=\\\"blocked\\\", blocking=true, message reporting the marker command result and that native capture/model observation remains with the supervisor. Use your actual environment identities, never a parent-created outcome. Exit after this event. Do not inspect observer code, trial results, other sessions or private configuration. Admitted Noodle executable: /Users/neon/.codex/experiments/noodle82-20260916/noodle\"}",
+          "skill": "execute",
+          "provider": "codex",
+          "model": "gpt-6-astra",
+          "runtime": "process",
+          "status": "active"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "id": "schedule",
+      "title": "scheduling tasks based on your backlog",
+      "stages": [
+        {
+          "task_key": "schedule",
+          "skill": "schedule",
+          "provider": "codex",
+          "model": "gpt-6-astra",
+          "runtime": "process",
+          "status": "pending"
+        }
+      ],
+      "status": "active"
+    }
+  ]
+}

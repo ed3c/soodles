@@ -1,0 +1,21 @@
+test_terminal_delivery_survives_owner_group_kill (test_record_process.ProcessControls.test_terminal_delivery_survives_owner_group_kill) ... ERROR
+
+======================================================================
+ERROR: test_terminal_delivery_survives_owner_group_kill (test_record_process.ProcessControls.test_terminal_delivery_survives_owner_group_kill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles39-exit-recorder-v2-20260917/control-subject/test_record_process.py", line 111, in test_terminal_delivery_survives_owner_group_kill
+    receipt = json.loads((record / 'exit.json').read_text())
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp6h0vyd2i/record/exit.json'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.053s
+
+FAILED (errors=1)

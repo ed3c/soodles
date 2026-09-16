@@ -1,0 +1,168 @@
+{
+  "order_revision": "3ae89c48657cd2ca95a6bd74c0b94703",
+  "state": {
+    "orders": {
+      "schedule": {
+        "order_id": "schedule",
+        "sequence": 1,
+        "title": "scheduling tasks based on your backlog",
+        "plan": null,
+        "rationale": "",
+        "status": "active",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "schedule",
+            "prompt": "",
+            "skill": "schedule",
+            "provider": "codex",
+            "model": "gpt-6-astra",
+            "runtime": "process",
+            "group": 0,
+            "status": "pending",
+            "extra_prompt": "",
+            "attempts": null
+          }
+        ],
+        "created_at": "2026-09-17T03:49:49.953246+08:00",
+        "updated_at": "2026-09-16T19:49:49.95355Z",
+        "metadata": {
+          "plan": "",
+          "rationale": "",
+          "title": "scheduling tasks based on your backlog"
+        }
+      },
+      "soodles-39": {
+        "order_id": "soodles-39",
+        "sequence": 0,
+        "title": "Execute ed3c/soodles#39",
+        "plan": null,
+        "rationale": "Externally admitted current Issue",
+        "status": "active",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "execute",
+            "prompt": "{\"body_sha256\": \"ed07ba8240d90b210d1212213a442a88f52557fdf648ca0d8cb23a0cafded363\", \"body_updated_at\": \"2026-09-16T19:45:23Z\", \"envelope_sha256\": \"e7e830054c70578df4c6fb1812a3a75d22c148c2ebfcc94e7d3b76f7f431fd2c\", \"issue\": 39, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"This is only Issue 39 local capability observation, not a blinded comparison or source implementation. Do not edit repository files, spawn agents, or perform provider writes. Read the current Issue contract as your Skill requires. Execute exactly one simple tool command: python3 -c 'print(\\\"SOODLES39_NATIVE_CAPTURE_V2\\\")'. Then read the admitted Noodle event emit --help and emit exactly one stage_message yourself, bound to actual NOODLE_SESSION_ID, NOODLE_ORDER_ID and integer NOODLE_STAGE_INDEX. Payload schema fields from https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go are message, blocking, outcome, order_id, stage_index. Use outcome=\\\"blocked\\\", blocking=true, message reporting the marker command result and that native capture/model observation remains with the supervisor. Use your actual environment identities, never a parent-created outcome. Exit after this event. Do not inspect observer code, trial results, other sessions or private configuration. Admitted Noodle executable: /Users/neon/.codex/experiments/noodle82-20260916/noodle\"}",
+            "skill": "execute",
+            "provider": "codex",
+            "model": "gpt-6-astra",
+            "runtime": "process",
+            "group": 0,
+            "status": "review",
+            "extra_prompt": "",
+            "attempts": [
+              {
+                "attempt_id": "soodles-39-0-attempt-0",
+                "session_id": "soodles-39-0-execute-20260916-194949-892d7f",
+                "status": "completed",
+                "started_at": "2026-09-17T03:49:49.995977+08:00",
+                "completed_at": "2026-09-17T03:50:49.642221+08:00",
+                "exit_code": null,
+                "worktree_name": "soodles-39-0-execute",
+                "error": ""
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-09-17T03:49:28.481348+08:00",
+        "updated_at": "2026-09-17T03:50:49.642221+08:00",
+        "metadata": {
+          "plan": "",
+          "rationale": "Externally admitted current Issue",
+          "title": "Execute ed3c/soodles#39"
+        }
+      }
+    },
+    "pending_reviews": {
+      "soodles-39": {
+        "order_id": "soodles-39",
+        "stage_index": 0,
+        "task_key": "execute",
+        "prompt": "{\"body_sha256\": \"ed07ba8240d90b210d1212213a442a88f52557fdf648ca0d8cb23a0cafded363\", \"body_updated_at\": \"2026-09-16T19:45:23Z\", \"envelope_sha256\": \"e7e830054c70578df4c6fb1812a3a75d22c148c2ebfcc94e7d3b76f7f431fd2c\", \"issue\": 39, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"This is only Issue 39 local capability observation, not a blinded comparison or source implementation. Do not edit repository files, spawn agents, or perform provider writes. Read the current Issue contract as your Skill requires. Execute exactly one simple tool command: python3 -c 'print(\\\"SOODLES39_NATIVE_CAPTURE_V2\\\")'. Then read the admitted Noodle event emit --help and emit exactly one stage_message yourself, bound to actual NOODLE_SESSION_ID, NOODLE_ORDER_ID and integer NOODLE_STAGE_INDEX. Payload schema fields from https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go are message, blocking, outcome, order_id, stage_index. Use outcome=\\\"blocked\\\", blocking=true, message reporting the marker command result and that native capture/model observation remains with the supervisor. Use your actual environment identities, never a parent-created outcome. Exit after this event. Do not inspect observer code, trial results, other sessions or private configuration. Admitted Noodle executable: /Users/neon/.codex/experiments/noodle82-20260916/noodle\"}",
+        "provider": "codex",
+        "model": "gpt-6-astra",
+        "runtime": "process",
+        "skill": "execute",
+        "plan": null,
+        "worktree_name": "soodles-39-0-execute",
+        "worktree_path": "/Users/neon/.codex/experiments/soodles39-exit-recorder-20260917/control/.worktrees/soodles-39-0-execute",
+        "session_id": "soodles-39-0-execute-20260916-194949-892d7f",
+        "reason": "blocked by typed stage outcome: Marker command printed SOODLES39_NATIVE_CAPTURE_V2 and exited with code 0. Native capture/model observation remains with the supervisor."
+      }
+    },
+    "action_needed": null,
+    "mode": "supervised",
+    "mode_epoch": 1,
+    "mode_transitions": [
+      {
+        "from_mode": "manual",
+        "to_mode": "supervised",
+        "epoch": 1,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T03:49:27.908816+08:00"
+      }
+    ],
+    "schema_version": 1,
+    "last_event_id": "9"
+  },
+  "effect_ledger": [
+    {
+      "effect_id": "initial-admission-3ac4da54dc975ecf77445be751a5e10efa4451a8cb32f68299bd29e1e09f2fbd",
+      "effect": {
+        "effect_id": "initial-admission-3ac4da54dc975ecf77445be751a5e10efa4451a8cb32f68299bd29e1e09f2fbd",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "f82b28036f17fcca3395e2b71a1d1259",
+          "order_id": "soodles-39"
+        },
+        "created_at": "2026-09-16T19:49:28.481302Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-16T19:49:28.481302Z",
+      "result": {
+        "effect_id": "initial-admission-3ac4da54dc975ecf77445be751a5e10efa4451a8cb32f68299bd29e1e09f2fbd",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-16T19:49:28.481302Z"
+      }
+    },
+    {
+      "effect_id": "event-4-effect-0",
+      "effect": {
+        "effect_id": "event-4-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T03:49:28.484089+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-7-effect-0",
+      "effect": {
+        "effect_id": "event-7-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-39-0-attempt-0",
+          "order_id": "soodles-39",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T03:49:49.976768+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    }
+  ],
+  "generated_at": "2026-09-16T19:50:49.642258Z"
+}
