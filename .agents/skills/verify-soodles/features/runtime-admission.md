@@ -21,7 +21,7 @@ Preconditions: Linux amd64, Python 3, Git, a clean committed Soodles checkout, t
 - **Resolve:** `noodle skills list` names this checkout's `verify-soodles` directory; retain the selected path and file digests.
 - **Negative:** the same runtime-check command receives a temporary executable with a wrong digest. It exits 1 with the owning field/help, and the sentinel is absent.
 - **Observe:** `receipt.json` records `VERIFIED`, both CLI observations, command counts, and source head/tree unchanged across the run.
-- **Cleanup:** the temporary executable directory is absent, the task worktree remains owned by Noodle, and the receipt still exists.
+- **Cleanup:** the temporary executable directory is absent, source identity/status is unchanged, and the receipt still exists. The driver does not inspect Noodle worktree ownership or remove the task worktree; lifecycle ownership requires its separate owner readback.
 
 ## Gotchas
 
