@@ -67,7 +67,8 @@ def refusal_text(result):
     invalid = result["invalid"]
     help_argv = result["next"]["help_argv"]
     return (f"REFUSED: {result['owner']}: invalid {invalid['field']}={invalid['value']!r}; "
-            f"supported help: {shlex.join(help_argv)}")
+            f"supported help: {shlex.join(help_argv)}"
+            + ("; " + result["next"]["reason"] if result["next"].get("reason") else ""))
 
 
 def fingerprint(value):
@@ -219,20 +220,34 @@ def delivery_state(path):
     return state
 
 
-def validate_comparison(snapshot, field, base, head):
-    """Consume a complete supervisor-transported GitHub compare response."""
-    comparison = snapshot.get(field)
-    require(isinstance(comparison, dict), field, comparison)
-    for key in ("base_commit", "merge_base_commit"):
-        commit = comparison.get(key)
-        require(isinstance(commit, dict), field + "." + key, commit)
-        require(commit.get("sha") == base, field + "." + key + ".sha", commit.get("sha"))
-    require(comparison.get("status") == "ahead", field + ".status", comparison.get("status"))
-    commits, total = comparison.get("commits"), comparison.get("total_commits")
-    require(isinstance(commits, list) and len(commits) > 0, field + ".commits", commits)
-    require(type(total) is int and total == len(commits), field + ".total_commits", total)
-    require(isinstance(commits[-1], dict), field + ".commits[-1]", commits[-1])
-    require(commits[-1].get("sha") == head, field + ".commits[-1].sha", commits[-1].get("sha"))
+def validate_comparison(snapshot, field, base, head, *, claim, checkpoint, operation):
+    """Validate ancestry; only confirmed endpoints can produce readback guidance."""
+    for name, value in (("base", base), ("head", head)):
+        require(isinstance(value, str) and re.fullmatch("[0-9a-f]{40}", value),
+                field + ".request." + name, value)
+    url = f"https://api.github.com/repos/{REPOSITORY}/compare/{base}...{head}"
+    next_action = provider_next(claim, operation, checkpoint)
+    next_action["requests"][field] = {"method": "GET", "url": url}
+    if operation == "readmit":
+        next_action["known"]["claim"] = claim
+    next_action["reason"] = (f"Supply readback.{field} from GET {url}; re-enter {operation} "
+                             "with fresh provider readback. Retry only after the readback materially changes.")
+    try:
+        comparison = snapshot.get(field)
+        require(isinstance(comparison, dict), field, comparison)
+        for key in ("base_commit", "merge_base_commit"):
+            commit = comparison.get(key)
+            require(isinstance(commit, dict), field + "." + key, commit)
+            require(commit.get("sha") == base, field + "." + key + ".sha", commit.get("sha"))
+        require(comparison.get("status") == "ahead", field + ".status", comparison.get("status"))
+        commits, total = comparison.get("commits"), comparison.get("total_commits")
+        require(isinstance(commits, list) and len(commits) > 0, field + ".commits", commits)
+        require(type(total) is int and total == len(commits), field + ".total_commits", total)
+        require(isinstance(commits[-1], dict), field + ".commits[-1]", commits[-1])
+        require(commits[-1].get("sha") == head, field + ".commits[-1].sha", commits[-1].get("sha"))
+    except LandingRefusal as error:
+        error.next_action = next_action
+        raise
 
 
 def recovery_action(state, base, checkpoint, operation):
@@ -256,14 +271,16 @@ def observe_base(path, state, snapshot, operation):
     require(base == snapshot["pr"]["base"]["sha"], "base.head", base)
     # All original subject/run/target checks still apply. Only base is separately proved.
     validate_snapshot({**claim, "base_head": base}, snapshot)
-    validate_comparison(snapshot, "base_comparison", claim["base_head"], base)
+    validate_comparison(snapshot, "base_comparison", claim["base_head"], base,
+                        claim=claim, checkpoint=path, operation=operation)
     if state["writes_offered"]:
         return recovery_action(state, base, path, operation)
     require(state["phase"] in {"admitted", "merge_pending", "readmission_pending"}, "recovery.phase", state["phase"])
     recovery = {"previous_base": claim["base_head"], "base_head": base, "readback_sha256": fingerprint(snapshot)}
     if state.get("recovery") != recovery:
         if state["phase"] == "readmission_pending" and state["recovery"]["base_head"] != base:
-            validate_comparison(snapshot, "recovery_comparison", state["recovery"]["base_head"], base)
+            validate_comparison(snapshot, "recovery_comparison", state["recovery"]["base_head"], base,
+                                claim=claim, checkpoint=path, operation=operation)
         state["phase"] = "readmission_pending"
         state["recovery"] = recovery
         save(path, state)
@@ -305,10 +322,13 @@ def readmit(checkpoint, claim, snapshot):
         validate_snapshot(claim, snapshot)
         require(not snapshot["pr"].get("merged"), "readmit.pr.merged", True)
         if claim["base_head"] != old["base_head"]:
-            validate_comparison(snapshot, "base_comparison", old["base_head"], claim["base_head"])
+            validate_comparison(snapshot, "base_comparison", old["base_head"], claim["base_head"],
+                                claim=claim, checkpoint=path, operation="readmit")
         if not amendment and state["recovery"]["base_head"] != claim["base_head"]:
-            validate_comparison(snapshot, "recovery_comparison", state["recovery"]["base_head"], claim["base_head"])
-        validate_comparison(snapshot, "candidate_comparison", claim["base_head"], claim["head"])
+            validate_comparison(snapshot, "recovery_comparison", state["recovery"]["base_head"], claim["base_head"],
+                                claim=claim, checkpoint=path, operation="readmit")
+        validate_comparison(snapshot, "candidate_comparison", claim["base_head"], claim["head"],
+                            claim=claim, checkpoint=path, operation="readmit")
         state.setdefault("prior_admissions", []).append({
             "claim": old, "classification": "SUPERSEDED", "recovery": state.pop("recovery"),
             "delivery": state.pop("delivery", None), "writes_offered": [], "observations": state["observations"]})

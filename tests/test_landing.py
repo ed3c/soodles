@@ -412,9 +412,45 @@ class LandingTests(unittest.TestCase):
             with self.subTest(field=field):
                 self.assertEqual(result.returncode, 1)
                 self.assertIn("invalid base_comparison." + field + "=", result.stderr)
-                self.assertEqual(json.loads(result.stdout)["next"]["operation"], "advance")
+                next_action = json.loads(result.stdout)["next"]
+                self.assertEqual(next_action["operation"], "advance")
+                self.assertEqual(next_action["owner"], "GitHub")
+                request = next_action["requests"]["base_comparison"]
+                self.assertEqual(request, {"method": "GET", "url":
+                    "https://api.github.com/repos/ed3c/soodles/compare/" + "c" * 40 + "..." + "f" * 40})
+                self.assertEqual(next_action["known"]["checkpoint"], str(self.checkpoint))
+                self.assertIn(request["url"], result.stderr)
                 self.assertNotIn("Traceback", result.stderr)
                 self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_comparison_guidance_preserves_fresh_claim_and_rejects_unconfirmed_endpoint(self):
+        self.start()
+        moved, fresh_claim, fresh = self.recovery_inputs()
+        before = self.checkpoint.read_bytes()
+        for invalid in ("refs/heads/main", "../another", None):
+            bad = copy.deepcopy(moved)
+            bad["branch"]["commit"]["sha"] = bad["pr"]["base"]["sha"] = invalid
+            with self.assertRaises(landing.LandingRefusal) as error:
+                landing.advance(self.checkpoint, bad)
+            self.assertIsNone(error.exception.next_action)
+            self.assertEqual(self.checkpoint.read_bytes(), before)
+        landing.advance(self.checkpoint, moved)
+        pending = self.checkpoint.read_bytes()
+        missing = copy.deepcopy(fresh); missing.pop("candidate_comparison")
+        with self.assertRaises(landing.LandingRefusal) as error:
+            landing.readmit(self.checkpoint, fresh_claim, missing)
+        nxt = error.exception.next_action
+        self.assertEqual(nxt["operation"], "readmit")
+        self.assertEqual(nxt["known"]["claim"], fresh_claim)
+        self.assertEqual(nxt["requests"]["candidate_comparison"]["url"],
+                         "https://api.github.com/repos/ed3c/soodles/compare/" + "f"*40 + "..." + "e"*40)
+        self.assertEqual(nxt["requests"]["commit"]["url"].rsplit("/", 1)[-1], fresh_claim["head"])
+        self.assertEqual(self.checkpoint.read_bytes(), pending)
+        landing.readmit(self.checkpoint, fresh_claim, fresh)
+        state = landing.read(self.checkpoint)
+        self.assertEqual(state["phase"], "admitted")
+        self.assertEqual(state["writes_offered"], [])
+        self.assertNotIn("next", state)
 
     def test_legacy_admitted_can_recover_but_legacy_pending_remains_unknown(self):
         self.start()
