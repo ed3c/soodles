@@ -21,7 +21,7 @@ Capture each command's actual argv, stdout/stderr, exit and elapsed time in surv
 
 | Existing oracle | Behavior to discriminate |
 | --- | --- |
-| `delivery_oracle.py` | Prepared-intent SIGKILL recovery, lost responses and dispatch gaps, one concurrent offer, legacy unknown writes, head drift, structured owner refusal and terminal projection without checkpoint rewrite |
+| `delivery_oracle.py` | Prepared-intent SIGKILL recovery, lost responses and dispatch gaps, one concurrent offer, legacy unknown writes, head drift, structured owner refusal, dependent merged-commit readback recovery and terminal projection without checkpoint rewrite |
 | `base_recovery_oracle.py` | Base drift and interrupted readmission; exact comparison GET and original operation for missing/malformed base, candidate and recovery readbacks; retained fresh claim; invalid endpoint/foreign repository refusal before guidance; same-base amendment and offered/legacy unknown preservation |
 | `cleanup_lock_oracle.py` | Lock refusal before deletion, consumed recovery, released-lock progress, moved-branch protection and no residue using real Noodle |
 | `cleanup_recovery_probe` | Interrupted cleanup, moved/foreign worktree protection, unchanged-attempt refusal and legacy checkpoint recovery using real Noodle |
@@ -30,7 +30,9 @@ All selected commands must succeed and contain their actual case results. A zero
 
 For comparison guidance, require exact emitted GET subjects and preserved checkpoints on refusal, then changed valid readback reaching the existing readmission boundary. The #25 fixed external experiment rejected reversed compare endpoints and a wrong resumed operation despite a candidate fake GREEN oracle; it is historical independent evidence. The current local oracle is still non-authorizing.
 
-When separately checking the real GitHub readback transport, use explicitly selected historical commit endpoints in a labelled local checkpoint/provider fixture. Consume the owner's returned request, keep the raw GitHub response, and pass it back under the emitted key. Preserve before/refusal/after outputs and checkpoint observations. A real compare GET combined with a fixture checkpoint demonstrates that transport/consumer seam only; it is not a live Issue's recovery or a terminal delivery receipt. Do not move a real base, mutate another Issue or fabricate an admission solely for this control.
+For merged-commit guidance, require the `merge_commit_readback_recovery` case. Missing/malformed commit data must preserve exact invalid field/value, original advance/dispatch operation and checkpoint while returning the confirmed commit GET. Invalid PR merge SHA requires fresh PR readback with no dependent commit GET; foreign/stale subject identity must not generate provider guidance. Changed valid readback must preserve legacy offered history and reach close preparation without another merge offer. The #29 fixed external experiment rejected wrong commit subject, wrong operation and removed SHA validation; it is historical evidence, not a fresh run by this skill.
+
+When separately checking the real GitHub readback transport, use explicitly selected historical commit endpoints in a labelled local checkpoint/provider fixture. Consume the owner's returned request, keep the raw GitHub response, and pass it back under the emitted key. Preserve before/refusal/after outputs and checkpoint observations. A real comparison or merge-commit GET combined with a fixture checkpoint demonstrates that transport/consumer seam only; it is not a live Issue's recovery or a terminal delivery receipt. Do not move a real base, mutate another Issue or fabricate an admission solely for this control.
 
 ## Completion, cleanup and boundaries
 
