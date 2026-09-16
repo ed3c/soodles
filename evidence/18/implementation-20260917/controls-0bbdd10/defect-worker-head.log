@@ -1,0 +1,15 @@
+test_clean_descendant_is_not_the_selected_starting_head (test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head) ... FAIL
+
+======================================================================
+FAIL: test_clean_descendant_is_not_the_selected_starting_head (test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles18-implementation-20260916/controls-0bbdd10/judge/test_issue_execution.py", line 202, in test_clean_descendant_is_not_the_selected_starting_head
+    with self.assertRaises(admission.AdmissionRefusal) as caught:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AdmissionRefusal not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.732s
+
+FAILED (failures=1)

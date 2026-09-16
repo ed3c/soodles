@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 18,
+  "body_sha256": "04e6da54ef6a551eb1fea3f61af7a92e488b3120c8f8b4647f25ccae92df07dd",
+  "body_updated_at": "2026-09-16T16:03:58Z",
+  "owner": "ed3c supervisor / Soodles Issue admission",
+  "write_paths": [
+    ".agents/skills/execute/SKILL.md",
+    ".agents/skills/schedule/SKILL.md",
+    ".github/ISSUE_TEMPLATE/execution.yml",
+    ".gitignore",
+    "issue_admission.py",
+    "issue_execution.py",
+    "landing.py",
+    "soodles.py",
+    "tests/test_issue_admission.py",
+    "tests/test_issue_execution.py",
+    "tests/test_landing.py"
+  ],
+  "base_head": "50f41919ead671d69eade1ae5cc66bd1d96e347c",
+  "execution": {
+    "control_root": "/Users/neon/soodles",
+    "worktree": "soodles-18-0-execute",
+    "order_id": "soodles-18",
+    "stage_index": 0,
+    "task": "This is the admitted bounded physical integration task for Soodles #18. Do not edit source, create commits, or perform provider delivery. Run exactly the focused control suites from this worktree using Python unittest discovery for test_issue_*.py and test_landing.py, with TMPDIR=/private/tmp and -B. Read the current GitHub Issue 18 contract. Then inspect the actual admitted Noodle binary event emit --help. Use that binary yourself to emit exactly one stage_message to your actual NOODLE_SESSION_ID with order_id from NOODLE_ORDER_ID and integer stage_index from NOODLE_STAGE_INDEX. The supported payload fields are message, blocking, outcome, order_id, stage_index; this schema is read back from the selected Noodle source event/types.go. Use outcome=\"blocked\", blocking=true, and a truthful message reporting the checks and that full delivery/final acceptance remains with the supervisor. This is not a completed Issue. Preserve the existing worktree and canonical identity. Exit after emitting; do not ask the parent to fill the outcome. Admitted Noodle executable: /Users/neon/.codex/experiments/noodle82-20260916/noodle",
+    "carrier": {
+      "platform": "darwin_arm64",
+      "noodle": {
+        "path": "/Users/neon/.codex/experiments/noodle82-20260916/noodle",
+        "sha256": "c299d2bce4e33ddd0b1c6295bd3cbeb1d29b32782fdcc9bcc9ffac2cf87ab35c"
+      },
+      "codex": {
+        "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+        "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+        "model": "gpt-5.6-sol",
+        "argv": [
+          "exec",
+          "--skip-git-repo-check",
+          "--json",
+          "--model",
+          "gpt-5.6-sol",
+          "--sandbox",
+          "workspace-write",
+          "--ephemeral",
+          "-c",
+          "approval_policy=\"never\"",
+          "--add-dir",
+          "/Users/neon/soodles/.noodle"
+        ]
+      }
+    }
+  }
+}

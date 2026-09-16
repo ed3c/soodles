@@ -1,0 +1,8 @@
+#!/opt/homebrew/opt/python@3.14/bin/python3.14
+import hashlib,os,sys
+from pathlib import Path
+root=Path('/Users/neon/.codex/experiments/soodles18-implementation-20260916/installed-b3850ee')
+manifest={'soodles': 'cb3c6c81534e99a3ecf25f6c5d9cc2024bae2b9d2672afddb96fba37deda144d', 'soodles.py': 'f68417d475ce780f14c05f77e8f2fbae615878b0b9eeff97b925b8eee3030ada', 'issue_admission.py': 'cd37cf82ecd80424d42ff89608421c7d815a6fab330e560bc4cbc68503c2d694', 'issue_execution.py': '066516ae9cc85d8cb631acb1f68f1d2b4a7155d8987a835e766bad4c2b2f79dd', 'landing.py': '3f9949e2ff3bfca8737538e2a3236dc8aa39b3f7e78f704af20883d8d871632a', 'policy/runtime.lock.json': '08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830', '.agents/skills/schedule/SKILL.md': 'd3425452e5b92152976e9cb2f5f9214b7def129147f9f79f5bd8b9bc94ff57e4', '.agents/skills/execute/SKILL.md': '2f9b702c7710e8d875cb5071f43034725844a74e99f2f73e08c1c1cde161077b'}
+for name,digest in manifest.items():
+    if hashlib.sha256((root/name).read_bytes()).hexdigest()!=digest: raise SystemExit("refused: changed installed implementation: "+name)
+os.execv('/opt/homebrew/opt/python@3.14/bin/python3.14', ['/opt/homebrew/opt/python@3.14/bin/python3.14',"-B",str(root/"soodles.py"),"issue","worker",'/Users/neon/.codex/experiments/soodles18-implementation-20260916/execution-envelope-b3850ee.json','00f5ea90f2aaa7cdeb27bba1c4d83fa5c7d99a77ea15031f9c19d5939a79c7be',*sys.argv[1:]])

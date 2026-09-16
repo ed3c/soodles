@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "created_at": "2026-09-16T16:18:02.572517+00:00",
+  "repository": "ed3c/soodles",
+  "issue": 18,
+  "pr": 38,
+  "classification": "IMPLEMENTED_LOCAL_GATES_LIVE_ENTRY_BLOCKED",
+  "authorizes_landing": false,
+  "source": {
+    "head": "0bbdd1097fb95a86c935329e0867750224877ace",
+    "tree": "eb013048280f91d764c968233cdc134c820758ef",
+    "base": "50f41919ead671d69eade1ae5cc66bd1d96e347c",
+    "clean": true
+  },
+  "controls": {
+    "focused_tests": 61,
+    "planted_defects_detected": 8,
+    "same_controls_restored_green": 8,
+    "legal_non_cases_green": true,
+    "receipt": "controls-0bbdd10/receipt.json",
+    "scope": "L: real local consumer functions, actual Git fixtures and executable/process sentinels with explicit provider/owner fixtures; no live GitHub mutation enforcement claim"
+  },
+  "canonical_acceptance": {
+    "run_id": 35120713563,
+    "head": "0bbdd1097fb95a86c935329e0867750224877ace",
+    "conclusion": "success",
+    "raw_run": "provider-runtime-0bbdd10.json",
+    "raw_jobs": "provider-jobs-0bbdd10.json",
+    "scope": "R: observed Actions outcome on exact head; not merge/closure or proof of required-check enforcement"
+  },
+  "live_automatic": {
+    "classification": "BLOCKED",
+    "selected_code_heads": [
+      "fa45a09994ef0bafaa539928f81b3c19a3b993f0",
+      "b3850ee916130147d5b28a0765f33e82b5b92f11"
+    ],
+    "observed": "Real Noodle ProcessDispatcher launched Codex schedule Agents; Agents loaded the frozen schedule skill and invoked the pinned automatic admission launcher. No soodles-18 order, task worker or matching task outcome was produced.",
+    "first_boundary": "Child workspace-write network DNS unavailable. Three Noodle scheduler launches repeated this input before operator shutdown.",
+    "second_boundary": "After explicit documented workspace-write network selection, child enforcement refused api.github.com because the domain is not on its allowlist. The next scheduler was cancelled during owner shutdown. No alternative network route or permission bypass was attempted.",
+    "current_bottleneck": "Selected child carrier domain allowlist, before Issue admission can publish orders-next. Its owner/configuration has been requested.",
+    "stop_readback": "live-attempt-2/stop-readback.json",
+    "parent_emits_outcome": false
+  },
+  "residue": {
+    "all_five_processes_and_groups_absent": true,
+    "target_order_absent": true,
+    "proposal_absent": true,
+    "historical_schedule_order": "failed; preserved in original canonical checkpoint",
+    "source_worktree": "preserved for unfinished Issue; no delivery cleanup claimed",
+    "main_head": "50f41919ead671d69eade1ae5cc66bd1d96e347c",
+    "main_clean": true,
+    "runtime_mode": "manual",
+    "daemon_running": false
+  },
+  "limitations": [
+    "#18 remains open; #38 draft and unmerged; no provider write intent offered.",
+    "Physical task worker and automatic-to-supervised handoff remain unproven; final-head local controls cannot replace them.",
+    "The source now binds the selected worker starting head. Earlier physical attempts exercised earlier installed source; final head is not claimed physically executed.",
+    "A -> cleanup -> B interruption milestone and verification-skill maintenance are pending physical single-Issue proof.",
+    "macOS full unittest discovery initially reached existing Linux runtime-pin refusals and /var versus /private/var expectations; Linux canonical acceptance is recorded separately.",
+    "Canonical fixture cleanup in local tests is not Noodle physical reconciliation."
+  ],
+  "historical_capability": "Noodle #78/PR #79 and #82/PR #83 delivery receipts retain their independently demonstrated scope; this new blockage does not revoke them."
+}

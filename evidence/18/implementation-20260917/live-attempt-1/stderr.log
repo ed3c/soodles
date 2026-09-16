@@ -1,0 +1,22 @@
+Noodle initialized.
+
+Created .noodle/ directory and .noodle.toml config.
+
+Next steps:
+  Point your coding agent at INSTALL.md to set up skills and config.
+  Open the web UI at the configured address, or run "noodle status" for CLI.
+2026-09-17T00:06:36.587851+08:00 INFO api: start initialized project=/Users/neon/soodles runtime_dir=/Users/neon/soodles/.noodle once=false server_enabled=false
+2026-09-17T00:06:36.588715+08:00 INFO api: web server disabled
+2026-09-17T00:06:36.590581+08:00 INFO api: startup injected schedule order
+2026-09-17T00:06:39.480595+08:00 INFO api: schedule dispatched session=schedule-20260916-160639-a6316d attempt=0
+2026-09-17T00:07:11.272329+08:00 INFO api: session meta indicates terminal state; enqueueing completion order=schedule session=schedule-20260916-160639-a6316d status=exited
+2026-09-17T00:07:11.272422+08:00 INFO api: schedule completed session=schedule-20260916-160639-a6316d
+2026-09-17T00:07:11.273786+08:00 INFO api: order removed order=schedule
+2026-09-17T00:07:11.275329+08:00 INFO api: orders empty, bootstrapping schedule
+2026-09-17T00:07:11.279535+08:00 INFO api: schedule dispatched session=schedule-20260916-160711-41c29f attempt=0
+2026-09-17T00:07:39.05597+08:00 INFO api: schedule completed session=schedule-20260916-160711-41c29f
+2026-09-17T00:07:39.057111+08:00 INFO api: order removed order=schedule
+2026-09-17T00:07:39.059351+08:00 INFO api: orders empty, bootstrapping schedule
+2026-09-17T00:07:39.06367+08:00 INFO api: schedule dispatched session=schedule-20260916-160739-1751a9 attempt=0
+2026-09-17T00:08:06.957045+08:00 INFO api: schedule completed session=schedule-20260916-160739-1751a9
+2026-09-17T00:08:06.958163+08:00 INFO api: order removed order=schedule

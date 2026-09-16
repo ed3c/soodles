@@ -1,0 +1,15 @@
+test_outside_delivery_paths_refuse_and_current_paths_pass (test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass) ... FAIL
+
+======================================================================
+FAIL: test_outside_delivery_paths_refuse_and_current_paths_pass (test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles18-implementation-20260916/controls-fa45a099/judge/test_landing.py", line 694, in test_outside_delivery_paths_refuse_and_current_paths_pass
+    with self.assertRaises(landing.LandingRefusal) as caught:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: LandingRefusal not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.316s
+
+FAILED (failures=1)

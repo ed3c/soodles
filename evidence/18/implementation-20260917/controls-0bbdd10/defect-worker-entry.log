@@ -1,0 +1,15 @@
+test_worker_revalidates_live_body_before_executable_effect (test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect) ... FAIL
+
+======================================================================
+FAIL: test_worker_revalidates_live_body_before_executable_effect (test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles18-implementation-20260916/controls-0bbdd10/judge/test_issue_execution.py", line 171, in test_worker_revalidates_live_body_before_executable_effect
+    with self.assertRaises(admission.AdmissionRefusal) as caught:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AdmissionRefusal not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.740s
+
+FAILED (failures=1)

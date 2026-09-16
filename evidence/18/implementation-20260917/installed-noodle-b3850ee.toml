@@ -1,0 +1,19 @@
+mode = "supervised"
+[server]
+enabled = false
+[concurrency]
+max_concurrency = 1
+[routing.defaults]
+provider = "codex"
+model = "gpt-5.6-sol"
+[skills]
+paths = ["/Users/neon/.codex/experiments/soodles18-implementation-20260916/installed-b3850ee/.agents/skills"]
+[agents.codex]
+path = "/Users/neon/.codex/experiments/soodles18-implementation-20260916/provider-b3850ee"
+args = ["-c", "sandbox_workspace_write.network_access=true", "--sandbox", "workspace-write", "--ephemeral", "-c", "approval_policy=\"never\"", "--add-dir", "/Users/neon/soodles/.noodle"]
+require_typed_outcome = true
+[adapters.backlog.scripts]
+sync = "/Users/neon/.codex/experiments/soodles18-implementation-20260916/backlog-b3850ee sync"
+done = "/Users/neon/.codex/experiments/soodles18-implementation-20260916/backlog-b3850ee done"
+add = "/Users/neon/.codex/experiments/soodles18-implementation-20260916/backlog-b3850ee unsupported-add"
+edit = "/Users/neon/.codex/experiments/soodles18-implementation-20260916/backlog-b3850ee unsupported-edit"

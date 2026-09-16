@@ -1,0 +1,18 @@
+test_whole_body_and_revision_changes_require_fresh_envelope (test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope) ... FAIL
+
+======================================================================
+FAIL: test_whole_body_and_revision_changes_require_fresh_envelope (test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles18-implementation-20260916/controls-fa45a099/judge/test_issue_admission.py", line 83, in test_whole_body_and_revision_changes_require_fresh_envelope
+    self.refused("issue.body_sha256", issue=changed)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/experiments/soodles18-implementation-20260916/controls-fa45a099/judge/test_issue_admission.py", line 48, in refused
+    with self.assertRaises(admission.AdmissionRefusal) as caught:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AdmissionRefusal not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

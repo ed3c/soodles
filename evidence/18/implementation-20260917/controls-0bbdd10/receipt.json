@@ -1,0 +1,162 @@
+{
+  "selection": {
+    "source_head": "0bbdd1097fb95a86c935329e0867750224877ace",
+    "judge_sha256": {
+      "test_landing.py": "d6aa84f0870b233e70eeccfce3060a4d4fd9b047afb657e65a9ffe5a0e07b885",
+      "test_issue_admission.py": "00e1815e026af7641fe41ddb59f198cd51f16f22533d588722acb5a33eea0de1",
+      "test_issue_execution.py": "86bfe3ab5fc8568c94c6c3f8b8d519a905bb6e6758fd752dfed1f392cc7c83c8"
+    },
+    "scope": "local real consumer functions and executable sentinels over provider/owner fixtures",
+    "authorizes_landing": false
+  },
+  "records": [
+    {
+      "name": "cure-and-non-cases",
+      "control": [
+        "test_issue_admission",
+        "test_issue_execution",
+        "test_landing"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 7.956111375009641
+    },
+    {
+      "name": "defect-body-binding",
+      "control": [
+        "test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.07446262502344325,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-body-binding",
+      "control": [
+        "test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.07142133399611339
+    },
+    {
+      "name": "defect-worker-entry",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.8371524160029367,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-worker-entry",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.7717029579798691
+    },
+    {
+      "name": "defect-takeover-process",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.2598532090196386,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-takeover-process",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.25437074998626485
+    },
+    {
+      "name": "defect-delivery-consumer",
+      "control": [
+        "test_landing.BoundLandingTests.test_body_amendment_refuses_prepared_dispatch_without_offer"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.3284916670527309,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-delivery-consumer",
+      "control": [
+        "test_landing.BoundLandingTests.test_body_amendment_refuses_prepared_dispatch_without_offer"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.3607347499928437
+    },
+    {
+      "name": "defect-delivery-paths",
+      "control": [
+        "test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.40389320900430903,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-delivery-paths",
+      "control": [
+        "test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.5119742089882493
+    },
+    {
+      "name": "defect-worker-head",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.8343936249730177,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-worker-head",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.39587558299535885
+    },
+    {
+      "name": "defect-order-history",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_repeated_publication_preserves_one_mailbox_and_prior_admission"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.25921250000828877,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-order-history",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_repeated_publication_preserves_one_mailbox_and_prior_admission"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.2520859169890173
+    },
+    {
+      "name": "defect-terminal-order",
+      "control": [
+        "test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 1.1430598339647986,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-terminal-order",
+      "control": [
+        "test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.6811415840056725
+    }
+  ],
+  "classification": "VERIFIED_LOCAL_CONTROLS",
+  "authorizes_landing": false
+}
