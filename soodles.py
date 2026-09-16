@@ -19,6 +19,14 @@ class Refusal(Exception):
 
 class Parser(argparse.ArgumentParser):
     def error(self, message):
+        if self.prog.startswith("./soodles issue"):
+            from issue_admission import AdmissionRefusal
+            from issue_execution import refusal_output
+            operation = self.prog.removeprefix("./soodles issue").strip()
+            result = refusal_output(AdmissionRefusal("arguments", message), operation)
+            result["next"]["help_argv"] = self.prog.split() + ["--help"]
+            print(json.dumps(result, indent=2))
+            self.exit(2, message + "; supported help: " + self.prog + " --help\n")
         if self.prog.startswith("./soodles landing"):
             import landing
             operation = self.prog.removeprefix("./soodles landing").strip()
@@ -179,6 +187,16 @@ def parser():
     p = Parser(prog="./soodles", description="Noodle runtime evidence and supervised landing checkpoints.",
                                 epilog="Examples: ./soodles runtime --help; ./soodles acceptance --help; ./soodles landing --help")
     groups = p.add_subparsers(dest="group", required=True)
+    issue = groups.add_parser("issue", description="Consume one externally pinned Issue envelope before Noodle effects.",
+                              epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
+    issue_verbs = issue.add_subparsers(dest="verb", required=True)
+    for name in ("automatic", "supervised", "worker"):
+        command = issue_verbs.add_parser(name, epilog=f"Examples: ./soodles issue {name} /external/envelope.json SHA256")
+        command.add_argument("envelope", help="Supervisor-selected envelope outside the candidate.")
+        command.add_argument("envelope_digest", help="Digest fixed by the external supervisor launcher, not Issue prose.")
+        if name == "worker":
+            command.add_argument("worker_argv", nargs=argparse.REMAINDER,
+                                 help="Exact provider argv supplied by Noodle and bound by the carrier.")
     for group, verb, description in (("runtime", "check", "Check the pinned host and binary before executing it."),
                                      ("acceptance", "verify", "Run all controls on a clean candidate; emit a non-authorizing receipt.")):
         g = groups.add_parser(group, epilog=f"Examples: ./soodles {group} {verb} --help")
@@ -223,7 +241,14 @@ def main():
     args = parser().parse_args()
     import landing
     try:
-        if args.group == "landing":
+        if args.group == "issue":
+            import issue_execution
+            operation = getattr(issue_execution, args.verb)
+            if args.verb == "worker":
+                result = operation(args.envelope, args.envelope_digest, Path.cwd(), args.worker_argv)
+            else:
+                result = operation(args.envelope, args.envelope_digest, Path.cwd())
+        elif args.group == "landing":
             import landing
             if args.verb == "identity":
                 result = {"owner": "landing.identity", "verifier_sha256": landing.verifier_digest(), "next": None}
@@ -250,7 +275,12 @@ def main():
         print(landing.refusal_text(result), file=sys.stderr)
         return 1
     except (KeyError, TypeError) as exc:
-        if args.group == "landing":
+        if args.group == "issue":
+            from issue_admission import AdmissionRefusal
+            from issue_execution import refusal_output
+            print(json.dumps(refusal_output(AdmissionRefusal("input.field", str(exc)), args.verb), indent=2))
+            print(f"error: invalid input.field={exc}", file=sys.stderr)
+        elif args.group == "landing":
             result = landing.refusal_output(landing.LandingRefusal("input.field", str(exc)), args.verb)
             print(json.dumps(result, indent=2))
             print(landing.refusal_text(result), file=sys.stderr)
@@ -258,7 +288,13 @@ def main():
             print(f"REFUSED: {args.group}: invalid input field={exc}; supported help: ./soodles {args.group} --help", file=sys.stderr)
         return 1
     except (Refusal, OSError, ValueError, subprocess.TimeoutExpired) as exc:
-        if args.group == "landing":
+        if args.group == "issue":
+            from issue_admission import AdmissionRefusal
+            import issue_execution
+            error = exc if isinstance(exc, AdmissionRefusal) else AdmissionRefusal("input", str(exc))
+            print(json.dumps(issue_execution.refusal_output(error, args.verb), indent=2))
+            print(f"error: {error}", file=sys.stderr)
+        elif args.group == "landing":
             invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
             result = landing.refusal_output(landing.LandingRefusal(invalid["field"], invalid["value"]), args.verb)
             print(json.dumps(result, indent=2))
