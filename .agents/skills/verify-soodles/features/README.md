@@ -6,7 +6,7 @@ Demonstrated scope after delivery owner #21; no claim of whole-app coverage.
 | --- | --- | --- |
 | [Runtime admission](runtime-admission.md) | Pinned binary through the real runtime CLI | Local admission/refusal, exact skill resolution and cleanup |
 | [Supervised delivery](supervised-delivery.md) | Fixed external landing owner and GitHub connector | Actual admitted PR/Issue, merge/closure readbacks and Noodle terminal reconciliation |
-| [Delivery recovery](delivery-recovery.md) | Existing process-fault and Noodle cleanup oracles | Local provider fixtures, real child processes/runtime; no provider landing authority |
+| [Delivery recovery](delivery-recovery.md) | One skill driver over existing process-fault and Noodle cleanup oracles | Exact runtime/source/skill context, complete journey receipts and surviving evidence; no provider landing authority |
 
 Use a clean Soodles checkout and its already-admitted Linux amd64 Noodle binary. The executable driver in the parent skill provides isolation, command tracing, a receipt outside temporary state, and teardown. The first successful runtime check is both doctor and positive drive; reuse that observation within the run.
 

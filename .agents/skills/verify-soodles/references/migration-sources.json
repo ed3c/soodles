@@ -1,0 +1,21 @@
+{
+  "kind": "method provenance; no execution or landing authority",
+  "sources": [
+    {
+      "repository": "ed3c/skill-concerns",
+      "commit": "7412b4399ed756b53c411e8188efd26bd4610f80",
+      "path": "skills/feature-map-engineering/SKILL.md",
+      "sha256": "103670f417bac932b4c34d431af848699a213b408e293ad24d7d3765158bf2d3",
+      "admission": "admissions/feature-map-engineering.json",
+      "adopted": ["exact subject and environment", "complete required journeys", "observable scoped evidence", "explicit blocked paths", "evidence survives cleanup"],
+      "consumer": "scripts/verify_recovery.py",
+      "excluded": ["upstream domain commands", "generic FeatureMap IR", "lifecycle authority", "Agent cost claims"]
+    }
+  ],
+  "pstack": {
+    "repository": "ed3c/plugins",
+    "commit": "68836ddaf5697224520f1847d90cdb90ca8babaa",
+    "creation": "existing verify-soodles creation retained; new driver must be proved through its real entry",
+    "maintenance": "all mapped features require source and live coverage"
+  }
+}
