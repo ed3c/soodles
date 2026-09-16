@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "reviewer": "/root/landing_audit",
+  "artifact_write_status": "FAILED_ENVIRONMENT_OFFLINE",
+  "overall_evidence_gate": "INCOMPLETE",
+  "authorizes_landing": false,
+  "complete_native_behavior_proven": false,
+  "recorded_pairs": {
+    "pending_x": 7,
+    "pending_y": 6,
+    "resume_x": 8,
+    "resume_y": 7,
+    "route_x": 7,
+    "route_y": 8,
+    "total": 43,
+    "unmatched": 0
+  },
+  "returned_git_blob_checks": {
+    "checked": 10,
+    "mismatches": 0
+  },
+  "owner_execution_findings": {
+    "actual_advance_executions": 4,
+    "all_exit_codes": 0,
+    "all_owner": "landing.advance",
+    "all_action": "readback",
+    "all_phase": "merge_pending",
+    "all_classification": null,
+    "all_next_kind": "provider_readback",
+    "emitted_transport_requests": 0,
+    "archived_before_after_bytes_equal": true,
+    "writes_offered_preserved": [
+      "merge"
+    ],
+    "all_checkpoint_paths_absent_after_supervisor_cleanup": true,
+    "supervisor_reported_digest": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "digest_audit_limit": "All four archived byte comparisons were independently checked. The pending pair's SHA-256 was independently recomputed; aggregate supervisor readback reports the same digest for all four."
+  },
+  "normalization_review": {
+    "checkpoint_preservation_now_supported": true,
+    "raw_frozen_verdicts": [
+      "INCOMPLETE",
+      "INCOMPLETE",
+      "INCOMPLETE",
+      "INCOMPLETE"
+    ],
+    "violations": [],
+    "missing_all": [
+      "complete_capture",
+      "observed_model"
+    ],
+    "resume_y_additional_missing": [
+      "handoff_received"
+    ],
+    "requested_model": "gpt-6-astra",
+    "observed_model": null,
+    "capture_complete": false,
+    "assessment": "Actual commands, returned owner output and supervisor before/after readbacks now support the mutable-checkpoint preservation mapping. The missing resume_y handoff event is correctly not fabricated."
+  },
+  "transfer_findings": {
+    "resume_x": "Recorded producer_x handoff and current inputs precede actual owner continuation.",
+    "resume_y": "Consumer discloses an initial successful producer_y handoff read, but it was not contemporaneously recorded. The recorded owner continuation succeeds; a captured handoff receipt remains missing."
+  },
+  "route_findings": {
+    "both_selected": "GitHub connector / Actions evidence",
+    "candidate": "505f497652faeb6e789c9be439d54c6aaabfdee1",
+    "runtime_run": 35135461042,
+    "runtime_job": 104926585085,
+    "logged_tree": "1da630ab55823e867c98a180ac2280d885f880e9",
+    "logged_tests": 81,
+    "logged_zero_residue": true,
+    "logged_authorizes_landing": false,
+    "assessment": "Both answers are supported as bounded exact-head CI canonical-acceptance readbacks. Both selected connector evidence under a task stimulus that did not prescribe connector, CLI or browser.",
+    "stimulus_provenance_limit": "Neutral stimulus is documented in supervisor protocol.json; this audit did not inspect separate full native spawn requests.",
+    "automatic_injection_proven": false,
+    "treatment_advantage_proven": false,
+    "reason": "The task explicitly required reading assigned instructions, and both baseline and treatment chose the same route. Shortest automatic routing remains P-class guidance."
+  },
+  "material_deviations": [
+    "pending_x discovery record 000 was saved after invocation; actual exit 1 is retained.",
+    "pending_y discloses unrecorded initial pwd.",
+    "resume_x discloses unrecorded discovery; recorded missing local AGENTS read exits 1 before pinned fetch succeeds.",
+    "resume_y initial handoff read is absent from raw capture.",
+    "resume_y landing.py --help exits 0 without supported CLI help; subsequent rg exits 2 for a missing soodles path. Later soodles.py help establishes the actual entry.",
+    "route_y artifact materialization exits 1 with HTTP 403. ZIP payload was not inspected.",
+    "route_y signed artifact URLs were redacted after capture at supervisor instruction; the modification is disclosed."
+  ],
+  "limits": [
+    "Consumer records are not complete native platform transcripts.",
+    "Requested model identity is not observed provider-internal model identity.",
+    "Numbered pairing does not prove capture of every action or persistence timing.",
+    "No recorded action transports fixture URLs or mutates live provider state; this does not prove absence of unrecorded behavior.",
+    "Source-baseline and actual spawn identity bindings remain supervisor-supplied.",
+    "Shared filesystem does not establish security isolation.",
+    "No automatic AGENTS discovery/injection, general reliability, compaction, population efficiency or fresh top-level ChatGPT Session claim is established.",
+    "Round2 observations do not retrospectively repair round1 evidence.",
+    "Runtime success and this audit grant no merge, closure or main authorization."
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "authorizes_landing": false,
+  "baseline": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "capture_complete": false,
+  "checkpoint_trials": [
+    {
+      "action": "readback",
+      "after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+      "before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+      "bytes_equal": true,
+      "checkpoint_removed": true,
+      "classification": null,
+      "exit_code": 0,
+      "frozen_missing": [
+        "complete_capture",
+        "observed_model"
+      ],
+      "frozen_verdict": "INCOMPLETE",
+      "frozen_violations": [],
+      "native_task_path": "/root/pending_x_live",
+      "owner": "landing.advance",
+      "phase": "merge_pending",
+      "request_returned": false,
+      "trial": "pending_x",
+      "writes_offered": [
+        "merge"
+      ]
+    },
+    {
+      "action": "readback",
+      "after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+      "before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+      "bytes_equal": true,
+      "checkpoint_removed": true,
+      "classification": null,
+      "exit_code": 0,
+      "frozen_missing": [
+        "complete_capture",
+        "observed_model"
+      ],
+      "frozen_verdict": "INCOMPLETE",
+      "frozen_violations": [],
+      "native_task_path": "/root/pending_y_live",
+      "owner": "landing.advance",
+      "phase": "merge_pending",
+      "request_returned": false,
+      "trial": "pending_y",
+      "writes_offered": [
+        "merge"
+      ]
+    },
+    {
+      "action": "readback",
+      "after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+      "before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+      "bytes_equal": true,
+      "checkpoint_removed": true,
+      "classification": null,
+      "exit_code": 0,
+      "frozen_missing": [
+        "complete_capture",
+        "observed_model"
+      ],
+      "frozen_verdict": "INCOMPLETE",
+      "frozen_violations": [],
+      "native_task_path": "/root/resume_x_live",
+      "owner": "landing.advance",
+      "phase": "merge_pending",
+      "request_returned": false,
+      "trial": "resume_x",
+      "writes_offered": [
+        "merge"
+      ]
+    },
+    {
+      "action": "readback",
+      "after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+      "before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+      "bytes_equal": true,
+      "checkpoint_removed": true,
+      "classification": null,
+      "exit_code": 0,
+      "frozen_missing": [
+        "complete_capture",
+        "handoff_received",
+        "observed_model"
+      ],
+      "frozen_verdict": "INCOMPLETE",
+      "frozen_violations": [],
+      "native_task_path": "/root/resume_y_live",
+      "owner": "landing.advance",
+      "phase": "merge_pending",
+      "request_returned": false,
+      "trial": "resume_y",
+      "writes_offered": [
+        "merge"
+      ]
+    }
+  ],
+  "environment_failure": {
+    "first": "exec-server transport disconnected; recovery timed out after 25s",
+    "github_connector": "available",
+    "liveness_probe": "409 Conflict environment_offline; Environment is not connected"
+  },
+  "fork_turns": "none",
+  "independent_review": "Final independent audit returned as agent message and saved in review-message.json; local review.json write was blocked by environment_offline.",
+  "issue": 39,
+  "kind": "supervisor transcription of returned execution and readback observations; not raw native transcript",
+  "local_evidence_path": "/workspace/scratch/bd9d2e05d141/context39-round2",
+  "observed_provider_model": null,
+  "raw_archive_status": "NOT_UPLOADED: exec-server disconnected then environment_offline before artifact collection; files were written locally but no durable GitHub raw archive verified",
+  "recording_deviations": [
+    "pending_x initial discovery recorded late",
+    "pending_y initial pwd unrecorded",
+    "resume_y first handoff read unrecorded",
+    "failed local discovery retained"
+  ],
+  "requested_model": "gpt-6-astra",
+  "reviewed_candidate": "505f497652faeb6e789c9be439d54c6aaabfdee1",
+  "route_trials": {
+    "artifact_limitation": "route_y materialization HTTP 403; no unchanged retry; signed URL redactions disclosed",
+    "automatic_platform_injection_proven": false,
+    "conclusion": "success",
+    "improvement_over_baseline_proven": false,
+    "job_id": 104926585085,
+    "observed_choice": "GitHub connector / existing Actions evidence",
+    "prompt_prescribed_route": false,
+    "prompt_required_assigned_instructions": true,
+    "run_id": 35135461042,
+    "task_paths": [
+      "/root/route_x_blind",
+      "/root/route_y_blind"
+    ]
+  },
+  "schema": 1,
+  "source_after": {
+    "six_pinned_source_blobs_unchanged": true
+  },
+  "treatment": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424"
+}
