@@ -1,0 +1,74 @@
+name: verify-soodles-bootstrap-proof
+'on':
+  push:
+    branches:
+    - soodles-14-proof
+permissions:
+  contents: read
+jobs:
+  feature-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+    - name: Checkout exact candidate without persisted credentials
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        ref: fdfc6d026d40cecc8ba54218bbd40ab64511711f
+        persist-credentials: false
+    - name: Set up Python
+      uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - name: Read release identity and verify archive and binary before execution
+      run: "python3 -B - <<'PY'\nimport hashlib, io, json, os, pathlib, tarfile, urllib.request\nimport soodles\nlock = soodles.load_lock(pathlib.Path.cwd())\n\
+        def fetch(url):\n    request = urllib.request.Request(url, headers={'User-Agent': 'soodles-runtime-bootstrap'})\n\
+        \    with urllib.request.urlopen(request, timeout=60) as response:\n        return response.read()\napi = 'https://api.github.com/repos/'\
+        \ + lock['repository']\nrelease = json.loads(fetch(api + '/releases/tags/' + lock['release']))\ncommit = json.loads(fetch(api\
+        \ + '/commits/' + lock['release']))\nassert release['tag_name'] == lock['release']\nassert commit['sha'] == lock['commit'],\
+        \ 'release commit differs from lock'\nassets = [a for a in release['assets'] if a['name'] == lock['asset_name']]\n\
+        assert len(assets) == 1, 'release asset is absent or ambiguous'\nassert assets[0]['digest'] == 'sha256:' + lock['asset_sha256']\n\
+        url = 'https://github.com/' + lock['repository'] + '/releases/download/' + lock['release'] + '/' + lock['asset_name']\n\
+        archive = fetch(url)\nassert hashlib.sha256(archive).hexdigest() == lock['asset_sha256'], 'archive digest differs'\n\
+        with tarfile.open(fileobj=io.BytesIO(archive)) as tar:\n    members = [m for m in tar.getmembers() if m.name == 'noodle'\
+        \ and m.isfile()]\n    assert len(members) == 1, 'binary member is absent or ambiguous'\n    binary = tar.extractfile(members[0]).read()\n\
+        assert hashlib.sha256(binary).hexdigest() == lock['binary_sha256'], 'binary digest differs'\ndirectory = pathlib.Path(os.environ['RUNNER_TEMP'])\
+        \ / 'soodles-runtime'\ndirectory.mkdir()\ntarget = directory / 'noodle'\ntarget.write_bytes(binary)\ntarget.chmod(0o755)\n\
+        receipt = {'release': release['tag_name'], 'commit': commit['sha'], 'asset': assets[0]['name'],\n           'archive_sha256':\
+        \ lock['asset_sha256'], 'binary_sha256': lock['binary_sha256'],\n           'authorizes_landing': False}\n(directory\
+        \ / 'release.json').write_text(json.dumps(receipt, indent=2) + '\\n')\nprint(json.dumps(receipt))\nPY\n"
+    - name: Drive generated skill on the exact candidate
+      run: .agents/skills/verify-soodles/scripts/verify_runtime.py "$RUNNER_TEMP/soodles-runtime/noodle" "$RUNNER_TEMP/verify-soodles"
+    - name: Read scoped terminal evidence after cleanup
+      env:
+        EXPECTED_HEAD: fdfc6d026d40cecc8ba54218bbd40ab64511711f
+      run: 'python3 -B - <<''CHECK''
+
+        import json,os,pathlib
+
+        p=pathlib.Path(os.environ[''RUNNER_TEMP''])/''verify-soodles/receipt.json''
+
+        r=json.loads(p.read_text())
+
+        assert r[''candidate''][''head'']==os.environ[''EXPECTED_HEAD'']
+
+        assert r[''classification'']==''VERIFIED'' and r[''authorizes_landing''] is False
+
+        assert r[''negative_control''][''sentinel_absent''] and r[''cleanup''][''scratch_removed'']
+
+        assert r[''counts'']=={''top_level_commands'':7,''unexpected_command_failures'':0,''expected_refusals'':1,''readback_invocations'':5,''repeated_readbacks'':2,''verification_invocations'':2,''canonical_acceptance_invocations'':0}
+
+        assert pathlib.Path(r[''skill_resolution''][''path'']).resolve()==pathlib.Path(''.agents/skills/verify-soodles'').resolve()
+
+        print(json.dumps(r))
+
+        CHECK'
+    - name: Preserve feature trace and runtime identity
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: verify-soodles-fdfc6d026d40cecc8ba54218bbd40ab64511711f
+        path: '${{ runner.temp }}/verify-soodles/
+
+          ${{ runner.temp }}/soodles-runtime/release.json'
+        if-no-files-found: error
+        retention-days: 30
