@@ -1,5 +1,6 @@
 """Real OS subprocess controls; no model sessions or provider writes."""
 import json
+import hashlib
 import os
 from pathlib import Path
 import signal
@@ -84,6 +85,40 @@ class ProcessControls(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertEqual(sentinel.read_text(), 'original receipt')
             self.assertFalse((record / 'launch.json').exists())
+
+    def test_terminal_delivery_survives_owner_group_kill(self):
+        with tempfile.TemporaryDirectory() as name:
+            record = Path(name) / 'record'
+            first = b'{"type":"turn.started"}\n'
+            terminal = b'{"type":"turn.completed"}\n'
+            code = ('import sys,time;sys.stdout.buffer.write(' + repr(first + terminal)
+                    + ');sys.stdout.flush();time.sleep(.2)')
+            parent = subprocess.Popen([sys.executable, '-B', str(RECORDER), str(record),
+                                       '--', sys.executable, '-c', code],
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                      start_new_session=True)
+            try:
+                self.assertEqual(parent.stdout.readline(), first)
+                self.assertFalse((record / 'exit.json').exists())
+                self.assertEqual(parent.stdout.readline(), terminal)
+                # Reproduce Noodle's terminal-meta repair: kill the whole group
+                # immediately when it can observe a completed turn.
+                try:
+                    os.killpg(parent.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass  # The group may already have exited naturally.
+                parent.communicate(timeout=5)
+                receipt = json.loads((record / 'exit.json').read_text())
+                self.assertEqual(receipt['returncode'], 0)
+                self.assertEqual(receipt['terminal_tail_lines_deferred'], 1)
+                self.assertEqual((record / 'stdout.log').read_bytes(), first + terminal)
+                self.assertEqual(receipt['stdout_sha256'], hashlib.sha256(first + terminal).hexdigest())
+                with self.assertRaises(ProcessLookupError):
+                    os.kill(receipt['child_pid'], 0)
+            finally:
+                if parent.poll() is None:
+                    os.killpg(parent.pid, signal.SIGKILL)
+                    parent.communicate(timeout=5)
 
 
 if __name__ == '__main__':

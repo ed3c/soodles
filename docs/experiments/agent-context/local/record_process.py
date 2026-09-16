@@ -4,6 +4,7 @@ Missing exit.json is incomplete evidence, including recorder SIGKILL or disk fai
 This recorder supplies observations, never an Agent outcome or landing authority.
 """
 import datetime
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -53,18 +54,47 @@ def record(directory, command):
                     stage_index=os.environ.get('NOODLE_STAGE_INDEX'),
                     started_at=now(), authorizes_landing=False)
     try:
-        # The checked Soodles entry execs Codex in this PID. Do not detach from
-        # Noodle's process group, redirect its streams, or write an Agent outcome.
-        child = subprocess.Popen(command)
+        # Keep Noodle's process group, stdin and stderr. Its terminal-meta repair
+        # may kill this entire group as soon as it sees a terminal stdout event.
+        child = subprocess.Popen(command, stdout=subprocess.PIPE)
         for signum in forwarded[:]:
             child.send_signal(signum)
         identity.update(child_pid=child.pid, child_pgid=os.getpgrp())
         persist(directory, 'launch.json', identity)
+        tail = []
+        deferred = False
+        digest = hashlib.sha256()
+        size = 0
+        with (directory / 'stdout.log').open('xb') as raw:
+            for line in child.stdout:
+                raw.write(line)
+                raw.flush()
+                digest.update(line)
+                size += len(line)
+                try:
+                    event = json.loads(line)
+                except (ValueError, UnicodeDecodeError):
+                    event = None
+                if isinstance(event, dict) and event.get('type') in ('turn.completed', 'turn.failed', 'error'):
+                    deferred = True
+                if deferred:
+                    tail.append(line)
+                else:
+                    sys.stdout.buffer.write(line)
+                    sys.stdout.buffer.flush()
+            os.fsync(raw.fileno())
         returncode = child.wait()
         persist(directory, 'exit.json', dict(identity, returncode=returncode,
                 termination_signal=-returncode if returncode < 0 else None,
                 finished_at=now(), elapsed_seconds=time.monotonic() - start,
-                forwarded_signals=forwarded, waited=True))
+                forwarded_signals=forwarded, waited=True,
+                stdout_sha256=digest.hexdigest(), stdout_bytes=size,
+                terminal_tail_lines_deferred=len(tail)))
+        # Never rewrite bytes. Receipt persistence precedes terminal delivery;
+        # missing/failed persistence cannot publish an apparent completed turn.
+        for line in tail:
+            sys.stdout.buffer.write(line)
+        sys.stdout.buffer.flush()
         return returncode if returncode >= 0 else 128 - returncode
     except BaseException as error:
         # Do not orphan a writer when recording itself fails. No success receipt

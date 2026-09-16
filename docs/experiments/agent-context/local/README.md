@@ -40,7 +40,7 @@ controls never supply the missing model evidence or a baseline-document defect.
 worker tree by the supervisor. Its only child is the admitted Soodles worker
 entry, which uses exec to become the measured Codex process in the same PID.
 Noodle retains lifecycle ownership; the recorder inherits its process group and
-streams, waits once, and durably records launch identity and the actual wait
+stdin/stderr, waits once, and durably records launch identity and the actual wait
 return code. It never emits the Agent's typed outcome or changes canonical state.
 Negative return codes retain the terminating signal; the wrapper's shell status
 is separately mapped to 128 + signal. Missing receipts remain incomplete,
@@ -52,3 +52,13 @@ recorder's fixed bytes before execution and join its child/session identity to
 Noodle spawn, raw thread events and the native turn. A wrapper exit alone cannot
 prove the admitted entry reached Codex. Model capture and behavioral gates remain
 unchanged; successful recording does not authorize landing.
+
+The corrected capture boundary records original stdout as it arrives and forwards
+nonterminal lines. It defers the first terminal event (`turn.completed`,
+`turn.failed` or top-level `error`) and subsequent stdout until EOF, child wait
+and durable exit persistence. All bytes and their ordering are preserved; delivery
+timing is intentionally changed. This prevents Noodle's terminal-meta group kill
+from racing the receipt. It establishes an instrumented carrier observation, not
+an uninstrumented natural-exit claim. The raw stdout digest is bound to exit.json;
+Noodle's downstream timestamps are delivery timestamps, not original emission times.
+A real group-kill control exercises this ordering against the prior recorder.
