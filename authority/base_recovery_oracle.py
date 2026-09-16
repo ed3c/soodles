@@ -107,6 +107,74 @@ else:
             invoke(["advance", cp, sf])
             return cp
 
+        def guided_refusal(args, field, base, head):
+            cp = Path(args[1]); before = cp.read_bytes()
+            r = command(args)
+            require(r.returncode != 0, "missing comparison was accepted")
+            value = json.loads(r.stdout); nxt = value.get("next", {})
+            require(nxt.get("kind") == "provider_readback" and nxt.get("owner") == "GitHub",
+                    "comparison lacks owning provider readback")
+            require(nxt.get("operation") == args[0], "comparison routes to wrong operation")
+            url = "https://api.github.com/repos/ed3c/soodles/compare/" + base + "..." + head
+            require(nxt.get("requests", {}).get(field) == {"method": "GET", "url": url},
+                    "comparison request has wrong subject")
+            require(nxt.get("known", {}).get("checkpoint") == str(cp), "comparison lost checkpoint")
+            if args[0] == "readmit":
+                require(nxt["known"].get("claim") == json.loads(Path(args[2]).read_text()),
+                        "comparison lost confirmed fresh claim")
+            require(value.get("invalid", {}).get("field", "").startswith(field), "comparison lost invalid field")
+            require(url in r.stderr, "human comparison guidance differs from machine request")
+            require("request" not in value and cp.read_bytes() == before, "comparison refusal changed checkpoint or offered write")
+            return value
+
+        cp = admit("comparison-guidance")
+        absent = copy.deepcopy(moved); absent.pop("base_comparison")
+        af = write("absent-comparison.json", absent)
+        for operation in ("advance", "dispatch"):
+            guided_refusal([operation, cp, af], "base_comparison", "c"*40, "f"*40)
+        wrong = copy.deepcopy(moved); wrong["base_comparison"] = comparison("f"*40, "c"*40)
+        wf = write("wrong-comparison.json", wrong)
+        guided_refusal(["advance", cp, wf], "base_comparison", "c"*40, "f"*40)
+        # Changing only the owner-specified readback makes this attempt eligible.
+        require(invoke(["advance", cp, mf])["action"] == "readmit", "correct readback cannot reach readmission")
+        for field, base, head in (("base_comparison", "c"*40, "f"*40),
+                                  ("candidate_comparison", "f"*40, "e"*40)):
+            missing = copy.deepcopy(fresh); missing.pop(field)
+            ff = write("missing-"+field+".json", missing)
+            guided_refusal(["readmit", cp, nf, ff], field, base, head)
+        # A second forward movement needs its own exact comparison, at either consumer.
+        again = copy.deepcopy(moved)
+        again["branch"]["commit"]["sha"] = again["pr"]["base"]["sha"] = "9"*40
+        again["base_comparison"] = comparison("c"*40, "9"*40)
+        gf = write("again.json", again)
+        guided_refusal(["advance", cp, gf], "recovery_comparison", "f"*40, "9"*40)
+        newer_claim = {**fresh_claim, "base_head": "9"*40}
+        newer = copy.deepcopy(fresh)
+        newer["branch"]["commit"]["sha"] = newer["pr"]["base"]["sha"] = "9"*40
+        newer["base_comparison"] = comparison("c"*40, "9"*40)
+        newer["candidate_comparison"] = comparison("9"*40, "e"*40)
+        ncf, nrf = write("newer-claim.json", newer_claim), write("newer.json", newer)
+        guided_refusal(["readmit", cp, ncf, nrf], "recovery_comparison", "f"*40, "9"*40)
+        invoke(["readmit", cp, nf, ns])
+        require(invoke(["advance", cp, ns])["action"] == "dispatch", "guided readback lost existing positive route")
+        cases.append({"case": "comparison_owner_guidance", "comparison_fields": 3,
+                      "invoked_operations": ["advance", "dispatch", "readmit"], "refusals": 7,
+                      "checkpoint_preserved_on_refusal": True, "provider_writes": 0})
+
+        cp = admit("comparison-invalid-identity")
+        malformed = copy.deepcopy(moved)
+        malformed["branch"]["commit"]["sha"] = malformed["pr"]["base"]["sha"] = "refs/heads/main"
+        bad = write("bad-endpoint.json", malformed); before = cp.read_bytes()
+        r = command(["advance", cp, bad]); value = json.loads(r.stdout)
+        require(r.returncode != 0 and not value.get("next", {}).get("requests"), "unconfirmed endpoint became provider request")
+        require(cp.read_bytes() == before, "invalid endpoint changed checkpoint")
+        foreign = copy.deepcopy(moved); foreign["pr"]["base"]["repo"] = {"full_name": "foreign/repo"}
+        foreign_file = write("foreign-repository.json", foreign)
+        r = command(["advance", cp, foreign_file]); value = json.loads(r.stdout)
+        require(r.returncode != 0 and not value.get("next", {}).get("requests"), "foreign identity became provider request")
+        require(cp.read_bytes() == before, "foreign subject changed checkpoint")
+        cases.append({"case": "comparison_identity_before_guidance", "guessed_provider_requests": 0})
+
         cp = admit("recovery")
         # Observe the baseline through the ordinary CLI before injecting faults.
         outcome = invoke(["advance", cp, mf])

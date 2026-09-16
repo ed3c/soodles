@@ -1,0 +1,38 @@
+name: comparison-fixed-oracle
+on:
+  push:
+    branches: [soodles-25-proof]
+permissions:
+  contents: read
+jobs:
+  base-recovery-proof:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout supervisor-selected immutable experiment
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: authority
+          persist-credentials: false
+      - name: Checkout exact baseline as data
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: bcab7a8642b94c9f947b64d2fcb2762d80615cdd
+          path: baseline
+          persist-credentials: false
+      - name: Checkout exact candidate as data
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 287640024ff1974a95abf6ab3fe22ba85c483238
+          path: candidate
+          persist-credentials: false
+      - name: Run fixed observer with isolated subjects and planted negative
+        run: sudo --preserve-env=GITHUB_WORKSPACE,GITHUB_SHA python3 -B authority/authority/proof_runner.py
+      - name: Preserve external evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: comparison-fixed-oracle
+          path: /tmp/soodles-25-proof/result.json
+          if-no-files-found: error
+          retention-days: 30
