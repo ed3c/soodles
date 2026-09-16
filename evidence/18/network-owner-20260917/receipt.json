@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "observed_at": "2026-09-16T16:36:03.125520+00:00",
+  "classification": "CONFIGURATION_OWNER_IDENTIFIED",
+  "authorizes_landing": false,
+  "network_rule_owner": {
+    "type": "user",
+    "file": "/Users/neon/.codex/config.toml",
+    "profile": null
+  },
+  "rule": {
+    "path": "permissions.agent-default.network.domains.api.github.com",
+    "value": "allow",
+    "config_line": 114
+  },
+  "proxy_owner": {
+    "type": "user",
+    "file": "/Users/neon/.codex/config.toml",
+    "profile": null
+  },
+  "proxy_enabled": true,
+  "managed_requirements": null,
+  "historical_launcher": {
+    "envelope": "execution-envelope-b3850ee.json",
+    "sandbox_override": "workspace-write",
+    "network_access_override": true,
+    "named_permission_profile_selected": false
+  },
+  "configuration_mtime_utc": "2026-09-16T14:22:17.907240+00:00",
+  "diagnosis": "The supervisor-created launcher selected legacy sandbox settings. Those settings take precedence over named default_permissions, so agent-default domain rules were not selected. This is a carrier/launcher configuration correction; no new domain permission or enterprise administrator approval has been established as necessary.",
+  "corrected_selection_readback": {
+    "default_permissions": "agent-default",
+    "sandbox_mode": null,
+    "network_proxy": true,
+    "api_github_rule": "allow",
+    "managed_requirements": null
+  },
+  "methods": [
+    "initialize",
+    "configRequirements/read",
+    "config/read"
+  ],
+  "limitations": [
+    "Read-only configuration diagnosis; no model/thread/task worker started and no network success claim.",
+    "No persistent permissions, global configuration, source or installed launcher was changed.",
+    "Old Issue body bindings remain invalidated. A later run needs a fresh pinned envelope and corrected launcher with matching argv; avoid merely deleting --sandbox and inheriting the broad global default."
+  ],
+  "sources": [
+    "https://learn.chatgpt.com/docs/permissions",
+    "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+  ],
+  "local_readbacks_sha256": {
+    "config-readback.json": "93a006a2544900bb03943ff07207f4542223af548ded87dc05c47318bd780b4a",
+    "profile-selection-readback.json": "0f6fa80c1c00ddb1847dc2d86c33c536f607bc122b9604b15a59ee62380b63d9"
+  }
+}
