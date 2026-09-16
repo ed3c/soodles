@@ -11,6 +11,7 @@ Migrate only exact, executable claims demonstrated in this repository.
 - First installation uses the explicitly requested supervised fallback: the supervisor pins the landing implementation outside the candidate, admits one exact claim, and supplies raw provider readbacks. `landing.py` owns pending-write checkpoints and exact requests; the existing GitHub connector executes them under existing provider rules. No Administration access or protection-policy modification is a prerequisite.
 - Do not fabricate a production generation, independent default-branch verification, or unattended lander. An Issue is RESOLVED only after merge and closure readback plus Noodle reconciliation. Unknown writes require readback; never repeat the offered request from model memory.
 - `landing advance` prepares delivery; `landing dispatch` consumes it once using fresh owner readback before emitting the connector request. Resume prepared work through that same entry; offered/legacy-unknown writes stay pending. The process-fault oracle uses provider fixtures, not live GitHub writes.
+- Coherent forward base drift before an offer produces a durable `readmission_pending` checkpoint and `landing readmit --help` next action. Supply an explicit fresh supervisor claim, exact-head successful runtime evidence and complete provider ancestry comparisons. Preserve the same owner/Issue/PR/worktree/verifier. Old acceptance stays invalidated; offered/legacy unknown writes cannot use this recovery to retry.
 
 ## Routing and changes
 

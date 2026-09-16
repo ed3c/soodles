@@ -153,6 +153,8 @@ def acceptance_verify(root, binary):
     physical["cleanup_lock_recovery"] = lock_recovery_probe(runtime["binary"], ROOT)
     from delivery_oracle import delivery_probe
     physical["delivery_recovery"] = delivery_probe(ROOT)
+    from base_recovery_oracle import base_recovery_probe
+    physical["base_recovery"] = base_recovery_probe(ROOT)
     print(json.dumps({"delivery_recovery": physical["delivery_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_lock_recovery": physical["cleanup_lock_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_recovery": physical["cleanup_recovery"]["cases"]}), file=sys.stderr)
@@ -195,6 +197,11 @@ def parser():
                              epilog="Examples: ./soodles landing resume /tmp/checkpoint.json /tmp/fresh-claim.json")
     resume.add_argument("checkpoint")
     resume.add_argument("claim")
+    readmit = verbs.add_parser("readmit", description="Recover an invalidated, unoffered admission. The supervisor supplies a changed candidate head, fresh successful runtime evidence and raw GitHub comparisons: base_comparison (old base...new base), candidate_comparison (new base...new head), and recovery_comparison if the observed recovery base advanced again. Preserve repository, Issue, PR, worktree and verifier. No automatic rebase or provider write.",
+                              epilog="Example: ./soodles landing readmit /tmp/checkpoint.json /tmp/fresh-claim.json /tmp/readback.json")
+    readmit.add_argument("checkpoint")
+    readmit.add_argument("claim")
+    readmit.add_argument("readback")
     reconcile = verbs.add_parser("reconcile", epilog="Examples: ./soodles landing reconcile /tmp/checkpoint.json /absolute/path/to/noodle")
     reconcile.add_argument("checkpoint")
     reconcile.add_argument("binary")
@@ -216,6 +223,8 @@ def main():
                 result = landing.dispatch(args.checkpoint, landing.read(args.readback))
             elif args.verb == "resume":
                 result = landing.resume(args.checkpoint, landing.read(args.claim))
+            elif args.verb == "readmit":
+                result = landing.readmit(args.checkpoint, landing.read(args.claim), landing.read(args.readback))
             else:
                 result = landing.reconcile(args.checkpoint, args.binary)
         else:
