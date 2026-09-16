@@ -24,7 +24,7 @@ jobs:
       - name: Checkout exact candidate as data
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: 161ff53f9168dc3c19a426ce13187470b5a5e81e
+          ref: f394a5de21528a34c33c9660f140a7a012326b5d
           path: candidate
           persist-credentials: false
       - name: Run fixed observer with isolated subjects and planted negative
