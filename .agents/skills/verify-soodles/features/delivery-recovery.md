@@ -6,15 +6,7 @@ Exercise interruption, readmission and cleanup behavior through existing executa
 
 Use a clean committed candidate in a Noodle worktree, a fresh evidence destination outside it, and the admitted absolute Noodle path. Begin with `./soodles runtime check` and `noodle skills list`; verify this checkout's exact skill path/digests. Record source head/tree and clean status before the drive. Do not start `noodle start` or repair missing scheduling adapters.
 
-From that checkout, drive the complete feature and retain its context/receipt:
-
-```sh
-.agents/skills/verify-soodles/scripts/verify_recovery.py /absolute/path/to/noodle /tmp/fresh-soodles-recovery
-```
-
-The driver performs doctor, exact skill resolution/digests and source guards through the runtime driver, then drives all four oracles. Its `journeys` list retains failed and unexecuted paths; only a complete pass produces `VERIFIED`, always with `authorizes_landing: false`. `runtime/receipt.json` and the outer `receipt.json` survive fixture cleanup. An oracle timeout retains partial stdout/stderr and leaves cleanup unverified; no later oracle is attempted. Invalid binary/output inputs name this feature and its help without overwriting existing evidence.
-
-For focused development or source inspection, these remain the owning entrypoints (the complete driver invokes them; do not repeat them merely to fill this list):
+From that checkout, use the existing entrypoints (replace the binary path only with the already-confirmed path):
 
 ```sh
 python3 -B delivery_oracle.py .
@@ -23,7 +15,7 @@ python3 -B cleanup_lock_oracle.py /absolute/path/to/noodle .
 python3 -B -c 'import json,sys; from cleanup_oracle import cleanup_recovery_probe; print(json.dumps(cleanup_recovery_probe(sys.argv[1])))' /absolute/path/to/noodle
 ```
 
-The complete driver captures each command's actual argv, stdout/stderr, exit and elapsed time in surviving evidence, and refuses hollow case evidence or missing cleanup. Counts include the nested runtime driver's commands, not oracle-internal subprocesses or Agent activity. These focused controls do not replace or repeatedly invoke canonical acceptance. The optional isolated observer carrier belongs to supervisor-selected evidence, not a skill policy choice.
+Capture each command's actual argv, stdout/stderr, exit and elapsed time in surviving evidence. These focused controls are useful during maintenance; they do not replace or repeatedly invoke canonical acceptance. The optional isolated observer carrier belongs to supervisor-selected evidence, not a skill policy choice.
 
 ## Required observations
 
