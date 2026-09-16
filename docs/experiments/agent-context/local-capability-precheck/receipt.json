@@ -1,0 +1,90 @@
+{
+  "classification": "PRECHECK_ONLY",
+  "issue": 39,
+  "candidate": "64184dd7f8a96e0e043cfd5e8f73d62d56ecf4ee",
+  "new_carrier": "local_macos_noodle_codex_exec",
+  "binary": {
+    "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+    "version": "0.153.4",
+    "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3"
+  },
+  "schema_generation": {
+    "exit": 0,
+    "model_turns": 0,
+    "files": {
+      "ThreadStartResponse.json": {
+        "path": "schema/v2/ThreadStartResponse.json",
+        "sha256": "656f8fd0fe91f533126cbfdb9369cfab550927a229e48dd46460f6f015d2b186",
+        "properties": [
+          "approvalPolicy",
+          "approvalsReviewer",
+          "cwd",
+          "instructionSources",
+          "model",
+          "modelProvider",
+          "reasoningEffort",
+          "sandbox",
+          "serviceTier",
+          "thread"
+        ]
+      },
+      "ModelReroutedNotification.json": {
+        "path": "schema/v2/ModelReroutedNotification.json",
+        "sha256": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+        "properties": [
+          "fromModel",
+          "reason",
+          "threadId",
+          "toModel",
+          "turnId"
+        ]
+      },
+      "ThreadReadResponse.json": {
+        "path": "schema/v2/ThreadReadResponse.json",
+        "sha256": "a76583d07f6096fee33045da2dc9caed84d858f8f2d39b37bb38528dbaf32511",
+        "properties": [
+          "thread"
+        ]
+      }
+    }
+  },
+  "historical_exec_inventory": {
+    "scope": "Historical #18 same-binary exec JSONL inventory, not a new #39 Astra task",
+    "source_sha256": "08932bf2371159df57d5f3daf728bc9b17186f2a38647a4a891fef690a68f0fc",
+    "event_types": {
+      "thread.started": 1,
+      "item.completed": 21,
+      "turn.started": 1,
+      "item.started": 13,
+      "turn.completed": 1
+    },
+    "identity_fields": {
+      "/thread_id": 1
+    },
+    "event_count": 37,
+    "observed_model": null,
+    "new_model_turns": 0
+  },
+  "observer": {
+    "commit": "e0f17e0ad01c557103af36ed934265e08a3fafad",
+    "path": "docs/experiments/agent-context/observer/observe.py",
+    "git_blob": "de27ac6834e34d15393fdd27298b3c4c9f892d76",
+    "accepted_carrier": "cloud_chatgpt_github_actions",
+    "forbidden_consumer_event": "launch_codex"
+  },
+  "fresh_local_task": "NOT_RUN",
+  "cloud_cases_reclassified": false,
+  "full_case_repeated": false,
+  "missing": [
+    "prospective local carrier/observer contract; do not rewrite frozen cloud observer",
+    "same-run native event capture and harness/service-reported model evidence",
+    "clarified observed-model provenance ceiling"
+  ],
+  "non_claims": [
+    "App Server schema is not a runtime observation",
+    "No unexposed underlying model version proven",
+    "Historical #18 Sol execution is not a #39 Astra trial",
+    "Captured emitted JSONL is not automatically complete task-action coverage"
+  ],
+  "authorizes_landing": false
+}
