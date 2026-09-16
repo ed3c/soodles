@@ -1,0 +1,363 @@
+{
+  "kind": "pstack-maintenance-and-monitor-integration-audit",
+  "source_head": "1584613e124331bf45b1ac0c18876588337f7085",
+  "source_tree": "f1c8ca229bb28c75a3117450ff4f893db36916a9",
+  "pstack_source": "ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa",
+  "monitor_source": "ed3c/skill-concerns@7412b4399ed756b53c411e8188efd26bd4610f80",
+  "monitor_driver_blob": "682c8dc354526cd44c5cfcfa70c8ce5fc5d3d286",
+  "method": "Existing create retained; maintain applied with three concurrent read-only feature source reviewers, coordinator live drives, and Noodle cleanup.",
+  "outcome": "blocked",
+  "authorizes_landing": false,
+  "changes": [],
+  "source_reviews": [
+    {
+      "feature": "runtime-admission",
+      "drift": "none",
+      "limitation": "Exact skill resolution path/digests are not proof of Agent consumption."
+    },
+    {
+      "feature": "supervised-delivery",
+      "drift": "none",
+      "limitation": "No new real admitted Issue/PR; historical receipts and local fixture terminals cannot replace a live cycle."
+    },
+    {
+      "feature": "delivery-recovery",
+      "drift": "none",
+      "limitation": "Local process/provider fixtures. Summary outputs are not complete child-command or Agent traces."
+    }
+  ],
+  "coverage": [
+    {
+      "feature": "runtime-admission",
+      "status": "VERIFIED",
+      "scope": "Real pinned CLI and wrong-digest sentinel; source identity and cleanup."
+    },
+    {
+      "feature": "delivery-recovery",
+      "status": "VERIFIED",
+      "scope": "Four existing oracles: 9 delivery, 8 base, 4 cleanup-lock, 5 cleanup cases. All lock refusals occurred before deletion; runtime cleanup reports zero residue."
+    },
+    {
+      "feature": "supervised-delivery",
+      "status": "BLOCKED",
+      "scope": "No fresh real admitted delivery subject; Soodles #18 still blocked on Noodle #78. No fabricated task/PR."
+    }
+  ],
+  "monitor_finding": {
+    "issue": "https://github.com/ed3c/skill-concerns/issues/197",
+    "observed": "Archived no-event probe reports healthy/S0 with unknown age; Doctor is green.",
+    "classification": "lens integration gap; not a runtime death or root-cause finding",
+    "original_receipt": "https://github.com/ed3c/noodle/blob/9b79c142c95916a1983834e9ce7c656f68e66a54/evidence/78/stdin-initialization.json",
+    "subject_unchanged": true
+  },
+  "non_claims": [
+    "No successful nested Codex launch",
+    "No automatic scheduling/DAG admission",
+    "No feedback delivery/context consumption proof",
+    "No subagent lineage integration",
+    "No paired Agent traces or decision-cost reduction",
+    "No canonical acceptance rerun for unchanged source",
+    "No source/skill/feature-map mutation"
+  ],
+  "files": {
+    "cleanup.json": {
+      "argv": [
+        "/tmp/soodles-runtime/noodle",
+        "--project-dir",
+        "/workspace/scratch/8d9f1ebaaa91/soodles",
+        "worktree",
+        "cleanup",
+        "trace-maintenance-audit"
+      ],
+      "branch_listing": "",
+      "evidence_retained": true,
+      "exit_code": 0,
+      "source_head": "1584613e124331bf45b1ac0c18876588337f7085",
+      "source_status": "",
+      "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n",
+      "stdout": "  Removing worktree...\n  Deleting branch trace-maintenance-audit...\nDone. trace-maintenance-audit removed.\n",
+      "worktree_absent": true
+    },
+    "monitor-completed.json": {
+      "findings": [],
+      "lanes": [
+        {
+          "age_seconds": 440,
+          "class": "complete",
+          "lane": "codex-healthy-session",
+          "receipt": "canonical.ndjson: {\"type\": \"result\", \"message\": \"turn complete\"}",
+          "severity": "S0"
+        }
+      ],
+      "lens": "ok",
+      "maintain_pass": "NOT_SCHEDULED",
+      "observed_at": "2026-09-01T12:00:00Z",
+      "runtime": "codex-noodle-session",
+      "schema_version": 1,
+      "skill": "dynamic-workflow",
+      "stall_threshold_seconds": 10800,
+      "subject": "/tmp/soodles-monitor-audit-skill-concerns/skills/dynamic-workflow/evals/fixtures/codex-healthy-session",
+      "summary": {
+        "complete": 1,
+        "dead": 0,
+        "healthy": 0,
+        "stalled-suspect": 0
+      }
+    },
+    "monitor-no-events.json": {
+      "findings": [],
+      "lanes": [
+        {
+          "age_seconds": null,
+          "class": "healthy",
+          "lane": "replayed-session",
+          "receipt": "meta.json: {\"status\": None, \"alive\": None} (stamped, not observed)",
+          "severity": "S0"
+        }
+      ],
+      "lens": "ok",
+      "maintain_pass": "NOT_SCHEDULED",
+      "observed_at": "2026-09-16T09:41:12Z",
+      "runtime": "codex-noodle-session",
+      "schema_version": 1,
+      "skill": "dynamic-workflow",
+      "stall_threshold_seconds": 10800,
+      "subject": "/tmp/soodles-trace-maint-evidence/replayed-session",
+      "summary": {
+        "complete": 0,
+        "dead": 0,
+        "healthy": 1,
+        "stalled-suspect": 0
+      }
+    },
+    "monitor-transcripts.json": [
+      {
+        "argv": [
+          "python3",
+          "/tmp/soodles-monitor-audit-skill-concerns/skills/dynamic-workflow/scripts/liveness_driver.py",
+          "--selftest"
+        ],
+        "exit_code": 0,
+        "label": "doctor",
+        "stderr": "",
+        "stdout": "[PASS] stalled_suspect_is_never_death: a lane quiet for 12600s with no death signature classified 'stalled-suspect' (K10: silence is consistent with still-running)\n[PASS] stalled_suspect_is_never_death: a lane quiet for 259200s with no death signature classified 'stalled-suspect' (K10: silence is consistent with still-running)\n[PASS] death_needs_a_signature: a lane carrying signature '[Request interrupted by user]' classified 'dead'\n[PASS] completion_notification_is_terminal: a lane with a completion notification classified 'complete' even against age and a signature\n[PASS] fixture_healthy_wave_is_clean: healthy fixture classified ['complete', 'healthy']\n[PASS] fixture_stuck_wave_is_stalled_suspect_not_dead: 3h-frozen-but-alive fixture classified ['stalled-suspect'] at age 12600s\n[PASS] fixture_dead_wave_is_dead: death-signature fixture classified ['dead']\n[PASS] fixture_codex_healthy_is_complete: codex completed-session fixture classified ['complete']\n[PASS] fixture_codex_stale_stamp_is_stalled_suspect: a session stamped status=running/alive=true whose ledger is 46h silent classified ['stalled-suspect'] - the stamp is not believed, and silence is not death\n[PASS] fixture_codex_dead_is_dead_from_ledger_tail: a session whose canonical.ndjson tail record is type=error classified ['dead']\n[PASS] fixture_codex_failed_stamp_alone_is_not_dead: a session stamped status=failed whose canonical.ndjson tail is a plain action record (no ledger error, no result) classified ['stalled-suspect'] - the meta.json stamp alone must never promote to dead\n[PASS] severity_ladder_is_wired: severities ['S1', 'S2', 'S0', 'S0']\n[PASS] negative_control:age alone must never yield dead: \n[PASS] negative_control:a lane one second past the threshold must not be dead: \n[PASS] negative_control:a death signature must not read as healthy: \n[PASS] negative_control:a stamped alive field must never become liveness evidence: the session stamped alive=true/health=green must not read as healthy: its ledger is 46h silent\n[PASS] negative_control:a stamped failed status must never become a death certificate on its own: the session stamped status=failed with no ledger error tail must not read as dead: the stamp is the same untrusted rollup pass as status=exited\nselftest OK: every assertion holds and every negative control went red\n"
+      },
+      {
+        "argv": [
+          "python3",
+          "/tmp/soodles-monitor-audit-skill-concerns/skills/dynamic-workflow/scripts/liveness_driver.py",
+          "--observe",
+          "/tmp/soodles-trace-maint-evidence/replayed-session",
+          "--now",
+          "2026-09-16T09:41:12Z",
+          "--out",
+          "/tmp/soodles-trace-maint-evidence/monitor-no-events.json"
+        ],
+        "exit_code": 0,
+        "label": "archived-no-events",
+        "stderr": "",
+        "stdout": "{\n  \"schema_version\": 1,\n  \"skill\": \"dynamic-workflow\",\n  \"runtime\": \"codex-noodle-session\",\n  \"subject\": \"/tmp/soodles-trace-maint-evidence/replayed-session\",\n  \"observed_at\": \"2026-09-16T09:41:12Z\",\n  \"stall_threshold_seconds\": 10800,\n  \"lens\": \"ok\",\n  \"maintain_pass\": \"NOT_SCHEDULED\",\n  \"lanes\": [\n    {\n      \"lane\": \"replayed-session\",\n      \"class\": \"healthy\",\n      \"severity\": \"S0\",\n      \"age_seconds\": null,\n      \"receipt\": \"meta.json: {\\\"status\\\": None, \\\"alive\\\": None} (stamped, not observed)\"\n    }\n  ],\n  \"summary\": {\n    \"complete\": 0,\n    \"healthy\": 1,\n    \"stalled-suspect\": 0,\n    \"dead\": 0\n  },\n  \"findings\": [],\n  \"evidence_path\": \"/tmp/soodles-trace-maint-evidence/monitor-no-events.json\"\n}\nevidence: /tmp/soodles-trace-maint-evidence/monitor-no-events.json\n"
+      },
+      {
+        "argv": [
+          "python3",
+          "/tmp/soodles-monitor-audit-skill-concerns/skills/dynamic-workflow/scripts/liveness_driver.py",
+          "--observe",
+          "/tmp/soodles-monitor-audit-skill-concerns/skills/dynamic-workflow/evals/fixtures/codex-healthy-session",
+          "--now",
+          "2026-09-01T12:00:00Z",
+          "--out",
+          "/tmp/soodles-trace-maint-evidence/monitor-completed.json"
+        ],
+        "exit_code": 0,
+        "label": "completed-control",
+        "stderr": "",
+        "stdout": "{\n  \"schema_version\": 1,\n  \"skill\": \"dynamic-workflow\",\n  \"runtime\": \"codex-noodle-session\",\n  \"subject\": \"/tmp/soodles-monitor-audit-skill-concerns/skills/dynamic-workflow/evals/fixtures/codex-healthy-session\",\n  \"observed_at\": \"2026-09-01T12:00:00Z\",\n  \"stall_threshold_seconds\": 10800,\n  \"lens\": \"ok\",\n  \"maintain_pass\": \"NOT_SCHEDULED\",\n  \"lanes\": [\n    {\n      \"lane\": \"codex-healthy-session\",\n      \"class\": \"complete\",\n      \"severity\": \"S0\",\n      \"age_seconds\": 440.0,\n      \"receipt\": \"canonical.ndjson: {\\\"type\\\": \\\"result\\\", \\\"message\\\": \\\"turn complete\\\"}\"\n    }\n  ],\n  \"summary\": {\n    \"complete\": 1,\n    \"healthy\": 0,\n    \"stalled-suspect\": 0,\n    \"dead\": 0\n  },\n  \"findings\": [],\n  \"evidence_path\": \"/tmp/soodles-trace-maint-evidence/monitor-completed.json\"\n}\nevidence: /tmp/soodles-trace-maint-evidence/monitor-completed.json\n"
+      }
+    ],
+    "recovery-transcripts.json": {
+      "data": "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",
+      "encoding": "gzip+base64",
+      "sha256": "883284e2ba2ffb18bc964a9ec792ff6a8e087eaa4ccfa4c603152dfb08b522d4",
+      "uncompressed_bytes": 150115
+    },
+    "runtime-drive.json": {
+      "argv": [
+        "/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/trace-maintenance-audit/.agents/skills/verify-soodles/scripts/verify_runtime.py",
+        "/tmp/soodles-runtime/noodle",
+        "/tmp/soodles-trace-maint-evidence/runtime"
+      ],
+      "elapsed": 0.21269422300247243,
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"feature\": \"runtime-admission\", \"classification\": \"VERIFIED\", \"counts\": {\"top_level_commands\": 7, \"unexpected_command_failures\": 0, \"expected_refusals\": 1, \"readback_invocations\": 5, \"repeated_readbacks\": 2, \"verification_invocations\": 2, \"canonical_acceptance_invocations\": 0}, \"cleanup\": {\"scratch_removed\": true, \"resident_processes_started\": 0}, \"authorizes_landing\": false}\n"
+    },
+    "runtime/receipt.json": {
+      "authorizes_landing": false,
+      "candidate": {
+        "head": "1584613e124331bf45b1ac0c18876588337f7085",
+        "tree": "f1c8ca229bb28c75a3117450ff4f893db36916a9"
+      },
+      "classification": "VERIFIED",
+      "cleanup": {
+        "resident_processes_started": 0,
+        "scratch_removed": true
+      },
+      "counter_scope": "Only commands issued by this driver; excludes internal subprocesses, Agent discovery and provider landing. Repeated readbacks include required before/after identity guards.",
+      "counts": {
+        "canonical_acceptance_invocations": 0,
+        "expected_refusals": 1,
+        "readback_invocations": 5,
+        "repeated_readbacks": 2,
+        "top_level_commands": 7,
+        "unexpected_command_failures": 0,
+        "verification_invocations": 2
+      },
+      "feature": "runtime-admission",
+      "negative_control": {
+        "expected_refusal": "binary.sha256",
+        "sentinel_absent": true
+      },
+      "non_claims": [
+        "Agent path-cost reduction",
+        "production scheduling",
+        "provider delivery",
+        "whole-app verification"
+      ],
+      "runtime": {
+        "asset_name": "noodle_linux_amd64.tar.gz",
+        "asset_sha256": "7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb",
+        "authorizes_landing": false,
+        "binary": "/tmp/soodles-runtime/noodle",
+        "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+        "commit": "391f3154c680fc6724b8cdabf6bcec831b61065d",
+        "observed_binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+        "observed_version": "v0.1.19",
+        "platform": "linux_amd64",
+        "release": "v0.1.19",
+        "repository": "ed3c/noodle"
+      },
+      "schema": 1,
+      "skill_resolution": {
+        "files_sha256": {
+          "SKILL.md": "e0ad6615c83f7ef63576e2f1347f3c774237c30f16bc3d7a6682de44c7f2d72f",
+          "features/README.md": "229e7aca4bfb62d122fff8b5b7f451632bfd3ebbe8744c052e15e8879ec9f0a8",
+          "features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+          "features/runtime-admission.md": "3de848c5ad84962e638b9893d0b23d5ef9ab68a0ebaba193104b5a755e8ae3cc",
+          "features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b",
+          "scripts/verify_runtime.py": "1049574cdc3147373ff46eb64d741f492cfd98effbe04349ce2cf4379f951a0b"
+        },
+        "name": "verify-soodles",
+        "path": "/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/trace-maintenance-audit/.agents/skills/verify-soodles",
+        "search_path": "/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/trace-maintenance-audit/.agents/skills",
+        "warnings": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+      },
+      "trace": [
+        {
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD",
+            "HEAD^{tree}"
+          ],
+          "exit": 0,
+          "expected_exit": 0,
+          "kind": "readback",
+          "purpose": "before source identity",
+          "seconds": 0.0024303749960381538,
+          "stderr": "",
+          "stdout": "1584613e124331bf45b1ac0c18876588337f7085\nf1c8ca229bb28c75a3117450ff4f893db36916a9\n"
+        },
+        {
+          "argv": [
+            "git",
+            "status",
+            "--porcelain",
+            "--untracked-files=all"
+          ],
+          "exit": 0,
+          "expected_exit": 0,
+          "kind": "readback",
+          "purpose": "before source residue",
+          "seconds": 0.0036607200017897412,
+          "stderr": "",
+          "stdout": ""
+        },
+        {
+          "argv": [
+            "./soodles",
+            "runtime",
+            "check",
+            "/tmp/soodles-runtime/noodle"
+          ],
+          "exit": 0,
+          "expected_exit": 0,
+          "kind": "verification",
+          "purpose": "doctor and positive admission",
+          "seconds": 0.08391730000585085,
+          "stderr": "",
+          "stdout": "{\n  \"binary\": \"/tmp/soodles-runtime/noodle\",\n  \"repository\": \"ed3c/noodle\",\n  \"release\": \"v0.1.19\",\n  \"commit\": \"391f3154c680fc6724b8cdabf6bcec831b61065d\",\n  \"platform\": \"linux_amd64\",\n  \"asset_name\": \"noodle_linux_amd64.tar.gz\",\n  \"asset_sha256\": \"7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb\",\n  \"binary_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n  \"observed_version\": \"v0.1.19\",\n  \"observed_binary_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n  \"authorizes_landing\": false\n}\n"
+        },
+        {
+          "argv": [
+            "/tmp/soodles-runtime/noodle",
+            "skills",
+            "list"
+          ],
+          "exit": 0,
+          "expected_exit": 0,
+          "kind": "readback",
+          "purpose": "resolve project skill",
+          "seconds": 0.002573803001723718,
+          "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n",
+          "stdout": "verify-soodles\t/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/trace-maintenance-audit/.agents/skills\ttrue\t/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/trace-maintenance-audit/.agents/skills/verify-soodles\n"
+        },
+        {
+          "argv": [
+            "./soodles",
+            "runtime",
+            "check",
+            "/tmp/soodles-verify-admission-u8p5wmcl/noodle"
+          ],
+          "exit": 1,
+          "expected_exit": 1,
+          "kind": "verification",
+          "purpose": "wrong digest rejected before execution",
+          "seconds": 0.06106765200092923,
+          "stderr": "REFUSED: runtime check: invalid binary.sha256='a57ea91e2566dd0bad196ddb517bea69e30dcdcc9bcedda012549192a5fb96eb'; supported help: ./soodles runtime check --help\n",
+          "stdout": ""
+        },
+        {
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD",
+            "HEAD^{tree}"
+          ],
+          "exit": 0,
+          "expected_exit": 0,
+          "kind": "readback",
+          "purpose": "after source identity",
+          "seconds": 0.0023479849987779744,
+          "stderr": "",
+          "stdout": "1584613e124331bf45b1ac0c18876588337f7085\nf1c8ca229bb28c75a3117450ff4f893db36916a9\n"
+        },
+        {
+          "argv": [
+            "git",
+            "status",
+            "--porcelain",
+            "--untracked-files=all"
+          ],
+          "exit": 0,
+          "expected_exit": 0,
+          "kind": "readback",
+          "purpose": "after source residue",
+          "seconds": 0.003090966994932387,
+          "stderr": "",
+          "stdout": ""
+        }
+      ]
+    }
+  }
+}
