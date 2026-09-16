@@ -33,3 +33,22 @@ Run local synthetic controls with Python unittest discovery in this directory.
 Planted native identity/model/result omissions exercise the same discriminator;
 restored valid evidence and legitimate unknown-write remain GREEN. These synthetic
 controls never supply the missing model evidence or a baseline-document defect.
+
+## Child exit recorder
+
+`record_process.py NEW_DIRECTORY -- COMMAND [ARGS...]` is installed outside the
+worker tree by the supervisor. Its only child is the admitted Soodles worker
+entry, which uses exec to become the measured Codex process in the same PID.
+Noodle retains lifecycle ownership; the recorder inherits its process group and
+streams, waits once, and durably records launch identity and the actual wait
+return code. It never emits the Agent's typed outcome or changes canonical state.
+Negative return codes retain the terminating signal; the wrapper's shell status
+is separately mapped to 128 + signal. Missing receipts remain incomplete,
+including SIGKILL or persistence failure. An existing recording directory is
+refused before launching a child. SIGTERM/SIGINT are forwarded while waiting.
+
+The first local probe's missing exit remains unknown. A new probe must bind this
+recorder's fixed bytes before execution and join its child/session identity to
+Noodle spawn, raw thread events and the native turn. A wrapper exit alone cannot
+prove the admitted entry reached Codex. Model capture and behavioral gates remain
+unchanged; successful recording does not authorize landing.
