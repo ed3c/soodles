@@ -33,7 +33,7 @@ Never add a second scheduler, worktree manager, retry engine, or Agent-facing au
 
 The supervisor selects immutable external verifier/oracle bytes before candidate acceptance. Never load the active judge from default-branch tips or candidate imports. Editing verifier source does not promote it into authority for its own Issue; `landing resume` is an identity-preserving operation under external supervision, not self-authorization. Separate authority changes only when they are independently owned or reversible.
 
-For runtime-admission, supervised-delivery or delivery-recovery verification, use `.agents/skills/verify-soodles/SKILL.md` and only the relevant feature recipe. Its receipt is non-authorizing. Create a verification skill when that capability is missing; run maintenance for an explicit map audit or observed recipe drift, not on every Issue. Canonical acceptance and delivery remain owned by the existing entries above.
+For runtime-admission, bounded-Issue-execution, supervised-delivery or delivery-recovery verification, use `.agents/skills/verify-soodles/SKILL.md` and only the relevant feature recipe. Its receipt is non-authorizing. Create a verification skill when that capability is missing; run maintenance for an explicit map audit or observed recipe drift, not on every Issue. Canonical acceptance and delivery remain owned by the existing entries above.
 
 ## Guarantee classes
 

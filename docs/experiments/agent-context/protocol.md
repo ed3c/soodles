@@ -2,13 +2,14 @@
 
 Class: N. Status: protocol; behavioral comparison NOT_RUN.
 Owner: https://github.com/ed3c/soodles/issues/39
-Baseline: `50f41919ead671d69eade1ae5cc66bd1d96e347c`.
+Initial audited baseline: `50f41919ead671d69eade1ae5cc66bd1d96e347c`.
+Planned comparison baseline after PR #38 merged: `e4b4a8487855b75ef2d47087019bb52c4d5ffd6c`.
 
 ## Hypothesis and one boundary
 
 Task-scoped autonomy, conditional recovery guidance and unambiguous navigation may reduce unnecessary stopping/reading while preserving owner/readback behavior. The static review did not demonstrate an Astra defect. No observed improvement is a valid outcome.
 
-Treatment changes AGENTS.md, adds a role clarification to system-v1 and introduces the conditional design metaprompt. Existing skills, product code and controls remain unchanged. PR #38 / Issue #18 is concurrently changing execution/skill boundaries; do not resume that order or reuse its admission. Reconcile the eventual final instructions with that work and rerun affected comparisons if consumed documents change.
+Treatment changes AGENTS.md, adds a role clarification to system-v1 and introduces the conditional design metaprompt. Existing skills, product code and controls remain unchanged. PR #38 merged while this draft was prepared. The candidate now includes that merge and preserves its bounded-execution recipe. Do not resume Issue #18's order or reuse its admission. No matched comparison had started before this base update. Freeze both variants against this new baseline before execution; rerun affected observations if consumed documents later change.
 
 ## Preregistered cases
 

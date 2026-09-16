@@ -14,7 +14,7 @@ class LandingTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.checkpoint = Path(self.temp.name) / "checkpoint.json"
+        self.checkpoint = Path(self.temp.name).resolve() / "checkpoint.json"
         self.claim = {"repository": "ed3c/soodles", "issue": 1, "pr": 2, "head": "a" * 40,
                       "tree": "b" * 40, "base_head": "c" * 40, "run_id": 10, "run_attempt": 1,
                       "worktree": "example", "control_root": "/fixture", "verifier_sha256": landing.verifier_digest()}
@@ -633,3 +633,151 @@ class LandingTests(unittest.TestCase):
         help_result = soodles.run(argv, soodles.ROOT)
         self.assertEqual(help_result.returncode, 0)
         self.assertFalse(self.checkpoint.exists())
+
+
+class BoundLandingTests(unittest.TestCase):
+    """Real Git paths and owner functions; provider responses are fixtures."""
+    def setUp(self):
+        from test_issue_execution import IssueExecutionTests
+        self.consumer = IssueExecutionTests()
+        self.consumer.setUp()
+        self.addCleanup(self.consumer.doCleanups)
+        c = self.consumer
+        self.delivery = LandingTests()
+        self.delivery.setUp()
+        self.addCleanup(self.delivery.doCleanups)
+        d = self.delivery
+        d.claim.update(issue=18, head=c.git("rev-parse", "HEAD"), tree=c.git("rev-parse", "HEAD^{tree}"),
+                       base_head=c.envelope["base_head"], control_root=str(c.root),
+                       worktree=c.envelope["execution"]["worktree"],
+                       execution_envelope={"path": str(c.path), "sha256": c.pin})
+        d.snapshot["issue"] = copy.deepcopy(c.issue)
+        d.snapshot["pr"]["body"] = "Refs ed3c/soodles#18"
+        d.snapshot["pr"]["head"].update(sha=d.claim["head"], ref=d.claim["worktree"])
+        d.snapshot["pr"]["base"]["sha"] = d.claim["base_head"]
+        d.snapshot["commit"] = {"sha": d.claim["head"], "tree": {"sha": d.claim["tree"]}}
+        d.snapshot["branch"]["commit"]["sha"] = d.claim["base_head"]
+        d.snapshot["run"]["head_sha"] = d.claim["head"]
+        d.snapshot["jobs"]["jobs"][0]["head_sha"] = d.claim["head"]
+
+    def test_missing_binding_refuses_marked_contract_before_checkpoint(self):
+        d = self.delivery
+        del d.claim["execution_envelope"]
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            d.start()
+        self.assertEqual(caught.exception.invalid["field"], "claim.execution_envelope")
+        self.assertFalse(d.checkpoint.exists())
+
+    def test_body_amendment_refuses_prepared_dispatch_without_offer(self):
+        d = self.delivery
+        d.start()
+        landing.advance(d.checkpoint, d.snapshot)
+        before = d.checkpoint.read_bytes()
+        d.snapshot["issue"]["body"] += "\nAmended requirement."
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            landing.dispatch(d.checkpoint, d.snapshot)
+        self.assertEqual(caught.exception.invalid["field"], "issue.body_sha256")
+        self.assertEqual(caught.exception.next_action["owner"], "supervisor")
+        self.assertEqual(caught.exception.next_action["required"], ["fresh_execution_envelope"])
+        self.assertEqual(caught.exception.next_action["operation"], "dispatch")
+        self.assertEqual(caught.exception.next_action["known"]["checkpoint"], str(d.checkpoint.resolve()))
+        self.assertEqual(caught.exception.next_action["help_argv"][-2:], ["dispatch", "--help"])
+        self.assertEqual(d.checkpoint.read_bytes(), before)
+
+    def test_outside_delivery_paths_refuse_and_current_paths_pass(self):
+        import subprocess
+        c, d = self.consumer, self.delivery
+        for name in ("unauthorized.py", "allowed.py"):
+            path = c.worktree / name
+            path.write_text("new candidate\n")
+            subprocess.run(["git", "add", name], cwd=c.worktree, check=True, capture_output=True)
+            subprocess.run(["git", "-c", "user.name=Test", "-c", "user.email=t@example.invalid",
+                            "commit", "-m", "bounded fixture"], cwd=c.worktree, check=True, capture_output=True)
+            claim = {**d.claim, "head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=c.worktree, text=True).strip()}
+            if name == "unauthorized.py":
+                with self.assertRaises(landing.LandingRefusal) as caught:
+                    landing.execution_binding(claim, d.snapshot["issue"])
+                self.assertEqual(caught.exception.invalid, {"field": "candidate.outside_write_paths", "value": [name]})
+                subprocess.run(["git", "reset", "--hard", d.claim["base_head"]], cwd=c.worktree, check=True, capture_output=True)
+            else:
+                self.assertEqual(landing.execution_binding(claim, d.snapshot["issue"])["issue"], 18)
+
+    def test_closure_metadata_is_legal_but_body_change_still_refuses(self):
+        c, d = self.consumer, self.delivery
+        closed = {**c.issue, "state": "closed", "state_reason": "completed", "closed_at": "now", "updated_at": "later"}
+        self.assertEqual(landing.execution_binding(d.claim, closed)["body_sha256"], c.envelope["body_sha256"])
+        with self.assertRaisesRegex(landing.LandingRefusal, "issue.body_sha256"):
+            landing.execution_binding(d.claim, {**closed, "body": closed["body"] + " changed"})
+        # The same provider closure is not new worker authorization.
+        import issue_admission
+        with self.assertRaisesRegex(issue_admission.AdmissionRefusal, "issue.state"):
+            issue_admission.validate_issue(closed, c.envelope)
+
+    def test_provider_closure_cannot_resolve_before_original_noodle_order(self):
+        c, d = self.consumer, self.delivery
+        d.start()
+        state = landing.read(d.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha=d.claim["head"], issue_closed_at="now",
+                     writes_offered=["merge", "close"])
+        landing.save(d.checkpoint, state)
+        c.git("update-ref", "refs/remotes/origin/main", d.claim["head"])
+        with patch("landing.fetch_main"):
+            result = landing.reconcile(d.checkpoint, str(c.binary))
+        self.assertEqual(result["action"], "noodle_reconcile")
+        self.assertEqual(result["next"]["owner"], "Noodle")
+        self.assertEqual(result["next"]["known"]["order_id"], "soodles-18")
+        self.assertIsNone(landing.read(d.checkpoint)["classification"])
+        self.assertTrue(c.worktree.exists())
+        self.assertFalse(c.effect.exists())
+        # Unavailable canonical readback is a different branch from an observed
+        # incomplete order. It must retain the same continuation identity too.
+        from issue_admission import AdmissionRefusal
+        missing = AdmissionRefusal("noodle.snapshot", "unavailable", "Noodle", "canonical_checkpoint_readback")
+        with patch("landing.fetch_main"), patch("issue_execution.read_owner", side_effect=missing):
+            with self.assertRaises(landing.LandingRefusal) as caught:
+                landing.reconcile(d.checkpoint, str(c.binary))
+        next_action = caught.exception.next_action
+        self.assertEqual(next_action["operation"], "reconcile")
+        self.assertEqual(caught.exception.invalid, missing.invalid)
+        self.assertEqual(next_action["required"], ["canonical_checkpoint_readback"])
+        self.assertEqual(next_action["known"]["checkpoint"], str(d.checkpoint.resolve()))
+        self.assertEqual(next_action["known"]["order_id"], "soodles-18")
+        self.assertEqual(next_action["owner"], "Noodle")
+        self.assertIsNone(landing.read(d.checkpoint)["classification"])
+        self.assertTrue(c.worktree.exists())
+
+    def test_completed_bound_order_can_reconcile_and_clean_fixture_worktree(self):
+        import subprocess
+        c, d = self.consumer, self.delivery
+        c.admit("automatic")
+        c.promote_fixture()
+        order = c.snapshot["state"]["orders"]["soodles-18"]
+        order["status"] = "completed"
+        order["stages"][0]["status"] = "completed"
+        ended = subprocess.Popen(["/bin/sh", "-c", "exit 0"], start_new_session=True)
+        ended.wait()
+        order["stages"][0]["attempts"][0].update(status="completed", session_id=c.session)
+        (c.runtime / "sessions" / c.session / "process.json").write_text(json.dumps({"pid": ended.pid, "session_id": c.session}))
+        c.save_owner()
+        d.start()
+        state = landing.read(d.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha=d.claim["head"], issue_closed_at="now", writes_offered=["merge", "close"])
+        landing.save(d.checkpoint, state)
+        c.git("update-ref", "refs/remotes/origin/main", d.claim["head"])
+        original = landing.checked
+        requests = []
+        def cleanup_fixture(argv, cwd):
+            if argv[0] == str(c.binary):
+                self.assertEqual(argv[1:], ["worktree", "cleanup", d.claim["worktree"]])
+                requests.append(argv)
+                c.git("worktree", "remove", str(c.worktree))
+                c.git("branch", "-d", d.claim["worktree"])
+                return ""
+            return original(argv, cwd)
+        with patch("landing.fetch_main"), patch("landing.checked", side_effect=cleanup_fixture):
+            result = landing.reconcile(d.checkpoint, str(c.binary))
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertIsNone(result["next"])
+        self.assertEqual(len(requests), 1)
+        self.assertFalse(c.worktree.exists())
+        self.assertEqual(result["noodle_reconciliation"]["order_id"], "soodles-18")

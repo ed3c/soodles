@@ -79,7 +79,8 @@ def verifier_digest():
     # A supervisor selects this implementation outside the candidate under evaluation.
     root = Path(__file__).resolve().parent
     return fingerprint({name: hashlib.sha256((root / name).read_bytes()).hexdigest()
-                        for name in ("landing.py", "soodles.py", "policy/runtime.lock.json")})
+                        for name in ("landing.py", "soodles.py", "issue_admission.py",
+                                     "issue_execution.py", "policy/runtime.lock.json")})
 
 
 def read(path):
@@ -119,7 +120,14 @@ def save(path, state):
 def validate_claim(claim):
     fields = {"repository", "issue", "pr", "head", "tree", "base_head", "run_id", "run_attempt",
               "worktree", "control_root", "verifier_sha256"}
-    require(isinstance(claim, dict) and set(claim) == fields, "claim.fields", list(claim))
+    require(isinstance(claim, dict) and set(claim) in (fields, fields | {"execution_envelope"}),
+            "claim.fields", list(claim))
+    if "execution_envelope" in claim:
+        ref = claim["execution_envelope"]
+        require(isinstance(ref, dict) and set(ref) == {"path", "sha256"}, "claim.execution_envelope", ref)
+        require(isinstance(ref["path"], str) and Path(ref["path"]).is_absolute(), "claim.envelope.path", ref["path"])
+        require(isinstance(ref["sha256"], str) and re.fullmatch("[0-9a-f]{64}", ref["sha256"]),
+                "claim.envelope.sha256", ref["sha256"])
     require(claim["repository"] == REPOSITORY, "claim.repository", claim["repository"])
     for key in ("issue", "pr", "run_id", "run_attempt"):
         require(type(claim[key]) is int and claim[key] > 0, "claim." + key, claim[key])
@@ -162,6 +170,33 @@ def validate_merge_commit(claim, snapshot, *, operation, checkpoint):
         raise
 
 
+def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
+    """The supervisor's claim selects external bytes; no candidate self-admission."""
+    from issue_admission import AdmissionRefusal, load_external_envelope, validate_issue, validate_delivery_paths
+    ref = claim.get("execution_envelope")
+    if ref is None:
+        require(issue is None or "soodles:execution-v1" not in (issue.get("body") or ""),
+                "claim.execution_envelope", "required for an execution contract")
+        return None
+    root = Path(claim["control_root"]).resolve()
+    subject = root / ".worktrees" / claim["worktree"]
+    try:
+        envelope = load_external_envelope(ref["path"], ref["sha256"], root)
+        require(envelope["issue"] == claim["issue"], "claim.envelope.issue", envelope["issue"])
+        for key in ("control_root", "worktree"):
+            require(envelope["execution"][key] == claim[key], "claim.envelope." + key, envelope["execution"][key])
+        if issue is not None:
+            validate_issue(issue, envelope, completed=issue.get("state") == "closed")
+        validate_delivery_paths(subject if subject.exists() else root, claim["base_head"], claim["head"], envelope)
+        return envelope
+    except AdmissionRefusal as error:
+        raise LandingRefusal(error.invalid["field"], error.invalid["value"],
+                             {**input_next(operation, error.next["required"], checkpoint), **error.next,
+                              "reason": "Preserve the original claim/checkpoint. Supervisor corrections use "
+                                        "invalidate/readmit only for unoffered work; unknown offered writes "
+                                        "remain readback-only. This refusal does not renew authority."}) from error
+
+
 def validate_snapshot(claim, snapshot, *, operation, checkpoint):
     pr, issue, run, jobs, commit = (snapshot[k] for k in ("pr", "issue", "run", "jobs", "commit"))
     for kind, obj, number in (("pr", pr, claim["pr"]), ("issue", issue, claim["issue"])):
@@ -198,6 +233,7 @@ def validate_snapshot(claim, snapshot, *, operation, checkpoint):
         require(pr.get("state") == "closed" and pr.get("merged_at"), "pr.merge_readback", pr.get("state"))
         validate_merge_commit(claim, snapshot, operation=operation, checkpoint=checkpoint)
         require(issue.get("state") == "open" or (issue.get("state") == "closed" and issue.get("state_reason") == "completed" and issue.get("closed_at")), "issue.classification", issue.get("state_reason"))
+    execution_binding(claim, issue, operation=operation, checkpoint=checkpoint)
 
 
 def start(claim, snapshot, checkpoint):
@@ -342,6 +378,8 @@ def readmit(checkpoint, claim, snapshot):
         require(state["writes_offered"] == [], "readmit.writes_offered", state["writes_offered"])
         for field in ("repository", "issue", "pr", "worktree", "control_root", "verifier_sha256"):
             require(claim[field] == old[field], "readmit." + field, claim[field])
+        require(("execution_envelope" in claim) == ("execution_envelope" in old),
+                "readmit.execution_envelope", "binding cannot be added or removed during readmission")
         amendment = state["recovery"].get("kind") == "amendment"
         fields = ("head", "run_id") if amendment else ("head", "base_head", "run_id")
         for field in fields:
@@ -478,10 +516,23 @@ def reconcile(checkpoint, binary):
         require(state["phase"] in {"awaiting_reconcile", "reconciling", "resolved"}, "checkpoint.phase", state["phase"])
         root = Path(claim["control_root"]).resolve()
         require(not path.is_relative_to(root), "checkpoint.path", "must be outside source/worktree lifecycle")
-        require(checked(["git", "remote", "get-url", "origin"], root) == f"https://github.com/{REPOSITORY}.git", "origin", "unexpected; no automatic correction")
+        origins = {f"https://github.com/{REPOSITORY}.git"}
+        if "execution_envelope" in claim:
+            origins.add(f"git@github.com:{REPOSITORY}.git")
+        require(checked(["git", "remote", "get-url", "origin"], root) in origins, "origin", "unexpected; no automatic correction")
         require(checked(["git", "branch", "--show-current"], root) == "main", "local.branch", "expected main")
         before = source_identity(root)
-        runtime = runtime_check(Path(__file__).resolve().parent, binary)
+        envelope = execution_binding(claim, operation="reconcile", checkpoint=path)
+        if envelope is None:
+            runtime = runtime_check(Path(__file__).resolve().parent, binary)
+        else:
+            from issue_execution import validate_carrier
+            try:
+                identity = validate_carrier(envelope)
+            except Refusal as error:
+                raise LandingRefusal("reconcile.carrier", str(error)) from error
+            require(str(Path(binary).resolve()) == identity["noodle"], "reconcile.binary", binary)
+            runtime = {"observed_binary_sha256": envelope["execution"]["carrier"]["noodle"]["sha256"]}
         worktree = root / ".worktrees" / claim["worktree"]
         branch = checked(["git", "branch", "--list", claim["worktree"]], root)
         branch_head = checked(["git", "rev-parse", "refs/heads/" + claim["worktree"]], root) if branch else None
@@ -504,6 +555,28 @@ def reconcile(checkpoint, binary):
         checked(["git", "merge-base", "--is-ancestor", state["merge_sha"], "origin/main"], root)
         checked(["git", "merge-base", "--is-ancestor", before["head"], "origin/main"], root)
         checked(["git", "merge", "--ff-only", "origin/main"], root)
+        if envelope is not None:
+            from issue_execution import read_owner, quiescent_order
+            try:
+                owner = read_owner(envelope)
+                order = owner["state"]["orders"].get(envelope["execution"]["order_id"])
+                if not isinstance(order, dict) or order.get("status") != "completed":
+                    return response("reconcile", state, "noodle_reconcile", {
+                        "kind": "input", "owner": "Noodle", "operation": "reconcile",
+                        "required": ["completed_original_order_and_quiescent_sessions"],
+                        "known": {"checkpoint": str(path), "order_id": envelope["execution"]["order_id"]},
+                        "help_argv": cli_argv("reconcile", "--help")})
+                quiescent = quiescent_order(envelope, owner)
+            except Refusal as error:
+                invalid = getattr(error, "invalid", {"field": "reconcile.noodle", "value": str(error)})
+                required = getattr(error, "next", {}).get("required", ["completed_original_order_and_quiescent_sessions"])
+                next_action = input_next("reconcile", required, path)
+                next_action["owner"] = "Noodle"
+                next_action["known"]["order_id"] = envelope["execution"]["order_id"]
+                raise LandingRefusal(invalid["field"], invalid["value"], next_action) from error
+            state["noodle_reconciliation"] = {"order_id": envelope["execution"]["order_id"],
+                                               "order": order, "quiescent_sessions": quiescent}
+            save(path, state)
         if worktree.exists() or branch:
             git_path = shutil.which("git")
             require(git_path is not None, "cleanup.git", "not found")
