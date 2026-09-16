@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "issue": "https://github.com/ed3c/soodles/issues/18",
+  "source_head": "50f41919ead671d69eade1ae5cc66bd1d96e347c",
+  "scope": "Read-only source/runtime-admission checks and consolidation of the current Issue contract. No production implementation or Agent execution.",
+  "authorized_sequence": [
+    "shared Issue admission contract and real automatic/supervised consumers",
+    "single-Issue delivery consuming current owner next/request",
+    "two genuinely authorized Issues A then cleanup then B with one specified interruption"
+  ],
+  "observed": {
+    "cli_surface": [
+      "runtime",
+      "acceptance",
+      "landing"
+    ],
+    "issue_execution_admission": "NOT_IMPLEMENTED",
+    "shared_automatic_supervised_consumers": "NOT_IMPLEMENTED",
+    "pinned_runtime_check": {
+      "result": "PASS",
+      "release": "v0.1.19",
+      "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "path": "/tmp/soodles-runtime/noodle",
+      "authorizes_landing": false
+    },
+    "noodle_78": {
+      "state": "open",
+      "remaining_scope": "Noodle local ProcessDispatcher -> Codex CLI in the tested Work Mode carrier",
+      "matching_typed_outcome": "NOT_PROVEN",
+      "latest_evidence": "https://github.com/ed3c/noodle/blob/aa5de0cab604f58ae11905fed5ae65740e667c4e/evidence/78/child-initialization.json"
+    },
+    "noodle_79": {
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "e6d712a2512547cdf78a85c1ee218e1ba52e3b27"
+    },
+    "noodle_80": {
+      "state": "closed"
+    },
+    "actions_worktree_runtime": "Previously demonstrated; not a nested Agent execution receipt",
+    "git_source_residue": "clean"
+  },
+  "classification": "BLOCKED",
+  "block_scope": "Completion of the existing combined automatic/supervised #18 acceptance on the selected local Agent path; not all GitHub Actions or supervised work.",
+  "controls": {
+    "new_gate_defect_RED": "NOT_RUN",
+    "new_gate_cure_GREEN": "NOT_RUN",
+    "new_gate_legal_non_case_GREEN": "NOT_RUN",
+    "reason": "No new gate implemented. Existing pin check is not cure evidence."
+  },
+  "effects": {
+    "production_source_changes": 0,
+    "production_orders": 0,
+    "agent_launches": 0,
+    "canonical_acceptance_runs": 0,
+    "merges": 0,
+    "issue_closures": 0
+  },
+  "archived_issue": {
+    "number": 18,
+    "title": "Admit one Soodles Issue into Noodle execution and receipted delivery",
+    "state": "open",
+    "updated_at": "2026-09-16T10:05:47Z"
+  },
+  "non_claims": [
+    "No implementation or parser-only completion claim",
+    "No automatic consumer or takeover proof",
+    "No new skill capability or feature-map recipe",
+    "No new verifier authority",
+    "No automatic A/B cycle or model-token measurement",
+    "No unchanged Codex probe retry"
+  ]
+}
