@@ -1,3 +1,73 @@
+# Corrected child-exit observation, 2026-09-17
+
+Status: **CAPABILITY_OBSERVED** for the explicitly instrumented local carrier.
+[Immutable receipt, both attempts and raw evidence](https://github.com/ed3c/soodles/blob/397e9efd4824b3bde3976081b169b452ff423e7c/docs/experiments/agent-context/exit-recorder/receipt.json).
+The capability judge has exactly the original bytes. Its verdict has no missing
+fields and no violations. Historical INCOMPLETE observations below remain intact.
+
+## What changed and what actually ran
+
+The initial child-wait recorder preserved the scheduler exit but still lost the
+worker exit. Pinned Noodle source `loop/session_meta_repair.go` calls ForceKill on
+the whole process group after terminal metadata appears; the actual log reported
+that terminal-meta completion. This identifies a recorder race. No historical
+kernel trace is available to certify which signal terminated that first worker.
+A real owner-like group-kill control makes the previous recorder RED.
+
+The correction captures native stdout bytes immediately, forwards nonterminal
+lines, and defers the first terminal event plus subsequent lines until the actual
+child exits and its wait receipt is durable. It then forwards those exact bytes.
+The recorder retains Noodle's group, stdin and stderr; it writes no Agent outcome
+or canonical state. This changes terminal delivery timing and therefore proves
+an instrumented observation, not natural exit of the uninstrumented carrier.
+Noodle downstream timestamps describe delivery; they are not original emission
+timestamps. No hidden service model or routing claim follows.
+
+The new 180-second bounded drive reached the typed blocked handoff in 79.08
+seconds from loop start, using clean source
+`7323aea7f5a7dc1da34c64fdb61f3145c8e2f3ff`:
+
+- Noodle session: `soodles-39-0-execute-20260916-195611-b68cd5`.
+- Recorder PID/group: `30271`; waited Soodles → Codex child PID: `30272`.
+- Actual child wait return code: **0**, recorded before terminal delivery.
+- Native thread: `01a0abca-8a6d-7d81-89c6-c7ffc987a940`.
+- Native turn: `01a0abca-8b1b-7c90-935d-2aa700eb1be6`.
+- Persisted native turn model: **gpt-6-astra**, effort **high**.
+- Agent executed the marker and itself emitted one matching `blocked` outcome
+  for order `soodles-39`, stage 0. This was the requested bounded handoff.
+
+The external audit joins recorder PID to Noodle process metadata, child/session/
+order/stage/cwd/argv to the admitted exec chain, and the native thread/turn to the
+raw tools. All 15 binding checks pass. Original stdout byte count/digest match the
+receipt; every captured native event equals the downstream event after excluding
+Noodle's added delivery timestamp. Every started native item has one result.
+Noodle's attempt exit_code remains null; it was not edited or used as a substitute.
+
+## Controls, limitations and cleanup
+
+Fourteen unittest methods pass. Omitted receipts, fabricated zero, lost signal
+status and old-record overwriting each make their controls RED. Restoration and
+legal success/nonzero/signal controls are GREEN. The same physical group-kill
+control is RED with the previous recorder and GREEN with the correction. These
+are recorder controls, not claims of a baseline-instruction defect.
+
+Both fresh probe worktrees were clean and removed by Noodle without force or
+merge. Recorded loop, recorder, child and read-only App Server process groups
+were observed absent. The first read-only App Server cleanup check briefly saw
+its group still present; the later absent readback is preserved. A setup admission
+from the archive directory correctly refused envelope.path; invoking from the
+supplied control root then succeeded before any model task. Doctor verified the
+worktree cwd/root and repo detection; its overall exit 1 was TERM=dumb, retained
+as such rather than called an overall doctor PASS.
+
+The narrower exit/model/tool capability gate is now satisfied. Full matched
+baseline/treatment cases remain **NOT_RUN**, actual compaction is unproven and
+cloud verdicts are unchanged. #39 stays open and PR #40 draft. Final-head canonical
+acceptance and existing delivery/reconciliation remain separate; all experimental
+receipts have authorizes_landing=false.
+
+---
+
 # Local capability observation, 2026-09-17
 
 Class N report over the captured L discriminator result. Status: **INCOMPLETE**.

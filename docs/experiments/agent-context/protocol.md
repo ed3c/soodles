@@ -1,6 +1,6 @@
 # Issue #39: context transfer experiment
 
-Current status: the separately declared [local capability observation](local/results.md) captured real Astra turn identity, tools and matching typed outcome; its fixed gate remains INCOMPLETE because the child OS exit status was not persisted. Full local cases are NOT_RUN. For the unchanged cloud carrier, see [recovered evidence and supplemental handoff](recovery-results.md). Round2 raw archive recovery and a new recorded handoff are complete; native capture/model gate remains incomplete. Earlier chronology below is retained.
+Current status: the separately declared [local recorder correction](local/results.md) passes the unchanged capability judge with actual child wait exit 0, native Astra turn identity, tool results and matching typed outcome. Terminal delivery is explicitly deferred until the exit receipt is durable; uninstrumented natural exit is not asserted. Earlier local INCOMPLETE runs remain preserved. Full local pairs are NOT_RUN. The [cloud results](recovery-results.md) are unchanged; chronology below is historical.
 
 Class: N. Status: native paired cases executed; evidence gate incomplete. See [current observations](native-results.md); the earlier setup chronology below is retained.
 Owner: https://github.com/ed3c/soodles/issues/39
