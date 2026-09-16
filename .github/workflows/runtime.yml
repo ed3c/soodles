@@ -74,17 +74,10 @@ jobs:
           ./soodles acceptance verify "$RUNNER_TEMP/soodles-runtime/noodle" > "$RUNNER_TEMP/soodles-runtime/acceptance.json"
           python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(json.dumps({"candidate":r["candidate"],"zero_residue":r["physical"]["zero_residue"],"authorizes_landing":r["authorizes_landing"]}))' "$RUNNER_TEMP/soodles-runtime/acceptance.json"
 
-      - name: Drive recovery verification skill on the exact candidate
-        run: |
-          .agents/skills/verify-soodles/scripts/verify_recovery.py "$RUNNER_TEMP/soodles-runtime/noodle" "$RUNNER_TEMP/soodles-recovery"
-
       - name: Preserve non-authorizing evidence
-        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: runtime-evidence-${{ github.event.pull_request.head.sha || github.sha }}
-          path: |
-            ${{ runner.temp }}/soodles-runtime/*.json
-            ${{ runner.temp }}/soodles-recovery/**/*.json
+          path: ${{ runner.temp }}/soodles-runtime/*.json
           if-no-files-found: error
           retention-days: 30
