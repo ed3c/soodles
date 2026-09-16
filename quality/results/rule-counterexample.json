@@ -1,0 +1,15 @@
+{
+  "scope": "local disposable-copy rule counterexample; provider snapshot is a fixture, no provider write",
+  "input": {
+    "run_attempt": true
+  },
+  "baseline": {
+    "admitted": false,
+    "reason": "landing: invalid claim.run_attempt=True; supported help: ./soodles landing --help",
+    "checkpoint_exists": false
+  },
+  "suggested_type_equality_change": {
+    "admitted": true,
+    "checkpoint_exists": true
+  }
+}
