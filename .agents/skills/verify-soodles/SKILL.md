@@ -25,6 +25,14 @@ Use the shipped executable from the repository root:
 
 Both arguments are supplied by the current execution environment: the already-admitted binary and a fresh evidence destination. This runtime driver checks source identity, performs doctor/positive admission, resolves this skill through `noodle skills list`, and drives a wrong-digest executable sentinel through the same CLI. It then checks cleanup and unchanged source identity. It never sends provider writes or runs full acceptance. Other recipes reuse existing owner entries and recovery oracles; do not route them through a new scheduler or copy their transition logic into a skill helper.
 
+For the complete local recovery feature, use:
+
+```sh
+.agents/skills/verify-soodles/scripts/verify_recovery.py /absolute/path/to/noodle /tmp/fresh-soodles-recovery
+```
+
+This driver obtains the runtime driver's exact context, drives all four existing recovery oracles and preserves each raw result. Its receipt leaves failed/unreached journeys explicit and never retries. Read the scoped result instead of assembling a summary from memory. Method provenance is recorded in `references/migration-sources.json`; this bounded migration of feature-map-engineering does not require loading the upstream skill or its Noodles domain bindings.
+
 For landing, consume the invoked owner's current `owner`, `action`, `next`, `invalid` and, when emitted, `request`. Missing input and provider readback are not executable commands. Follow the returned operation/help using confirmed inputs; never derive an operation by splitting a field name. A historical next action is trace evidence only. The owning action rechecks the current claim, head, checkpoint, provider state and write eligibility before an effect.
 
 Noodle resolves `.agents/skills` by default. Resolution must name this checkout's exact `verify-soodles` directory; requesting a name is not proof of loading it. The captured digest map identifies the actual skill files. Noodle may emit missing-backlog-adapter diagnostics: they disclose that production scheduling is unavailable, not a request to repair unrelated adapters during verification.
