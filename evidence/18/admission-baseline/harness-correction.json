@@ -1,0 +1,9 @@
+{
+  "first_probe_exit": 1,
+  "error": "KeyError: writes_offered",
+  "cause": "Probe incorrectly expected durable checkpoint field in CLI projection",
+  "correction": "Read writes_offered from the actual fixture checkpoint; no application change",
+  "unchanged_retry": false,
+  "fixture_cleanup": "finally and TemporaryDirectory executed",
+  "provider_writes": 0
+}

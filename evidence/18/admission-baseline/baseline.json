@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "issue": 18,
+  "source_head": "1584613e124331bf45b1ac0c18876588337f7085",
+  "scope": "Real local CLI over labelled provider fixtures; existing landing owner does not claim Issue-body admission. This is capability-gap evidence, not a claim of regression or a production request.",
+  "provider_write_count": 0,
+  "production_orders_created": 0,
+  "Agent_launch_attempts": 0,
+  "classification": "BLOCKED",
+  "reason": "Shared execution admission and automatic consumer unimplemented; real Noodle-to-Codex capability remains unresolved in noodle#78/#80.",
+  "cases": [
+    {
+      "case": "missing_body",
+      "phase": "admitted",
+      "classification": null,
+      "writes_offered": []
+    },
+    {
+      "case": "empty_body",
+      "phase": "admitted",
+      "classification": null,
+      "writes_offered": []
+    },
+    {
+      "case": "undeclared_body",
+      "phase": "admitted",
+      "classification": null,
+      "writes_offered": []
+    },
+    {
+      "case": "body_changed_before_dispatch",
+      "request_emitted": {
+        "action": "merge",
+        "repository_full_name": "ed3c/soodles",
+        "pr_number": 2,
+        "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "merge_method": "merge"
+      },
+      "transported": false
+    },
+    {
+      "case": "foreign_provider_identity",
+      "refused": true,
+      "checkpoint_absent": true
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py",
+        "landing",
+        "start",
+        "/tmp/soodles-18-baseline-gcrg9u1n/claim.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/readback.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/missing_body.json"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"action\": \"readback\",\n  \"phase\": \"admitted\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/missing_body.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  },\n  \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/missing_body.json\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py",
+        "landing",
+        "start",
+        "/tmp/soodles-18-baseline-gcrg9u1n/claim.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/readback.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/empty_body.json"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"action\": \"readback\",\n  \"phase\": \"admitted\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/empty_body.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  },\n  \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/empty_body.json\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py",
+        "landing",
+        "start",
+        "/tmp/soodles-18-baseline-gcrg9u1n/claim.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/readback.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/undeclared_body.json"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"action\": \"readback\",\n  \"phase\": \"admitted\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/undeclared_body.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  },\n  \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/undeclared_body.json\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py",
+        "landing",
+        "start",
+        "/tmp/soodles-18-baseline-gcrg9u1n/claim.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/readback.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/drift.json"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"action\": \"readback\",\n  \"phase\": \"admitted\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/drift.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  },\n  \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/drift.json\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/soodles-18-baseline-gcrg9u1n/drift.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/readback.json"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"dispatch\",\n  \"phase\": \"merge_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"dispatch\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/drift.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py\",\n      \"landing\",\n      \"dispatch\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py",
+        "landing",
+        "dispatch",
+        "/tmp/soodles-18-baseline-gcrg9u1n/drift.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/readback.json"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.dispatch\",\n  \"action\": \"merge\",\n  \"phase\": \"merge_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/soodles-18-baseline-gcrg9u1n/drift.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  },\n  \"request\": {\n    \"action\": \"merge\",\n    \"repository_full_name\": \"ed3c/soodles\",\n    \"pr_number\": 2,\n    \"expected_head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"merge_method\": \"merge\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py",
+        "landing",
+        "start",
+        "/tmp/soodles-18-baseline-gcrg9u1n/claim.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/readback.json",
+        "/tmp/soodles-18-baseline-gcrg9u1n/foreign.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"issue.html_url\",\n    \"value\": \"https://github.com/other/repo/issues/1\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/8d9f1ebaaa91/soodles/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid issue.html_url='https://github.com/other/repo/issues/1'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/8d9f1ebaaa91/soodles/soodles.py landing start --help\n"
+    }
+  ],
+  "cleanup": {
+    "temporary_fixture_removed": true,
+    "source_unchanged": true
+  },
+  "non_claims": [
+    "No automatic admission, dispatch or takeover proof",
+    "No canonical acceptance or feature-map expansion",
+    "No invalid field schema introduced by this probe"
+  ]
+}
