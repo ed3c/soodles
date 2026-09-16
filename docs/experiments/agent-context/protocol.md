@@ -1,6 +1,6 @@
 # Issue #39: context transfer experiment
 
-Class: N. Status: protocol; behavioral comparison NOT_RUN.
+Class: N. Status: native paired cases executed; evidence gate incomplete. See [current observations](native-results.md); the earlier setup chronology below is retained.
 Owner: https://github.com/ed3c/soodles/issues/39
 Initial audited baseline: `50f41919ead671d69eade1ae5cc66bd1d96e347c`.
 Planned comparison baseline after PR #38 merged: `e4b4a8487855b75ef2d47087019bb52c4d5ffd6c`.
@@ -25,7 +25,7 @@ The old local CLI probes are retained as inapplicable-route observations. Scratc
 
 ## Preregistered cases
 
-Use isolated baseline/treatment native cloud subagent threads, started with fork_turns=none, with pinned repository variants and disposable Actions fixtures; keep the same exposed model/platform/tool configuration, prompts and fixture identities. A local comparison is a separately labelled carrier and cannot replace the cloud case. Initial bound: one matched pair per case, with at most one extra pair per documented ambiguity. Include setup failures. Freeze observer and fixture bytes outside the candidate BEFORE testing. Observer/case source is frozen at `e0f17e0ad01c557103af36ed934265e08a3fafad`; executed fixture inputs and the detector-control receipt are frozen separately at `de34516e6e073622e0bd654fd97c5085bd033d01`. These are experimental, non-authorizing records. Real Astra comparisons have not started; the recorder still needs independent raw Session traces.
+Use isolated baseline/treatment native cloud subagent threads, started with fork_turns=none, with pinned repository variants and disposable Actions fixtures; keep the same exposed model/platform/tool configuration, prompts and fixture identities. A local comparison is a separately labelled carrier and cannot replace the cloud case. Initial bound: one matched pair per case, with at most one extra pair per documented ambiguity. Include setup failures. Freeze observer and fixture bytes outside the candidate BEFORE testing. Observer/case source is frozen at `e0f17e0ad01c557103af36ed934265e08a3fafad`; executed fixture inputs and the detector-control receipt are frozen separately at `de34516e6e073622e0bd654fd97c5085bd033d01`. These are experimental, non-authorizing records. This was the pre-trial setup status. Native comparisons have now executed; their incomplete evidence verdicts are recorded in native-results.md.
 
 | Case | Stimulus | Observable requirement |
 | --- | --- | --- |
@@ -65,9 +65,9 @@ Two existing owner controls ran against six source blobs verified at the common 
 
 The shared common-code runtime is run 35128051435, attempt 1, head e4b4a8487855b75ef2d47087019bb52c4d5ffd6c; provider job records show successful canonical acceptance. This fixed shared input prevents workflow head differences from becoming a second treatment variable. Final candidate acceptance remains separate.
 
-Instruction treatment is pinned at f98a3384a3fbd585ae2f1008036d7868b9dbced4. Subsequent protocol/receipt/handoff-only changes do not silently change that trial input. Before landing, verify that the proposed instruction blobs still match the tested treatment; any consumed instruction change requires affected trials to be rebound.
+The initial instruction treatment was f98a3384a3fbd585ae2f1008036d7868b9dbced4. The corrected runner pair and remaining cases used a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424 (AGENTS blob 82c8df3c6e3678d73c99bae40bed94ba22048cef). Subsequent protocol/receipt/handoff-only changes do not silently change that trial input. Before landing, verify that the proposed instruction blobs still match the tested treatment; any consumed instruction change requires affected trials to be rebound.
 
-Superseded setup assessment: the earlier browser/top-level-Session-only assumption was too narrow. The authorized carrier is now native cloud subagent threads with no inherited conversation. This establishes neither top-level ChatGPT automatic loading nor filesystem/security isolation. Python execution is now available for the bounded fixture checks, and the cloud connector/Actions path remains usable without Codex CLI. Do not substitute synthetic events, current steered Session behavior, or fixture-owner execution for fresh Agent trials. All three matched pairs and fresh transfer remain NOT_RUN. Actual compaction remains separately NOT_RUN and is not asserted by these results.
+Superseded setup assessment: the earlier browser/top-level-Session-only assumption was too narrow. The authorized carrier is now native cloud subagent threads with no inherited conversation. This establishes neither top-level ChatGPT automatic loading nor filesystem/security isolation. Python execution is now available for the bounded fixture checks, and the cloud connector/Actions path remains usable without Codex CLI. Do not substitute synthetic events, current steered Session behavior, or fixture-owner execution for fresh Agent trials. That setup status is superseded: all three matched pairs and real fresh transfer have executed, with the evidence gate still incomplete. Actual compaction remains separately NOT_RUN and is not asserted by these results.
 
 ## Native subagent iteration, same atom
 
@@ -76,3 +76,7 @@ User authorizes the cloud native subagent loop in #39. Use explicit gpt-6-astra 
 A first runner pair at the earlier treatment f98a3384 observed both consumers reaching the scoped null-next conclusion. The baseline recorder lost early appended events because in-memory load mutations were not persisted. Preserve that incomplete attempt as a setup failure, not a PASS. Permit the already bounded one extra runner pair after a recorder correction: persist each request and returned result to a separate artifact immediately, before further task actions. Do not reconstruct missing old events or silently overwrite prior trials. The updated AGENTS delegation entry will be pinned before this repeat and all remaining cases.
 
 Consumer-recorded tool records are distinct from a full native platform transcript. Review actual evidence coverage independently and retain unknown native coverage/model internals. The frozen observer must return INCOMPLETE wherever its complete-capture/model requirements cannot be established; a semantic or provenance review cannot relabel that as machine PASS. This is a measured limitation to report, not a reason to install a CLI or open a browser.
+
+## Current execution receipt
+
+See [native observations](native-results.md) and [immutable evidence](https://github.com/ed3c/soodles/tree/c6ac2e1a43eb21993b8903a292bf3f60a80414f0/docs/experiments/agent-context/native-trials). Six consumers plus two real producers completed. Independent audit verified 50 paired requests/results. Frozen verdicts remain two INCOMPLETE and four REJECT due absent mutable checkpoint observations. Complete native capture and observed model remain unavailable. No merge/closure/reconciliation is authorized by this experiment.

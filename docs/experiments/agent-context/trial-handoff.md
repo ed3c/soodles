@@ -1,6 +1,6 @@
 # Issue 39: operator handoff for independent cloud trials
 
-Class: N. Status: ready inputs; real Agent trials NOT_RUN.
+Class: N. Status: paired native trials executed; evidence gate incomplete. See [native-results.md](native-results.md) before any continuation.
 This file is for the trial operator/recorder, not the blinded consumer.
 No Codex CLI is required and no model is launched by this handoff.
 
@@ -9,7 +9,7 @@ No Codex CLI is required and no model is launched by this handoff.
 - Repository: ed3c/soodles.
 - Common executable code: e4b4a8487855b75ef2d47087019bb52c4d5ffd6c.
 - Baseline instructions: e4b4a8487855b75ef2d47087019bb52c4d5ffd6c; AGENTS blob 3667a6d70ea4a4fddd2df22768b0b83def179f81.
-- Treatment instructions: f98a3384a3fbd585ae2f1008036d7868b9dbced4; AGENTS blob b8b81697ca9bb5af95d5b6dc053c93159fab4525.
+- Treatment instructions: a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424; AGENTS blob 82c8df3c6e3678d73c99bae40bed94ba22048cef. Initial runner setup used f98a3384 and is retained separately.
 - Observer source: e0f17e0ad01c557103af36ed934265e08a3fafad.
 - Fixture/evidence ref: de34516e6e073622e0bd654fd97c5085bd033d01.
 - [Trial bindings](https://github.com/ed3c/soodles/blob/de34516e6e073622e0bd654fd97c5085bd033d01/docs/experiments/agent-context/observer/results/trial-bindings.json).
@@ -65,9 +65,7 @@ negative is never historical baseline RED.
 ## Resume and landing
 
 Current prepared results: 21 synthetic discriminator variants and two pinned owner
-controls passed. Zero Astra pairs are complete. The missing capability here is
-creating/exporting fresh top-level ChatGPT trial Sessions, not Python, GitHub,
-Noodle installation or Codex CLI.
+controls passed. Three native pairs and two actual producers have now executed; the first runner setup failure and one corrected pair are retained. Independent audit supports the narrow static-review conclusions. The remaining gaps are complete native task-action capture/model provenance and actual mutable checkpoint before/after observation for pending-write cases. Do not repeat the completed static review or weaken frozen observer semantics. Native subagents are available; browser and Codex CLI are not prerequisites. Automated route selection itself was not isolated because prompts specified connector/no CLI.
 
 Return archived trial records and raw-trace review to Issue 39. Preserve the
 observer/fixture refs above. Re-read current PR head and owning state on resume;

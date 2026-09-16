@@ -1,35 +1,118 @@
 {
-  "schema": 1,
-  "issue": 39,
-  "classification": "BEHAVIOR_COMPARISON_PENDING",
   "authorizes_landing": false,
+  "base_update": {
+    "behavioral_evidence_reused": false,
+    "reason": "PR #38 merged during draft preparation"
+  },
   "baseline": "50f41919ead671d69eade1ae5cc66bd1d96e347c",
-  "requested_model": "gpt-6-astra",
-  "observed_model": null,
+  "classification": "NATIVE_TRIALS_EXECUTED_EVIDENCE_INCOMPLETE",
+  "cloud_readback": {
+    "artifact_contents_inspected": false,
+    "artifacts": [
+      {
+        "digest": "sha256:4806ed14ede20080690d7aabaedde9edea5534964636703f824d6f083723ed94",
+        "expired": false,
+        "id": 10460830159,
+        "name": "runtime-evidence-d0bf6accc53d95f8900fe648ab40ffcacdd96013"
+      }
+    ],
+    "conclusion": "success",
+    "head": "d0bf6accc53d95f8900fe648ab40ffcacdd96013",
+    "jobs": [
+      {
+        "conclusion": "success",
+        "id": 104904938568,
+        "name": "runtime-evidence",
+        "steps": [
+          {
+            "conclusion": "success",
+            "name": "Set up job"
+          },
+          {
+            "conclusion": "success",
+            "name": "Checkout exact candidate without persisted credentials"
+          },
+          {
+            "conclusion": "success",
+            "name": "Set up Python"
+          },
+          {
+            "conclusion": "success",
+            "name": "Read release identity and verify archive and binary before execution"
+          },
+          {
+            "conclusion": "success",
+            "name": "Canonical acceptance on the exact candidate head"
+          },
+          {
+            "conclusion": "success",
+            "name": "Preserve non-authorizing evidence"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Set up Python"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Checkout exact candidate without persisted credentials"
+          },
+          {
+            "conclusion": "success",
+            "name": "Complete job"
+          }
+        ]
+      }
+    ],
+    "run_id": 35128976519,
+    "scope": "Provider job/step and artifact-metadata readback for this historical head only; not a matched Agent trial or landing authorization.",
+    "url": "https://github.com/ed3c/soodles/actions/runs/35128976519"
+  },
+  "current_capability": {
+    "codex_cli_required": false,
+    "fresh_cloud_session_creation_export": "Native subagent creation available with fork_turns=none; complete native transcript export not exposed",
+    "github_connector": "available",
+    "python": "3.12.14",
+    "python_fixture_execution": "available",
+    "native_subagents": "executed, requested gpt-6-astra"
+  },
+  "evidence_kind": "Transcription of returned tool observations; complete session trace unavailable",
+  "historical_probe_scope": "The observations array is retained unchanged. Local CLI timeouts do not test the active cloud Agent; environment_offline applied to the scratch exec carrier, not the working GitHub connector.",
+  "issue": 39,
+  "next_prerequisites": [
+    "Obtain supported complete task-action capture and observed-model provenance; current consumer recorder cannot establish full native completeness",
+    "Observe actual mutable checkpoint continuation and before/after bytes for relevant cases; preserve frozen REJECT results until sufficient evidence exists",
+    "Test automatic route selection without prescribing it in the consumer prompt before claiming automatic activation proven",
+    "After evidence gate, consume exact final-head runtime result and existing supervised admission/landing/reconciliation"
+  ],
+  "non_claims": [
+    "No Astra behavioral improvement proven",
+    "No baseline defect proven",
+    "No context-window optimum established",
+    "No new candidate acceptance or matched Agent behavior inferred from historical CI",
+    "Current steered Session is not a blinded comparison"
+  ],
   "observations": [
     {
+      "exit": null,
+      "exit_scope": "Individual exit not recorded in the original grouped command; preserve output observation only.",
       "operation": "/opt/codex/bin/codex --version",
-      "exit": null,
-      "stdout": "codex-cli 0.154.0-alpha.3",
-      "exit_scope": "Individual exit not recorded in the original grouped command; preserve output observation only."
+      "stdout": "codex-cli 0.154.0-alpha.3"
     },
     {
+      "exit": null,
+      "exit_scope": "Individual exit not recorded in the original grouped command; preserve output observation only.",
       "operation": "/opt/codex/bin/codex login status",
-      "exit": null,
-      "stdout": "Logged in using ChatGPT",
       "scope": "Local login status only; not proof of usable model access.",
-      "exit_scope": "Individual exit not recorded in the original grouped command; preserve output observation only."
+      "stdout": "Logged in using ChatGPT"
     },
     {
-      "operation": "ls -l /tmp/soodles-runtime/noodle",
       "exit": null,
-      "stderr": "No such file or directory",
+      "exit_scope": "Individual exit not recorded in the original grouped command; preserve output observation only.",
+      "operation": "ls -l /tmp/soodles-runtime/noodle",
       "scope": "Previously recorded runtime path absent; other locations not exhaustively checked.",
-      "exit_scope": "Individual exit not recorded in the original grouped command; preserve output observation only."
+      "stderr": "No such file or directory"
     },
     {
-      "attempt": 1,
-      "operation": "codex exec capability probe",
       "argv": [
         "/opt/codex/bin/codex",
         "exec",
@@ -43,169 +126,47 @@
         "/workspace/scratch/8d9f1ebaaa91/soodles",
         "Reply only CAPABILITY_OK. Do not call any tools."
       ],
-      "stdin": "inherited",
-      "timeout_seconds": 35,
+      "attempt": 1,
       "elapsed_seconds": 35.039,
-      "stdout": "",
-      "stderr": "Reading additional input from stdin...\n",
+      "model_events_observed": 0,
+      "operation": "codex exec capability probe",
       "result": "TIMEOUT",
-      "model_events_observed": 0
+      "stderr": "Reading additional input from stdin...\n",
+      "stdin": "inherited",
+      "stdout": "",
+      "timeout_seconds": 35
     },
     {
       "attempt": 2,
-      "operation": "same capability probe with explicitly closed empty stdin",
       "changed_input": "subprocess.run(input='')",
-      "timeout_seconds": 45,
       "elapsed_seconds": 45.032,
-      "stdout": "",
-      "stderr": "Reading additional input from stdin...\n",
+      "model_events_observed": 0,
+      "operation": "same capability probe with explicitly closed empty stdin",
       "result": "TIMEOUT",
-      "model_events_observed": 0
+      "stderr": "Reading additional input from stdin...\n",
+      "stdout": "",
+      "timeout_seconds": 45
     },
     {
       "attempt": 3,
-      "operation": "PTY capability attempt, requested read-only model probe bounded by timeout",
-      "result": "EXEC_TRANSPORT_FAILED",
       "error": "exec-server transport disconnected; failed to resume exec-server session: recovery timed out after 25s",
-      "model_execution": "unknown; no returned trace"
+      "model_execution": "unknown; no returned trace",
+      "operation": "PTY capability attempt, requested read-only model probe bounded by timeout",
+      "result": "EXEC_TRANSPORT_FAILED"
     },
     {
+      "error": "409 Conflict, environment_offline: Environment is not connected.",
       "operation": "pwd environment liveness",
-      "result": "EXEC_TRANSPORT_FAILED",
-      "error": "409 Conflict, environment_offline: Environment is not connected."
+      "result": "EXEC_TRANSPORT_FAILED"
     }
   ],
-  "evidence_kind": "Transcription of returned tool observations; complete session trace unavailable",
-  "unknowns": [
-    "Cause of model-probe timeouts",
-    "Third launch/process state after transport failure",
-    "Rendered model input and window occupancy",
-    "Loaded instruction paths/digests inside a model run",
-    "Causal relation between CLI probes and environment disconnection"
-  ],
-  "results": {
-    "baseline_treatment": "NOT_RUN",
-    "observer_controls": "PASS_SYNTHETIC_DETECTOR_ONLY",
-    "fresh_session_handoff": "NOT_RUN",
-    "actual_compaction": "NOT_RUN",
-    "canonical_acceptance": "HISTORICAL_HEAD_ACTIONS_SUCCESS",
-    "provider_delivery": "NOT_RUN",
-    "local_control_tests": "PASS_PINNED_OWNER_FIXTURES"
-  },
-  "next_prerequisites": [
-    "Create isolated fresh cloud Astra Sessions and capture complete task-scoped traces; no fresh-Session tool is exposed here",
-    "Freeze exposed config_id/permissions before first matched pair and follow trial-handoff.md",
-    "Complete raw-trace review plus all three baseline/treatment case pairs; do not substitute current authoring Session",
-    "Consume final PR-head runtime result and existing supervised landing admission/reconciliation"
-  ],
-  "non_claims": [
-    "No Astra behavioral improvement proven",
-    "No baseline defect proven",
-    "No context-window optimum established",
-    "No new candidate acceptance or matched Agent behavior inferred from historical CI",
-    "Current steered Session is not a blinded comparison"
-  ],
+  "observed_model": null,
   "planned_comparison_baseline": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
-  "base_update": {
-    "reason": "PR #38 merged during draft preparation",
-    "behavioral_evidence_reused": false
-  },
-  "superseded_assessment": {
-    "classification": "BLOCKED",
-    "results": {
-      "baseline_treatment": "NOT_RUN",
-      "local_control_tests": "NOT_RUN",
-      "observer_controls": "NOT_RUN",
-      "fresh_session_handoff": "NOT_RUN",
-      "actual_compaction": "NOT_RUN",
-      "canonical_acceptance": "NOT_RUN",
-      "provider_delivery": "NOT_RUN"
-    },
-    "next_prerequisites": [
-      "Restore connected execution environment",
-      "Obtain usable gpt-6-astra execution and supported task-scoped trace capture without changing permission policy",
-      "Supply/admit the exact pinned Noodle runtime for canonical acceptance",
-      "Freeze fixture and external observer identities before baseline/treatment"
-    ],
-    "reason": "Wrong carrier: local Codex CLI/scratch checks were incorrectly treated as prerequisites of the cloud ChatGPT connector/Actions path."
-  },
-  "selected_carrier": {
-    "kind": "cloud_chatgpt_github_actions",
-    "agent": "current ChatGPT Session",
-    "transport": "GitHub connector",
-    "executor": "existing runtime GitHub Actions workflow",
-    "codex_cli_required": false,
-    "basis": [
-      "User explicitly identified this Session's cloud path",
-      "Successful connector reads of repository, PR, run, jobs and artifacts",
-      "runtime.yml runs Soodles acceptance with runner-installed pinned Noodle and has no Codex CLI step"
-    ],
-    "selection_authority": "P-class task routing; no new executable gate"
-  },
-  "historical_probe_scope": "The observations array is retained unchanged. Local CLI timeouts do not test the active cloud Agent; environment_offline applied to the scratch exec carrier, not the working GitHub connector.",
-  "cloud_readback": {
-    "head": "d0bf6accc53d95f8900fe648ab40ffcacdd96013",
-    "run_id": 35128976519,
-    "url": "https://github.com/ed3c/soodles/actions/runs/35128976519",
-    "conclusion": "success",
-    "jobs": [
-      {
-        "id": 104904938568,
-        "name": "runtime-evidence",
-        "conclusion": "success",
-        "steps": [
-          {
-            "name": "Set up job",
-            "conclusion": "success"
-          },
-          {
-            "name": "Checkout exact candidate without persisted credentials",
-            "conclusion": "success"
-          },
-          {
-            "name": "Set up Python",
-            "conclusion": "success"
-          },
-          {
-            "name": "Read release identity and verify archive and binary before execution",
-            "conclusion": "success"
-          },
-          {
-            "name": "Canonical acceptance on the exact candidate head",
-            "conclusion": "success"
-          },
-          {
-            "name": "Preserve non-authorizing evidence",
-            "conclusion": "success"
-          },
-          {
-            "name": "Post Set up Python",
-            "conclusion": "success"
-          },
-          {
-            "name": "Post Checkout exact candidate without persisted credentials",
-            "conclusion": "success"
-          },
-          {
-            "name": "Complete job",
-            "conclusion": "success"
-          }
-        ]
-      }
-    ],
-    "artifacts": [
-      {
-        "id": 10460830159,
-        "name": "runtime-evidence-d0bf6accc53d95f8900fe648ab40ffcacdd96013",
-        "digest": "sha256:4806ed14ede20080690d7aabaedde9edea5534964636703f824d6f083723ed94",
-        "expired": false
-      }
-    ],
-    "artifact_contents_inspected": false,
-    "scope": "Provider job/step and artifact-metadata readback for this historical head only; not a matched Agent trial or landing authorization."
-  },
   "preparation_readback": {
-    "observer_commit": "e0f17e0ad01c557103af36ed934265e08a3fafad",
+    "agent_pairs": 0,
+    "checkpoint_preserved": true,
+    "execution_receipt_url": "https://github.com/ed3c/soodles/blob/de34516e6e073622e0bd654fd97c5085bd033d01/docs/experiments/agent-context/observer/results/execution-receipt.json",
+    "fixture_cleanup_observed": true,
     "fixture_commit": "de34516e6e073622e0bd654fd97c5085bd033d01",
     "observer_blobs": {
       "README.md": "28ff2b6cf7fb44ee9cfe4361cc617b4ceed9cb04",
@@ -214,18 +175,83 @@
       "observe.py": "de27ac6834e34d15393fdd27298b3c4c9f892d76",
       "test_observe.py": "16cb30049a372717eca0271aa0b67af944330f6b"
     },
-    "execution_receipt_url": "https://github.com/ed3c/soodles/blob/de34516e6e073622e0bd654fd97c5085bd033d01/docs/experiments/agent-context/observer/results/execution-receipt.json",
-    "synthetic_variants": 21,
+    "observer_commit": "e0f17e0ad01c557103af36ed934265e08a3fafad",
     "owner_controls": 2,
-    "agent_pairs": 0,
-    "checkpoint_preserved": true,
-    "fixture_cleanup_observed": true
+    "synthetic_variants": 21
   },
-  "current_capability": {
-    "python": "3.12.14",
-    "python_fixture_execution": "available",
-    "github_connector": "available",
-    "fresh_cloud_session_creation_export": "not exposed",
-    "codex_cli_required": false
+  "requested_model": "gpt-6-astra",
+  "results": {
+    "actual_compaction": "NOT_RUN",
+    "baseline_treatment": "EXECUTED_SCOPED_NON_REGRESSION_FULL_GATE_INCOMPLETE",
+    "canonical_acceptance": "TREATMENT_HEAD_ACTIONS_SUCCESS_FINAL_REPORT_HEAD_PENDING",
+    "fresh_session_handoff": "REAL_PRODUCER_CONSUMER_EXECUTED_STATIC_REVIEW_ONLY",
+    "local_control_tests": "PASS_PINNED_OWNER_FIXTURES",
+    "observer_controls": "PASS_SYNTHETIC_DETECTOR_ONLY",
+    "provider_delivery": "NOT_RUN"
+  },
+  "schema": 1,
+  "selected_carrier": {
+    "agent": "current ChatGPT Session",
+    "basis": [
+      "User explicitly identified this Session's cloud path",
+      "Successful connector reads of repository, PR, run, jobs and artifacts",
+      "runtime.yml runs Soodles acceptance with runner-installed pinned Noodle and has no Codex CLI step"
+    ],
+    "codex_cli_required": false,
+    "executor": "existing runtime GitHub Actions workflow",
+    "kind": "cloud_chatgpt_github_actions",
+    "selection_authority": "P-class task routing; no new executable gate",
+    "transport": "GitHub connector"
+  },
+  "superseded_assessment": {
+    "classification": "BLOCKED",
+    "next_prerequisites": [
+      "Restore connected execution environment",
+      "Obtain usable gpt-6-astra execution and supported task-scoped trace capture without changing permission policy",
+      "Supply/admit the exact pinned Noodle runtime for canonical acceptance",
+      "Freeze fixture and external observer identities before baseline/treatment"
+    ],
+    "reason": "Wrong carrier: local Codex CLI/scratch checks were incorrectly treated as prerequisites of the cloud ChatGPT connector/Actions path.",
+    "results": {
+      "actual_compaction": "NOT_RUN",
+      "baseline_treatment": "NOT_RUN",
+      "canonical_acceptance": "NOT_RUN",
+      "fresh_session_handoff": "NOT_RUN",
+      "local_control_tests": "NOT_RUN",
+      "observer_controls": "NOT_RUN",
+      "provider_delivery": "NOT_RUN"
+    }
+  },
+  "unknowns": [
+    "Cause of model-probe timeouts",
+    "Third launch/process state after transport failure",
+    "Rendered model input and window occupancy",
+    "Causal relation between CLI probes and environment disconnection",
+    "Automatic platform instruction injection and complete native task-action coverage; explicit pinned connector reads are recorded"
+  ],
+  "native_trials": {
+    "evidence_commit": "c6ac2e1a43eb21993b8903a292bf3f60a80414f0",
+    "url": "https://github.com/ed3c/soodles/tree/c6ac2e1a43eb21993b8903a292bf3f60a80414f0/docs/experiments/agent-context/native-trials",
+    "baseline": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "treatment": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+    "consumers": 6,
+    "producers": 2,
+    "paired_recorded_calls": 50,
+    "raw_verdicts": {
+      "INCOMPLETE": 2,
+      "REJECT": 4
+    },
+    "rejection_reason": "checkpoint_preserved: absent mutable before/after observations, not observed mutation",
+    "requested_model": "gpt-6-astra",
+    "observed_model": null,
+    "capture_complete": false,
+    "independent_audit": "review/audit.json",
+    "automatic_route_selection_proven": false,
+    "treatment_runtime": {
+      "run_id": 35133980197,
+      "attempt": 1,
+      "conclusion": "success",
+      "head": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424"
+    }
   }
 }
