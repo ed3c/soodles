@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "scope": "Independent bounded supplemental local audit; one recording repair, not another matched pair",
+  "checks": {
+    "recorded_read_exact_concat": true,
+    "handoff_matches_original_producer": true,
+    "checkpoint_before_after_equal": true,
+    "checkpoint_sha256_expected": true,
+    "checkpoint_absent": true,
+    "checkpoint_lock_absent": true
+  },
+  "checkpoint_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+  "previously_observed": {
+    "owner_record": "008-result.json",
+    "owner_exit_code": 0,
+    "owner": "landing.advance",
+    "action": "readback",
+    "phase": "merge_pending",
+    "classification": null,
+    "next": "provider_readback",
+    "new_write_request_emitted": false,
+    "failed_initial_executable_lookup_preserved": "003-result.json",
+    "observer_verdict": "INCOMPLETE",
+    "observer_violations": [],
+    "observer_missing": [
+      "complete_capture",
+      "observed_model"
+    ],
+    "recovered_round2_archive": {
+      "commit": "4e8da7e96111793f2803c9085a86238fa0e5c623",
+      "local_files_matching_provider_blob_identity": 123,
+      "missing": 0,
+      "mismatched": 0
+    }
+  },
+  "cleanup_chronology": "Checkpoint absence and lock absence verified now. Supervisor reported later removal of empty lock sidecars; earlier checkpoint-absence findings did not establish full directory zero residue.",
+  "limitations": [
+    "Consumer process records are not complete native platform transcripts.",
+    "Requested model does not establish observed provider-internal model.",
+    "Historical recording omissions remain; supplemental evidence does not replace them.",
+    "Remote supplemental archive identity is delegated to root and was not independently checked here.",
+    "Automatic AGENTS injection is not established."
+  ],
+  "authorizes_landing": false
+}
