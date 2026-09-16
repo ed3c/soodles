@@ -25,20 +25,15 @@ Write conditions and actions: **when this task/state applies, use this owner/sou
 
 `system-v1` and `AGENTS.md` share clarity, scope and provenance rules but serve different consumers. Keep behavioral requirements stable and route to them rather than copying every recovery branch into each entrypoint. Current user instructions define task scope within higher-priority platform and executable permission boundaries. A skill cannot silently expand scope or add an approval gate. Name the exact instruction when it actually blocks work.
 
-## Select the active carrier before capability checks
+## Keep one operational route owner
 
-Infer the execution path from the current user task, session context, invoked connector/launcher and provider readback. Record the actor, executor and observed basis once for that operation; re-evaluate when ownership/path changes. Binary presence, OS and a previous Session do not select the carrier. If evidence is insufficient, inspect the intended operation's existing owner rather than trying a speculative model launch.
+[Root AGENTS — Session entry](../AGENTS.md#session-entry--select-once-then-act) owns the cloud/local decision and shortest actions. README exposes that entry; skills consume the already-selected path. Do not copy a second decision table into this metaprompt or require ordinary work to read it.
 
-| Actual path | Agent and execution owner | Applicable prerequisites |
-| --- | --- | --- |
-| Cloud ChatGPT Session → GitHub connector → Actions → Soodles/Noodle | Current Session reasons and calls the connector; Actions runs repository controls/runtime | Available connector action, correct repo/head/workflow, runner prerequisites and provider run/artifact readback; no Codex CLI requirement |
-| Local Soodles → Noodle → Codex child | Local Noodle owns child execution | Admitted local Noodle plus usable local Codex CLI/authentication/launcher and child outcome evidence |
+The selected path comes from the current task, session/tools and actual execution owner. Cloud Sessions use GitHub reads and existing Actions for Soodles/Noodle controls; only a local Noodle launch of a Codex child needs its CLI. Local runtime checks without a Codex child do not need it either. Keep selection/evidence in the existing handoff and refresh mutable state on resume, rather than adding a flag, selector process or state store.
 
-For the cloud path, load required repository documents through the connector and record exact file refs/blobs and returned content. Do not assume that an arbitrary fetched AGENTS file was automatically injected by a local CLI. Record session/model information exposed by the platform, connector actions, workflow version, run/attempt/head, job/step outcomes and available artifact receipts. Platform internals not exposed by the cloud carrier remain unknown, not a reason to invent CLI measurements.
+Design checks: a cloud request must reach exact-head Actions evidence without scratch/CLI preflight; a local child request must reach its admitted launcher and typed outcome; an unavailable capability must block only its dependent operation. In a cloud Session, record actual connector document reads instead of assuming CLI automatic injection. A draft route must be fetched at its PR ref; writing it does not install it into every future Session.
 
-A scratch-container failure, absent local Noodle or failed Codex CLI probe cannot block the cloud connector/Actions path. A missing cloud action, required fixture, trace or fresh-session observation can block its dependent operation. Preserve other authorized progress. Use existing pull-request workflows for canonical acceptance and bind each result to its tested head. Do not create a second model runtime or require API credentials merely to test the Agent already operating this Session.
-
-This carrier-selection instruction is P-class. Provider run readbacks prove the exact workflow execution; they do not prove a matched Agent comparison. The current Session's correction after receiving the intended answer is not a blinded baseline/treatment run. An independent cloud Session can supply a fresh consumer without any Codex CLI. Unknown internal prompt/token data limits those measurements, not every observable behavior claim.
+These are P-class instructions. Actual file loading and subsequent behavior need observation. Workflow success alone is not a matched Agent comparison, and the steered authoring Session is not a blinded fresh consumer. Preserve unavailable context internals as unknown while continuing claims that have sufficient observable evidence.
 
 ## N/P/L/R classify claims
 

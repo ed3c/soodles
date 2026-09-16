@@ -2,23 +2,30 @@
 
 Migrate only exact, executable claims demonstrated in this repository.
 
+## Session entry — select once, then act
+
+Read this file at the task's selected repository ref when entering Soodles; a cloud Session fetches it through GitHub. Continue in an existing Issue/PR's head rather than assuming main contains its draft instructions. Use current task/tool/owner evidence to select the path below and proceed within existing authorization without asking the user to choose it again.
+
+| Observed execution path | Shortest supported action |
+| --- | --- |
+| ChatGPT Session using GitHub connector / Actions | Read the exact Issue/PR/head and `.github/workflows/runtime.yml`; consume the matching runtime run, job steps and artifact evidence through GitHub. Authorized PR creation/update triggers the existing workflow. For an unchanged head, reuse its result or observe its in-flight run; do not launch Codex CLI or install a scratch Noodle. |
+| Local Soodles → Noodle → Codex child | Use the supplied local control root, admitted launcher/envelope and Noodle owner; load only the [bounded execution recipe](.agents/skills/verify-soodles/features/issue-execution.md). Confirm the actual child's Codex CLI capability there, then observe its session/order/stage outcome. Do not reconstruct launcher argv. |
+
+Local runtime tests that launch no Codex child need no Codex CLI. A cloud Session does not inherit local-launcher requirements because a CLI binary happens to exist. If ownership is unknown, inspect the next operation's owner; only unresolved identity/authority requires clarification.
+
+Retain the selected path and its evidence in the existing task handoff: repo/ref, Issue/PR/head, carrier/reason, run/attempt or local owner/session/checkpoint, and next required readback. Refresh mutable owner/provider state on resume; reselect only when execution ownership changes. No new flag, state file or repeated preflight is required. Scratch `environment_offline` blocks only dependent scratch operations. Missing capabilities block their own operation, not the other path. Consume current owner `next`/`request`; never replay historical writes.
+
 ## Task scope and completion
 
 Within the current task's authorization, continue through necessary inspection, local correction and relevant checks. Existing disposable local controls may run without a new approval at each step. Finish an analysis/review with findings; finish an implementation with its requested artifact and evidence. A delivery task continues through the existing supervised owner to its requested terminal state. A blocked effect does not prevent unrelated authorized read-only work.
 
 Stop the affected operation when its owner requires missing identity, credentials, admission, capability or readback. Report that exact prerequisite and preserve evidence. Prior user authorization remains applicable, but it does not create a missing executable capability or let the candidate select its own judge.
 
-## Execution carrier
-
-Select the carrier from this task's actual execution path and available session/tool/provider readbacks. In a cloud ChatGPT Session using the GitHub connector and Actions, the current Session is the Agent and Actions runs Soodles/Noodle controls; no Codex CLI probe, login or installation is required. Only local Soodles → Noodle → Codex child execution requires Codex CLI preflight on that local host. Do not infer the path from an OS, an installed binary or an earlier Session.
-
-Preserve the selected path and its observed basis; re-evaluate when the execution owner changes. Scratch `environment_offline` or a missing local binary blocks only dependent local operations, not available GitHub/Actions work. Read the current operation's owner if the path is unknown; do not add a carrier flag, guessed launcher or approval gate.
-
 ## Current boundary
 
 - Noodle owns worktrees and runtime lifecycle. This bootstrap exercises its binary in disposable fixtures; it does not start a production daemon.
 - `policy/runtime.lock.json` owns the selected release and digests. `./soodles --help` owns the command surface.
-- `./soodles acceptance verify /absolute/path/to/noodle` is the canonical local acceptance. Run focused controls while editing, then acceptance once for each final clean candidate head.
+- `./soodles acceptance verify /absolute/path/to/noodle` is the canonical acceptance on the selected runner. Run focused controls while editing, then acceptance once for each final clean candidate head.
 - Local and PR self-test receipts have `authorizes_landing: false`. They cannot select or authorize their own verifier.
 - First installation uses the explicitly requested supervised fallback: the supervisor pins the landing implementation outside the candidate, admits one exact claim, and supplies raw provider readbacks. `landing.py` owns pending-write checkpoints and exact requests; the existing GitHub connector executes them under existing provider rules. No Administration access or protection-policy modification is a prerequisite.
 - Do not fabricate a production generation, independent default-branch verification, or unattended lander. An Issue is RESOLVED only after merge and closure readback plus Noodle reconciliation. Unknown writes require readback; never repeat the offered request from model memory.
