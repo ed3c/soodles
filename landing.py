@@ -132,7 +132,37 @@ def validate_claim(claim):
             "claim.control_root", claim["control_root"])
 
 
-def validate_snapshot(claim, snapshot):
+def validate_merge_commit(claim, snapshot, *, operation, checkpoint):
+    """Project dependent readback only from an identity-checked PR and valid SHA."""
+    sha = snapshot["pr"].get("merge_commit_sha")
+    next_action = provider_next(claim, operation, checkpoint)
+    if operation in {"start", "readmit"}:
+        next_action["known"]["claim"] = claim
+    next_action["reason"] = (f"Supply fresh readback.pr from GET {next_action['requests']['pr']['url']}; "
+                             "its merge_commit_sha must be a complete commit SHA before requesting that commit.")
+    require(isinstance(sha, str) and re.fullmatch("[0-9a-f]{40}", sha),
+            "pr.merge_commit_sha", sha, next_action)
+    url = f"https://api.github.com/repos/{REPOSITORY}/git/commits/{sha}"
+    next_action["requests"]["merge_commit"] = {"method": "GET", "url": url}
+    next_action["reason"] = (f"Supply readback.merge_commit from GET {url}; re-enter {operation} "
+                             "with fresh provider readback. Retry only after the readback materially changes.")
+    try:
+        merge = snapshot.get("merge_commit")
+        require(isinstance(merge, dict), "merge_commit", merge)
+        require(merge.get("sha") == sha, "merge.sha", merge.get("sha"))
+        parents = merge.get("parents")
+        require(isinstance(parents, list) and all(isinstance(p, dict) for p in parents),
+                "merge.parents", parents)
+        require([p.get("sha") for p in parents] == [claim["base_head"], claim["head"]], "merge.parents", parents)
+        tree = merge.get("tree")
+        require(isinstance(tree, dict), "merge.tree", tree)
+        require(tree.get("sha") == claim["tree"], "merge.tree", tree.get("sha"))
+    except LandingRefusal as error:
+        error.next_action = next_action
+        raise
+
+
+def validate_snapshot(claim, snapshot, *, operation, checkpoint):
     pr, issue, run, jobs, commit = (snapshot[k] for k in ("pr", "issue", "run", "jobs", "commit"))
     for kind, obj, number in (("pr", pr, claim["pr"]), ("issue", issue, claim["issue"])):
         require(obj.get("number") == number, kind + ".number", obj.get("number"))
@@ -165,17 +195,14 @@ def validate_snapshot(claim, snapshot):
         require(issue.get("state") == "open", "issue.state", issue.get("state"))
         require(snapshot["branch"]["commit"]["sha"] == claim["base_head"] and pr["base"]["sha"] == claim["base_head"], "base.head", snapshot["branch"]["commit"]["sha"])
     else:
-        merge = snapshot["merge_commit"]
         require(pr.get("state") == "closed" and pr.get("merged_at"), "pr.merge_readback", pr.get("state"))
-        require(merge.get("sha") == pr.get("merge_commit_sha"), "merge.sha", merge.get("sha"))
-        require([p["sha"] for p in merge["parents"]] == [claim["base_head"], claim["head"]], "merge.parents", merge["parents"])
-        require(merge["tree"]["sha"] == claim["tree"], "merge.tree", merge["tree"]["sha"])
+        validate_merge_commit(claim, snapshot, operation=operation, checkpoint=checkpoint)
         require(issue.get("state") == "open" or (issue.get("state") == "closed" and issue.get("state_reason") == "completed" and issue.get("closed_at")), "issue.classification", issue.get("state_reason"))
 
 
 def start(claim, snapshot, checkpoint):
     validate_claim(claim)
-    validate_snapshot(claim, snapshot)
+    validate_snapshot(claim, snapshot, operation="start", checkpoint=checkpoint)
     require(not snapshot["pr"].get("merged"), "pr.merged", True)
     with locked(checkpoint) as path:
         require(not path.exists(), "checkpoint", "already admitted")
@@ -270,7 +297,7 @@ def observe_base(path, state, snapshot, operation):
         return None
     require(base == snapshot["pr"]["base"]["sha"], "base.head", base)
     # All original subject/run/target checks still apply. Only base is separately proved.
-    validate_snapshot({**claim, "base_head": base}, snapshot)
+    validate_snapshot({**claim, "base_head": base}, snapshot, operation=operation, checkpoint=path)
     validate_comparison(snapshot, "base_comparison", claim["base_head"], base,
                         claim=claim, checkpoint=path, operation=operation)
     if state["writes_offered"]:
@@ -319,7 +346,7 @@ def readmit(checkpoint, claim, snapshot):
         fields = ("head", "run_id") if amendment else ("head", "base_head", "run_id")
         for field in fields:
             require(claim[field] != old[field], "readmit." + field, "unchanged " + str(claim[field]))
-        validate_snapshot(claim, snapshot)
+        validate_snapshot(claim, snapshot, operation="readmit", checkpoint=path)
         require(not snapshot["pr"].get("merged"), "readmit.pr.merged", True)
         if claim["base_head"] != old["base_head"]:
             validate_comparison(snapshot, "base_comparison", old["base_head"], claim["base_head"],
@@ -347,7 +374,7 @@ def advance(checkpoint, snapshot):
         recovery = observe_base(path, state, snapshot, "advance")
         if recovery:
             return recovery
-        validate_snapshot(claim, snapshot)
+        validate_snapshot(claim, snapshot, operation="advance", checkpoint=path)
         if state["phase"] == "readmission_pending":
             return recovery_action(state, state["recovery"]["base_head"], path, "advance")
         phase = state["phase"]
@@ -392,7 +419,7 @@ def dispatch(checkpoint, snapshot):
         recovery = observe_base(path, state, snapshot, "dispatch")
         if recovery:
             return recovery
-        validate_snapshot(claim, snapshot)
+        validate_snapshot(claim, snapshot, operation="dispatch", checkpoint=path)
         require(state["phase"] in {"merge_pending", "close_pending"}, "dispatch.phase", state["phase"])
         delivery = state["delivery"]
         require(delivery["status"] == "prepared", "dispatch.status",

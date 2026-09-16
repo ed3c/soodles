@@ -98,6 +98,69 @@ getattr(landing,sys.argv[2])(sys.argv[3],json.load(open(sys.argv[4])))
         snapshot['pr'].update(merged=True,state='closed',merged_at='2026-09-15T00:00:00Z',merge_commit_sha='d'*40)
         snapshot['merge_commit']={'sha':'d'*40,'tree':{'sha':'b'*40},'parents':[{'sha':'c'*40},{'sha':'a'*40}]}
         write(sf,snapshot)
+        # Dependent merged-commit readback is owned here, not reconstructed by a skill.
+        correct = json.loads(json.dumps(snapshot))
+        before = cp.read_bytes()
+        expected_get = {'method':'GET','url':'https://api.github.com/repos/ed3c/soodles/git/commits/'+'d'*40}
+        bad_cases = [
+            ('missing', None, 'merge_commit', None),
+            ('shape', [], 'merge_commit', []),
+            ('sha', {'sha':'e'*40,'tree':{'sha':'b'*40},'parents':[{'sha':'c'*40},{'sha':'a'*40}]}, 'merge.sha', 'e'*40),
+            ('parents', {'sha':'d'*40,'tree':{'sha':'b'*40},'parents':[{'sha':'a'*40},{'sha':'c'*40}]}, 'merge.parents', [{'sha':'a'*40},{'sha':'c'*40}]),
+            ('parent-shape', {'sha':'d'*40,'tree':{'sha':'b'*40},'parents':[None]}, 'merge.parents', [None]),
+            ('tree', {'sha':'d'*40,'tree':{'sha':'e'*40},'parents':[{'sha':'c'*40},{'sha':'a'*40}]}, 'merge.tree', 'e'*40),
+            ('tree-shape', {'sha':'d'*40,'tree':None,'parents':[{'sha':'c'*40},{'sha':'a'*40}]}, 'merge.tree', None),
+        ]
+        for operation in ('advance','dispatch'):
+            for label, value, field, invalid in bad_cases:
+                bad = json.loads(json.dumps(correct))
+                if label == 'missing': bad.pop('merge_commit')
+                else: bad['merge_commit'] = value
+                write(sf,bad)
+                r=execute([operation,cp,sf])
+                require(r.returncode != 0, 'invalid merge evidence admitted')
+                out=json.loads(r.stdout)
+                require(out.get('owner')=='landing.'+operation and out.get('invalid')=={'field':field,'value':invalid},
+                        'merge refusal lost exact field/value or owner')
+                nxt=out.get('next',{})
+                require(nxt.get('kind')=='provider_readback' and nxt.get('owner')=='GitHub','merge lacks owning provider readback')
+                require(nxt.get('operation')==operation,'merge routes to wrong operation')
+                require(nxt.get('known',{}).get('checkpoint')==str(cp.resolve()),'merge lost checkpoint')
+                require(nxt.get('requests',{}).get('merge_commit')==expected_get,'merge request has wrong subject')
+                require('argv' not in nxt and 'request' not in out,'merge refusal emitted a write or guessed argv')
+                require(expected_get['url'] in r.stderr and nxt.get('reason','!') in r.stderr,'merge human and machine guidance disagree')
+                require(cp.read_bytes()==before,'merge refusal changed checkpoint')
+        # The URL cannot be derived from an invalid PR SHA or a foreign/stale subject.
+        for sha in (None, 'HEAD', '../other', 'd'*39, 'D'*40):
+            bad=json.loads(json.dumps(correct)); bad['pr']['merge_commit_sha']=sha
+            write(sf,bad); r=execute(['advance',cp,sf]); out=json.loads(r.stdout)
+            require(r.returncode!=0 and out.get('invalid')=={'field':'pr.merge_commit_sha','value':sha},'invalid PR merge SHA not rejected')
+            nxt=out.get('next',{})
+            require(nxt.get('kind')=='provider_readback' and nxt.get('operation')=='advance','missing merge SHA lacks fresh PR readback')
+            require(nxt.get('requests',{}).get('pr')=={'method':'GET','url':'https://api.github.com/repos/ed3c/soodles/pulls/2'},'missing merge SHA lost PR subject')
+            require('merge_commit' not in nxt.get('requests',{}),'invalid PR SHA became a commit request')
+            require('request' not in out and cp.read_bytes()==before,'invalid PR SHA changed delivery')
+        for label in ('foreign','head'):
+            bad=json.loads(json.dumps(correct)); bad.pop('merge_commit')
+            if label=='foreign': bad['pr']['head']['repo']={'full_name':'other/repository'}
+            else: bad['pr']['head']['sha']='f'*40
+            write(sf,bad); r=execute(['advance',cp,sf]); out=json.loads(r.stdout)
+            require(r.returncode!=0 and 'requests' not in out.get('next',{}),'unconfirmed identity produced provider guidance')
+            require(cp.read_bytes()==before,'foreign/stale subject changed checkpoint')
+        # Legacy offered history is neither erased nor re-offered by a readback repair.
+        legacy=lane/'merge-readback-legacy.json'; old=json.loads(cp.read_text())
+        old['schema']=1; old.pop('delivery'); write(legacy,old)
+        if isolated: os.chown(legacy,65534,65534)
+        bad=json.loads(json.dumps(correct)); bad.pop('merge_commit'); write(sf,bad)
+        legacy_before=legacy.read_bytes(); r=execute(['advance',legacy,sf])
+        require(r.returncode!=0 and legacy.read_bytes()==legacy_before,'missing legacy readback changed history')
+        write(sf,correct)
+        repaired=invoke(['advance',legacy,sf])
+        require(repaired.get('action')=='dispatch' and repaired.get('classification') is None,'fresh merge readback cannot prepare close')
+        require(json.loads(legacy.read_text())['writes_offered']==['merge'],'legacy readback repeated merge')
+        cases.append({'case':'merge_commit_readback_recovery','malformed_controls':14,'invalid_sha_controls':5,
+                      'foreign_stale_controls':2,'legacy_history_preserved':True,'provider_fixture':True})
+        write(sf,correct)
         r = execute(['advance',cp,sf],kill='advance')
         require(r.returncode == -signal.SIGKILL, 'close prepare injection did not kill child')
         require(invoke(['advance',cp,sf])['action']=='dispatch','prepared close cannot resume')
