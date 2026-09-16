@@ -1,0 +1,18 @@
+test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding (test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding) ... FAIL
+
+======================================================================
+FAIL: test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding (test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles18-continuation-20260917/controls-final/judge/test_issue_execution.py", line 121, in test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding
+    self.assertEqual(next_action["operation"], route)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'automatic' != 'supervised'
+- automatic
++ supervised
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.231s
+
+FAILED (failures=1)

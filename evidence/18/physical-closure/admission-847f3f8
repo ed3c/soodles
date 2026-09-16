@@ -1,0 +1,9 @@
+#!/opt/homebrew/opt/python@3.14/bin/python3.14
+import hashlib,os,sys
+from pathlib import Path
+root=Path('/Users/neon/.codex/experiments/soodles18-continuation-20260917/installed-847f3f8')
+manifest={'soodles': 'cb3c6c81534e99a3ecf25f6c5d9cc2024bae2b9d2672afddb96fba37deda144d', 'soodles.py': 'b1269062b04e0b4a0a8aa7fe8108a644addf42c0a81254b4980265fbf2ed140c', 'issue_admission.py': '6c7027b804dc214151ce4a23bcfa6b02089aa72ca8f31e9fbf3cf60fda809ca8', 'issue_execution.py': '2b76cf350b06c9206a0cbf52ecdf70ee6145cf862ef999e3fdf6b99a5553de6a', 'landing.py': '165ecb89c0256806426652615d563d1c0e580ac20f837a22fa8555966c841a11', 'policy/runtime.lock.json': '08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830', '.agents/skills/schedule/SKILL.md': 'd3425452e5b92152976e9cb2f5f9214b7def129147f9f79f5bd8b9bc94ff57e4', '.agents/skills/execute/SKILL.md': '2f9b702c7710e8d875cb5071f43034725844a74e99f2f73e08c1c1cde161077b'}
+for name,digest in manifest.items():
+    if hashlib.sha256((root/name).read_bytes()).hexdigest()!=digest: raise SystemExit("refused: changed installed implementation: "+name)
+if len(sys.argv)!=2 or sys.argv[1] not in ("automatic","supervised"): raise SystemExit("expected automatic or supervised")
+os.execv('/opt/homebrew/opt/python@3.14/bin/python3.14', ['/opt/homebrew/opt/python@3.14/bin/python3.14',"-B",str(root/"soodles.py"),"issue",sys.argv[1],'/Users/neon/.codex/experiments/soodles18-continuation-20260917/execution-envelope-847f3f8.json','d52e13b30e017180980fcca4f71b46474ee335912165b1a5cd8e14a2a8a2f541'])

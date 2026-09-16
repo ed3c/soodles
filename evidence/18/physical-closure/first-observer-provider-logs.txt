@@ -1,0 +1,290 @@
+﻿2026-09-16T17:14:08.4190258Z Current runner version: '2.337.0'
+2026-09-16T17:14:08.4209146Z ##[group]Runner Image Provisioner
+2026-09-16T17:14:08.4210018Z Hosted Compute Agent
+2026-09-16T17:14:08.4210508Z Version: 20260828.587
+2026-09-16T17:14:08.4211416Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-16T17:14:08.4212020Z Build Date: 2026-08-28T16:44:25Z
+2026-09-16T17:14:08.4212620Z Worker ID: {b72d1f39-3b77-4e16-bbff-61c530b50731}
+2026-09-16T17:14:08.4213290Z Azure Region: centralus
+2026-09-16T17:14:08.4213790Z ##[endgroup]
+2026-09-16T17:14:08.4215034Z ##[group]Operating System
+2026-09-16T17:14:08.4215538Z Ubuntu
+2026-09-16T17:14:08.4215950Z 24.04.5
+2026-09-16T17:14:08.4216421Z LTS
+2026-09-16T17:14:08.4216854Z ##[endgroup]
+2026-09-16T17:14:08.4217305Z ##[group]Runner Image
+2026-09-16T17:14:08.4217793Z Image: ubuntu-24.04
+2026-09-16T17:14:08.4218297Z Version: 20260907.300.1
+2026-09-16T17:14:08.4219311Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-16T17:14:08.4221001Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+2026-09-16T17:14:08.4221840Z ##[endgroup]
+2026-09-16T17:14:08.4222795Z ##[group]GITHUB_TOKEN Permissions
+2026-09-16T17:14:08.4224743Z Actions: read
+2026-09-16T17:14:08.4225281Z Contents: read
+2026-09-16T17:14:08.4225773Z Metadata: read
+2026-09-16T17:14:08.4226241Z ##[endgroup]
+2026-09-16T17:14:08.4227907Z Secret source: Actions
+2026-09-16T17:14:08.4228680Z Cache mode: write
+2026-09-16T17:14:08.4229227Z Prepare workflow directory
+2026-09-16T17:14:08.4607023Z Prepare all required actions
+2026-09-16T17:14:08.4647980Z Getting action download info
+2026-09-16T17:14:08.7384141Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-16T17:14:09.0753754Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-09-16T17:14:09.7476342Z Complete job name: feature-observer
+2026-09-16T17:14:09.8528537Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-16T17:14:09.8536475Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-09-16T17:14:09.8537408Z with:
+2026-09-16T17:14:09.8538002Z   ref: 9897938501787b83dd681131325bceed6eb6d3e6
+2026-09-16T17:14:09.8538693Z   persist-credentials: false
+2026-09-16T17:14:09.8539293Z   repository: ed3c/soodles
+2026-09-16T17:14:09.8543205Z   token: ***
+2026-09-16T17:14:09.8543740Z   ssh-strict: true
+2026-09-16T17:14:09.8544272Z   ssh-user: git
+2026-09-16T17:14:09.8544805Z   clean: true
+2026-09-16T17:14:09.8545334Z   sparse-checkout-cone-mode: true
+2026-09-16T17:14:09.8545971Z   fetch-depth: 1
+2026-09-16T17:14:09.8546549Z   fetch-tags: false
+2026-09-16T17:14:09.8547166Z   show-progress: true
+2026-09-16T17:14:09.8547731Z   lfs: false
+2026-09-16T17:14:09.8548263Z   submodules: false
+2026-09-16T17:14:09.8548804Z   set-safe-directory: true
+2026-09-16T17:14:09.8549390Z   allow-unsafe-pr-checkout: false
+2026-09-16T17:14:09.8550160Z ##[endgroup]
+2026-09-16T17:14:09.9423040Z Syncing repository: ed3c/soodles
+2026-09-16T17:14:09.9425731Z ##[group]Getting Git version info
+2026-09-16T17:14:09.9426645Z Working directory is '/home/runner/work/soodles/soodles'
+2026-09-16T17:14:09.9428386Z [command]/usr/bin/git version
+2026-09-16T17:14:09.9502541Z git version 2.55.0
+2026-09-16T17:14:09.9526071Z ##[endgroup]
+2026-09-16T17:14:09.9539363Z Temporarily overriding HOME='/home/runner/work/_temp/9a2a9691-1b80-4ae8-8aad-98e0d7526d94' before making global git config changes
+2026-09-16T17:14:09.9541622Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-16T17:14:09.9545148Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/soodles/soodles
+2026-09-16T17:14:09.9586469Z Deleting the contents of '/home/runner/work/soodles/soodles'
+2026-09-16T17:14:09.9590328Z ##[group]Initializing the repository
+2026-09-16T17:14:09.9594009Z [command]/usr/bin/git init /home/runner/work/soodles/soodles
+2026-09-16T17:14:09.9681222Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-16T17:14:09.9682340Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-16T17:14:09.9683431Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-16T17:14:09.9684235Z hint: call:
+2026-09-16T17:14:09.9684749Z hint:
+2026-09-16T17:14:09.9685379Z hint: 	git config --global init.defaultBranch <name>
+2026-09-16T17:14:09.9686077Z hint:
+2026-09-16T17:14:09.9686788Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-16T17:14:09.9687813Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-16T17:14:09.9688641Z hint:
+2026-09-16T17:14:09.9689180Z hint: 	git branch -m <name>
+2026-09-16T17:14:09.9689783Z hint:
+2026-09-16T17:14:09.9690493Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-16T17:14:09.9693868Z Initialized empty Git repository in /home/runner/work/soodles/soodles/.git/
+2026-09-16T17:14:09.9702391Z [command]/usr/bin/git remote add origin https://github.com/ed3c/soodles
+2026-09-16T17:14:09.9740139Z ##[endgroup]
+2026-09-16T17:14:09.9741473Z ##[group]Disabling automatic garbage collection
+2026-09-16T17:14:09.9743596Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-16T17:14:09.9769496Z ##[endgroup]
+2026-09-16T17:14:09.9771369Z ##[group]Setting up auth
+2026-09-16T17:14:09.9777255Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-16T17:14:09.9808503Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-16T17:14:10.0095210Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-16T17:14:10.0121202Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-16T17:14:10.0292255Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-16T17:14:10.0326257Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-16T17:14:10.0534827Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-16T17:14:10.0564035Z ##[endgroup]
+2026-09-16T17:14:10.0565046Z ##[group]Fetching the repository
+2026-09-16T17:14:10.0571767Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 9897938501787b83dd681131325bceed6eb6d3e6
+2026-09-16T17:14:10.5041221Z From https://github.com/ed3c/soodles
+2026-09-16T17:14:10.5042660Z  * branch            9897938501787b83dd681131325bceed6eb6d3e6 -> FETCH_HEAD
+2026-09-16T17:14:10.5046278Z ##[endgroup]
+2026-09-16T17:14:10.5048007Z ##[group]Determining the checkout info
+2026-09-16T17:14:10.5049669Z ##[endgroup]
+2026-09-16T17:14:10.5053424Z [command]/usr/bin/git sparse-checkout disable
+2026-09-16T17:14:10.5093422Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-16T17:14:10.5116819Z ##[group]Checking out the ref
+2026-09-16T17:14:10.5119820Z [command]/usr/bin/git checkout --progress --force 9897938501787b83dd681131325bceed6eb6d3e6
+2026-09-16T17:14:10.5184329Z Note: switching to '9897938501787b83dd681131325bceed6eb6d3e6'.
+2026-09-16T17:14:10.5185335Z 
+2026-09-16T17:14:10.5186240Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-16T17:14:10.5187996Z changes and commit them, and you can discard any commits you make in this
+2026-09-16T17:14:10.5189909Z state without impacting any branches by switching back to a branch.
+2026-09-16T17:14:10.5191125Z 
+2026-09-16T17:14:10.5191837Z If you want to create a new branch to retain commits you create, you may
+2026-09-16T17:14:10.5193662Z do so (now or later) by using -c with the switch command. Example:
+2026-09-16T17:14:10.5195000Z 
+2026-09-16T17:14:10.5195551Z   git switch -c <new-branch-name>
+2026-09-16T17:14:10.5196341Z 
+2026-09-16T17:14:10.5196807Z Or undo this operation with:
+2026-09-16T17:14:10.5197610Z 
+2026-09-16T17:14:10.5198058Z   git switch -
+2026-09-16T17:14:10.5198688Z 
+2026-09-16T17:14:10.5199696Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-16T17:14:10.5201380Z 
+2026-09-16T17:14:10.5203312Z HEAD is now at 9897938 Retain reconciliation owner inputs so missing readback cannot lose recovery identity
+2026-09-16T17:14:10.5207709Z ##[endgroup]
+2026-09-16T17:14:10.5217867Z [command]/usr/bin/git log -1 --format=%H
+2026-09-16T17:14:10.5236376Z 9897938501787b83dd681131325bceed6eb6d3e6
+2026-09-16T17:14:10.5244660Z ##[group]Removing auth
+2026-09-16T17:14:10.5248068Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-16T17:14:10.5271838Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-16T17:14:10.5430189Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-16T17:14:10.5448755Z http.https://github.com/.extraheader
+2026-09-16T17:14:10.5454437Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-16T17:14:10.5480417Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-16T17:14:10.5634973Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-16T17:14:10.5653940Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-16T17:14:10.5801682Z ##[endgroup]
+2026-09-16T17:14:10.6096400Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-16T17:14:10.6102664Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-09-16T17:14:10.6104103Z with:
+2026-09-16T17:14:10.6104980Z   python-version: 3.12
+2026-09-16T17:14:10.6105861Z   check-latest: false
+2026-09-16T17:14:10.6113910Z   token: ***
+2026-09-16T17:14:10.6114774Z   update-environment: true
+2026-09-16T17:14:10.6115722Z   allow-prereleases: false
+2026-09-16T17:14:10.6116697Z   freethreaded: false
+2026-09-16T17:14:10.6117536Z ##[endgroup]
+2026-09-16T17:14:10.7223489Z ##[group]Installed versions
+2026-09-16T17:14:10.7290697Z (node:2108) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-16T17:14:10.7293684Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-16T17:14:10.7295166Z Successfully set up CPython (3.12.14)
+2026-09-16T17:14:10.7296854Z ##[endgroup]
+2026-09-16T17:14:10.7444864Z ##[group]Run python3 -B - <<'PY'
+2026-09-16T17:14:10.7446074Z [36;1mpython3 -B - <<'PY'[0m
+2026-09-16T17:14:10.7447487Z [36;1mimport hashlib, io, json, os, pathlib, tarfile, urllib.request[0m
+2026-09-16T17:14:10.7448849Z [36;1mimport soodles[0m
+2026-09-16T17:14:10.7449935Z [36;1mlock = soodles.load_lock(pathlib.Path.cwd())[0m
+2026-09-16T17:14:10.7451325Z [36;1mdef fetch(url):[0m
+2026-09-16T17:14:10.7452872Z [36;1m    request = urllib.request.Request(url, headers={'User-Agent': 'soodles-runtime-bootstrap'})[0m
+2026-09-16T17:14:10.7455107Z [36;1m    with urllib.request.urlopen(request, timeout=60) as response:[0m
+2026-09-16T17:14:10.7456513Z [36;1m        return response.read()[0m
+2026-09-16T17:14:10.7457872Z [36;1mapi = 'https://api.github.com/repos/' + lock['repository'][0m
+2026-09-16T17:14:10.7459651Z [36;1mrelease = json.loads(fetch(api + '/releases/tags/' + lock['release']))[0m
+2026-09-16T17:14:10.7461965Z [36;1mcommit = json.loads(fetch(api + '/commits/' + lock['release']))[0m
+2026-09-16T17:14:10.7463446Z [36;1massert release['tag_name'] == lock['release'][0m
+2026-09-16T17:14:10.7464935Z [36;1massert commit['sha'] == lock['commit'], 'release commit differs from lock'[0m
+2026-09-16T17:14:10.7466753Z [36;1massets = [a for a in release['assets'] if a['name'] == lock['asset_name']][0m
+2026-09-16T17:14:10.7468460Z [36;1massert len(assets) == 1, 'release asset is absent or ambiguous'[0m
+2026-09-16T17:14:10.7470063Z [36;1massert assets[0]['digest'] == 'sha256:' + lock['asset_sha256'][0m
+2026-09-16T17:14:10.7472493Z [36;1murl = 'https://github.com/' + lock['repository'] + '/releases/download/' + lock['release'] + '/' + lock['asset_name'][0m
+2026-09-16T17:14:10.7474285Z [36;1marchive = fetch(url)[0m
+2026-09-16T17:14:10.7475838Z [36;1massert hashlib.sha256(archive).hexdigest() == lock['asset_sha256'], 'archive digest differs'[0m
+2026-09-16T17:14:10.7477694Z [36;1mwith tarfile.open(fileobj=io.BytesIO(archive)) as tar:[0m
+2026-09-16T17:14:10.7479336Z [36;1m    members = [m for m in tar.getmembers() if m.name == 'noodle' and m.isfile()][0m
+2026-09-16T17:14:10.7481385Z [36;1m    assert len(members) == 1, 'binary member is absent or ambiguous'[0m
+2026-09-16T17:14:10.7482896Z [36;1m    binary = tar.extractfile(members[0]).read()[0m
+2026-09-16T17:14:10.7484653Z [36;1massert hashlib.sha256(binary).hexdigest() == lock['binary_sha256'], 'binary digest differs'[0m
+2026-09-16T17:14:10.7486644Z [36;1mdirectory = pathlib.Path(os.environ['RUNNER_TEMP']) / 'soodles-runtime'[0m
+2026-09-16T17:14:10.7488136Z [36;1mdirectory.mkdir()[0m
+2026-09-16T17:14:10.7489092Z [36;1mtarget = directory / 'noodle'[0m
+2026-09-16T17:14:10.7490147Z [36;1mtarget.write_bytes(binary)[0m
+2026-09-16T17:14:10.7491371Z [36;1mtarget.chmod(0o755)[0m
+2026-09-16T17:14:10.7492939Z [36;1mreceipt = {'release': release['tag_name'], 'commit': commit['sha'], 'asset': assets[0]['name'],[0m
+2026-09-16T17:14:10.7495016Z [36;1m           'archive_sha256': lock['asset_sha256'], 'binary_sha256': lock['binary_sha256'],[0m
+2026-09-16T17:14:10.7496566Z [36;1m           'authorizes_landing': False}[0m
+2026-09-16T17:14:10.7498043Z [36;1m(directory / 'release.json').write_text(json.dumps(receipt, indent=2) + '\n')[0m
+2026-09-16T17:14:10.7499549Z [36;1mprint(json.dumps(receipt))[0m
+2026-09-16T17:14:10.7500587Z [36;1mPY[0m
+2026-09-16T17:14:10.7546275Z shell: /usr/bin/bash -e {0}
+2026-09-16T17:14:10.7547640Z env:
+2026-09-16T17:14:10.7549209Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:10.7551643Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-16T17:14:10.7553761Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:10.7555614Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:10.7557475Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:10.7559383Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-16T17:14:10.7561802Z ##[endgroup]
+2026-09-16T17:14:11.7471165Z {"release": "v0.1.19", "commit": "391f3154c680fc6724b8cdabf6bcec831b61065d", "asset": "noodle_linux_amd64.tar.gz", "archive_sha256": "7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb", "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472", "authorizes_landing": false}
+2026-09-16T17:14:11.7642436Z ##[group]Run python3 -B .agents/skills/verify-soodles/scripts/verify_runtime.py "$RUNNER_TEMP/soodles-runtime/noodle" "$RUNNER_TEMP/runtime-feature"
+2026-09-16T17:14:11.7645620Z [36;1mpython3 -B .agents/skills/verify-soodles/scripts/verify_runtime.py "$RUNNER_TEMP/soodles-runtime/noodle" "$RUNNER_TEMP/runtime-feature"[0m
+2026-09-16T17:14:11.7668761Z shell: /usr/bin/bash -e {0}
+2026-09-16T17:14:11.7669628Z env:
+2026-09-16T17:14:11.7670585Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:11.7672041Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-16T17:14:11.7673488Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:11.7674783Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:11.7676085Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:11.7677384Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-16T17:14:11.7678626Z ##[endgroup]
+2026-09-16T17:14:11.9399287Z {"feature": "runtime-admission", "classification": "VERIFIED", "counts": {"top_level_commands": 7, "unexpected_command_failures": 0, "expected_refusals": 1, "readback_invocations": 5, "repeated_readbacks": 2, "verification_invocations": 2, "canonical_acceptance_invocations": 0}, "cleanup": {"scratch_removed": true, "resident_processes_started": 0}, "authorizes_landing": false}
+2026-09-16T17:14:11.9524100Z ##[group]Run python3 -B - <<'PYCODE'
+2026-09-16T17:14:11.9525161Z [36;1mpython3 -B - <<'PYCODE'[0m
+2026-09-16T17:14:11.9526291Z [36;1mimport os,json,urllib.request,zipfile,io,base64,zlib[0m
+2026-09-16T17:14:11.9527506Z [36;1mfrom pathlib import Path[0m
+2026-09-16T17:14:11.9528575Z [36;1mbase='https://api.github.com/repos/ed3c/soodles'[0m
+2026-09-16T17:14:11.9529624Z [36;1mdef get(url):[0m
+2026-09-16T17:14:11.9531649Z [36;1m    request=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})[0m
+2026-09-16T17:14:11.9533737Z [36;1m    return urllib.request.urlopen(request,timeout=60).read()[0m
+2026-09-16T17:14:11.9535334Z [36;1mitems=json.loads(get(base+'/actions/runs/35126642434/artifacts'))['artifacts'][0m
+2026-09-16T17:14:11.9537214Z [36;1mmatches=[a for a in items if a['name']=='runtime-evidence-9897938501787b83dd681131325bceed6eb6d3e6'][0m
+2026-09-16T17:14:11.9538821Z [36;1massert len(matches)==1[0m
+2026-09-16T17:14:11.9539812Z [36;1mdata=get(matches[0]['archive_download_url'])[0m
+2026-09-16T17:14:11.9541245Z [36;1mwith zipfile.ZipFile(io.BytesIO(data)) as archive:[0m
+2026-09-16T17:14:11.9542642Z [36;1m    acceptance=json.loads(archive.read('acceptance.json'))[0m
+2026-09-16T17:14:11.9543959Z [36;1m    release=json.loads(archive.read('release.json'))[0m
+2026-09-16T17:14:11.9545444Z [36;1massert acceptance['candidate']['head']=='9897938501787b83dd681131325bceed6eb6d3e6'[0m
+2026-09-16T17:14:11.9547389Z [36;1mruntime=json.loads((Path(os.environ['RUNNER_TEMP'])/'runtime-feature/receipt.json').read_text())[0m
+2026-09-16T17:14:11.9549064Z [36;1massert runtime['classification']=='VERIFIED'[0m
+2026-09-16T17:14:11.9552501Z [36;1mreport={'scope':'Mapped runtime CLI live drive plus readback of existing exact-head acceptance; no new canonical acceptance invocation or live provider delivery','runtime_feature':runtime,'acceptance':acceptance,'release':release,'artifact_id':matches[0]['id'],'authorizes_landing':False}[0m
+2026-09-16T17:14:11.9556553Z [36;1mprint('SOODLES_FEATURE_OBSERVER_ZLIB_BASE64='+base64.b64encode(zlib.compress(json.dumps(report).encode())).decode())[0m
+2026-09-16T17:14:11.9558252Z [36;1mPYCODE[0m
+2026-09-16T17:14:11.9579762Z shell: /usr/bin/bash -e {0}
+2026-09-16T17:14:11.9580748Z env:
+2026-09-16T17:14:11.9581632Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:11.9582996Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-16T17:14:11.9584377Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:11.9585661Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:11.9586896Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:14:11.9588261Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-16T17:14:11.9595108Z   GH_TOKEN: ***
+2026-09-16T17:14:11.9595893Z ##[endgroup]
+2026-09-16T17:14:12.6501901Z Traceback (most recent call last):
+2026-09-16T17:14:12.6506463Z   File "<stdin>", line 10, in <module>
+2026-09-16T17:14:12.6506913Z   File "<stdin>", line 6, in get
+2026-09-16T17:14:12.6507493Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 215, in urlopen
+2026-09-16T17:14:12.6582261Z     return opener.open(url, data, timeout)
+2026-09-16T17:14:12.6582993Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-16T17:14:12.6583797Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 521, in open
+2026-09-16T17:14:12.6584575Z     response = meth(req, response)
+2026-09-16T17:14:12.6585050Z                ^^^^^^^^^^^^^^^^^^^
+2026-09-16T17:14:12.6585848Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 630, in http_response
+2026-09-16T17:14:12.6591598Z     response = self.parent.error(
+2026-09-16T17:14:12.6592094Z                ^^^^^^^^^^^^^^^^^^
+2026-09-16T17:14:12.6593165Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 553, in error
+2026-09-16T17:14:12.6593878Z     result = self._call_chain(*args)
+2026-09-16T17:14:12.6594289Z              ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-16T17:14:12.6595189Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 492, in _call_chain
+2026-09-16T17:14:12.6595914Z     result = func(*args)
+2026-09-16T17:14:12.6596321Z              ^^^^^^^^^^^
+2026-09-16T17:14:12.6597136Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 745, in http_error_302
+2026-09-16T17:14:12.6598298Z     return self.parent.open(new, timeout=req.timeout)
+2026-09-16T17:14:12.6599047Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-16T17:14:12.6600133Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 521, in open
+2026-09-16T17:14:12.6601342Z     response = meth(req, response)
+2026-09-16T17:14:12.6601902Z                ^^^^^^^^^^^^^^^^^^^
+2026-09-16T17:14:12.6602640Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 630, in http_response
+2026-09-16T17:14:12.6603334Z     response = self.parent.error(
+2026-09-16T17:14:12.6603704Z                ^^^^^^^^^^^^^^^^^^
+2026-09-16T17:14:12.6604360Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 559, in error
+2026-09-16T17:14:12.6605020Z     return self._call_chain(*args)
+2026-09-16T17:14:12.6605457Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-16T17:14:12.6606112Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 492, in _call_chain
+2026-09-16T17:14:12.6606739Z     result = func(*args)
+2026-09-16T17:14:12.6607098Z              ^^^^^^^^^^^
+2026-09-16T17:14:12.6607763Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/urllib/request.py", line 639, in http_error_default
+2026-09-16T17:14:12.6608492Z     raise HTTPError(req.full_url, code, msg, hdrs, fp)
+2026-09-16T17:14:12.6609348Z urllib.error.HTTPError: HTTP Error 401: Server failed to authenticate the request. Please refer to the information in the www-authenticate header.
+2026-09-16T17:14:12.6699502Z ##[error]Process completed with exit code 1.
+2026-09-16T17:14:12.6818158Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-16T17:14:12.6819228Z Post job cleanup.
+2026-09-16T17:14:12.7562040Z [command]/usr/bin/git version
+2026-09-16T17:14:12.7592930Z git version 2.55.0
+2026-09-16T17:14:12.7622170Z Temporarily overriding HOME='/home/runner/work/_temp/e276d12f-65de-4ec4-91b5-bca14e0acc41' before making global git config changes
+2026-09-16T17:14:12.7623732Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-16T17:14:12.7625680Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/soodles/soodles
+2026-09-16T17:14:12.7657940Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-16T17:14:12.7686790Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-16T17:14:12.7859788Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-16T17:14:12.7884605Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-16T17:14:12.8056957Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-16T17:14:12.8079863Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-16T17:14:12.8356387Z Cleaning up orphan processes
+2026-09-16T17:14:12.8555283Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

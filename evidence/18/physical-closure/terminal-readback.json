@@ -1,0 +1,57 @@
+{
+  "classification": "INDEPENDENT_TERMINAL_READBACK",
+  "observations": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "exit": 0,
+      "stdout": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c\n49812e291c3199ec3f696d71fe547e488b5dc751\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "branch",
+        "--list",
+        "soodles-18-0-execute"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "worktree",
+        "list",
+        "--porcelain"
+      ],
+      "exit": 0,
+      "stdout": "worktree /Users/neon/soodles\nHEAD e4b4a8487855b75ef2d47087019bb52c4d5ffd6c\nbranch refs/heads/main\n\n",
+      "stderr": ""
+    }
+  ],
+  "reconcile_process_and_group_absent": [
+    19646,
+    -19646
+  ],
+  "worktree_absent": true,
+  "owner_receipt": "resolved.json",
+  "shutdown_observation": "Noodle control merge ack succeeded and original order completed without new sessions. SIGTERM while next backlog.sync was running made loop exit 1; retained raw failure, no command replay or second writer.",
+  "authorizes_landing": false
+}

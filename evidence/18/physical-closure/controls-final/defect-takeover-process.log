@@ -1,0 +1,15 @@
+test_completed_label_cannot_hide_a_live_process_group (test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group) ... FAIL
+
+======================================================================
+FAIL: test_completed_label_cannot_hide_a_live_process_group (test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/soodles18-continuation-20260917/controls-final/judge/test_issue_execution.py", line 320, in test_completed_label_cannot_hide_a_live_process_group
+    with self.assertRaises(admission.AdmissionRefusal) as caught:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AdmissionRefusal not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.175s
+
+FAILED (failures=1)

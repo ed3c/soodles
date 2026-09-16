@@ -1,0 +1,213 @@
+{
+  "selection": {
+    "source_head": "9897938501787b83dd681131325bceed6eb6d3e6",
+    "judge_sha256": {
+      "test_landing.py": "2497e207ce4901ae6ad37a3c9b6deac54ed1ca53c30b36c6f4bb456f6346283d",
+      "test_issue_admission.py": "00e1815e026af7641fe41ddb59f198cd51f16f22533d588722acb5a33eea0de1",
+      "test_issue_execution.py": "181d331a08eb08182cd790834fa3c911ccfce5e3d644feef868cfdfaaa27329d"
+    },
+    "scope": "local real consumer functions and executable sentinels over provider/owner fixtures",
+    "authorizes_landing": false
+  },
+  "records": [
+    {
+      "name": "cure-and-non-cases",
+      "control": [
+        "test_issue_admission",
+        "test_issue_execution",
+        "test_landing"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 8.833856709010433
+    },
+    {
+      "name": "defect-body-binding",
+      "control": [
+        "test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.07731449999846518,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-body-binding",
+      "control": [
+        "test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.0701801250106655
+    },
+    {
+      "name": "defect-worker-entry",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.7517205420299433,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-worker-entry",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.7887511670123786
+    },
+    {
+      "name": "defect-takeover-process",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.27691049996064976,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-takeover-process",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.2597280000336468
+    },
+    {
+      "name": "defect-delivery-consumer",
+      "control": [
+        "test_landing.BoundLandingTests.test_body_amendment_refuses_prepared_dispatch_without_offer"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.34068045899039134,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-delivery-consumer",
+      "control": [
+        "test_landing.BoundLandingTests.test_body_amendment_refuses_prepared_dispatch_without_offer"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.4212577500147745
+    },
+    {
+      "name": "defect-delivery-paths",
+      "control": [
+        "test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.4235821249894798,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-delivery-paths",
+      "control": [
+        "test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.6004307499970309
+    },
+    {
+      "name": "defect-worker-head",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.8133123749867082,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-worker-head",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.40865791600663215
+    },
+    {
+      "name": "defect-order-history",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_repeated_publication_preserves_one_mailbox_and_prior_admission"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.259030791989062,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-order-history",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_repeated_publication_preserves_one_mailbox_and_prior_admission"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.26039233297342435
+    },
+    {
+      "name": "defect-continuation-operation",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.3240236660349183,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-continuation-operation",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.38863841601414606
+    },
+    {
+      "name": "defect-continuation-owner",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 0.2590228340122849,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-continuation-owner",
+      "control": [
+        "test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.39183120895177126
+    },
+    {
+      "name": "defect-reconcile-continuation",
+      "control": [
+        "test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 1.0248994999565184,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-reconcile-continuation",
+      "control": [
+        "test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.0331805410096422
+    },
+    {
+      "name": "defect-terminal-order",
+      "control": [
+        "test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order"
+      ],
+      "exit": 1,
+      "elapsed_seconds": 1.1001225829822943,
+      "defect_detected": true
+    },
+    {
+      "name": "cure-terminal-order",
+      "control": [
+        "test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.008137374999933
+    }
+  ],
+  "classification": "VERIFIED_LOCAL_CONTROLS",
+  "authorizes_landing": false
+}

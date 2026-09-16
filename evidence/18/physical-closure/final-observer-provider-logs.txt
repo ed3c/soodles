@@ -1,0 +1,283 @@
+﻿2026-09-16T17:22:33.9409431Z Current runner version: '2.337.0'
+2026-09-16T17:22:33.9429326Z ##[group]Runner Image Provisioner
+2026-09-16T17:22:33.9430209Z Hosted Compute Agent
+2026-09-16T17:22:33.9430692Z Version: 20260828.587
+2026-09-16T17:22:33.9431249Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-16T17:22:33.9431854Z Build Date: 2026-08-28T16:44:25Z
+2026-09-16T17:22:33.9432409Z Worker ID: {b7d7f965-c78c-49d6-ba1e-0573941f5110}
+2026-09-16T17:22:33.9433033Z Azure Region: westus3
+2026-09-16T17:22:33.9433731Z ##[endgroup]
+2026-09-16T17:22:33.9434927Z ##[group]Operating System
+2026-09-16T17:22:33.9435453Z Ubuntu
+2026-09-16T17:22:33.9435878Z 24.04.5
+2026-09-16T17:22:33.9436313Z LTS
+2026-09-16T17:22:33.9436945Z ##[endgroup]
+2026-09-16T17:22:33.9437411Z ##[group]Runner Image
+2026-09-16T17:22:33.9437925Z Image: ubuntu-24.04
+2026-09-16T17:22:33.9438390Z Version: 20260907.300.1
+2026-09-16T17:22:33.9439427Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-16T17:22:33.9440948Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+2026-09-16T17:22:33.9441782Z ##[endgroup]
+2026-09-16T17:22:33.9442736Z ##[group]GITHUB_TOKEN Permissions
+2026-09-16T17:22:33.9445056Z Actions: read
+2026-09-16T17:22:33.9445557Z Contents: read
+2026-09-16T17:22:33.9446036Z Metadata: read
+2026-09-16T17:22:33.9446491Z ##[endgroup]
+2026-09-16T17:22:33.9448126Z Secret source: Actions
+2026-09-16T17:22:33.9448935Z Cache mode: write
+2026-09-16T17:22:33.9449476Z Prepare workflow directory
+2026-09-16T17:22:33.9700859Z Prepare all required actions
+2026-09-16T17:22:33.9740831Z Getting action download info
+2026-09-16T17:22:34.2909839Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-16T17:22:34.3782344Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-09-16T17:22:34.5563580Z Complete job name: feature-observer
+2026-09-16T17:22:34.6181640Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-16T17:22:34.6189235Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-09-16T17:22:34.6190048Z with:
+2026-09-16T17:22:34.6190532Z   ref: 4d9e756b3605b07d091a7271e1550f19a596c2eb
+2026-09-16T17:22:34.6191111Z   persist-credentials: false
+2026-09-16T17:22:34.6191740Z   repository: ed3c/soodles
+2026-09-16T17:22:34.6195088Z   token: ***
+2026-09-16T17:22:34.6195538Z   ssh-strict: true
+2026-09-16T17:22:34.6195986Z   ssh-user: git
+2026-09-16T17:22:34.6196413Z   clean: true
+2026-09-16T17:22:34.6196905Z   sparse-checkout-cone-mode: true
+2026-09-16T17:22:34.6197406Z   fetch-depth: 1
+2026-09-16T17:22:34.6197850Z   fetch-tags: false
+2026-09-16T17:22:34.6198406Z   show-progress: true
+2026-09-16T17:22:34.6198842Z   lfs: false
+2026-09-16T17:22:34.6199309Z   submodules: false
+2026-09-16T17:22:34.6199753Z   set-safe-directory: true
+2026-09-16T17:22:34.6200262Z   allow-unsafe-pr-checkout: false
+2026-09-16T17:22:34.6201068Z ##[endgroup]
+2026-09-16T17:22:34.7043860Z Syncing repository: ed3c/soodles
+2026-09-16T17:22:34.7045991Z ##[group]Getting Git version info
+2026-09-16T17:22:34.7046833Z Working directory is '/home/runner/work/soodles/soodles'
+2026-09-16T17:22:34.7048060Z [command]/usr/bin/git version
+2026-09-16T17:22:34.7120161Z git version 2.55.0
+2026-09-16T17:22:34.7150502Z ##[endgroup]
+2026-09-16T17:22:34.7160234Z Temporarily overriding HOME='/home/runner/work/_temp/ad5db85e-34a0-486e-bc18-64e48bf8c6ca' before making global git config changes
+2026-09-16T17:22:34.7162247Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-16T17:22:34.7164412Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/soodles/soodles
+2026-09-16T17:22:34.7204652Z Deleting the contents of '/home/runner/work/soodles/soodles'
+2026-09-16T17:22:34.7207809Z ##[group]Initializing the repository
+2026-09-16T17:22:34.7210750Z [command]/usr/bin/git init /home/runner/work/soodles/soodles
+2026-09-16T17:22:34.7280616Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-16T17:22:34.7282595Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-16T17:22:34.7284080Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-16T17:22:34.7285101Z hint: call:
+2026-09-16T17:22:34.7285730Z hint:
+2026-09-16T17:22:34.7286433Z hint: 	git config --global init.defaultBranch <name>
+2026-09-16T17:22:34.7287255Z hint:
+2026-09-16T17:22:34.7288156Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-16T17:22:34.7289374Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-16T17:22:34.7290412Z hint:
+2026-09-16T17:22:34.7291008Z hint: 	git branch -m <name>
+2026-09-16T17:22:34.7291749Z hint:
+2026-09-16T17:22:34.7292647Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-16T17:22:34.7294654Z Initialized empty Git repository in /home/runner/work/soodles/soodles/.git/
+2026-09-16T17:22:34.7297194Z [command]/usr/bin/git remote add origin https://github.com/ed3c/soodles
+2026-09-16T17:22:34.7324156Z ##[endgroup]
+2026-09-16T17:22:34.7325814Z ##[group]Disabling automatic garbage collection
+2026-09-16T17:22:34.7326893Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-16T17:22:34.7348878Z ##[endgroup]
+2026-09-16T17:22:34.7350034Z ##[group]Setting up auth
+2026-09-16T17:22:34.7352463Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-16T17:22:34.7376720Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-16T17:22:34.7990654Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-16T17:22:34.8017096Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-16T17:22:34.8214433Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-16T17:22:34.8241884Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-16T17:22:34.8450972Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-16T17:22:34.8482412Z ##[endgroup]
+2026-09-16T17:22:34.8484035Z ##[group]Fetching the repository
+2026-09-16T17:22:34.8492177Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 4d9e756b3605b07d091a7271e1550f19a596c2eb
+2026-09-16T17:22:35.4589184Z From https://github.com/ed3c/soodles
+2026-09-16T17:22:35.4590690Z  * branch            4d9e756b3605b07d091a7271e1550f19a596c2eb -> FETCH_HEAD
+2026-09-16T17:22:35.4593839Z ##[endgroup]
+2026-09-16T17:22:35.4595363Z ##[group]Determining the checkout info
+2026-09-16T17:22:35.4596990Z ##[endgroup]
+2026-09-16T17:22:35.4601782Z [command]/usr/bin/git sparse-checkout disable
+2026-09-16T17:22:35.4647329Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-16T17:22:35.4669594Z ##[group]Checking out the ref
+2026-09-16T17:22:35.4673006Z [command]/usr/bin/git checkout --progress --force 4d9e756b3605b07d091a7271e1550f19a596c2eb
+2026-09-16T17:22:35.4745521Z Note: switching to '4d9e756b3605b07d091a7271e1550f19a596c2eb'.
+2026-09-16T17:22:35.4746190Z 
+2026-09-16T17:22:35.4746731Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-16T17:22:35.4747793Z changes and commit them, and you can discard any commits you make in this
+2026-09-16T17:22:35.4748844Z state without impacting any branches by switching back to a branch.
+2026-09-16T17:22:35.4749375Z 
+2026-09-16T17:22:35.4749820Z If you want to create a new branch to retain commits you create, you may
+2026-09-16T17:22:35.4750671Z do so (now or later) by using -c with the switch command. Example:
+2026-09-16T17:22:35.4751129Z 
+2026-09-16T17:22:35.4751404Z   git switch -c <new-branch-name>
+2026-09-16T17:22:35.4751778Z 
+2026-09-16T17:22:35.4752010Z Or undo this operation with:
+2026-09-16T17:22:35.4752351Z 
+2026-09-16T17:22:35.4752544Z   git switch -
+2026-09-16T17:22:35.4752839Z 
+2026-09-16T17:22:35.4753208Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-16T17:22:35.4754163Z 
+2026-09-16T17:22:35.4754781Z HEAD is now at 4d9e756 Map only physically observed Issue execution and distinguish carrier-specific verification
+2026-09-16T17:22:35.4761933Z ##[endgroup]
+2026-09-16T17:22:35.4792005Z [command]/usr/bin/git log -1 --format=%H
+2026-09-16T17:22:35.4811313Z 4d9e756b3605b07d091a7271e1550f19a596c2eb
+2026-09-16T17:22:35.4817696Z ##[group]Removing auth
+2026-09-16T17:22:35.4820957Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-16T17:22:35.4844116Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-16T17:22:35.4998051Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-16T17:22:35.5016695Z http.https://github.com/.extraheader
+2026-09-16T17:22:35.5021042Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-16T17:22:35.5043453Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-16T17:22:35.5201396Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-16T17:22:35.5222758Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-16T17:22:35.5395985Z ##[endgroup]
+2026-09-16T17:22:35.5664956Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-16T17:22:35.5669990Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-09-16T17:22:35.5671480Z with:
+2026-09-16T17:22:35.5672275Z   python-version: 3.12
+2026-09-16T17:22:35.5673183Z   check-latest: false
+2026-09-16T17:22:35.5681225Z   token: ***
+2026-09-16T17:22:35.5682049Z   update-environment: true
+2026-09-16T17:22:35.5683098Z   allow-prereleases: false
+2026-09-16T17:22:35.5684274Z   freethreaded: false
+2026-09-16T17:22:35.5685142Z ##[endgroup]
+2026-09-16T17:22:35.6813194Z ##[group]Installed versions
+2026-09-16T17:22:35.6942066Z (node:2095) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-16T17:22:35.6945757Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-16T17:22:35.6948056Z Successfully set up CPython (3.12.14)
+2026-09-16T17:22:35.6950862Z ##[endgroup]
+2026-09-16T17:22:35.7093839Z ##[group]Run python3 -B - <<'PY'
+2026-09-16T17:22:35.7095056Z [36;1mpython3 -B - <<'PY'[0m
+2026-09-16T17:22:35.7096406Z [36;1mimport hashlib, io, json, os, pathlib, tarfile, urllib.request[0m
+2026-09-16T17:22:35.7097730Z [36;1mimport soodles[0m
+2026-09-16T17:22:35.7098733Z [36;1mlock = soodles.load_lock(pathlib.Path.cwd())[0m
+2026-09-16T17:22:35.7099920Z [36;1mdef fetch(url):[0m
+2026-09-16T17:22:35.7101427Z [36;1m    request = urllib.request.Request(url, headers={'User-Agent': 'soodles-runtime-bootstrap'})[0m
+2026-09-16T17:22:35.7103842Z [36;1m    with urllib.request.urlopen(request, timeout=60) as response:[0m
+2026-09-16T17:22:35.7105266Z [36;1m        return response.read()[0m
+2026-09-16T17:22:35.7106545Z [36;1mapi = 'https://api.github.com/repos/' + lock['repository'][0m
+2026-09-16T17:22:35.7108241Z [36;1mrelease = json.loads(fetch(api + '/releases/tags/' + lock['release']))[0m
+2026-09-16T17:22:35.7110018Z [36;1mcommit = json.loads(fetch(api + '/commits/' + lock['release']))[0m
+2026-09-16T17:22:35.7111510Z [36;1massert release['tag_name'] == lock['release'][0m
+2026-09-16T17:22:35.7113007Z [36;1massert commit['sha'] == lock['commit'], 'release commit differs from lock'[0m
+2026-09-16T17:22:35.7114962Z [36;1massets = [a for a in release['assets'] if a['name'] == lock['asset_name']][0m
+2026-09-16T17:22:35.7116691Z [36;1massert len(assets) == 1, 'release asset is absent or ambiguous'[0m
+2026-09-16T17:22:35.7118329Z [36;1massert assets[0]['digest'] == 'sha256:' + lock['asset_sha256'][0m
+2026-09-16T17:22:35.7120465Z [36;1murl = 'https://github.com/' + lock['repository'] + '/releases/download/' + lock['release'] + '/' + lock['asset_name'][0m
+2026-09-16T17:22:35.7122324Z [36;1marchive = fetch(url)[0m
+2026-09-16T17:22:35.7124106Z [36;1massert hashlib.sha256(archive).hexdigest() == lock['asset_sha256'], 'archive digest differs'[0m
+2026-09-16T17:22:35.7126024Z [36;1mwith tarfile.open(fileobj=io.BytesIO(archive)) as tar:[0m
+2026-09-16T17:22:35.7127705Z [36;1m    members = [m for m in tar.getmembers() if m.name == 'noodle' and m.isfile()][0m
+2026-09-16T17:22:35.7129498Z [36;1m    assert len(members) == 1, 'binary member is absent or ambiguous'[0m
+2026-09-16T17:22:35.7130949Z [36;1m    binary = tar.extractfile(members[0]).read()[0m
+2026-09-16T17:22:35.7132634Z [36;1massert hashlib.sha256(binary).hexdigest() == lock['binary_sha256'], 'binary digest differs'[0m
+2026-09-16T17:22:35.7134822Z [36;1mdirectory = pathlib.Path(os.environ['RUNNER_TEMP']) / 'soodles-runtime'[0m
+2026-09-16T17:22:35.7136290Z [36;1mdirectory.mkdir()[0m
+2026-09-16T17:22:35.7137242Z [36;1mtarget = directory / 'noodle'[0m
+2026-09-16T17:22:35.7138551Z [36;1mtarget.write_bytes(binary)[0m
+2026-09-16T17:22:35.7140031Z [36;1mtarget.chmod(0o755)[0m
+2026-09-16T17:22:35.7142096Z [36;1mreceipt = {'release': release['tag_name'], 'commit': commit['sha'], 'asset': assets[0]['name'],[0m
+2026-09-16T17:22:35.7145189Z [36;1m           'archive_sha256': lock['asset_sha256'], 'binary_sha256': lock['binary_sha256'],[0m
+2026-09-16T17:22:35.7147383Z [36;1m           'authorizes_landing': False}[0m
+2026-09-16T17:22:35.7149059Z [36;1m(directory / 'release.json').write_text(json.dumps(receipt, indent=2) + '\n')[0m
+2026-09-16T17:22:35.7150632Z [36;1mprint(json.dumps(receipt))[0m
+2026-09-16T17:22:35.7151623Z [36;1mPY[0m
+2026-09-16T17:22:35.7205318Z shell: /usr/bin/bash -e {0}
+2026-09-16T17:22:35.7206872Z env:
+2026-09-16T17:22:35.7208985Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:35.7211787Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-16T17:22:35.7214020Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:35.7215956Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:35.7217797Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:35.7219617Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-16T17:22:35.7221172Z ##[endgroup]
+2026-09-16T17:22:37.0105083Z {"release": "v0.1.19", "commit": "391f3154c680fc6724b8cdabf6bcec831b61065d", "asset": "noodle_linux_amd64.tar.gz", "archive_sha256": "7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb", "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472", "authorizes_landing": false}
+2026-09-16T17:22:37.0248490Z ##[group]Run python3 -B .agents/skills/verify-soodles/scripts/verify_runtime.py "$RUNNER_TEMP/soodles-runtime/noodle" "$RUNNER_TEMP/runtime-feature"
+2026-09-16T17:22:37.0249505Z [36;1mpython3 -B .agents/skills/verify-soodles/scripts/verify_runtime.py "$RUNNER_TEMP/soodles-runtime/noodle" "$RUNNER_TEMP/runtime-feature"[0m
+2026-09-16T17:22:37.0272878Z shell: /usr/bin/bash -e {0}
+2026-09-16T17:22:37.0273199Z env:
+2026-09-16T17:22:37.0273737Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.0274217Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-16T17:22:37.0274723Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.0275166Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.0275567Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.0276017Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-16T17:22:37.0276448Z ##[endgroup]
+2026-09-16T17:22:37.1912805Z {"feature": "runtime-admission", "classification": "VERIFIED", "counts": {"top_level_commands": 7, "unexpected_command_failures": 0, "expected_refusals": 1, "readback_invocations": 5, "repeated_readbacks": 2, "verification_invocations": 2, "canonical_acceptance_invocations": 0}, "cleanup": {"scratch_removed": true, "resident_processes_started": 0}, "authorizes_landing": false}
+2026-09-16T17:22:37.1995157Z ##[group]Run python3 -B - <<'PY'
+2026-09-16T17:22:37.1995607Z [36;1mpython3 -B - <<'PY'[0m
+2026-09-16T17:22:37.1995967Z [36;1mimport os,json,base64,zlib[0m
+2026-09-16T17:22:37.1996329Z [36;1mfrom pathlib import Path[0m
+2026-09-16T17:22:37.1996845Z [36;1mreceipt=json.loads((Path(os.environ['RUNNER_TEMP'])/'runtime-feature/receipt.json').read_text())[0m
+2026-09-16T17:22:37.1997386Z [36;1massert receipt['classification']=='VERIFIED'[0m
+2026-09-16T17:22:37.1997964Z [36;1mprint('SOODLES_RUNTIME_FEATURE_ZLIB_BASE64='+base64.b64encode(zlib.compress(json.dumps(receipt).encode())).decode())[0m
+2026-09-16T17:22:37.1998488Z [36;1mPY[0m
+2026-09-16T17:22:37.2021091Z shell: /usr/bin/bash -e {0}
+2026-09-16T17:22:37.2021535Z env:
+2026-09-16T17:22:37.2021889Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.2022394Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-16T17:22:37.2022946Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.2023569Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.2024026Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.2024456Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-16T17:22:37.2024901Z ##[endgroup]
+2026-09-16T17:22:37.2279602Z SOODLES_RUNTIME_FEATURE_ZLIB_BASE64=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
+2026-09-16T17:22:37.2332588Z ##[group]Run python3 -B - <<'PYCODE'
+2026-09-16T17:22:37.2333013Z [36;1mpython3 -B - <<'PYCODE'[0m
+2026-09-16T17:22:37.2333668Z [36;1mimport os,json,urllib.request,zipfile,io,base64,zlib[0m
+2026-09-16T17:22:37.2334109Z [36;1mfrom pathlib import Path[0m
+2026-09-16T17:22:37.2334499Z [36;1mbase='https://api.github.com/repos/ed3c/soodles'[0m
+2026-09-16T17:22:37.2334919Z [36;1mclass SafeRedirect(urllib.request.HTTPRedirectHandler):[0m
+2026-09-16T17:22:37.2335399Z [36;1m    def redirect_request(self, req, fp, code, msg, headers, newurl):[0m
+2026-09-16T17:22:37.2335910Z [36;1m        redirected=super().redirect_request(req,fp,code,msg,headers,newurl)[0m
+2026-09-16T17:22:37.2336360Z [36;1m        if redirected is not None:[0m
+2026-09-16T17:22:37.2336723Z [36;1m            redirected.remove_header('Authorization')[0m
+2026-09-16T17:22:37.2337064Z [36;1m        return redirected[0m
+2026-09-16T17:22:37.2337442Z [36;1mopener=urllib.request.build_opener(SafeRedirect())[0m
+2026-09-16T17:22:37.2337853Z [36;1mdef get(url):[0m
+2026-09-16T17:22:37.2338427Z [36;1m    request=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})[0m
+2026-09-16T17:22:37.2339025Z [36;1m    return opener.open(request,timeout=60).read()[0m
+2026-09-16T17:22:37.2339515Z [36;1mitems=json.loads(get(base+'/actions/runs/35127342835/artifacts'))['artifacts'][0m
+2026-09-16T17:22:37.2340103Z [36;1mmatches=[a for a in items if a['name']=='runtime-evidence-4d9e756b3605b07d091a7271e1550f19a596c2eb'][0m
+2026-09-16T17:22:37.2340568Z [36;1massert len(matches)==1[0m
+2026-09-16T17:22:37.2340959Z [36;1mdata=get(matches[0]['archive_download_url'])[0m
+2026-09-16T17:22:37.2341343Z [36;1mwith zipfile.ZipFile(io.BytesIO(data)) as archive:[0m
+2026-09-16T17:22:37.2341766Z [36;1m    acceptance=json.loads(archive.read('acceptance.json'))[0m
+2026-09-16T17:22:37.2342190Z [36;1m    release=json.loads(archive.read('release.json'))[0m
+2026-09-16T17:22:37.2342671Z [36;1massert acceptance['candidate']['head']=='4d9e756b3605b07d091a7271e1550f19a596c2eb'[0m
+2026-09-16T17:22:37.2343883Z [36;1mruntime=json.loads((Path(os.environ['RUNNER_TEMP'])/'runtime-feature/receipt.json').read_text())[0m
+2026-09-16T17:22:37.2344377Z [36;1massert runtime['classification']=='VERIFIED'[0m
+2026-09-16T17:22:37.2345446Z [36;1mreport={'scope':'Mapped runtime CLI live drive plus readback of existing exact-head acceptance; no new canonical acceptance invocation or live provider delivery','runtime_feature':runtime,'acceptance':acceptance,'release':release,'artifact_id':matches[0]['id'],'authorizes_landing':False}[0m
+2026-09-16T17:22:37.2346593Z [36;1mprint('SOODLES_FEATURE_OBSERVER_ZLIB_BASE64='+base64.b64encode(zlib.compress(json.dumps(report).encode())).decode())[0m
+2026-09-16T17:22:37.2347143Z [36;1mPYCODE[0m
+2026-09-16T17:22:37.2365423Z shell: /usr/bin/bash -e {0}
+2026-09-16T17:22:37.2365796Z env:
+2026-09-16T17:22:37.2366133Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.2366568Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-16T17:22:37.2367032Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.2367432Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.2367909Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-16T17:22:37.2368331Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-16T17:22:37.2370671Z   GH_TOKEN: ***
+2026-09-16T17:22:37.2370984Z ##[endgroup]
+2026-09-16T17:22:38.4445527Z SOODLES_FEATURE_OBSERVER_ZLIB_BASE64=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
+2026-09-16T17:22:38.4590139Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-16T17:22:38.4591127Z Post job cleanup.
+2026-09-16T17:22:38.5576963Z (node:2130) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-16T17:22:38.5577789Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-16T17:22:38.5709323Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-16T17:22:38.5710553Z Post job cleanup.
+2026-09-16T17:22:38.6459383Z [command]/usr/bin/git version
+2026-09-16T17:22:38.6489974Z git version 2.55.0
+2026-09-16T17:22:38.6522136Z Temporarily overriding HOME='/home/runner/work/_temp/733d77a1-f73a-452a-9ee8-21079fe3cc7b' before making global git config changes
+2026-09-16T17:22:38.6523830Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-16T17:22:38.6525227Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/soodles/soodles
+2026-09-16T17:22:38.6551347Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-16T17:22:38.6576615Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-16T17:22:38.6753464Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-16T17:22:38.6777105Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-16T17:22:38.6954499Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-16T17:22:38.6978757Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-16T17:22:38.7254492Z Cleaning up orphan processes
+2026-09-16T17:22:38.7467697Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

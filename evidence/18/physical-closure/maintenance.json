@@ -1,0 +1,31 @@
+{
+  "outcome": "changed",
+  "scope": "four demonstrated verification recipes; no whole-product or A-to-B claim",
+  "source_reviews": [
+    "runtime_map_review",
+    "recovery_map_review",
+    "delivery_map_review",
+    "delivery_map_review follow-up of bounded issue-execution recipe"
+  ],
+  "live_features": {
+    "runtime-admission": "final-feature-observer.json: runtime_feature at 4d9e756",
+    "issue-execution": "live-readback.json: actual worker at 847f3f8 and quiescent same-order handoff",
+    "delivery-recovery": "final-feature-observer.json: acceptance.physical contains 9 delivery, 8 base, 4 lock and 5 cleanup cases; all lock cases refuse before deletion",
+    "supervised-delivery": "resolved.json and terminal-readback.json: real PR38 merge, Issue18 closed/completed, original Noodle order completed and worktree removed"
+  },
+  "corrections": [
+    "separate native execution carrier from Linux runtime lock",
+    "remove unsupported runtime worktree-ownership observation",
+    "add bounded Issue consumer recipe",
+    "keep missing-input operation and owner explicit"
+  ],
+  "non_claims": [
+    "No matched baseline/treatment Agent cost measurement",
+    "No production scheduler or Issue DAG",
+    "Fixture process interruption is not live provider A-to-B continuity"
+  ],
+  "unexpected_observations": [
+    "Earlier observer downloaded artifact with Authorization forwarded across host; corrected external observer passed",
+    "Stopping final manual Noodle loop interrupted next backlog.sync; loop exit 1 preserved, control ack ok, original order completed, no new sessions and independent process/group absence confirmed"
+  ]
+}

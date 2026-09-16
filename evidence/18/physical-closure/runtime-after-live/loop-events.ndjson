@@ -1,0 +1,7 @@
+{"seq":1,"type":"schedule.completed","at":"2026-09-16T16:07:11.272467Z","payload":{"session_id":"schedule-20260916-160639-a6316d"}}
+{"seq":2,"type":"schedule.completed","at":"2026-09-16T16:07:39.056191Z","payload":{"session_id":"schedule-20260916-160711-41c29f"}}
+{"seq":3,"type":"schedule.completed","at":"2026-09-16T16:08:06.957222Z","payload":{"session_id":"schedule-20260916-160739-1751a9"}}
+{"seq":4,"type":"schedule.completed","at":"2026-09-16T16:11:49.248742Z","payload":{"session_id":"schedule-20260916-161022-05d4df"}}
+{"seq":5,"type":"stage.failed","at":"2026-09-16T16:11:55.036134Z","payload":{"order_id":"schedule","stage_index":0,"reason":"cook cancelled with status cancelled","session_id":"schedule-20260916-161152-aa6f6f","failure":{"class":"backend_recoverable","recoverability":"recoverable","owner":"backend","scope":"order","cycle_class":"order-hard","order_class":"stage-terminal"}}}
+{"seq":6,"type":"order.failed","at":"2026-09-16T16:11:55.03625Z","payload":{"order_id":"schedule","reason":"cook cancelled with status cancelled","failure":{"class":"backend_recoverable","recoverability":"recoverable","owner":"backend","scope":"order","cycle_class":"order-hard","order_class":"stage-terminal"}}}
+{"seq":7,"type":"order.requeued","at":"2026-09-16T17:04:19.413886Z","payload":{"order_id":"schedule"}}

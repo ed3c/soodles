@@ -1,0 +1,32 @@
+{
+  "schema": 2,
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 18,
+    "pr": 38,
+    "head": "4d9e756b3605b07d091a7271e1550f19a596c2eb",
+    "tree": "49812e291c3199ec3f696d71fe547e488b5dc751",
+    "base_head": "50f41919ead671d69eade1ae5cc66bd1d96e347c",
+    "run_id": 35127342835,
+    "run_attempt": 1,
+    "worktree": "soodles-18-0-execute",
+    "control_root": "/Users/neon/soodles",
+    "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a",
+    "execution_envelope": {
+      "path": "/Users/neon/.codex/experiments/soodles18-continuation-20260917/execution-envelope-delivery.json",
+      "sha256": "5e4bf7734e4594290e1a22a9712a32f77b852d95a95b66482132d788fc8b869d"
+    }
+  },
+  "phase": "merge_pending",
+  "observations": [
+    "c64efb7d60478a6187703e94ce9c892da3ae24bcaed1becaaa86ce5e30207295",
+    "944dc8f10bdee829cfada981874e6cec1b7690306d97042bbbcfeb41289cd05b"
+  ],
+  "classification": null,
+  "scope": "supervised single-Issue landing",
+  "writes_offered": [],
+  "delivery": {
+    "action": "merge",
+    "status": "prepared"
+  }
+}

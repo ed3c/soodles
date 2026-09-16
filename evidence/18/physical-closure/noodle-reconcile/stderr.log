@@ -1,0 +1,5 @@
+2026-09-17T01:26:59.510651+08:00 INFO api: start initialized project=/Users/neon/soodles runtime_dir=/Users/neon/soodles/.noodle once=false server_enabled=false
+2026-09-17T01:26:59.51162+08:00 INFO api: web server disabled
+2026-09-17T01:27:03.785909+08:00 INFO api: control command action=merge status=ok
+2026-09-17T01:27:03.813507+08:00 WARN api: cycle build cycle brief failed at build.brief path=build.brief class=system-hard recoverability=hard cause="run adapter backlog.sync command \"/Users/neon/.codex/experiments/soodles18-continuation-20260917/backlog-delivery sync\": no stderr: signal: killed"
+cycle build cycle brief failed at build.brief: run adapter backlog.sync command "/Users/neon/.codex/experiments/soodles18-continuation-20260917/backlog-delivery sync": no stderr: signal: killed

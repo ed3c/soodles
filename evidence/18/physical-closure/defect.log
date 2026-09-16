@@ -1,0 +1,23 @@
+..................E.E..
+======================================================================
+ERROR: test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding (test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/soodles-18-0-execute/tests/test_issue_execution.py", line 121, in test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding
+    self.assertEqual(next_action["operation"], route)
+                     ~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'operation'
+
+======================================================================
+ERROR: test_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer (test_issue_execution.IssueExecutionTests.test_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/soodles-18-0-execute/tests/test_issue_execution.py", line 152, in test_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer
+    self.assertEqual(output["next"]["operation"], "worker")
+                     ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'operation'
+
+----------------------------------------------------------------------
+Ran 23 tests in 3.779s
+
+FAILED (errors=2)

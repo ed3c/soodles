@@ -1,0 +1,261 @@
+{
+  "order_revision": "970e887025e1afec651ffdd8f8b42f76",
+  "state": {
+    "orders": {
+      "schedule": {
+        "order_id": "schedule",
+        "sequence": 1,
+        "title": "scheduling tasks based on your backlog",
+        "plan": null,
+        "rationale": "",
+        "status": "active",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "schedule",
+            "prompt": "",
+            "skill": "schedule",
+            "provider": "codex",
+            "model": "gpt-5.6-sol",
+            "runtime": "process",
+            "group": 0,
+            "status": "pending",
+            "extra_prompt": "",
+            "attempts": null
+          }
+        ],
+        "created_at": "2026-09-17T01:04:42.07167+08:00",
+        "updated_at": "2026-09-16T17:04:42.072356Z",
+        "metadata": {
+          "plan": "",
+          "rationale": "",
+          "title": "scheduling tasks based on your backlog"
+        }
+      },
+      "soodles-18": {
+        "order_id": "soodles-18",
+        "sequence": 0,
+        "title": "Execute ed3c/soodles#18",
+        "plan": null,
+        "rationale": "Externally admitted current Issue",
+        "status": "active",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "execute",
+            "prompt": "{\"body_sha256\": \"2145deaf7e2db1fdf170596d789a31d51e7e862a54262a71d41600017c25b536\", \"body_updated_at\": \"2026-09-16T17:01:23Z\", \"envelope_sha256\": \"d52e13b30e017180980fcca4f71b46474ee335912165b1a5cd8e14a2a8a2f541\", \"issue\": 18, \"repository\": \"ed3c/soodles\", \"route\": \"automatic\", \"task\": \"This is the admitted bounded physical integration task for Soodles #18. Do not edit source, create commits, or perform provider delivery. Run exactly the focused control suites from this worktree using Python unittest discovery for test_issue_*.py and test_landing.py, with TMPDIR=/private/tmp and -B. Read the current GitHub Issue 18 contract. Then inspect the actual admitted Noodle binary event emit --help. Use that binary yourself to emit exactly one stage_message to your actual NOODLE_SESSION_ID with order_id from NOODLE_ORDER_ID and integer stage_index from NOODLE_STAGE_INDEX. The supported payload fields are message, blocking, outcome, order_id, stage_index; this schema is read back from the selected Noodle source event/types.go. Use outcome=\\\"blocked\\\", blocking=true, and a truthful message reporting the checks and that full delivery/final acceptance remains with the supervisor. This is not a completed Issue. Preserve the existing worktree and canonical identity. Exit after emitting; do not ask the parent to fill the outcome. Admitted Noodle executable: /Users/neon/.codex/experiments/noodle82-20260916/noodle\"}",
+            "skill": "execute",
+            "provider": "codex",
+            "model": "gpt-5.6-sol",
+            "runtime": "process",
+            "group": 0,
+            "status": "review",
+            "extra_prompt": "",
+            "attempts": [
+              {
+                "attempt_id": "soodles-18-0-attempt-0",
+                "session_id": "soodles-18-0-execute-20260916-170442-ab424c",
+                "status": "completed",
+                "started_at": "2026-09-17T01:04:42.126515+08:00",
+                "completed_at": "2026-09-17T01:08:13.624304+08:00",
+                "exit_code": null,
+                "worktree_name": "soodles-18-0-execute",
+                "error": ""
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-09-17T01:04:42.064779+08:00",
+        "updated_at": "2026-09-17T01:08:13.624304+08:00",
+        "metadata": {
+          "plan": "",
+          "rationale": "Externally admitted current Issue",
+          "title": "Execute ed3c/soodles#18"
+        }
+      }
+    },
+    "pending_reviews": {
+      "soodles-18": {
+        "order_id": "soodles-18",
+        "stage_index": 0,
+        "task_key": "execute",
+        "prompt": "{\"body_sha256\": \"2145deaf7e2db1fdf170596d789a31d51e7e862a54262a71d41600017c25b536\", \"body_updated_at\": \"2026-09-16T17:01:23Z\", \"envelope_sha256\": \"d52e13b30e017180980fcca4f71b46474ee335912165b1a5cd8e14a2a8a2f541\", \"issue\": 18, \"repository\": \"ed3c/soodles\", \"route\": \"automatic\", \"task\": \"This is the admitted bounded physical integration task for Soodles #18. Do not edit source, create commits, or perform provider delivery. Run exactly the focused control suites from this worktree using Python unittest discovery for test_issue_*.py and test_landing.py, with TMPDIR=/private/tmp and -B. Read the current GitHub Issue 18 contract. Then inspect the actual admitted Noodle binary event emit --help. Use that binary yourself to emit exactly one stage_message to your actual NOODLE_SESSION_ID with order_id from NOODLE_ORDER_ID and integer stage_index from NOODLE_STAGE_INDEX. The supported payload fields are message, blocking, outcome, order_id, stage_index; this schema is read back from the selected Noodle source event/types.go. Use outcome=\\\"blocked\\\", blocking=true, and a truthful message reporting the checks and that full delivery/final acceptance remains with the supervisor. This is not a completed Issue. Preserve the existing worktree and canonical identity. Exit after emitting; do not ask the parent to fill the outcome. Admitted Noodle executable: /Users/neon/.codex/experiments/noodle82-20260916/noodle\"}",
+        "provider": "codex",
+        "model": "gpt-5.6-sol",
+        "runtime": "process",
+        "skill": "execute",
+        "plan": null,
+        "worktree_name": "soodles-18-0-execute",
+        "worktree_path": "/Users/neon/soodles/.worktrees/soodles-18-0-execute",
+        "session_id": "soodles-18-0-execute-20260916-170442-ab424c",
+        "reason": "blocked by typed stage outcome: Focused controls passed: test_issue_*.py ran 23 tests and test_landing.py ran 40 tests, all OK. The current GitHub Issue 18 contract and the admitted Noodle event interface/schema were read back. Full delivery and final acceptance remain with the supervisor; this blocked stage does not complete Issue 18."
+      }
+    },
+    "action_needed": null,
+    "mode": "supervised",
+    "mode_epoch": 0,
+    "mode_transitions": null,
+    "schema_version": 1,
+    "last_event_id": "23"
+  },
+  "effect_ledger": [
+    {
+      "effect_id": "event-2-effect-0",
+      "effect": {
+        "effect_id": "event-2-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:06:39.47517+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-5-effect-0",
+      "effect": {
+        "effect_id": "event-5-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:07:11.275497+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-8-effect-0",
+      "effect": {
+        "effect_id": "event-8-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:07:39.059519+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-11-effect-0",
+      "effect": {
+        "effect_id": "event-11-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:10:22.275401+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-14-effect-0",
+      "effect": {
+        "effect_id": "event-14-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:11:52.862914+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-16-effect-0",
+      "effect": {
+        "effect_id": "event-16-effect-0",
+        "type": "cleanup",
+        "payload": {
+          "order_id": "schedule",
+          "stage_index": 0,
+          "worktree_name": ""
+        },
+        "created_at": "2026-09-17T00:11:55.035108+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-17-effect-0",
+      "effect": {
+        "effect_id": "event-17-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-1",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T01:04:23.12583+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+      "effect": {
+        "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "026c6e8e082892d0f4f50d7de72c9297",
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-16T17:04:42.06476Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-16T17:04:42.06476Z",
+      "result": {
+        "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-16T17:04:42.06476Z"
+      }
+    },
+    {
+      "effect_id": "event-21-effect-0",
+      "effect": {
+        "effect_id": "event-21-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-18-0-attempt-0",
+          "order_id": "soodles-18",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T01:04:42.104314+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    }
+  ],
+  "generated_at": "2026-09-16T17:08:13.624336Z"
+}

@@ -1,0 +1,2594 @@
+{
+  "scope": "Mapped runtime CLI live drive plus readback of existing exact-head acceptance; no new canonical acceptance invocation or live provider delivery",
+  "runtime_feature": {
+    "schema": 1,
+    "feature": "runtime-admission",
+    "classification": "VERIFIED",
+    "authorizes_landing": false,
+    "trace": [
+      {
+        "argv": [
+          "git",
+          "rev-parse",
+          "HEAD",
+          "HEAD^{tree}"
+        ],
+        "kind": "readback",
+        "purpose": "before source identity",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "4d9e756b3605b07d091a7271e1550f19a596c2eb\n49812e291c3199ec3f696d71fe547e488b5dc751\n",
+        "stderr": "",
+        "seconds": 0.0013098570000025234
+      },
+      {
+        "argv": [
+          "git",
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        "kind": "readback",
+        "purpose": "before source residue",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0025209450000005518
+      },
+      {
+        "argv": [
+          "./soodles",
+          "runtime",
+          "check",
+          "/home/runner/work/_temp/soodles-runtime/noodle"
+        ],
+        "kind": "verification",
+        "purpose": "doctor and positive admission",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "{\n  \"binary\": \"/home/runner/work/_temp/soodles-runtime/noodle\",\n  \"repository\": \"ed3c/noodle\",\n  \"release\": \"v0.1.19\",\n  \"commit\": \"391f3154c680fc6724b8cdabf6bcec831b61065d\",\n  \"platform\": \"linux_amd64\",\n  \"asset_name\": \"noodle_linux_amd64.tar.gz\",\n  \"asset_sha256\": \"7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb\",\n  \"binary_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n  \"observed_version\": \"v0.1.19\",\n  \"observed_binary_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n  \"authorizes_landing\": false\n}\n",
+        "stderr": "",
+        "seconds": 0.06976820399999895
+      },
+      {
+        "argv": [
+          "/home/runner/work/_temp/soodles-runtime/noodle",
+          "skills",
+          "list"
+        ],
+        "kind": "readback",
+        "purpose": "resolve project skill",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "execute\t/home/runner/work/soodles/soodles/.agents/skills\ttrue\t/home/runner/work/soodles/soodles/.agents/skills/execute\nschedule\t/home/runner/work/soodles/soodles/.agents/skills\ttrue\t/home/runner/work/soodles/soodles/.agents/skills/schedule\nverify-soodles\t/home/runner/work/soodles/soodles/.agents/skills\ttrue\t/home/runner/work/soodles/soodles/.agents/skills/verify-soodles\n",
+        "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n",
+        "seconds": 0.0015903669999985937
+      },
+      {
+        "argv": [
+          "./soodles",
+          "runtime",
+          "check",
+          "/tmp/soodles-verify-admission-n16d4mnf/noodle"
+        ],
+        "kind": "verification",
+        "purpose": "wrong digest rejected before execution",
+        "exit": 1,
+        "expected_exit": 1,
+        "stdout": "",
+        "stderr": "REFUSED: runtime check: invalid binary.sha256='54c5927e40645dc188250115f2b0d0fb9a4bd0cd5acfc007ec825909d9013938'; supported help: ./soodles runtime check --help\n",
+        "seconds": 0.04900823699999535
+      },
+      {
+        "argv": [
+          "git",
+          "rev-parse",
+          "HEAD",
+          "HEAD^{tree}"
+        ],
+        "kind": "readback",
+        "purpose": "after source identity",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "4d9e756b3605b07d091a7271e1550f19a596c2eb\n49812e291c3199ec3f696d71fe547e488b5dc751\n",
+        "stderr": "",
+        "seconds": 0.001105934000001696
+      },
+      {
+        "argv": [
+          "git",
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        "kind": "readback",
+        "purpose": "after source residue",
+        "exit": 0,
+        "expected_exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0013600869999947918
+      }
+    ],
+    "counter_scope": "Only commands issued by this driver; excludes internal subprocesses, Agent discovery and provider landing. Repeated readbacks include required before/after identity guards.",
+    "non_claims": [
+      "Agent path-cost reduction",
+      "production scheduling",
+      "provider delivery",
+      "whole-app verification"
+    ],
+    "candidate": {
+      "head": "4d9e756b3605b07d091a7271e1550f19a596c2eb",
+      "tree": "49812e291c3199ec3f696d71fe547e488b5dc751"
+    },
+    "runtime": {
+      "binary": "/home/runner/work/_temp/soodles-runtime/noodle",
+      "repository": "ed3c/noodle",
+      "release": "v0.1.19",
+      "commit": "391f3154c680fc6724b8cdabf6bcec831b61065d",
+      "platform": "linux_amd64",
+      "asset_name": "noodle_linux_amd64.tar.gz",
+      "asset_sha256": "7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb",
+      "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "observed_version": "v0.1.19",
+      "observed_binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "authorizes_landing": false
+    },
+    "skill_resolution": {
+      "name": "verify-soodles",
+      "search_path": "/home/runner/work/soodles/soodles/.agents/skills",
+      "path": "/home/runner/work/soodles/soodles/.agents/skills/verify-soodles",
+      "files_sha256": {
+        "SKILL.md": "22ecb5f2648622af835f312a13a4f3f6403fdd2d43aa46fa0da04a9e8e463aba",
+        "features/README.md": "3ed12f3625589a2a5fa3f2ff7ab998cd6c10ee157d4718f58c8cc196a7d64d9c",
+        "features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+        "features/issue-execution.md": "ba42e55103d5e6aed97624fb8dce83e8eaf757f28d0818e85fb6512c801c97c9",
+        "features/runtime-admission.md": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+        "features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b",
+        "scripts/verify_runtime.py": "1049574cdc3147373ff46eb64d741f492cfd98effbe04349ce2cf4379f951a0b"
+      },
+      "warnings": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+    },
+    "negative_control": {
+      "expected_refusal": "binary.sha256",
+      "sentinel_absent": true
+    },
+    "cleanup": {
+      "scratch_removed": true,
+      "resident_processes_started": 0
+    },
+    "counts": {
+      "top_level_commands": 7,
+      "unexpected_command_failures": 0,
+      "expected_refusals": 1,
+      "readback_invocations": 5,
+      "repeated_readbacks": 2,
+      "verification_invocations": 2,
+      "canonical_acceptance_invocations": 0
+    }
+  },
+  "acceptance": {
+    "repository": "ed3c/soodles",
+    "scope": "candidate runtime acceptance",
+    "candidate": {
+      "head": "4d9e756b3605b07d091a7271e1550f19a596c2eb",
+      "tree": "49812e291c3199ec3f696d71fe547e488b5dc751"
+    },
+    "runtime": {
+      "binary": "/home/runner/work/_temp/soodles-runtime/noodle",
+      "repository": "ed3c/noodle",
+      "release": "v0.1.19",
+      "commit": "391f3154c680fc6724b8cdabf6bcec831b61065d",
+      "platform": "linux_amd64",
+      "asset_name": "noodle_linux_amd64.tar.gz",
+      "asset_sha256": "7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb",
+      "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "observed_version": "v0.1.19",
+      "observed_binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "authorizes_landing": false
+    },
+    "physical": {
+      "worktree_owner": "Noodle",
+      "zero_residue": true,
+      "controls": [
+        {
+          "argv": [
+            "git",
+            "init",
+            "-b",
+            "main"
+          ],
+          "exit": 0,
+          "stdout": "Initialized empty Git repository in /tmp/soodles-runtime-i8uqi6sw/.git/\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "add",
+            ".gitignore",
+            "sentinel.txt"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-c",
+            "user.name=Runtime Probe",
+            "-c",
+            "user.email=probe@example.invalid",
+            "commit",
+            "-m",
+            "Runtime fixture"
+          ],
+          "exit": 0,
+          "stdout": "[main (root-commit) cd6ba29] Runtime fixture\n 2 files changed, 3 insertions(+)\n create mode 100644 .gitignore\n create mode 100644 sentinel.txt\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "cd6ba29ed4495377f74d8645d2edd0cea67e4af1\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "/home/runner/work/_temp/soodles-runtime/noodle",
+            "worktree",
+            "create",
+            "probe"
+          ],
+          "exit": 0,
+          "stdout": "  Creating worktree at /tmp/soodles-runtime-i8uqi6sw/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at cd6ba29 Runtime fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-runtime-i8uqi6sw/.worktrees/probe (branch: probe)\n",
+          "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+        },
+        {
+          "argv": [
+            "/home/runner/work/_temp/soodles-runtime/noodle",
+            "worktree",
+            "exec",
+            "probe",
+            "git",
+            "rev-parse",
+            "--show-toplevel"
+          ],
+          "exit": 0,
+          "stdout": "/tmp/soodles-runtime-i8uqi6sw/.worktrees/probe\n",
+          "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+        },
+        {
+          "argv": [
+            "/home/runner/work/_temp/soodles-runtime/noodle",
+            "worktree",
+            "exec",
+            "probe",
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "cd6ba29ed4495377f74d8645d2edd0cea67e4af1\n",
+          "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+        },
+        {
+          "argv": [
+            "/home/runner/work/_temp/soodles-runtime/noodle",
+            "worktree",
+            "exec",
+            "absent",
+            "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3",
+            "-c",
+            "open('SHOULD_NOT_EXIST', 'w').write('bad')"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\nworktree 'absent' does not exist at /tmp/soodles-runtime-i8uqi6sw/.worktrees/absent\n"
+        },
+        {
+          "argv": [
+            "/home/runner/work/_temp/soodles-runtime/noodle",
+            "worktree",
+            "cleanup",
+            "probe"
+          ],
+          "exit": 0,
+          "stdout": "  Removing worktree...\n  Deleting branch probe...\nDone. probe removed.\n",
+          "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+        },
+        {
+          "argv": [
+            "git",
+            "worktree",
+            "list",
+            "--porcelain"
+          ],
+          "exit": 0,
+          "stdout": "worktree /tmp/soodles-runtime-i8uqi6sw\nHEAD cd6ba29ed4495377f74d8645d2edd0cea67e4af1\nbranch refs/heads/main\n\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "branch",
+            "--list",
+            "probe"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "status",
+            "--porcelain",
+            "--untracked-files=all"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "cd6ba29ed4495377f74d8645d2edd0cea67e4af1\n",
+          "stderr": ""
+        }
+      ],
+      "cleanup_recovery": {
+        "scope": "local runtime crash recovery; provider closure fields are fixture data",
+        "provider_requests": 0,
+        "worktree_owner": "Noodle",
+        "zero_residue": true,
+        "cases": [
+          {
+            "case": "resume",
+            "injected_noodle_signal": "SIGKILL",
+            "control": "passed",
+            "zero_residue": true
+          },
+          {
+            "case": "moved_branch",
+            "injected_noodle_signal": "SIGKILL",
+            "control": "passed",
+            "zero_residue": true
+          },
+          {
+            "case": "foreign_checkout",
+            "injected_noodle_signal": "SIGKILL",
+            "control": "passed",
+            "zero_residue": true
+          },
+          {
+            "case": "unchanged_attempt",
+            "injected_noodle_signal": "SIGKILL",
+            "control": "passed",
+            "zero_residue": true
+          },
+          {
+            "case": "legacy_checkpoint",
+            "injected_noodle_signal": "SIGKILL",
+            "control": "passed",
+            "zero_residue": true
+          }
+        ],
+        "controls": [
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "init",
+              "-b",
+              "main"
+            ],
+            "exit": 0,
+            "stdout": "Initialized empty Git repository in /tmp/soodles-cleanup-oracle-ivt9rj1m/resume/repo/.git/\n",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "remote",
+              "add",
+              "origin",
+              "https://github.com/ed3c/soodles.git"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "add",
+              "."
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "-m",
+              "Local recovery fixture"
+            ],
+            "exit": 0,
+            "stdout": "[main (root-commit) 930d15a] Local recovery fixture\n 1 file changed, 2 insertions(+)\n create mode 100644 .gitignore\n",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "930d15a0cdb542ae39842e5e360a198d568b1ffb\n",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD^{tree}"
+            ],
+            "exit": 0,
+            "stdout": "a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\n",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "create",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Creating worktree at /tmp/soodles-cleanup-oracle-ivt9rj1m/resume/repo/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at 930d15a Local recovery fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-cleanup-oracle-ivt9rj1m/resume/repo/.worktrees/probe (branch: probe)\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "identity"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/resume/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "930d15a0cdb542ae39842e5e360a198d568b1ffb\n",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/resume/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"schema\": 1,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"930d15a0cdb542ae39842e5e360a198d568b1ffb\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"base_head\": \"930d15a0cdb542ae39842e5e360a198d568b1ffb\",\n    \"run_id\": 1,\n    \"run_attempt\": 1,\n    \"worktree\": \"probe\",\n    \"control_root\": \"/tmp/soodles-cleanup-oracle-ivt9rj1m/resume/repo\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"phase\": \"resolved\",\n  \"classification\": \"RESOLVED\",\n  \"merge_sha\": \"930d15a0cdb542ae39842e5e360a198d568b1ffb\",\n  \"issue_closed_at\": \"fixture-only\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"cleanup_intent\": {\n    \"path_present\": false,\n    \"branch_head\": \"930d15a0cdb542ae39842e5e360a198d568b1ffb\",\n    \"main_head\": \"930d15a0cdb542ae39842e5e360a198d568b1ffb\",\n    \"git_path\": \"/tmp/soodles-cleanup-oracle-ivt9rj1m/resume/shim/git\",\n    \"git_sha256\": \"fea19a2b39f763e688107fe661b497379918a95fde08c82b7a06cdb9029cf060\",\n    \"noodle_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"local\": {\n    \"head\": \"930d15a0cdb542ae39842e5e360a198d568b1ffb\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"removed_worktree\": \"probe\",\n    \"worktree_owner\": \"Noodle\"\n  },\n  \"owner\": \"landing.reconcile\",\n  \"action\": \"stop\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "worktree",
+              "list",
+              "--porcelain"
+            ],
+            "exit": 0,
+            "stdout": "worktree /tmp/soodles-cleanup-oracle-ivt9rj1m/resume/repo\nHEAD 930d15a0cdb542ae39842e5e360a198d568b1ffb\nbranch refs/heads/main\n\n",
+            "stderr": ""
+          },
+          {
+            "case": "resume",
+            "argv": [
+              "git",
+              "status",
+              "--porcelain",
+              "--untracked-files=all"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "init",
+              "-b",
+              "main"
+            ],
+            "exit": 0,
+            "stdout": "Initialized empty Git repository in /tmp/soodles-cleanup-oracle-ivt9rj1m/moved_branch/repo/.git/\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "remote",
+              "add",
+              "origin",
+              "https://github.com/ed3c/soodles.git"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "add",
+              "."
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "-m",
+              "Local recovery fixture"
+            ],
+            "exit": 0,
+            "stdout": "[main (root-commit) d4fd3b0] Local recovery fixture\n 1 file changed, 2 insertions(+)\n create mode 100644 .gitignore\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "d4fd3b036c715db7b5665a66a0e384a37bad8bc9\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD^{tree}"
+            ],
+            "exit": 0,
+            "stdout": "a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "create",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Creating worktree at /tmp/soodles-cleanup-oracle-ivt9rj1m/moved_branch/repo/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at d4fd3b0 Local recovery fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-cleanup-oracle-ivt9rj1m/moved_branch/repo/.worktrees/probe (branch: probe)\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "identity"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/moved_branch/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "d4fd3b036c715db7b5665a66a0e384a37bad8bc9\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "--allow-empty",
+              "-m",
+              "Planted foreign head"
+            ],
+            "exit": 0,
+            "stdout": "[main daaff5b] Planted foreign head\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "branch",
+              "-f",
+              "probe",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "daaff5ba4a617f8473a6f64b7fc49a98afbcbd8a\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/moved_branch/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.branch_head\",\n    \"value\": \"daaff5ba4a617f8473a6f64b7fc49a98afbcbd8a\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.branch_head='daaff5ba4a617f8473a6f64b7fc49a98afbcbd8a'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "daaff5ba4a617f8473a6f64b7fc49a98afbcbd8a\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "cleanup",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Worktree directory already removed, cleaning up refs...\n  Deleting branch probe...\nDone. Cleaned up refs for probe.\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "worktree",
+              "list",
+              "--porcelain"
+            ],
+            "exit": 0,
+            "stdout": "worktree /tmp/soodles-cleanup-oracle-ivt9rj1m/moved_branch/repo\nHEAD daaff5ba4a617f8473a6f64b7fc49a98afbcbd8a\nbranch refs/heads/main\n\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_branch",
+            "argv": [
+              "git",
+              "status",
+              "--porcelain",
+              "--untracked-files=all"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "init",
+              "-b",
+              "main"
+            ],
+            "exit": 0,
+            "stdout": "Initialized empty Git repository in /tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/repo/.git/\n",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "remote",
+              "add",
+              "origin",
+              "https://github.com/ed3c/soodles.git"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "add",
+              "."
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "-m",
+              "Local recovery fixture"
+            ],
+            "exit": 0,
+            "stdout": "[main (root-commit) 742c1fb] Local recovery fixture\n 1 file changed, 2 insertions(+)\n create mode 100644 .gitignore\n",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "742c1fbd31ca3366fd3bde7bdfab4c34b6bc9d06\n",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD^{tree}"
+            ],
+            "exit": 0,
+            "stdout": "a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\n",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "create",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Creating worktree at /tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/repo/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at 742c1fb Local recovery fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/repo/.worktrees/probe (branch: probe)\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "identity"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "742c1fbd31ca3366fd3bde7bdfab4c34b6bc9d06\n",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "worktree",
+              "add",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/foreign",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "HEAD is now at 742c1fb Local recovery fixture\n",
+            "stderr": "Preparing worktree (checking out 'probe')\n"
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "742c1fbd31ca3366fd3bde7bdfab4c34b6bc9d06\n",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.checkout\",\n    \"value\": \"/tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/foreign\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.checkout='/tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/foreign'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "742c1fbd31ca3366fd3bde7bdfab4c34b6bc9d06\n",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "worktree",
+              "remove",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/foreign"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "cleanup",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Worktree directory already removed, cleaning up refs...\n  Deleting branch probe...\nDone. Cleaned up refs for probe.\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "worktree",
+              "list",
+              "--porcelain"
+            ],
+            "exit": 0,
+            "stdout": "worktree /tmp/soodles-cleanup-oracle-ivt9rj1m/foreign_checkout/repo\nHEAD 742c1fbd31ca3366fd3bde7bdfab4c34b6bc9d06\nbranch refs/heads/main\n\n",
+            "stderr": ""
+          },
+          {
+            "case": "foreign_checkout",
+            "argv": [
+              "git",
+              "status",
+              "--porcelain",
+              "--untracked-files=all"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "init",
+              "-b",
+              "main"
+            ],
+            "exit": 0,
+            "stdout": "Initialized empty Git repository in /tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/repo/.git/\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "remote",
+              "add",
+              "origin",
+              "https://github.com/ed3c/soodles.git"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "add",
+              "."
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "-m",
+              "Local recovery fixture"
+            ],
+            "exit": 0,
+            "stdout": "[main (root-commit) 3517901] Local recovery fixture\n 1 file changed, 2 insertions(+)\n create mode 100644 .gitignore\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "351790179fa99bda1dde0cad76f032feedcc23d7\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD^{tree}"
+            ],
+            "exit": 0,
+            "stdout": "a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "create",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Creating worktree at /tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/repo/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at 3517901 Local recovery fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/repo/.worktrees/probe (branch: probe)\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "identity"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "351790179fa99bda1dde0cad76f032feedcc23d7\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "351790179fa99bda1dde0cad76f032feedcc23d7\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.observation\",\n    \"value\": \"unchanged; owner readback or changed capability required\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.observation='unchanged; owner readback or changed capability required'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "351790179fa99bda1dde0cad76f032feedcc23d7\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"schema\": 1,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"351790179fa99bda1dde0cad76f032feedcc23d7\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"base_head\": \"351790179fa99bda1dde0cad76f032feedcc23d7\",\n    \"run_id\": 1,\n    \"run_attempt\": 1,\n    \"worktree\": \"probe\",\n    \"control_root\": \"/tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/repo\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"phase\": \"resolved\",\n  \"classification\": \"RESOLVED\",\n  \"merge_sha\": \"351790179fa99bda1dde0cad76f032feedcc23d7\",\n  \"issue_closed_at\": \"fixture-only\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"cleanup_intent\": {\n    \"path_present\": false,\n    \"branch_head\": \"351790179fa99bda1dde0cad76f032feedcc23d7\",\n    \"main_head\": \"351790179fa99bda1dde0cad76f032feedcc23d7\",\n    \"git_path\": \"/tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/shim/git\",\n    \"git_sha256\": \"be4821a686b55ade0ecaa5c5259cfb0e3684f74621ec97f40970952b01bd2c0e\",\n    \"noodle_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"local\": {\n    \"head\": \"351790179fa99bda1dde0cad76f032feedcc23d7\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"removed_worktree\": \"probe\",\n    \"worktree_owner\": \"Noodle\"\n  },\n  \"owner\": \"landing.reconcile\",\n  \"action\": \"stop\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "worktree",
+              "list",
+              "--porcelain"
+            ],
+            "exit": 0,
+            "stdout": "worktree /tmp/soodles-cleanup-oracle-ivt9rj1m/unchanged_attempt/repo\nHEAD 351790179fa99bda1dde0cad76f032feedcc23d7\nbranch refs/heads/main\n\n",
+            "stderr": ""
+          },
+          {
+            "case": "unchanged_attempt",
+            "argv": [
+              "git",
+              "status",
+              "--porcelain",
+              "--untracked-files=all"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "init",
+              "-b",
+              "main"
+            ],
+            "exit": 0,
+            "stdout": "Initialized empty Git repository in /tmp/soodles-cleanup-oracle-ivt9rj1m/legacy_checkpoint/repo/.git/\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "remote",
+              "add",
+              "origin",
+              "https://github.com/ed3c/soodles.git"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "add",
+              "."
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "-m",
+              "Local recovery fixture"
+            ],
+            "exit": 0,
+            "stdout": "[main (root-commit) 087167c] Local recovery fixture\n 1 file changed, 2 insertions(+)\n create mode 100644 .gitignore\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "087167cbcfdf19b2f8da6b47ef5ddae12f653b5a\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "rev-parse",
+              "HEAD^{tree}"
+            ],
+            "exit": 0,
+            "stdout": "a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "create",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Creating worktree at /tmp/soodles-cleanup-oracle-ivt9rj1m/legacy_checkpoint/repo/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at 087167c Local recovery fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-cleanup-oracle-ivt9rj1m/legacy_checkpoint/repo/.worktrees/probe (branch: probe)\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "identity"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/legacy_checkpoint/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "087167cbcfdf19b2f8da6b47ef5ddae12f653b5a\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-cleanup-oracle-ivt9rj1m/legacy_checkpoint/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"schema\": 1,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"087167cbcfdf19b2f8da6b47ef5ddae12f653b5a\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"base_head\": \"087167cbcfdf19b2f8da6b47ef5ddae12f653b5a\",\n    \"run_id\": 1,\n    \"run_attempt\": 1,\n    \"worktree\": \"probe\",\n    \"control_root\": \"/tmp/soodles-cleanup-oracle-ivt9rj1m/legacy_checkpoint/repo\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"phase\": \"resolved\",\n  \"classification\": \"RESOLVED\",\n  \"merge_sha\": \"087167cbcfdf19b2f8da6b47ef5ddae12f653b5a\",\n  \"issue_closed_at\": \"fixture-only\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"cleanup_intent\": {\n    \"path_present\": false,\n    \"branch_head\": \"087167cbcfdf19b2f8da6b47ef5ddae12f653b5a\",\n    \"main_head\": \"087167cbcfdf19b2f8da6b47ef5ddae12f653b5a\",\n    \"git_path\": \"/tmp/soodles-cleanup-oracle-ivt9rj1m/legacy_checkpoint/shim/git\",\n    \"git_sha256\": \"c738a35fa0cf57f6932c29fa930c288b2f9369c86f1c85f257ee61d69e01b14a\",\n    \"noodle_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"local\": {\n    \"head\": \"087167cbcfdf19b2f8da6b47ef5ddae12f653b5a\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"removed_worktree\": \"probe\",\n    \"worktree_owner\": \"Noodle\"\n  },\n  \"owner\": \"landing.reconcile\",\n  \"action\": \"stop\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "worktree",
+              "list",
+              "--porcelain"
+            ],
+            "exit": 0,
+            "stdout": "worktree /tmp/soodles-cleanup-oracle-ivt9rj1m/legacy_checkpoint/repo\nHEAD 087167cbcfdf19b2f8da6b47ef5ddae12f653b5a\nbranch refs/heads/main\n\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_checkpoint",
+            "argv": [
+              "git",
+              "status",
+              "--porcelain",
+              "--untracked-files=all"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        ]
+      },
+      "cleanup_lock_recovery": {
+        "scope": "local lock recovery; synthetic provider fields; no landing authority",
+        "provider_requests": 0,
+        "isolated_child_uid": null,
+        "worktree_owner": "Noodle",
+        "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+        "authorizes_landing": false,
+        "zero_residue": true,
+        "cases": [
+          {
+            "case": "lock_release",
+            "control": "passed",
+            "zero_residue": true,
+            "injected_noodle_signal": "SIGKILL",
+            "lock_refusal_before_deletion": true
+          },
+          {
+            "case": "legacy_unknown",
+            "control": "passed",
+            "zero_residue": true,
+            "injected_noodle_signal": "SIGKILL",
+            "lock_refusal_before_deletion": true
+          },
+          {
+            "case": "consumed_release",
+            "control": "passed",
+            "zero_residue": true,
+            "injected_noodle_signal": "SIGKILL",
+            "lock_refusal_before_deletion": true
+          },
+          {
+            "case": "moved_after_block",
+            "control": "passed",
+            "zero_residue": true,
+            "injected_noodle_signal": "SIGKILL",
+            "lock_refusal_before_deletion": true
+          }
+        ],
+        "controls": [
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "init",
+              "-b",
+              "main"
+            ],
+            "exit": 0,
+            "stdout": "Initialized empty Git repository in /tmp/soodles-lock-oracle-up84q78s/lock_release/repo/.git/\n",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "remote",
+              "add",
+              "origin",
+              "https://github.com/ed3c/soodles.git"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "add",
+              "."
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "-m",
+              "Local lock recovery fixture"
+            ],
+            "exit": 0,
+            "stdout": "[main (root-commit) 1350920] Local lock recovery fixture\n 1 file changed, 2 insertions(+)\n create mode 100644 .gitignore\n",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "1350920747d88e045bc9142ea0882ad7a8913f53\n",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "HEAD^{tree}"
+            ],
+            "exit": 0,
+            "stdout": "a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\n",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "create",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Creating worktree at /tmp/soodles-lock-oracle-up84q78s/lock_release/repo/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at 1350920 Local lock recovery fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-lock-oracle-up84q78s/lock_release/repo/.worktrees/probe (branch: probe)\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "identity"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/lock_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "1350920747d88e045bc9142ea0882ad7a8913f53\n",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "--path-format=absolute",
+              "--git-path",
+              "refs/heads/probe.lock"
+            ],
+            "exit": 0,
+            "stdout": "/tmp/soodles-lock-oracle-up84q78s/lock_release/repo/.git/refs/heads/probe.lock\n",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/lock_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.ref_lock\",\n    \"value\": \"/tmp/soodles-lock-oracle-up84q78s/lock_release/repo/.git/refs/heads/probe.lock\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.ref_lock='/tmp/soodles-lock-oracle-up84q78s/lock_release/repo/.git/refs/heads/probe.lock'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/lock_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.ref_lock\",\n    \"value\": \"/tmp/soodles-lock-oracle-up84q78s/lock_release/repo/.git/refs/heads/probe.lock\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.ref_lock='/tmp/soodles-lock-oracle-up84q78s/lock_release/repo/.git/refs/heads/probe.lock'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/lock_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"schema\": 1,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 8,\n    \"pr\": 1,\n    \"head\": \"1350920747d88e045bc9142ea0882ad7a8913f53\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"base_head\": \"1350920747d88e045bc9142ea0882ad7a8913f53\",\n    \"run_id\": 1,\n    \"run_attempt\": 1,\n    \"worktree\": \"probe\",\n    \"control_root\": \"/tmp/soodles-lock-oracle-up84q78s/lock_release/repo\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"phase\": \"resolved\",\n  \"classification\": \"RESOLVED\",\n  \"merge_sha\": \"1350920747d88e045bc9142ea0882ad7a8913f53\",\n  \"issue_closed_at\": \"fixture-only\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"cleanup_intent\": {\n    \"path_present\": false,\n    \"branch_head\": \"1350920747d88e045bc9142ea0882ad7a8913f53\",\n    \"main_head\": \"1350920747d88e045bc9142ea0882ad7a8913f53\",\n    \"git_path\": \"/tmp/soodles-lock-oracle-up84q78s/lock_release/shim/git\",\n    \"git_sha256\": \"f7c65d8b4eae9f8ee0e94f9e9418b4b8e1d87230659f21898990b7c210bdb612\",\n    \"noodle_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"local\": {\n    \"head\": \"1350920747d88e045bc9142ea0882ad7a8913f53\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"removed_worktree\": \"probe\",\n    \"worktree_owner\": \"Noodle\"\n  },\n  \"owner\": \"landing.reconcile\",\n  \"action\": \"stop\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "worktree",
+              "list",
+              "--porcelain"
+            ],
+            "exit": 0,
+            "stdout": "worktree /tmp/soodles-lock-oracle-up84q78s/lock_release/repo\nHEAD 1350920747d88e045bc9142ea0882ad7a8913f53\nbranch refs/heads/main\n\n",
+            "stderr": ""
+          },
+          {
+            "case": "lock_release",
+            "argv": [
+              "/usr/bin/git",
+              "status",
+              "--porcelain",
+              "--untracked-files=all"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "init",
+              "-b",
+              "main"
+            ],
+            "exit": 0,
+            "stdout": "Initialized empty Git repository in /tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo/.git/\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "remote",
+              "add",
+              "origin",
+              "https://github.com/ed3c/soodles.git"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "add",
+              "."
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "-m",
+              "Local lock recovery fixture"
+            ],
+            "exit": 0,
+            "stdout": "[main (root-commit) 3a659b8] Local lock recovery fixture\n 1 file changed, 2 insertions(+)\n create mode 100644 .gitignore\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "HEAD^{tree}"
+            ],
+            "exit": 0,
+            "stdout": "a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "create",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Creating worktree at /tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at 3a659b8 Local lock recovery fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo/.worktrees/probe (branch: probe)\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "identity"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.observation\",\n    \"value\": \"unchanged; owner readback or changed capability required\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.observation='unchanged; owner readback or changed capability required'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "--path-format=absolute",
+              "--git-path",
+              "refs/heads/probe.lock"
+            ],
+            "exit": 0,
+            "stdout": "/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo/.git/refs/heads/probe.lock\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.ref_lock\",\n    \"value\": \"/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo/.git/refs/heads/probe.lock\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.ref_lock='/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo/.git/refs/heads/probe.lock'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.ref_lock\",\n    \"value\": \"/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo/.git/refs/heads/probe.lock\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.ref_lock='/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo/.git/refs/heads/probe.lock'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"schema\": 1,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 8,\n    \"pr\": 1,\n    \"head\": \"3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"base_head\": \"3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\",\n    \"run_id\": 1,\n    \"run_attempt\": 1,\n    \"worktree\": \"probe\",\n    \"control_root\": \"/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"phase\": \"resolved\",\n  \"classification\": \"RESOLVED\",\n  \"merge_sha\": \"3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\",\n  \"issue_closed_at\": \"fixture-only\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"cleanup_intent\": {\n    \"path_present\": false,\n    \"branch_head\": \"3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\",\n    \"main_head\": \"3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\",\n    \"git_path\": \"/tmp/soodles-lock-oracle-up84q78s/legacy_unknown/shim/git\",\n    \"git_sha256\": \"b666f213465926e136548a83d1f26cd409ee94a5f58d6a72adc166af40ef6b15\",\n    \"noodle_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n    \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\"\n  },\n  \"local\": {\n    \"head\": \"3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\",\n    \"tree\": \"a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\",\n    \"removed_worktree\": \"probe\",\n    \"worktree_owner\": \"Noodle\"\n  },\n  \"owner\": \"landing.reconcile\",\n  \"action\": \"stop\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "worktree",
+              "list",
+              "--porcelain"
+            ],
+            "exit": 0,
+            "stdout": "worktree /tmp/soodles-lock-oracle-up84q78s/legacy_unknown/repo\nHEAD 3a659b81af979e3fef04b08a03e3a7cbacf1b7d7\nbranch refs/heads/main\n\n",
+            "stderr": ""
+          },
+          {
+            "case": "legacy_unknown",
+            "argv": [
+              "/usr/bin/git",
+              "status",
+              "--porcelain",
+              "--untracked-files=all"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "init",
+              "-b",
+              "main"
+            ],
+            "exit": 0,
+            "stdout": "Initialized empty Git repository in /tmp/soodles-lock-oracle-up84q78s/consumed_release/repo/.git/\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "remote",
+              "add",
+              "origin",
+              "https://github.com/ed3c/soodles.git"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "add",
+              "."
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "-m",
+              "Local lock recovery fixture"
+            ],
+            "exit": 0,
+            "stdout": "[main (root-commit) 4bf9e2e] Local lock recovery fixture\n 1 file changed, 2 insertions(+)\n create mode 100644 .gitignore\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "4bf9e2efa0f0dae6c95a5c5a5657ebc6678f113f\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "HEAD^{tree}"
+            ],
+            "exit": 0,
+            "stdout": "a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "create",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Creating worktree at /tmp/soodles-lock-oracle-up84q78s/consumed_release/repo/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at 4bf9e2e Local lock recovery fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-lock-oracle-up84q78s/consumed_release/repo/.worktrees/probe (branch: probe)\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "identity"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/consumed_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "4bf9e2efa0f0dae6c95a5c5a5657ebc6678f113f\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/consumed_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "4bf9e2efa0f0dae6c95a5c5a5657ebc6678f113f\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/consumed_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.observation\",\n    \"value\": \"unchanged; owner readback or changed capability required\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.observation='unchanged; owner readback or changed capability required'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "--path-format=absolute",
+              "--git-path",
+              "refs/heads/probe.lock"
+            ],
+            "exit": 0,
+            "stdout": "/tmp/soodles-lock-oracle-up84q78s/consumed_release/repo/.git/refs/heads/probe.lock\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/consumed_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.ref_lock\",\n    \"value\": \"/tmp/soodles-lock-oracle-up84q78s/consumed_release/repo/.git/refs/heads/probe.lock\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.ref_lock='/tmp/soodles-lock-oracle-up84q78s/consumed_release/repo/.git/refs/heads/probe.lock'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/consumed_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.ref_lock\",\n    \"value\": \"/tmp/soodles-lock-oracle-up84q78s/consumed_release/repo/.git/refs/heads/probe.lock\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.ref_lock='/tmp/soodles-lock-oracle-up84q78s/consumed_release/repo/.git/refs/heads/probe.lock'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/consumed_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "4bf9e2efa0f0dae6c95a5c5a5657ebc6678f113f\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/consumed_release/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.observation\",\n    \"value\": \"unchanged; owner readback or changed capability required\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.observation='unchanged; owner readback or changed capability required'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "cleanup",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Worktree directory already removed, cleaning up refs...\n  Deleting branch probe...\nDone. Cleaned up refs for probe.\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "worktree",
+              "list",
+              "--porcelain"
+            ],
+            "exit": 0,
+            "stdout": "worktree /tmp/soodles-lock-oracle-up84q78s/consumed_release/repo\nHEAD 4bf9e2efa0f0dae6c95a5c5a5657ebc6678f113f\nbranch refs/heads/main\n\n",
+            "stderr": ""
+          },
+          {
+            "case": "consumed_release",
+            "argv": [
+              "/usr/bin/git",
+              "status",
+              "--porcelain",
+              "--untracked-files=all"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "init",
+              "-b",
+              "main"
+            ],
+            "exit": 0,
+            "stdout": "Initialized empty Git repository in /tmp/soodles-lock-oracle-up84q78s/moved_after_block/repo/.git/\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "remote",
+              "add",
+              "origin",
+              "https://github.com/ed3c/soodles.git"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "add",
+              "."
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "-m",
+              "Local lock recovery fixture"
+            ],
+            "exit": 0,
+            "stdout": "[main (root-commit) 8e72895] Local lock recovery fixture\n 1 file changed, 2 insertions(+)\n create mode 100644 .gitignore\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "8e72895b1f6d2cc78eb4876f66f780b2509c76e1\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "HEAD^{tree}"
+            ],
+            "exit": 0,
+            "stdout": "a08a20c88cfda2b8bf14c32358dadb5b628d9f9b\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "create",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Creating worktree at /tmp/soodles-lock-oracle-up84q78s/moved_after_block/repo/.worktrees/probe...\nPreparing worktree (new branch 'probe')\nHEAD is now at 8e72895 Local lock recovery fixture\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /tmp/soodles-lock-oracle-up84q78s/moved_after_block/repo/.worktrees/probe (branch: probe)\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "identity"
+            ],
+            "exit": 0,
+            "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/moved_after_block/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid input=\"command failed (-9): ['/home/runner/work/_temp/soodles-runtime/noodle', 'worktree', 'cleanup', 'probe']\\nconfig repairable: 4 adapter script path(s) are missing.\\n  backlog:\\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\\nconfig repair prompt:\\n-----\\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\\nKeep the fix minimal and avoid broad refactors.\\n\\nMissing adapter scripts:\\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\\n\\nRequired verification:\\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\\n- If Go files changed, run `go test ./...`.\\n\\nReturn a short summary of files changed and the verification results.\\n-----\\n\"; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "refs/heads/probe"
+            ],
+            "exit": 0,
+            "stdout": "8e72895b1f6d2cc78eb4876f66f780b2509c76e1\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "rev-parse",
+              "--path-format=absolute",
+              "--git-path",
+              "refs/heads/probe.lock"
+            ],
+            "exit": 0,
+            "stdout": "/tmp/soodles-lock-oracle-up84q78s/moved_after_block/repo/.git/refs/heads/probe.lock\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/moved_after_block/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.ref_lock\",\n    \"value\": \"/tmp/soodles-lock-oracle-up84q78s/moved_after_block/repo/.git/refs/heads/probe.lock\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.ref_lock='/tmp/soodles-lock-oracle-up84q78s/moved_after_block/repo/.git/refs/heads/probe.lock'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/moved_after_block/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.ref_lock\",\n    \"value\": \"/tmp/soodles-lock-oracle-up84q78s/moved_after_block/repo/.git/refs/heads/probe.lock\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.ref_lock='/tmp/soodles-lock-oracle-up84q78s/moved_after_block/repo/.git/refs/heads/probe.lock'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "-c",
+              "user.name=Fixture",
+              "-c",
+              "user.email=fixture@example.invalid",
+              "commit",
+              "--allow-empty",
+              "-m",
+              "Planted moved branch"
+            ],
+            "exit": 0,
+            "stdout": "[main b3b6ce6] Planted moved branch\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "branch",
+              "-f",
+              "probe",
+              "HEAD"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/home/runner/work/soodles/soodles/soodles",
+              "landing",
+              "reconcile",
+              "/tmp/soodles-lock-oracle-up84q78s/moved_after_block/state/checkpoint.json",
+              "/home/runner/work/_temp/soodles-runtime/noodle"
+            ],
+            "exit": 1,
+            "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"cleanup.branch_head\",\n    \"value\": \"b3b6ce6d5c9e6976a4838aebeca6cf66017f0dd1\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/hostedtoolcache/Python/3.12.14/x64/bin/python3\",\n      \"-B\",\n      \"/home/runner/work/soodles/soodles/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+            "stderr": "REFUSED: landing.reconcile: invalid cleanup.branch_head='b3b6ce6d5c9e6976a4838aebeca6cf66017f0dd1'; supported help: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3 -B /home/runner/work/soodles/soodles/soodles.py landing reconcile --help\n"
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/home/runner/work/_temp/soodles-runtime/noodle",
+              "worktree",
+              "cleanup",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "  Worktree directory already removed, cleaning up refs...\n  Deleting branch probe...\nDone. Cleaned up refs for probe.\n",
+            "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "branch",
+              "--list",
+              "probe"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "worktree",
+              "list",
+              "--porcelain"
+            ],
+            "exit": 0,
+            "stdout": "worktree /tmp/soodles-lock-oracle-up84q78s/moved_after_block/repo\nHEAD b3b6ce6d5c9e6976a4838aebeca6cf66017f0dd1\nbranch refs/heads/main\n\n",
+            "stderr": ""
+          },
+          {
+            "case": "moved_after_block",
+            "argv": [
+              "/usr/bin/git",
+              "status",
+              "--porcelain",
+              "--untracked-files=all"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        ]
+      },
+      "delivery_recovery": {
+        "scope": "local durable checkpoint/process faults; supervisor provider fixture, no GitHub writes",
+        "cases": [
+          {
+            "case": "prepared_sigkill_resume",
+            "signal": "SIGKILL",
+            "first_dispatches": 1
+          },
+          {
+            "case": "merge_commit_readback_recovery",
+            "malformed_controls": 14,
+            "invalid_sha_controls": 5,
+            "foreign_stale_controls": 2,
+            "legacy_history_preserved": true,
+            "provider_fixture": true
+          },
+          {
+            "case": "lost_response_and_close_prepare_crash",
+            "provider_fixture_effects": 2,
+            "phase": "awaiting_reconcile"
+          },
+          {
+            "case": "dispatch_gap_unknown",
+            "signal": "SIGKILL",
+            "reoffers": 0
+          },
+          {
+            "case": "concurrent_dispatch",
+            "processes": 2,
+            "requests": 1
+          },
+          {
+            "case": "legacy_unknown",
+            "merge_and_close_reoffers": 0
+          },
+          {
+            "case": "head_drift",
+            "requests": 0,
+            "checkpoint_unchanged": true
+          },
+          {
+            "case": "structured_owner_refusal",
+            "conflicting_routes": 0,
+            "provider_requests": 0
+          },
+          {
+            "case": "terminal_projection",
+            "next": null,
+            "checkpoint_unchanged": true
+          }
+        ],
+        "isolated_child_uid": null,
+        "authorizes_landing": false
+      },
+      "base_recovery": {
+        "scope": "real child process faults; local provider fixtures, no GitHub writes",
+        "cases": [
+          {
+            "case": "comparison_owner_guidance",
+            "comparison_fields": 3,
+            "invoked_operations": [
+              "advance",
+              "dispatch",
+              "readmit"
+            ],
+            "refusals": 7,
+            "checkpoint_preserved_on_refusal": true,
+            "provider_writes": 0
+          },
+          {
+            "case": "comparison_identity_before_guidance",
+            "guessed_provider_requests": 0
+          },
+          {
+            "case": "old_acceptance_invalidated",
+            "provider_requests": 0
+          },
+          {
+            "case": "sigkill_invalidation_and_readmission",
+            "signals": 2,
+            "fresh_requests": 1
+          },
+          {
+            "case": "offered_and_legacy_unknown",
+            "reoffers": 0
+          },
+          {
+            "case": "concurrent_readmission",
+            "processes": 2,
+            "admissions": 1
+          },
+          {
+            "case": "same_base_supervised_amendment",
+            "signals": 2,
+            "old_acceptance_dispatches": 0,
+            "fresh_requests": 1,
+            "terminal_classification": null
+          },
+          {
+            "case": "amendment_preserves_offered_and_legacy_unknown",
+            "reoffers": 0
+          }
+        ],
+        "isolated_child_uid": null,
+        "authorizes_landing": false
+      }
+    },
+    "unit_tests": {
+      "exit": 0,
+      "output": "test_admitted_version_is_observed_not_inferred_from_filename (test_admission.AdmissionTests.test_admitted_version_is_observed_not_inferred_from_filename) ... ok\ntest_all_command_help_routes_are_noninteractive (test_admission.AdmissionTests.test_all_command_help_routes_are_noninteractive) ... ok\ntest_dirty_candidate_rejects_before_binary_and_tests (test_admission.AdmissionTests.test_dirty_candidate_rejects_before_binary_and_tests) ... ok\ntest_fixture_environment_drops_provider_and_live_noodle_identity (test_admission.AdmissionTests.test_fixture_environment_drops_provider_and_live_noodle_identity) ... ok\ntest_missing_binary_does_not_fall_back_to_path (test_admission.AdmissionTests.test_missing_binary_does_not_fall_back_to_path) ... ok\ntest_missing_required_binary_is_actionable (test_admission.AdmissionTests.test_missing_required_binary_is_actionable) ... ok\ntest_unsupported_host_refuses_before_execution (test_admission.AdmissionTests.test_unsupported_host_refuses_before_execution) ... ok\ntest_wrong_digest_refuses_before_executable_sentinel (test_admission.AdmissionTests.test_wrong_digest_refuses_before_executable_sentinel) ... ok\ntest_wrong_observed_version_refuses_worktree_execution (test_admission.AdmissionTests.test_wrong_observed_version_refuses_worktree_execution) ... ok\ntest_wrong_repository_and_unknown_policy_fields_refuse (test_admission.AdmissionTests.test_wrong_repository_and_unknown_policy_fields_refuse) ... ok\ntest_actual_git_rename_and_delete_check_both_endpoints (test_issue_admission.IssueAdmissionTests.test_actual_git_rename_and_delete_check_both_endpoints) ... ok\ntest_candidate_local_or_changed_envelope_cannot_replace_fixed_external_bytes (test_issue_admission.IssueAdmissionTests.test_candidate_local_or_changed_envelope_cannot_replace_fixed_external_bytes) ... ok\ntest_current_body_digest_cannot_grant_missing_or_wider_authority (test_issue_admission.IssueAdmissionTests.test_current_body_digest_cannot_grant_missing_or_wider_authority) ... ok\ntest_current_provider_binding_is_normalized_but_non_authorizing (test_issue_admission.IssueAdmissionTests.test_current_provider_binding_is_normalized_but_non_authorizing) ... ok\ntest_human_template_and_machine_contract_have_the_same_fields (test_issue_admission.IssueAdmissionTests.test_human_template_and_machine_contract_have_the_same_fields) ... ok\ntest_identity_is_derived_from_provider_fields_not_title_or_prose (test_issue_admission.IssueAdmissionTests.test_identity_is_derived_from_provider_fields_not_title_or_prose) ... ok\ntest_invalid_paths_and_duplicate_paths_refuse (test_issue_admission.IssueAdmissionTests.test_invalid_paths_and_duplicate_paths_refuse) ... ok\ntest_one_active_contract_is_required (test_issue_admission.IssueAdmissionTests.test_one_active_contract_is_required) ... ok\ntest_whole_body_and_revision_changes_require_fresh_envelope (test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope) ... ok\ntest_both_real_entry_functions_consume_same_normalized_binding (test_issue_execution.IssueExecutionTests.test_both_real_entry_functions_consume_same_normalized_binding) ... ok\ntest_clean_descendant_is_not_the_selected_starting_head (test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head) ... ok\ntest_cli_missing_supervisor_input_is_structured_and_has_no_effect (test_issue_execution.IssueExecutionTests.test_cli_missing_supervisor_input_is_structured_and_has_no_effect) ... ok\ntest_completed_label_cannot_hide_a_live_process_group (test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group) ... ok\ntest_illegal_binding_refuses_both_routes_before_mailbox_effects (test_issue_execution.IssueExecutionTests.test_illegal_binding_refuses_both_routes_before_mailbox_effects) ... ok\ntest_live_writer_refuses_supervised_takeover_without_resetting_history (test_issue_execution.IssueExecutionTests.test_live_writer_refuses_supervised_takeover_without_resetting_history) ... ok\ntest_network_failure_names_provider_readback_without_mailbox_effects (test_issue_execution.IssueExecutionTests.test_network_failure_names_provider_readback_without_mailbox_effects) ... ok\ntest_real_scheduler_provider_entry_also_revalidates_before_launch (test_issue_execution.IssueExecutionTests.test_real_scheduler_provider_entry_also_revalidates_before_launch) ... ok\ntest_repeated_publication_preserves_one_mailbox_and_prior_admission (test_issue_execution.IssueExecutionTests.test_repeated_publication_preserves_one_mailbox_and_prior_admission) ... ok\ntest_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding (test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding) ... ok\ntest_unknown_owner_revision_refuses_before_publication (test_issue_execution.IssueExecutionTests.test_unknown_owner_revision_refuses_before_publication) ... ok\ntest_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer (test_issue_execution.IssueExecutionTests.test_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer) ... ok\ntest_worker_rejects_foreign_dispatch_and_changed_executable (test_issue_execution.IssueExecutionTests.test_worker_rejects_foreign_dispatch_and_changed_executable) ... ok\ntest_worker_revalidates_live_body_before_executable_effect (test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect) ... ok\ntest_body_amendment_refuses_prepared_dispatch_without_offer (test_landing.BoundLandingTests.test_body_amendment_refuses_prepared_dispatch_without_offer) ... ok\ntest_closure_metadata_is_legal_but_body_change_still_refuses (test_landing.BoundLandingTests.test_closure_metadata_is_legal_but_body_change_still_refuses) ... ok\ntest_completed_bound_order_can_reconcile_and_clean_fixture_worktree (test_landing.BoundLandingTests.test_completed_bound_order_can_reconcile_and_clean_fixture_worktree) ... ok\ntest_missing_binding_refuses_marked_contract_before_checkpoint (test_landing.BoundLandingTests.test_missing_binding_refuses_marked_contract_before_checkpoint) ... ok\ntest_outside_delivery_paths_refuse_and_current_paths_pass (test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass) ... ok\ntest_provider_closure_cannot_resolve_before_original_noodle_order (test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order) ... ok\ntest_amendment_allows_forward_base_but_preserves_ancestry_controls (test_landing.LandingTests.test_amendment_allows_forward_base_but_preserves_ancestry_controls) ... ok\ntest_amendment_record_cannot_launder_corrupt_identity_or_unknown_writes (test_landing.LandingTests.test_amendment_record_cannot_launder_corrupt_identity_or_unknown_writes) ... ok\ntest_base_advances_again_requires_ancestry_from_observed_recovery_base (test_landing.LandingTests.test_base_advances_again_requires_ancestry_from_observed_recovery_base) ... ok\ntest_checkpoint_cannot_be_overwritten_or_head_retargeted (test_landing.LandingTests.test_checkpoint_cannot_be_overwritten_or_head_retargeted) ... ok\ntest_cli_help_and_malformed_input_refuse_before_checkpoint (test_landing.LandingTests.test_cli_help_and_malformed_input_refuse_before_checkpoint) ... ok\ntest_comparison_guidance_preserves_fresh_claim_and_rejects_unconfirmed_endpoint (test_landing.LandingTests.test_comparison_guidance_preserves_fresh_claim_and_rejects_unconfirmed_endpoint) ... ok\ntest_corrected_verifier_resume_preserves_identity_and_cannot_repeat_provider_writes (test_landing.LandingTests.test_corrected_verifier_resume_preserves_identity_and_cannot_repeat_provider_writes) ... ok\ntest_crash_after_merge_and_close_resumes_by_readback_without_duplicate_write (test_landing.LandingTests.test_crash_after_merge_and_close_resumes_by_readback_without_duplicate_write) ... ok\ntest_dirty_root_and_wrong_origin_refuse_before_runtime_or_cleanup (test_landing.LandingTests.test_dirty_root_and_wrong_origin_refuse_before_runtime_or_cleanup) ... ok\ntest_dispatch_base_drift_invalidates_without_emitting_or_reusing_old_acceptance (test_landing.LandingTests.test_dispatch_base_drift_invalidates_without_emitting_or_reusing_old_acceptance) ... ok\ntest_foreign_merge_parent_or_tree_cannot_close_issue (test_landing.LandingTests.test_foreign_merge_parent_or_tree_cannot_close_issue) ... ok\ntest_foreign_repository_tree_base_and_skipped_step_refuse (test_landing.LandingTests.test_foreign_repository_tree_base_and_skipped_step_refuse) ... ok\ntest_fresh_admission_rejects_identity_changes_stale_acceptance_and_bad_ancestry (test_landing.LandingTests.test_fresh_admission_rejects_identity_changes_stale_acceptance_and_bad_ancestry) ... ok\ntest_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry (test_landing.LandingTests.test_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry) ... ok\ntest_invalidation_retains_legacy_empty_admission_and_base_recovery (test_landing.LandingTests.test_invalidation_retains_legacy_empty_admission_and_base_recovery) ... ok\ntest_legacy_admitted_can_recover_but_legacy_pending_remains_unknown (test_landing.LandingTests.test_legacy_admitted_can_recover_but_legacy_pending_remains_unknown) ... ok\ntest_legacy_unknown_preserves_identity_and_cleanup_evidence (test_landing.LandingTests.test_legacy_unknown_preserves_identity_and_cleanup_evidence) ... ok\ntest_malformed_comparison_refuses_exact_field_without_traceback_or_checkpoint_change (test_landing.LandingTests.test_malformed_comparison_refuses_exact_field_without_traceback_or_checkpoint_change) ... ok\ntest_merged_readback_readmit_retains_fresh_claim_without_adopting_provider_effect (test_landing.LandingTests.test_merged_readback_readmit_retains_fresh_claim_without_adopting_provider_effect) ... ok\ntest_merged_readback_start_keeps_confirmed_claim_without_creating_checkpoint (test_landing.LandingTests.test_merged_readback_start_keeps_confirmed_claim_without_creating_checkpoint) ... ok\ntest_missing_or_inconsistent_delivery_evidence_cannot_dispatch (test_landing.LandingTests.test_missing_or_inconsistent_delivery_evidence_cannot_dispatch) ... ok\ntest_network_child_keeps_proxy_route_without_provider_or_git_injection (test_landing.LandingTests.test_network_child_keeps_proxy_route_without_provider_or_git_injection) ... ok\ntest_owner_projection_names_missing_input_without_executable_placeholder (test_landing.LandingTests.test_owner_projection_names_missing_input_without_executable_placeholder) ... ok\ntest_parser_and_refusal_help_are_bound_to_invoked_action (test_landing.LandingTests.test_parser_and_refusal_help_are_bound_to_invoked_action) ... ok\ntest_prepared_but_unoffered_provider_effect_cannot_be_adopted (test_landing.LandingTests.test_prepared_but_unoffered_provider_effect_cannot_be_adopted) ... ok\ntest_prepared_intent_is_not_an_offer_and_requires_fresh_identity (test_landing.LandingTests.test_prepared_intent_is_not_an_offer_and_requires_fresh_identity) ... ok\ntest_reconciliation_cannot_start_before_provider_closure (test_landing.LandingTests.test_reconciliation_cannot_start_before_provider_closure) ... ok\ntest_recovery_requires_forward_complete_comparison_and_original_subject (test_landing.LandingTests.test_recovery_requires_forward_complete_comparison_and_original_subject) ... ok\ntest_supervisor_withdraws_green_without_new_ci_or_provider_write (test_landing.LandingTests.test_supervisor_withdraws_green_without_new_ci_or_provider_write) ... ok\ntest_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary (test_landing.LandingTests.test_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary) ... ok\ntest_unoffered_external_merge_or_closure_cannot_resolve_this_checkpoint (test_landing.LandingTests.test_unoffered_external_merge_or_closure_cannot_resolve_this_checkpoint) ... ok\ntest_wrong_claim_fields_identity_and_verifier_cannot_admit (test_landing.LandingTests.test_wrong_claim_fields_identity_and_verifier_cannot_admit) ... ok\ntest_wrong_closure_reason_and_closed_unmerged_do_not_resolve (test_landing.LandingTests.test_wrong_closure_reason_and_closed_unmerged_do_not_resolve) ... ok\ntest_wrong_provider_identities_fail_before_checkpoint (test_landing.LandingTests.test_wrong_provider_identities_fail_before_checkpoint) ... ok\ntest_analyzer_failure_cannot_be_interpreted_as_no_findings (test_quality.QualityTests.test_analyzer_failure_cannot_be_interpreted_as_no_findings) ... ok\ntest_exact_same_head_allowed_but_output_inside_subject_refused (test_quality.QualityTests.test_exact_same_head_allowed_but_output_inside_subject_refused) ... ok\ntest_invalid_subject_refused_before_output_or_dependency_import (test_quality.QualityTests.test_invalid_subject_refused_before_output_or_dependency_import) ... ok\ntest_new_source_is_visible_in_unclassified_scope (test_quality.QualityTests.test_new_source_is_visible_in_unclassified_scope) ... ok\ntest_pending_time_is_not_zero_and_steps_are_not_summed_into_job_time (test_quality.QualityTests.test_pending_time_is_not_zero_and_steps_are_not_summed_into_job_time) ... ok\ntest_counts_separate_control_refusal_from_failure_and_keep_guard_repeats (test_verify_skill.VerificationSkillTests.test_counts_separate_control_refusal_from_failure_and_keep_guard_repeats) ... ok\ntest_output_refusal_precedes_directory_creation (test_verify_skill.VerificationSkillTests.test_output_refusal_precedes_directory_creation) ... ok\ntest_resolution_requires_exact_local_skill (test_verify_skill.VerificationSkillTests.test_resolution_requires_exact_local_skill) ... ok\n\n----------------------------------------------------------------------\nRan 81 tests in 2.658s\n\nOK\n"
+    },
+    "authorizes_landing": false,
+    "non_claims": [
+      "Codex generation",
+      "provider admission",
+      "merge",
+      "Issue closure",
+      "production checkpoint recovery"
+    ]
+  },
+  "release": {
+    "release": "v0.1.19",
+    "commit": "391f3154c680fc6724b8cdabf6bcec831b61065d",
+    "asset": "noodle_linux_amd64.tar.gz",
+    "archive_sha256": "7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb",
+    "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+    "authorizes_landing": false
+  },
+  "artifact_id": 10459930825,
+  "authorizes_landing": false
+}

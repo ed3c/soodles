@@ -1,0 +1,37 @@
+{
+  "exit": 1,
+  "invalid": {
+    "field": "takeover.prior_writer",
+    "value": [
+      {
+        "attempt_id": "soodles-18-0-attempt-0",
+        "session_id": "soodles-18-0-execute-20260916-170442-ab424c",
+        "status": "running",
+        "started_at": "2026-09-17T01:04:42.126515+08:00",
+        "completed_at": "0001-01-01T00:00:00Z",
+        "exit_code": null,
+        "worktree_name": "soodles-18-0-execute",
+        "error": ""
+      }
+    ]
+  },
+  "next": {
+    "kind": "input",
+    "owner": "Noodle",
+    "required": [
+      "quiescent_writer_and_session_readback"
+    ],
+    "operation": "supervised",
+    "help_argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles18-continuation-20260917/installed-847f3f8/soodles.py",
+      "issue",
+      "supervised",
+      "--help"
+    ],
+    "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+  },
+  "scope": "live prior writer takeover refusal; correct refusal is GREEN",
+  "authorizes_landing": false
+}
