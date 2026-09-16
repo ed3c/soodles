@@ -115,8 +115,9 @@ def validate_envelope(envelope):
     require(nonempty(envelope["owner"]), "envelope.owner", envelope["owner"])
     paths = path_set(envelope["write_paths"], "envelope.write_paths")
     execution = envelope["execution"]
-    exact_object(execution, {"control_root", "worktree", "order_id", "stage_index", "carrier"},
+    exact_object(execution, {"control_root", "worktree", "order_id", "stage_index", "carrier", "task"},
                  "envelope.execution.fields")
+    require(nonempty(execution["task"]), "envelope.execution.task", execution["task"])
     require(isinstance(execution["control_root"], str) and Path(execution["control_root"]).is_absolute(),
             "envelope.execution.control_root", execution["control_root"])
     require(isinstance(execution["worktree"], str) and re.fullmatch(r"[a-z0-9][a-z0-9-]{0,99}", execution["worktree"]),
@@ -130,7 +131,7 @@ def validate_envelope(envelope):
     return {**envelope, "write_paths": paths}
 
 
-def validate_issue(readback, envelope):
+def validate_issue(readback, envelope, *, completed=False):
     """Validate common binding; no route-dependent authorization or side effects."""
     envelope = validate_envelope(envelope)
     source = {"owner": "GitHub", "required": "fresh_issue_readback"}
@@ -142,17 +143,23 @@ def validate_issue(readback, envelope):
         actual = readback.get(field)
         require(type(actual) is type(expected) and actual == expected, "issue." + field, actual, **source)
     require("pull_request" not in readback, "issue.pull_request", readback.get("pull_request"), **source)
-    require(readback.get("state") == "open", "issue.state", readback.get("state"), **source)
+    expected_state = "closed" if completed else "open"
+    require(readback.get("state") == expected_state, "issue.state", readback.get("state"), **source)
+    if completed:
+        require(readback.get("state_reason") == "completed" and bool(readback.get("closed_at")),
+                "issue.closure", readback.get("state_reason"), **source)
     body = readback.get("body")
     contract = parse_contract(body)
     require(body_digest(body) == envelope["body_sha256"], "issue.body_sha256", body_digest(body), **source)
-    require(readback.get("updated_at") == envelope["body_updated_at"],
+    # Closure changes provider metadata. It never changes the admitted body bytes
+    # or grants permission to execute; only the landing owner uses this readback.
+    require(completed or readback.get("updated_at") == envelope["body_updated_at"],
             "issue.updated_at", readback.get("updated_at"), **source)
     require(contract["owner"] == envelope["owner"], "envelope.owner", envelope["owner"])
     require(contract["write_paths"] == envelope["write_paths"], "envelope.write_paths", envelope["write_paths"])
     return {
         "repository": REPOSITORY, "issue": number, "body_sha256": envelope["body_sha256"],
-        "body_updated_at": readback["updated_at"], "owner": contract["owner"],
+        "body_updated_at": envelope["body_updated_at"], "owner": contract["owner"],
         "write_paths": envelope["write_paths"], "base_head": envelope["base_head"],
         "execution": envelope["execution"], "contract": contract, "authorizes_landing": False,
     }

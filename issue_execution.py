@@ -90,10 +90,55 @@ def context(envelope_path, envelope_digest, root, reader):
     return validate_issue(readback, envelope)
 
 
+def quiescent_order(binding, state):
+    """Read the canonical attempts and their Noodle-owned process groups.
+
+    This is a bounded local readback, not a new lease or permission to retry.
+    A recycled PID or an unreadable process remains a refusal.
+    """
+    order_id = binding["execution"]["order_id"]
+    order = state["state"]["orders"].get(order_id)
+    require(isinstance(order, dict) and isinstance(order.get("stages"), list) and bool(order["stages"]),
+            "takeover.order", order, owner="Noodle", required="canonical_order_readback")
+    observations = []
+    for stage in order["stages"]:
+        require(isinstance(stage, dict) and stage.get("status") in ("review", "completed", "failed", "cancelled"),
+                "takeover.stage", stage, owner="Noodle", required="quiescent_writer_and_session_readback")
+        attempts = stage.get("attempts")
+        require(isinstance(attempts, list) and bool(attempts), "takeover.attempts", attempts,
+                owner="Noodle", required="canonical_attempt_readback")
+        for attempt in attempts:
+            require(isinstance(attempt, dict) and attempt.get("status") in ("completed", "failed", "cancelled"),
+                    "takeover.prior_writer", attempt, owner="Noodle", required="quiescent_writer_and_session_readback")
+            session = attempt.get("session_id")
+            require(isinstance(session, str) and re.fullmatch(r"[a-zA-Z0-9-]+", session), "takeover.session", session,
+                    owner="Noodle", required="canonical_attempt_readback")
+            directory = Path(binding["execution"]["control_root"]) / ".noodle/sessions" / session
+            try:
+                process = json.loads((directory / "process.json").read_text())
+            except (OSError, ValueError) as error:
+                raise AdmissionRefusal("takeover.process", str(error), "Noodle", "process_group_readback") from error
+            require(isinstance(process, dict) and process.get("session_id") == session
+                    and type(process.get("pid")) is int and process["pid"] > 1,
+                    "takeover.process", process, owner="Noodle", required="process_group_readback")
+            for target in (process["pid"], -process["pid"]):
+                try:
+                    os.kill(target, 0)
+                except ProcessLookupError:
+                    continue
+                except PermissionError as error:
+                    raise AdmissionRefusal("takeover.process", str(error), "Noodle", "process_group_readback") from error
+                raise AdmissionRefusal("takeover.process_alive", target, "Noodle", "quiescent_writer_and_session_readback")
+            observations.append({"session_id": session, "pid": process["pid"], "process_and_group_absent": True})
+    require(read_owner(binding)["state"]["orders"].get(order_id) == order,
+            "takeover.owner_changed", order_id, owner="Noodle", required="fresh_canonical_checkpoint")
+    return observations
+
+
 def projection(binding, envelope_digest, route):
     return {"repository": binding["repository"], "issue": binding["issue"],
             "body_sha256": binding["body_sha256"], "body_updated_at": binding["body_updated_at"],
-            "envelope_sha256": envelope_digest, "route": route}
+            "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"]}
 
 
 def publish_once(path, proposal):
@@ -149,6 +194,7 @@ def _admit(envelope_path, envelope_digest, root, reader, route):
         if route == "supervised":
             require(not live, "takeover.prior_writer", live,
                     owner="Noodle", required="quiescent_writer_and_session_readback")
+            quiescent_order(binding, state)
         return {"owner": "Noodle", "action": "owned", "binding": binding,
                 "next": {"kind": "input", "owner": "Noodle", "required": ["current_order_and_session_readback"],
                          "known": {"order_id": order_id}}, "published": False}

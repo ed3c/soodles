@@ -35,6 +35,7 @@ def issue_fixture():
                 "owner": contract["owner"], "write_paths": contract["write_paths"], "base_head": "a" * 40,
                 "execution": {"control_root": "/supervisor/control", "worktree": "soodles-18-0-execute",
                               "order_id": "soodles-18", "stage_index": 0,
+                              "task": "Execute the admitted bounded fixture task.",
                               "carrier": {"platform": "darwin_arm64"}}}
     return issue, envelope
 

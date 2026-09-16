@@ -8,7 +8,9 @@ schedule: Only the exact Issue/order admitted by the installed Soodles consumer.
 
 The installed provider entry revalidates the current provider Issue, external
 envelope, canonical order, session and worktree before launching this Agent.
-The stage prompt carries the binding; it is not permission to invent a new
+The stage prompt carries the binding and the supervisor's bounded `task`.
+Execute that task within the Issue's boundary; report unfinished delivery as
+unfinished. The prompt is not permission to invent a new
 Issue, route, worktree or envelope. Read the current Issue contract and honor
 its exact file boundary. A body amendment requires the supervisor's fresh
 envelope before further work.

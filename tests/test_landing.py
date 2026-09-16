@@ -14,7 +14,7 @@ class LandingTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.checkpoint = Path(self.temp.name) / "checkpoint.json"
+        self.checkpoint = Path(self.temp.name).resolve() / "checkpoint.json"
         self.claim = {"repository": "ed3c/soodles", "issue": 1, "pr": 2, "head": "a" * 40,
                       "tree": "b" * 40, "base_head": "c" * 40, "run_id": 10, "run_attempt": 1,
                       "worktree": "example", "control_root": "/fixture", "verifier_sha256": landing.verifier_digest()}
@@ -633,3 +633,78 @@ class LandingTests(unittest.TestCase):
         help_result = soodles.run(argv, soodles.ROOT)
         self.assertEqual(help_result.returncode, 0)
         self.assertFalse(self.checkpoint.exists())
+
+
+class BoundLandingTests(unittest.TestCase):
+    """Real Git paths and owner functions; provider responses are fixtures."""
+    def setUp(self):
+        from test_issue_execution import IssueExecutionTests
+        self.consumer = IssueExecutionTests()
+        self.consumer.setUp()
+        self.addCleanup(self.consumer.doCleanups)
+        c = self.consumer
+        self.delivery = LandingTests()
+        self.delivery.setUp()
+        self.addCleanup(self.delivery.doCleanups)
+        d = self.delivery
+        d.claim.update(issue=18, head=c.git("rev-parse", "HEAD"), tree=c.git("rev-parse", "HEAD^{tree}"),
+                       base_head=c.envelope["base_head"], control_root=str(c.root),
+                       worktree=c.envelope["execution"]["worktree"],
+                       execution_envelope={"path": str(c.path), "sha256": c.pin})
+        d.snapshot["issue"] = copy.deepcopy(c.issue)
+        d.snapshot["pr"]["body"] = "Refs ed3c/soodles#18"
+        d.snapshot["pr"]["head"].update(sha=d.claim["head"], ref=d.claim["worktree"])
+        d.snapshot["pr"]["base"]["sha"] = d.claim["base_head"]
+        d.snapshot["commit"] = {"sha": d.claim["head"], "tree": {"sha": d.claim["tree"]}}
+        d.snapshot["branch"]["commit"]["sha"] = d.claim["base_head"]
+        d.snapshot["run"]["head_sha"] = d.claim["head"]
+        d.snapshot["jobs"]["jobs"][0]["head_sha"] = d.claim["head"]
+
+    def test_missing_binding_refuses_marked_contract_before_checkpoint(self):
+        d = self.delivery
+        del d.claim["execution_envelope"]
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            d.start()
+        self.assertEqual(caught.exception.invalid["field"], "claim.execution_envelope")
+        self.assertFalse(d.checkpoint.exists())
+
+    def test_body_amendment_refuses_prepared_dispatch_without_offer(self):
+        d = self.delivery
+        d.start()
+        landing.advance(d.checkpoint, d.snapshot)
+        before = d.checkpoint.read_bytes()
+        d.snapshot["issue"]["body"] += "\nAmended requirement."
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            landing.dispatch(d.checkpoint, d.snapshot)
+        self.assertEqual(caught.exception.invalid["field"], "issue.body_sha256")
+        self.assertEqual(caught.exception.next_action["owner"], "GitHub")
+        self.assertEqual(d.checkpoint.read_bytes(), before)
+
+    def test_outside_delivery_paths_refuse_and_current_paths_pass(self):
+        import subprocess
+        c, d = self.consumer, self.delivery
+        for name in ("unauthorized.py", "allowed.py"):
+            path = c.worktree / name
+            path.write_text("new candidate\n")
+            subprocess.run(["git", "add", name], cwd=c.worktree, check=True, capture_output=True)
+            subprocess.run(["git", "-c", "user.name=Test", "-c", "user.email=t@example.invalid",
+                            "commit", "-m", "bounded fixture"], cwd=c.worktree, check=True, capture_output=True)
+            claim = {**d.claim, "head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=c.worktree, text=True).strip()}
+            if name == "unauthorized.py":
+                with self.assertRaises(landing.LandingRefusal) as caught:
+                    landing.execution_binding(claim, d.snapshot["issue"])
+                self.assertEqual(caught.exception.invalid, {"field": "candidate.outside_write_paths", "value": [name]})
+                subprocess.run(["git", "reset", "--hard", d.claim["base_head"]], cwd=c.worktree, check=True, capture_output=True)
+            else:
+                self.assertEqual(landing.execution_binding(claim, d.snapshot["issue"])["issue"], 18)
+
+    def test_closure_metadata_is_legal_but_body_change_still_refuses(self):
+        c, d = self.consumer, self.delivery
+        closed = {**c.issue, "state": "closed", "state_reason": "completed", "closed_at": "now", "updated_at": "later"}
+        self.assertEqual(landing.execution_binding(d.claim, closed)["body_sha256"], c.envelope["body_sha256"])
+        with self.assertRaisesRegex(landing.LandingRefusal, "issue.body_sha256"):
+            landing.execution_binding(d.claim, {**closed, "body": closed["body"] + " changed"})
+        # The same provider closure is not new worker authorization.
+        import issue_admission
+        with self.assertRaisesRegex(issue_admission.AdmissionRefusal, "issue.state"):
+            issue_admission.validate_issue(closed, c.envelope)

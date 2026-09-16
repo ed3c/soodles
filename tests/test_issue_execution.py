@@ -148,7 +148,12 @@ class IssueExecutionTests(unittest.TestCase):
         self.assertEqual((self.runtime / "state.snapshot.json").read_bytes(), before)
         self.assertFalse((self.runtime / "orders-next.json").exists())
         stage = self.snapshot["state"]["orders"]["soodles-18"]["stages"][0]
-        stage["attempts"][0]["status"] = "completed"
+        stage["attempts"][0].update(status="completed", session_id=self.session)
+        stage["status"] = "review"
+        ended = subprocess.Popen(["/bin/sh", "-c", "exit 0"], start_new_session=True)
+        ended.wait()
+        (self.runtime / "sessions" / self.session / "process.json").write_text(
+            json.dumps({"pid": ended.pid, "session_id": self.session}))
         self.save_owner()
         # Existing supervised ownership inspection needs no local nested Agent.
         del self.envelope["execution"]["carrier"]["codex"]
@@ -231,6 +236,26 @@ class IssueExecutionTests(unittest.TestCase):
         self.assertEqual(receipt["invalid"]["field"], "arguments")
         self.assertEqual(receipt["next"]["owner"], "supervisor")
         self.assertFalse((self.runtime / "orders-next.json").exists())
+
+    def test_completed_label_cannot_hide_a_live_process_group(self):
+        self.admit("automatic")
+        self.promote_fixture()
+        stage = self.snapshot["state"]["orders"]["soodles-18"]["stages"][0]
+        stage["status"] = "review"
+        stage["attempts"][0].update(status="completed", session_id=self.session)
+        self.save_owner()
+        process = subprocess.Popen(["/bin/sh", "-c", "sleep 30"], start_new_session=True)
+        try:
+            (self.runtime / "sessions" / self.session / "process.json").write_text(
+                json.dumps({"pid": process.pid, "session_id": self.session}))
+            with self.assertRaises(admission.AdmissionRefusal) as caught:
+                self.admit("supervised")
+            self.assertEqual(caught.exception.invalid["field"], "takeover.process_alive")
+            self.assertFalse((self.runtime / "orders-next.json").exists())
+        finally:
+            import signal
+            os.killpg(process.pid, signal.SIGTERM)
+            process.wait()
 
 
 if __name__ == "__main__":
