@@ -80,3 +80,16 @@ Consumer-recorded tool records are distinct from a full native platform transcri
 ## Current execution receipt
 
 See [native observations](native-results.md) and [immutable evidence](https://github.com/ed3c/soodles/tree/c6ac2e1a43eb21993b8903a292bf3f60a80414f0/docs/experiments/agent-context/native-trials). Six consumers plus two real producers completed. Independent audit verified 50 paired requests/results. Frozen verdicts remain two INCOMPLETE and four REJECT due absent mutable checkpoint observations. Complete native capture and observed model remain unavailable. No merge/closure/reconciliation is authorized by this experiment.
+
+## Latest bounded continuation
+
+[Durable supervisor observation receipt and independent reviewer message](https://github.com/ed3c/soodles/tree/49f4c0ef16887535656d757ca53cbb31e41e043d/docs/experiments/agent-context/native-round2). Four fresh consumers actually invoked the existing owner on mutable disposable checkpoints: exit 0, readback, merge_pending, no new request. Supervisor and independent reviewer checked before/after bytes; all match digest e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed and preserve writes_offered=[merge]. All four live checkpoint paths were removed. The mutable-checkpoint evidence gap is now addressed within this fixture scope.
+
+Two new consumers received no prescribed connector/CLI/browser route. Both selected GitHub/Actions after reading assigned instructions and correctly consumed candidate 505f4976's runtime. This is observed route selection after explicit instruction loading; automatic platform discovery/injection and treatment advantage remain unproven.
+
+Independent review counted 43 recorded request/result pairs, zero unmatched, and 10 matching returned Git blobs. Frozen continuation verdicts are four INCOMPLETE, no violations: complete_capture and observed_model remain missing; resume_y additionally missed recording its first handoff read. All recorder/discovery failures and route_y's artifact HTTP 403 are disclosed. Earlier results below remain historical and are not rewritten.
+
+The environment disconnected with environment_offline before raw round2 files could be collected for GitHub. The linked commit saves returned supervisor observations and the reviewer's message, **not a full raw round2 archive**. Local files were written under context39-round2; their durable upload remains unverified. GitHub connector remained available and was used to preserve these receipts.
+
+Current remaining gate: complete native task capture/model provenance, the missing handoff capture for that consumer, and durable raw round2 evidence. No Codex CLI/browser requirement is introduced. Keep #39 open and #40 draft. Do not rerun unchanged cases to compensate for missing telemetry; recover existing files when the environment is available. No merge, close or Noodle reconciliation occurred.
+
