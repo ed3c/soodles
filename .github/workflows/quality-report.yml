@@ -2,14 +2,18 @@ name: quality-report
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  workflow_run:
+    workflows: [runtime]
+    types: [completed]
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: quality-report-${{ github.event.pull_request.number }}
+  group: quality-report-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt || 1 }}
   cancel-in-progress: true
 jobs:
   observation:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -48,5 +52,54 @@ jobs:
           path: |
             ${{ runner.temp }}/quality-report/
             ${{ runner.temp }}/quality-install.json
+          if-no-files-found: error
+          retention-days: 30
+  completed-runtime-cost:
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Checkout immutable read-only cost collector
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: f2b78f2b6e216bb1fdaccef1c7b5e0ce9f500b66
+          sparse-checkout: quality/provider.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Read completed runtime cost without executing the subject
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SUBJECT_HEAD: ${{ github.event.workflow_run.head_sha }}
+          SUBJECT_RUN: ${{ github.event.workflow_run.id }}
+          SUBJECT_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+        run: |
+          python3 -B - <<'PY'
+          import json,os,pathlib,re,sys
+          sys.path.insert(0, 'quality')
+          from provider import collect
+          head=os.environ['SUBJECT_HEAD']
+          assert re.fullmatch('[0-9a-f]{40}',head), 'invalid event head'
+          report=collect(head)
+          report['trigger']={'run_id':int(os.environ['SUBJECT_RUN']), 'attempt':int(os.environ['SUBJECT_ATTEMPT'])}
+          report['collector_commit']='f2b78f2b6e216bb1fdaccef1c7b5e0ce9f500b66'
+          runs=[r for r in report['runs'] if r['id']==report['trigger']['run_id'] and r['attempt']==report['trigger']['attempt']]
+          if len(runs)!=1 or runs[0]['status']!='completed':
+              report['status']='unavailable'
+              report['reason']='Exact completed trigger absent in bounded readback; no retry'
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'quality-cost.json'
+          out.write_text(json.dumps(report,indent=2)+'\n')
+          lines=['## Completed runtime cost', '', 'Head `'+head+'`; observation: '+report['status']+'.', '', '| Job | Seconds | Result |', '|---|---:|---|']
+          for run in runs:
+              for job in run['jobs']:
+                  lines.append(f"| {job['name']} | {job['seconds']} | {job['conclusion']} |")
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as stream:
+              stream.write('\n'.join(lines)+'\n')
+          print(json.dumps({'status':report['status'],'trigger':report['trigger'],'runs':[{'id':r['id'],'jobs':r['jobs']} for r in runs]}))
+          PY
+      - name: Preserve completed cost readback
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: quality-cost-${{ github.event.workflow_run.head_sha }}-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: ${{ runner.temp }}/quality-cost.json
           if-no-files-found: error
           retention-days: 30
