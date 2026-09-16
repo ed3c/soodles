@@ -1,5 +1,7 @@
 # Issue #39: context transfer experiment
 
+Current status: see [recovered evidence and supplemental handoff](recovery-results.md). Round2 raw archive recovery and a new recorded handoff are complete; native capture/model gate remains incomplete. Earlier chronology below is retained.
+
 Class: N. Status: native paired cases executed; evidence gate incomplete. See [current observations](native-results.md); the earlier setup chronology below is retained.
 Owner: https://github.com/ed3c/soodles/issues/39
 Initial audited baseline: `50f41919ead671d69eade1ae5cc66bd1d96e347c`.

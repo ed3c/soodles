@@ -1,5 +1,7 @@
 # Issue #39: native cloud observations
 
+Current status: see [recovered evidence and supplemental handoff](recovery-results.md). Round2 raw archive recovery and a new recorded handoff are complete; native capture/model gate remains incomplete. Earlier chronology below is retained.
+
 ## Latest bounded continuation
 
 [Durable supervisor observation receipt and independent reviewer message](https://github.com/ed3c/soodles/tree/49f4c0ef16887535656d757ca53cbb31e41e043d/docs/experiments/agent-context/native-round2). Four fresh consumers actually invoked the existing owner on mutable disposable checkpoints: exit 0, readback, merge_pending, no new request. Supervisor and independent reviewer checked before/after bytes; all match digest e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed and preserve writes_offered=[merge]. All four live checkpoint paths were removed. The mutable-checkpoint evidence gap is now addressed within this fixture scope.

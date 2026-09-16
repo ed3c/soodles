@@ -72,17 +72,15 @@
     "fresh_cloud_session_creation_export": "Native subagent creation available with fork_turns=none; complete native transcript export not exposed",
     "github_connector": "available",
     "python": "3.12.14",
-    "python_fixture_execution": "Executed successfully; subsequently environment_offline blocked raw archive collection",
+    "python_fixture_execution": "available after recovery; supplemental owner continuation executed",
     "native_subagents": "executed, requested gpt-6-astra"
   },
   "evidence_kind": "Transcription of returned tool observations; complete session trace unavailable",
   "historical_probe_scope": "The observations array is retained unchanged. Local CLI timeouts do not test the active cloud Agent; environment_offline applied to the scratch exec carrier, not the working GitHub connector.",
   "issue": 39,
   "next_prerequisites": [
-    "Obtain supported complete task-action capture and observed-model provenance; current consumer recorder does not establish native completeness",
-    "Recover/upload existing context39-round2 raw records when execution environment is available; no durable full archive was verified",
-    "Retain resume_y missing initial handoff capture; do not reconstruct an event",
-    "After the evidence gate, consume exact-final-head runtime result and existing supervised admission/landing/reconciliation"
+    "Supported complete native task capture and observed-model provenance required by the unchanged frozen observer",
+    "Then exact-final-head acceptance and existing externally supervised landing/reconciliation"
   ],
   "non_claims": [
     "No Astra behavioral improvement proven",
@@ -272,6 +270,30 @@
     },
     "observed_model": null,
     "capture_complete": false,
-    "environment": "environment_offline after execution, before raw archive upload"
+    "environment": "environment_offline after execution, before raw archive upload",
+    "raw_archive_recovery": {
+      "commit": "4e8da7e96111793f2803c9085a86238fa0e5c623",
+      "url": "https://github.com/ed3c/soodles/tree/4e8da7e96111793f2803c9085a86238fa0e5c623/docs/experiments/agent-context/native-round2/raw",
+      "verified_files": 123
+    }
+  },
+  "recovery": {
+    "round2_raw_commit": "4e8da7e96111793f2803c9085a86238fa0e5c623",
+    "verified_git_blobs": 123,
+    "mismatches": 0,
+    "supplemental_commit": "8e6a8c52d9f0ad53beec926f9500c2bc1d2148f8",
+    "supplemental_task": "/root/handoff_recorded_consumer",
+    "recorded_processes": 9,
+    "handoff_received": true,
+    "owner_exit": 0,
+    "checkpoint_preserved": true,
+    "checkpoint_and_locks_cleaned": true,
+    "model": null,
+    "capture_complete": false,
+    "observer_verdict": "INCOMPLETE",
+    "missing": [
+      "complete_capture",
+      "observed_model"
+    ]
   }
 }
