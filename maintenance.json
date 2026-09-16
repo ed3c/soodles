@@ -1,0 +1,133 @@
+{
+  "method": "pstack maintain-verification-skill",
+  "method_pin": "ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa",
+  "outcome": "changed",
+  "candidate": {
+    "head": "91cc6be0d9260a2c51f2803dc52e485ae6f2b602",
+    "tree": "da833aaacbac1a5164e9ffab39c7e7dfd8f7f4fa"
+  },
+  "features": {
+    "runtime-admission": "VERIFIED",
+    "delivery-recovery": "VERIFIED (provider fixtures; real process/Noodle controls)",
+    "supervised-delivery": "RESOLVED (live provider merge/closure and Noodle reconciliation)"
+  },
+  "runtime_counts": {
+    "top_level_commands": 7,
+    "unexpected_command_failures": 0,
+    "expected_refusals": 1,
+    "readback_invocations": 5,
+    "repeated_readbacks": 2,
+    "verification_invocations": 2,
+    "canonical_acceptance_invocations": 0
+  },
+  "recovery_case_counts": {
+    "delivery": 8,
+    "base": 6,
+    "lock": 4,
+    "cleanup": 5
+  },
+  "recorded_command_scope": {
+    "commands": 29,
+    "unexpected_command_failures": 0,
+    "expected_top_level_refusals": 1,
+    "readback_commands": 15,
+    "repeated_readback_commands": 7,
+    "feature_verification_invocations": 7,
+    "owner_commands": 7,
+    "canonical_acceptance_local": 1,
+    "canonical_acceptance_ci": 1,
+    "excludes": "Driver launcher, discovery/source-review commands, internal subprocesses and Agent thoughts. Canonical recorded separately."
+  },
+  "provider_trace": {
+    "GET_operations": 39,
+    "distinct_GET_subjects": 7,
+    "repeated_GET_subjects": 32,
+    "writes": 2,
+    "subject_counts": {
+      "https://api.github.com/repos/ed3c/soodles/issues/22": 6,
+      "https://api.github.com/repos/ed3c/soodles/actions/runs/35061600413": 6,
+      "https://api.github.com/repos/ed3c/soodles/pulls/24": 6,
+      "https://api.github.com/repos/ed3c/soodles/branches/main": 6,
+      "https://api.github.com/repos/ed3c/soodles/git/commits/91cc6be0d9260a2c51f2803dc52e485ae6f2b602": 6,
+      "https://api.github.com/repos/ed3c/soodles/actions/runs/35061600413/jobs": 6,
+      "https://api.github.com/repos/ed3c/soodles/git/commits/bcab7a8642b94c9f947b64d2fcb2762d80615cdd": 3
+    },
+    "scope": "Initial admission reads and owner-requested fresh readbacks; repeated endpoint does not imply removable cost."
+  },
+  "carrier_evidence_serialization_failures": 1,
+  "serialization_recovery": "Oversized argv rejected before process launch; file absence read back, then same evidence saved using bounded chunks. No provider write retry.",
+  "external_publisher_sha256": "f0cf5d6bd612927421a769e50944712c6772dc0047d77717296c3d2f7920c08a",
+  "skill_resolution": {
+    "name": "verify-soodles",
+    "search_path": "/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/issue-22-maintain-verification/.agents/skills",
+    "path": "/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/issue-22-maintain-verification/.agents/skills/verify-soodles",
+    "files_sha256": {
+      "SKILL.md": "e0ad6615c83f7ef63576e2f1347f3c774237c30f16bc3d7a6682de44c7f2d72f",
+      "features/README.md": "229e7aca4bfb62d122fff8b5b7f451632bfd3ebbe8744c052e15e8879ec9f0a8",
+      "features/delivery-recovery.md": "9d70f3a257c21068bbfe877e23990c7f9fb8ca156ccc77595261c2b3d84889d2",
+      "features/runtime-admission.md": "3de848c5ad84962e638b9893d0b23d5ef9ab68a0ebaba193104b5a755e8ae3cc",
+      "features/supervised-delivery.md": "fdf98699ed21b456980c52ff6bdd62f381aa729eabcd1325597e96c93d849fdf",
+      "scripts/verify_runtime.py": "1049574cdc3147373ff46eb64d741f492cfd98effbe04349ce2cf4379f951a0b"
+    },
+    "warnings": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+  },
+  "terminal": {
+    "schema": 2,
+    "claim": {
+      "repository": "ed3c/soodles",
+      "issue": 22,
+      "pr": 24,
+      "head": "91cc6be0d9260a2c51f2803dc52e485ae6f2b602",
+      "tree": "da833aaacbac1a5164e9ffab39c7e7dfd8f7f4fa",
+      "base_head": "035e6a985140e09b3be5b371619542e270d642f3",
+      "run_id": 35061600413,
+      "run_attempt": 1,
+      "worktree": "issue-22-maintain-verification",
+      "control_root": "/workspace/scratch/8d9f1ebaaa91/soodles",
+      "verifier_sha256": "f0cf5d6bd612927421a769e50944712c6772dc0047d77717296c3d2f7920c08a"
+    },
+    "phase": "resolved",
+    "observations": [
+      "17faccbc17a10d725ffcf3a7847e5caf6fd768f6a78844c4432734b7554c3944",
+      "b9210a8fe32acd1046229c17ae3791a14a39c4e03d99371eb243abb866191e04",
+      "922918158f4d764990a153f3963ef8200dbff3f219013e71f7a4352cb1fabedf"
+    ],
+    "classification": "RESOLVED",
+    "scope": "supervised single-Issue landing",
+    "writes_offered": [
+      "merge",
+      "close"
+    ],
+    "delivery": {
+      "action": "close",
+      "status": "offered"
+    },
+    "merge_sha": "bcab7a8642b94c9f947b64d2fcb2762d80615cdd",
+    "issue_closed_at": "2026-09-16T06:01:39Z",
+    "cleanup_intent": {
+      "path_present": true,
+      "branch_head": "91cc6be0d9260a2c51f2803dc52e485ae6f2b602",
+      "main_head": "bcab7a8642b94c9f947b64d2fcb2762d80615cdd",
+      "git_path": "/usr/local/bin/git",
+      "git_sha256": "2dae8066ef4d6a926561b4b0eaca7b458d4f5b56bb83760656e6baa7fc3e974f",
+      "noodle_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "verifier_sha256": "f0cf5d6bd612927421a769e50944712c6772dc0047d77717296c3d2f7920c08a"
+    },
+    "local": {
+      "head": "bcab7a8642b94c9f947b64d2fcb2762d80615cdd",
+      "tree": "da833aaacbac1a5164e9ffab39c7e7dfd8f7f4fa",
+      "removed_worktree": "issue-22-maintain-verification",
+      "worktree_owner": "Noodle"
+    },
+    "owner": "landing.reconcile",
+    "action": "stop",
+    "next": null
+  },
+  "checkpoint_sha256": "2ad2882817d53181a4d40555240095a5a8fe8af3f36b46d8312cd95ab40a97a7",
+  "non_claims": [
+    "paired Agent decision-cost reduction",
+    "shortest path",
+    "production scheduling or DAG",
+    "whole-app coverage"
+  ]
+}
