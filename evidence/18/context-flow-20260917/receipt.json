@@ -1,0 +1,58 @@
+{
+  "subject_head": "0bbdd1097fb95a86c935329e0867750224877ace",
+  "scope": "Actual admission functions over provider/owner fixtures; no live Agent or provider effect",
+  "authorizes_landing": false,
+  "cases": [
+    {
+      "route": "automatic",
+      "stale_refusal": {
+        "owner": "issue.automatic",
+        "status": "refused",
+        "invalid": {
+          "field": "issue.body_sha256",
+          "value": "aea504ff42616f2574554c92f685dbfcfe4d85959969574fd4cc62469a7661e8"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "GitHub",
+          "required": [
+            "fresh_issue_readback"
+          ]
+        }
+      },
+      "forbidden_effects_absent": true,
+      "correct_rejection_control": "GREEN",
+      "continuation_guidance_control": "RED",
+      "continuation_guidance_assertion": "Named existing operation and supported entry help are present; neither authorizes a retry",
+      "legal_current_body_control": "GREEN",
+      "cure": "NOT_IMPLEMENTED_OR_TESTED",
+      "fixture_cleanup": true
+    },
+    {
+      "route": "supervised",
+      "stale_refusal": {
+        "owner": "issue.supervised",
+        "status": "refused",
+        "invalid": {
+          "field": "issue.body_sha256",
+          "value": "aea504ff42616f2574554c92f685dbfcfe4d85959969574fd4cc62469a7661e8"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "GitHub",
+          "required": [
+            "fresh_issue_readback"
+          ]
+        }
+      },
+      "forbidden_effects_absent": true,
+      "correct_rejection_control": "GREEN",
+      "continuation_guidance_control": "RED",
+      "continuation_guidance_assertion": "Named existing operation and supported entry help are present; neither authorizes a retry",
+      "legal_current_body_control": "GREEN",
+      "cure": "NOT_IMPLEMENTED_OR_TESTED",
+      "fixture_cleanup": true
+    }
+  ],
+  "classification": "LOCAL_CONTINUATION_GUIDANCE_GAP_OBSERVED"
+}
