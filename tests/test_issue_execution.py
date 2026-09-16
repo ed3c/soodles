@@ -34,6 +34,7 @@ class IssueExecutionTests(unittest.TestCase):
         self.worktree = self.root / ".worktrees" / e["worktree"]
         self.git("worktree", "add", "-b", e["worktree"], str(self.worktree))
         self.envelope["base_head"] = self.git("rev-parse", "HEAD")
+        e["source_head"] = self.envelope["base_head"]
         self.effect = self.directory / "WORKER_EFFECT"
         self.binary = self.directory / "executable-sentinel"
         self.binary.write_text("#!/bin/sh\nprintf observed > '" + str(self.effect) + "'\n")
@@ -189,6 +190,18 @@ class IssueExecutionTests(unittest.TestCase):
         with self.assertRaises(admission.AdmissionRefusal) as caught:
             self.launch()
         self.assertEqual(caught.exception.invalid["field"], "carrier.noodle.sha256")
+        self.assertFalse(self.effect.exists())
+
+    def test_clean_descendant_is_not_the_selected_starting_head(self):
+        self.admit("automatic")
+        self.promote_fixture()
+        (self.worktree / "allowed.py").write_text("different committed subject\n")
+        subprocess.run(["git", "add", "allowed.py"], cwd=self.worktree, check=True, capture_output=True)
+        subprocess.run(["git", "-c", "user.name=Test", "-c", "user.email=t@example.invalid", "commit", "-m", "different subject"],
+                       cwd=self.worktree, check=True, capture_output=True)
+        with self.assertRaises(admission.AdmissionRefusal) as caught:
+            self.launch()
+        self.assertEqual(caught.exception.invalid["field"], "worker.git.head")
         self.assertFalse(self.effect.exists())
 
     def test_unknown_owner_revision_refuses_before_publication(self):

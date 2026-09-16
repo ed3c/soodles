@@ -708,3 +708,56 @@ class BoundLandingTests(unittest.TestCase):
         import issue_admission
         with self.assertRaisesRegex(issue_admission.AdmissionRefusal, "issue.state"):
             issue_admission.validate_issue(closed, c.envelope)
+
+    def test_provider_closure_cannot_resolve_before_original_noodle_order(self):
+        c, d = self.consumer, self.delivery
+        d.start()
+        state = landing.read(d.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha=d.claim["head"], issue_closed_at="now",
+                     writes_offered=["merge", "close"])
+        landing.save(d.checkpoint, state)
+        c.git("update-ref", "refs/remotes/origin/main", d.claim["head"])
+        with patch("landing.fetch_main"):
+            result = landing.reconcile(d.checkpoint, str(c.binary))
+        self.assertEqual(result["action"], "noodle_reconcile")
+        self.assertEqual(result["next"]["owner"], "Noodle")
+        self.assertEqual(result["next"]["known"]["order_id"], "soodles-18")
+        self.assertIsNone(landing.read(d.checkpoint)["classification"])
+        self.assertTrue(c.worktree.exists())
+        self.assertFalse(c.effect.exists())
+
+    def test_completed_bound_order_can_reconcile_and_clean_fixture_worktree(self):
+        import subprocess
+        c, d = self.consumer, self.delivery
+        c.admit("automatic")
+        c.promote_fixture()
+        order = c.snapshot["state"]["orders"]["soodles-18"]
+        order["status"] = "completed"
+        order["stages"][0]["status"] = "completed"
+        ended = subprocess.Popen(["/bin/sh", "-c", "exit 0"], start_new_session=True)
+        ended.wait()
+        order["stages"][0]["attempts"][0].update(status="completed", session_id=c.session)
+        (c.runtime / "sessions" / c.session / "process.json").write_text(json.dumps({"pid": ended.pid, "session_id": c.session}))
+        c.save_owner()
+        d.start()
+        state = landing.read(d.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha=d.claim["head"], issue_closed_at="now", writes_offered=["merge", "close"])
+        landing.save(d.checkpoint, state)
+        c.git("update-ref", "refs/remotes/origin/main", d.claim["head"])
+        original = landing.checked
+        requests = []
+        def cleanup_fixture(argv, cwd):
+            if argv[0] == str(c.binary):
+                self.assertEqual(argv[1:], ["worktree", "cleanup", d.claim["worktree"]])
+                requests.append(argv)
+                c.git("worktree", "remove", str(c.worktree))
+                c.git("branch", "-d", d.claim["worktree"])
+                return ""
+            return original(argv, cwd)
+        with patch("landing.fetch_main"), patch("landing.checked", side_effect=cleanup_fixture):
+            result = landing.reconcile(d.checkpoint, str(c.binary))
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertIsNone(result["next"])
+        self.assertEqual(len(requests), 1)
+        self.assertFalse(c.worktree.exists())
+        self.assertEqual(result["noodle_reconciliation"]["order_id"], "soodles-18")

@@ -250,6 +250,9 @@ def validate_worktree(root, binding):
     branch = git(root, "branch", "--show-current")
     require(branch == execution["worktree"], "worker.git.branch", branch,
             owner="Git", required="registered_worktree_readback")
+    head = git(root, "rev-parse", "HEAD")
+    require(head == execution["source_head"], "worker.git.head", head,
+            owner="supervisor", required="fresh_execution_envelope")
     origin = git(root, "remote", "get-url", "origin")
     require(origin in (f"https://github.com/{REPOSITORY}.git", f"git@github.com:{REPOSITORY}.git"),
             "worker.git.origin", origin, owner="Git", required="admitted_repository_identity")

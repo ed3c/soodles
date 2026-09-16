@@ -115,8 +115,10 @@ def validate_envelope(envelope):
     require(nonempty(envelope["owner"]), "envelope.owner", envelope["owner"])
     paths = path_set(envelope["write_paths"], "envelope.write_paths")
     execution = envelope["execution"]
-    exact_object(execution, {"control_root", "worktree", "order_id", "stage_index", "carrier", "task"},
+    exact_object(execution, {"control_root", "worktree", "order_id", "stage_index", "carrier", "task", "source_head"},
                  "envelope.execution.fields")
+    require(isinstance(execution["source_head"], str) and re.fullmatch(r"[0-9a-f]{40}", execution["source_head"]),
+            "envelope.execution.source_head", execution["source_head"])
     require(nonempty(execution["task"]), "envelope.execution.task", execution["task"])
     require(isinstance(execution["control_root"], str) and Path(execution["control_root"]).is_absolute(),
             "envelope.execution.control_root", execution["control_root"])
