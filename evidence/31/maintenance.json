@@ -1,0 +1,150 @@
+{
+  "acceptance": {
+    "CI": "https://github.com/ed3c/soodles/actions/runs/35073695401",
+    "conclusion": "success",
+    "local": "landing/acceptance.json",
+    "run_attempt": 1
+  },
+  "authority": "authority/selection.json",
+  "candidate": {
+    "base_head": "6bed718e915ba13e7d2536bb926eea2a9138fbce",
+    "control_root": "/workspace/scratch/8d9f1ebaaa91/soodles",
+    "head": "5fbcdf84558a00c481da04561ca00504cf619d6b",
+    "issue": 31,
+    "pr": 32,
+    "repository": "ed3c/soodles",
+    "run_attempt": 1,
+    "run_id": 35073695401,
+    "tree": "f1c8ca229bb28c75a3117450ff4f893db36916a9",
+    "verifier_sha256": "e9375b971338d81deb63a3d22843a7b7085694e60aa7cb1ec092b0f831f6e348",
+    "worktree": "issue-31-maintain-merge-readback"
+  },
+  "carrier_recovery": "evidence/carrier-recovery.json",
+  "checkpoint_sha256": "020ccfedb57a60242dd7493ab0cadd703a904427984d22afff10d65b71afd4ac",
+  "features": {
+    "delivery-recovery": {
+      "case_counts": {
+        "base": 8,
+        "cleanup": 5,
+        "cleanup-lock": 4,
+        "delivery": 9
+      },
+      "historical_provider_probe": "evidence/historical-probe-result.json",
+      "live": "verified",
+      "source_review": "changed"
+    },
+    "runtime-admission": {
+      "live": "VERIFIED",
+      "receipt": "evidence/runtime/receipt.json",
+      "source_review": "clean"
+    },
+    "supervised-delivery": {
+      "live": "RESOLVED",
+      "receipt": "landing/reconcile.json",
+      "source_review": "changed"
+    }
+  },
+  "issue": 31,
+  "local_readback": {
+    "head": "1584613e124331bf45b1ac0c18876588337f7085",
+    "status": "",
+    "task_branch_absent": true,
+    "task_path_absent": true,
+    "tree": "f1c8ca229bb28c75a3117450ff4f893db36916a9",
+    "worktrees": "worktree /workspace/scratch/8d9f1ebaaa91/soodles\nHEAD 1584613e124331bf45b1ac0c18876588337f7085\nbranch refs/heads/main"
+  },
+  "merge_sha": "1584613e124331bf45b1ac0c18876588337f7085",
+  "metrics": {
+    "canonical_acceptance_final_head": 1,
+    "carrier_transport_errors": 2,
+    "delivery_GETs": 39,
+    "delivery_repeated_URL_readbacks": 32,
+    "exact_head_runtime_CI_runs": 1,
+    "expected_historical_refusals": 1,
+    "focused_case_records": 26,
+    "focused_oracle_invocations": 4,
+    "provider_GETs_recorded": 46,
+    "recorded_commands": 23,
+    "runtime_driver": {
+      "canonical_acceptance_invocations": 0,
+      "expected_refusals": 1,
+      "readback_invocations": 5,
+      "repeated_readbacks": 2,
+      "top_level_commands": 7,
+      "unexpected_command_failures": 0,
+      "verification_invocations": 2
+    },
+    "scope": "Recorded maintenance driver, oracle and landing invocations only; excludes discovery, internal oracle subprocesses, earlier edits, carrier diagnostic GETs and archive operations. Repeated readbacks include required freshness guards. Not paired Agent execution traces.",
+    "start_retried": false,
+    "unexpected_command_failures": 0
+  },
+  "non_claims": [
+    "Shared automatic/supervised Issue admission validator remains unimplemented in open Issue #18; requirement refinement only.",
+    "No autonomous scheduling, Codex execution or Issue DAG proof.",
+    "No shortest path or Agent decision-cost reduction claim.",
+    "Historical provider probe uses actual GETs with a labelled non-authorizing checkpoint fixture, not a second real delivery.",
+    "Previously published external mutants for #29 were not rerun for this recipe-only candidate."
+  ],
+  "outcome": "changed",
+  "pr": 32,
+  "pstack": {
+    "commit": "68836ddaf5697224520f1847d90cdb90ca8babaa",
+    "create_rerun": false,
+    "method": "maintain-verification-skill",
+    "repository": "ed3c/plugins",
+    "source_review": "evidence/source-reviews.json"
+  },
+  "schema": 1,
+  "terminal": {
+    "action": "stop",
+    "claim": {
+      "base_head": "6bed718e915ba13e7d2536bb926eea2a9138fbce",
+      "control_root": "/workspace/scratch/8d9f1ebaaa91/soodles",
+      "head": "5fbcdf84558a00c481da04561ca00504cf619d6b",
+      "issue": 31,
+      "pr": 32,
+      "repository": "ed3c/soodles",
+      "run_attempt": 1,
+      "run_id": 35073695401,
+      "tree": "f1c8ca229bb28c75a3117450ff4f893db36916a9",
+      "verifier_sha256": "e9375b971338d81deb63a3d22843a7b7085694e60aa7cb1ec092b0f831f6e348",
+      "worktree": "issue-31-maintain-merge-readback"
+    },
+    "classification": "RESOLVED",
+    "cleanup_intent": {
+      "branch_head": "5fbcdf84558a00c481da04561ca00504cf619d6b",
+      "git_path": "/usr/local/bin/git",
+      "git_sha256": "2dae8066ef4d6a926561b4b0eaca7b458d4f5b56bb83760656e6baa7fc3e974f",
+      "main_head": "1584613e124331bf45b1ac0c18876588337f7085",
+      "noodle_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "path_present": true,
+      "verifier_sha256": "e9375b971338d81deb63a3d22843a7b7085694e60aa7cb1ec092b0f831f6e348"
+    },
+    "delivery": {
+      "action": "close",
+      "status": "offered"
+    },
+    "issue_closed_at": "2026-09-16T08:31:09Z",
+    "local": {
+      "head": "1584613e124331bf45b1ac0c18876588337f7085",
+      "removed_worktree": "issue-31-maintain-merge-readback",
+      "tree": "f1c8ca229bb28c75a3117450ff4f893db36916a9",
+      "worktree_owner": "Noodle"
+    },
+    "merge_sha": "1584613e124331bf45b1ac0c18876588337f7085",
+    "next": null,
+    "observations": [
+      "f9af80693f7c5a056e18dda9db73eb3c6594f7be2aea02657353f60cdbeb3c59",
+      "2343f04058fdb093ac55901c1da9645ac38eddfd8152e05fd741b82fe005da49",
+      "6c84eee261a3d384320e635a54cf97ed3b6eecf4818c8f0c7dcd0175898f50b2"
+    ],
+    "owner": "landing.reconcile",
+    "phase": "resolved",
+    "schema": 2,
+    "scope": "supervised single-Issue landing",
+    "writes_offered": [
+      "merge",
+      "close"
+    ]
+  }
+}
