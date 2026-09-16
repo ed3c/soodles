@@ -1,0 +1,247 @@
+{
+  "method": "pstack maintain-verification-skill",
+  "method_pin": "ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa",
+  "outcome": "changed",
+  "candidate": {
+    "head": "a194f8a1f718cd2c2f1934374c2a322213008d84",
+    "tree": "5b1407540c418b5e97cf38e759f17a19b3d250e2"
+  },
+  "source_review": {
+    "method": "pstack maintain-verification-skill",
+    "pin": "ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa",
+    "source_base": "6673029846d228319e83ecbfe23758b023fcf487",
+    "reviews": {
+      "runtime-admission": "No material drift; recipe and driver unchanged.",
+      "supervised-delivery": "Replaced stale help-only comparison claim with exact returned request key/operation/checkpoint/known.claim consumer guidance. No phase table.",
+      "delivery-recovery": "Added coverage of confirmed comparison subjects, invalid identity before guidance, same checkpoint/fresh claim, corrected-readback positive route; fixture scope retained."
+    },
+    "concurrent_read_only_source_reviews": 3,
+    "product_changes_in_maintenance": false,
+    "changed_recipe_files": 2
+  },
+  "features": {
+    "runtime-admission": "VERIFIED",
+    "delivery-recovery": "VERIFIED, 25 local case records",
+    "supervised-delivery": "RESOLVED, actual Issue #27 / PR #28 and Noodle reconcile"
+  },
+  "comparison_consumer": {
+    "scope": "Local checkpoint and ordinary provider fields are fixtures; compare response is a real GitHub GET. Not a live Issue base-drift recovery.",
+    "emitted_request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/ed3c/soodles/compare/bcab7a8642b94c9f947b64d2fcb2762d80615cdd...6673029846d228319e83ecbfe23758b023fcf487"
+    },
+    "refusal": {
+      "owner": "landing.advance",
+      "status": "refused",
+      "invalid": {
+        "field": "base_comparison",
+        "value": null
+      },
+      "next": {
+        "kind": "provider_readback",
+        "owner": "GitHub",
+        "operation": "advance",
+        "required": [
+          "readback"
+        ],
+        "known": {
+          "checkpoint": "/tmp/soodles-27-maintenance/compare-fixture/checkpoint.json"
+        },
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/tmp/soodles-27-authority/publisher/soodles.py",
+          "landing",
+          "advance",
+          "--help"
+        ],
+        "requests": {
+          "pr": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+          },
+          "issue": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+          },
+          "commit": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "branch": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+          },
+          "run": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+          },
+          "jobs": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+          },
+          "base_comparison": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/compare/bcab7a8642b94c9f947b64d2fcb2762d80615cdd...6673029846d228319e83ecbfe23758b023fcf487"
+          }
+        },
+        "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+        "reason": "Supply readback.base_comparison from GET https://api.github.com/repos/ed3c/soodles/compare/bcab7a8642b94c9f947b64d2fcb2762d80615cdd...6673029846d228319e83ecbfe23758b023fcf487; re-enter advance with fresh provider readback. Retry only after the readback materially changes."
+      }
+    },
+    "resumed": {
+      "owner": "landing.advance",
+      "action": "readmit",
+      "phase": "readmission_pending",
+      "classification": null,
+      "next": {
+        "kind": "input",
+        "owner": "supervisor",
+        "operation": "readmit",
+        "required": [
+          "claim",
+          "readback"
+        ],
+        "known": {
+          "checkpoint": "/tmp/soodles-27-maintenance/compare-fixture/checkpoint.json"
+        },
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/tmp/soodles-27-authority/publisher/soodles.py",
+          "landing",
+          "readmit",
+          "--help"
+        ]
+      },
+      "provider_requests": [],
+      "reason": "Prior acceptance is invalidated; supply a fresh supervisor claim and exact-head evidence.",
+      "invalid": {
+        "field": "base.head",
+        "value": "6673029846d228319e83ecbfe23758b023fcf487",
+        "expected": "bcab7a8642b94c9f947b64d2fcb2762d80615cdd"
+      }
+    },
+    "checkpoint": {
+      "schema": 2,
+      "claim": {
+        "repository": "ed3c/soodles",
+        "issue": 1,
+        "pr": 2,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "base_head": "bcab7a8642b94c9f947b64d2fcb2762d80615cdd",
+        "run_id": 10,
+        "run_attempt": 1,
+        "worktree": "example",
+        "control_root": "/tmp/soodles-27-maintenance/compare-fixture",
+        "verifier_sha256": "f812d649046d72e7f008f3dd9565ff6c668657a70e50fcd2ab5c961227261b10"
+      },
+      "phase": "readmission_pending",
+      "observations": [
+        "18e0e3686a27c5bc66b9b086da29aea2bbc9a837fd1929f6459d5d8d69d112dc"
+      ],
+      "classification": null,
+      "scope": "supervised single-Issue landing",
+      "writes_offered": [],
+      "delivery": {
+        "action": "merge",
+        "status": "prepared"
+      },
+      "recovery": {
+        "previous_base": "bcab7a8642b94c9f947b64d2fcb2762d80615cdd",
+        "base_head": "6673029846d228319e83ecbfe23758b023fcf487",
+        "readback_sha256": "fc1b4ac70530b2195f7d1f9f84f0a9938778e37fa60e75f95847dd8317d4b9e6"
+      }
+    },
+    "provider_writes": 0,
+    "authorizes_landing": false
+  },
+  "terminal": {
+    "schema": 2,
+    "claim": {
+      "repository": "ed3c/soodles",
+      "issue": 27,
+      "pr": 28,
+      "head": "a194f8a1f718cd2c2f1934374c2a322213008d84",
+      "tree": "5b1407540c418b5e97cf38e759f17a19b3d250e2",
+      "base_head": "6673029846d228319e83ecbfe23758b023fcf487",
+      "run_id": 35066415133,
+      "run_attempt": 1,
+      "worktree": "issue-27-verify-comparison",
+      "control_root": "/workspace/scratch/8d9f1ebaaa91/soodles",
+      "verifier_sha256": "f812d649046d72e7f008f3dd9565ff6c668657a70e50fcd2ab5c961227261b10"
+    },
+    "phase": "resolved",
+    "observations": [
+      "ed4a34c2a74c80420dd8d46c83fbffb6af51b59b3c1b6b0e51d3640420168af0",
+      "47ac636f49a02c11e0749324b321544d8eec0f0d34cc54084e672faf09ec525e",
+      "f9fb0fddeb21fe2f01d9ae98575c1717a19fa869375f96a25e1d46950159dbcd"
+    ],
+    "classification": "RESOLVED",
+    "scope": "supervised single-Issue landing",
+    "writes_offered": [
+      "merge",
+      "close"
+    ],
+    "delivery": {
+      "action": "close",
+      "status": "offered"
+    },
+    "merge_sha": "11a2298d0ba3c5d80fecb00ccc554e38ef3268fe",
+    "issue_closed_at": "2026-09-16T07:05:01Z",
+    "cleanup_intent": {
+      "path_present": true,
+      "branch_head": "a194f8a1f718cd2c2f1934374c2a322213008d84",
+      "main_head": "11a2298d0ba3c5d80fecb00ccc554e38ef3268fe",
+      "git_path": "/usr/local/bin/git",
+      "git_sha256": "2dae8066ef4d6a926561b4b0eaca7b458d4f5b56bb83760656e6baa7fc3e974f",
+      "noodle_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "verifier_sha256": "f812d649046d72e7f008f3dd9565ff6c668657a70e50fcd2ab5c961227261b10"
+    },
+    "local": {
+      "head": "11a2298d0ba3c5d80fecb00ccc554e38ef3268fe",
+      "tree": "5b1407540c418b5e97cf38e759f17a19b3d250e2",
+      "removed_worktree": "issue-27-verify-comparison",
+      "worktree_owner": "Noodle"
+    },
+    "owner": "landing.reconcile",
+    "action": "stop",
+    "next": null
+  },
+  "checkpoint_sha256": "8f676c3672ea56955d9e384c63e3f9ac63fc3b5845d65c8627018b31b7422ae8",
+  "skill_resolution": {
+    "name": "verify-soodles",
+    "search_path": "/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/issue-27-verify-comparison/.agents/skills",
+    "path": "/workspace/scratch/8d9f1ebaaa91/soodles/.worktrees/issue-27-verify-comparison/.agents/skills/verify-soodles",
+    "files_sha256": {
+      "SKILL.md": "e0ad6615c83f7ef63576e2f1347f3c774237c30f16bc3d7a6682de44c7f2d72f",
+      "features/README.md": "229e7aca4bfb62d122fff8b5b7f451632bfd3ebbe8744c052e15e8879ec9f0a8",
+      "features/delivery-recovery.md": "3986251a06a897a96250b9c42f0ebd3b462a66ec1b39cceaf751b34ec57551a5",
+      "features/runtime-admission.md": "3de848c5ad84962e638b9893d0b23d5ef9ab68a0ebaba193104b5a755e8ae3cc",
+      "features/supervised-delivery.md": "17a732be453d82b8fa73d29fc17eb2f8b2b89327b62d797ef569cbb44e4b98ed",
+      "scripts/verify_runtime.py": "1049574cdc3147373ff46eb64d741f492cfd98effbe04349ce2cf4379f951a0b"
+    },
+    "warnings": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+  },
+  "measurements": {
+    "recorded_feature_commands": 21,
+    "owner_commands": 7,
+    "unexpected_command_failures": 0,
+    "expected_refusals": 2,
+    "verification_invocations": 11,
+    "readback_commands": 10,
+    "repeated_readback_argv": 7,
+    "local_canonical_acceptance": 1,
+    "ci_canonical_acceptance": 1,
+    "provider_writes": 2,
+    "scope": "Recorded feature/direct-probe and owner subprocess calls; excludes discovery, source-review, unobserved internal subprocess counts and full connector latency. No Agent decision-cost inference."
+  },
+  "carrier_exception": "Issue #25 create succeeded; normalized issue metadata read failed before subsequent mutation; exact issue was read back, no duplicate create.",
+  "non_claims": [
+    "live Issue base-drift recovery from fixture comparison",
+    "matched Agent path-cost reduction",
+    "all states have executable argv",
+    "Issue #18 scheduling/DAG"
+  ]
+}
