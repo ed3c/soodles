@@ -19,7 +19,7 @@ ACTION = "./soodles landing"
 def require(condition, field, value):
     if not condition:
         owner = field.split(".")[0]
-        route = " " + owner if owner in {"readmit", "dispatch", "resume"} else ""
+        route = " " + owner if owner in {"readmit", "dispatch", "resume", "invalidate"} else ""
         raise Refusal(f"landing{route}: invalid {field}={value!r}; supported help: {ACTION}{route} --help")
 
 
@@ -146,9 +146,14 @@ def delivery_state(path):
         require(state.get("writes_offered") == [], "checkpoint.writes_offered", state.get("writes_offered"))
     if phase == "readmission_pending":
         recovery = state.get("recovery")
-        require(isinstance(recovery, dict) and recovery.get("previous_base") == state["claim"]["base_head"]
-                and recovery.get("base_head") != state["claim"]["base_head"]
-                and recovery.get("readback_sha256"), "checkpoint.recovery", recovery)
+        require(isinstance(recovery, dict) and recovery.get("previous_base") == state["claim"]["base_head"],
+                "checkpoint.recovery", recovery)
+        if recovery.get("kind") == "amendment":
+            require(recovery.get("base_head") == state["claim"]["base_head"]
+                    and recovery.get("previous_head") == state["claim"]["head"], "checkpoint.recovery", recovery)
+        else:
+            require("kind" not in recovery and recovery.get("base_head") != state["claim"]["base_head"]
+                    and recovery.get("readback_sha256"), "checkpoint.recovery", recovery)
     if phase in {"merge_pending", "close_pending"}:
         action = phase.removesuffix("_pending")
         if state["schema"] == 1:
@@ -183,6 +188,10 @@ def validate_comparison(snapshot, field, base, head):
 
 
 def recovery_action(state, base):
+    if state.get("recovery", {}).get("kind") == "amendment":
+        return {"action": "readmit", "owner": "landing", "phase": state["phase"], "provider_requests": [],
+                "next_command": "./soodles landing readmit --help",
+                "reason": "Supervisor invalidated prior acceptance; amend this Issue and supply a fresh claim and exact-head evidence."}
     unknown = bool(state["writes_offered"])
     action = "readback" if unknown else "readmit"
     return {"action": action, "owner": "landing", "phase": state["phase"], "provider_requests": [],
@@ -217,6 +226,24 @@ def observe_base(path, state, snapshot):
     return recovery_action(state, base)
 
 
+def invalidate(checkpoint):
+    """Withdraw only a known-unoffered acceptance; never guess a provider outcome."""
+    with locked(checkpoint) as path:
+        state = delivery_state(path)
+        validate_claim(state["claim"])
+        if state["writes_offered"] or state["phase"] not in {"admitted", "merge_pending", "readmission_pending"}:
+            raise Refusal(f"landing invalidate: invalid checkpoint.phase={state['phase']!r}, "
+                          f"writes_offered={state['writes_offered']!r}; owner: landing; "
+                          "supported help: ./soodles landing advance --help")
+        if state["phase"] != "readmission_pending":
+            claim = state["claim"]
+            state["phase"] = "readmission_pending"
+            state["recovery"] = {"kind": "amendment", "previous_head": claim["head"],
+                                 "previous_base": claim["base_head"], "base_head": claim["base_head"]}
+            save(path, state)
+        return recovery_action(state, state["recovery"]["base_head"])
+
+
 def readmit(checkpoint, claim, snapshot):
     """Replace only an invalidated, unoffered admission under the same supervisor."""
     validate_claim(claim)
@@ -229,12 +256,15 @@ def readmit(checkpoint, claim, snapshot):
         require(state["writes_offered"] == [], "readmit.writes_offered", state["writes_offered"])
         for field in ("repository", "issue", "pr", "worktree", "control_root", "verifier_sha256"):
             require(claim[field] == old[field], "readmit." + field, claim[field])
-        for field in ("head", "base_head", "run_id"):
+        amendment = state["recovery"].get("kind") == "amendment"
+        fields = ("head", "run_id") if amendment else ("head", "base_head", "run_id")
+        for field in fields:
             require(claim[field] != old[field], "readmit." + field, "unchanged " + str(claim[field]))
         validate_snapshot(claim, snapshot)
         require(not snapshot["pr"].get("merged"), "readmit.pr.merged", True)
-        validate_comparison(snapshot, "base_comparison", old["base_head"], claim["base_head"])
-        if state["recovery"]["base_head"] != claim["base_head"]:
+        if claim["base_head"] != old["base_head"]:
+            validate_comparison(snapshot, "base_comparison", old["base_head"], claim["base_head"])
+        if not amendment and state["recovery"]["base_head"] != claim["base_head"]:
             validate_comparison(snapshot, "recovery_comparison", state["recovery"]["base_head"], claim["base_head"])
         validate_comparison(snapshot, "candidate_comparison", claim["base_head"], claim["head"])
         state.setdefault("prior_admissions", []).append({
@@ -251,6 +281,8 @@ def advance(checkpoint, snapshot):
         state = delivery_state(path)
         claim = state["claim"]
         validate_claim(claim)
+        if state["phase"] == "readmission_pending" and state["recovery"].get("kind") == "amendment":
+            return recovery_action(state, state["recovery"]["base_head"])
         recovery = observe_base(path, state, snapshot)
         if recovery:
             return recovery

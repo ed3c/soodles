@@ -431,3 +431,75 @@ class LandingTests(unittest.TestCase):
         with self.assertRaisesRegex(soodles.Refusal, "readmit.phase"):
             landing.readmit(self.checkpoint, claim, fresh)
         self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_supervisor_withdraws_green_without_new_ci_or_provider_write(self):
+        self.start()
+        landing.advance(self.checkpoint, self.snapshot)
+        old = landing.read(self.checkpoint)
+        result = landing.invalidate(self.checkpoint)
+        self.assertEqual(result['next_command'], './soodles landing readmit --help')
+        self.assertEqual(result['provider_requests'], [])
+        state = landing.read(self.checkpoint)
+        self.assertEqual(state['claim'], old['claim'])
+        self.assertEqual(state['delivery'], old['delivery'])
+        self.assertIsNone(state['classification'])
+        before = self.checkpoint.read_bytes()
+        landing.invalidate(self.checkpoint)
+        failed = copy.deepcopy(self.snapshot)
+        failed['run']['conclusion'] = 'failure'
+        self.assertEqual(landing.advance(self.checkpoint, failed)['action'], 'readmit')
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+        with self.assertRaisesRegex(soodles.Refusal, 'dispatch.phase'):
+            landing.dispatch(self.checkpoint, self.snapshot)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_amendment_allows_forward_base_but_preserves_ancestry_controls(self):
+        self.start()
+        landing.invalidate(self.checkpoint)
+        _, claim, fresh = self.recovery_inputs()
+        invalid = copy.deepcopy(fresh)
+        invalid.pop('base_comparison')
+        before = self.checkpoint.read_bytes()
+        with self.assertRaisesRegex(soodles.Refusal, 'base_comparison'):
+            landing.readmit(self.checkpoint, claim, invalid)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+        landing.readmit(self.checkpoint, claim, fresh)
+        state = landing.read(self.checkpoint)
+        self.assertEqual(state['prior_admissions'][0]['claim'], self.claim)
+        self.assertIsNone(state['classification'])
+        with self.assertRaisesRegex(soodles.Refusal, 'checkpoint.phase'):
+            landing.reconcile(self.checkpoint, '/not-executed')
+
+    def test_invalidation_retains_legacy_empty_admission_and_base_recovery(self):
+        self.start()
+        original = landing.read(self.checkpoint)
+        original['schema'] = 1
+        landing.save(self.checkpoint, original)
+        landing.invalidate(self.checkpoint)
+        self.assertEqual(landing.read(self.checkpoint)['schema'], 2)
+        landing.save(self.checkpoint, original)
+        moved, _, _ = self.recovery_inputs()
+        landing.advance(self.checkpoint, moved)
+        before = self.checkpoint.read_bytes()
+        self.assertEqual(landing.invalidate(self.checkpoint)['invalid']['field'], 'base.head')
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_amendment_record_cannot_launder_corrupt_identity_or_unknown_writes(self):
+        self.start()
+        landing.invalidate(self.checkpoint)
+        good = landing.read(self.checkpoint)
+        for field, value in [('previous_head', 'f'*40), ('base_head', 'f'*40), ('kind', 'unknown')]:
+            state = copy.deepcopy(good)
+            state['recovery'][field] = value
+            landing.save(self.checkpoint, state)
+            before = self.checkpoint.read_bytes()
+            with self.subTest(field=field), self.assertRaisesRegex(soodles.Refusal, 'checkpoint.recovery'):
+                landing.invalidate(self.checkpoint)
+            self.assertEqual(self.checkpoint.read_bytes(), before)
+        state = copy.deepcopy(good)
+        state['writes_offered'] = ['merge']
+        landing.save(self.checkpoint, state)
+        before = self.checkpoint.read_bytes()
+        with self.assertRaisesRegex(soodles.Refusal, 'checkpoint.writes_offered'):
+            landing.invalidate(self.checkpoint)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
