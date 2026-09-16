@@ -2,6 +2,8 @@
 
 Owner: [ed3c/soodles#1](https://github.com/ed3c/soodles/issues/1).
 
+This file specifies behavior, owning transitions and discriminating evidence; prose alone is not an L/R guarantee. `AGENTS.md` routes task execution and skills describe conditional procedures. Only when designing those context surfaces, read [agent-context-design.md](agent-context-design.md) (P-class, experimental under #39). Existing executable requirements below retain their scope and authority.
+
 ## RUNTIME.ADMISSION.001
 
 The target lock selects an exact Linux amd64 Noodle release. `runtime_check` validates host, lock fields, file existence, executable permission and binary digest before version execution. A mismatch fails without worktree effects and names the owning command and help entry. Release/tag/archive correspondence is additionally read back by the Actions download step; the local command does not claim a live provider read.

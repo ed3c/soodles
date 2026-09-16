@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "issue": 39,
+  "classification": "BLOCKED",
+  "authorizes_landing": false,
+  "baseline": "50f41919ead671d69eade1ae5cc66bd1d96e347c",
+  "requested_model": "gpt-6-astra",
+  "observed_model": null,
+  "observations": [
+    {
+      "operation": "/opt/codex/bin/codex --version",
+      "exit": null,
+      "stdout": "codex-cli 0.154.0-alpha.3",
+      "exit_scope": "Individual exit not recorded in the original grouped command; preserve output observation only."
+    },
+    {
+      "operation": "/opt/codex/bin/codex login status",
+      "exit": null,
+      "stdout": "Logged in using ChatGPT",
+      "scope": "Local login status only; not proof of usable model access.",
+      "exit_scope": "Individual exit not recorded in the original grouped command; preserve output observation only."
+    },
+    {
+      "operation": "ls -l /tmp/soodles-runtime/noodle",
+      "exit": null,
+      "stderr": "No such file or directory",
+      "scope": "Previously recorded runtime path absent; other locations not exhaustively checked.",
+      "exit_scope": "Individual exit not recorded in the original grouped command; preserve output observation only."
+    },
+    {
+      "attempt": 1,
+      "operation": "codex exec capability probe",
+      "argv": [
+        "/opt/codex/bin/codex",
+        "exec",
+        "-m",
+        "gpt-6-astra",
+        "-s",
+        "read-only",
+        "--ephemeral",
+        "--json",
+        "-C",
+        "/workspace/scratch/8d9f1ebaaa91/soodles",
+        "Reply only CAPABILITY_OK. Do not call any tools."
+      ],
+      "stdin": "inherited",
+      "timeout_seconds": 35,
+      "elapsed_seconds": 35.039,
+      "stdout": "",
+      "stderr": "Reading additional input from stdin...\n",
+      "result": "TIMEOUT",
+      "model_events_observed": 0
+    },
+    {
+      "attempt": 2,
+      "operation": "same capability probe with explicitly closed empty stdin",
+      "changed_input": "subprocess.run(input='')",
+      "timeout_seconds": 45,
+      "elapsed_seconds": 45.032,
+      "stdout": "",
+      "stderr": "Reading additional input from stdin...\n",
+      "result": "TIMEOUT",
+      "model_events_observed": 0
+    },
+    {
+      "attempt": 3,
+      "operation": "PTY capability attempt, requested read-only model probe bounded by timeout",
+      "result": "EXEC_TRANSPORT_FAILED",
+      "error": "exec-server transport disconnected; failed to resume exec-server session: recovery timed out after 25s",
+      "model_execution": "unknown; no returned trace"
+    },
+    {
+      "operation": "pwd environment liveness",
+      "result": "EXEC_TRANSPORT_FAILED",
+      "error": "409 Conflict, environment_offline: Environment is not connected."
+    }
+  ],
+  "evidence_kind": "Transcription of returned tool observations; complete session trace unavailable",
+  "unknowns": [
+    "Cause of model-probe timeouts",
+    "Third launch/process state after transport failure",
+    "Rendered model input and window occupancy",
+    "Loaded instruction paths/digests inside a model run",
+    "Causal relation between CLI probes and environment disconnection"
+  ],
+  "results": {
+    "baseline_treatment": "NOT_RUN",
+    "local_control_tests": "NOT_RUN",
+    "observer_controls": "NOT_RUN",
+    "fresh_session_handoff": "NOT_RUN",
+    "actual_compaction": "NOT_RUN",
+    "canonical_acceptance": "NOT_RUN",
+    "provider_delivery": "NOT_RUN"
+  },
+  "next_prerequisites": [
+    "Restore connected execution environment",
+    "Obtain usable gpt-6-astra execution and supported task-scoped trace capture without changing permission policy",
+    "Supply/admit the exact pinned Noodle runtime for canonical acceptance",
+    "Freeze fixture and external observer identities before baseline/treatment"
+  ],
+  "non_claims": [
+    "No Astra behavioral improvement proven",
+    "No baseline defect proven",
+    "No context-window optimum established",
+    "No local controls or canonical acceptance reported as passed"
+  ]
+}
