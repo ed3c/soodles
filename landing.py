@@ -568,9 +568,12 @@ def reconcile(checkpoint, binary):
                         "help_argv": cli_argv("reconcile", "--help")})
                 quiescent = quiescent_order(envelope, owner)
             except Refusal as error:
-                raise LandingRefusal("reconcile.noodle", str(error), {
-                    "kind": "input", "owner": "Noodle", "required": ["completed_original_order_and_quiescent_sessions"],
-                    "help_argv": cli_argv("reconcile", "--help")}) from error
+                invalid = getattr(error, "invalid", {"field": "reconcile.noodle", "value": str(error)})
+                required = getattr(error, "next", {}).get("required", ["completed_original_order_and_quiescent_sessions"])
+                next_action = input_next("reconcile", required, path)
+                next_action["owner"] = "Noodle"
+                next_action["known"]["order_id"] = envelope["execution"]["order_id"]
+                raise LandingRefusal(invalid["field"], invalid["value"], next_action) from error
             state["noodle_reconciliation"] = {"order_id": envelope["execution"]["order_id"],
                                                "order": order, "quiescent_sessions": quiescent}
             save(path, state)

@@ -729,6 +729,22 @@ class BoundLandingTests(unittest.TestCase):
         self.assertIsNone(landing.read(d.checkpoint)["classification"])
         self.assertTrue(c.worktree.exists())
         self.assertFalse(c.effect.exists())
+        # Unavailable canonical readback is a different branch from an observed
+        # incomplete order. It must retain the same continuation identity too.
+        from issue_admission import AdmissionRefusal
+        missing = AdmissionRefusal("noodle.snapshot", "unavailable", "Noodle", "canonical_checkpoint_readback")
+        with patch("landing.fetch_main"), patch("issue_execution.read_owner", side_effect=missing):
+            with self.assertRaises(landing.LandingRefusal) as caught:
+                landing.reconcile(d.checkpoint, str(c.binary))
+        next_action = caught.exception.next_action
+        self.assertEqual(next_action["operation"], "reconcile")
+        self.assertEqual(caught.exception.invalid, missing.invalid)
+        self.assertEqual(next_action["required"], ["canonical_checkpoint_readback"])
+        self.assertEqual(next_action["known"]["checkpoint"], str(d.checkpoint.resolve()))
+        self.assertEqual(next_action["known"]["order_id"], "soodles-18")
+        self.assertEqual(next_action["owner"], "Noodle")
+        self.assertIsNone(landing.read(d.checkpoint)["classification"])
+        self.assertTrue(c.worktree.exists())
 
     def test_completed_bound_order_can_reconcile_and_clean_fixture_worktree(self):
         import subprocess
