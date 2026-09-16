@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "command": "python3 /workspace/scratch/bd9d2e05d141/context39-observer/subject/soodles.py landing advance /workspace/scratch/bd9d2e05d141/context39-round2/resume_y/checkpoint.json /workspace/scratch/bd9d2e05d141/context39-round2/resume_y/provider.json",
+  "exit_code": 0,
+  "output": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"readback\",\n  \"phase\": \"merge_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/workspace/scratch/bd9d2e05d141/context39-round2/resume_y/checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/bd9d2e05d141/context39-observer/subject/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  }\n}\n",
+  "conclusion": "Supported continuation executed successfully. Owner remains merge_pending with classification null and action readback. A fresh simulated provider readback is required; no request was emitted for transport and no historical merge was replayed.",
+  "refs": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "handoff": "/workspace/scratch/bd9d2e05d141/context39-trials/producer_y/handoff.json",
+    "checkpoint": "/workspace/scratch/bd9d2e05d141/context39-round2/resume_y/checkpoint.json",
+    "provider": "/workspace/scratch/bd9d2e05d141/context39-round2/resume_y/provider.json",
+    "execution_request": "007-request.json",
+    "execution_result": "007-result.json"
+  },
+  "limitations": [
+    "Consumer records are not a complete native platform transcript.",
+    "No live provider subjects were requested or modified. Next provider URLs are simulated fixture identities and were not transported.",
+    "Baseline verification is supplied by supervisor, not independently repeated.",
+    "Checkpoint is preserved for supervisor readback/cleanup; no additional simulated provider snapshot was supplied."
+  ],
+  "excluded_calls": [
+    "Initial exec_command reading the sole allowed producer_y/handoff.json occurred before request/result recording; its result was successful but was not recorded contemporaneously. This is an evidence-recording omission.",
+    "ALL_TOOLS metadata filtering for GitHub content discovery.",
+    "functions.exec orchestration wrappers, apply_patch bookkeeping writes, store/load, commentary, and final report creation."
+  ]
+}

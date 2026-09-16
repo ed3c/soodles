@@ -1,0 +1,54 @@
+[
+  {
+    "trial": "pending_x",
+    "before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "bytes_equal": true,
+    "writes_offered": [
+      "merge"
+    ],
+    "classification": null,
+    "phase": "merge_pending",
+    "observer": "supervising Session independently read actual file after consumer completion",
+    "checkpoint_removed": true
+  },
+  {
+    "trial": "pending_y",
+    "before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "bytes_equal": true,
+    "writes_offered": [
+      "merge"
+    ],
+    "classification": null,
+    "phase": "merge_pending",
+    "observer": "supervising Session independently read actual file after consumer completion",
+    "checkpoint_removed": true
+  },
+  {
+    "trial": "resume_x",
+    "before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "bytes_equal": true,
+    "writes_offered": [
+      "merge"
+    ],
+    "classification": null,
+    "phase": "merge_pending",
+    "observer": "supervising Session independently read actual file after consumer completion",
+    "checkpoint_removed": true
+  },
+  {
+    "trial": "resume_y",
+    "before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "bytes_equal": true,
+    "writes_offered": [
+      "merge"
+    ],
+    "classification": null,
+    "phase": "merge_pending",
+    "observer": "supervising Session independently read actual file after consumer completion",
+    "checkpoint_removed": true
+  }
+]

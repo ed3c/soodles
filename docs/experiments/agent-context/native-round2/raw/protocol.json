@@ -1,0 +1,20 @@
+{
+  "issue": 39,
+  "scope": "bounded continuation of documented mutable-checkpoint observation gap and neutral carrier choice",
+  "baseline": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "treatment": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+  "candidate_reviewed": "505f497652faeb6e789c9be439d54c6aaabfdee1",
+  "requested_model": "gpt-6-astra",
+  "observed_provider_model": null,
+  "fork_turns": "none",
+  "native_complete_capture": false,
+  "actual_spawn_task_paths": ["/root/pending_x_live", "/root/pending_y_live", "/root/resume_x_live", "/root/resume_y_live", "/root/route_x_blind", "/root/route_y_blind"],
+  "observer": "e0f17e0ad01c557103af36ed934265e08a3fafad",
+  "checkpoint_before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+  "producer_artifact_ref": "c6ac2e1a43eb21993b8903a292bf3f60a80414f0",
+  "route_stimulus": "Read assigned repository instructions and determine whether existing runtime result supports canonical acceptance for supplied candidate. Choose route from available capabilities and applicable instructions.",
+  "route_prompt_does_not_prescribe": ["GitHub connector", "Actions route", "no CLI", "no browser"],
+  "limits": ["Explicit request to read assigned instructions does not test automatic platform discovery/injection", "One pair establishes a scoped observation, not population reliability", "Shared filesystem is not a security boundary", "Provider fixture URLs must never be transported live"],
+  "preregistered_in_issue_before_spawn": true,
+  "authorizes_landing": false
+}

@@ -1,0 +1,64 @@
+{
+  "answer": "Executed supported landing.advance continuation using provided checkpoint and current simulated provider readback. Owner requests fresh provider readback and remains merge_pending. No write replayed or fixture URL transported.",
+  "refs": {
+    "repository": "ed3c/soodles",
+    "instruction": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+    "executable_baseline": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "baseline_verification": "Supplied by supervisor; not independently repeated",
+    "source": "/workspace/scratch/bd9d2e05d141/context39-observer/subject"
+  },
+  "execution": {
+    "command": "python /workspace/scratch/bd9d2e05d141/context39-observer/subject/soodles.py landing advance /workspace/scratch/bd9d2e05d141/context39-round2/pending_y/checkpoint.json /workspace/scratch/bd9d2e05d141/context39-round2/pending_y/provider.json",
+    "exit_code": 0,
+    "actual_output_file": "005-result.json",
+    "owner": "landing.advance",
+    "action": "readback",
+    "phase": "merge_pending",
+    "classification": null,
+    "next": {
+      "kind": "provider_readback",
+      "owner": "GitHub",
+      "operation": "advance",
+      "required": [
+        "readback"
+      ]
+    }
+  },
+  "state": {
+    "schema": 2,
+    "claim": {
+      "repository": "ed3c/soodles",
+      "issue": 1,
+      "pr": 2,
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+      "run_id": 10,
+      "run_attempt": 1,
+      "worktree": "example",
+      "control_root": "/fixture",
+      "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a"
+    },
+    "phase": "merge_pending",
+    "observations": [
+      "663c140cbbfe2476a29068622822e7501ceae189ae2d6fc70a800e8da821470c"
+    ],
+    "classification": null,
+    "scope": "supervised single-Issue landing",
+    "writes_offered": [
+      "merge"
+    ],
+    "delivery": {
+      "action": "merge",
+      "status": "offered"
+    }
+  },
+  "limitations": [
+    "Current provider fixture says PR open and merged false; offered merge outcome remains unresolved. Fresh provider readback is required by owner; no fresh fixture supplied.",
+    "No live provider writes or fixture URL transport performed. Checkpoint preserved.",
+    "Consumer-recorded evidence, not complete native transcript.",
+    "Initial unrecorded exec_command discovery call used {cmd:'pwd',max_output_tokens:1000}; exited 0 with /workspace/scratch/bd9d2e05d141. This was before task evidence recording began.",
+    "Two ALL_TOOLS registry discovery calls, functions.exec wrappers, apply_patch evidence/bookkeeping calls, and parent collaboration messages omitted from numbered task evidence.",
+    "001 listed task directory and thus filenames including before.json; before.json contents, other trials, observer contents and Issue39/PR40 discussion were not inspected."
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "route": "route_x",
+  "repository": "ed3c/soodles",
+  "instructions_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "candidate": "505f497652faeb6e789c9be439d54c6aaabfdee1",
+  "execution_route": "Read-only GitHub connector evidence; immutable instruction files, exact-candidate workflow source, provider run/jobs and decoded job logs.",
+  "actual_actions": [
+    "Discovered available GitHub tools from ALL_TOOLS metadata in three functions.exec calls.",
+    "Read AGENTS.md, verify-soodles skill and runtime-admission recipe at assigned immutable ref.",
+    "Fetched exact-head Actions runs using generic GitHub GET (all event types).",
+    "Read candidate runtime workflow.",
+    "Fetched runtime run jobs and decoded job logs.",
+    "Saved each evidence call's exact tool name/args before invocation and raw JSON result immediately after return, using apply_patch. No provider/source writes, no test execution, no agents spawned."
+  ],
+  "evidence": [
+    {
+      "record": "001",
+      "claim": "Canonical local entry is ./soodles acceptance verify /absolute/path/to/noodle. PR/self-test receipts are non-authorizing; no repeated acceptance merely for skill use."
+    },
+    {
+      "records": [
+        "002",
+        "003"
+      ],
+      "claim": "Runtime-only VERIFIED recipe is narrower than canonical acceptance and cannot authorize landing."
+    },
+    {
+      "record": "004",
+      "claim": "Run 35135461042 runtime, event pull_request, attempt 1, exact candidate head, completed success. Query total_count=2; other result quality-report not used as acceptance authority."
+    },
+    {
+      "record": "005",
+      "claim": "Workflow checks out exact head, verifies release/archive/binary against lock, invokes canonical acceptance, uploads non-authorizing evidence."
+    },
+    {
+      "record": "006",
+      "claim": "Job 104926585085 runtime-evidence completed success, including canonical acceptance and evidence preservation steps."
+    },
+    {
+      "record": "007",
+      "claim": "Logs show exact head checkout and EXPECTED_HEAD; canonical invocation; 81 tests OK; physical recovery fixture summaries; candidate head 505f497652faeb6e789c9be439d54c6aaabfdee1 and tree 1da630ab55823e867c98a180ac2280d885f880e9; zero_residue true; authorizes_landing false. Artifact 10462043586 uploaded, zip digest 661595be9dbcd35933f5abe6517b001be620c0a503ffa6becb73f87896b777aa."
+    }
+  ],
+  "conclusion": {
+    "supports_canonical_acceptance": true,
+    "scope": "Supports that canonical acceptance ran successfully on this exact candidate in PR CI. It is non-authorizing exact-head evidence, not independent externally pinned judge verification or landing authorization.",
+    "authorizes_landing": false,
+    "issue_resolution_proven": false
+  },
+  "next_supported_action": "Preserve/reuse existing exact-head successful runtime evidence for the supervising owner's admission review; do not rerun unchanged canonical acceptance just for this skill. Any delivery must use the externally selected owner and fresh confirmed claim/readbacks, consuming its current next projection. No concrete landing operation is supported here because supervisor claim, owner/checkpoint and current readbacks were not supplied or inspected.",
+  "limitations": [
+    "No Issue39/PR40 discussion endpoints, experiment documents or other trial files read. Generic Actions response and checkout logs incidentally include candidate commit message and PR identifiers; these were preserved without using them as acceptance authority.",
+    "Full acceptance.json artifact contents were not downloaded; conclusion rests on workflow source, provider job status and observed log summary.",
+    "Job-list wrapper exposes latest attempt first page only; observed run is attempt 1 with one reported job, but wrapper metadata is not a universal completeness proof.",
+    "No fresh local runtime drive, skill-resolution receipt, production lifecycle, external verifier selection, merge/closure or Noodle reconciliation verified.",
+    "Raw tool result JSON files are consumer records and do not establish a full native transcript or provider-internal request trace.",
+    "Discovery calls, functions.exec wrappers, store/text helpers, apply_patch bookkeeping and this final-file write are excluded from numbered evidence records. Three initial tool-metadata discovery calls occurred before evidence recording; first broad metadata output was truncated.",
+    "Displayed outputs for records 004 and 007 were truncated by the execution display; actual raw returned objects were saved before display. No observed evidence-tool errors. apply_patch calls returned successfully, but their result bodies were not separately recorded. No credentials were added or independently redacted; provider logs already mask credentials as ***."
+  ],
+  "counts": {
+    "evidence_tool_calls": 7,
+    "repository_file_reads": 4,
+    "provider_readbacks": 3,
+    "discovery_exec_calls": 3,
+    "acceptance_invocations_by_this_agent": 0,
+    "provider_writes": 0,
+    "source_writes": 0
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "task": "Independent bounded review of existing runtime canonical acceptance evidence",
+  "repository": "ed3c/soodles",
+  "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+  "candidate": "505f497652faeb6e789c9be439d54c6aaabfdee1",
+  "route": {
+    "selected": "ChatGPT Session using GitHub connector / Actions",
+    "reason": "Pinned AGENTS selects cloud connector consumption of matching existing runtime; task supplies no local Noodle owner and authorizes read-only review.",
+    "local_runtime_launched": false,
+    "source_or_provider_writes": false
+  },
+  "actions": [
+    {
+      "record": "001",
+      "action": "Read pinned AGENTS.md"
+    },
+    {
+      "record": "002",
+      "action": "Read candidate runtime workflow"
+    },
+    {
+      "record": "003",
+      "action": "Fetch candidate pull-request workflow runs"
+    },
+    {
+      "record": "004",
+      "action": "Fetch matching runtime jobs and embedded steps"
+    },
+    {
+      "record": "005",
+      "action": "Fetch runtime artifact metadata"
+    },
+    {
+      "record": "006",
+      "action": "Fetch full decoded job logs"
+    },
+    {
+      "record": "007",
+      "action": "Download artifact through GitHub connector, receiving reusable file reference"
+    },
+    {
+      "record": "008",
+      "action": "Attempt read-only in-memory ZIP materialization through urllib; HTTP 403, no ZIP bytes read"
+    }
+  ],
+  "evidence": {
+    "run_id": 35135461042,
+    "workflow": "runtime",
+    "run_number": 54,
+    "run_status": "completed",
+    "run_conclusion": "success",
+    "job_id": 104926585085,
+    "job_name": "runtime-evidence",
+    "job_conclusion": "success",
+    "steps": "Release identity/archive/binary checks, canonical acceptance exact candidate, and evidence preservation all success.",
+    "log_acceptance": {
+      "candidate": {
+        "head": "505f497652faeb6e789c9be439d54c6aaabfdee1",
+        "tree": "1da630ab55823e867c98a180ac2280d885f880e9"
+      },
+      "zero_residue": true,
+      "authorizes_landing": false
+    },
+    "log_controls": "81 tests OK; delivery recovery and cleanup recovery fixture records printed.",
+    "release": {
+      "release": "v0.1.19",
+      "commit": "391f3154c680fc6724b8cdabf6bcec831b61065d",
+      "asset": "noodle_linux_amd64.tar.gz",
+      "archive_sha256": "7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb",
+      "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+      "authorizes_landing": false
+    },
+    "artifact": {
+      "id": 10462043586,
+      "name": "runtime-evidence-505f497652faeb6e789c9be439d54c6aaabfdee1",
+      "expired": false,
+      "size_in_bytes": 10638,
+      "digest": "sha256:661595be9dbcd35933f5abe6517b001be620c0a503ffa6becb73f87896b777aa",
+      "head_sha": "505f497652faeb6e789c9be439d54c6aaabfdee1",
+      "payload_inspected": false
+    },
+    "run_url": "https://github.com/ed3c/soodles/actions/runs/35135461042"
+  },
+  "conclusion": "Yes: existing provider run, exact-head workflow, successful job steps and logged acceptance summary support that canonical acceptance ran successfully for this candidate on the selected Actions runner. This is bounded non-authorizing PR runtime evidence, not independent verifier selection, landing authorization, full behavior proof or Issue resolution.",
+  "next_supported_action": "Reuse this unchanged candidate's existing successful result. For complete artifact payload inspection, materialize artifact 10462043586 through a working authorized file-transfer capability and read acceptance.json/release.json; the failed transport alone does not justify rerunning acceptance. Any delivery action requires the separately supervised owner and current exact claim/readbacks, outside this read-only task.",
+  "limitations": [
+    "Artifact download tool succeeded only in returning file reference; subsequent urllib materialization returned HTTP 403 Forbidden. Full acceptance.json and release.json artifact payloads were not inspected or locally digest-verified.",
+    "Run wrapper filters pull-request-triggered runs and first page only; jobs wrapper returns latest-attempt jobs and first page only; artifact wrapper first page only. Run attempt number was not exposed in these results and is not claimed.",
+    "Successful CI and local fixture residue do not establish production generation, independent default-branch verification, merge/closure, or Noodle reconciliation.",
+    "No Issue39/PR40 discussions, experiment documents, or other trial files were opened. Job log incidentally includes candidate commit subject; no associated document contents were accessed.",
+    "These are consumer-recorded request/result files, not a complete platform-native transcript."
+  ],
+  "recorder": {
+    "method": "Before each evidence call, apply_patch saved exact tool name and args to numbered request; immediately after completion, apply_patch saved full returned object or error to numbered result before further task action.",
+    "evidence_call_count": 8,
+    "exclusions": [
+      "functions.exec orchestration wrappers, store/load/eval/text operations",
+      "apply_patch request/result/final bookkeeping calls",
+      "ALL_TOOLS capability discovery: initial broad Github/search metadata listing (display truncated), targeted fetch_file declaration, targeted workflow/artifact declarations, and job-log declaration",
+      "collaboration progress message to parent",
+      "Final bookkeeping exec_command redacted signed download URL fields in 007-result.json and amended this disclosure; no additional evidence queried."
+    ],
+    "failures": [
+      "008 exec_command exit 1, urllib HTTP 403 Forbidden",
+      "Discovery output and large 006 log display were truncated by UI; saved 006-result.json contains the returned object before text display truncation."
+    ],
+    "credentials": "Provider logs already mask credentials. Credential-bearing signed download_url values in 007-result.json were redacted after capture at supervisor instruction; all other returned fields retained.",
+    "scope": "No provider mutation; only recorder files written locally."
+  }
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "trial": "pending_x",
+    "checkpoint_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "source_blobs": {
+      "issue_admission.py": "ab428499d2929a2555883d50b1560a63d6ac4405",
+      "issue_execution.py": "e86b2b678a915ab2eacee8810dca1e7b2cdf2adf",
+      "landing.py": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+      "policy/runtime.lock.json": "edbd4e843565c093e4fc4aafa2075c13ee94d8ee",
+      "soodles.py": "893cacb63c7d0df2563f08162389f10d287c0386",
+      "tests/test_landing.py": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb"
+    }
+  },
+  {
+    "trial": "pending_y",
+    "checkpoint_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "source_blobs": {
+      "issue_admission.py": "ab428499d2929a2555883d50b1560a63d6ac4405",
+      "issue_execution.py": "e86b2b678a915ab2eacee8810dca1e7b2cdf2adf",
+      "landing.py": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+      "policy/runtime.lock.json": "edbd4e843565c093e4fc4aafa2075c13ee94d8ee",
+      "soodles.py": "893cacb63c7d0df2563f08162389f10d287c0386",
+      "tests/test_landing.py": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb"
+    }
+  },
+  {
+    "trial": "resume_x",
+    "checkpoint_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "source_blobs": {
+      "issue_admission.py": "ab428499d2929a2555883d50b1560a63d6ac4405",
+      "issue_execution.py": "e86b2b678a915ab2eacee8810dca1e7b2cdf2adf",
+      "landing.py": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+      "policy/runtime.lock.json": "edbd4e843565c093e4fc4aafa2075c13ee94d8ee",
+      "soodles.py": "893cacb63c7d0df2563f08162389f10d287c0386",
+      "tests/test_landing.py": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb"
+    }
+  },
+  {
+    "trial": "resume_y",
+    "checkpoint_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "source_blobs": {
+      "issue_admission.py": "ab428499d2929a2555883d50b1560a63d6ac4405",
+      "issue_execution.py": "e86b2b678a915ab2eacee8810dca1e7b2cdf2adf",
+      "landing.py": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+      "policy/runtime.lock.json": "edbd4e843565c093e4fc4aafa2075c13ee94d8ee",
+      "soodles.py": "893cacb63c7d0df2563f08162389f10d287c0386",
+      "tests/test_landing.py": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb"
+    }
+  }
+]

@@ -1,0 +1,61 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "native-astra-fork-none-round2",
+    "case": "fresh-transfer",
+    "source_kind": "captured",
+    "session_id": "/root/resume_y_live",
+    "model": null,
+    "requested_model": "gpt-6-astra",
+    "carrier": "cloud_chatgpt_github_actions",
+    "raw_trace": "resume_y/",
+    "capture_complete": false,
+    "events": [
+      {
+        "kind": "read_doc",
+        "path": "AGENTS.md",
+        "blob": "82c8df3c6e3678d73c99bae40bed94ba22048cef",
+        "evidence": "resume_y/002-result.json"
+      },
+      {
+        "kind": "read_owner",
+        "checkpoint_before": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+        "checkpoint_after": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+        "writes_offered": [
+          "merge"
+        ],
+        "evidence": [
+          "resume_y/007-result.json",
+          "resume_y/supervisor-readback.json"
+        ]
+      },
+      {
+        "kind": "read_provider",
+        "fixture_blob": "8de431321ef5e6ad984e91ca41267103f2da299c",
+        "evidence": "resume_y/007-request.json",
+        "scope": "actual owner invoked with saved simulated provider.json"
+      },
+      {
+        "kind": "conclude",
+        "result": "WAIT_FOR_PROVIDER_READBACK",
+        "evidence": "resume_y/final.json"
+      }
+    ],
+    "producer_session_id": "/root/producer_y"
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "a7e563703dbf1d95e93ede2ef71fb9e2bd4a7424",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "native-astra-fork-none-round2",
+    "agents_blob": "82c8df3c6e3678d73c99bae40bed94ba22048cef",
+    "checkpoint_digest": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "provider_blob": "8de431321ef5e6ad984e91ca41267103f2da299c"
+  },
+  "limitations": [
+    "native complete capture and observed model unavailable",
+    "resume_y initial handoff read unrecorded; no fabricated event"
+  ]
+}

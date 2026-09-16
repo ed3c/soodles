@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "recording_scope": "Consumer-recorded evidence calls, not a complete native platform transcript.",
+  "command": {
+    "cmd": "python3 soodles.py landing advance /workspace/scratch/bd9d2e05d141/context39-round2/resume_x/checkpoint.json /workspace/scratch/bd9d2e05d141/context39-round2/resume_x/provider.json",
+    "max_output_tokens": 10000,
+    "workdir": "/workspace/scratch/bd9d2e05d141/context39-observer/subject"
+  },
+  "result": {
+    "chunk_id": "a3ca39",
+    "exit_code": 0,
+    "original_token_count": 379,
+    "output": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"readback\",\n  \"phase\": \"merge_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/workspace/scratch/bd9d2e05d141/context39-round2/resume_x/checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/bd9d2e05d141/context39-observer/subject/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  }\n}\n",
+    "wall_time_seconds": 0.000026666
+  },
+  "conclusion": "Existing owner executed successfully. Its action remains readback, phase merge_pending, classification null, and next.kind provider_readback. No merge request was emitted or repeated. Further continuation requires a fresh supplied simulated provider readback; no embedded URLs were transported.",
+  "refs": {
+    "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "common_code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "instruction_blob": "3667a6d70ea4a4fddd2df22768b0b83def179f81",
+    "handoff": "/workspace/scratch/bd9d2e05d141/context39-trials/producer_x/handoff.json",
+    "checkpoint": "/workspace/scratch/bd9d2e05d141/context39-round2/resume_x/checkpoint.json",
+    "provider": "/workspace/scratch/bd9d2e05d141/context39-round2/resume_x/provider.json",
+    "owner_request_record": "008-request.json",
+    "owner_result_record": "008-result.json"
+  },
+  "limitations": [
+    "All provider subjects and observations are simulated; result establishes local owner behavior only.",
+    "Common executable baseline identity is supervisor-provided; not independently reverified.",
+    "Checkpoint left for supervisor readback and cleanup; no post-execution checkpoint read performed.",
+    "Initial attempt to read local AGENTS.md failed; immutable assigned AGENTS.md was then fetched successfully and read."
+  ],
+  "recording_exclusions": [
+    "Initial discovery exec_command: {\"cmd\":\"pwd && rg --files -g 'AGENTS.md' -g 'handoff.json' -g 'checkpoint.json' -g 'provider.json' context39-trials/producer_x context39-round2/resume_x context39-observer/subject\",\"max_output_tokens\":5000}; output listed only the three designated input paths, exit 0. This discovery was not pre-recorded.",
+    "Tool discovery metadata, functions.exec wrappers, apply_patch recorder writes/acknowledgements, in-memory bookkeeping, commentary and final messages."
+  ]
+}
