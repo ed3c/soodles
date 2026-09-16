@@ -1,11 +1,11 @@
 ---
 name: verify-soodles
-description: Drive Soodles runtime admission through its real CLI, inspect skill resolution and refusal-before-execution evidence, and preserve a scoped verification receipt. Use when verifying this feature or maintaining its verification recipe.
+description: Verify Soodles runtime admission, supervised delivery and recovery through existing owners. Consume structured next actions, preserve scoped receipts, and maintain the demonstrated feature map.
 ---
 
 # Verify Soodles
 
-This is a CLI application. The initial map covers **runtime admission only**; delivery, reconciliation and quality reporting remain outside this skill's proven coverage. For this feature, read [runtime admission](features/runtime-admission.md) directly. Consult [the feature index](features/README.md) when auditing map coverage. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
+This is a CLI application with an external supervised publisher and GitHub transport. Read the relevant recipe directly: [runtime admission](features/runtime-admission.md), [supervised delivery](features/supervised-delivery.md), or [delivery recovery](features/delivery-recovery.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting and #18 production scheduling, Issue DAG and nested Agent execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
 
 ## Launch
 
@@ -13,7 +13,7 @@ Run from the Soodles checkout in a Noodle-owned worktree. Use a clean committed 
 
 ## Doctor
 
-The driver's first application operation is `./soodles runtime check` on the supplied binary. Its receipt must match the lock before Noodle is used to resolve this skill. This doctor doubles as the positive feature drive. A refusal ends this run; use its field and supported help to identify a materially changed input before retrying.
+Start each fresh driving session with `./soodles runtime check` on the supplied binary. Its receipt must match the lock before Noodle is used. The runtime driver's doctor doubles as its positive feature drive. Recheck after an unexpected failed drive or changed environment before continuing; preserve the failure first. Doctor is not permission to retry unchanged input. A refusal names the invalid field and supported help; a missing prerequisite remains blocked until its owner supplies it.
 
 ## Drive and Helpers
 
@@ -23,20 +23,24 @@ Use the shipped executable from the repository root:
 .agents/skills/verify-soodles/scripts/verify_runtime.py /absolute/path/to/noodle /tmp/fresh-soodles-verification
 ```
 
-Both arguments are supplied by the current execution environment: the already-admitted binary and a fresh evidence destination. The driver checks source identity, performs doctor/positive admission, resolves this skill through `noodle skills list`, and drives a wrong-digest executable sentinel through the same CLI. It then checks cleanup and unchanged source identity. It never sends provider writes or runs full acceptance.
+Both arguments are supplied by the current execution environment: the already-admitted binary and a fresh evidence destination. This runtime driver checks source identity, performs doctor/positive admission, resolves this skill through `noodle skills list`, and drives a wrong-digest executable sentinel through the same CLI. It then checks cleanup and unchanged source identity. It never sends provider writes or runs full acceptance. Other recipes reuse existing owner entries and recovery oracles; do not route them through a new scheduler or copy their transition logic into a skill helper.
+
+For landing, consume the invoked owner's current `owner`, `action`, `next`, `invalid` and, when emitted, `request`. Missing input and provider readback are not executable commands. Follow the returned operation/help using confirmed inputs; never derive an operation by splitting a field name. A historical next action is trace evidence only. The owning action rechecks the current claim, head, checkpoint, provider state and write eligibility before an effect.
 
 Noodle resolves `.agents/skills` by default. Resolution must name this checkout's exact `verify-soodles` directory; requesting a name is not proof of loading it. The captured digest map identifies the actual skill files. Noodle may emit missing-backlog-adapter diagnostics: they disclose that production scheduling is unavailable, not a request to repair unrelated adapters during verification.
 
 ## Evidence
 
-Require `receipt.json` in the selected output directory with `classification: VERIFIED`, the exact candidate head/tree, observed runtime identity, local skill resolution, rejected sentinel, and successful cleanup. The trace contains actual commands, stdout/stderr, exit codes and elapsed time. Counts distinguish expected control refusals from unexpected command failures and include mandatory repeated identity readbacks. They cover driver commands, not Agent thoughts, earlier discovery, or internal subprocesses.
+For runtime admission, require the driver's `receipt.json` with `classification: VERIFIED`, exact candidate head/tree, observed runtime identity, local skill resolution, rejected sentinel and successful cleanup. Other recipes specify their own receipts. Preserve actual argv/provider operations, subjects, output, exit codes and elapsed time where observed. Record skill resolution path/digests, unexpected command failures, expected control refusals, repeated readbacks and verification invocations; label top-level versus child-command scope. Missing measurements are unknown, not zero. These are execution records, not matched Agent traces.
 
-This receipt has `authorizes_landing: false`. It is not Issue closure or proof of lower decision cost. Canonical acceptance still runs once for each final candidate through its existing owner; do not repeat it just because this skill was used. A verification receipt obtained before a candidate change does not verify the changed candidate.
+Local feature receipts have `authorizes_landing: false`; `VERIFIED` is not Issue closure. Only the externally selected delivery owner can produce the admitted Issue's `RESOLVED` receipt after provider merge/closure readback and Noodle reconciliation. `next: null` alone is not resolution (identity also returns it). Canonical acceptance still runs once for each final candidate through its existing owner; do not repeat it just because this skill was used. A pre-change receipt does not verify a changed candidate. Shorter instructions, lower structural scores or fewer commands do not establish reduced Agent decision cost.
 
 ## Cleanup
 
-The driver owns only its temporary sentinel directory and waits for each short-lived command. Teardown runs on failed drives too. Evidence lives outside that directory and survives cleanup. Noodle owns the task worktree; this skill does not remove it. A failed receipt is evidence, not permission for an unchanged retry.
+The runtime driver owns its temporary sentinel directory; recovery oracles own disposable fixtures and wait for their child processes. Preserve evidence outside those directories through teardown, including on failure. Noodle owns the task worktree; only the existing delivery reconciliation may remove it. If that removal is expected, verify the reported merged identity in the surviving control root instead of invoking a deleted candidate path. A failed receipt is evidence, not permission for an unchanged retry.
 
 ## Maintenance
 
-Creation follows pstack `create-verification-skill` at `ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa`, adapted to this carrier and one-feature scope. Later use `maintain-verification-skill` when auditing this map or repairing demonstrated recipe/harness drift. Its full maintenance pass needs source and live coverage of every mapped feature. Ordinary feature use does not invoke either authoring method. Product regressions retain their failing evidence and follow the admitted Issue's owner/write boundary; changing the map must not hide them. Neither method selects this candidate's effective external judge.
+This existing skill was created using pstack at `ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa`. Use its `maintain-verification-skill` for a map audit or observed recipe drift; do not repeat create. A full pass audits the index, runs one read-only source review per feature concurrently, reconciles source/churn drift, and has the coordinator live-drive every mapped feature with doctor, receipts and teardown. Outcome is clean, changed or blocked; clean/blocked passes do not manufacture a PR. Only demonstrated skill corrections belong in a changed maintenance PR. Ordinary feature use does not invoke either authoring method.
+
+This guidance is P-class; the index, counts and prose are N-class. Executable local discriminators provide L-class evidence; actual provider-enforced identity and merge/closure readback provide R-class evidence. None is interchangeable. Product regressions retain their failing evidence and follow the admitted Issue's owner/write boundary; changing a recipe must not hide them. Supervisor correction remains available through the existing owning action before an unoffered admission is reused. Preserve unknown writes for owner readback. Neither maintenance nor a candidate-edited test selects its effective external judge.
