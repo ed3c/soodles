@@ -396,6 +396,25 @@ class LandingTests(unittest.TestCase):
         landing.readmit(self.checkpoint, claim, fresh)
         self.assertEqual(landing.read(self.checkpoint)["claim"], claim)
 
+    def test_malformed_comparison_refuses_exact_field_without_traceback_or_checkpoint_change(self):
+        self.start()
+        moved, _, _ = self.recovery_inputs()
+        sf = Path(self.temp.name) / "readback.json"
+        before = self.checkpoint.read_bytes()
+        for key, value, field in (("base_commit", [], "base_commit"), ("merge_base_commit", None, "merge_base_commit"),
+                                  ("commits", None, "commits"), ("commits", [None], "commits[-1]"),
+                                  ("total_commits", True, "total_commits")):
+            data = copy.deepcopy(moved)
+            data["base_comparison"][key] = value
+            sf.write_text(json.dumps(data))
+            result = soodles.run(["./soodles", "landing", "advance", self.checkpoint, sf], soodles.ROOT)
+            with self.subTest(field=field):
+                self.assertEqual(result.returncode, 1)
+                self.assertIn("invalid base_comparison." + field + "=", result.stderr)
+                self.assertIn("./soodles landing --help", result.stderr)
+                self.assertNotIn("Traceback", result.stderr)
+                self.assertEqual(self.checkpoint.read_bytes(), before)
+
     def test_legacy_admitted_can_recover_but_legacy_pending_remains_unknown(self):
         self.start()
         moved, claim, fresh = self.recovery_inputs()

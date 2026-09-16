@@ -170,13 +170,16 @@ def validate_comparison(snapshot, field, base, head):
     """Consume a complete supervisor-transported GitHub compare response."""
     comparison = snapshot.get(field)
     require(isinstance(comparison, dict), field, comparison)
-    commits = comparison.get("commits", [])
-    require(comparison.get("base_commit", {}).get("sha") == base
-            and comparison.get("merge_base_commit", {}).get("sha") == base
-            and comparison.get("status") == "ahead"
-            and type(comparison.get("total_commits")) is int
-            and comparison["total_commits"] == len(commits) > 0
-            and commits[-1].get("sha") == head, field, "expected complete forward ancestry " + base + "..." + head)
+    for key in ("base_commit", "merge_base_commit"):
+        commit = comparison.get(key)
+        require(isinstance(commit, dict), field + "." + key, commit)
+        require(commit.get("sha") == base, field + "." + key + ".sha", commit.get("sha"))
+    require(comparison.get("status") == "ahead", field + ".status", comparison.get("status"))
+    commits, total = comparison.get("commits"), comparison.get("total_commits")
+    require(isinstance(commits, list) and len(commits) > 0, field + ".commits", commits)
+    require(type(total) is int and total == len(commits), field + ".total_commits", total)
+    require(isinstance(commits[-1], dict), field + ".commits[-1]", commits[-1])
+    require(commits[-1].get("sha") == head, field + ".commits[-1].sha", commits[-1].get("sha"))
 
 
 def recovery_action(state, base):
