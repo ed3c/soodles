@@ -25,6 +25,21 @@ Write conditions and actions: **when this task/state applies, use this owner/sou
 
 `system-v1` and `AGENTS.md` share clarity, scope and provenance rules but serve different consumers. Keep behavioral requirements stable and route to them rather than copying every recovery branch into each entrypoint. Current user instructions define task scope within higher-priority platform and executable permission boundaries. A skill cannot silently expand scope or add an approval gate. Name the exact instruction when it actually blocks work.
 
+## Select the active carrier before capability checks
+
+Infer the execution path from the current user task, session context, invoked connector/launcher and provider readback. Record the actor, executor and observed basis once for that operation; re-evaluate when ownership/path changes. Binary presence, OS and a previous Session do not select the carrier. If evidence is insufficient, inspect the intended operation's existing owner rather than trying a speculative model launch.
+
+| Actual path | Agent and execution owner | Applicable prerequisites |
+| --- | --- | --- |
+| Cloud ChatGPT Session → GitHub connector → Actions → Soodles/Noodle | Current Session reasons and calls the connector; Actions runs repository controls/runtime | Available connector action, correct repo/head/workflow, runner prerequisites and provider run/artifact readback; no Codex CLI requirement |
+| Local Soodles → Noodle → Codex child | Local Noodle owns child execution | Admitted local Noodle plus usable local Codex CLI/authentication/launcher and child outcome evidence |
+
+For the cloud path, load required repository documents through the connector and record exact file refs/blobs and returned content. Do not assume that an arbitrary fetched AGENTS file was automatically injected by a local CLI. Record session/model information exposed by the platform, connector actions, workflow version, run/attempt/head, job/step outcomes and available artifact receipts. Platform internals not exposed by the cloud carrier remain unknown, not a reason to invent CLI measurements.
+
+A scratch-container failure, absent local Noodle or failed Codex CLI probe cannot block the cloud connector/Actions path. A missing cloud action, required fixture, trace or fresh-session observation can block its dependent operation. Preserve other authorized progress. Use existing pull-request workflows for canonical acceptance and bind each result to its tested head. Do not create a second model runtime or require API credentials merely to test the Agent already operating this Session.
+
+This carrier-selection instruction is P-class. Provider run readbacks prove the exact workflow execution; they do not prove a matched Agent comparison. The current Session's correction after receiving the intended answer is not a blinded baseline/treatment run. An independent cloud Session can supply a fresh consumer without any Codex CLI. Unknown internal prompt/token data limits those measurements, not every observable behavior claim.
+
 ## N/P/L/R classify claims
 
 These are Soodles conventions, not OpenAI terminology. Directories and extensions do not confer authority.
@@ -50,7 +65,7 @@ A handoff carries goal, Issue/candidate, allowed scope, evidence/checkpoint refe
 
 The earlier rule says **three document nodes**, which is **two link edges**. “3 hop” is ambiguous. This is a local navigation convention, not an OpenAI requirement or context-window guarantee. Keep routes short while reading necessary producers, consumers, controls and evidence. Record additional causal dependencies instead of dropping an invariant to meet a count.
 
-Measure independently:
+Measure independently within the selected carrier. The CLI discovery details below apply only when that CLI actually loads the instructions; they are not assumed ChatGPT Session limits:
 
 - Instruction discovery: global/project/nested paths and digests, injected bytes and truncation when visible. Codex documentation currently gives `project_doc_max_bytes` a 32 KiB default; record the effective setting of the tested version.
 - Skill discovery: metadata catalog versus selected SKILL/recipe bodies. The documented catalog budget is at most 2% of model context, or 8,000 characters when unknown; that is not a budget for all skill bodies or total context.
@@ -63,11 +78,11 @@ If a real task lacks a dependency, compare the shortest complete route with a di
 
 ## Physical comparison
 
-Freeze task inputs and observable checks outside the candidate before judging it. Use isolated baseline/treatment sessions with identical Astra model, reasoning, harness, tools, permissions and fixtures. Bind actual instruction/skill digests and traces. Distinguish available, loaded and acted-upon: a skill listing establishes availability only.
+Freeze task inputs and observable checks outside the candidate before judging it. Use isolated baseline/treatment sessions within the same selected carrier, with identical Astra model, exposed reasoning/harness configuration, tools, permissions and fixtures. In cloud runs, use the platform Session and connector/Actions observations; do not add Codex CLI to obtain them. Record unavailable internals explicitly and limit claims that depend on them. Bind actual instruction/skill digests and traces. Distinguish available, loaded and acted-upon: a skill listing establishes availability only.
 
-Exercise an authorized local task, legal blocking/unknown-write behavior, and a fresh-session handoff with stale guidance. Observe actual tool calls and state. Reject a planted bad result and accept a legal non-case before trusting the detector. Experimental provider-shaped data stays local. Never publish credentials.
+Exercise an authorized task on the selected runner, legal blocking/unknown-write behavior, and a fresh-session handoff with stale guidance. Observe actual tool calls and state. Reject a planted bad result and accept a legal non-case before trusting the detector. Experimental provider-shaped data stays local. Never publish credentials.
 
-One pair is a scoped smoke comparison, not an efficiency estimate. Repeat only a concrete unresolved variation within the Issue's declared bound. Real compaction stays NOT_RUN until an actual harness compaction event and a valid subsequent continuation are captured. Missing model access or observation capability is BLOCKED, not simulated success. See [the #39 protocol](../docs/experiments/agent-context/protocol.md).
+One pair is a scoped smoke comparison, not an efficiency estimate. Repeat only a concrete unresolved variation within the Issue's declared bound. Real compaction stays NOT_RUN until an actual harness compaction event and a valid subsequent continuation are captured. Only missing model/observation capability required by the selected carrier can block that claim; unrelated local CLI failures do not block cloud work. Missing behavioral observations remain NOT_RUN, not simulated success. See [the #39 protocol](../docs/experiments/agent-context/protocol.md).
 
 ## Official basis (reviewed 2026-09-16)
 

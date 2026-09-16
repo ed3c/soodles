@@ -8,6 +8,12 @@ Within the current task's authorization, continue through necessary inspection, 
 
 Stop the affected operation when its owner requires missing identity, credentials, admission, capability or readback. Report that exact prerequisite and preserve evidence. Prior user authorization remains applicable, but it does not create a missing executable capability or let the candidate select its own judge.
 
+## Execution carrier
+
+Select the carrier from this task's actual execution path and available session/tool/provider readbacks. In a cloud ChatGPT Session using the GitHub connector and Actions, the current Session is the Agent and Actions runs Soodles/Noodle controls; no Codex CLI probe, login or installation is required. Only local Soodles → Noodle → Codex child execution requires Codex CLI preflight on that local host. Do not infer the path from an OS, an installed binary or an earlier Session.
+
+Preserve the selected path and its observed basis; re-evaluate when the execution owner changes. Scratch `environment_offline` or a missing local binary blocks only dependent local operations, not available GitHub/Actions work. Read the current operation's owner if the path is unknown; do not add a carrier flag, guessed launcher or approval gate.
+
 ## Current boundary
 
 - Noodle owns worktrees and runtime lifecycle. This bootstrap exercises its binary in disposable fixtures; it does not start a production daemon.
