@@ -39,7 +39,7 @@ class LandingTests(unittest.TestCase):
 
     def offer(self):
         self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "dispatch")
-        return landing.dispatch(self.checkpoint, self.snapshot)
+        return landing.dispatch(self.checkpoint, self.snapshot)["request"]
 
     def merged(self):
         self.snapshot["pr"].update(merged=True, state="closed", merged_at="2026-09-15T12:00:00Z", merge_commit_sha="d" * 40)
@@ -287,7 +287,7 @@ class LandingTests(unittest.TestCase):
         result = soodles.run(["./soodles", "landing", "start", bad, bad, self.checkpoint], soodles.ROOT)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("claim.fields", result.stderr)
-        self.assertIn("./soodles landing --help", result.stderr)
+        self.assertEqual(json.loads(result.stdout)["next"]["operation"], "start")
         self.assertNotIn("Traceback", result.stderr)
         self.assertFalse(self.checkpoint.exists())
 
@@ -314,12 +314,13 @@ class LandingTests(unittest.TestCase):
         result = landing.dispatch(self.checkpoint, moved)
         self.assertEqual(result["action"], "readmit")
         self.assertEqual(result["invalid"], {"field": "base.head", "value": "f" * 40, "expected": "c" * 40})
-        self.assertEqual(result["next_command"], "./soodles landing readmit --help")
+        self.assertEqual(result["next"]["operation"], "readmit")
         invalidated = self.checkpoint.read_bytes()
         self.assertEqual(landing.advance(self.checkpoint, moved)["action"], "readmit")
         self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "readmit")
-        with self.assertRaisesRegex(soodles.Refusal, "landing readmit --help"):
+        with self.assertRaisesRegex(soodles.Refusal, "dispatch.phase") as refused:
             landing.dispatch(self.checkpoint, self.snapshot)
+        self.assertEqual(refused.exception.next_action["operation"], "readmit")
         self.assertEqual(self.checkpoint.read_bytes(), invalidated)
         landing.readmit(self.checkpoint, claim, fresh)
         state = landing.read(self.checkpoint)
@@ -331,7 +332,7 @@ class LandingTests(unittest.TestCase):
             landing.readmit(self.checkpoint, claim, fresh)
         self.assertEqual(self.checkpoint.read_bytes(), before)
         landing.advance(self.checkpoint, fresh)
-        self.assertEqual(landing.dispatch(self.checkpoint, fresh)["expected_head_sha"], claim["head"])
+        self.assertEqual(landing.dispatch(self.checkpoint, fresh)["request"]["expected_head_sha"], claim["head"])
 
     def test_recovery_requires_forward_complete_comparison_and_original_subject(self):
         self.start()
@@ -411,7 +412,7 @@ class LandingTests(unittest.TestCase):
             with self.subTest(field=field):
                 self.assertEqual(result.returncode, 1)
                 self.assertIn("invalid base_comparison." + field + "=", result.stderr)
-                self.assertIn("./soodles landing --help", result.stderr)
+                self.assertEqual(json.loads(result.stdout)["next"]["operation"], "advance")
                 self.assertNotIn("Traceback", result.stderr)
                 self.assertEqual(self.checkpoint.read_bytes(), before)
 
@@ -437,7 +438,7 @@ class LandingTests(unittest.TestCase):
         landing.advance(self.checkpoint, self.snapshot)
         old = landing.read(self.checkpoint)
         result = landing.invalidate(self.checkpoint)
-        self.assertEqual(result['next_command'], './soodles landing readmit --help')
+        self.assertEqual(result['next']['operation'], 'readmit')
         self.assertEqual(result['provider_requests'], [])
         state = landing.read(self.checkpoint)
         self.assertEqual(state['claim'], old['claim'])
@@ -503,3 +504,55 @@ class LandingTests(unittest.TestCase):
         with self.assertRaisesRegex(soodles.Refusal, 'checkpoint.writes_offered'):
             landing.invalidate(self.checkpoint)
         self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_owner_projection_names_missing_input_without_executable_placeholder(self):
+        result = self.start()
+        next_action = result['next']
+        self.assertEqual(next_action['owner'], 'GitHub')
+        self.assertEqual(next_action['requests']['pr']['url'], 'https://api.github.com/repos/ed3c/soodles/pulls/2')
+        self.assertEqual(next_action['known']['checkpoint'], str(self.checkpoint))
+        self.assertEqual(next_action['required'], ['readback'])
+        self.assertNotIn('argv', next_action)
+        prepared = landing.advance(self.checkpoint, self.snapshot)
+        self.assertEqual(prepared['next']['operation'], 'dispatch')
+        request = landing.dispatch(self.checkpoint, self.snapshot)
+        self.assertEqual(request['request']['expected_head_sha'], self.claim['head'])
+        self.assertEqual(request['next']['operation'], 'advance')
+        self.assertNotIn('next', landing.read(self.checkpoint))
+        with self.assertRaises(landing.LandingRefusal) as refused:
+            landing.dispatch(self.checkpoint, self.snapshot)
+        self.assertEqual(refused.exception.next_action['kind'], 'provider_readback')
+        self.assertEqual(refused.exception.next_action['operation'], 'advance')
+
+    def test_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary(self):
+        self.start()
+        self.offer()
+        self.merged()
+        self.offer()
+        self.snapshot['issue'].update(state='closed', state_reason='completed', closed_at='now')
+        result = landing.advance(self.checkpoint, self.snapshot)
+        self.assertEqual(result['next']['required'], ['binary'])
+        self.assertEqual(result['next']['operation'], 'reconcile')
+        state = landing.read(self.checkpoint)
+        state.update(phase='reconciling')
+        landing.save(self.checkpoint, state)
+        self.assertEqual(landing.advance(self.checkpoint, self.snapshot)['next']['operation'], 'reconcile')
+        state.update(phase='resolved', classification='RESOLVED', local={'fixture': True})
+        landing.save(self.checkpoint, state)
+        before = self.checkpoint.read_bytes()
+        result = landing.advance(self.checkpoint, self.snapshot)
+        self.assertIsNone(result['next'])
+        self.assertEqual(result['action'], 'stop')
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+
+    def test_parser_and_refusal_help_are_bound_to_invoked_action(self):
+        result = soodles.run(['./soodles', 'landing', 'dispatch', '--guessed'], soodles.ROOT)
+        self.assertEqual(result.returncode, 2)
+        refusal = json.loads(result.stdout)
+        self.assertEqual(refusal['owner'], 'landing.dispatch')
+        self.assertEqual(refusal['invalid']['field'], 'arguments')
+        argv = refusal['next']['help_argv']
+        self.assertEqual(argv[-3:], ['landing', 'dispatch', '--help'])
+        help_result = soodles.run(argv, soodles.ROOT)
+        self.assertEqual(help_result.returncode, 0)
+        self.assertFalse(self.checkpoint.exists())

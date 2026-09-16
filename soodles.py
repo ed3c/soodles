@@ -19,12 +19,20 @@ class Refusal(Exception):
 
 class Parser(argparse.ArgumentParser):
     def error(self, message):
+        if self.prog.startswith("./soodles landing"):
+            import landing
+            operation = self.prog.removeprefix("./soodles landing").strip()
+            result = landing.refusal_output(landing.LandingRefusal("arguments", message), operation)
+            print(json.dumps(result, indent=2))
+            self.exit(2, landing.refusal_text(result) + "\n")
         self.print_usage(sys.stderr)
         self.exit(2, f"{self.prog}: {message}; supported help: {self.prog} --help\n")
 
 
 def refuse(action, field, value):
-    raise Refusal(f"{action}: invalid {field}={value!r}; supported help: ./soodles {action} --help")
+    error = Refusal(f"{action}: invalid {field}={value!r}; supported help: ./soodles {action} --help")
+    error.invalid = {"field": field, "value": value}
+    raise error
 
 
 def digest(path):
@@ -213,11 +221,12 @@ def parser():
 
 def main():
     args = parser().parse_args()
+    import landing
     try:
         if args.group == "landing":
             import landing
             if args.verb == "identity":
-                result = {"verifier_sha256": landing.verifier_digest()}
+                result = {"owner": "landing.identity", "verifier_sha256": landing.verifier_digest(), "next": None}
             elif args.verb == "start":
                 result = landing.start(landing.read(args.claim), landing.read(args.readback), args.checkpoint)
             elif args.verb == "advance":
@@ -235,11 +244,27 @@ def main():
         else:
             result = runtime_check(ROOT, args.binary) if args.group == "runtime" else acceptance_verify(ROOT, args.binary)
         print(json.dumps(result, indent=2))
+    except landing.LandingRefusal as exc:
+        result = landing.refusal_output(exc, args.verb)
+        print(json.dumps(result, indent=2))
+        print(landing.refusal_text(result), file=sys.stderr)
+        return 1
     except (KeyError, TypeError) as exc:
-        print(f"REFUSED: {args.group}: invalid input field={exc}; supported help: ./soodles {args.group} --help", file=sys.stderr)
+        if args.group == "landing":
+            result = landing.refusal_output(landing.LandingRefusal("input.field", str(exc)), args.verb)
+            print(json.dumps(result, indent=2))
+            print(landing.refusal_text(result), file=sys.stderr)
+        else:
+            print(f"REFUSED: {args.group}: invalid input field={exc}; supported help: ./soodles {args.group} --help", file=sys.stderr)
         return 1
     except (Refusal, OSError, ValueError, subprocess.TimeoutExpired) as exc:
-        print(f"REFUSED: {exc}", file=sys.stderr)
+        if args.group == "landing":
+            invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
+            result = landing.refusal_output(landing.LandingRefusal(invalid["field"], invalid["value"]), args.verb)
+            print(json.dumps(result, indent=2))
+            print(landing.refusal_text(result), file=sys.stderr)
+        else:
+            print(f"REFUSED: {exc}", file=sys.stderr)
         return 1
     return 0
 
