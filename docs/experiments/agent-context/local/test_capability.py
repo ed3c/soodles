@@ -32,6 +32,13 @@ class CapabilityControls(unittest.TestCase):
         self.assertEqual(result['verdict'], 'INCOMPLETE')
         self.assertIn('native_turn_model', result['missing'])
 
+    def test_unknown_or_failed_process_exit_cannot_pass(self):
+        for exit_code in (None, 1, -15):
+            p = packet(); p['expected']['exit_code'] = exit_code
+            result = observe(**p)
+            self.assertEqual(result['verdict'], 'INCOMPLETE')
+            self.assertIn('successful_process_exit', result['missing'])
+
     def test_wrong_thread_turn_model_and_missing_result_cannot_pass(self):
         changes = [lambda p: p['history']['result']['thread'].update(id='foreign'),
                    lambda p: p['rollout'][1]['payload'].update(turn_id='foreign'),
