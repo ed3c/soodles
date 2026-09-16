@@ -111,7 +111,7 @@ else:
         # Observe the baseline through the ordinary CLI before injecting faults.
         outcome = invoke(["advance", cp, mf])
         require(outcome.get("action") == "readmit", "base drift has no owning readmission action")
-        require(outcome.get("next_command") == "./soodles landing readmit --help", "missing supported next command")
+        require(outcome.get("next", {}).get("operation") == "readmit", "missing supported next command")
         require(outcome.get("invalid", {}).get("field") == "base.head", "missing exact invalid field")
         before = cp.read_bytes()
         require(invoke(["advance", cp, mf])["action"] == "readmit", "pending recovery cannot resume")
@@ -134,7 +134,7 @@ else:
         require(command(["readmit", cp, nf, ns]).returncode != 0, "duplicate readmission admitted")
         require(cp.read_bytes() == before, "duplicate readmission changed accepted state")
         require(invoke(["advance", cp, ns])["action"] == "dispatch", "fresh admission cannot advance")
-        request = invoke(["dispatch", cp, ns])
+        request = invoke(["dispatch", cp, ns])["request"]
         require(request == {"action": "merge", "repository_full_name": "ed3c/soodles", "pr_number": 2,
                             "expected_head_sha": "e"*40, "merge_method": "merge"}, "wrong fresh request")
         require(command(["dispatch", cp, ns]).returncode != 0, "fresh merge repeated")
@@ -179,7 +179,7 @@ else:
         require(r.returncode == -signal.SIGKILL, "explicit invalidation SIGKILL was not reached")
         before = cp.read_bytes()
         action = invoke(["invalidate", cp])
-        require(action.get("next_command") == "./soodles landing readmit --help", "amendment has no next action")
+        require(action.get("next", {}).get("operation") == "readmit", "amendment has no next action")
         require(cp.read_bytes() == before, "repeated invalidation rewrote checkpoint")
         require(command(["dispatch", cp, sf]).returncode != 0, "old green dispatches after explicit invalidation")
         require(cp.read_bytes() == before, "old dispatch mutated amendment")
@@ -198,7 +198,7 @@ else:
         require(state["prior_admissions"][-1]["claim"] == claim, "amendment lost old claim")
         require(state["prior_admissions"][-1]["delivery"] == {"action": "merge", "status": "prepared"}, "prepared intent history lost")
         require(invoke(["advance", cp, ar])["action"] == "dispatch", "same-base amendment cannot resume")
-        require(invoke(["dispatch", cp, ar])["expected_head_sha"] == same_claim["head"], "amendment offers old head")
+        require(invoke(["dispatch", cp, ar])["request"]["expected_head_sha"] == same_claim["head"], "amendment offers old head")
         require(json.loads(cp.read_text())["classification"] is None, "offered merge resolved the Issue")
         cases.append({"case": "same_base_supervised_amendment", "signals": 2,
                       "old_acceptance_dispatches": 0, "fresh_requests": 1, "terminal_classification": None})

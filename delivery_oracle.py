@@ -71,15 +71,21 @@ getattr(landing,sys.argv[2])(sys.argv[3],json.load(open(sys.argv[4])))
         write(cf, claim); write(sf, snapshot)
         def fresh(name):
             cp = lane / (name + '.json')
-            invoke(['start', cf, sf, cp]); return cp
+            result = invoke(['start', cf, sf, cp])
+            require(result.get('next', {}).get('kind') == 'provider_readback', 'start missing owner next readback')
+            require(result['next']['operation'] == 'advance', 'start routes to wrong consumer')
+            require(result['next']['requests']['pr'] == {'method':'GET','url':'https://api.github.com/repos/ed3c/soodles/pulls/2'}, 'provider subject guessed')
+            require('argv' not in result['next'], 'missing readback became executable argv')
+            return cp
         cp = fresh('prepared')
         r = execute(['advance',cp,sf], kill='advance')
         require(r.returncode == -signal.SIGKILL, 'pre-dispatch injection did not kill the real child')
         result = invoke(['advance',cp,sf])
+        require(result.get('next', {}).get('operation') == 'dispatch', 'prepared intent lacks fresh dispatch readback')
         require(result.get('action') == 'dispatch', 'saved intent without transport cannot resume first dispatch')
         require(json.loads(cp.read_text())['writes_offered'] == [], 'prepared intent already counted as offered')
         require(json.loads(sink.read_text()) == [], 'provider changed before dispatch')
-        request = invoke(['dispatch',cp,sf])
+        request = invoke(['dispatch',cp,sf])['request']
         expected = {'action':'merge','repository_full_name':'ed3c/soodles','pr_number':2,
                     'expected_head_sha':'a'*40,'merge_method':'merge'}
         require(request == expected, 'dispatch changed exact merge identity')
@@ -95,7 +101,7 @@ getattr(landing,sys.argv[2])(sys.argv[3],json.load(open(sys.argv[4])))
         r = execute(['advance',cp,sf],kill='advance')
         require(r.returncode == -signal.SIGKILL, 'close prepare injection did not kill child')
         require(invoke(['advance',cp,sf])['action']=='dispatch','prepared close cannot resume')
-        close = invoke(['dispatch',cp,sf])
+        close = invoke(['dispatch',cp,sf])['request']
         require(close=={'action':'close','repository_full_name':'ed3c/soodles','issue_number':1,'state':'closed','state_reason':'completed'},'wrong closure')
         require(execute(['dispatch',cp,sf]).returncode!=0,'duplicate closure admitted')
         require(invoke(['advance',cp,sf])['action']=='readback','unknown close authorized retry')
@@ -121,7 +127,7 @@ getattr(landing,sys.argv[2])(sys.argv[3],json.load(open(sys.argv[4])))
                              user=65534 if isolated else None,group=65534 if isolated else None) for _ in range(2)]
         outputs=[p.communicate(timeout=20) for p in ps]
         require(sum(p.returncode==0 for p in ps)==1,'concurrent consumers did not produce exactly one request')
-        require([json.loads(o[0]) for p,o in zip(ps,outputs) if p.returncode==0]==[expected],'concurrent request identity changed')
+        require([json.loads(o[0])['request'] for p,o in zip(ps,outputs) if p.returncode==0]==[expected],'concurrent request identity changed')
         cases.append({'case':'concurrent_dispatch','processes':2,'requests':1})
         for action in ('merge','close'):
             state=json.loads(cp.read_text()); state['schema']=1; state.pop('delivery',None)
@@ -143,6 +149,33 @@ getattr(landing,sys.argv[2])(sys.argv[3],json.load(open(sys.argv[4])))
         require(r.returncode!=0 and 'pr.head.sha' in r.stderr,'changed head not refused by field')
         require(cp.read_bytes()==before,'invalid identity consumed prepared intent')
         cases.append({'case':'head_drift','requests':0,'checkpoint_unchanged':True})
+        refusal = json.loads(r.stdout)
+        require(refusal.get('owner') == 'landing.dispatch', 'field prefix guessed wrong owner')
+        require(refusal.get('invalid') == {'field':'pr.head.sha','value':'f'*40}, 'refusal lost actual field/value')
+        require(refusal['next']['operation'] == 'dispatch', 'identity correction lost owning action')
+        write(sf,original)
+        invoke(['invalidate',cp])
+        r=execute(['dispatch',cp,sf]); refusal=json.loads(r.stdout)
+        require(r.returncode!=0 and refusal['next']['operation']=='readmit', 'invalidated dispatch has conflicting route')
+        require('landing readmit --help' in r.stderr and 'landing dispatch --help' not in r.stderr,
+                'human refusal disagrees with structured next')
+        require(refusal['next']['required']==['claim','readback'], 'fresh admission inputs are guessed')
+        require('argv' not in refusal['next'], 'missing fresh claim was executable')
+        require('next' not in json.loads(cp.read_text()), 'next command persisted as authority')
+        cases.append({'case':'structured_owner_refusal','conflicting_routes':0,'provider_requests':0})
+        # A resolved checkpoint is fixture input, not a claim of live reconciliation.
+        terminal=json.loads(cp.read_text())
+        terminal.update(phase='resolved',classification='RESOLVED',writes_offered=['merge','close'],merge_sha='d'*40,
+                        issue_closed_at=snapshot['issue']['closed_at'],local={'fixture':True})
+        terminal.pop('recovery',None)
+        write(cp,terminal)
+        if isolated: os.chown(cp,65534,65534)
+        write(sf,snapshot); before=cp.read_bytes()
+        stopped=invoke(['advance',cp,sf])
+        require(stopped.get('action')=='stop' and stopped.get('next','missing') is None,
+                'resolved checkpoint still requests readback')
+        require(cp.read_bytes()==before, 'terminal observation rewrote checkpoint')
+        cases.append({'case':'terminal_projection','next':None,'checkpoint_unchanged':True})
         require(json.loads(sink.read_text())==[request,close],'child modified supervisor provider fixture')
     return {'scope':'local durable checkpoint/process faults; supervisor provider fixture, no GitHub writes',
             'cases':cases,'isolated_child_uid':65534 if isolated else None,'authorizes_landing':False}

@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 import re
 import shutil
+import shlex
+import sys
 import subprocess
 import tempfile
 
@@ -16,11 +18,56 @@ REPOSITORY = "ed3c/soodles"
 ACTION = "./soodles landing"
 
 
-def require(condition, field, value):
+class LandingRefusal(Refusal):
+    def __init__(self, field, value, next_action=None):
+        self.invalid = {"field": field, "value": value}
+        self.next_action = next_action
+        super().__init__(f"landing: invalid {field}={value!r}")
+
+
+def require(condition, field, value, next_action=None):
     if not condition:
-        owner = field.split(".")[0]
-        route = " " + owner if owner in {"readmit", "dispatch", "resume", "invalidate"} else ""
-        raise Refusal(f"landing{route}: invalid {field}={value!r}; supported help: {ACTION}{route} --help")
+        raise LandingRefusal(field, value, next_action)
+
+
+def cli_argv(operation, *arguments):
+    return [sys.executable, "-B", str(Path(__file__).resolve().parent / "soodles.py"),
+            "landing", *([operation] if operation else []), *map(str, arguments)]
+
+
+def input_next(operation, required, checkpoint=None):
+    return {"kind": "input", "owner": "supervisor", "operation": operation, "required": required,
+            "known": {"checkpoint": str(Path(checkpoint).resolve())} if checkpoint else {},
+            "help_argv": cli_argv(operation, "--help")}
+
+
+def provider_next(claim, operation, checkpoint):
+    base = "https://api.github.com/repos/" + claim["repository"] + "/"
+    paths = {"pr": f"pulls/{claim['pr']}", "issue": f"issues/{claim['issue']}",
+             "commit": f"git/commits/{claim['head']}", "branch": "branches/main",
+             "run": f"actions/runs/{claim['run_id']}", "jobs": f"actions/runs/{claim['run_id']}/jobs"}
+    return {**input_next(operation, ["readback"], checkpoint), "kind": "provider_readback", "owner": "GitHub",
+            "requests": {key: {"method": "GET", "url": base + path} for key, path in paths.items()},
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."}
+
+
+def response(operation, state, action, next_action, **details):
+    return {"owner": "landing." + operation, "action": action, "phase": state["phase"],
+            "classification": state.get("classification"), "next": next_action, **details}
+
+
+def refusal_output(error, operation):
+    # The invoked action supplies ownership; field spelling never selects a route.
+    next_action = error.next_action or input_next(operation, ["corrected_input"])
+    return {"owner": "landing." + operation if operation else "landing", "status": "refused",
+            "invalid": error.invalid, "next": next_action}
+
+
+def refusal_text(result):
+    invalid = result["invalid"]
+    help_argv = result["next"]["help_argv"]
+    return (f"REFUSED: {result['owner']}: invalid {invalid['field']}={invalid['value']!r}; "
+            f"supported help: {shlex.join(help_argv)}")
 
 
 def fingerprint(value):
@@ -130,10 +177,11 @@ def start(claim, snapshot, checkpoint):
     validate_snapshot(claim, snapshot)
     require(not snapshot["pr"].get("merged"), "pr.merged", True)
     with locked(checkpoint) as path:
-        require(not path.exists(), "checkpoint", "already admitted; use landing advance")
-        save(path, {"schema": 2, "claim": claim, "phase": "admitted", "observations": [fingerprint(snapshot)],
-                    "classification": None, "scope": "supervised single-Issue landing", "writes_offered": []})
-    return {"action": "readback", "checkpoint": str(path)}
+        require(not path.exists(), "checkpoint", "already admitted")
+        state = {"schema": 2, "claim": claim, "phase": "admitted", "observations": [fingerprint(snapshot)],
+                 "classification": None, "scope": "supervised single-Issue landing", "writes_offered": []}
+        save(path, state)
+        return response("start", state, "readback", provider_next(claim, "advance", path), checkpoint=str(path))
 
 
 def delivery_state(path):
@@ -187,21 +235,17 @@ def validate_comparison(snapshot, field, base, head):
     require(commits[-1].get("sha") == head, field + ".commits[-1].sha", commits[-1].get("sha"))
 
 
-def recovery_action(state, base):
-    if state.get("recovery", {}).get("kind") == "amendment":
-        return {"action": "readmit", "owner": "landing", "phase": state["phase"], "provider_requests": [],
-                "next_command": "./soodles landing readmit --help",
-                "reason": "Supervisor invalidated prior acceptance; amend this Issue and supply a fresh claim and exact-head evidence."}
+def recovery_action(state, base, checkpoint, operation):
     unknown = bool(state["writes_offered"])
-    action = "readback" if unknown else "readmit"
-    return {"action": action, "owner": "landing", "phase": state["phase"], "provider_requests": [],
-            "invalid": {"field": "base.head", "value": base, "expected": state["claim"]["base_head"]},
-            "next_command": "./soodles landing " + ("advance" if unknown else "readmit") + " --help",
-            "reason": "Offered write remains unknown; owner readback is required, not another request." if unknown else
-                      "Prior acceptance is invalidated. Supply a fresh supervisor claim and exact-head evidence."}
+    next_action = provider_next(state["claim"], "advance", checkpoint) if unknown else input_next("readmit", ["claim", "readback"], checkpoint)
+    details = {} if state.get("recovery", {}).get("kind") == "amendment" else {
+        "invalid": {"field": "base.head", "value": base, "expected": state["claim"]["base_head"]}}
+    return response(operation, state, "readback" if unknown else "readmit", next_action,
+                    provider_requests=[], reason="Offered write requires owner readback." if unknown else
+                    "Prior acceptance is invalidated; supply a fresh supervisor claim and exact-head evidence.", **details)
 
 
-def observe_base(path, state, snapshot):
+def observe_base(path, state, snapshot, operation):
     """Checkpoint coherent pre-offer base advancement; never infer non-delivery."""
     claim = state["claim"]
     if snapshot["pr"].get("merged"):
@@ -214,7 +258,7 @@ def observe_base(path, state, snapshot):
     validate_snapshot({**claim, "base_head": base}, snapshot)
     validate_comparison(snapshot, "base_comparison", claim["base_head"], base)
     if state["writes_offered"]:
-        return recovery_action(state, base)
+        return recovery_action(state, base, path, operation)
     require(state["phase"] in {"admitted", "merge_pending", "readmission_pending"}, "recovery.phase", state["phase"])
     recovery = {"previous_base": claim["base_head"], "base_head": base, "readback_sha256": fingerprint(snapshot)}
     if state.get("recovery") != recovery:
@@ -223,7 +267,7 @@ def observe_base(path, state, snapshot):
         state["phase"] = "readmission_pending"
         state["recovery"] = recovery
         save(path, state)
-    return recovery_action(state, base)
+    return recovery_action(state, base, path, operation)
 
 
 def invalidate(checkpoint):
@@ -232,16 +276,14 @@ def invalidate(checkpoint):
         state = delivery_state(path)
         validate_claim(state["claim"])
         if state["writes_offered"] or state["phase"] not in {"admitted", "merge_pending", "readmission_pending"}:
-            raise Refusal(f"landing invalidate: invalid checkpoint.phase={state['phase']!r}, "
-                          f"writes_offered={state['writes_offered']!r}; owner: landing; "
-                          "supported help: ./soodles landing advance --help")
+            raise LandingRefusal("checkpoint.phase", state["phase"], provider_next(state["claim"], "advance", path))
         if state["phase"] != "readmission_pending":
             claim = state["claim"]
             state["phase"] = "readmission_pending"
             state["recovery"] = {"kind": "amendment", "previous_head": claim["head"],
                                  "previous_base": claim["base_head"], "base_head": claim["base_head"]}
             save(path, state)
-        return recovery_action(state, state["recovery"]["base_head"])
+        return recovery_action(state, state["recovery"]["base_head"], path, "invalidate")
 
 
 def readmit(checkpoint, claim, snapshot):
@@ -252,7 +294,7 @@ def readmit(checkpoint, claim, snapshot):
         old = state["claim"]
         validate_claim(old)
         require(state["phase"] == "readmission_pending", "readmit.phase",
-                str(state["phase"]) + "; use landing advance with owner readback")
+                state["phase"], provider_next(old, "advance", path))
         require(state["writes_offered"] == [], "readmit.writes_offered", state["writes_offered"])
         for field in ("repository", "issue", "pr", "worktree", "control_root", "verifier_sha256"):
             require(claim[field] == old[field], "readmit." + field, claim[field])
@@ -272,8 +314,7 @@ def readmit(checkpoint, claim, snapshot):
             "delivery": state.pop("delivery", None), "writes_offered": [], "observations": state["observations"]})
         state.update(claim=claim, phase="admitted", observations=[fingerprint(snapshot)], classification=None)
         save(path, state)
-        return {"action": "readback", "owner": "landing", "phase": "admitted", "provider_requests": [],
-                "next_command": "./soodles landing advance --help"}
+        return response("readmit", state, "readback", provider_next(claim, "advance", path), provider_requests=[])
 
 
 def advance(checkpoint, snapshot):
@@ -282,14 +323,16 @@ def advance(checkpoint, snapshot):
         claim = state["claim"]
         validate_claim(claim)
         if state["phase"] == "readmission_pending" and state["recovery"].get("kind") == "amendment":
-            return recovery_action(state, state["recovery"]["base_head"])
-        recovery = observe_base(path, state, snapshot)
+            return recovery_action(state, state["recovery"]["base_head"], path, "advance")
+        recovery = observe_base(path, state, snapshot, "advance")
         if recovery:
             return recovery
         validate_snapshot(claim, snapshot)
         if state["phase"] == "readmission_pending":
-            return recovery_action(state, state["recovery"]["base_head"])
+            return recovery_action(state, state["recovery"]["base_head"], path, "advance")
         phase = state["phase"]
+        if phase == "resolved":
+            return response("advance", state, "stop", None)
         observation = fingerprint(snapshot)
         if observation not in state["observations"]:
             state["observations"].append(observation)
@@ -311,10 +354,11 @@ def advance(checkpoint, snapshot):
             state["delivery"] = {"action": "merge", "status": "prepared"}
         save(path, state)
         prepared = state["phase"] in {"merge_pending", "close_pending"} and state["delivery"]["status"] == "prepared"
-        return {"action": "dispatch" if prepared else "reconcile" if state["phase"] == "awaiting_reconcile" else "readback",
-                           "phase": state["phase"], "classification": state["classification"],
-                           "reason": "Prepared intent awaits first dispatch." if prepared else
-                           "Pending writes require owner readback; no retry is offered."}
+        if prepared:
+            return response("advance", state, "dispatch", provider_next(claim, "dispatch", path))
+        if state["phase"] in {"awaiting_reconcile", "reconciling"}:
+            return response("advance", state, "reconcile", input_next("reconcile", ["binary"], path))
+        return response("advance", state, "readback", provider_next(claim, "advance", path))
 
 
 def dispatch(checkpoint, snapshot):
@@ -324,29 +368,29 @@ def dispatch(checkpoint, snapshot):
         claim = state["claim"]
         validate_claim(claim)
         require(state["phase"] != "readmission_pending", "dispatch.phase",
-                "readmission_pending; use ./soodles landing readmit --help")
-        recovery = observe_base(path, state, snapshot)
+                state["phase"], input_next("readmit", ["claim", "readback"], path))
+        recovery = observe_base(path, state, snapshot, "dispatch")
         if recovery:
             return recovery
         validate_snapshot(claim, snapshot)
         require(state["phase"] in {"merge_pending", "close_pending"}, "dispatch.phase", state["phase"])
         delivery = state["delivery"]
         require(delivery["status"] == "prepared", "dispatch.status",
-                "already offered; use landing advance with owner readback")
+                delivery["status"], provider_next(claim, "advance", path))
         if delivery["action"] == "merge":
             require(not snapshot["pr"].get("merged") and snapshot["pr"].get("mergeable") is True,
-                    "dispatch.pr", "merge no longer eligible; use landing advance")
+                    "dispatch.pr", "merge no longer eligible", provider_next(claim, "advance", path))
             request = {"action": "merge", "repository_full_name": REPOSITORY, "pr_number": claim["pr"],
                        "expected_head_sha": claim["head"], "merge_method": "merge"}
         else:
             require(snapshot["pr"].get("merged") and snapshot["issue"]["state"] == "open",
-                    "dispatch.issue", "closure no longer eligible; use landing advance")
+                    "dispatch.issue", "closure no longer eligible", provider_next(claim, "advance", path))
             request = {"action": "close", "repository_full_name": REPOSITORY, "issue_number": claim["issue"],
                        "state": "closed", "state_reason": "completed"}
         delivery["status"] = "offered"
         state["writes_offered"].append(delivery["action"])
         save(path, state)  # Must precede request emission; an interrupted offer remains unknown.
-        return request
+        return response("dispatch", state, request["action"], provider_next(claim, "advance", path), request=request)
 
 
 def resume(checkpoint, claim):
@@ -364,7 +408,7 @@ def resume(checkpoint, claim):
         state.setdefault("prior_verifiers", []).append(old["verifier_sha256"])
         state["claim"] = claim
         save(path, state)
-        return {"action": "reconcile", "phase": "reconciling", "provider_requests": []}
+        return response("resume", state, "reconcile", input_next("reconcile", ["binary"], path), provider_requests=[])
 
 
 def fetch_main(root):
@@ -446,4 +490,4 @@ def reconcile(checkpoint, binary):
         state["local"] = {**source_identity(root), "removed_worktree": claim["worktree"], "worktree_owner": "Noodle"}
         state["phase"], state["classification"] = "resolved", "RESOLVED"
         save(path, state)
-        return state
+        return {**state, **response("reconcile", state, "stop", None)}
