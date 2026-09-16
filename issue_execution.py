@@ -15,6 +15,7 @@ import subprocess
 import tempfile
 import time
 import urllib.request
+import urllib.error
 
 from issue_admission import (AdmissionRefusal, REPOSITORY, load_external_envelope,
                              require, validate_issue)
@@ -24,10 +25,13 @@ def fetch_issue(number):
     url = f"https://api.github.com/repos/{REPOSITORY}/issues/{number}"
     request = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json",
                                                   "User-Agent": "soodles-issue-admission"})
-    with urllib.request.urlopen(request, timeout=30) as response:
-        require(response.url == url, "issue.provider_url", response.url,
-                owner="GitHub", required="exact_issue_readback")
-        return json.load(response)
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            require(response.url == url, "issue.provider_url", response.url,
+                    owner="GitHub", required="exact_issue_readback")
+            return json.load(response)
+    except (urllib.error.URLError, TimeoutError, ValueError) as error:
+        raise AdmissionRefusal("issue.provider_readback", str(error), "GitHub", "fresh_issue_readback") from error
 
 
 def executable_identity(spec, field):

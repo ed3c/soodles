@@ -237,6 +237,17 @@ class IssueExecutionTests(unittest.TestCase):
         self.assertEqual(receipt["next"]["owner"], "supervisor")
         self.assertFalse((self.runtime / "orders-next.json").exists())
 
+    def test_network_failure_names_provider_readback_without_mailbox_effects(self):
+        from unittest.mock import patch
+        import urllib.error
+        with patch("issue_execution.urllib.request.urlopen", side_effect=urllib.error.URLError("DNS unavailable")):
+            with self.assertRaises(admission.AdmissionRefusal) as caught:
+                execution.automatic(self.path, self.pin, self.root)
+        self.assertEqual(caught.exception.invalid["field"], "issue.provider_readback")
+        self.assertEqual(caught.exception.next["owner"], "GitHub")
+        self.assertEqual(caught.exception.next["required"], ["fresh_issue_readback"])
+        self.assertFalse((self.runtime / "orders-next.json").exists())
+
     def test_completed_label_cannot_hide_a_live_process_group(self):
         self.admit("automatic")
         self.promote_fixture()
