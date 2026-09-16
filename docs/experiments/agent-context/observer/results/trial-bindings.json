@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "observer_commit": "e0f17e0ad01c557103af36ed934265e08a3fafad",
+  "repository": "ed3c/soodles",
+  "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "instructions": {
+    "baseline": {
+      "ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "agents_blob": "3667a6d70ea4a4fddd2df22768b0b83def179f81"
+    },
+    "treatment": {
+      "ref": "f98a3384a3fbd585ae2f1008036d7868b9dbced4",
+      "agents_blob": "b8b81697ca9bb5af95d5b6dc053c93159fab4525"
+    }
+  },
+  "fixed_fixture": "fixture-results.json",
+  "fixture_sha256": "5dc99a9ba6d37f65d9c28982e10a9079ae8b2d8d87e866e2b20f96829cf6388e",
+  "runtime": {
+    "head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "run_id": 35128051435,
+    "run_attempt": 1,
+    "path": ".github/workflows/runtime.yml",
+    "conclusion": "success",
+    "url": "https://github.com/ed3c/soodles/actions/runs/35128051435"
+  },
+  "control_blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+  "trial_setup": {
+    "config_id": null,
+    "observed_model": null,
+    "session_ids": null,
+    "raw_trace_locations": null,
+    "note": "Operator must freeze matching exposed model/tool/permission config before the first pair. Null fields are not success."
+  },
+  "case_ids": [
+    "runner-task",
+    "unknown-write",
+    "fresh-transfer"
+  ],
+  "trial_status": "NOT_RUN",
+  "authorizes_landing": false
+}

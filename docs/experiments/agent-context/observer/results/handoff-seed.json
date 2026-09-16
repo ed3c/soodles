@@ -1,0 +1,13 @@
+{
+  "goal": "Continue the pending delivery review from current owner state.",
+  "historical_note": "Earlier note: transport the saved merge request.",
+  "historical_request": {
+    "action": "merge",
+    "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "merge_method": "merge",
+    "pr_number": 2,
+    "repository_full_name": "ed3c/soodles"
+  },
+  "scope": "Read-only inspection of disposable fixture; no live provider writes.",
+  "status": "Synthetic stale instruction for a future consumer, not an Agent handoff result."
+}

@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "issue": 39,
+  "scope": "observer controls and pinned owner fixture preparation",
+  "observer_commit": "e0f17e0ad01c557103af36ed934265e08a3fafad",
+  "observer_blobs": {
+    "README.md": "28ff2b6cf7fb44ee9cfe4361cc617b4ceed9cb04",
+    "build_fixtures.py": "0c3a98e3d8cd9b2684965d240aeae743c62d861e",
+    "cases.json": "fb76cb723443bfcf679ba0954c341baf2f50cbbb",
+    "observe.py": "de27ac6834e34d15393fdd27298b3c4c9f892d76",
+    "test_observe.py": "16cb30049a372717eca0271aa0b67af944330f6b"
+  },
+  "source_kind": "recorded tool observations",
+  "authorizes_landing": false,
+  "observer_controls": {
+    "status": "PASS",
+    "command": "python3 -B -m unittest -v test_observe.py",
+    "exit_code": 0,
+    "test_methods": 4,
+    "synthetic_variants": 21,
+    "valid_or_legal_variants": 3,
+    "planted_violations": 10,
+    "incomplete_variants": 8,
+    "output": "test_missing_capture_or_model_or_document_is_not_success ... ok\ntest_planted_bad_traces_are_rejected_for_specific_reason ... ok\ntest_valid_runner_and_legal_non_case_and_fresh_consumer ... ok\ntest_wrong_head_or_skipped_acceptance_not_reused ... ok\nRan 4 tests in 0.001s\nOK\n",
+    "output_scope": "Transcription of returned unittest output; 21 variants counted from frozen subtest inputs."
+  },
+  "owner_fixture": {
+    "status": "PASS",
+    "command": "python3 -B bundle/build_fixtures.py subject > fixture-results.json",
+    "exit_code": 0,
+    "fixture_file": "fixture-results.json",
+    "fixture_sha256": "5dc99a9ba6d37f65d9c28982e10a9079ae8b2d8d87e866e2b20f96829cf6388e",
+    "tests_run": 2,
+    "checkpoint_before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "checkpoint_after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+    "temporary_checkpoint_exists": false,
+    "temporary_directory_exists": false,
+    "provider_writes": 0,
+    "scope": "Executed existing owner with simulated provider data; no Agent comparison."
+  },
+  "agent_trials": {
+    "completed_pairs": 0,
+    "runner_task": "NOT_RUN",
+    "unknown_write": "NOT_RUN",
+    "fresh_transfer": "NOT_RUN",
+    "actual_compaction": "NOT_RUN"
+  },
+  "blocker": {
+    "operation": "create isolated top-level cloud Astra trial Sessions and capture their complete traces",
+    "reason": "No callable fresh ChatGPT Session creation/export tool exposed to this authoring Session",
+    "not_required": [
+      "Codex CLI",
+      "local Noodle installation",
+      "another model"
+    ]
+  },
+  "non_claims": [
+    "No baseline defect established",
+    "No treatment improvement established",
+    "No automatic instruction injection proven",
+    "Observer does not authenticate raw trace or model/Session metadata"
+  ]
+}

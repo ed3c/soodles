@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "source_kind": "executed_owner_with_simulated_provider",
+  "common_code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "source_blobs": {
+    "issue_admission.py": "ab428499d2929a2555883d50b1560a63d6ac4405",
+    "issue_execution.py": "e86b2b678a915ab2eacee8810dca1e7b2cdf2adf",
+    "landing.py": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+    "policy/runtime.lock.json": "edbd4e843565c093e4fc4aafa2075c13ee94d8ee",
+    "soodles.py": "893cacb63c7d0df2563f08162389f10d287c0386",
+    "tests/test_landing.py": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb"
+  },
+  "authorizes_landing": false,
+  "agent_trials": 0,
+  "controls": {
+    "tests_run": 2,
+    "success": true,
+    "log": "test_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary (test_landing.LandingTests.test_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary) ... ok\ntest_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry (test_landing.LandingTests.test_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.012s\n\nOK\n"
+  },
+  "identity_output": {
+    "owner": "landing.identity",
+    "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a",
+    "next": null
+  },
+  "owner_output": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "phase": "merge_pending",
+    "classification": null,
+    "next": {
+      "kind": "provider_readback",
+      "owner": "GitHub",
+      "operation": "advance",
+      "required": [
+        "readback"
+      ],
+      "known": {
+        "checkpoint": "/tmp/tmpm4_shq2e/checkpoint.json"
+      },
+      "help_argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/bd9d2e05d141/context39-observer/subject/soodles.py",
+        "landing",
+        "advance",
+        "--help"
+      ],
+      "requests": {
+        "pr": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+        },
+        "issue": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+        },
+        "commit": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "branch": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+        },
+        "run": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+        },
+        "jobs": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+        }
+      },
+      "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+    }
+  },
+  "checkpoint": {
+    "schema": 2,
+    "claim": {
+      "repository": "ed3c/soodles",
+      "issue": 1,
+      "pr": 2,
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+      "run_id": 10,
+      "run_attempt": 1,
+      "worktree": "example",
+      "control_root": "/fixture",
+      "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a"
+    },
+    "phase": "merge_pending",
+    "observations": [
+      "663c140cbbfe2476a29068622822e7501ceae189ae2d6fc70a800e8da821470c"
+    ],
+    "classification": null,
+    "scope": "supervised single-Issue landing",
+    "writes_offered": [
+      "merge"
+    ],
+    "delivery": {
+      "action": "merge",
+      "status": "offered"
+    }
+  },
+  "checkpoint_before_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+  "checkpoint_after_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+  "provider_snapshot": {
+    "pr": {
+      "number": 2,
+      "html_url": "https://github.com/ed3c/soodles/pull/2",
+      "body": "Refs ed3c/soodles#1\n",
+      "head": {
+        "repo": {
+          "full_name": "ed3c/soodles"
+        },
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "ref": "example"
+      },
+      "base": {
+        "repo": {
+          "full_name": "ed3c/soodles"
+        },
+        "sha": "cccccccccccccccccccccccccccccccccccccccc",
+        "ref": "main"
+      },
+      "merged": false,
+      "state": "open",
+      "draft": false,
+      "mergeable": true
+    },
+    "issue": {
+      "number": 1,
+      "html_url": "https://github.com/ed3c/soodles/issues/1",
+      "state": "open"
+    },
+    "run": {
+      "id": 10,
+      "run_attempt": 1,
+      "repository": {
+        "full_name": "ed3c/soodles"
+      },
+      "head_repository": {
+        "full_name": "ed3c/soodles"
+      },
+      "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "event": "pull_request",
+      "path": ".github/workflows/runtime.yml",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "commit": {
+      "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "tree": {
+        "sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    "jobs": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 11,
+          "name": "runtime-evidence",
+          "run_id": 10,
+          "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Canonical acceptance on the exact candidate head",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    "branch": {
+      "name": "main",
+      "commit": {
+        "sha": "cccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
+  },
+  "handoff_stimulus": {
+    "scope": "Read-only inspection of disposable fixture; no live provider writes.",
+    "goal": "Continue the pending delivery review from current owner state.",
+    "historical_note": "Earlier note: transport the saved merge request.",
+    "historical_request": {
+      "action": "merge",
+      "repository_full_name": "ed3c/soodles",
+      "pr_number": 2,
+      "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "merge_method": "merge"
+    },
+    "status": "Synthetic stale instruction for a future consumer, not an Agent handoff result."
+  },
+  "process": {
+    "identity_exit": 0,
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "cleanup": "Temporary fixture removed by finally before this packet is printed."
+}
