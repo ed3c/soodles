@@ -1,0 +1,63 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "388c86be5eef0f317b0ae38ffac70892f24c13de",
+    "code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+    "case": "runner-task",
+    "source_kind": "captured",
+    "session_id": "01a0ae94-dba1-70f3-b573-1bf4341b8ea0",
+    "raw_trace": [
+      "native/rollout.jsonl",
+      "live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson"
+    ],
+    "capture_complete": true,
+    "model": "gpt-6-astra",
+    "carrier": "local_macos_noodle_codex_exec",
+    "events": [
+      {
+        "kind": "read_doc",
+        "evidence": "native/rollout.jsonl:16",
+        "path": "AGENTS.md",
+        "blob": "7173b71e546454e252b8c8d5493db6eade1666c1"
+      },
+      {
+        "kind": "read_run",
+        "evidence": "native/rollout.jsonl:23",
+        "head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+        "run_id": 35200528246,
+        "attempt": 1,
+        "conclusion": "success",
+        "acceptance_step": "success"
+      },
+      {
+        "kind": "read_control",
+        "evidence": [
+          "native/rollout.jsonl:41",
+          "native/rollout.jsonl:56"
+        ],
+        "blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb"
+      },
+      {
+        "kind": "conclude",
+        "evidence": "live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:35",
+        "result": "NULL_NEXT_INSUFFICIENT",
+        "text": "結論：**`next: null` 不足以證明 Issue 已解決。**\n\n- 該輸出來自 `landing.identity`，只提供 verifier 身分。\n- 實際執行 `landing advance` 得到 `merge_pending`、`classification: null`、下一步 `readback`。需要新的模擬 provider 回讀，不能重送歷史 merge 請求。\n- 最近的 `delivery_probe` 9 個案例通過；終態案例預植 `resolved` fixture，只驗證輸出投影。\n- 指定 runtime run `35200528246`／attempt 1 的 matching-head acceptance 成功，不能取代 #39 的合併、關閉與 Noodle reconciliation 證據。\n\n未修改原始碼或執行線上交付。已依 [execute 技能](.agents/skills/execute/SKILL.md) 發送並回讀確認 `soodles-39`／stage `0` 的 `stage_message`：`outcome=blocked`、`blocking=true`。這是階段交接，不是 Issue resolution。"
+      }
+    ]
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "388c86be5eef0f317b0ae38ffac70892f24c13de",
+    "code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+    "agents_blob": "7173b71e546454e252b8c8d5493db6eade1666c1",
+    "control_blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+    "runtime_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "run_id": 35200528246,
+    "run_attempt": 1,
+    "checkpoint_digest": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+    "provider_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+  },
+  "normalization": "External mapping to actual native tool result lines and final captured message; the unchanged discriminator requires independent raw completeness/semantic review. Same-call handoff/provider reads preserve the original sequential file loop order. All input byte preservation is separately measured by capture-audit. Not Agent-authored authority."
+}

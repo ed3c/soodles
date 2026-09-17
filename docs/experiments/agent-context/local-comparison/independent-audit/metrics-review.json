@@ -1,0 +1,209 @@
+{
+  "schema": 1,
+  "at": "2026-09-17T09:12:24.398543+00:00",
+  "scope": "原始8 tasks的描述統計核對；非成功率/效率改善判定，不含後續補充pair。",
+  "classification": "METRICS_RECOMPUTED_CONSISTENT",
+  "authorizes_landing": false,
+  "metrics_sha256": "365c55245d1502c6a56c835adbe2259607a5a73d57a63e98c79697a49a4d47d4",
+  "measure_source_sha256": "5d7e0581b9125a5a6cd79efb15f30a601256e478ae443c22b78d98adf9044027",
+  "rows": [
+    {
+      "run": "run-01",
+      "checks": {
+        "native_tool_calls": true,
+        "command_results": true,
+        "nonzero_commands": true,
+        "command_exit_unavailable": true,
+        "child_returncode": true,
+        "worker_duration_ms": true,
+        "whole_loop_elapsed_seconds": true,
+        "last_token_count_line": true,
+        "reported_token_usage": true,
+        "reported_context_window": true,
+        "input_checkpoint_bytes": true,
+        "input_provider_bytes": true,
+        "worktree_absent": true,
+        "token_revocation_status": true
+      },
+      "token_evidence": "run-01/native/rollout.jsonl:56",
+      "duration_evidence": "run-01/native/rollout.jsonl:57",
+      "raw_command_evidence": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/raw.ndjson",
+      "worker_wait_elapsed_seconds": 87.12894270801917
+    },
+    {
+      "run": "run-02",
+      "checks": {
+        "native_tool_calls": true,
+        "command_results": true,
+        "nonzero_commands": true,
+        "command_exit_unavailable": true,
+        "child_returncode": true,
+        "worker_duration_ms": true,
+        "whole_loop_elapsed_seconds": true,
+        "last_token_count_line": true,
+        "reported_token_usage": true,
+        "reported_context_window": true,
+        "input_checkpoint_bytes": true,
+        "input_provider_bytes": true,
+        "worktree_absent": true,
+        "token_revocation_status": true
+      },
+      "token_evidence": "run-02/native/rollout.jsonl:82",
+      "duration_evidence": "run-02/native/rollout.jsonl:83",
+      "raw_command_evidence": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson",
+      "worker_wait_elapsed_seconds": 132.67670304101193
+    },
+    {
+      "run": "run-03",
+      "checks": {
+        "native_tool_calls": true,
+        "command_results": true,
+        "nonzero_commands": true,
+        "command_exit_unavailable": true,
+        "child_returncode": true,
+        "worker_duration_ms": true,
+        "whole_loop_elapsed_seconds": true,
+        "last_token_count_line": true,
+        "reported_token_usage": true,
+        "reported_context_window": true,
+        "input_checkpoint_bytes": true,
+        "input_provider_bytes": true,
+        "worktree_absent": true,
+        "token_revocation_status": true
+      },
+      "token_evidence": "run-03/native/rollout.jsonl:60",
+      "duration_evidence": "run-03/native/rollout.jsonl:61",
+      "raw_command_evidence": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson",
+      "worker_wait_elapsed_seconds": 86.96509129198967
+    },
+    {
+      "run": "run-04",
+      "checks": {
+        "native_tool_calls": true,
+        "command_results": true,
+        "nonzero_commands": true,
+        "command_exit_unavailable": true,
+        "child_returncode": true,
+        "worker_duration_ms": true,
+        "whole_loop_elapsed_seconds": true,
+        "last_token_count_line": true,
+        "reported_token_usage": true,
+        "reported_context_window": true,
+        "input_checkpoint_bytes": true,
+        "input_provider_bytes": true,
+        "worktree_absent": true,
+        "token_revocation_status": true
+      },
+      "token_evidence": "run-04/native/rollout.jsonl:62",
+      "duration_evidence": "run-04/native/rollout.jsonl:63",
+      "raw_command_evidence": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson",
+      "worker_wait_elapsed_seconds": 83.91343325003982
+    },
+    {
+      "run": "run-05",
+      "checks": {
+        "native_tool_calls": true,
+        "command_results": true,
+        "nonzero_commands": true,
+        "command_exit_unavailable": true,
+        "child_returncode": true,
+        "worker_duration_ms": true,
+        "whole_loop_elapsed_seconds": true,
+        "last_token_count_line": true,
+        "reported_token_usage": true,
+        "reported_context_window": true,
+        "input_checkpoint_bytes": true,
+        "input_provider_bytes": true,
+        "worktree_absent": true,
+        "token_revocation_status": true
+      },
+      "token_evidence": "run-05/native/rollout.jsonl:78",
+      "duration_evidence": "run-05/native/rollout.jsonl:79",
+      "raw_command_evidence": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson",
+      "worker_wait_elapsed_seconds": 157.8447698749951
+    },
+    {
+      "run": "run-06",
+      "checks": {
+        "native_tool_calls": true,
+        "command_results": true,
+        "nonzero_commands": true,
+        "command_exit_unavailable": true,
+        "child_returncode": true,
+        "worker_duration_ms": true,
+        "whole_loop_elapsed_seconds": true,
+        "last_token_count_line": true,
+        "reported_token_usage": true,
+        "reported_context_window": true,
+        "input_checkpoint_bytes": true,
+        "input_provider_bytes": true,
+        "worktree_absent": true,
+        "token_revocation_status": true
+      },
+      "token_evidence": "run-06/native/rollout.jsonl:64",
+      "duration_evidence": "run-06/native/rollout.jsonl:65",
+      "raw_command_evidence": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson",
+      "worker_wait_elapsed_seconds": 124.54145537503064
+    },
+    {
+      "run": "run-07",
+      "checks": {
+        "native_tool_calls": true,
+        "command_results": true,
+        "nonzero_commands": true,
+        "command_exit_unavailable": true,
+        "child_returncode": true,
+        "worker_duration_ms": true,
+        "whole_loop_elapsed_seconds": true,
+        "last_token_count_line": true,
+        "reported_token_usage": true,
+        "reported_context_window": true,
+        "input_checkpoint_bytes": true,
+        "input_provider_bytes": true,
+        "worktree_absent": true,
+        "token_revocation_status": true
+      },
+      "token_evidence": "run-07/native/rollout.jsonl:65",
+      "duration_evidence": "run-07/native/rollout.jsonl:66",
+      "raw_command_evidence": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson",
+      "worker_wait_elapsed_seconds": 85.854347333021
+    },
+    {
+      "run": "run-08",
+      "checks": {
+        "native_tool_calls": true,
+        "command_results": true,
+        "nonzero_commands": true,
+        "command_exit_unavailable": true,
+        "child_returncode": true,
+        "worker_duration_ms": true,
+        "whole_loop_elapsed_seconds": true,
+        "last_token_count_line": true,
+        "reported_token_usage": true,
+        "reported_context_window": true,
+        "input_checkpoint_bytes": true,
+        "input_provider_bytes": true,
+        "worktree_absent": true,
+        "token_revocation_status": true
+      },
+      "token_evidence": "run-08/native/rollout.jsonl:51",
+      "duration_evidence": "run-08/native/rollout.jsonl:52",
+      "raw_command_evidence": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson",
+      "worker_wait_elapsed_seconds": 72.64550816698465
+    }
+  ],
+  "totals": {
+    "native_tool_pairs": 56,
+    "command_results": 79,
+    "nonzero_command_results": 1
+  },
+  "limitations": [
+    "run03是raw INCOMPLETE；metrics數值存在不等於其case完整，不得把8rows當8成功或3完整matched pairs。",
+    "nonzero_commands只計CLI command exits；不含run05 web cache miss、hook item_error、cleanup failures；不可報成全部失敗數。",
+    "worker_duration_ms是native task_complete欄，與OS actual child wait elapsed不同；whole_loop_elapsed還含Noodle調度/啟停。不可混用。",
+    "tokens為harness累積計數，cached_input在input內，不另加；不能當目前context occupancy、帳單或population效率。",
+    "reported_context_window=258400是harness披露值，非獨立測量的有效window；compaction_continuation_proven=false正確，不從累計tokens推斷compaction。",
+    "measure.py hardcodes model為gpt-6-astra，此值另經每個native turn_context核對才成立；model_hidden_revision=null保留未知。",
+    "本表不量化完整instruction discovery、所有document loaded byte數或不可見工具活動。"
+  ]
+}

@@ -1,0 +1,13 @@
+[order:soodles-39] Work backlog item soodles-39
+Task: Execute ed3c/soodles#39
+
+Use Skill(execute) for methodology.
+
+{"body_sha256": "cf54e51c5af83fa75625abd68e12b68d1bcd90c7938bea4406467a95020b1887", "body_updated_at": "2026-09-17T08:46:19Z", "envelope_sha256": "c4d58fde9a256610c290860bffd4c58c036f1df574a1d726a777f61fe446739b", "issue": 39, "repository": "ed3c/soodles", "route": "supervised", "task": "This is a bounded independent read-only review. The launcher has already validated the real Issue contract. Use the installed execute skill and read local AGENTS.md. Do not fetch Issue 39, experiment reports, the judge, other sessions or the operator archive. The task inputs are in the inbox directory alongside NOODLE_PROJECT_DIR (Path(os.environ['NOODLE_PROJECT_DIR']).parent / 'inbox'). Read task-input.json there. Read-only command execution is authorized. For mutable fixtures, inspect the actual supplied checkpoint/provider files and invoke the current local owner entry, not merely the historical owner output. The local owner entry is python3 -B ./soodles.py landing; use its help for arguments. All provider subjects in fixture files are simulated, except the explicitly supplied common runtime readback. Do not send fixture requests to GitHub.\n\nWork in ed3c/soodles at the supplied instruction ref. Continue the bounded review from the supplied checkpoint and current provider snapshot; identify the next supported operation and its prerequisites. All provider subjects in this packet are simulated fixture data: inspect the supplied snapshots, never transport their requests to GitHub. Do not modify source or live provider state.\n\nFinish with the scoped conclusion and your own typed blocked stage handoff as the execute skill describes. The admitted Noodle binary is /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81. Event schema locator: https://github.com/ed3c/noodle/blob/ca81f942f478e8e4afcbbce6ca69640867efe753/event/types.go . Do not edit repository source or create extra worktrees/sessions.\n"}
+
+Context: Externally admitted current Issue
+
+You are resuming work in worktree "soodles-39-0-execute" which has 1 prior commit(s):
+a511b4d Bind isolated instruction and neutral task inputs for a bounded experiment
+
+Review what was done and continue with the remaining work.

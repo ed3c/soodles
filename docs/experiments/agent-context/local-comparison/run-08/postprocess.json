@@ -1,0 +1,23 @@
+[
+  {
+    "phase": "native",
+    "argv": [
+      "python3",
+      "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-08/read_native.py"
+    ],
+    "exit": 0,
+    "stdout": "{\"status\": \"read_ok\", \"thread\": \"01a0ae9a-230e-7be0-aa7e-550d727572fb\", \"history_mode\": \"paginated\", \"history_model\": \"gpt-6-astra\", \"turns\": 1, \"path\": \"/Users/neon/.codex/sessions/2026/09/17/rollout-2026-09-17T17-02-12-01a0ae9a-230e-7be0-aa7e-550d727572fb.jsonl\", \"rollout_copied\": true}\n",
+    "stderr": ""
+  },
+  {
+    "phase": "capture",
+    "argv": [
+      "python3",
+      "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/audit_capture.py",
+      "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-08"
+    ],
+    "exit": 0,
+    "stdout": "{\"run\": \"run-08\", \"checks\": {\"recorder_pid_matches_noodle_process\": true, \"record_identity_matches\": true, \"record_worktree_matches\": true, \"same_launch_and_exit\": true, \"child_is_separate\": true, \"group_retained\": true, \"actual_wait\": true, \"exact_worker_chain\": true, \"recorder_fixed\": true, \"codex_measured\": true, \"captured_stdout_digest\": true, \"captured_stdout_bytes\": true, \"native_bytes_forwarded_without_event_changes\": true, \"terminal_delivery_deferred\": true, \"typed_outcome_matches\": true, \"every_started_item_has_result\": true, \"one_completed_history_turn\": true, \"thread_join\": true, \"complete_native_turn\": true, \"native_turn_model\": true, \"native_session_meta\": true, \"native_tool_call_result_pairs\": true, \"child_exit_zero\": true, \"checkpoint_bytes_preserved\": true, \"provider_bytes_preserved\": true}, \"thread\": \"01a0ae9a-230e-7be0-aa7e-550d727572fb\", \"native_calls\": 5, \"commands\": 9}\n",
+    "stderr": ""
+  }
+]

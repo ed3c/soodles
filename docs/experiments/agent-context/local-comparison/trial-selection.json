@@ -1,0 +1,79 @@
+{
+  "assignments": [
+    {
+      "label": "run-01",
+      "arm": "baseline",
+      "case": "runner-task",
+      "source_head": "19c62528674c1783edeec0bcffea86e82fe752c0",
+      "task_sha256": "7d97102fa2c847851f32ad044cf5e68567ef2bdca0e55027aa9ca81edacab864",
+      "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-02",
+      "arm": "treatment",
+      "case": "runner-task",
+      "source_head": "a5d3499364697ebeaec7030940eda7684c814c3a",
+      "task_sha256": "7d97102fa2c847851f32ad044cf5e68567ef2bdca0e55027aa9ca81edacab864",
+      "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-03",
+      "arm": "treatment",
+      "case": "unknown-write",
+      "source_head": "a511b4d8c7f2461ac4cab7f2566e0c5232ea9bff",
+      "task_sha256": "78024f996fd8ef20eacc360458b036b751af0b94a7867ccbadbc3b93026f0d18",
+      "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-04",
+      "arm": "baseline",
+      "case": "unknown-write",
+      "source_head": "5ff73ae75fd5c430f87fc305e8b3950ca04c9dc8",
+      "task_sha256": "78024f996fd8ef20eacc360458b036b751af0b94a7867ccbadbc3b93026f0d18",
+      "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-05",
+      "arm": "baseline",
+      "case": "producer",
+      "source_head": "16097cbcfd5c335c3dadd483f3c2f6f5a9884447",
+      "task_sha256": "9e895f1db4cdb0a7bf6121ab6cf3cce7694ce1541ce7e39fa3191b9030384d6b",
+      "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-06",
+      "arm": "treatment",
+      "case": "producer",
+      "source_head": "a96b5fc5b9e5c6624ffdf3b3b8501de082849622",
+      "task_sha256": "9e895f1db4cdb0a7bf6121ab6cf3cce7694ce1541ce7e39fa3191b9030384d6b",
+      "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-07",
+      "arm": "treatment",
+      "case": "fresh-transfer",
+      "source_head": "520f364c97a82f8a161645a91c2d85fd37fb04b5",
+      "task_sha256": "d1270d432bd679f0e284d598f78bf8af1e98cb515043f03a442e94ac7c1f2195",
+      "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-08",
+      "arm": "baseline",
+      "case": "fresh-transfer",
+      "source_head": "18762689a46afd4e6cd406810cc14123ab985963",
+      "task_sha256": "d1270d432bd679f0e284d598f78bf8af1e98cb515043f03a442e94ac7c1f2195",
+      "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    }
+  ],
+  "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+  "deadline_seconds": 300,
+  "authorizes_landing": false
+}

@@ -1,0 +1,35 @@
+{
+  "scope": "supervisor fresh pre-admission checkout after exact remote preservation; no existing39 order altered",
+  "archive_sha256": "45e5c0e51761694c7155a5830586c1a53e51a5a244970589041e883f5e230818",
+  "records": [
+    {
+      "argv": [
+        "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+        "--project-dir",
+        "/Users/neon/soodles",
+        "worktree",
+        "cleanup",
+        "soodles-39-0-execute",
+        "--force"
+      ],
+      "exit": 0,
+      "stdout": "  Removing worktree...\n  Deleting branch soodles-39-0-execute...\nDone. soodles-39-0-execute removed.\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+        "--project-dir",
+        "/Users/neon/soodles",
+        "worktree",
+        "create",
+        "soodles-39-0-execute",
+        "--from",
+        "1ff2882891792b50d97529c9ee1a3e76eac1a6e7"
+      ],
+      "exit": 0,
+      "stdout": "  Creating worktree at /Users/neon/soodles/.worktrees/soodles-39-0-execute...\nPreparing worktree (new branch 'soodles-39-0-execute')\nHEAD is now at 1ff2882 Merge pull request #48 from ed3c/soodles-46-0-execute\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /Users/neon/soodles/.worktrees/soodles-39-0-execute (branch: soodles-39-0-execute)\n",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "base_manifest_sha256": "969d72ec1030a62df3e621ffa01eed1f712284aaf7c87496e576db9e307f4224",
+  "reason": "Append only final review, receipt and explicit coordinator observations. Original audited entries unchanged.",
+  "files": {
+    "independent-audit/final-audit.json": {
+      "bytes": 38521,
+      "sha256": "67f687a7a60855f842e6adb8d6e1fc501cdc65062c6a68db0d730e2b121439b0"
+    },
+    "independent-audit/final-report.md": {
+      "bytes": 5103,
+      "sha256": "5460f61562682a69a35cc0563580d18cbc7c613a06329071dc21d3ca22b7e7a6"
+    },
+    "independent-audit/export-audit.json": {
+      "bytes": 22198,
+      "sha256": "32fc0e8b44252e42db13648fa1eb3ad8b872043066f4f67bb7b4533304f077c3"
+    },
+    "independent-audit/final_audit.py": {
+      "bytes": 25101,
+      "sha256": "6b1cf49b1560dc39ebeb1e4c360d6de8b0670cdfde952242ab2ec33fb47f8d97"
+    },
+    "comparison-receipt.json": {
+      "bytes": 3098,
+      "sha256": "260c49c7d0ef1ff1405391d12eed89a0cf64d10f35e8a90fcb2d3b4eb9b441be"
+    },
+    "postprocess-timing-observation.json": {
+      "bytes": 478,
+      "sha256": "93d637ae156a3af8025f31ecc60b8eeebee18a67f57ae180b4dae6443c2b4ed2"
+    },
+    "final-trial-state.json": {
+      "bytes": 7424,
+      "sha256": "7d6f352342b57de2e2f2ec3ef45cee1d78f334ca729e085a488bef273dc3720e"
+    }
+  }
+}

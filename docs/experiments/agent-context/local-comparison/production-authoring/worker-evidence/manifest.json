@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "scope": "completed five-file authoring handoff only",
+  "authorizes_landing": false,
+  "created_at": "2026-09-17T08:52:45.630263+00:00",
+  "repository": "ed3c/soodles",
+  "issue": 39,
+  "runtime_binding": {
+    "NOODLE_SESSION_ID": "soodles-39-0-execute-20260917-084802-fa146c",
+    "NOODLE_ORDER_ID": "soodles-39",
+    "NOODLE_STAGE_INDEX": "0",
+    "NOODLE_PROJECT_DIR": "/Users/neon/soodles"
+  },
+  "base": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+  "base_tree": "f52c7959f8e26dab13e9592f6f6a3443a46024ee",
+  "old_integration": "2e9d51261c80b2c5c120ca6549c759704c615c61",
+  "old_integration_base": "f2bd849b9523134364ca598df72a4e15fc541ab9",
+  "admission": {
+    "body_sha256": "cf54e51c5af83fa75625abd68e12b68d1bcd90c7938bea4406467a95020b1887",
+    "body_updated_at": "2026-09-17T08:46:19Z",
+    "supplied_envelope_sha256": "e6e72be07bac8e31f9578923d132c1865b1b8f9cab8d9ae0ed8c060d8d3a1f61",
+    "issue_json_file_sha256": "3ba9457ae63ef3d6cea6412712edda12802834c3e76d9ce2bb4cc3237a08efd2",
+    "execution_envelope_file_sha256": "e6e72be07bac8e31f9578923d132c1865b1b8f9cab8d9ae0ed8c060d8d3a1f61"
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 10199,
+      "sha256": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+      "base_sha256": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+      "old_integration_sha256": "0103764f867750d27578d8870e6a1eab6bb61d510b63724ce9e3d6c87980ecf5"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5632,
+      "sha256": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+      "base_sha256": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+      "old_integration_sha256": "f49f242fb496a9edc247bd7416c9d5097e18773f20119004e3b430c0797c80e9"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "bytes": 22621,
+      "sha256": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+      "base_sha256": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+      "old_integration_sha256": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09"
+    },
+    {
+      "path": "contracts/agent-context-design.md",
+      "bytes": 12720,
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "base_sha256": null,
+      "old_integration_sha256": "3fe93ff1d5cdd587d412614b8fb844f1c96bf2454240fe158243ae52e951432f"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/SKILL.md",
+      "bytes": 9572,
+      "sha256": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+      "base_sha256": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+      "old_integration_sha256": "9dcf84a4be2cedce8a3d1f2afd53c9744bb2951411e2baa47f68e5f52c082c40"
+    }
+  ],
+  "precise_actual_changes": {
+    "AGENTS.md": [
+      "Integrate conditional Session entry for cloud GitHub/Actions versus admitted local Noodle/Codex child, carrier-scoped prerequisites, bounded delegation, and evidence-bound handoff.",
+      "Integrate task-specific completion/stop conditions and clarify three document nodes as navigation, not a context limit.",
+      "Route recovery detail to existing delivery/recovery recipes and unchanged system requirements; keep fresh admission, identity and unknown-write obligations.",
+      "Retain current #44 authenticated reader and #46 verify-noodle paragraphs byte-for-byte; use currently admitted task ref instead of assuming a historical PR head."
+    ],
+    "README.md": [
+      "Add the root Session entry link; label runtime commands as local checks; scope ref selection to the currently admitted task. All remaining prose is unchanged."
+    ],
+    "contracts/system-v1.md": [
+      "Add only the conditional P-class design reference/role clarification. Existing RUNTIME.ADMISSION.001 onward remains byte-for-byte identical."
+    ],
+    "contracts/agent-context-design.md": [
+      "Integrate the proposed P-class metaprompt: document roles, carrier routing, N/P/L/R, provenance, current-owner handoff, unknown window/compaction, bounded matched comparisons and retained historical official references.",
+      "Scope experimental status to current integrated inputs; old comparisons remain evidence for their frozen inputs only.",
+      "Replace the absent relative protocol target with its immutable old-integration GitHub reference and defer new selections to the current admitted Issue."
+    ],
+    ".agents/skills/verify-soodles/SKILL.md": [
+      "Integrate consumption of root route, cloud Actions readback before conditional local launch/doctor/drive, evidence scope and carrier-specific cleanup.",
+      "Preserve #41 P-class recipe/recorder guidance, maintenance and current-owner next/request semantics; retain #44 authenticated Issue readback link. No feature recipe or helper is changed."
+    ]
+  },
+  "authoring_checks": {
+    "passed": true,
+    "count": 27,
+    "relative_links": 16,
+    "behavioral_result": null
+  },
+  "source_status": {
+    "head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "porcelain": "",
+    "target_source_edits": false,
+    "commits_created": false,
+    "provider_writes": false
+  },
+  "ordering": "Actual admitted production order precedes this integration authoring only; older preparation is historical.",
+  "self_review": "Reviewed candidate diff against current base and selected old integration; preserved source owners and retained #41/#44/#46.",
+  "supervisor_remaining": [
+    "Observe actual child exit and own typed stage_message binding",
+    "Apply five files only after exit; if auto-cleaned use supported Noodle recreation and record it",
+    "Freeze and execute declared blinded cases plus independent raw audit",
+    "Final clean-head canonical acceptance and exact-head runtime evidence",
+    "Existing owner provider delivery, merge/closure readback, original-order Noodle reconciliation"
+  ],
+  "unknowns": [
+    "Actual natural exit is not observable by this still-running worker",
+    "No new comparison, compaction or model behavior result",
+    "External official links retained without network verification"
+  ],
+  "evidence_files": [
+    {
+      "path": "worker-evidence/authoring-checks.json",
+      "sha256": "61afbff1e47ed90a34d3fb080b2b3f42c84a7649f2f72673446e2e4eab5aca89",
+      "bytes": 12392
+    },
+    {
+      "path": "worker-evidence/candidate-vs-old-integration.patch",
+      "sha256": "d6542b63f701636a38bfc00aacfb9c1a0c43727f2bc7fcc8e0e449d8a2478ed4",
+      "bytes": 10172
+    },
+    {
+      "path": "worker-evidence/candidate.patch",
+      "sha256": "b830024362c69b345cb9b956af3c1e549c578ced510dddc234c2ba81a5ee48c0",
+      "bytes": 33223
+    },
+    {
+      "path": "worker-evidence/check_authoring.py",
+      "sha256": "18a068c634007fa8a778a94e27c3c571923cdf9324e6f059464e98dde6217bfd",
+      "bytes": 6717
+    },
+    {
+      "path": "worker-evidence/current-base-vs-f2bd849.patch",
+      "sha256": "ad1e0fe220e2ddd58ed977b42b2b8e2990dc165c9d8cd1efd6af4f8c0ccd091e",
+      "bytes": 3924
+    },
+    {
+      "path": "worker-evidence/handoff.md",
+      "sha256": "c18a5e1353b7c5d70cd0a96aaee9383b8990d58145ac44595a2b70a861278a90",
+      "bytes": 2400
+    },
+    {
+      "path": "worker-evidence/old-integration-vs-f2bd849.patch",
+      "sha256": "2b922415987ecfe65fbbeb636259f196b6ad1fcac17ca640e13c551ddbf34f09",
+      "bytes": 33509
+    }
+  ]
+}

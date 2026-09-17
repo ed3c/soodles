@@ -1,0 +1,972 @@
+{
+  "schema": 1,
+  "reviewed_at": "2026-09-17T08:59:53.591655+00:00",
+  "classification": "SETUP_BYTES_CONSISTENT_WITH_DOCUMENTED_PROVENANCE_DEVIATIONS",
+  "scope": "獨立唯讀 setup/freeze 審查；未啟動 model/app/provider，未讀 raw reasoning/platform instruction 內容，未作最終行為判定。",
+  "authorizes_landing": false,
+  "common_code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+  "trials": [
+    {
+      "label": "run-01",
+      "arm": "baseline",
+      "case": "runner-task",
+      "source_head": "19c62528674c1783edeec0bcffea86e82fe752c0",
+      "changed_paths": [
+        ".agents/skills/execute/SKILL.md"
+      ],
+      "only_declared_paths": true,
+      "docs": {
+        "AGENTS.md": {
+          "expected": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+          "actual": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+          "matches": true
+        },
+        "README.md": {
+          "expected": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+          "actual": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+          "matches": true
+        },
+        "contracts/system-v1.md": {
+          "expected": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+          "actual": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+          "matches": true
+        },
+        "contracts/agent-context-design.md": {
+          "expected": null,
+          "actual": null,
+          "matches": true
+        },
+        ".agents/skills/verify-soodles/SKILL.md": {
+          "expected": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+          "actual": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+          "matches": true
+        }
+      },
+      "neutral_sha256": "ae6eeb8a66c7672ae0f6a3f159137923f43aa1ecac4314158081bff7f4328cf3",
+      "neutral_matches": true,
+      "task_matches": true,
+      "input_digests": {
+        "checkpoint.json": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2",
+        "identity-input.json": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d",
+        "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+        "runtime-readback.json": "24bab8c63a41ff9d67372f5edd7ff99b6c92af15f67aa4caf00f8a67ed79b790",
+        "task-input.json": "e3ea85bc087d2ce32974bddf1b009d022ed3b0c7e3c1d6b198982521021bb270"
+      },
+      "installed_manifest_checks": {
+        "soodles": true,
+        "soodles.py": true,
+        "issue_admission.py": true,
+        "issue_execution.py": true,
+        "github_reader.py": true,
+        "landing.py": true,
+        "policy/runtime.lock.json": true,
+        ".agents/skills/schedule/SKILL.md": true,
+        ".agents/skills/execute/SKILL.md": true,
+        "docs/experiments/agent-context/local/record_process.py": true
+      },
+      "envelope_digest_matches": true,
+      "carrier": {
+        "platform": "darwin_arm64",
+        "noodle": {
+          "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        },
+        "codex": {
+          "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+          "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+          "model": "gpt-6-astra",
+          "argv": [
+            "exec",
+            "--skip-git-repo-check",
+            "--json",
+            "--model",
+            "gpt-6-astra",
+            "-c",
+            "default_permissions=\"agent-default\"",
+            "-c",
+            "approval_policy=\"never\"",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-01/control/.noodle",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-01/inbox"
+          ]
+        }
+      },
+      "measured_binaries_match": {
+        "codex": true,
+        "noodle": true
+      },
+      "doctor_repo_predicate": true,
+      "working_control_status": ""
+    },
+    {
+      "label": "run-02",
+      "arm": "treatment",
+      "case": "runner-task",
+      "source_head": "a5d3499364697ebeaec7030940eda7684c814c3a",
+      "changed_paths": [
+        ".agents/skills/execute/SKILL.md",
+        ".agents/skills/verify-soodles/SKILL.md",
+        "AGENTS.md",
+        "README.md",
+        "contracts/agent-context-design.md",
+        "contracts/system-v1.md"
+      ],
+      "only_declared_paths": true,
+      "docs": {
+        "AGENTS.md": {
+          "expected": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+          "actual": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+          "matches": true
+        },
+        "README.md": {
+          "expected": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+          "actual": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+          "matches": true
+        },
+        "contracts/system-v1.md": {
+          "expected": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+          "actual": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+          "matches": true
+        },
+        "contracts/agent-context-design.md": {
+          "expected": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+          "actual": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+          "matches": true
+        },
+        ".agents/skills/verify-soodles/SKILL.md": {
+          "expected": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+          "actual": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+          "matches": true
+        }
+      },
+      "neutral_sha256": "ae6eeb8a66c7672ae0f6a3f159137923f43aa1ecac4314158081bff7f4328cf3",
+      "neutral_matches": true,
+      "task_matches": true,
+      "input_digests": {
+        "checkpoint.json": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2",
+        "identity-input.json": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d",
+        "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+        "runtime-readback.json": "24bab8c63a41ff9d67372f5edd7ff99b6c92af15f67aa4caf00f8a67ed79b790",
+        "task-input.json": "2050cb6779e5fcea443c6dd0d5bcabd4015cd282cefa6d987ab657c60ac6008f"
+      },
+      "installed_manifest_checks": {
+        "soodles": true,
+        "soodles.py": true,
+        "issue_admission.py": true,
+        "issue_execution.py": true,
+        "github_reader.py": true,
+        "landing.py": true,
+        "policy/runtime.lock.json": true,
+        ".agents/skills/schedule/SKILL.md": true,
+        ".agents/skills/execute/SKILL.md": true,
+        "docs/experiments/agent-context/local/record_process.py": true
+      },
+      "envelope_digest_matches": true,
+      "carrier": {
+        "platform": "darwin_arm64",
+        "noodle": {
+          "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        },
+        "codex": {
+          "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+          "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+          "model": "gpt-6-astra",
+          "argv": [
+            "exec",
+            "--skip-git-repo-check",
+            "--json",
+            "--model",
+            "gpt-6-astra",
+            "-c",
+            "default_permissions=\"agent-default\"",
+            "-c",
+            "approval_policy=\"never\"",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-02/control/.noodle",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-02/inbox"
+          ]
+        }
+      },
+      "measured_binaries_match": {
+        "codex": true,
+        "noodle": true
+      },
+      "doctor_repo_predicate": true,
+      "working_control_status": ""
+    },
+    {
+      "label": "run-03",
+      "arm": "treatment",
+      "case": "unknown-write",
+      "source_head": "a511b4d8c7f2461ac4cab7f2566e0c5232ea9bff",
+      "changed_paths": [
+        ".agents/skills/execute/SKILL.md",
+        ".agents/skills/verify-soodles/SKILL.md",
+        "AGENTS.md",
+        "README.md",
+        "contracts/agent-context-design.md",
+        "contracts/system-v1.md"
+      ],
+      "only_declared_paths": true,
+      "docs": {
+        "AGENTS.md": {
+          "expected": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+          "actual": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+          "matches": true
+        },
+        "README.md": {
+          "expected": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+          "actual": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+          "matches": true
+        },
+        "contracts/system-v1.md": {
+          "expected": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+          "actual": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+          "matches": true
+        },
+        "contracts/agent-context-design.md": {
+          "expected": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+          "actual": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+          "matches": true
+        },
+        ".agents/skills/verify-soodles/SKILL.md": {
+          "expected": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+          "actual": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+          "matches": true
+        }
+      },
+      "neutral_sha256": "ae6eeb8a66c7672ae0f6a3f159137923f43aa1ecac4314158081bff7f4328cf3",
+      "neutral_matches": true,
+      "task_matches": true,
+      "input_digests": {
+        "checkpoint.json": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2",
+        "identity-input.json": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d",
+        "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+        "runtime-readback.json": "24bab8c63a41ff9d67372f5edd7ff99b6c92af15f67aa4caf00f8a67ed79b790",
+        "task-input.json": "2050cb6779e5fcea443c6dd0d5bcabd4015cd282cefa6d987ab657c60ac6008f"
+      },
+      "installed_manifest_checks": {
+        "soodles": true,
+        "soodles.py": true,
+        "issue_admission.py": true,
+        "issue_execution.py": true,
+        "github_reader.py": true,
+        "landing.py": true,
+        "policy/runtime.lock.json": true,
+        ".agents/skills/schedule/SKILL.md": true,
+        ".agents/skills/execute/SKILL.md": true,
+        "docs/experiments/agent-context/local/record_process.py": true
+      },
+      "envelope_digest_matches": true,
+      "carrier": {
+        "platform": "darwin_arm64",
+        "noodle": {
+          "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        },
+        "codex": {
+          "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+          "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+          "model": "gpt-6-astra",
+          "argv": [
+            "exec",
+            "--skip-git-repo-check",
+            "--json",
+            "--model",
+            "gpt-6-astra",
+            "-c",
+            "default_permissions=\"agent-default\"",
+            "-c",
+            "approval_policy=\"never\"",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-03/control/.noodle",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-03/inbox"
+          ]
+        }
+      },
+      "measured_binaries_match": {
+        "codex": true,
+        "noodle": true
+      },
+      "doctor_repo_predicate": true,
+      "working_control_status": ""
+    },
+    {
+      "label": "run-04",
+      "arm": "baseline",
+      "case": "unknown-write",
+      "source_head": "5ff73ae75fd5c430f87fc305e8b3950ca04c9dc8",
+      "changed_paths": [
+        ".agents/skills/execute/SKILL.md"
+      ],
+      "only_declared_paths": true,
+      "docs": {
+        "AGENTS.md": {
+          "expected": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+          "actual": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+          "matches": true
+        },
+        "README.md": {
+          "expected": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+          "actual": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+          "matches": true
+        },
+        "contracts/system-v1.md": {
+          "expected": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+          "actual": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+          "matches": true
+        },
+        "contracts/agent-context-design.md": {
+          "expected": null,
+          "actual": null,
+          "matches": true
+        },
+        ".agents/skills/verify-soodles/SKILL.md": {
+          "expected": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+          "actual": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+          "matches": true
+        }
+      },
+      "neutral_sha256": "ae6eeb8a66c7672ae0f6a3f159137923f43aa1ecac4314158081bff7f4328cf3",
+      "neutral_matches": true,
+      "task_matches": true,
+      "input_digests": {
+        "checkpoint.json": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2",
+        "identity-input.json": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d",
+        "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+        "runtime-readback.json": "24bab8c63a41ff9d67372f5edd7ff99b6c92af15f67aa4caf00f8a67ed79b790",
+        "task-input.json": "e3ea85bc087d2ce32974bddf1b009d022ed3b0c7e3c1d6b198982521021bb270"
+      },
+      "installed_manifest_checks": {
+        "soodles": true,
+        "soodles.py": true,
+        "issue_admission.py": true,
+        "issue_execution.py": true,
+        "github_reader.py": true,
+        "landing.py": true,
+        "policy/runtime.lock.json": true,
+        ".agents/skills/schedule/SKILL.md": true,
+        ".agents/skills/execute/SKILL.md": true,
+        "docs/experiments/agent-context/local/record_process.py": true
+      },
+      "envelope_digest_matches": true,
+      "carrier": {
+        "platform": "darwin_arm64",
+        "noodle": {
+          "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        },
+        "codex": {
+          "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+          "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+          "model": "gpt-6-astra",
+          "argv": [
+            "exec",
+            "--skip-git-repo-check",
+            "--json",
+            "--model",
+            "gpt-6-astra",
+            "-c",
+            "default_permissions=\"agent-default\"",
+            "-c",
+            "approval_policy=\"never\"",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-04/control/.noodle",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-04/inbox"
+          ]
+        }
+      },
+      "measured_binaries_match": {
+        "codex": true,
+        "noodle": true
+      },
+      "doctor_repo_predicate": true,
+      "working_control_status": ""
+    },
+    {
+      "label": "run-05",
+      "arm": "baseline",
+      "case": "producer",
+      "source_head": "16097cbcfd5c335c3dadd483f3c2f6f5a9884447",
+      "changed_paths": [
+        ".agents/skills/execute/SKILL.md"
+      ],
+      "only_declared_paths": true,
+      "docs": {
+        "AGENTS.md": {
+          "expected": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+          "actual": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+          "matches": true
+        },
+        "README.md": {
+          "expected": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+          "actual": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+          "matches": true
+        },
+        "contracts/system-v1.md": {
+          "expected": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+          "actual": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+          "matches": true
+        },
+        "contracts/agent-context-design.md": {
+          "expected": null,
+          "actual": null,
+          "matches": true
+        },
+        ".agents/skills/verify-soodles/SKILL.md": {
+          "expected": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+          "actual": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+          "matches": true
+        }
+      },
+      "neutral_sha256": "ae6eeb8a66c7672ae0f6a3f159137923f43aa1ecac4314158081bff7f4328cf3",
+      "neutral_matches": true,
+      "task_matches": true,
+      "input_digests": {
+        "checkpoint.json": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2",
+        "identity-input.json": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d",
+        "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+        "runtime-readback.json": "24bab8c63a41ff9d67372f5edd7ff99b6c92af15f67aa4caf00f8a67ed79b790",
+        "task-input.json": "e3ea85bc087d2ce32974bddf1b009d022ed3b0c7e3c1d6b198982521021bb270"
+      },
+      "installed_manifest_checks": {
+        "soodles": true,
+        "soodles.py": true,
+        "issue_admission.py": true,
+        "issue_execution.py": true,
+        "github_reader.py": true,
+        "landing.py": true,
+        "policy/runtime.lock.json": true,
+        ".agents/skills/schedule/SKILL.md": true,
+        ".agents/skills/execute/SKILL.md": true,
+        "docs/experiments/agent-context/local/record_process.py": true
+      },
+      "envelope_digest_matches": true,
+      "carrier": {
+        "platform": "darwin_arm64",
+        "noodle": {
+          "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        },
+        "codex": {
+          "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+          "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+          "model": "gpt-6-astra",
+          "argv": [
+            "exec",
+            "--skip-git-repo-check",
+            "--json",
+            "--model",
+            "gpt-6-astra",
+            "-c",
+            "default_permissions=\"agent-default\"",
+            "-c",
+            "approval_policy=\"never\"",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-05/control/.noodle",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-05/inbox"
+          ]
+        }
+      },
+      "measured_binaries_match": {
+        "codex": true,
+        "noodle": true
+      },
+      "doctor_repo_predicate": true,
+      "working_control_status": ""
+    },
+    {
+      "label": "run-06",
+      "arm": "treatment",
+      "case": "producer",
+      "source_head": "a96b5fc5b9e5c6624ffdf3b3b8501de082849622",
+      "changed_paths": [
+        ".agents/skills/execute/SKILL.md",
+        ".agents/skills/verify-soodles/SKILL.md",
+        "AGENTS.md",
+        "README.md",
+        "contracts/agent-context-design.md",
+        "contracts/system-v1.md"
+      ],
+      "only_declared_paths": true,
+      "docs": {
+        "AGENTS.md": {
+          "expected": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+          "actual": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+          "matches": true
+        },
+        "README.md": {
+          "expected": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+          "actual": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+          "matches": true
+        },
+        "contracts/system-v1.md": {
+          "expected": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+          "actual": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+          "matches": true
+        },
+        "contracts/agent-context-design.md": {
+          "expected": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+          "actual": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+          "matches": true
+        },
+        ".agents/skills/verify-soodles/SKILL.md": {
+          "expected": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+          "actual": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+          "matches": true
+        }
+      },
+      "neutral_sha256": "ae6eeb8a66c7672ae0f6a3f159137923f43aa1ecac4314158081bff7f4328cf3",
+      "neutral_matches": true,
+      "task_matches": true,
+      "input_digests": {
+        "checkpoint.json": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2",
+        "identity-input.json": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d",
+        "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+        "runtime-readback.json": "24bab8c63a41ff9d67372f5edd7ff99b6c92af15f67aa4caf00f8a67ed79b790",
+        "task-input.json": "2050cb6779e5fcea443c6dd0d5bcabd4015cd282cefa6d987ab657c60ac6008f"
+      },
+      "installed_manifest_checks": {
+        "soodles": true,
+        "soodles.py": true,
+        "issue_admission.py": true,
+        "issue_execution.py": true,
+        "github_reader.py": true,
+        "landing.py": true,
+        "policy/runtime.lock.json": true,
+        ".agents/skills/schedule/SKILL.md": true,
+        ".agents/skills/execute/SKILL.md": true,
+        "docs/experiments/agent-context/local/record_process.py": true
+      },
+      "envelope_digest_matches": true,
+      "carrier": {
+        "platform": "darwin_arm64",
+        "noodle": {
+          "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        },
+        "codex": {
+          "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+          "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+          "model": "gpt-6-astra",
+          "argv": [
+            "exec",
+            "--skip-git-repo-check",
+            "--json",
+            "--model",
+            "gpt-6-astra",
+            "-c",
+            "default_permissions=\"agent-default\"",
+            "-c",
+            "approval_policy=\"never\"",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/control/.noodle",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/inbox"
+          ]
+        }
+      },
+      "measured_binaries_match": {
+        "codex": true,
+        "noodle": true
+      },
+      "doctor_repo_predicate": true,
+      "working_control_status": ""
+    },
+    {
+      "label": "run-07",
+      "arm": "treatment",
+      "case": "fresh-transfer",
+      "source_head": "520f364c97a82f8a161645a91c2d85fd37fb04b5",
+      "changed_paths": [
+        ".agents/skills/execute/SKILL.md",
+        ".agents/skills/verify-soodles/SKILL.md",
+        "AGENTS.md",
+        "README.md",
+        "contracts/agent-context-design.md",
+        "contracts/system-v1.md"
+      ],
+      "only_declared_paths": true,
+      "docs": {
+        "AGENTS.md": {
+          "expected": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+          "actual": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+          "matches": true
+        },
+        "README.md": {
+          "expected": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+          "actual": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+          "matches": true
+        },
+        "contracts/system-v1.md": {
+          "expected": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+          "actual": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+          "matches": true
+        },
+        "contracts/agent-context-design.md": {
+          "expected": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+          "actual": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+          "matches": true
+        },
+        ".agents/skills/verify-soodles/SKILL.md": {
+          "expected": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+          "actual": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+          "matches": true
+        }
+      },
+      "neutral_sha256": "ae6eeb8a66c7672ae0f6a3f159137923f43aa1ecac4314158081bff7f4328cf3",
+      "neutral_matches": true,
+      "task_matches": true,
+      "input_digests": {
+        "checkpoint.json": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2",
+        "identity-input.json": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d",
+        "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+        "runtime-readback.json": "24bab8c63a41ff9d67372f5edd7ff99b6c92af15f67aa4caf00f8a67ed79b790",
+        "task-input.json": "ea2895a1b3ed55a4a6bcebbbe26e06c055d2d15da75524d3c7f0c6996846df83"
+      },
+      "installed_manifest_checks": {
+        "soodles": true,
+        "soodles.py": true,
+        "issue_admission.py": true,
+        "issue_execution.py": true,
+        "github_reader.py": true,
+        "landing.py": true,
+        "policy/runtime.lock.json": true,
+        ".agents/skills/schedule/SKILL.md": true,
+        ".agents/skills/execute/SKILL.md": true,
+        "docs/experiments/agent-context/local/record_process.py": true
+      },
+      "envelope_digest_matches": true,
+      "carrier": {
+        "platform": "darwin_arm64",
+        "noodle": {
+          "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        },
+        "codex": {
+          "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+          "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+          "model": "gpt-6-astra",
+          "argv": [
+            "exec",
+            "--skip-git-repo-check",
+            "--json",
+            "--model",
+            "gpt-6-astra",
+            "-c",
+            "default_permissions=\"agent-default\"",
+            "-c",
+            "approval_policy=\"never\"",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-07/control/.noodle",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-07/inbox"
+          ]
+        }
+      },
+      "measured_binaries_match": {
+        "codex": true,
+        "noodle": true
+      },
+      "doctor_repo_predicate": true,
+      "working_control_status": ""
+    },
+    {
+      "label": "run-08",
+      "arm": "baseline",
+      "case": "fresh-transfer",
+      "source_head": "18762689a46afd4e6cd406810cc14123ab985963",
+      "changed_paths": [
+        ".agents/skills/execute/SKILL.md"
+      ],
+      "only_declared_paths": true,
+      "docs": {
+        "AGENTS.md": {
+          "expected": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+          "actual": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+          "matches": true
+        },
+        "README.md": {
+          "expected": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+          "actual": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+          "matches": true
+        },
+        "contracts/system-v1.md": {
+          "expected": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+          "actual": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+          "matches": true
+        },
+        "contracts/agent-context-design.md": {
+          "expected": null,
+          "actual": null,
+          "matches": true
+        },
+        ".agents/skills/verify-soodles/SKILL.md": {
+          "expected": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+          "actual": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+          "matches": true
+        }
+      },
+      "neutral_sha256": "ae6eeb8a66c7672ae0f6a3f159137923f43aa1ecac4314158081bff7f4328cf3",
+      "neutral_matches": true,
+      "task_matches": true,
+      "input_digests": {
+        "checkpoint.json": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2",
+        "identity-input.json": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d",
+        "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+        "runtime-readback.json": "24bab8c63a41ff9d67372f5edd7ff99b6c92af15f67aa4caf00f8a67ed79b790",
+        "task-input.json": "2f77d89b7ac45765b2e6eeb4d3c70b36d813b529cc97319df45556bda30f68c2"
+      },
+      "installed_manifest_checks": {
+        "soodles": true,
+        "soodles.py": true,
+        "issue_admission.py": true,
+        "issue_execution.py": true,
+        "github_reader.py": true,
+        "landing.py": true,
+        "policy/runtime.lock.json": true,
+        ".agents/skills/schedule/SKILL.md": true,
+        ".agents/skills/execute/SKILL.md": true,
+        "docs/experiments/agent-context/local/record_process.py": true
+      },
+      "envelope_digest_matches": true,
+      "carrier": {
+        "platform": "darwin_arm64",
+        "noodle": {
+          "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        },
+        "codex": {
+          "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+          "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+          "model": "gpt-6-astra",
+          "argv": [
+            "exec",
+            "--skip-git-repo-check",
+            "--json",
+            "--model",
+            "gpt-6-astra",
+            "-c",
+            "default_permissions=\"agent-default\"",
+            "-c",
+            "approval_policy=\"never\"",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-08/control/.noodle",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-08/inbox"
+          ]
+        }
+      },
+      "measured_binaries_match": {
+        "codex": true,
+        "noodle": true
+      },
+      "doctor_repo_predicate": true,
+      "working_control_status": ""
+    }
+  ],
+  "pairs": [
+    {
+      "runs": [
+        "run-01",
+        "run-02"
+      ],
+      "task_bytes_equal": true,
+      "input_packet_differing_keys": [
+        "assigned_instruction_ref"
+      ],
+      "common_raw_inputs_identical": true
+    },
+    {
+      "runs": [
+        "run-03",
+        "run-04"
+      ],
+      "task_bytes_equal": true,
+      "input_packet_differing_keys": [
+        "assigned_instruction_ref"
+      ],
+      "common_raw_inputs_identical": true
+    },
+    {
+      "runs": [
+        "run-05",
+        "run-06"
+      ],
+      "task_bytes_equal": true,
+      "input_packet_differing_keys": [
+        "assigned_instruction_ref"
+      ],
+      "common_raw_inputs_identical": true
+    },
+    {
+      "runs": [
+        "run-07",
+        "run-08"
+      ],
+      "task_bytes_equal": true,
+      "input_packet_differing_keys": [
+        "assigned_instruction_ref"
+      ],
+      "common_raw_inputs_identical": true
+    }
+  ],
+  "judge": {
+    "record_process.py": {
+      "actual_sha256": "e2d63af93afccaa463efe63f8790613877a6e113c04d7ce4c9b70d7f550f2126",
+      "frozen_git_sha256": "e2d63af93afccaa463efe63f8790613877a6e113c04d7ce4c9b70d7f550f2126",
+      "selection_matches": true,
+      "historical_bytes_identical": true
+    },
+    "test_cloud_observe.py": {
+      "actual_sha256": "eaa2499101ec17c3cfb2cb3854fa907ce01f558e70cbe9caea43667d1ad85b0f",
+      "frozen_git_sha256": "eaa2499101ec17c3cfb2cb3854fa907ce01f558e70cbe9caea43667d1ad85b0f",
+      "selection_matches": true,
+      "historical_bytes_identical": true
+    },
+    "cloud_observe.py": {
+      "actual_sha256": "fd1b2f139c9c0c68d4760d300bf61d5312cbf72ad8d5e36c9a1e1e73abdf7234",
+      "frozen_git_sha256": "fd1b2f139c9c0c68d4760d300bf61d5312cbf72ad8d5e36c9a1e1e73abdf7234",
+      "selection_matches": true,
+      "historical_bytes_identical": true
+    },
+    "test_capability.py": {
+      "actual_sha256": "fc8a0461c69f22c4b489a8b66e9a0fb74d708ae5f01577907bc065d28de693ea",
+      "frozen_git_sha256": "fc8a0461c69f22c4b489a8b66e9a0fb74d708ae5f01577907bc065d28de693ea",
+      "selection_matches": true,
+      "historical_bytes_identical": true
+    },
+    "capability.py": {
+      "actual_sha256": "373ea22446dc96aa387bd36ff4173a6afd57920f35640a5c8f289b5ac5985301",
+      "frozen_git_sha256": "373ea22446dc96aa387bd36ff4173a6afd57920f35640a5c8f289b5ac5985301",
+      "selection_matches": true,
+      "historical_bytes_identical": true
+    },
+    "observe.py": {
+      "actual_sha256": "db64405f63c7dd0d76bde22f2d6a7e436b555928b2bb7073b7826a4d0a12001f",
+      "frozen_git_sha256": "db64405f63c7dd0d76bde22f2d6a7e436b555928b2bb7073b7826a4d0a12001f",
+      "selection_matches": true,
+      "historical_bytes_identical": true
+    },
+    "test_record_process.py": {
+      "actual_sha256": "ed0d6ccec1dce0d540d2ab191be99931de652422342246e3223e83ab3eb68904",
+      "frozen_git_sha256": "ed0d6ccec1dce0d540d2ab191be99931de652422342246e3223e83ab3eb68904",
+      "selection_matches": true,
+      "historical_bytes_identical": true
+    }
+  },
+  "fixture_semantics": {
+    "phase": "merge_pending",
+    "delivery": {
+      "action": "merge",
+      "status": "offered"
+    },
+    "writes_offered": [
+      "merge"
+    ],
+    "claim_verifier": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83",
+    "identity_verifier": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83",
+    "historical_request_non_null": true,
+    "runtime_id": 35200528246,
+    "runtime_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "runtime_conclusion": "success"
+  },
+  "findings": [
+    {
+      "id": "S1",
+      "severity": "provenance_deviation",
+      "description": "現行 Issue active §7 指定 PR48 runtime 35200315530；實際 supplied runtime 為 main run 35200528246，head 1ff288... 正好匹配共同 code。這不是指定 run 的原樣沿用。",
+      "evidence": [
+        "live-issue.json JSON body lines 7",
+        "fixtures/runtime-readback.json:3",
+        "fixtures/runtime-readback.json:7"
+      ],
+      "behavioral_blocker_established": false
+    },
+    {
+      "id": "S2",
+      "severity": "stale_template_metadata",
+      "description": "fixtures/cases.json 仍記錄歷史 code e4b4a848 / treatment f98a3384；實際 task-input 與選擇表使用本次 refs。案例模板不能被當成本次身份 SSOT。",
+      "evidence": [
+        "fixtures/cases.json:5",
+        "fixtures/cases.json:6",
+        "prepare_trials.py:63",
+        "instruction-selection.json"
+      ],
+      "behavioral_blocker_established": false
+    },
+    {
+      "id": "S3",
+      "severity": "scope_limit",
+      "description": "prospective freeze 的時間順序目前由 freeze at 與檔案 mtime 支持；檔案 mtime 不是不可變第三方時間戳。尚待完整 raw launch/turn timestamps 交叉核對。",
+      "evidence": [
+        "freeze-verification.json:2",
+        "run-01/live/launch.json"
+      ],
+      "behavioral_blocker_established": false
+    },
+    {
+      "id": "S4",
+      "severity": "scope_limit",
+      "description": "doctor 8 組皆退出 1（terminal.env）；exact repo/cwd/root predicate 8 組皆成立。不可稱 overall doctor pass。",
+      "evidence": [
+        "preflight.json",
+        "prepare_trials.py:89",
+        "prepare_trials.py:90"
+      ],
+      "behavioral_blocker_established": false
+    }
+  ],
+  "evidence_digests": {
+    "instruction-selection.json": "e3c1227eeef0ab95d046f5383497c63414e8e0d64e3ad4c5138867d36740f665",
+    "trial-selection.json": "2e487954c08d42692d9e4a310f16d9e9374e783d08a2223cbc68ee0f8347a434",
+    "judge-selection.json": "bb42bb789ddab3d70bb2d1c290519d7f6300b29efc0e25436b55938f9e034e30",
+    "freeze-verification.json": "b11982319d19f80e285cc7b3d24d1ba06bfe4739052c36b34d8d341e5fc5a688",
+    "prepare_trials.py": "01899ef35d651cde1b2fe899117af1936b119f5f2bfdbcf36108fa1630a2dc84",
+    "fixture-rebinding.json": "a7dec8fc94b190f7d3e9fc1d391d3a9867009aab52768b9a2369de318b564ba9",
+    "preflight.json": "cf33ed401bbc2d98d974ac6a6e1233cc634781d180bd99daadd9d86524daac1d",
+    "prepare-auth.json": "e56a877dd9e8affdeb55a079b42456ca7930de4e70339d92c4fa60bb2443e6cb",
+    "observer-controls.stderr.log": "6eccd445e8b7b407496cc50e2273741333f06126207c4330a07d943310256e4b",
+    "live-issue.json": "3ba9457ae63ef3d6cea6412712edda12802834c3e76d9ce2bb4cc3237a08efd2"
+  },
+  "future_review": [
+    "native emitted tool request/result completeness and truncation",
+    "actual child wait/exit PID/session binding",
+    "model/thread/turn identity",
+    "own typed outcome",
+    "current owner invocation and all three case semantics",
+    "real producer bytes and fresh distinct consumer transfer",
+    "source/input after-state and owner cleanup",
+    "normalized packet joins/statistics; TRACE_CONSISTENT alone insufficient"
+  ]
+}

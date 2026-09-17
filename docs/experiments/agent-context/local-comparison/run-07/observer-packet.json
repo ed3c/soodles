@@ -1,0 +1,67 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "388c86be5eef0f317b0ae38ffac70892f24c13de",
+    "code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+    "case": "fresh-transfer",
+    "source_kind": "captured",
+    "session_id": "01a0ae9a-26b2-7180-8510-fa06580fcb1f",
+    "raw_trace": [
+      "native/rollout.jsonl",
+      "live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson"
+    ],
+    "capture_complete": true,
+    "model": "gpt-6-astra",
+    "carrier": "local_macos_noodle_codex_exec",
+    "producer_session_id": "01a0ae94-daad-7891-bf3f-08757d4164b5",
+    "events": [
+      {
+        "kind": "read_doc",
+        "evidence": "native/rollout.jsonl:17",
+        "path": "AGENTS.md",
+        "blob": "7173b71e546454e252b8c8d5493db6eade1666c1"
+      },
+      {
+        "kind": "handoff",
+        "evidence": "native/rollout.jsonl:24",
+        "sha256": "160509766edeb19b2a7b04df3e23870f495c2517eeec2d0db1d261b997cd07ac",
+        "producer_session_id": "01a0ae94-daad-7891-bf3f-08757d4164b5"
+      },
+      {
+        "kind": "read_provider",
+        "evidence": "native/rollout.jsonl:24",
+        "fixture_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+      },
+      {
+        "kind": "read_owner",
+        "evidence": "native/rollout.jsonl:38",
+        "checkpoint_before": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "checkpoint_after": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "writes_offered": [
+          "merge"
+        ]
+      },
+      {
+        "kind": "conclude",
+        "evidence": "live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:32",
+        "result": "WAIT_FOR_PROVIDER_READBACK",
+        "text": "已完成本次獨立唯讀 review，並送出、讀回本 session 的 `stage_message`：`outcome=blocked`、`blocking=true`。\n\n實際 `landing advance` 回傳 `merge_pending`／`provider_readback`，未產生新寫入請求；checkpoint 與 provider 均未改變。續行需要 supervisor 提供同一 claim 的新模擬 readback，以確認已 offered 的 merge 結果，不可重送歷史請求。\n\n未修改原始碼或操作 GitHub。共同 runtime 成功不代表 Issue #39 已交付或解決。"
+      }
+    ]
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "388c86be5eef0f317b0ae38ffac70892f24c13de",
+    "code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+    "agents_blob": "7173b71e546454e252b8c8d5493db6eade1666c1",
+    "control_blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+    "runtime_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "run_id": 35200528246,
+    "run_attempt": 1,
+    "checkpoint_digest": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+    "provider_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+  },
+  "normalization": "External mapping to actual native tool result lines and final captured message; the unchanged discriminator requires independent raw completeness/semantic review. Same-call handoff/provider reads preserve the original sequential file loop order. All input byte preservation is separately measured by capture-audit. Not Agent-authored authority."
+}

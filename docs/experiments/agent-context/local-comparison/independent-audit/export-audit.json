@@ -1,0 +1,985 @@
+{
+  "schema": 1,
+  "at": "2026-09-17T09:19:33.695307+00:00",
+  "scope": "Independently checked staged public archive including current production-authoring appendix before final audit files are appended. Original local raw retained; no publishing performed.",
+  "authorizes_landing": false,
+  "file_count": 1381,
+  "manifest_sha256": "969d72ec1030a62df3e621ffa01eed1f712284aaf7c87496e576db9e307f4224",
+  "manifest_entries": 1380,
+  "manifest_inventory_exact": true,
+  "manifest_all_digests_match": true,
+  "source_copy_mismatches": [],
+  "unknown_generated_files": [],
+  "omitted_primary_evidence_files": [],
+  "native_exports": [
+    {
+      "path": "run-01/native/rollout.jsonl",
+      "original_sha256": "e275a868ab07f93af64e1e1249722704c2d9c4778766dee864acb3c293b63d9f",
+      "export_sha256": "3557c3fc0fcb016303319539d4433f607c1eaf11f05152b4263509d8b5b7ff7d",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 16,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 18,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 21,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 23,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 26,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 30,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 33,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 38,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 39,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 42,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 47,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 48,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 51,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 54,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 8
+    },
+    {
+      "path": "run-02/native/rollout.jsonl",
+      "original_sha256": "3f7c558ec730ac1adbd887e5e39d9333bc62b46d332969e2cba5d2d2722c1892",
+      "export_sha256": "c2d24a330af95d65880bbcffae114dc6594aec38820b14b41e26722d983a74c1",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 16,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 18,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 23,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 27,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 31,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 36,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 37,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 41,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 45,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 48,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 53,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 56,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 61,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 62,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 65,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 69,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 72,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 74,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 77,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 80,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 11
+    },
+    {
+      "path": "run-03/native/rollout.jsonl",
+      "original_sha256": "6424ad09534291a13d7779827316cd0dfbc091da224943d41986cfec312a0de1",
+      "export_sha256": "23e6d998429bfdd829aeef6e493e33863d3bbb1e7a210a113abb6f4970cae750",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 16,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 18,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 22,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 24,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 27,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 31,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 34,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 36,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 39,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 44,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 45,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 48,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 52,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 55,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 58,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 8
+    },
+    {
+      "path": "run-04/native/rollout.jsonl",
+      "original_sha256": "387fdf187372d7e53ae46523f91cc98807562d35c0cade6546a348b673c06e5c",
+      "export_sha256": "f5b3429f371c650fcc88edef30ed90ecfd970d9370e8b2735b1d5ce57bb51972",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 17,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 19,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 24,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 28,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 32,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 37,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 38,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 41,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 45,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 48,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 53,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 54,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 57,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 60,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 9
+    },
+    {
+      "path": "run-05/native/rollout.jsonl",
+      "original_sha256": "e5de7d64126b619b1f2375bcad853955c3b0cfaeeffb1d52e0d36e7b0937dc39",
+      "export_sha256": "e4402db055e36caec65b78f6429193b5f47e38e5b6e402dfb6dfdfd9fc55df39",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 16,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 18,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 21,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 23,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 26,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 30,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 33,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 38,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 39,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 42,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 46,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 50,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 54,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 57,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 61,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 64,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 69,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 70,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 73,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 76,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 11
+    },
+    {
+      "path": "run-06/native/rollout.jsonl",
+      "original_sha256": "422562c23335182dca945d6c3a52072c07f380b6aaee0aa743ceae6b91a776ca",
+      "export_sha256": "ee8b49d3a4f73fd5249d1e64649a0e6d0f69d7114a19e4467c4fe22202d8f590",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 17,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 19,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 24,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 28,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 31,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 35,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 38,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 43,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 44,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 47,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 51,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 54,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 56,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 59,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 62,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 9
+    },
+    {
+      "path": "run-07/native/rollout.jsonl",
+      "original_sha256": "234f80c556d67ceb1b95c6abc7ea26157d75d61893ecfe61e11dabee757f458e",
+      "export_sha256": "7d4bf9d8c0919b444269f785b8ef6f56113008be9e2fad56f44a577d4a911384",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 17,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 19,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 24,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 28,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 32,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 34,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 38,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 43,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 44,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 48,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 52,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 55,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 57,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 60,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 63,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 8
+    },
+    {
+      "path": "run-08/native/rollout.jsonl",
+      "original_sha256": "2a4ca532a0a1f229daa8fd04e1ad9ad2e5775d637da74c802594bbccfda42daf",
+      "export_sha256": "c01f4dd85f87082d568ee43035b5d56a7cd1ab1a7e3bbe37e2620f74c6883b99",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 17,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 19,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 24,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 28,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 32,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 34,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 37,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 42,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 43,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 46,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 49,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 7
+    },
+    {
+      "path": "run-09/native/rollout.jsonl",
+      "original_sha256": "d78bcd9f0b3bf408613c02e289a93604266debb1213b4de169489466578aa8eb",
+      "export_sha256": "cd4ec3663de4e1cf43419b4e30957e618372e6b5b0d39aa16b0158a3d748b203",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 16,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 18,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 23,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 25,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 29,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 33,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 36,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 41,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 42,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 45,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 49,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 52,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 57,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 58,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 61,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 64,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 9
+    },
+    {
+      "path": "run-10/native/rollout.jsonl",
+      "original_sha256": "d284eb9519f78ebf6f92e0a22b0894de6ccf183059ccd3d140306a00c89fdf7b",
+      "export_sha256": "dd31e753c1407dda920220bef19d9e00916edabef332277443f57599e1a64994",
+      "same_line_count": true,
+      "allowed_changes_only": true,
+      "invalid_lines": [],
+      "declaration_exact": true,
+      "task_tool_model_lines": [
+        {
+          "line": 6,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 8,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 9,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 12,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 13,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 16,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 18,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 23,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 25,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 30,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 34,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 37,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 42,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 43,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 46,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 50,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 53,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 58,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 59,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 62,
+          "unchanged_bytes": true
+        },
+        {
+          "line": 65,
+          "unchanged_bytes": true
+        }
+      ],
+      "redacted_lines": 9
+    }
+  ],
+  "credential_scan": {
+    "patterns": [
+      "github_token",
+      "github_pat",
+      "openai_key",
+      "private_key",
+      "jwt"
+    ],
+    "matches": [],
+    "limitation": "Known-format pattern scan and task/tool input review; not a universal secret detector."
+  },
+  "production_appendix_review": {
+    "source": "parent experiment root",
+    "retained_session": "soodles-39-0-execute-20260917-084802-fa146c",
+    "omitted_historical_sessions": 15,
+    "omitted_session_hashes_independently_verified": true,
+    "platform_or_nonempty_reasoning_structured_fields_found": false,
+    "semantic_scope": "source/hash/privacy review with actual completed event and waited exit0; no production landing/reconciliation verdict"
+  },
+  "nonempty_reasoning_history_files": [],
+  "limits": [
+    "source-subject is a selected source snapshot, not a full git clone; original source head/tree/common ref preserved. No .git/cache/lock completeness is claimed.",
+    "public native rollouts are explicitly redacted exports, not byte-identical full platform transcripts. Every retained task/tool/result/model/final line is byte-identical to local original; line numbering is preserved.",
+    "Manifest checked here predates addition of these final reviewer artifacts; publisher must extend manifest for appended reviewer files without altering already-audited evidence."
+  ]
+}

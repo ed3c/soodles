@@ -1,0 +1,78 @@
+--- old-integration/AGENTS.md
++++ draft/AGENTS.md
+@@ -4,7 +4,7 @@
+ 
+ ## Session entry — select once, then act
+ 
+-Read this file at the task's selected repository ref when entering Soodles; a cloud Session fetches it through GitHub. Continue in an existing Issue/PR's head rather than assuming main contains its draft instructions. Use current task/tool/owner evidence to select the path below and proceed within existing authorization without asking the user to choose it again.
++Read this file at the task's selected repository ref when entering Soodles; a cloud Session fetches it through GitHub. Use the task's currently admitted ref for Issue/PR work; neither main nor a historical PR head necessarily contains its selected instructions. Use current task/tool/owner evidence to select the path below and proceed within existing authorization without asking the user to choose it again.
+ 
+ | Observed execution path | Shortest supported action |
+ | --- | --- |
+@@ -32,7 +32,7 @@
+ - First installation uses the explicitly requested supervised fallback: the supervisor pins the landing implementation outside the candidate, admits one exact claim, and supplies raw provider readbacks. `landing.py` owns pending-write checkpoints and exact requests; the existing GitHub connector executes them under existing provider rules. No Administration access or protection-policy modification is a prerequisite.
+ - Do not fabricate a production generation, independent default-branch verification, or unattended lander. An Issue is RESOLVED only after merge and closure readback plus Noodle reconciliation. Unknown writes require readback; never repeat the offered request from model memory.
+ - Consume the invoked landing owner's `next` projection. Missing claim/readback/binary inputs are explicit; never invent argv or replay a historical next command. Dispatch returns an exact connector payload in `request`; only that payload is transported. Terminal `next` is null.
+-- For delivery preparation, candidate correction, base drift or interrupted cleanup, use the relevant existing verification recipe and owning requirement in `contracts/system-v1.md`. Preserve fresh admission/evidence, exact identity and unknown-write readback obligations; process-fault oracles use provider fixtures, not live GitHub writes.
++- For delivery preparation, candidate correction, base drift or interrupted cleanup, use the existing [delivery](.agents/skills/verify-soodles/features/supervised-delivery.md) or [recovery](.agents/skills/verify-soodles/features/delivery-recovery.md) recipe and owning requirement in `contracts/system-v1.md`. Preserve fresh admission/evidence, exact identity and unknown-write readback obligations; process-fault oracles use provider fixtures, not live GitHub writes.
+ 
+ ## Routing and changes
+ 
+@@ -50,6 +50,15 @@
+ 
+ For runtime-admission, bounded-Issue-execution, supervised-delivery, delivery-recovery verification or a bounded P-class behavior/context comparison, use `.agents/skills/verify-soodles/SKILL.md` and only the relevant feature recipe. Its receipt is non-authorizing. Create a verification skill when that capability is missing; run maintenance for an explicit map audit or observed recipe drift, not on every Issue. Canonical acceptance and delivery remain owned by the existing entries above.
+ 
++For verification of Noodle itself (CLI identity/skill resolution, stopped initial-proposal recovery, or original order/session handoff), use [.agents/skills/verify-noodle/SKILL.md](.agents/skills/verify-noodle/SKILL.md) and its independent feature map; existing Noodle owners and Soodles acceptance/delivery retain authority.
++
+ ## Guarantee classes
+ 
+ Classes describe authority of a claim, not confidence or file type (Noodles reference: `d4fa0da322cbb7a581328398906a4f04deaf0a69`). N describes inventory/prose/metrics and proves nothing. P guides model reasoning, skill use and routing; it cannot grant correctness authority. L is a tested executable local discriminator bound to its subject/readback/residue; it may reject locally. R is provider-enforced check/merge/closure truth for the exact provider claim. A run's success does not prove full behavior or local reconciliation. Guidance or repeated green results cannot promote N/P into L/R. The selected external judge remains fixed for this acceptance; its source and erroneous controls remain correctable under a fresh supervisor boundary.
++
++For authenticated Issue reads, use `./soodles github issue NUMBER` and the
++verify-soodles [GitHub read recipe](.agents/skills/verify-soodles/features/github-read.md).
++The supervisor supplies the scoped installation credential; the shared reader
++never falls back to anonymous API. Provider wait is exit 75 with a deadline,
++not permission to change identity or restart a writer. This boundary does not
++certify the daemon response to adapter failure or resume a paused comparison.
+--- old-integration/README.md
++++ draft/README.md
+@@ -6,7 +6,7 @@
+ 
+ ## Session entry
+ 
+-Start with [AGENTS.md — Session entry](AGENTS.md#session-entry--select-once-then-act) at the task's selected ref. It owns the cloud GitHub/Actions versus local Noodle/Codex route. Existing Issue/PR work continues at that PR head; draft instructions are not assumed present on main.
++Start with [AGENTS.md — Session entry](AGENTS.md#session-entry--select-once-then-act) at the task's selected ref. It owns the cloud GitHub/Actions versus local Noodle/Codex route. Issue/PR work uses the task's currently admitted ref; draft instructions are not assumed present on main.
+ 
+ ## Local runtime checks
+ 
+--- old-integration/contracts/agent-context-design.md
++++ draft/contracts/agent-context-design.md
+@@ -1,7 +1,7 @@
+ # Agent context design: evidence before reusable instruction
+ 
+ Owner: [Soodles #39](https://github.com/ed3c/soodles/issues/39).
+-Class: P (design metaprompt). Status: experimental; matched Astra behavior has not been established.
++Class: P (design metaprompt). Status: experimental for the current integrated inputs; earlier comparisons support only their frozen inputs, not this integration or an improvement claim.
+ Read only when designing or auditing agent instructions, context transfer or their evidence. This is not an additional prerequisite for ordinary implementation or verification.
+ 
+ ## Apply this metaprompt
+@@ -77,7 +77,7 @@
+ 
+ Exercise an authorized task on the selected runner, legal blocking/unknown-write behavior, and a fresh-session handoff with stale guidance. Observe actual tool calls and state. Reject a planted bad result and accept a legal non-case before trusting the detector. Experimental provider-shaped data stays local. Never publish credentials.
+ 
+-One pair is a scoped smoke comparison, not an efficiency estimate. Repeat only a concrete unresolved variation within the Issue's declared bound. Real compaction stays NOT_RUN until an actual harness compaction event and a valid subsequent continuation are captured. Only missing model/observation capability required by the selected carrier can block that claim; unrelated local CLI failures do not block cloud work. Missing behavioral observations remain NOT_RUN, not simulated success. See [the #39 protocol](../docs/experiments/agent-context/protocol.md).
++One pair is a scoped smoke comparison, not an efficiency estimate. Repeat only a concrete unresolved variation within the Issue's declared bound. Real compaction stays NOT_RUN until an actual harness compaction event and a valid subsequent continuation are captured. Only missing model/observation capability required by the selected carrier can block that claim; unrelated local CLI failures do not block cloud work. Missing behavioral observations remain NOT_RUN, not simulated success. See [the historical #39 protocol](https://github.com/ed3c/soodles/blob/2e9d51261c80b2c5c120ca6549c759704c615c61/docs/experiments/agent-context/protocol.md); the current admitted Issue selects any new comparison.
+ 
+ ## Official basis (reviewed 2026-09-16)
+ 
+--- old-integration/.agents/skills/verify-soodles/SKILL.md
++++ draft/.agents/skills/verify-soodles/SKILL.md
+@@ -7,7 +7,7 @@
+ 
+ Soodles has a runtime CLI and an external supervised publisher. Retain the path selected by [root AGENTS](../../../AGENTS.md#session-entry--select-once-then-act); if entering through this skill, read that short entry first. Do not reclassify an established cloud Session as local merely because a recipe contains shell commands.
+ 
+-For feature-specific execution or investigation, read the relevant recipe directly: [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
++For feature-specific execution or investigation, read the relevant recipe directly: [authenticated Issue readback](features/github-read.md), [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
+ 
+ For P-class behavior/context work, read its recipe before any runtime doctor: use the supplied carrier and operation-specific prerequisites. Native cloud consumers require neither Codex CLI nor the Linux runtime binary. The coordinator captures observations; independent consumers receive only their assigned task/instructions/inputs. A scoped feature check does not claim a full maintenance pass.
+ 

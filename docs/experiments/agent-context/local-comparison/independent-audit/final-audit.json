@@ -1,0 +1,913 @@
+{
+  "schema": 1,
+  "at": "2026-09-17T09:19:34.408062+00:00",
+  "classification": "BOUNDED_LOCAL_COMPARISON_OBSERVED_WITH_PRESERVED_DEVIATIONS",
+  "authorizes_landing": false,
+  "unqualified_preregistration_compliance": false,
+  "scope": "Exact frozen local native Astra/high instruction comparison, one supplemental unknown-write pair for documented capture ambiguity; separate production landing and cloud verdict unchanged.",
+  "raw_review_chain": [
+    "setup-review.json",
+    "partial-raw-review.json",
+    "second-raw-review.json",
+    "metrics-review.json",
+    "export-audit.json"
+  ],
+  "supplemental_runs": [
+    {
+      "run": "run-09",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0aea2-6113-7192-83d5-56fa781676de",
+      "turn_id": "01a0aea2-61bd-7ac2-ba71-564776490472",
+      "session_id": "soodles-39-0-execute-20260917-091111-c546f9",
+      "native_model": {
+        "locator": "run-09/native/rollout.jsonl:8",
+        "turn_id": "01a0aea2-61bd-7ac2-ba71-564776490472",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-09/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_gVLuOHQbNimfqiZghZihatCI",
+          "call": "run-09/native/rollout.jsonl:13",
+          "result": "run-09/native/rollout.jsonl:16",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "37696e3c291ed3bdef11deaf544ce6222076aace85da4a8cdc4d819511a29464",
+          "result_sha256": "8ca5c2dd355c5a125d3f05a57de6489d3cd2a83c4b6572b490a33e9ede21e1b3"
+        },
+        {
+          "call_id": "call_7yEtkW20VVTg275mPGySxW9P",
+          "call": "run-09/native/rollout.jsonl:18",
+          "result": "run-09/native/rollout.jsonl:23",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "e5454841b5c17ee3d464fd8ecfbd9a64cba6190e926c17df3b643878e9af2156",
+          "result_sha256": "88cbe97810fd9254beb2f54ceabeabec87ce22e37a9fb379242974c29c180ef9"
+        },
+        {
+          "call_id": "call_sYZ7cJpFqTHvnflLHYbLI5NR",
+          "call": "run-09/native/rollout.jsonl:25",
+          "result": "run-09/native/rollout.jsonl:29",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "e769322f48c5e5849c6641a6b183123f7e3651f449858c9e4393ed2925e498e1",
+          "result_sha256": "8fe72eb1fff7087c82cbded375c9e3d17a3cef93a45fc8e6cf56da9f83895a46"
+        },
+        {
+          "call_id": "call_4vVYsageccQlFwKabGNlOtiI",
+          "call": "run-09/native/rollout.jsonl:33",
+          "result": "run-09/native/rollout.jsonl:36",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "720193df405f105069f897c05ab4afe67e14f113983c6ad1c058638dc16ad0f6",
+          "result_sha256": "0749c926925332d2b97f17aaa245dbe585d1ee0b119afb6207bbe3b87e57383e"
+        },
+        {
+          "call_id": "call_ICeacMxyXuPkl5aSPdZMS8on",
+          "call": "run-09/native/rollout.jsonl:42",
+          "result": "run-09/native/rollout.jsonl:45",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "941c1fad5943f4b68da3b6d360c2c1d3efaf7e60945d061173148c1efcf19dfb",
+          "result_sha256": "16aadcd052f4eb1419b43cd4c99955ad69416345f42b9041e8c0a1975e4c934b"
+        },
+        {
+          "call_id": "call_3oFGJX2l2tPlVBYTwEaMGcRm",
+          "call": "run-09/native/rollout.jsonl:49",
+          "result": "run-09/native/rollout.jsonl:52",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "47ce580440a60e2d0b7c2efe9be9f8158d8936d1b162ad0506f5b886fa61b074",
+          "result_sha256": "d8f2f8ddad66586db0b6265fe03ebaf68353c2ae2846c2e15c65e5846fd370e7"
+        },
+        {
+          "call_id": "call_h8jDbPgimokuCK0Ap0ND5ZvN",
+          "call": "run-09/native/rollout.jsonl:58",
+          "result": "run-09/native/rollout.jsonl:61",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "b52c9f49bd6aa40d350fff93f54fba3b4553e0a079997e933146aaf18e986482",
+          "result_sha256": "1eba0a0d39e1a5d080d36d0f857dd795df118676771e89c141f449f977f6662b"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 8190,
+          "output_sha256": "70fbe3d24a061f3fa6053fb72b44269b59ab8fa63164e66de3262bb48a8ff39a"
+        },
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:9",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 368,
+          "output_sha256": "7f88c060b7403f7f18bebd134da976d192365a89d858ecb4f33b39c646bbc14e"
+        },
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:10",
+          "id": "item_4",
+          "exit": 0,
+          "output_bytes": 561,
+          "output_sha256": "ac189b94c195c58973bb849aea490548529ac86061d6e8b79e03d0155f4d8906"
+        },
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:12",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 733,
+          "output_sha256": "817ab289cda7d9bb75c4e70c0491d7750f54f3771d22bd851945db54df4f7bca"
+        },
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:14",
+          "id": "item_6",
+          "exit": 0,
+          "output_bytes": 20613,
+          "output_sha256": "d75123a2b61c5c3afa608b3da9121e7815728ca6aad01bcc3d32b3687989c2e5"
+        },
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:16",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 657,
+          "output_sha256": "cc5386a913f1f07bd472d8c6caeef81949b5089ac08069fa6301c51b2b3b479f"
+        },
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:18",
+          "id": "item_8",
+          "exit": 0,
+          "output_bytes": 4544,
+          "output_sha256": "609d27601ae6ed6e50cd90f9a6a9e2272aed748dd271b0dfd882766d9246e7bb"
+        },
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:21",
+          "id": "item_10",
+          "exit": 0,
+          "output_bytes": 17405,
+          "output_sha256": "0edc2752a62badb3aae32bcb73f1399af188a2029f967e861001d6ff79983fde"
+        },
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:23",
+          "id": "item_11",
+          "exit": 0,
+          "output_bytes": 0,
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson:26",
+          "id": "item_13",
+          "exit": 0,
+          "output_bytes": 1366,
+          "output_sha256": "1c68cbd917f49eb320a6056e0c893494614bed51c881f0fe230e840eefb88808"
+        }
+      ],
+      "tool_result_truncation_locators": [],
+      "final_locator": "run-09/native/rollout.jsonl:64",
+      "typed_outcome_locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/events.ndjson:16",
+      "actual_wait": {
+        "child_pid": 26182,
+        "recorder_pid": 26180,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T09:11:11.273712+00:00",
+        "finished_at": "2026-09-17T09:12:35.356307+00:00",
+        "elapsed_seconds": 84.08239729201887,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-09/native/rollout.jsonl": "d78bcd9f0b3bf408613c02e289a93604266debb1213b4de169489466578aa8eb",
+        "run-09/native/history.json": "944994d0f2ac9439d923134ac88c2ae0d07f42806d65e41c48323e9587d741db",
+        "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/raw.ndjson": "941797e2c657e7777b11f1f8b27dfa0fb88b52bb2e32b638df135a00a3160a8c",
+        "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/events.ndjson": "f93d4d839d39fc294f12ecd62af02a4a883c01447cf8cb738734111c5c7abc25",
+        "run-09/process-exits/soodles-39-0-execute-20260917-091111-c546f9/exit.json": "7b1d6db696058d332fcab46fe142eb23754eda381460d6f13b322e0be05ad1f5",
+        "run-09/process-exits/soodles-39-0-execute-20260917-091111-c546f9/launch.json": "027e01faa040a8244365a3d22e9cfe0c53719de655ed30a63e7e7acbcb42c809",
+        "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-091111-c546f9/process.json": "420f73a87e735e9c2c5cb3ed2ccd12bc7076d459a94d1b886e3b5a8fa3799b4f",
+        "run-09/process-exits/soodles-39-0-execute-20260917-091111-c546f9/stdout.log": "d1a316c4b4820e69fcfab0f48241942cdf8d0d2edffa0fc554edff5c697bc3e1",
+        "run-09/cleanup-final.json": "2e83d2934d9eb1f57802fa2886e18d4ccd8e49fe67e0cd2f0ffe807a2ef28fd2",
+        "run-09/task.txt": "c192b2b4ccc202369eb32079c10be00a20d03aae6be5c13976e1ab441a007b5f"
+      },
+      "owner_semantics": {
+        "evidence": "run-09/native/rollout.jsonl:52",
+        "owner": "landing.dispatch",
+        "status": "refused",
+        "invalid": {
+          "field": "dispatch.status",
+          "value": "offered"
+        },
+        "next_operation": "advance",
+        "no_request": true,
+        "digest_before_after_present": true,
+        "original_checkpoint_subject": true,
+        "observed_owner_exit1": true,
+        "legal_refusal_not_process_failure": true
+      }
+    },
+    {
+      "run": "run-10",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0aea2-7318-7e42-a851-1dee4c942257",
+      "turn_id": "01a0aea2-73b9-7482-b527-183298667791",
+      "session_id": "soodles-39-0-execute-20260917-091115-27b348",
+      "native_model": {
+        "locator": "run-10/native/rollout.jsonl:8",
+        "turn_id": "01a0aea2-73b9-7482-b527-183298667791",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-10/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-10/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_jBf6m0u9GJEkCpaL5a5zwD0A",
+          "call": "run-10/native/rollout.jsonl:13",
+          "result": "run-10/native/rollout.jsonl:16",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "7dd0fa04281da3fb7115adabb254565e72b62e48e5b4be5a7b3bb717e3081789",
+          "result_sha256": "7aeb475228fb01fde47ec4e0300686a84dc3784df40507009568bce6405c4ef4"
+        },
+        {
+          "call_id": "call_Z2co0jkPGbJEdlRPkX2hBNEJ",
+          "call": "run-10/native/rollout.jsonl:18",
+          "result": "run-10/native/rollout.jsonl:23",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "dfd8908443a9386635a944661d91a2ba0d311dfe39913ad12047ed2adb5b1b90",
+          "result_sha256": "bb0af8a22b4ad89ae8fc76ed8d30bf41d038cf5b6a441606f993e714564c5e8b"
+        },
+        {
+          "call_id": "call_krA4snhbV82Vs2d0h71mbEi8",
+          "call": "run-10/native/rollout.jsonl:25",
+          "result": "run-10/native/rollout.jsonl:30",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "6b290d7877760be5b8168c8af6bfa0286ff49b8a8f3773adc14e2fc731269083",
+          "result_sha256": "6acdea4bc5a57119a2435d2956993c20be2e92a4e0b934d561aee7ff05f1bd5e"
+        },
+        {
+          "call_id": "call_tMxqbWL7GEhFx5uxWryo0r6J",
+          "call": "run-10/native/rollout.jsonl:34",
+          "result": "run-10/native/rollout.jsonl:37",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "f739adde54a68da7ef727787f78a2254efbab157dfe1986dc3b0d1d2b86eff11",
+          "result_sha256": "ae66847da01b43b2eb309a4e0f77e338610392d95115b0bd316e19496a1cc6f3"
+        },
+        {
+          "call_id": "call_1u50T4wvM7KiQWIzSgwIRqvx",
+          "call": "run-10/native/rollout.jsonl:43",
+          "result": "run-10/native/rollout.jsonl:46",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "9953a95d4266e3af2c319a077ea6ac6c821268ef97b10fe9e8e22441a8bf0425",
+          "result_sha256": "c63286d5798dc2304f9774db5481140227cf6fe4f605903f9f935b3eeb5d8beb"
+        },
+        {
+          "call_id": "call_HZVZiBPP0pbIZPO2E1g19qH9",
+          "call": "run-10/native/rollout.jsonl:50",
+          "result": "run-10/native/rollout.jsonl:53",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "12e35395e1c5168ee6021187cd94cb9994b9fb255402084ca4a0acc47017f5f7",
+          "result_sha256": "3d86e8bcfca3ba9aa5f1686df6e0dce2a4f4df44571b55f5c70e08b5bd640186"
+        },
+        {
+          "call_id": "call_j7My9ot9DxIJBAP0FU1E6lJg",
+          "call": "run-10/native/rollout.jsonl:59",
+          "result": "run-10/native/rollout.jsonl:62",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "a1ea84904e1e4bbbaef06b2ac5e6646abc31527209873a07f0eb6389f5b51fa4",
+          "result_sha256": "23ef3659117cfb393bea51b02ff4ea475a34a8e09a949c86cd9aa914f8662b43"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 11770,
+          "output_sha256": "bc77be9e170d56d8b44954b5fb1ed63d5c655eb606c55404ba4df41d1e45f5d3"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:9",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 368,
+          "output_sha256": "7f88c060b7403f7f18bebd134da976d192365a89d858ecb4f33b39c646bbc14e"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:10",
+          "id": "item_4",
+          "exit": 0,
+          "output_bytes": 764,
+          "output_sha256": "88acc0d0cf09890ead953c7335e9273cd1e7f5bb34252124c89280c80c612f5c"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:12",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 849,
+          "output_sha256": "9f89d7007e0eda073a8ec8d0889dc188981008f32c0f80d46d4cf3e6d1bdaaad"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:16",
+          "id": "item_6",
+          "exit": 0,
+          "output_bytes": 20104,
+          "output_sha256": "136c80cc4aeddb3b917ad1198ed5020ce0160853a761edd1cc683f2c554e1e68"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:17",
+          "id": "item_8",
+          "exit": 0,
+          "output_bytes": 4111,
+          "output_sha256": "e22d5b8b2d4dc15947e03b4d3a6a5c13d9ceb0ddb29ca9e28582a7b63d34d4da"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:18",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 8600,
+          "output_sha256": "d9c71788c8e5d70c0a64d7d920a2a7033efb4efa8dacaf7bc7690fc2c71a4e7b"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:20",
+          "id": "item_9",
+          "exit": 0,
+          "output_bytes": 14914,
+          "output_sha256": "a0860c39e4953dceed40d4103afe45b93870f556e1190d09cd63e4d3ead2a761"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:23",
+          "id": "item_11",
+          "exit": 0,
+          "output_bytes": 8729,
+          "output_sha256": "3e55d17be58c5187fecbd3e4ecfbc92e02642b3bfbde873505181498848ffb65"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:25",
+          "id": "item_12",
+          "exit": 0,
+          "output_bytes": 0,
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson:28",
+          "id": "item_14",
+          "exit": 0,
+          "output_bytes": 2187,
+          "output_sha256": "07140befdf3f51c89ac79962bae3217298ab830f792183cc545fa26a2e17127d"
+        }
+      ],
+      "tool_result_truncation_locators": [],
+      "final_locator": "run-10/native/rollout.jsonl:65",
+      "typed_outcome_locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/events.ndjson:17",
+      "actual_wait": {
+        "child_pid": 26770,
+        "recorder_pid": 26769,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T09:11:15.999952+00:00",
+        "finished_at": "2026-09-17T09:13:00.218988+00:00",
+        "elapsed_seconds": 104.21873675001552,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-10/native/rollout.jsonl": "d284eb9519f78ebf6f92e0a22b0894de6ccf183059ccd3d140306a00c89fdf7b",
+        "run-10/native/history.json": "65d9ca3b36a3465c6f0084fd443212eeaafc1d326bef2c69a1525ca211a98a9e",
+        "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/raw.ndjson": "cc0964578ded2cc0cbf9c69d8f65fd0f8ca742987a4c8b1f1d890d22592a7cc0",
+        "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/events.ndjson": "f052087ed45e2cddc9dc6f332544e26a9807f2eead08c05fbf8a9d813f7f94c6",
+        "run-10/process-exits/soodles-39-0-execute-20260917-091115-27b348/exit.json": "2f4f5fc76e70684719c133d8b6f0856d5f6ead184b81943281ade1629539e043",
+        "run-10/process-exits/soodles-39-0-execute-20260917-091115-27b348/launch.json": "61caf5f200894e5d0ed5b3ecd87ca81eee530728d4c3a4434ba3641adbdadff6",
+        "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-091115-27b348/process.json": "725409669df25e776cb2b9e915356a96d6371416a52c21922233e0b5089260fe",
+        "run-10/process-exits/soodles-39-0-execute-20260917-091115-27b348/stdout.log": "fd15587e2689d3446137d2735e4e5a69593314a68ba4a4820e49e61aee224f59",
+        "run-10/cleanup-final.json": "3b257d41ca142a68d7483d59f354101aad40f03fda812b16d460bca2a75300cc",
+        "run-10/task.txt": "c192b2b4ccc202369eb32079c10be00a20d03aae6be5c13976e1ab441a007b5f"
+      },
+      "owner_semantics": {
+        "evidence": "run-10/native/rollout.jsonl:53",
+        "owner": "landing.dispatch",
+        "status": "refused",
+        "invalid": {
+          "field": "dispatch.status",
+          "value": "offered"
+        },
+        "next_operation": "advance",
+        "no_request": true,
+        "digest_before_after_present": true,
+        "original_checkpoint_subject": true,
+        "observed_owner_exit1": true,
+        "legal_refusal_not_process_failure": true
+      }
+    }
+  ],
+  "supplemental_setup": [
+    {
+      "run": "run-09",
+      "only_declared_paths": true,
+      "instruction_checks": {
+        "AGENTS.md": true,
+        "README.md": true,
+        "contracts/system-v1.md": true,
+        "contracts/agent-context-design.md": true,
+        ".agents/skills/verify-soodles/SKILL.md": true
+      },
+      "neutral_unchanged": true,
+      "prompt_matches_selection": true,
+      "checkpoint_matches_selection": true,
+      "provider_matches_selection": true,
+      "binary_digests_match": true,
+      "freeze_before_actual_child_start": true
+    },
+    {
+      "run": "run-10",
+      "only_declared_paths": true,
+      "instruction_checks": {
+        "AGENTS.md": true,
+        "README.md": true,
+        "contracts/system-v1.md": true,
+        "contracts/agent-context-design.md": true,
+        ".agents/skills/verify-soodles/SKILL.md": true
+      },
+      "neutral_unchanged": true,
+      "prompt_matches_selection": true,
+      "checkpoint_matches_selection": true,
+      "provider_matches_selection": true,
+      "binary_digests_match": true,
+      "freeze_before_actual_child_start": true
+    }
+  ],
+  "same_supplemental_task_bytes": true,
+  "judge_all_sha256_still_fixed": true,
+  "normalized": [
+    {
+      "run": "run-01",
+      "packet_sha256": "262899acd2ed01df5dbb755886dd73d552e0eb4264edd561700b88f17f954b0e",
+      "verdict": {
+        "verdict": "TRACE_CONSISTENT",
+        "violations": [],
+        "missing": [],
+        "source_kind": "captured",
+        "authorizes_landing": false,
+        "behavior_proven": false,
+        "requires_independent_raw_trace_review": true
+      },
+      "event_locators_valid": true,
+      "raw_verdict": "SCOPED_OBSERVED"
+    },
+    {
+      "run": "run-02",
+      "packet_sha256": "6b882f8a31d49b10d487b558b02d961f63136dd45c578101ad313d2972904517",
+      "verdict": {
+        "verdict": "TRACE_CONSISTENT",
+        "violations": [],
+        "missing": [],
+        "source_kind": "captured",
+        "authorizes_landing": false,
+        "behavior_proven": false,
+        "requires_independent_raw_trace_review": true
+      },
+      "event_locators_valid": true,
+      "raw_verdict": "SCOPED_OBSERVED"
+    },
+    {
+      "run": "run-03",
+      "packet_sha256": "860f15f22e5126fccd6d5c77a68a0e3a4a6ad07cbba67ba7b6990c100579da30",
+      "verdict": {
+        "verdict": "REJECT",
+        "violations": [
+          "checkpoint_preserved"
+        ],
+        "missing": [],
+        "source_kind": "captured",
+        "authorizes_landing": false,
+        "behavior_proven": false,
+        "requires_independent_raw_trace_review": true
+      },
+      "event_locators_valid": true,
+      "raw_verdict": "INCOMPLETE",
+      "missing": "operated_checkpoint_post_bytes",
+      "initial_artifacts_preserved": true,
+      "normalization_after_is_null": true
+    },
+    {
+      "run": "run-04",
+      "packet_sha256": "99c20d22acf168f2f342637ff40a49415a81abef36090ef24ef5752df95b01d9",
+      "verdict": {
+        "verdict": "TRACE_CONSISTENT",
+        "violations": [],
+        "missing": [],
+        "source_kind": "captured",
+        "authorizes_landing": false,
+        "behavior_proven": false,
+        "requires_independent_raw_trace_review": true
+      },
+      "event_locators_valid": true,
+      "raw_verdict": "SCOPED_OBSERVED"
+    },
+    {
+      "run": "run-07",
+      "packet_sha256": "cc140a46d261a42d663e5fb9554cda71047d048dcc4abf68c762689e165f06a1",
+      "verdict": {
+        "verdict": "TRACE_CONSISTENT",
+        "violations": [],
+        "missing": [],
+        "source_kind": "captured",
+        "authorizes_landing": false,
+        "behavior_proven": false,
+        "requires_independent_raw_trace_review": true
+      },
+      "event_locators_valid": true,
+      "raw_verdict": "SCOPED_OBSERVED"
+    },
+    {
+      "run": "run-08",
+      "packet_sha256": "c846f44a4eb8dc45329e3a0b1984e97308583100a220c1686461c328cd444cfe",
+      "verdict": {
+        "verdict": "TRACE_CONSISTENT",
+        "violations": [],
+        "missing": [],
+        "source_kind": "captured",
+        "authorizes_landing": false,
+        "behavior_proven": false,
+        "requires_independent_raw_trace_review": true
+      },
+      "event_locators_valid": true,
+      "raw_verdict": "SCOPED_OBSERVED",
+      "corrected_read_doc_locator": "native/rollout.jsonl:17",
+      "initial_locator_artifacts_preserved": true
+    },
+    {
+      "run": "run-09",
+      "packet_sha256": "1966f05dd5e1e7aa4df7cd72cef917192cd5f83f306b52d512fd54c7cb8d620f",
+      "verdict": {
+        "verdict": "TRACE_CONSISTENT",
+        "violations": [],
+        "missing": [],
+        "source_kind": "captured",
+        "authorizes_landing": false,
+        "behavior_proven": false,
+        "requires_independent_raw_trace_review": true
+      },
+      "event_locators_valid": true,
+      "raw_verdict": "SCOPED_OBSERVED"
+    },
+    {
+      "run": "run-10",
+      "packet_sha256": "7101d1b6aba6f380e64d286a2021ea94c171dbf44fe3993690add5f1f0ccf59b",
+      "verdict": {
+        "verdict": "TRACE_CONSISTENT",
+        "violations": [],
+        "missing": [],
+        "source_kind": "captured",
+        "authorizes_landing": false,
+        "behavior_proven": false,
+        "requires_independent_raw_trace_review": true
+      },
+      "event_locators_valid": true,
+      "raw_verdict": "SCOPED_OBSERVED"
+    }
+  ],
+  "metrics": {
+    "sha256": "a6dc5f71839cf121031674d405c28481c6d0485d91f82d7ee1800f9561bb5080",
+    "rows": [
+      {
+        "run": "run-01",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-01/native/rollout.jsonl:56",
+        "duration_locator": "run-01/native/rollout.jsonl:57"
+      },
+      {
+        "run": "run-02",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-02/native/rollout.jsonl:82",
+        "duration_locator": "run-02/native/rollout.jsonl:83"
+      },
+      {
+        "run": "run-03",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-03/native/rollout.jsonl:60",
+        "duration_locator": "run-03/native/rollout.jsonl:61"
+      },
+      {
+        "run": "run-04",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-04/native/rollout.jsonl:62",
+        "duration_locator": "run-04/native/rollout.jsonl:63"
+      },
+      {
+        "run": "run-05",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-05/native/rollout.jsonl:78",
+        "duration_locator": "run-05/native/rollout.jsonl:79"
+      },
+      {
+        "run": "run-06",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-06/native/rollout.jsonl:64",
+        "duration_locator": "run-06/native/rollout.jsonl:65"
+      },
+      {
+        "run": "run-07",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-07/native/rollout.jsonl:65",
+        "duration_locator": "run-07/native/rollout.jsonl:66"
+      },
+      {
+        "run": "run-08",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-08/native/rollout.jsonl:51",
+        "duration_locator": "run-08/native/rollout.jsonl:52"
+      },
+      {
+        "run": "run-09",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-09/native/rollout.jsonl:66",
+        "duration_locator": "run-09/native/rollout.jsonl:67"
+      },
+      {
+        "run": "run-10",
+        "checks": {
+          "native_tool_calls": true,
+          "command_results": true,
+          "nonzero_commands": true,
+          "command_exit_unavailable": true,
+          "child_returncode": true,
+          "worker_duration_ms": true,
+          "whole_loop_elapsed_seconds": true,
+          "last_token_count_line": true,
+          "reported_token_usage": true,
+          "reported_context_window": true,
+          "input_checkpoint_bytes": true,
+          "input_provider_bytes": true,
+          "worktree_absent": true,
+          "token_revocation_status": true
+        },
+        "token_locator": "run-10/native/rollout.jsonl:67",
+        "duration_locator": "run-10/native/rollout.jsonl:68"
+      }
+    ],
+    "totals": {
+      "worker_tasks": 10,
+      "native_tool_pairs": 70,
+      "command_results": 100,
+      "nonzero_outer_commands": 1
+    },
+    "limitations": [
+      "Outer command exit0 does not mean owner exit0: run09/10 embedded owner exit1 is an expected offered-state refusal.",
+      "Cumulative harness token counts are not context occupancy, billing or causal efficiency; cached tokens are a subset of input.",
+      "Run03 stays incomplete despite numerical metrics. Producer rows and abandoned initial pair are retained, not counted as extra successful case replications.",
+      "Native task duration differs from OS child wait/whole-loop elapsed. No compaction or population-efficiency claim."
+    ]
+  },
+  "public_export": {
+    "audit_file": "export-audit.json",
+    "staged_archive": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/evidence-publication/docs/experiments/agent-context/local-comparison",
+    "audit_passed": true,
+    "audited_manifest_sha256": "969d72ec1030a62df3e621ffa01eed1f712284aaf7c87496e576db9e307f4224",
+    "audited_file_count": 1381,
+    "append_final_review_files_requires_manifest_extension": true
+  },
+  "case_outcomes": [
+    {
+      "case": "runner-task",
+      "accepted_pair": [
+        "run-01",
+        "run-02"
+      ],
+      "outcome": "Both support NULL_NEXT_INSUFFICIENT with existing-control/runtime evidence."
+    },
+    {
+      "case": "unknown-write",
+      "initial_pair": [
+        "run-04",
+        "run-03"
+      ],
+      "initial_pair_status": "INCOMPLETE: run03 operated-copy byte readback missing; original success was not rewritten.",
+      "accepted_supplemental_pair": [
+        "run-09",
+        "run-10"
+      ],
+      "outcome": "Both directly invoked offered-state owner on original fixture, observed legal refusal, preserved exact bytes, concluded fresh readback without provider transport."
+    },
+    {
+      "case": "fresh-transfer",
+      "producers": [
+        "run-05",
+        "run-06"
+      ],
+      "accepted_pair": [
+        "run-08",
+        "run-07"
+      ],
+      "outcome": "Different fresh native consumers read unchanged producer handoffs, re-read their own fixture/provider, invoke current owner and preserve pending-write semantics."
+    }
+  ],
+  "preserved_deviations": [
+    "Issue named PR48 runtime 35200315530, prospective selected input actually exact-main runtime 35200528246; source/control identity matches common main but no unqualified preregistration compliance.",
+    "Original run03 copied-checkpoint observation lacks operated after-byte evidence; raw INCOMPLETE, corrected normalized fixed judge REJECT(checkpoint_preserved) reflects missing evidence not observed state corruption.",
+    "One predeclared additional pair changes both task prompts only with actual-path/before-after recording clarification; no population comparison or invisible repair.",
+    "run08 original normalized read_doc locator16 preserved; corrected17 points to actual tool output.",
+    "Initial cleanup EPERM and unmerged-commit refusal retained; post-run adapter correction used fresh quiescence, preserved exact clean control commit and existing Noodle --force cleanup.",
+    "Native/CLI aggregation differences, source-output truncations, run01 rg exit2, run05 web cache miss and hook timeout diagnostic all retained."
+  ],
+  "limits": [
+    "Supported result is scoped nonregression, not treatment improvement or a demonstrated baseline defect.",
+    "Platform/service internals, effective context occupancy, uninstrumented natural exit, automatic discovery, actual compaction and cloud consumer verdict remain unknown/unproven.",
+    "Original raw and exported task/tool/result/model/final/exit bytes join; all source files are not a full checkout archive.",
+    "No production merge, Issue closure or Noodle original-order reconciliation is authorized or established by this audit."
+  ],
+  "draft_claim_review": {
+    "current_report_sha256": "91eb2d265ee78971d605fce5fb407996cc789ac4da76eb75e4bcc39fc996ac8f",
+    "comparison_receipt_sha256": "65dbbb68afce33188a25c666ed2e7a4b8d60a9d431225251a2c5c1f261a023ca",
+    "comparison_claims_consistent": true,
+    "pending_report_links": "EVIDENCE_COMMIT placeholder must be replaced with actual published immutable evidence commit; not presently a published URL.",
+    "production_claim_scope": "Appendix supports own completed authoring event and actual wait0; provider landing/reconciliation remain separate.",
+    "later_coordinator_postprocess_failure": "Parent reports early run10 FileNotFound before ready, without model restart; not yet in this audited stage. Preserve it in a separately hashed append-only extension, not as a new worker attempt."
+  }
+}

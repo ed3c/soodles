@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-09-17T09:03:22.192547Z",
+  "backlog": [
+    {
+      "id": "soodles-39",
+      "title": "Validate Agent context transfer with scoped Astra document patterns",
+      "status": "open",
+      "plan": "This is a bounded independent read-only review. The launcher has already validated the real Issue contract. Use the installed execute skill and read local AGENTS.md. Do not fetch Issue 39, experiment reports, the judge, other sessions or the operator archive. The task inputs are in the inbox directory alongside NOODLE_PROJECT_DIR (Path(os.environ['NOODLE_PROJECT_DIR']).parent / 'inbox'). Read task-input.json there. Read-only command execution is authorized. For mutable fixtures, inspect the actual supplied checkpoint/provider files and invoke the current local owner entry, not merely the historical owner output. The local owner entry is python3 -B ./soodles.py landing; use its help for arguments. All provider subjects in fixture files are simulated, except the explicitly supplied common runtime readback. Do not send fixture requests to GitHub.\n\nWork in ed3c/soodles at the supplied instruction ref. Resume the task in the handoff. Inspect the supplied current checkpoint and provider snapshot and continue within its scope. All provider subjects are simulated fixture data; do not transport requests to GitHub or change production state.\n\nFinish with the scoped conclusion and your own typed blocked stage handoff as the execute skill describes. The admitted Noodle binary is /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81. Event schema locator: https://github.com/ed3c/noodle/blob/ca81f942f478e8e4afcbbce6ca69640867efe753/event/types.go . Do not edit repository source or create extra worktrees/sessions.\n"
+    }
+  ],
+  "active_summary": {
+    "total": 0
+  },
+  "tickets": [],
+  "resources": {
+    "max_concurrency": 1,
+    "active": 0,
+    "available": 1
+  },
+  "recent_history": [
+    {
+      "session_id": "schedule-20260917-090145-6238da",
+      "order_id": "schedule",
+      "task_key": "schedule",
+      "status": "completed",
+      "duration_s": 23,
+      "completed_at": "2026-09-17T09:02:09.417055Z"
+    },
+    {
+      "session_id": "soodles-39-0-execute-20260917-090209-652c2f",
+      "order_id": "soodles-39",
+      "task_key": "execute",
+      "status": "completed",
+      "duration_s": 72,
+      "completed_at": "2026-09-17T09:03:22.189508Z"
+    }
+  ],
+  "recent_events": null,
+  "routing": {
+    "defaults": {
+      "provider": "codex",
+      "model": "gpt-6-astra"
+    },
+    "available_runtimes": [
+      "process"
+    ]
+  },
+  "task_types": [
+    {
+      "key": "execute",
+      "schedule": "Only the admitted experimental order."
+    }
+  ]
+}

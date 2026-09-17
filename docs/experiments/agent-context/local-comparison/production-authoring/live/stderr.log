@@ -1,0 +1,9 @@
+2026-09-17T16:48:01.291753+08:00 INFO api: start initialized project=/Users/neon/soodles runtime_dir=/Users/neon/soodles/.noodle once=false server_enabled=false
+2026-09-17T16:48:01.292062+08:00 INFO api: web server disabled
+2026-09-17T16:48:01.303424+08:00 INFO api: control command action=mode status=ok
+2026-09-17T16:48:02.740264+08:00 INFO api: orders-next promoted
+2026-09-17T16:48:02.799895+08:00 INFO api: cook dispatched order=soodles-39 stage=0 session=soodles-39-0-execute-20260917-084802-fa146c worktree=soodles-39-0-execute attempt=0
+2026-09-17T16:53:10.063119+08:00 INFO api: session meta indicates terminal state; enqueueing completion order=soodles-39 session=soodles-39-0-execute-20260917-084802-fa146c status=exited
+2026-09-17T16:53:10.190423+08:00 WARN api: merge failed, forwarding to scheduler order=soodles-39 reason="merge failed: run adapter backlog.done command \"/Users/neon/.codex/experiments/soodles39-resume-20260917/backlog done 'soodles-39'\": no stderr: signal: killed"
+2026-09-17T16:53:10.190513+08:00 INFO api: scheduler not active, event stays in orders for later recovery order=soodles-39 event=merge_failed
+2026-09-17T16:53:10.192706+08:00 WARN api: merge failed: run adapter backlog.done command "/Users/neon/.codex/experiments/soodles39-resume-20260917/backlog done 'soodles-39'": no stderr: signal: killed path=cycle.merge_terminal class=order-hard recoverability=recoverable order_id=soodles-39 stage_index=0 order_class=stage-terminal cause="run adapter backlog.done command \"/Users/neon/.codex/experiments/soodles39-resume-20260917/backlog done 'soodles-39'\": no stderr: signal: killed"

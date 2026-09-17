@@ -1,0 +1,15 @@
+{
+  "at": "2026-09-17T09:01:12.988182+00:00",
+  "observed_runs": [
+    "run-01",
+    "run-02",
+    "run-06"
+  ],
+  "failures_preserved": true,
+  "cause": "current Noodle correctly refuses ordinary cleanup of detached experimental commit unmerged to main; initial adapter assumed older behavior",
+  "correction": "separate coordinator exact-head preservation and fresh quiescence readback, then explicit Noodle offered --force for disposable worker checkout only",
+  "scope": "post-run cleanup only; model inputs, runtime, recorder and fixed judge unchanged",
+  "initial_sha256": "df18c8bdbefe8edb3e27fc580846a198fdce5c2f16a6b2f9327abe5a8c23fd1a",
+  "new_sha256": "d4fce74d46db96e375d2b9b7e84a20c6945ff6ec63cb4b30702ea42fa0ccf96d",
+  "authorizes_landing": false
+}

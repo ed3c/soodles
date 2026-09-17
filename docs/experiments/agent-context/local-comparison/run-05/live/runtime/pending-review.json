@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "order_id": "soodles-39",
+      "stage_index": 0,
+      "task_key": "execute",
+      "prompt": "{\"body_sha256\": \"cf54e51c5af83fa75625abd68e12b68d1bcd90c7938bea4406467a95020b1887\", \"body_updated_at\": \"2026-09-17T08:46:19Z\", \"envelope_sha256\": \"652e9eb3c6082e5751c0f4af92b79ca7af4e326db794ec453fd8777921a38208\", \"issue\": 39, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"This is a bounded independent read-only review. The launcher has already validated the real Issue contract. Use the installed execute skill and read local AGENTS.md. Do not fetch Issue 39, experiment reports, the judge, other sessions or the operator archive. The task inputs are in the inbox directory alongside NOODLE_PROJECT_DIR (Path(os.environ['NOODLE_PROJECT_DIR']).parent / 'inbox'). Read task-input.json there. Read-only command execution is authorized. For mutable fixtures, inspect the actual supplied checkpoint/provider files and invoke the current local owner entry, not merely the historical owner output. The local owner entry is python3 -B ./soodles.py landing; use its help for arguments. All provider subjects in fixture files are simulated, except the explicitly supplied common runtime readback. Do not send fixture requests to GitHub.\\n\\nPrepare a concise handoff for a different fresh reviewer continuing this fixture review. Inspect the current checkpoint/provider through the existing owner. Persist your handoff as inbox/handoff.json (in the supplied inbox, not the repository), including the actual source/checkpoint identity, observations and supported continuation. Keep any historical request clearly distinguished from current owner output. Do not claim the later consumer has run.\\n\\nFinish with the scoped conclusion and your own typed blocked stage handoff as the execute skill describes. The admitted Noodle binary is /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81. Event schema locator: https://github.com/ed3c/noodle/blob/ca81f942f478e8e4afcbbce6ca69640867efe753/event/types.go . Do not edit repository source or create extra worktrees/sessions.\\n\"}",
+      "provider": "codex",
+      "model": "gpt-6-astra",
+      "runtime": "process",
+      "skill": "execute",
+      "worktree_name": "soodles-39-0-execute",
+      "worktree_path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-05/control/.worktrees/soodles-39-0-execute",
+      "session_id": "soodles-39-0-execute-20260917-085624-ff8e65",
+      "reason": "blocked by typed stage outcome: 有界 fixture 審查已完成並保存 /Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-05/inbox/handoff.json。目前 local landing.advance exit=0，action=readback、phase=merge_pending，merge 已 offered，無新 request；checkpoint/provider bytes 未變。等待有實質變化的模擬 provider readback，由相同 owner 續接，禁止重送 historical merge request 或向 GitHub 傳送 fixture requests。未交付 production Issue 39，未聲稱後續 consumer 已執行。"
+    }
+  ]
+}

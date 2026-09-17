@@ -1,0 +1,33 @@
+diff --git a/.agents/skills/verify-soodles/SKILL.md b/.agents/skills/verify-soodles/SKILL.md
+index f664502..227afb8 100644
+--- a/.agents/skills/verify-soodles/SKILL.md
++++ b/.agents/skills/verify-soodles/SKILL.md
+@@ -5,7 +5,7 @@ description: Verify Soodles runtime admission, supervised delivery and recovery
+ 
+ # Verify Soodles
+ 
+-This is a CLI application with an external supervised publisher and GitHub transport. Read the relevant recipe directly: [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
++This is a CLI application with an external supervised publisher and GitHub transport. Read the relevant recipe directly: [authenticated Issue readback](features/github-read.md), [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
+ 
+ ## Launch
+ 
+diff --git a/AGENTS.md b/AGENTS.md
+index 3b2163e..7da186e 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -29,6 +29,15 @@ The supervisor selects immutable external verifier/oracle bytes before candidate
+ 
+ For runtime/delivery verification or a bounded P-class behavior/context comparison, use `.agents/skills/verify-soodles/SKILL.md` and its feature recipe. Its receipt is non-authorizing. Create a verification skill when that capability is missing; run maintenance for an explicit map audit or observed recipe drift, not on every Issue. Canonical acceptance and delivery remain owned by the existing entries above.
+ 
++For verification of Noodle itself (CLI identity/skill resolution, stopped initial-proposal recovery, or original order/session handoff), use [.agents/skills/verify-noodle/SKILL.md](.agents/skills/verify-noodle/SKILL.md) and its independent feature map; existing Noodle owners and Soodles acceptance/delivery retain authority.
++
+ ## Guarantee classes
+ 
+ Classes describe authority of a claim, not confidence or file type (Noodles reference: `d4fa0da322cbb7a581328398906a4f04deaf0a69`). N describes inventory/prose/metrics and proves nothing. P guides model reasoning, skill use and routing; it cannot grant correctness authority. L is a tested executable local discriminator bound to its subject/readback/residue; it may reject locally. R is provider-enforced check/merge/closure truth for the exact provider claim. A run's success does not prove full behavior or local reconciliation. Guidance or repeated green results cannot promote N/P into L/R. The selected external judge remains fixed for this acceptance; its source and erroneous controls remain correctable under a fresh supervisor boundary.
++
++For authenticated Issue reads, use `./soodles github issue NUMBER` and the
++verify-soodles [GitHub read recipe](.agents/skills/verify-soodles/features/github-read.md).
++The supervisor supplies the scoped installation credential; the shared reader
++never falls back to anonymous API. Provider wait is exit 75 with a deadline,
++not permission to change identity or restart a writer. This boundary does not
++certify the daemon response to adapter failure or resume a paused comparison.

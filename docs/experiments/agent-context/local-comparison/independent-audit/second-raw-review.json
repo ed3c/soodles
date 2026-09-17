@@ -1,0 +1,1203 @@
+{
+  "schema": 1,
+  "at": "2026-09-17T09:10:56.694334+00:00",
+  "scope": "第二批原生 task/tool/result/model/exit/final 與 fresh-transfer 審查，加六份 normalized packets 的原始行號交叉核對。未執行受審命令，未改judge/input，未分析或輸出平台指令/內部reasoning。",
+  "classification": "INCOMPLETE_UNKNOWN_WRITE_OPERATED_CHECKPOINT_BYTES",
+  "authorizes_landing": false,
+  "public_export_completeness_reviewed": false,
+  "runs": [
+    {
+      "run": "run-03",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0ae98-2993-72c1-98f2-c34b17063e54",
+      "turn_id": "01a0ae98-2a18-70e1-bbb0-78242ef5ab8d",
+      "session_id": "soodles-39-0-execute-20260917-090001-98a6ce",
+      "native_model": {
+        "locator": "run-03/native/rollout.jsonl:8",
+        "turn_id": "01a0ae98-2a18-70e1-bbb0-78242ef5ab8d",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-03/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-03/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_i4FMjnHIEkZrmawH9evScEaR",
+          "call": "run-03/native/rollout.jsonl:13",
+          "result": "run-03/native/rollout.jsonl:16",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "7dd0fa04281da3fb7115adabb254565e72b62e48e5b4be5a7b3bb717e3081789",
+          "result_sha256": "6d1a6fbf5d251c5e8ca8de6c0f0ea65fb280b63ec112c5365b1c71dc27622a9f"
+        },
+        {
+          "call_id": "call_xAXfLXdYzUvAsOkjoMYdLVuu",
+          "call": "run-03/native/rollout.jsonl:18",
+          "result": "run-03/native/rollout.jsonl:22",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "0fa30934a990b907cd13b0a6245b76266ef474a7275f5882bd79af10ec9a59be",
+          "result_sha256": "2f1e59c168cb93296cc68a1ec05101da13760317ab1f13650838782535f39683"
+        },
+        {
+          "call_id": "call_HGsZIGtrFhNMWvMXpJkHP8B3",
+          "call": "run-03/native/rollout.jsonl:24",
+          "result": "run-03/native/rollout.jsonl:27",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "e2d13f108bfa0286f893fa2b1acd15a646fbeed0e3ee4c5b3529a774f01fe8f9",
+          "result_sha256": "7e2317f50e4268d116afeb18d8e9c56f912c38b8d882521281620512db2de856"
+        },
+        {
+          "call_id": "call_MiQk6aA7dIy33AOnA8mwMX0K",
+          "call": "run-03/native/rollout.jsonl:31",
+          "result": "run-03/native/rollout.jsonl:34",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "54de5e12251dd8b37dc74fface79f0dfa464761d32597cb024160ad04870ffcf",
+          "result_sha256": "caeeee000ad7a20de82abd074277369fd50df28372d648006e8d625f3eb67bbc"
+        },
+        {
+          "call_id": "call_9kHc87oLWGrpxn0hs8NVPM3I",
+          "call": "run-03/native/rollout.jsonl:36",
+          "result": "run-03/native/rollout.jsonl:39",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "91ad9b07530116261f99aa10a2c429226e259f86f2e87896126566d68ca21919",
+          "result_sha256": "55f73e99c36089372afbaa09161642ecf8a0964a3f299a0a61f9c080ead21e27"
+        },
+        {
+          "call_id": "call_dg7UekJVsSZaUdONZ6awI8Wc",
+          "call": "run-03/native/rollout.jsonl:45",
+          "result": "run-03/native/rollout.jsonl:48",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "fbf20fd5876d4f2c69f4fe9c260f86ba5a45ae6932da36cd0b8e5f09debdb863",
+          "result_sha256": "cf2bd6993c26f452d922c08b9db13f005e3c1832b30b96c8a72e98718b1d99e2"
+        },
+        {
+          "call_id": "call_zT8cBN1JZwBKkcEDt30vaCUC",
+          "call": "run-03/native/rollout.jsonl:52",
+          "result": "run-03/native/rollout.jsonl:55",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "e90330b73473bb0803857cf616c2a42cd4c57b5043e0d09aae351c753d414015",
+          "result_sha256": "208ec081e7d766d15e3d6ed7201602a6bd817683d23298ec342d7e2a8b6b82cb"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 11770,
+          "output_sha256": "08e0f8499435f49b9a31a300f9699221caa7470f67fa5477f6fd4493b9208349"
+        },
+        {
+          "locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:8",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 764,
+          "output_sha256": "aa722d9afe38ece12bbb7ab74eced82ed1304e18092b321b8479003507466aa5"
+        },
+        {
+          "locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:10",
+          "id": "item_4",
+          "exit": 0,
+          "output_bytes": 849,
+          "output_sha256": "edd5622af5be13f4a7df56b17e3c742082af3399097281f9b1cb0b4309d03783"
+        },
+        {
+          "locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:12",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 690,
+          "output_sha256": "35c6002d4d3b43d6dce96a1f2a9dbe9e426bdc08db5011d6af86d50ebb6b1ed8"
+        },
+        {
+          "locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:14",
+          "id": "item_6",
+          "exit": 0,
+          "output_bytes": 8074,
+          "output_sha256": "b92dfc8280517f926631e6e23ce2c349e0b8e053935b4ece5742597945a9e74e"
+        },
+        {
+          "locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:16",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 19891,
+          "output_sha256": "8abe920c0883a76c03a7f73b6f07afa27213286a11382796e933e514c5df2fcb"
+        },
+        {
+          "locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:19",
+          "id": "item_9",
+          "exit": 0,
+          "output_bytes": 1989,
+          "output_sha256": "060500db1319ee63f6e3b61ef63f4d4e7a1a3a8d4c74b81915f37aec6efad845"
+        },
+        {
+          "locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:21",
+          "id": "item_10",
+          "exit": 0,
+          "output_bytes": 1894,
+          "output_sha256": "87bfcf9c7eb2d04c0d32216fd7ca15f7d1bcf4087330e0ddde77e3df20a09d97"
+        }
+      ],
+      "tool_result_truncation_locators": [],
+      "final_locator": "run-03/native/rollout.jsonl:58",
+      "typed_outcome_locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/events.ndjson:13",
+      "actual_wait": {
+        "child_pid": 19623,
+        "recorder_pid": 19622,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T09:00:01.860313+00:00",
+        "finished_at": "2026-09-17T09:01:28.825635+00:00",
+        "elapsed_seconds": 86.96509129198967,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-03/native/rollout.jsonl": "6424ad09534291a13d7779827316cd0dfbc091da224943d41986cfec312a0de1",
+        "run-03/native/history.json": "47f5f7abf81a77cac7fc7a6da10591d5f190b0e2f74b01ddb7439f80bbe21ac0",
+        "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson": "e77978c0c213277353e64e9a1143b232c4d0b00e74ee120b0ffbada1d145e217",
+        "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/events.ndjson": "a86fb74f4e8cda65d0fc3fca7b117c5d956ba354adde6b1a6d568f2ab0d27621",
+        "run-03/process-exits/soodles-39-0-execute-20260917-090001-98a6ce/exit.json": "bdbedfc7db8b69de74843d37c5f2093f42a5b65a1d6d4dcaa56c5d9f261c8738",
+        "run-03/process-exits/soodles-39-0-execute-20260917-090001-98a6ce/launch.json": "19f5d525d7f6d7c9a439409188b3b07097f6a14e790265ff94371844609ad3b8",
+        "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/process.json": "0ff46fe5647e47fd33b06ab6f3f6cac40a32a1f7fbb6969075e4fb71afd96904",
+        "run-03/process-exits/soodles-39-0-execute-20260917-090001-98a6ce/stdout.log": "b30490a657e73200c6a1f867537e99b6d3d52860dcd432caf68e3883a5ea147c",
+        "run-03/cleanup-final.json": "ad53599dde356d804876959630476a90ac216c9dbb3f8db3cdfd9455b14bff85",
+        "run-03/task.txt": "78024f996fd8ef20eacc360458b036b751af0b94a7867ccbadbc3b93026f0d18"
+      },
+      "auth": {
+        "locator": "run-03-auth.json",
+        "sha256": "cd1524f277bae4cd40e964f9529b60993359755b4d8f71ec70353ff36195ec9c",
+        "requested_repositories": [
+          "soodles"
+        ],
+        "requested_permissions": {
+          "issues": "read"
+        },
+        "revocation_status": 204,
+        "scope": "saved supplier HTTP response status; reviewer did not remint/revoke a token"
+      }
+    },
+    {
+      "run": "run-04",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0ae99-a8d6-7a02-97b7-f7dff82956aa",
+      "turn_id": "01a0ae99-a974-7c30-8397-557bd9ee3f68",
+      "session_id": "soodles-39-0-execute-20260917-090139-9d497d",
+      "native_model": {
+        "locator": "run-04/native/rollout.jsonl:8",
+        "turn_id": "01a0ae99-a974-7c30-8397-557bd9ee3f68",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-04/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-04/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_NN7LUfaLfmY1CYrB6HSOCCvB",
+          "call": "run-04/native/rollout.jsonl:13",
+          "result": "run-04/native/rollout.jsonl:17",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "b423d68a7711ee886f0b777bdf22eb67bee7e162f376e55249a6bfbbd8ae425f",
+          "result_sha256": "6bb37b45ebecddea127d0e2d24ad0ba16414394a91d756c736e666d2bc91da9b"
+        },
+        {
+          "call_id": "call_WwynqoOOMOSvG7z4FFDw6ulL",
+          "call": "run-04/native/rollout.jsonl:19",
+          "result": "run-04/native/rollout.jsonl:24",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "6385b8c7ed918769554f3f1d62c4df74a383e0e157bf1e5763dddca1f517f41c",
+          "result_sha256": "b8937cd72bbc7838007471025ff5629319854c193cc8127a9ec206ceab62785e"
+        },
+        {
+          "call_id": "call_YKEpGI2c6eo9e8ZXy1OamKga",
+          "call": "run-04/native/rollout.jsonl:28",
+          "result": "run-04/native/rollout.jsonl:32",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "51a432c65a89c8b7e659e980172558e571ad26bfa28c3a2d79d9e5db0a2c3ce5",
+          "result_sha256": "12547dff00c66b5ea5d0422f916e203c9e13efd300ab0de8679b33fa057ed1df"
+        },
+        {
+          "call_id": "call_lKyEETrkJ90eToyev8l7yEOs",
+          "call": "run-04/native/rollout.jsonl:38",
+          "result": "run-04/native/rollout.jsonl:41",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "1642614f91976f154d92c4eb79fe5d5ac062ea99fe509d468eeae3317e1acf44",
+          "result_sha256": "da69d1098bd808c25f951077014378846eb0170883fa0e5050933f91895abc10"
+        },
+        {
+          "call_id": "call_5K6diGSJxkjUoKJCROzpTWSK",
+          "call": "run-04/native/rollout.jsonl:45",
+          "result": "run-04/native/rollout.jsonl:48",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "a1ae37afbd2a33af61d97c617cd860df6f0da594fe66f464307e22e373f03646",
+          "result_sha256": "6a51c1933631f69418a86240a24466c3b4aebee15b39f0631105237c77d19734"
+        },
+        {
+          "call_id": "call_eCbtyDj0BlO1N9hSZkCYvsV0",
+          "call": "run-04/native/rollout.jsonl:54",
+          "result": "run-04/native/rollout.jsonl:57",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "7a5a3d8ea559a7a961b5899b6d0edbf9b5be8dfd5e06aa6c5ad65b7b436fefea",
+          "result_sha256": "d45853813d8f72159b2b6302762183a775ada76f4e7bb0ea7b27dd238344bcca"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 8107,
+          "output_sha256": "acccdae5b650eca3706a0392ff0ab9e329ff9d74b7657ce4b68e98ab075fee60"
+        },
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:8",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 545,
+          "output_sha256": "4bad4fe87994b77e6da33f0711c1cd2b1b767f38a32b7742607f729f50273e12"
+        },
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:11",
+          "id": "item_4",
+          "exit": 0,
+          "output_bytes": 20124,
+          "output_sha256": "70a294ca4a2e4d5d4fbfe828bb29e62e8e7ef5f982013b6cbf8dd18a4cc2de4b"
+        },
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:13",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 519,
+          "output_sha256": "36221519266e0cef463f024500e6fac3249c6f5d9d5c18b0e416ab92923ada46"
+        },
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:14",
+          "id": "item_6",
+          "exit": 0,
+          "output_bytes": 4590,
+          "output_sha256": "2c7146c8c0259b7c29329f403ca5b2246f3a32d5abd927d0a706c0d1c5680f7f"
+        },
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:17",
+          "id": "item_8",
+          "exit": 0,
+          "output_bytes": 5957,
+          "output_sha256": "dddadc0956b287c689308bfc36ca936353f73d8fa045530684bc4d4bac193e6c"
+        },
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:18",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 335,
+          "output_sha256": "182bb3578f0cdfef41a53def28b6e6393fa722a57e77fa39d634b38a961a686e"
+        },
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:21",
+          "id": "item_10",
+          "exit": 0,
+          "output_bytes": 1566,
+          "output_sha256": "504b744b1a3a53c43db5162f30bbb0a676172c6471ab672bac206cab1af8652a"
+        },
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:23",
+          "id": "item_11",
+          "exit": 0,
+          "output_bytes": 164,
+          "output_sha256": "3d43d9dfc88f16ea49ab94ff369d681840c08f248e1c5b04021a17ab2852b5b3"
+        },
+        {
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:26",
+          "id": "item_13",
+          "exit": 0,
+          "output_bytes": 0,
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "tool_result_truncation_locators": [],
+      "final_locator": "run-04/native/rollout.jsonl:60",
+      "typed_outcome_locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/events.ndjson:16",
+      "actual_wait": {
+        "child_pid": 20966,
+        "recorder_pid": 20965,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T09:01:39.902098+00:00",
+        "finished_at": "2026-09-17T09:03:03.815754+00:00",
+        "elapsed_seconds": 83.91343325003982,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-04/native/rollout.jsonl": "387fdf187372d7e53ae46523f91cc98807562d35c0cade6546a348b673c06e5c",
+        "run-04/native/history.json": "41e914ea6b4cd4c489b268e68832a47aac162302ffe429281e5d405c89409ae3",
+        "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson": "2994a68d103e8c30d2861a3d4d608606208c24776c326262ee3e85f5c179cc85",
+        "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/events.ndjson": "4f29abf6328e0a351488b1b2f29b4291a77b5756fff1a064e79b4ff9c63efdcd",
+        "run-04/process-exits/soodles-39-0-execute-20260917-090139-9d497d/exit.json": "1e778b4bf6ddfdf7d31e3c037929670eb3f194c3870d740cce49cec4b0ad6e84",
+        "run-04/process-exits/soodles-39-0-execute-20260917-090139-9d497d/launch.json": "d6d667b9d2c812f082d1234dd496dc9e678017d166078f552e10fbbf12850a12",
+        "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/process.json": "98f706981fb1cdbe6bd5607d8c294fb045b62d3e47d7944079dd0ab372fddecc",
+        "run-04/process-exits/soodles-39-0-execute-20260917-090139-9d497d/stdout.log": "f2f4bd7eeb577ac416491af291cd0c4c60ffc2c28bd7cc84003fc944163880d0",
+        "run-04/cleanup-final.json": "ae84a6193058e3a787b05b791fb6dcbbb4018c49ea1e56c5569823933e4e1924",
+        "run-04/task.txt": "78024f996fd8ef20eacc360458b036b751af0b94a7867ccbadbc3b93026f0d18"
+      },
+      "auth": {
+        "locator": "run-04-auth.json",
+        "sha256": "25813e2ddf025ae2d2322781def83e7aa683ed497b676bb62a42443b945338e0",
+        "requested_repositories": [
+          "soodles"
+        ],
+        "requested_permissions": {
+          "issues": "read"
+        },
+        "revocation_status": 204,
+        "scope": "saved supplier HTTP response status; reviewer did not remint/revoke a token"
+      }
+    },
+    {
+      "run": "run-07",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0ae9a-26b2-7180-8510-fa06580fcb1f",
+      "turn_id": "01a0ae9a-27c6-7813-a55b-481da85cee8c",
+      "session_id": "soodles-39-0-execute-20260917-090209-2939bd",
+      "native_model": {
+        "locator": "run-07/native/rollout.jsonl:8",
+        "turn_id": "01a0ae9a-27c6-7813-a55b-481da85cee8c",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-07/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-07/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_hHPFAkr9O3NYfrKdxzvqeoKe",
+          "call": "run-07/native/rollout.jsonl:13",
+          "result": "run-07/native/rollout.jsonl:17",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "6115559b60829e65c4cacee5f52c7abc6863789ff4b978f4ed977047153aeb67",
+          "result_sha256": "ab8813d34cf39a398bd87eb08c6f89a79f72d665d1cef41581549fde8db56d2a"
+        },
+        {
+          "call_id": "call_Oh5tHo2PynkoCgmzzzae890X",
+          "call": "run-07/native/rollout.jsonl:19",
+          "result": "run-07/native/rollout.jsonl:24",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "475cf1fe51968f812421382eaa24b431995fe513d3dd535b45acc85f6207d284",
+          "result_sha256": "a0db60444ae191ae321c714198a903f9b3bc5cce5dcac440d27b4f3ee6e8881f"
+        },
+        {
+          "call_id": "call_LXwscA6FO6tFxAfCr1966dEc",
+          "call": "run-07/native/rollout.jsonl:28",
+          "result": "run-07/native/rollout.jsonl:32",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "2dadced792e84c376f2c0acbff7039c1f93d968044d8c7aa46490a271db571e1",
+          "result_sha256": "91a7c2f1224cefde4285b25bea6d2b8b780123244fac014ffac1a0a5e41626a9"
+        },
+        {
+          "call_id": "call_PKIKUYRqvtONosUJ0URc3er3",
+          "call": "run-07/native/rollout.jsonl:34",
+          "result": "run-07/native/rollout.jsonl:38",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "8823dc03018260137792d7d4ee5e0833fdb9c1306ed19ebc17a08e887fe98f62",
+          "result_sha256": "2ecb9f4d3affc52389dc9f3216308daeb48c4e5c946a2484cc32fabe84f896b9"
+        },
+        {
+          "call_id": "call_xYJaCXhIM7P7MWydm5Ki2Z9D",
+          "call": "run-07/native/rollout.jsonl:44",
+          "result": "run-07/native/rollout.jsonl:48",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "4b97c8620804d0744a245526eb8733d29c05d51426e67ef91c82a1e68bc2fea8",
+          "result_sha256": "04bbcb7d3a1f9cca4f31e6eab0ce1747dff25c2dc43d64fd0bec4769899b0ce5"
+        },
+        {
+          "call_id": "call_eQOJhZj9e5K0U6C6OdN442Gn",
+          "call": "run-07/native/rollout.jsonl:52",
+          "result": "run-07/native/rollout.jsonl:55",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "5a93f81f4a403f336119b444116e0c8281a62bd55e63bab291ba7f5783f8d448",
+          "result_sha256": "b8dcfba273c44ed41ebe9c055e2505377fdf7f17a5a0fadbf972a42ab7eda301"
+        },
+        {
+          "call_id": "call_xpC2G9owTOcLACIuWCox3H3T",
+          "call": "run-07/native/rollout.jsonl:57",
+          "result": "run-07/native/rollout.jsonl:60",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "3723c19fc67d648d5ba2515c64938ca38eaae2829d7036d62d2675d7dad1bef5",
+          "result_sha256": "ba39dd3662b642e4f478662f746778dcaddac8902fdaadbf47abe1419261d7f5"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 11770,
+          "output_sha256": "10ed427b55ec034d990b07f7dbd7fd2822ad1ac875b5a4852e021f7ebaeac7b5"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:8",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 574,
+          "output_sha256": "aa36dd252df0c2e09cf4d02f4a6618537a02baa92844442fe69c6eec0b29f53a"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:11",
+          "id": "item_4",
+          "exit": 0,
+          "output_bytes": 26877,
+          "output_sha256": "c5d49c726a12a5889cd62818ddcaa484d59669f0771b44589eb30dd734988105"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:13",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 519,
+          "output_sha256": "36221519266e0cef463f024500e6fac3249c6f5d9d5c18b0e416ab92923ada46"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:14",
+          "id": "item_6",
+          "exit": 0,
+          "output_bytes": 5363,
+          "output_sha256": "77116b5fafefd5d21f90b4104d42d326045c7c5b8f1f6211682f04633d922906"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:16",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 6734,
+          "output_sha256": "920b75a3b9df69a4ba6f901baa072cbcc2b524c4608041b97a76e45db56ddc89"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:18",
+          "id": "item_8",
+          "exit": 0,
+          "output_bytes": 1668,
+          "output_sha256": "a13a20f14d25826deea8ce0b4cc9b2e241f2db41739701dd9185a739064a3909"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:20",
+          "id": "item_9",
+          "exit": 0,
+          "output_bytes": 139,
+          "output_sha256": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:22",
+          "id": "item_10",
+          "exit": 0,
+          "output_bytes": 1999,
+          "output_sha256": "6050610005e5be922269c7dfe3a62cfadd2614a62eed96e7ca34fa5b0773878a"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:25",
+          "id": "item_12",
+          "exit": 0,
+          "output_bytes": 339,
+          "output_sha256": "0b6d01403142af10578742687850efd2ad3c05dbeb0baca8393125dbeac101f3"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:27",
+          "id": "item_13",
+          "exit": 0,
+          "output_bytes": 1206,
+          "output_sha256": "24c8ffb170dfdc92274a5f9de839fadf20b2fbeb36821ad6e4b680b217984a39"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:29",
+          "id": "item_14",
+          "exit": 0,
+          "output_bytes": 1870,
+          "output_sha256": "008770b91255362239e05dc4c3ef383b3dbae2c0ed9bc3c2e563060c42fb942f"
+        },
+        {
+          "locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:31",
+          "id": "item_15",
+          "exit": 0,
+          "output_bytes": 1272,
+          "output_sha256": "fe073c4854daf4a49e45e1db9fe807267675c475a6ad2387b5e9ee8b63fd614b"
+        }
+      ],
+      "tool_result_truncation_locators": [],
+      "final_locator": "run-07/native/rollout.jsonl:63",
+      "typed_outcome_locator": "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/events.ndjson:16",
+      "actual_wait": {
+        "child_pid": 22836,
+        "recorder_pid": 22833,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T09:02:09.538521+00:00",
+        "finished_at": "2026-09-17T09:03:35.393073+00:00",
+        "elapsed_seconds": 85.854347333021,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-07/native/rollout.jsonl": "234f80c556d67ceb1b95c6abc7ea26157d75d61893ecfe61e11dabee757f458e",
+        "run-07/native/history.json": "18ab9b7b95a53f5b47c4b440b7e50b58a392647680cc6e8ac293f7572ff3e01f",
+        "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson": "e73ba4447254346b5c28cc775f533d45c86a2968fa06af6d9dadc5fe5dedd8cb",
+        "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/events.ndjson": "473bae03f4aea9928b0cfa389c626ceb974dd697d22d91f28e952c7fc83bd2d5",
+        "run-07/process-exits/soodles-39-0-execute-20260917-090209-2939bd/exit.json": "167f6fb3063beb3d6ace57a9029f9d80317e2899902c974557a5dd8d3c729259",
+        "run-07/process-exits/soodles-39-0-execute-20260917-090209-2939bd/launch.json": "eef49ead0e0a8a66e0e2f6b62d6d6b1b8f0aae509dda591db67fd20540dcf2f4",
+        "run-07/live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/process.json": "90d6b4f1b82de374bb882d5d7f67b698473dc6e128f622edbcaa4b87261772af",
+        "run-07/process-exits/soodles-39-0-execute-20260917-090209-2939bd/stdout.log": "72551a4e4bed305ec1a7df939f008029362c45b27b9a0d11a7509d3dfb8f958b",
+        "run-07/cleanup-final.json": "0c4c29415b9f5b1c4323c1d9577c673f3e4562dac3e04a620bfdf0ff6f26db30",
+        "run-07/task.txt": "d1270d432bd679f0e284d598f78bf8af1e98cb515043f03a442e94ac7c1f2195"
+      },
+      "auth": {
+        "locator": "run-07-auth.json",
+        "sha256": "5c1ff0ffd31073b94e702673e9530088ce9ace6d3b7cf519c856915af96167df",
+        "requested_repositories": [
+          "soodles"
+        ],
+        "requested_permissions": {
+          "issues": "read"
+        },
+        "revocation_status": 204,
+        "scope": "saved supplier HTTP response status; reviewer did not remint/revoke a token"
+      }
+    },
+    {
+      "run": "run-08",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0ae9a-230e-7be0-aa7e-550d727572fb",
+      "turn_id": "01a0ae9a-241c-77f3-b5d1-57e53ad7fc28",
+      "session_id": "soodles-39-0-execute-20260917-090209-652c2f",
+      "native_model": {
+        "locator": "run-08/native/rollout.jsonl:8",
+        "turn_id": "01a0ae9a-241c-77f3-b5d1-57e53ad7fc28",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-08/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-08/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_oqtyCWIxpHDrE9prIrF89Zjl",
+          "call": "run-08/native/rollout.jsonl:13",
+          "result": "run-08/native/rollout.jsonl:17",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "703bb66c10beb81fa385f4576642ab843392a92788814aae2eaff9a813a8111a",
+          "result_sha256": "db0e103882cf0940252c93ada6ef29f7471d0615b865166d8ed5dd7a4a91d734"
+        },
+        {
+          "call_id": "call_ZKdF5ndrlQIAkUM5TsVHZeF5",
+          "call": "run-08/native/rollout.jsonl:19",
+          "result": "run-08/native/rollout.jsonl:24",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "d5ca511b54e1b7207a4982ee8ee228f2a85b492af092bcf1b894710dd0adea70",
+          "result_sha256": "36fc00c12b9bdbe7ba24c35606c031c8cb3dd9a166c1c8db7797cbe267a533df"
+        },
+        {
+          "call_id": "call_7fkEI8zPH0o2Ai1bqCEwBQP5",
+          "call": "run-08/native/rollout.jsonl:28",
+          "result": "run-08/native/rollout.jsonl:32",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "df1b974c4b81e901e8b0889982c0971674aece93ecd30d5290a5ff0e4618bfe0",
+          "result_sha256": "02c34ce58ee25b8cf1a8928b1079e66f1a6f778e1139785aa0f88d41c2641250"
+        },
+        {
+          "call_id": "call_XnAk35Zqj6OQUKO5b3VcHb5y",
+          "call": "run-08/native/rollout.jsonl:34",
+          "result": "run-08/native/rollout.jsonl:37",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "dbe372db376d0bba0ce835b06c537ff4cc01810aa58f2a75faa1ef23a2e06810",
+          "result_sha256": "51acd37474d109f3a557aafd39e0282c9cae0ce372ba67d583a59f7f74625354"
+        },
+        {
+          "call_id": "call_HeBdyF5UgrJenn25MhbdMlBJ",
+          "call": "run-08/native/rollout.jsonl:43",
+          "result": "run-08/native/rollout.jsonl:46",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "e05d81f7346d1214e6bc0ca03cf9656b320c263e2f2003ec3924596a0d213f00",
+          "result_sha256": "43353b432e5d3143d08ae11699d0ed7927faeb1818707724a8b1ad3cd5a4e0f7"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 8107,
+          "output_sha256": "b1080e5fed75280a21b478403b8abdaf86e6d1b916a50fc78e914d123c3cf62c"
+        },
+        {
+          "locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:8",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 574,
+          "output_sha256": "2943bffb1885c4bfee58776eac520ee8b9dfe88aa065ebf66b5d906880255128"
+        },
+        {
+          "locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:11",
+          "id": "item_4",
+          "exit": 0,
+          "output_bytes": 30848,
+          "output_sha256": "fe18816c874476fee846cc4ca39129279921d9031fb8ab2b57277a761ef1d629"
+        },
+        {
+          "locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:12",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 519,
+          "output_sha256": "36221519266e0cef463f024500e6fac3249c6f5d9d5c18b0e416ab92923ada46"
+        },
+        {
+          "locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:14",
+          "id": "item_6",
+          "exit": 0,
+          "output_bytes": 866,
+          "output_sha256": "dc4876984bf646ee157e8c4cb115f25811d6c99c109502bcfd5f56ecf8b38bb7"
+        },
+        {
+          "locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:17",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 5869,
+          "output_sha256": "afca7f897a797e6b09453eaf67cd71cde5bac38c1213600ddcddf5476278f5a1"
+        },
+        {
+          "locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:18",
+          "id": "item_8",
+          "exit": 0,
+          "output_bytes": 139,
+          "output_sha256": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d"
+        },
+        {
+          "locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:20",
+          "id": "item_9",
+          "exit": 0,
+          "output_bytes": 0,
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:23",
+          "id": "item_11",
+          "exit": 0,
+          "output_bytes": 1090,
+          "output_sha256": "a4c03c1d27251a68bb92cf7fea139e79296663d57bbacb9f511e52c7e53c30c4"
+        }
+      ],
+      "tool_result_truncation_locators": [],
+      "final_locator": "run-08/native/rollout.jsonl:49",
+      "typed_outcome_locator": "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/events.ndjson:14",
+      "actual_wait": {
+        "child_pid": 22835,
+        "recorder_pid": 22834,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T09:02:09.538098+00:00",
+        "finished_at": "2026-09-17T09:03:22.183784+00:00",
+        "elapsed_seconds": 72.64550816698465,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-08/native/rollout.jsonl": "2a4ca532a0a1f229daa8fd04e1ad9ad2e5775d637da74c802594bbccfda42daf",
+        "run-08/native/history.json": "622bc53863aa81c34d6d9c41373f5fa760e875a45c874cb78348d577a4596fcf",
+        "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson": "269c7e013258c53d29f9dd7178d7c2339f726f056ce7b4cda29edb4823605b34",
+        "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/events.ndjson": "b198368e78bf32c3efad2f6ff986a0141b7f291b0afae69279158274ec3b8e87",
+        "run-08/process-exits/soodles-39-0-execute-20260917-090209-652c2f/exit.json": "03b5e45e1ed620a98e49469d167130d2ffc3765a59af036434c4023982cf9cca",
+        "run-08/process-exits/soodles-39-0-execute-20260917-090209-652c2f/launch.json": "33efd155febb4b77721b25da718bf72b24fee2efb719b464bf10f28cca024cb5",
+        "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/process.json": "d68a84092448199d7b4a1bd75f4109d212649ae9af695e5a341481a74341530d",
+        "run-08/process-exits/soodles-39-0-execute-20260917-090209-652c2f/stdout.log": "934c85c32044ab29ca0a1981185de77f10b95cceba86c7719bc773453924a512",
+        "run-08/cleanup-final.json": "4833547ea1864a864de414c68e28e6a92e0732d57a5df73153bb43e49e093bb5",
+        "run-08/task.txt": "d1270d432bd679f0e284d598f78bf8af1e98cb515043f03a442e94ac7c1f2195"
+      },
+      "auth": {
+        "locator": "run-08-auth.json",
+        "sha256": "93cf401e2edb0005c6408cc43473cea61913a3d5489579d622cc62facbf6ac1b",
+        "requested_repositories": [
+          "soodles"
+        ],
+        "requested_permissions": {
+          "issues": "read"
+        },
+        "revocation_status": 204,
+        "scope": "saved supplier HTTP response status; reviewer did not remint/revoke a token"
+      }
+    }
+  ],
+  "normalization_review": [
+    {
+      "run": "run-01",
+      "packet_sha256": "262899acd2ed01df5dbb755886dd73d552e0eb4264edd561700b88f17f954b0e",
+      "verdict_sha256": "b46561bf566721e197af2edeb96c45a5ac6690ee3fc54301ec65e9b86cd325f5",
+      "frozen_verdict": "TRACE_CONSISTENT",
+      "raw_semantic_verdict": "SCOPED_OBSERVED",
+      "expected_document_and_fixture_blobs_match": true,
+      "events": [
+        {
+          "kind": "read_doc",
+          "locators": [
+            "native/rollout.jsonl:16"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_run",
+          "locators": [
+            "native/rollout.jsonl:26"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_control",
+          "locators": [
+            "native/rollout.jsonl:33",
+            "native/rollout.jsonl:42"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "conclude",
+          "locators": [
+            "live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/raw.ndjson:19"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        }
+      ]
+    },
+    {
+      "run": "run-02",
+      "packet_sha256": "6b882f8a31d49b10d487b558b02d961f63136dd45c578101ad313d2972904517",
+      "verdict_sha256": "b46561bf566721e197af2edeb96c45a5ac6690ee3fc54301ec65e9b86cd325f5",
+      "frozen_verdict": "TRACE_CONSISTENT",
+      "raw_semantic_verdict": "SCOPED_OBSERVED",
+      "expected_document_and_fixture_blobs_match": true,
+      "events": [
+        {
+          "kind": "read_doc",
+          "locators": [
+            "native/rollout.jsonl:16"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_run",
+          "locators": [
+            "native/rollout.jsonl:23"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_control",
+          "locators": [
+            "native/rollout.jsonl:41",
+            "native/rollout.jsonl:56"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "conclude",
+          "locators": [
+            "live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:35"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        }
+      ]
+    },
+    {
+      "run": "run-03",
+      "packet_sha256": "860f15f22e5126fccd6d5c77a68a0e3a4a6ad07cbba67ba7b6990c100579da30",
+      "verdict_sha256": "cbb92a362ca8e78588dfe530ca12ac4df4c78969e614328ac948a7f10e14e195",
+      "frozen_verdict": "REJECT",
+      "raw_semantic_verdict": "INCOMPLETE",
+      "expected_document_and_fixture_blobs_match": true,
+      "events": [
+        {
+          "kind": "read_doc",
+          "locators": [
+            "native/rollout.jsonl:16"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_provider",
+          "locators": [
+            "native/rollout.jsonl:27"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_owner",
+          "locators": [
+            "native/rollout.jsonl:48"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": false
+        },
+        {
+          "kind": "conclude",
+          "locators": [
+            "live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:22"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        }
+      ]
+    },
+    {
+      "run": "run-04",
+      "packet_sha256": "99c20d22acf168f2f342637ff40a49415a81abef36090ef24ef5752df95b01d9",
+      "verdict_sha256": "b46561bf566721e197af2edeb96c45a5ac6690ee3fc54301ec65e9b86cd325f5",
+      "frozen_verdict": "TRACE_CONSISTENT",
+      "raw_semantic_verdict": "SCOPED_OBSERVED",
+      "expected_document_and_fixture_blobs_match": true,
+      "events": [
+        {
+          "kind": "read_doc",
+          "locators": [
+            "native/rollout.jsonl:17"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_provider",
+          "locators": [
+            "native/rollout.jsonl:24"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_owner",
+          "locators": [
+            "native/rollout.jsonl:41"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "conclude",
+          "locators": [
+            "live/runtime/sessions/soodles-39-0-execute-20260917-090139-9d497d/raw.ndjson:27"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        }
+      ]
+    },
+    {
+      "run": "run-07",
+      "packet_sha256": "cc140a46d261a42d663e5fb9554cda71047d048dcc4abf68c762689e165f06a1",
+      "verdict_sha256": "b46561bf566721e197af2edeb96c45a5ac6690ee3fc54301ec65e9b86cd325f5",
+      "frozen_verdict": "TRACE_CONSISTENT",
+      "raw_semantic_verdict": "SCOPED_OBSERVED",
+      "expected_document_and_fixture_blobs_match": true,
+      "events": [
+        {
+          "kind": "read_doc",
+          "locators": [
+            "native/rollout.jsonl:17"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "handoff",
+          "locators": [
+            "native/rollout.jsonl:24"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_provider",
+          "locators": [
+            "native/rollout.jsonl:24"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_owner",
+          "locators": [
+            "native/rollout.jsonl:38"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "conclude",
+          "locators": [
+            "live/runtime/sessions/soodles-39-0-execute-20260917-090209-2939bd/raw.ndjson:32"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        }
+      ]
+    },
+    {
+      "run": "run-08",
+      "packet_sha256": "5867198e0d682cad74608c2e2e3f48ba2566803a5d866f4c65227afb31d3c72e",
+      "verdict_sha256": "b46561bf566721e197af2edeb96c45a5ac6690ee3fc54301ec65e9b86cd325f5",
+      "frozen_verdict": "TRACE_CONSISTENT",
+      "raw_semantic_verdict": "SCOPED_OBSERVED",
+      "expected_document_and_fixture_blobs_match": true,
+      "events": [
+        {
+          "kind": "read_doc",
+          "locators": [
+            "native/rollout.jsonl:16"
+          ],
+          "referenced_observation_present": false,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "handoff",
+          "locators": [
+            "native/rollout.jsonl:24"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_provider",
+          "locators": [
+            "native/rollout.jsonl:24"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "read_owner",
+          "locators": [
+            "native/rollout.jsonl:37"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        },
+        {
+          "kind": "conclude",
+          "locators": [
+            "live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:24"
+          ],
+          "referenced_observation_present": true,
+          "checkpoint_after_binding_supported": null
+        }
+      ]
+    }
+  ],
+  "fresh_transfer": [
+    {
+      "producer": "run-06",
+      "consumer": "run-07",
+      "independent_native_thread": true,
+      "independent_noodle_session": true,
+      "producer_exit_before_consumer_start": true,
+      "original_handoff_bytes_unchanged": true,
+      "handoff_digest_matches_receipt": true,
+      "packet_producer_id_matches": true,
+      "read_order_evidence": "run-07/native/rollout.jsonl:19",
+      "read_order": "explicit names loop handoff.json then identity/runtime/checkpoint/provider; sequential reads within one command, before separate owner invocation",
+      "current_owner_evidence": "run-07/native/rollout.jsonl:38",
+      "owner_subject": "consumer own inbox/checkpoint.json + inbox/provider.json, not producer deleted worktree or historical request"
+    },
+    {
+      "producer": "run-05",
+      "consumer": "run-08",
+      "independent_native_thread": true,
+      "independent_noodle_session": true,
+      "producer_exit_before_consumer_start": true,
+      "original_handoff_bytes_unchanged": true,
+      "handoff_digest_matches_receipt": true,
+      "packet_producer_id_matches": true,
+      "read_order_evidence": "run-08/native/rollout.jsonl:19",
+      "read_order": "explicit names loop handoff.json then identity/runtime/checkpoint/provider; sequential reads within one command, before separate owner invocation",
+      "current_owner_evidence": "run-08/native/rollout.jsonl:37",
+      "owner_subject": "consumer own inbox/checkpoint.json + inbox/provider.json, not producer deleted worktree or historical request"
+    }
+  ],
+  "case_findings": [
+    {
+      "run": "run-03",
+      "case": "unknown-write",
+      "verdict": "INCOMPLETE",
+      "supported": "實際讀取供應checkpoint/provider、owner在byte副本上回傳readback/merge_pending且無新write request；原始inbox bytes保全，copy語義相同；自身typed blocked及child wait0成立。",
+      "missing": "operated temporary checkpoint after-byte digest/readback。read_owner event的before/after應屬實際被owner操作subject；原inbox digest不可代填。",
+      "evidence": [
+        "judge/observe.py:79",
+        "judge/observe.py:81",
+        "run-03/native/rollout.jsonl:45",
+        "run-03/native/rollout.jsonl:48",
+        "run-03/observer-packet.json"
+      ],
+      "not_behavior_rejection": true
+    },
+    {
+      "run": "run-04",
+      "case": "unknown-write",
+      "verdict": "SCOPED_OBSERVED",
+      "supported": "對自身實際inbox checkpoint/provider執行當前identity/advance；等待readback，不replay，不宣告RESOLVED；原始bytes與offered history保全。",
+      "evidence": [
+        "run-04/native/rollout.jsonl:38",
+        "run-04/native/rollout.jsonl:41",
+        "run-04/native/rollout.jsonl:60"
+      ]
+    },
+    {
+      "runs": [
+        "run-07",
+        "run-08"
+      ],
+      "case": "fresh-transfer",
+      "verdict": "SCOPED_OBSERVED",
+      "supported": "真實不同producer/consumer IDs，producer終了後consumer才開始；讀到原producer bytes，在同一循序file loop之後讀自身provider，再獨立呼叫自身owner；不重播歷史merge，不使用刪除的producer path，final只主張pending readback。",
+      "evidence": [
+        "run-07/native/rollout.jsonl:19",
+        "run-07/native/rollout.jsonl:24",
+        "run-07/native/rollout.jsonl:34",
+        "run-07/native/rollout.jsonl:38",
+        "run-08/native/rollout.jsonl:19",
+        "run-08/native/rollout.jsonl:24",
+        "run-08/native/rollout.jsonl:34",
+        "run-08/native/rollout.jsonl:37"
+      ]
+    }
+  ],
+  "forbidden_operation_review": {
+    "scope": "review of all exposed second-batch tool inputs; no hidden activity assertion",
+    "observed_live_fixture_provider_requests": 0,
+    "observed_dispatch_resume_invalidate_readmit_effect_calls": 0,
+    "observed_new_model_or_worktree_launches": 0,
+    "observed_issue_or_judge_reads": 0,
+    "help_only_not_counted_as_effect": "resume/dispatch --help observed; source search strings are not effect calls",
+    "observed_writes": "own stage_message only; run03 additionally makes/deletes temporary checkpoint copy and calls owner on it; other owner advance locks/saves their admitted fixture checkpoint"
+  },
+  "limits": [
+    "run03 normalized TRACE_CONSISTENT does not close missing operated-subject byte binding, even with checkpoint_scope disclosure. Unknown-write matched pair remains incomplete; no global claim that all three pairs completed.",
+    "Six normalized capture_complete=true fields are accepted only as bounded emitted native task/tool/result coverage, not full shell stdout/hidden platform/service completeness. CLI aggregated_output partial examples remain; run08 owner command raw output is empty while native:37 preserves result.",
+    "Fresh transfer here is a new native model context with already-supplied fixture state, not a changed provider-state or actual compaction experiment.",
+    "All 4 second-batch actual child wait0 and typed blocked are directly joined; native gpt-6-astra/high is harness identity, service-internal routing remains unknown.",
+    "4 auth receipts report scoped issues:read and revocation204; no independent provider token inventory performed.",
+    "Cleanup-final records Noodle --force on preserved clean duplicated fixture checkouts. First-batch refusal/EPERM and driver correction remain in partial review.",
+    "Public sanitized export and final full statistics not yet reviewed."
+  ],
+  "raw_counts": {
+    "native_pairs": 25,
+    "command_results": 40,
+    "nonzero_command_results": 0
+  }
+}

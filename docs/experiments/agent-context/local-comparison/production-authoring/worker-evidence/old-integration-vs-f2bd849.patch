@@ -1,0 +1,246 @@
+diff --git a/.agents/skills/verify-soodles/SKILL.md b/.agents/skills/verify-soodles/SKILL.md
+index f664502..1bb23ca 100644
+--- a/.agents/skills/verify-soodles/SKILL.md
++++ b/.agents/skills/verify-soodles/SKILL.md
+@@ -1,23 +1,31 @@
+ ---
+ name: verify-soodles
+-description: Verify Soodles runtime admission, supervised delivery and recovery through existing owners, and bounded P-class behavior/context comparisons. Consume structured next actions, preserve scoped receipts, and maintain the demonstrated feature map.
++description: Verify Soodles runtime, bounded execution, delivery, recovery or bounded P-class behavior/context using the active cloud Actions or local owner.
+ ---
+ 
+ # Verify Soodles
+ 
+-This is a CLI application with an external supervised publisher and GitHub transport. Read the relevant recipe directly: [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
++Soodles has a runtime CLI and an external supervised publisher. Retain the path selected by [root AGENTS](../../../AGENTS.md#session-entry--select-once-then-act); if entering through this skill, read that short entry first. Do not reclassify an established cloud Session as local merely because a recipe contains shell commands.
+ 
+-## Launch
++For feature-specific execution or investigation, read the relevant recipe directly: [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
+ 
+ For P-class behavior/context work, read its recipe before any runtime doctor: use the supplied carrier and operation-specific prerequisites. Native cloud consumers require neither Codex CLI nor the Linux runtime binary. The coordinator captures observations; independent consumers receive only their assigned task/instructions/inputs. A scoped feature check does not claim a full maintenance pass.
+ 
++## Cloud Actions verification
++
++For cloud candidate verification, use the current Session's GitHub connector to read the exact PR/head and existing `runtime.yml` run. It already performs pinned Noodle setup and canonical acceptance on the runner. Read run/attempt/head, acceptance job/step outcome and artifact identity/content when accessible; distinguish metadata readback from receipt inspection. Reuse a completed matching run, or observe the current run. A prior head is historical evidence. No scratch checkout, binary doctor, `noodle skills list`, Codex CLI or API key is a prerequisite for this branch.
++
++On failure, inspect the owning failed step and report its actual input/capability gap; do not retry an unchanged write or invent a workflow dispatch. On success, return the requested evidence or continue the already-authorized delivery through its existing owner. CI success grants no landing authority. A targeted feature not covered by an existing workflow remains a named gap; do not pretend that the general runtime run exercised it. This cloud branch does not require reading the local Launch/Doctor/Drive sections.
++
++## Local launch
++
+ Runtime admission and delivery-recovery fixtures run from a clean committed Soodles checkout with the absolute binary admitted by `policy/runtime.lock.json`. These CLI drives are short-lived and noninteractive; do not start `noodle start` for them. Bounded Issue execution instead uses the supervisor's separately measured carrier and existing Noodle lifecycle, as its recipe specifies. Neither route substitutes its binary or platform evidence for the other.
+ 
+-## Doctor
++## Local doctor
+ 
+ For the lock-bound recipes, start each fresh driving session with `./soodles runtime check` on the supplied binary. Its receipt must match the lock before Noodle is used. The runtime driver's doctor doubles as its positive feature drive. For bounded Issue execution, use that recipe's carrier/envelope and canonical-state preflight instead; the Linux lock does not certify a native macOS executable. Recheck after an unexpected failed drive or changed environment before continuing; preserve the failure first. Doctor is not permission to retry unchanged input. A refusal names the invalid field and supported help; a missing prerequisite remains blocked until its owner supplies it.
+ 
+-## Drive and Helpers
++## Local drive and shared owner outputs
+ 
+ Use the shipped executable from the repository root:
+ 
+@@ -33,12 +41,14 @@ Noodle resolves `.agents/skills` by default. Resolution must name this checkout'
+ 
+ ## Evidence
+ 
+-For runtime admission, require the driver's `receipt.json` with `classification: VERIFIED`, exact candidate head/tree, observed runtime identity, local skill resolution, rejected sentinel and successful cleanup. Other recipes specify their own receipts. Preserve actual argv/provider operations, subjects, output, exit codes and elapsed time where observed. Record skill resolution path/digests, unexpected command failures, expected control refusals, repeated readbacks and verification invocations; label top-level versus child-command scope. Missing measurements are unknown, not zero. These records do not establish a matched baseline/treatment experiment or reduced Agent decision cost.
++For a local runtime-admission drive, require the driver's `receipt.json` with `classification: VERIFIED`, exact candidate head/tree, observed runtime identity, local skill resolution, rejected sentinel and successful cleanup. Other recipes specify their own receipts. Preserve actual argv/provider operations, subjects, output, exit codes and elapsed time where observed. Record skill resolution path/digests, unexpected command failures, expected control refusals, repeated readbacks and verification invocations; label top-level versus child-command scope. Missing measurements are unknown, not zero. These records do not establish a matched baseline/treatment experiment or reduced Agent decision cost.
+ 
+ Local feature receipts have `authorizes_landing: false`; `VERIFIED` is not Issue closure. Only the externally selected delivery owner can produce the admitted Issue's `RESOLVED` receipt after provider merge/closure readback and Noodle reconciliation. `next: null` alone is not resolution (identity also returns it). Canonical acceptance still runs once for each final candidate through its existing owner; do not repeat it just because this skill was used. A pre-change receipt does not verify a changed candidate. Shorter instructions, lower structural scores or fewer commands do not establish reduced Agent decision cost.
+ 
+ ## Cleanup
+ 
++For cloud Actions, preserve the run and artifact references; the workflow owns runner fixtures. Do not manufacture a scratch worktree for cloud cleanup. The following local cleanup rules apply only to resources actually created by that local drive.
++
+ The runtime driver owns its temporary sentinel directory; recovery oracles own disposable fixtures and wait for their child processes. Preserve evidence outside those directories through teardown, including on failure. Noodle owns the task worktree; only the existing delivery reconciliation may remove it. If that removal is expected, verify the reported merged identity in the surviving control root instead of invoking a deleted candidate path. A failed receipt is evidence, not permission for an unchanged retry.
+ 
+ ## Maintenance
+diff --git a/AGENTS.md b/AGENTS.md
+index 3b2163e..0fb367d 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -2,22 +2,43 @@
+ 
+ Migrate only exact, executable claims demonstrated in this repository.
+ 
++## Session entry — select once, then act
++
++Read this file at the task's selected repository ref when entering Soodles; a cloud Session fetches it through GitHub. Continue in an existing Issue/PR's head rather than assuming main contains its draft instructions. Use current task/tool/owner evidence to select the path below and proceed within existing authorization without asking the user to choose it again.
++
++| Observed execution path | Shortest supported action |
++| --- | --- |
++| ChatGPT Session using GitHub connector / Actions | Read the exact Issue/PR/head and `.github/workflows/runtime.yml`; consume the matching runtime run, job steps and artifact evidence through GitHub. Authorized PR creation/update triggers the existing workflow. For an unchanged head, reuse its result or observe its in-flight run; do not launch Codex CLI or install a scratch Noodle. |
++| Local Soodles → Noodle → Codex child | Use the supplied local control root, admitted launcher/envelope and Noodle owner; load only the [bounded execution recipe](.agents/skills/verify-soodles/features/issue-execution.md). Confirm the actual child's Codex CLI capability there, then observe its session/order/stage outcome. Do not reconstruct launcher argv. |
++
++Local runtime tests that launch no Codex child need no Codex CLI. A cloud Session does not inherit local-launcher requirements because a CLI binary happens to exist. If ownership is unknown, inspect the next operation's owner; only unresolved identity/authority requires clarification.
++
++For a cloud task requiring independent Agent work or context-transfer verification, use the platform's native subagent tool when available. Start each consumer without inherited conversation (`fork_turns: "none"` on the current tool); pass only the task, pinned instruction/code refs and required inputs. Keep expected outcomes with the supervising observer. Native threads share files, so use distinct evidence directories and pinned read-only GitHub inputs; a branch or worktree does not isolate model context. Use a Noodle-owned worktree only when the task needs source writes. Record actual tool requests/results as they occur, and distinguish consumer-recorded evidence from a complete platform transcript. Browser login and Codex CLI are not prerequisites for this path. Delegate only within current user/platform authorization; if the native tool is absent, report that specific capability gap and continue other authorized work.
++
++Retain the selected path and its evidence in the existing task handoff: repo/ref, Issue/PR/head, carrier/reason, run/attempt or local owner/session/checkpoint, and next required readback. Refresh mutable owner/provider state on resume; reselect only when execution ownership changes. No new flag, state file or repeated preflight is required. Scratch `environment_offline` blocks only dependent scratch operations. Missing capabilities block their own operation, not the other path. Consume current owner `next`/`request`; never replay historical writes.
++
++## Task scope and completion
++
++Within the current task's authorization, continue through necessary inspection, local correction and relevant checks. Existing disposable local controls may run without a new approval at each step. Finish an analysis/review with findings; finish an implementation with its requested artifact and evidence. A delivery task continues through the existing supervised owner to its requested terminal state. A blocked effect does not prevent unrelated authorized read-only work.
++
++Stop the affected operation when its owner requires missing identity, credentials, admission, capability or readback. Report that exact prerequisite and preserve evidence. Prior user authorization remains applicable, but it does not create a missing executable capability or let the candidate select its own judge.
++
+ ## Current boundary
+ 
+ - Noodle owns worktrees and runtime lifecycle. This bootstrap exercises its binary in disposable fixtures; it does not start a production daemon.
+ - `policy/runtime.lock.json` owns the selected release and digests. `./soodles --help` owns the command surface.
+-- `./soodles acceptance verify /absolute/path/to/noodle` is the canonical local acceptance. Run focused controls while editing, then acceptance once for each final clean candidate head.
++- `./soodles acceptance verify /absolute/path/to/noodle` is the canonical acceptance on the selected runner. Run focused controls while editing, then acceptance once for each final clean candidate head.
+ - Local and PR self-test receipts have `authorizes_landing: false`. They cannot select or authorize their own verifier.
+ - First installation uses the explicitly requested supervised fallback: the supervisor pins the landing implementation outside the candidate, admits one exact claim, and supplies raw provider readbacks. `landing.py` owns pending-write checkpoints and exact requests; the existing GitHub connector executes them under existing provider rules. No Administration access or protection-policy modification is a prerequisite.
+ - Do not fabricate a production generation, independent default-branch verification, or unattended lander. An Issue is RESOLVED only after merge and closure readback plus Noodle reconciliation. Unknown writes require readback; never repeat the offered request from model memory.
+ - Consume the invoked landing owner's `next` projection. Missing claim/readback/binary inputs are explicit; never invent argv or replay a historical next command. Dispatch returns an exact connector payload in `request`; only that payload is transported. Terminal `next` is null.
+-- `landing advance` prepares delivery; `landing dispatch` consumes it once using fresh owner readback before emitting the connector request. Resume prepared work through that same entry; offered/legacy-unknown writes stay pending. The process-fault oracle uses provider fixtures, not live GitHub writes.
+-- Before correcting an admitted but unoffered candidate, the supervisor uses `landing invalidate CHECKPOINT`. Amend the same causal Issue and its write boundary before further edits; replace or delete incorrect tests/gates with the nearest meaningful controls. Re-admit a changed head with fresh exact-head evidence through `landing readmit`, even when base is unchanged. Green CI is evidence for that admission only; it never means merge, closure or reconciliation. Offered/legacy unknown writes cannot be invalidated into another attempt.
+-- Coherent forward base drift before an offer produces a durable `readmission_pending` checkpoint and `landing readmit --help` next action. Supply an explicit fresh supervisor claim, exact-head successful runtime evidence and complete provider ancestry comparisons. Preserve the same owner/Issue/PR/worktree/verifier. Old acceptance stays invalidated; offered/legacy unknown writes cannot use this recovery to retry.
++- For delivery preparation, candidate correction, base drift or interrupted cleanup, use the relevant existing verification recipe and owning requirement in `contracts/system-v1.md`. Preserve fresh admission/evidence, exact identity and unknown-write readback obligations; process-fault oracles use provider fixtures, not live GitHub writes.
+ 
+ ## Routing and changes
+ 
+-Read the exact Issue, then its nearest executable test. Read `contracts/system-v1.md` only for the claim/authority boundary. At most three document nodes: AGENTS → system contract when needed → Issue-selected executable boundary.
++For Issue implementation, read the exact Issue and its nearest executable boundary. For analysis or review, start from the requested subject; do not invent an Issue prerequisite. Read only the relevant `contracts/system-v1.md` section when the task concerns its behavior or authority boundary.
++
++Prefer a route of at most three document nodes (two link edges): AGENTS → relevant contract/skill → selected executable boundary/recipe. This is a navigation convention, not a cap on necessary source/test reads or a model-context guarantee. Follow additional causal dependencies when needed. Only instruction-design/context-transfer tasks read `contracts/agent-context-design.md`; ordinary work does not load it.
+ 
+ One Issue owns one causal correction and one reversible landing boundary, including its producers, consumers, adapters, checkpoint migration and positive/planted-negative controls. Do not split by helper, file or implementation step. Incorrect implementations and tests may be replaced together while preserving the nearest discriminating controls. Different repositories, durable transition owners or rollback boundaries require separate admission. Preserve evidence and stop an unchanged retry or unknown write outcome pending owner readback.
+ 
+@@ -27,7 +48,7 @@ Never add a second scheduler, worktree manager, retry engine, or Agent-facing au
+ 
+ The supervisor selects immutable external verifier/oracle bytes before candidate acceptance. Never load the active judge from default-branch tips or candidate imports. Editing verifier source does not promote it into authority for its own Issue; `landing resume` is an identity-preserving operation under external supervision, not self-authorization. Separate authority changes only when they are independently owned or reversible.
+ 
+-For runtime/delivery verification or a bounded P-class behavior/context comparison, use `.agents/skills/verify-soodles/SKILL.md` and its feature recipe. Its receipt is non-authorizing. Create a verification skill when that capability is missing; run maintenance for an explicit map audit or observed recipe drift, not on every Issue. Canonical acceptance and delivery remain owned by the existing entries above.
++For runtime-admission, bounded-Issue-execution, supervised-delivery, delivery-recovery verification or a bounded P-class behavior/context comparison, use `.agents/skills/verify-soodles/SKILL.md` and only the relevant feature recipe. Its receipt is non-authorizing. Create a verification skill when that capability is missing; run maintenance for an explicit map audit or observed recipe drift, not on every Issue. Canonical acceptance and delivery remain owned by the existing entries above.
+ 
+ ## Guarantee classes
+ 
+diff --git a/README.md b/README.md
+index e561ec5..8e1bbd7 100644
+--- a/README.md
++++ b/README.md
+@@ -4,7 +4,11 @@ An evidence-first migration from noodles, with Noodle retaining runtime and work
+ 
+ Current scope: a pinned Linux amd64 Noodle runtime plus a supervised single-Issue landing checkpoint. Runtime works locally and in Actions; the Codex supervisor transports landing requests through the existing GitHub connector.
+ 
+-## Run
++## Session entry
++
++Start with [AGENTS.md — Session entry](AGENTS.md#session-entry--select-once-then-act) at the task's selected ref. It owns the cloud GitHub/Actions versus local Noodle/Codex route. Existing Issue/PR work continues at that PR head; draft instructions are not assumed present on main.
++
++## Local runtime checks
+ 
+ Obtain the release asset named in `policy/runtime.lock.json` from [ed3c/noodle releases](https://github.com/ed3c/noodle/releases), verify its archive digest, and extract its binary outside the source tree. The Actions workflow automates release/tag/archive/binary readback before execution.
+ 
+diff --git a/contracts/agent-context-design.md b/contracts/agent-context-design.md
+new file mode 100644
+index 0000000..405f83b
+--- /dev/null
++++ b/contracts/agent-context-design.md
+@@ -0,0 +1,91 @@
++# Agent context design: evidence before reusable instruction
++
++Owner: [Soodles #39](https://github.com/ed3c/soodles/issues/39).
++Class: P (design metaprompt). Status: experimental; matched Astra behavior has not been established.
++Read only when designing or auditing agent instructions, context transfer or their evidence. This is not an additional prerequisite for ordinary implementation or verification.
++
++## Apply this metaprompt
++
++Given current user intent, the exact Issue, candidate identity, relevant instructions and execution evidence, produce the smallest instruction change that improves a demonstrated task boundary. Keep proposals separate from observations. Use existing owners and controls; this document grants no runtime, provider or verifier authority.
++
++Return: (1) the requested outcome and legitimate stop condition; (2) the instruction conflict or missing context with source locations; (3) the minimal patch and affected consumers; (4) baseline/treatment observations and a legal non-case, or the exact missing prerequisite; (5) a reusable rule scoped to that evidence. Never invent a failure, model measurement or successful handoff to fill this format.
++
++Write conditions and actions: **when this task/state applies, use this owner/source, continue to this observable result, stop for this named missing input**. Prefer outcomes and constraints for ordinary work. Preserve exact sequences for side effects whose ordering is part of correctness.
++
++## Different documents, shared evidence discipline
++
++| Location | Responsibility | Read when | Does not establish |
++| --- | --- | --- | --- |
++| `AGENTS.md` | Short working agreement, task routing, autonomy and completion | Harness discovers applicable instructions | Successful execution or authority beyond the user/platform boundary |
++| `contracts/system-v1.md` | Named behavior, transition ownership, refusals, evidence scope and nearest controls | Task changes or disputes that boundary; select its section | Implementation correctness because a requirement is written |
++| `SKILL.md` | Precise trigger, shared constraints and conditional recipe routing | Capability applies | That the skill was actually loaded or followed |
++| Feature recipe | Inputs, existing CLI, observations and cleanup for one capability | Feature is being exercised | A second implementation of the owner state machine |
++| `docs/` | Observations, plans, history, receipt summaries and proposals | Relevant evidence/history is needed | Correctness authority through prose |
++| This file | Metaprompt for designing context surfaces | Instruction-design/context-transfer task | A universal prerequisite or model-specific safety exemption |
++
++`system-v1` and `AGENTS.md` share clarity, scope and provenance rules but serve different consumers. Keep behavioral requirements stable and route to them rather than copying every recovery branch into each entrypoint. Current user instructions define task scope within higher-priority platform and executable permission boundaries. A skill cannot silently expand scope or add an approval gate. Name the exact instruction when it actually blocks work.
++
++## Keep one operational route owner
++
++[Root AGENTS — Session entry](../AGENTS.md#session-entry--select-once-then-act) owns the cloud/local decision and shortest actions. README exposes that entry; skills consume the already-selected path. Do not copy a second decision table into this metaprompt or require ordinary work to read it.
++
++The selected path comes from the current task, session/tools and actual execution owner. Cloud Sessions use GitHub reads and existing Actions for Soodles/Noodle controls; only a local Noodle launch of a Codex child needs its CLI. Local runtime checks without a Codex child do not need it either. Keep selection/evidence in the existing handoff and refresh mutable state on resume, rather than adding a flag, selector process or state store.
++
++Design checks: a cloud request must reach exact-head Actions evidence without scratch/CLI preflight; a local child request must reach its admitted launcher and typed outcome; an unavailable capability must block only its dependent operation. For independent cloud work, use native subagent threads with no inherited conversation when the platform exposes that capability and delegation is authorized. Context separation does not isolate the shared filesystem. Pin read-only input refs, give each consumer its own evidence directory, and keep the observer/expected outcomes outside consumer inputs. A new browser conversation, branch or worktree is not a prerequisite for this measured carrier. Record actual connector document reads instead of assuming CLI automatic injection. A draft route must be fetched at its PR ref; writing it does not install it into every future Session.
++
++These are P-class instructions. Actual file loading and subsequent behavior need observation. Workflow success alone is not a matched Agent comparison, and the steered authoring Session is not a blinded fresh consumer. Preserve unavailable context internals as unknown while continuing claims that have sufficient observable evidence.
++
++## N/P/L/R classify claims
++
++These are Soodles conventions, not OpenAI terminology. Directories and extensions do not confer authority.
++
++| Class | Meaning | Required discipline |
++| --- | --- | --- |
++| N | Descriptions, summaries, inventory, plans, metrics | Name subject/source/time and unknowns; separate proposed from observed |
++| P | Model guidance, routing and this metaprompt | State applicability, scope, existing owner and completion/blocking boundary |
++| L | Tested executable local discriminator | Bind subject, inputs, observer identity, actual execution/readback and residue; reject a defect and accept a valid case |
++| R | Provider-enforced truth for a provider claim | Preserve exact provider subject, required checks and actual provider readback; local fixtures cannot supply it |
++
++A prose contract can name an L/R requirement without proving it. Receipt summaries are N; underlying process/provider evidence supports only its measured claim. Syntax checks prove syntax, not agent comprehension. Local feature verification does not authorize landing. Existing external-verifier selection and supervised reconciliation remain unchanged. Executable consumers of prose require change-impact review even when the prose is N/P.
++
++## Session intent becomes durable guidance through evidence
++
++For each retained rule, preserve a compact provenance tuple: intent/Issue, applicable task/state, observed failure or successful control, source/model/harness/config identity, evidence link, limitation and revalidation trigger. Preserve observable decisions, actions and readbacks; do not copy entire sessions or hidden reasoning.
++
++Session intent can establish a proposal immediately. Execution establishes only the behavior actually observed. One case does not establish a universally optimal prompt. Both baseline and treatment passing is scoped non-regression, not a repaired defect. A planted negative checks the observer; it is not a historical baseline failure.
++
++A handoff carries goal, Issue/candidate, allowed scope, evidence/checkpoint references, unresolved inputs and next expected observation. The consumer rereads current owning state before action. Historical `next`/`request` is evidence, never a replay capability. A new-session handoff is different from actual model compaction.
++
++## Context budgets and the short route
++
++The earlier rule says **three document nodes**, which is **two link edges**. “3 hop” is ambiguous. This is a local navigation convention, not an OpenAI requirement or context-window guarantee. Keep routes short while reading necessary producers, consumers, controls and evidence. Record additional causal dependencies instead of dropping an invariant to meet a count.
++
++Measure independently within the selected carrier. The CLI discovery details below apply only when that CLI actually loads the instructions; they are not assumed ChatGPT Session limits:
++
++- Instruction discovery: global/project/nested paths and digests, injected bytes and truncation when visible. Codex documentation currently gives `project_doc_max_bytes` a 32 KiB default; record the effective setting of the tested version.
++- Skill discovery: metadata catalog versus selected SKILL/recipe bodies. The documented catalog budget is at most 2% of model context, or 8,000 characters when unknown; that is not a budget for all skill bodies or total context.
++- Inference context: rendered input tokens per request, effective window, next output/reasoning allowance and observed compaction boundary. Aggregate billed tokens and file bytes are not current window occupancy.
++- Behavior: required context reached, task outcome, legitimate blocks, unnecessary questions, redundant checks and duplicate/unauthorized effects. Separate top-level commands from child commands.
++
++For planning, headroom is effective window minus current rendered context and the reserve needed for the next reasoning/output/tool cycle. Mark unknown terms unknown; estimates are not gates. This proposal supplies no universal utilization percentage or formula mapping context size to hops.
++
++If a real task lacks a dependency, compare the shortest complete route with a direct reference to that dependency. If measured pressure/truncation occurs, reduce irrelevant entry text, read bounded sections or use supported harness compaction. A larger window does not justify additional hops; a smaller window does not justify missing evidence. Vary one factor at a time. Do not change model, permissions, harness or compaction policy inside a document-only comparison.
++
++## Physical comparison
++
++Freeze task inputs and observable checks outside the candidate before judging it. Use isolated baseline/treatment sessions within the same selected carrier, with identical Astra model, exposed reasoning/harness configuration, tools, permissions and fixtures. In cloud runs, use the platform Session and connector/Actions observations; do not add Codex CLI to obtain them. Record unavailable internals explicitly and limit claims that depend on them. Bind actual instruction/skill digests and traces. Distinguish available, loaded and acted-upon: a skill listing establishes availability only.
++
++Exercise an authorized task on the selected runner, legal blocking/unknown-write behavior, and a fresh-session handoff with stale guidance. Observe actual tool calls and state. Reject a planted bad result and accept a legal non-case before trusting the detector. Experimental provider-shaped data stays local. Never publish credentials.
++
++One pair is a scoped smoke comparison, not an efficiency estimate. Repeat only a concrete unresolved variation within the Issue's declared bound. Real compaction stays NOT_RUN until an actual harness compaction event and a valid subsequent continuation are captured. Only missing model/observation capability required by the selected carrier can block that claim; unrelated local CLI failures do not block cloud work. Missing behavioral observations remain NOT_RUN, not simulated success. See [the #39 protocol](../docs/experiments/agent-context/protocol.md).
++
++## Official basis (reviewed 2026-09-16)
++
++- [Astra instructions and skills](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra): conditional context, concise routing and explicit completion.
++- [Astra model guidance](https://developers.openai.com/api/docs/guides/latest-model): autonomy, instruction conflicts and proportional verification.
++- [AGENTS discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md): layered instruction loading and byte limit.
++- [Skill loading](https://learn.chatgpt.com/docs/build-skills): metadata discovery and progressive disclosure.
++- [Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/): harness-built inputs, appended tool results and compaction. Its implementation details describe publication time, not every later CLI.
++- [Harness engineering](https://openai.com/index/harness-engineering/): repository knowledge as a discoverable map; the roughly 100-line example is not a universal cap.
++- [Open Codex harness](https://developers.openai.com/blog/codex-as-a-platform): application-owned context/boundaries versus reusable execution loop.
++- [Responses compaction](https://developers.openai.com/api/docs/guides/compaction): context carry-forward. API documentation is not evidence that this CLI run compacted.
+diff --git a/contracts/system-v1.md b/contracts/system-v1.md
+index 91a173a..343d9b6 100644
+--- a/contracts/system-v1.md
++++ b/contracts/system-v1.md
+@@ -2,6 +2,8 @@
+ 
+ Owner: [ed3c/soodles#1](https://github.com/ed3c/soodles/issues/1).
+ 
++This file specifies behavior, owning transitions and discriminating evidence; prose alone is not an L/R guarantee. `AGENTS.md` routes task execution and skills describe conditional procedures. Only when designing those context surfaces, read [agent-context-design.md](agent-context-design.md) (P-class, experimental under #39). Existing executable requirements below retain their scope and authority.
++
+ ## RUNTIME.ADMISSION.001
+ 
+ The target lock selects an exact Linux amd64 Noodle release. `runtime_check` validates host, lock fields, file existence, executable permission and binary digest before version execution. A mismatch fails without worktree effects and names the owning command and help entry. Release/tag/archive correspondence is additionally read back by the Actions download step; the local command does not claim a live provider read.

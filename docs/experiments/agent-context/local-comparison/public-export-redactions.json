@@ -1,0 +1,807 @@
+{
+  "scope": "Public native rollouts are explicitly redacted exports. Original local raw files remain unchanged. No tool request/result, task user prompt, final answer, native turn/model, typed outcome, or actual child exit was removed or altered.",
+  "files": [
+    {
+      "path": "run-01/native/rollout.jsonl",
+      "original_sha256": "e275a868ab07f93af64e1e1249722704c2d9c4778766dee864acb3c293b63d9f",
+      "export_sha256": "3557c3fc0fcb016303319539d4433f607c1eaf11f05152b4263509d8b5b7ff7d",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "b908d65b282c0b62fd6940992d92f716a263a427ae0c82a8fde34028bf246823",
+          "export_line_sha256": "b0531d54573d02e718a00458af10396df4f11ffd36d46eb5841cf959405552d2"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "a241da0ecf519d1f1e7a70770f83b53492059430270cdc7b947c6010da5184e1",
+          "export_line_sha256": "d8eb777fd25ecbc8355cf6150e90050fb3fef7d2b518874ec06319d9ef2d1d67"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "7826e2b2085f87264b26e356223a90ad79368be137155b49befc63c854ea4c2f",
+          "export_line_sha256": "98032463dd965557365586ad01f3e873ee7d89fdcca5ca01c778b4b6e080b5d4"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "98195ff32500f5602d9a3f0f9f7d3ae0b9e29321b2690639408ec1aed81aafc1",
+          "export_line_sha256": "002fd9df06e01b1bdcc084222dc5ac11d407115738a3cba6ea5a78379fb71a8b"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "c025af370947835d447e7d9483a952df48261bd00317adae2d525caf05589d19",
+          "export_line_sha256": "3c25735edb59209e76ea74b75077bf721d3128a2360bdc9ca97ab9e8bcf36201"
+        },
+        {
+          "line": 29,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "37fce11b241ff73b1285b8549f07275ae8fee2f1c1e273e7ec41bb0e2ee255c2",
+          "export_line_sha256": "9be86600ecc381b0c0b609dc6344076a4a30029fae3d83df018400f04c1708ec"
+        },
+        {
+          "line": 36,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "c00f2d02c3044a4083af53154296420e8c145aaad11641f10c6284f343525e36",
+          "export_line_sha256": "d6dad36edf95bf0c737d6df1e4690f897f9fd593aafcfd3a499ff51cbf0d65c4"
+        },
+        {
+          "line": 45,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "9f4e615a99d2fa6f42d441ff2ac424cc6b8a499c6fa013f10e4a3b8692f3efb8",
+          "export_line_sha256": "06cd62f019316295870ddd1947bcdc7be7f87bb038736cd9631ac760296d90d1"
+        }
+      ]
+    },
+    {
+      "path": "run-02/native/rollout.jsonl",
+      "original_sha256": "3f7c558ec730ac1adbd887e5e39d9333bc62b46d332969e2cba5d2d2722c1892",
+      "export_sha256": "c2d24a330af95d65880bbcffae114dc6594aec38820b14b41e26722d983a74c1",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "7077425f5e17d38b84d332f3e4153eec16c420a86c350856e6f5f312b9f2c776",
+          "export_line_sha256": "1805ce9ae7e4fa9ca1e9ac63ad4908a40e9d70e086d0896820fab179c618646b"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "ea6eb499633e3c6752321e18d71895db3e8a2df1a6c38d19ba72442241de26ee",
+          "export_line_sha256": "e7ae439390e45c8f5e017f418cad7d460666ef28154193f7a2e17621fdc3b44e"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "cbf15d2e44211c201bcae5039d27ddc63099318544893d974b831066388a4c01",
+          "export_line_sha256": "3431b97b608c0c68315b3fa62d5b2072f5c33f4f92aa8af725d171bd9ae2f633"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "d508b7d7140dfde9c43b1604062bc49503428b8328d9439bf836294b87d447b4",
+          "export_line_sha256": "1c584d6634025c61f3507fe715966626b804fe26eced87561a3eb17dae8a7896"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "2eba52e8621caf22004fab642639ef71787ac4566fc3b371aa8a8334b23494f0",
+          "export_line_sha256": "f68a3dcd69a572f493b7dd0bf012efe43d9116bd09fc1067ad73fbd252645f70"
+        },
+        {
+          "line": 26,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "513b3ca2f59374923c3bda28f78c796b19bb70b3cb508e15bc47263e916e06ea",
+          "export_line_sha256": "37aefef363f5243b11d8c1b014ba87848a42b2c449d04d6aac6d802ec5e9b5e3"
+        },
+        {
+          "line": 34,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "dccca6459bdbfebaaa358c9e17b93f6efa9f74b8355e5c21578e4d5afa05dc7a",
+          "export_line_sha256": "7ec4e63a9dc6597822b336fe40f0cef3ac47d4b9579c20b42fe918eeef0c5597"
+        },
+        {
+          "line": 44,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "cfadc053f4c64cb0e70c5e756adeb9fdb3a1e8d4b0f43b2bc6acc1dda5a4914e",
+          "export_line_sha256": "7cafcd4fb327778a7ce6512d4daac06241aec5191f91b21fab9d009608d998db"
+        },
+        {
+          "line": 52,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "f4ddb66216dff7d649be2be02f3e69c0cd3c8999a68fa1f9fa4b28853366e857",
+          "export_line_sha256": "6725343815c9b708a092fd7dfaf07a2ceaab27bb0656a11c464e6fe9e592dd04"
+        },
+        {
+          "line": 59,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "88bd446a6851e142f3d8f07fc09108058eee54e5801952419a283b3f4ca22706",
+          "export_line_sha256": "69f8f2707b0e3221ed97e27042a3de85a90a70a5cc311e7208ab089461fead7f"
+        },
+        {
+          "line": 68,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "41563ba76c78c4150c5be9a9b1708df63a41bbd27f9545a39eb8a770a23c6ae4",
+          "export_line_sha256": "befd648593260eed995efc0ef8984532a674bf4d2d16cc8936ada9ea9e8dc407"
+        }
+      ]
+    },
+    {
+      "path": "run-03/native/rollout.jsonl",
+      "original_sha256": "6424ad09534291a13d7779827316cd0dfbc091da224943d41986cfec312a0de1",
+      "export_sha256": "23e6d998429bfdd829aeef6e493e33863d3bbb1e7a210a113abb6f4970cae750",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "5bc7055395e7069da8f5a010991df9edb40371bc028e7e7fc74662160a525868",
+          "export_line_sha256": "c077bc4bd370ca0e5c990324170d03dd27a3b7f5a51afc4ebb9ed62bd5563dd7"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "f298a8ccf9e111e62f185346c11c95c2eff8473bf02e0182b9b07be4dcbfa5db",
+          "export_line_sha256": "e0b3a753fd7ab6fa3fc6b15c764d08c1a2fd6ced947391922ee0905e8e1a994f"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "4e54da099ba03fb6f5b287aa21e443e52b35e89e98c63653a957fcb85c75db09",
+          "export_line_sha256": "7158dfcfb359a53fa36acf1c01766b0e2d0737dfa47fe5490e9ff4e859d64c5c"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "ee9cf5bff1b2bbfb48269ec512c4121d7f59f1e806667bfed2fb84fa1ecc7de1",
+          "export_line_sha256": "6b615f4021abc43f5b924ba0cfd3becc2815175740bf81fe15a36c87287a793f"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "24972b1f34e97740e58ae3666ed5e39041f1eab3fe88b07217daa7ffca37d0fc",
+          "export_line_sha256": "5a9e2214a0c2cd8babd4f5ebd53fdc7752918edb83a29091710c0a6eb978139a"
+        },
+        {
+          "line": 30,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "c0ad6eb1b83e4f720cfb29e0990f8d2696387a44c4c87071efacc93c805da783",
+          "export_line_sha256": "fa24da50b749a0269541bd8d42e8b854b11b9b20a87470368e91ac37ab96a209"
+        },
+        {
+          "line": 42,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "63ab787f2b68e62e7ec607a9f1366e3990f8b2d64e3d5ca8954f1ab85d3d4245",
+          "export_line_sha256": "899cb552b7b64e45ae6b25e523497fffa690ea8fd187e18e97a7910d2be299f5"
+        },
+        {
+          "line": 51,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "9d19510ca1e0f4dbc075a79aed242c9617f601ce578ede1aeb5575f3bb5e0d29",
+          "export_line_sha256": "84c4b94ab9abca1e5c86886146e21e48cfb386747cf91cc82e15a89d192ee959"
+        }
+      ]
+    },
+    {
+      "path": "run-04/native/rollout.jsonl",
+      "original_sha256": "387fdf187372d7e53ae46523f91cc98807562d35c0cade6546a348b673c06e5c",
+      "export_sha256": "f5b3429f371c650fcc88edef30ed90ecfd970d9370e8b2735b1d5ce57bb51972",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "146d98839b72ebd0ee99236220ae3f0a6fcae90417eed77e79a62ab1707173b8",
+          "export_line_sha256": "e75f18e27e53d7b8f7a94564bdfc513b66f131d331c20ba3bf423a1fdc199477"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "b2d79d84b3b64e62783c550aec1220fadca42ce652d8a82c9b45aa2e326702f3",
+          "export_line_sha256": "fe81d85c2aae5016d9d68a8c6cc1bd8fdf87d43107d5bf1098e5d90022f9384a"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "629d5be001728f9bc119a3520af5da29c4ab2a4c49a96b7b6ca5f97a5c1ae421",
+          "export_line_sha256": "806bac81ddab226dcf303d639333ba6df092051a6c60d214d9f6c5411aabf7f0"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "af594fcfffd1ba51b6c1f96e308d8cfa7691ca2647357b71a093716f43b5a035",
+          "export_line_sha256": "8eac5d4f95e22e5cae15680620de28101263c624fdeb137609ec2604b31bfdff"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "1a8824dbc23efe2b5e96448574f9db5f164db285fbc9200313bc088ce2e3f29d",
+          "export_line_sha256": "20abf71ad1545048a049be62f6d6c9ae5c4acf3c24d927966c897f3b051579d2"
+        },
+        {
+          "line": 27,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "275d97f50b16cf28dbcec1da607f84bb251f50a172c0a72934b76147e2beb3af",
+          "export_line_sha256": "9a215210608c3a4396308d6c26a628e5c2c538f3a31b0cf2d01ff875ff876b01"
+        },
+        {
+          "line": 35,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "adfbeb71043b9167696496c948e4a3cd3d9a54dffc2ba1b728da63e4c57dc56b",
+          "export_line_sha256": "02a5c64a5e613fa5e6d223d7153792df08eff032787e727566472efc8374cd09"
+        },
+        {
+          "line": 44,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "76375078c7040e0d5e30edb854b2b00c1df034eed48748eb7dadfbf1a06d0a24",
+          "export_line_sha256": "84e57fa52cde5f24aeb4c47d87974a560d59dec4293774060bf2dd20753712db"
+        },
+        {
+          "line": 51,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "a36d6a76101359f55b1d4adc5767f100c69c07550c1a97c443be6482f7bb3042",
+          "export_line_sha256": "1d6589971833b9696aa554b519958fd612a596971d666a3c95152ca331026292"
+        }
+      ]
+    },
+    {
+      "path": "run-05/native/rollout.jsonl",
+      "original_sha256": "e5de7d64126b619b1f2375bcad853955c3b0cfaeeffb1d52e0d36e7b0937dc39",
+      "export_sha256": "e4402db055e36caec65b78f6429193b5f47e38e5b6e402dfb6dfdfd9fc55df39",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "6ad75d236068ee92c27ccfd95850668ae782a4f59d1176cf5bc735db67e3ab8e",
+          "export_line_sha256": "e4125372775c93a99b5dfd22b7ee9bac1b63ff46305898e204903b6318e824b7"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "5e9baa3da16e4c1dfda730051fb767dece073c7567e5511de859fd299d6a24b7",
+          "export_line_sha256": "79d9d0cba17bb76da9b678598befa5822082e313e2763be220042a0a300082d5"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "c41cb721092ae986d51487f35ef1cbcaa3669aed9952720238594e3fc484fd26",
+          "export_line_sha256": "e8c7f523cc2b573ca02e17ae5f31bdafb0a2994bb22dc10e5ba3c49e10a678d9"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "7cb528b86752e3a44fbaec4af4552f547aba1ed9f578ce0043b854bbb83b4104",
+          "export_line_sha256": "ec928e058b8a17293b14fb0b643bd3d1c094b9a99e4421d07ff8b2e612925222"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "d247f7f63500b5a7582600177b5a3befbf1d4eaa9083d9ba6040ea78b1cb20e9",
+          "export_line_sha256": "84759a55586f28452ffc42d743aa8e3f0822d058a10e0e907804b164b29337c6"
+        },
+        {
+          "line": 29,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "6e80dc027465b92e38e077106c8ddee6ab2103a22952c734b5887b6983b2644b",
+          "export_line_sha256": "90f5316cd2e101b092d8e5dae64a05ddc3f48c6729e8b08cb6d4174567e12a47"
+        },
+        {
+          "line": 36,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "b4f746137b3770cff3d6fccec6330f75be0a9615b94a32a00818691081e29d00",
+          "export_line_sha256": "5c99ce149d17add537a8514972df4e5195efd53ba15171bd0f81b39bf9170ca6"
+        },
+        {
+          "line": 45,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "eb358fa0f0fd41371cb7261e70fde236f538338929ba504490686622f25ec15d",
+          "export_line_sha256": "e31aa4a6a2238a3d7127e376353520dd50c9ce935c3bf3405ed51be17bfc5e5d"
+        },
+        {
+          "line": 53,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "d0abeb03c7ffd031f05eb2135e0ef8bbef61dee12bb55f80b8beba355d2702ad",
+          "export_line_sha256": "dbb65fa50fe179d0cae00a8ea6ea492afaec62db0826d1dceea925ec9de300fb"
+        },
+        {
+          "line": 60,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "11d11d92bf2abfcdd9dd242301bf09a9a6d90004182d9a0dcab487c50413bfb5",
+          "export_line_sha256": "24e377da3aef6a05874bd8dedf20fce65a3d70c228c1f3cf630b55b9aeb22df8"
+        },
+        {
+          "line": 67,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "47effc00cd362053b8ae25f56c6113e3c89e3b034c472c7565695f70b635b8a7",
+          "export_line_sha256": "fcc467aab82a1fb02711762018fd5fbcadda77fb123356bbbfa6a09563c944a3"
+        }
+      ]
+    },
+    {
+      "path": "run-06/native/rollout.jsonl",
+      "original_sha256": "422562c23335182dca945d6c3a52072c07f380b6aaee0aa743ceae6b91a776ca",
+      "export_sha256": "ee8b49d3a4f73fd5249d1e64649a0e6d0f69d7114a19e4467c4fe22202d8f590",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "bfebf19a7d29853d6599a4e07d72d71c843af2695622bd84925137402629b767",
+          "export_line_sha256": "77aaa308228a2073409b26aed1edccd4fa56602de1c76e667a587e08aada8b5b"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "acac2076b5ff5c8a274992c516a6038f8c8e3d859a1726f45e65c7cc95dab261",
+          "export_line_sha256": "3c38c5f444720d50435e3a0fdba23512db9920e6b466edc25b1c864265308d6d"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "b4ebb847230dea7dcceabd642452493dfdbcf8e3bdfdeec7688057737c618bb8",
+          "export_line_sha256": "601fcd777b032fc14d539f3b0ca2d9d07904fa782cbe5623b71d2803859fa6ff"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "5681ccf0a139f20dabcc2a3374bdf8cfaedaf7e09391d38641f6ec759eacf200",
+          "export_line_sha256": "b33b4dbaf329deed9cae80daed8597a649a12da78fc0d5804d8a17bab290ce59"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "da50b3e3c128bde801ec4035abf3bccfa820837611d0688b35cb0d59a064469e",
+          "export_line_sha256": "32c0d0b8068adededcac1ca403226ce50a08eb5778a9f9248b126d954674601d"
+        },
+        {
+          "line": 27,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "6414144cb099dd7c68d6746b88919570126233e4c257139db7868176be61ad95",
+          "export_line_sha256": "2420cedb9a4b9b36db8f4adc318c707aa89f688a1207af5a2f9b18299d5b323a"
+        },
+        {
+          "line": 34,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "6ddbd3b2097ccbac27ae3d13cfc8acc0b3937b2dda7fba6c95533ae7ba4086af",
+          "export_line_sha256": "23074ead364690655d4b98fccd9cd458be881b05e07d422e21e8f7b6e40bc80d"
+        },
+        {
+          "line": 41,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "aabaf9fe0867dbdaaa5fdd3bcbd71dfa7feb3cfa6b170cba24709a99e22bea2c",
+          "export_line_sha256": "b57637cdb41dd1f7dee95c4edff315a1439deb22c640ac1940690dcc8bed8375"
+        },
+        {
+          "line": 50,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "462369984688be9397a3fa1dbbc781663c3c85372337569eaeba1fb12bf26f8a",
+          "export_line_sha256": "e905298d6b80ac3d4d051d83d3b6fb7ae0fc80ca2fa7d3f429a3086b6f2bae42"
+        }
+      ]
+    },
+    {
+      "path": "run-07/native/rollout.jsonl",
+      "original_sha256": "234f80c556d67ceb1b95c6abc7ea26157d75d61893ecfe61e11dabee757f458e",
+      "export_sha256": "7d4bf9d8c0919b444269f785b8ef6f56113008be9e2fad56f44a577d4a911384",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "88e4f589a0410a2df82e2623435b7c3d1fa313bf2fe629c055a96674841c563f",
+          "export_line_sha256": "ba4966e8bd352c8a6c55791fcdea26fd784f05356bda653304cd3adacd2d05e4"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "a9c85e41adb2e2234a5c46363381c2f78456f79dc070c17e8a5d21323935c7cd",
+          "export_line_sha256": "765017fc9d8a831493830e1d0984d0157a4df6c6b1b7f3bd5ce607b2846edceb"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "ab66f6539e6a1041730cd38b3688a5b2f4e990fd8411916403061211735c2e47",
+          "export_line_sha256": "09b3473892d25f28bb5837652192f3f9ae154f2ae4255ea1741120f928a2334b"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "940eebda71341d6186b2abacea75398fc8684f5b9dfa6569023b4795dc307e1e",
+          "export_line_sha256": "767c8a2edebc86a8af926f5002e26b0d85be78d955566f83a886e5f1492d10d7"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "9bed0c359cec8fb2d73b80a87c9cb1de303ca3c2d362f1e333340f3fb8682028",
+          "export_line_sha256": "d7b9ccbf85703d7e8fcebfb70527f15dacef53b3b19fa2c9e00ff12778951120"
+        },
+        {
+          "line": 27,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "5497fd576f30dcd41bfa45a31d21b61612d94c9029eee78c35d0d198a74b9939",
+          "export_line_sha256": "820e93d2cad6f843aa3a166857d2fcd675555c7353d1b7dd0b88ef48f572a761"
+        },
+        {
+          "line": 41,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "0508e2826d27ac1cc12d1587e070e57a844be5b3499277f0e1c4fef0e98ad1ac",
+          "export_line_sha256": "de5a23401569010e3d7a23a18755dc3a93f5c0b7cf85a0c6e1d420702dc4d831"
+        },
+        {
+          "line": 51,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "b6cbbcafc0d430b8b7956f2ec91dd765d6e6f1aa42703e4dcffe22859d2b5a7a",
+          "export_line_sha256": "8708001eec38d7cb78df8dab237e457bf4c6e26f44a2957f0c1247cdc6da94e4"
+        }
+      ]
+    },
+    {
+      "path": "run-08/native/rollout.jsonl",
+      "original_sha256": "2a4ca532a0a1f229daa8fd04e1ad9ad2e5775d637da74c802594bbccfda42daf",
+      "export_sha256": "c01f4dd85f87082d568ee43035b5d56a7cd1ab1a7e3bbe37e2620f74c6883b99",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "c2003b551a8ce2664aa52bb8fab2c96e08de5b383fdbfb7dc7abb9a44ea3a562",
+          "export_line_sha256": "ad41016a11e8785b8d00a6b5258f13742d9ee8d88e95170a3f20d414afde0c03"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "ac9b42a1d900ccc071d3c37ef2c65ae381d9461369ba3ee6cb022ca67475f716",
+          "export_line_sha256": "b2822b4aef887e15ba6a2666ea4647e76db1c56c3f1304561de8a13d77f5f859"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "65de98e58099b58f730f821c135c762b16546ae2b70f3ff46bed3fdade11e08c",
+          "export_line_sha256": "6b198215c61429033c9db9a179e70a2819a84f55a1081d8f1537607d724f7c93"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "42fae83ddf09c34fcb12701e07296a89c4da0510c9a8570c08b962b57c3a838e",
+          "export_line_sha256": "0cedb52c91686cfbd072a77f9af8902a0f771e0f6cc00d9a9337db8006364f80"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "a689a374e74ed1584b8d1ef8517527b9a37b58d9ea814fe393eb5e609f04c44c",
+          "export_line_sha256": "8399af913d0599ab2119a36bf60641dcc4c56279ac8710527042e383556b8168"
+        },
+        {
+          "line": 27,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "097538453db7f31eb61ad9d5766a9cdd785f56fce5717f1fb3864ea8b5d40654",
+          "export_line_sha256": "abad4fb44aedf7f9b531d5d5c7e53a668e891b89318f67ad98fda7dfb72099d3"
+        },
+        {
+          "line": 40,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "91d98b1ba9186b4b830d1bcb3634a9c7d4df6c9a8ecf44350f56fd4a98bab270",
+          "export_line_sha256": "69e3c942c1514a4068e67fb052a813c8c80e9f5861459cd94f36d2a76f2f4392"
+        }
+      ]
+    },
+    {
+      "path": "run-09/native/rollout.jsonl",
+      "original_sha256": "d78bcd9f0b3bf408613c02e289a93604266debb1213b4de169489466578aa8eb",
+      "export_sha256": "cd4ec3663de4e1cf43419b4e30957e618372e6b5b0d39aa16b0158a3d748b203",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "95fbe83f6906bd16666a1cf9595f6c97807baf2bc2510af1cae10bf8706adb22",
+          "export_line_sha256": "ad713234ad307411231680db76893219825dec13611f7368216aa2ab5194c275"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "fb0428687f4e4fe1f86fb76dfe2802222cb9bba15375de18c930d6ba69c3d46e",
+          "export_line_sha256": "33d682ee86702a798463c45876cac365a498c271dc12dac88c6716d1b1ddadaf"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "f6f3405809213012421cf40ba1ae32e0ad757edd6cdf12083cd050e31e589d05",
+          "export_line_sha256": "7c9d75479440ce08bd5ee87dbb22379409e26d1f553a8f3010c91f41ec9d86db"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "c387086bdb3e778ae76650451d68f03324786deee4cba87e086741a9aedd4158",
+          "export_line_sha256": "f6d4fda89ac0461578de32cac70205adb967d82112311ce4619abb37f63c99f1"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "2764101dc2dd0c1f01619a429f8e723e3719ecaee2504ad09979c43f62aee85c",
+          "export_line_sha256": "71ad24b921300d9e265d828a9fe6606b1b59840438c1c2a900dd7ccfdda49fe5"
+        },
+        {
+          "line": 32,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "8c12e1c8db416cfbcc75059dc05c5c0778590098fcc49d5cbb84b36f7e559c63",
+          "export_line_sha256": "5767b1bc3e5b3c4abb89458fbcbb923e79c6d32caac3106a1df96e4f40740c38"
+        },
+        {
+          "line": 39,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "f6fae2d76413868924eda9de2c3d364873b0526d5ef8942d83b06a52e938454c",
+          "export_line_sha256": "c1e5e779232c7467c283689f0f29eea413629ecdfdff611b51d839afed6c3411"
+        },
+        {
+          "line": 48,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "7c269340ca08d50378ce1d6b32c8ba9752592d6796509eda7b4d343492283c71",
+          "export_line_sha256": "1fcf147ee1efde2daaa662a522c2e5e3f3dd678eb65e094b2705f0a34e6a3661"
+        },
+        {
+          "line": 55,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "39c0a4e390ec87bf8c7dbd4d42e1d96234ea35ecab74defd8c993c85aa6855cf",
+          "export_line_sha256": "a7edd16b3cf67e5ad87e2f446f17e21f28592330a37824d698f1b995ea8a5b4d"
+        }
+      ]
+    },
+    {
+      "path": "run-10/native/rollout.jsonl",
+      "original_sha256": "d284eb9519f78ebf6f92e0a22b0894de6ccf183059ccd3d140306a00c89fdf7b",
+      "export_sha256": "dd31e753c1407dda920220bef19d9e00916edabef332277443f57599e1a64994",
+      "unchanged_tool_and_task_lines": true,
+      "line_count_preserved": true,
+      "changes": [
+        {
+          "line": 1,
+          "fields": [
+            "base_instructions"
+          ],
+          "original_line_sha256": "bf0e561a61b23a1bae0f6575df0d3279e0f14a10ff66b85c0d0bb052548958bf",
+          "export_line_sha256": "8ca1248b3c81747e64caa3f9007ac7926dc1a0851900e6bb7ccc6dc71f74422a"
+        },
+        {
+          "line": 3,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "a713bcba7c3c9a48f97cea86c34b65d84fbec05215dd72350896cc48123c7d5e",
+          "export_line_sha256": "c7271d94c2a3e76cf2fce4d772605ad8e6a865cfb297dc4c3fdf30975c9d0332"
+        },
+        {
+          "line": 4,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "69eab0aada94a3f4518ba2f9c06ed2f894184ca90c9d9d444359e07ea7750e7c",
+          "export_line_sha256": "43ed12b0d7fcc12a4b30ab58d50f6d1a055109678a9640f2b7f8f017e0c819c7"
+        },
+        {
+          "line": 5,
+          "fields": [
+            "platform_message"
+          ],
+          "original_line_sha256": "deffa7ec0dd042f6c5bf17316c178f9d982b8c1451244d836cb8b1a3eba5b694",
+          "export_line_sha256": "89e5ab718efb191ad6d0900268f6400fa1acc8d0231fa6c99ce5b58427759c35"
+        },
+        {
+          "line": 7,
+          "fields": [
+            "world_state"
+          ],
+          "original_line_sha256": "5b4747733f7d5cb1be60b0ead5bc567f56a317e96082f9be3ee5d0316d8372c6",
+          "export_line_sha256": "abe81e261af6f3111f3c8ce73afe87b134778dec35453d3f2a1935531adef1ed"
+        },
+        {
+          "line": 33,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "9c4716087c0513bd58e8b5059c12b578e168a9f84abc240cc552c495124193f8",
+          "export_line_sha256": "16ded1e2235312eae895969f169d32f1f4c83437ed2fa8da77abeb4315dcc1eb"
+        },
+        {
+          "line": 40,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "98b35afa6f7a8c2403b359beef91d75ecc041f502948e4c7fb807e4701416332",
+          "export_line_sha256": "fa7c001787f70dd4063f4cc8c5d7cfd626e86b23375a667d25140ad28c901d9b"
+        },
+        {
+          "line": 49,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "ae2ca4ec7eb41732fdb6b98ac97aa72279872edc4de8ff4c6dbe8e69478f188e",
+          "export_line_sha256": "1634070bba3d2577aec81e2dfa67747938b6da71fdf48c7a774c17e048472382"
+        },
+        {
+          "line": 56,
+          "fields": [
+            "internal_reasoning"
+          ],
+          "original_line_sha256": "0c070707a709b1003624b7d3023231225f5aec78bdaf9f8d5724885e258373cf",
+          "export_line_sha256": "d26c62c9a74a15a55dd5be085ae7c014316941fdc1856abf55bce60e4fb9c7ea"
+        }
+      ]
+    }
+  ]
+}

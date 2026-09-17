@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-17T09:10:04.913167+00:00",
+  "reason": "Independent raw review found run-03 invoked owner on a temporary copy whose post-owner bytes were not captured. Inbox preservation cannot substitute for operated checkpoint byte preservation. Preserve original unknown-write pair as incomplete; no behavior REJECT inferred.",
+  "additional_pair": [
+    {
+      "label": "run-09",
+      "arm": "baseline",
+      "case": "unknown-write"
+    },
+    {
+      "label": "run-10",
+      "arm": "treatment",
+      "case": "unknown-write"
+    }
+  ],
+  "only_clarification": "Invoke the local owner using the actual supplied inbox/checkpoint.json path (not a copied checkpoint); preserve and report its SHA-256 before and after invocation. The offered-state owner is authorized only to inspect this supplied fixture.",
+  "maximum_additional_pairs": 1,
+  "deadline_seconds": 300,
+  "judge_recorder_instructions_runtime_unchanged": true,
+  "authorizes_landing": false
+}

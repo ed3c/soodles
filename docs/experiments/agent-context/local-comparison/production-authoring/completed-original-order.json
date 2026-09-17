@@ -1,0 +1,674 @@
+{
+  "order_revision": "9ab8365b24c51fcf2889b43fc86cecf9",
+  "state": {
+    "orders": {
+      "schedule": {
+        "order_id": "schedule",
+        "sequence": 0,
+        "title": "scheduling tasks based on your backlog",
+        "plan": null,
+        "rationale": "",
+        "status": "failed",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "schedule",
+            "prompt": "",
+            "skill": "schedule",
+            "provider": "codex",
+            "model": "gpt-6-astra",
+            "runtime": "process",
+            "group": 0,
+            "status": "failed",
+            "extra_prompt": "",
+            "attempts": [
+              {
+                "attempt_id": "schedule-0-attempt-0",
+                "session_id": "schedule-20260917-082020-89bce7",
+                "status": "failed",
+                "started_at": "2026-09-17T16:20:20.446494+08:00",
+                "completed_at": "2026-09-17T16:20:20.447992+08:00",
+                "exit_code": null,
+                "worktree_name": "",
+                "error": "cook cancelled with status cancelled"
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-09-17T16:10:36.48897+08:00",
+        "updated_at": "2026-09-17T08:48:02.74365Z",
+        "metadata": {
+          "plan": "",
+          "rationale": "",
+          "title": "scheduling tasks based on your backlog"
+        }
+      },
+      "soodles-39": {
+        "order_id": "soodles-39",
+        "sequence": 1,
+        "title": "Execute ed3c/soodles#39",
+        "plan": null,
+        "rationale": "Externally admitted current Issue",
+        "status": "completed",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "execute",
+            "prompt": "{\"body_sha256\": \"cf54e51c5af83fa75625abd68e12b68d1bcd90c7938bea4406467a95020b1887\", \"body_updated_at\": \"2026-09-17T08:46:19Z\", \"envelope_sha256\": \"e6e72be07bac8e31f9578923d132c1865b1b8f9cab8d9ae0ed8c060d8d3a1f61\", \"issue\": 39, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"Continue the real production Soodles Issue39 integration atom, not a blinded comparison. This real soodles-39 order precedes this new integration work, but earlier preparation is historical; do not claim it preceded all old code. Current clean base is 1ff2882891792b50d97529c9ee1a3e76eac1a6e7. Read the admitted issue.json in /Users/neon/.codex/experiments/soodles39-resume-20260917. Integrate the five proposed instruction files from commit 2e9d51261c80b2c5c120ca6549c759704c615c61 (also available in /Users/neon/soodles/.worktrees/issue-39-agent-context-patterns) onto current main. Files: AGENTS.md, README.md, contracts/system-v1.md, contracts/agent-context-design.md, .agents/skills/verify-soodles/SKILL.md. Preserve all landed #41 P-class recipe/recorder guidance, #44 authenticated GitHub reader route and #46 verify-noodle route; do not weaken executable owners or their invariants. Compare old integration against its f2bd849 base and current main; use only exact supported new instruction differences. Do not rewrite unrelated prose or add more mechanisms.\\nChild .agents/AGENTS writes are protected. Your deliverable is COMPLETE proposed bytes for those five files under external /Users/neon/.codex/experiments/soodles39-resume-20260917/draft/ using repository-relative layout, plus worker-evidence manifest with hashes, precise actual changes and handoff. Do not edit/commit target source or call provider writes. Supervisor applies only after your naturally observed exit, then runs blinded cases and delivery. This scoped authoring task may complete without repository changes; Noodle can auto-clean that checkout, which supervisor will record and recreate through owner if needed. No second order, checkpoint edit or permission changes.\\nRetain carrier-scoped prerequisites, N/P/L/R boundaries, current-owner next/request semantics, explicit scope/nonregression, and unknown-window/compaction handling. Existing local comparison is evidence for old frozen inputs only. Do not invent new behavioral results or reduce instruction obligations to fake improvement. Keep new guidance short and conditional. Any official-reference text already present may be retained without unsupported new API claims; no web research or capability probe required. Validate link targets against combined candidate overlay and existing base; report failures as authoring checks, not experiment results.\\nUse execute methodology. Do not load unrelated noodles operator runbook, launch other agents/models, alter credentials, start loops or deliver. At completion, inspect actual Noodle event help via /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81; schema source /Users/neon/.codex/experiments/noodle78-delivery-20260916/control/event/types.go. Emit ONE own stage_message matching actual NOODLE_SESSION_ID/ORDER_ID/STAGE_INDEX, outcome completed and blocking false only for completed five-file authoring handoff; clearly state comparison/acceptance/provider delivery remain supervisor work. On genuine inability emit blocked. Then return naturally. Bound 720 seconds.\"}",
+            "skill": "execute",
+            "provider": "codex",
+            "model": "gpt-6-astra",
+            "runtime": "process",
+            "group": 0,
+            "status": "completed",
+            "extra_prompt": "",
+            "attempts": [
+              {
+                "attempt_id": "soodles-39-0-attempt-0",
+                "session_id": "soodles-39-0-execute-20260917-084802-fa146c",
+                "status": "completed",
+                "started_at": "2026-09-17T16:48:02.799504+08:00",
+                "completed_at": "2026-09-17T16:53:10.118311+08:00",
+                "exit_code": null,
+                "worktree_name": "soodles-39-0-execute",
+                "error": ""
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-09-17T16:48:02.740371+08:00",
+        "updated_at": "2026-09-17T16:53:10.118311+08:00",
+        "metadata": {
+          "plan": "",
+          "rationale": "Externally admitted current Issue",
+          "title": "Execute ed3c/soodles#39"
+        }
+      }
+    },
+    "pending_reviews": {},
+    "action_needed": null,
+    "mode": "supervised",
+    "mode_epoch": 8,
+    "mode_transitions": [
+      {
+        "from_mode": "supervised",
+        "to_mode": "supervised",
+        "epoch": 1,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T13:28:22.964109+08:00"
+      },
+      {
+        "from_mode": "supervised",
+        "to_mode": "manual",
+        "epoch": 2,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:54:01.852402+08:00"
+      },
+      {
+        "from_mode": "manual",
+        "to_mode": "supervised",
+        "epoch": 3,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:54:04.237418+08:00"
+      },
+      {
+        "from_mode": "supervised",
+        "to_mode": "manual",
+        "epoch": 4,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:58:30.050221+08:00"
+      },
+      {
+        "from_mode": "manual",
+        "to_mode": "supervised",
+        "epoch": 5,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:58:30.055888+08:00"
+      },
+      {
+        "from_mode": "supervised",
+        "to_mode": "manual",
+        "epoch": 6,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T16:05:28.898487+08:00"
+      },
+      {
+        "from_mode": "manual",
+        "to_mode": "supervised",
+        "epoch": 7,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T16:10:11.074602+08:00"
+      },
+      {
+        "from_mode": "supervised",
+        "to_mode": "supervised",
+        "epoch": 8,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T16:48:01.302739+08:00"
+      }
+    ],
+    "schema_version": 1,
+    "last_event_id": "67"
+  },
+  "effect_ledger": [
+    {
+      "effect_id": "event-2-effect-0",
+      "effect": {
+        "effect_id": "event-2-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:06:39.47517+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-5-effect-0",
+      "effect": {
+        "effect_id": "event-5-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:07:11.275497+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-8-effect-0",
+      "effect": {
+        "effect_id": "event-8-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:07:39.059519+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-11-effect-0",
+      "effect": {
+        "effect_id": "event-11-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:10:22.275401+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-14-effect-0",
+      "effect": {
+        "effect_id": "event-14-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:11:52.862914+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-16-effect-0",
+      "effect": {
+        "effect_id": "event-16-effect-0",
+        "type": "cleanup",
+        "payload": {
+          "order_id": "schedule",
+          "stage_index": 0,
+          "worktree_name": ""
+        },
+        "created_at": "2026-09-17T00:11:55.035108+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-17-effect-0",
+      "effect": {
+        "effect_id": "event-17-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-1",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T01:04:23.12583+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+      "effect": {
+        "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "026c6e8e082892d0f4f50d7de72c9297",
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-16T17:04:42.06476Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-16T17:04:42.06476Z",
+      "result": {
+        "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-16T17:04:42.06476Z"
+      }
+    },
+    {
+      "effect_id": "event-21-effect-0",
+      "effect": {
+        "effect_id": "event-21-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-18-0-attempt-0",
+          "order_id": "soodles-18",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T01:04:42.104314+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-25-effect-0",
+      "effect": {
+        "effect_id": "event-25-effect-0",
+        "type": "write_projection",
+        "payload": {
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-17T01:26:59.591442+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-25-effect-1",
+      "effect": {
+        "effect_id": "event-25-effect-1",
+        "type": "ack",
+        "payload": {
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-17T01:26:59.591442+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-27-effect-0",
+      "effect": {
+        "effect_id": "event-27-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T13:28:23.77383+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-30-effect-0",
+      "effect": {
+        "effect_id": "event-30-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T13:28:24.795118+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "initial-admission-40b36902c8815c5d026a01c34260f91401aeecfd4cac1a85b2cb9e986a5977f8",
+      "effect": {
+        "effect_id": "initial-admission-40b36902c8815c5d026a01c34260f91401aeecfd4cac1a85b2cb9e986a5977f8",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "dfb96fcf7d8d776ea177173c4c0c717d",
+          "order_id": "soodles-44"
+        },
+        "created_at": "2026-09-17T07:54:04.877318Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-17T07:54:04.877318Z",
+      "result": {
+        "effect_id": "initial-admission-40b36902c8815c5d026a01c34260f91401aeecfd4cac1a85b2cb9e986a5977f8",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-17T07:54:04.877318Z"
+      }
+    },
+    {
+      "effect_id": "event-36-effect-0",
+      "effect": {
+        "effect_id": "event-36-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T15:54:04.882472+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-39-effect-0",
+      "effect": {
+        "effect_id": "event-39-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-44-0-attempt-0",
+          "order_id": "soodles-44",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T15:54:29.795818+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-45-effect-0",
+      "effect": {
+        "effect_id": "event-45-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-44-0-attempt-1",
+          "order_id": "soodles-44",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T15:58:30.91021+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-50-effect-0",
+      "effect": {
+        "effect_id": "event-50-effect-0",
+        "type": "write_projection",
+        "payload": {
+          "order_id": "soodles-44"
+        },
+        "created_at": "2026-09-17T16:05:28.961542+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-50-effect-1",
+      "effect": {
+        "effect_id": "event-50-effect-1",
+        "type": "ack",
+        "payload": {
+          "order_id": "soodles-44"
+        },
+        "created_at": "2026-09-17T16:05:28.961542+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "initial-admission-def5cddaa82650edbb6e2cc99e3c2af342fd15a4802eca401cbb5f2928e5c84e",
+      "effect": {
+        "effect_id": "initial-admission-def5cddaa82650edbb6e2cc99e3c2af342fd15a4802eca401cbb5f2928e5c84e",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "270679c317f82a829b5422a297dd47ca",
+          "order_id": "soodles-46"
+        },
+        "created_at": "2026-09-17T08:10:11.756189Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-17T08:10:11.756189Z",
+      "result": {
+        "effect_id": "initial-admission-def5cddaa82650edbb6e2cc99e3c2af342fd15a4802eca401cbb5f2928e5c84e",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-17T08:10:11.756189Z"
+      }
+    },
+    {
+      "effect_id": "event-53-effect-0",
+      "effect": {
+        "effect_id": "event-53-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T16:10:11.761154+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-56-effect-0",
+      "effect": {
+        "effect_id": "event-56-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-46-0-attempt-0",
+          "order_id": "soodles-46",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T16:10:36.518026+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-58-effect-0",
+      "effect": {
+        "effect_id": "event-58-effect-0",
+        "type": "write_projection",
+        "payload": {
+          "order_id": "soodles-46"
+        },
+        "created_at": "2026-09-17T16:20:20.301732+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-58-effect-1",
+      "effect": {
+        "effect_id": "event-58-effect-1",
+        "type": "ack",
+        "payload": {
+          "order_id": "soodles-46"
+        },
+        "created_at": "2026-09-17T16:20:20.301732+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-60-effect-0",
+      "effect": {
+        "effect_id": "event-60-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T16:20:20.442104+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-62-effect-0",
+      "effect": {
+        "effect_id": "event-62-effect-0",
+        "type": "cleanup",
+        "payload": {
+          "order_id": "schedule",
+          "stage_index": 0,
+          "worktree_name": ""
+        },
+        "created_at": "2026-09-17T16:20:20.447992+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "initial-admission-3ac4da54dc975ecf77445be751a5e10efa4451a8cb32f68299bd29e1e09f2fbd",
+      "effect": {
+        "effect_id": "initial-admission-3ac4da54dc975ecf77445be751a5e10efa4451a8cb32f68299bd29e1e09f2fbd",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "e26bdafcb85899f3eabb462acb249bd8",
+          "order_id": "soodles-39"
+        },
+        "created_at": "2026-09-17T08:48:02.740322Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-17T08:48:02.740322Z",
+      "result": {
+        "effect_id": "initial-admission-3ac4da54dc975ecf77445be751a5e10efa4451a8cb32f68299bd29e1e09f2fbd",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-17T08:48:02.740322Z"
+      }
+    },
+    {
+      "effect_id": "event-65-effect-0",
+      "effect": {
+        "effect_id": "event-65-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-39-0-attempt-0",
+          "order_id": "soodles-39",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T16:48:02.775341+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-67-effect-0",
+      "effect": {
+        "effect_id": "event-67-effect-0",
+        "type": "write_projection",
+        "payload": {
+          "order_id": "soodles-39"
+        },
+        "created_at": "2026-09-17T16:53:10.118311+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-67-effect-1",
+      "effect": {
+        "effect_id": "event-67-effect-1",
+        "type": "ack",
+        "payload": {
+          "order_id": "soodles-39"
+        },
+        "created_at": "2026-09-17T16:53:10.118311+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    }
+  ],
+  "generated_at": "2026-09-17T08:53:10.190575Z"
+}

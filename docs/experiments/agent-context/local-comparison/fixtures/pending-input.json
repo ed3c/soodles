@@ -1,0 +1,161 @@
+{
+  "fixture_only": true,
+  "checkpoint": {
+    "claim": {
+      "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+      "control_root": "/fixture",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "issue": 1,
+      "pr": 2,
+      "repository": "ed3c/soodles",
+      "run_attempt": 1,
+      "run_id": 10,
+      "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83",
+      "worktree": "example"
+    },
+    "classification": null,
+    "delivery": {
+      "action": "merge",
+      "status": "offered"
+    },
+    "observations": [
+      "663c140cbbfe2476a29068622822e7501ceae189ae2d6fc70a800e8da821470c"
+    ],
+    "phase": "merge_pending",
+    "schema": 2,
+    "scope": "supervised single-Issue landing",
+    "writes_offered": [
+      "merge"
+    ]
+  },
+  "owner_output": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "phase": "merge_pending",
+    "classification": null,
+    "next": {
+      "kind": "provider_readback",
+      "owner": "GitHub",
+      "operation": "advance",
+      "required": [
+        "readback"
+      ],
+      "known": {
+        "checkpoint": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles39-fixture-binding-m66i94f2/checkpoint.json"
+      },
+      "help_argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/soodles/soodles.py",
+        "landing",
+        "advance",
+        "--help"
+      ],
+      "requests": {
+        "pr": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+        },
+        "issue": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+        },
+        "commit": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "branch": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+        },
+        "run": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+        },
+        "jobs": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+        }
+      },
+      "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+    }
+  },
+  "provider_snapshot": {
+    "branch": {
+      "commit": {
+        "sha": "cccccccccccccccccccccccccccccccccccccccc"
+      },
+      "name": "main"
+    },
+    "commit": {
+      "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "tree": {
+        "sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    "issue": {
+      "html_url": "https://github.com/ed3c/soodles/issues/1",
+      "number": 1,
+      "state": "open"
+    },
+    "jobs": {
+      "jobs": [
+        {
+          "conclusion": "success",
+          "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "id": 11,
+          "name": "runtime-evidence",
+          "run_id": 10,
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Canonical acceptance on the exact candidate head",
+              "status": "completed"
+            }
+          ]
+        }
+      ],
+      "total_count": 1
+    },
+    "pr": {
+      "base": {
+        "ref": "main",
+        "repo": {
+          "full_name": "ed3c/soodles"
+        },
+        "sha": "cccccccccccccccccccccccccccccccccccccccc"
+      },
+      "body": "Refs ed3c/soodles#1\n",
+      "draft": false,
+      "head": {
+        "ref": "example",
+        "repo": {
+          "full_name": "ed3c/soodles"
+        },
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "html_url": "https://github.com/ed3c/soodles/pull/2",
+      "mergeable": true,
+      "merged": false,
+      "number": 2,
+      "state": "open"
+    },
+    "run": {
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_repository": {
+        "full_name": "ed3c/soodles"
+      },
+      "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "id": 10,
+      "path": ".github/workflows/runtime.yml",
+      "repository": {
+        "full_name": "ed3c/soodles"
+      },
+      "run_attempt": 1,
+      "status": "completed"
+    }
+  }
+}

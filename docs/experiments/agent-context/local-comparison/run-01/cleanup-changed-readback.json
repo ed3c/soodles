@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-17T08:59:35.106438+00:00",
+  "prior_failure": "postprocess.json: cleanup PermissionError EPERM; not interpreted as absence",
+  "new_kernel_observation": [
+    {
+      "source": "live/launch.json",
+      "pid": 13364,
+      "pgid": 13364,
+      "checks": {
+        "pid": "absent",
+        "pgid": "absent"
+      }
+    },
+    {
+      "source": "native/observation.json",
+      "pid": 18468,
+      "pgid": 18468,
+      "checks": {
+        "pid": "absent",
+        "pgid": "absent"
+      }
+    },
+    {
+      "source": "live/runtime/sessions/schedule-20260917-085558-f66cb7/process.json",
+      "pid": 13378,
+      "pgid": 13378,
+      "checks": {
+        "pid": "absent",
+        "pgid": "absent"
+      }
+    },
+    {
+      "source": "live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/process.json",
+      "pid": 16481,
+      "pgid": 16481,
+      "checks": {
+        "pid": "absent",
+        "pgid": "absent"
+      }
+    },
+    {
+      "source": "process-exits/schedule-20260917-085558-f66cb7/exit.json",
+      "pid": 13382,
+      "pgid": 13378,
+      "checks": {
+        "pid": "absent",
+        "pgid": "absent"
+      }
+    },
+    {
+      "source": "process-exits/soodles-39-0-execute-20260917-085626-ed7367/exit.json",
+      "pid": 16569,
+      "pgid": 16481,
+      "checks": {
+        "pid": "absent",
+        "pgid": "absent"
+      }
+    }
+  ],
+  "material_change": "all recorded pids/groups now return ESRCH; no model/task retry"
+}

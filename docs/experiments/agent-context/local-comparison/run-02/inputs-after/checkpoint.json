@@ -1,0 +1,29 @@
+{
+  "claim": {
+    "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "control_root": "/fixture",
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "issue": 1,
+    "pr": 2,
+    "repository": "ed3c/soodles",
+    "run_attempt": 1,
+    "run_id": 10,
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83",
+    "worktree": "example"
+  },
+  "classification": null,
+  "delivery": {
+    "action": "merge",
+    "status": "offered"
+  },
+  "observations": [
+    "663c140cbbfe2476a29068622822e7501ceae189ae2d6fc70a800e8da821470c"
+  ],
+  "phase": "merge_pending",
+  "schema": 2,
+  "scope": "supervised single-Issue landing",
+  "writes_offered": [
+    "merge"
+  ]
+}

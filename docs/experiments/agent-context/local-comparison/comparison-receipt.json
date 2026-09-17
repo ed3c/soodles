@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 39,
+  "scope": "bounded instrumented macOS local comparison, integrated main46 inputs",
+  "instruction_selection": "instruction-selection.json",
+  "common_code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+  "treatment_instruction_ref": "388c86be5eef0f317b0ae38ffac70892f24c13de",
+  "accepted_pairs": {
+    "runner-task": [
+      "run-01",
+      "run-02"
+    ],
+    "unknown-write": [
+      "run-09",
+      "run-10"
+    ],
+    "fresh-transfer": [
+      "run-08",
+      "run-07"
+    ]
+  },
+  "actual_producers": {
+    "run-08": "run-05",
+    "run-07": "run-06"
+  },
+  "retained_incomplete_pair": {
+    "baseline": "run-04",
+    "treatment": "run-03",
+    "reason": "operated temporary checkpoint after bytes unobserved; raw INCOMPLETE, corrected normalized fixed judge REJECT checkpoint_preserved"
+  },
+  "additional_pairs_used": 1,
+  "behavioral_claim": "scoped nonregression only, independently reviewed raw and public export",
+  "improvement_proven": false,
+  "unqualified_preregistration_compliance": false,
+  "native_worker_tasks": 10,
+  "native_worker_tool_pairs": 70,
+  "emitted_worker_command_results": 100,
+  "all_actual_child_exits": 0,
+  "original_production_order": "soodles-39",
+  "original_production_session": "soodles-39-0-execute-20260917-084802-fa146c",
+  "production_stage_scope": "integration authoring only; actual external drafts and own completed outcome, automatic cleanup and explicit Noodle recreation preserved",
+  "cleanup": "all 10 disposable worker worktrees absent, clean exact source commits retained in their control roots",
+  "public_export": "explicitly redacted native rollout exports; see public-export-redactions.json; local originals remain unmodified",
+  "authorizes_landing": false,
+  "production_delivery_status": "pending final exact-head acceptance and fixed external publisher merge/closure/reconciliation",
+  "limitations": [
+    "no cloud verdict replacement",
+    "no actual compaction",
+    "no automatic instruction loading claim",
+    "no hidden service-model revision proof",
+    "no uninstrumented natural-exit claim",
+    "token/command/elapsed metrics not causal decision-cost estimates",
+    "partial CLI aggregated stdout replaced by actual native tool-result evidence, not reconstructed output"
+  ],
+  "classification": "BOUNDED_LOCAL_COMPARISON_OBSERVED_WITH_PRESERVED_DEVIATIONS",
+  "independent_audit": {
+    "path": "independent-audit/final-audit.json",
+    "sha256": "67f687a7a60855f842e6adb8d6e1fc501cdc65062c6a68db0d730e2b121439b0",
+    "public_export_audit": "independent-audit/export-audit.json",
+    "audited_manifest_sha256": "969d72ec1030a62df3e621ffa01eed1f712284aaf7c87496e576db9e307f4224"
+  },
+  "assembly_note": {
+    "reason": "Receipt assembled before reviewer signaled final file stability; assertion caught stale reviewer hash before copying into Git or publishing. Bound the final reviewer bytes after files-ready. No audited base entry changed.",
+    "preliminary_reviewer_sha256": "fba9dbd7f66f8552fb1db194e7d3a195b44b9b939c61554a7b5fbbda197b66f3"
+  }
+}

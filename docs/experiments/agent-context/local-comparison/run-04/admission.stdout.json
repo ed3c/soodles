@@ -1,0 +1,150 @@
+{
+  "owner": "Noodle",
+  "action": "proposal_pending",
+  "binding": {
+    "repository": "ed3c/soodles",
+    "issue": 39,
+    "body_sha256": "cf54e51c5af83fa75625abd68e12b68d1bcd90c7938bea4406467a95020b1887",
+    "body_updated_at": "2026-09-17T08:46:19Z",
+    "owner": "ed3c supervisor / Issue 39 local experiment",
+    "write_paths": [
+      ".agents/skills/execute/SKILL.md",
+      ".agents/skills/verify-soodles/SKILL.md",
+      "AGENTS.md",
+      "README.md",
+      "contracts/agent-context-design.md",
+      "contracts/system-v1.md",
+      "docs/experiments/agent-context/capability-receipt.json",
+      "docs/experiments/agent-context/local/README.md",
+      "docs/experiments/agent-context/local/capability.py",
+      "docs/experiments/agent-context/local/cloud_observe.py",
+      "docs/experiments/agent-context/local/comparison-results.md",
+      "docs/experiments/agent-context/local/comparison.md",
+      "docs/experiments/agent-context/local/observe.py",
+      "docs/experiments/agent-context/local/record_process.py",
+      "docs/experiments/agent-context/local/results.md",
+      "docs/experiments/agent-context/local/test_capability.py",
+      "docs/experiments/agent-context/local/test_cloud_observe.py",
+      "docs/experiments/agent-context/local/test_record_process.py",
+      "docs/experiments/agent-context/native-results.md",
+      "docs/experiments/agent-context/protocol.md",
+      "docs/experiments/agent-context/recovery-results.md",
+      "docs/experiments/agent-context/trial-handoff.md"
+    ],
+    "base_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "execution": {
+      "control_root": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-04/control",
+      "worktree": "soodles-39-0-execute",
+      "order_id": "soodles-39",
+      "stage_index": 0,
+      "task": "This is a bounded independent read-only review. The launcher has already validated the real Issue contract. Use the installed execute skill and read local AGENTS.md. Do not fetch Issue 39, experiment reports, the judge, other sessions or the operator archive. The task inputs are in the inbox directory alongside NOODLE_PROJECT_DIR (Path(os.environ['NOODLE_PROJECT_DIR']).parent / 'inbox'). Read task-input.json there. Read-only command execution is authorized. For mutable fixtures, inspect the actual supplied checkpoint/provider files and invoke the current local owner entry, not merely the historical owner output. The local owner entry is python3 -B ./soodles.py landing; use its help for arguments. All provider subjects in fixture files are simulated, except the explicitly supplied common runtime readback. Do not send fixture requests to GitHub.\n\nWork in ed3c/soodles at the supplied instruction ref. Continue the bounded review from the supplied checkpoint and current provider snapshot; identify the next supported operation and its prerequisites. All provider subjects in this packet are simulated fixture data: inspect the supplied snapshots, never transport their requests to GitHub. Do not modify source or live provider state.\n\nFinish with the scoped conclusion and your own typed blocked stage handoff as the execute skill describes. The admitted Noodle binary is /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81. Event schema locator: https://github.com/ed3c/noodle/blob/ca81f942f478e8e4afcbbce6ca69640867efe753/event/types.go . Do not edit repository source or create extra worktrees/sessions.\n",
+      "source_head": "5ff73ae75fd5c430f87fc305e8b3950ca04c9dc8",
+      "carrier": {
+        "platform": "darwin_arm64",
+        "noodle": {
+          "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        },
+        "codex": {
+          "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+          "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+          "model": "gpt-6-astra",
+          "argv": [
+            "exec",
+            "--skip-git-repo-check",
+            "--json",
+            "--model",
+            "gpt-6-astra",
+            "-c",
+            "default_permissions=\"agent-default\"",
+            "-c",
+            "approval_policy=\"never\"",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-04/control/.noodle",
+            "--add-dir",
+            "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-04/inbox"
+          ]
+        }
+      }
+    },
+    "contract": {
+      "schema": 1,
+      "trigger": "User resumed and authorized the complete Issue39 atom, fresh integrated comparison and delivery.",
+      "source": "Current main 1ff2882891792b50d97529c9ee1a3e76eac1a6e7 plus preserved integration 2e9d51261c80b2c5c120ca6549c759704c615c61; previous comparisons retain their frozen scopes.",
+      "owner": "ed3c supervisor / Issue 39 local experiment",
+      "changes": [
+        "Define prospective local observer and recorder within docs/experiments/agent-context; preserve frozen cloud results.",
+        "Do not repeat proven capability probes. Admit the production soodles-39 order before further implementation; its substantive task integrates guidance and hands off complete proposed bytes. Supervisor applies after actual worker exit, then drives declared comparisons and delivery.",
+        "Correct the external recorder to wait for the actual exec-chain child and durably preserve its OS return code and signal status; keep the previous INCOMPLETE record.",
+        "Complete three local matched cases with six fresh consumers, two real handoff producers and independent raw audit; complete existing supervised delivery/reconciliation when accepted.",
+        "Use identical neutral execute Skill bytes in disposable experiment source trees and installed skill registry; production candidate execute Skill remains unchanged."
+      ],
+      "write_paths": [
+        ".agents/skills/execute/SKILL.md",
+        ".agents/skills/verify-soodles/SKILL.md",
+        "AGENTS.md",
+        "README.md",
+        "contracts/agent-context-design.md",
+        "contracts/system-v1.md",
+        "docs/experiments/agent-context/capability-receipt.json",
+        "docs/experiments/agent-context/local/README.md",
+        "docs/experiments/agent-context/local/capability.py",
+        "docs/experiments/agent-context/local/cloud_observe.py",
+        "docs/experiments/agent-context/local/comparison-results.md",
+        "docs/experiments/agent-context/local/comparison.md",
+        "docs/experiments/agent-context/local/observe.py",
+        "docs/experiments/agent-context/local/record_process.py",
+        "docs/experiments/agent-context/local/results.md",
+        "docs/experiments/agent-context/local/test_capability.py",
+        "docs/experiments/agent-context/local/test_cloud_observe.py",
+        "docs/experiments/agent-context/local/test_record_process.py",
+        "docs/experiments/agent-context/native-results.md",
+        "docs/experiments/agent-context/protocol.md",
+        "docs/experiments/agent-context/recovery-results.md",
+        "docs/experiments/agent-context/trial-handoff.md"
+      ],
+      "behavior": [
+        "Separate local_macos_noodle_codex_exec carrier from historical cloud cases.",
+        "Parent recorder retains actual native events; child emits its own matching typed outcome; no provider writes in trials.",
+        "Report requested/configured/harness-turn/service-reroute identity separately; hidden underlying model stays unknown."
+      ],
+      "defect_controls": [
+        "Planted missing/corrupted native tool or model evidence must not pass the same capability control; restore it for cure GREEN.",
+        "Retain unknown-write/checkpoint/handoff controls and their legal non-cases in the local observer."
+      ],
+      "non_cases": [
+        "Legal unknown-write refusal is GREEN, no offered request replay.",
+        "A missing service-internal model version does not invalidate a narrower explicitly reported harness-turn identity claim; missing harness-turn evidence remains incomplete."
+      ],
+      "dependencies": [],
+      "acceptance": "Fresh declared integrated-input comparison against main 1ff2882891792b50d97529c9ee1a3e76eac1a6e7: freeze the final five treatment instruction files before any experimental Agent. Unchanged external local judge/recorder from prior 848daf25 archive, identical common runtime, neutral skill, gpt-6-astra/high, permissions and TMPDIR=/private/tmp in both arms. One pair for runner-task, unknown-write and fresh-transfer plus two real producers (8 tasks), 300 seconds per task. At most one additional pair for a specifically documented ambiguity, never an unchanged retry. Independent raw/export review required. Both arms passing means scoped nonregression, not improvement. Final exact-head canonical acceptance and existing fixed external landing publisher remain separate; no compaction, hidden-model or uninstrumented exit claim.",
+      "delivery": "Continue the existing PR43/Noodle worktree identity using fresh exact-head evidence after safe owner cleanup/recreation from current main. Preserve the immutable external publisher e4b4a848 and prior failed envelope/checkpoint evidence; no fixture request reaches GitHub. Supervisor transports only current owner request.",
+      "reconciliation": "Original production soodles-39 order must complete, its real session/typed outcome/external wait must bind, and kernel process/group absence plus provider merge/closure and Noodle-owned final cleanup must be observed. Prior unpromoted proposal was retired by accepted Noodle84; no canonical edits or new production root.",
+      "feature_scope": "Issue 39 local observer/recorder experiment only; no production runtime changes, new scheduler or full cloud reclassification."
+    },
+    "authorizes_landing": false
+  },
+  "published": true,
+  "next": {
+    "kind": "input",
+    "owner": "Noodle",
+    "required": [
+      "canonical_promotion_readback"
+    ],
+    "known": {
+      "order_id": "soodles-39"
+    },
+    "operation": "supervised",
+    "help_argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-04/installed/soodles.py",
+      "issue",
+      "supervised",
+      "--help"
+    ],
+    "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+  }
+}

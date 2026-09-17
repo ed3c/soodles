@@ -1,0 +1,20 @@
+{
+  "reason": "common runtime changed through authenticated reader; same pending/offered semantics, freshly measured owner identity",
+  "old_verifier": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a",
+  "new_verifier": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83",
+  "argv": [
+    "python3",
+    "-B",
+    "/Users/neon/soodles/soodles.py",
+    "landing",
+    "advance",
+    "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles39-fixture-binding-m66i94f2/checkpoint.json",
+    "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles39-fixture-binding-m66i94f2/provider.json"
+  ],
+  "exit": 0,
+  "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"readback\",\n  \"phase\": \"merge_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles39-fixture-binding-m66i94f2/checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/homebrew/opt/python@3.14/bin/python3.14\",\n      \"-B\",\n      \"/Users/neon/soodles/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  }\n}\n",
+  "stderr": "",
+  "checkpoint_unchanged_by_observation": true,
+  "fixture_only": true,
+  "authorizes_landing": false
+}

@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-01/cleanup_probe.py"
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"process_checks\": [\n    {\n      \"record\": \"live/launch.json\",\n      \"pid\": 13364,\n      \"alive\": false,\n      \"group_alive\": false\n    },\n    {\n      \"record\": \"native/observation.json\",\n      \"pid\": 18468,\n      \"alive\": false,\n      \"group_alive\": false\n    },\n    {\n      \"record\": \"live/runtime/sessions/schedule-20260917-085558-f66cb7/process.json\",\n      \"pid\": 13378,\n      \"alive\": false,\n      \"group_alive\": false\n    },\n    {\n      \"record\": \"live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/process.json\",\n      \"pid\": 16481,\n      \"alive\": false,\n      \"group_alive\": false\n    },\n    {\n      \"record\": \"process-exits/schedule-20260917-085558-f66cb7/exit.json\",\n      \"pid\": 13382,\n      \"pgid\": 13378,\n      \"alive\": false,\n      \"group_alive\": false\n    },\n    {\n      \"record\": \"process-exits/soodles-39-0-execute-20260917-085626-ed7367/exit.json\",\n      \"pid\": 16569,\n      \"pgid\": 16481,\n      \"alive\": false,\n      \"group_alive\": false\n    }\n  ],\n  \"worker_head\": \"19c62528674c1783edeec0bcffea86e82fe752c0\",\n  \"worker_clean\": true,\n  \"cleanup_exit\": 1,\n  \"worktree_absent\": false,\n  \"production_issue_resolved\": false,\n  \"authorizes_landing\": false\n}\n",
+  "stderr": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-01/cleanup_probe.py\", line 36, in <module>\n    assert result.returncode==0 and not work.exists()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+}

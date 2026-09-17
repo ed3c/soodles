@@ -1,0 +1,11 @@
+Reading prompt from stdin...
+2026-09-17T08:56:01.087724Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-17T08:56:01.087752Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+2026-09-17T08:56:01.948633Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-17T08:56:01.948709Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+2026-09-17T08:56:14.861301Z  WARN codex_sandboxing::violation: recorded sandbox violation: resource=filesystem backend=seatbelt reason=operation_not_permitted path=unknown
+2026-09-17T08:56:21.336854Z ERROR codex_skills_extension::loader::host: failed to scan skill path file:///Users/neon/.codex/skills/.system/.codex-system-skills.marker: No such file or directory (os error 2)
+2026-09-17T08:56:21.336875Z ERROR codex_skills_extension::loader::host: failed to scan skill path file:///Users/neon/.codex/skills/.system/review-agent: No such file or directory (os error 2)
+2026-09-17T08:56:21.336876Z ERROR codex_skills_extension::loader::host: failed to scan skill path file:///Users/neon/.codex/skills/.system/skill-creator/scripts: No such file or directory (os error 2)
+2026-09-17T08:56:21.347413Z  WARN codex_skills_extension::loader::metadata: ignoring file:///Users/neon/.codex/skills/.system/plugin-creator/agents/openai.yaml: failed to read openai.yaml: No such file or directory (os error 2)
+2026-09-17T08:56:21.347439Z  WARN codex_skills_extension::loader::metadata: ignoring file:///Users/neon/.codex/skills/.system/skill-installer/agents/openai.yaml: failed to read openai.yaml: No such file or directory (os error 2)

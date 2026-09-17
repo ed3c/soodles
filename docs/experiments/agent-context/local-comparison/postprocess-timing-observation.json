@@ -1,0 +1,6 @@
+{
+  "operation": "python3 postprocess.py run-09 run-10",
+  "result": "run09 two phases succeeded; then FileNotFoundError run-10/live/observation.json because run10 was still active",
+  "effect": "No run10 native read/capture phase started and no postprocess.json written. After real run10 finished and emitted observation, its first native/capture processing succeeded. No model task was retried.",
+  "scope": "coordinator process ordering error, not trial behavioral result"
+}

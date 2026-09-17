@@ -1,0 +1,333 @@
+{
+  "checks": {
+    "recorder_pid_matches_noodle_process": true,
+    "record_identity_matches": true,
+    "record_worktree_matches": true,
+    "same_launch_and_exit": true,
+    "child_is_separate": true,
+    "group_retained": true,
+    "actual_wait": true,
+    "exact_worker_chain": true,
+    "recorder_fixed": true,
+    "codex_measured": true,
+    "captured_stdout_digest": true,
+    "captured_stdout_bytes": true,
+    "native_bytes_forwarded_without_event_changes": true,
+    "terminal_delivery_deferred": true,
+    "typed_outcome_matches": true,
+    "every_started_item_has_result": true,
+    "one_completed_history_turn": true,
+    "thread_join": true,
+    "complete_native_turn": true,
+    "native_turn_model": true,
+    "native_session_meta": true,
+    "native_tool_call_result_pairs": true,
+    "child_exit_zero": true,
+    "checkpoint_bytes_preserved": true,
+    "provider_bytes_preserved": true
+  },
+  "thread_id": "01a0aea2-6113-7192-83d5-56fa781676de",
+  "turn_id": "01a0aea2-61bd-7ac2-ba71-564776490472",
+  "noodle_session": "soodles-39-0-execute-20260917-091111-c546f9",
+  "native_contexts": [
+    {
+      "line": 8,
+      "turn_id": "01a0aea2-61bd-7ac2-ba71-564776490472",
+      "root_turn_id": "01a0aea2-61bd-7ac2-ba71-564776490472",
+      "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.worktrees/soodles-39-0-execute",
+      "workspace_roots": [
+        "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.worktrees/soodles-39-0-execute",
+        "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.noodle",
+        "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/inbox"
+      ],
+      "current_date": "2026-09-17",
+      "timezone": "Asia/Taipei",
+      "approval_policy": "never",
+      "approvals_reviewer": "auto_review",
+      "sandbox_policy": {
+        "type": "workspace-write",
+        "writable_roots": [
+          "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.noodle",
+          "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/inbox",
+          "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.worktrees/soodles-39-0-execute/.git",
+          "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.noodle/.git",
+          "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/inbox/.git"
+        ],
+        "network_access": true,
+        "exclude_tmpdir_env_var": false,
+        "exclude_slash_tmp": false
+      },
+      "permission_profile": {
+        "type": "managed",
+        "file_system": {
+          "type": "restricted",
+          "entries": [
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "root"
+                }
+              },
+              "access": "read"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "slash_tmp"
+                }
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "tmpdir"
+                }
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.worktrees/soodles-39-0-execute"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.noodle"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/inbox"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.worktrees/soodles-39-0-execute/.git"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.noodle/.git"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/inbox/.git"
+              },
+              "access": "write"
+            }
+          ]
+        },
+        "network": "enabled"
+      },
+      "active_permission_profile": {
+        "id": "agent-default",
+        "extends": ":workspace"
+      },
+      "file_system_sandbox_policy": {
+        "kind": "restricted",
+        "entries": [
+          {
+            "path": {
+              "type": "special",
+              "value": {
+                "kind": "root"
+              }
+            },
+            "access": "read"
+          },
+          {
+            "path": {
+              "type": "special",
+              "value": {
+                "kind": "slash_tmp"
+              }
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "special",
+              "value": {
+                "kind": "tmpdir"
+              }
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.worktrees/soodles-39-0-execute"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.noodle"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/inbox"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.worktrees/soodles-39-0-execute/.git"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/control/.noodle/.git"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/inbox/.git"
+            },
+            "access": "write"
+          }
+        ]
+      },
+      "model": "gpt-6-astra",
+      "comp_hash": "3000",
+      "personality": "pragmatic",
+      "collaboration_mode": {
+        "mode": "default",
+        "settings": {
+          "model": "gpt-6-astra",
+          "reasoning_effort": "high",
+          "developer_instructions": null
+        }
+      },
+      "multi_agent_version": "v2",
+      "realtime_active": false,
+      "effort": "high",
+      "summary": "auto"
+    }
+  ],
+  "native_calls": [
+    {
+      "line": 13,
+      "call_id": "call_gVLuOHQbNimfqiZghZihatCI",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"pwd; cat .agents/skills/execute/SKILL.md; cat AGENTS.md; printenv NOODLE_PROJECT_DIR\",\"max_output_tokens\":10000}));\n"
+    },
+    {
+      "line": 18,
+      "call_id": "call_7yEtkW20VVTg275mPGySxW9P",
+      "name": "exec",
+      "input": "const results = await Promise.allSettled([\ntools.exec_command({cmd:\"python3 -B -c 'import os,pathlib; p=pathlib.Path(os.environ[\\\"NOODLE_PROJECT_DIR\\\"]).parent/\\\"inbox\\\"/\\\"task-input.json\\\"; print(p); print(p.read_text())'\",\"max_output_tokens\":12000}),\ntools.exec_command({cmd:\"git status --short; git show --stat --oneline HEAD; python3 -B ./soodles.py landing --help\",\"max_output_tokens\":5000}),\ntools.exec_command({cmd:\"/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81 event emit --help\",\"max_output_tokens\":5000})\n]);results.forEach(text);\n"
+    },
+    {
+      "line": 25,
+      "call_id": "call_sYZ7cJpFqTHvnflLHYbLI5NR",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"python3 -B -c 'import os,pathlib,hashlib; d=pathlib.Path(os.environ[\\\"NOODLE_PROJECT_DIR\\\"]).parent/\\\"inbox\\\"; names=[\\\"identity-input.json\\\",\\\"runtime-readback.json\\\",\\\"checkpoint.json\\\",\\\"provider.json\\\",\\\"historical-seed.json\\\"]; [(print(\\\"FILE\\\", n),print((d/n).read_text()),print(\\\"SHA256\\\",hashlib.sha256((d/n).read_bytes()).hexdigest())) for n in names]; print({k:os.environ.get(k) for k in [\\\"NOODLE_SESSION_ID\\\",\\\"NOODLE_ORDER_ID\\\",\\\"NOODLE_STAGE_INDEX\\\"]})'\",\"max_output_tokens\":14000}));\ntext(await tools.exec_command({cmd:\"python3 -B ./soodles.py landing advance --help; python3 -B ./soodles.py landing dispatch --help; python3 -B ./soodles.py landing resume --help\",\"max_output_tokens\":6000}));\n"
+    },
+    {
+      "line": 33,
+      "call_id": "call_4vVYsageccQlFwKabGNlOtiI",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"rg -n 'def (advance|dispatch)|offered|merge_pending|unknown|stage_message' landing.py soodles.py; rg --files -g '*landing*' -g '*event*' -g '*test*'\",\"max_output_tokens\":6000}));\n"
+    },
+    {
+      "line": 42,
+      "call_id": "call_ICeacMxyXuPkl5aSPdZMS8on",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"sed -n '1,115p' landing.py; sed -n '150,210p' landing.py; sed -n '405,481p' landing.py; rg -n 'offered|no.*repeat|dispatch|merge_pending' tests/test_landing.py\",\"max_output_tokens\":7000}));\n"
+    },
+    {
+      "line": 49,
+      "call_id": "call_3oFGJX2l2tPlVBYTwEaMGcRm",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"sed -n '45,72p' tests/test_landing.py; sed -n '584,607p' tests/test_landing.py; python3 -B - <<'PY'\\nimport os, pathlib, hashlib, subprocess\\ninbox = pathlib.Path(os.environ['NOODLE_PROJECT_DIR']).parent / 'inbox'\\ncheckpoint = inbox / 'checkpoint.json'\\nbefore = hashlib.sha256(checkpoint.read_bytes()).hexdigest()\\nprint('checkpoint:', checkpoint, flush=True)\\nprint('sha256_before:', before, flush=True)\\nresult = subprocess.run(['python3', '-B', './soodles.py', 'landing', 'dispatch', str(checkpoint), str(inbox / 'provider.json')], text=True, capture_output=True)\\nprint('exit_code:', result.returncode)\\nprint('stdout:', result.stdout)\\nprint('stderr:', result.stderr)\\nafter = hashlib.sha256(checkpoint.read_bytes()).hexdigest()\\nprint('sha256_after:', after)\\nprint('unchanged:', before == after)\\nPY\",\"max_output_tokens\":4500}));\n"
+    },
+    {
+      "line": 58,
+      "call_id": "call_h8jDbPgimokuCK0Ap0ND5ZvN",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"git diff --exit-code; git status --short; python3 -B - <<'PY'\\nimport json, os, subprocess\\npayload = {\\n    'message': 'Bounded read-only review complete. Inspected actual inbox checkpoint/provider and invoked python3 -B ./soodles.py landing dispatch on the original /Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/inbox/checkpoint.json with provider.json. Owner exited 1: landing.dispatch refused dispatch.status=offered; no request emitted. Checkpoint remains merge_pending, delivery merge/offered, writes_offered=[merge]. SHA-256 before=cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44; after=cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44. Current owner next is provider_readback, operation advance, required readback. Prerequisite: fresh matching fixture PR/Issue/commit/branch/run/jobs readback; if merged, matching merge_commit evidence. Supplied provider still reports PR open/unmerged and Issue open, so offered outcome is unresolved and saved historical merge request must not be replayed. Fixture requests must never reach GitHub. Common successful runtime readback is scoped to head 1ff2882891792b50d97529c9ee1a3e76eac1a6e7 and cannot establish fixture merge/closure or Noodle reconciliation. No repository source or live provider state changed; production Issue 39 not delivered or resolved.',\\n    'blocking': True,\\n    'outcome': 'blocked',\\n    'order_id': os.environ['NOODLE_ORDER_ID'],\\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\\n}\\nprint(json.dumps(payload, ensure_ascii=False), flush=True)\\nresult = subprocess.run(['/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81', 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload, ensure_ascii=False)], text=True, capture_output=True)\\nprint('event_exit_code:', result.returncode)\\nprint(result.stdout)\\nprint(result.stderr)\\nraise SystemExit(result.returncode)\\nPY\",\"max_output_tokens\":2000}));\n"
+    }
+  ],
+  "native_results": [
+    {
+      "line": 16,
+      "call_id": "call_gVLuOHQbNimfqiZghZihatCI"
+    },
+    {
+      "line": 23,
+      "call_id": "call_7yEtkW20VVTg275mPGySxW9P"
+    },
+    {
+      "line": 29,
+      "call_id": "call_sYZ7cJpFqTHvnflLHYbLI5NR"
+    },
+    {
+      "line": 36,
+      "call_id": "call_4vVYsageccQlFwKabGNlOtiI"
+    },
+    {
+      "line": 45,
+      "call_id": "call_ICeacMxyXuPkl5aSPdZMS8on"
+    },
+    {
+      "line": 52,
+      "call_id": "call_3oFGJX2l2tPlVBYTwEaMGcRm"
+    },
+    {
+      "line": 61,
+      "call_id": "call_h8jDbPgimokuCK0Ap0ND5ZvN"
+    }
+  ],
+  "native_command_count": 10,
+  "native_item_errors": [
+    {
+      "id": "item_0",
+      "type": "error",
+      "message": "clamping SessionEnd hook timeout to 3s in /Users/neon/.codex/plugins/cache/openai-codex/codex/1.0.6/hooks/hooks.json"
+    }
+  ],
+  "typed_outcomes": [
+    {
+      "type": "stage_message",
+      "payload": {
+        "message": "Bounded read-only review complete. Inspected actual inbox checkpoint/provider and invoked python3 -B ./soodles.py landing dispatch on the original /Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-09/inbox/checkpoint.json with provider.json. Owner exited 1: landing.dispatch refused dispatch.status=offered; no request emitted. Checkpoint remains merge_pending, delivery merge/offered, writes_offered=[merge]. SHA-256 before=cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44; after=cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44. Current owner next is provider_readback, operation advance, required readback. Prerequisite: fresh matching fixture PR/Issue/commit/branch/run/jobs readback; if merged, matching merge_commit evidence. Supplied provider still reports PR open/unmerged and Issue open, so offered outcome is unresolved and saved historical merge request must not be replayed. Fixture requests must never reach GitHub. Common successful runtime readback is scoped to head 1ff2882891792b50d97529c9ee1a3e76eac1a6e7 and cannot establish fixture merge/closure or Noodle reconciliation. No repository source or live provider state changed; production Issue 39 not delivered or resolved.",
+        "blocking": true,
+        "outcome": "blocked",
+        "order_id": "soodles-39",
+        "stage_index": 0
+      },
+      "timestamp": "2026-09-17T09:12:24.94521Z",
+      "session_id": "soodles-39-0-execute-20260917-091111-c546f9"
+    }
+  ],
+  "child_returncode": 0,
+  "noodle_attempt_exit_code": null,
+  "capture_scope": "All emitted bounded-task CLI JSONL plus same-thread native rollout custom tool requests and exposed outputs. Hidden service internals unknown; tool truncation retained as emitted.",
+  "authorizes_landing": false
+}

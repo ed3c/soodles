@@ -1,0 +1,76 @@
+{
+  "session": "soodles-39-0-execute-20260917-084802-fa146c",
+  "external_exit": {
+    "recorder_pid": 10854,
+    "cwd": "/Users/neon/soodles/.worktrees/soodles-39-0-execute",
+    "argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles39-resume-20260917/installed/soodles.py",
+      "issue",
+      "worker",
+      "/Users/neon/.codex/experiments/soodles39-resume-20260917/execution-envelope.json",
+      "e6e72be07bac8e31f9578923d132c1865b1b8f9cab8d9ae0ed8c060d8d3a1f61",
+      "exec",
+      "--skip-git-repo-check",
+      "--json",
+      "--model",
+      "gpt-6-astra",
+      "-c",
+      "default_permissions=\"agent-default\"",
+      "-c",
+      "approval_policy=\"never\"",
+      "-c",
+      "model_reasoning_effort=\"high\"",
+      "--add-dir",
+      "/Users/neon/soodles/.noodle",
+      "--add-dir",
+      "/Users/neon/.codex/experiments/soodles39-resume-20260917"
+    ],
+    "session_id": "soodles-39-0-execute-20260917-084802-fa146c",
+    "order_id": "soodles-39",
+    "stage_index": "0",
+    "started_at": "2026-09-17T08:48:03.225728+00:00",
+    "authorizes_landing": false,
+    "child_pid": 10855,
+    "child_pgid": 10854,
+    "returncode": 0,
+    "termination_signal": null,
+    "finished_at": "2026-09-17T08:53:10.047543+00:00",
+    "elapsed_seconds": 306.82034120801836,
+    "forwarded_signals": [],
+    "waited": true,
+    "stdout_sha256": "e7c5e2b03f534502d4ed5d4bfe6c05dbfd8b2c58cbad9f311452832c92ce5305",
+    "stdout_bytes": 320648,
+    "terminal_tail_lines_deferred": 1
+  },
+  "checkout_recreated_after_no_change_cleanup": true,
+  "owner_records": [
+    {
+      "argv": [
+        "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+        "--project-dir",
+        "/Users/neon/soodles",
+        "worktree",
+        "create",
+        "soodles-39-0-execute",
+        "--from",
+        "1ff2882891792b50d97529c9ee1a3e76eac1a6e7"
+      ],
+      "exit": 0,
+      "stdout": "  Creating worktree at /Users/neon/soodles/.worktrees/soodles-39-0-execute...\nPreparing worktree (new branch 'soodles-39-0-execute')\nHEAD is now at 1ff2882 Merge pull request #48 from ed3c/soodles-46-0-execute\n  No lock file found \u2014 skipping dep install\n\nWorktree ready: /Users/neon/soodles/.worktrees/soodles-39-0-execute (branch: soodles-39-0-execute)\n",
+      "stderr": ""
+    }
+  ],
+  "draft_digests": {
+    "README.md": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+    "AGENTS.md": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+    "contracts/agent-context-design.md": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+    "contracts/system-v1.md": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+    ".agents/skills/verify-soodles/SKILL.md": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20"
+  },
+  "old_experimental_files_preserved_from": "2e9d51261c80b2c5c120ca6549c759704c615c61",
+  "production_order_not_recreated": true,
+  "canonical_not_edited": true,
+  "authorizes_landing": false
+}

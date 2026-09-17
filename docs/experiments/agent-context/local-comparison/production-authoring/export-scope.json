@@ -1,0 +1,258 @@
+{
+  "scope": "Current production original-order authoring session only; old-session local sources remain unchanged. Runtime snapshots and loop records retain historical references.",
+  "omitted_prior_session_directories": [
+    {
+      "session": "schedule-20260916-160639-a6316d",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "34c208cf0435cc864d6581cd691f32b196b4adc9f787e62315d96682ee88b2a0",
+        "stderr.log": "648844286de14fede2e2f5d3c1726c4865c3884f2ed00d5e333a26a264b06f6f",
+        "heartbeat.json": "232f3e9a3a1a91cce1e10ba98c48f8a81123f341f10dce372b42d2ab9b55a7a0",
+        "events.ndjson": "2415aa47d46c6241ad660eea1315a206e9c6fa65519022f41d27f8f6d0f2d913",
+        "codex-startup.json": "d20946e90cda4f7f87d64fe1da90f019930bcd7113e53266773ef4374cc4f82c",
+        "prompt.txt": "ebef4ca82d10eb07783e4ab7c17e750bfd8df9ba096854af9dc4d12e59a07ee2",
+        "input.txt": "4834e22e20513b1e86d511fc19211c697cd53263fe905a3b80764004ec4af665",
+        "process.json": "0ef5e83e7852fce30df16c84423c6707c0051ffee69c0d3d110830f4fbdb3314",
+        "raw.ndjson": "836205c0bc04e07f0f62126802f1f41f808b957a82a2bb5078e302c344cbd798",
+        "spawn.json": "10273d3bd166d3d9aa3b9ec37b7a21561b5ebd86be37a6e0b629ff2b52c001de",
+        "meta.json": "6eceeee8b1581100cce706b11230dd65e09d8369675a0430c48c83add3909683"
+      }
+    },
+    {
+      "session": "schedule-20260917-052823-acc4d8",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr.log": "d199bf05168b712ca24b1a0a309a55149c267cbc3ea2fb60402ef59e50460047",
+        "heartbeat.json": "bcc0293c777a1cdfe3fbf9ad2eba484e5f8da38a875c165d46ad8218791fd6f7",
+        "codex-startup.json": "566f1b02627149dbc6e3897e315a0cd293e273742a5b4ea94c41ca911c940917",
+        "prompt.txt": "6882bd3f454d74aacc875be99fb1f804d9d160a2b42b810df09a809fab71f217",
+        "input.txt": "3cf3415badb02c7a2ff5a50e0ac94b7ccd9a0fff1b6f8939fe589923caf4a97f",
+        "process.json": "0c3fa31beba75133d1c88bb2990e479c965e680489b17fc8547245de88baec02",
+        "raw.ndjson": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "spawn.json": "ef8043dc97464683c94a72d6c29a2c3b6d1721ea53566bb0b3d2ef6ebc759a7e",
+        "meta.json": "c2ff5b387230ecb90c1d3fa5874bab0b8846740fae6ff8ac18b1efa2fb033dfc"
+      }
+    },
+    {
+      "session": "schedule-20260917-081011-be1cd2",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "3641686a829bec8d4ab771d755ca8aed4445d7f45e6385c754c0df46f26d807f",
+        "stderr.log": "6d92406a14a2ba7835506534dbef5ba42ea2567e6f0c0ffa98025f395a8e20ee",
+        "heartbeat.json": "0e8fd252e6adfda417c1adadf051954c72a66dcc52deb3d4de7a88d298b97933",
+        "events.ndjson": "74ce2ab243e478e650516a22d205ea8f13cafb322c70440e5dd9ba7f7e393642",
+        "codex-startup.json": "302999f56000e5f87c9ba34bc1bae2e44a19d71ccac24e42f8860f2ca821ee6c",
+        "prompt.txt": "f842fc10dbcbc99959dc6ac14b3bd4674ca7de66b1b97166250e9c6fe23a3b33",
+        "input.txt": "c413f3d74d0938b6e3fb868e4f5bad899dce8ad4867907c50bb94fe93251ed85",
+        "process.json": "f19d2d527a427b7403475c7a6d125f2f719ff8219c105d9524e4701b3c1c8b09",
+        "raw.ndjson": "c87bc5407a04347e60c5ff26f9e85f3d806bf19d7c8f7391a743f99e6317dff2",
+        "spawn.json": "6c5eb51af11e0cb2d873262d11311e633caae54c69c4755d9f382d3890342220",
+        "meta.json": "ac08d5aedfd480bad74af46c2187412e1920b24ca3c395f4078d4bb382ca31e1"
+      }
+    },
+    {
+      "session": "soodles-18-0-execute-20260916-170442-ab424c",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "1e63038df24609165c13667d357044b3a032ee54332e375e47f8807672aa9e72",
+        "stderr.log": "10d6db6f3843bf784c084e77147df2857b2d5c3d89758c2cb74ab42767bce4e7",
+        "heartbeat.json": "236878efb4104a065f485efe90c2a8c16bd44e4be53679f0c73ae6d8cc4fba17",
+        "events.ndjson": "be055fb065983e29e1cccf0ad5f2443e05489a91a217692f20c7447b0b2d94af",
+        "codex-startup.json": "3bd33dc8b00d1dc0a4f1110b6de685cc681cc9150fb5bf8ab1ebb02c0085ca60",
+        "prompt.txt": "f413cbce915d2283b497b55ecc4fa73068c34aa1aa252db5bcdc6e440a738dec",
+        "input.txt": "50202094048b92555d4d09de771a0c494d5cf61f3bf9f3abf4174a774d5d57f3",
+        "process.json": "cec32a5146576b04a3ce2daeb4b6212a489eb8de5f0114eedb757bb4c5996fcb",
+        "raw.ndjson": "08932bf2371159df57d5f3daf728bc9b17186f2a38647a4a891fef690a68f0fc",
+        "spawn.json": "029b3a0d4c49f7c0c52e092470922a9e3e40763457695673c75aa3c7708662d8",
+        "meta.json": "996309d72410d76da91c95c343463e12292f9d77067bf744ddc861e1d4a4db7c"
+      }
+    },
+    {
+      "session": "soodles-44-0-execute-20260917-075830-9f595e",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "1b65f1e7eca6f108efbaf6d3c07a373bcc576cb7a0f879e7dd7aa946dd8860ad",
+        "stderr.log": "3758b1324d351c82d62f6818b0e9b3abfc485c2595f21caec652029f25293e78",
+        "heartbeat.json": "7795ca78ad1f96ef03f31f8d83f9e9c13edcad7c28bb29fd9dc2f893c3548c88",
+        "events.ndjson": "2c951787c255b5b093ee524141a14050d23644b8fd5b7ca0ff873720f63f7e9e",
+        "codex-startup.json": "af1aebc0ba9ff1b8ed6a76c7730e5c575b058132da395d59ff9a8b43069681f4",
+        "prompt.txt": "ca2dc6035e033ec277577aafeb11e0823db9b9ec5aa58bf19864cf406f70edce",
+        "input.txt": "c88cc7572a68839dfc8a5b7b46ba53194122bd4271fe9ae37d8130dc1c284f1c",
+        "process.json": "4888083f0d25455db82c81bad31b4f7342f56133a84d27028fb128fecbdad9b2",
+        "raw.ndjson": "40e6d3f1f5261bab39f8aa7dc9fe6f15cf0a04670c8b7b62396809f8cd6903d9",
+        "spawn.json": "8222afc3c9696caf94adf339ffb25ab6dbc345d4ea16fefc345331f1457c120a",
+        "meta.json": "2eff4bd82b10308e3f9eb86a11e5c2f331f21835cffea0104d641e5847ea6e8a"
+      }
+    },
+    {
+      "session": "soodles-46-0-execute-20260917-081036-db7f05",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "6eb7078931df897aeb0652c1c15df936b2c59e7d4bbbb15e7543c43aeb7e0e17",
+        "stderr.log": "3c02b203e13bc4009433d6c561db048d9a2dc1a38763117c7be3ad87a64d4f1a",
+        "heartbeat.json": "814c4723e9b0e8eb665441dba3e833d30910ab313dda15f88e287f73e5d0c30e",
+        "events.ndjson": "374fe7c7da319f462560acb48da618565be38c1b890479cdf9d6302399ed6e1c",
+        "codex-startup.json": "1f19a88ace32106c08cb94f9fcfe8c30a514b200d5bc69410414a84e0fa05a49",
+        "prompt.txt": "8a37b644330010ad05795d3e92132558c1e0de3ff7a19e9da41f1f075c15d281",
+        "input.txt": "e4941f49f11c7052863b435922bdda0ddf5e2a206d199c5401aa520dc7810031",
+        "process.json": "afa3611227c9669de40101bb2ba95e0001b1d6f24759efa60bdf457f6e3ee8f3",
+        "raw.ndjson": "7ce3c132fb56b30e1be3be0af573803187f09f92ddcc4e3c25a587c1b25451ab",
+        "spawn.json": "dd59ea91eee4928a911c9ec7625ade665857f6f0c62381971de886d9c83f73aa",
+        "meta.json": "b1a0cd856398108d9a7a2da4544542beed103a520b9b0322bd793c756f4bda31"
+      }
+    },
+    {
+      "session": "schedule-20260916-160711-41c29f",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "b04973fac138a01c07b376116bb90aeae9bb1046af3870dd00bd4d1ab9a44fb6",
+        "stderr.log": "12aa76133b68ed8a0692bed1014f7addd39a45a20d4773085a8c78f7e710ad74",
+        "heartbeat.json": "a922394048c714860cef70fa9902a6f542d5f0f899e1edda5382cf35cc393e59",
+        "events.ndjson": "ce68b750ccb10871b827a2b396009d1521ebb80ee2b9b4311c3276efb343ae45",
+        "codex-startup.json": "5171f24ea52f853c0480d6220cade6628032812e0ec922c7edeb24f33f6eab5c",
+        "prompt.txt": "ebef4ca82d10eb07783e4ab7c17e750bfd8df9ba096854af9dc4d12e59a07ee2",
+        "input.txt": "4834e22e20513b1e86d511fc19211c697cd53263fe905a3b80764004ec4af665",
+        "process.json": "ff3e48c6699e825f99d1a47e6e0b7d58546186013241023d4ab3b8872d9e0ccc",
+        "raw.ndjson": "80b3047e4b58d2071a31892e4fe96ef1db7d58a3d5ec63181c3a5710c37e8489",
+        "spawn.json": "2abe7e50050434651479c32cfc95ae331c9515e1ec90da51c70d81f453fd5911",
+        "meta.json": "8c7c0dd5ea388ddb6ca50d94742c05304713034ae02c816ec96a145ad47d7903"
+      }
+    },
+    {
+      "session": "soodles-44-0-execute-20260917-075429-f18d3d",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "a6949eb4511af0ee76e48de5691924a659eaca023a0d834bf9a39e8165b590f3",
+        "stderr.log": "37d91c6cd213af7d2c9cce29c221caf4f325a9cfe8a5d5b292c9dba804f02cb3",
+        "heartbeat.json": "637e08ae9c44d14f8dfc69daaaea15fea9bbba12d6555e83a6053e7572770c50",
+        "events.ndjson": "fde388fd1b6c29ba0d3bdd37a4e40df7fbc0f6793b41457c7c825db6ff90498a",
+        "codex-startup.json": "26f33b2f1232612b672e91da6366d3f01f580ee2ec066b35195de691c87407e8",
+        "prompt.txt": "e1268b013001cdb5bf23c7e69c7e66180e40bcd546b7ccb5beccd24b5b3e77b6",
+        "input.txt": "22de79d83c43bc03873752a4f2d59722b02590b6400035bf399ede093de82d02",
+        "process.json": "b4c5a1e19e2fcdb335f64d076a6f8ef9f316e1e0e089219b548c2916f81cf3cc",
+        "raw.ndjson": "c8e3a094ac6a5e68788231af81e622181cadba1fa46ea95fb1cf18ae4a0ee319",
+        "spawn.json": "2019f57d69829e22de30b83a5bae0642c283a5714b3e73a9d51305c1e942e756",
+        "meta.json": "fffce79cdbfdc206d532cc2ff73741afb5a0b9fedab7230b5795cab49ca77303"
+      }
+    },
+    {
+      "session": "schedule-20260917-082020-89bce7",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "heartbeat.json": "d1acd033a255f583f370e02f314a2683be697d605e4573027036ad2290302728",
+        "codex-startup.json": "e9d22c4878fcf764bd66dd93a733b88accaf69584ff2610dfac3080b3b9b4192",
+        "prompt.txt": "f842fc10dbcbc99959dc6ac14b3bd4674ca7de66b1b97166250e9c6fe23a3b33",
+        "input.txt": "c413f3d74d0938b6e3fb868e4f5bad899dce8ad4867907c50bb94fe93251ed85",
+        "process.json": "e7120bf2bee21dc81515954f51aa87de853574dedcef84f74857cfc23d5765fb",
+        "raw.ndjson": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "spawn.json": "ecf2658fb66168d40e88e9838b26ca3a8e8fed947c12d355b42074ee40af9db5",
+        "meta.json": "1df4b06310508242bdc13cfc73b00f822dbea36c86510e54d8521bf6a263338a"
+      }
+    },
+    {
+      "session": "schedule-20260916-161152-aa6f6f",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "25110753f51d37ae703ee837b85933c6fe10f9a23c74995971cd55570d94ae6e",
+        "stderr.log": "af0595f074e3228d6675dd6b3e826a3278e2214dd012c5f28e2536ebc34fb789",
+        "heartbeat.json": "a1b626ff2bae27944a9394b0a0e43ff4a855669856d6d222861d2d7e4e300de1",
+        "events.ndjson": "c819329ce65869fd7274124cd6425773e3e7f704997fabef9ede3607fb4cf767",
+        "codex-startup.json": "d41de2b2f64b434a4dad135765daf096e9cc2aa448e7b36d7821df68bb6dac8a",
+        "prompt.txt": "9e5f15d54672cdd704461bbe59dec3aafdd231fb4471a4768fd0a8ff303352b5",
+        "input.txt": "05c3fa6e22361c03ea42f6f5dd34df836584fbe1ed7bd91ba95d2989e1d95f07",
+        "process.json": "4cf4dd109edefbe7a56c56ec284657623c79e15357d85022f9aced6bfb638208",
+        "raw.ndjson": "e6773882a3b090b786a1deae665a5f3b7d49812225edb2b98077a4ab674211d2",
+        "spawn.json": "ea9df1b8d590cbf1e1cead3169d7b6516b0e91c2d30c8cf8cc8389c32afc43a2",
+        "meta.json": "94a191802e05f7120ec89aa6e8b956e3456be2c2616a31756352ef8f58aa2db7"
+      }
+    },
+    {
+      "session": "schedule-20260916-160739-1751a9",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "e216376a489037a88e176a9b5b749d2aa8ff554ce820e447bdf5e39013532d81",
+        "stderr.log": "f524e1e50a6016cad92f845a80013f73f829ff553885c9697909de08b4e7f182",
+        "heartbeat.json": "8435f8c7e1d36f9e327599f22a42b06d6c74642ff03297b19c956bed6b7c5824",
+        "events.ndjson": "4f0332664e1366eb024c83da0c6e8ab50fc84dc09cc023c96e7deb732167b39a",
+        "codex-startup.json": "8f652039a52982855d04498790c5d94e21f4e34c4d3f01bb489905726ce6d7a6",
+        "prompt.txt": "ebef4ca82d10eb07783e4ab7c17e750bfd8df9ba096854af9dc4d12e59a07ee2",
+        "input.txt": "4834e22e20513b1e86d511fc19211c697cd53263fe905a3b80764004ec4af665",
+        "process.json": "d050e9ad4000a36631d256980a4a4cb2951c67cd3351dfc6ba47a6a588f9a583",
+        "raw.ndjson": "3ee4311899bc39a5cf57cc8c45238b48922b0eb20663c5218b105fcaaeac94fd",
+        "spawn.json": "63b98da215c5562599710bc53bce00824cb7a6053654d66e3107857997a801ba",
+        "meta.json": "24ac7c348430335a13cdc899d25fe33189a3f2a51333b7ea68d8be4ff9699aec"
+      }
+    },
+    {
+      "session": "schedule-20260917-052824-706675",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "076f00bed96ca63daa20d8267f807f15ee720a847a77be46d59a101192693b43",
+        "stderr.log": "aaed1d7eaddff486b69e13daedbe8172e88413d8f660fcbfafb3c2090cc79183",
+        "heartbeat.json": "aedaf64e354ced96867bcd946d40175923ef4a33ca19068c60bca2a5200038d1",
+        "events.ndjson": "adf0077373367fb9192c23be0c7010cc423386bf0435611062ba4a638891049a",
+        "codex-startup.json": "fb1d64895597f6627c1cafe3a8892693787ec3462d5c2f35fc2964d7ee9e982b",
+        "prompt.txt": "864540845dcb7200e118fb55e040fffd8815918e0bd3a924e303b3abafff950b",
+        "input.txt": "e49a198fc2500865886942a9572652de80e81b53d490742e8354978059693a46",
+        "process.json": "a5030fc189dfa94ec25efbcb0959b05d2a86bacdd633bf303ea03b0c6f32dcf0",
+        "raw.ndjson": "af787a53e64f3da043131fd1b15bc27a71284d000207f8fb0a10dd9c0e5cee1b",
+        "spawn.json": "89af35716822208302632dc281502aaa876f6ac438500135c556faaed5117661",
+        "meta.json": "1a0d03b951364c7738fe357abed335b5beca50e1938c183e280d0bf7298a4368"
+      }
+    },
+    {
+      "session": "schedule-20260917-075404-07660d",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "dd8c4924d60c372ea600094b527f8f305b056c35d2d1713c73b33e01305e2be0",
+        "stderr.log": "6da24b4b4ddfcee4d38235c8a2d8e8b83b559f7254601cae818595301355985f",
+        "heartbeat.json": "ef785b89996e84b92dbff09d1f242154b1259984a77b3eef1af1b82e9c1f5b03",
+        "events.ndjson": "6c9193744c336ecb040e6e43f0e1fa987fd1c35f29e0bdeda94418d2e97b56c8",
+        "codex-startup.json": "3a00f7cdc25e2116fdba8a3495652c8de3e8b1a3a2dd81f5ae0a1785191e2b88",
+        "prompt.txt": "cd181d868a15d6f47f8dfc95e2dd91212c4f6ffb3ad420e1702381f2482fa529",
+        "input.txt": "5d7db3822acd9691a3bfdbf9efb698cf6af354820e641ce5c13777c211fb1528",
+        "process.json": "568373df9b331b77e74b79bf198a1ba698664ad8abf4d79fd9a62ced9f3b803d",
+        "raw.ndjson": "c6a7817eb55355a7056b110881ff124b054fa9ea827064bbb4ee795377bb679e",
+        "spawn.json": "813dbc4886d2c3373b0e120d88c2b3e7ed1d2fc23e6b77bcc2f66cd3521f994d",
+        "meta.json": "6c68cb696042b8bcf9fa2bbdd9381e242bf94496fc19755bd757cb9899468c30"
+      }
+    },
+    {
+      "session": "schedule-20260916-170423-d53732",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "e0206a768e08d9df3f37bf0878d2ada70d2c7fbce3db8a43641f3a583bf42363",
+        "stderr.log": "1240ce600b5a541b508ac1797778d1c7ace746692d42022129f921ee846f02e9",
+        "heartbeat.json": "94ea027d7ce41b289def01332cfc4424314b27528e18a99f7f4c9995e7a3a094",
+        "events.ndjson": "7d1e09f98ee6ec588dbf06d23f81a601e9c79064c1c928a901e74b9e500e7d5c",
+        "codex-startup.json": "e4dfa6aa7a0ac9f49579bc81fc37d0f40ebd58ef2c8ed3a6da7c54522aebd2cb",
+        "prompt.txt": "1f5f86a439e300fcdbf395299aaa4455c48626af084f5b1fcc27b859b9979fc5",
+        "input.txt": "beb81de354b533062f77e320a8c0bdbc57c7432a526baaa496e59b97be4db91e",
+        "process.json": "e41e803b6b66b44fcd59cab34472d2980a33e10238afa26c784000624f846774",
+        "raw.ndjson": "6e95f94833865308d9761aabd3214ab90653fbc373a977dbd2e2a1dc13654d5a",
+        "spawn.json": "e24be369875174874c46f3664b88b7ae20b42cf3f138f5b71da68b8a92905515",
+        "meta.json": "70f0e390873559c380d4d95dc424408126d83d17ea46ab599c72b1a0409fa528"
+      }
+    },
+    {
+      "session": "schedule-20260916-161022-05d4df",
+      "reason": "pre-existing historical session outside this production authoring launch",
+      "files": {
+        "canonical.ndjson": "46f52e6cf5cbba7f1196724238fd57799937524348edce54c1650cc099d11a1b",
+        "stderr.log": "984bef55c0ffe6a57e18c7d75e3c8a6340b787342b8cfd0aff034b45bf3e3916",
+        "heartbeat.json": "a0a1d6ae9e668e0951a041dfdde8dc0ee1eb3393d4c237399e3515308a3e80b9",
+        "events.ndjson": "7577d35f8c3f0521c31e1d3e7ec074aacf04208be9836f9da049c7ed833e5f01",
+        "codex-startup.json": "6ec544de12953d0d041b05eb86189593a453d7bf9cb1149465a77e265948f702",
+        "prompt.txt": "9e5f15d54672cdd704461bbe59dec3aafdd231fb4471a4768fd0a8ff303352b5",
+        "input.txt": "05c3fa6e22361c03ea42f6f5dd34df836584fbe1ed7bd91ba95d2989e1d95f07",
+        "process.json": "62c3cf00a6c1236ba5590b311b7d454a6d159d7a904a205b3d5aa6739c6beb92",
+        "raw.ndjson": "14b57170a2dd149ed738fb1dd394fcf13b8c7b60e4c9451365d98366266a515d",
+        "spawn.json": "e4d60e0287ce607f0c3f27adbccc81250e8d297b85f3e1f064d09557908a6288",
+        "meta.json": "3a88266683518b0208710ee6e845a31e59861a3eadb23469effbdcb3ff610b26"
+      }
+    }
+  ]
+}

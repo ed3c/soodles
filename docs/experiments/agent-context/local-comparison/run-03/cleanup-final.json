@@ -1,0 +1,95 @@
+{
+  "at": "2026-09-17T09:06:57.674118+00:00",
+  "process_checks": [
+    {
+      "record": "live/launch.json",
+      "kind": "pid",
+      "id": 18941,
+      "absent": true
+    },
+    {
+      "record": "live/launch.json",
+      "kind": "pgid",
+      "id": 18941,
+      "absent": true
+    },
+    {
+      "record": "native/observation.json",
+      "kind": "pid",
+      "id": 24323,
+      "absent": true
+    },
+    {
+      "record": "native/observation.json",
+      "kind": "pgid",
+      "id": 24323,
+      "absent": true
+    },
+    {
+      "record": "live/runtime/sessions/schedule-20260917-085938-3be488/process.json",
+      "kind": "pid",
+      "id": 18944,
+      "absent": true
+    },
+    {
+      "record": "live/runtime/sessions/schedule-20260917-085938-3be488/process.json",
+      "kind": "pgid",
+      "id": 18944,
+      "absent": true
+    },
+    {
+      "record": "live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/process.json",
+      "kind": "pid",
+      "id": 19622,
+      "absent": true
+    },
+    {
+      "record": "live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/process.json",
+      "kind": "pgid",
+      "id": 19622,
+      "absent": true
+    },
+    {
+      "record": "process-exits/schedule-20260917-085938-3be488/exit.json",
+      "kind": "pid",
+      "id": 18945,
+      "absent": true
+    },
+    {
+      "record": "process-exits/schedule-20260917-085938-3be488/exit.json",
+      "kind": "pgid",
+      "id": 18944,
+      "absent": true
+    },
+    {
+      "record": "process-exits/soodles-39-0-execute-20260917-090001-98a6ce/exit.json",
+      "kind": "pid",
+      "id": 19623,
+      "absent": true
+    },
+    {
+      "record": "process-exits/soodles-39-0-execute-20260917-090001-98a6ce/exit.json",
+      "kind": "pgid",
+      "id": 19622,
+      "absent": true
+    }
+  ],
+  "worker_head": "a511b4d8c7f2461ac4cab7f2566e0c5232ea9bff",
+  "preserved_control_head": "a511b4d8c7f2461ac4cab7f2566e0c5232ea9bff",
+  "worker_clean": true,
+  "owner_reason": "ordinary cleanup refuses detached-root experimental commit not merged to main; exact commit remains in source control checkout and frozen source evidence",
+  "argv": [
+    "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+    "--project-dir",
+    "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-03/control",
+    "worktree",
+    "cleanup",
+    "soodles-39-0-execute",
+    "--force"
+  ],
+  "exit": 0,
+  "stdout": "  Removing worktree...\n  Deleting branch soodles-39-0-execute...\nDone. soodles-39-0-execute removed.\n",
+  "stderr": "",
+  "worktree_absent": true,
+  "authorizes_landing": false
+}

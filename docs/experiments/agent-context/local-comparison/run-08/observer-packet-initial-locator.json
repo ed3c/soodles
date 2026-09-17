@@ -1,0 +1,67 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+    "case": "fresh-transfer",
+    "source_kind": "captured",
+    "session_id": "01a0ae9a-230e-7be0-aa7e-550d727572fb",
+    "raw_trace": [
+      "native/rollout.jsonl",
+      "live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson"
+    ],
+    "capture_complete": true,
+    "model": "gpt-6-astra",
+    "carrier": "local_macos_noodle_codex_exec",
+    "producer_session_id": "01a0ae94-d8d9-7601-8acc-8d1988c8aa7e",
+    "events": [
+      {
+        "kind": "read_doc",
+        "evidence": "native/rollout.jsonl:16",
+        "path": "AGENTS.md",
+        "blob": "7da186eb79bd33922c3473a0f66316ef54d857c4"
+      },
+      {
+        "kind": "handoff",
+        "evidence": "native/rollout.jsonl:24",
+        "sha256": "224887a73bded878f82bd43b8903c7b5679fb8844fb476b4d24e6071399a726d",
+        "producer_session_id": "01a0ae94-d8d9-7601-8acc-8d1988c8aa7e"
+      },
+      {
+        "kind": "read_provider",
+        "evidence": "native/rollout.jsonl:24",
+        "fixture_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+      },
+      {
+        "kind": "read_owner",
+        "evidence": "native/rollout.jsonl:37",
+        "checkpoint_before": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "checkpoint_after": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "writes_offered": [
+          "merge"
+        ]
+      },
+      {
+        "kind": "conclude",
+        "evidence": "live/runtime/sessions/soodles-39-0-execute-20260917-090209-652c2f/raw.ndjson:24",
+        "result": "WAIT_FOR_PROVIDER_READBACK",
+        "text": "已完成有界審查：實際呼叫目前 `landing advance`，結果為 `merge_pending / readback`。Merge 已是 `offered`，不可重送歷史請求；須等待 supervisor 提供新的模擬 provider readback。\n\nCheckpoint/provider 未變，repository 乾淨，未向 GitHub 傳送 fixture 請求。已依 [execute 技能](.agents/skills/execute/SKILL.md) 成功送出本 session 的 `stage_message`：`outcome=blocked`、`blocking=true`。\n\n這不代表 Issue #39 已解決；仍無合併、關閉或 reconciliation 證據。"
+      }
+    ]
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+    "agents_blob": "7da186eb79bd33922c3473a0f66316ef54d857c4",
+    "control_blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+    "runtime_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "run_id": 35200528246,
+    "run_attempt": 1,
+    "checkpoint_digest": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+    "provider_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+  },
+  "normalization": "External mapping to actual native tool result lines and final captured message; the unchanged discriminator requires independent raw completeness/semantic review. Same-call handoff/provider reads preserve the original sequential file loop order. All input byte preservation is separately measured by capture-audit. Not Agent-authored authority."
+}

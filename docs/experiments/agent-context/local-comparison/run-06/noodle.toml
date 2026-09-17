@@ -1,0 +1,19 @@
+mode = "manual"
+[server]
+enabled=false
+[concurrency]
+max_concurrency=1
+[routing.defaults]
+provider="codex"
+model="gpt-6-astra"
+[skills]
+paths=["/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/installed/.agents/skills"]
+[agents.codex]
+path="/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/provider"
+args=["-c", "default_permissions=\"agent-default\"", "-c", "approval_policy=\"never\"", "-c", "model_reasoning_effort=\"high\"", "--add-dir", "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/control/.noodle", "--add-dir", "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/inbox"]
+require_typed_outcome=true
+[adapters.backlog.scripts]
+sync="/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/backlog sync"
+add="/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/backlog add"
+edit="/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/backlog edit"
+done="/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/backlog done"

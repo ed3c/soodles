@@ -1,0 +1,17 @@
+{
+  "repository": "ed3c/soodles",
+  "assigned_instruction_ref": "388c86be5eef0f317b0ae38ffac70892f24c13de",
+  "common_code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+  "owner_entry": [
+    "python3",
+    "-B",
+    "./soodles.py",
+    "landing"
+  ],
+  "identity_output": "identity-input.json",
+  "runtime_readback": "runtime-readback.json",
+  "checkpoint": "checkpoint.json",
+  "provider": "provider.json",
+  "historical_material": "historical-seed.json",
+  "handoff": "handoff.json"
+}

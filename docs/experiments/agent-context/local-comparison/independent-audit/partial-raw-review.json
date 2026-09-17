@@ -1,0 +1,960 @@
+{
+  "schema": 1,
+  "at": "2026-09-17T09:06:49.667236+00:00",
+  "scope": "首批四個 bounded local worker 的獨立 raw 審查；native task/tool/result/model/final/exit fields only。未輸出或分析平台 system/developer 內容及內部 reasoning；未執行受審 raw commands。",
+  "classification": "PARTIAL_OBSERVED_WITH_CAPTURE_AND_CLEANUP_LIMITATIONS",
+  "authorizes_landing": false,
+  "normalized_packets_reviewed": false,
+  "public_export_completeness_reviewed": false,
+  "runs": [
+    {
+      "run": "run-01",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0ae94-e371-7773-a005-f166629f61ec",
+      "turn_id": "01a0ae94-e429-71f0-80b6-886422d51ab2",
+      "session_id": "soodles-39-0-execute-20260917-085626-ed7367",
+      "native_model": {
+        "locator": "run-01/native/rollout.jsonl:8",
+        "turn_id": "01a0ae94-e429-71f0-80b6-886422d51ab2",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-01/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-01/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_XaJGXfzugBERujnR6xlOLEXL",
+          "call": "run-01/native/rollout.jsonl:13",
+          "result": "run-01/native/rollout.jsonl:16",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "a647f97f49ca402f97ba00b9745980b580b82f0211852c0ff9631c3a4aecfce5",
+          "result_sha256": "1c33a960f888e9456bf0de258d3c4cf1566919f1f790767d2f436a622ec74d62"
+        },
+        {
+          "call_id": "call_rXTmx8eUeG4km6eig6IYYcgP",
+          "call": "run-01/native/rollout.jsonl:18",
+          "result": "run-01/native/rollout.jsonl:21",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "58789126ee51c2496a339b5a3e2992626929028f995c1f5c98410d121f84a148",
+          "result_sha256": "c3e933539f42cbc98d60a2abf38e329ba7b087df7b2fb758bed76f2a6ffae2ab"
+        },
+        {
+          "call_id": "call_Z3QN6dgLoA3W0wNLEIQkLF53",
+          "call": "run-01/native/rollout.jsonl:23",
+          "result": "run-01/native/rollout.jsonl:26",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "9ff5835bcd3d93785c478e2e948e95cbb9645162eecba9da2acabe8c9c467647",
+          "result_sha256": "63af34f5352a0db73d72d802a990c328741e80d398e2f3aff2200ac140164780"
+        },
+        {
+          "call_id": "call_0Ze87THsKgFlqreytKIzaHlI",
+          "call": "run-01/native/rollout.jsonl:30",
+          "result": "run-01/native/rollout.jsonl:33",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "5980ea20a1d753cae02bf51b46ed8bd37bf4767fa59eb75cd09c02d87b82d0cf",
+          "result_sha256": "27d36737c94bda7c1da48e9d1b8840c3b99e859d619378f9591ff6ab501d1e82"
+        },
+        {
+          "call_id": "call_bnFGDNImnP5Y1VfizjykfKPa",
+          "call": "run-01/native/rollout.jsonl:39",
+          "result": "run-01/native/rollout.jsonl:42",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "761063520552060f1a0a2b51482af139388916189846a990ff88cdc810091824",
+          "result_sha256": "1f630fcd6a3e158dbbf25f66302a8c96ed07362d4e4184df1ba49759668bf9de"
+        },
+        {
+          "call_id": "call_P562nXcWGUoliqwdQS8KTJdq",
+          "call": "run-01/native/rollout.jsonl:48",
+          "result": "run-01/native/rollout.jsonl:51",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "2825bcd242ea43a8bc4cd8d0fc9963c0ec52a3af9f8b983b3a1cced1296dc885",
+          "result_sha256": "9a656c0ac428fded1f57e0a83b533845aa2389ea0a57c5931c97732423ae09ce"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 8075,
+          "output_sha256": "d6654b194fec98ea2a0358713b094a5678741d687e2bbda2b3df6b58c01d6eaf"
+        },
+        {
+          "locator": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/raw.ndjson:8",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 887,
+          "output_sha256": "114288833e4d348cb5d9bb97bb3801c1a833428a8a07931e8f0c08319ec4c818"
+        },
+        {
+          "locator": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/raw.ndjson:10",
+          "id": "item_4",
+          "exit": 2,
+          "output_bytes": 34681,
+          "output_sha256": "362e594357f6237917ef8659827557df64e641f2fade50c257fb23212c3787b4"
+        },
+        {
+          "locator": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/raw.ndjson:12",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 13855,
+          "output_sha256": "463745049ed165089fd979ac8b2c4ff50fc6c0435d0964769cca41265e334a81"
+        },
+        {
+          "locator": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/raw.ndjson:15",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 3147,
+          "output_sha256": "5a2ef66518bcb8546c1603409e36c04697717f08faa758a9feee096b5beb6dcc"
+        },
+        {
+          "locator": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/raw.ndjson:18",
+          "id": "item_9",
+          "exit": 0,
+          "output_bytes": 15,
+          "output_sha256": "f44762abcbceb55492231802993113adb4c6f80221df91b7d648fa7def2bf48d"
+        }
+      ],
+      "tool_result_truncation_locators": [],
+      "final_locator": "run-01/native/rollout.jsonl:54",
+      "typed_outcome_locator": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/events.ndjson:13",
+      "actual_wait": {
+        "child_pid": 16569,
+        "recorder_pid": 16481,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T08:56:26.620311+00:00",
+        "finished_at": "2026-09-17T08:57:53.749342+00:00",
+        "elapsed_seconds": 87.12894270801917,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-01/native/rollout.jsonl": "e275a868ab07f93af64e1e1249722704c2d9c4778766dee864acb3c293b63d9f",
+        "run-01/native/history.json": "fb86a8e7f20c5d51822982539cbcf1f4bae53e712b81e7fd97f829eace53edbd",
+        "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/raw.ndjson": "db0909a82866d8a41d05fa16ca5b1c6aa208ad21a06a7655084c5c7760d64192",
+        "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/events.ndjson": "4ce153c620e15cea4803953ff77e941d69bc3c75553db908017f57828767781c",
+        "run-01/process-exits/soodles-39-0-execute-20260917-085626-ed7367/exit.json": "c14618581422b87c86a065a809e43245260917341abc7a0519801231026f1622",
+        "run-01/process-exits/soodles-39-0-execute-20260917-085626-ed7367/launch.json": "c59b5f49e201c6cbd9ff1f19e57431f265f5fc8bfb601c948107baaf15325d52",
+        "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-085626-ed7367/process.json": "e38830a0ba33f8ca31b8eb0a20f48bbea94c0013bfbb30c1b8bd4a84f0dcc1b2",
+        "run-01/process-exits/soodles-39-0-execute-20260917-085626-ed7367/stdout.log": "277f75bac9ca2e1cfc7d76be1d9ac322850b3d85f264483667303bd0779fa67c",
+        "run-01/cleanup-final.json": "dbdb602a7c96402b609c0c558549a508669f64c40b21024290cd90371cd3dc91",
+        "run-01/task.txt": "7d97102fa2c847851f32ad044cf5e68567ef2bdca0e55027aa9ca81edacab864"
+      }
+    },
+    {
+      "run": "run-02",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0ae94-dba1-70f3-b573-1bf4341b8ea0",
+      "turn_id": "01a0ae94-ddaf-7eb3-b4bb-6251810acc7a",
+      "session_id": "soodles-39-0-execute-20260917-085625-6fd44f",
+      "native_model": {
+        "locator": "run-02/native/rollout.jsonl:8",
+        "turn_id": "01a0ae94-ddaf-7eb3-b4bb-6251810acc7a",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-02/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-02/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_RaYYLWu5oME64PWbFMGQTO2G",
+          "call": "run-02/native/rollout.jsonl:13",
+          "result": "run-02/native/rollout.jsonl:16",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "32ccf7c9e0b9b3ab400c882d0b31dae034ebaca217e4f28a3bd77eab04698e70",
+          "result_sha256": "97e6a8e897579803208e6fc709df7caed09f2c3a8d237e1715cb17caa5b3911c"
+        },
+        {
+          "call_id": "call_Y0SfE9GRnhnTZP7XsxPbvWP3",
+          "call": "run-02/native/rollout.jsonl:18",
+          "result": "run-02/native/rollout.jsonl:23",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "9052086253b0290cee808cd72784f804a3d6a4b9728f7c305ca93e5ffbc12f73",
+          "result_sha256": "abd478ff22ab7824756eeff2a12967ab8aadaca74c8fad31f5eb191a82b4b146"
+        },
+        {
+          "call_id": "call_ltdt8CQhK3WaZAgWpij61NRa",
+          "call": "run-02/native/rollout.jsonl:27",
+          "result": "run-02/native/rollout.jsonl:31",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "bccec0154ef625155e074b5e81cf877376863811408f97468f3e06a81b0c476c",
+          "result_sha256": "dc5e351adec889a5a7a85b85628a87a90afcde1e4762f1e381fc3c0f87f40eea"
+        },
+        {
+          "call_id": "call_if12W3e1a4jko7z5ODUzVkRd",
+          "call": "run-02/native/rollout.jsonl:37",
+          "result": "run-02/native/rollout.jsonl:41",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "d3bbf30772a84fa31b0d8dd982ca770559be5dd375cf5dcae3f1200f369c8c5a",
+          "result_sha256": "33e32c3257561389784843d0ad4861abb28ed0d3d9032bec9232dec95e9748b8"
+        },
+        {
+          "call_id": "call_fvm2sdVVS27pGgYnUhDY6phu",
+          "call": "run-02/native/rollout.jsonl:45",
+          "result": "run-02/native/rollout.jsonl:48",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "8b6ea89720ed71f859bc1bdade1bdfaf347dc8d701420d3662a55fcb9e804b43",
+          "result_sha256": "c8c9a7d08479a48294c7232cda2646f888b8a46399723c44ed389366a7eba6c7"
+        },
+        {
+          "call_id": "call_9xjRFh6AAMmhU1Cvado9Ukh3",
+          "call": "run-02/native/rollout.jsonl:53",
+          "result": "run-02/native/rollout.jsonl:56",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "28b5ce7e1c5700a9b4daf0c6f9f6b513811a725266ec78574952079db4cc6a13",
+          "result_sha256": "6b3293a75aa3ca7d01ab8eb83b94f864290c5b7a7ba9692b4488ebb98dbcb478"
+        },
+        {
+          "call_id": "call_TFo6zt7TvVhEmOuFoEnH4sYD",
+          "call": "run-02/native/rollout.jsonl:62",
+          "result": "run-02/native/rollout.jsonl:65",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "af5d90a6e9f4d06f92cd754e6a3ba65d3c68793e6153eab7295500e008558016",
+          "result_sha256": "63c64ccfa61e8dc502df97fd82f5d70e89ec3f183ff53694cb1c6174391b41f2"
+        },
+        {
+          "call_id": "call_e0NgnIBOLuLCyo2FKQQCicaX",
+          "call": "run-02/native/rollout.jsonl:69",
+          "result": "run-02/native/rollout.jsonl:72",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "9b21295467802242cbca171afcab9ec837079fb248202cb3bb027be98bfcef2e",
+          "result_sha256": "41cd6f0b6d230fd961804f281af617c06d283de976e954332bbdf2bb9abb0480"
+        },
+        {
+          "call_id": "call_6b3BXmw1RYptQbA5JGJYcUJr",
+          "call": "run-02/native/rollout.jsonl:74",
+          "result": "run-02/native/rollout.jsonl:77",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "88d03537df812985526caf8c2273da0163649a41b2d5b32a25b88b67fb3fe436",
+          "result_sha256": "9b9cbae2f858f12338661e24344c8c58c9181d754c442591a063bc5752deb51d"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 12321,
+          "output_sha256": "df2cd4a662ea9199393fc7645406da579e99540be5109fcc44b41b1075534457"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:8",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 20124,
+          "output_sha256": "70a294ca4a2e4d5d4fbfe828bb29e62e8e7ef5f982013b6cbf8dd18a4cc2de4b"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:11",
+          "id": "item_4",
+          "exit": 0,
+          "output_bytes": 10180,
+          "output_sha256": "0495956c555aafb1af44219dd9ca39d3aea3636d5cafb66414b14b4aa96822f4"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:12",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 519,
+          "output_sha256": "36221519266e0cef463f024500e6fac3249c6f5d9d5c18b0e416ab92923ada46"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:15",
+          "id": "item_6",
+          "exit": 0,
+          "output_bytes": 17651,
+          "output_sha256": "eb2206cf58613117a836e8e39edbb6759e7d6dd829776871b9e3af81647c096f"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:16",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 22659,
+          "output_sha256": "e1ab9f57caa20f6cea3d58f0231e83827d4dd10b1354afc8e21e4588174dec06"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:20",
+          "id": "item_9",
+          "exit": 0,
+          "output_bytes": 25791,
+          "output_sha256": "e22eca8d6f404fbc144ede266c647e0bb493766b44ad97deebcac282dae3a806"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:21",
+          "id": "item_10",
+          "exit": 0,
+          "output_bytes": 1939,
+          "output_sha256": "cb5b21db9365ef1b027429f0939b029c746cf815d37b465ecf4317ef1572f93f"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:24",
+          "id": "item_12",
+          "exit": 0,
+          "output_bytes": 4631,
+          "output_sha256": "ffccdb0c3d26153eaaabd4bfaa92e07c3f71b758147208e7b7cba4a73b1653d6"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:25",
+          "id": "item_11",
+          "exit": 0,
+          "output_bytes": 1252,
+          "output_sha256": "a7a3a67359f12acabaf8c03bf97f752893993d0d2a36fc3d053a2b9dfb0871ce"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:27",
+          "id": "item_13",
+          "exit": 0,
+          "output_bytes": 3754,
+          "output_sha256": "abf139922cf7a4c5eddc829222338e707431a27c0d6b1c9d4091d197e59f1bc2"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:30",
+          "id": "item_15",
+          "exit": 0,
+          "output_bytes": 1570,
+          "output_sha256": "ea4b46e4c590b3233ee663f065862b20892111a9495e6cf8b7805172211b67dc"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:32",
+          "id": "item_16",
+          "exit": 0,
+          "output_bytes": 1728,
+          "output_sha256": "6b284de4b6c5f8a4a73bcd53ea264c018fd09df23957bb7776bfaa411e35c17f"
+        },
+        {
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson:34",
+          "id": "item_17",
+          "exit": 0,
+          "output_bytes": 402,
+          "output_sha256": "8f4e5ecb0b5e36576a10bc690693e344f8646762084e0f32064a6d0b9ca227d5"
+        }
+      ],
+      "tool_result_truncation_locators": [
+        "run-02/native/rollout.jsonl:31",
+        "run-02/native/rollout.jsonl:41"
+      ],
+      "final_locator": "run-02/native/rollout.jsonl:80",
+      "typed_outcome_locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/events.ndjson:18",
+      "actual_wait": {
+        "child_pid": 15919,
+        "recorder_pid": 15918,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T08:56:25.098792+00:00",
+        "finished_at": "2026-09-17T08:58:37.775888+00:00",
+        "elapsed_seconds": 132.67670304101193,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-02/native/rollout.jsonl": "3f7c558ec730ac1adbd887e5e39d9333bc62b46d332969e2cba5d2d2722c1892",
+        "run-02/native/history.json": "89afa182524d143344f5302ce675505ee896e1e4f00981e1edcede9a7b3b4a9d",
+        "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/raw.ndjson": "83749172f47d6273a955c9d06bb620f6c3dc0e33e8656981b0570ae0fd7d339b",
+        "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/events.ndjson": "d98ee69c9673b599a2bf0ff18fcb6e46f486666a794a7032f5f304bf79ecf923",
+        "run-02/process-exits/soodles-39-0-execute-20260917-085625-6fd44f/exit.json": "55d543dfec0b4e1e4f685a1a65bd520395f85b35c18119cafcd17b123950c243",
+        "run-02/process-exits/soodles-39-0-execute-20260917-085625-6fd44f/launch.json": "540fa7405d183654a483966efa3bcaea5a55b0afd992e0649a1037592d6eca5c",
+        "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-085625-6fd44f/process.json": "80c79f3707d14e2f8563cd00a6b7201b2ef9befb56592a881b1eb255d87c8201",
+        "run-02/process-exits/soodles-39-0-execute-20260917-085625-6fd44f/stdout.log": "e8ade1b2b2be3d788db365c039a434f63ebfca51d7ff7829c321ed966c0c430f",
+        "run-02/cleanup-final.json": "0b6117612e64afbf65a4916e5af882f2f4407e3f0adb18636ce52e157ac133e9",
+        "run-02/task.txt": "7d97102fa2c847851f32ad044cf5e68567ef2bdca0e55027aa9ca81edacab864"
+      }
+    },
+    {
+      "run": "run-05",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0ae94-d8d9-7601-8acc-8d1988c8aa7e",
+      "turn_id": "01a0ae94-d987-7360-8d78-680c707890a4",
+      "session_id": "soodles-39-0-execute-20260917-085624-ff8e65",
+      "native_model": {
+        "locator": "run-05/native/rollout.jsonl:8",
+        "turn_id": "01a0ae94-d987-7360-8d78-680c707890a4",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-05/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-05/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_gYGWcpZ6Iwg7hXVaRkDm1tcs",
+          "call": "run-05/native/rollout.jsonl:13",
+          "result": "run-05/native/rollout.jsonl:16",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "14d5984e640680a834c3345d5c39455ec7b277f6f7dff38bbe1e9e5ed905557f",
+          "result_sha256": "03a71bac62ad7caa25e70c9ec22eabfef7b2edd312a1bf346cd7bc612d35d3fb"
+        },
+        {
+          "call_id": "call_K0IWQCZSzBMtdlt5vFhJPAo1",
+          "call": "run-05/native/rollout.jsonl:18",
+          "result": "run-05/native/rollout.jsonl:21",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "142ac2b102bf930cd4608987385d3a6519194a6d2a391a69397fec12cc9b7100",
+          "result_sha256": "88d8f7d393f7b0c6e9f81c5c1fe3082021a95a8b120a69b90d21c0c33fcc8dd8"
+        },
+        {
+          "call_id": "call_9shpTfTghxkTf9e9OxUTJ5t5",
+          "call": "run-05/native/rollout.jsonl:23",
+          "result": "run-05/native/rollout.jsonl:26",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "f41d042fed90282c4be2226c4f99d88b2d9fd23e57394015bbf78a2650c93e7b",
+          "result_sha256": "f276ed3758c3c3c1607c91bebff679e47fd4edc4c33afff6f66bd7261424e7dd"
+        },
+        {
+          "call_id": "call_01t5gcJLiHO21RWB9RwdHXVK",
+          "call": "run-05/native/rollout.jsonl:30",
+          "result": "run-05/native/rollout.jsonl:33",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "c476fa98d456a716a900ad14588b81b45a6cad17f81f5357bcdc5f119fac2db2",
+          "result_sha256": "803f6aca9e66bbb9a7ca171dd03fb20398f1ed870419e2db27dc756e5a4d33d3"
+        },
+        {
+          "call_id": "call_5xxEgMK5eOTZTpk7CW1T1YRo",
+          "call": "run-05/native/rollout.jsonl:39",
+          "result": "run-05/native/rollout.jsonl:42",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "2919aa54b7b36d502769010562696f959632d16f1160ee5272125069b10dac15",
+          "result_sha256": "446f1d79a3d5fc0ef22e481fd95f9391023c04d3feed974a8363304dc6e4ec74"
+        },
+        {
+          "call_id": "call_OkxpaE1gUB2wTySp8pXkjNW7",
+          "call": "run-05/native/rollout.jsonl:46",
+          "result": "run-05/native/rollout.jsonl:50",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "6b7ef4d4b7bd1e64c77e6b26cab4868ffeb58981129c5a2e72d0afc70e973d71",
+          "result_sha256": "bb5fecd50008a5afb7a96ee7eb56b03590decb800a4e7f3478fa890f2c44d9fe"
+        },
+        {
+          "call_id": "call_Ybspa5xtc0J8ErOL6DmHOSU0",
+          "call": "run-05/native/rollout.jsonl:54",
+          "result": "run-05/native/rollout.jsonl:57",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "b731e772cd83ea450d9a4cc6dc22cd600a4de326ed222f5dd6b1869162eb4655",
+          "result_sha256": "bd1cb69271162c0c8ae647d84deb199db71be0b63279b31846d3dd4ff45a2b90"
+        },
+        {
+          "call_id": "call_ptiilenZodZM3lhELsykda99",
+          "call": "run-05/native/rollout.jsonl:61",
+          "result": "run-05/native/rollout.jsonl:64",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "ecb98df43713541270e32aede167e17265360a60580a9978aa860d51adc7f53b",
+          "result_sha256": "6ba690c9f64b08ef0c416537a5bba18821be8083612709553297b40f3a089dfa"
+        },
+        {
+          "call_id": "call_9G0Lo8SZzojopTY7s0sUVT16",
+          "call": "run-05/native/rollout.jsonl:70",
+          "result": "run-05/native/rollout.jsonl:73",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "57732658c367768bd4c6f2ca59a31e3d4c6c940ad5aa873576c01c8d8c24b6f4",
+          "result_sha256": "bd2b78eacac665c01fcb4e209eda49289bdbdd5b60d4c16f5fd149188f86098e"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 8190,
+          "output_sha256": "6e098a89dd77ea83cf3d87d4a2a9f417da1b6b000cde6d09a773e26b766bb8ab"
+        },
+        {
+          "locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson:8",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 887,
+          "output_sha256": "114288833e4d348cb5d9bb97bb3801c1a833428a8a07931e8f0c08319ec4c818"
+        },
+        {
+          "locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson:10",
+          "id": "item_4",
+          "exit": 0,
+          "output_bytes": 6992,
+          "output_sha256": "5be72cdd3150e1d8b60ef932baac55d6b3978db15b06cf198e43e5ae7d6e807d"
+        },
+        {
+          "locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson:12",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 139,
+          "output_sha256": "b0f544b1ae9df9fc04d34a73d9eff473c7b3a5d74df728472a60e4747660895d"
+        },
+        {
+          "locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson:15",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 0,
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson:19",
+          "id": "item_9",
+          "exit": 0,
+          "output_bytes": 131,
+          "output_sha256": "0cc2e5e069af8d26f3ed1dd3f7f31fd87fb28eac8a19c2093cc6bce958a94e82"
+        },
+        {
+          "locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson:21",
+          "id": "item_10",
+          "exit": 0,
+          "output_bytes": 9856,
+          "output_sha256": "f72752a01a4ff907de08ec0e11e58fcfda8799f5e60dc2c7886d4f54408ed785"
+        },
+        {
+          "locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson:23",
+          "id": "item_11",
+          "exit": 0,
+          "output_bytes": 304,
+          "output_sha256": "48c8f72f8c1ffe38fd1f6a02fc271bb4c2a32677a87578d0204b8df8f115b367"
+        },
+        {
+          "locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson:26",
+          "id": "item_13",
+          "exit": 0,
+          "output_bytes": 763,
+          "output_sha256": "52f8baa24a48504ba1151f238a7b4ea5f0f9b1437f9a2dd05dbb351db2aa3107"
+        }
+      ],
+      "tool_result_truncation_locators": [
+        "run-05/native/rollout.jsonl:57"
+      ],
+      "final_locator": "run-05/native/rollout.jsonl:76",
+      "typed_outcome_locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/events.ndjson:15",
+      "actual_wait": {
+        "child_pid": 15911,
+        "recorder_pid": 15910,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T08:56:24.581219+00:00",
+        "finished_at": "2026-09-17T08:59:02.426489+00:00",
+        "elapsed_seconds": 157.8447698749951,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-05/native/rollout.jsonl": "e5de7d64126b619b1f2375bcad853955c3b0cfaeeffb1d52e0d36e7b0937dc39",
+        "run-05/native/history.json": "2c6eadfe229ce3add949c15e7cbd4f6f886996621e5fe1130dbbdbed0c4cc4f8",
+        "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/raw.ndjson": "28cf68532647eb05a89246e2210aa5f22e0daa39bb82fdc8f3c4bb5d9c22eb63",
+        "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/events.ndjson": "e4139e8c4dfb0bff56b78cb47cc1e5c5fa9e6fc67f2f0bc7b736e70d6f44645b",
+        "run-05/process-exits/soodles-39-0-execute-20260917-085624-ff8e65/exit.json": "6f9ceea252b7e2caa7d89b0b64343ae47d3f068f0203e225e48f5a58c47844d1",
+        "run-05/process-exits/soodles-39-0-execute-20260917-085624-ff8e65/launch.json": "43f195a5a42c6d7eccfb47dd1447e080750ecfd5821a912b7259abdd844a33c1",
+        "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-085624-ff8e65/process.json": "e92b5750a3fef195bef9959ba3a857d8970c66d7ebff3b2504b6a32c7cef244c",
+        "run-05/process-exits/soodles-39-0-execute-20260917-085624-ff8e65/stdout.log": "a2c49c120f1f1d6e93ca464609e96d09eec86cb6b922810233503e5bfbd3f648",
+        "run-05/cleanup-final.json": "6daaa295cb1b6be2dd0b0872f9b7e7ba99a926baf1028fa83f61c8b8e58ce43d",
+        "run-05/task.txt": "9e895f1db4cdb0a7bf6121ab6cf3cce7694ce1541ce7e39fa3191b9030384d6b"
+      }
+    },
+    {
+      "run": "run-06",
+      "checks": {
+        "one_turn": true,
+        "native_model": true,
+        "thread_join": true,
+        "native_meta_join": true,
+        "task_exact": true,
+        "task_envelope_exact": true,
+        "all_native_tools_paired": true,
+        "actual_wait_exit_zero": true,
+        "wait_identity": true,
+        "wait_pid": true,
+        "same_launch_record": true,
+        "worker_argv_exact": true,
+        "captured_stdout_digest": true,
+        "cli_events_forwarded_equal": true,
+        "terminal_deferred": true,
+        "one_typed_blocked": true,
+        "final_text_equal": true,
+        "fixture_preserved": true,
+        "cleanup_owner_receipt": true,
+        "cleanup_current_state": true
+      },
+      "thread_id": "01a0ae94-daad-7891-bf3f-08757d4164b5",
+      "turn_id": "01a0ae94-dc79-73a3-a5c4-f453daf91963",
+      "session_id": "soodles-39-0-execute-20260917-085624-511947",
+      "native_model": {
+        "locator": "run-06/native/rollout.jsonl:8",
+        "turn_id": "01a0ae94-dc79-73a3-a5c4-f453daf91963",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-resume-20260917/comparison/run-06/control/.worktrees/soodles-39-0-execute",
+        "approval_policy": "never"
+      },
+      "task_locator": "run-06/native/rollout.jsonl:9",
+      "native_tools": [
+        {
+          "call_id": "call_txPnq5whrtNq5D4xBXbg2a40",
+          "call": "run-06/native/rollout.jsonl:13",
+          "result": "run-06/native/rollout.jsonl:17",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "36b4ad2a19760e217e57bd4b8b091d987e0bcd78129e340812f617e6896eb9f1",
+          "result_sha256": "9ce042406ec6b9be072b8c76d3afe6253126dce7c8b8ad12dd121863114f6f56"
+        },
+        {
+          "call_id": "call_DGpidmS5Rj2an3sekBcfN8Ui",
+          "call": "run-06/native/rollout.jsonl:19",
+          "result": "run-06/native/rollout.jsonl:24",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "2bc5ab2622aed474b61f32a25444752c7388527ae9c7de1ec2b0b6c99ea39b67",
+          "result_sha256": "7eb392e24b30e846797a45804d7ed36d8f97963d96bd27d8834ebb52a6073fde"
+        },
+        {
+          "call_id": "call_rj8Hje6nKEa7wRPFPGJy7Ioa",
+          "call": "run-06/native/rollout.jsonl:28",
+          "result": "run-06/native/rollout.jsonl:31",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "fc40a927c5de02f570eceac3274b6d5fc57e4112df7a8f56e0762a2494f845aa",
+          "result_sha256": "b2274ebdc58ca0e8dbf8ec5b8ec02dd01ce2c6eb9b885105ce2f1d7d563c8fc4"
+        },
+        {
+          "call_id": "call_06utp1KbU0hxb7GSrnZEZ1mY",
+          "call": "run-06/native/rollout.jsonl:35",
+          "result": "run-06/native/rollout.jsonl:38",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "48cbdab85e9af5ab9a05677e39b959bcdb3c90287235833b3e4c74f365ea6051",
+          "result_sha256": "0296040a326ff1c5969e903a3c714e71171e59878756f000abada985c5d266e2"
+        },
+        {
+          "call_id": "call_vX1ihvUEDr063HFal7wfc1BB",
+          "call": "run-06/native/rollout.jsonl:44",
+          "result": "run-06/native/rollout.jsonl:47",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "3b67eb1283a531c56658a061eff790358728ace7ff30ee1f8359874aa7fff2c6",
+          "result_sha256": "7f636c323442b16996983b62ffd57a5d5c2e09d7994fb5b3dc5550c50109da26"
+        },
+        {
+          "call_id": "call_AhgyjvGCmWQinlbKXDOpnqzw",
+          "call": "run-06/native/rollout.jsonl:51",
+          "result": "run-06/native/rollout.jsonl:54",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "6f3c13cc5db6660b87dc5750b22e758122fad524b440330a409ed37db7fbdc58",
+          "result_sha256": "c813fb7610106b8579afa2de5c6c523c5afa736108347cf85522f10d9f755a02"
+        },
+        {
+          "call_id": "call_57sHqfEAMcUgCw92UCjWXlLJ",
+          "call": "run-06/native/rollout.jsonl:56",
+          "result": "run-06/native/rollout.jsonl:59",
+          "one_result": true,
+          "tool": "exec",
+          "input_sha256": "b483d4e84437ce41c3e7f50ef9231ef72a439e060c9fb0c7563c9ba7525663e5",
+          "result_sha256": "77b9e488a83dcc3a5b69aea439ac1b0295c72bf8551fff894b8e4dbe73f2fcf7"
+        }
+      ],
+      "command_results": [
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:6",
+          "id": "item_2",
+          "exit": 0,
+          "output_bytes": 11770,
+          "output_sha256": "723ffe3b1dd8ba38bf9e721ba334f67e53d6969a05a30633cccdb86a9fcfe9f1"
+        },
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:8",
+          "id": "item_3",
+          "exit": 0,
+          "output_bytes": 545,
+          "output_sha256": "a2561cd69c82e492621e4b4384be33de9bd0003e7bca76a4d73ace985ef848fc"
+        },
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:11",
+          "id": "item_4",
+          "exit": 0,
+          "output_bytes": 368,
+          "output_sha256": "7f88c060b7403f7f18bebd134da976d192365a89d858ecb4f33b39c646bbc14e"
+        },
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:12",
+          "id": "item_5",
+          "exit": 0,
+          "output_bytes": 20129,
+          "output_sha256": "d11b0a6b2f66a795d6cca286f1afbe5166fd197a9e823e66025860d5c5fd2cca"
+        },
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:14",
+          "id": "item_6",
+          "exit": 0,
+          "output_bytes": 519,
+          "output_sha256": "36221519266e0cef463f024500e6fac3249c6f5d9d5c18b0e416ab92923ada46"
+        },
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:16",
+          "id": "item_7",
+          "exit": 0,
+          "output_bytes": 18960,
+          "output_sha256": "4bf9664ac32255ccf8b2c15735de1b2191d61dbe7b9af3a59d30b413a87b123d"
+        },
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:18",
+          "id": "item_8",
+          "exit": 0,
+          "output_bytes": 2805,
+          "output_sha256": "67fc5ce97e136fc85a3e3e281024825ba34e198d42b5898e60a9ab24440f3fc3"
+        },
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:21",
+          "id": "item_10",
+          "exit": 0,
+          "output_bytes": 4220,
+          "output_sha256": "2f3e28bc9131df1a5fd3c09ce754b99c3ccd3cc86e8eb249e2f96b1be838cbf8"
+        },
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:23",
+          "id": "item_11",
+          "exit": 0,
+          "output_bytes": 206,
+          "output_sha256": "25e8551a5520d3e7cc62d6b13dcee1170ea95a8c6e712151f22be653346bc68b"
+        },
+        {
+          "locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson:25",
+          "id": "item_12",
+          "exit": 0,
+          "output_bytes": 819,
+          "output_sha256": "87199fcef90c70b6ef6630df4b31e8b8d60612d4a9c998409f5e380a253c0b30"
+        }
+      ],
+      "tool_result_truncation_locators": [],
+      "final_locator": "run-06/native/rollout.jsonl:62",
+      "typed_outcome_locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/events.ndjson:15",
+      "actual_wait": {
+        "child_pid": 15915,
+        "recorder_pid": 15914,
+        "returncode": 0,
+        "waited": true,
+        "started_at": "2026-09-17T08:56:24.813853+00:00",
+        "finished_at": "2026-09-17T08:58:29.355623+00:00",
+        "elapsed_seconds": 124.54145537503064,
+        "terminal_tail_lines_deferred": 1
+      },
+      "noodle_attempt_exit_code": null,
+      "evidence_sha256": {
+        "run-06/native/rollout.jsonl": "422562c23335182dca945d6c3a52072c07f380b6aaee0aa743ceae6b91a776ca",
+        "run-06/native/history.json": "ccb26a4a47b91248f2ccef252121f3020ffc0ae156269d98a6f12975b4cf77a0",
+        "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/raw.ndjson": "34d4f1eacea7c184a796db953c48ecfc513a5ad621bda239852cdc797d36e7bd",
+        "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/events.ndjson": "3f381f1e66f386cc5511edd73bc8c955b01508335d5459edf6c7ae870c2eb2d4",
+        "run-06/process-exits/soodles-39-0-execute-20260917-085624-511947/exit.json": "45382f58d52498db72cc3e310c19728172a04c05e0869e7acd39c93de0ea96c7",
+        "run-06/process-exits/soodles-39-0-execute-20260917-085624-511947/launch.json": "edef58246cc698c36ac30299b28e20b6b55e3e2fee9799e602cf9b89bcf168c7",
+        "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-085624-511947/process.json": "48ed4867de7e72185bce0abfcbed876ecc275629486f8c07259ee52dd110639b",
+        "run-06/process-exits/soodles-39-0-execute-20260917-085624-511947/stdout.log": "f24d3163d6fb8865a6bd5c757727c96791626fdfa4b685e7207d58a48a76ca28",
+        "run-06/cleanup-final.json": "fa045ab97518343b505c5aac6b49fb3c1558274c8e1057809e15b8f0e5f79a45",
+        "run-06/task.txt": "9e895f1db4cdb0a7bf6121ab6cf3cce7694ce1541ce7e39fa3191b9030384d6b"
+      }
+    }
+  ],
+  "producer_transfer": [
+    {
+      "producer": "run-05",
+      "consumer": "run-08",
+      "producer_sha256": "224887a73bded878f82bd43b8903c7b5679fb8844fb476b4d24e6071399a726d",
+      "byte_copy_matches": true,
+      "receipt_digest_matches": true,
+      "real_owner_observation": "run-05/native/rollout.jsonl:42",
+      "owner_returncode": 0,
+      "handoff_owner_projection_matches_native_result": true,
+      "handoff_source_matches_selection": true,
+      "receipt": "run-08/transfer-input-receipt.json",
+      "consumer_behavior_reviewed": false
+    },
+    {
+      "producer": "run-06",
+      "consumer": "run-07",
+      "producer_sha256": "160509766edeb19b2a7b04df3e23870f495c2517eeec2d0db1d261b997cd07ac",
+      "byte_copy_matches": true,
+      "receipt_digest_matches": true,
+      "real_owner_observation": "run-06/native/rollout.jsonl:38",
+      "owner_returncode": 0,
+      "handoff_owner_projection_matches_native_result": true,
+      "handoff_source_matches_selection": true,
+      "receipt": "run-07/transfer-input-receipt.json",
+      "consumer_behavior_reviewed": false
+    }
+  ],
+  "case_findings": [
+    {
+      "case": "runner-task",
+      "result": "run01/run02 均實際呼叫 identity/advance，區分 next:null 身分投影與 resolution；各有既有控制結果、matching common runtime 讀取與 scoped final，不宣稱 #39 RESOLVED。",
+      "evidence": [
+        "run-01/native/rollout.jsonl:30",
+        "run-01/native/rollout.jsonl:39",
+        "run-01/native/rollout.jsonl:54",
+        "run-02/native/rollout.jsonl:37",
+        "run-02/native/rollout.jsonl:45",
+        "run-02/native/rollout.jsonl:80"
+      ]
+    },
+    {
+      "case": "producer",
+      "result": "run05/run06 實際從當前 owner 觀察後寫出 handoff；歷史 merge request 非 null 且明確禁止 replay；未聲稱後續 consumer 已執行。",
+      "evidence": [
+        "run-05/native/rollout.jsonl:39",
+        "run-05/native/rollout.jsonl:61",
+        "run-06/native/rollout.jsonl:35",
+        "run-06/native/rollout.jsonl:51"
+      ]
+    }
+  ],
+  "failures_and_limits": [
+    {
+      "id": "R1",
+      "kind": "emitted_capture_layer_difference",
+      "detail": "CLI command aggregated_output 不是完整子程序 stdout：run05 raw item_7 owner call output 為空，native:42 有完整結果；raw item_5 僅 identity 尾段，native:33 包含完整讀取。CLI bytes無改動不等於輸出字元完整。case判斷使用native result補足。",
+      "evidence": [
+        "run-05/native/rollout.jsonl:42",
+        "run-05/native/rollout.jsonl:33"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "unexpected_tool_failure",
+      "detail": "run01 對 soodles/landing.py 的 rg 失敗（Not a directory，exit2），保留真實錯誤；後續用正確 landing.py 繼續。",
+      "evidence": [
+        "run-01/native/rollout.jsonl:23",
+        "run-01/native/rollout.jsonl:30"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "unexpected_web_failure",
+      "detail": "run05 開 event schema GitHub頁發生 cache miss；其後用同一 immutable revision 的 raw URL讀回。沒有fixture provider write。",
+      "evidence": [
+        "run-05/native/rollout.jsonl:50",
+        "run-05/native/rollout.jsonl:54",
+        "run-05/native/rollout.jsonl:57"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "tool_output_truncation",
+      "detail": "run02 native:31/41 的來源讀取、run05 native:57 event schema 讀取具有明示 truncation；不能聲稱完整命令 stdout 或全部文件已進入context。必要 owner/exit/handoff 證據另有完整結果。",
+      "evidence": [
+        "run-02/native/rollout.jsonl:31",
+        "run-02/native/rollout.jsonl:41",
+        "run-05/native/rollout.jsonl:57"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "cleanup_failures_preserved",
+      "detail": "run01 初次 kernel group probe EPERM 不能當absence；後續新的ESRCH readback後普通cleanup仍exit1。run01/02/06的普通cleanup因未merge fixture commit拒絕。只改post-run driver，保存control exact head且worker乾淨後依Noodle明示--force移除重複worker checkout。四組 final cleanup 及實際路徑不存在已核對；不是第一次clean成功。",
+      "evidence": [
+        "run-01/postprocess.json",
+        "run-01/cleanup-changed-readback.json",
+        "run-01/cleanup-retry.json",
+        "run-01/cleanup.stderr.log",
+        "cleanup-driver-correction.json",
+        "finish_cleanup.py",
+        "run-01/cleanup-final.json",
+        "run-02/cleanup-final.json",
+        "run-05/cleanup-final.json",
+        "run-06/cleanup-final.json"
+      ]
+    },
+    {
+      "id": "R6",
+      "kind": "scope",
+      "detail": "只證native harness gpt-6-astra/high；服務內部路由未知。Actual child wait=0，不把Noodle attempt.exit_code:null填成0。Terminal-delivery延後為顯式instrumentation；不證uninstrumented natural exit、雲端consumer、實際compaction。"
+    },
+    {
+      "id": "R7",
+      "kind": "scope",
+      "detail": "目前只核對原始本機副本，public sanitized export尚未審；全部unknown-write/fresh-transfer與統計也待完成。"
+    },
+    {
+      "id": "R8",
+      "kind": "nonblocking_hook_diagnostic",
+      "detail": "四組CLI均保留clamping SessionEnd hook timeout to 3s的item error；worker仍有實際completed turn與wait=0。不將其隱藏或當模型行為失敗。"
+    }
+  ]
+}

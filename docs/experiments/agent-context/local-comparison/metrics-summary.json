@@ -1,0 +1,87 @@
+[
+  {
+    "label": "run-01",
+    "case": "runner-task",
+    "native_tool_calls": 6,
+    "command_results": 6,
+    "nonzero_commands": [
+      {
+        "line": 10,
+        "exit_code": 2
+      }
+    ],
+    "worker_duration_ms": 83326
+  },
+  {
+    "label": "run-02",
+    "case": "runner-task",
+    "native_tool_calls": 9,
+    "command_results": 14,
+    "nonzero_commands": [],
+    "worker_duration_ms": 128811
+  },
+  {
+    "label": "run-03",
+    "case": "unknown-write",
+    "native_tool_calls": 7,
+    "command_results": 8,
+    "nonzero_commands": [],
+    "worker_duration_ms": 83827
+  },
+  {
+    "label": "run-04",
+    "case": "unknown-write",
+    "native_tool_calls": 6,
+    "command_results": 10,
+    "nonzero_commands": [],
+    "worker_duration_ms": 80930
+  },
+  {
+    "label": "run-05",
+    "case": "producer",
+    "native_tool_calls": 9,
+    "command_results": 9,
+    "nonzero_commands": [],
+    "worker_duration_ms": 154741
+  },
+  {
+    "label": "run-06",
+    "case": "producer",
+    "native_tool_calls": 7,
+    "command_results": 10,
+    "nonzero_commands": [],
+    "worker_duration_ms": 120785
+  },
+  {
+    "label": "run-07",
+    "case": "fresh-transfer",
+    "native_tool_calls": 7,
+    "command_results": 13,
+    "nonzero_commands": [],
+    "worker_duration_ms": 79592
+  },
+  {
+    "label": "run-08",
+    "case": "fresh-transfer",
+    "native_tool_calls": 5,
+    "command_results": 9,
+    "nonzero_commands": [],
+    "worker_duration_ms": 67970
+  },
+  {
+    "label": "run-09",
+    "case": "unknown-write",
+    "native_tool_calls": 7,
+    "command_results": 10,
+    "nonzero_commands": [],
+    "worker_duration_ms": 80768
+  },
+  {
+    "label": "run-10",
+    "case": "unknown-write",
+    "native_tool_calls": 7,
+    "command_results": 11,
+    "nonzero_commands": [],
+    "worker_duration_ms": 101038
+  }
+]

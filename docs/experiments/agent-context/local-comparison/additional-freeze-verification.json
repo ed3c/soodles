@@ -1,0 +1,33 @@
+{
+  "at": "2026-09-17T09:10:33.543607+00:00",
+  "no_model_sessions_before_freeze": true,
+  "both_tasks_identical": true,
+  "same_fixture_bytes": true,
+  "judge_unchanged": true,
+  "selection": {
+    "assignments": [
+      {
+        "label": "run-09",
+        "arm": "baseline",
+        "case": "unknown-write",
+        "source_head": "acfac7f62a0c8d2ea90282ba37e7e28ed016554b",
+        "task_sha256": "c192b2b4ccc202369eb32079c10be00a20d03aae6be5c13976e1ab441a007b5f",
+        "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+      },
+      {
+        "label": "run-10",
+        "arm": "treatment",
+        "case": "unknown-write",
+        "source_head": "04e4f28d48a6c6a8118d882a772abcfa43900e49",
+        "task_sha256": "c192b2b4ccc202369eb32079c10be00a20d03aae6be5c13976e1ab441a007b5f",
+        "checkpoint_sha256": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+      }
+    ],
+    "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+    "deadline_seconds": 300,
+    "authorizes_landing": false
+  },
+  "authorizes_landing": false
+}

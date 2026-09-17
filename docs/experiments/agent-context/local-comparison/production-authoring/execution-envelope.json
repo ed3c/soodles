@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 39,
+  "body_sha256": "cf54e51c5af83fa75625abd68e12b68d1bcd90c7938bea4406467a95020b1887",
+  "body_updated_at": "2026-09-17T08:46:19Z",
+  "owner": "ed3c supervisor / Issue 39 local experiment",
+  "write_paths": [
+    ".agents/skills/execute/SKILL.md",
+    ".agents/skills/verify-soodles/SKILL.md",
+    "AGENTS.md",
+    "README.md",
+    "contracts/agent-context-design.md",
+    "contracts/system-v1.md",
+    "docs/experiments/agent-context/capability-receipt.json",
+    "docs/experiments/agent-context/local/README.md",
+    "docs/experiments/agent-context/local/capability.py",
+    "docs/experiments/agent-context/local/cloud_observe.py",
+    "docs/experiments/agent-context/local/comparison-results.md",
+    "docs/experiments/agent-context/local/comparison.md",
+    "docs/experiments/agent-context/local/observe.py",
+    "docs/experiments/agent-context/local/record_process.py",
+    "docs/experiments/agent-context/local/results.md",
+    "docs/experiments/agent-context/local/test_capability.py",
+    "docs/experiments/agent-context/local/test_cloud_observe.py",
+    "docs/experiments/agent-context/local/test_record_process.py",
+    "docs/experiments/agent-context/native-results.md",
+    "docs/experiments/agent-context/protocol.md",
+    "docs/experiments/agent-context/recovery-results.md",
+    "docs/experiments/agent-context/trial-handoff.md"
+  ],
+  "base_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+  "execution": {
+    "control_root": "/Users/neon/soodles",
+    "worktree": "soodles-39-0-execute",
+    "order_id": "soodles-39",
+    "stage_index": 0,
+    "task": "Continue the real production Soodles Issue39 integration atom, not a blinded comparison. This real soodles-39 order precedes this new integration work, but earlier preparation is historical; do not claim it preceded all old code. Current clean base is 1ff2882891792b50d97529c9ee1a3e76eac1a6e7. Read the admitted issue.json in /Users/neon/.codex/experiments/soodles39-resume-20260917. Integrate the five proposed instruction files from commit 2e9d51261c80b2c5c120ca6549c759704c615c61 (also available in /Users/neon/soodles/.worktrees/issue-39-agent-context-patterns) onto current main. Files: AGENTS.md, README.md, contracts/system-v1.md, contracts/agent-context-design.md, .agents/skills/verify-soodles/SKILL.md. Preserve all landed #41 P-class recipe/recorder guidance, #44 authenticated GitHub reader route and #46 verify-noodle route; do not weaken executable owners or their invariants. Compare old integration against its f2bd849 base and current main; use only exact supported new instruction differences. Do not rewrite unrelated prose or add more mechanisms.\nChild .agents/AGENTS writes are protected. Your deliverable is COMPLETE proposed bytes for those five files under external /Users/neon/.codex/experiments/soodles39-resume-20260917/draft/ using repository-relative layout, plus worker-evidence manifest with hashes, precise actual changes and handoff. Do not edit/commit target source or call provider writes. Supervisor applies only after your naturally observed exit, then runs blinded cases and delivery. This scoped authoring task may complete without repository changes; Noodle can auto-clean that checkout, which supervisor will record and recreate through owner if needed. No second order, checkpoint edit or permission changes.\nRetain carrier-scoped prerequisites, N/P/L/R boundaries, current-owner next/request semantics, explicit scope/nonregression, and unknown-window/compaction handling. Existing local comparison is evidence for old frozen inputs only. Do not invent new behavioral results or reduce instruction obligations to fake improvement. Keep new guidance short and conditional. Any official-reference text already present may be retained without unsupported new API claims; no web research or capability probe required. Validate link targets against combined candidate overlay and existing base; report failures as authoring checks, not experiment results.\nUse execute methodology. Do not load unrelated noodles operator runbook, launch other agents/models, alter credentials, start loops or deliver. At completion, inspect actual Noodle event help via /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81; schema source /Users/neon/.codex/experiments/noodle78-delivery-20260916/control/event/types.go. Emit ONE own stage_message matching actual NOODLE_SESSION_ID/ORDER_ID/STAGE_INDEX, outcome completed and blocking false only for completed five-file authoring handoff; clearly state comparison/acceptance/provider delivery remain supervisor work. On genuine inability emit blocked. Then return naturally. Bound 720 seconds.",
+    "source_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "carrier": {
+      "platform": "darwin_arm64",
+      "noodle": {
+        "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+        "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+      },
+      "codex": {
+        "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+        "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+        "model": "gpt-6-astra",
+        "argv": [
+          "exec",
+          "--skip-git-repo-check",
+          "--json",
+          "--model",
+          "gpt-6-astra",
+          "-c",
+          "default_permissions=\"agent-default\"",
+          "-c",
+          "approval_policy=\"never\"",
+          "-c",
+          "model_reasoning_effort=\"high\"",
+          "--add-dir",
+          "/Users/neon/soodles/.noodle",
+          "--add-dir",
+          "/Users/neon/.codex/experiments/soodles39-resume-20260917"
+        ]
+      }
+    }
+  }
+}

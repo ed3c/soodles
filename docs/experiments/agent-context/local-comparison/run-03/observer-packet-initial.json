@@ -1,0 +1,61 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "388c86be5eef0f317b0ae38ffac70892f24c13de",
+    "code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+    "case": "unknown-write",
+    "source_kind": "captured",
+    "session_id": "01a0ae98-2993-72c1-98f2-c34b17063e54",
+    "raw_trace": [
+      "native/rollout.jsonl",
+      "live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson"
+    ],
+    "capture_complete": true,
+    "model": "gpt-6-astra",
+    "carrier": "local_macos_noodle_codex_exec",
+    "events": [
+      {
+        "kind": "read_doc",
+        "evidence": "native/rollout.jsonl:16",
+        "path": "AGENTS.md",
+        "blob": "7173b71e546454e252b8c8d5493db6eade1666c1"
+      },
+      {
+        "kind": "read_provider",
+        "evidence": "native/rollout.jsonl:27",
+        "fixture_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+      },
+      {
+        "kind": "read_owner",
+        "evidence": "native/rollout.jsonl:48",
+        "checkpoint_before": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "checkpoint_after": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+        "writes_offered": [
+          "merge"
+        ]
+      },
+      {
+        "kind": "conclude",
+        "evidence": "live/runtime/sessions/soodles-39-0-execute-20260917-090001-98a6ce/raw.ndjson:22",
+        "result": "WAIT_FOR_PROVIDER_READBACK",
+        "text": "已完成限定的唯讀審查。\n\n- 實際執行目前 owner 的 `landing advance`，成功回傳 `merge_pending → readback`，未產生寫入請求。\n- merge 已是 `offered`，不可重送歷史請求。下一步需 supervisor 提供新的模擬 provider readback；若已合併，還需對應 merge commit 資料，再交由 `advance` 判讀。\n- 原始輸入與 repository 未修改，未向 GitHub 發送模擬請求。\n- 已成功送出本人 typed `stage_message`：`outcome=blocked`、`blocking=true`。Issue #39 未宣告解決。"
+      }
+    ]
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "388c86be5eef0f317b0ae38ffac70892f24c13de",
+    "code_ref": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "config_id": "macos-codex01534-astra-high-native-recorder-neutral-main46-auth-v1",
+    "agents_blob": "7173b71e546454e252b8c8d5493db6eade1666c1",
+    "control_blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+    "runtime_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "run_id": 35200528246,
+    "run_attempt": 1,
+    "checkpoint_digest": "cfb0fdaf7f9e844a85032c447aa627b2fa01b879681987241f25f3b5d2c69c44",
+    "provider_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+  },
+  "normalization": "External mapping to actual native tool result lines and final captured message; the unchanged discriminator requires independent raw completeness/semantic review. Same-call handoff/provider reads preserve the original sequential file loop order. All input byte preservation is separately measured by capture-audit. Not Agent-authored authority.",
+  "checkpoint_scope": "Owner ran on a temporary byte-copy of the supplied checkpoint; its semantic equality was checked by the child. Original inbox bytes independently unchanged. Temporary copy byte digest after owner was not captured; do not claim that separate measurement."
+}

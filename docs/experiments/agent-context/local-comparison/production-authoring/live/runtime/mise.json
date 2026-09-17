@@ -1,0 +1,107 @@
+{
+  "generated_at": "2026-09-17T08:53:10.293772Z",
+  "backlog": [
+    {
+      "id": "soodles-39",
+      "title": "Validate Agent context transfer with scoped Astra document patterns",
+      "status": "open",
+      "plan": "Continue the real production Soodles Issue39 integration atom, not a blinded comparison. This real soodles-39 order precedes this new integration work, but earlier preparation is historical; do not claim it preceded all old code. Current clean base is 1ff2882891792b50d97529c9ee1a3e76eac1a6e7. Read the admitted issue.json in /Users/neon/.codex/experiments/soodles39-resume-20260917. Integrate the five proposed instruction files from commit 2e9d51261c80b2c5c120ca6549c759704c615c61 (also available in /Users/neon/soodles/.worktrees/issue-39-agent-context-patterns) onto current main. Files: AGENTS.md, README.md, contracts/system-v1.md, contracts/agent-context-design.md, .agents/skills/verify-soodles/SKILL.md. Preserve all landed #41 P-class recipe/recorder guidance, #44 authenticated GitHub reader route and #46 verify-noodle route; do not weaken executable owners or their invariants. Compare old integration against its f2bd849 base and current main; use only exact supported new instruction differences. Do not rewrite unrelated prose or add more mechanisms.\nChild .agents/AGENTS writes are protected. Your deliverable is COMPLETE proposed bytes for those five files under external /Users/neon/.codex/experiments/soodles39-resume-20260917/draft/ using repository-relative layout, plus worker-evidence manifest with hashes, precise actual changes and handoff. Do not edit/commit target source or call provider writes. Supervisor applies only after your naturally observed exit, then runs blinded cases and delivery. This scoped authoring task may complete without repository changes; Noodle can auto-clean that checkout, which supervisor will record and recreate through owner if needed. No second order, checkpoint edit or permission changes.\nRetain carrier-scoped prerequisites, N/P/L/R boundaries, current-owner next/request semantics, explicit scope/nonregression, and unknown-window/compaction handling. Existing local comparison is evidence for old frozen inputs only. Do not invent new behavioral results or reduce instruction obligations to fake improvement. Keep new guidance short and conditional. Any official-reference text already present may be retained without unsupported new API claims; no web research or capability probe required. Validate link targets against combined candidate overlay and existing base; report failures as authoring checks, not experiment results.\nUse execute methodology. Do not load unrelated noodles operator runbook, launch other agents/models, alter credentials, start loops or deliver. At completion, inspect actual Noodle event help via /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81; schema source /Users/neon/.codex/experiments/noodle78-delivery-20260916/control/event/types.go. Emit ONE own stage_message matching actual NOODLE_SESSION_ID/ORDER_ID/STAGE_INDEX, outcome completed and blocking false only for completed five-file authoring handoff; clearly state comparison/acceptance/provider delivery remain supervisor work. On genuine inability emit blocked. Then return naturally. Bound 720 seconds."
+    }
+  ],
+  "active_summary": {
+    "total": 0
+  },
+  "tickets": [],
+  "resources": {
+    "max_concurrency": 1,
+    "active": 0,
+    "available": 1
+  },
+  "recent_history": [
+    {
+      "session_id": "soodles-39-0-execute-20260917-084802-fa146c",
+      "order_id": "soodles-39",
+      "task_key": "execute",
+      "status": "completed",
+      "duration_s": 307,
+      "completed_at": "2026-09-17T08:53:10.053619Z"
+    }
+  ],
+  "recent_events": [
+    {
+      "type": "stage.completed",
+      "seq": 1764,
+      "at": "2026-09-17T08:20:20.303205Z",
+      "summary": "execute stage completed for soodles-46"
+    },
+    {
+      "type": "order.completed",
+      "seq": 1765,
+      "at": "2026-09-17T08:20:20.303802Z",
+      "summary": "order soodles-46 completed"
+    },
+    {
+      "type": "stage.failed",
+      "seq": 1766,
+      "at": "2026-09-17T08:20:20.342763Z",
+      "summary": "stage failed for soodles-46: merge failed: run adapter backlog.done command \"/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/backlog done 'soodles-46'\": no stderr: signal: killed"
+    },
+    {
+      "type": "order.failed",
+      "seq": 1767,
+      "at": "2026-09-17T08:20:20.343135Z",
+      "summary": "order soodles-46 failed: merge failed: run adapter backlog.done command \"/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/backlog done 'soodles-46'\": no stderr: signal: killed"
+    },
+    {
+      "type": "stage.failed",
+      "seq": 1768,
+      "at": "2026-09-17T08:20:20.448885Z",
+      "summary": "stage failed for schedule: cook cancelled with status cancelled"
+    },
+    {
+      "type": "order.failed",
+      "seq": 1769,
+      "at": "2026-09-17T08:20:20.449218Z",
+      "summary": "order schedule failed: cook cancelled with status cancelled"
+    },
+    {
+      "type": "stage.completed",
+      "seq": 1770,
+      "at": "2026-09-17T08:53:10.11981Z",
+      "summary": "execute stage completed for soodles-39"
+    },
+    {
+      "type": "order.completed",
+      "seq": 1771,
+      "at": "2026-09-17T08:53:10.121318Z",
+      "summary": "order soodles-39 completed"
+    },
+    {
+      "type": "stage.failed",
+      "seq": 1772,
+      "at": "2026-09-17T08:53:10.191724Z",
+      "summary": "stage failed for soodles-39: merge failed: run adapter backlog.done command \"/Users/neon/.codex/experiments/soodles39-resume-20260917/backlog done 'soodles-39'\": no stderr: signal: killed"
+    },
+    {
+      "type": "order.failed",
+      "seq": 1773,
+      "at": "2026-09-17T08:53:10.192415Z",
+      "summary": "order soodles-39 failed: merge failed: run adapter backlog.done command \"/Users/neon/.codex/experiments/soodles39-resume-20260917/backlog done 'soodles-39'\": no stderr: signal: killed"
+    }
+  ],
+  "routing": {
+    "defaults": {
+      "provider": "codex",
+      "model": "gpt-6-astra"
+    },
+    "available_runtimes": [
+      "process"
+    ]
+  },
+  "task_types": [
+    {
+      "key": "execute",
+      "schedule": "Only the exact Issue/order admitted by the installed Soodles consumer."
+    }
+  ]
+}

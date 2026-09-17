@@ -1,0 +1,386 @@
+{
+  "scope": "Authoring checks only; no behavioral experiment, canonical acceptance or provider delivery",
+  "authorizes_landing": false,
+  "checks": [
+    {
+      "name": "actual_head_is_admitted_base",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "target_checkout_clean",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "exact_five_draft_files",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "admitted_issue_body_hash",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "system_executable_requirements_byte_identical",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "preserved_root_For verification of Noodle itself",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "preserved_root_For authenticated Issue reads,",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "preserved_root_Classes describe authority",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "preserved_skill_For P-class behavior/context work,",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "preserved_skill_For landing, consume",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "preserved_skill_Local feature receipts have",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "preserved_skill_P-class comparisons are one mapped feature,",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "preserved_skill_This existing skill was created",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "authenticated_read_recipe_retained",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "skill_frontmatter",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "unchanged_base:.agents/skills/verify-soodles/features/pclass-context.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "unchanged_base:.agents/skills/verify-soodles/scripts/record_context.py",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "unchanged_base:.agents/skills/verify-soodles/features/github-read.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "unchanged_base:.agents/skills/verify-noodle/SKILL.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "unchanged_base:landing.py",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "unchanged_base:soodles.py",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "unchanged_base:policy/runtime.lock.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "combined_overlay_relative_links_and_anchors",
+      "passed": true,
+      "details": [
+        {
+          "source": "AGENTS.md",
+          "target": ".agents/skills/verify-soodles/features/issue-execution.md",
+          "resolved": ".agents/skills/verify-soodles/features/issue-execution.md",
+          "passed": true
+        },
+        {
+          "source": "AGENTS.md",
+          "target": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+          "resolved": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+          "passed": true
+        },
+        {
+          "source": "AGENTS.md",
+          "target": ".agents/skills/verify-soodles/features/delivery-recovery.md",
+          "resolved": ".agents/skills/verify-soodles/features/delivery-recovery.md",
+          "passed": true
+        },
+        {
+          "source": "AGENTS.md",
+          "target": ".agents/skills/verify-noodle/SKILL.md",
+          "resolved": ".agents/skills/verify-noodle/SKILL.md",
+          "passed": true
+        },
+        {
+          "source": "AGENTS.md",
+          "target": ".agents/skills/verify-soodles/features/github-read.md",
+          "resolved": ".agents/skills/verify-soodles/features/github-read.md",
+          "passed": true
+        },
+        {
+          "source": "README.md",
+          "target": "AGENTS.md#session-entry--select-once-then-act",
+          "resolved": "AGENTS.md",
+          "passed": true
+        },
+        {
+          "source": "contracts/system-v1.md",
+          "target": "agent-context-design.md",
+          "resolved": "contracts/agent-context-design.md",
+          "passed": true
+        },
+        {
+          "source": "contracts/agent-context-design.md",
+          "target": "../AGENTS.md#session-entry--select-once-then-act",
+          "resolved": "AGENTS.md",
+          "passed": true
+        },
+        {
+          "source": ".agents/skills/verify-soodles/SKILL.md",
+          "target": "../../../AGENTS.md#session-entry--select-once-then-act",
+          "resolved": "AGENTS.md",
+          "passed": true
+        },
+        {
+          "source": ".agents/skills/verify-soodles/SKILL.md",
+          "target": "features/github-read.md",
+          "resolved": ".agents/skills/verify-soodles/features/github-read.md",
+          "passed": true
+        },
+        {
+          "source": ".agents/skills/verify-soodles/SKILL.md",
+          "target": "features/runtime-admission.md",
+          "resolved": ".agents/skills/verify-soodles/features/runtime-admission.md",
+          "passed": true
+        },
+        {
+          "source": ".agents/skills/verify-soodles/SKILL.md",
+          "target": "features/issue-execution.md",
+          "resolved": ".agents/skills/verify-soodles/features/issue-execution.md",
+          "passed": true
+        },
+        {
+          "source": ".agents/skills/verify-soodles/SKILL.md",
+          "target": "features/supervised-delivery.md",
+          "resolved": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+          "passed": true
+        },
+        {
+          "source": ".agents/skills/verify-soodles/SKILL.md",
+          "target": "features/delivery-recovery.md",
+          "resolved": ".agents/skills/verify-soodles/features/delivery-recovery.md",
+          "passed": true
+        },
+        {
+          "source": ".agents/skills/verify-soodles/SKILL.md",
+          "target": "features/pclass-context.md",
+          "resolved": ".agents/skills/verify-soodles/features/pclass-context.md",
+          "passed": true
+        },
+        {
+          "source": ".agents/skills/verify-soodles/SKILL.md",
+          "target": "features/README.md",
+          "resolved": ".agents/skills/verify-soodles/features/README.md",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "existing_incoming_anchors",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "historical_protocol_pinned_object_exists",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "patch_applies_to_current_base_without_writing",
+      "passed": true,
+      "details": {
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "patch_whitespace",
+      "passed": true,
+      "details": {
+        "exit_code": 0,
+        "stderr": ""
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 10199,
+      "sha256": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+      "base_sha256": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+      "old_integration_sha256": "0103764f867750d27578d8870e6a1eab6bb61d510b63724ce9e3d6c87980ecf5"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5632,
+      "sha256": "7be04c94bda4d3a972595e2be2c0e0eff514f2bf7b88ad7887c28caae8288741",
+      "base_sha256": "1bf532e730bc50a6ed416cd3a5ec8ea00c9b4512dc4fe8d08a72ebf8a38f2671",
+      "old_integration_sha256": "f49f242fb496a9edc247bd7416c9d5097e18773f20119004e3b430c0797c80e9"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "bytes": 22621,
+      "sha256": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+      "base_sha256": "74198bc3b401c14e88cf3c0162b984974b1694156e868fe98b84a5c58b73d78c",
+      "old_integration_sha256": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09"
+    },
+    {
+      "path": "contracts/agent-context-design.md",
+      "bytes": 12720,
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "base_sha256": null,
+      "old_integration_sha256": "3fe93ff1d5cdd587d412614b8fb844f1c96bf2454240fe158243ae52e951432f"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/SKILL.md",
+      "bytes": 9572,
+      "sha256": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+      "base_sha256": "703d1126c9f72ba238b1a816d8a451fa6a2a73882c1d3c1dc8d85679bfebc099",
+      "old_integration_sha256": "9dcf84a4be2cedce8a3d1f2afd53c9744bb2951411e2baa47f68e5f52c082c40"
+    }
+  ],
+  "unchanged_base_inputs": [
+    {
+      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "e524753ff0ae8593b31c2053dc6227190c412f19d5ee88f99a39273efbd49906"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/scripts/record_context.py",
+      "sha256": "a393d8050139f708649c0257fcea817d1542cffc74fee516555390442b0a2694"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "0e57df60e4363f91f3302e01da267ef2b3a00cda40c62d7136e3a7125e5afe51"
+    },
+    {
+      "path": ".agents/skills/verify-noodle/SKILL.md",
+      "sha256": "0616fca33094bc8d516af0e39ad4acc4f3d9a30391bc65cf552fb717d3ce081e"
+    },
+    {
+      "path": "landing.py",
+      "sha256": "a5a4223824ebac8bd912453ea24f11fec396c02b03ecf0a055f2b0a6082a23a1"
+    },
+    {
+      "path": "soodles.py",
+      "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+    },
+    {
+      "path": "policy/runtime.lock.json",
+      "sha256": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830"
+    }
+  ],
+  "external_links_not_network_checked": [
+    {
+      "source": "README.md",
+      "target": "https://github.com/ed3c/noodle/releases",
+      "network_checked": false
+    },
+    {
+      "source": "README.md",
+      "target": "https://github.com/ed3c/soodles/issues/1",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/system-v1.md",
+      "target": "https://github.com/ed3c/soodles/issues/1",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://github.com/ed3c/soodles/issues/39",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://github.com/ed3c/soodles/blob/2e9d51261c80b2c5c120ca6549c759704c615c61/docs/experiments/agent-context/protocol.md",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://developers.openai.com/api/docs/guides/latest-model",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://learn.chatgpt.com/docs/build-skills",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://openai.com/index/unrolling-the-codex-agent-loop/",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://openai.com/index/harness-engineering/",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://developers.openai.com/blog/codex-as-a-platform",
+      "network_checked": false
+    },
+    {
+      "source": "contracts/agent-context-design.md",
+      "target": "https://developers.openai.com/api/docs/guides/compaction",
+      "network_checked": false
+    }
+  ],
+  "source_issue_found_and_corrected": {
+    "kind": "authoring_missing_link_target",
+    "original": "../docs/experiments/agent-context/protocol.md",
+    "reason": "Absent from current base plus five-file overlay",
+    "correction": "Pinned historical protocol at 2e9d51261c80b2c5c120ca6549c759704c615c61"
+  },
+  "passed": true
+}
