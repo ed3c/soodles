@@ -1,0 +1,21 @@
+test_304_revalidates_same_identity_and_bytes (test_github_reader.GithubReaderTests.test_304_revalidates_same_identity_and_bytes) ... ok
+test_authenticated_non_case (test_github_reader.GithubReaderTests.test_authenticated_non_case) ... ok
+test_changed_identity_never_reuses_cache (test_github_reader.GithubReaderTests.test_changed_identity_never_reuses_cache) ... ok
+test_cli_missing_credential_names_owner_and_help (test_github_reader.GithubReaderTests.test_cli_missing_credential_names_owner_and_help) ... ok
+test_cli_quota_wait_reports_exit_75_without_network (test_github_reader.GithubReaderTests.test_cli_quota_wait_reports_exit_75_without_network) ... ok
+test_corrupt_cache_requires_fresh_bytes (test_github_reader.GithubReaderTests.test_corrupt_cache_requires_fresh_bytes) ... ok
+test_credential_not_forwarded_on_redirect (test_github_reader.GithubReaderTests.test_credential_not_forwarded_on_redirect) ... ok
+test_expired_wait_allows_authenticated_non_case (test_github_reader.GithubReaderTests.test_expired_wait_allows_authenticated_non_case) ... ok
+test_header_control_characters_refused_before_transport (test_github_reader.GithubReaderTests.test_header_control_characters_refused_before_transport) ... ok
+test_invalid_credential_no_fallback_or_secret_output (test_github_reader.GithubReaderTests.test_invalid_credential_no_fallback_or_secret_output) ... ok
+test_no_anonymous_request_without_credentials (test_github_reader.GithubReaderTests.test_no_anonymous_request_without_credentials) ... ok
+test_opaque_provider_credential_is_a_legal_non_case (test_github_reader.GithubReaderTests.test_opaque_provider_credential_is_a_legal_non_case) ... ok
+test_provider_failure_never_returns_stale_cache (test_github_reader.GithubReaderTests.test_provider_failure_never_returns_stale_cache) ... ok
+test_quota_wait_has_no_retry_and_blocks_next_call (test_github_reader.GithubReaderTests.test_quota_wait_has_no_retry_and_blocks_next_call) ... ok
+test_retry_after_wait_and_no_missing_deadline_inference (test_github_reader.GithubReaderTests.test_retry_after_wait_and_no_missing_deadline_inference) ... ok
+test_wrong_issue_identity_refused (test_github_reader.GithubReaderTests.test_wrong_issue_identity_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.753s
+
+OK

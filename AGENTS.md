@@ -32,3 +32,10 @@ For runtime/delivery verification or a bounded P-class behavior/context comparis
 ## Guarantee classes
 
 Classes describe authority of a claim, not confidence or file type (Noodles reference: `d4fa0da322cbb7a581328398906a4f04deaf0a69`). N describes inventory/prose/metrics and proves nothing. P guides model reasoning, skill use and routing; it cannot grant correctness authority. L is a tested executable local discriminator bound to its subject/readback/residue; it may reject locally. R is provider-enforced check/merge/closure truth for the exact provider claim. A run's success does not prove full behavior or local reconciliation. Guidance or repeated green results cannot promote N/P into L/R. The selected external judge remains fixed for this acceptance; its source and erroneous controls remain correctable under a fresh supervisor boundary.
+
+For authenticated Issue reads, use `./soodles github issue NUMBER` and the
+verify-soodles [GitHub read recipe](.agents/skills/verify-soodles/features/github-read.md).
+The supervisor supplies the scoped installation credential; the shared reader
+never falls back to anonymous API. Provider wait is exit 75 with a deadline,
+not permission to change identity or restart a writer. This boundary does not
+certify the daemon response to adapter failure or resume a paused comparison.
