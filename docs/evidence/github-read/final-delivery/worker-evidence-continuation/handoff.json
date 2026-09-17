@@ -1,0 +1,116 @@
+{
+  "outcome": "completed",
+  "blocking": false,
+  "authorizes_landing": false,
+  "issue_resolved": false,
+  "observed_at": "2026-09-17T08:01:43.221202+00:00",
+  "identity": {
+    "NOODLE_SESSION_ID": "soodles-44-0-execute-20260917-075830-9f595e",
+    "NOODLE_ORDER_ID": "soodles-44",
+    "NOODLE_STAGE_INDEX": "0",
+    "NOODLE_PROJECT_DIR": "/Users/neon/soodles",
+    "NOODLE_WORKTREE": "/Users/neon/soodles/.worktrees/soodles-44-0-execute"
+  },
+  "candidate": "0cda9c2ee57ed598257048f50829fb36893d3b80",
+  "git_status": "",
+  "body_sha256": "4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871",
+  "body_updated_at": "2026-09-17T07:51:07Z",
+  "binary": {
+    "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+    "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff",
+    "source_revision": "ca81f942f478e8e4afcbbce6ca69640867efe753",
+    "carrier": "darwin_arm64"
+  },
+  "schema_source": {
+    "help": "event-emit-help.txt",
+    "schema_list": "schema-list.txt",
+    "note": "Binary schema list exposes mise/orders/status, not event payload; payload read from exact embedded VCS revision event/types.go.",
+    "path": "event-types.go.txt"
+  },
+  "carriers": {
+    "original_child": {
+      "session": "soodles-44-0-execute-20260917-075429-f18d3d",
+      "reader_passed": 15,
+      "reader_errors": 1,
+      "reader_exit": 1,
+      "failure": "localhost bind EPERM before redirect request; unchanged failure retained",
+      "consumer_passed": 16,
+      "consumer_exit": 0,
+      "live_http": [
+        200,
+        304
+      ],
+      "remaining": [
+        "6199",
+        "6199"
+      ],
+      "cli_exits": [
+        0,
+        0,
+        1
+      ],
+      "prior_outcome": "blocked",
+      "natural_process_returncode": 0,
+      "natural_exit_is_not_test_success": true
+    },
+    "supervisor": {
+      "receipt": "../supervisor-reader-tests.json",
+      "same_reader_names": true,
+      "same_clean_candidate": "0cda9c2ee57ed598257048f50829fb36893d3b80",
+      "reader_passed": 16,
+      "exit": 0,
+      "scope": "same unchanged reader controls including real local redirect server; distinct carrier from sandbox child"
+    },
+    "continuation": {
+      "scope": "read-only evidence/code review plus handoff and one typed outcome; no test suite, localhost, provider, token mint, model session or source mutation"
+    }
+  },
+  "checks": {
+    "live_raw_receipt_match": true,
+    "issue_bytes_match": true,
+    "issue_sha256": "48ea988149ab59949fc7707b0cdd17e338949c07f3a59fb726a93c2d1d77c0b9",
+    "cache_absent": true,
+    "cache_path": "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles44-worker-cache-lieh64hh",
+    "source_matches_commit": true,
+    "supervisor_reader_16_pass": true,
+    "child_consumer_16_pass": true
+  },
+  "redirect_review": "test_credential_not_forwarded_on_redirect starts real ThreadingHTTPServer, sends Authorization-bearing /first request to _request, expects HTTPError, and asserts hits == [/first]. NoRedirect.redirect_request returns None; _request installs it; issue refuses non-200/304. Demonstrates redirect target was not requested on supervisor carrier, not successful child localhost execution or global network policy.",
+  "unresolved_inconsistencies": [],
+  "evidence_sha256": {
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/issue.json": "1d9454525ed364222c9edf2891adf479f26a999f07ffedbfda776783bf7a4d6e",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/execution-envelope-continuation.json": "f37b5c299c0c590a8299777800f17dcee3f3ca107525966513e2248e493afb68",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/supervisor-reader-tests.json": "c42ea9ff48529055311e8c7781046bcc2ff64eb9fe55d916a08c9a507475aa64",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/process-exits/soodles-44-0-execute-20260917-075429-f18d3d/exit.json": "07674237bff6be8c647e521ee4858c82b7768d0632e8074fafa79e116e82c0c2",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/no-token-cli.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/live-cli-1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/live-receipt.json": "aeac6b549c73f8d8a3cc0310e19c453178524b69e67c2d7c79a66ae5d3fa3b2d",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/live-cli-1.stdout": "6427cac6076f2df6f32357974d4cb9b044555695cb9f2788f42b736d52ab12dd",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/event-emit.json": "d55e7fbc9bb98185e2ea2f05ed6aed3b7d3057352e41dde8cbaf9cb99347e324",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/no-token-cli.stdout": "c0869c9e2b6b47948ccd4f76bcc586c9d43f5d0f553cacdc7b026a57c9caeced",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/verification-summary.json": "d9e13bdfec43a974648db0fa6c4660c1c9aecf1e0d7e4921ef274ecb03de597b",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/issue-1.json": "48ea988149ab59949fc7707b0cdd17e338949c07f3a59fb726a93c2d1d77c0b9",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/consumer-tests.json": "6def51f1be1cb146424336f7733c2126c8c3fdf31b63ef2fe9e81c318892b784",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/consumer-tests.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/event-emit.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/identity.json": "6de4b5d3dc40f3f4046aa8ddf9043fe68eaa13234a9d603f74b00819202bd5dd",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/reader-tests.json": "13062e6ac6f551fc2bbfd9c6033d4431d8564d0ef29440de7a0637a9812b9e8a",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/stage-message-payload.json": "28940f15a878898a38dc5b36e7d50bff9779c29d80a79620ad22fa96196e6b06",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/issue-2.json": "48ea988149ab59949fc7707b0cdd17e338949c07f3a59fb726a93c2d1d77c0b9",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/live-cli-2.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/reader-tests.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/reader-tests.stderr": "07eb3027c126698b9b1b17a5448a0a1011943010b39e0ccc298f7384968edd0c",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/live-cli-2.stdout": "d9c4bbcbeb71954f062d173bec5f9276175109d1272c3c8216c221d2cf706404",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/event-emit-help.txt": "7f88c060b7403f7f18bebd134da976d192365a89d858ecb4f33b39c646bbc14e",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/event-emit.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/consumer-tests.stderr": "66406e5581a974217b75e26cd06b9bec5117c2a1ce7b2794222dae509bcd8996",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence/event-types.go.txt": "ba4ebb5449bbe16db29a649f0a825d3405aa74b16c146fc54ed6381180d796e6"
+  },
+  "source_sha256": {
+    "github_reader.py": "7434e60640fdf39ab39c76af25969d0fee9f5f6878eba39273cc4082bebc9c98",
+    "tests/test_github_reader.py": "4580de00b5f9c6195115c77c6ba937f7feb528c85aaee8b2838abd9e87ca2282",
+    "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+    "tests/test_issue_execution.py": "d866056a1099b5957e8ecd312f49f213b7adc047afeb405d0defa80606354e79",
+    "soodles.py": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+  }
+}

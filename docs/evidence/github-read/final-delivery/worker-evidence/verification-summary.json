@@ -1,0 +1,64 @@
+{
+  "outcome": "blocked",
+  "blocking": true,
+  "authorizes_landing": false,
+  "identity": {
+    "NOODLE_SESSION_ID": "soodles-44-0-execute-20260917-075429-f18d3d",
+    "NOODLE_ORDER_ID": "soodles-44",
+    "NOODLE_STAGE_INDEX": "0",
+    "NOODLE_PROJECT_DIR": "/Users/neon/soodles",
+    "NOODLE_WORKTREE": "/Users/neon/soodles/.worktrees/soodles-44-0-execute",
+    "stage_index_integer": 0,
+    "cwd": "/Users/neon/soodles/.worktrees/soodles-44-0-execute",
+    "head": "0cda9c2ee57ed598257048f50829fb36893d3b80",
+    "initial_git_status": "",
+    "skill_sha256": "2f9b702c7710e8d875cb5071f43034725844a74e99f2f73e08c1c1cde161077b",
+    "github_read_recipe_sha256": "0e57df60e4363f91f3302e01da267ef2b3a00cda40c62d7136e3a7125e5afe51",
+    "noodle_binary": {
+      "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+      "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+    },
+    "started_at_unix": 1789631730.8682299
+  },
+  "final_head": "0cda9c2ee57ed598257048f50829fb36893d3b80",
+  "final_git_status": "",
+  "reader_tests": {
+    "passed": 15,
+    "errors": 1,
+    "exit_code": 1,
+    "cause": "Sandbox denied 127.0.0.1 socket bind in test_credential_not_forwarded_on_redirect: PermissionError [Errno 1] Operation not permitted",
+    "attempts": 1
+  },
+  "consumer_tests": {
+    "passed": 16,
+    "exit_code": 0
+  },
+  "live_status": "passed",
+  "live_checks": {
+    "http_200": true,
+    "issue_1_sha256": "48ea988149ab59949fc7707b0cdd17e338949c07f3a59fb726a93c2d1d77c0b9",
+    "http_304": true,
+    "issue_2_sha256": "48ea988149ab59949fc7707b0cdd17e338949c07f3a59fb726a93c2d1d77c0b9",
+    "identical_issue_bytes": true,
+    "no_token_correct_refusal_green": true
+  },
+  "cleanup": {
+    "removed_only_temporary_cache": "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles44-worker-cache-lieh64hh",
+    "cache_absent": true,
+    "observed_at_unix": 1789631764.5078669
+  },
+  "next": {
+    "owner": "supervisor",
+    "required": [
+      "carrier permitting local loopback bind for the unchanged focused redirect control"
+    ],
+    "reason": "No source changes, no skipped tests, no unchanged retry or sandbox escalation."
+  },
+  "linux_acceptance": "Supervisor-owned existing exact-head evidence; not rerun on macOS",
+  "typed_schema_source": {
+    "revision": "ca81f942f478e8e4afcbbce6ca69640867efe753",
+    "path": "event/types.go",
+    "sha256": "ba4ebb5449bbe16db29a649f0a825d3405aa74b16c146fc54ed6381180d796e6"
+  },
+  "observed_at_unix": 1789631834.266325
+}

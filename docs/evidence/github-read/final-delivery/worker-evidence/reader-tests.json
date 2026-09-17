@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_github_reader.py",
+    "-v"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 0.8503626660094596
+}

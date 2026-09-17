@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/publisher/soodles",
+    "landing",
+    "advance",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/checkpoint.json",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/readback-advance-close.json"
+  ],
+  "exit": 0,
+  "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"dispatch\",\n  \"phase\": \"close_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"dispatch\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/Users/neon/.codex/experiments/soodles44-delivery-20260917/checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/homebrew/opt/python@3.14/bin/python3.14\",\n      \"-B\",\n      \"/Users/neon/.codex/experiments/soodles44-delivery-20260917/publisher/soodles.py\",\n      \"landing\",\n      \"dispatch\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/47\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/44\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/0cda9c2ee57ed598257048f50829fb36893d3b80\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35196974216\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35196974216/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  }\n}\n",
+  "stderr": ""
+}

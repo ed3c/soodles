@@ -1,0 +1,448 @@
+{
+  "order_revision": "270679c317f82a829b5422a297dd47ca",
+  "state": {
+    "orders": {
+      "schedule": {
+        "order_id": "schedule",
+        "sequence": 1,
+        "title": "scheduling tasks based on your backlog",
+        "plan": null,
+        "rationale": "",
+        "status": "active",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "schedule",
+            "prompt": "",
+            "skill": "schedule",
+            "provider": "codex",
+            "model": "gpt-6-astra",
+            "runtime": "process",
+            "group": 0,
+            "status": "pending",
+            "extra_prompt": "",
+            "attempts": null
+          }
+        ],
+        "created_at": "2026-09-17T15:54:29.771174+08:00",
+        "updated_at": "2026-09-17T07:58:30.055042Z",
+        "metadata": {
+          "plan": "",
+          "rationale": "",
+          "title": "scheduling tasks based on your backlog"
+        }
+      },
+      "soodles-44": {
+        "order_id": "soodles-44",
+        "sequence": 0,
+        "title": "{\"body_sha256\": \"4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871\", \"body_updated_at\": \"2026-09-17T07:51:07Z\", \"envelope_sha256\": \"f37b5c299c0c590a8299777800f17dcee3f3ca107525966513e2248e493afb68\", \"issue\": 44,...",
+        "plan": null,
+        "rationale": "Externally admitted current Issue",
+        "status": "active",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "execute",
+            "prompt": "{\"body_sha256\": \"4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871\", \"body_updated_at\": \"2026-09-17T07:51:07Z\", \"envelope_sha256\": \"f37b5c299c0c590a8299777800f17dcee3f3ca107525966513e2248e493afb68\", \"issue\": 44, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"Continue the ORIGINAL soodles-44 order and same clean 0cda9c2ee57ed598257048f50829fb36893d3b80 worktree. The first Agent physically proved authenticated HTTP200 then304 with identical44 Issue bytes/remaining6199, no-token refusal, and consumer16/16. It correctly emitted blocked because its redirect test could not bind localhost under the child sandbox. Its natural exit0 and failure are preserved. Do not reinterpret that child failure as GREEN and do not retry localhost or change permissions.\\nYour substantive bounded task is to review the preserved raw worker-evidence and the supervisor-reader-tests.json under /Users/neon/.codex/experiments/soodles44-delivery-20260917, which ran the SAME unchanged16 reader controls with actual exit0 on the supervisor carrier, including real redirect server. Confirm exact clean candidate, inspect redirect test and corresponding implementation, check live CLI raw outputs versus receipt identities/statuses, check cache absent, confirm all16 supervisor tests and16 child consumer tests passed, and name the distinct carriers/scope in a new handoff under worker-evidence-continuation. You may run short read-only commands; do not rerun full suites or model sessions. Do not edit source, commit, call provider, mint tokens, merge or close. Parent did not supply your outcome. If this evidence and code review substantiates the verification stage, emit ONE stage_message completed/blocking false using actual NOODLE_* identities and measured /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81 after obtaining its actual help/schema. If any concrete unresolved inconsistency remains, emit blocked/blocking true. This is verification stage completion, not Issue resolution. Do not emit stage_yield or write an exit code. Return immediately after your own typed event. Deadline300seconds.\"}",
+            "skill": "execute",
+            "provider": "codex",
+            "model": "gpt-6-astra",
+            "runtime": "process",
+            "group": 0,
+            "status": "review",
+            "extra_prompt": "",
+            "attempts": [
+              {
+                "attempt_id": "soodles-44-0-attempt-0",
+                "session_id": "soodles-44-0-execute-20260917-075429-f18d3d",
+                "status": "failed",
+                "started_at": "2026-09-17T15:54:29.816528+08:00",
+                "completed_at": "2026-09-17T15:57:21.79326+08:00",
+                "exit_code": null,
+                "worktree_name": "soodles-44-0-execute",
+                "error": "requeue typed blocked outcome"
+              },
+              {
+                "attempt_id": "soodles-44-0-attempt-1",
+                "session_id": "soodles-44-0-execute-20260917-075830-9f595e",
+                "status": "completed",
+                "started_at": "2026-09-17T15:58:30.932944+08:00",
+                "completed_at": "2026-09-17T16:02:14.397295+08:00",
+                "exit_code": null,
+                "worktree_name": "soodles-44-0-execute",
+                "error": ""
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-09-17T15:54:04.877335+08:00",
+        "updated_at": "2026-09-17T16:02:14.397295+08:00",
+        "metadata": {
+          "plan": "",
+          "rationale": "Externally admitted current Issue",
+          "title": "Execute ed3c/soodles#44"
+        }
+      }
+    },
+    "pending_reviews": {
+      "soodles-44": {
+        "order_id": "soodles-44",
+        "stage_index": 0,
+        "task_key": "execute",
+        "prompt": "{\"body_sha256\": \"4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871\", \"body_updated_at\": \"2026-09-17T07:51:07Z\", \"envelope_sha256\": \"f37b5c299c0c590a8299777800f17dcee3f3ca107525966513e2248e493afb68\", \"issue\": 44, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"Continue the ORIGINAL soodles-44 order and same clean 0cda9c2ee57ed598257048f50829fb36893d3b80 worktree. The first Agent physically proved authenticated HTTP200 then304 with identical44 Issue bytes/remaining6199, no-token refusal, and consumer16/16. It correctly emitted blocked because its redirect test could not bind localhost under the child sandbox. Its natural exit0 and failure are preserved. Do not reinterpret that child failure as GREEN and do not retry localhost or change permissions.\\nYour substantive bounded task is to review the preserved raw worker-evidence and the supervisor-reader-tests.json under /Users/neon/.codex/experiments/soodles44-delivery-20260917, which ran the SAME unchanged16 reader controls with actual exit0 on the supervisor carrier, including real redirect server. Confirm exact clean candidate, inspect redirect test and corresponding implementation, check live CLI raw outputs versus receipt identities/statuses, check cache absent, confirm all16 supervisor tests and16 child consumer tests passed, and name the distinct carriers/scope in a new handoff under worker-evidence-continuation. You may run short read-only commands; do not rerun full suites or model sessions. Do not edit source, commit, call provider, mint tokens, merge or close. Parent did not supply your outcome. If this evidence and code review substantiates the verification stage, emit ONE stage_message completed/blocking false using actual NOODLE_* identities and measured /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81 after obtaining its actual help/schema. If any concrete unresolved inconsistency remains, emit blocked/blocking true. This is verification stage completion, not Issue resolution. Do not emit stage_yield or write an exit code. Return immediately after your own typed event. Deadline300seconds.\"}",
+        "provider": "codex",
+        "model": "gpt-6-astra",
+        "runtime": "process",
+        "skill": "execute",
+        "plan": null,
+        "worktree_name": "soodles-44-0-execute",
+        "worktree_path": "/Users/neon/soodles/.worktrees/soodles-44-0-execute",
+        "session_id": "soodles-44-0-execute-20260917-075830-9f595e",
+        "reason": "supervised mode requires merge approval"
+      }
+    },
+    "action_needed": null,
+    "mode": "supervised",
+    "mode_epoch": 5,
+    "mode_transitions": [
+      {
+        "from_mode": "supervised",
+        "to_mode": "supervised",
+        "epoch": 1,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T13:28:22.964109+08:00"
+      },
+      {
+        "from_mode": "supervised",
+        "to_mode": "manual",
+        "epoch": 2,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:54:01.852402+08:00"
+      },
+      {
+        "from_mode": "manual",
+        "to_mode": "supervised",
+        "epoch": 3,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:54:04.237418+08:00"
+      },
+      {
+        "from_mode": "supervised",
+        "to_mode": "manual",
+        "epoch": 4,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:58:30.050221+08:00"
+      },
+      {
+        "from_mode": "manual",
+        "to_mode": "supervised",
+        "epoch": 5,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:58:30.055888+08:00"
+      }
+    ],
+    "schema_version": 1,
+    "last_event_id": "47"
+  },
+  "effect_ledger": [
+    {
+      "effect_id": "event-2-effect-0",
+      "effect": {
+        "effect_id": "event-2-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:06:39.47517+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-5-effect-0",
+      "effect": {
+        "effect_id": "event-5-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:07:11.275497+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-8-effect-0",
+      "effect": {
+        "effect_id": "event-8-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:07:39.059519+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-11-effect-0",
+      "effect": {
+        "effect_id": "event-11-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:10:22.275401+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-14-effect-0",
+      "effect": {
+        "effect_id": "event-14-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:11:52.862914+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-16-effect-0",
+      "effect": {
+        "effect_id": "event-16-effect-0",
+        "type": "cleanup",
+        "payload": {
+          "order_id": "schedule",
+          "stage_index": 0,
+          "worktree_name": ""
+        },
+        "created_at": "2026-09-17T00:11:55.035108+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-17-effect-0",
+      "effect": {
+        "effect_id": "event-17-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-1",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T01:04:23.12583+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+      "effect": {
+        "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "026c6e8e082892d0f4f50d7de72c9297",
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-16T17:04:42.06476Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-16T17:04:42.06476Z",
+      "result": {
+        "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-16T17:04:42.06476Z"
+      }
+    },
+    {
+      "effect_id": "event-21-effect-0",
+      "effect": {
+        "effect_id": "event-21-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-18-0-attempt-0",
+          "order_id": "soodles-18",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T01:04:42.104314+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-25-effect-0",
+      "effect": {
+        "effect_id": "event-25-effect-0",
+        "type": "write_projection",
+        "payload": {
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-17T01:26:59.591442+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-25-effect-1",
+      "effect": {
+        "effect_id": "event-25-effect-1",
+        "type": "ack",
+        "payload": {
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-17T01:26:59.591442+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-27-effect-0",
+      "effect": {
+        "effect_id": "event-27-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T13:28:23.77383+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-30-effect-0",
+      "effect": {
+        "effect_id": "event-30-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T13:28:24.795118+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "initial-admission-40b36902c8815c5d026a01c34260f91401aeecfd4cac1a85b2cb9e986a5977f8",
+      "effect": {
+        "effect_id": "initial-admission-40b36902c8815c5d026a01c34260f91401aeecfd4cac1a85b2cb9e986a5977f8",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "dfb96fcf7d8d776ea177173c4c0c717d",
+          "order_id": "soodles-44"
+        },
+        "created_at": "2026-09-17T07:54:04.877318Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-17T07:54:04.877318Z",
+      "result": {
+        "effect_id": "initial-admission-40b36902c8815c5d026a01c34260f91401aeecfd4cac1a85b2cb9e986a5977f8",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-17T07:54:04.877318Z"
+      }
+    },
+    {
+      "effect_id": "event-36-effect-0",
+      "effect": {
+        "effect_id": "event-36-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T15:54:04.882472+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-39-effect-0",
+      "effect": {
+        "effect_id": "event-39-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-44-0-attempt-0",
+          "order_id": "soodles-44",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T15:54:29.795818+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-45-effect-0",
+      "effect": {
+        "effect_id": "event-45-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-44-0-attempt-1",
+          "order_id": "soodles-44",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T15:58:30.91021+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    }
+  ],
+  "generated_at": "2026-09-17T08:02:14.397352Z"
+}

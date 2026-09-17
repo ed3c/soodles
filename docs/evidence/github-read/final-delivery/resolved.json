@@ -1,0 +1,122 @@
+{
+  "schema": 2,
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 44,
+    "pr": 47,
+    "head": "0cda9c2ee57ed598257048f50829fb36893d3b80",
+    "tree": "54b6750f3892fa316442a053ac0964aab5100a49",
+    "base_head": "f2bd849b9523134364ca598df72a4e15fc541ab9",
+    "run_id": 35196974216,
+    "run_attempt": 1,
+    "worktree": "soodles-44-0-execute",
+    "control_root": "/Users/neon/soodles",
+    "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a",
+    "execution_envelope": {
+      "path": "/Users/neon/.codex/experiments/soodles44-delivery-20260917/execution-envelope-continuation.json",
+      "sha256": "f37b5c299c0c590a8299777800f17dcee3f3ca107525966513e2248e493afb68"
+    }
+  },
+  "phase": "resolved",
+  "observations": [
+    "a700c149db411a0e3f64913975eba22a4d916db7cde7db1bae9a71a79634abbd",
+    "139e128ca94566f98b708a706eebc8b35de8a51daa7efbb5c04a41fbf5367b2f",
+    "7c9b8adeaa8767f4206cab3ffb6ca2974f16510ae12b535ca41f7bf3e7c6b521"
+  ],
+  "classification": "RESOLVED",
+  "scope": "supervised single-Issue landing",
+  "writes_offered": [
+    "merge",
+    "close"
+  ],
+  "delivery": {
+    "action": "close",
+    "status": "offered"
+  },
+  "merge_sha": "40a3d18785387b57ec482497b62a44805b0e90ad",
+  "issue_closed_at": "2026-09-17T08:04:50Z",
+  "noodle_reconciliation": {
+    "order_id": "soodles-44",
+    "order": {
+      "order_id": "soodles-44",
+      "sequence": 0,
+      "title": "{\"body_sha256\": \"4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871\", \"body_updated_at\": \"2026-09-17T07:51:07Z\", \"envelope_sha256\": \"f37b5c299c0c590a8299777800f17dcee3f3ca107525966513e2248e493afb68\", \"issue\": 44,...",
+      "plan": null,
+      "rationale": "Externally admitted current Issue",
+      "status": "completed",
+      "stages": [
+        {
+          "stage_index": 0,
+          "task_key": "execute",
+          "prompt": "{\"body_sha256\": \"4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871\", \"body_updated_at\": \"2026-09-17T07:51:07Z\", \"envelope_sha256\": \"f37b5c299c0c590a8299777800f17dcee3f3ca107525966513e2248e493afb68\", \"issue\": 44, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"Continue the ORIGINAL soodles-44 order and same clean 0cda9c2ee57ed598257048f50829fb36893d3b80 worktree. The first Agent physically proved authenticated HTTP200 then304 with identical44 Issue bytes/remaining6199, no-token refusal, and consumer16/16. It correctly emitted blocked because its redirect test could not bind localhost under the child sandbox. Its natural exit0 and failure are preserved. Do not reinterpret that child failure as GREEN and do not retry localhost or change permissions.\\nYour substantive bounded task is to review the preserved raw worker-evidence and the supervisor-reader-tests.json under /Users/neon/.codex/experiments/soodles44-delivery-20260917, which ran the SAME unchanged16 reader controls with actual exit0 on the supervisor carrier, including real redirect server. Confirm exact clean candidate, inspect redirect test and corresponding implementation, check live CLI raw outputs versus receipt identities/statuses, check cache absent, confirm all16 supervisor tests and16 child consumer tests passed, and name the distinct carriers/scope in a new handoff under worker-evidence-continuation. You may run short read-only commands; do not rerun full suites or model sessions. Do not edit source, commit, call provider, mint tokens, merge or close. Parent did not supply your outcome. If this evidence and code review substantiates the verification stage, emit ONE stage_message completed/blocking false using actual NOODLE_* identities and measured /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81 after obtaining its actual help/schema. If any concrete unresolved inconsistency remains, emit blocked/blocking true. This is verification stage completion, not Issue resolution. Do not emit stage_yield or write an exit code. Return immediately after your own typed event. Deadline300seconds.\"}",
+          "skill": "execute",
+          "provider": "codex",
+          "model": "gpt-6-astra",
+          "runtime": "process",
+          "group": 0,
+          "status": "completed",
+          "extra_prompt": "",
+          "attempts": [
+            {
+              "attempt_id": "soodles-44-0-attempt-0",
+              "session_id": "soodles-44-0-execute-20260917-075429-f18d3d",
+              "status": "failed",
+              "started_at": "2026-09-17T15:54:29.816528+08:00",
+              "completed_at": "2026-09-17T15:57:21.79326+08:00",
+              "exit_code": null,
+              "worktree_name": "soodles-44-0-execute",
+              "error": "requeue typed blocked outcome"
+            },
+            {
+              "attempt_id": "soodles-44-0-attempt-1",
+              "session_id": "soodles-44-0-execute-20260917-075830-9f595e",
+              "status": "completed",
+              "started_at": "2026-09-17T15:58:30.932944+08:00",
+              "completed_at": "2026-09-17T16:05:28.961542+08:00",
+              "exit_code": null,
+              "worktree_name": "soodles-44-0-execute",
+              "error": ""
+            }
+          ]
+        }
+      ],
+      "created_at": "2026-09-17T15:54:04.877335+08:00",
+      "updated_at": "2026-09-17T16:05:28.961542+08:00",
+      "metadata": {
+        "plan": "",
+        "rationale": "Externally admitted current Issue",
+        "title": "Execute ed3c/soodles#44"
+      }
+    },
+    "quiescent_sessions": [
+      {
+        "session_id": "soodles-44-0-execute-20260917-075429-f18d3d",
+        "pid": 2524,
+        "process_and_group_absent": true
+      },
+      {
+        "session_id": "soodles-44-0-execute-20260917-075830-9f595e",
+        "pid": 3851,
+        "process_and_group_absent": true
+      }
+    ]
+  },
+  "cleanup_intent": {
+    "path_present": true,
+    "branch_head": "0cda9c2ee57ed598257048f50829fb36893d3b80",
+    "main_head": "40a3d18785387b57ec482497b62a44805b0e90ad",
+    "git_path": "/usr/bin/git",
+    "git_sha256": "b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9",
+    "noodle_sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff",
+    "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a"
+  },
+  "local": {
+    "head": "40a3d18785387b57ec482497b62a44805b0e90ad",
+    "tree": "54b6750f3892fa316442a053ac0964aab5100a49",
+    "removed_worktree": "soodles-44-0-execute",
+    "worktree_owner": "Noodle"
+  },
+  "owner": "landing.reconcile",
+  "action": "stop",
+  "next": null
+}

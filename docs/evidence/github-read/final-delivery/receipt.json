@@ -1,0 +1,33 @@
+{
+  "issue": 44,
+  "classification": "RESOLVED",
+  "candidate": "0cda9c2ee57ed598257048f50829fb36893d3b80",
+  "provider_pr": 47,
+  "provider_merge": "40a3d18785387b57ec482497b62a44805b0e90ad",
+  "runtime_run": 35196974216,
+  "original_order": "soodles-44",
+  "completed_session": "soodles-44-0-execute-20260917-075830-9f595e",
+  "actual_child_exit": 0,
+  "original_worktree_removed": true,
+  "superseded_preparation_worktree_removed": true,
+  "live_http": [
+    200,
+    304
+  ],
+  "primary_remaining": [
+    6199,
+    6199
+  ],
+  "closed_loop_owner_receipt": "resolved.json",
+  "first_child_localhost_bind_refusal_retained": true,
+  "shutdown_loop_exit": 1,
+  "shutdown_loop_exit_reason": "supervisor SIGTERM after completed order; subsequent backlog.sync observed context canceled; merge control ack success and order completion persisted",
+  "not_claimed": [
+    "No original order before earlier disclosed implementation",
+    "No global anonymous network ban",
+    "No reduced Agent decision cost",
+    "No Issue39 comparison restart",
+    "No child-localhost capability proof"
+  ],
+  "authorizes_landing": false
+}

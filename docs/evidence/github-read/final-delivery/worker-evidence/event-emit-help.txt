@@ -1,0 +1,12 @@
+Emit an external event
+
+Usage:
+  noodle event emit <type> [flags]
+
+Flags:
+  -h, --help             help for emit
+      --payload string   Event payload as JSON
+      --session string   Session ID (writes to session event log instead of loop event log)
+
+Global Flags:
+      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)

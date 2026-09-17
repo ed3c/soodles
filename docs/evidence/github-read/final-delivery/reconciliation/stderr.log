@@ -1,0 +1,6 @@
+2026-09-17T16:05:28.871235+08:00 INFO api: start initialized project=/Users/neon/soodles runtime_dir=/Users/neon/soodles/.noodle once=false server_enabled=false
+2026-09-17T16:05:28.872148+08:00 INFO api: web server disabled
+2026-09-17T16:05:28.899388+08:00 INFO api: control command action=mode status=ok
+2026-09-17T16:05:29.678108+08:00 INFO api: control command action=merge status=ok
+2026-09-17T16:05:29.678501+08:00 WARN api: cycle build cycle brief failed at build.brief path=build.brief class=system-hard recoverability=hard cause="run adapter backlog.sync command \"/Users/neon/.codex/experiments/soodles44-delivery-20260917/backlog sync\": no stderr: context canceled"
+cycle build cycle brief failed at build.brief: run adapter backlog.sync command "/Users/neon/.codex/experiments/soodles44-delivery-20260917/backlog sync": no stderr: context canceled

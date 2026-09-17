@@ -1,0 +1,103 @@
+{
+  "authorizes_landing": false,
+  "cache_path": "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles44-worker-cache-lieh64hh",
+  "checks": {
+    "http_200": true,
+    "issue_1_sha256": "48ea988149ab59949fc7707b0cdd17e338949c07f3a59fb726a93c2d1d77c0b9",
+    "http_304": true,
+    "issue_2_sha256": "48ea988149ab59949fc7707b0cdd17e338949c07f3a59fb726a93c2d1d77c0b9",
+    "identical_issue_bytes": true,
+    "no_token_correct_refusal_green": true
+  },
+  "calls": [
+    {
+      "name": "live-cli-1",
+      "argv": [
+        "./soodles",
+        "github",
+        "issue",
+        "44"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.7876719170017168,
+      "started_at_unix": 1789631763.066138,
+      "observation": {
+        "url": "https://api.github.com/repos/ed3c/soodles/issues/44",
+        "status": 200,
+        "authenticated": true,
+        "observed_at": 1789631763.711143,
+        "rate": {
+          "x-ratelimit-limit": "6200",
+          "x-ratelimit-remaining": "6199",
+          "x-ratelimit-used": "1",
+          "x-ratelimit-reset": "1789635246",
+          "x-ratelimit-resource": "core"
+        }
+      },
+      "status": "read",
+      "next": null
+    },
+    {
+      "name": "live-cli-2",
+      "argv": [
+        "./soodles",
+        "github",
+        "issue",
+        "44"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.5528863749932498,
+      "started_at_unix": 1789631763.8551219,
+      "observation": {
+        "url": "https://api.github.com/repos/ed3c/soodles/issues/44",
+        "status": 304,
+        "authenticated": true,
+        "observed_at": 1789631764.39523,
+        "rate": {
+          "x-ratelimit-limit": "6200",
+          "x-ratelimit-remaining": "6199",
+          "x-ratelimit-used": "1",
+          "x-ratelimit-reset": "1789635246",
+          "x-ratelimit-resource": "core"
+        }
+      },
+      "status": "read",
+      "next": null
+    },
+    {
+      "name": "no-token-cli",
+      "argv": [
+        "./soodles",
+        "github",
+        "issue",
+        "44"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.09738345898222178,
+      "started_at_unix": 1789631764.409456,
+      "observation": null,
+      "status": "refused",
+      "next": {
+        "kind": "input",
+        "owner": "supervisor",
+        "required": [
+          "repository_scoped_installation_token_in_GH_TOKEN"
+        ],
+        "operation": "issue",
+        "help_argv": [
+          "/Users/neon/soodles/.worktrees/soodles-44-0-execute/soodles",
+          "github",
+          "issue",
+          "--help"
+        ],
+        "reason": "The named owner supplies missing input. After the provider deadline, re-enter this same reader. Never change identity or use stale bytes to bypass refusal."
+      }
+    }
+  ],
+  "status": "passed",
+  "cleanup": {
+    "removed_only_temporary_cache": "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles44-worker-cache-lieh64hh",
+    "cache_absent": true,
+    "observed_at_unix": 1789631764.5078669
+  }
+}

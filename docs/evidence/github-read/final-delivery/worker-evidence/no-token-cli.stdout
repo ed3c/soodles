@@ -1,0 +1,23 @@
+{
+  "owner": "github.issue",
+  "status": "refused",
+  "invalid": {
+    "field": "github.credential",
+    "value": "missing or invalid GH_TOKEN"
+  },
+  "next": {
+    "kind": "input",
+    "owner": "supervisor",
+    "required": [
+      "repository_scoped_installation_token_in_GH_TOKEN"
+    ],
+    "operation": "issue",
+    "help_argv": [
+      "/Users/neon/soodles/.worktrees/soodles-44-0-execute/soodles",
+      "github",
+      "issue",
+      "--help"
+    ],
+    "reason": "The named owner supplies missing input. After the provider deadline, re-enter this same reader. Never change identity or use stale bytes to bypass refusal."
+  }
+}

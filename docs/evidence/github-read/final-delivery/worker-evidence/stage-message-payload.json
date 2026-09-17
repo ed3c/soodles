@@ -1,0 +1,7 @@
+{
+  "message": "Verification blocked for clean candidate 0cda9c2ee57ed598257048f50829fb36893d3b80: reader tests 15 passed, 1 error because sandbox denied local socket bind (PermissionError EPERM) in redirect control; consumer 16/16 passed; live authenticated Issue 44 HTTP 200 then 304 with identical bytes, no-token refusal GREEN, temporary cache removed. Evidence: /Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence. Supervisor must supply carrier allowing loopback bind; no unchanged retry, source changes, commits or provider writes. This outcome covers verification stage only.",
+  "blocking": true,
+  "outcome": "blocked",
+  "order_id": "soodles-44",
+  "stage_index": 0
+}

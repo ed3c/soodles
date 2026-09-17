@@ -1,0 +1,405 @@
+{
+  "order_revision": "270679c317f82a829b5422a297dd47ca",
+  "state": {
+    "orders": {
+      "schedule": {
+        "order_id": "schedule",
+        "sequence": 1,
+        "title": "scheduling tasks based on your backlog",
+        "plan": null,
+        "rationale": "",
+        "status": "active",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "schedule",
+            "prompt": "",
+            "skill": "schedule",
+            "provider": "codex",
+            "model": "gpt-6-astra",
+            "runtime": "process",
+            "group": 0,
+            "status": "pending",
+            "extra_prompt": "",
+            "attempts": null
+          }
+        ],
+        "created_at": "2026-09-17T15:54:29.771174+08:00",
+        "updated_at": "2026-09-17T07:54:29.771495Z",
+        "metadata": {
+          "plan": "",
+          "rationale": "",
+          "title": "scheduling tasks based on your backlog"
+        }
+      },
+      "soodles-44": {
+        "order_id": "soodles-44",
+        "sequence": 0,
+        "title": "Execute ed3c/soodles#44",
+        "plan": null,
+        "rationale": "Externally admitted current Issue",
+        "status": "active",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "execute",
+            "prompt": "{\"body_sha256\": \"4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871\", \"body_updated_at\": \"2026-09-17T07:51:07Z\", \"envelope_sha256\": \"7dad9189321fbf907c1a0b3f1bb66dce49f44d1652de9f6eaf151e7ae22f7cc4\", \"issue\": 44, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"Verify the exact clean committed Soodles #44 candidate 0cda9c2ee57ed598257048f50829fb36893d3b80 through this genuine Noodle order. Earlier implementation preceded this order and is disclosed; your substantive job is fresh verification, not an empty delivery marker. No source changes, new commits, provider writes, merge or closure. Read the externally admitted Issue at /Users/neon/.codex/experiments/soodles44-delivery-20260917/issue.json, current execute skill and verify-soodles/features/github-read.md. Run the repository reader and consumer focused tests. Drive ./soodles github issue 44 twice, with a new temporary XDG_CACHE_HOME: actual inherited GH_TOKEN was supplied by the supervisor; never print the environment/token or put it in argv/evidence. Save actual stdout/stderr/exit and elapsed observations under /Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence. Require authenticated HTTP200 then304, identical Issue bytes and exact subject44. Remove only your temporary cache and record cleanup. Run one no-token CLI call (child environment without GH_TOKEN), require structured credential refusal/nonzero; correct refusal is GREEN. Do not mint/rotate credentials or use unauthenticated endpoints. Unexpected quota wait or identity failure is blocked, preserve next; no unchanged retry.\\nThe supervisor owns the fixed external controls and exact-head Linux acceptance already successful for this commit; don't rerun the Linux-only full suite on macOS. Record actual order/session/stage environment identity and skill digest. If tests and live drive succeed, use the measured Noodle binary /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81 event emit, reading its help/schema, to emit ONE own stage_message with matching actual NOODLE_SESSION_ID, NOODLE_ORDER_ID, integer NOODLE_STAGE_INDEX, outcome completed/blocking false. This denotes your verification stage only. On concrete failure emit blocked/blocking true. Do not emit stage_yield or fill in your exit code; external recorder must wait for your natural exit. Return immediately with one sentence after the typed message. Deadline 480 seconds.\"}",
+            "skill": "execute",
+            "provider": "codex",
+            "model": "gpt-6-astra",
+            "runtime": "process",
+            "group": 0,
+            "status": "review",
+            "extra_prompt": "",
+            "attempts": [
+              {
+                "attempt_id": "soodles-44-0-attempt-0",
+                "session_id": "soodles-44-0-execute-20260917-075429-f18d3d",
+                "status": "completed",
+                "started_at": "2026-09-17T15:54:29.816528+08:00",
+                "completed_at": "2026-09-17T15:57:21.79326+08:00",
+                "exit_code": null,
+                "worktree_name": "soodles-44-0-execute",
+                "error": ""
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-09-17T15:54:04.877335+08:00",
+        "updated_at": "2026-09-17T15:57:21.79326+08:00",
+        "metadata": {
+          "plan": "",
+          "rationale": "Externally admitted current Issue",
+          "title": "Execute ed3c/soodles#44"
+        }
+      }
+    },
+    "pending_reviews": {
+      "soodles-44": {
+        "order_id": "soodles-44",
+        "stage_index": 0,
+        "task_key": "execute",
+        "prompt": "{\"body_sha256\": \"4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871\", \"body_updated_at\": \"2026-09-17T07:51:07Z\", \"envelope_sha256\": \"7dad9189321fbf907c1a0b3f1bb66dce49f44d1652de9f6eaf151e7ae22f7cc4\", \"issue\": 44, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"Verify the exact clean committed Soodles #44 candidate 0cda9c2ee57ed598257048f50829fb36893d3b80 through this genuine Noodle order. Earlier implementation preceded this order and is disclosed; your substantive job is fresh verification, not an empty delivery marker. No source changes, new commits, provider writes, merge or closure. Read the externally admitted Issue at /Users/neon/.codex/experiments/soodles44-delivery-20260917/issue.json, current execute skill and verify-soodles/features/github-read.md. Run the repository reader and consumer focused tests. Drive ./soodles github issue 44 twice, with a new temporary XDG_CACHE_HOME: actual inherited GH_TOKEN was supplied by the supervisor; never print the environment/token or put it in argv/evidence. Save actual stdout/stderr/exit and elapsed observations under /Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence. Require authenticated HTTP200 then304, identical Issue bytes and exact subject44. Remove only your temporary cache and record cleanup. Run one no-token CLI call (child environment without GH_TOKEN), require structured credential refusal/nonzero; correct refusal is GREEN. Do not mint/rotate credentials or use unauthenticated endpoints. Unexpected quota wait or identity failure is blocked, preserve next; no unchanged retry.\\nThe supervisor owns the fixed external controls and exact-head Linux acceptance already successful for this commit; don't rerun the Linux-only full suite on macOS. Record actual order/session/stage environment identity and skill digest. If tests and live drive succeed, use the measured Noodle binary /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81 event emit, reading its help/schema, to emit ONE own stage_message with matching actual NOODLE_SESSION_ID, NOODLE_ORDER_ID, integer NOODLE_STAGE_INDEX, outcome completed/blocking false. This denotes your verification stage only. On concrete failure emit blocked/blocking true. Do not emit stage_yield or fill in your exit code; external recorder must wait for your natural exit. Return immediately with one sentence after the typed message. Deadline 480 seconds.\"}",
+        "provider": "codex",
+        "model": "gpt-6-astra",
+        "runtime": "process",
+        "skill": "execute",
+        "plan": null,
+        "worktree_name": "soodles-44-0-execute",
+        "worktree_path": "/Users/neon/soodles/.worktrees/soodles-44-0-execute",
+        "session_id": "soodles-44-0-execute-20260917-075429-f18d3d",
+        "reason": "blocked by typed stage outcome: Verification blocked for clean candidate 0cda9c2ee57ed598257048f50829fb36893d3b80: reader tests 15 passed, 1 error because sandbox denied local socket bind (PermissionError EPERM) in redirect control; consumer 16/16 passed; live authenticated Issue 44 HTTP 200 then 304 with identical bytes, no-token refusal GREEN, temporary cache removed. Evidence: /Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence. Supervisor must supply carrier allowing loopback bind; no unchanged retry, source changes, commits or provider writes. This outcome covers verification stage only."
+      }
+    },
+    "action_needed": null,
+    "mode": "supervised",
+    "mode_epoch": 3,
+    "mode_transitions": [
+      {
+        "from_mode": "supervised",
+        "to_mode": "supervised",
+        "epoch": 1,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T13:28:22.964109+08:00"
+      },
+      {
+        "from_mode": "supervised",
+        "to_mode": "manual",
+        "epoch": 2,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:54:01.852402+08:00"
+      },
+      {
+        "from_mode": "manual",
+        "to_mode": "supervised",
+        "epoch": 3,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T15:54:04.237418+08:00"
+      }
+    ],
+    "schema_version": 1,
+    "last_event_id": "41"
+  },
+  "effect_ledger": [
+    {
+      "effect_id": "event-2-effect-0",
+      "effect": {
+        "effect_id": "event-2-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:06:39.47517+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-5-effect-0",
+      "effect": {
+        "effect_id": "event-5-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:07:11.275497+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-8-effect-0",
+      "effect": {
+        "effect_id": "event-8-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:07:39.059519+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-11-effect-0",
+      "effect": {
+        "effect_id": "event-11-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:10:22.275401+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-14-effect-0",
+      "effect": {
+        "effect_id": "event-14-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T00:11:52.862914+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-16-effect-0",
+      "effect": {
+        "effect_id": "event-16-effect-0",
+        "type": "cleanup",
+        "payload": {
+          "order_id": "schedule",
+          "stage_index": 0,
+          "worktree_name": ""
+        },
+        "created_at": "2026-09-17T00:11:55.035108+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-17-effect-0",
+      "effect": {
+        "effect_id": "event-17-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-1",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T01:04:23.12583+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+      "effect": {
+        "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "026c6e8e082892d0f4f50d7de72c9297",
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-16T17:04:42.06476Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-16T17:04:42.06476Z",
+      "result": {
+        "effect_id": "initial-admission-a20fec1a28157a07af32b12735acd61a2977ff903d75023ebefee8ee18ef013e",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-16T17:04:42.06476Z"
+      }
+    },
+    {
+      "effect_id": "event-21-effect-0",
+      "effect": {
+        "effect_id": "event-21-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-18-0-attempt-0",
+          "order_id": "soodles-18",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T01:04:42.104314+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-25-effect-0",
+      "effect": {
+        "effect_id": "event-25-effect-0",
+        "type": "write_projection",
+        "payload": {
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-17T01:26:59.591442+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-25-effect-1",
+      "effect": {
+        "effect_id": "event-25-effect-1",
+        "type": "ack",
+        "payload": {
+          "order_id": "soodles-18"
+        },
+        "created_at": "2026-09-17T01:26:59.591442+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-27-effect-0",
+      "effect": {
+        "effect_id": "event-27-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T13:28:23.77383+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-30-effect-0",
+      "effect": {
+        "effect_id": "event-30-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T13:28:24.795118+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "initial-admission-40b36902c8815c5d026a01c34260f91401aeecfd4cac1a85b2cb9e986a5977f8",
+      "effect": {
+        "effect_id": "initial-admission-40b36902c8815c5d026a01c34260f91401aeecfd4cac1a85b2cb9e986a5977f8",
+        "type": "initial_admission",
+        "payload": {
+          "initial_revision": "dfb96fcf7d8d776ea177173c4c0c717d",
+          "order_id": "soodles-44"
+        },
+        "created_at": "2026-09-17T07:54:04.877318Z"
+      },
+      "status": "done",
+      "attempts": 1,
+      "last_attempt_at": "2026-09-17T07:54:04.877318Z",
+      "result": {
+        "effect_id": "initial-admission-40b36902c8815c5d026a01c34260f91401aeecfd4cac1a85b2cb9e986a5977f8",
+        "status": "completed",
+        "error": "",
+        "timestamp": "2026-09-17T07:54:04.877318Z"
+      }
+    },
+    {
+      "effect_id": "event-36-effect-0",
+      "effect": {
+        "effect_id": "event-36-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "schedule-0-attempt-0",
+          "order_id": "schedule",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T15:54:04.882472+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    },
+    {
+      "effect_id": "event-39-effect-0",
+      "effect": {
+        "effect_id": "event-39-effect-0",
+        "type": "dispatch",
+        "payload": {
+          "attempt_id": "soodles-44-0-attempt-0",
+          "order_id": "soodles-44",
+          "stage_index": 0
+        },
+        "created_at": "2026-09-17T15:54:29.795818+08:00"
+      },
+      "status": "pending",
+      "attempts": 0,
+      "last_attempt_at": "0001-01-01T00:00:00Z",
+      "result": null
+    }
+  ],
+  "generated_at": "2026-09-17T07:57:21.793365Z"
+}

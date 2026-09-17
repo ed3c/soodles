@@ -1,0 +1,7 @@
+{
+  "message": "Verification stage completed for exact clean candidate 0cda9c2ee57ed598257048f50829fb36893d3b80. Independently reviewed preserved raw CLI HTTP 200 then 304, identical Issue 44 bytes and admitted body identity, remaining 6199 both reads, no-token refusal exit 1 and cache absence. Original sandbox child reader result remains 15 passed / 1 localhost bind EPERM, exit 1 and blocked; its natural process exit 0 is not GREEN. Same unchanged 16 reader controls passed with actual exit 0 on supervisor carrier, including real redirect server; code review confirms redirect refusal before target request. Child consumer controls passed 16/16, exit 0. No unresolved inconsistency within this bounded review. Handoff: /Users/neon/.codex/experiments/soodles44-delivery-20260917/worker-evidence-continuation/handoff.json. This is verification stage completion only, authorizes_landing=false, not Issue resolution. No source changes, suite reruns, localhost retries or provider calls in this continuation.",
+  "blocking": false,
+  "outcome": "completed",
+  "order_id": "soodles-44",
+  "stage_index": 0
+}

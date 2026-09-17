@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 44,
+  "body_sha256": "4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871",
+  "body_updated_at": "2026-09-17T07:51:07Z",
+  "owner": "Soodles Issue provider reader; supervisor owns credential supply; existing Noodle and landing owners retain lifecycle/delivery.",
+  "write_paths": [
+    ".agents/skills/verify-soodles/SKILL.md",
+    ".agents/skills/verify-soodles/features/README.md",
+    ".agents/skills/verify-soodles/features/github-read.md",
+    "AGENTS.md",
+    "docs/evidence/github-read/app-scope-readback.json",
+    "docs/evidence/github-read/consumer-tests-final.txt",
+    "docs/evidence/github-read/control-correction.json",
+    "docs/evidence/github-read/first-live-refusal/diagnosis.json",
+    "docs/evidence/github-read/first-live-refusal/live-cli-1.json",
+    "docs/evidence/github-read/first-live-refusal/live-receipt.json",
+    "docs/evidence/github-read/first-live-refusal/opaque-control-green.txt",
+    "docs/evidence/github-read/first-live-refusal/opaque-control-red.txt",
+    "docs/evidence/github-read/fixed-oracle/test_github_reader.py",
+    "docs/evidence/github-read/gate-receipt.json",
+    "docs/evidence/github-read/live-cli-1.json",
+    "docs/evidence/github-read/live-cli-2.json",
+    "docs/evidence/github-read/live-read.py",
+    "docs/evidence/github-read/live-receipt.json",
+    "docs/evidence/github-read/oracle-selection.json",
+    "docs/evidence/github-read/production-owner-readback.json",
+    "docs/evidence/github-read/reader-tests-final.txt",
+    "docs/evidence/github-read/receipt.json",
+    "docs/evidence/github-read/run-controls.py",
+    "docs/evidence/github-read/unit-tests.txt",
+    "github_reader.py",
+    "issue_execution.py",
+    "soodles.py",
+    "tests/test_github_reader.py",
+    "tests/test_issue_execution.py"
+  ],
+  "base_head": "f2bd849b9523134364ca598df72a4e15fc541ab9",
+  "execution": {
+    "control_root": "/Users/neon/soodles",
+    "worktree": "soodles-44-0-execute",
+    "order_id": "soodles-44",
+    "stage_index": 0,
+    "task": "Continue the ORIGINAL soodles-44 order and same clean 0cda9c2ee57ed598257048f50829fb36893d3b80 worktree. The first Agent physically proved authenticated HTTP200 then304 with identical44 Issue bytes/remaining6199, no-token refusal, and consumer16/16. It correctly emitted blocked because its redirect test could not bind localhost under the child sandbox. Its natural exit0 and failure are preserved. Do not reinterpret that child failure as GREEN and do not retry localhost or change permissions.\nYour substantive bounded task is to review the preserved raw worker-evidence and the supervisor-reader-tests.json under /Users/neon/.codex/experiments/soodles44-delivery-20260917, which ran the SAME unchanged16 reader controls with actual exit0 on the supervisor carrier, including real redirect server. Confirm exact clean candidate, inspect redirect test and corresponding implementation, check live CLI raw outputs versus receipt identities/statuses, check cache absent, confirm all16 supervisor tests and16 child consumer tests passed, and name the distinct carriers/scope in a new handoff under worker-evidence-continuation. You may run short read-only commands; do not rerun full suites or model sessions. Do not edit source, commit, call provider, mint tokens, merge or close. Parent did not supply your outcome. If this evidence and code review substantiates the verification stage, emit ONE stage_message completed/blocking false using actual NOODLE_* identities and measured /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81 after obtaining its actual help/schema. If any concrete unresolved inconsistency remains, emit blocked/blocking true. This is verification stage completion, not Issue resolution. Do not emit stage_yield or write an exit code. Return immediately after your own typed event. Deadline300seconds.",
+    "source_head": "0cda9c2ee57ed598257048f50829fb36893d3b80",
+    "carrier": {
+      "platform": "darwin_arm64",
+      "noodle": {
+        "path": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+        "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+      },
+      "codex": {
+        "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+        "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+        "model": "gpt-6-astra",
+        "argv": [
+          "exec",
+          "--skip-git-repo-check",
+          "--json",
+          "--model",
+          "gpt-6-astra",
+          "-c",
+          "default_permissions=\"agent-default\"",
+          "-c",
+          "approval_policy=\"never\"",
+          "-c",
+          "model_reasoning_effort=\"high\"",
+          "--add-dir",
+          "/Users/neon/soodles/.noodle",
+          "--add-dir",
+          "/Users/neon/.codex/experiments/soodles44-delivery-20260917"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/publisher/soodles",
+    "landing",
+    "reconcile",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/checkpoint.json",
+    "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81"
+  ],
+  "exit": 0,
+  "stdout": "{\n  \"owner\": \"landing.reconcile\",\n  \"action\": \"noodle_reconcile\",\n  \"phase\": \"reconciling\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"completed_original_order_and_quiescent_sessions\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/Users/neon/.codex/experiments/soodles44-delivery-20260917/checkpoint.json\",\n      \"order_id\": \"soodles-44\"\n    },\n    \"help_argv\": [\n      \"/opt/homebrew/opt/python@3.14/bin/python3.14\",\n      \"-B\",\n      \"/Users/neon/.codex/experiments/soodles44-delivery-20260917/publisher/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+  "stderr": ""
+}

@@ -1,0 +1,11 @@
+2026-09-17T15:54:04.231701+08:00 INFO api: start initialized project=/Users/neon/soodles runtime_dir=/Users/neon/soodles/.noodle once=false server_enabled=false
+2026-09-17T15:54:04.232014+08:00 INFO api: web server disabled
+2026-09-17T15:54:04.237727+08:00 INFO api: control command action=mode status=ok
+2026-09-17T15:54:04.877282+08:00 INFO api: orders-next promoted
+2026-09-17T15:54:04.886774+08:00 INFO api: schedule dispatched session=schedule-20260917-075404-07660d attempt=0
+2026-09-17T15:54:29.767548+08:00 INFO api: session meta indicates terminal state; enqueueing completion order=schedule session=schedule-20260917-075404-07660d status=exited
+2026-09-17T15:54:29.767778+08:00 INFO api: schedule completed session=schedule-20260917-075404-07660d
+2026-09-17T15:54:29.769803+08:00 INFO api: order removed order=schedule
+2026-09-17T15:54:29.772438+08:00 INFO api: mise changed, injecting schedule order
+2026-09-17T15:54:29.817222+08:00 INFO api: cook dispatched order=soodles-44 stage=0 session=soodles-44-0-execute-20260917-075429-f18d3d worktree=soodles-44-0-execute attempt=0
+2026-09-17T15:57:21.792857+08:00 INFO api: scheduler not active, event stays in orders for later recovery order=soodles-44 event=stage_message_blocked

@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-09-17T08:02:14.397295Z",
+  "orders": [
+    {
+      "id": "soodles-44",
+      "title": "{\"body_sha256\": \"4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871\", \"body_updated_at\": \"2026-09-17T07:51:07Z\", \"envelope_sha256\": \"f37b5c299c0c590a8299777800f17dcee3f3ca107525966513e2248e493afb68\", \"issue\": 44,...",
+      "rationale": "Externally admitted current Issue",
+      "stages": [
+        {
+          "task_key": "execute",
+          "prompt": "{\"body_sha256\": \"4c9f5b0c5116fa62bbe993c651cdf2f01c5e2519b68b982b8785a7cabd015871\", \"body_updated_at\": \"2026-09-17T07:51:07Z\", \"envelope_sha256\": \"f37b5c299c0c590a8299777800f17dcee3f3ca107525966513e2248e493afb68\", \"issue\": 44, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"Continue the ORIGINAL soodles-44 order and same clean 0cda9c2ee57ed598257048f50829fb36893d3b80 worktree. The first Agent physically proved authenticated HTTP200 then304 with identical44 Issue bytes/remaining6199, no-token refusal, and consumer16/16. It correctly emitted blocked because its redirect test could not bind localhost under the child sandbox. Its natural exit0 and failure are preserved. Do not reinterpret that child failure as GREEN and do not retry localhost or change permissions.\\nYour substantive bounded task is to review the preserved raw worker-evidence and the supervisor-reader-tests.json under /Users/neon/.codex/experiments/soodles44-delivery-20260917, which ran the SAME unchanged16 reader controls with actual exit0 on the supervisor carrier, including real redirect server. Confirm exact clean candidate, inspect redirect test and corresponding implementation, check live CLI raw outputs versus receipt identities/statuses, check cache absent, confirm all16 supervisor tests and16 child consumer tests passed, and name the distinct carriers/scope in a new handoff under worker-evidence-continuation. You may run short read-only commands; do not rerun full suites or model sessions. Do not edit source, commit, call provider, mint tokens, merge or close. Parent did not supply your outcome. If this evidence and code review substantiates the verification stage, emit ONE stage_message completed/blocking false using actual NOODLE_* identities and measured /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81 after obtaining its actual help/schema. If any concrete unresolved inconsistency remains, emit blocked/blocking true. This is verification stage completion, not Issue resolution. Do not emit stage_yield or write an exit code. Return immediately after your own typed event. Deadline300seconds.\"}",
+          "skill": "execute",
+          "provider": "codex",
+          "model": "gpt-6-astra",
+          "runtime": "process",
+          "status": "active"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "id": "schedule",
+      "title": "scheduling tasks based on your backlog",
+      "stages": [
+        {
+          "task_key": "schedule",
+          "skill": "schedule",
+          "provider": "codex",
+          "model": "gpt-6-astra",
+          "runtime": "process",
+          "status": "pending"
+        }
+      ],
+      "status": "active"
+    }
+  ]
+}

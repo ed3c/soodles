@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/publisher/soodles",
+    "landing",
+    "advance",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/checkpoint.json",
+    "/Users/neon/.codex/experiments/soodles44-delivery-20260917/readback-closed.json"
+  ],
+  "exit": 0,
+  "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"reconcile\",\n  \"phase\": \"awaiting_reconcile\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"binary\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/Users/neon/.codex/experiments/soodles44-delivery-20260917/checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/homebrew/opt/python@3.14/bin/python3.14\",\n      \"-B\",\n      \"/Users/neon/.codex/experiments/soodles44-delivery-20260917/publisher/soodles.py\",\n      \"landing\",\n      \"reconcile\",\n      \"--help\"\n    ]\n  }\n}\n",
+  "stderr": ""
+}
