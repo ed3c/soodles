@@ -1,16 +1,29 @@
 {
-  "at": "2026-09-17T13:18:00.556374+00:00",
+  "schema": 2,
+  "at": "2026-09-17T13:47:19.196862+00:00",
   "issue": 49,
   "pr": 50,
-  "classification": "BLOCKED_BEFORE_LANDING_ADMISSION",
+  "classification": "RECONCILING_BLOCKED_GIT_FETCH",
   "experiment_classification": "SCOPED_NONREGRESSION_DELETION_NOT_RETAINED",
-  "candidate_head": "5b3d7d0b4da4b71260cd12b7c6937680b49b81be",
-  "candidate_tree": "6340128e506f2234206323cd2a5cebae33873891",
-  "baseline": "defc5f41153837f4db5ee0858fd03c9029523c6c",
-  "raw_archive": "3699d1db674886b46480c588803c631cd7471b3f",
-  "publisher": {
-    "source": "defc5f41153837f4db5ee0858fd03c9029523c6c",
-    "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
+  "candidate": {
+    "head": "5b3d7d0b4da4b71260cd12b7c6937680b49b81be",
+    "tree": "6340128e506f2234206323cd2a5cebae33873891"
+  },
+  "merge_sha": "50a1e881f29d341cb4529dfc0b38a1cd9ed0bc87",
+  "provider": {
+    "pr_merged": true,
+    "issue_closed_completed": true,
+    "merge_readback": "after-merge-readback.json",
+    "closure_readback": "after-close-readback.json"
+  },
+  "checkpoint": {
+    "phase": "reconciling",
+    "classification": null,
+    "writes_offered": [
+      "merge",
+      "close"
+    ],
+    "sha256": "7c92798f0e01717a6a7406ba29df554306f9cb4e8deef4195c0ae273dd174567"
   },
   "runtime": {
     "run_id": 35225945057,
@@ -22,43 +35,42 @@
     "artifact_id": 10499610069,
     "artifact_zip_inspected": false
   },
-  "quality": {
-    "run_id": 35225945117,
-    "status": "success"
+  "publisher": {
+    "source": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
   },
   "local": {
     "main_head": "defc5f41153837f4db5ee0858fd03c9029523c6c",
     "main_clean": true,
     "candidate_head": "5b3d7d0b4da4b71260cd12b7c6937680b49b81be",
-    "candidate_tree": "6340128e506f2234206323cd2a5cebae33873891",
     "candidate_clean": true,
-    "worktree_retained": true,
-    "registration": "worktree /workspace/scratch/bd9d2e05d141/pclass49-control\nHEAD defc5f41153837f4db5ee0858fd03c9029523c6c\nbranch refs/heads/main\n\nworktree /workspace/scratch/bd9d2e05d141/pclass49-control/.worktrees/issue-49-pclass-ablation\nHEAD 5b3d7d0b4da4b71260cd12b7c6937680b49b81be\nbranch refs/heads/issue-49-pclass-ablation"
+    "worktree_retained": true
   },
   "blocker": {
-    "operation": "git fetch origin main",
-    "exit_code": 128,
-    "reason": "GitHub HTTPS credential unavailable to cloud shell",
-    "evidence": "commands/transport-preflight",
-    "scope": "existing publisher reconciliation transport, not cloud consumer capability"
+    "owner": "landing.reconcile",
+    "invalid": {
+      "field": "git.fetch.exit",
+      "value": 128
+    },
+    "evidence": "commands/landing-reconcile-blocked",
+    "capability": {
+      "credential_env_names": [],
+      "credential_helpers": []
+    },
+    "next_required": "working authenticated Git transport for the exact existing control root"
   },
-  "pending_provider_writes": [],
-  "landing_checkpoint": null,
-  "merge_offered": false,
-  "closure_offered": false,
-  "pr_draft": true,
-  "issue_open": true,
   "next": {
-    "owner": "execution environment / existing supervised publisher",
-    "required": [
-      "working authenticated Git transport for the supplied control root"
-    ],
-    "continuation": "After capability changes, read current Issue/PR/main/runtime. Preserve this Issue and candidate. Select the pinned external publisher, admit the exact real claim and continue its current next/request; do not fabricate a previous admission or replay historical writes."
+    "owner": "supervisor/execution environment",
+    "operation": "reconcile",
+    "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass49-lab/delivery/checkpoint.json",
+    "binary": "/workspace/scratch/bd9d2e05d141/pclass-runtime/noodle",
+    "instruction": "After Git transport capability materially changes, rerun the existing reconcile operation. Do not offer provider writes again or replace the checkpoint."
   },
   "observations": [
-    "Candidate import initially tried UTC offsets; hash assertion refused. Provider commit reconstructed with original +0800 offsets, hash matched before checkout.",
-    "Control checkout materialized from connector-returned Git objects; current main is an explicit shallow boundary.",
-    "Noodle-owned worktree retained for future reconciliation; no Codex CLI or production model order launched."
+    "Initial transport preflight was blocked before admission. User continuation authorized delivery; owner then admitted exact claim and emitted one merge and one close request, both transported once through connector.",
+    "Fresh provider readback proves merge parent/tree and completed Issue closure.",
+    "Reconcile persists phase=reconciling before fetch; failed fetch leaves main/worktree intact and checkpoint resumable.",
+    "No shell Git credential environment or configured credential helper is present."
   ],
-  "authorizes_landing": false
+  "authorizes_future_landing": false
 }

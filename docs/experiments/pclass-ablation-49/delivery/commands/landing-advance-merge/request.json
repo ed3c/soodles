@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "python",
+    "-B",
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+    "landing",
+    "advance",
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/delivery/checkpoint.json",
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/delivery/admission-readback.json"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141/pclass49-control",
+  "time_ns": 1789652712171204533,
+  "files_before": {
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py": {
+      "bytes": 19734,
+      "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/delivery/checkpoint.json": {
+      "bytes": 744,
+      "sha256": "bff299c8a60d2e7e823aa9fea72f82a7da7f41450985acee8d2ebe215059fe11"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/delivery/admission-readback.json": {
+      "bytes": 46961,
+      "sha256": "09c33527f0462ce708061f923613e1deae8df32ec2b8d755a1d2475f167a1b45"
+    }
+  },
+  "timeout_seconds": 60
+}
