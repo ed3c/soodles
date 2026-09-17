@@ -1,0 +1,78 @@
+{
+  "classification": "DELIVERY_BLOCKED_BEFORE_ISSUE39_PROMOTION",
+  "candidate": "58916aba4725d409cec2c57843f3cccfc89e011d",
+  "replacement_pr": 43,
+  "remote_base": "f2bd849b9523134364ca598df72a4e15fc541ab9",
+  "comparison_evidence": "848daf25cb22800471006e0c895ffd963f167c87",
+  "initial_revision": "970e887025e1afec651ffdd8f8b42f76",
+  "current_revision": "dfb96fcf7d8d776ea177173c4c0c717d",
+  "previous_orders": [
+    "schedule",
+    "soodles-18"
+  ],
+  "current_orders": [],
+  "issue39_initial_admission_recorded": false,
+  "issue39_worker_started": false,
+  "pending_proposal_sha256": "c715406cd22b04ed125e6c7f98e8c2fa3267518e6ae5b84b46a9088c455b8088",
+  "process_groups": [
+    {
+      "session": "schedule-20260916-160639-a6316d",
+      "pgid": 322,
+      "alive": false
+    },
+    {
+      "session": "schedule-20260917-052823-acc4d8",
+      "pgid": 61258,
+      "alive": false
+    },
+    {
+      "session": "soodles-18-0-execute-20260916-170442-ab424c",
+      "pgid": 12961,
+      "alive": false
+    },
+    {
+      "session": "schedule-20260916-160711-41c29f",
+      "pgid": 1131,
+      "alive": false
+    },
+    {
+      "session": "schedule-20260916-161152-aa6f6f",
+      "pgid": 3915,
+      "alive": false
+    },
+    {
+      "session": "schedule-20260916-160739-1751a9",
+      "pgid": 1809,
+      "alive": false
+    },
+    {
+      "session": "schedule-20260917-052824-706675",
+      "pgid": 61264,
+      "alive": false
+    },
+    {
+      "session": "schedule-20260916-170423-d53732",
+      "pgid": 12453,
+      "alive": false
+    },
+    {
+      "session": "schedule-20260916-161022-05d4df",
+      "pgid": 3167,
+      "alive": false
+    }
+  ],
+  "local_main": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "source_not_modified_by_failed_launch": true,
+  "merge_or_close_request_offered": false,
+  "authorizes_landing": false,
+  "observed_failures": [
+    "initial admission orders projection differs from canonical ownership",
+    "first inherited scheduler model gpt-5.6-sol refused against new Astra envelope",
+    "scheduler removal/bootstrap changed revision; stale proposal remained pending"
+  ],
+  "missing_owner_operation": "Noodle safe retirement/recovery of definitely unpromoted initial proposal with canonical revision drift; no raw checkpoint/proposal editing performed",
+  "next_scope": [
+    "Resolve #41 overlapping instruction changes; rebind affected instruction evidence and exact final candidate acceptance",
+    "Supply supported Noodle proposal recovery before another writer or original Issue39 admission"
+  ]
+}

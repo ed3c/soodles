@@ -1,0 +1,19 @@
+mode = "manual"
+[server]
+enabled = false
+[concurrency]
+max_concurrency = 1
+[routing.defaults]
+provider = "codex"
+model = "gpt-5.6-sol"
+[skills]
+paths = ["/Users/neon/.codex/experiments/soodles18-continuation-20260917/installed-847f3f8/.agents/skills"]
+[agents.codex]
+path = "/Users/neon/.codex/experiments/soodles18-continuation-20260917/provider-847f3f8"
+args = ["-c", "default_permissions=\"agent-default\"", "--ephemeral", "-c", "approval_policy=\"never\"", "--add-dir", "/Users/neon/soodles/.noodle"]
+require_typed_outcome = true
+[adapters.backlog.scripts]
+sync = "/Users/neon/.codex/experiments/soodles18-continuation-20260917/backlog-delivery sync"
+done = "/Users/neon/.codex/experiments/soodles18-continuation-20260917/backlog-delivery done"
+add = "/Users/neon/.codex/experiments/soodles18-continuation-20260917/backlog-delivery unsupported-add"
+edit = "/Users/neon/.codex/experiments/soodles18-continuation-20260917/backlog-delivery unsupported-edit"

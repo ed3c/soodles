@@ -1,0 +1,356 @@
+{
+  "generated_at": "2026-09-17T05:28:48.939737Z",
+  "backlog": [
+    {
+      "id": "soodles-39",
+      "title": "Validate Agent context transfer with scoped Astra document patterns",
+      "status": "open",
+      "plan": "Perform the final bounded execution handoff for the admitted Soodles Issue 39 candidate. Read the current GitHub Issue 39 contract and this checkout's execute skill. Read docs/experiments/agent-context/local/comparison-results.md and its final evidence references. Do not run another model comparison. Run the existing local experimental controls once with python3 -B -m unittest discover -s docs/experiments/agent-context/local -p 'test_*.py'. Verify actual HEAD and clean status before and after. Do not edit source, commit, create worktrees, change the fixed verifier, merge or close anything. Then inspect the admitted Noodle binary event emit --help and yourself emit exactly one stage_message for actual NOODLE_SESSION_ID, NOODLE_ORDER_ID and integer NOODLE_STAGE_INDEX; fields are message, blocking, outcome, order_id, stage_index. Use outcome blocked, blocking true, accurately reporting controls and that exact-head Actions acceptance/provider delivery/reconciliation remain with the supervisor. Successful bounded execution is not Issue resolution. Existing schema locator https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go . Admitted binary: /Users/neon/.codex/experiments/noodle82-20260916/noodle. Exit after the matching event; the parent must not fill it.\n"
+    }
+  ],
+  "active_summary": {
+    "total": 1,
+    "by_task_key": {
+      "schedule": 1
+    },
+    "by_status": {
+      "active": 1
+    },
+    "by_runtime": {
+      "process": 1
+    }
+  },
+  "tickets": [],
+  "resources": {
+    "max_concurrency": 1,
+    "active": 1,
+    "available": 0
+  },
+  "recent_history": [
+    {
+      "session_id": "schedule-20260917-052823-acc4d8",
+      "order_id": "schedule",
+      "task_key": "schedule",
+      "status": "failed",
+      "duration_s": 0,
+      "completed_at": "2026-09-17T05:28:24.530591Z"
+    }
+  ],
+  "recent_events": [
+    {
+      "type": "promotion.failed",
+      "seq": 1708,
+      "at": "2026-09-17T05:28:48.266208Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1709,
+      "at": "2026-09-17T05:28:48.279964Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1710,
+      "at": "2026-09-17T05:28:48.293876Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1711,
+      "at": "2026-09-17T05:28:48.306986Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1712,
+      "at": "2026-09-17T05:28:48.320356Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1713,
+      "at": "2026-09-17T05:28:48.333364Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1714,
+      "at": "2026-09-17T05:28:48.346946Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1715,
+      "at": "2026-09-17T05:28:48.360515Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1716,
+      "at": "2026-09-17T05:28:48.373973Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1717,
+      "at": "2026-09-17T05:28:48.386621Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1718,
+      "at": "2026-09-17T05:28:48.399295Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1719,
+      "at": "2026-09-17T05:28:48.412424Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1720,
+      "at": "2026-09-17T05:28:48.425472Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1721,
+      "at": "2026-09-17T05:28:48.438642Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1722,
+      "at": "2026-09-17T05:28:48.452136Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1723,
+      "at": "2026-09-17T05:28:48.46615Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1724,
+      "at": "2026-09-17T05:28:48.480718Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1725,
+      "at": "2026-09-17T05:28:48.493957Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1726,
+      "at": "2026-09-17T05:28:48.507616Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1727,
+      "at": "2026-09-17T05:28:48.520739Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1728,
+      "at": "2026-09-17T05:28:48.534449Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1729,
+      "at": "2026-09-17T05:28:48.548178Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1730,
+      "at": "2026-09-17T05:28:48.561651Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1731,
+      "at": "2026-09-17T05:28:48.575309Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1732,
+      "at": "2026-09-17T05:28:48.590117Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1733,
+      "at": "2026-09-17T05:28:48.603496Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1734,
+      "at": "2026-09-17T05:28:48.616979Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1735,
+      "at": "2026-09-17T05:28:48.63026Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1736,
+      "at": "2026-09-17T05:28:48.644261Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1737,
+      "at": "2026-09-17T05:28:48.658018Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1738,
+      "at": "2026-09-17T05:28:48.671727Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1739,
+      "at": "2026-09-17T05:28:48.685462Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1740,
+      "at": "2026-09-17T05:28:48.698581Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1741,
+      "at": "2026-09-17T05:28:48.711979Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1742,
+      "at": "2026-09-17T05:28:48.725522Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1743,
+      "at": "2026-09-17T05:28:48.738956Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1744,
+      "at": "2026-09-17T05:28:48.752192Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1745,
+      "at": "2026-09-17T05:28:48.765697Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1746,
+      "at": "2026-09-17T05:28:48.778981Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1747,
+      "at": "2026-09-17T05:28:48.792551Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1748,
+      "at": "2026-09-17T05:28:48.806221Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1749,
+      "at": "2026-09-17T05:28:48.819868Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1750,
+      "at": "2026-09-17T05:28:48.833857Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1751,
+      "at": "2026-09-17T05:28:48.847851Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1752,
+      "at": "2026-09-17T05:28:48.86171Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1753,
+      "at": "2026-09-17T05:28:48.875386Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1754,
+      "at": "2026-09-17T05:28:48.888553Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1755,
+      "at": "2026-09-17T05:28:48.901943Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1756,
+      "at": "2026-09-17T05:28:48.915133Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    },
+    {
+      "type": "promotion.failed",
+      "seq": 1757,
+      "at": "2026-09-17T05:28:48.928965Z",
+      "summary": "[scheduler_agent] orders-next rejected: invalid initial_revision=\"970e887025e1afec651ffdd8f8b42f76\"; owner: Noodle canonical checkpoint; read current order_revision from state.snapshot.json before initial admission"
+    }
+  ],
+  "routing": {
+    "defaults": {
+      "provider": "codex",
+      "model": "gpt-6-astra"
+    },
+    "available_runtimes": [
+      "process"
+    ]
+  },
+  "task_types": [
+    {
+      "key": "execute",
+      "schedule": "Only the exact Issue/order admitted by the installed Soodles consumer."
+    }
+  ]
+}

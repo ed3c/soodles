@@ -1,0 +1,31 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_context_recording.py"
+  ],
+  "cwd": "/Users/neon/soodles/.worktrees/issue-39-agent-context-patterns",
+  "TMPDIR": "/private/tmp",
+  "exit_code": 0,
+  "previous_attempt": {
+    "classification": "FAILED",
+    "observed": "1 error in 6 tests: KeyError on unresolved /var/folders/.../state; recorder keys use resolved /private/var/folders paths",
+    "raw_tool_output_locator": "exec chunk 344815",
+    "reason_for_changed_input": "Use existing canonical temporary path convention /private/tmp; no test or implementation changed"
+  },
+  "experimental_controls": {
+    "methods": 14,
+    "exit_code": 0,
+    "raw_tool_output_locators": [
+      "344815",
+      "55a507"
+    ]
+  },
+  "authorizes_landing": false
+}

@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 39,
+  "body_sha256": "6142518296a58ecfe2fdb90ca7282ec2402b57748c984faab28a2732fa6141ae",
+  "body_updated_at": "2026-09-17T05:27:03Z",
+  "owner": "ed3c supervisor / Issue 39 local experiment",
+  "write_paths": [
+    ".agents/skills/execute/SKILL.md",
+    ".agents/skills/verify-soodles/SKILL.md",
+    "AGENTS.md",
+    "README.md",
+    "contracts/agent-context-design.md",
+    "contracts/system-v1.md",
+    "docs/experiments/agent-context/capability-receipt.json",
+    "docs/experiments/agent-context/local/README.md",
+    "docs/experiments/agent-context/local/capability.py",
+    "docs/experiments/agent-context/local/cloud_observe.py",
+    "docs/experiments/agent-context/local/comparison-results.md",
+    "docs/experiments/agent-context/local/comparison.md",
+    "docs/experiments/agent-context/local/observe.py",
+    "docs/experiments/agent-context/local/record_process.py",
+    "docs/experiments/agent-context/local/results.md",
+    "docs/experiments/agent-context/local/test_capability.py",
+    "docs/experiments/agent-context/local/test_cloud_observe.py",
+    "docs/experiments/agent-context/local/test_record_process.py",
+    "docs/experiments/agent-context/native-results.md",
+    "docs/experiments/agent-context/protocol.md",
+    "docs/experiments/agent-context/recovery-results.md",
+    "docs/experiments/agent-context/trial-handoff.md"
+  ],
+  "base_head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "execution": {
+    "control_root": "/Users/neon/soodles",
+    "worktree": "soodles-39-0-execute",
+    "order_id": "soodles-39",
+    "stage_index": 0,
+    "task": "Perform the final bounded execution handoff for the admitted Soodles Issue 39 candidate. Read the current GitHub Issue 39 contract and this checkout's execute skill. Read docs/experiments/agent-context/local/comparison-results.md and its final evidence references. Do not run another model comparison. Run the existing local experimental controls once with python3 -B -m unittest discover -s docs/experiments/agent-context/local -p 'test_*.py'. Verify actual HEAD and clean status before and after. Do not edit source, commit, create worktrees, change the fixed verifier, merge or close anything. Then inspect the admitted Noodle binary event emit --help and yourself emit exactly one stage_message for actual NOODLE_SESSION_ID, NOODLE_ORDER_ID and integer NOODLE_STAGE_INDEX; fields are message, blocking, outcome, order_id, stage_index. Use outcome blocked, blocking true, accurately reporting controls and that exact-head Actions acceptance/provider delivery/reconciliation remain with the supervisor. Successful bounded execution is not Issue resolution. Existing schema locator https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go . Admitted binary: /Users/neon/.codex/experiments/noodle82-20260916/noodle. Exit after the matching event; the parent must not fill it.\n",
+    "source_head": "58916aba4725d409cec2c57843f3cccfc89e011d",
+    "carrier": {
+      "platform": "darwin_arm64",
+      "noodle": {
+        "path": "/Users/neon/.codex/experiments/noodle82-20260916/noodle",
+        "sha256": "c299d2bce4e33ddd0b1c6295bd3cbeb1d29b32782fdcc9bcc9ffac2cf87ab35c"
+      },
+      "codex": {
+        "path": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+        "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+        "model": "gpt-6-astra",
+        "argv": [
+          "exec",
+          "--skip-git-repo-check",
+          "--json",
+          "--model",
+          "gpt-6-astra",
+          "-c",
+          "default_permissions=\"agent-default\"",
+          "-c",
+          "approval_policy=\"never\"",
+          "-c",
+          "model_reasoning_effort=\"high\"",
+          "--add-dir",
+          "/Users/neon/soodles/.noodle",
+          "--add-dir",
+          "/Users/neon/.codex/experiments/soodles39-completion-20260917/delivery"
+        ]
+      }
+    }
+  }
+}
