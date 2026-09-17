@@ -1,6 +1,6 @@
 # Issue #39: context transfer experiment
 
-Current status: the [complete instrumented local comparison](local/comparison-results.md) satisfies the three bounded cases in both arms, with scoped non-regression and no demonstrated treatment advantage. Actual child exits, native model/tool evidence, producer transfer and independent raw/export review are preserved in its immutable archive. Disclosed procedural deviations and failed pre-model attempts remain visible. Historical [cloud results](recovery-results.md) and earlier local INCOMPLETE observations are unchanged; chronology below is historical.
+Current status: integration of main #41 is awaiting fresh instruction-bound comparison and Noodle proposal recovery before delivery. The [complete instrumented local comparison](local/comparison-results.md) satisfies the three bounded cases in both arms, with scoped non-regression and no demonstrated treatment advantage. Actual child exits, native model/tool evidence, producer transfer and independent raw/export review are preserved in its immutable archive. Disclosed procedural deviations and failed pre-model attempts remain visible. Historical [cloud results](recovery-results.md) and earlier local INCOMPLETE observations are unchanged; chronology below is historical.
 
 Class: N. Historical cloud status: native paired cases executed; evidence gate incomplete. See [current observations](native-results.md); the earlier setup chronology below is retained.
 Owner: https://github.com/ed3c/soodles/issues/39

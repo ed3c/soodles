@@ -306,6 +306,14 @@
     "public_export_audit": "https://github.com/ed3c/soodles/blob/848daf25cb22800471006e0c895ffd963f167c87/docs/experiments/agent-context/local-comparison/independent-audit/export-audit.json",
     "receipt": "https://github.com/ed3c/soodles/blob/848daf25cb22800471006e0c895ffd963f167c87/docs/experiments/agent-context/local-comparison/comparison-receipt.json",
     "report": "local/comparison-results.md",
-    "treatment_advantage_demonstrated": false
+    "treatment_advantage_demonstrated": false,
+    "tested_candidate": "58916aba4725d409cec2c57843f3cccfc89e011d"
+  },
+  "integration_after_main_41": {
+    "base": "f2bd849b9523134364ca598df72a4e15fc541ab9",
+    "instruction_comparison": "NOT_RUN_FOR_CHANGED_INTEGRATED_INPUTS",
+    "delivery": "BLOCKED_BEFORE_PRODUCTION_ADMISSION",
+    "prior_comparison_relabelled": false,
+    "authorizes_landing": false
   }
 }

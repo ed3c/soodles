@@ -14,8 +14,10 @@ provider merge/closure and production Noodle reconciliation are separate.
 
 Common executable code is `e4b4a8487855b75ef2d47087019bb52c4d5ffd6c`.
 Baseline instructions use that ref; the treatment's five instruction blobs use
-`88d38bfd7984a52298a7d8bb6501e1be12e2652b`. The final proposal retains those exact
-five tested blobs. Each disposable source commit adds the same neutral execute
+`88d38bfd7984a52298a7d8bb6501e1be12e2652b`. Candidate `58916aba4725d409cec2c57843f3cccfc89e011d` retains those exact
+five tested blobs. The later integration of main #41 changes AGENTS/Skill inputs
+and requires a fresh bounded comparison before its delivery; this archive does
+not verify the integrated instruction bytes. Each disposable source commit adds the same neutral execute
 skill; treatment additionally carries the five selected instruction files.
 Neither arm edits production execute guidance. Soodles admission validates the
 real current Issue before Noodle dispatch; trial consumers receive the bounded
