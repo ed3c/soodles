@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 51,
+  "pull_request": 52,
+  "experiment": {
+    "classification": "RETENTION_RULE_FAIL_AGENTS_UNCHANGED",
+    "candidate_retained": false,
+    "agents_md_changed": false,
+    "scope": "three frozen cases, baseline/treatment, three independent runs per arm and case",
+    "interpretation": "The atom demonstrates scoped behavior evaluation and prospective rejection. It does not prove that the deletion caused regression or global equivalence."
+  },
+  "provider_delivery": {
+    "status": "complete",
+    "pr_state": "closed",
+    "pr_merged": true,
+    "issue_state": "closed",
+    "issue_state_reason": "completed",
+    "candidate_head": "70db7360f84d32bc73cdf77dea23904d304a368d",
+    "candidate_tree": "5f225fa900bd195360d8e070a1b0d2ed2f193bec",
+    "merge_commit": "f3e54c25caac833b1ce2970aaebfb4e1d75defa0",
+    "merge_tree": "5f225fa900bd195360d8e070a1b0d2ed2f193bec",
+    "merge_parents": [
+      "50a1e881f29d341cb4529dfc0b38a1cd9ed0bc87",
+      "70db7360f84d32bc73cdf77dea23904d304a368d"
+    ],
+    "main_head": "f3e54c25caac833b1ce2970aaebfb4e1d75defa0",
+    "merged_at": "2026-09-17T15:10:37Z",
+    "issue_closed_at": "2026-09-17T15:11:30Z"
+  },
+  "runtime_evidence": {
+    "run_id": 35237876987,
+    "run_attempt": 1,
+    "run_conclusion": "success",
+    "job_id": 105258368741,
+    "job_name": "runtime-evidence",
+    "job_conclusion": "success",
+    "head_sha": "70db7360f84d32bc73cdf77dea23904d304a368d",
+    "acceptance_tests": 105,
+    "zero_residue": true,
+    "artifact_id": 10504446491,
+    "artifact_digest": "sha256:a5b6fbd307b77ebd32dac5d4f99279c7a4b49424c040d5b873fc0f2c52e92725"
+  },
+  "landing": {
+    "owner": "landing.py",
+    "checkpoint_phase": "awaiting_reconcile",
+    "checkpoint_classification": null,
+    "writes_offered": [
+      "merge",
+      "close"
+    ],
+    "provider_writes_repeated": false,
+    "local_reconcile": {
+      "status": "refused",
+      "classification": "RECONCILE_BLOCKED_MISSING_CLOUD_WORKTREE",
+      "invalid_field": "worktree.path",
+      "invalid_value": "missing before cleanup intent",
+      "git_fetch_reached": false,
+      "meaning": "The cloud execution produced no local issue-51 worktree or branch, but the pinned landing owner requires that local carrier before it can persist cleanup intent."
+    }
+  },
+  "local_observation": {
+    "control_root": "/workspace/scratch/bd9d2e05d141/pclass49-control",
+    "main_head": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "origin_main": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "candidate_branch_present": false,
+    "candidate_worktree_present": false,
+    "noodle_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472"
+  },
+  "recorded_corrections": [
+    {
+      "event": "post-close readback normalization",
+      "first_result": "refused input.field=run",
+      "cause": "A compact supervisor projection used workflow instead of the raw provider field run.",
+      "correction": "The raw provider-shaped readback was restored from the prior readback and only the freshly observed Issue closure fields were changed.",
+      "effect": "landing.advance accepted the corrected fresh readback and moved to awaiting_reconcile."
+    }
+  ],
+  "evidence_sha256": {
+    "after_close_readback": "2e7e34a3664740fa5fee426a197cc83e3c4d7a03da71617aa5c06701903b72e2",
+    "checkpoint": "9f5a60185e12c69b070d05d6dcdd76fc1e7b149ecf8598b228a3f31f8f631d9b",
+    "first_advance_result": "af3196934da4f995edff68fcaf2f31123817ee87d2c1a07fbec4940aa2b5fc21",
+    "corrected_advance_result": "f916a019925c26a2a9ff7c67b06f0108ab0cbffac696606770e5bb93ad0a7e30",
+    "reconcile_result": "d8c2ea8d94c12addfdddd369968ce987cf083f198eaafa2ddeb5d0229820067b"
+  },
+  "recovery": {
+    "safe_next_action": "Do not replay merge or close. Change the landing owner in a separate atom so a cloud-only execution with no local candidate worktree can prove a no-op cleanup path, then resume this exact checkpoint under the owner's verifier migration mechanism.",
+    "forbidden_shortcut": "Do not synthesize an unobserved candidate worktree or edit the checkpoint phase by hand.",
+    "resolved": false
+  }
+}

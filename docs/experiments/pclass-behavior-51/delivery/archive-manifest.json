@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "repository_path": "docs/experiments/pclass-behavior-51/delivery",
+  "archive": {
+    "name": "pclass51-delivery.tar.gz",
+    "bytes": 53392,
+    "sha256": "42539fa334a7ed59a452a9b08479d4b4926971e0f47066eb35d4258c4b472bd6",
+    "format": "reproducible gzip-compressed tar",
+    "root": "pclass51-delivery"
+  },
+  "readable_files": {
+    "delivery-receipt.json": "bada8666acc4bfa0682015a22566a638a9f31991c1ce85778432cf5de8e264ae",
+    "checkpoint.json": "9f5a60185e12c69b070d05d6dcdd76fc1e7b149ecf8598b228a3f31f8f631d9b",
+    "after-close-readback.json": "2e7e34a3664740fa5fee426a197cc83e3c4d7a03da71617aa5c06701903b72e2"
+  },
+  "classification": {
+    "experiment": "RETENTION_RULE_FAIL_AGENTS_UNCHANGED",
+    "provider_delivery": "complete",
+    "local_reconcile": "RECONCILE_BLOCKED_MISSING_CLOUD_WORKTREE",
+    "resolved": false
+  }
+}
