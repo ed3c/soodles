@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+    "schema",
+    "--help"
+  ],
+  "cwd": "/Users/neon/soodles/.worktrees/soodles-46-0-execute",
+  "stdout": "Print generated schema docs for Noodle runtime contracts\n\nUsage:\n  noodle schema [target] [flags]\n  noodle schema [command]\n\nAvailable Commands:\n  list        List available schema targets\n\nFlags:\n  -h, --help   help for schema\n\nGlobal Flags:\n      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)\n\nUse \"noodle schema [command] --help\" for more information about a command.\n",
+  "stderr": "",
+  "exit_code": 0,
+  "observed_at": "2026-09-17T08:12:19.249096+00:00"
+}

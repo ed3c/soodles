@@ -1,0 +1,90 @@
+{
+  "exact_seven_file_boundary": true,
+  "links": [
+    {
+      "file": ".agents/skills/verify-noodle/SKILL.md",
+      "target": "../verify-soodles/SKILL.md",
+      "candidate_path": ".agents/skills/verify-soodles/SKILL.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": ".agents/skills/verify-noodle/SKILL.md",
+      "target": "features/identity-skills.md",
+      "candidate_path": ".agents/skills/verify-noodle/features/identity-skills.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": ".agents/skills/verify-noodle/SKILL.md",
+      "target": "features/admission-recovery.md",
+      "candidate_path": ".agents/skills/verify-noodle/features/admission-recovery.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": ".agents/skills/verify-noodle/SKILL.md",
+      "target": "features/order-handoff.md",
+      "candidate_path": ".agents/skills/verify-noodle/features/order-handoff.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": ".agents/skills/verify-noodle/SKILL.md",
+      "target": "features/README.md",
+      "candidate_path": ".agents/skills/verify-noodle/features/README.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": ".agents/skills/verify-noodle/features/README.md",
+      "target": "identity-skills.md",
+      "candidate_path": ".agents/skills/verify-noodle/features/identity-skills.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": ".agents/skills/verify-noodle/features/README.md",
+      "target": "admission-recovery.md",
+      "candidate_path": ".agents/skills/verify-noodle/features/admission-recovery.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": ".agents/skills/verify-noodle/features/README.md",
+      "target": "order-handoff.md",
+      "candidate_path": ".agents/skills/verify-noodle/features/order-handoff.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": ".agents/skills/verify-noodle/features/README.md",
+      "target": "../../verify-soodles/SKILL.md",
+      "candidate_path": ".agents/skills/verify-soodles/SKILL.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": ".agents/skills/execute/SKILL.md",
+      "target": "../verify-noodle/SKILL.md",
+      "candidate_path": ".agents/skills/verify-noodle/SKILL.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": "AGENTS.md",
+      "target": ".agents/skills/verify-noodle/SKILL.md",
+      "candidate_path": ".agents/skills/verify-noodle/SKILL.md",
+      "exists_in_candidate_overlay": true
+    },
+    {
+      "file": "AGENTS.md",
+      "target": ".agents/skills/verify-soodles/features/github-read.md",
+      "candidate_path": ".agents/skills/verify-soodles/features/github-read.md",
+      "exists_in_candidate_overlay": true
+    }
+  ],
+  "frontmatter_validation": {
+    "argv": [
+      "python3",
+      "/Users/neon/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+      "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/draft/.agents/skills/verify-noodle"
+    ],
+    "observed_stdout": "Skill is valid!\n",
+    "observed_stderr": "",
+    "observed_exit_code": 0,
+    "scope": "authoring validation only; actual tool transcript retained"
+  },
+  "self_review": "Reviewed complete proposed content and narrow diffs; no product implementation, helper, gate or authority flag; live proof pending",
+  "review_correction": "Initial overlay link check used filesystem lookup through an unapplied directory before ..; normalized relative paths before overlay lookup. Documentation links unchanged."
+}

@@ -1,0 +1,31 @@
+{
+  "classification": "GREEN",
+  "final": {
+    "owner": "Noodle initial admission",
+    "status": "no_proposal",
+    "subject": {
+      "proposal_sha256": "",
+      "initial_revision": "",
+      "order_ids": null
+    },
+    "current_order_revision": "dfb96fcf7d8d776ea177173c4c0c717d",
+    "invalid": "",
+    "next": {
+      "argv": [],
+      "guidance": "Retirement is complete. No executable recovery step remains. The scheduling owner may prepare the next proposal from this readback; do not restart a loop or republish a historical proposal from memory.",
+      "required": "A separately admitted intent and a fresh INITIAL proposal bound to current_order_revision",
+      "provided_by": "Noodle scheduling owner through the existing schedule skill / orders-next.json admission entry",
+      "readback_argv": [
+        "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+        "--project-dir",
+        "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/noodle46-recovery-_i9wjqm1/control",
+        "admission",
+        "inspect"
+      ]
+    }
+  },
+  "canonical_and_orders_unchanged": true,
+  "archive_preserved": true,
+  "scratch": "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/noodle46-recovery-_i9wjqm1/control",
+  "authorizes_landing": false
+}

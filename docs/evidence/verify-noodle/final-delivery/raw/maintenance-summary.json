@@ -1,0 +1,40 @@
+{
+  "outcome": "changed",
+  "candidate_head": "bf426f1cebca0193110e97ebf65abdbad424578a",
+  "candidate_clean": true,
+  "source_wave": {
+    "identity-skills": "runtime_map_review: exact source/build and resolution verified; index pending text corrected",
+    "admission-recovery": "recovery_map_review: product matches; fixed observer coverage limits documented",
+    "order-handoff": "delivery_map_review: source matches; enforcement limited to selected provider non-schedule stages"
+  },
+  "live": {
+    "identity-skills": "maintenance-identity/receipt.json",
+    "admission-recovery": [
+      "maintenance/recovery-normal.json",
+      "maintenance/fixed-recovery-evidence/receipt.json",
+      "maintenance/fixed-refusal-evidence/receipt.json"
+    ],
+    "order-handoff": "maintenance-handoff/handoff.json"
+  },
+  "scope": "creation P/N, no new gate, existing independently accepted #84 controls retained",
+  "failure_preserved": "maintenance/driver-failure.json",
+  "cleanup": {
+    "normal_fixture_removed": true,
+    "fixed_fixture_roots_removed": true,
+    "synthetic_process_commands_absent_in_ps": true,
+    "fixed_observer_specific_final_pgid": "not emitted; no expanded claim",
+    "original_worker_pid_and_group_absent": true,
+    "evidence_survives": true
+  },
+  "delivery_pending": true,
+  "authorizes_landing": false,
+  "file_digests": {
+    "AGENTS.md": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+    ".agents/skills/execute/SKILL.md": "c459b2dd84ec3037d86df11ce28576b0f7a93eab3b94a11436557daaa0b81162",
+    ".agents/skills/verify-noodle/SKILL.md": "0616fca33094bc8d516af0e39ad4acc4f3d9a30391bc65cf552fb717d3ce081e",
+    ".agents/skills/verify-noodle/features/identity-skills.md": "8df5c844a9f1ba3b02ca4e187f136e82c13db590323154e7ac59556e872c2a3f",
+    ".agents/skills/verify-noodle/features/README.md": "5ea1ab580cb9c37d01bb162792a484e969e6d25ac5f6e34d100dc15a2f208fd3",
+    ".agents/skills/verify-noodle/features/order-handoff.md": "c9293ec2ab2f27d7d69c76e0199eb661eac045a498521623315d12fd38707d74",
+    ".agents/skills/verify-noodle/features/admission-recovery.md": "b9da1a990f513f89ec029561c8a481bb95b7ab53256359003ae4bd3b094bb6b0"
+  }
+}

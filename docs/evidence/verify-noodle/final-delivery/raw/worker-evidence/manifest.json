@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "task": "soodles-46 original authoring/handoff only",
+  "status": "draft complete; ready for own typed outcome",
+  "authorizes_landing": false,
+  "repository": "ed3c/soodles",
+  "issue": 46,
+  "issue_body_sha256": "cc4c33bbd27c125c895fd673deb8965ae172003442bdeebda9f849db85f33d51",
+  "admitted_envelope_sha256": "a05a3c18edbea1365c3576e5181aca83a77082e8351491be1353f76df3941552",
+  "original_order": "soodles-46",
+  "session": "soodles-46-0-execute-20260917-081036-db7f05",
+  "stage_index": 0,
+  "project": "/Users/neon/soodles",
+  "worktree": "/Users/neon/soodles/.worktrees/soodles-46-0-execute",
+  "starting_head": "40a3d18785387b57ec482497b62a44805b0e90ad",
+  "target_unchanged": true,
+  "source_revision": "ca81f942f478e8e4afcbbce6ca69640867efe753",
+  "source_root": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control",
+  "binary": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+  "binary_sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff",
+  "carrier": "darwin_arm64",
+  "proposed_files": {
+    ".agents/skills/verify-noodle/SKILL.md": {
+      "path": "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/draft/.agents/skills/verify-noodle/SKILL.md",
+      "sha256": "51277ed082e1d5d3458797a303b56ae24d3946e8c69113c5bfbd46aa38339718",
+      "bytes": 7597
+    },
+    ".agents/skills/verify-noodle/features/README.md": {
+      "path": "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/draft/.agents/skills/verify-noodle/features/README.md",
+      "sha256": "a36af320754861ee94c950c738843ba661162a03a516bc31291a98e726412e99",
+      "bytes": 2004
+    },
+    ".agents/skills/verify-noodle/features/identity-skills.md": {
+      "path": "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/draft/.agents/skills/verify-noodle/features/identity-skills.md",
+      "sha256": "8df5c844a9f1ba3b02ca4e187f136e82c13db590323154e7ac59556e872c2a3f",
+      "bytes": 3524
+    },
+    ".agents/skills/verify-noodle/features/admission-recovery.md": {
+      "path": "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/draft/.agents/skills/verify-noodle/features/admission-recovery.md",
+      "sha256": "d090c11569af4320c47a6dca85fa892b16cd85f0f1f90bcb951eb8cfc0793cf8",
+      "bytes": 4543
+    },
+    ".agents/skills/verify-noodle/features/order-handoff.md": {
+      "path": "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/draft/.agents/skills/verify-noodle/features/order-handoff.md",
+      "sha256": "11efe86f7e6a1d655c49b7b8721c00b41768192b56cefb5ee292cfbe7e27a146",
+      "bytes": 5280
+    },
+    ".agents/skills/execute/SKILL.md": {
+      "path": "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/draft/.agents/skills/execute/SKILL.md",
+      "sha256": "c459b2dd84ec3037d86df11ce28576b0f7a93eab3b94a11436557daaa0b81162",
+      "bytes": 1756
+    },
+    "AGENTS.md": {
+      "path": "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/draft/AGENTS.md",
+      "sha256": "a8d2d6f71f7e3c6a7a527207085c8b4aced23b6f4f33ef80a7b05c8bee159a97",
+      "bytes": 6536
+    }
+  },
+  "evidence": {
+    "cli_records": "worker-evidence/*.json: actual argv/stdout/stderr/exit_code",
+    "source_map": "source-pointers.json",
+    "schema": "event-schema-source.txt",
+    "original_owner": "own-orders.json, own-status.json, own-state.snapshot.json, own-session-spawn.json, own-session-process.json",
+    "resolved_skills": "resolved-skill-digests.json",
+    "external_observers": "external-input-digests.json",
+    "review": "draft-review.json"
+  },
+  "pending_supervisor": [
+    "Apply complete bytes in the original worktree only after this writer naturally exits; preserve external draft before owner requeue.",
+    "Physically drive create through applied skill with evidence surviving cleanup.",
+    "Full pinned pstack maintenance: one read-only reviewer per feature and coordinator live drive all three; no clean-pass PR.",
+    "Read own typed event plus actual recorder wait/exit and process/group absence; do not substitute final prose or this manifest.",
+    "Final clean-head Linux acceptance, exact-head provider checks and existing supervised landing merge/closure readbacks.",
+    "Original order completion and Noodle-owned local cleanup/reconciliation."
+  ],
+  "unresolved_limits": [
+    "No recovery mutation, daemon launch, credential call, model launch, source application, commit or provider write performed.",
+    "verify-noodle is not applied or resolved/loaded in the target yet; existing Skill resolution measured separately.",
+    "External #84 observer receipts inspected, not rerun; no claim of current recovery live coverage.",
+    "Own Session running at preparation; future exit/quiescence must be observed externally.",
+    "Native Darwin feature evidence cannot satisfy Soodles Linux runtime.lock acceptance.",
+    "No full maintenance pass or cost reduction claim."
+  ],
+  "interview_failures": [
+    {
+      "action": "source search loop/*retry*.go",
+      "result": "zsh no matches found, exit 1",
+      "resolution": "bounded rg found loop/cook_spawn.go:resetWorktreeState"
+    },
+    {
+      "action": "rg control_orders.go cleanup/retry names",
+      "result": "no matching lines, exit 1; dependent read not executed",
+      "resolution": "changed lookup to reset/discard owner and read it; no product retry attempted"
+    },
+    {
+      "action": "candidate overlay link audit",
+      "result": "assertion exit 1 due lookup through absent unapplied directory before ..",
+      "resolution": "normalized repository-relative paths first; all links resolve in candidate overlay, no document change"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+#!/opt/homebrew/opt/python@3.14/bin/python3.14
+import hashlib,os,sys
+from pathlib import Path
+root=Path('/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/installed')
+manifest={'soodles': 'cb3c6c81534e99a3ecf25f6c5d9cc2024bae2b9d2672afddb96fba37deda144d', 'soodles.py': '792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3', 'issue_admission.py': '6c7027b804dc214151ce4a23bcfa6b02089aa72ca8f31e9fbf3cf60fda809ca8', 'issue_execution.py': '53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7', 'github_reader.py': '7434e60640fdf39ab39c76af25969d0fee9f5f6878eba39273cc4082bebc9c98', 'landing.py': 'a5a4223824ebac8bd912453ea24f11fec396c02b03ecf0a055f2b0a6082a23a1', 'policy/runtime.lock.json': '08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830', '.agents/skills/schedule/SKILL.md': 'd3425452e5b92152976e9cb2f5f9214b7def129147f9f79f5bd8b9bc94ff57e4', '.agents/skills/execute/SKILL.md': '2f9b702c7710e8d875cb5071f43034725844a74e99f2f73e08c1c1cde161077b'}
+for name,digest in manifest.items():
+ if hashlib.sha256((root/name).read_bytes()).hexdigest()!=digest:raise SystemExit("changed installed bytes: "+name)
+os.execv('/opt/homebrew/opt/python@3.14/bin/python3.14',['/opt/homebrew/opt/python@3.14/bin/python3.14',"-B",'/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/record_process.py','/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/process-exits'+"/"+os.environ["NOODLE_SESSION_ID"],"--",'/opt/homebrew/opt/python@3.14/bin/python3.14',"-B",str(root/"soodles.py"),"issue","worker",'/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/execution-envelope.json','a05a3c18edbea1365c3576e5181aca83a77082e8351491be1353f76df3941552',*sys.argv[1:]])

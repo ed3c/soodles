@@ -1,0 +1,24 @@
+{
+  "observation": "Completed A (soodles-44) is absent from current canonical orders after B promotion; its initial-admission ledger ownership remains. This is not permission to re-admit A.",
+  "before_orders": {
+    "schedule": "active",
+    "soodles-44": "completed"
+  },
+  "after_orders": {
+    "schedule": "active",
+    "soodles-46": "active"
+  },
+  "preserved_admission_subjects": [
+    "soodles-18",
+    "soodles-44",
+    "soodles-46"
+  ],
+  "source": [
+    "loop/state_orders.go:33",
+    "loop/canonical_checkpoint.go:412",
+    "loop/loop_cycle_pipeline.go:42"
+  ],
+  "historical_completion_receipt": "https://github.com/ed3c/soodles/blob/6cabc1b4d1087287565301dcf9864c65cae87c2e/docs/evidence/github-read/final-delivery/resolved.json",
+  "guidance": "Archive original completion/session readbacks before moving on; never infer unknown/unexecuted from active-order list omission. Preserve and consume admitted-history owner refusal.",
+  "authorizes_landing": false
+}

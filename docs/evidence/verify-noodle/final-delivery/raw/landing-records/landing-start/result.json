@@ -1,0 +1,32 @@
+{
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 0.13091270899167284,
+  "files_after": {
+    "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14": {
+      "bytes": 52448,
+      "sha256": "b502cb4c5b46b8d4192ec6bcb600ce8922f1afc396fcf646e8765c6eba74a0bf"
+    },
+    "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/publisher/soodles.py": {
+      "bytes": 19734,
+      "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+    },
+    "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/claim.json": {
+      "bytes": 657,
+      "sha256": "82d252b288b74455db63f0a16284c6068b3577fac2d8b99bdda9aae1f23982c7"
+    },
+    "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/readback-02.json": {
+      "bytes": 56591,
+      "sha256": "df533256274b39f8580acdba45193a6d78371cca79e6ec61c76834f447627274"
+    },
+    "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/checkpoint.json": {
+      "bytes": 934,
+      "sha256": "a198dde2cc10e22e39bc75fea440a3d23eac49f4850b4443310d7cb426e8505f"
+    }
+  },
+  "stdout_sha256": "8e95b2a1049d2bc08c73da1b9bfb964ba221ce79cfd26f49ecc8345bf33b9824",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+    "--help"
+  ],
+  "cwd": "/Users/neon/soodles/.worktrees/soodles-46-0-execute",
+  "stdout": "Open-source AI coding framework\n\nUsage:\n  noodle [flags]\n  noodle [command]\n\nAvailable Commands:\n  admission   Inspect or retire a rejected initial proposal with the stopped owner\n  completion  Generate the autocompletion script for the specified shell\n  event       Manage loop events\n  help        Help about any command\n  reset       Clear all runtime state\n  schema      Print generated schema docs for Noodle runtime contracts\n  skills      List resolved skills\n  start       Run the scheduling loop\n  status      Show compact runtime status\n  version     Print noodle version\n  worktree    Manage linked git worktrees\n\nFlags:\n  -h, --help                 help for noodle\n      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)\n      --version              Print noodle version\n\nUse \"noodle [command] --help\" for more information about a command.\n",
+  "stderr": "",
+  "exit_code": 0,
+  "observed_at": "2026-09-17T08:11:32.580109+00:00"
+}

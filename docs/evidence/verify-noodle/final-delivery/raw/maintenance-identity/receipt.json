@@ -1,0 +1,138 @@
+{
+  "feature": "identity-skills",
+  "classification": "VERIFIED",
+  "candidate_head": "bf426f1cebca0193110e97ebf65abdbad424578a",
+  "candidate_status_before_and_after": "",
+  "binary_sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff",
+  "source_head": "ca81f942f478e8e4afcbbce6ca69640867efe753",
+  "version": "v0.1.19",
+  "resolved_skill": [
+    "verify-noodle",
+    "/Users/neon/soodles/.worktrees/soodles-46-0-execute/.agents/skills",
+    "true",
+    "/Users/neon/soodles/.worktrees/soodles-46-0-execute/.agents/skills/verify-noodle"
+  ],
+  "file_digests": {
+    ".agents/skills/verify-noodle/SKILL.md": "0616fca33094bc8d516af0e39ad4acc4f3d9a30391bc65cf552fb717d3ce081e",
+    ".agents/skills/verify-noodle/features/identity-skills.md": "8df5c844a9f1ba3b02ca4e187f136e82c13db590323154e7ac59556e872c2a3f",
+    ".agents/skills/verify-noodle/features/README.md": "5ea1ab580cb9c37d01bb162792a484e969e6d25ac5f6e34d100dc15a2f208fd3",
+    ".agents/skills/verify-noodle/features/order-handoff.md": "c9293ec2ab2f27d7d69c76e0199eb661eac045a498521623315d12fd38707d74",
+    ".agents/skills/verify-noodle/features/admission-recovery.md": "b9da1a990f513f89ec029561c8a481bb95b7ab53256359003ae4bd3b094bb6b0"
+  },
+  "skill_loading_claim": false,
+  "observations": [
+    {
+      "label": "launch",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.011724958021659404,
+      "files_after": {
+        "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81": {
+          "bytes": 16359970,
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        }
+      },
+      "stdout_sha256": "ed6a799ed3285277b2abad3a13ea18d4062d2e5dd2ab715b771724161b0c8422",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "doctor-version",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.009107000019866973,
+      "files_after": {
+        "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81": {
+          "bytes": 16359970,
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        }
+      },
+      "stdout_sha256": "04eb5fda20141b438721e93518b02135bcc15518630727a79a021c81c9b6a760",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "doctor-build",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.04312816704623401,
+      "files_after": {
+        "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81": {
+          "bytes": 16359970,
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        }
+      },
+      "stdout_sha256": "4a1ff5cf908012e6f79e618cce403e21e3ea9e5409422596930c0ec4029a5a53",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "doctor-digest",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.046440083999186754,
+      "files_after": {
+        "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81": {
+          "bytes": 16359970,
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        }
+      },
+      "stdout_sha256": "f80855690fa1eb4e7d60375db9d0b2a6f247565db5a55ffccdbd41372323d01f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "doctor-source-head",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.018680249981116503,
+      "files_after": {},
+      "stdout_sha256": "a0963efc7b245223e675436b1309fdd4031b6696da340bd1796c1cbfb7054db6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "doctor-source-clean",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.05351929203607142,
+      "files_after": {},
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "skills-list",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.009076540998648852,
+      "files_after": {
+        "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81": {
+          "bytes": 16359970,
+          "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+        }
+      },
+      "stdout_sha256": "4ee7e7d658aa2cf7af6f52eb6386c6a4648be3ad88c88e5891c354073e876050",
+      "stderr_sha256": "b6bd49fba28f1c2f2f252ff89d5e7108e5f4673dbee442d7cb8b710a40012b59"
+    }
+  ],
+  "owned_processes_waited": true,
+  "scratch_directories_created": 0,
+  "evidence_survives_cleanup": true,
+  "authorizes_landing": false
+}

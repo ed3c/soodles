@@ -1,0 +1,25 @@
+Open-source AI coding framework
+
+Usage:
+  noodle [flags]
+  noodle [command]
+
+Available Commands:
+  admission   Inspect or retire a rejected initial proposal with the stopped owner
+  completion  Generate the autocompletion script for the specified shell
+  event       Manage loop events
+  help        Help about any command
+  reset       Clear all runtime state
+  schema      Print generated schema docs for Noodle runtime contracts
+  skills      List resolved skills
+  start       Run the scheduling loop
+  status      Show compact runtime status
+  version     Print noodle version
+  worktree    Manage linked git worktrees
+
+Flags:
+  -h, --help                 help for noodle
+      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)
+      --version              Print noodle version
+
+Use "noodle [command] --help" for more information about a command.

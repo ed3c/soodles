@@ -1,0 +1,66 @@
+{
+  "source": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control",
+  "revision": "ca81f942f478e8e4afcbbce6ca69640867efe753",
+  "files": {
+    "cmd_admission.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/cmd_admission.go",
+      "sha256": "715946416d145a4b3e42973f82bd4923bb55929bfd165ed66db9ba3f310412af"
+    },
+    "cmd_event.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/cmd_event.go",
+      "sha256": "2d2852fdbc8f1252bde826584bc756b7aafb953d405ee18a013d4c52fbd5dc78"
+    },
+    "cmd_skills.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/cmd_skills.go",
+      "sha256": "559fb1fa5df85f18d2528c99f255abefe15e9c8a681521a0dc7b56a674508b20"
+    },
+    "cmd_status.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/cmd_status.go",
+      "sha256": "731faf1d90b64c6775e43126a73464a71ca0105fdf290a47a1b144e098a4c12e"
+    },
+    "cmd_schema.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/cmd_schema.go",
+      "sha256": "460ef1e8663b4e756c9ebfa4910af83def4f9396b2748b235aff180837b18e1a"
+    },
+    "event/types.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/event/types.go",
+      "sha256": "ba4ebb5449bbe16db29a649f0a825d3405aa74b16c146fc54ed6381180d796e6"
+    },
+    "event/paths.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/event/paths.go",
+      "sha256": "32b683955c1f50393c0e699facacb9eed3c3f4831398957fd691f53a696e7997"
+    },
+    "skill/resolver.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/skill/resolver.go",
+      "sha256": "ade46ddaff314d448bc72ef53a6b36ba128c40aa8ab190076be0fab7fd173757"
+    },
+    "dispatcher/skill_bundle.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/dispatcher/skill_bundle.go",
+      "sha256": "284d1d8a33338b8e14a1de76ef2537014f3ef9bb9bfcbc9787449adae25eb682"
+    },
+    "loop/admission_recovery.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/loop/admission_recovery.go",
+      "sha256": "88155dcc955da4cd4ad4bdfd665b9c431f1c0adff6e8a0c526b7dcebd8e6cd2b"
+    },
+    "loop/admission_evidence.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/loop/admission_evidence.go",
+      "sha256": "2f768faa20dce60744848bfa4a48d57e35f9587e588d7a964b90376227a8ec84"
+    },
+    "loop/admission_recovery_test.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/loop/admission_recovery_test.go",
+      "sha256": "c2b161f68c444a936cdfb541086c4742316bd6b5fb6a1bd3dd34f87843f95636"
+    },
+    "loop/stage_outcome.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/loop/stage_outcome.go",
+      "sha256": "d1847e53e9e84bacceff37fb36707abda68bc3f5d85c6a6d1ab99ad11bd1f245"
+    },
+    "loop/cook_completion.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/loop/cook_completion.go",
+      "sha256": "2734ea1d082e04d538de6de0346a408e40acbe4316e376a670f048500e086290"
+    },
+    "loop/cook_spawn.go": {
+      "absolute_path": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control/loop/cook_spawn.go",
+      "sha256": "433885c8ad54134e8ddda2b31aab0535701678f91180ad69ffafa8a55823fb41"
+    }
+  }
+}

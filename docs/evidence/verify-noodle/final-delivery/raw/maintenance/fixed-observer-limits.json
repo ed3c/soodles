@@ -1,0 +1,110 @@
+{
+  "cases": [
+    {
+      "case": "wrong-digest",
+      "scratch_absent": true,
+      "continuation": {
+        "argv": [],
+        "guidance": "Preserve the reported evidence. The named operator must supply the missing evidence or resolve the reported owner state; then use readback_argv to inspect again. Inspection is not permission to restart or repeat a write.",
+        "required": "proposal_sha256 changed; later mailbox preserved",
+        "provided_by": "Noodle operator supervising this project and its original session records",
+        "readback_argv": [
+          "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "--project-dir",
+          "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/noodle84-negative-gyx068zd/control",
+          "admission",
+          "inspect"
+        ]
+      }
+    },
+    {
+      "case": "wrong-revision",
+      "scratch_absent": true,
+      "continuation": {
+        "argv": [],
+        "guidance": "Preserve the reported evidence. The named operator must supply the missing evidence or resolve the reported owner state; then use readback_argv to inspect again. Inspection is not permission to restart or repeat a write.",
+        "required": "current_order_revision changed",
+        "provided_by": "Noodle operator supervising this project and its original session records",
+        "readback_argv": [
+          "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "--project-dir",
+          "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/noodle84-negative-yor_7vl2/control",
+          "admission",
+          "inspect"
+        ]
+      }
+    },
+    {
+      "case": "admitted-ledger",
+      "scratch_absent": true,
+      "continuation": {
+        "argv": [],
+        "guidance": "Preserve the reported evidence. The named operator must supply the missing evidence or resolve the reported owner state; then use readback_argv to inspect again. Inspection is not permission to restart or repeat a write.",
+        "required": "initial subject \"soodles-39\" is owned, admitted, duplicate, reserved or ambiguous",
+        "provided_by": "Noodle operator supervising this project and its original session records",
+        "readback_argv": [
+          "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "--project-dir",
+          "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/noodle84-negative-u73vl4dv/control",
+          "admission",
+          "inspect"
+        ]
+      }
+    },
+    {
+      "case": "valid-proposal",
+      "scratch_absent": true,
+      "continuation": {
+        "argv": [],
+        "guidance": "Preserve the reported evidence. The named operator must supply the missing evidence or resolve the reported owner state; then use readback_argv to inspect again. Inspection is not permission to restart or repeat a write.",
+        "required": "initial proposal is currently valid; retain it for normal admission",
+        "provided_by": "Noodle operator supervising this project and its original session records",
+        "readback_argv": [
+          "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "--project-dir",
+          "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/noodle84-negative-d_lnatoe/control",
+          "admission",
+          "inspect"
+        ]
+      }
+    },
+    {
+      "case": "live-session",
+      "scratch_absent": true,
+      "continuation": {
+        "argv": [],
+        "guidance": "Preserve the reported evidence. The named operator must supply the missing evidence or resolve the reported owner state; then use readback_argv to inspect again. Inspection is not permission to restart or repeat a write.",
+        "required": "session \"external-live-guard\" process or process group is present",
+        "provided_by": "Noodle operator supervising this project and its original session records",
+        "readback_argv": [
+          "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "--project-dir",
+          "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/noodle84-negative-d1cep9l_/control",
+          "admission",
+          "inspect"
+        ]
+      }
+    },
+    {
+      "case": "orphan-live-group",
+      "scratch_absent": true,
+      "continuation": {
+        "argv": [],
+        "guidance": "Preserve the reported evidence. The named operator must supply the missing evidence or resolve the reported owner state; then use readback_argv to inspect again. Inspection is not permission to restart or repeat a write.",
+        "required": "session \"external-live-guard\" process or process group is present",
+        "provided_by": "Noodle operator supervising this project and its original session records",
+        "readback_argv": [
+          "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+          "--project-dir",
+          "/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/noodle84-negative-i5jc25ag/control",
+          "admission",
+          "inspect"
+        ]
+      }
+    }
+  ],
+  "unknown_ambiguous_live_coverage": false,
+  "refusal_orders_byte_coverage": false,
+  "synthetic_group_final_absence": "not emitted by fixed observer; independent system process inventory retained",
+  "authorizes_landing": false
+}

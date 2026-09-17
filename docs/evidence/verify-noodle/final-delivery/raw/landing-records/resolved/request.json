@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-B",
+    "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/publisher/soodles.py",
+    "landing",
+    "reconcile",
+    "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/checkpoint.json",
+    "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81"
+  ],
+  "cwd": "/Users/neon/soodles",
+  "time_ns": 1789634214661928000,
+  "files_before": {
+    "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14": {
+      "bytes": 52448,
+      "sha256": "b502cb4c5b46b8d4192ec6bcb600ce8922f1afc396fcf646e8765c6eba74a0bf"
+    },
+    "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/publisher/soodles.py": {
+      "bytes": 19734,
+      "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+    },
+    "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/checkpoint.json": {
+      "bytes": 1288,
+      "sha256": "7fa38e31c36eb39d5661825e89abe1d8c9ce0b6324f362accac6503c4074f5d4"
+    },
+    "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81": {
+      "bytes": 16359970,
+      "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff"
+    }
+  },
+  "timeout_seconds": 60
+}

@@ -1,0 +1,24 @@
+config repairable: 4 adapter script path(s) are missing.
+  backlog:
+    - add -> adapters/backlog-add (adapters.backlog.scripts.add)
+    - done -> adapters/backlog-done (adapters.backlog.scripts.done)
+    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)
+    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)
+config repair prompt:
+-----
+Repair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.
+Fix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.
+Keep the fix minimal and avoid broad refactors.
+
+Missing adapter scripts:
+- adapters.backlog.scripts.add (backlog): adapters/backlog-add
+- adapters.backlog.scripts.done (backlog): adapters/backlog-done
+- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit
+- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync
+
+Required verification:
+- Re-run `noodle start` and confirm these repairable diagnostics are gone.
+- If Go files changed, run `go test ./...`.
+
+Return a short summary of files changed and the verification results.
+-----

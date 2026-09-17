@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+    "admission",
+    "--help"
+  ],
+  "cwd": "/Users/neon/soodles/.worktrees/soodles-46-0-execute",
+  "stdout": "Use the existing Noodle owner with a known project and a stopped loop.\nRun noodle --project-dir <known-project> admission inspect and consume its JSON.\nFor recoverable, execute next.argv exactly as an argv array. Never reconstruct\nthe digest, revision or command from memory or a historical checkpoint.\nFor refused, preserve evidence and report next.required to next.provided_by.\nAfter that owner resolves the condition, use next.readback_argv to inspect again.\nA valid initial proposal remains available for normal admission; do not retire it.\nFor retired, follow next.argv once for fresh canonical readback. For no_proposal,\nrecovery is finished: next.argv is empty and next names the scheduling owner\nand inputs for a separately admitted intent. Do not loop inspection indefinitely.\nRetirement does not dispatch, restart, complete an order or authorize provider\nwrites. Record the actual JSON, argv and operation results. Missing owner/project\ninputs must be supplied by the supervising operator, not guessed by the Session.\n\nUsage:\n  noodle admission [command]\n\nAvailable Commands:\n  inspect     Read admission evidence and exact supported continuation\n  retire      Retire an unchanged rejected initial proposal\n\nFlags:\n  -h, --help   help for admission\n\nGlobal Flags:\n      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)\n\nUse \"noodle admission [command] --help\" for more information about a command.\n",
+  "stderr": "",
+  "exit_code": 0,
+  "observed_at": "2026-09-17T08:11:32.671592+00:00"
+}

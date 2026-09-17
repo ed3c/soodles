@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+    "event",
+    "emit",
+    "--help"
+  ],
+  "cwd": "/Users/neon/soodles/.worktrees/soodles-46-0-execute",
+  "stdout": "Emit an external event\n\nUsage:\n  noodle event emit <type> [flags]\n\nFlags:\n  -h, --help             help for emit\n      --payload string   Event payload as JSON\n      --session string   Session ID (writes to session event log instead of loop event log)\n\nGlobal Flags:\n      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)\n",
+  "stderr": "",
+  "exit_code": 0,
+  "observed_at": "2026-09-17T08:11:32.688153+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "issue": 46,
+  "scope": "P/N skill and three feature recipes only; existing L/R retained",
+  "pstack_commit": "68836ddaf5697224520f1847d90cdb90ca8babaa",
+  "noodle": {
+    "binary": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+    "sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff",
+    "source_head": "ca81f942f478e8e4afcbbce6ca69640867efe753",
+    "carrier": "darwin_arm64",
+    "build_receipt": "build-merged-ca81-after-setup.json",
+    "fixed_observers": [
+      "external-merged-ca81/receipt.json",
+      "external-refusal-merged-ca81/receipt.json"
+    ],
+    "purpose": "explicit supervisor selection for stopped initial-proposal recovery",
+    "old_stamp_failure_retained": "build-provenance-failure.json",
+    "does_not_change_soodles_runtime_lock": true
+  },
+  "source_root": "/Users/neon/.codex/experiments/noodle78-delivery-20260916/control",
+  "source_commit": "ca81f942f478e8e4afcbbce6ca69640867efe753",
+  "recovery_observer": {
+    "/Users/neon/.codex/experiments/noodle84-20260917/recovery-observer.py": "19e18b0ab048b17db26aeb3c31147d3bb605e6971205d7ef992876c6f800e84b",
+    "/Users/neon/.codex/experiments/noodle84-20260917/refusal-observer.py": "b0029229f2794b283d8ab30faba8a621e0cd7035d83edcc6001a1a994229662b"
+  },
+  "physical_protocol": [
+    "Record actual native CLI version/build provenance and skill resolution, selected file digests, argv/stdout/stderr/exit and unchanged source identity.",
+    "Replay explicitly preserved rejected proposal in disposable copy via existing admission inspect and exact next; observe refused valid proposal too. Canonical state unchanged; fixture cleanup and evidence survive.",
+    "Read real admitted order/session, raw Agent typed outcome and external actual child wait/exit plus kernel process-group absence. No fabricated lifecycle.",
+    "Full maintenance one source reader per feature, coordinator live drive each. Honest clean/changed/blocked.",
+    "Fresh exact-head Linux canonical acceptance and external landing owner; no prechange self-authorization."
+  ],
+  "recorder": {
+    "path": "/Users/neon/.codex/experiments/noodle84-20260917/record_process.py",
+    "sha256": "e2d63af93afccaa463efe63f8790613877a6e113c04d7ce4c9b70d7f550f2126"
+  },
+  "selected_before_implementation": true,
+  "authorizes_landing": false
+}

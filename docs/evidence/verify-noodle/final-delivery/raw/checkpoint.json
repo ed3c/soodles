@@ -1,0 +1,104 @@
+{
+  "schema": 2,
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 46,
+    "pr": 48,
+    "head": "bf426f1cebca0193110e97ebf65abdbad424578a",
+    "tree": "f52c7959f8e26dab13e9592f6f6a3443a46024ee",
+    "base_head": "40a3d18785387b57ec482497b62a44805b0e90ad",
+    "run_id": 35200315530,
+    "run_attempt": 1,
+    "worktree": "soodles-46-0-execute",
+    "control_root": "/Users/neon/soodles",
+    "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83",
+    "execution_envelope": {
+      "path": "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/execution-envelope.json",
+      "sha256": "a05a3c18edbea1365c3576e5181aca83a77082e8351491be1353f76df3941552"
+    }
+  },
+  "phase": "resolved",
+  "observations": [
+    "cca96412a3ea615566587f34c68bddebf05505a8e495c19d65681a164c03ff2a",
+    "b091f4e25cb5097f42e1e4e2f81ff049fbf9868795ce0b5407ab6ce004649da7",
+    "63933e47c90dc551340d4c7ed0de3b66a1329f5926af7919e311908c92ce8ad5"
+  ],
+  "classification": "RESOLVED",
+  "scope": "supervised single-Issue landing",
+  "writes_offered": [
+    "merge",
+    "close"
+  ],
+  "delivery": {
+    "action": "close",
+    "status": "offered"
+  },
+  "merge_sha": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+  "issue_closed_at": "2026-09-17T08:36:30Z",
+  "noodle_reconciliation": {
+    "order_id": "soodles-46",
+    "order": {
+      "order_id": "soodles-46",
+      "sequence": 0,
+      "title": "Execute ed3c/soodles#46",
+      "plan": null,
+      "rationale": "Externally admitted current Issue",
+      "status": "completed",
+      "stages": [
+        {
+          "stage_index": 0,
+          "task_key": "execute",
+          "prompt": "{\"body_sha256\": \"cc4c33bbd27c125c895fd673deb8965ae172003442bdeebda9f849db85f33d51\", \"body_updated_at\": \"2026-09-17T07:59:19Z\", \"envelope_sha256\": \"a05a3c18edbea1365c3576e5181aca83a77082e8351491be1353f76df3941552\", \"issue\": 46, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"Implement the P/N guidance of admitted Soodles #46. This is its original Noodle order, created BEFORE implementation. Start HEAD must be clean40a3d18785387b57ec482497b62a44805b0e90ad. Read the exact external issue.json and observer-selection.json under /Users/neon/.codex/experiments/soodles46-verify-noodle-20260917. Use the pinned pstack-create-verification-skill.md there. Existing skills/verify-soodles and execute are patterns. Do not load the unrelated noodles operator runbook.\\nThe child sandbox is known to protect .agents/AGENTS writes. Do not change permissions or repeatedly attempt protected writes. Your concrete implementation deliverable is the COMPLETE proposed bytes of exactly seven admitted files in /Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/draft/ with their repository-relative layout: verify-noodle/SKILL.md and features/README.md, identity-skills.md, admission-recovery.md, order-handoff.md under .agents/skills; existing execute/SKILL.md with one narrow relevant invocation; existing AGENTS.md with one demonstrated routing pointer. No helper scripts or product gates. This is a deliberate supervisor handoff: parent will inspect/apply files in this original worktree only AFTER you naturally exit, then perform final live create/maintenance/acceptance/delivery. Do not edit or commit target source, create worktrees, merge or close. Your draft is real implementation work, not authority or final delivery.\\nInterview actual Noodle CLI/help and source at /Users/neon/.codex/experiments/noodle78-delivery-20260916/control, pinned ca81f942f478e8e4afcbbce6ca69640867efe753; native binary /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81 sha2565657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff. Read nearest command/owner sources and 2-3 existing patterns only. Capture your actual short CLI calls, stdout/stderr/exit in worker-evidence. No production daemon, recovery writes, credential calls or model sessions. Existing own .noodle status may be read only.\\nThe generated skill must have Launch, Doctor, Drive, Evidence, Cleanup, Helpers, Maintenance. Each of THREE feature recipes uses four H2s: Sub-features; How to get to it (user POV); Driving it with the Noodle CLI; Gotchas. Direct links from SKILL to features, independent index. Ground every command in actual help/source. Concrete input contract: supervisor supplies absolute measured binary/source/carrier, admitted subject/worktree or explicit disposable rejected-proposal copy, and external evidence destination. Name missing inputs, provider/owner and existing continuation. Never infer state, permissions or recovery. Consume current next.argv as an argv array; no replay from memory. Valid/admitted/unknown/live proposal refusal is GREEN. No_proposal is not completion. Native macOS evidence does not satisfy Soodles Linux runtime.lock acceptance. Buildinfo may disagree in nested worktrees: compare exact revision/clean flag/digest; no source claim from filename.\\nIdentity/skill feature: read version/build metadata, use actual skills list and verify exact resolved path/digests (resolution is not loading proof). Initial admission feature: stopped owner, exact digest/revision, archival and unchanged canonical checkpoint, disposable fixtures only unless explicitly authorized; use independently accepted #84 recovery observer/fixtures as provided external evidence, do not duplicate its algorithm. Real order/session handoff feature: externally admitted genuine Noodle order before writer; actual raw session/tool/own typed outcome and external recorder wait/exit, process/group absence; original-order completion/provider merge/closure/local cleanup remain distinct. Existing Noodle retry can discard uncommitted work: preserve actual draft/commit before any owner requeue, never invent checkpoint. Do not fabricate a second order for coverage.\\nCreation must be physically driven by coordinator after applying; label your authoring handoff as pending those stages. Full pstack maintenance then requires one read-only source reviewer per feature and coordinator live drive all features; no new maintenance PR for a clean pass. No claim of cost reduction. No new agent-facing policy/authority flag.\\nWhen draft and interview are complete, write a manifest/handoff in worker-evidence with each proposed file digest, exact original order/session/stage, source pointers and unresolved limits. Use actual measured Noodle event emit help/schema to emit ONE matching stage_message completed/blocking false ONLY for the finished authoring/handoff task, clearly state final source application/live maintenance/delivery remain supervisor work. On concrete inability emit blocked. No stage_yield, no exit-code invention. Return immediately after your own typed event. Bounded 720 seconds.\"}",
+          "skill": "execute",
+          "provider": "codex",
+          "model": "gpt-6-astra",
+          "runtime": "process",
+          "group": 0,
+          "status": "completed",
+          "extra_prompt": "",
+          "attempts": [
+            {
+              "attempt_id": "soodles-46-0-attempt-0",
+              "session_id": "soodles-46-0-execute-20260917-081036-db7f05",
+              "status": "completed",
+              "started_at": "2026-09-17T16:10:36.539545+08:00",
+              "completed_at": "2026-09-17T16:20:20.301732+08:00",
+              "exit_code": null,
+              "worktree_name": "soodles-46-0-execute",
+              "error": ""
+            }
+          ]
+        }
+      ],
+      "created_at": "2026-09-17T16:10:11.756215+08:00",
+      "updated_at": "2026-09-17T16:20:20.301732+08:00",
+      "metadata": {
+        "plan": "",
+        "rationale": "Externally admitted current Issue",
+        "title": "Execute ed3c/soodles#46"
+      }
+    },
+    "quiescent_sessions": [
+      {
+        "session_id": "soodles-46-0-execute-20260917-081036-db7f05",
+        "pid": 6477,
+        "process_and_group_absent": true
+      }
+    ]
+  },
+  "cleanup_intent": {
+    "path_present": true,
+    "branch_head": "bf426f1cebca0193110e97ebf65abdbad424578a",
+    "main_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "git_path": "/usr/bin/git",
+    "git_sha256": "b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9",
+    "noodle_sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff",
+    "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
+  },
+  "local": {
+    "head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "tree": "f52c7959f8e26dab13e9592f6f6a3443a46024ee",
+    "removed_worktree": "soodles-46-0-execute",
+    "worktree_owner": "Noodle"
+  }
+}

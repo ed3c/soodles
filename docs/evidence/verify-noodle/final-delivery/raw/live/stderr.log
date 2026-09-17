@@ -1,0 +1,17 @@
+2026-09-17T16:10:11.066518+08:00 INFO api: start initialized project=/Users/neon/soodles runtime_dir=/Users/neon/soodles/.noodle once=false server_enabled=false
+2026-09-17T16:10:11.066827+08:00 INFO api: web server disabled
+2026-09-17T16:10:11.074974+08:00 INFO api: control command action=mode status=ok
+2026-09-17T16:10:11.756149+08:00 INFO api: orders-next promoted
+2026-09-17T16:10:11.765527+08:00 INFO api: schedule dispatched session=schedule-20260917-081011-be1cd2 attempt=0
+2026-09-17T16:10:36.485869+08:00 INFO api: schedule completed session=schedule-20260917-081011-be1cd2
+2026-09-17T16:10:36.487773+08:00 INFO api: order removed order=schedule
+2026-09-17T16:10:36.490039+08:00 INFO api: mise changed, injecting schedule order
+2026-09-17T16:10:36.539949+08:00 INFO api: cook dispatched order=soodles-46 stage=0 session=soodles-46-0-execute-20260917-081036-db7f05 worktree=soodles-46-0-execute attempt=0
+2026-09-17T16:20:20.243762+08:00 INFO api: session meta indicates terminal state; enqueueing completion order=soodles-46 session=soodles-46-0-execute-20260917-081036-db7f05 status=exited
+2026-09-17T16:20:20.34183+08:00 WARN api: merge failed, forwarding to scheduler order=soodles-46 reason="merge failed: run adapter backlog.done command \"/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/backlog done 'soodles-46'\": no stderr: signal: killed"
+2026-09-17T16:20:20.341946+08:00 INFO api: scheduler not active, event stays in orders for later recovery order=soodles-46 event=merge_failed
+2026-09-17T16:20:20.34375+08:00 WARN api: merge failed: run adapter backlog.done command "/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/backlog done 'soodles-46'": no stderr: signal: killed path=cycle.merge_terminal class=order-hard recoverability=recoverable order_id=soodles-46 stage_index=0 order_class=stage-terminal cause="run adapter backlog.done command \"/Users/neon/.codex/experiments/soodles46-verify-noodle-20260917/backlog done 'soodles-46'\": no stderr: signal: killed"
+2026-09-17T16:20:20.446951+08:00 INFO api: schedule dispatched session=schedule-20260917-082020-89bce7 attempt=0
+2026-09-17T16:20:20.447943+08:00 WARN api: monitor run failed error="context canceled"
+2026-09-17T16:20:20.44964+08:00 WARN api: cook cancelled with status cancelled path=cycle.stage_terminal class=order-hard recoverability=recoverable order_id=schedule stage_index=0 order_class=stage-terminal
+2026-09-17T16:20:20.449709+08:00 INFO api: scheduler not active, event stays in orders for later recovery order=schedule event=stage_failed
