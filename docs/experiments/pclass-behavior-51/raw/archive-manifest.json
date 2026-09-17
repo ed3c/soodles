@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "issue": 51,
+  "classification": "RAW_ARCHIVES_SPLIT_FOR_PROVIDER_STORAGE",
+  "archives": [
+    {
+      "name": "pclass51-invalid-trial.tar.gz",
+      "bytes": 805123,
+      "sha256": "d2ba3e2a51c8b01de4171f4374a3927a6e72a456453eabae5789c8c17a70e20c",
+      "parts": [
+        {"name": "invalid.tar.gz.part-00", "bytes": 180000, "sha256": "e78e28dbb7e0865c31143309723c4a67131b2d8cde6a90ae57519c86fe5c2bfc"},
+        {"name": "invalid.tar.gz.part-01", "bytes": 180000, "sha256": "5890b29a55ff24531f2c6cbd86ce5155e31c482f4ada1c054b7f4c8e1d387824"},
+        {"name": "invalid.tar.gz.part-02", "bytes": 180000, "sha256": "146da71db34f8230967703cdf2b25b26e519de5add968f89c6a65e747885671f"},
+        {"name": "invalid.tar.gz.part-03", "bytes": 180000, "sha256": "b3a8ead4a04b08ad862734e7292357b6994b54d08310f065e6f8f2916fb93e6b"},
+        {"name": "invalid.tar.gz.part-04", "bytes": 85123, "sha256": "42bd1e070ad4ffd18b9f64952b715ae88de691c0c33db0e785f856e0f5ff5fdc"}
+      ]
+    },
+    {
+      "name": "pclass51-v2-evidence.tar.gz",
+      "bytes": 834377,
+      "sha256": "756fc2d9b9301df0c042a21339012afc5008970ce725d0b46375a573c66e4c4d",
+      "parts": [
+        {"name": "v2.tar.gz.part-00", "bytes": 180000, "sha256": "dc4e45a0cd95b2efd8d8adc51ccec3427d9b62e2a393e85705c3520787d8d5f5"},
+        {"name": "v2.tar.gz.part-01", "bytes": 180000, "sha256": "1efc1c9b3220c0e4c2dd350b9da791759e65437e71c1f49074990efcab22ac71"},
+        {"name": "v2.tar.gz.part-02", "bytes": 180000, "sha256": "62fb7edfc06cad8b2a28f0facd0b56f7ee173b95f122c04a527cc5e2d54849cc"},
+        {"name": "v2.tar.gz.part-03", "bytes": 180000, "sha256": "4a969ebd315c394eb802b3ed97f5dc1219ba14a0308cc7cf63b99cd407f0185e"},
+        {"name": "v2.tar.gz.part-04", "bytes": 114377, "sha256": "706cd705f2c25d7b35166c1403ab4faf4641349e2476caeb2090bb4ed0867a62"}
+      ]
+    }
+  ],
+  "reassembly": [
+    "cat invalid.tar.gz.part-* > pclass51-invalid-trial.tar.gz",
+    "cat v2.tar.gz.part-* > pclass51-v2-evidence.tar.gz",
+    "verify each reconstructed archive against its declared SHA-256 before extraction"
+  ],
+  "contains_credentials": false,
+  "authorizes_landing": false
+}

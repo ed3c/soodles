@@ -1,6 +1,0 @@
-{
-  "scope": "test fixture, not product defect",
-  "attempt": 1,
-  "failure": "test_shared_default_reader_admits_then_reuses_without_duplicate_mailbox switched automatic to supervised while automatic proposal remained pending; existing owner correctly refused different outstanding proposal.",
-  "correction": "Repeat the same route for idempotence; existing positive controls independently exercise supervised."
-}

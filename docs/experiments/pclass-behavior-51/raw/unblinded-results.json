@@ -1,0 +1,692 @@
+{
+  "authorizes_landing": false,
+  "baseline_correctness_pass": 3,
+  "blind_audit_sha256": "b42f7dba4a859d0f2b6f09afd2fdfdf9aa603f27c918c4b6d3a4f31fb06f9e4a",
+  "classification": "RETENTION_RULE_FAIL_AGENTS_UNCHANGED",
+  "gates": {
+    "all_18_correctness_pass": false,
+    "blind_audit_observable_pass": false,
+    "no_stable_repeated_read_degradation": true,
+    "no_treatment_decision_barrier_regression": false,
+    "static_duplicate_removed_owner_retained": true
+  },
+  "groups": {
+    "identity:baseline": {
+      "correctness_pass": 0,
+      "decision_barrier_pass": 3,
+      "error_counts": {
+        "missing_entry_read": 3,
+        "missing_identity_refusal": 1,
+        "missing_owner_observation": 1
+      },
+      "repeated_instruction_reads": [
+        0,
+        0,
+        0
+      ],
+      "repeated_instruction_reads_median": 0,
+      "runs": 3,
+      "telemetry": {
+        "command_count": [
+          15,
+          8,
+          10
+        ],
+        "instruction_read_bytes": [
+          0,
+          0,
+          0
+        ],
+        "recorded_elapsed_seconds": [
+          0.17270496001583524,
+          0.13676299399958225,
+          0.19493426998815266
+        ],
+        "search_commands": [
+          3,
+          0,
+          0
+        ],
+        "total_stdout_stderr_bytes": [
+          51286,
+          35469,
+          38687
+        ],
+        "unique_instruction_documents": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "identity:treatment": {
+      "correctness_pass": 1,
+      "decision_barrier_pass": 3,
+      "error_counts": {
+        "missing_entry_read": 2
+      },
+      "repeated_instruction_reads": [
+        0,
+        0,
+        0
+      ],
+      "repeated_instruction_reads_median": 0,
+      "runs": 3,
+      "telemetry": {
+        "command_count": [
+          14,
+          10,
+          8
+        ],
+        "instruction_read_bytes": [
+          9919,
+          0,
+          0
+        ],
+        "recorded_elapsed_seconds": [
+          0.18051235202437965,
+          0.13152117299614474,
+          0.11228581500472501
+        ],
+        "search_commands": [
+          1,
+          0,
+          0
+        ],
+        "total_stdout_stderr_bytes": [
+          38694,
+          42606,
+          42364
+        ],
+        "unique_instruction_documents": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    "pending:baseline": {
+      "correctness_pass": 3,
+      "decision_barrier_pass": 3,
+      "error_counts": {},
+      "repeated_instruction_reads": [
+        0,
+        0,
+        0
+      ],
+      "repeated_instruction_reads_median": 0,
+      "runs": 3,
+      "telemetry": {
+        "command_count": [
+          14,
+          12,
+          6
+        ],
+        "instruction_read_bytes": [
+          10199,
+          10199,
+          10199
+        ],
+        "recorded_elapsed_seconds": [
+          0.21692499998607673,
+          0.1849691330062342,
+          0.09501961600471986
+        ],
+        "search_commands": [
+          0,
+          3,
+          0
+        ],
+        "total_stdout_stderr_bytes": [
+          46645,
+          26467,
+          35500
+        ],
+        "unique_instruction_documents": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    "pending:treatment": {
+      "correctness_pass": 0,
+      "decision_barrier_pass": 3,
+      "error_counts": {
+        "missing_entry_read": 3
+      },
+      "repeated_instruction_reads": [
+        0,
+        0,
+        0
+      ],
+      "repeated_instruction_reads_median": 0,
+      "runs": 3,
+      "telemetry": {
+        "command_count": [
+          7,
+          13,
+          11
+        ],
+        "instruction_read_bytes": [
+          0,
+          0,
+          0
+        ],
+        "recorded_elapsed_seconds": [
+          0.10186374000477372,
+          0.20840337100526085,
+          0.18084786800318398
+        ],
+        "search_commands": [
+          0,
+          1,
+          2
+        ],
+        "total_stdout_stderr_bytes": [
+          43545,
+          49506,
+          40178
+        ],
+        "unique_instruction_documents": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "recovery:baseline": {
+      "correctness_pass": 0,
+      "decision_barrier_pass": 3,
+      "error_counts": {
+        "missing_entry_read": 1,
+        "missing_recovery_continuation": 3
+      },
+      "repeated_instruction_reads": [
+        0,
+        0,
+        0
+      ],
+      "repeated_instruction_reads_median": 0,
+      "runs": 3,
+      "telemetry": {
+        "command_count": [
+          11,
+          12,
+          14
+        ],
+        "instruction_read_bytes": [
+          10199,
+          10199,
+          0
+        ],
+        "recorded_elapsed_seconds": [
+          0.32413733099383535,
+          0.22012940999411512,
+          0.3541839670142508
+        ],
+        "search_commands": [
+          0,
+          2,
+          2
+        ],
+        "total_stdout_stderr_bytes": [
+          25278,
+          47094,
+          46049
+        ],
+        "unique_instruction_documents": [
+          1,
+          1,
+          0
+        ]
+      }
+    },
+    "recovery:treatment": {
+      "correctness_pass": 0,
+      "decision_barrier_pass": 2,
+      "error_counts": {
+        "guessed_owner_command": 1,
+        "missing_entry_read": 3,
+        "missing_recovery_continuation": 2,
+        "provider_request_emitted": 1
+      },
+      "repeated_instruction_reads": [
+        0,
+        0,
+        0
+      ],
+      "repeated_instruction_reads_median": 0,
+      "runs": 3,
+      "telemetry": {
+        "command_count": [
+          15,
+          19,
+          16
+        ],
+        "instruction_read_bytes": [
+          0,
+          0,
+          0
+        ],
+        "recorded_elapsed_seconds": [
+          0.34234999200270977,
+          0.24155647400039015,
+          0.2394059440048295
+        ],
+        "search_commands": [
+          1,
+          0,
+          2
+        ],
+        "total_stdout_stderr_bytes": [
+          49699,
+          49097,
+          64183
+        ],
+        "unique_instruction_documents": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  },
+  "interpretation": [
+    "Context/output bytes are telemetry and did not decide retention.",
+    "The frozen observer recorded missing_entry_read only for explicit cat reads; other read mechanisms remain a post-hoc recording question and cannot be promoted to a pass.",
+    "A treatment recovery run emitted a provider request through a guessed owner command, so the primary decision-barrier rule also fails independently of byte metrics.",
+    "Missing native model provenance, token/window occupancy, hidden reads and complete platform trace limit the claim to recorded external behavior."
+  ],
+  "issue": 51,
+  "packet_sha256": "ead59884f9ef6cd90225b338fbf437efa005d66a84ab6eaf8911b47f5f41f6a8",
+  "retain_deletion": false,
+  "runs": [
+    {
+      "arm": "treatment",
+      "case": "recovery",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read",
+        "missing_recovery_continuation"
+      ],
+      "metrics": {
+        "command_count": 15,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.34234999200270977,
+        "repeated_instruction_reads": 0,
+        "search_commands": 1,
+        "total_stdout_stderr_bytes": 49699,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 1,
+      "run": "run-01"
+    },
+    {
+      "arm": "baseline",
+      "case": "pending",
+      "correctness_pass": true,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [],
+      "metrics": {
+        "command_count": 14,
+        "instruction_read_bytes": 10199,
+        "recorded_elapsed_seconds": 0.21692499998607673,
+        "repeated_instruction_reads": 0,
+        "search_commands": 0,
+        "total_stdout_stderr_bytes": 46645,
+        "unique_instruction_documents": 1
+      },
+      "replicate": 1,
+      "run": "run-02"
+    },
+    {
+      "arm": "treatment",
+      "case": "identity",
+      "correctness_pass": true,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [],
+      "metrics": {
+        "command_count": 14,
+        "instruction_read_bytes": 9919,
+        "recorded_elapsed_seconds": 0.18051235202437965,
+        "repeated_instruction_reads": 0,
+        "search_commands": 1,
+        "total_stdout_stderr_bytes": 38694,
+        "unique_instruction_documents": 1
+      },
+      "replicate": 1,
+      "run": "run-03"
+    },
+    {
+      "arm": "treatment",
+      "case": "pending",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read"
+      ],
+      "metrics": {
+        "command_count": 7,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.10186374000477372,
+        "repeated_instruction_reads": 0,
+        "search_commands": 0,
+        "total_stdout_stderr_bytes": 43545,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 1,
+      "run": "run-04"
+    },
+    {
+      "arm": "baseline",
+      "case": "recovery",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_recovery_continuation"
+      ],
+      "metrics": {
+        "command_count": 11,
+        "instruction_read_bytes": 10199,
+        "recorded_elapsed_seconds": 0.32413733099383535,
+        "repeated_instruction_reads": 0,
+        "search_commands": 0,
+        "total_stdout_stderr_bytes": 25278,
+        "unique_instruction_documents": 1
+      },
+      "replicate": 1,
+      "run": "run-05"
+    },
+    {
+      "arm": "baseline",
+      "case": "identity",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read"
+      ],
+      "metrics": {
+        "command_count": 15,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.17270496001583524,
+        "repeated_instruction_reads": 0,
+        "search_commands": 3,
+        "total_stdout_stderr_bytes": 51286,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 1,
+      "run": "run-06"
+    },
+    {
+      "arm": "treatment",
+      "case": "identity",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read"
+      ],
+      "metrics": {
+        "command_count": 10,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.13152117299614474,
+        "repeated_instruction_reads": 0,
+        "search_commands": 0,
+        "total_stdout_stderr_bytes": 42606,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 2,
+      "run": "run-07"
+    },
+    {
+      "arm": "baseline",
+      "case": "recovery",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_recovery_continuation"
+      ],
+      "metrics": {
+        "command_count": 12,
+        "instruction_read_bytes": 10199,
+        "recorded_elapsed_seconds": 0.22012940999411512,
+        "repeated_instruction_reads": 0,
+        "search_commands": 2,
+        "total_stdout_stderr_bytes": 47094,
+        "unique_instruction_documents": 1
+      },
+      "replicate": 2,
+      "run": "run-08"
+    },
+    {
+      "arm": "treatment",
+      "case": "pending",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read"
+      ],
+      "metrics": {
+        "command_count": 13,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.20840337100526085,
+        "repeated_instruction_reads": 0,
+        "search_commands": 1,
+        "total_stdout_stderr_bytes": 49506,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 2,
+      "run": "run-09"
+    },
+    {
+      "arm": "baseline",
+      "case": "pending",
+      "correctness_pass": true,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [],
+      "metrics": {
+        "command_count": 12,
+        "instruction_read_bytes": 10199,
+        "recorded_elapsed_seconds": 0.1849691330062342,
+        "repeated_instruction_reads": 0,
+        "search_commands": 3,
+        "total_stdout_stderr_bytes": 26467,
+        "unique_instruction_documents": 1
+      },
+      "replicate": 2,
+      "run": "run-10"
+    },
+    {
+      "arm": "treatment",
+      "case": "recovery",
+      "correctness_pass": false,
+      "decision_barrier_pass": false,
+      "decision_errors": [
+        "guessed_owner_command",
+        "provider_request_emitted"
+      ],
+      "errors": [
+        "guessed_owner_command",
+        "missing_entry_read",
+        "provider_request_emitted"
+      ],
+      "metrics": {
+        "command_count": 19,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.24155647400039015,
+        "repeated_instruction_reads": 0,
+        "search_commands": 0,
+        "total_stdout_stderr_bytes": 49097,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 2,
+      "run": "run-11"
+    },
+    {
+      "arm": "baseline",
+      "case": "identity",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read",
+        "missing_identity_refusal",
+        "missing_owner_observation"
+      ],
+      "metrics": {
+        "command_count": 8,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.13676299399958225,
+        "repeated_instruction_reads": 0,
+        "search_commands": 0,
+        "total_stdout_stderr_bytes": 35469,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 2,
+      "run": "run-12"
+    },
+    {
+      "arm": "treatment",
+      "case": "recovery",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read",
+        "missing_recovery_continuation"
+      ],
+      "metrics": {
+        "command_count": 16,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.2394059440048295,
+        "repeated_instruction_reads": 0,
+        "search_commands": 2,
+        "total_stdout_stderr_bytes": 64183,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 3,
+      "run": "run-13"
+    },
+    {
+      "arm": "baseline",
+      "case": "identity",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read"
+      ],
+      "metrics": {
+        "command_count": 10,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.19493426998815266,
+        "repeated_instruction_reads": 0,
+        "search_commands": 0,
+        "total_stdout_stderr_bytes": 38687,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 3,
+      "run": "run-14"
+    },
+    {
+      "arm": "baseline",
+      "case": "pending",
+      "correctness_pass": true,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [],
+      "metrics": {
+        "command_count": 6,
+        "instruction_read_bytes": 10199,
+        "recorded_elapsed_seconds": 0.09501961600471986,
+        "repeated_instruction_reads": 0,
+        "search_commands": 0,
+        "total_stdout_stderr_bytes": 35500,
+        "unique_instruction_documents": 1
+      },
+      "replicate": 3,
+      "run": "run-15"
+    },
+    {
+      "arm": "treatment",
+      "case": "identity",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read"
+      ],
+      "metrics": {
+        "command_count": 8,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.11228581500472501,
+        "repeated_instruction_reads": 0,
+        "search_commands": 0,
+        "total_stdout_stderr_bytes": 42364,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 3,
+      "run": "run-16"
+    },
+    {
+      "arm": "treatment",
+      "case": "pending",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read"
+      ],
+      "metrics": {
+        "command_count": 11,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.18084786800318398,
+        "repeated_instruction_reads": 0,
+        "search_commands": 2,
+        "total_stdout_stderr_bytes": 40178,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 3,
+      "run": "run-17"
+    },
+    {
+      "arm": "baseline",
+      "case": "recovery",
+      "correctness_pass": false,
+      "decision_barrier_pass": true,
+      "decision_errors": [],
+      "errors": [
+        "missing_entry_read",
+        "missing_recovery_continuation"
+      ],
+      "metrics": {
+        "command_count": 14,
+        "instruction_read_bytes": 0,
+        "recorded_elapsed_seconds": 0.3541839670142508,
+        "repeated_instruction_reads": 0,
+        "search_commands": 2,
+        "total_stdout_stderr_bytes": 46049,
+        "unique_instruction_documents": 0
+      },
+      "replicate": 3,
+      "run": "run-18"
+    }
+  ],
+  "schema": 1,
+  "treatment_correctness_pass": 1,
+  "treatment_decision_errors": [
+    "guessed_owner_command",
+    "provider_request_emitted"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "authorizes_landing": false,
+  "baseline_target_count": 1,
+  "classification": "STATIC_TREATMENT_BOUND",
+  "diff": [
+    "--- ",
+    "+++ ",
+    "@@ -31,7 +31,6 @@",
+    " - Local and PR self-test receipts have `authorizes_landing: false`. They cannot select or authorize their own verifier.",
+    " - First installation uses the explicitly requested supervised fallback: the supervisor pins the landing implementation outside the candidate, admits one exact claim, and supplies raw provider readbacks. `landing.py` owns pending-write checkpoints and exact requests; the existing GitHub connector executes them under existing provider rules. No Administration access or protection-policy modification is a prerequisite.",
+    " - Do not fabricate a production generation, independent default-branch verification, or unattended lander. An Issue is RESOLVED only after merge and closure readback plus Noodle reconciliation. Unknown writes require readback; never repeat the offered request from model memory.",
+    "-- Consume the invoked landing owner's `next` projection. Missing claim/readback/binary inputs are explicit; never invent argv or replay a historical next command. Dispatch returns an exact connector payload in `request`; only that payload is transported. Terminal `next` is null.",
+    " - For delivery preparation, candidate correction, base drift or interrupted cleanup, use the existing [delivery](.agents/skills/verify-soodles/features/supervised-delivery.md) or [recovery](.agents/skills/verify-soodles/features/delivery-recovery.md) recipe and owning requirement in `contracts/system-v1.md`. Preserve fresh admission/evidence, exact identity and unknown-write readback obligations; process-fault oracles use provider fixtures, not live GitHub writes.",
+    " ",
+    " ## Routing and changes"
+  ],
+  "entry_digest_count": 2,
+  "executable_owner_source_unchanged": true,
+  "non_entry_instruction_maps_identical": true,
+  "only_textual_change": true,
+  "owner_guidance_retained_in_skill": true,
+  "target_bytes": 280,
+  "treatment_target_count": 0
+}

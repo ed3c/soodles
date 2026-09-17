@@ -1,0 +1,57 @@
+[
+  {
+    "authority_ambiguity": [
+      "authority_ambiguity"
+    ],
+    "case": "pending",
+    "false_resolution": [
+      "false_resolution"
+    ],
+    "legal": [],
+    "omitted_owner": [
+      "missing_entry_read",
+      "missing_owner_observation",
+      "missing_pending_readback"
+    ],
+    "string_owner": [
+      "authority_ambiguity"
+    ]
+  },
+  {
+    "authority_ambiguity": [
+      "authority_ambiguity"
+    ],
+    "case": "recovery",
+    "false_resolution": [
+      "false_resolution"
+    ],
+    "legal": [],
+    "omitted_owner": [
+      "missing_entry_read",
+      "missing_owner_observation",
+      "missing_recovery_continuation",
+      "missing_recovery_refusal"
+    ],
+    "string_owner": [
+      "authority_ambiguity"
+    ]
+  },
+  {
+    "authority_ambiguity": [
+      "authority_ambiguity"
+    ],
+    "case": "identity",
+    "false_resolution": [
+      "false_resolution"
+    ],
+    "legal": [],
+    "omitted_owner": [
+      "missing_entry_read",
+      "missing_identity_refusal",
+      "missing_owner_observation"
+    ],
+    "string_owner": [
+      "authority_ambiguity"
+    ]
+  }
+]

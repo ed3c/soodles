@@ -1,0 +1,25 @@
+{
+  "issue": 51,
+  "classification": "FRESH_SUPERVISOR_OBSERVER_SCHEMA_CORRECTION",
+  "invalid_trial": "/workspace/scratch/bd9d2e05d141/pclass51-lab",
+  "observed_failure": {
+    "operation": "make_blind_packet",
+    "exception": "AttributeError",
+    "field": "receipt.owner",
+    "cause": "The frozen observer assumed an object while eight consumers emitted a string."
+  },
+  "correction": [
+    "Require receipt.owner to be an object with exact entry and operation in every neutral task packet.",
+    "Make the observer classify every non-object owner as authority_ambiguity instead of crashing.",
+    "Add a planted string-owner control before launching replacement consumers."
+  ],
+  "unchanged": [
+    "P-class treatment",
+    "three fixture cases",
+    "pinned executable owner",
+    "correctness and decision-barrier criteria",
+    "telemetry-only cost policy"
+  ],
+  "decision": "The first 18 receipts are retained as invalid-trial evidence and are not reused for a treatment claim. Launch a fresh matched 18-run comparison only after this correction and its controls are frozen.",
+  "authorizes_landing": false
+}

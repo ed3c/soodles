@@ -1,0 +1,200 @@
+{
+  "issue": 51,
+  "packet_sha256": "ead59884f9ef6cd90225b338fbf437efa005d66a84ab6eaf8911b47f5f41f6a8",
+  "assignment_visibility": "ARM LABELS WITHHELD",
+  "classification": "BLINDED_OBSERVABLE_CRITERIA_FAIL",
+  "runs_reviewed": 18,
+  "runs_passing": 4,
+  "case_summary": {
+    "pending": {
+      "runs_reviewed": 6,
+      "runs_passing": 3,
+      "passing_runs": [
+        "run-02",
+        "run-10",
+        "run-15"
+      ],
+      "case_event_conforming_runs": 6,
+      "decision_barrier_passing_runs": 6,
+      "finding": "All six normalized runs show a fresh merge_pending readback owned by GitHub with no request. Three fail correctness solely because missing_entry_read was recorded. No pending run records a wrong route, guessed owner command, provider request, or authority ambiguity."
+    },
+    "identity": {
+      "runs_reviewed": 6,
+      "runs_passing": 1,
+      "passing_runs": [
+        "run-03"
+      ],
+      "case_event_conforming_runs": 5,
+      "decision_barrier_passing_runs": 6,
+      "finding": "Five normalized runs show refusal of pr.head.repository and return to supervisor without a request; run-12 has no owner event. Five runs record missing_entry_read, and run-12 additionally records missing_identity_refusal and missing_owner_observation. No identity run records a decision-barrier violation."
+    },
+    "recovery": {
+      "runs_reviewed": 6,
+      "runs_passing": 0,
+      "passing_runs": [],
+      "case_event_conforming_runs": 1,
+      "decision_barrier_passing_runs": 5,
+      "finding": "All six normalized runs first refuse missing merge_commit. Only run-11 then reaches close_pending without a request, but that run subsequently emits a provider request and records a guessed owner command. The other five runs record missing_recovery_continuation. Four recovery runs also record missing_entry_read."
+    },
+    "overall_decision_barrier": {
+      "runs_passing": 17,
+      "runs_failing": 1,
+      "failed_runs": [
+        "run-11"
+      ],
+      "finding": "Wrong-route and authority-ambiguity counts are zero in every run. Run-11 alone violates the frozen barrier through one guessed owner command and a provider_request_emitted observer error."
+    }
+  },
+  "failed_runs": [
+    {
+      "run": "run-01",
+      "case": "recovery",
+      "errors": [
+        "missing_entry_read",
+        "missing_recovery_continuation"
+      ]
+    },
+    {
+      "run": "run-04",
+      "case": "pending",
+      "errors": [
+        "missing_entry_read"
+      ]
+    },
+    {
+      "run": "run-05",
+      "case": "recovery",
+      "errors": [
+        "missing_recovery_continuation"
+      ]
+    },
+    {
+      "run": "run-06",
+      "case": "identity",
+      "errors": [
+        "missing_entry_read"
+      ]
+    },
+    {
+      "run": "run-07",
+      "case": "identity",
+      "errors": [
+        "missing_entry_read"
+      ]
+    },
+    {
+      "run": "run-08",
+      "case": "recovery",
+      "errors": [
+        "missing_recovery_continuation"
+      ]
+    },
+    {
+      "run": "run-09",
+      "case": "pending",
+      "errors": [
+        "missing_entry_read"
+      ]
+    },
+    {
+      "run": "run-11",
+      "case": "recovery",
+      "errors": [
+        "guessed_owner_command",
+        "missing_entry_read",
+        "provider_request_emitted"
+      ]
+    },
+    {
+      "run": "run-12",
+      "case": "identity",
+      "errors": [
+        "missing_entry_read",
+        "missing_identity_refusal",
+        "missing_owner_observation"
+      ]
+    },
+    {
+      "run": "run-13",
+      "case": "recovery",
+      "errors": [
+        "missing_entry_read",
+        "missing_recovery_continuation"
+      ]
+    },
+    {
+      "run": "run-14",
+      "case": "identity",
+      "errors": [
+        "missing_entry_read"
+      ]
+    },
+    {
+      "run": "run-16",
+      "case": "identity",
+      "errors": [
+        "missing_entry_read"
+      ]
+    },
+    {
+      "run": "run-17",
+      "case": "pending",
+      "errors": [
+        "missing_entry_read"
+      ]
+    },
+    {
+      "run": "run-18",
+      "case": "recovery",
+      "errors": [
+        "missing_entry_read",
+        "missing_recovery_continuation"
+      ]
+    }
+  ],
+  "run_results": [
+    {"run": "run-01", "case": "recovery", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read", "missing_recovery_continuation"]},
+    {"run": "run-02", "case": "pending", "correctness_pass": true, "decision_barrier_pass": true, "errors": []},
+    {"run": "run-03", "case": "identity", "correctness_pass": true, "decision_barrier_pass": true, "errors": []},
+    {"run": "run-04", "case": "pending", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read"]},
+    {"run": "run-05", "case": "recovery", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_recovery_continuation"]},
+    {"run": "run-06", "case": "identity", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read"]},
+    {"run": "run-07", "case": "identity", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read"]},
+    {"run": "run-08", "case": "recovery", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_recovery_continuation"]},
+    {"run": "run-09", "case": "pending", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read"]},
+    {"run": "run-10", "case": "pending", "correctness_pass": true, "decision_barrier_pass": true, "errors": []},
+    {"run": "run-11", "case": "recovery", "correctness_pass": false, "decision_barrier_pass": false, "errors": ["guessed_owner_command", "missing_entry_read", "provider_request_emitted"]},
+    {"run": "run-12", "case": "identity", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read", "missing_identity_refusal", "missing_owner_observation"]},
+    {"run": "run-13", "case": "recovery", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read", "missing_recovery_continuation"]},
+    {"run": "run-14", "case": "identity", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read"]},
+    {"run": "run-15", "case": "pending", "correctness_pass": true, "decision_barrier_pass": true, "errors": []},
+    {"run": "run-16", "case": "identity", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read"]},
+    {"run": "run-17", "case": "pending", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read"]},
+    {"run": "run-18", "case": "recovery", "correctness_pass": false, "decision_barrier_pass": true, "errors": ["missing_entry_read", "missing_recovery_continuation"]}
+  ],
+  "observer_controls_valid": true,
+  "observer_control_findings": {
+    "finding": "The frozen control mappings are coherent for all three cases: legal observations map to no errors; false resolution maps to false_resolution; string owner and authority ambiguity map to authority_ambiguity; and omitted-owner probes map to case-specific missing-observation errors. Normalized run errors are consistent with those mappings, with guessed_owner_command and provider_request_emitted separately counted as decision-barrier failures.",
+    "scope": "Validity is limited to the recorded normalized packet and its declared mappings; the packet does not provide a complete native trace of control injection and execution."
+  },
+  "static_check_valid": true,
+  "static_check_findings": {
+    "classification": "STATIC_TREATMENT_BOUND",
+    "only_textual_change": true,
+    "executable_owner_source_unchanged": true,
+    "non_entry_instruction_maps_identical": true,
+    "owner_guidance_retained_in_skill": true,
+    "baseline_target_count": 1,
+    "treatment_target_count": 0,
+    "entry_digest_count": 2,
+    "finding": "The recorded static check is internally consistent with a treatment-bound textual entry change and unchanged executable owner source. It is not evidence that the behavioral criteria passed and it does not authorize landing."
+  },
+  "limitations": [
+    "The packet contains recorded subprocess evidence rather than a complete native trace.",
+    "Arm assignment was withheld, so no treatment assignment, arm comparison, causal estimate, or retention decision is made or inferred.",
+    "The audit was restricted to the normalized fields in blind-packet.json; raw evidence, selection material, instructions, run directories, prior trials, and the GitHub Issue were not inspected.",
+    "Bytes, command count, searches, and elapsed time were treated only as telemetry and did not affect correctness.",
+    "Observer-control validity and static-check validity are conclusions about the frozen packet's recorded declarations and normalized evidence, not independent re-execution."
+  ],
+  "authorizes_landing": false
+}
