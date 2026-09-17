@@ -1,8 +1,8 @@
 # Issue #39: context transfer experiment
 
-Current status: the separately declared [local recorder correction](local/results.md) passes the unchanged capability judge with actual child wait exit 0, native Astra turn identity, tool results and matching typed outcome. Terminal delivery is explicitly deferred until the exit receipt is durable; uninstrumented natural exit is not asserted. Earlier local INCOMPLETE runs remain preserved. Full local pairs are NOT_RUN. The [cloud results](recovery-results.md) are unchanged; chronology below is historical.
+Current status: the [complete instrumented local comparison](local/comparison-results.md) satisfies the three bounded cases in both arms, with scoped non-regression and no demonstrated treatment advantage. Actual child exits, native model/tool evidence, producer transfer and independent raw/export review are preserved in its immutable archive. Disclosed procedural deviations and failed pre-model attempts remain visible. Historical [cloud results](recovery-results.md) and earlier local INCOMPLETE observations are unchanged; chronology below is historical.
 
-Class: N. Status: native paired cases executed; evidence gate incomplete. See [current observations](native-results.md); the earlier setup chronology below is retained.
+Class: N. Historical cloud status: native paired cases executed; evidence gate incomplete. See [current observations](native-results.md); the earlier setup chronology below is retained.
 Owner: https://github.com/ed3c/soodles/issues/39
 Initial audited baseline: `50f41919ead671d69eade1ae5cc66bd1d96e347c`.
 Planned comparison baseline after PR #38 merged: `e4b4a8487855b75ef2d47087019bb52c4d5ffd6c`.

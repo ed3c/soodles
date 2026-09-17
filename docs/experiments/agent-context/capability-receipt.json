@@ -295,5 +295,17 @@
       "complete_capture",
       "observed_model"
     ]
+  },
+  "historical_top_level_scope": "Existing classification and cloud fields retain their historical cloud scope; they do not classify the separate local comparison.",
+  "latest_local_comparison": {
+    "authorizes_landing": false,
+    "both_arms_green": true,
+    "carrier": "instrumented_local_macos",
+    "classification": "SCOPED_COMPARISON_COMPLETE_WITH_DISCLOSED_DEVIATIONS",
+    "independent_audit": "https://github.com/ed3c/soodles/blob/848daf25cb22800471006e0c895ffd963f167c87/docs/experiments/agent-context/local-comparison/independent-audit/final-audit.json",
+    "public_export_audit": "https://github.com/ed3c/soodles/blob/848daf25cb22800471006e0c895ffd963f167c87/docs/experiments/agent-context/local-comparison/independent-audit/export-audit.json",
+    "receipt": "https://github.com/ed3c/soodles/blob/848daf25cb22800471006e0c895ffd963f167c87/docs/experiments/agent-context/local-comparison/comparison-receipt.json",
+    "report": "local/comparison-results.md",
+    "treatment_advantage_demonstrated": false
   }
 }

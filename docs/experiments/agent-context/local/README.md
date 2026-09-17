@@ -1,5 +1,7 @@
 # Prospective local carrier experiment
 
+Current local result (2026-09-17): [three complete matched cases](comparison-results.md), both arms GREEN with disclosed limits and no superiority claim. The capability/prospective history below remains unchanged.
+
 This is executable experimental code inside Issue 39's existing boundary. It grants
 no landing authority. The frozen cloud observer remains unchanged at e0f17e0a;
 cloud cases keep their original verdicts. `cloud_observe.py` retains its exact bytes.

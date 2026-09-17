@@ -1,5 +1,7 @@
 # Corrected child-exit observation, 2026-09-17
 
+Current local result (2026-09-17): [three complete matched cases](comparison-results.md), both arms GREEN with disclosed limits and no superiority claim. The capability/prospective history below remains unchanged.
+
 Status: **CAPABILITY_OBSERVED** for the explicitly instrumented local carrier.
 [Immutable receipt, both attempts and raw evidence](https://github.com/ed3c/soodles/blob/397e9efd4824b3bde3976081b169b452ff423e7c/docs/experiments/agent-context/exit-recorder/receipt.json).
 The capability judge has exactly the original bytes. Its verdict has no missing
