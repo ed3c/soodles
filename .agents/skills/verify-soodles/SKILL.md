@@ -1,13 +1,15 @@
 ---
 name: verify-soodles
-description: Verify Soodles runtime admission, supervised delivery and recovery through existing owners. Consume structured next actions, preserve scoped receipts, and maintain the demonstrated feature map.
+description: Verify Soodles runtime admission, supervised delivery and recovery through existing owners, and bounded P-class behavior/context comparisons. Consume structured next actions, preserve scoped receipts, and maintain the demonstrated feature map.
 ---
 
 # Verify Soodles
 
-This is a CLI application with an external supervised publisher and GitHub transport. Read the relevant recipe directly: [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), or [delivery recovery](features/delivery-recovery.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
+This is a CLI application with an external supervised publisher and GitHub transport. Read the relevant recipe directly: [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
 
 ## Launch
+
+For P-class behavior/context work, read its recipe before any runtime doctor: use the supplied carrier and operation-specific prerequisites. Native cloud consumers require neither Codex CLI nor the Linux runtime binary. The coordinator captures observations; independent consumers receive only their assigned task/instructions/inputs. A scoped feature check does not claim a full maintenance pass.
 
 Runtime admission and delivery-recovery fixtures run from a clean committed Soodles checkout with the absolute binary admitted by `policy/runtime.lock.json`. These CLI drives are short-lived and noninteractive; do not start `noodle start` for them. Bounded Issue execution instead uses the supervisor's separately measured carrier and existing Noodle lifecycle, as its recipe specifies. Neither route substitutes its binary or platform evidence for the other.
 
@@ -40,6 +42,8 @@ Local feature receipts have `authorizes_landing: false`; `VERIFIED` is not Issue
 The runtime driver owns its temporary sentinel directory; recovery oracles own disposable fixtures and wait for their child processes. Preserve evidence outside those directories through teardown, including on failure. Noodle owns the task worktree; only the existing delivery reconciliation may remove it. If that removal is expected, verify the reported merged identity in the surviving control root instead of invoking a deleted candidate path. A failed receipt is evidence, not permission for an unchanged retry.
 
 ## Maintenance
+
+P-class comparisons are one mapped feature, not a mandatory preflight for other features. Maintain reviews the recipe and its recording helper against source and drives it through the supplied experiment packet. Report feature behavior, measured context/cost, map coverage and delivery independently. A full pass still needs all mapped features; unavailable prerequisites remain blocked. The originating issue owns cross-file migration and landing; maintain edits only this skill directory. Never change an active experiment's judge while evaluating its candidate.
 
 This existing skill was created using pstack at `ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa`. Use its `maintain-verification-skill` for a map audit or observed recipe drift; do not repeat create. A full pass audits the index, runs one read-only source review per feature concurrently, reconciles source/churn drift, and has the coordinator live-drive every mapped feature with doctor, receipts and teardown. Outcome is clean, changed or blocked; clean/blocked passes do not manufacture a PR. Only demonstrated skill corrections belong in a changed maintenance PR. Ordinary feature use does not invoke either authoring method.
 
