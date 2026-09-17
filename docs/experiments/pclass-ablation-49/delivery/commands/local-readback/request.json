@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python",
+    "-c",
+    "import json,subprocess,pathlib; root=pathlib.Path(\"/workspace/scratch/bd9d2e05d141/pclass49-control\"); wt=root/\".worktrees/issue-49-pclass-ablation\"; g=lambda p,*a:subprocess.check_output([\"git\",\"-C\",str(p),*a],text=True).strip(); print(json.dumps({\"main_head\":g(root,\"rev-parse\",\"HEAD\"),\"main_clean\":not g(root,\"status\",\"--porcelain\"),\"candidate_head\":g(wt,\"rev-parse\",\"HEAD\"),\"candidate_tree\":g(wt,\"rev-parse\",\"HEAD^{tree}\"),\"candidate_clean\":not g(wt,\"status\",\"--porcelain\"),\"worktree_retained\":wt.exists(),\"registration\":g(root,\"worktree\",\"list\",\"--porcelain\")}))"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141",
+  "time_ns": 1789651080145854206,
+  "files_before": {},
+  "timeout_seconds": 60
+}
