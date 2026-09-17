@@ -1,3 +1,5 @@
+> Historical #39 stage record. Its observations apply only to the source, carrier and inputs named below. See [the current comparison/delivery report](comparison-results.md) for the resumed integrated-input result; historical failures are retained.
+
 # Prospective complete local comparison
 
 Owner: Issue 39. This is the instrumented macOS Soodles → Noodle → Codex carrier,

@@ -1,3 +1,110 @@
+# Integrated local comparison — 2026-09-17
+
+N-class report for [Issue 39](https://github.com/ed3c/soodles/issues/39).
+The current comparison uses main `1ff2882891792b50d97529c9ee1a3e76eac1a6e7`
+and the five frozen treatment instruction blobs at
+`388c86be5eef0f317b0ae38ffac70892f24c13de`, preserving #41/#44/#46.
+It supersedes the historical input selection below, not its recorded results.
+
+[Immutable comparison receipt](https://github.com/ed3c/soodles/blob/9234046455c158180f25f6bd3c2dd2607de440ac/docs/experiments/agent-context/local-comparison/comparison-receipt.json)
+and [independent raw/export review](https://github.com/ed3c/soodles/blob/9234046455c158180f25f6bd3c2dd2607de440ac/docs/experiments/agent-context/local-comparison/independent-audit/final-audit.json)
+retain the inputs, original-local hashes, public exports, failures and cleanup.
+Supported conclusion: **scoped non-regression; no demonstrated treatment
+advantage, lower decision cost, or baseline instruction defect**.
+
+| Matched case | Baseline | Treatment | Observed result |
+| --- | --- | --- | --- |
+| runner-task | run-01 | run-02 | Both read the nearest control and exact common runtime, then reject `next:null` as resolution evidence |
+| unknown-write, sole supplemental pair | run-09 | run-10 | Both local owners reject dispatch of an already offered merge, preserve actual supplied checkpoint bytes, and require fresh provider readback; no transport request is emitted |
+| fresh-transfer | run-05 producer → run-08 | run-06 producer → run-07 | Distinct native consumer reads the actual producer artifact, then its current provider/checkpoint and current owner before concluding |
+
+All ten bounded worker tasks, including the original incomplete pair, have
+actual child wait exit 0 and own matching typed blocked outcomes. The neutral
+execute skill prescribes blocked because experiments do not deliver production;
+it is not independent evidence of the Agent choosing its own stop policy.
+The ten tasks contain 70 native outer tool request/result pairs and 100 emitted
+command results. These counts exclude Noodle scheduling, setup, observer and
+coordinator work, and are not a measurement of hidden reasoning or decision cost.
+Nested owner refusals can have exit 1 while the containing observation command
+succeeds. Correctly refusing an illegal dispatch is rejection-control GREEN;
+it does not establish a defect RED or an optimal Agent route.
+
+The frozen observer checks normalized consistency only. Its unchanged fourteen
+controls passed, as did six existing context-recorder controls. Independent raw
+review separately validates actual operations and joins Noodle session/order/stage,
+worktree, recorder PID/child wait, Codex thread/turn and exposed model identity.
+Prior recorder defect RED/cure GREEN/legal non-case GREEN evidence remains scoped
+and linked in [the historical recorder report](results.md). No new product gate
+or production runtime implementation is introduced by this documentation atom.
+
+## Preserved gaps and deviations
+
+- Original unknown-write run-03 invoked the owner on a temporary copy and measured
+  only semantic equality of that operated copy. The inbox bytes were preserved,
+  but that did not prove the operated copy's after bytes. Independent raw verdict
+  is **INCOMPLETE**; corrected normalization has a missing after digest and the
+  fixed judge rejects `checkpoint_preserved`. Initial misleading green
+  normalization remains archived. The original baseline run-04 remains recorded.
+  The one contract-permitted additional pair was selected before launch, adding
+  the same narrow path/hash observation instruction to both arms. No more trials
+  were used to select a favorable outcome.
+- The Issue prefix named PR48 run 35200315530; the actual prelaunch frozen packet
+  used successful exact-main run **35200528246**, head `1ff2882`, attempt 1.
+  This provenance wording deviation remains explicit:
+  **unqualified_preregistration_compliance=false**. Fixtures were rebound before
+  any model launch to the current runtime verifier digest; historical fixture
+  requests remain non-null and are never sent to GitHub.
+- All doctor receipts preserve overall exit 1 for `TERM=dumb`; the exact detected
+  repository/cwd/root usability predicate passed. No all-green doctor claim.
+- Initial cleanup recorded a permission-denied process check and ordinary Noodle
+  refusal to delete unmerged experimental commits. After fresh absent-process
+  readback, the coordinator used the owner's explicit `--force` only for clean
+  duplicate fixture worktrees whose exact commits remained in separate control
+  checkouts. The post-run cleanup adapter change and original failures are saved.
+- Raw source/tool truncations, run-01's failed source search, run-05's schema web
+  cache miss and scheduler cache-permission refusals remain. CLI aggregated
+  output sometimes omitted stdout that native tool result blocks preserved.
+  One run-08 normalized source locator was corrected by independent review;
+  initial packet/verdict remain. These are not erased from the error inventory.
+- App tokens are supplied through the managed entry, scoped to soodles/issues:read,
+  held in memory and revoked (204). There is no anonymous REST fallback in the
+  experimental admission reader. This does not claim all repository workflows
+  or historical cloud runs avoid unauthenticated public endpoints.
+- Public native exports omit platform instructions/context assembly and internal
+  reasoning, preserving line numbers and all task/tool/result/model/exit records.
+  Original local raw files remain unchanged. Some harness-exposed results were
+  already truncated; full hidden service activity cannot be reconstructed.
+- Observed model is native `gpt-6-astra`/high under Codex CLI 0.153.4 and the measured
+  macOS Noodle ca81f942 carrier. Hidden model revision, undisclosed reroutes,
+  automatic instruction discovery, actual compaction and uninstrumented natural
+  exit remain unproven. The fixed recorder holds terminal delivery until wait;
+  both arms share this intervention. Local evidence cannot relabel cloud evidence.
+
+## Production identity and delivery boundary
+
+The real original `soodles-39` order was admitted before integration authoring.
+Session `soodles-39-0-execute-20260917-084802-fa146c` produced complete external
+drafts and its own scoped completed outcome; the external recorder waited for the
+actual child. Noodle automatically removed its no-change checkout. The supervisor
+then explicitly asked Noodle to recreate the same worktree from admitted main
+and applied those drafts. This is recorded reconstruction, not fabricated
+uninterrupted checkout or retrospectively created order history.
+
+The ten experimental worktrees are removed and their source/evidence retained.
+Experimental cleanup is distinct from production reconciliation. The original
+immutable publisher at `e4b4a8487855b75ef2d47087019bb52c4d5ffd6c` remains selected;
+its digest is `8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a`.
+The final candidate must retain all five tested instruction blobs, pass exact-head
+canonical Actions acceptance, then proceed through [PR43](https://github.com/ed3c/soodles/pull/43)
+merge readback, Issue closure readback and original-order reconciliation.
+Only that external terminal receipt establishes RESOLVED; this report does not.
+
+---
+
+## Historical comparison with earlier instruction inputs
+
+The following report is preserved for its original source/carrier only.
+
 # Complete instrumented local comparison — 2026-09-17
 
 N-class report for [Issue 39](https://github.com/ed3c/soodles/issues/39).

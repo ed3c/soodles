@@ -1,3 +1,5 @@
+> Historical #39 stage record. Its observations apply only to the source, carrier and inputs named below. See [the current comparison/delivery report](comparison-results.md) for the resumed integrated-input result; historical failures are retained.
+
 # Prospective local carrier experiment
 
 Current local result (2026-09-17): [three complete matched cases](comparison-results.md), both arms GREEN with disclosed limits and no superiority claim. The capability/prospective history below remains unchanged.

@@ -1,3 +1,5 @@
+> Historical #39 stage record. Its observations apply only to the source, carrier and inputs named below. See [the current comparison/delivery report](local/comparison-results.md) for the resumed integrated-input result; historical failures are retained.
+
 # Issue 39: operator handoff for independent cloud trials
 
 Current status: see [recovered evidence and supplemental handoff](recovery-results.md). Round2 raw archive recovery and a new recorded handoff are complete; native capture/model gate remains incomplete. Earlier chronology below is retained.

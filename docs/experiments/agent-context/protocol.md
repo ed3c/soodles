@@ -1,3 +1,5 @@
+> Historical #39 stage record. Its observations apply only to the source, carrier and inputs named below. See [the current comparison/delivery report](local/comparison-results.md) for the resumed integrated-input result; historical failures are retained.
+
 # Issue #39: context transfer experiment
 
 Current status: integration of main #41 is awaiting fresh instruction-bound comparison and Noodle proposal recovery before delivery. The [complete instrumented local comparison](local/comparison-results.md) satisfies the three bounded cases in both arms, with scoped non-regression and no demonstrated treatment advantage. Actual child exits, native model/tool evidence, producer transfer and independent raw/export review are preserved in its immutable archive. Disclosed procedural deviations and failed pre-model attempts remain visible. Historical [cloud results](recovery-results.md) and earlier local INCOMPLETE observations are unchanged; chronology below is historical.
@@ -94,4 +96,3 @@ Independent review counted 43 recorded request/result pairs, zero unmatched, and
 The environment disconnected with environment_offline before raw round2 files could be collected for GitHub. The linked commit saves returned supervisor observations and the reviewer's message, **not a full raw round2 archive**. Local files were written under context39-round2; their durable upload remains unverified. GitHub connector remained available and was used to preserve these receipts.
 
 Current remaining gate: complete native task capture/model provenance, the missing handoff capture for that consumer, and durable raw round2 evidence. No Codex CLI/browser requirement is introduced. Keep #39 open and #40 draft. Do not rerun unchanged cases to compensate for missing telemetry; recover existing files when the environment is available. No merge, close or Noodle reconciliation occurred.
-
