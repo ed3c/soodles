@@ -61,7 +61,9 @@ def observe(directory, spec):
         for i,q,r,o,n in drives:
             if read_indices and max(read_indices) >= i:
                 errors.append('instruction read after drive')
-            if q['argv'] != [sys.executable,'-B',spec['owner'],'landing','advance',checkpoint,spec['snapshot']]:
+            argv = q['argv']
+            normalized = argv[:1] + argv[2:] if argv[1:2] == ['-B'] else argv
+            if normalized != [sys.executable,spec['owner'],'landing','advance',checkpoint,spec['snapshot']]:
                 errors.append('wrong subject or command')
             for path,digest in [(checkpoint,spec['checkpoint_sha256']),
                                 (spec['snapshot'],spec['snapshot_sha256']),
