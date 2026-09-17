@@ -1,0 +1,39 @@
+[
+  {
+    "case": "pending",
+    "legal": [],
+    "false_resolution": [
+      "false_resolution"
+    ],
+    "omitted_owner": [
+      "missing_owner_observation",
+      "missing_entry_read",
+      "missing_pending_readback"
+    ]
+  },
+  {
+    "case": "recovery",
+    "legal": [],
+    "false_resolution": [
+      "false_resolution"
+    ],
+    "omitted_owner": [
+      "missing_owner_observation",
+      "missing_entry_read",
+      "missing_recovery_refusal",
+      "missing_recovery_continuation"
+    ]
+  },
+  {
+    "case": "identity",
+    "legal": [],
+    "false_resolution": [
+      "false_resolution"
+    ],
+    "omitted_owner": [
+      "missing_owner_observation",
+      "missing_entry_read",
+      "missing_identity_refusal"
+    ]
+  }
+]

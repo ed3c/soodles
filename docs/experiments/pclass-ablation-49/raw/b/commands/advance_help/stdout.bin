@@ -1,0 +1,10 @@
+usage: ./soodles landing advance [-h] checkpoint readback
+
+positional arguments:
+  checkpoint
+  readback
+
+options:
+  -h, --help  show this help message and exit
+
+Examples: ./soodles landing advance /tmp/checkpoint.json /tmp/readback.json

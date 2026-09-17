@@ -1,0 +1,86 @@
+{
+  "originating_issue": "ed3c/soodles#49",
+  "subject": {
+    "repository": "ed3c/soodles",
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "run_id": 10,
+    "run_attempt": 1
+  },
+  "classification": "BLOCKED",
+  "owner": {
+    "entry": "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+    "operation": "landing.advance",
+    "status": "refused",
+    "invalid": {
+      "field": "pr.head.repository",
+      "value": "fixture/foreign"
+    },
+    "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass49-lab/e/checkpoint.json",
+    "observed_checkpoint_phase": "merge_pending",
+    "observed_delivery": {
+      "action": "merge",
+      "status": "offered"
+    }
+  },
+  "next": {
+    "kind": "input",
+    "owner": "supervisor",
+    "operation": "advance",
+    "required": [
+      "corrected_input"
+    ],
+    "known": {},
+    "help_argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+      "landing",
+      "advance",
+      "--help"
+    ],
+    "required_observation": "Supervisor-supplied corrected input establishing the admitted repository identity; invoke advance only after materially corrected input. No exact provider GET was emitted."
+  },
+  "evidence": {
+    "carrier": "native cloud consumer",
+    "commands_directory": "/workspace/scratch/bd9d2e05d141/pclass49-lab/e/commands",
+    "initial_owner": {
+      "record_label": "initial_owner",
+      "exit_code": 1,
+      "operation": "landing advance",
+      "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass49-lab/e/checkpoint.json",
+      "readback": "/workspace/scratch/bd9d2e05d141/pclass49-lab/e/readback.json"
+    },
+    "document_and_subject_records": [
+      "initial",
+      "owner_help",
+      "recipes",
+      "advance_help",
+      "subject_evidence"
+    ],
+    "provider_fixture": {
+      "pr_head_repository": "fixture/foreign",
+      "pr_base_repository": "fixture/foreign",
+      "run_repository": "fixture/foreign",
+      "run_head_repository": "fixture/foreign",
+      "pr_merged": false,
+      "pr_state": "open",
+      "issue_state": "open"
+    },
+    "historical_handoff": "/workspace/scratch/bd9d2e05d141/pclass49-lab/e/prior-handoff.json",
+    "historical_request_replayed": false,
+    "additional_inputs": {},
+    "checkpoint_sha256_at_receipt": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+  },
+  "limitations": [
+    "Disposable fixture evidence only; no live provider truth or Issue resolution established.",
+    "No corrected input is supplied; repository identity must not be repaired by inference or manual checkpoint editing.",
+    "No provider request was transported, no historical merge request replayed, and no production, credential, or worktree operation performed.",
+    "Consumer command recordings are not a complete platform transcript.",
+    "The offered merge has no confirmed live outcome; preserve its readback obligation."
+  ],
+  "authorizes_landing": false
+}

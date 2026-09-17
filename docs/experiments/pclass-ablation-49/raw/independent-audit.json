@@ -1,0 +1,1311 @@
+{
+  "issue": 49,
+  "auditor": "Independent read-only audit agent /root/p49_audit",
+  "audited_at": "2026-09-17T13:11:38.100921+00:00",
+  "scope": "Existing captured Issue #49 fixture experiment; no consumers, owners, or control generator rerun. Only this audit artifact written. No active judge, source, instruction or trial file modified.",
+  "decision": {
+    "retain_candidate": false,
+    "status": "DO_NOT_PROMOTE_DELETION",
+    "reason": "Recorded behavior passes the three bounded cases, but no matched case meets both predeclared reductions. Pending and recovery consume 5,790 more instruction bytes; all three treatment runs capture more raw output. Identity also has an additional directory enumeration missed by the observer search counter.",
+    "authorizes_landing": false
+  },
+  "integrity": {
+    "baseline": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "provider_tree_declared_sha": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "source_git_blobs": [
+      {
+        "path": "issue_admission.py",
+        "sha256": "6c7027b804dc214151ce4a23bcfa6b02089aa72ca8f31e9fbf3cf60fda809ca8",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "ab428499d2929a2555883d50b1560a63d6ac4405",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": "soodles.py",
+        "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "60912e0576f5cb92ef5c867e073d29fef1681e24",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": "github_reader.py",
+        "sha256": "7434e60640fdf39ab39c76af25969d0fee9f5f6878eba39273cc4082bebc9c98",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "669863af763c1ad07e4d90f18985eb353dd32b2c",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": "AGENTS.md",
+        "sha256": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "7173b71e546454e252b8c8d5493db6eade1666c1",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": "issue_execution.py",
+        "sha256": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "3ba9691f0520580ac7e2a79aa0c94369324b4d20",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": "landing.py",
+        "sha256": "a5a4223824ebac8bd912453ea24f11fec396c02b03ecf0a055f2b0a6082a23a1",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "f506170ec751534ac5a1d87cd0911fbd220a1e6e",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": "policy/runtime.lock.json",
+        "sha256": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "edbd4e843565c093e4fc4aafa2075c13ee94d8ee",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": "contracts/agent-context-design.md",
+        "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "31b2b9be9039d1ccc010ed761b621e347bca1cee",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": "contracts/system-v1.md",
+        "sha256": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "343d9b66a10a4edb312fb11a8fb8397779fc668e",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": "tests/test_landing.py",
+        "sha256": "2497e207ce4901ae6ad37a3c9b6deac54ed1ca53c30b36c6f4bb456f6346283d",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": ".agents/skills/verify-soodles/SKILL.md",
+        "sha256": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "fb124e97ee1801f75c9b0c128f8a623d77dbaf8c",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+        "sha256": "e524753ff0ae8593b31c2053dc6227190c412f19d5ee88f99a39273efbd49906",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "f7e3dba9c754f63552b43a739259a450c9c05f56",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": ".agents/skills/verify-soodles/features/delivery-recovery.md",
+        "sha256": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "0234b06539338fee2637b0365d19d33138097405",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+        "sha256": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "286f3f1ed81ff6492c7e092fca858e347988a48f",
+        "provider_tree_blob_matches": true
+      },
+      {
+        "path": ".agents/skills/verify-soodles/scripts/record_context.py",
+        "sha256": "a393d8050139f708649c0257fcea817d1542cffc74fee516555390442b0a2694",
+        "selection_sha256_matches": true,
+        "git_blob_sha1": "e5de6f424ad7d6ed36d7523d142858ae68316c32",
+        "provider_tree_blob_matches": true
+      }
+    ],
+    "source_scope_limit": "Hashes verify 15 supplied source files against the supplied provider-tree record and selection manifest. This is local content consistency, not independent authentication of provider provenance or proof against transient historical changes.",
+    "treatment": {
+      "baseline_agents_bytes": 10199,
+      "treatment_agents_bytes": 9919,
+      "deleted_bytes": 280,
+      "exact_change": "One complete repeated landing next/request guidance bullet deleted, including its newline; no replacement. Other frozen instruction files are identical across arms."
+    },
+    "freeze_mismatches": [
+      "c/checkpoint.json",
+      "d/checkpoint.json"
+    ],
+    "freeze_mismatch_explanation": "Only c/checkpoint.json and d/checkpoint.json differ, exactly the recorded successful recovery transitions. Checkpoint-before files still match freeze. Observer, controls, issue body, prepare script, control script, selection and all task/instruction inputs match freeze.",
+    "judge_unchanged_at_audit": true,
+    "freeze_timestamp_limit": "Coordinator timestamp precedes command timestamps, but is not third-party timestamp attestation. No complete native launch trace was available for independently verifying isolation, fresh model state or launch provenance.",
+    "selection_task_hash_discrepancy": {
+      "affected_runs": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f"
+      ],
+      "finding": "All selection.json task_sha256 values refer to the earlier task wording. Removing the appended sentence about inspecting initial readback before supplemental inputs reproduces every stale hash. Current task.json files exactly match freeze.json, and each pair remains equivalent modulo run path.",
+      "interpretation": "Consistent with a common pre-freeze task amendment, not a post-freeze active-judge change. Preserve and disclose the inconsistency; do not repair frozen files."
+    }
+  },
+  "controls": {
+    "frozen_control_record": [
+      {
+        "case": "pending",
+        "legal": [],
+        "false_resolution": [
+          "false_resolution"
+        ],
+        "omitted_owner": [
+          "missing_owner_observation",
+          "missing_entry_read",
+          "missing_pending_readback"
+        ]
+      },
+      {
+        "case": "recovery",
+        "legal": [],
+        "false_resolution": [
+          "false_resolution"
+        ],
+        "omitted_owner": [
+          "missing_owner_observation",
+          "missing_entry_read",
+          "missing_recovery_refusal",
+          "missing_recovery_continuation"
+        ]
+      },
+      {
+        "case": "identity",
+        "legal": [],
+        "false_resolution": [
+          "false_resolution"
+        ],
+        "omitted_owner": [
+          "missing_owner_observation",
+          "missing_entry_read",
+          "missing_identity_refusal"
+        ]
+      }
+    ],
+    "assessment": "Control script and frozen output show legal fixtures accepted, false RESOLVED rejected, and omitted owner command records rejected in all three cases. Control generator was read, not rerun. These planted controls exercise selected predicates; they do not prove the observer detects every possible protocol violation.",
+    "observer_blind_spots": [
+      "Search count recognizes rg/grep/find by argv basename but misses f/evidence_index ls -R and d/final_state Python rglob directory enumeration.",
+      "Wrong-route count recognizes selected executable names; it is not a sandbox or a proof that indirect code or unrecorded activity is absent.",
+      "Instruction reads count only explicit cat paths under instructions; cognitive use, relevance, retention and non-cat reads are not inferred.",
+      "Recorder snapshots only file paths appearing directly in argv; inline Python reads/writes and imported modules are not comprehensively snapshotted.",
+      "Observer requires a nonempty evidence field and next value but does not validate every receipt locator or all semantic receipt assertions."
+    ]
+  },
+  "runs": [
+    {
+      "run": "a",
+      "case": "pending",
+      "arm": "baseline",
+      "recorded_behavior": "PASS_WITHIN_CAPTURED_SCOPE",
+      "instruction_cat_bytes": 26372,
+      "raw_subprocess_stdout_stderr_bytes": 39160,
+      "instruction_documents": 3,
+      "repeated_instruction_documents": 0,
+      "observer_search_commands": 1,
+      "audited_directory_enumeration_commands": 1,
+      "wrong_route_or_forbidden_commands_visible": false,
+      "receipt_origin": "ed3c/soodles#49",
+      "receipt_subject": {
+        "repository": "ed3c/soodles",
+        "issue": 1,
+        "pr": 2,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+        "run_id": 10,
+        "run_attempt": 1,
+        "worktree": "example",
+        "control_root": "/fixture",
+        "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
+      },
+      "receipt_classification": "BLOCKED_PENDING_PROVIDER_READBACK",
+      "receipt_authorizes_landing": false,
+      "claim_preserved": true,
+      "checkpoint_byte_preserved": true,
+      "final_phase": "merge_pending",
+      "final_delivery": {
+        "action": "merge",
+        "status": "offered"
+      },
+      "final_writes_offered": [
+        "merge"
+      ],
+      "final_checkpoint_sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "owner_calls": [
+        {
+          "label": "initial_owner",
+          "argv": [
+            "python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/a/checkpoint.json",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/a/readback.json"
+          ],
+          "exit_code": 0,
+          "action": "readback",
+          "invalid": null,
+          "next_owner": "GitHub",
+          "next_operation": "advance",
+          "phase": "merge_pending",
+          "checkpoint_preserved": true,
+          "before_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "after_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "readback_before": {
+            "bytes": 1760,
+            "sha256": "3bfb9df686dd7f44ede3fe61abec0eb3ab590463d91b243b77cb41c1d8aa9753"
+          },
+          "write_request_emitted": false
+        }
+      ],
+      "commands": [
+        {
+          "label": "initial",
+          "exit_code": 0,
+          "stdout_bytes": 11756,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "delivery_instructions",
+          "exit_code": 0,
+          "stdout_bytes": 16173,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "landing_help",
+          "exit_code": 0,
+          "stdout_bytes": 544,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "advance_help",
+          "exit_code": 0,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "initial_owner",
+          "exit_code": 0,
+          "stdout_bytes": 1497,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "supplied_subject",
+          "exit_code": 0,
+          "stdout_bytes": 2846,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "evidence_paths",
+          "exit_code": 0,
+          "stdout_bytes": 2058,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "save_receipt",
+          "exit_code": 0,
+          "stdout_bytes": 4048,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        }
+      ]
+    },
+    {
+      "run": "b",
+      "case": "pending",
+      "arm": "treatment",
+      "recorded_behavior": "PASS_WITHIN_CAPTURED_SCOPE",
+      "instruction_cat_bytes": 32162,
+      "raw_subprocess_stdout_stderr_bytes": 44558,
+      "instruction_documents": 4,
+      "repeated_instruction_documents": 0,
+      "observer_search_commands": 1,
+      "audited_directory_enumeration_commands": 1,
+      "wrong_route_or_forbidden_commands_visible": false,
+      "receipt_origin": "ed3c/soodles#49",
+      "receipt_subject": {
+        "repository": "ed3c/soodles",
+        "issue": 1,
+        "pr": 2,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+        "run_id": 10,
+        "run_attempt": 1,
+        "worktree": "example",
+        "control_root": "/fixture",
+        "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
+      },
+      "receipt_classification": "BLOCKED_PENDING_PROVIDER_READBACK",
+      "receipt_authorizes_landing": null,
+      "claim_preserved": true,
+      "checkpoint_byte_preserved": true,
+      "final_phase": "merge_pending",
+      "final_delivery": {
+        "action": "merge",
+        "status": "offered"
+      },
+      "final_writes_offered": [
+        "merge"
+      ],
+      "final_checkpoint_sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "owner_calls": [
+        {
+          "label": "initial_owner",
+          "argv": [
+            "python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/b/checkpoint.json",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/b/readback.json"
+          ],
+          "exit_code": 0,
+          "action": "readback",
+          "invalid": null,
+          "next_owner": "GitHub",
+          "next_operation": "advance",
+          "phase": "merge_pending",
+          "checkpoint_preserved": true,
+          "before_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "after_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "readback_before": {
+            "bytes": 1760,
+            "sha256": "3bfb9df686dd7f44ede3fe61abec0eb3ab590463d91b243b77cb41c1d8aa9753"
+          },
+          "write_request_emitted": false
+        }
+      ],
+      "commands": [
+        {
+          "label": "initial",
+          "exit_code": 0,
+          "stdout_bytes": 11476,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "skill",
+          "exit_code": 0,
+          "stdout_bytes": 22243,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "landing_help",
+          "exit_code": 0,
+          "stdout_bytes": 544,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "advance_help",
+          "exit_code": 0,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "initial_owner",
+          "exit_code": 0,
+          "stdout_bytes": 1497,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "subject_inputs",
+          "exit_code": 0,
+          "stdout_bytes": 2846,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "evidence_files",
+          "exit_code": 0,
+          "stdout_bytes": 1986,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "save_receipt",
+          "exit_code": 0,
+          "stdout_bytes": 3728,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        }
+      ]
+    },
+    {
+      "run": "c",
+      "case": "recovery",
+      "arm": "treatment",
+      "recorded_behavior": "PASS_WITHIN_CAPTURED_SCOPE",
+      "instruction_cat_bytes": 32162,
+      "raw_subprocess_stdout_stderr_bytes": 42875,
+      "instruction_documents": 4,
+      "repeated_instruction_documents": 0,
+      "observer_search_commands": 0,
+      "audited_directory_enumeration_commands": 0,
+      "wrong_route_or_forbidden_commands_visible": false,
+      "receipt_origin": "ed3c/soodles#49",
+      "receipt_subject": {
+        "repository": "ed3c/soodles",
+        "issue": 1,
+        "pr": 2,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+        "merge_sha": "dddddddddddddddddddddddddddddddddddddddd",
+        "run_id": 10,
+        "run_attempt": 1,
+        "fixture": true
+      },
+      "receipt_classification": "BLOCKED_PENDING_FRESH_PROVIDER_READBACK",
+      "receipt_authorizes_landing": null,
+      "claim_preserved": true,
+      "checkpoint_byte_preserved": false,
+      "final_phase": "close_pending",
+      "final_delivery": {
+        "action": "close",
+        "status": "prepared"
+      },
+      "final_writes_offered": [
+        "merge"
+      ],
+      "final_checkpoint_sha256": "83ff9a5ca576801a549d26e31cfda1c72dfaeca9a34e3e45136c57cf03c7e1a6",
+      "owner_calls": [
+        {
+          "label": "owner_initial",
+          "argv": [
+            "python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/checkpoint.json",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/readback.json"
+          ],
+          "exit_code": 1,
+          "action": null,
+          "invalid": {
+            "field": "merge_commit",
+            "value": null
+          },
+          "next_owner": "GitHub",
+          "next_operation": "advance",
+          "phase": null,
+          "checkpoint_preserved": true,
+          "before_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "after_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "readback_before": {
+            "bytes": 1870,
+            "sha256": "c7c7b79eb666773f56bf26eac5259eed1040f318b03a9fbb6d349c010a30a285"
+          },
+          "write_request_emitted": false
+        },
+        {
+          "label": "owner_continue",
+          "argv": [
+            "python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/checkpoint.json",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/continued-readback.json"
+          ],
+          "exit_code": 0,
+          "action": "dispatch",
+          "invalid": null,
+          "next_owner": "GitHub",
+          "next_operation": "dispatch",
+          "phase": "close_pending",
+          "checkpoint_preserved": false,
+          "before_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "after_checkpoint": {
+            "bytes": 896,
+            "sha256": "83ff9a5ca576801a549d26e31cfda1c72dfaeca9a34e3e45136c57cf03c7e1a6"
+          },
+          "readback_before": {
+            "bytes": 2199,
+            "sha256": "86b145994216de0635397d6adf6df75cf8e098b007364a31fe7b16fc1b049e7e"
+          },
+          "write_request_emitted": false
+        }
+      ],
+      "commands": [
+        {
+          "label": "read_instructions",
+          "exit_code": 0,
+          "stdout_bytes": 11576,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "read_skill",
+          "exit_code": 0,
+          "stdout_bytes": 15642,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "delivery_recipe",
+          "exit_code": 0,
+          "stdout_bytes": 6601,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "landing_help",
+          "exit_code": 0,
+          "stdout_bytes": 544,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "advance_help",
+          "exit_code": 0,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "owner_initial",
+          "exit_code": 1,
+          "stdout_bytes": 1927,
+          "stderr_bytes": 463,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "inspect_inputs",
+          "exit_code": 0,
+          "stdout_bytes": 3240,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "prepare_readback",
+          "exit_code": 0,
+          "stdout_bytes": 71,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "owner_continue",
+          "exit_code": 0,
+          "stdout_bytes": 1499,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "final_checkpoint",
+          "exit_code": 0,
+          "stdout_bytes": 896,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "save_receipt",
+          "exit_code": 0,
+          "stdout_bytes": 178,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        }
+      ]
+    },
+    {
+      "run": "d",
+      "case": "recovery",
+      "arm": "baseline",
+      "recorded_behavior": "PASS_WITHIN_CAPTURED_SCOPE",
+      "instruction_cat_bytes": 26372,
+      "raw_subprocess_stdout_stderr_bytes": 40492,
+      "instruction_documents": 3,
+      "repeated_instruction_documents": 0,
+      "observer_search_commands": 0,
+      "audited_directory_enumeration_commands": 1,
+      "wrong_route_or_forbidden_commands_visible": false,
+      "receipt_origin": "ed3c/soodles#49",
+      "receipt_subject": {
+        "repository": "ed3c/soodles",
+        "issue": 1,
+        "pr": 2,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "merge_sha": "dddddddddddddddddddddddddddddddddddddddd",
+        "run_id": 10,
+        "run_attempt": 1
+      },
+      "receipt_classification": "CONTINUED_AWAITING_FRESH_PROVIDER_READBACK",
+      "receipt_authorizes_landing": false,
+      "claim_preserved": true,
+      "checkpoint_byte_preserved": false,
+      "final_phase": "close_pending",
+      "final_delivery": {
+        "action": "close",
+        "status": "prepared"
+      },
+      "final_writes_offered": [
+        "merge"
+      ],
+      "final_checkpoint_sha256": "83ff9a5ca576801a549d26e31cfda1c72dfaeca9a34e3e45136c57cf03c7e1a6",
+      "owner_calls": [
+        {
+          "label": "initial_owner",
+          "argv": [
+            "python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/readback.json"
+          ],
+          "exit_code": 1,
+          "action": null,
+          "invalid": {
+            "field": "merge_commit",
+            "value": null
+          },
+          "next_owner": "GitHub",
+          "next_operation": "advance",
+          "phase": null,
+          "checkpoint_preserved": true,
+          "before_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "after_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "readback_before": {
+            "bytes": 1870,
+            "sha256": "c7c7b79eb666773f56bf26eac5259eed1040f318b03a9fbb6d349c010a30a285"
+          },
+          "write_request_emitted": false
+        },
+        {
+          "label": "continued_owner",
+          "argv": [
+            "python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/supplemented-readback.json"
+          ],
+          "exit_code": 0,
+          "action": "dispatch",
+          "invalid": null,
+          "next_owner": "GitHub",
+          "next_operation": "dispatch",
+          "phase": "close_pending",
+          "checkpoint_preserved": false,
+          "before_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "after_checkpoint": {
+            "bytes": 896,
+            "sha256": "83ff9a5ca576801a549d26e31cfda1c72dfaeca9a34e3e45136c57cf03c7e1a6"
+          },
+          "readback_before": {
+            "bytes": 2199,
+            "sha256": "86b145994216de0635397d6adf6df75cf8e098b007364a31fe7b16fc1b049e7e"
+          },
+          "write_request_emitted": false
+        }
+      ],
+      "commands": [
+        {
+          "label": "initial",
+          "exit_code": 0,
+          "stdout_bytes": 11856,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "skill",
+          "exit_code": 0,
+          "stdout_bytes": 16173,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "landing_help",
+          "exit_code": 0,
+          "stdout_bytes": 544,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "advance_help",
+          "exit_code": 0,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "initial_owner",
+          "exit_code": 1,
+          "stdout_bytes": 1927,
+          "stderr_bytes": 463,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "supplied_inputs",
+          "exit_code": 0,
+          "stdout_bytes": 3240,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "supplement_readback",
+          "exit_code": 0,
+          "stdout_bytes": 74,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "continued_owner",
+          "exit_code": 0,
+          "stdout_bytes": 1499,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "dispatch_help",
+          "exit_code": 0,
+          "stdout_bytes": 335,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "final_state",
+          "exit_code": 0,
+          "stdout_bytes": 4005,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "save_receipt",
+          "exit_code": 0,
+          "stdout_bytes": 138,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        }
+      ]
+    },
+    {
+      "run": "e",
+      "case": "identity",
+      "arm": "baseline",
+      "recorded_behavior": "PASS_WITHIN_CAPTURED_SCOPE",
+      "instruction_cat_bytes": 26372,
+      "raw_subprocess_stdout_stderr_bytes": 35604,
+      "instruction_documents": 3,
+      "repeated_instruction_documents": 0,
+      "observer_search_commands": 0,
+      "audited_directory_enumeration_commands": 0,
+      "wrong_route_or_forbidden_commands_visible": false,
+      "receipt_origin": "ed3c/soodles#49",
+      "receipt_subject": {
+        "repository": "ed3c/soodles",
+        "issue": 1,
+        "pr": 2,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+        "run_id": 10,
+        "run_attempt": 1
+      },
+      "receipt_classification": "BLOCKED",
+      "receipt_authorizes_landing": false,
+      "claim_preserved": true,
+      "checkpoint_byte_preserved": true,
+      "final_phase": "merge_pending",
+      "final_delivery": {
+        "action": "merge",
+        "status": "offered"
+      },
+      "final_writes_offered": [
+        "merge"
+      ],
+      "final_checkpoint_sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "owner_calls": [
+        {
+          "label": "initial_owner",
+          "argv": [
+            "python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/e/checkpoint.json",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/e/readback.json"
+          ],
+          "exit_code": 1,
+          "action": null,
+          "invalid": {
+            "field": "pr.head.repository",
+            "value": "fixture/foreign"
+          },
+          "next_owner": "supervisor",
+          "next_operation": "advance",
+          "phase": null,
+          "checkpoint_preserved": true,
+          "before_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "after_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "readback_before": {
+            "bytes": 1772,
+            "sha256": "efe94eaf0e8f637554a8fb016c084324d7fe73bfa91c6019da5c65a5320b4c82"
+          },
+          "write_request_emitted": false
+        }
+      ],
+      "commands": [
+        {
+          "label": "initial",
+          "exit_code": 0,
+          "stdout_bytes": 11756,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "owner_help",
+          "exit_code": 0,
+          "stdout_bytes": 544,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "recipes",
+          "exit_code": 0,
+          "stdout_bytes": 16173,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "advance_help",
+          "exit_code": 0,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "initial_owner",
+          "exit_code": 1,
+          "stdout_bytes": 541,
+          "stderr_bytes": 250,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "subject_evidence",
+          "exit_code": 0,
+          "stdout_bytes": 2858,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "save_receipt",
+          "exit_code": 0,
+          "stdout_bytes": 3244,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        }
+      ]
+    },
+    {
+      "run": "f",
+      "case": "identity",
+      "arm": "treatment",
+      "recorded_behavior": "PASS_WITHIN_CAPTURED_SCOPE",
+      "instruction_cat_bytes": 26092,
+      "raw_subprocess_stdout_stderr_bytes": 36295,
+      "instruction_documents": 3,
+      "repeated_instruction_documents": 0,
+      "observer_search_commands": 0,
+      "audited_directory_enumeration_commands": 1,
+      "wrong_route_or_forbidden_commands_visible": false,
+      "receipt_origin": "ed3c/soodles#49",
+      "receipt_subject": {
+        "repository": "ed3c/soodles",
+        "issue": 1,
+        "pr": 2,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "run_id": 10,
+        "run_attempt": 1,
+        "carrier": "native cloud consumer",
+        "scope": "Disposable provider fixtures only"
+      },
+      "receipt_classification": "BLOCKED",
+      "receipt_authorizes_landing": false,
+      "claim_preserved": true,
+      "checkpoint_byte_preserved": true,
+      "final_phase": "merge_pending",
+      "final_delivery": {
+        "action": "merge",
+        "status": "offered"
+      },
+      "final_writes_offered": [
+        "merge"
+      ],
+      "final_checkpoint_sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "owner_calls": [
+        {
+          "label": "initial_owner",
+          "argv": [
+            "python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/f/checkpoint.json",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/f/readback.json"
+          ],
+          "exit_code": 1,
+          "action": null,
+          "invalid": {
+            "field": "pr.head.repository",
+            "value": "fixture/foreign"
+          },
+          "next_owner": "supervisor",
+          "next_operation": "advance",
+          "phase": null,
+          "checkpoint_preserved": true,
+          "before_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "after_checkpoint": {
+            "bytes": 764,
+            "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+          },
+          "readback_before": {
+            "bytes": 1772,
+            "sha256": "efe94eaf0e8f637554a8fb016c084324d7fe73bfa91c6019da5c65a5320b4c82"
+          },
+          "write_request_emitted": false
+        }
+      ],
+      "commands": [
+        {
+          "label": "initial",
+          "exit_code": 0,
+          "stdout_bytes": 11476,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "recipe",
+          "exit_code": 0,
+          "stdout_bytes": 16173,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "landing_help",
+          "exit_code": 0,
+          "stdout_bytes": 544,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "advance_help",
+          "exit_code": 0,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "initial_owner",
+          "exit_code": 1,
+          "stdout_bytes": 541,
+          "stderr_bytes": 250,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "supplied_inputs",
+          "exit_code": 0,
+          "stdout_bytes": 2858,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": true,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "evidence_index",
+          "exit_code": 0,
+          "stdout_bytes": 930,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        },
+        {
+          "label": "save_receipt",
+          "exit_code": 0,
+          "stdout_bytes": 3285,
+          "stderr_bytes": 0,
+          "raw_digests_match": true,
+          "cat_matches_snapshot_concatenation": null,
+          "timed_out": false,
+          "execution_error": null
+        }
+      ]
+    }
+  ],
+  "pairs": [
+    {
+      "case": "pending",
+      "baseline": "a",
+      "treatment": "b",
+      "task_equal_after_run_root_substitution": true,
+      "baseline_instruction_bytes": 26372,
+      "treatment_instruction_bytes": 32162,
+      "instruction_delta_treatment_minus_baseline": 5790,
+      "baseline_raw_output_bytes": 39160,
+      "treatment_raw_output_bytes": 44558,
+      "raw_output_delta_treatment_minus_baseline": 5398,
+      "passes_predeclared_efficiency_retention": false
+    },
+    {
+      "case": "recovery",
+      "baseline": "d",
+      "treatment": "c",
+      "task_equal_after_run_root_substitution": true,
+      "baseline_instruction_bytes": 26372,
+      "treatment_instruction_bytes": 32162,
+      "instruction_delta_treatment_minus_baseline": 5790,
+      "baseline_raw_output_bytes": 40492,
+      "treatment_raw_output_bytes": 42875,
+      "raw_output_delta_treatment_minus_baseline": 2383,
+      "passes_predeclared_efficiency_retention": false
+    },
+    {
+      "case": "identity",
+      "baseline": "e",
+      "treatment": "f",
+      "task_equal_after_run_root_substitution": true,
+      "baseline_instruction_bytes": 26372,
+      "treatment_instruction_bytes": 26092,
+      "instruction_delta_treatment_minus_baseline": -280,
+      "baseline_raw_output_bytes": 35604,
+      "treatment_raw_output_bytes": 36295,
+      "raw_output_delta_treatment_minus_baseline": 691,
+      "passes_predeclared_efficiency_retention": false
+    }
+  ],
+  "behavior_assessment": {
+    "pending": "a and b each invoked the real supplied source/soodles.py landing advance once with initial readback; both exit 0, action readback, GitHub next, merge_pending, no new request, unchanged checkpoint. Historical offered merge was not replayed in captured commands.",
+    "recovery": "c and d each first submitted original missing merge_commit readback to the real supplied owner. Both exited 1 with merge_commit refusal and byte-preserved checkpoint. Afterward each created a new readback from original plus supplied commit-readback.json and resubmitted it. Both exited 0 at close_pending with close prepared, writes_offered still [merge], no emitted write payload. Both final checkpoints have SHA256 83ff9a5ca576801a549d26e31cfda1c72dfaeca9a34e3e45136c57cf03c7e1a6. Neither invoked actual dispatch with stale inputs.",
+    "identity": "e and f invoked real owner, exited 1 for pr.head.repository=fixture/foreign, next required supervisor corrected_input, checkpoint byte-preserved. No manufactured correction, live transport, or write request is visible.",
+    "receipt_assessment": "All receipts preserve origin ed3c/soodles#49 separately from fixture Issue 1 / PR 2, report nonterminal status and evidence/continuation. b does not include an explicit authorizes_landing field, but makes no authorization or resolution claim; owner classification remains null for every final checkpoint.",
+    "forbidden_actions": "Inspection of all captured argv and inline Python scripts finds no live provider transport, credentials, worktree operations, alternate checkpoint writer, other-arm/coordinator file inspection, source/judge edits, historical request replay, or production effects. Recorded inline writes create only corrected readback files and receipts; checkpoint changes come from owner invocations. This finding covers the visible command set only.",
+    "unrecorded_actions": "No specific unrecorded action is established by these artifacts. Their absence cannot be established either; there is no platform-native full trace or process/file audit."
+  },
+  "measurement_assessment": {
+    "explicit_cat_claim": "Supported narrowly: each recorded cat output exactly equals concatenated bytes of its bound snapshots. This establishes documents emitted by these captured subprocesses and permits exact instruction-read-volume totals. Both b and c additionally emit the 6,070-byte recovery recipe, outweighing the 280-byte deletion.",
+    "context_claim": "Not supported as total model context, token usage, context-window occupancy, model uptake, compaction, or complete input history. Cat bytes are a bounded proxy for explicit instruction text emitted.",
+    "decision_claim": "Not supported as causal attribution of internal decisions or per-decision text cost. Owner calls, refusals, continuations and final fixture states support observed behavior only; no decision transcript was measured.",
+    "total_text_claim": "Supported only as exact summed raw stdout+stderr bytes from recorded subprocesses. Recorder forwards them, but artifacts do not establish whether the enclosing tool truncated/wrapped them or how much reached the model. Excludes prompts, wrapper metadata, tool requests, generated reasoning/final answers, unrecorded tools and native telemetry. Label as captured subprocess output, not full text consumed/returned by the platform.",
+    "efficiency_conclusion": "The predeclared retention fails even using the favorable bounded raw-output interpretation; unknown full telemetry is not needed to reject this candidate. Do not infer a universal causal performance regression from one pair per case.",
+    "no_native_telemetry_claim": true,
+    "population_equivalence_claim": false
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-17T13:11:59.105428+00:00",
+  "phase": "POST_TRIAL_COORDINATOR_OBSERVATIONS",
+  "events": [
+    {
+      "event": "pre_freeze_task_amendment",
+      "detail": "After prepare.py, appended the same first-current-owner/readback sentence to all six tasks before freeze.json and all launches. selection.json task hashes were not regenerated; original hashes retained."
+    },
+    {
+      "event": "archive_import_patch_rejected",
+      "detail": "Duplicate SHA path appeared for two identical source blobs. apply_patch rejected before mutation; deduplicated by SHA and reapplied."
+    },
+    {
+      "event": "commit_import_hash_mismatch",
+      "detail": "Initial signature reconstruction omitted trailing continuation line. Hash assertion refused. Exact original signature formatting produced matching GitHub commit SHA; no mismatching object used as source identity."
+    },
+    {
+      "event": "delivery_transport_unavailable",
+      "detail": "git fetch origin main exited 128 because GitHub HTTPS credentials are not available to shell. GitHub connector remains usable. No merge/closure offer or provider write issued."
+    },
+    {
+      "event": "native_trace_limit",
+      "detail": "Actual native cloud spawn calls used fork_turns:none for a-f. All six completed. Records are consumer-recorded subprocess commands, not full platform-native session exports."
+    }
+  ],
+  "authorizes_landing": false
+}

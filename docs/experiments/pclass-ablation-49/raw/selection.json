@@ -1,0 +1,111 @@
+{
+  "issue": 49,
+  "base": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+  "runs": [
+    {
+      "name": "a",
+      "case": "pending",
+      "arm": "baseline",
+      "checkpoint_before": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "task_sha256": "cdfb7ec4b37d753cf3744a2aeb1f6f0a3ca7c7f226dab4955d927649b597fa08",
+      "instructions": {
+        "AGENTS.md": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+        "contracts/system-v1.md": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+        ".agents/skills/verify-soodles/SKILL.md": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+        ".agents/skills/verify-soodles/features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+        ".agents/skills/verify-soodles/features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b"
+      }
+    },
+    {
+      "name": "b",
+      "case": "pending",
+      "arm": "treatment",
+      "checkpoint_before": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "task_sha256": "eb4cf26e79f46d8ebf97c1991952de7a34012feca1748723443a2591bc2fdcbc",
+      "instructions": {
+        "AGENTS.md": "80db68362c74c976b577bd34937eb9009f69d46d2c741230b22388e51272c9aa",
+        "contracts/system-v1.md": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+        ".agents/skills/verify-soodles/SKILL.md": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+        ".agents/skills/verify-soodles/features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+        ".agents/skills/verify-soodles/features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b"
+      }
+    },
+    {
+      "name": "c",
+      "case": "recovery",
+      "arm": "treatment",
+      "checkpoint_before": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "task_sha256": "e85e964a7eb515ea2437cd824559ab2eb2521405116b968ec318994e08fc078c",
+      "instructions": {
+        "AGENTS.md": "80db68362c74c976b577bd34937eb9009f69d46d2c741230b22388e51272c9aa",
+        "contracts/system-v1.md": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+        ".agents/skills/verify-soodles/SKILL.md": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+        ".agents/skills/verify-soodles/features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+        ".agents/skills/verify-soodles/features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b"
+      }
+    },
+    {
+      "name": "d",
+      "case": "recovery",
+      "arm": "baseline",
+      "checkpoint_before": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "task_sha256": "bf4c45b62b970764a50b2ba56b431e81dbf057016d230d2bb329c2442a3d6e2a",
+      "instructions": {
+        "AGENTS.md": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+        "contracts/system-v1.md": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+        ".agents/skills/verify-soodles/SKILL.md": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+        ".agents/skills/verify-soodles/features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+        ".agents/skills/verify-soodles/features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b"
+      }
+    },
+    {
+      "name": "e",
+      "case": "identity",
+      "arm": "baseline",
+      "checkpoint_before": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "task_sha256": "ab04dac9bb6855a123f572a9eca6ca2b829aac2e04374b0f817ec8f68428eff3",
+      "instructions": {
+        "AGENTS.md": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+        "contracts/system-v1.md": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+        ".agents/skills/verify-soodles/SKILL.md": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+        ".agents/skills/verify-soodles/features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+        ".agents/skills/verify-soodles/features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b"
+      }
+    },
+    {
+      "name": "f",
+      "case": "identity",
+      "arm": "treatment",
+      "checkpoint_before": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc",
+      "task_sha256": "352faf31893e21a369ecb0512f2dd61f6aab2f845448f12e26e39407d4e99bee",
+      "instructions": {
+        "AGENTS.md": "80db68362c74c976b577bd34937eb9009f69d46d2c741230b22388e51272c9aa",
+        "contracts/system-v1.md": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+        ".agents/skills/verify-soodles/SKILL.md": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+        ".agents/skills/verify-soodles/features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+        ".agents/skills/verify-soodles/features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b"
+      }
+    }
+  ],
+  "source": {
+    "issue_admission.py": "6c7027b804dc214151ce4a23bcfa6b02089aa72ca8f31e9fbf3cf60fda809ca8",
+    "soodles.py": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3",
+    "github_reader.py": "7434e60640fdf39ab39c76af25969d0fee9f5f6878eba39273cc4082bebc9c98",
+    "AGENTS.md": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251",
+    "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+    "landing.py": "a5a4223824ebac8bd912453ea24f11fec396c02b03ecf0a055f2b0a6082a23a1",
+    "policy/runtime.lock.json": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+    "contracts/agent-context-design.md": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+    "contracts/system-v1.md": "047d4811ba0ca784aecb422c5c3dfd75fd0db7a8ecb8bb1a12df3dcd284aae09",
+    "tests/test_landing.py": "2497e207ce4901ae6ad37a3c9b6deac54ed1ca53c30b36c6f4bb456f6346283d",
+    ".agents/skills/verify-soodles/SKILL.md": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20",
+    ".agents/skills/verify-soodles/features/pclass-context.md": "e524753ff0ae8593b31c2053dc6227190c412f19d5ee88f99a39273efbd49906",
+    ".agents/skills/verify-soodles/features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+    ".agents/skills/verify-soodles/features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b",
+    ".agents/skills/verify-soodles/scripts/record_context.py": "a393d8050139f708649c0257fcea817d1542cffc74fee516555390442b0a2694"
+  },
+  "task_difference": "Only per-run absolute paths differ within each pair; assignment is outside consumer packet.",
+  "native_model_provenance": null,
+  "full_native_trace": null,
+  "authorizes_landing": false
+}

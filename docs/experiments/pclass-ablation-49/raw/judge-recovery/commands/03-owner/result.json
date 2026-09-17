@@ -1,0 +1,28 @@
+{
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 0.051761266997345956,
+  "files_after": {
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12": {
+      "bytes": 30894944,
+      "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py": {
+      "bytes": 19734,
+      "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/judge-recovery/checkpoint.json": {
+      "bytes": 896,
+      "sha256": "83ff9a5ca576801a549d26e31cfda1c72dfaeca9a34e3e45136c57cf03c7e1a6"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/judge-recovery/corrected.json": {
+      "bytes": 2199,
+      "sha256": "86b145994216de0635397d6adf6df75cf8e098b007364a31fe7b16fc1b049e7e"
+    }
+  },
+  "stdout_sha256": "c988dc6b21589205f3ce832a06c66ea747d886e53b985e2a64a342c028a5d766",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

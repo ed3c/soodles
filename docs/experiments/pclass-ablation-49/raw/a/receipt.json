@@ -1,0 +1,92 @@
+{
+  "originating_issue": "ed3c/soodles#49",
+  "subject": {
+    "repository": "ed3c/soodles",
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "run_id": 10,
+    "run_attempt": 1,
+    "worktree": "example",
+    "control_root": "/fixture",
+    "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
+  },
+  "classification": "BLOCKED_PENDING_PROVIDER_READBACK",
+  "owner": {
+    "entry": "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+    "operation": "landing.advance",
+    "action": "readback",
+    "phase": "merge_pending",
+    "classification": null
+  },
+  "next": {
+    "kind": "provider_readback",
+    "owner": "GitHub",
+    "operation": "advance",
+    "required": [
+      "readback"
+    ],
+    "known": {
+      "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass49-lab/a/checkpoint.json"
+    },
+    "help_argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+      "landing",
+      "advance",
+      "--help"
+    ],
+    "requests": {
+      "pr": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+      },
+      "issue": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+      },
+      "commit": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "branch": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+      },
+      "run": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+      },
+      "jobs": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+      }
+    },
+    "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+  },
+  "evidence": {
+    "initial_owner": "/workspace/scratch/bd9d2e05d141/pclass49-lab/a/commands/initial_owner/stdout.bin",
+    "initial_owner_execution": "/workspace/scratch/bd9d2e05d141/pclass49-lab/a/commands/initial_owner/result.json",
+    "supplied_inputs": "/workspace/scratch/bd9d2e05d141/pclass49-lab/a/commands/supplied_subject/stdout.bin",
+    "command_records": "/workspace/scratch/bd9d2e05d141/pclass49-lab/a/commands",
+    "observations": [
+      "Initial landing advance consumed the supplied checkpoint and initial readback before supplemental inputs were assessed; exit code was 0.",
+      "Current owner returned action readback, phase merge_pending, classification null, and no transport request.",
+      "Checkpoint records writes_offered=[merge] and delivery action merge/status offered.",
+      "Supplied fixture PR 2 is open and unmerged; Issue 1 is open; runtime run 10 attempt 1 and its acceptance step report success for the admitted candidate.",
+      "Prior handoff contains a historical offered merge request; it was not replayed.",
+      "Task additional_inputs is empty; no material fresh readback supports another owner invocation."
+    ]
+  },
+  "limitations": [
+    "Disposable fixture evidence only; no live provider transport or production effects were performed.",
+    "Actual merge outcome is unknown pending fresh provider readback; no Issue resolution or landing authorization is claimed.",
+    "Supply fresh raw responses under the exact emitted request keys, then re-enter landing advance with this checkpoint. If fresh PR readback reports merged, obtain the merge commit using its confirmed merge_commit_sha.",
+    "No worktree or Noodle reconciliation was attempted.",
+    "Records capture consumer commands and their outputs, not a complete platform transcript."
+  ],
+  "authorizes_landing": false
+}

@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "cat",
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/checkpoint.json",
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/readback.json",
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/commit-readback.json",
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/prior-handoff.json"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141",
+  "time_ns": 1789650390351545678,
+  "files_before": {
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/checkpoint.json": {
+      "bytes": 764,
+      "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/readback.json": {
+      "bytes": 1870,
+      "sha256": "c7c7b79eb666773f56bf26eac5259eed1040f318b03a9fbb6d349c010a30a285"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/commit-readback.json": {
+      "bytes": 284,
+      "sha256": "3a8cdc3597b14adb3e6dcd34e00b146fdd38b08a646f6dfcce1722fe2eb85fd6"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass49-lab/c/prior-handoff.json": {
+      "bytes": 322,
+      "sha256": "ae5ad2e4b239d2e9668bac4509c5d3fa47b23563f837d25e79ad4a6ec3c36dc1"
+    }
+  },
+  "timeout_seconds": 60
+}

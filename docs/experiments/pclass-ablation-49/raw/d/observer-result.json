@@ -1,0 +1,228 @@
+{
+  "case": "recovery",
+  "errors": [],
+  "behavior": "RECORDED_CONTROLS_PASS",
+  "owner_calls": [
+    {
+      "argv": [
+        "python",
+        "-B",
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+        "landing",
+        "advance",
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json",
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/supplemented-readback.json"
+      ],
+      "value": {
+        "owner": "landing.advance",
+        "action": "dispatch",
+        "phase": "close_pending",
+        "classification": null,
+        "next": {
+          "kind": "provider_readback",
+          "owner": "GitHub",
+          "operation": "dispatch",
+          "required": [
+            "readback"
+          ],
+          "known": {
+            "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json"
+          },
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "dispatch",
+            "--help"
+          ],
+          "requests": {
+            "pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+            },
+            "issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+            },
+            "commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+            },
+            "run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+            },
+            "jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+            }
+          },
+          "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+        }
+      },
+      "exit": 0,
+      "before": {
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py": {
+          "bytes": 19734,
+          "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+        },
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json": {
+          "bytes": 764,
+          "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+        },
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/supplemented-readback.json": {
+          "bytes": 2199,
+          "sha256": "86b145994216de0635397d6adf6df75cf8e098b007364a31fe7b16fc1b049e7e"
+        }
+      },
+      "after": {
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py": {
+          "bytes": 19734,
+          "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+        },
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json": {
+          "bytes": 896,
+          "sha256": "83ff9a5ca576801a549d26e31cfda1c72dfaeca9a34e3e45136c57cf03c7e1a6"
+        },
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/supplemented-readback.json": {
+          "bytes": 2199,
+          "sha256": "86b145994216de0635397d6adf6df75cf8e098b007364a31fe7b16fc1b049e7e"
+        }
+      },
+      "record": "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/continued_owner"
+    },
+    {
+      "argv": [
+        "python",
+        "-B",
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+        "landing",
+        "advance",
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json",
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/readback.json"
+      ],
+      "value": {
+        "owner": "landing.advance",
+        "status": "refused",
+        "invalid": {
+          "field": "merge_commit",
+          "value": null
+        },
+        "next": {
+          "kind": "provider_readback",
+          "owner": "GitHub",
+          "operation": "advance",
+          "required": [
+            "readback"
+          ],
+          "known": {
+            "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json"
+          },
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "requests": {
+            "pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+            },
+            "issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+            },
+            "commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+            },
+            "run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+            },
+            "jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+            },
+            "merge_commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/git/commits/dddddddddddddddddddddddddddddddddddddddd"
+            }
+          },
+          "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+          "reason": "Supply readback.merge_commit from GET https://api.github.com/repos/ed3c/soodles/git/commits/dddddddddddddddddddddddddddddddddddddddd; re-enter advance with fresh provider readback. Retry only after the readback materially changes."
+        }
+      },
+      "exit": 1,
+      "before": {
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py": {
+          "bytes": 19734,
+          "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+        },
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json": {
+          "bytes": 764,
+          "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+        },
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/readback.json": {
+          "bytes": 1870,
+          "sha256": "c7c7b79eb666773f56bf26eac5259eed1040f318b03a9fbb6d349c010a30a285"
+        }
+      },
+      "after": {
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py": {
+          "bytes": 19734,
+          "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+        },
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/checkpoint.json": {
+          "bytes": 764,
+          "sha256": "7ee7d301a2f9a7205693ea3c8241e6b2ae42df064777480358013e05c9f0a9bc"
+        },
+        "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/readback.json": {
+          "bytes": 1870,
+          "sha256": "c7c7b79eb666773f56bf26eac5259eed1040f318b03a9fbb6d349c010a30a285"
+        }
+      },
+      "record": "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/initial_owner"
+    }
+  ],
+  "instruction_reads": [
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/instructions/AGENTS.md",
+      "bytes": 10199,
+      "sha256": "6320a6c6fff937370ca20542dbbc1bf7eb0f92f464bb75cca4b8b741a51eb251"
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/instructions/.agents/skills/verify-soodles/SKILL.md",
+      "bytes": 9572,
+      "sha256": "d4fd41266c41dadd8b438235f76926d4f9941375761b676d344a562f385efb20"
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass49-lab/d/instructions/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "bytes": 6601,
+      "sha256": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b"
+    }
+  ],
+  "instruction_read_bytes": 26372,
+  "total_stdout_stderr_bytes": 40492,
+  "search_commands": 0,
+  "repeated_instruction_reads": 0,
+  "wrong_route_commands": 0,
+  "authorizes_landing": false,
+  "limits": [
+    "Captured subprocess events only; unrecorded activity is not proven absent.",
+    "Document reads measured only for explicit cat argv; indirect reads require separate audit.",
+    "No native token/window/model/compaction or population-equivalence claim."
+  ]
+}

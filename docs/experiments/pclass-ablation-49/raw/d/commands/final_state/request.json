@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python",
+    "-B",
+    "-c",
+    "import pathlib,hashlib; p=pathlib.Path(\"/workspace/scratch/bd9d2e05d141/pclass49-lab/d\"); c=p/\"checkpoint.json\"; print(c.read_text()); print(\"checkpoint_sha256=\"+hashlib.sha256(c.read_bytes()).hexdigest()); print(\"Recorded evidence paths:\"); print(\"\\n\".join(str(x) for x in sorted((p/\"commands\").rglob(\"*\")) if x.is_file()))"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141",
+  "time_ns": 1789650438216997975,
+  "files_before": {},
+  "timeout_seconds": 60
+}

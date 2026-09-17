@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python",
+    "-B",
+    "-c",
+    "import json,pathlib; p=pathlib.Path(\"/workspace/scratch/bd9d2e05d141/pclass49-lab/d\"); r=json.loads((p/\"readback.json\").read_text()); r[\"merge_commit\"]=json.loads((p/\"commit-readback.json\").read_text()); o=p/\"supplemented-readback.json\"; o.write_text(json.dumps(r,indent=2)+\"\\n\"); print(o)"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141",
+  "time_ns": 1789650409660645357,
+  "files_before": {},
+  "timeout_seconds": 60
+}

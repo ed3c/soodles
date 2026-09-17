@@ -1,0 +1,31 @@
+{
+  "schema": 2,
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "run_id": 10,
+    "run_attempt": 1,
+    "worktree": "example",
+    "control_root": "/fixture",
+    "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
+  },
+  "phase": "close_pending",
+  "observations": [
+    "663c140cbbfe2476a29068622822e7501ceae189ae2d6fc70a800e8da821470c",
+    "c98a15312939d0cd1250553cef1a9b898e1d567974dae8f566a9fe01c281799b"
+  ],
+  "classification": null,
+  "scope": "supervised single-Issue landing",
+  "writes_offered": [
+    "merge"
+  ],
+  "delivery": {
+    "action": "close",
+    "status": "prepared"
+  },
+  "merge_sha": "dddddddddddddddddddddddddddddddddddddddd"
+}

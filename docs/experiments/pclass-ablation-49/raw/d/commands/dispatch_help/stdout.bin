@@ -1,0 +1,13 @@
+usage: ./soodles landing dispatch [-h] checkpoint readback
+
+Consume one prepared intent with fresh owner readback; emit its exact
+connector request once.
+
+positional arguments:
+  checkpoint
+  readback
+
+options:
+  -h, --help  show this help message and exit
+
+Examples: ./soodles landing dispatch /tmp/checkpoint.json /tmp/readback.json

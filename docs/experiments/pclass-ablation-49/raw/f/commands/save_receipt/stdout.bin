@@ -1,0 +1,83 @@
+{
+  "originating_issue": "ed3c/soodles#49",
+  "subject": {
+    "repository": "ed3c/soodles",
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "run_id": 10,
+    "run_attempt": 1,
+    "carrier": "native cloud consumer",
+    "scope": "Disposable provider fixtures only"
+  },
+  "classification": "BLOCKED",
+  "owner": {
+    "entry": "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+    "operation": "landing.advance",
+    "status": "refused",
+    "exit_code": 1,
+    "invalid": {
+      "field": "pr.head.repository",
+      "value": "fixture/foreign"
+    },
+    "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass49-lab/f/checkpoint.json",
+    "phase": "merge_pending",
+    "delivery": {
+      "action": "merge",
+      "status": "offered"
+    },
+    "writes_offered": [
+      "merge"
+    ]
+  },
+  "next": {
+    "kind": "input",
+    "owner": "supervisor",
+    "operation": "advance",
+    "required": [
+      "corrected_input"
+    ],
+    "known": {},
+    "help_argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py",
+      "landing",
+      "advance",
+      "--help"
+    ],
+    "required_observation": "Supervisor-supplied corrected provider identity/readback for the admitted subject; then re-enter landing advance with the existing checkpoint. No provider request was emitted and no endpoint is inferred from the invalid field."
+  },
+  "evidence": [
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass49-lab/f/commands/initial_owner/request.json",
+      "description": "Recorded initial owner invocation with supplied checkpoint and initial readback, before supplemental assessment."
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass49-lab/f/commands/initial_owner/stdout.bin",
+      "description": "Structured refusal naming pr.head.repository and supervisor-owned corrected_input."
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass49-lab/f/commands/initial_owner/stderr.bin",
+      "description": "Matching human-readable refusal."
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass49-lab/f/commands/initial_owner/result.json",
+      "description": "Preserved failed owner invocation, exit 1."
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass49-lab/f/commands/supplied_inputs/stdout.bin",
+      "description": "Checkpoint remains merge_pending with an offered merge; supplied PR head/base and run identities are fixture/foreign; historical handoff records an earlier merge request."
+    }
+  ],
+  "limitations": [
+    "No additional inputs or corrected identity/readback were supplied.",
+    "Actual provider merge outcome, issue closure and local reconciliation remain unknown; this fixture refusal is not provider-enforced truth.",
+    "Historical merge request was not replayed. No live transport, credentials, worktree actions or production effects were used.",
+    "No checkpoint edits or source modifications were made; no unchanged retry was attempted.",
+    "Consumer-recorded command evidence is not a complete platform transcript."
+  ],
+  "authorizes_landing": false
+}
+

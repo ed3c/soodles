@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python",
+    "-B",
+    "-c",
+    "import json,pathlib; root=pathlib.Path(\"/workspace/scratch/bd9d2e05d141/pclass49-lab/b\"); current=json.loads((root/\"commands/initial_owner/stdout.bin\").read_bytes()); checkpoint=json.loads((root/\"checkpoint.json\").read_text()); receipt={\"originating_issue\":\"ed3c/soodles#49\",\"subject\":checkpoint[\"claim\"],\"classification\":\"BLOCKED_PENDING_PROVIDER_READBACK\",\"owner\":{\"entry\":\"/workspace/scratch/bd9d2e05d141/pclass49-lab/source/soodles.py\",\"owner\":current[\"owner\"],\"action\":current[\"action\"],\"phase\":current[\"phase\"],\"classification\":current[\"classification\"]},\"next\":current[\"next\"],\"evidence\":{\"current_owner_output\":str(root/\"commands/initial_owner/stdout.bin\"),\"current_owner_result\":str(root/\"commands/initial_owner/result.json\"),\"inputs_read\":str(root/\"commands/subject_inputs/stdout.bin\"),\"commands\":str(root/\"commands\"),\"observations\":[\"Current owner consumed the initial supplied readback before supplemental input assessment.\",\"Owner remains at merge_pending with action readback and no new write request.\",\"Checkpoint has writes_offered merge and delivery status offered; prior handoff is historical merge request evidence only.\",\"Supplied fixture reports PR 2 open and unmerged, issue 1 open, and candidate-head runtime run 10 attempt 1 successful.\",\"No supplemental readback is supplied. Historical merge request was not replayed; unchanged inputs were not retried.\"]},\"limitations\":[\"Disposable fixtures only: no live provider readback or effects are authorized.\",\"The outcome of the previously offered merge remains unknown pending fresh provider observation.\",\"Fresh responses for the owner-emitted GET subjects are unavailable in supplied inputs. Re-enter landing advance only after material readback change; if PR is merged, obtain its confirmed merge-commit readback.\",\"Consumer-recorded commands are evidence of this investigation, not a complete platform transcript or landing authorization.\"]}; (root/\"receipt.json\").write_text(json.dumps(receipt,indent=2)+\"\\n\"); print(json.dumps(receipt,indent=2))"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141",
+  "time_ns": 1789650393353111654,
+  "files_before": {},
+  "timeout_seconds": 60
+}

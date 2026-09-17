@@ -1,0 +1,71 @@
+{
+  "schema": 2,
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "run_id": 10,
+    "run_attempt": 1,
+    "worktree": "example",
+    "control_root": "/fixture",
+    "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
+  },
+  "phase": "close_pending",
+  "observations": [
+    "663c140cbbfe2476a29068622822e7501ceae189ae2d6fc70a800e8da821470c",
+    "c98a15312939d0cd1250553cef1a9b898e1d567974dae8f566a9fe01c281799b"
+  ],
+  "classification": null,
+  "scope": "supervised single-Issue landing",
+  "writes_offered": [
+    "merge"
+  ],
+  "delivery": {
+    "action": "close",
+    "status": "prepared"
+  },
+  "merge_sha": "dddddddddddddddddddddddddddddddddddddddd"
+}
+
+checkpoint_sha256=83ff9a5ca576801a549d26e31cfda1c72dfaeca9a34e3e45136c57cf03c7e1a6
+Recorded evidence paths:
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/advance_help/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/advance_help/result.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/advance_help/stderr.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/advance_help/stdout.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/continued_owner/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/continued_owner/result.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/continued_owner/stderr.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/continued_owner/stdout.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/dispatch_help/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/dispatch_help/result.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/dispatch_help/stderr.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/dispatch_help/stdout.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/final_state/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/initial/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/initial/result.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/initial/stderr.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/initial/stdout.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/initial_owner/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/initial_owner/result.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/initial_owner/stderr.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/initial_owner/stdout.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/landing_help/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/landing_help/result.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/landing_help/stderr.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/landing_help/stdout.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/skill/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/skill/result.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/skill/stderr.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/skill/stdout.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/supplement_readback/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/supplement_readback/result.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/supplement_readback/stderr.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/supplement_readback/stdout.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/supplied_inputs/request.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/supplied_inputs/result.json
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/supplied_inputs/stderr.bin
+/workspace/scratch/bd9d2e05d141/pclass49-lab/d/commands/supplied_inputs/stdout.bin

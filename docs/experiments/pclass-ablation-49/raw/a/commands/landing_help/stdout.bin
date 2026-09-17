@@ -1,0 +1,15 @@
+usage: ./soodles landing [-h]
+                         {identity,start,advance,dispatch,resume,invalidate,readmit,reconcile}
+                         ...
+
+The supervisor supplies exact claims and raw provider readbacks. No
+credentials or provider writes in this process.
+
+positional arguments:
+  {identity,start,advance,dispatch,resume,invalidate,readmit,reconcile}
+
+options:
+  -h, --help            show this help message and exit
+
+Examples: ./soodles landing start --help; ./soodles landing advance --help;
+./soodles landing reconcile --help

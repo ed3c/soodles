@@ -1,0 +1,118 @@
+{
+  "schema": 2,
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "run_id": 10,
+    "run_attempt": 1,
+    "worktree": "example",
+    "control_root": "/fixture",
+    "verifier_sha256": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
+  },
+  "phase": "merge_pending",
+  "observations": [
+    "663c140cbbfe2476a29068622822e7501ceae189ae2d6fc70a800e8da821470c"
+  ],
+  "classification": null,
+  "scope": "supervised single-Issue landing",
+  "writes_offered": [
+    "merge"
+  ],
+  "delivery": {
+    "action": "merge",
+    "status": "offered"
+  }
+}
+{
+  "pr": {
+    "number": 2,
+    "html_url": "https://github.com/ed3c/soodles/pull/2",
+    "body": "Refs ed3c/soodles#1\n",
+    "head": {
+      "repo": {
+        "full_name": "ed3c/soodles"
+      },
+      "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "ref": "example"
+    },
+    "base": {
+      "repo": {
+        "full_name": "ed3c/soodles"
+      },
+      "sha": "cccccccccccccccccccccccccccccccccccccccc",
+      "ref": "main"
+    },
+    "merged": false,
+    "state": "open",
+    "draft": false,
+    "mergeable": true
+  },
+  "issue": {
+    "number": 1,
+    "html_url": "https://github.com/ed3c/soodles/issues/1",
+    "state": "open"
+  },
+  "run": {
+    "id": 10,
+    "run_attempt": 1,
+    "repository": {
+      "full_name": "ed3c/soodles"
+    },
+    "head_repository": {
+      "full_name": "ed3c/soodles"
+    },
+    "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "event": "pull_request",
+    "path": ".github/workflows/runtime.yml",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "commit": {
+    "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": {
+      "sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  },
+  "jobs": {
+    "total_count": 1,
+    "jobs": [
+      {
+        "id": 11,
+        "name": "runtime-evidence",
+        "run_id": 10,
+        "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Canonical acceptance on the exact candidate head",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  "branch": {
+    "name": "main",
+    "commit": {
+      "sha": "cccccccccccccccccccccccccccccccccccccccc"
+    }
+  }
+}
+{
+  "subject_issue": 1,
+  "subject_pr": 2,
+  "historical_request": {
+    "action": "merge",
+    "repository_full_name": "ed3c/soodles",
+    "pr_number": 2,
+    "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "merge_method": "merge"
+  },
+  "note": "Earlier supervisor recorded this offered request."
+}

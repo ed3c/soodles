@@ -1,0 +1,77 @@
+{
+  "pr": {
+    "number": 2,
+    "html_url": "https://github.com/ed3c/soodles/pull/2",
+    "body": "Refs ed3c/soodles#1\n",
+    "head": {
+      "repo": {
+        "full_name": "fixture/foreign"
+      },
+      "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "ref": "example"
+    },
+    "base": {
+      "repo": {
+        "full_name": "fixture/foreign"
+      },
+      "sha": "cccccccccccccccccccccccccccccccccccccccc",
+      "ref": "main"
+    },
+    "merged": false,
+    "state": "open",
+    "draft": false,
+    "mergeable": true
+  },
+  "issue": {
+    "number": 1,
+    "html_url": "https://github.com/ed3c/soodles/issues/1",
+    "state": "open"
+  },
+  "run": {
+    "id": 10,
+    "run_attempt": 1,
+    "repository": {
+      "full_name": "fixture/foreign"
+    },
+    "head_repository": {
+      "full_name": "fixture/foreign"
+    },
+    "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "event": "pull_request",
+    "path": ".github/workflows/runtime.yml",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "commit": {
+    "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": {
+      "sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  },
+  "jobs": {
+    "total_count": 1,
+    "jobs": [
+      {
+        "id": 11,
+        "name": "runtime-evidence",
+        "run_id": 10,
+        "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Canonical acceptance on the exact candidate head",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  "branch": {
+    "name": "main",
+    "commit": {
+      "sha": "cccccccccccccccccccccccccccccccccccccccc"
+    }
+  }
+}
