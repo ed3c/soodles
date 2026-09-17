@@ -1,0 +1,17 @@
+{
+  "original_order_status": "completed",
+  "order_id": "soodles-39",
+  "quiescent_sessions": [
+    {
+      "session_id": "soodles-39-0-execute-20260917-084802-fa146c",
+      "pid": 10854,
+      "process_and_group_absent": true
+    }
+  ],
+  "carrier": {
+    "noodle": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81"
+  },
+  "envelope_sha256": "e6e72be07bac8e31f9578923d132c1865b1b8f9cab8d9ae0ed8c060d8d3a1f61",
+  "scope": "read-only pre-delivery capability check, not reconciliation or landing authorization",
+  "authorizes_landing": false
+}

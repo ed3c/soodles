@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-17T09:29:05.942301+00:00",
+  "reason": "Historical preparation worktree for completed Issue39 is clean and exact head remains preserved on remote; remove duplicate checkout through original Noodle owner.",
+  "head": "2e9d51261c80b2c5c120ca6549c759704c615c61",
+  "remote": "2e9d51261c80b2c5c120ca6549c759704c615c61\trefs/heads/codex/issue39-integrate-41",
+  "clean_before": true,
+  "argv": [
+    "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+    "worktree",
+    "cleanup",
+    "issue-39-agent-context-patterns",
+    "--force"
+  ],
+  "exit": 0,
+  "stdout": "  Removing worktree...\n  Deleting branch issue-39-agent-context-patterns...\nDone. issue-39-agent-context-patterns removed.\n",
+  "stderr": "",
+  "worktree_absent": true
+}

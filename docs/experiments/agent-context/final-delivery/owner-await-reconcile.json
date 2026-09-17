@@ -1,0 +1,25 @@
+{
+  "owner": "landing.advance",
+  "action": "reconcile",
+  "phase": "awaiting_reconcile",
+  "classification": null,
+  "next": {
+    "kind": "input",
+    "owner": "supervisor",
+    "operation": "reconcile",
+    "required": [
+      "binary"
+    ],
+    "known": {
+      "checkpoint": "/Users/neon/.codex/experiments/soodles39-resume-20260917/checkpoint.json"
+    },
+    "help_argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles39-resume-20260917/publisher/soodles.py",
+      "landing",
+      "reconcile",
+      "--help"
+    ]
+  }
+}

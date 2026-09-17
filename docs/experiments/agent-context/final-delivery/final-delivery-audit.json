@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "observed_at": "2026-09-17T09:34:50.206786+00:00",
+  "reviewer": "independent Issue39 raw reviewer",
+  "classification": "EXISTING_RESOLVED_RECEIPT_CORROBORATED",
+  "passed": true,
+  "authorizes_landing": false,
+  "authorizes_future_landing": false,
+  "scope": "只核對既有收據、本機 Git、原 order snapshot 與 signal-0 quiescence；未呼叫新 API、owner 或模型。此審查不創造交付 authority。",
+  "subject": {
+    "repository": "ed3c/soodles",
+    "issue": 39,
+    "pr": 43,
+    "candidate_head": "e11a8eaba34fbd3b1d67963796ac2dd142ca9dca",
+    "candidate_tree": "8ca2ffad13614040958398ee6b1eb3365655a642",
+    "merge_sha": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "run_id": 35204875186,
+    "job_id": 105148083093,
+    "original_session": "soodles-39-0-execute-20260917-084802-fa146c"
+  },
+  "checks": {
+    "claim_checkpoint_owner_identity": true,
+    "terminal_existing_owner": true,
+    "terminal_checkpoint": true,
+    "publisher_selected_files": true,
+    "publisher_fingerprint": true,
+    "execution_envelope_digest": true,
+    "provider_pr_merged": true,
+    "provider_issue_completed": true,
+    "canonical_run_exact_head": true,
+    "canonical_job_success": true,
+    "actual_job_log_summary": true,
+    "original_order_completed_current_snapshot": true,
+    "fresh_kernel_process_and_group_absent": true,
+    "main_exact_merge_clean": true,
+    "production_historical_paths_and_branches_absent": true,
+    "ancestry_merge_kept_verified_tree": true,
+    "provider_merge_parents_tree": true
+  },
+  "locators": {
+    "claim": "claim.json; checkpoint.json#/claim; owner-resolved.json#/claim",
+    "delivery": "owner-dispatch-merge.json#/request; provider-merge-response.json; owner-dispatch-close.json#/request; provider-after-close.json#/pr and #/issue; owner-resolved.json#/next",
+    "canonical": "provider-after-close.json#/run and #/jobs/jobs/0/steps; runtime-job-log.json#/structuredContent/content decoded lines 198-199, 323, 353-354",
+    "reconciliation": "owner-resolved.json#/noodle_reconciliation; /Users/neon/soodles/.noodle/state.snapshot.json#/state/orders/soodles-39",
+    "cleanup": "owner-resolved.json#/local; historical-preparation-cleanup.json; local_state below",
+    "publisher_fingerprint": "publisher/landing.py:74-83; publisher-current-selection.json; claim.json#/verifier_sha256"
+  },
+  "actual_job_log_summary": {
+    "candidate": {
+      "head": "e11a8eaba34fbd3b1d67963796ac2dd142ca9dca",
+      "tree": "8ca2ffad13614040958398ee6b1eb3365655a642"
+    },
+    "zero_residue": true,
+    "authorizes_landing": false
+  },
+  "actual_job_log_content_sha256": "9423ca6af3335f471656d3dd2242b8f44dcbeffd0de1badc4b875099a39dbb38",
+  "local_state": {
+    "branch": "main",
+    "head": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "tree": "8ca2ffad13614040958398ee6b1eb3365655a642",
+    "status_porcelain": "",
+    "worktree_list_porcelain": "worktree /Users/neon/soodles\nHEAD defc5f41153837f4db5ee0858fd03c9029523c6c\nbranch refs/heads/main\n\nworktree /Users/neon/soodles/.worktrees/issue39-current-evidence\nHEAD 9234046455c158180f25f6bd3c2dd2607de440ac\nbranch refs/heads/issue39-current-evidence",
+    "removed_branches": "",
+    "kernel": {
+      "pid": {
+        "id": 10854,
+        "errno": 3,
+        "absent": true
+      },
+      "pgid": {
+        "id": 10854,
+        "errno": 3,
+        "absent": true
+      }
+    }
+  },
+  "current_snapshot_sha256": "47dea148a418f432fbe1bd0cb30ac39c9eda14043056cc85c431d5dc73b00586",
+  "preserved_observations": [
+    "GH013 force-push 拒絕保留於 branch-update-refusal.json；後續 e11a8ea 以 ancestry merge 保留父節點，tree 與 f3505bc 完全相同，再以正常 push 交付；使用 e11a8ea 新 exact-head runtime。",
+    "provider-initial.json 的 PR base 落後於 main；pr-base-refresh.json 記錄 same-target base_branch=main 更新，provider-start.json 的 base 刷新至 1ff2882；未據此推導權限或保護政策變更。",
+    "歷史準備 worktree 的清理依 historical-preparation-cleanup.json 先確認 clean 與 exact remote head 2e9d512，再經 Noodle --force 清理；本機 path、branch 與 registration 已不存在。"
+  ],
+  "limitations": [
+    "provider 結論限已保存 readback，不宣稱審查當下重新查詢遠端。",
+    "artifact signed download URL 本機 HTTP 403；ZIP 內容未檢視。canonical zero_residue 來自實際 job log 第 323 行，artifact 僅 metadata/upload log。",
+    "原 order snapshot 的 attempt.exit_code 為 null；本審查沒有將其改寫為 child exit 0，也不把 completed 狀態當成 wait receipt。",
+    "publisher-selection.json 的舊 subject 字串仍寫 PR40；本次有效交付身分由新 claim/envelope、owner 與 provider PR43 readback 綁定，未隱去歷史文字。",
+    "證據發佈 worktree issue39-current-evidence 仍保留；只主張 production 與歷史準備 worktree 已清理。",
+    "比較實驗的 run03 INCOMPLETE、setup provenance 偏差及非因果改善限制仍由既有 independent-audit 保留，本交付審查不撤銷。"
+  ],
+  "evidence_sha256": {
+    "final-receipt.json": "06c21faab0edb0fc0202d1afbac0e844691fff03e83d7de0c6c8a6aa2e8936b3",
+    "claim.json": "d6d041c547b038ce743fa3b39a9694a9b52d14aa08a77df66623bca8127af9c7",
+    "checkpoint.json": "28ae17eb3ee6c402cf21bf930cdf62e66b6945fb4aa59d4da60a4cfe80035eb8",
+    "execution-envelope.json": "e6e72be07bac8e31f9578923d132c1865b1b8f9cab8d9ae0ed8c060d8d3a1f61",
+    "publisher-selection.json": "ac12e6e8bbf4f37357591b85085f8787fe2b80d6a684fa56991ec0bdff96d0b2",
+    "publisher-current-selection.json": "e3a0ec9ca1540188e5d9b44895096edde503dc566bcb43b640ca348c29b1cf3b",
+    "runtime-job-log.json": "a0d6a163b38eb8f0d89b72377c7c69e7b33a845699e915099942cd1e00be64d1",
+    "runtime-artifact-observation.json": "e8c07da1e00861c7c1c970fab9a1fba32d2d002426453317d3cfbfbc10015b88",
+    "historical-preparation-cleanup.json": "fe8aed97f5ddec049f843a24daad11c0d1031111b277a867d2603a8881224f40",
+    "branch-update-refusal.json": "797daa7e05661197ae051da05e41fcc81887d28149491619b528199dfce706b1",
+    "pr-base-refresh.json": "aeafb054537941a016d8e5affbefd82d0face3afab6f0cdc6036b7a0389559e2",
+    "owner-advance-close.json": "7a100fe69839b9bd3b7bc68d4e3ea0ad36f9e47f4ae0ac6f4e0ce9997a8cb98e",
+    "owner-advance-merge.json": "725442efee0f2b4273732b81764aa7b105d0307b0cf1b7aacd75af266aa35fb4",
+    "owner-await-reconcile.json": "ee447a0d2057c95dadad1eeb5e7117c3ae7873a6f6f0a0502a754499957e6fa1",
+    "owner-dispatch-close.json": "b47290d69727379a2441141b9f2580208cafe0938f091611031bc093c9517a6b",
+    "owner-dispatch-merge.json": "a67e2fa13e97a4ee1042f7f90e9a8c12d688a8f96d2eca30c17a111ee681249c",
+    "owner-recreate.json": "6ef5da913d477e861a2691a94e8078a56db3d4c80c22fe16c4467c67e781f650",
+    "owner-resolved.json": "f0abfc7fbe3fbc767802d66050e0726826b0518297ae97570c245ad8398ab56f",
+    "owner-start.json": "152d21e31744828e7b99c05cab33b8cc2c9b799f1abfa5ddb724dfb6951ed845",
+    "provider-advance-merge.json": "fbf5a29b2c94b41a51524492ab529ed85d39701a25b8228e95cc1cefa9fbe9e9",
+    "provider-after-close.json": "81cac88a1f48c71d42f0d893d2d24f616cb782f6ce27c1efffd8dcdb6b238269",
+    "provider-after-merge.json": "837df0abfd5383ba87142d64f04c514a2ff3e809990eac797a87d8a8c5c566e0",
+    "provider-close-response.json": "7d883ed358a237a2631f42287b00176e996f61df1dc11f9b5be1e404c9094dea",
+    "provider-dispatch-close.json": "ab04482912252c4588c7aac6304a9bac1278cbe4657d73605b11a8aa79dbdb81",
+    "provider-dispatch-merge.json": "3ab79a9c3285d73871c3b791ef19adddf5cb5051c542a117dbd3bbdfd6173ec1",
+    "provider-initial.json": "0c5c3a86a49b62683b322746ae2c1f798aebdd3399b9f29e79d0606cef5a8ad6",
+    "provider-merge-response.json": "dc569cd88739ece04cb3a42b9dc956ed5a0ef5c61f8ea4566e1756ef48fb8fc0",
+    "provider-start.json": "5e3ec8822f2cbad526dd5a89648bdf50f28a2d6314597ca69b3cba6c2ec49371"
+  }
+}

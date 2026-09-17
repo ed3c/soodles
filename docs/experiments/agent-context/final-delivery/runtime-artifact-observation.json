@@ -1,0 +1,19 @@
+{
+  "runtime_run": 35204875186,
+  "job": 105148083093,
+  "artifact_id": 10489591502,
+  "artifact_name": "runtime-evidence-e11a8eaba34fbd3b1d67963796ac2dd142ca9dca",
+  "provider_archive_digest": "sha256:d06974769cd874871fd9f5b61b8853debca7e084d7dbeaadae822da8a86be54b",
+  "zip_content_inspected": false,
+  "download_observation": "Connector returned ZIP reference; local signed-URL retrieval HTTP403. No unchanged download retry or invented archive contents.",
+  "canonical_summary_from_actual_job_log": {
+    "candidate": {
+      "head": "e11a8eaba34fbd3b1d67963796ac2dd142ca9dca",
+      "tree": "8ca2ffad13614040958398ee6b1eb3365655a642"
+    },
+    "zero_residue": true,
+    "authorizes_landing": false
+  },
+  "source": "runtime-job-log.json",
+  "authorizes_landing": false
+}

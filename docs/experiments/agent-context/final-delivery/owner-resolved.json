@@ -1,0 +1,107 @@
+{
+  "schema": 2,
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 39,
+    "pr": 43,
+    "head": "e11a8eaba34fbd3b1d67963796ac2dd142ca9dca",
+    "tree": "8ca2ffad13614040958398ee6b1eb3365655a642",
+    "base_head": "1ff2882891792b50d97529c9ee1a3e76eac1a6e7",
+    "run_id": 35204875186,
+    "run_attempt": 1,
+    "worktree": "soodles-39-0-execute",
+    "control_root": "/Users/neon/soodles",
+    "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a",
+    "execution_envelope": {
+      "path": "/Users/neon/.codex/experiments/soodles39-resume-20260917/execution-envelope.json",
+      "sha256": "e6e72be07bac8e31f9578923d132c1865b1b8f9cab8d9ae0ed8c060d8d3a1f61"
+    }
+  },
+  "phase": "resolved",
+  "observations": [
+    "ad84cc0bbecb0afc77f3a712addec021f642eb3eec986f7ef2f7800ca6f3a474",
+    "8ad552a784600fefc5b6956c2cf21cb874a1582e603396120142d528fe6e4c2f",
+    "8762b17f3e1cee703e88f4b5f424f5e25e5e9e6466ca18924b4c092faa5295d2"
+  ],
+  "classification": "RESOLVED",
+  "scope": "supervised single-Issue landing",
+  "writes_offered": [
+    "merge",
+    "close"
+  ],
+  "delivery": {
+    "action": "close",
+    "status": "offered"
+  },
+  "merge_sha": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+  "issue_closed_at": "2026-09-17T09:27:55Z",
+  "noodle_reconciliation": {
+    "order_id": "soodles-39",
+    "order": {
+      "order_id": "soodles-39",
+      "sequence": 1,
+      "title": "Execute ed3c/soodles#39",
+      "plan": null,
+      "rationale": "Externally admitted current Issue",
+      "status": "completed",
+      "stages": [
+        {
+          "stage_index": 0,
+          "task_key": "execute",
+          "prompt": "{\"body_sha256\": \"cf54e51c5af83fa75625abd68e12b68d1bcd90c7938bea4406467a95020b1887\", \"body_updated_at\": \"2026-09-17T08:46:19Z\", \"envelope_sha256\": \"e6e72be07bac8e31f9578923d132c1865b1b8f9cab8d9ae0ed8c060d8d3a1f61\", \"issue\": 39, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"Continue the real production Soodles Issue39 integration atom, not a blinded comparison. This real soodles-39 order precedes this new integration work, but earlier preparation is historical; do not claim it preceded all old code. Current clean base is 1ff2882891792b50d97529c9ee1a3e76eac1a6e7. Read the admitted issue.json in /Users/neon/.codex/experiments/soodles39-resume-20260917. Integrate the five proposed instruction files from commit 2e9d51261c80b2c5c120ca6549c759704c615c61 (also available in /Users/neon/soodles/.worktrees/issue-39-agent-context-patterns) onto current main. Files: AGENTS.md, README.md, contracts/system-v1.md, contracts/agent-context-design.md, .agents/skills/verify-soodles/SKILL.md. Preserve all landed #41 P-class recipe/recorder guidance, #44 authenticated GitHub reader route and #46 verify-noodle route; do not weaken executable owners or their invariants. Compare old integration against its f2bd849 base and current main; use only exact supported new instruction differences. Do not rewrite unrelated prose or add more mechanisms.\\nChild .agents/AGENTS writes are protected. Your deliverable is COMPLETE proposed bytes for those five files under external /Users/neon/.codex/experiments/soodles39-resume-20260917/draft/ using repository-relative layout, plus worker-evidence manifest with hashes, precise actual changes and handoff. Do not edit/commit target source or call provider writes. Supervisor applies only after your naturally observed exit, then runs blinded cases and delivery. This scoped authoring task may complete without repository changes; Noodle can auto-clean that checkout, which supervisor will record and recreate through owner if needed. No second order, checkpoint edit or permission changes.\\nRetain carrier-scoped prerequisites, N/P/L/R boundaries, current-owner next/request semantics, explicit scope/nonregression, and unknown-window/compaction handling. Existing local comparison is evidence for old frozen inputs only. Do not invent new behavioral results or reduce instruction obligations to fake improvement. Keep new guidance short and conditional. Any official-reference text already present may be retained without unsupported new API claims; no web research or capability probe required. Validate link targets against combined candidate overlay and existing base; report failures as authoring checks, not experiment results.\\nUse execute methodology. Do not load unrelated noodles operator runbook, launch other agents/models, alter credentials, start loops or deliver. At completion, inspect actual Noodle event help via /Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81; schema source /Users/neon/.codex/experiments/noodle78-delivery-20260916/control/event/types.go. Emit ONE own stage_message matching actual NOODLE_SESSION_ID/ORDER_ID/STAGE_INDEX, outcome completed and blocking false only for completed five-file authoring handoff; clearly state comparison/acceptance/provider delivery remain supervisor work. On genuine inability emit blocked. Then return naturally. Bound 720 seconds.\"}",
+          "skill": "execute",
+          "provider": "codex",
+          "model": "gpt-6-astra",
+          "runtime": "process",
+          "group": 0,
+          "status": "completed",
+          "extra_prompt": "",
+          "attempts": [
+            {
+              "attempt_id": "soodles-39-0-attempt-0",
+              "session_id": "soodles-39-0-execute-20260917-084802-fa146c",
+              "status": "completed",
+              "started_at": "2026-09-17T16:48:02.799504+08:00",
+              "completed_at": "2026-09-17T16:53:10.118311+08:00",
+              "exit_code": null,
+              "worktree_name": "soodles-39-0-execute",
+              "error": ""
+            }
+          ]
+        }
+      ],
+      "created_at": "2026-09-17T16:48:02.740371+08:00",
+      "updated_at": "2026-09-17T16:53:10.118311+08:00",
+      "metadata": {
+        "plan": "",
+        "rationale": "Externally admitted current Issue",
+        "title": "Execute ed3c/soodles#39"
+      }
+    },
+    "quiescent_sessions": [
+      {
+        "session_id": "soodles-39-0-execute-20260917-084802-fa146c",
+        "pid": 10854,
+        "process_and_group_absent": true
+      }
+    ]
+  },
+  "cleanup_intent": {
+    "path_present": true,
+    "branch_head": "e11a8eaba34fbd3b1d67963796ac2dd142ca9dca",
+    "main_head": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "git_path": "/usr/bin/git",
+    "git_sha256": "b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9",
+    "noodle_sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff",
+    "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a"
+  },
+  "local": {
+    "head": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "tree": "8ca2ffad13614040958398ee6b1eb3365655a642",
+    "removed_worktree": "soodles-39-0-execute",
+    "worktree_owner": "Noodle"
+  },
+  "owner": "landing.reconcile",
+  "action": "stop",
+  "next": null
+}

@@ -1,0 +1,8 @@
+{
+  "attempted_candidate": "f3505bcb92c463417a3445a3606c29f37ae85ff4",
+  "expected_remote_head": "58916aba4725d409cec2c57843f3cccfc89e011d",
+  "provider_error": "GH013: Cannot force-push to this branch",
+  "exit": 1,
+  "response": "Keep original branch ancestry using an explicit merge of the preserved historical candidate. Current integrated tree includes the intended same-Issue changes and current-main corrections, so retain that exact tree while joining historical parent. Normal fast-forward push; no protection change or bypass. New exact-head acceptance required.",
+  "authorizes_landing": false
+}

@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "at": "2026-09-17T09:29:47.864994+00:00",
+  "repository": "ed3c/soodles",
+  "issue": 39,
+  "pr": 43,
+  "classification": "RESOLVED",
+  "scope": "Complete original Issue atom under externally fixed supervised publisher",
+  "candidate": {
+    "head": "e11a8eaba34fbd3b1d67963796ac2dd142ca9dca",
+    "tree": "8ca2ffad13614040958398ee6b1eb3365655a642"
+  },
+  "merge_sha": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+  "provider_merge": "provider-after-merge.json",
+  "provider_closure": "provider-after-close.json",
+  "runtime": {
+    "run_id": 35204875186,
+    "attempt": 1,
+    "job_id": 105148083093,
+    "exact_head": "e11a8eaba34fbd3b1d67963796ac2dd142ca9dca",
+    "conclusion": "success",
+    "canonical_zero_residue_from_job_log": true,
+    "archive_content_inspected": false
+  },
+  "publisher": {
+    "commit": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a"
+  },
+  "original_order": "soodles-39",
+  "original_session": "soodles-39-0-execute-20260917-084802-fa146c",
+  "original_order_completed": true,
+  "quiescent_sessions": [
+    {
+      "session_id": "soodles-39-0-execute-20260917-084802-fa146c",
+      "pid": 10854,
+      "process_and_group_absent": true
+    }
+  ],
+  "local": {
+    "head": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "tree": "8ca2ffad13614040958398ee6b1eb3365655a642",
+    "removed_worktree": "soodles-39-0-execute",
+    "worktree_owner": "Noodle"
+  },
+  "source_main_clean": true,
+  "production_worktree_branch_registration_absent": true,
+  "historical_preparation_cleanup": "historical-preparation-cleanup.json",
+  "comparison_commit": "9234046455c158180f25f6bd3c2dd2607de440ac",
+  "comparison_result": "three scoped matched cases observed; no improvement claim; original incomplete pair and all deviations preserved",
+  "tested_instruction_blobs_unchanged": true,
+  "owner_receipt": "owner-resolved.json",
+  "next": null,
+  "observations": [
+    "Branch rewrite refused by GitHub; normal ancestry-preserving merge retained identical integrated tree and allowed fast-forward update.",
+    "PR base metadata refreshed through same-target main update; fresh raw provider readback consumed.",
+    "Runtime artifact reference local retrieval HTTP403; canonical exact-head/zero-residue evidence read from actual successful job log, no ZIP content claim.",
+    "Completed original production authoring order and explicit Noodle recreation preserved; no posthoc empty order."
+  ],
+  "authorizes_future_landing": false
+}
