@@ -15,6 +15,11 @@ Issue, route, worktree or envelope. Read the current Issue contract and honor
 its exact file boundary. A body amendment requires the supervisor's fresh
 envelope before further work.
 
+For an admitted task that verifies Noodle CLI identity/skill resolution, stopped
+initial-proposal recovery or a genuine order/session handoff, use
+[verify-noodle](../verify-noodle/SKILL.md) and only its relevant feature recipe.
+Its observations do not replace Soodles acceptance or delivery.
+
 Use existing repository controls. Commit only the same causal correction;
 canonical acceptance, provider delivery and local reconciliation remain
 distinct. Do not merge, close Issues, alter provider policy, or select a new
