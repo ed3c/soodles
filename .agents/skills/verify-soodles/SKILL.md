@@ -5,7 +5,7 @@ description: Verify Soodles runtime admission, supervised delivery and recovery 
 
 # Verify Soodles
 
-This is a CLI application with an external supervised publisher and GitHub transport. Read the relevant recipe directly: [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
+This is a CLI application with an external supervised publisher and GitHub transport. Read the relevant recipe directly: [authenticated Issue readback](features/github-read.md), [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
 
 ## Launch
 

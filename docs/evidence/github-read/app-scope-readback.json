@@ -1,0 +1,26 @@
+{
+  "observed_at": 1789624902,
+  "app": {
+    "id": 4753873,
+    "slug": "ed3c-noodles-protection-audit"
+  },
+  "installation": {
+    "id": 157336758,
+    "app_id": 4753873,
+    "repository_selection": "all",
+    "permissions": {
+      "issues": "write",
+      "actions": "write",
+      "contents": "write",
+      "metadata": "read",
+      "pull_requests": "write",
+      "administration": "read"
+    },
+    "suspended_at": null
+  },
+  "repository": "ed3c/soodles",
+  "public_key_fingerprint_verified": true,
+  "key_mode": "0600",
+  "request_count": 2,
+  "authorizes_landing": false
+}

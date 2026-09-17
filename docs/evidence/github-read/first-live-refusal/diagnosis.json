@@ -1,0 +1,5 @@
+{
+  "failure": "Live minimum-permission token was refused locally before any Issue request. Token successfully revoked (204).",
+  "cause": "Reader incorrectly assumes provider token alphabet is only alphanumeric/underscore. Token syntax is opaque; only nonempty safe header bytes should be locally required.",
+  "correction": "Accept visible ASCII bearer bytes, reject whitespace/control characters; add legal opaque-token control before retry."
+}

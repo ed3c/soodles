@@ -298,13 +298,51 @@ class IssueExecutionTests(unittest.TestCase):
     def test_network_failure_names_provider_readback_without_mailbox_effects(self):
         from unittest.mock import patch
         import urllib.error
-        with patch("issue_execution.urllib.request.urlopen", side_effect=urllib.error.URLError("DNS unavailable")):
+        with patch.dict(os.environ, {"GH_TOKEN": "fixture_installation", "XDG_CACHE_HOME": str(self.directory)}), patch("github_reader._request", side_effect=urllib.error.URLError("DNS unavailable")):
             with self.assertRaises(admission.AdmissionRefusal) as caught:
                 execution.automatic(self.path, self.pin, self.root)
         self.assertEqual(caught.exception.invalid["field"], "issue.provider_readback")
         self.assertEqual(caught.exception.next["owner"], "GitHub")
         self.assertEqual(caught.exception.next["required"], ["fresh_issue_readback"])
         self.assertFalse((self.runtime / "orders-next.json").exists())
+
+    def test_shared_default_reader_admits_then_reuses_without_duplicate_mailbox(self):
+        from unittest.mock import patch
+        from test_github_reader import response
+        url = self.issue["url"]
+        def fresh(_):
+            value = response(headers={"ETag": '"same"'}, value=self.issue)
+            value.url = url
+            return value
+        with patch.dict(os.environ, {"GH_TOKEN": "fixture_installation", "XDG_CACHE_HOME": str(self.directory)}), patch("github_reader._request", side_effect=fresh) as transport:
+            first = execution.automatic(self.path, self.pin, self.root)
+            before = (self.runtime / "orders-next.json").read_bytes()
+            second = execution.automatic(self.path, self.pin, self.root)
+            self.assertEqual(first["binding"], second["binding"])
+            self.assertEqual((self.runtime / "orders-next.json").read_bytes(), before)
+            self.assertEqual(transport.call_count, 2)
+            self.assertEqual(transport.call_args.args[0].get_header("Authorization"), "Bearer fixture_installation")
+
+    def test_shared_default_reader_quota_preserves_mailbox_and_worker(self):
+        from unittest.mock import patch
+        from test_github_reader import response
+        import github_reader
+        self.admit("automatic")
+        before = (self.runtime / "orders-next.json").read_bytes()
+        import time
+        def exhausted(_):
+            value = response(403, {"X-RateLimit-Remaining": "0", "X-RateLimit-Reset": str(int(time.time()) + 600)})
+            value.url = self.issue["url"]
+            return value
+        with patch.dict(os.environ, {"GH_TOKEN": "fixture_installation", "XDG_CACHE_HOME": str(self.directory)}), patch("github_reader._request", side_effect=exhausted) as transport:
+            for route in ("automatic", "supervised"):
+                with self.assertRaises(github_reader.ProviderWait):
+                    getattr(execution, route)(self.path, self.pin, self.root)
+            with self.assertRaises(github_reader.ProviderWait):
+                execution.worker(self.path, self.pin, self.worktree, self.argv, environ=self.env)
+            self.assertEqual(transport.call_count, 1)
+        self.assertEqual((self.runtime / "orders-next.json").read_bytes(), before)
+        self.assertFalse(self.effect.exists())
 
     def test_completed_label_cannot_hide_a_live_process_group(self):
         self.admit("automatic")

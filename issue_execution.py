@@ -15,24 +15,16 @@ import subprocess
 import sys
 import tempfile
 import time
-import urllib.request
-import urllib.error
 
 from issue_admission import (AdmissionRefusal, REPOSITORY, load_external_envelope,
                              require, validate_issue)
 
 
 def fetch_issue(number):
-    url = f"https://api.github.com/repos/{REPOSITORY}/issues/{number}"
-    request = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json",
-                                                  "User-Agent": "soodles-issue-admission"})
-    try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            require(response.url == url, "issue.provider_url", response.url,
-                    owner="GitHub", required="exact_issue_readback")
-            return json.load(response)
-    except (urllib.error.URLError, TimeoutError, ValueError) as error:
-        raise AdmissionRefusal("issue.provider_readback", str(error), "GitHub", "fresh_issue_readback") from error
+    # Landing consumes supplied readbacks and must not load a credential reader.
+    # Automatic/supervised/worker retain the same default callable boundary.
+    from github_reader import fetch_issue as read
+    return read(number)
 
 
 def executable_identity(spec, field):
@@ -378,7 +370,7 @@ def continuation(next_action, operation):
 
 
 def refusal_output(error, operation):
-    return {"owner": "issue." + operation, "status": "refused", "invalid": error.invalid,
+    return {"owner": "issue." + operation, "status": "wait" if getattr(error, "exit_code", 1) == 75 else "refused", "invalid": error.invalid,
             "next": continuation(error.next, operation)}
 
 

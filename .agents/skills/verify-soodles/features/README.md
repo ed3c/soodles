@@ -5,6 +5,7 @@ Scoped runtime/delivery features and #18's physically observed bounded execution
 | Feature | Live surface | Evidence boundary |
 | --- | --- | --- |
 | [P-class behavior/context](pclass-context.md) | Supplied independent Session carrier, pinned task/instructions and real owner readbacks | Scoped behavior/nonregression, recorded context bytes and unknown telemetry; no landing authority |
+| [Authenticated Issue readback](github-read.md) | Shared Session CLI/admission reader with a supervisor-scoped App token | Live 200 → 304 and token scope; local owner fixture for admission, no daemon fail-soft claim |
 | [Runtime admission](runtime-admission.md) | Pinned binary through the real runtime CLI | Local admission/refusal, exact skill resolution and cleanup |
 | [Bounded Issue execution](issue-execution.md) | Supervisor-pinned automatic entry, real Noodle/Codex worker and supervised inspection | Exact task/session outcome and quiescent handoff; separate from provider delivery |
 | [Supervised delivery](supervised-delivery.md) | Fixed external landing owner and GitHub connector | Actual admitted PR/Issue, merge/closure readbacks and Noodle terminal reconciliation |

@@ -19,6 +19,11 @@ class Refusal(Exception):
 
 class Parser(argparse.ArgumentParser):
     def error(self, message):
+        if self.prog.startswith("./soodles github"):
+            from issue_admission import AdmissionRefusal
+            from github_reader import refusal_output
+            print(json.dumps(refusal_output(AdmissionRefusal("arguments", message)), indent=2))
+            self.exit(2)
         if self.prog.startswith("./soodles issue"):
             from issue_admission import AdmissionRefusal
             from issue_execution import refusal_output, refusal_text
@@ -186,6 +191,10 @@ def parser():
     p = Parser(prog="./soodles", description="Noodle runtime evidence and supervised landing checkpoints.",
                                 epilog="Examples: ./soodles runtime --help; ./soodles acceptance --help; ./soodles landing --help")
     groups = p.add_subparsers(dest="group", required=True)
+    github = groups.add_parser("github", description="Authenticated Issue readback; credentials come from the supervisor.")
+    github_verbs = github.add_subparsers(dest="verb", required=True)
+    read_issue = github_verbs.add_parser("issue", description="Read one ed3c/soodles Issue using supervisor-supplied GH_TOKEN. Missing credentials refuse; quota waits exit 75. No token discovery, minting, anonymous fallback or retry.", epilog="Example: ./soodles github issue 44. The supervisor supplies a repository-scoped installation token with Issues:read in the child environment. Never put credentials in argv. Cache uses XDG_CACHE_HOME or ~/.cache; 304 requires server confirmation.")
+    read_issue.add_argument("number", type=int)
     issue = groups.add_parser("issue", description="Consume one externally pinned Issue envelope before Noodle effects.",
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
@@ -240,7 +249,10 @@ def main():
     args = parser().parse_args()
     import landing
     try:
-        if args.group == "issue":
+        if args.group == "github":
+            import github_reader
+            result = github_reader.issue(args.number)
+        elif args.group == "issue":
             import issue_execution
             operation = getattr(issue_execution, args.verb)
             if args.verb == "worker":
@@ -274,7 +286,11 @@ def main():
         print(landing.refusal_text(result), file=sys.stderr)
         return 1
     except (KeyError, TypeError) as exc:
-        if args.group == "issue":
+        if args.group == "github":
+            from issue_admission import AdmissionRefusal
+            from github_reader import refusal_output
+            print(json.dumps(refusal_output(AdmissionRefusal("input.field", type(exc).__name__)), indent=2))
+        elif args.group == "issue":
             from issue_admission import AdmissionRefusal
             from issue_execution import refusal_output, refusal_text
             result = refusal_output(AdmissionRefusal("input.field", str(exc)), args.verb)
@@ -288,6 +304,12 @@ def main():
             print(f"REFUSED: {args.group}: invalid input field={exc}; supported help: ./soodles {args.group} --help", file=sys.stderr)
         return 1
     except (Refusal, OSError, ValueError, subprocess.TimeoutExpired) as exc:
+        if args.group == "github":
+            from issue_admission import AdmissionRefusal
+            import github_reader
+            error = exc if isinstance(exc, AdmissionRefusal) else AdmissionRefusal("input", type(exc).__name__)
+            print(json.dumps(github_reader.refusal_output(error), indent=2))
+            return getattr(error, "exit_code", 1)
         if args.group == "issue":
             from issue_admission import AdmissionRefusal
             import issue_execution
@@ -295,6 +317,7 @@ def main():
             result = issue_execution.refusal_output(error, args.verb)
             print(json.dumps(result, indent=2))
             print(issue_execution.refusal_text(result), file=sys.stderr)
+            return getattr(error, "exit_code", 1)
         elif args.group == "landing":
             invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
             result = landing.refusal_output(landing.LandingRefusal(invalid["field"], invalid["value"]), args.verb)
