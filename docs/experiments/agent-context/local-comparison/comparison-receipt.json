@@ -1,0 +1,88 @@
+{
+  "classification": "SCOPED_COMPARISON_COMPLETE_WITH_DISCLOSED_DEVIATIONS",
+  "repository": "ed3c/soodles",
+  "issue": 39,
+  "observed_at": "2026-09-17T05:17:06.066423+00:00",
+  "carrier": "local_macos_noodle_codex_exec",
+  "instrumentation": "Native stdout/order retained; terminal delivery waits for actual child wait and durable exit receipt.",
+  "instruction_selection": "instruction-selection.json",
+  "initial_selection": "trial-selection.json",
+  "additional_pair_selection": "additional-pair-selection.json",
+  "fixed_judge_selection": "judge-selection.json",
+  "common_code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+  "cases": [
+    {
+      "case": "runner-task",
+      "baseline": "run-01",
+      "treatment": "run-02",
+      "complete": true,
+      "result": "both NULL_NEXT_INSUFFICIENT"
+    },
+    {
+      "case": "unknown-write",
+      "baseline": "run-04",
+      "treatment": "run-03",
+      "complete": true,
+      "result": "both WAIT_FOR_PROVIDER_READBACK"
+    },
+    {
+      "case": "fresh-transfer",
+      "baseline": "run-10",
+      "treatment": "run-09",
+      "producers": [
+        "run-05",
+        "run-06"
+      ],
+      "complete": true,
+      "result": "both WAIT_FOR_PROVIDER_READBACK; original producer bytes and fresh owner reread established"
+    }
+  ],
+  "actual_model_tasks": 8,
+  "consumers": 6,
+  "real_producers": 2,
+  "native_outer_tool_pairs": 57,
+  "native_command_items": 90,
+  "actual_child_exit_codes": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "pre_model_failures": [
+    "run-07",
+    "run-08"
+  ],
+  "independent_audit": "independent-audit/final-audit.json",
+  "assessment": {
+    "requested_three_scoped_comparisons_complete": true,
+    "unqualified_preregistration_compliance": false,
+    "procedural_wording_deviation_is_independent_behavioral_blocker": false,
+    "reason": "Actual fixed AGENTS repository/cwd contract and predeclared executable doctor predicate are met; successful fresh doctor phrasing is broader than performed predicate and is explicitly disclosed.",
+    "treatment_superiority_established": false,
+    "natural_uninstrumented_exit_or_compaction_established": false,
+    "public_export_reviewed": false,
+    "landing_authorized": false
+  },
+  "metrics": "comparison-metrics.json",
+  "unqualified_preregistration_compliance": false,
+  "deviations": [
+    "Additional-pair prose said successful fresh doctor; actual fixed repository/cwd predicate passed but TERM=dumb failed overall doctor.",
+    "Supplemental input verification was after run-01; original selections and all raw inputs retained.",
+    "run-01 normalized control locator corrected with original packet retained; reviewer hash timing corrected in final audit."
+  ],
+  "red_cure_and_legal_controls": "https://github.com/ed3c/soodles/blob/397e9efd4824b3bde3976081b169b452ff423e7c/docs/experiments/agent-context/exit-recorder/receipt.json",
+  "fourteen_control_methods_exit": 0,
+  "treatment_advantage_observed": false,
+  "instruction_baseline_defect_proven": false,
+  "cloud_verdicts_unchanged": true,
+  "actual_compaction_proven": false,
+  "natural_uninstrumented_exit_proven": false,
+  "public_export": "public-export-redactions.json; originals retained locally; task/tool/result/model/exit surface preserved",
+  "all_experiment_worktrees_cleaned_by_noodle": true,
+  "production_issue_resolved": false,
+  "authorizes_landing": false
+}

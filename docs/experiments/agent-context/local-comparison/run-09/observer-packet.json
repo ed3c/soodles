@@ -1,0 +1,63 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "88d38bfd7984a52298a7d8bb6501e1be12e2652b",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "macos-codex01534-astra-high-native-recorder-7323aea-neutral-skill-v1",
+    "case": "fresh-transfer",
+    "source_kind": "captured",
+    "session_id": "01a0adc5-c74d-7993-8bfd-d171be527c08",
+    "producer_session_id": "01a0ad6a-0def-7af0-bc1c-260544195022",
+    "raw_trace": [
+      "native/rollout.jsonl",
+      "live/runtime/sessions/soodles-39-0-execute-20260917-051014-48b0df/raw.ndjson"
+    ],
+    "capture_complete": true,
+    "model": "gpt-6-astra",
+    "carrier": "local_macos_noodle_codex_exec",
+    "events": [
+      {
+        "kind": "read_doc",
+        "evidence": "native/rollout.jsonl:17",
+        "path": "AGENTS.md",
+        "blob": "82c8df3c6e3678d73c99bae40bed94ba22048cef"
+      },
+      {
+        "kind": "handoff",
+        "evidence": "native/rollout.jsonl:24",
+        "sha256": "ca2866b6826bffe998d1de2688fb39aac071dd8e99146438f84ba03690cfc3e1",
+        "producer_session_id": "01a0ad6a-0def-7af0-bc1c-260544195022"
+      },
+      {
+        "kind": "read_provider",
+        "evidence": "native/rollout.jsonl:24",
+        "fixture_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+      },
+      {
+        "kind": "read_owner",
+        "evidence": "native/rollout.jsonl:38",
+        "checkpoint_before": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+        "checkpoint_after": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+        "writes_offered": [
+          "merge"
+        ]
+      },
+      {
+        "kind": "conclude",
+        "evidence": "live/runtime/sessions/soodles-39-0-execute-20260917-051014-48b0df/raw.ndjson:30",
+        "result": "WAIT_FOR_PROVIDER_READBACK",
+        "text": "已完成有界唯讀審查。\n\n- 實際執行 `landing.advance`：回傳 `readback / merge_pending`，沒有寫入 request。\n- 缺少更新的模擬 provider 回讀；不得重送歷史 merge。\n- common runtime 成功僅證明該 head 的執行結果，不能證明 Issue #39 已交付。\n- 已親自發出 `stage_message`：`outcome=blocked`、`blocking=true`，命令成功退出。\n\n原始碼與供應的 checkpoint/provider 均未變更；未向 GitHub 傳送 fixture 請求。"
+      }
+    ]
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "88d38bfd7984a52298a7d8bb6501e1be12e2652b",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "macos-codex01534-astra-high-native-recorder-7323aea-neutral-skill-v1",
+    "agents_blob": "82c8df3c6e3678d73c99bae40bed94ba22048cef",
+    "checkpoint_digest": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+    "provider_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+  },
+  "normalization": "External observer mapping to original native outputs. Handoff is read first in the actual same-call loop, followed by checkpoint/provider; owner invocation is a later tool call. Independent raw audit required."
+}

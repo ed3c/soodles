@@ -1,0 +1,168 @@
+{
+  "scope": "有界獨立 fixture review；非 production Issue 39 交付；所有 fixture subject 皆為模擬，common runtime readback 除外。",
+  "observed_at": "2026-09-17T03:31:36.487183+00:00",
+  "source": {
+    "repository": "ed3c/soodles",
+    "cwd": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/control/.worktrees/soodles-39-0-execute",
+    "actual_head": "ee6808fd51ad96f738a42d9f762a56a26a419250",
+    "actual_tree": "a577d16d5eb9859028d3ce5a80f5e5ba2cc836f6",
+    "assigned_instruction_ref": "88d38bfd7984a52298a7d8bb6501e1be12e2652b",
+    "common_code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "working_tree_status": "",
+    "owner_files_sha256": {
+      "landing.py": "a5a4223824ebac8bd912453ea24f11fec396c02b03ecf0a055f2b0a6082a23a1",
+      "soodles.py": "b1269062b04e0b4a0a8aa7fe8108a644addf42c0a81254b4980265fbf2ed140c",
+      "issue_admission.py": "6c7027b804dc214151ce4a23bcfa6b02089aa72ca8f31e9fbf3cf60fda809ca8",
+      "issue_execution.py": "2b76cf350b06c9206a0cbf52ecdf70ee6145cf862ef999e3fdf6b99a5553de6a",
+      "policy/runtime.lock.json": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830"
+    },
+    "owner_diff_from_common_code_ref": "",
+    "current_identity": {
+      "owner": "landing.identity",
+      "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a",
+      "next": null
+    }
+  },
+  "carrier": {
+    "path": "Local Soodles → Noodle → Codex child",
+    "reason": "supplied Noodle runtime context and execute envelope",
+    "session_id": "soodles-39-0-execute-20260917-033003-a6a3fe",
+    "order_id": "soodles-39",
+    "stage_index": 0
+  },
+  "checkpoint": {
+    "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/checkpoint.json",
+    "sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+    "claim": {
+      "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+      "control_root": "/fixture",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "issue": 1,
+      "pr": 2,
+      "repository": "ed3c/soodles",
+      "run_attempt": 1,
+      "run_id": 10,
+      "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a",
+      "worktree": "example"
+    },
+    "phase": "merge_pending",
+    "delivery": {
+      "action": "merge",
+      "status": "offered"
+    },
+    "writes_offered": [
+      "merge"
+    ]
+  },
+  "provider": {
+    "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/provider.json",
+    "sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+    "pr_merged": false,
+    "pr_state": "open",
+    "issue_state": "open",
+    "simulated": true
+  },
+  "current_owner": {
+    "argv": [
+      "python3",
+      "-B",
+      "./soodles.py",
+      "landing",
+      "advance",
+      "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/checkpoint.json",
+      "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/provider.json"
+    ],
+    "exit_code": 0,
+    "output": {
+      "owner": "landing.advance",
+      "action": "readback",
+      "phase": "merge_pending",
+      "classification": null,
+      "next": {
+        "kind": "provider_readback",
+        "owner": "GitHub",
+        "operation": "advance",
+        "required": [
+          "readback"
+        ],
+        "known": {
+          "checkpoint": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/checkpoint.json"
+        },
+        "help_argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/control/.worktrees/soodles-39-0-execute/soodles.py",
+          "landing",
+          "advance",
+          "--help"
+        ],
+        "requests": {
+          "pr": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+          },
+          "issue": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+          },
+          "commit": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "branch": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+          },
+          "run": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+          },
+          "jobs": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+          }
+        },
+        "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+      }
+    },
+    "evidence_path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/owner-observation.json",
+    "supplied_input_bytes_unchanged": true
+  },
+  "historical_material": {
+    "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/historical-seed.json",
+    "sha256": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2",
+    "historical_request": {
+      "action": "merge",
+      "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "merge_method": "merge",
+      "pr_number": 2,
+      "repository_full_name": "ed3c/soodles"
+    },
+    "status": "僅歷史資料；不是目前 owner request，不得重送。"
+  },
+  "common_runtime": {
+    "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/runtime-readback.json",
+    "sha256": "aa9fc0803aed77aab14a1e4a23a32664367fdd7515e0edd5d8f5ec8cba05cbae",
+    "run_id": 35128051435,
+    "attempt": 1,
+    "head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "conclusion": "success",
+    "job_id": 104901887147,
+    "limit": "僅供應的 common head runtime 成功回讀；沒有證明 fixture merge、Issue 39 交付、closure 或 reconciliation。"
+  },
+  "conclusion": "目前 landing.advance 回傳 action=readback、phase=merge_pending，沒有 request。merge 已 offered，供應的未合併觀察不能證明先前 offered write 未送出；不得重播歷史 merge。",
+  "supported_continuation": [
+    "fresh reviewer 重新讀取 task-input、實際 checkpoint/provider 與本地指引，刷新 owner identity；本交接不是當前狀態權威。",
+    "fixture supervisor 提供更新的模擬 provider readback 後，依目前 owner 的 next/help 重新調用 landing advance；消費新輸出。",
+    "目前 next 要求 PR、Issue、commit、branch、run、jobs 回讀；若 merged，還需要 merge commit。這些 fixture URL 不能送往真實 GitHub。",
+    "缺少新的 fixture readback 時停在 readback；不得 dispatch、重送歷史 request、宣告 resolved 或自行更換 verifier。"
+  ],
+  "later_consumer_has_run": false,
+  "production_issue_resolved": false,
+  "stage_handoff": {
+    "outcome": "blocked",
+    "blocking": true,
+    "reason": "fixture 審查及交接完成；owner 仍要求新的模擬 provider readback，本實驗不交付 production Issue。"
+  }
+}

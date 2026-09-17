@@ -1,0 +1,55 @@
+{
+  "order_revision": "971f0596ae8e76bf8ddf02b6ba8a183c",
+  "state": {
+    "orders": {
+      "schedule": {
+        "order_id": "schedule",
+        "sequence": 0,
+        "title": "scheduling tasks based on your backlog",
+        "plan": null,
+        "rationale": "",
+        "status": "active",
+        "stages": [
+          {
+            "stage_index": 0,
+            "task_key": "schedule",
+            "prompt": "",
+            "skill": "schedule",
+            "provider": "codex",
+            "model": "gpt-6-astra",
+            "runtime": "process",
+            "group": 0,
+            "status": "pending",
+            "extra_prompt": "",
+            "attempts": null
+          }
+        ],
+        "created_at": "2026-09-17T11:21:37.487412+08:00",
+        "updated_at": "2026-09-17T03:21:37.487797Z",
+        "metadata": {
+          "plan": "",
+          "rationale": "",
+          "title": "scheduling tasks based on your backlog"
+        }
+      }
+    },
+    "pending_reviews": {},
+    "action_needed": null,
+    "mode": "supervised",
+    "mode_epoch": 1,
+    "mode_transitions": [
+      {
+        "from_mode": "manual",
+        "to_mode": "supervised",
+        "epoch": 1,
+        "requested_by": "control",
+        "reason": "mode control command",
+        "applied_at": "2026-09-17T11:33:04.36235+08:00"
+      }
+    ],
+    "schema_version": 1,
+    "last_event_id": "2"
+  },
+  "effect_ledger": [],
+  "generated_at": "2026-09-17T03:33:04.362358Z"
+}

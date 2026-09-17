@@ -1,0 +1,67 @@
+{
+  "verified_at": "2026-09-17T03:26:36.155993+00:00",
+  "timing": "after run-01 completed; before run-02 through run-08 launch",
+  "original_freeze": "trial-selection.json and judge-selection.json written before run-01 launch",
+  "operator_error": "First supplemental freeze check used run-01 cwd, failed FileNotFoundError before writing any receipt; next shell line launched run-01. No task input was changed.",
+  "checks": [
+    {
+      "label": "run-01",
+      "already_launched": true,
+      "task_sha256": "47c2353ca6eefbb72a049edee990a84b2a1d8ad1c7de580f08846c09bbdfced2",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-02",
+      "already_launched": false,
+      "task_sha256": "47c2353ca6eefbb72a049edee990a84b2a1d8ad1c7de580f08846c09bbdfced2",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-03",
+      "already_launched": false,
+      "task_sha256": "91b6c995ae5ef9fcf92d06030ff44df76b631cfb490f162cfbc7f72d18cbd8f7",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-04",
+      "already_launched": false,
+      "task_sha256": "91b6c995ae5ef9fcf92d06030ff44df76b631cfb490f162cfbc7f72d18cbd8f7",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-05",
+      "already_launched": false,
+      "task_sha256": "6c546f0d2c73a523689c0ba706a3e1df12bc04f8e024a8798f26957608180cf0",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-06",
+      "already_launched": false,
+      "task_sha256": "6c546f0d2c73a523689c0ba706a3e1df12bc04f8e024a8798f26957608180cf0",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-07",
+      "already_launched": false,
+      "task_sha256": "cb12ed4a198f2fd020c08d09cae216b7ee03315d77da094cb83afb68a70fd83a",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    },
+    {
+      "label": "run-08",
+      "already_launched": false,
+      "task_sha256": "cb12ed4a198f2fd020c08d09cae216b7ee03315d77da094cb83afb68a70fd83a",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b"
+    }
+  ],
+  "judge_hashes_match": true,
+  "controls_exit": 0,
+  "authorizes_landing": false
+}

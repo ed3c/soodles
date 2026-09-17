@@ -1,0 +1,35 @@
+{
+  "assignments": [
+    {
+      "label": "run-09",
+      "arm": "treatment",
+      "case": "fresh-transfer",
+      "source_head": "4f66fea4904ac9f769bd0346eb3b1ad970181c2a",
+      "task_sha256": "cb12ed4a198f2fd020c08d09cae216b7ee03315d77da094cb83afb68a70fd83a",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+      "handoff_sha256": "ca2866b6826bffe998d1de2688fb39aac071dd8e99146438f84ba03690cfc3e1",
+      "producer": "run-06",
+      "prior_incomplete": "run-07"
+    },
+    {
+      "label": "run-10",
+      "arm": "baseline",
+      "case": "fresh-transfer",
+      "source_head": "6a7d1e422c61419ef78389b5082c1756c758c444",
+      "task_sha256": "cb12ed4a198f2fd020c08d09cae216b7ee03315d77da094cb83afb68a70fd83a",
+      "checkpoint_sha256": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+      "provider_sha256": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+      "handoff_sha256": "fccd63c54883e5b6d072aabdfa02362f2564a35be278b4c204c57e821c3f3d09",
+      "producer": "run-05",
+      "prior_incomplete": "run-08"
+    }
+  ],
+  "config_id": "macos-codex01534-astra-high-native-recorder-7323aea-neutral-skill-v1",
+  "deadline_seconds": 300,
+  "correction": "Wait for GitHub live provider rate-limit recovery; no code/model/prompt/judge/recorder/input change. Reuse the completed real producer artifact exactly. Fresh consumers, no prior failed order restart.",
+  "required_before_launch": "fresh exact-Issue provider readback with usable remaining quota and successful fresh doctor",
+  "maximum_additional_pairs": 1,
+  "prepared_at": "2026-09-17T03:36:42.103859+00:00",
+  "authorizes_landing": false
+}

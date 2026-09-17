@@ -1,0 +1,178 @@
+{
+  "rows": [
+    {
+      "run": "run-01",
+      "arm": "baseline",
+      "case": "runner-task",
+      "native_thread": "01a0ad64-09c6-70b0-b9fc-2bd8c69b4d3e",
+      "native_turn": "01a0ad64-0a4a-7e61-b012-2ea3d844da90",
+      "noodle_session": "soodles-39-0-execute-20260917-032328-0bc4af",
+      "child_returncode": 0,
+      "child_elapsed_seconds": 104.80304666695883,
+      "native_tool_call_result_pairs": 7,
+      "native_command_items": 8,
+      "terminal_reported_usage": {
+        "input_tokens": 266836,
+        "cached_input_tokens": 233600,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2605,
+        "reasoning_output_tokens": 360
+      },
+      "note": "Reported usage is not current context occupancy or an efficiency estimate."
+    },
+    {
+      "run": "run-02",
+      "arm": "treatment",
+      "case": "runner-task",
+      "native_thread": "01a0ad67-6cbe-7122-ab0d-10d168de40f2",
+      "native_turn": "01a0ad67-6d4c-7ec0-b624-fb4b128d53b0",
+      "noodle_session": "soodles-39-0-execute-20260917-032710-2e2e4b",
+      "child_returncode": 0,
+      "child_elapsed_seconds": 108.87257466698065,
+      "native_tool_call_result_pairs": 7,
+      "native_command_items": 12,
+      "terminal_reported_usage": {
+        "input_tokens": 312629,
+        "cached_input_tokens": 269056,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2588,
+        "reasoning_output_tokens": 204
+      },
+      "note": "Reported usage is not current context occupancy or an efficiency estimate."
+    },
+    {
+      "run": "run-03",
+      "arm": "treatment",
+      "case": "unknown-write",
+      "native_thread": "01a0ad68-2f20-7871-9d36-4cedb4cd7087",
+      "native_turn": "01a0ad68-2fce-78a1-8cbc-92a875f42f25",
+      "noodle_session": "soodles-39-0-execute-20260917-032800-3c44d6",
+      "child_returncode": 0,
+      "child_elapsed_seconds": 109.48257195804035,
+      "native_tool_call_result_pairs": 8,
+      "native_command_items": 13,
+      "terminal_reported_usage": {
+        "input_tokens": 322923,
+        "cached_input_tokens": 288256,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2347,
+        "reasoning_output_tokens": 202
+      },
+      "note": "Reported usage is not current context occupancy or an efficiency estimate."
+    },
+    {
+      "run": "run-04",
+      "arm": "baseline",
+      "case": "unknown-write",
+      "native_thread": "01a0ad68-2c81-7ad3-b420-e20922485036",
+      "native_turn": "01a0ad68-2d1d-71e0-a61c-ec4d7a293a50",
+      "noodle_session": "soodles-39-0-execute-20260917-032759-211a19",
+      "child_returncode": 0,
+      "child_elapsed_seconds": 91.44757337501505,
+      "native_tool_call_result_pairs": 7,
+      "native_command_items": 12,
+      "terminal_reported_usage": {
+        "input_tokens": 261752,
+        "cached_input_tokens": 229888,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2047,
+        "reasoning_output_tokens": 224
+      },
+      "note": "Reported usage is not current context occupancy or an efficiency estimate."
+    },
+    {
+      "run": "run-05",
+      "arm": "baseline",
+      "case": "producer",
+      "native_thread": "01a0ad6a-15e0-73c1-be2c-b555d0666fe3",
+      "native_turn": "01a0ad6a-1679-7d61-aa5a-e84057c66e0c",
+      "noodle_session": "soodles-39-0-execute-20260917-033005-bc7f6a",
+      "child_returncode": 0,
+      "child_elapsed_seconds": 126.28457562503172,
+      "native_tool_call_result_pairs": 8,
+      "native_command_items": 13,
+      "terminal_reported_usage": {
+        "input_tokens": 285019,
+        "cached_input_tokens": 255360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3199,
+        "reasoning_output_tokens": 246
+      },
+      "note": "Reported usage is not current context occupancy or an efficiency estimate."
+    },
+    {
+      "run": "run-06",
+      "arm": "treatment",
+      "case": "producer",
+      "native_thread": "01a0ad6a-0def-7af0-bc1c-260544195022",
+      "native_turn": "01a0ad6a-0e86-7d30-bba4-a58f525de116",
+      "noodle_session": "soodles-39-0-execute-20260917-033003-a6a3fe",
+      "child_returncode": 0,
+      "child_elapsed_seconds": 120.50726958399173,
+      "native_tool_call_result_pairs": 7,
+      "native_command_items": 8,
+      "terminal_reported_usage": {
+        "input_tokens": 266147,
+        "cached_input_tokens": 237056,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2914,
+        "reasoning_output_tokens": 192
+      },
+      "note": "Reported usage is not current context occupancy or an efficiency estimate."
+    },
+    {
+      "run": "run-07",
+      "arm": "treatment",
+      "case": "fresh-transfer",
+      "status": "INCOMPLETE before model start"
+    },
+    {
+      "run": "run-08",
+      "arm": "baseline",
+      "case": "fresh-transfer",
+      "status": "INCOMPLETE before model start"
+    },
+    {
+      "run": "run-09",
+      "arm": "treatment",
+      "case": "fresh-transfer",
+      "native_thread": "01a0adc5-c74d-7993-8bfd-d171be527c08",
+      "native_turn": "01a0adc5-c84e-7de3-bd16-0446cbed627c",
+      "noodle_session": "soodles-39-0-execute-20260917-051014-48b0df",
+      "child_returncode": 0,
+      "child_elapsed_seconds": 82.01029620796908,
+      "native_tool_call_result_pairs": 6,
+      "native_command_items": 12,
+      "terminal_reported_usage": {
+        "input_tokens": 226871,
+        "cached_input_tokens": 201344,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1970,
+        "reasoning_output_tokens": 197
+      },
+      "note": "Reported usage is not current context occupancy or an efficiency estimate."
+    },
+    {
+      "run": "run-10",
+      "arm": "baseline",
+      "case": "fresh-transfer",
+      "native_thread": "01a0adc5-c713-71c0-b6b7-efa94d95bbef",
+      "native_turn": "01a0adc5-c7d3-74d3-8aff-825027cfab95",
+      "noodle_session": "soodles-39-0-execute-20260917-051014-53991b",
+      "child_returncode": 0,
+      "child_elapsed_seconds": 84.260303499992,
+      "native_tool_call_result_pairs": 7,
+      "native_command_items": 12,
+      "terminal_reported_usage": {
+        "input_tokens": 251949,
+        "cached_input_tokens": 223360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2091,
+        "reasoning_output_tokens": 99
+      },
+      "note": "Reported usage is not current context occupancy or an efficiency estimate."
+    }
+  ],
+  "general_performance_claim": false,
+  "authorizes_landing": false
+}

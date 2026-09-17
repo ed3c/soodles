@@ -1,0 +1,64 @@
+{
+  "identity": {
+    "returncode": 0,
+    "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a\",\n  \"next\": null\n}\n",
+    "stderr": ""
+  },
+  "argv": [
+    "python3",
+    "-B",
+    "./soodles.py",
+    "landing",
+    "advance",
+    "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/checkpoint.json",
+    "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/provider.json"
+  ],
+  "returncode": 0,
+  "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"readback\",\n  \"phase\": \"merge_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/inbox/checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/homebrew/opt/python@3.14/bin/python3.14\",\n      \"-B\",\n      \"/Users/neon/.codex/experiments/soodles39-completion-20260917/run-06/control/.worktrees/soodles-39-0-execute/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"\n  }\n}\n",
+  "stderr": "",
+  "input_sha256_before": {
+    "task-input.json": "f3e321a5a01575dc5be666d7bf316de076fa8e431e043169b87145e9d209b8be",
+    "identity-input.json": "514c6708d4bd5f1d016171de75d74dd080b67b19a987b2dc7bead0a650644d61",
+    "runtime-readback.json": "aa9fc0803aed77aab14a1e4a23a32664367fdd7515e0edd5d8f5ec8cba05cbae",
+    "checkpoint.json": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+    "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+    "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2"
+  },
+  "input_sha256_after": {
+    "task-input.json": "f3e321a5a01575dc5be666d7bf316de076fa8e431e043169b87145e9d209b8be",
+    "identity-input.json": "514c6708d4bd5f1d016171de75d74dd080b67b19a987b2dc7bead0a650644d61",
+    "runtime-readback.json": "aa9fc0803aed77aab14a1e4a23a32664367fdd7515e0edd5d8f5ec8cba05cbae",
+    "checkpoint.json": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+    "provider.json": "6b403104a5db060b295b0b325643d142136f73b8dcc90cd20b48b39f7395c57b",
+    "historical-seed.json": "899b020508f7b5f8cb461df7cf3a38911a3cb10c4c0fc781e0d2ac098628dfc2"
+  },
+  "checkpoint_after": {
+    "claim": {
+      "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+      "control_root": "/fixture",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "issue": 1,
+      "pr": 2,
+      "repository": "ed3c/soodles",
+      "run_attempt": 1,
+      "run_id": 10,
+      "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a",
+      "worktree": "example"
+    },
+    "classification": null,
+    "delivery": {
+      "action": "merge",
+      "status": "offered"
+    },
+    "observations": [
+      "663c140cbbfe2476a29068622822e7501ceae189ae2d6fc70a800e8da821470c"
+    ],
+    "phase": "merge_pending",
+    "schema": 2,
+    "scope": "supervised single-Issue landing",
+    "writes_offered": [
+      "merge"
+    ]
+  }
+}

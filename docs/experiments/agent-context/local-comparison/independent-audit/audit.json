@@ -1,0 +1,712 @@
+{
+  "schema": 1,
+  "generated_at": "2026-09-17T03:38:10.908338+00:00",
+  "scope": "run-01 through run-06 only; independent exposed raw evidence audit",
+  "full_comparison_complete": false,
+  "authorizes_landing": false,
+  "judge_files_match": {
+    "record_process.py": true,
+    "test_cloud_observe.py": true,
+    "cloud_observe.py": true,
+    "test_capability.py": true,
+    "capability.py": true,
+    "observe.py": true,
+    "test_record_process.py": true
+  },
+  "runs": [
+    {
+      "run": "run-01",
+      "arm": "baseline",
+      "case": "runner-task",
+      "checks": {
+        "source_head": true,
+        "only_assigned_documents_and_neutral_skill_differ": true,
+        "instruction_blobs": true,
+        "neutral_skill_in_installed_and_source": true,
+        "installed_file_digests": true,
+        "task_digest": true,
+        "all_original_input_bytes_preserved": true,
+        "checkpoint_provider_match_selected": true,
+        "recorder_launch_exit_identity": true,
+        "pid_join": true,
+        "worktree_join": true,
+        "actual_wait_zero_exit": true,
+        "worker_argv_envelope_join": true,
+        "native_stdout_digest_and_size": true,
+        "native_stdout_matches_runtime_raw": true,
+        "terminal_delayed_after_wait": true,
+        "native_call_result_bijection": true,
+        "every_started_item_completed": true,
+        "one_thread_turn_and_identity_join": true,
+        "per_turn_model_and_effort": true,
+        "one_native_terminal": true,
+        "own_typed_outcome": true,
+        "native_loaded_assigned_agents": true,
+        "runtime_input_in_native_user_message": true,
+        "cleanup_clean_and_absent": true,
+        "native_binary_digests": true
+      },
+      "native_thread": "01a0ad64-09c6-70b0-b9fc-2bd8c69b4d3e",
+      "native_turn": "01a0ad64-0a4a-7e61-b012-2ea3d844da90",
+      "noodle_session": "soodles-39-0-execute-20260917-032328-0bc4af",
+      "actual_exit": 0,
+      "elapsed_seconds": 104.80304666695883,
+      "call_result_locators": [
+        {
+          "call": 13,
+          "result": 16,
+          "call_id": "call_u72eihIhlX5bvjrwXSbPGWEd"
+        },
+        {
+          "call": 18,
+          "result": 22,
+          "call_id": "call_YII3g9LZKAG13HJQw8TdHLnp"
+        },
+        {
+          "call": 24,
+          "result": 27,
+          "call_id": "call_K4Klt2JFKsQ17XF9pNt0MYXJ"
+        },
+        {
+          "call": 31,
+          "result": 34,
+          "call_id": "call_egvqaKTaysLuf1xb5zNioNkv"
+        },
+        {
+          "call": 40,
+          "result": 43,
+          "call_id": "call_VpYL6S2YWhqdnUI8Bh72Uk5G"
+        },
+        {
+          "call": 47,
+          "result": 50,
+          "call_id": "call_cd24kLG21puQwtsUHp2tgSBL"
+        },
+        {
+          "call": 56,
+          "result": 59,
+          "call_id": "call_w4onw8U9051xgZIflmDXRTZU"
+        }
+      ],
+      "raw_sha256": "c9197af261304b003b22f381412feebe1a65634ff3e625231daa3ce887244e7d",
+      "child_stdout_sha256": "7450a38324e9346c9a54f74087c4bea625fc96dea1d61fede4cc4c1e7f78961e",
+      "model_locator": "run-01/native/rollout.jsonl:8",
+      "typed_outcome_locator": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-032328-0bc4af/events.ndjson:14",
+      "exit_locator": "run-01/process-exits/soodles-39-0-execute-20260917-032328-0bc4af/exit.json",
+      "packet_raw_checks": [
+        {
+          "kind": "read_doc",
+          "locator": "run-01/native/rollout.jsonl:16",
+          "raw_line_exists": true,
+          "assigned_bytes_in_tool_result": true
+        },
+        {
+          "kind": "read_run",
+          "locator": "run-01/native/rollout.jsonl:27",
+          "raw_line_exists": true,
+          "matching_runtime_in_result": true
+        },
+        {
+          "kind": "read_control",
+          "locator": "run-01/native/rollout.jsonl:43",
+          "raw_line_exists": true,
+          "control_blob_matches": true,
+          "nearest_terminal_control_read": false,
+          "full_control_alternative_locator": "run-01/native/rollout.jsonl:34"
+        },
+        {
+          "kind": "conclude",
+          "locator": "run-01/live/runtime/sessions/soodles-39-0-execute-20260917-032328-0bc4af/raw.ndjson:23",
+          "raw_line_exists": true,
+          "text_exact": true
+        }
+      ],
+      "native_exposed_truncation_lines": [],
+      "noodle_attempt_exit_code": null,
+      "assessment": "scoped evidence supported",
+      "observer_packet_sha256_at_audit": "3c93009706a2582c94c73f7de6797d1960ec7016b539d79b1196ace1377094e8"
+    },
+    {
+      "run": "run-02",
+      "arm": "treatment",
+      "case": "runner-task",
+      "checks": {
+        "source_head": true,
+        "only_assigned_documents_and_neutral_skill_differ": true,
+        "instruction_blobs": true,
+        "neutral_skill_in_installed_and_source": true,
+        "installed_file_digests": true,
+        "task_digest": true,
+        "all_original_input_bytes_preserved": true,
+        "checkpoint_provider_match_selected": true,
+        "recorder_launch_exit_identity": true,
+        "pid_join": true,
+        "worktree_join": true,
+        "actual_wait_zero_exit": true,
+        "worker_argv_envelope_join": true,
+        "native_stdout_digest_and_size": true,
+        "native_stdout_matches_runtime_raw": true,
+        "terminal_delayed_after_wait": true,
+        "native_call_result_bijection": true,
+        "every_started_item_completed": true,
+        "one_thread_turn_and_identity_join": true,
+        "per_turn_model_and_effort": true,
+        "one_native_terminal": true,
+        "own_typed_outcome": true,
+        "native_loaded_assigned_agents": true,
+        "runtime_input_in_native_user_message": true,
+        "cleanup_clean_and_absent": true,
+        "native_binary_digests": true
+      },
+      "native_thread": "01a0ad67-6cbe-7122-ab0d-10d168de40f2",
+      "native_turn": "01a0ad67-6d4c-7ec0-b624-fb4b128d53b0",
+      "noodle_session": "soodles-39-0-execute-20260917-032710-2e2e4b",
+      "actual_exit": 0,
+      "elapsed_seconds": 108.87257466698065,
+      "call_result_locators": [
+        {
+          "call": 13,
+          "result": 17,
+          "call_id": "call_ROPrHGvtasoUe5DBnEdBNXmC"
+        },
+        {
+          "call": 19,
+          "result": 24,
+          "call_id": "call_cOlHqapvsDdiIOSUdApz18Mo"
+        },
+        {
+          "call": 28,
+          "result": 32,
+          "call_id": "call_NLcYtqrBio9xmErLzns8WLtZ"
+        },
+        {
+          "call": 38,
+          "result": 41,
+          "call_id": "call_cstKVFz6lnLzEJwG2bWkGFli"
+        },
+        {
+          "call": 45,
+          "result": 49,
+          "call_id": "call_eYiUVMJpbiKX5XmTxuUYuBpy"
+        },
+        {
+          "call": 55,
+          "result": 58,
+          "call_id": "call_YgEO0XvcXn4uuvZ2K6OuP0ti"
+        },
+        {
+          "call": 62,
+          "result": 65,
+          "call_id": "call_4EUgnMHYBxUWA4FgQLvzlkMU"
+        }
+      ],
+      "raw_sha256": "a8a5c4ee8924b068efc6364bf8bd8d59deb954780e6cc2df6043ac78b199fec4",
+      "child_stdout_sha256": "3634ac780b1627231967fe76a105094bb80ecced0ef6000836cd9884a56f098a",
+      "model_locator": "run-02/native/rollout.jsonl:8",
+      "typed_outcome_locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-032710-2e2e4b/events.ndjson:18",
+      "exit_locator": "run-02/process-exits/soodles-39-0-execute-20260917-032710-2e2e4b/exit.json",
+      "packet_raw_checks": [
+        {
+          "kind": "read_doc",
+          "locator": "run-02/native/rollout.jsonl:17",
+          "raw_line_exists": true,
+          "assigned_bytes_in_tool_result": true
+        },
+        {
+          "kind": "read_run",
+          "locator": "run-02/native/rollout.jsonl:24",
+          "raw_line_exists": true,
+          "matching_runtime_in_result": true
+        },
+        {
+          "kind": "read_control",
+          "locator": "run-02/native/rollout.jsonl:41",
+          "raw_line_exists": true,
+          "control_blob_matches": true,
+          "nearest_terminal_control_read": true
+        },
+        {
+          "kind": "conclude",
+          "locator": "run-02/live/runtime/sessions/soodles-39-0-execute-20260917-032710-2e2e4b/raw.ndjson:31",
+          "raw_line_exists": true,
+          "text_exact": true
+        }
+      ],
+      "native_exposed_truncation_lines": [],
+      "noodle_attempt_exit_code": null,
+      "assessment": "scoped evidence supported",
+      "observer_packet_sha256_at_audit": "6660e735eb55608c2724ff2d6dd54eac8d49454543f9f905f31cf143e617caf4"
+    },
+    {
+      "run": "run-03",
+      "arm": "treatment",
+      "case": "unknown-write",
+      "checks": {
+        "source_head": true,
+        "only_assigned_documents_and_neutral_skill_differ": true,
+        "instruction_blobs": true,
+        "neutral_skill_in_installed_and_source": true,
+        "installed_file_digests": true,
+        "task_digest": true,
+        "all_original_input_bytes_preserved": true,
+        "checkpoint_provider_match_selected": true,
+        "recorder_launch_exit_identity": true,
+        "pid_join": true,
+        "worktree_join": true,
+        "actual_wait_zero_exit": true,
+        "worker_argv_envelope_join": true,
+        "native_stdout_digest_and_size": true,
+        "native_stdout_matches_runtime_raw": true,
+        "terminal_delayed_after_wait": true,
+        "native_call_result_bijection": true,
+        "every_started_item_completed": true,
+        "one_thread_turn_and_identity_join": true,
+        "per_turn_model_and_effort": true,
+        "one_native_terminal": true,
+        "own_typed_outcome": true,
+        "native_loaded_assigned_agents": true,
+        "runtime_input_in_native_user_message": true,
+        "cleanup_clean_and_absent": true,
+        "native_binary_digests": true
+      },
+      "native_thread": "01a0ad68-2f20-7871-9d36-4cedb4cd7087",
+      "native_turn": "01a0ad68-2fce-78a1-8cbc-92a875f42f25",
+      "noodle_session": "soodles-39-0-execute-20260917-032800-3c44d6",
+      "actual_exit": 0,
+      "elapsed_seconds": 109.48257195804035,
+      "call_result_locators": [
+        {
+          "call": 13,
+          "result": 16,
+          "call_id": "call_Ks1lIg5dri46JvTMJOeqnQ8c"
+        },
+        {
+          "call": 18,
+          "result": 23,
+          "call_id": "call_JsWjCeblhH4UDKxbNTEqEGv0"
+        },
+        {
+          "call": 25,
+          "result": 29,
+          "call_id": "call_0eOTPqvxCYdh0adP3bz3waB8"
+        },
+        {
+          "call": 35,
+          "result": 39,
+          "call_id": "call_bMlMKDX4rHoRt0q1zwWporup"
+        },
+        {
+          "call": 43,
+          "result": 47,
+          "call_id": "call_sivuocGSg4mFsfe21GRQGLFS"
+        },
+        {
+          "call": 53,
+          "result": 56,
+          "call_id": "call_0YaS5nG5JosRtygxezNaY9n0"
+        },
+        {
+          "call": 58,
+          "result": 61,
+          "call_id": "call_MAa0FEpZBqh96gZFXk7FweGO"
+        },
+        {
+          "call": 65,
+          "result": 68,
+          "call_id": "call_Hs1awdGirpiYT2MoY2l9jPxq"
+        }
+      ],
+      "raw_sha256": "b0e75309aa8f23f68145e3d9886a9c13bd67e56c0626ecfaa017b7b67cb6ffe0",
+      "child_stdout_sha256": "88b7145124f2366d1a1672aac42cf0e4e5923bcd68d9db01575c441ccc663edd",
+      "model_locator": "run-03/native/rollout.jsonl:8",
+      "typed_outcome_locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-032800-3c44d6/events.ndjson:18",
+      "exit_locator": "run-03/process-exits/soodles-39-0-execute-20260917-032800-3c44d6/exit.json",
+      "packet_raw_checks": [
+        {
+          "kind": "read_doc",
+          "locator": "run-03/native/rollout.jsonl:16",
+          "raw_line_exists": true,
+          "assigned_bytes_in_tool_result": true
+        },
+        {
+          "kind": "read_provider",
+          "locator": "run-03/native/rollout.jsonl:29",
+          "raw_line_exists": true,
+          "matching_provider_in_result": true
+        },
+        {
+          "kind": "read_owner",
+          "locator": "run-03/native/rollout.jsonl:47",
+          "raw_line_exists": true,
+          "actual_readback_output": true,
+          "unchanged_hash_matches": true,
+          "offered_history_matches": true
+        },
+        {
+          "kind": "conclude",
+          "locator": "run-03/live/runtime/sessions/soodles-39-0-execute-20260917-032800-3c44d6/raw.ndjson:33",
+          "raw_line_exists": true,
+          "text_exact": true
+        }
+      ],
+      "native_exposed_truncation_lines": [
+        39
+      ],
+      "noodle_attempt_exit_code": null,
+      "assessment": "scoped evidence supported",
+      "observer_packet_sha256_at_audit": "80be4bfa4f2527b089fadcf37db483b1da49e6dd8e065138e4ed419d4c8ba68e"
+    },
+    {
+      "run": "run-04",
+      "arm": "baseline",
+      "case": "unknown-write",
+      "checks": {
+        "source_head": true,
+        "only_assigned_documents_and_neutral_skill_differ": true,
+        "instruction_blobs": true,
+        "neutral_skill_in_installed_and_source": true,
+        "installed_file_digests": true,
+        "task_digest": true,
+        "all_original_input_bytes_preserved": true,
+        "checkpoint_provider_match_selected": true,
+        "recorder_launch_exit_identity": true,
+        "pid_join": true,
+        "worktree_join": true,
+        "actual_wait_zero_exit": true,
+        "worker_argv_envelope_join": true,
+        "native_stdout_digest_and_size": true,
+        "native_stdout_matches_runtime_raw": true,
+        "terminal_delayed_after_wait": true,
+        "native_call_result_bijection": true,
+        "every_started_item_completed": true,
+        "one_thread_turn_and_identity_join": true,
+        "per_turn_model_and_effort": true,
+        "one_native_terminal": true,
+        "own_typed_outcome": true,
+        "native_loaded_assigned_agents": true,
+        "runtime_input_in_native_user_message": true,
+        "cleanup_clean_and_absent": true,
+        "native_binary_digests": true
+      },
+      "native_thread": "01a0ad68-2c81-7ad3-b420-e20922485036",
+      "native_turn": "01a0ad68-2d1d-71e0-a61c-ec4d7a293a50",
+      "noodle_session": "soodles-39-0-execute-20260917-032759-211a19",
+      "actual_exit": 0,
+      "elapsed_seconds": 91.44757337501505,
+      "call_result_locators": [
+        {
+          "call": 13,
+          "result": 16,
+          "call_id": "call_7E64p2Kh8Dkenh6DtJRqVh8D"
+        },
+        {
+          "call": 18,
+          "result": 23,
+          "call_id": "call_fibc8iQDr5qFNA8cG7NF1xgC"
+        },
+        {
+          "call": 25,
+          "result": 29,
+          "call_id": "call_2er3aE76vhw9gAtMpyaKa79T"
+        },
+        {
+          "call": 33,
+          "result": 37,
+          "call_id": "call_XWPOD3QSBbQ7tQ56NVxscYTF"
+        },
+        {
+          "call": 43,
+          "result": 47,
+          "call_id": "call_DuljvUDc8d6TZKwpUOYvKFf1"
+        },
+        {
+          "call": 51,
+          "result": 54,
+          "call_id": "call_1A0hlUnwgjFDuXe1Y9AHzpnF"
+        },
+        {
+          "call": 60,
+          "result": 63,
+          "call_id": "call_7ueEVKJZKQsaVowX5eaN0eFd"
+        }
+      ],
+      "raw_sha256": "cd079933117eea5a828b14f988cd096c384633989963985173fbb149fabc37fe",
+      "child_stdout_sha256": "f8eb06bc07617dac980e871b6dc709b633651d3b0b6b5e7580a91cd69a6337c8",
+      "model_locator": "run-04/native/rollout.jsonl:8",
+      "typed_outcome_locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-032759-211a19/events.ndjson:18",
+      "exit_locator": "run-04/process-exits/soodles-39-0-execute-20260917-032759-211a19/exit.json",
+      "packet_raw_checks": [
+        {
+          "kind": "read_doc",
+          "locator": "run-04/native/rollout.jsonl:16",
+          "raw_line_exists": true,
+          "assigned_bytes_in_tool_result": true
+        },
+        {
+          "kind": "read_provider",
+          "locator": "run-04/native/rollout.jsonl:29",
+          "raw_line_exists": true,
+          "matching_provider_in_result": true
+        },
+        {
+          "kind": "read_owner",
+          "locator": "run-04/native/rollout.jsonl:47",
+          "raw_line_exists": true,
+          "actual_readback_output": true,
+          "unchanged_hash_matches": true,
+          "offered_history_matches": true
+        },
+        {
+          "kind": "conclude",
+          "locator": "run-04/live/runtime/sessions/soodles-39-0-execute-20260917-032759-211a19/raw.ndjson:31",
+          "raw_line_exists": true,
+          "text_exact": true
+        }
+      ],
+      "native_exposed_truncation_lines": [],
+      "noodle_attempt_exit_code": null,
+      "assessment": "scoped evidence supported",
+      "observer_packet_sha256_at_audit": "ba3fbdd90cf7b35ae98a51875d62c244730e84c32431b903d340bf53998d63c9"
+    },
+    {
+      "run": "run-05",
+      "arm": "baseline",
+      "case": "producer",
+      "checks": {
+        "source_head": true,
+        "only_assigned_documents_and_neutral_skill_differ": true,
+        "instruction_blobs": true,
+        "neutral_skill_in_installed_and_source": true,
+        "installed_file_digests": true,
+        "task_digest": true,
+        "all_original_input_bytes_preserved": true,
+        "checkpoint_provider_match_selected": true,
+        "recorder_launch_exit_identity": true,
+        "pid_join": true,
+        "worktree_join": true,
+        "actual_wait_zero_exit": true,
+        "worker_argv_envelope_join": true,
+        "native_stdout_digest_and_size": true,
+        "native_stdout_matches_runtime_raw": true,
+        "terminal_delayed_after_wait": true,
+        "native_call_result_bijection": true,
+        "every_started_item_completed": true,
+        "one_thread_turn_and_identity_join": true,
+        "per_turn_model_and_effort": true,
+        "one_native_terminal": true,
+        "own_typed_outcome": true,
+        "native_loaded_assigned_agents": true,
+        "runtime_input_in_native_user_message": true,
+        "cleanup_clean_and_absent": true,
+        "native_binary_digests": true
+      },
+      "native_thread": "01a0ad6a-15e0-73c1-be2c-b555d0666fe3",
+      "native_turn": "01a0ad6a-1679-7d61-aa5a-e84057c66e0c",
+      "noodle_session": "soodles-39-0-execute-20260917-033005-bc7f6a",
+      "actual_exit": 0,
+      "elapsed_seconds": 126.28457562503172,
+      "call_result_locators": [
+        {
+          "call": 13,
+          "result": 16,
+          "call_id": "call_vZ309p2jhhhtT8KuYhyN9gcf"
+        },
+        {
+          "call": 18,
+          "result": 23,
+          "call_id": "call_z9M7h11fV7SWzRhojcbKgzsf"
+        },
+        {
+          "call": 25,
+          "result": 30,
+          "call_id": "call_zOMHuWpXbALpSkSvWYE6pri2"
+        },
+        {
+          "call": 34,
+          "result": 38,
+          "call_id": "call_ln41ATtvucIRxIa8jGUiR3Ye"
+        },
+        {
+          "call": 40,
+          "result": 43,
+          "call_id": "call_Ya6KAOthgEelcJsA3fvYYjwD"
+        },
+        {
+          "call": 49,
+          "result": 52,
+          "call_id": "call_1cWH9PSLeNSPa6RcpMSlEVPJ"
+        },
+        {
+          "call": 56,
+          "result": 59,
+          "call_id": "call_iMP9EUPClqLjatX1EiJyOPmY"
+        },
+        {
+          "call": 65,
+          "result": 68,
+          "call_id": "call_6vVHl4TQamViTjp6YrsL2yn5"
+        }
+      ],
+      "raw_sha256": "eab21f304a6209b9df0351836c9f23975fa7c43f9f8bb0e507a1e158da8297b6",
+      "child_stdout_sha256": "e7d50233ffe9017e0c897caec9f6880e88125205443fc06c7f1f5cad04a6eb88",
+      "model_locator": "run-05/native/rollout.jsonl:8",
+      "typed_outcome_locator": "run-05/live/runtime/sessions/soodles-39-0-execute-20260917-033005-bc7f6a/events.ndjson:19",
+      "exit_locator": "run-05/process-exits/soodles-39-0-execute-20260917-033005-bc7f6a/exit.json",
+      "packet_raw_checks": [],
+      "native_exposed_truncation_lines": [],
+      "noodle_attempt_exit_code": null,
+      "handoff_sha256": "fccd63c54883e5b6d072aabdfa02362f2564a35be278b4c204c57e821c3f3d09",
+      "handoff_preserved": true,
+      "handoff_did_not_exist_before": true,
+      "historical_request_exact": true,
+      "write_call_line": 56,
+      "assessment": "scoped evidence supported",
+      "handoff_checkpoint_identity_and_history_match": true,
+      "handoff_owner_output_matches_native_result": true
+    },
+    {
+      "run": "run-06",
+      "arm": "treatment",
+      "case": "producer",
+      "checks": {
+        "source_head": true,
+        "only_assigned_documents_and_neutral_skill_differ": true,
+        "instruction_blobs": true,
+        "neutral_skill_in_installed_and_source": true,
+        "installed_file_digests": true,
+        "task_digest": true,
+        "all_original_input_bytes_preserved": true,
+        "checkpoint_provider_match_selected": true,
+        "recorder_launch_exit_identity": true,
+        "pid_join": true,
+        "worktree_join": true,
+        "actual_wait_zero_exit": true,
+        "worker_argv_envelope_join": true,
+        "native_stdout_digest_and_size": true,
+        "native_stdout_matches_runtime_raw": true,
+        "terminal_delayed_after_wait": true,
+        "native_call_result_bijection": true,
+        "every_started_item_completed": true,
+        "one_thread_turn_and_identity_join": true,
+        "per_turn_model_and_effort": true,
+        "one_native_terminal": true,
+        "own_typed_outcome": true,
+        "native_loaded_assigned_agents": true,
+        "runtime_input_in_native_user_message": true,
+        "cleanup_clean_and_absent": true,
+        "native_binary_digests": true
+      },
+      "native_thread": "01a0ad6a-0def-7af0-bc1c-260544195022",
+      "native_turn": "01a0ad6a-0e86-7d30-bba4-a58f525de116",
+      "noodle_session": "soodles-39-0-execute-20260917-033003-a6a3fe",
+      "actual_exit": 0,
+      "elapsed_seconds": 120.50726958399173,
+      "call_result_locators": [
+        {
+          "call": 13,
+          "result": 16,
+          "call_id": "call_ihxqlT5Up6tjMX2kNz2n4pFZ"
+        },
+        {
+          "call": 18,
+          "result": 22,
+          "call_id": "call_FDSLs9xh9eL9eDA1QblhaIag"
+        },
+        {
+          "call": 26,
+          "result": 29,
+          "call_id": "call_kSHBeVtsIq8R7zXEC7AonU36"
+        },
+        {
+          "call": 33,
+          "result": 36,
+          "call_id": "call_etrDmS0vxZHxfhMyJXcMRlYK"
+        },
+        {
+          "call": 42,
+          "result": 45,
+          "call_id": "call_QYGf6anfU488mnUZoQBbdWyP"
+        },
+        {
+          "call": 49,
+          "result": 52,
+          "call_id": "call_4PGGu9Awk0P96XAslFDNHmuN"
+        },
+        {
+          "call": 58,
+          "result": 61,
+          "call_id": "call_rVttOW506rMGsjliFm6u543u"
+        }
+      ],
+      "raw_sha256": "616fc139c37bd09dd87aacf7d8b97c38ea66988b119abfc3455140bc88ec203c",
+      "child_stdout_sha256": "2d25dabeb6334f0d102753276cd50cb31382d76d0b2eaf165fff142c6cfcd9af",
+      "model_locator": "run-06/native/rollout.jsonl:8",
+      "typed_outcome_locator": "run-06/live/runtime/sessions/soodles-39-0-execute-20260917-033003-a6a3fe/events.ndjson:14",
+      "exit_locator": "run-06/process-exits/soodles-39-0-execute-20260917-033003-a6a3fe/exit.json",
+      "packet_raw_checks": [],
+      "native_exposed_truncation_lines": [],
+      "noodle_attempt_exit_code": null,
+      "handoff_sha256": "ca2866b6826bffe998d1de2688fb39aac071dd8e99146438f84ba03690cfc3e1",
+      "handoff_preserved": true,
+      "handoff_did_not_exist_before": true,
+      "historical_request_exact": true,
+      "write_call_line": 49,
+      "assessment": "scoped evidence supported",
+      "handoff_checkpoint_identity_and_history_match": true,
+      "handoff_owner_output_matches_preserved_observation": true
+    }
+  ],
+  "assessment": "scoped_raw_evidence_supported_for_four_consumers_and_two_producers; full_comparison_incomplete",
+  "leakage_review": {
+    "method": "Manually reviewed every native custom/function tool request, native initial user/world-state entries and Noodle prompt/input; no Issue body, judge, report or other session content read was observed. This is exposed-input audit, not security isolation or hidden-service completeness.",
+    "run03_exceptions": "codex --version is a capability query only; own NOODLE_SESSION_ID events readback is not other-session leakage.",
+    "typed_outcome_limit": "Neutral execute skill explicitly requires blocked/blocking=true, so outcome conformance is not independent evidence that the model discovered this policy."
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "scope_limit",
+      "description": "Only four completed consumers and two producers audited. run-07/08 are excluded and no fresh-transfer conclusion follows."
+    },
+    {
+      "id": "F2",
+      "severity": "locator_precision",
+      "description": "run-01 read_control normalized locator :43 contains terminal-control tail but not setup/function definition. Full control read at :34; successful three-control execution at :50. Existing normalized event is supported as a partial read; do not treat :43 alone as full control context.",
+      "locators": [
+        "run-01/native/rollout.jsonl:34",
+        "run-01/native/rollout.jsonl:43",
+        "run-01/native/rollout.jsonl:50"
+      ]
+    },
+    {
+      "id": "F3",
+      "severity": "capture_limit",
+      "description": "run-03 native exposed result :39 retains actual truncation of a documentation/source search; decisive fixture/owner results at :29/:47 are present. Completeness is exposed emitted output only.",
+      "locators": [
+        "run-03/native/rollout.jsonl:39",
+        "run-03/native/rollout.jsonl:29",
+        "run-03/native/rollout.jsonl:47"
+      ]
+    },
+    {
+      "id": "F4",
+      "severity": "timing_disclosure",
+      "description": "Supplemental input verification was written after run-01 completed. Original selection existed before launch according to retained receipts; no independent trusted timestamp authentication is claimed. Recomputed current digests and before/after bytes match."
+    },
+    {
+      "id": "F5",
+      "severity": "instrumentation_limit",
+      "description": "All children exited with recorder delaying terminal delivery; Noodle attempt.exit_code remains null. Actual child exit conclusion comes from joined recorder wait/exit receipts, not Noodle attempt. Natural uninstrumented exit remains unproven."
+    }
+  ],
+  "normalization_followup": {
+    "status": "supervisor informed; pending external locator correction",
+    "description": "Supervisor plans to preserve original run-01 packet and correct read_control locator to :34 with :50 execution evidence. This report records original state and this as locator precision correction, not judge or case-result change."
+  },
+  "export_boundary": {
+    "reviewed_artifact": "local original evidence only",
+    "public_export_reviewed": false,
+    "planned_redaction": "Preserve line numbers and exposed tools, task/user input, identities and outcomes. Record original/export SHA separately; public export is not byte-identical to local rollout.",
+    "protected_content_reproduced": false
+  }
+}

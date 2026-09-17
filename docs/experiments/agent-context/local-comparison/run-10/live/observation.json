@@ -1,0 +1,174 @@
+{
+  "status": "worker_review",
+  "loop_exit": 0,
+  "elapsed_seconds": 112.8889514580369,
+  "snapshot_at_stop": {
+    "order_revision": "a501f6ce2890a8a979525de1efeb63dd",
+    "state": {
+      "orders": {
+        "schedule": {
+          "order_id": "schedule",
+          "sequence": 1,
+          "title": "scheduling tasks based on your backlog",
+          "plan": null,
+          "rationale": "",
+          "status": "active",
+          "stages": [
+            {
+              "stage_index": 0,
+              "task_key": "schedule",
+              "prompt": "",
+              "skill": "schedule",
+              "provider": "codex",
+              "model": "gpt-6-astra",
+              "runtime": "process",
+              "group": 0,
+              "status": "pending",
+              "extra_prompt": "",
+              "attempts": null
+            }
+          ],
+          "created_at": "2026-09-17T13:10:14.149156+08:00",
+          "updated_at": "2026-09-17T05:10:14.149391Z",
+          "metadata": {
+            "plan": "",
+            "rationale": "",
+            "title": "scheduling tasks based on your backlog"
+          }
+        },
+        "soodles-39": {
+          "order_id": "soodles-39",
+          "sequence": 0,
+          "title": "Execute ed3c/soodles#39",
+          "plan": null,
+          "rationale": "Externally admitted current Issue",
+          "status": "active",
+          "stages": [
+            {
+              "stage_index": 0,
+              "task_key": "execute",
+              "prompt": "{\"body_sha256\": \"9f5d8d32a17eb6b0d813dab64d712d03b0f7f9b458af9179d77fdb2029ac736f\", \"body_updated_at\": \"2026-09-17T03:19:37Z\", \"envelope_sha256\": \"02e455107bad817a17fac608ffc644a7987770ba4f4bab192ecd3771fa017f0d\", \"issue\": 39, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"This is a bounded independent read-only review. The launcher has already validated the real Issue contract. Use the installed execute skill and read local AGENTS.md. Do not fetch Issue 39, experiment reports, the judge, other sessions or the operator archive. The task inputs are in the inbox directory alongside NOODLE_PROJECT_DIR (Path(os.environ['NOODLE_PROJECT_DIR']).parent / 'inbox'). Read task-input.json there. Read-only command execution is authorized. For mutable fixtures, inspect the actual supplied checkpoint/provider files and invoke the current local owner entry, not merely the historical owner output. The local owner entry is python3 -B ./soodles.py landing; use its help for arguments. All provider subjects in fixture files are simulated, except the explicitly supplied common runtime readback. Do not send fixture requests to GitHub.\\n\\nWork in ed3c/soodles at the supplied instruction ref. Resume the task in the handoff. Inspect the supplied current checkpoint and provider snapshot and continue within its scope. All provider subjects are simulated fixture data; do not transport requests to GitHub or change production state.\\n\\nFinish with the scoped conclusion and your own typed blocked stage handoff as the execute skill describes. The admitted Noodle binary is /Users/neon/.codex/experiments/noodle82-20260916/noodle. Event schema locator: https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go . Do not edit repository source or create extra worktrees/sessions.\\n\"}",
+              "skill": "execute",
+              "provider": "codex",
+              "model": "gpt-6-astra",
+              "runtime": "process",
+              "group": 0,
+              "status": "review",
+              "extra_prompt": "",
+              "attempts": [
+                {
+                  "attempt_id": "soodles-39-0-attempt-0",
+                  "session_id": "soodles-39-0-execute-20260917-051014-53991b",
+                  "status": "completed",
+                  "started_at": "2026-09-17T13:10:14.196826+08:00",
+                  "completed_at": "2026-09-17T13:11:38.538558+08:00",
+                  "exit_code": null,
+                  "worktree_name": "soodles-39-0-execute",
+                  "error": ""
+                }
+              ]
+            }
+          ],
+          "created_at": "2026-09-17T13:09:46.417714+08:00",
+          "updated_at": "2026-09-17T13:11:38.538558+08:00",
+          "metadata": {
+            "plan": "",
+            "rationale": "Externally admitted current Issue",
+            "title": "Execute ed3c/soodles#39"
+          }
+        }
+      },
+      "pending_reviews": {
+        "soodles-39": {
+          "order_id": "soodles-39",
+          "stage_index": 0,
+          "task_key": "execute",
+          "prompt": "{\"body_sha256\": \"9f5d8d32a17eb6b0d813dab64d712d03b0f7f9b458af9179d77fdb2029ac736f\", \"body_updated_at\": \"2026-09-17T03:19:37Z\", \"envelope_sha256\": \"02e455107bad817a17fac608ffc644a7987770ba4f4bab192ecd3771fa017f0d\", \"issue\": 39, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"This is a bounded independent read-only review. The launcher has already validated the real Issue contract. Use the installed execute skill and read local AGENTS.md. Do not fetch Issue 39, experiment reports, the judge, other sessions or the operator archive. The task inputs are in the inbox directory alongside NOODLE_PROJECT_DIR (Path(os.environ['NOODLE_PROJECT_DIR']).parent / 'inbox'). Read task-input.json there. Read-only command execution is authorized. For mutable fixtures, inspect the actual supplied checkpoint/provider files and invoke the current local owner entry, not merely the historical owner output. The local owner entry is python3 -B ./soodles.py landing; use its help for arguments. All provider subjects in fixture files are simulated, except the explicitly supplied common runtime readback. Do not send fixture requests to GitHub.\\n\\nWork in ed3c/soodles at the supplied instruction ref. Resume the task in the handoff. Inspect the supplied current checkpoint and provider snapshot and continue within its scope. All provider subjects are simulated fixture data; do not transport requests to GitHub or change production state.\\n\\nFinish with the scoped conclusion and your own typed blocked stage handoff as the execute skill describes. The admitted Noodle binary is /Users/neon/.codex/experiments/noodle82-20260916/noodle. Event schema locator: https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go . Do not edit repository source or create extra worktrees/sessions.\\n\"}",
+          "provider": "codex",
+          "model": "gpt-6-astra",
+          "runtime": "process",
+          "skill": "execute",
+          "plan": null,
+          "worktree_name": "soodles-39-0-execute",
+          "worktree_path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-10/control/.worktrees/soodles-39-0-execute",
+          "session_id": "soodles-39-0-execute-20260917-051014-53991b",
+          "reason": "blocked by typed stage outcome: \u5df2\u5b8c\u6210 handoff \u7684\u7368\u7acb\u552f\u8b80 fixture review\u3002\u91cd\u65b0\u8b80\u53d6\u672c\u6b21 inbox checkpoint/provider\uff0c\u65bc\u9010\u4f4d\u5143\u76f8\u540c\u7684\u66ab\u5b58\u526f\u672c\u57f7\u884c current python3 -B ./soodles.py landing advance\uff0cexit=0\uff1bowner \u56de\u50b3 phase=merge_pending\u3001action=readback\u3001next.kind=provider_readback\u3001operation=advance\u3001required=[readback]\uff0c\u6c92\u6709 request\u3002merge \u5df2 offered\uff0csupplied PR \u4ecd open/merged=false\uff0c\u4e0d\u80fd\u91cd\u9001\u6b77\u53f2 merge \u6216 invalidate/readmit\u3002\u539f checkpoint/provider/handoff \u7b49\u8f38\u5165\u96dc\u6e4a\u4e0d\u8b8a\uff0crepository clean\u3002\u5be6\u969b HEAD=6a7d1e422c61419ef78389b5082c1756c758c444\uff0c\u8207\u6307\u5b9a ref=e4b4a8487855b75ef2d47087019bb52c4d5ffd6c \u4e0d\u540c\uff1bsoodles.py/landing.py \u8207\u6307\u5b9a ref \u7121\u5dee\u7570\uff0ccurrent owner digest=8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a \u8207 supplied identity/checkpoint \u76f8\u7b26\u3002common runtime run 35128051435 success \u50c5\u5c0d\u61c9 e4b4a848\uff0c\u4e0d\u8b49\u660e fixture \u6216 production Issue 39 \u4ea4\u4ed8\u3002\u7b49\u5f85\u6709\u5be6\u8cea\u65b0\u8cc7\u8a0a\u7684 simulated provider readback\uff0c\u518d\u4f9d current owner advance/help \u65bc\u65b0\u526f\u672c\u7e8c\u884c\uff1b\u4e0d\u53ef\u5c0d GitHub \u50b3\u9001 fixture requests\u3002\u672a\u4fee\u6539 source\u3001\u672a\u64cd\u4f5c live provider\u3001\u672a\u5ba3\u544a Issue 39 resolved\uff1bauthorizes_landing=false\u3002"
+        }
+      },
+      "action_needed": null,
+      "mode": "supervised",
+      "mode_epoch": 1,
+      "mode_transitions": [
+        {
+          "from_mode": "manual",
+          "to_mode": "supervised",
+          "epoch": 1,
+          "requested_by": "control",
+          "reason": "mode control command",
+          "applied_at": "2026-09-17T13:09:45.784716+08:00"
+        }
+      ],
+      "schema_version": 1,
+      "last_event_id": "9"
+    },
+    "effect_ledger": [
+      {
+        "effect_id": "initial-admission-3ac4da54dc975ecf77445be751a5e10efa4451a8cb32f68299bd29e1e09f2fbd",
+        "effect": {
+          "effect_id": "initial-admission-3ac4da54dc975ecf77445be751a5e10efa4451a8cb32f68299bd29e1e09f2fbd",
+          "type": "initial_admission",
+          "payload": {
+            "initial_revision": "26f971f8fc13bc86faef0e8403623a49",
+            "order_id": "soodles-39"
+          },
+          "created_at": "2026-09-17T05:09:46.417694Z"
+        },
+        "status": "done",
+        "attempts": 1,
+        "last_attempt_at": "2026-09-17T05:09:46.417694Z",
+        "result": {
+          "effect_id": "initial-admission-3ac4da54dc975ecf77445be751a5e10efa4451a8cb32f68299bd29e1e09f2fbd",
+          "status": "completed",
+          "error": "",
+          "timestamp": "2026-09-17T05:09:46.417694Z"
+        }
+      },
+      {
+        "effect_id": "event-4-effect-0",
+        "effect": {
+          "effect_id": "event-4-effect-0",
+          "type": "dispatch",
+          "payload": {
+            "attempt_id": "schedule-0-attempt-0",
+            "order_id": "schedule",
+            "stage_index": 0
+          },
+          "created_at": "2026-09-17T13:09:46.420602+08:00"
+        },
+        "status": "pending",
+        "attempts": 0,
+        "last_attempt_at": "0001-01-01T00:00:00Z",
+        "result": null
+      },
+      {
+        "effect_id": "event-7-effect-0",
+        "effect": {
+          "effect_id": "event-7-effect-0",
+          "type": "dispatch",
+          "payload": {
+            "attempt_id": "soodles-39-0-attempt-0",
+            "order_id": "soodles-39",
+            "stage_index": 0
+          },
+          "created_at": "2026-09-17T13:10:14.174809+08:00"
+        },
+        "status": "pending",
+        "attempts": 0,
+        "last_attempt_at": "0001-01-01T00:00:00Z",
+        "result": null
+      }
+    ],
+    "generated_at": "2026-09-17T05:11:38.538613Z"
+  },
+  "authorizes_landing": false
+}

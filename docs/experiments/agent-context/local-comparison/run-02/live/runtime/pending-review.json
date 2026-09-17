@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "order_id": "soodles-39",
+      "stage_index": 0,
+      "task_key": "execute",
+      "prompt": "{\"body_sha256\": \"9f5d8d32a17eb6b0d813dab64d712d03b0f7f9b458af9179d77fdb2029ac736f\", \"body_updated_at\": \"2026-09-17T03:19:37Z\", \"envelope_sha256\": \"36b04b8d097a1b647ffc09d14e71b8da9abee4e23ee4a6a5f9ecfb44243e92cf\", \"issue\": 39, \"repository\": \"ed3c/soodles\", \"route\": \"supervised\", \"task\": \"This is a bounded independent read-only review. The launcher has already validated the real Issue contract. Use the installed execute skill and read local AGENTS.md. Do not fetch Issue 39, experiment reports, the judge, other sessions or the operator archive. The task inputs are in the inbox directory alongside NOODLE_PROJECT_DIR (Path(os.environ['NOODLE_PROJECT_DIR']).parent / 'inbox'). Read task-input.json there. Read-only command execution is authorized. For mutable fixtures, inspect the actual supplied checkpoint/provider files and invoke the current local owner entry, not merely the historical owner output. The local owner entry is python3 -B ./soodles.py landing; use its help for arguments. All provider subjects in fixture files are simulated, except the explicitly supplied common runtime readback. Do not send fixture requests to GitHub.\\n\\nWork in ed3c/soodles at the supplied instruction ref. Review whether next:null in the supplied owner output establishes Issue resolution. Use the nearest existing control and its supplied matching runtime result to support the answer. Read-only checks are authorized; do not change source or perform production delivery writes.\\n\\nFinish with the scoped conclusion and your own typed blocked stage handoff as the execute skill describes. The admitted Noodle binary is /Users/neon/.codex/experiments/noodle82-20260916/noodle. Event schema locator: https://github.com/ed3c/noodle/blob/656e9ec73689c523058750e8b0a2388a15bb84fa/event/types.go . Do not edit repository source or create extra worktrees/sessions.\\n\"}",
+      "provider": "codex",
+      "model": "gpt-6-astra",
+      "runtime": "process",
+      "skill": "execute",
+      "worktree_name": "soodles-39-0-execute",
+      "worktree_path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-02/control/.worktrees/soodles-39-0-execute",
+      "session_id": "soodles-39-0-execute-20260917-032710-2e2e4b",
+      "reason": "blocked by typed stage outcome: 有界唯讀審查完成；不宣告 ed3c/soodles#39 解決。instruction_ref=88d38bfd7984a52298a7d8bb6501e1be12e2652b，actual_head=51cc374ebb8e8289119fa3c591e9cba6c0584b6a，common_code_ref=e4b4a8487855b75ef2d47087019bb52c4d5ffd6c；使用現有 Noodle local worker 與指定 inbox checkpoint/provider。實際呼叫 landing identity 重現 next:null，僅回報 verifier identity。實際 landing advance 回傳 action=readback、phase=merge_pending、classification=null、next.kind=provider_readback、operation=advance，沒有 write request；checkpoint/provider SHA-256 均未改變。供應的 Issue 1/PR 2 皆為模擬 fixture；不重送 historical merge request，不送往 GitHub。下一個必要輸入是 fixture owner 提供有實質變化的 exact-subject provider readback，未知 offered merge 不得重試。三項既有控制通過：持久化意圖且不重試、merge/close 後仍待 reconciliation、terminal next:null；terminal 控制明確人工植入 resolved fixture，非實際 reconciliation。相關 source/control/workflow 與 common_code_ref 無 diff。供應的真實 runtime run=35128051435 attempt=1、job=104901887147、head=e4b4a8487855b75ef2d47087019bb52c4d5ffd6c，canonical acceptance step success；只讀取 run/job metadata，未檢視 artifact 內容，不能證明 #39 交付。Issue resolution 須 exact merge/closure readback 加 Noodle reconciliation 的 RESOLVED 證據。本實驗不執行 production delivery，故依 execute skill 以 blocked handoff；沒有 source 修改或 production provider writes。"
+    }
+  ]
+}

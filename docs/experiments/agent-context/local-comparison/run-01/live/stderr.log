@@ -1,0 +1,13 @@
+2026-09-17T11:22:59.881946+08:00 INFO api: start initialized project=/Users/neon/.codex/experiments/soodles39-completion-20260917/run-01/control runtime_dir=/Users/neon/.codex/experiments/soodles39-completion-20260917/run-01/control/.noodle once=false server_enabled=false
+2026-09-17T11:22:59.882725+08:00 INFO api: web server disabled
+2026-09-17T11:22:59.884493+08:00 INFO api: control command action=mode status=ok
+2026-09-17T11:23:03.514378+08:00 INFO api: orders-next promoted
+2026-09-17T11:23:03.524274+08:00 INFO api: schedule dispatched session=schedule-20260917-032303-57511a attempt=0
+2026-09-17T11:23:28.852946+08:00 INFO api: session meta indicates terminal state; enqueueing completion order=schedule session=schedule-20260917-032303-57511a status=exited
+2026-09-17T11:23:28.853218+08:00 INFO api: schedule completed session=schedule-20260917-032303-57511a
+2026-09-17T11:23:28.854471+08:00 INFO api: order removed order=schedule
+2026-09-17T11:23:28.855953+08:00 INFO api: mise changed, injecting schedule order
+2026-09-17T11:23:28.897583+08:00 INFO api: cook dispatched order=soodles-39 stage=0 session=soodles-39-0-execute-20260917-032328-0bc4af worktree=soodles-39-0-execute attempt=0
+2026-09-17T11:25:13.771679+08:00 INFO api: session meta indicates terminal state; enqueueing completion order=soodles-39 session=soodles-39-0-execute-20260917-032328-0bc4af status=exited
+2026-09-17T11:25:13.772103+08:00 INFO api: scheduler not active, event stays in orders for later recovery order=soodles-39 event=stage_message_blocked
+2026-09-17T11:25:13.923733+08:00 WARN api: monitor run failed error="materialize tickets: context canceled"

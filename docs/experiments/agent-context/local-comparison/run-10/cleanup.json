@@ -1,0 +1,48 @@
+{
+  "process_checks": [
+    {
+      "record": "live/launch.json",
+      "pid": 57046,
+      "alive": false,
+      "group_alive": false
+    },
+    {
+      "record": "native/observation.json",
+      "pid": 59636,
+      "alive": false,
+      "group_alive": false
+    },
+    {
+      "record": "live/runtime/sessions/schedule-20260917-050946-8d7b11/process.json",
+      "pid": 57053,
+      "alive": false,
+      "group_alive": false
+    },
+    {
+      "record": "live/runtime/sessions/soodles-39-0-execute-20260917-051014-53991b/process.json",
+      "pid": 58256,
+      "alive": false,
+      "group_alive": false
+    },
+    {
+      "record": "process-exits/schedule-20260917-050946-8d7b11/exit.json",
+      "pid": 57067,
+      "pgid": 57053,
+      "alive": false,
+      "group_alive": false
+    },
+    {
+      "record": "process-exits/soodles-39-0-execute-20260917-051014-53991b/exit.json",
+      "pid": 58259,
+      "pgid": 58256,
+      "alive": false,
+      "group_alive": false
+    }
+  ],
+  "worker_head": "6a7d1e422c61419ef78389b5082c1756c758c444",
+  "worker_clean": true,
+  "cleanup_exit": 0,
+  "worktree_absent": true,
+  "production_issue_resolved": false,
+  "authorizes_landing": false
+}

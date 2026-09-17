@@ -1,0 +1,343 @@
+{
+  "checks": {
+    "recorder_pid_matches_noodle_process": true,
+    "record_identity_matches": true,
+    "record_worktree_matches": true,
+    "same_launch_and_exit": true,
+    "child_is_separate": true,
+    "group_retained": true,
+    "actual_wait": true,
+    "exact_worker_chain": true,
+    "recorder_fixed": true,
+    "codex_measured": true,
+    "captured_stdout_digest": true,
+    "captured_stdout_bytes": true,
+    "native_bytes_forwarded_without_event_changes": true,
+    "terminal_delivery_deferred": true,
+    "typed_outcome_matches": true,
+    "every_started_item_has_result": true,
+    "one_completed_history_turn": true,
+    "thread_join": true,
+    "complete_native_turn": true,
+    "native_turn_model": true,
+    "native_session_meta": true,
+    "native_tool_call_result_pairs": true,
+    "child_exit_zero": true,
+    "checkpoint_bytes_preserved": true,
+    "provider_bytes_preserved": true
+  },
+  "thread_id": "01a0ad6a-15e0-73c1-be2c-b555d0666fe3",
+  "turn_id": "01a0ad6a-1679-7d61-aa5a-e84057c66e0c",
+  "noodle_session": "soodles-39-0-execute-20260917-033005-bc7f6a",
+  "native_contexts": [
+    {
+      "line": 8,
+      "turn_id": "01a0ad6a-1679-7d61-aa5a-e84057c66e0c",
+      "root_turn_id": "01a0ad6a-1679-7d61-aa5a-e84057c66e0c",
+      "cwd": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.worktrees/soodles-39-0-execute",
+      "workspace_roots": [
+        "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.worktrees/soodles-39-0-execute",
+        "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.noodle",
+        "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/inbox"
+      ],
+      "current_date": "2026-09-17",
+      "timezone": "Asia/Taipei",
+      "approval_policy": "never",
+      "approvals_reviewer": "auto_review",
+      "sandbox_policy": {
+        "type": "workspace-write",
+        "writable_roots": [
+          "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.noodle",
+          "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/inbox",
+          "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.worktrees/soodles-39-0-execute/.git",
+          "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.noodle/.git",
+          "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/inbox/.git"
+        ],
+        "network_access": true,
+        "exclude_tmpdir_env_var": false,
+        "exclude_slash_tmp": false
+      },
+      "permission_profile": {
+        "type": "managed",
+        "file_system": {
+          "type": "restricted",
+          "entries": [
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "root"
+                }
+              },
+              "access": "read"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "slash_tmp"
+                }
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "tmpdir"
+                }
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.worktrees/soodles-39-0-execute"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.noodle"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/inbox"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.worktrees/soodles-39-0-execute/.git"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.noodle/.git"
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "path",
+                "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/inbox/.git"
+              },
+              "access": "write"
+            }
+          ]
+        },
+        "network": "enabled"
+      },
+      "active_permission_profile": {
+        "id": "agent-default",
+        "extends": ":workspace"
+      },
+      "file_system_sandbox_policy": {
+        "kind": "restricted",
+        "entries": [
+          {
+            "path": {
+              "type": "special",
+              "value": {
+                "kind": "root"
+              }
+            },
+            "access": "read"
+          },
+          {
+            "path": {
+              "type": "special",
+              "value": {
+                "kind": "slash_tmp"
+              }
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "special",
+              "value": {
+                "kind": "tmpdir"
+              }
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.worktrees/soodles-39-0-execute"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.noodle"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/inbox"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.worktrees/soodles-39-0-execute/.git"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/control/.noodle/.git"
+            },
+            "access": "write"
+          },
+          {
+            "path": {
+              "type": "path",
+              "path": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-05/inbox/.git"
+            },
+            "access": "write"
+          }
+        ]
+      },
+      "model": "gpt-6-astra",
+      "comp_hash": "3000",
+      "personality": "pragmatic",
+      "collaboration_mode": {
+        "mode": "default",
+        "settings": {
+          "model": "gpt-6-astra",
+          "reasoning_effort": "high",
+          "developer_instructions": null
+        }
+      },
+      "multi_agent_version": "v2",
+      "realtime_active": false,
+      "effort": "high",
+      "summary": "auto"
+    }
+  ],
+  "native_calls": [
+    {
+      "line": 13,
+      "call_id": "call_vZ309p2jhhhtT8KuYhyN9gcf",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"pwd; cat .agents/skills/execute/SKILL.md; cat AGENTS.md; printenv NOODLE_PROJECT_DIR\",\"max_output_tokens\":10000}));\n"
+    },
+    {
+      "line": 18,
+      "call_id": "call_z9M7h11fV7SWzRhojcbKgzsf",
+      "name": "exec",
+      "input": "const rs = await Promise.allSettled([\ntools.exec_command({cmd:\"python3 -B -c 'import pathlib,os; p=pathlib.Path(os.environ[\\\"NOODLE_PROJECT_DIR\\\"]).parent/\\\"inbox\\\"/\\\"task-input.json\\\"; print(p); print(p.read_text())'\",\"max_output_tokens\":10000}),\ntools.exec_command({cmd:\"python3 -B ./soodles.py landing --help\",\"max_output_tokens\":6000}),\ntools.exec_command({cmd:\"/Users/neon/.codex/experiments/noodle82-20260916/noodle event emit --help\",\"max_output_tokens\":6000})\n]);rs.forEach(text);\n"
+    },
+    {
+      "line": 25,
+      "call_id": "call_zOMHuWpXbALpSkSvWYE6pri2",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"python3 -B -c 'import pathlib,os; p=pathlib.Path(os.environ[\\\"NOODLE_PROJECT_DIR\\\"]).parent/\\\"inbox\\\"; names=[\\\"identity-input.json\\\",\\\"runtime-readback.json\\\",\\\"checkpoint.json\\\",\\\"provider.json\\\",\\\"historical-seed.json\\\"]; [(print(\\\"FILE\\\",n),print((p/n).read_text())) for n in names]'\",\"max_output_tokens\":16000}));\ntext(await tools.exec_command({cmd:\"python3 -B ./soodles.py landing advance --help\",\"max_output_tokens\":4000}));\ntext(await tools.exec_command({cmd:\"python3 -B ./soodles.py landing identity --help\",\"max_output_tokens\":4000}));\n"
+    },
+    {
+      "line": 34,
+      "call_id": "call_ln41ATtvucIRxIa8jGUiR3Ye",
+      "name": "exec",
+      "input": "const rs=await Promise.allSettled([\ntools.exec_command({cmd:\"git rev-parse --show-toplevel --is-inside-work-tree HEAD; git status --short; rg -n 'def (advance|dispatch)|merge_pending|offered|readback_required' landing.py; python3 -B ./soodles.py landing identity\",\"max_output_tokens\":6000}),\ntools.exec_command({cmd:\"python3 -B -c 'import os; print({k:os.environ.get(k) for k in [\\\"NOODLE_SESSION_ID\\\",\\\"NOODLE_ORDER_ID\\\",\\\"NOODLE_STAGE_INDEX\\\"]})'; rg -n 'def advance|def dispatch|merge_pending|def main' soodles.py\",\"max_output_tokens\":3000})\n]);rs.forEach(text);\n"
+    },
+    {
+      "line": 40,
+      "call_id": "call_Ya6KAOthgEelcJsA3fvYYjwD",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"sed -n '1,115p' landing.py; sed -n '285,355p' landing.py; sed -n '405,485p' landing.py; rg -n 'landing|advance' soodles.py\",\"max_output_tokens\":6500}));\n"
+    },
+    {
+      "line": 49,
+      "call_id": "call_1cWH9PSLeNSPa6RcpMSlEVPJ",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"python3 -B - <<'PY'\\nimport hashlib,json,os,pathlib,subprocess,tempfile\\nroot=pathlib.Path.cwd(); inbox=pathlib.Path(os.environ['NOODLE_PROJECT_DIR']).parent/'inbox'\\nnames=['task-input.json','identity-input.json','runtime-readback.json','checkpoint.json','provider.json','historical-seed.json']\\ninputs={n:{'path':str(inbox/n),'sha256':hashlib.sha256((inbox/n).read_bytes()).hexdigest()} for n in names}\\ntmp=pathlib.Path(tempfile.mkdtemp(prefix='soodles39-review-'))\\ncheckpoint=tmp/'checkpoint.json'; checkpoint.write_bytes((inbox/'checkpoint.json').read_bytes())\\nargv=['python3','-B','./soodles.py','landing','advance',str(checkpoint),str(inbox/'provider.json')]\\nr=subprocess.run(argv,capture_output=True,text=True)\\nrecord={'argv':argv,'cwd':str(root),'exit_code':r.returncode,'stdout':r.stdout,'stderr':r.stderr,'inputs':inputs,'inspection_checkpoint':str(checkpoint),'inspection_checkpoint_after_sha256':hashlib.sha256(checkpoint.read_bytes()).hexdigest(),'original_inputs_unchanged':all(hashlib.sha256(pathlib.Path(v['path']).read_bytes()).hexdigest()==v['sha256'] for v in inputs.values())}\\n(tmp/'inspection.json').write_text(json.dumps(record,indent=2)+'\\\\n')\\nprint(json.dumps(record,indent=2))\\nprint('inspection_record_path='+str(tmp/'inspection.json'))\\nPY\",\"max_output_tokens\":5000}));\n"
+    },
+    {
+      "line": 56,
+      "call_id": "call_iMP9EUPClqLjatX1EiJyOPmY",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"python3 -B - <<'PY'\\nimport hashlib,json,os,pathlib,subprocess\\nroot=pathlib.Path.cwd(); inbox=pathlib.Path(os.environ['NOODLE_PROJECT_DIR']).parent/'inbox'\\nrecord=json.loads(pathlib.Path('/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles39-review-uo71x3ys/inspection.json').read_text())\\npacket=json.loads((inbox/'task-input.json').read_text()); checkpoint=json.loads((inbox/'checkpoint.json').read_text()); history=json.loads((inbox/'historical-seed.json').read_text()); runtime=json.loads((inbox/'runtime-readback.json').read_text())\\ndef git(*args): return subprocess.check_output(['git',*args],text=True).strip()\\nidentity=json.loads(subprocess.check_output(['python3','-B','./soodles.py','landing','identity'],text=True))\\nresult=json.loads(record['stdout'])\\nassert record['exit_code']==0 and result['action']=='readback' and 'request' not in result\\nassert all(hashlib.sha256(pathlib.Path(v['path']).read_bytes()).hexdigest()==v['sha256'] for v in record['inputs'].values())\\nhandoff={\\n 'schema':1,'scope':'唯讀、獨立 fixture review；不交付 production Issue 39，不授權 landing。',\\n 'source':{'repository':packet['repository'],'worktree':str(root),'actual_HEAD':git('rev-parse','HEAD'),'actual_tree':git('rev-parse','HEAD^{tree}'),'git_status_porcelain':git('status','--porcelain'),'assigned_instruction_ref':packet['assigned_instruction_ref'],'common_code_ref':packet['common_code_ref'],'owner_entry':packet['owner_entry'],'current_owner_identity':identity,'owner_identity_matches_supplied':identity==json.loads((inbox/'identity-input.json').read_text()),'owner_identity_matches_checkpoint':identity['verifier_sha256']==checkpoint['claim']['verifier_sha256']},\\n 'inputs':record['inputs'],\\n 'checkpoint':{'path':str(inbox/'checkpoint.json'),'sha256':record['inputs']['checkpoint.json']['sha256'],'claim':checkpoint['claim'],'phase':checkpoint['phase'],'delivery':checkpoint['delivery'],'writes_offered':checkpoint['writes_offered']},\\n 'current_owner_inspection':{'argv':record['argv'],'cwd':record['cwd'],'exit_code':record['exit_code'],'stderr':record['stderr'],'output':result,'method':'在逐位元相同的暫存 checkpoint 副本執行 current owner advance；provider 直接讀取 supplied inbox/provider.json。advance 會 save，因此使用副本保持原 fixture 唯讀。','checkpoint_copy_path':record['inspection_checkpoint'],'checkpoint_copy_after_sha256':record['inspection_checkpoint_after_sha256'],'source_inputs_unchanged':record['original_inputs_unchanged']},\\n 'observations':['checkpoint 為 merge_pending，merge 已 offered；provider PR 2 為 open 且 merged=false，Issue 1 為 open。','目前 owner 回傳 action=readback、next.kind=provider_readback、next.operation=advance，沒有 request 欄位。','未合併的 readback 不能證明先前 offered write 未送出或可安全重送；保留 pending 狀態。','actual checkout HEAD 與 packet common_code_ref 不同；current owner verifier digest 與 supplied identity/checkpoint 相符，兩種 identity 分別記錄。'],\\n 'common_runtime_evidence':{'source':'runtime-readback.json','run_id':runtime['run']['id'],'head_sha':runtime['run']['head_sha'],'conclusion':runtime['run']['conclusion'],'limit':'這是明確提供的真實 common runtime readback；不是 fixture head aaaa… 的新證據，也不證明 Issue 39 已 merge、close 或 reconcile。'},\\n 'historical_material':{'source':'historical-seed.json','status':'歷史、synthetic stale instruction；不是當前 owner 輸出，也不是本 reviewer 發出的 request。','historical_request':history['historical_request'],'replay_authorized':False},\\n 'supported_continuation':{'operation':result['next']['operation'],'required':result['next']['required'],'owner_next_location':'current_owner_inspection.output.next（原樣保留，known.checkpoint 指向 inspection 副本）','source_checkpoint':str(inbox/'checkpoint.json'),'instructions':'新 reviewer 先重讀 supplied checkpoint/provider，取得有實質新資訊的 simulated provider readback 後，依目前 owner help 重新進入 advance；唯讀審查繼續使用 fresh byte-identical checkpoint 副本。owner next 中的 GitHub URL 僅描述 fixture 所需欄位，禁止對真實 GitHub 傳送 fixture requests。不得重送 historical merge、改回 prepared、invalidate/readmit 或以相同輸入重試来推定成功。','missing':'新的 simulated provider readback；offered merge 的結果尚未獲確認。'},\\n 'later_consumer_has_run':False,'production_issue_resolved':False,'authorizes_landing':False,\\n 'stage_handoff':{'outcome':'blocked','blocking':True,'order_id':os.environ['NOODLE_ORDER_ID'],'stage_index':int(os.environ['NOODLE_STAGE_INDEX']),'session_id':os.environ['NOODLE_SESSION_ID'],'message':'已完成 scoped fixture review 並寫入 inbox/handoff.json。current landing.advance 回傳 merge_pending/readback，沒有新 request；historical merge 不可重送。等待新的 simulated provider readback。未執行後續 consumer，未宣告 production Issue 39 resolved。'}\\n}\\np=inbox/'handoff.json'; p.write_text(json.dumps(handoff,ensure_ascii=False,indent=2)+'\\\\n')\\nsaved=json.loads(p.read_text()); assert saved==handoff\\nprint(json.dumps({'handoff':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'source':handoff['source'],'owner_action':result['action'],'verified_json_readback':True},ensure_ascii=False,indent=2))\\nPY\",\"max_output_tokens\":2000}));\n"
+    },
+    {
+      "line": 65,
+      "call_id": "call_6vVHl4TQamViTjp6YrsL2yn5",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"python3 -B - <<'PY'\\nimport json,os,pathlib,subprocess\\ninbox=pathlib.Path(os.environ['NOODLE_PROJECT_DIR']).parent/'inbox'\\nhandoff=json.loads((inbox/'handoff.json').read_text())\\npayload={k:handoff['stage_handoff'][k] for k in ['message','blocking','outcome','order_id','stage_index']}\\nassert payload['order_id']==os.environ['NOODLE_ORDER_ID'] and payload['stage_index']==int(os.environ['NOODLE_STAGE_INDEX'])\\nresult=subprocess.run(['/Users/neon/.codex/experiments/noodle82-20260916/noodle','event','emit','stage_message','--session',os.environ['NOODLE_SESSION_ID'],'--payload',json.dumps(payload,ensure_ascii=False)],capture_output=True,text=True)\\nprint(json.dumps({'exit_code':result.returncode,'stdout':result.stdout,'stderr':result.stderr,'payload':payload},ensure_ascii=False,indent=2))\\nraise SystemExit(result.returncode)\\nPY\\n git diff --stat\",\"max_output_tokens\":1500}));\n"
+    }
+  ],
+  "native_results": [
+    {
+      "line": 16,
+      "call_id": "call_vZ309p2jhhhtT8KuYhyN9gcf"
+    },
+    {
+      "line": 23,
+      "call_id": "call_z9M7h11fV7SWzRhojcbKgzsf"
+    },
+    {
+      "line": 30,
+      "call_id": "call_zOMHuWpXbALpSkSvWYE6pri2"
+    },
+    {
+      "line": 38,
+      "call_id": "call_ln41ATtvucIRxIa8jGUiR3Ye"
+    },
+    {
+      "line": 43,
+      "call_id": "call_Ya6KAOthgEelcJsA3fvYYjwD"
+    },
+    {
+      "line": 52,
+      "call_id": "call_1cWH9PSLeNSPa6RcpMSlEVPJ"
+    },
+    {
+      "line": 59,
+      "call_id": "call_iMP9EUPClqLjatX1EiJyOPmY"
+    },
+    {
+      "line": 68,
+      "call_id": "call_6vVHl4TQamViTjp6YrsL2yn5"
+    }
+  ],
+  "native_command_count": 13,
+  "native_item_errors": [
+    {
+      "id": "item_0",
+      "type": "error",
+      "message": "clamping SessionEnd hook timeout to 3s in /Users/neon/.codex/plugins/cache/openai-codex/codex/1.0.6/hooks/hooks.json"
+    }
+  ],
+  "typed_outcomes": [
+    {
+      "type": "stage_message",
+      "payload": {
+        "message": "已完成 scoped fixture review 並寫入 inbox/handoff.json。current landing.advance 回傳 merge_pending/readback，沒有新 request；historical merge 不可重送。等待新的 simulated provider readback。未執行後續 consumer，未宣告 production Issue 39 resolved。",
+        "blocking": true,
+        "outcome": "blocked",
+        "order_id": "soodles-39",
+        "stage_index": 0
+      },
+      "timestamp": "2026-09-17T03:32:03.001729Z",
+      "session_id": "soodles-39-0-execute-20260917-033005-bc7f6a"
+    }
+  ],
+  "child_returncode": 0,
+  "noodle_attempt_exit_code": null,
+  "capture_scope": "All emitted bounded-task CLI JSONL plus same-thread native rollout custom tool requests and exposed outputs. Hidden service internals unknown; tool truncation retained as emitted.",
+  "authorizes_landing": false
+}

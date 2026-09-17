@@ -1,0 +1,60 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "macos-codex01534-astra-high-native-recorder-7323aea-neutral-skill-v1",
+    "case": "runner-task",
+    "source_kind": "captured",
+    "session_id": "01a0ad64-09c6-70b0-b9fc-2bd8c69b4d3e",
+    "raw_trace": [
+      "native/rollout.jsonl",
+      "live/runtime/sessions/soodles-39-0-execute-20260917-032328-0bc4af/raw.ndjson"
+    ],
+    "capture_complete": true,
+    "model": "gpt-6-astra",
+    "carrier": "local_macos_noodle_codex_exec",
+    "events": [
+      {
+        "kind": "read_doc",
+        "evidence": "native/rollout.jsonl:16",
+        "path": "AGENTS.md",
+        "blob": "3667a6d70ea4a4fddd2df22768b0b83def179f81"
+      },
+      {
+        "kind": "read_run",
+        "evidence": "native/rollout.jsonl:27",
+        "head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+        "run_id": 35128051435,
+        "attempt": 1,
+        "conclusion": "success",
+        "acceptance_step": "success"
+      },
+      {
+        "kind": "read_control",
+        "evidence": "native/rollout.jsonl:43",
+        "blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb"
+      },
+      {
+        "kind": "conclude",
+        "evidence": "live/runtime/sessions/soodles-39-0-execute-20260917-032328-0bc4af/raw.ndjson:23",
+        "result": "NULL_NEXT_INSUFFICIENT",
+        "text": "結論：**`next:null` 不能證明 Issue #39 已解決。**\n\n- 即時 `landing.identity` 僅回傳 verifier 身分。\n- 現行 owner 檢查 fixture 後回傳 `merge_pending`、`classification:null`、`action:readback`；需要新 readback，不得重播歷史 merge request。\n- 三個相關控制通過；terminal 控制證明「resolved 時沒有下一步」，不能反向推論。\n- 指定版本的 runtime run `35128051435` 驗收成功，但沒有證明 #39 的合併、關閉與 Noodle reconciliation。\n\n已成功送出本人的 `stage_message`：`outcome=blocked`、`blocking=true`。此為階段交接，非 Issue resolution。來源與原始輸入未修改，未執行 GitHub 寫入。"
+      }
+    ]
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "macos-codex01534-astra-high-native-recorder-7323aea-neutral-skill-v1",
+    "agents_blob": "3667a6d70ea4a4fddd2df22768b0b83def179f81",
+    "control_blob": "bce6313c91ee3ace4cdd5fbf663978fd66a55bfb",
+    "runtime_head": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "run_id": 35128051435,
+    "run_attempt": 1,
+    "checkpoint_digest": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+    "provider_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+  },
+  "normalization": "External observer mapping to original native output lines; raw audit required. Not Agent-authored self-report."
+}

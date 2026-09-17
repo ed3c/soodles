@@ -1,0 +1,63 @@
+{
+  "observed_at": "2026-09-17T03:35:27.488386+00:00",
+  "provider_remaining": 0,
+  "provider_reset_utc": "2026-09-17T04:21:24+00:00",
+  "local_gh_auth": "existing token invalid; credentials not changed",
+  "runs": [
+    {
+      "run": "run-07",
+      "classification": "INCOMPLETE",
+      "cause": "GitHub public API rate limit before native model execution",
+      "model_thread_started": false,
+      "child_exit_code": null,
+      "note": "No Codex exit may be inferred from failed launcher/loop or absent recorder receipt.",
+      "process_checks": [
+        {
+          "path": "live/launch.json",
+          "pid": 52980,
+          "process_absent": true,
+          "group_absent": true
+        }
+      ],
+      "worker_clean": true,
+      "cleanup_exit": 0,
+      "worktree_absent": true,
+      "next_required": "changed GitHub live readback availability; one preregistered additional pair permitted",
+      "authorizes_landing": false
+    },
+    {
+      "run": "run-08",
+      "classification": "INCOMPLETE",
+      "cause": "GitHub public API rate limit before native model execution",
+      "model_thread_started": false,
+      "child_exit_code": null,
+      "note": "No Codex exit may be inferred from failed launcher/loop or absent recorder receipt.",
+      "process_checks": [
+        {
+          "path": "live/launch.json",
+          "pid": 52981,
+          "process_absent": true,
+          "group_absent": true
+        },
+        {
+          "path": "live/runtime/sessions/schedule-20260917-033304-9c6b48/process.json",
+          "pid": 52986,
+          "process_absent": true,
+          "group_absent": true
+        },
+        {
+          "path": "live/runtime/sessions/soodles-39-0-execute-20260917-033306-0050e1/process.json",
+          "pid": 52990,
+          "process_absent": true,
+          "group_absent": true
+        }
+      ],
+      "worker_clean": true,
+      "cleanup_exit": 0,
+      "worktree_absent": true,
+      "next_required": "changed GitHub live readback availability; one preregistered additional pair permitted",
+      "authorizes_landing": false
+    }
+  ],
+  "authorizes_landing": false
+}

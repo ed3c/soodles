@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "1789621742s since unix epoch",
+  "overallStatus": "fail",
+  "codexVersion": "0.153.4",
+  "checks": {
+    "app_server.status": {
+      "id": "app_server.status",
+      "category": "app-server",
+      "status": "ok",
+      "summary": "background server is not running",
+      "details": {
+        "control socket": "/Users/neon/.codex/app-server-control/app-server-control.sock",
+        "daemon state dir": "/Users/neon/.codex/app-server-daemon",
+        "mode": "ephemeral",
+        "pid file": "/Users/neon/.codex/app-server-daemon/app-server.pid (missing)",
+        "settings": "/Users/neon/.codex/app-server-daemon/settings.json (missing)",
+        "status": "not running",
+        "update-loop pid file": "/Users/neon/.codex/app-server-daemon/app-server-updater.pid (missing)"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "auth.credentials": {
+      "id": "auth.credentials",
+      "category": "auth",
+      "status": "ok",
+      "summary": "auth is configured",
+      "details": {
+        "auth file": "/Users/neon/.codex/auth.json",
+        "auth storage mode": "File",
+        "stored API key": "false",
+        "stored ChatGPT tokens": "true",
+        "stored agent identity": "false",
+        "stored auth mode": "chatgpt"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "config.load": {
+      "id": "config.load",
+      "category": "config",
+      "status": "ok",
+      "summary": "config loaded",
+      "details": {
+        "CODEX_HOME": "/Users/neon/.codex",
+        "config.toml": "/Users/neon/.codex/config.toml",
+        "config.toml parse": "ok",
+        "cwd": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-09/control/.worktrees/soodles-39-0-execute",
+        "enabled feature flags": "shell_tool, view_image, sleep_tool, unified_exec, unified_exec_zsh_fork, shell_snapshot, content_item_kinds, code_mode_host, terminal_resize_reflow, sqlite, hooks, enable_request_compression, unbounded_connection_retries, network_proxy, multi_agent, apps, tool_search_always_defer_mcp_tools, tool_suggest, plugins, in_app_browser, in_app_chat, in_app_dictation, in_app_local_automation, in_app_updates, browser_use, browser_use_full_cdp_access, browser_use_external, computer_use, remote_plugin, plugin_sharing, image_generation, resize_all_images, item_ids, skill_mcp_dependency_install, skill_search, mentions_v2, steer, guardian_approval, goals, collaboration_modes, tool_call_mcp_elicitation, auth_elicitation, personality, fast_mode, tui_app_server, remote_compaction_v2, compaction_image_budget, workspace_dependencies",
+        "feature flag overrides": "network_proxy=true",
+        "feature flags enabled": "48",
+        "log dir": "/Users/neon/.codex/log",
+        "mcp servers": "4",
+        "model": "gpt-6-astra",
+        "model provider": "openai",
+        "sqlite home": "/Users/neon/.codex"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "desktop.app.version": {
+      "id": "desktop.app.version",
+      "category": "desktop",
+      "status": "ok",
+      "summary": "the desktop application is installed",
+      "details": {
+        "log directory": "$HOME/Library/Logs/com.openai.codex",
+        "running": "true",
+        "version": "26.908.40834"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "desktop.app_server.handshake": {
+      "id": "desktop.app_server.handshake",
+      "category": "desktop",
+      "status": "ok",
+      "summary": "no desktop app-server handshake was recorded",
+      "details": {},
+      "remediation": null,
+      "durationMs": 0
+    },
+    "desktop.security.enforcement": {
+      "id": "desktop.security.enforcement",
+      "category": "desktop",
+      "status": "warning",
+      "summary": "the desktop security assessment was unavailable",
+      "details": {},
+      "remediation": "check access to macos gatekeeper diagnostics",
+      "durationMs": 0
+    },
+    "git.environment": {
+      "id": "git.environment",
+      "category": "git",
+      "status": "ok",
+      "summary": "git version 2.50.1 (Apple Git-155)",
+      "details": {
+        ".git entry": "file -> /Users/neon/.codex/experiments/soodles39-completion-20260917/run-09/control/.git/worktrees/soodles-39-0-execute",
+        "PATH git #1": "/usr/bin/git",
+        "PATH git #2": "/Users/neon/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback/git",
+        "PATH git entries": "2",
+        "git branch": "soodles-39-0-execute",
+        "git build options": "git version 2.50.1 (Apple Git-155); cpu: arm64; no commit associated with this build; sizeof-long: 8; sizeof-size_t: 8; shell-path: /bin/sh; feature: fsmonitor--daemon; libcurl: 8.7.1; zlib: 1.2.12; SHA-1: SHA1_DC; SHA-256: SHA256_BLK",
+        "git exec path": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core",
+        "git version": "git version 2.50.1 (Apple Git-155)",
+        "repo detected": "true",
+        "repo root": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-09/control/.worktrees/soodles-39-0-execute",
+        "selected git": "/usr/bin/git"
+      },
+      "remediation": null,
+      "durationMs": 154
+    },
+    "installation": {
+      "id": "installation",
+      "category": "install",
+      "status": "ok",
+      "summary": "installation looks consistent",
+      "details": {
+        "PATH codex #1": "/Users/neon/.local/bin/codex",
+        "PATH codex #2": "/Users/neon/.local/bin/codex",
+        "PATH codex #3": "/Applications/ChatGPT.app/Contents/Resources/codex",
+        "PATH codex #4": "/Users/neon/.local/bin/codex",
+        "PATH codex entries": "4",
+        "current executable": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+        "install context": "standalone (unix, package /Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin, bin /Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin, resources /Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/codex-resources, path /Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/codex-path)",
+        "managed by Vite+": "false",
+        "managed by bun": "false",
+        "managed by npm": "false",
+        "managed by pnpm": "false",
+        "managed package root": "not set"
+      },
+      "remediation": null,
+      "durationMs": 6
+    },
+    "mcp.config": {
+      "id": "mcp.config",
+      "category": "mcp",
+      "status": "ok",
+      "summary": "MCP configuration is locally consistent",
+      "details": {
+        "configured servers": "4",
+        "disabled servers": "1",
+        "stdio servers": "3",
+        "streamable_http servers": "1"
+      },
+      "remediation": null,
+      "durationMs": 417
+    },
+    "network.env": {
+      "id": "network.env",
+      "category": "network",
+      "status": "ok",
+      "summary": "network-related environment looks readable",
+      "details": {
+        "managed proxy": "configured",
+        "proxy env vars": "none",
+        "respect system proxy": "disabled",
+        "system proxy": "direct"
+      },
+      "remediation": null,
+      "durationMs": 1
+    },
+    "network.provider_reachability": {
+      "id": "network.provider_reachability",
+      "category": "reachability",
+      "status": "warning",
+      "summary": "desktop update and runtime CDN is unreachable",
+      "details": {
+        "ChatGPT inference URL": "https://chatgpt.com/backend-api/<redacted> reachable (HTTP 405)",
+        "desktop assets CDN": "https://chatgpt.com/backend-api/<redacted> request timed out (optional)",
+        "reachability mode": "ChatGPT auth"
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "cause": "desktop update and runtime CDN is unreachable",
+          "measured": "https://chatgpt.com/backend-api/<redacted> request timed out",
+          "expected": "desktop update and runtime CDN reachable over HTTPS",
+          "remedy": "check proxy, firewall, DNS, and certificate access to chatgpt.com",
+          "fields": [
+            "desktop assets CDN"
+          ]
+        }
+      ],
+      "remediation": null,
+      "durationMs": 601
+    },
+    "network.websocket_reachability": {
+      "id": "network.websocket_reachability",
+      "category": "websocket",
+      "status": "ok",
+      "summary": "Responses WebSocket handshake succeeded",
+      "details": {
+        "DNS": "2 IPv4, 2 IPv6, first IPv6",
+        "auth mode": "chatgpt",
+        "connect timeout": "15000 ms",
+        "endpoint": "wss://chatgpt.com/backend-api/<redacted>",
+        "handshake result": "HTTP 101 Switching Protocols",
+        "model provider": "openai",
+        "provider name": "OpenAI",
+        "proxy env vars": "none",
+        "reasoning header": "false",
+        "server model present": "false",
+        "supports websockets": "true",
+        "wire API": "responses"
+      },
+      "remediation": null,
+      "durationMs": 1226
+    },
+    "runtime.provenance": {
+      "id": "runtime.provenance",
+      "category": "runtime",
+      "status": "ok",
+      "summary": "running standalone on macos-aarch64",
+      "details": {
+        "commit": "unknown",
+        "current executable": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex",
+        "install method": "standalone (unix, package /Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin, bin /Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin, resources /Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/codex-resources, path /Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/codex-path)",
+        "platform": "macos-aarch64",
+        "version": "0.153.4"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "runtime.search": {
+      "id": "runtime.search",
+      "category": "search",
+      "status": "ok",
+      "summary": "search is OK (bundled)",
+      "details": {
+        "search command": "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/codex-path/rg",
+        "search command readiness": "file exists",
+        "search provider": "bundled"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "sandbox.helpers": {
+      "id": "sandbox.helpers",
+      "category": "sandbox",
+      "status": "ok",
+      "summary": "sandbox configuration is readable",
+      "details": {
+        "approval policy": "Never",
+        "codex-linux-sandbox helper": "none",
+        "execve wrapper helper": "/Users/neon/.codex/tmp/arg0/codex-arg0iKJNpD/codex-execve-wrapper",
+        "filesystem sandbox": "unrestricted",
+        "network sandbox": "enabled"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "security.endpoint": {
+      "id": "security.endpoint",
+      "category": "security",
+      "status": "ok",
+      "summary": "no supported endpoint protection detected",
+      "details": {
+        "endpoint products": "none detected"
+      },
+      "remediation": null,
+      "durationMs": 85
+    },
+    "state.paths": {
+      "id": "state.paths",
+      "category": "state",
+      "status": "ok",
+      "summary": "state paths and databases are inspectable",
+      "details": {
+        "CODEX_HOME": "/Users/neon/.codex (dir)",
+        "active rollout files": "1285 files, 2229562062 total bytes, 1735067 average bytes",
+        "archived rollout files": "514 files, 4230531150 total bytes, 8230605 average bytes",
+        "goals DB": "/Users/neon/.codex/goals_1.sqlite (file)",
+        "goals DB integrity": "ok",
+        "log DB": "/Users/neon/.codex/logs_2.sqlite (file)",
+        "log DB integrity": "ok",
+        "log dir": "/Users/neon/.codex/log (dir)",
+        "memories DB": "/Users/neon/.codex/memories_1.sqlite (file)",
+        "memories DB integrity": "ok",
+        "queue DB": "/Users/neon/.codex/queue_1.sqlite (file)",
+        "queue DB integrity": "ok",
+        "sqlite home": "/Users/neon/.codex (dir)",
+        "standalone release cache": "4 entries in /Users/neon/.codex/packages/standalone/releases",
+        "state DB": "/Users/neon/.codex/state_5.sqlite (file)",
+        "state DB integrity": "ok",
+        "thread history DB": "/Users/neon/.codex/thread_history_1.sqlite (file)",
+        "thread history DB integrity": "ok"
+      },
+      "remediation": null,
+      "durationMs": 8765
+    },
+    "state.rollout_db_parity": {
+      "id": "state.rollout_db_parity",
+      "category": "threads",
+      "status": "warning",
+      "summary": "rollout files and state DB thread inventory differ",
+      "details": {
+        "default model provider": "openai",
+        "rollout DB active files": "1284",
+        "rollout DB active rows": "1284",
+        "rollout DB archive mismatches": "0",
+        "rollout DB archived files": "514",
+        "rollout DB archived rows": "514",
+        "rollout DB duplicate DB paths": "0",
+        "rollout DB duplicate rollout thread ids": "0",
+        "rollout DB malformed file names": "0",
+        "rollout DB missing active rows": "0",
+        "rollout DB missing archived rows": "0",
+        "rollout DB model providers": "openai=1798",
+        "rollout DB rows": "1798",
+        "rollout DB scan cap reached": "false",
+        "rollout DB scan error sample": "/Users/neon/.codex/sessions/2026/07/25/rollout-2026-07-25T21-13-43-019f9969-031b-77c3-be07-932c51bae6c6.jsonl (rollout at /Users/neon/.codex/sessions/2026/07/25/rollout-2026-07-25T21-13-43-019f9969-031b-77c3-be07-932c51bae6c6.jsonl has no usable header record)",
+        "rollout DB scan errors": "1",
+        "rollout DB sources": "exec=720, subagent:thread_spawn=560, subagent:other=259, vscode=155, cli=104",
+        "rollout DB stale rows": "0"
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "cause": "rollout scan was incomplete or found bad files",
+          "measured": "1 scan errors, 0 malformed names, scan cap reached: false",
+          "expected": "rollout directories are fully scannable",
+          "remedy": "Check file permissions and unexpected files under CODEX_HOME sessions.",
+          "fields": []
+        }
+      ],
+      "remediation": null,
+      "durationMs": 1029
+    },
+    "system.disk": {
+      "id": "system.disk",
+      "category": "disk",
+      "status": "ok",
+      "summary": "sufficient free disk space (233.5 GiB)",
+      "details": {
+        "CODEX_HOME available": "233.5 GiB",
+        "failure threshold": "1.0 GiB",
+        "warning threshold": "5.0 GiB",
+        "worktree available": "233.5 GiB"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "system.environment": {
+      "id": "system.environment",
+      "category": "system",
+      "status": "ok",
+      "summary": "OS language zh-Hant-TW",
+      "details": {
+        "EDITOR": "not set",
+        "GH_PAGER": "set",
+        "GIT_PAGER": "set",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PAGER": "set",
+        "VISUAL": "not set",
+        "os": "Mac OS 26.6.2 [64-bit]",
+        "os language": "zh-Hant-TW",
+        "os type": "Mac OS",
+        "os version": "26.6.2"
+      },
+      "remediation": null,
+      "durationMs": 4
+    },
+    "terminal.env": {
+      "id": "terminal.env",
+      "category": "terminal",
+      "status": "fail",
+      "summary": "TERM=dumb - colors and cursor control are disabled",
+      "details": {
+        "COLORTERM": "present",
+        "NO_COLOR": "1",
+        "TERM": "dumb",
+        "color output": "disabled (NO_COLOR)",
+        "effective locale": "C.UTF-8",
+        "stderr is terminal": "false",
+        "stdin is terminal": "false",
+        "stdout is terminal": "false",
+        "terminal": "dumb",
+        "terminal size": "80x24"
+      },
+      "issues": [
+        {
+          "severity": "fail",
+          "cause": "TERM=dumb - colors and cursor control are disabled",
+          "measured": "TERM=dumb",
+          "expected": "TERM=xterm-256color or another real terminal type",
+          "remedy": "set TERM to a real value, for example xterm-256color",
+          "fields": [
+            "TERM"
+          ]
+        }
+      ],
+      "remediation": null,
+      "durationMs": 11
+    },
+    "terminal.title": {
+      "id": "terminal.title",
+      "category": "title",
+      "status": "ok",
+      "summary": "terminal title default",
+      "details": {
+        "terminal title activity": "true",
+        "terminal title items": "activity, project-name",
+        "terminal title project source": "git repo root",
+        "terminal title project value": "soodles-39-0-execute",
+        "terminal title source": "default"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "updates.status": {
+      "id": "updates.status",
+      "category": "updates",
+      "status": "ok",
+      "summary": "update configuration is locally consistent",
+      "details": {
+        "cached latest version": "0.154.0",
+        "check for update on startup": "true",
+        "dismissed version": "0.144.6",
+        "last checked at": "2026-09-16T13:57:26.127627Z",
+        "latest version": "0.154.0",
+        "latest version status": "newer version is available",
+        "update action": "standalone installer",
+        "version cache": "/Users/neon/.codex/version.json"
+      },
+      "remediation": null,
+      "durationMs": 386
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "trace": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "macos-codex01534-astra-high-native-recorder-7323aea-neutral-skill-v1",
+    "case": "fresh-transfer",
+    "source_kind": "captured",
+    "session_id": "01a0adc5-c713-71c0-b6b7-efa94d95bbef",
+    "producer_session_id": "01a0ad6a-15e0-73c1-be2c-b555d0666fe3",
+    "raw_trace": [
+      "native/rollout.jsonl",
+      "live/runtime/sessions/soodles-39-0-execute-20260917-051014-53991b/raw.ndjson"
+    ],
+    "capture_complete": true,
+    "model": "gpt-6-astra",
+    "carrier": "local_macos_noodle_codex_exec",
+    "events": [
+      {
+        "kind": "read_doc",
+        "evidence": "native/rollout.jsonl:16",
+        "path": "AGENTS.md",
+        "blob": "3667a6d70ea4a4fddd2df22768b0b83def179f81"
+      },
+      {
+        "kind": "handoff",
+        "evidence": "native/rollout.jsonl:29",
+        "sha256": "fccd63c54883e5b6d072aabdfa02362f2564a35be278b4c204c57e821c3f3d09",
+        "producer_session_id": "01a0ad6a-15e0-73c1-be2c-b555d0666fe3"
+      },
+      {
+        "kind": "read_provider",
+        "evidence": "native/rollout.jsonl:29",
+        "fixture_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+      },
+      {
+        "kind": "read_owner",
+        "evidence": "native/rollout.jsonl:47",
+        "checkpoint_before": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+        "checkpoint_after": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+        "writes_offered": [
+          "merge"
+        ]
+      },
+      {
+        "kind": "conclude",
+        "evidence": "live/runtime/sessions/soodles-39-0-execute-20260917-051014-53991b/raw.ndjson:31",
+        "result": "WAIT_FOR_PROVIDER_READBACK",
+        "text": "已完成限定範圍的唯讀審查，並成功發出 `stage_message`：`outcome=blocked`、`blocking=true`。\n\n目前 owner 實際回傳 `merge_pending / readback`，沒有新 `request`。merge 已 offered，須等待新的 simulated provider readback，不能重送歷史請求。\n\n原始輸入與 repository 未改動，未操作 GitHub。另已記錄 checkout HEAD 與指定 ref 不同，但 landing 入口程式無差異、owner digest 相符。Issue 39 尚未 resolved。"
+      }
+    ]
+  },
+  "expected": {
+    "repository": "ed3c/soodles",
+    "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "code_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+    "config_id": "macos-codex01534-astra-high-native-recorder-7323aea-neutral-skill-v1",
+    "agents_blob": "3667a6d70ea4a4fddd2df22768b0b83def179f81",
+    "checkpoint_digest": "af6705117d5ed07b6d080a9babc20e4f33a2bf1aa052d395d3610ba25f56f917",
+    "provider_blob": "3a43f0b0d8d571966a9f71c83b93688d48838141"
+  },
+  "normalization": "External observer mapping to original native outputs. Handoff is read first in the actual same-call loop, followed by checkpoint/provider; owner invocation is a later tool call. Independent raw audit required."
+}

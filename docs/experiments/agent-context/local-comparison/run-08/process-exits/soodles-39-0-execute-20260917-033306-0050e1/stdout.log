@@ -1,0 +1,28 @@
+{
+  "owner": "issue.worker",
+  "status": "refused",
+  "invalid": {
+    "field": "issue.provider_readback",
+    "value": "HTTP Error 403: rate limit exceeded"
+  },
+  "next": {
+    "kind": "input",
+    "owner": "GitHub",
+    "required": [
+      "fresh_issue_readback"
+    ],
+    "known": {
+      "repository": "ed3c/soodles",
+      "issue": 39,
+      "envelope": "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-08/execution-envelope.json",
+      "envelope_digest": "887ad877fa93185791ee892932cecff2f7d9049ad10aba601cc12c094de1fe99"
+    },
+    "operation": "worker",
+    "help_argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles39-completion-20260917/run-08/installed/soodles.py",
+      "issue",
+      "worker",
+      "--help"
+    ],

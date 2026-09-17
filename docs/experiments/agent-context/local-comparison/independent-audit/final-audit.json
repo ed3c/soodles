@@ -1,0 +1,477 @@
+{
+  "schema": 1,
+  "generated_at": "2026-09-17T05:16:06.909526+00:00",
+  "authorizes_landing": false,
+  "scope": "Final local original raw evidence audit; run-09/10 plus continuity of previously audited run-01..06 and failure retention run-07/08",
+  "prior_audit_sha256": {
+    "audit.json": "d214b19f0684f9664c045d4cf3b35a0acd927b03bdef14ec8bfebc62e9d5eab0",
+    "report.md": "801b110e5215c5116659f80a7aefbaf2a271fc707a4e2e21588b151cad90f9d0"
+  },
+  "runs": [
+    {
+      "run": "run-09",
+      "arm": "treatment",
+      "producer": "run-06",
+      "checks": {
+        "source_head_selected": true,
+        "only_assigned_instruction_and_neutral_skill_diff": true,
+        "assigned_instruction_blobs": true,
+        "installed_identity": true,
+        "neutral_skill_identity": true,
+        "task_digest": true,
+        "checkpoint_digest": true,
+        "provider_digest": true,
+        "all_inputs_before_after_inbox_identical": true,
+        "producer_original_to_transfer_to_consumer_bytes": true,
+        "transfer_producer_join": true,
+        "fresh_consumer_thread": true,
+        "read_actual_handoff_then_checkpoint_then_provider": true,
+        "owner_later_call": true,
+        "actual_readback_owner_result": true,
+        "launch_exit_same_identity": true,
+        "actual_pid_join": true,
+        "worktree_join": true,
+        "actual_wait_exit_zero_within_bound": true,
+        "envelope_worker_argv": true,
+        "recorded_stdout_digest_size": true,
+        "stdout_runtime_events_identical": true,
+        "terminal_deferred": true,
+        "native_tool_call_result_bijection": true,
+        "all_started_items_completed": true,
+        "single_completed_turn": true,
+        "native_session_thread_join": true,
+        "native_turn_model_high": true,
+        "typed_own_blocked_outcome": true,
+        "assigned_agents_in_world": true,
+        "runtime_input_native_join": true,
+        "binary_hashes": true,
+        "doctor_repository_contract": true,
+        "doctor_only_predeclared_terminal_failure": true,
+        "clean_removed_worktree_and_processes": true,
+        "selection_and_recovery_precede_launch": true,
+        "producer_exit_precedes_transfer_precedes_consumer": true
+      },
+      "thread_id": "01a0adc5-c74d-7993-8bfd-d171be527c08",
+      "turn_id": "01a0adc5-c84e-7de3-bd16-0446cbed627c",
+      "noodle_session": "soodles-39-0-execute-20260917-051014-48b0df",
+      "exit_locator": "run-09/process-exits/soodles-39-0-execute-20260917-051014-48b0df/exit.json",
+      "raw_sha256": "f01abeff2876de295b01949668936ad61eb48c3cac5a825b8118c3ec5b22ecf6",
+      "stdout_sha256": "13613aa5c8227a7cba157df24fa45bdeeccf6804fb575be8e66a32fdba138f0c",
+      "elapsed_seconds": 82.01029620796908,
+      "call_result_pairs": [
+        {
+          "call": 13,
+          "result": 17,
+          "call_id": "call_HFQtMSnY5RUqwzzrqCJZdGnt"
+        },
+        {
+          "call": 19,
+          "result": 24,
+          "call_id": "call_YbZQBZfr5cwZjUVoGQ3VMLL2"
+        },
+        {
+          "call": 28,
+          "result": 32,
+          "call_id": "call_UIkNtQaYXCben5BCJMOwtnuF"
+        },
+        {
+          "call": 34,
+          "result": 38,
+          "call_id": "call_iFM6VqyO1hWSjwdMP7FYgFvj"
+        },
+        {
+          "call": 44,
+          "result": 48,
+          "call_id": "call_S4FnQzHMOXzONHVCG1NPxEFP"
+        },
+        {
+          "call": 52,
+          "result": 55,
+          "call_id": "call_iwV0nzlc4gwcZS4oqgbW3MPK"
+        }
+      ],
+      "handoff_read_request": 19,
+      "handoff_checkpoint_provider_read_result": 24,
+      "owner_invocation": 34,
+      "owner_result": 38,
+      "handoff_sha256": "ca2866b6826bffe998d1de2688fb39aac071dd8e99146438f84ba03690cfc3e1",
+      "model_locator": "run-09/native/rollout.jsonl:8",
+      "typed_outcome_locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-051014-48b0df/events.ndjson:15",
+      "packet_raw_checks": [
+        {
+          "kind": "read_doc",
+          "locator": "run-09/native/rollout.jsonl:17",
+          "matches": true
+        },
+        {
+          "kind": "handoff",
+          "locator": "run-09/native/rollout.jsonl:24",
+          "matches": true
+        },
+        {
+          "kind": "read_provider",
+          "locator": "run-09/native/rollout.jsonl:24",
+          "matches": true
+        },
+        {
+          "kind": "read_owner",
+          "locator": "run-09/native/rollout.jsonl:38",
+          "matches": true
+        },
+        {
+          "kind": "conclude",
+          "locator": "run-09/live/runtime/sessions/soodles-39-0-execute-20260917-051014-48b0df/raw.ndjson:30",
+          "matches": true
+        }
+      ],
+      "exposed_truncated_results": [],
+      "noodle_attempt_exit_code": null
+    },
+    {
+      "run": "run-10",
+      "arm": "baseline",
+      "producer": "run-05",
+      "checks": {
+        "source_head_selected": true,
+        "only_assigned_instruction_and_neutral_skill_diff": true,
+        "assigned_instruction_blobs": true,
+        "installed_identity": true,
+        "neutral_skill_identity": true,
+        "task_digest": true,
+        "checkpoint_digest": true,
+        "provider_digest": true,
+        "all_inputs_before_after_inbox_identical": true,
+        "producer_original_to_transfer_to_consumer_bytes": true,
+        "transfer_producer_join": true,
+        "fresh_consumer_thread": true,
+        "read_actual_handoff_then_checkpoint_then_provider": true,
+        "owner_later_call": true,
+        "actual_readback_owner_result": true,
+        "launch_exit_same_identity": true,
+        "actual_pid_join": true,
+        "worktree_join": true,
+        "actual_wait_exit_zero_within_bound": true,
+        "envelope_worker_argv": true,
+        "recorded_stdout_digest_size": true,
+        "stdout_runtime_events_identical": true,
+        "terminal_deferred": true,
+        "native_tool_call_result_bijection": true,
+        "all_started_items_completed": true,
+        "single_completed_turn": true,
+        "native_session_thread_join": true,
+        "native_turn_model_high": true,
+        "typed_own_blocked_outcome": true,
+        "assigned_agents_in_world": true,
+        "runtime_input_native_join": true,
+        "binary_hashes": true,
+        "doctor_repository_contract": true,
+        "doctor_only_predeclared_terminal_failure": true,
+        "clean_removed_worktree_and_processes": true,
+        "selection_and_recovery_precede_launch": true,
+        "producer_exit_precedes_transfer_precedes_consumer": true
+      },
+      "thread_id": "01a0adc5-c713-71c0-b6b7-efa94d95bbef",
+      "turn_id": "01a0adc5-c7d3-74d3-8aff-825027cfab95",
+      "noodle_session": "soodles-39-0-execute-20260917-051014-53991b",
+      "exit_locator": "run-10/process-exits/soodles-39-0-execute-20260917-051014-53991b/exit.json",
+      "raw_sha256": "675f5fd39004acec6bba6868da2785891dd43dff82f61811132ef8fefe434e54",
+      "stdout_sha256": "8b03065856714e744bdf90382bfcf990755a7b5144770c4d614c1be74179e2f5",
+      "elapsed_seconds": 84.260303499992,
+      "call_result_pairs": [
+        {
+          "call": 13,
+          "result": 16,
+          "call_id": "call_JfEB5kBfFBYph0fQGZLlLyR1"
+        },
+        {
+          "call": 18,
+          "result": 23,
+          "call_id": "call_Y8YvrQ7a52qoqeKpwWK4eSSy"
+        },
+        {
+          "call": 25,
+          "result": 29,
+          "call_id": "call_ziVsdZZwRDSAYq9BlVQEomj3"
+        },
+        {
+          "call": 33,
+          "result": 37,
+          "call_id": "call_DykJ92OXSIkSUZiabI9zDI2W"
+        },
+        {
+          "call": 43,
+          "result": 47,
+          "call_id": "call_a3Ilj2KqH1kOGIQBgV2UojaF"
+        },
+        {
+          "call": 51,
+          "result": 54,
+          "call_id": "call_SPHyEKXTGSFmriP46Ri9P3qW"
+        },
+        {
+          "call": 60,
+          "result": 63,
+          "call_id": "call_s4ho1hUtbZJPAFURajU5zzpt"
+        }
+      ],
+      "handoff_read_request": 25,
+      "handoff_checkpoint_provider_read_result": 29,
+      "owner_invocation": 43,
+      "owner_result": 47,
+      "handoff_sha256": "fccd63c54883e5b6d072aabdfa02362f2564a35be278b4c204c57e821c3f3d09",
+      "model_locator": "run-10/native/rollout.jsonl:8",
+      "typed_outcome_locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-051014-53991b/events.ndjson:18",
+      "packet_raw_checks": [
+        {
+          "kind": "read_doc",
+          "locator": "run-10/native/rollout.jsonl:16",
+          "matches": true
+        },
+        {
+          "kind": "handoff",
+          "locator": "run-10/native/rollout.jsonl:29",
+          "matches": true
+        },
+        {
+          "kind": "read_provider",
+          "locator": "run-10/native/rollout.jsonl:29",
+          "matches": true
+        },
+        {
+          "kind": "read_owner",
+          "locator": "run-10/native/rollout.jsonl:47",
+          "matches": true
+        },
+        {
+          "kind": "conclude",
+          "locator": "run-10/live/runtime/sessions/soodles-39-0-execute-20260917-051014-53991b/raw.ndjson:31",
+          "matches": true
+        }
+      ],
+      "exposed_truncated_results": [],
+      "noodle_attempt_exit_code": null
+    }
+  ],
+  "earlier_original_evidence_unchanged": [
+    {
+      "run": "run-01",
+      "checks": {
+        "rollout": true,
+        "child_stdout": true
+      }
+    },
+    {
+      "run": "run-02",
+      "checks": {
+        "rollout": true,
+        "child_stdout": true
+      }
+    },
+    {
+      "run": "run-03",
+      "checks": {
+        "rollout": true,
+        "child_stdout": true
+      }
+    },
+    {
+      "run": "run-04",
+      "checks": {
+        "rollout": true,
+        "child_stdout": true
+      }
+    },
+    {
+      "run": "run-05",
+      "checks": {
+        "rollout": true,
+        "child_stdout": true,
+        "handoff": true
+      }
+    },
+    {
+      "run": "run-06",
+      "checks": {
+        "rollout": true,
+        "child_stdout": true,
+        "handoff": true
+      }
+    }
+  ],
+  "judge_unchanged": {
+    "record_process.py": true,
+    "test_cloud_observe.py": true,
+    "cloud_observe.py": true,
+    "test_capability.py": true,
+    "capability.py": true,
+    "observe.py": true,
+    "test_record_process.py": true
+  },
+  "run01_locator_correction": {
+    "original_file_retained": true,
+    "original_sha256": "c542d9a42c1115168f7c2a8d4ad1389f5d78362b7f64b002f199fd910a8f8b2d",
+    "corrected_sha256": "3c93009706a2582c94c73f7de6797d1960ec7016b539d79b1196ace1377094e8",
+    "only_intended_locator_and_correction_metadata_changed": true,
+    "old_locator_matches_prior_review": "native/rollout.jsonl:43",
+    "new_evidence": [
+      "native/rollout.jsonl:34",
+      "native/rollout.jsonl:50"
+    ],
+    "prior_audit_hash_timing_correction": "Prior audit appended observer_packet_sha256_at_audit after supervisor correction; hash therefore refers to corrected packet, although prior packet checks describe original :43. No pre-correction digest was captured by that append; do not claim it authenticated the original preserved copy. Original preserved content matches prior inspected locator and current diff is limited to locator plus transparent correction metadata.",
+    "supported_by_prior_raw_review": true
+  },
+  "recovery": {
+    "http": 200,
+    "remaining": "59",
+    "body_unchanged": true,
+    "additional_pairs": 1,
+    "producers_rerun": false,
+    "literal_successful_doctor_met": false,
+    "repository_contract_met": true,
+    "wording_deviation": "Selection says successful fresh doctor; actual overall doctor fails only terminal.env. Original prepare_trials.py:88-89 explicitly permits this sole failure and validates repository/cwd. Preserve discrepancy; no all-green claim."
+  },
+  "failed_attempts": [
+    {
+      "run": "run-07",
+      "classification": "INCOMPLETE",
+      "native_rollout_absent": true,
+      "no_native_thread_started_in_retained_raw": true,
+      "provider_403_in_raw_logs": true,
+      "cleanup_receipt": {
+        "classification": "INCOMPLETE",
+        "cause": "GitHub public API rate limit before native model execution",
+        "model_thread_started": false,
+        "child_exit_code": null,
+        "note": "No Codex exit may be inferred from failed launcher/loop or absent recorder receipt.",
+        "process_checks": [
+          {
+            "path": "live/launch.json",
+            "pid": 52980,
+            "process_absent": true,
+            "group_absent": true
+          }
+        ],
+        "worker_clean": true,
+        "cleanup_exit": 0,
+        "worktree_absent": true,
+        "next_required": "changed GitHub live readback availability; one preregistered additional pair permitted",
+        "authorizes_landing": false
+      },
+      "worktree_currently_absent": true,
+      "raw_failure_limit": "run-08 additionally retains recorder BrokenPipeError after pre-model admission refusal; no successful Codex exit inferred."
+    },
+    {
+      "run": "run-08",
+      "classification": "INCOMPLETE",
+      "native_rollout_absent": true,
+      "no_native_thread_started_in_retained_raw": true,
+      "provider_403_in_raw_logs": true,
+      "cleanup_receipt": {
+        "classification": "INCOMPLETE",
+        "cause": "GitHub public API rate limit before native model execution",
+        "model_thread_started": false,
+        "child_exit_code": null,
+        "note": "No Codex exit may be inferred from failed launcher/loop or absent recorder receipt.",
+        "process_checks": [
+          {
+            "path": "live/launch.json",
+            "pid": 52981,
+            "process_absent": true,
+            "group_absent": true
+          },
+          {
+            "path": "live/runtime/sessions/schedule-20260917-033304-9c6b48/process.json",
+            "pid": 52986,
+            "process_absent": true,
+            "group_absent": true
+          },
+          {
+            "path": "live/runtime/sessions/soodles-39-0-execute-20260917-033306-0050e1/process.json",
+            "pid": 52990,
+            "process_absent": true,
+            "group_absent": true
+          }
+        ],
+        "worker_clean": true,
+        "cleanup_exit": 0,
+        "worktree_absent": true,
+        "next_required": "changed GitHub live readback availability; one preregistered additional pair permitted",
+        "authorizes_landing": false
+      },
+      "worktree_currently_absent": true,
+      "raw_failure_limit": "run-08 additionally retains recorder BrokenPipeError after pre-model admission refusal; no successful Codex exit inferred."
+    }
+  ],
+  "leakage_review": {
+    "method": "Reviewed every new native tool request and its paired exposed results plus initial prompt/world_state. No other-session, Issue-body, rubric/judge, author-report or model launch was requested. Producer identity/path strings inside permitted handoff are historical content, not reading producer session files.",
+    "no_provider_write_or_historical_replay_observed": true,
+    "no_independent_security_isolation_claim": true
+  },
+  "comparisons": [
+    {
+      "case": "runner-task",
+      "baseline": "run-01",
+      "treatment": "run-02",
+      "complete": true,
+      "result": "both NULL_NEXT_INSUFFICIENT"
+    },
+    {
+      "case": "unknown-write",
+      "baseline": "run-04",
+      "treatment": "run-03",
+      "complete": true,
+      "result": "both WAIT_FOR_PROVIDER_READBACK"
+    },
+    {
+      "case": "fresh-transfer",
+      "baseline": "run-10",
+      "treatment": "run-09",
+      "producers": [
+        "run-05",
+        "run-06"
+      ],
+      "complete": true,
+      "result": "both WAIT_FOR_PROVIDER_READBACK; original producer bytes and fresh owner reread established"
+    }
+  ],
+  "assessment": {
+    "requested_three_scoped_comparisons_complete": true,
+    "unqualified_preregistration_compliance": false,
+    "procedural_wording_deviation_is_independent_behavioral_blocker": false,
+    "reason": "Actual fixed AGENTS repository/cwd contract and predeclared executable doctor predicate are met; successful fresh doctor phrasing is broader than performed predicate and is explicitly disclosed.",
+    "treatment_superiority_established": false,
+    "natural_uninstrumented_exit_or_compaction_established": false,
+    "public_export_reviewed": false,
+    "landing_authorized": false
+  },
+  "prior_reports_preserved": true,
+  "findings": [
+    {
+      "id": "FINAL-F1",
+      "severity": "procedural_wording_deviation",
+      "locators": [
+        "additional-pair-selection.json",
+        "additional-pair-preflight.json",
+        "prepare_trials.py:88",
+        "prepare_trials.py:89",
+        "run-09/worker-doctor.json",
+        "run-10/worker-doctor.json"
+      ],
+      "description": "Selection says successful fresh doctor; actual overall doctor fails only terminal.env. Original prepare_trials.py:88-89 explicitly permits this sole failure and validates repository/cwd. Preserve discrepancy; no all-green claim."
+    },
+    {
+      "id": "FINAL-F2",
+      "severity": "auditor_timing_disclosure",
+      "description": "Prior audit appended observer_packet_sha256_at_audit after supervisor correction; hash therefore refers to corrected packet, although prior packet checks describe original :43. No pre-correction digest was captured by that append; do not claim it authenticated the original preserved copy. Original preserved content matches prior inspected locator and current diff is limited to locator plus transparent correction metadata."
+    },
+    {
+      "id": "FINAL-F3",
+      "severity": "failed_attempt_retained",
+      "locators": [
+        "run-07/live/stderr.log",
+        "run-08/live/runtime/sessions/soodles-39-0-execute-20260917-033306-0050e1/stderr.log"
+      ],
+      "description": "Original 403 admission failures remain INCOMPLETE; run-08 also records BrokenPipeError after pre-model refusal. Neither is a passed consumer nor a Codex zero-exit proof."
+    }
+  ]
+}
