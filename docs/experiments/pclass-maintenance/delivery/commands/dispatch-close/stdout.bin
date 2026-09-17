@@ -1,0 +1,59 @@
+{
+  "owner": "landing.dispatch",
+  "action": "close",
+  "phase": "close_pending",
+  "classification": null,
+  "next": {
+    "kind": "provider_readback",
+    "owner": "GitHub",
+    "operation": "advance",
+    "required": [
+      "readback"
+    ],
+    "known": {
+      "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass41-lab/delivery/checkpoint.json"
+    },
+    "help_argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+      "landing",
+      "advance",
+      "--help"
+    ],
+    "requests": {
+      "pr": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/pulls/42"
+      },
+      "issue": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/issues/41"
+      },
+      "commit": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/git/commits/2cb55bbd222e99b6f9af7638cf9ba31a084ce7f7"
+      },
+      "branch": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+      },
+      "run": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35180131543"
+      },
+      "jobs": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35180131543/jobs"
+      }
+    },
+    "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+  },
+  "request": {
+    "action": "close",
+    "repository_full_name": "ed3c/soodles",
+    "issue_number": 41,
+    "state": "closed",
+    "state_reason": "completed"
+  }
+}

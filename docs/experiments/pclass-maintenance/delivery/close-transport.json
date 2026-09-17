@@ -1,0 +1,30 @@
+{
+  "display_title": "Verify P-class hill-climb as a maintained feature with bounded Session context",
+  "display_url": "https://github.com/ed3c/soodles/issues/41",
+  "issue": {
+    "assignees": null,
+    "body": "## Intent and single causal boundary\nMake P-class behavior/context verification a directly discoverable feature of the existing verify-soodles skill, so a maintain coordinator can inspect its source, drive independent consumers, distinguish maintenance coverage from behavior improvement, and return a bounded receipt to the originating issue.\n\nCurrent source at e4b4a8487855b75ef2d47087019bb52c4d5ffd6c has four mapped features but no recipe for this path. This is a demonstrated discovery/capability gap, not a claim of model behavioral regression. #39/#40 retain their independent Astra provenance/trace gates and remain untouched.\n\n## Write boundary\nAGENTS.md (one relevant route), .agents/skills/verify-soodles/SKILL.md, its features/README.md, one new P-class behavior/context recipe and only necessary skill-owned helper(s); tests for any new executable discriminator; docs/experiments/pclass-maintenance/ for protocol and physical receipts. Keep system-v1 transition ownership unchanged; do not copy operational steps into it. No production runtime, workflow, permissions, scheduler, CLI launcher or authority changes.\n\n## Frozen experiment scope\nUse main e4b4a848 as common runtime and baseline instruction source. Pin a supervisor-owned experimental protocol/observer before treatment trials; candidate copies grant no acceptance authority. Select existing publishing implementation at e4b4a848 outside candidate before acceptance.\nUse the currently exposed native cloud subagent carrier with fresh instruction context and separate evidence directories. No Codex CLI or browser prerequisite. Record requested carrier/model separately from observed telemetry; unknown native model, full transcript and token/window measurements remain unknown. This atom claims only captured tool operations and artifacts, never #39's full Astra provenance or automatic platform injection.\nRecord all commands actually captured, inputs/outputs, instruction bytes/digests, checkpoint before/after and cleanup. No private reasoning is requested.\n\n## Bounded cases\n1. A neutral maintain request must discover and drive the new feature; capture baseline inability/alternative behavior honestly, then treatment.\n2. Matched fresh consumers follow real existing owner output against disposable provider fixtures: an offered unknown write remains pending; a stale handoff is refreshed. No fixture request reaches GitHub.\n3. A missing operation prerequisite yields scoped blocked/unknown without claiming improvement or launching CLI.\n4. External audit rejects planted false success, missing/wrong subject evidence and an unrecorded initial instruction read; accepts supported behavior and legal blocking.\n5. Coordinator combines local findings into a scoped maintain receipt and fresh handoff; distinct consumer reads that handoff and current owner state. A feature-scoped pass cannot claim full-map clean/changed. Full maintain coverage, if attempted, reports each existing feature and exact missing prerequisite.\n\n## Completion and claim discipline\nSeparate behavior outcome, context/cost observation, maintenance coverage and delivery status. Equal successful arms mean nonregression, not improvement. Bytes are not tokens. No universal context percentage, hidden model identity, actual compaction or automatic injection claim.\nRetain failure evidence. At most one corrected comparison for a documented harness ambiguity; no unchanged retry.\nVerify the final candidate using existing exact-head runtime acceptance and existing supervised landing owner. RESOLVED requires provider merge/closure readbacks plus Noodle reconciliation. No candidate-edited observer selects its own effective judge.\n",
+    "closed_at": "2026-09-17T04:01:39Z",
+    "comments": 3,
+    "created_at": "2026-09-17T03:36:05Z",
+    "display_title": "Verify P-class hill-climb as a maintained feature with bounded Session context",
+    "display_url": "https://github.com/ed3c/soodles/issues/41",
+    "issue_number": 41,
+    "labels": null,
+    "milestone": null,
+    "state": "closed",
+    "state_reason": "completed",
+    "title": "Verify P-class hill-climb as a maintained feature with bounded Session context",
+    "updated_at": "2026-09-17T04:01:39Z",
+    "url": "https://github.com/ed3c/soodles/issues/41",
+    "user": {
+      "avatar_url": "https://avatars.githubusercontent.com/u/30064024?v=4",
+      "email": null,
+      "id": 30064024,
+      "login": "ed3c",
+      "name": "ed3c"
+    }
+  },
+  "title": "Verify P-class hill-climb as a maintained feature with bounded Session context",
+  "url": "https://github.com/ed3c/soodles/issues/41"
+}

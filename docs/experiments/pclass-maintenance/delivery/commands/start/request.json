@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "python",
+    "-B",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+    "landing",
+    "start",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/delivery/claim.json",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/delivery/before-start.json",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/delivery/checkpoint.json"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141",
+  "time_ns": 1789617592901443263,
+  "files_before": {
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py": {
+      "bytes": 17923,
+      "sha256": "b1269062b04e0b4a0a8aa7fe8108a644addf42c0a81254b4980265fbf2ed140c"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/delivery/claim.json": {
+      "bytes": 476,
+      "sha256": "7e8b2ee3ed4dbd7bd1b5e1c57b05243fbde9b70e22c939aa6bed3df5f46b78b4"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/delivery/before-start.json": {
+      "bytes": 53422,
+      "sha256": "2d4e8dd9a3e9ff39d895ed58df921e35e305ca4d8e3d339b99e2ff22724b3eaa"
+    }
+  },
+  "timeout_seconds": 60
+}

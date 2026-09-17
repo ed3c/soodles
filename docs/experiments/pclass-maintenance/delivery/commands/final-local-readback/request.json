@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python",
+    "-c",
+    "import pathlib,subprocess,json; root=pathlib.Path(\"/workspace/scratch/bd9d2e05d141/pclass-control\"); run=lambda *a:subprocess.check_output([\"git\",*a],cwd=root,text=True).strip(); value={\"head\":run(\"rev-parse\",\"HEAD\"),\"tree\":run(\"rev-parse\",\"HEAD^{tree}\"),\"status\":run(\"status\",\"--porcelain\"),\"worktrees\":run(\"worktree\",\"list\",\"--porcelain\"),\"task_branch\":run(\"branch\",\"--list\",\"issue-41-pclass-maintenance\"),\"task_path_exists\":(root/\".worktrees/issue-41-pclass-maintenance\").exists()}; print(json.dumps(value,indent=2)); assert value[\"head\"]==\"f2bd849b9523134364ca598df72a4e15fc541ab9\" and value[\"tree\"]==\"e727d7a105cf4637b99573ff8a1486d6a6ea504a\" and not value[\"status\"] and not value[\"task_branch\"] and not value[\"task_path_exists\"]"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141",
+  "time_ns": 1789617771253915971,
+  "files_before": {},
+  "timeout_seconds": 60
+}

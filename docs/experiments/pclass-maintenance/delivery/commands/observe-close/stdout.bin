@@ -1,0 +1,25 @@
+{
+  "owner": "landing.advance",
+  "action": "reconcile",
+  "phase": "awaiting_reconcile",
+  "classification": null,
+  "next": {
+    "kind": "input",
+    "owner": "supervisor",
+    "operation": "reconcile",
+    "required": [
+      "binary"
+    ],
+    "known": {
+      "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass41-lab/delivery/checkpoint.json"
+    },
+    "help_argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+      "landing",
+      "reconcile",
+      "--help"
+    ]
+  }
+}

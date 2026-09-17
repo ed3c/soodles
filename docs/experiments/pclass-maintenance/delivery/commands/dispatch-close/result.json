@@ -1,0 +1,24 @@
+{
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 0.15124359899982665,
+  "files_after": {
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py": {
+      "bytes": 17923,
+      "sha256": "b1269062b04e0b4a0a8aa7fe8108a644addf42c0a81254b4980265fbf2ed140c"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/delivery/checkpoint.json": {
+      "bytes": 977,
+      "sha256": "5af27fed97405c11a69f3ffdb30aec1716657734157325c65438f78b0d995061"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/delivery/before-dispatch-close.json": {
+      "bytes": 56806,
+      "sha256": "3bf9607e05b8a8deddc31a940c4e8c3bafcecad1f2d9d5dc5856621249a8ca48"
+    }
+  },
+  "stdout_sha256": "d772bedc740c031b95cea14d5c8170ae45ee07d1200b124069fc59ffa7d6ce4a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
