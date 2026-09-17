@@ -4,7 +4,11 @@ An evidence-first migration from noodles, with Noodle retaining runtime and work
 
 Current scope: a pinned Linux amd64 Noodle runtime plus a supervised single-Issue landing checkpoint. Runtime works locally and in Actions; the Codex supervisor transports landing requests through the existing GitHub connector.
 
-## Run
+## Session entry
+
+Start with [AGENTS.md — Session entry](AGENTS.md#session-entry--select-once-then-act) at the task's selected ref. It owns the cloud GitHub/Actions versus local Noodle/Codex route. Issue/PR work uses the task's currently admitted ref; draft instructions are not assumed present on main.
+
+## Local runtime checks
 
 Obtain the release asset named in `policy/runtime.lock.json` from [ed3c/noodle releases](https://github.com/ed3c/noodle/releases), verify its archive digest, and extract its binary outside the source tree. The Actions workflow automates release/tag/archive/binary readback before execution.
 
