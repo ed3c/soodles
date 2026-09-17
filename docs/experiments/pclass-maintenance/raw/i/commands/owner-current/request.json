@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+    "landing",
+    "advance",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/checkpoint.json",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/snapshot.json"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141",
+  "time_ns": 1789617170512907214,
+  "files_before": {
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12": {
+      "bytes": 30894944,
+      "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py": {
+      "bytes": 17923,
+      "sha256": "b1269062b04e0b4a0a8aa7fe8108a644addf42c0a81254b4980265fbf2ed140c"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/checkpoint.json": {
+      "bytes": 764,
+      "sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/snapshot.json": {
+      "bytes": 1760,
+      "sha256": "3bfb9df686dd7f44ede3fe61abec0eb3ab590463d91b243b77cb41c1d8aa9753"
+    }
+  },
+  "timeout_seconds": 60
+}

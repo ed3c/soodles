@@ -1,0 +1,109 @@
+{
+  "cases": {
+    "a": {
+      "classification": "OBSERVED",
+      "violations": [],
+      "recorded_commands": 8,
+      "scope": "captured operations only",
+      "native_trace_complete": null,
+      "observed_model": null,
+      "tokens": null,
+      "authorizes_landing": false
+    },
+    "b": {
+      "classification": "OBSERVED",
+      "violations": [],
+      "recorded_commands": 8,
+      "scope": "captured operations only",
+      "native_trace_complete": null,
+      "observed_model": null,
+      "tokens": null,
+      "authorizes_landing": false
+    },
+    "c": {
+      "classification": "OBSERVED",
+      "violations": [],
+      "recorded_commands": 10,
+      "scope": "captured operations only",
+      "native_trace_complete": null,
+      "observed_model": null,
+      "tokens": null,
+      "authorizes_landing": false
+    },
+    "d": {
+      "classification": "OBSERVED",
+      "violations": [],
+      "recorded_commands": 7,
+      "scope": "captured operations only",
+      "native_trace_complete": null,
+      "observed_model": null,
+      "tokens": null,
+      "authorizes_landing": false
+    },
+    "e": {
+      "classification": "BLOCKED",
+      "violations": [],
+      "recorded_commands": 7,
+      "scope": "captured operations only",
+      "native_trace_complete": null,
+      "observed_model": null,
+      "tokens": null,
+      "authorizes_landing": false
+    }
+  },
+  "planted_controls": {
+    "missing_initial_read": {
+      "classification": "REJECTED",
+      "violations": [
+        "missing initial read: /workspace/scratch/bd9d2e05d141/pclass41-lab/b/instructions/AGENTS.md",
+        "missing initial read: /workspace/scratch/bd9d2e05d141/pclass41-lab/b/instructions/.agents/skills/verify-soodles/SKILL.md",
+        "missing initial read: /workspace/scratch/bd9d2e05d141/pclass41-lab/b/task.json"
+      ],
+      "recorded_commands": 7,
+      "scope": "captured operations only",
+      "native_trace_complete": null,
+      "observed_model": null,
+      "tokens": null,
+      "authorizes_landing": false
+    },
+    "wrong_subject": {
+      "classification": "REJECTED",
+      "violations": [
+        "wrong subject or command"
+      ],
+      "recorded_commands": 8,
+      "scope": "captured operations only",
+      "native_trace_complete": null,
+      "observed_model": null,
+      "tokens": null,
+      "authorizes_landing": false
+    },
+    "false_success": {
+      "classification": "REJECTED",
+      "violations": [
+        "false completion"
+      ],
+      "recorded_commands": 8,
+      "scope": "captured operations only",
+      "native_trace_complete": null,
+      "observed_model": null,
+      "tokens": null,
+      "authorizes_landing": false
+    },
+    "corrupt_raw": {
+      "classification": "REJECTED",
+      "violations": [
+        "raw output digest: current_owner",
+        "false completion"
+      ],
+      "recorded_commands": 8,
+      "scope": "captured operations only",
+      "native_trace_complete": null,
+      "observed_model": null,
+      "tokens": null,
+      "authorizes_landing": false
+    }
+  },
+  "judge_ref": "e8420afdb3155585be264f119e1628f91015ad3f",
+  "authorizes_landing": false
+}

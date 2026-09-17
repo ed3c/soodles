@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "feature": "runtime-admission",
+  "classification": "VERIFIED",
+  "authorizes_landing": false,
+  "trace": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "kind": "readback",
+      "purpose": "before source identity",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "d6fb766446f6fa480b95e0f00852b8ade16d6b87\n34a8199e5d320de85a41a45c09e947d0ea744561\n",
+      "stderr": "",
+      "seconds": 0.014934998000171618
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain",
+        "--untracked-files=all"
+      ],
+      "kind": "readback",
+      "purpose": "before source residue",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.016012200000659504
+    },
+    {
+      "argv": [
+        "./soodles",
+        "runtime",
+        "check",
+        "/workspace/scratch/bd9d2e05d141/pclass-runtime/noodle"
+      ],
+      "kind": "verification",
+      "purpose": "doctor and positive admission",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "{\n  \"binary\": \"/workspace/scratch/bd9d2e05d141/pclass-runtime/noodle\",\n  \"repository\": \"ed3c/noodle\",\n  \"release\": \"v0.1.19\",\n  \"commit\": \"391f3154c680fc6724b8cdabf6bcec831b61065d\",\n  \"platform\": \"linux_amd64\",\n  \"asset_name\": \"noodle_linux_amd64.tar.gz\",\n  \"asset_sha256\": \"7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb\",\n  \"binary_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n  \"observed_version\": \"v0.1.19\",\n  \"observed_binary_sha256\": \"9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472\",\n  \"authorizes_landing\": false\n}\n",
+      "stderr": "",
+      "seconds": 0.45143936699969345
+    },
+    {
+      "argv": [
+        "/workspace/scratch/bd9d2e05d141/pclass-runtime/noodle",
+        "skills",
+        "list"
+      ],
+      "kind": "readback",
+      "purpose": "resolve project skill",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "execute\t/workspace/scratch/bd9d2e05d141/pclass-control/.worktrees/issue-41-pclass-maintenance/.agents/skills\ttrue\t/workspace/scratch/bd9d2e05d141/pclass-control/.worktrees/issue-41-pclass-maintenance/.agents/skills/execute\nschedule\t/workspace/scratch/bd9d2e05d141/pclass-control/.worktrees/issue-41-pclass-maintenance/.agents/skills\ttrue\t/workspace/scratch/bd9d2e05d141/pclass-control/.worktrees/issue-41-pclass-maintenance/.agents/skills/schedule\nverify-soodles\t/workspace/scratch/bd9d2e05d141/pclass-control/.worktrees/issue-41-pclass-maintenance/.agents/skills\ttrue\t/workspace/scratch/bd9d2e05d141/pclass-control/.worktrees/issue-41-pclass-maintenance/.agents/skills/verify-soodles\n",
+      "stderr": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n",
+      "seconds": 0.02556484900014766
+    },
+    {
+      "argv": [
+        "./soodles",
+        "runtime",
+        "check",
+        "/tmp/soodles-verify-admission-428s3lb9/noodle"
+      ],
+      "kind": "verification",
+      "purpose": "wrong digest rejected before execution",
+      "exit": 1,
+      "expected_exit": 1,
+      "stdout": "",
+      "stderr": "REFUSED: runtime check: invalid binary.sha256='b966a2b94a120d93ab2b9e9b677f474b383a0f0199d52faf851a1f79cb6a2280'; supported help: ./soodles runtime check --help\n",
+      "seconds": 0.16702608699961274
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "kind": "readback",
+      "purpose": "after source identity",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "d6fb766446f6fa480b95e0f00852b8ade16d6b87\n34a8199e5d320de85a41a45c09e947d0ea744561\n",
+      "stderr": "",
+      "seconds": 0.01377644500007591
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain",
+        "--untracked-files=all"
+      ],
+      "kind": "readback",
+      "purpose": "after source residue",
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.014825578999989375
+    }
+  ],
+  "counter_scope": "Only commands issued by this driver; excludes internal subprocesses, Agent discovery and provider landing. Repeated readbacks include required before/after identity guards.",
+  "non_claims": [
+    "Agent path-cost reduction",
+    "production scheduling",
+    "provider delivery",
+    "whole-app verification"
+  ],
+  "candidate": {
+    "head": "d6fb766446f6fa480b95e0f00852b8ade16d6b87",
+    "tree": "34a8199e5d320de85a41a45c09e947d0ea744561"
+  },
+  "runtime": {
+    "binary": "/workspace/scratch/bd9d2e05d141/pclass-runtime/noodle",
+    "repository": "ed3c/noodle",
+    "release": "v0.1.19",
+    "commit": "391f3154c680fc6724b8cdabf6bcec831b61065d",
+    "platform": "linux_amd64",
+    "asset_name": "noodle_linux_amd64.tar.gz",
+    "asset_sha256": "7852810f757be494a4233d893982da62b551f7837f2ac24529ce97ae44cf25cb",
+    "binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+    "observed_version": "v0.1.19",
+    "observed_binary_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+    "authorizes_landing": false
+  },
+  "skill_resolution": {
+    "name": "verify-soodles",
+    "search_path": "/workspace/scratch/bd9d2e05d141/pclass-control/.worktrees/issue-41-pclass-maintenance/.agents/skills",
+    "path": "/workspace/scratch/bd9d2e05d141/pclass-control/.worktrees/issue-41-pclass-maintenance/.agents/skills/verify-soodles",
+    "files_sha256": {
+      "SKILL.md": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e",
+      "features/README.md": "0958975e4611486c52872bf2f0f06e8db801d5ebf3cae81639d257899be7fe6b",
+      "features/delivery-recovery.md": "3079b8548e64962751e79a03f6df0dbe50792ada910061215d72ca6b926f7acc",
+      "features/issue-execution.md": "ba42e55103d5e6aed97624fb8dce83e8eaf757f28d0818e85fb6512c801c97c9",
+      "features/pclass-context.md": "981c28205411f9efbc0a6106fb5abcd2b638e809c337fe3db93a09e037786ed5",
+      "features/runtime-admission.md": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b",
+      "scripts/record_context.py": "a393d8050139f708649c0257fcea817d1542cffc74fee516555390442b0a2694",
+      "scripts/verify_runtime.py": "1049574cdc3147373ff46eb64d741f492cfd98effbe04349ce2cf4379f951a0b"
+    },
+    "warnings": "config repairable: 4 adapter script path(s) are missing.\n  backlog:\n    - add -> adapters/backlog-add (adapters.backlog.scripts.add)\n    - done -> adapters/backlog-done (adapters.backlog.scripts.done)\n    - edit -> adapters/backlog-edit (adapters.backlog.scripts.edit)\n    - sync -> adapters/backlog-sync (adapters.backlog.scripts.sync)\nconfig repair prompt:\n-----\nRepair Noodle adapter script configuration so `noodle start` no longer reports missing script paths.\nFix each missing entry by either creating an executable script at that path or updating .noodle.toml to a valid executable path.\nKeep the fix minimal and avoid broad refactors.\n\nMissing adapter scripts:\n- adapters.backlog.scripts.add (backlog): adapters/backlog-add\n- adapters.backlog.scripts.done (backlog): adapters/backlog-done\n- adapters.backlog.scripts.edit (backlog): adapters/backlog-edit\n- adapters.backlog.scripts.sync (backlog): adapters/backlog-sync\n\nRequired verification:\n- Re-run `noodle start` and confirm these repairable diagnostics are gone.\n- If Go files changed, run `go test ./...`.\n\nReturn a short summary of files changed and the verification results.\n-----\n"
+  },
+  "negative_control": {
+    "expected_refusal": "binary.sha256",
+    "sentinel_absent": true
+  },
+  "cleanup": {
+    "scratch_removed": true,
+    "resident_processes_started": 0
+  },
+  "counts": {
+    "top_level_commands": 7,
+    "unexpected_command_failures": 0,
+    "expected_refusals": 1,
+    "readback_invocations": 5,
+    "repeated_readbacks": 2,
+    "verification_invocations": 2,
+    "canonical_acceptance_invocations": 0
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 0.009293982000599499,
+  "files_after": {
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/checkpoint.json": {
+      "bytes": 764,
+      "sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/snapshot.json": {
+      "bytes": 1760,
+      "sha256": "3bfb9df686dd7f44ede3fe61abec0eb3ab590463d91b243b77cb41c1d8aa9753"
+    }
+  },
+  "stdout_sha256": "e2938c2f2fa0371e81f10887000e66382aee5a08f9f253c1755e06daccbf303a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

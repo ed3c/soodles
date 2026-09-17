@@ -1,0 +1,12 @@
+usage: ./soodles [-h] {issue,runtime,acceptance,landing} ...
+
+Noodle runtime evidence and supervised landing checkpoints.
+
+positional arguments:
+  {issue,runtime,acceptance,landing}
+
+options:
+  -h, --help            show this help message and exit
+
+Examples: ./soodles runtime --help; ./soodles acceptance --help; ./soodles
+landing --help

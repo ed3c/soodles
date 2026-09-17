@@ -1,0 +1,147 @@
+{
+  "issue": 41,
+  "pr": 42,
+  "carrier": "native cloud subagents",
+  "scope": "manually supplied instructions, recorded subprocesses, shared filesystem with separate evidence directories",
+  "consumer_boundary": "Only assigned instruction tree, task packet, named common owner/fixture/help and own evidence; no author conclusions or observer; all shell commands including first read via pinned recorder. No browser, Codex CLI, live provider writes or source edits.",
+  "sessions": [
+    {
+      "case": "a",
+      "native_task": "/root/pclass41_a",
+      "fork_turns": "none",
+      "requested_model": "inherited",
+      "observed_model": null,
+      "native_trace_complete": null,
+      "required_read_digests": {
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/a/instructions/AGENTS.md": "6371d6b61a283ae44c3d6a13d5f3573f969e9c37f34b1a27a058bc9d8dc4a44a",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/a/instructions/.agents/skills/verify-soodles/SKILL.md": "22ecb5f2648622af835f312a13a4f3f6403fdd2d43aa46fa0da04a9e8e463aba",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/a/task.json": "af2ae8b8a574b7264c0df24214df847269dd2bfcd98d79f0c6000be0f1afed1b"
+      },
+      "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "recipe_sha256": null
+    },
+    {
+      "case": "b",
+      "native_task": "/root/pclass41_b",
+      "fork_turns": "none",
+      "requested_model": "inherited",
+      "observed_model": null,
+      "native_trace_complete": null,
+      "required_read_digests": {
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/b/instructions/AGENTS.md": "42bee983c301d3fa2fd54369e0e517fc9daaa67fb1bf33933dc30a5dd673236f",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/b/instructions/.agents/skills/verify-soodles/SKILL.md": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/b/task.json": "5ec7d5441c45a24d2999737aa28f4c25ca098fb1cf3896d394533e448410c01e"
+      },
+      "instruction_ref": "d6fb766446f6fa480b95e0f00852b8ade16d6b87",
+      "recipe_sha256": "981c28205411f9efbc0a6106fb5abcd2b638e809c337fe3db93a09e037786ed5"
+    },
+    {
+      "case": "c",
+      "native_task": "/root/pclass41_c",
+      "fork_turns": "none",
+      "requested_model": "inherited",
+      "observed_model": null,
+      "native_trace_complete": null,
+      "required_read_digests": {
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/instructions/AGENTS.md": "6371d6b61a283ae44c3d6a13d5f3573f969e9c37f34b1a27a058bc9d8dc4a44a",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/instructions/.agents/skills/verify-soodles/SKILL.md": "22ecb5f2648622af835f312a13a4f3f6403fdd2d43aa46fa0da04a9e8e463aba",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/task.json": "03c32038f9cd9a0a9874b3a8bcc564d0726d5ec5aae6d67b16872e06f6043d8e"
+      },
+      "instruction_ref": "e4b4a8487855b75ef2d47087019bb52c4d5ffd6c",
+      "recipe_sha256": null
+    },
+    {
+      "case": "d",
+      "native_task": "/root/pclass41_d",
+      "fork_turns": "none",
+      "requested_model": "inherited",
+      "observed_model": null,
+      "native_trace_complete": null,
+      "required_read_digests": {
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/d/instructions/AGENTS.md": "42bee983c301d3fa2fd54369e0e517fc9daaa67fb1bf33933dc30a5dd673236f",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/d/instructions/.agents/skills/verify-soodles/SKILL.md": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/d/task.json": "045a9bffd6b21c67ed453f10d018d7e021f603f5e545d88bac04c306ce9e9bd5"
+      },
+      "instruction_ref": "d6fb766446f6fa480b95e0f00852b8ade16d6b87",
+      "recipe_sha256": "981c28205411f9efbc0a6106fb5abcd2b638e809c337fe3db93a09e037786ed5"
+    },
+    {
+      "case": "e",
+      "native_task": "/root/pclass41_e",
+      "fork_turns": "none",
+      "requested_model": "inherited",
+      "observed_model": null,
+      "native_trace_complete": null,
+      "required_read_digests": {
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/e/instructions/AGENTS.md": "42bee983c301d3fa2fd54369e0e517fc9daaa67fb1bf33933dc30a5dd673236f",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/e/instructions/.agents/skills/verify-soodles/SKILL.md": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/e/task.json": "02fe9c6a95f056225475f36afab96216771f0a96774c093cc7a5cabb739e69e8"
+      },
+      "instruction_ref": "d6fb766446f6fa480b95e0f00852b8ade16d6b87",
+      "recipe_sha256": "981c28205411f9efbc0a6106fb5abcd2b638e809c337fe3db93a09e037786ed5"
+    },
+    {
+      "case": "f",
+      "native_task": "/root/pclass41_f",
+      "fork_turns": "none",
+      "requested_model": "inherited",
+      "observed_model": null,
+      "native_trace_complete": null,
+      "required_read_digests": {
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/f/instructions/AGENTS.md": "42bee983c301d3fa2fd54369e0e517fc9daaa67fb1bf33933dc30a5dd673236f",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/f/instructions/.agents/skills/verify-soodles/SKILL.md": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/f/task.json": "ea7eb65d8c22061c8a9bc45ebd1265513b588065ec7b481f5bf503464d51019f",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/b/handoff.json": "a07b57c34fd985075aaada3dd9b2145aafa69c8809ea287ee9fb14ddbfccb21d"
+      },
+      "instruction_ref": "d6fb766446f6fa480b95e0f00852b8ade16d6b87",
+      "recipe_sha256": "981c28205411f9efbc0a6106fb5abcd2b638e809c337fe3db93a09e037786ed5"
+    },
+    {
+      "case": "g",
+      "native_task": "/root/pclass41_g",
+      "fork_turns": "none",
+      "requested_model": "inherited",
+      "observed_model": null,
+      "native_trace_complete": null,
+      "required_read_digests": {
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/instructions/AGENTS.md": "42bee983c301d3fa2fd54369e0e517fc9daaa67fb1bf33933dc30a5dd673236f",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/instructions/.agents/skills/verify-soodles/SKILL.md": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/task.json": "0f29009a3de9d4afe28964551c0f0698afdd619dd337a1b61cdfdbf3014661ca"
+      },
+      "instruction_ref": "d6fb766446f6fa480b95e0f00852b8ade16d6b87",
+      "recipe_sha256": "981c28205411f9efbc0a6106fb5abcd2b638e809c337fe3db93a09e037786ed5"
+    },
+    {
+      "case": "h",
+      "native_task": "/root/pclass41_h",
+      "fork_turns": "none",
+      "requested_model": "inherited",
+      "observed_model": null,
+      "native_trace_complete": null,
+      "required_read_digests": {
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/instructions/AGENTS.md": "42bee983c301d3fa2fd54369e0e517fc9daaa67fb1bf33933dc30a5dd673236f",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/instructions/.agents/skills/verify-soodles/SKILL.md": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/task.json": "6c326928f80747edacc995748f0b922042ac1d7cb44da3d5826c4fa19f24219e"
+      },
+      "instruction_ref": "final recipe bytes; digest below",
+      "recipe_sha256": "e524753ff0ae8593b31c2053dc6227190c412f19d5ee88f99a39273efbd49906"
+    },
+    {
+      "case": "i",
+      "native_task": "/root/pclass41_i",
+      "fork_turns": "none",
+      "requested_model": "inherited",
+      "observed_model": null,
+      "native_trace_complete": null,
+      "required_read_digests": {
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/i/instructions/AGENTS.md": "42bee983c301d3fa2fd54369e0e517fc9daaa67fb1bf33933dc30a5dd673236f",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/i/instructions/.agents/skills/verify-soodles/SKILL.md": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/i/task.json": "5ff0859eac93e24ee8896157f7b81bf91eee6033849386bdbc7e276d408be8d1",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/handoff.json": "fb3672aa8c09622002aa57d110e1018b8f7b3cee2af6c03e9fc091b7a21de714"
+      },
+      "instruction_ref": "final recipe bytes; digest below",
+      "recipe_sha256": "e524753ff0ae8593b31c2053dc6227190c412f19d5ee88f99a39273efbd49906"
+    }
+  ],
+  "authorizes_landing": false
+}

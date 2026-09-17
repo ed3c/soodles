@@ -1,0 +1,16 @@
+{
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 0.09828603300047689,
+  "files_after": {
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12": {
+      "bytes": 30894944,
+      "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+    }
+  },
+  "stdout_sha256": "e938fe16cdafbf7697c52368e5cb93148657df663b04f28942a4ed544682df6d",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

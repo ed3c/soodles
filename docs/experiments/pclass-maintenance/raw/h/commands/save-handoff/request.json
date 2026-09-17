@@ -1,0 +1,45 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-c",
+    "import json, hashlib, sys\nfrom pathlib import Path\ntask_path, output_path, owner_output, *identity_paths = map(Path, sys.argv[1:])\ntask = json.loads(task_path.read_text())\ncurrent = json.loads(owner_output.read_text())\nidentities = [{\"path\": str(p), \"bytes\": p.stat().st_size, \"sha256\": hashlib.sha256(p.read_bytes()).hexdigest()} for p in identity_paths]\nresult = {\n \"goal\": task[\"task\"],\n \"scope\": task[\"scope\"],\n \"classification\": \"SCOPED_OBSERVATION_VERIFIED\",\n \"authorizes_landing\": False,\n \"originating_issue\": task[\"originating_issue\"],\n \"executed_subject\": {\"repository\": \"ed3c/soodles\", \"issue\": 1, \"pr\": 2, \"head\": \"a\"*40},\n \"execution_owner\": task[\"owner\"],\n \"instruction_identities\": identities,\n \"supported_result\": \"The existing owner accepted the supplied simulated readback and retained the already-offered merge in merge_pending, requesting provider readback without emitting another write request.\",\n \"delivery\": {\"phase\": current[\"phase\"], \"classification\": current[\"classification\"], \"status\": \"PENDING_PROVIDER_READBACK\", \"live_provider_writes\": False, \"historical_request_replayed\": False, \"resolved\": False},\n \"verification_scope\": {\"owner_route_on_supplied_fixture\": \"observed\", \"nearest_legal_different_case\": \"not supplied or driven\", \"paired_behavior_context_comparison\": \"inconclusive\", \"full_feature_verification\": \"not established\", \"full_map_maintenance\": \"not performed\", \"canonical_acceptance\": \"not performed\", \"provider_enforced_R_claim\": \"not established\"},\n \"unknowns\": {\"observed_model\": None, \"requested_model\": None, \"model_config\": None, \"native_transcript\": None, \"actual_input_tokens\": None, \"context_capacity\": None, \"compaction\": None, \"hidden_reads\": None, \"fresh_provider_outcome\": None, \"comparative_decision_cost\": None},\n \"evidence\": {\"initial_read\": str(Path(task[\"evidence\"])/\"initial\"), \"recipe_and_raw_inputs\": str(Path(task[\"evidence\"])/\"recipe-state\"), \"owner_current\": str(Path(task[\"evidence\"])/\"owner-current\"), \"recording_scope\": \"Recorded selected subprocess argv, regular-file arguments, output, exit and timing only; not a complete native trace.\"},\n \"handoff\": {\"originating_issue\": task[\"originating_issue\"], \"checkpoint\": task[\"checkpoint\"], \"owner\": current[\"owner\"], \"action\": current[\"action\"], \"next\": current[\"next\"], \"recipient_action\": \"Obtain fresh readback for this simulated subject through its fixture owner, then invoke landing advance with this checkpoint and the supplied fresh readback. Consume that current response. Do not replay the historical merge request or invalidate an offered unknown write.\", \"transfer_validation\": \"A distinct consumer must read this handoff and refresh current owner state; not observed in this consumer.\"},\n \"cleanup\": \"No temporary worktree, live provider mutation, or persistent process was created by this drive; the pending checkpoint is retained.\"\n}\noutput_path.write_text(json.dumps(result, indent=2)+\"\\n\")\nprint(json.dumps({\"handoff_output\":str(output_path), \"classification\": result[\"classification\"], \"authorizes_landing\":False, \"next_kind\":current[\"next\"][\"kind\"]}))\n",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/task.json",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/handoff.json",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/commands/owner-current/stdout.bin",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/instructions/AGENTS.md",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/instructions/.agents/skills/verify-soodles/SKILL.md",
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/instructions/.agents/skills/verify-soodles/features/pclass-context.md"
+  ],
+  "cwd": "/workspace/scratch/bd9d2e05d141",
+  "time_ns": 1789617082745266718,
+  "files_before": {
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12": {
+      "bytes": 30894944,
+      "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+    },
+    "import json, hashlib, sys\nfrom pathlib import Path\ntask_path, output_path, owner_output, *identity_paths = map(Path, sys.argv[1:])\ntask = json.loads(task_path.read_text())\ncurrent = json.loads(owner_output.read_text())\nidentities = [{\"path\": str(p), \"bytes\": p.stat().st_size, \"sha256\": hashlib.sha256(p.read_bytes()).hexdigest()} for p in identity_paths]\nresult = {\n \"goal\": task[\"task\"],\n \"scope\": task[\"scope\"],\n \"classification\": \"SCOPED_OBSERVATION_VERIFIED\",\n \"authorizes_landing\": False,\n \"originating_issue\": task[\"originating_issue\"],\n \"executed_subject\": {\"repository\": \"ed3c/soodles\", \"issue\": 1, \"pr\": 2, \"head\": \"a\"*40},\n \"execution_owner\": task[\"owner\"],\n \"instruction_identities\": identities,\n \"supported_result\": \"The existing owner accepted the supplied simulated readback and retained the already-offered merge in merge_pending, requesting provider readback without emitting another write request.\",\n \"delivery\": {\"phase\": current[\"phase\"], \"classification\": current[\"classification\"], \"status\": \"PENDING_PROVIDER_READBACK\", \"live_provider_writes\": False, \"historical_request_replayed\": False, \"resolved\": False},\n \"verification_scope\": {\"owner_route_on_supplied_fixture\": \"observed\", \"nearest_legal_different_case\": \"not supplied or driven\", \"paired_behavior_context_comparison\": \"inconclusive\", \"full_feature_verification\": \"not established\", \"full_map_maintenance\": \"not performed\", \"canonical_acceptance\": \"not performed\", \"provider_enforced_R_claim\": \"not established\"},\n \"unknowns\": {\"observed_model\": None, \"requested_model\": None, \"model_config\": None, \"native_transcript\": None, \"actual_input_tokens\": None, \"context_capacity\": None, \"compaction\": None, \"hidden_reads\": None, \"fresh_provider_outcome\": None, \"comparative_decision_cost\": None},\n \"evidence\": {\"initial_read\": str(Path(task[\"evidence\"])/\"initial\"), \"recipe_and_raw_inputs\": str(Path(task[\"evidence\"])/\"recipe-state\"), \"owner_current\": str(Path(task[\"evidence\"])/\"owner-current\"), \"recording_scope\": \"Recorded selected subprocess argv, regular-file arguments, output, exit and timing only; not a complete native trace.\"},\n \"handoff\": {\"originating_issue\": task[\"originating_issue\"], \"checkpoint\": task[\"checkpoint\"], \"owner\": current[\"owner\"], \"action\": current[\"action\"], \"next\": current[\"next\"], \"recipient_action\": \"Obtain fresh readback for this simulated subject through its fixture owner, then invoke landing advance with this checkpoint and the supplied fresh readback. Consume that current response. Do not replay the historical merge request or invalidate an offered unknown write.\", \"transfer_validation\": \"A distinct consumer must read this handoff and refresh current owner state; not observed in this consumer.\"},\n \"cleanup\": \"No temporary worktree, live provider mutation, or persistent process was created by this drive; the pending checkpoint is retained.\"\n}\noutput_path.write_text(json.dumps(result, indent=2)+\"\\n\")\nprint(json.dumps({\"handoff_output\":str(output_path), \"classification\": result[\"classification\"], \"authorizes_landing\":False, \"next_kind\":current[\"next\"][\"kind\"]}))\n": {
+      "snapshot_error": "OSError"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/task.json": {
+      "bytes": 1407,
+      "sha256": "6c326928f80747edacc995748f0b922042ac1d7cb44da3d5826c4fa19f24219e"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/commands/owner-current/stdout.bin": {
+      "bytes": 1496,
+      "sha256": "85213c839beda64f55fc0f6da40072c6296b84b89ec2a0423b39cec5186e90e1"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/instructions/AGENTS.md": {
+      "bytes": 5730,
+      "sha256": "42bee983c301d3fa2fd54369e0e517fc9daaa67fb1bf33933dc30a5dd673236f"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/instructions/.agents/skills/verify-soodles/SKILL.md": {
+      "bytes": 7893,
+      "sha256": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/instructions/.agents/skills/verify-soodles/features/pclass-context.md": {
+      "bytes": 6592,
+      "sha256": "e524753ff0ae8593b31c2053dc6227190c412f19d5ee88f99a39273efbd49906"
+    }
+  },
+  "timeout_seconds": 60
+}

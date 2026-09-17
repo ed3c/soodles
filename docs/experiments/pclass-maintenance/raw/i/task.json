@@ -1,0 +1,17 @@
+{
+  "task": "Continue the originating bounded delivery review from the real producer handoff. Use assigned verification instructions and current owner state, and return an updated handoff. No live provider writes.",
+  "scope": "feature-scoped maintenance; simulated provider; cloud native consumer; no Codex CLI or browser",
+  "owner": "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+  "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/checkpoint.json",
+  "snapshot": "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/snapshot.json",
+  "evidence": "/workspace/scratch/bd9d2e05d141/pclass41-lab/i/commands",
+  "instruction_root": "/workspace/scratch/bd9d2e05d141/pclass41-lab/i/instructions",
+  "handoff_output": "/workspace/scratch/bd9d2e05d141/pclass41-lab/i/handoff.json",
+  "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+  "originating_issue": {
+    "repository": "ed3c/soodles",
+    "issue": 41,
+    "pr": 42
+  },
+  "producer_handoff": "/workspace/scratch/bd9d2e05d141/pclass41-lab/h/handoff.json"
+}

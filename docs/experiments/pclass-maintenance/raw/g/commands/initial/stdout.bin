@@ -1,0 +1,108 @@
+# soodles
+
+Migrate only exact, executable claims demonstrated in this repository.
+
+## Current boundary
+
+- Noodle owns worktrees and runtime lifecycle. This bootstrap exercises its binary in disposable fixtures; it does not start a production daemon.
+- `policy/runtime.lock.json` owns the selected release and digests. `./soodles --help` owns the command surface.
+- `./soodles acceptance verify /absolute/path/to/noodle` is the canonical local acceptance. Run focused controls while editing, then acceptance once for each final clean candidate head.
+- Local and PR self-test receipts have `authorizes_landing: false`. They cannot select or authorize their own verifier.
+- First installation uses the explicitly requested supervised fallback: the supervisor pins the landing implementation outside the candidate, admits one exact claim, and supplies raw provider readbacks. `landing.py` owns pending-write checkpoints and exact requests; the existing GitHub connector executes them under existing provider rules. No Administration access or protection-policy modification is a prerequisite.
+- Do not fabricate a production generation, independent default-branch verification, or unattended lander. An Issue is RESOLVED only after merge and closure readback plus Noodle reconciliation. Unknown writes require readback; never repeat the offered request from model memory.
+- Consume the invoked landing owner's `next` projection. Missing claim/readback/binary inputs are explicit; never invent argv or replay a historical next command. Dispatch returns an exact connector payload in `request`; only that payload is transported. Terminal `next` is null.
+- `landing advance` prepares delivery; `landing dispatch` consumes it once using fresh owner readback before emitting the connector request. Resume prepared work through that same entry; offered/legacy-unknown writes stay pending. The process-fault oracle uses provider fixtures, not live GitHub writes.
+- Before correcting an admitted but unoffered candidate, the supervisor uses `landing invalidate CHECKPOINT`. Amend the same causal Issue and its write boundary before further edits; replace or delete incorrect tests/gates with the nearest meaningful controls. Re-admit a changed head with fresh exact-head evidence through `landing readmit`, even when base is unchanged. Green CI is evidence for that admission only; it never means merge, closure or reconciliation. Offered/legacy unknown writes cannot be invalidated into another attempt.
+- Coherent forward base drift before an offer produces a durable `readmission_pending` checkpoint and `landing readmit --help` next action. Supply an explicit fresh supervisor claim, exact-head successful runtime evidence and complete provider ancestry comparisons. Preserve the same owner/Issue/PR/worktree/verifier. Old acceptance stays invalidated; offered/legacy unknown writes cannot use this recovery to retry.
+
+## Routing and changes
+
+Read the exact Issue, then its nearest executable test. Read `contracts/system-v1.md` only for the claim/authority boundary. At most three document nodes: AGENTS → system contract when needed → Issue-selected executable boundary.
+
+One Issue owns one causal correction and one reversible landing boundary, including its producers, consumers, adapters, checkpoint migration and positive/planted-negative controls. Do not split by helper, file or implementation step. Incorrect implementations and tests may be replaced together while preserving the nearest discriminating controls. Different repositories, durable transition owners or rollback boundaries require separate admission. Preserve evidence and stop an unchanged retry or unknown write outcome pending owner readback.
+
+`docs/` is N-class: observations, plans and receipts described in prose, never correctness authority. Update this file and the system contract only to the atom's demonstrated scope. Do not copy upstream architecture wholesale.
+
+Never add a second scheduler, worktree manager, retry engine, or Agent-facing authority/policy flag. Repository identity and credentials are not auto-correctable inputs.
+
+The supervisor selects immutable external verifier/oracle bytes before candidate acceptance. Never load the active judge from default-branch tips or candidate imports. Editing verifier source does not promote it into authority for its own Issue; `landing resume` is an identity-preserving operation under external supervision, not self-authorization. Separate authority changes only when they are independently owned or reversible.
+
+For runtime/delivery verification or a bounded P-class behavior/context comparison, use `.agents/skills/verify-soodles/SKILL.md` and its feature recipe. Its receipt is non-authorizing. Create a verification skill when that capability is missing; run maintenance for an explicit map audit or observed recipe drift, not on every Issue. Canonical acceptance and delivery remain owned by the existing entries above.
+
+## Guarantee classes
+
+Classes describe authority of a claim, not confidence or file type (Noodles reference: `d4fa0da322cbb7a581328398906a4f04deaf0a69`). N describes inventory/prose/metrics and proves nothing. P guides model reasoning, skill use and routing; it cannot grant correctness authority. L is a tested executable local discriminator bound to its subject/readback/residue; it may reject locally. R is provider-enforced check/merge/closure truth for the exact provider claim. A run's success does not prove full behavior or local reconciliation. Guidance or repeated green results cannot promote N/P into L/R. The selected external judge remains fixed for this acceptance; its source and erroneous controls remain correctable under a fresh supervisor boundary.
+---
+name: verify-soodles
+description: Verify Soodles runtime admission, supervised delivery and recovery through existing owners, and bounded P-class behavior/context comparisons. Consume structured next actions, preserve scoped receipts, and maintain the demonstrated feature map.
+---
+
+# Verify Soodles
+
+This is a CLI application with an external supervised publisher and GitHub transport. Read the relevant recipe directly: [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
+
+## Launch
+
+For P-class behavior/context work, read its recipe before any runtime doctor: use the supplied carrier and operation-specific prerequisites. Native cloud consumers require neither Codex CLI nor the Linux runtime binary. The coordinator captures observations; independent consumers receive only their assigned task/instructions/inputs. A scoped feature check does not claim a full maintenance pass.
+
+Runtime admission and delivery-recovery fixtures run from a clean committed Soodles checkout with the absolute binary admitted by `policy/runtime.lock.json`. These CLI drives are short-lived and noninteractive; do not start `noodle start` for them. Bounded Issue execution instead uses the supervisor's separately measured carrier and existing Noodle lifecycle, as its recipe specifies. Neither route substitutes its binary or platform evidence for the other.
+
+## Doctor
+
+For the lock-bound recipes, start each fresh driving session with `./soodles runtime check` on the supplied binary. Its receipt must match the lock before Noodle is used. The runtime driver's doctor doubles as its positive feature drive. For bounded Issue execution, use that recipe's carrier/envelope and canonical-state preflight instead; the Linux lock does not certify a native macOS executable. Recheck after an unexpected failed drive or changed environment before continuing; preserve the failure first. Doctor is not permission to retry unchanged input. A refusal names the invalid field and supported help; a missing prerequisite remains blocked until its owner supplies it.
+
+## Drive and Helpers
+
+Use the shipped executable from the repository root:
+
+```sh
+.agents/skills/verify-soodles/scripts/verify_runtime.py /absolute/path/to/noodle /tmp/fresh-soodles-verification
+```
+
+Both arguments are supplied by the current execution environment: the already-admitted binary and a fresh evidence destination. This runtime driver checks source identity, performs doctor/positive admission, resolves this skill through `noodle skills list`, and drives a wrong-digest executable sentinel through the same CLI. It then checks cleanup and unchanged source identity. It never sends provider writes or runs full acceptance. Other recipes reuse existing owner entries and recovery oracles; do not route them through a new scheduler or copy their transition logic into a skill helper.
+
+For landing, consume the invoked owner's current `owner`, `action`, `next`, `invalid` and, when emitted, `request`. Missing input and provider readback are not executable commands. Follow the returned operation/help using confirmed inputs; never derive an operation by splitting a field name. A historical next action is trace evidence only. The owning action rechecks the current claim, head, checkpoint, provider state and write eligibility before an effect.
+
+Noodle resolves `.agents/skills` by default. Resolution must name this checkout's exact `verify-soodles` directory; requesting a name is not proof of loading it. The captured digest map identifies the actual skill files. Noodle may emit missing-backlog-adapter diagnostics: they disclose that production scheduling is unavailable, not a request to repair unrelated adapters during verification.
+
+## Evidence
+
+For runtime admission, require the driver's `receipt.json` with `classification: VERIFIED`, exact candidate head/tree, observed runtime identity, local skill resolution, rejected sentinel and successful cleanup. Other recipes specify their own receipts. Preserve actual argv/provider operations, subjects, output, exit codes and elapsed time where observed. Record skill resolution path/digests, unexpected command failures, expected control refusals, repeated readbacks and verification invocations; label top-level versus child-command scope. Missing measurements are unknown, not zero. These records do not establish a matched baseline/treatment experiment or reduced Agent decision cost.
+
+Local feature receipts have `authorizes_landing: false`; `VERIFIED` is not Issue closure. Only the externally selected delivery owner can produce the admitted Issue's `RESOLVED` receipt after provider merge/closure readback and Noodle reconciliation. `next: null` alone is not resolution (identity also returns it). Canonical acceptance still runs once for each final candidate through its existing owner; do not repeat it just because this skill was used. A pre-change receipt does not verify a changed candidate. Shorter instructions, lower structural scores or fewer commands do not establish reduced Agent decision cost.
+
+## Cleanup
+
+The runtime driver owns its temporary sentinel directory; recovery oracles own disposable fixtures and wait for their child processes. Preserve evidence outside those directories through teardown, including on failure. Noodle owns the task worktree; only the existing delivery reconciliation may remove it. If that removal is expected, verify the reported merged identity in the surviving control root instead of invoking a deleted candidate path. A failed receipt is evidence, not permission for an unchanged retry.
+
+## Maintenance
+
+P-class comparisons are one mapped feature, not a mandatory preflight for other features. Maintain reviews the recipe and its recording helper against source and drives it through the supplied experiment packet. Report feature behavior, measured context/cost, map coverage and delivery independently. A full pass still needs all mapped features; unavailable prerequisites remain blocked. The originating issue owns cross-file migration and landing; maintain edits only this skill directory. Never change an active experiment's judge while evaluating its candidate.
+
+This existing skill was created using pstack at `ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa`. Use its `maintain-verification-skill` for a map audit or observed recipe drift; do not repeat create. A full pass audits the index, runs one read-only source review per feature concurrently, reconciles source/churn drift, and has the coordinator live-drive every mapped feature with doctor, receipts and teardown. Outcome is clean, changed or blocked; clean/blocked passes do not manufacture a PR. Only demonstrated skill corrections belong in a changed maintenance PR. Ordinary feature use does not invoke either authoring method.
+
+This guidance is P-class; the index, counts and prose are N-class. Executable local discriminators provide L-class evidence; actual provider-enforced identity and merge/closure readback provide R-class evidence. None is interchangeable. Product regressions retain their failing evidence and follow the admitted Issue's owner/write boundary; changing a recipe must not hide them. Supervisor correction remains available through the existing owning action before an unoffered admission is reused. Preserve unknown writes for owner readback. Neither maintenance nor a candidate-edited test selects its effective external judge.
+{
+  "task": "Use the assigned verification skill to inspect the P-class behavior/context feature for this bounded delivery review. Read the supplied current owner state and return a scoped receipt and a handoff for the originating issue. Determine what can actually be verified. Do not perform live provider writes.",
+  "scope": "feature-scoped maintenance; simulated provider; cloud native consumer; no Codex CLI or browser",
+  "owner": "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+  "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/checkpoint.json",
+  "snapshot": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/snapshot.json",
+  "evidence": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/commands",
+  "historical_request": {
+    "action": "merge",
+    "repository_full_name": "ed3c/soodles",
+    "pr_number": 2,
+    "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "merge_method": "merge"
+  },
+  "history_status": "Older handoff note offered this request; inspect current owner before continuing.",
+  "instruction_root": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/instructions",
+  "handoff_output": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/handoff.json",
+  "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+  "originating_issue": {
+    "repository": "ed3c/soodles",
+    "issue": 41,
+    "pr": 42
+  }
+}

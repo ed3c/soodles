@@ -1,0 +1,208 @@
+{
+  "goal": "Use the assigned verification skill to inspect the P-class behavior/context feature for this bounded delivery review. Read the supplied current owner state and return a scoped receipt and a handoff for the originating issue. Determine what can actually be verified. Do not perform live provider writes.",
+  "scope": "feature-scoped maintenance; simulated provider; cloud native consumer; no Codex CLI or browser",
+  "classification": "SCOPED_OBSERVATION_PENDING_READBACK",
+  "authorizes_landing": false,
+  "originating_issue": {
+    "repository": "ed3c/soodles",
+    "issue": 41,
+    "pr": 42
+  },
+  "fixture_subject": {
+    "repository": "ed3c/soodles",
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "identities": [
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/task.json",
+      "bytes": 1407,
+      "sha256": "0f29009a3de9d4afe28964551c0f0698afdd619dd337a1b61cdfdbf3014661ca"
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/commands/owner_current/stdout.bin",
+      "bytes": 1496,
+      "sha256": "e526b90be2182b49d229b59186eb0aa73d975b85918382104d345297b3f53ff4"
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/instructions/AGENTS.md",
+      "bytes": 5730,
+      "sha256": "42bee983c301d3fa2fd54369e0e517fc9daaa67fb1bf33933dc30a5dd673236f"
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/instructions/.agents/skills/verify-soodles/SKILL.md",
+      "bytes": 7893,
+      "sha256": "afe98d56d9156a232bc4ffe3e2ce7a05e1131068fe76b59452eefb9f73c8bb2e"
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/instructions/.agents/skills/verify-soodles/features/pclass-context.md",
+      "bytes": 6373,
+      "sha256": "981c28205411f9efbc0a6106fb5abcd2b638e809c337fe3db93a09e037786ed5"
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+      "bytes": 17923,
+      "sha256": "b1269062b04e0b4a0a8aa7fe8108a644addf42c0a81254b4980265fbf2ed140c"
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/checkpoint.json",
+      "bytes": 764,
+      "sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed"
+    },
+    {
+      "path": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/snapshot.json",
+      "bytes": 1760,
+      "sha256": "3bfb9df686dd7f44ede3fe61abec0eb3ab590463d91b243b77cb41c1d8aa9753"
+    }
+  ],
+  "observed": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "phase": "merge_pending",
+    "owner_classification": null,
+    "request_emitted": false,
+    "historical_request_replayed": false,
+    "live_provider_writes": false
+  },
+  "supported_result": "The current existing owner consumed the supplied simulated readback and preserved an already-offered merge as pending; it requires provider readback and emitted no connector write request.",
+  "evidence": {
+    "commands": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/commands",
+    "initial_read": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/commands/initial",
+    "recipe_and_fixture": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/commands/feature_state",
+    "owner_invocation": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/commands/owner_current",
+    "owner_output": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/commands/owner_current/stdout.bin",
+    "save": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/commands/save_handoff"
+  },
+  "coverage": {
+    "feature": "P-class behavior/context; one current-owner decision barrier",
+    "full_maintenance": "not performed",
+    "matched_comparison": "not established",
+    "nearest_legal_different_case": "not supplied or driven",
+    "provider_enforced_truth": "not established by simulated provider",
+    "acceptance": "not run; no runtime binary required for this cloud consumer",
+    "cleanup": "No processes or disposable resources created; pending checkpoint retained."
+  },
+  "unknowns": {
+    "native_transcript": null,
+    "model_provenance": null,
+    "requested_model": null,
+    "observed_model": null,
+    "input_tokens": null,
+    "context_capacity": null,
+    "compaction": null,
+    "hidden_reads": null,
+    "future_provider_write_outcome": null,
+    "originating_issue_landing_status": null
+  },
+  "limitations": [
+    "Recorder covers selected subprocesses and regular file arguments, not a complete native trace.",
+    "A single successful decision barrier does not verify the entire feature or show reduced agent decision cost.",
+    "Fixture Issue 1 / PR 2 is distinct from originating Issue 41 / PR 42.",
+    "Distinct-consumer handoff refresh has not yet been observed by this consumer."
+  ],
+  "handoff": {
+    "recipient": "originating Issue 41 coordinator",
+    "current_owner_output": {
+      "owner": "landing.advance",
+      "action": "readback",
+      "phase": "merge_pending",
+      "classification": null,
+      "next": {
+        "kind": "provider_readback",
+        "owner": "GitHub",
+        "operation": "advance",
+        "required": [
+          "readback"
+        ],
+        "known": {
+          "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/checkpoint.json"
+        },
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+          "landing",
+          "advance",
+          "--help"
+        ],
+        "requests": {
+          "pr": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+          },
+          "issue": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+          },
+          "commit": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "branch": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+          },
+          "run": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+          },
+          "jobs": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+          }
+        },
+        "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+      }
+    },
+    "next": {
+      "kind": "provider_readback",
+      "owner": "GitHub",
+      "operation": "advance",
+      "required": [
+        "readback"
+      ],
+      "known": {
+        "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass41-lab/g/checkpoint.json"
+      },
+      "help_argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+        "landing",
+        "advance",
+        "--help"
+      ],
+      "requests": {
+        "pr": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+        },
+        "issue": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+        },
+        "commit": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "branch": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+        },
+        "run": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+        },
+        "jobs": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+        }
+      },
+      "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+    },
+    "required_action": "Obtain fresh owner-required readback through the authorized fixture/provider owner, then consume landing advance on the same checkpoint with that readback. Do not replay the historical merge, dispatch it again, invalidate unknown writes, or claim resolution.",
+    "transfer_requirement": "The next distinct consumer must read this handoff and refresh current owner state before acting.",
+    "delivery_status": "merge_pending; unknown offered write preserved"
+  }
+}

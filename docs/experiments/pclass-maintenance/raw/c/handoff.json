@@ -1,0 +1,166 @@
+{
+  "classification": "BLOCKED",
+  "scope": "feature-scoped delivery review; simulated provider fixture; no live provider writes",
+  "authorizes_landing": false,
+  "outcome": "Current owner retains merge_pending and requests fresh provider readback. No current connector request was emitted. Historical merge request was not replayed.",
+  "owner_result": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "phase": "merge_pending",
+    "classification": null,
+    "next": {
+      "kind": "provider_readback",
+      "owner": "GitHub",
+      "operation": "advance",
+      "required": [
+        "readback"
+      ],
+      "known": {
+        "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/checkpoint.json"
+      },
+      "help_argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+        "landing",
+        "advance",
+        "--help"
+      ],
+      "requests": {
+        "pr": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+        },
+        "issue": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+        },
+        "commit": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "branch": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+        },
+        "run": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+        },
+        "jobs": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+        }
+      },
+      "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+    }
+  },
+  "owner_identity": {
+    "owner": "landing.identity",
+    "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a",
+    "next": null
+  },
+  "owner_identity_matches_claim": true,
+  "checkpoint_sha256": "e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed",
+  "provider_snapshot_sha256": "3bfb9df686dd7f44ede3fe61abec0eb3ab590463d91b243b77cb41c1d8aa9753",
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "run_id": 10,
+    "run_attempt": 1,
+    "worktree": "example",
+    "control_root": "/fixture",
+    "verifier_sha256": "8eae793df0eac64cd78de0a41bccd08dafd53a590cf7917a398965c9fb26402a"
+  },
+  "skill": {
+    "assigned_path": "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/instructions/.agents/skills/verify-soodles",
+    "files_read_sha256": {
+      "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/instructions/AGENTS.md": "6371d6b61a283ae44c3d6a13d5f3573f969e9c37f34b1a27a058bc9d8dc4a44a",
+      "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/instructions/.agents/skills/verify-soodles/SKILL.md": "22ecb5f2648622af835f312a13a4f3f6403fdd2d43aa46fa0da04a9e8e463aba",
+      "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/instructions/.agents/skills/verify-soodles/features/supervised-delivery.md": "0384cab4ce83152f3807b52e303e3418bbaf5b5c600a29de07d79dfc9aa1164b"
+    },
+    "noodle_resolution": null
+  },
+  "observations": {
+    "owner_action_invocations": 1,
+    "identity_invocations": 1,
+    "fixture_readbacks_submitted": 1,
+    "repeated_owner_readback_invocations": 0,
+    "provider_operations_performed": 0,
+    "provider_writes_performed": 0,
+    "unexpected_owner_failures": 0,
+    "canonical_acceptance_invocations": 0,
+    "child_command_count": null,
+    "provider_freshness": null,
+    "agent_decision_cost": null,
+    "matched_experiment": null
+  },
+  "limitations": [
+    "Only supplied simulated provider snapshot was consumed.",
+    "No fresh simulated provider response was supplied for the current next projection.",
+    "Runtime doctor and Noodle skill resolution were not performed; no admitted binary was supplied.",
+    "No provider merge/closure truth or Noodle reconciliation was established."
+  ],
+  "handoff": {
+    "status": "awaiting_fresh_provider_readback",
+    "next": {
+      "kind": "provider_readback",
+      "owner": "GitHub",
+      "operation": "advance",
+      "required": [
+        "readback"
+      ],
+      "known": {
+        "checkpoint": "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/checkpoint.json"
+      },
+      "help_argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/bd9d2e05d141/pclass41-lab/owner/soodles.py",
+        "landing",
+        "advance",
+        "--help"
+      ],
+      "requests": {
+        "pr": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+        },
+        "issue": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+        },
+        "commit": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "branch": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+        },
+        "run": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+        },
+        "jobs": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+        }
+      },
+      "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+    },
+    "request": null,
+    "instruction": "Obtain fresh simulated provider responses under the emitted request keys. If PR is merged, obtain its confirmed merge commit readback as directed. Re-enter the returned advance operation with the known checkpoint and materially fresh readback. Preserve offered merge history; do not replay the historical request or retry the unchanged snapshot."
+  },
+  "evidence": {
+    "directory": "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/commands",
+    "owner_stdout": "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/commands/advance_current/stdout.bin",
+    "owner_command": "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/commands/advance_current/request.json",
+    "owner_execution": "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/commands/advance_current/result.json",
+    "identity": "/workspace/scratch/bd9d2e05d141/pclass41-lab/c/commands/identity/stdout.bin"
+  }
+}
