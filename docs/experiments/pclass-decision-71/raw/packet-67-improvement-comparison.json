@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "admission_target": "improvement",
+  "primary_barrier": "wrong_route",
+  "baseline": [
+    {
+      "hard_gate": "PASS",
+      "barriers": {
+        "wrong_route": 0
+      }
+    },
+    {
+      "hard_gate": "PASS",
+      "barriers": {
+        "wrong_route": 0
+      }
+    },
+    {
+      "hard_gate": "PASS",
+      "barriers": {
+        "wrong_route": 0
+      }
+    }
+  ],
+  "treatment": [
+    {
+      "hard_gate": "PASS",
+      "barriers": {
+        "wrong_route": 0
+      }
+    },
+    {
+      "hard_gate": "PASS",
+      "barriers": {
+        "wrong_route": 0
+      }
+    },
+    {
+      "hard_gate": "PASS",
+      "barriers": {
+        "wrong_route": 0
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "wrong_route",
+      "expected": "FAIL",
+      "observed": "FAIL"
+    },
+    {
+      "name": "stale_projection",
+      "expected": "FAIL",
+      "observed": "FAIL"
+    },
+    {
+      "name": "missing_transport",
+      "expected": "FAIL",
+      "observed": "FAIL"
+    },
+    {
+      "name": "legal_dispatch",
+      "expected": "PASS",
+      "observed": "PASS"
+    }
+  ],
+  "causal_delta": {
+    "classification": "PASS"
+  },
+  "independent_audit": {
+    "classification": "PASS"
+  },
+  "telemetry": {
+    "origin": "pclass-packet-67",
+    "runs": [
+      {
+        "commands": 11,
+        "elapsed_seconds": 0.19815942899731454,
+        "stdout_bytes": 46042,
+        "stderr_bytes": 245,
+        "instruction_reads": 1,
+        "instruction_bytes": 10381
+      },
+      {
+        "commands": 13,
+        "elapsed_seconds": 0.3503796249933657,
+        "stdout_bytes": 44398,
+        "stderr_bytes": 246,
+        "instruction_reads": 0,
+        "instruction_bytes": 0
+      },
+      {
+        "commands": 8,
+        "elapsed_seconds": 0.22427174600306898,
+        "stdout_bytes": 37066,
+        "stderr_bytes": 245,
+        "instruction_reads": 0,
+        "instruction_bytes": 0
+      },
+      {
+        "commands": 12,
+        "elapsed_seconds": 0.15455292898695916,
+        "stdout_bytes": 35478,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20762
+      },
+      {
+        "commands": 12,
+        "elapsed_seconds": 0.24939016699499916,
+        "stdout_bytes": 39329,
+        "stderr_bytes": 246,
+        "instruction_reads": 1,
+        "instruction_bytes": 10381
+      },
+      {
+        "commands": 11,
+        "elapsed_seconds": 0.17660837699804688,
+        "stdout_bytes": 40750,
+        "stderr_bytes": 245,
+        "instruction_reads": 0,
+        "instruction_bytes": 0
+      }
+    ]
+  }
+}

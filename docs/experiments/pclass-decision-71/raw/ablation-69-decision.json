@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "decision": "ADMIT_NONREGRESSION",
+  "admission_target": "nonregression",
+  "primary_barrier": "wrong_route",
+  "baseline_total": 0,
+  "treatment_total": 0,
+  "hard_gate_errors": [],
+  "telemetry": {
+    "origin": "pclass-ablation-69",
+    "runs": [
+      {
+        "commands": 9,
+        "elapsed_seconds": 0.12892602899228223,
+        "stdout_bytes": 34734,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20202
+      },
+      {
+        "commands": 9,
+        "elapsed_seconds": 0.12426607000088552,
+        "stdout_bytes": 34757,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20202
+      },
+      {
+        "commands": 9,
+        "elapsed_seconds": 0.1126036559799104,
+        "stdout_bytes": 34736,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20202
+      },
+      {
+        "commands": 9,
+        "elapsed_seconds": 0.13519854200421833,
+        "stdout_bytes": 34890,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20762
+      },
+      {
+        "commands": 9,
+        "elapsed_seconds": 0.12474355199810816,
+        "stdout_bytes": 35043,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20762
+      },
+      {
+        "commands": 9,
+        "elapsed_seconds": 0.10973298299359158,
+        "stdout_bytes": 35012,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20762
+      }
+    ]
+  },
+  "telemetry_authority": "report_only",
+  "input_sha256": "14c2d6d34f0f69d32326042059dc9cedbaa6969ad792d45ec835a2d915de9229",
+  "authorizes_landing": false
+}
