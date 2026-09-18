@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#63",
+  "classification": "PASS",
+  "failures": [],
+  "evidence_survived": true,
+  "teardown_zero_residue": true,
+  "controls": {
+    "correct": {"classification": "PASS", "errors": [], "route_classification": "PASS", "identity_safety": "PASS", "owner_events_observed": 1, "route_events_observed": 1, "refusals_observed": 1},
+    "historical": {"classification": "FAIL", "errors": ["wrong_operation_for_state"], "route_classification": "FAIL", "identity_safety": "PASS", "owner_events_observed": 1, "route_events_observed": 0, "refusals_observed": 1},
+    "mixed": {"classification": "FAIL", "errors": ["wrong_operation_for_state"], "route_classification": "FAIL", "identity_safety": "PASS", "owner_events_observed": 2, "route_events_observed": 1, "refusals_observed": 2},
+    "dispatch_expected": {"classification": "PASS", "errors": [], "route_classification": "PASS", "identity_safety": "PASS", "owner_events_observed": 1, "route_events_observed": 1, "refusals_observed": 1},
+    "false_resolution": {"classification": "FAIL", "errors": ["false_resolution"], "route_classification": "PASS", "identity_safety": "PASS"},
+    "wrong_owner": {"classification": "FAIL", "errors": ["missing_identity_refusal", "wrong_owner"], "route_classification": "FAIL", "identity_safety": "FAIL"},
+    "transport_unknown": {"classification": "FAIL", "errors": ["transport_evidence_unknown"], "provider_transport_observed": null},
+    "request_without_transport": {"classification": "PASS", "errors": [], "route_classification": "PASS", "owner_request_created": true, "owner_requests_observed": 1, "provider_transport_observed": false, "request_created_without_transport": true}
+  },
+  "authorizes_landing": false
+}

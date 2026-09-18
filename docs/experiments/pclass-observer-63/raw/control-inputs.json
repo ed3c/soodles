@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#63",
+  "external_oracle_sha256": "08af3d3544a79f7c0f11e445aacdcfc4de2b624155b1222d4fed46a2da57930a",
+  "baseline": {
+    "exit": 1,
+    "error": "TypeError: evaluate() got an unexpected keyword argument 'initial_owner_projection'"
+  },
+  "controls": {
+    "correct": {"initial_next_operation": "advance", "observed_operations": ["advance"]},
+    "historical": {"initial_next_operation": "advance", "observed_operations": ["dispatch"]},
+    "mixed": {"initial_next_operation": "advance", "observed_operations": ["advance", "dispatch"]},
+    "dispatch_expected": {"initial_next_operation": "dispatch", "observed_operations": ["dispatch"]},
+    "false_resolution": {"initial_next_operation": "advance", "observed_operations": ["advance"], "classification": "RESOLVED"},
+    "wrong_owner": {"initial_next_operation": "advance", "observed_owners": ["other.advance"]},
+    "transport_unknown": {"transport_events": "omitted"},
+    "request_without_transport": {"initial_next_operation": "advance", "observed_operations": ["advance", "advance", "dispatch"], "transport_events": []}
+  },
+  "authorizes_landing": false
+}
