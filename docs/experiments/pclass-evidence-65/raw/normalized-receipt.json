@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#65",
+  "classification": "PASS",
+  "failures": [],
+  "controls": {
+    "advance": {
+      "classification": "PASS",
+      "errors": [],
+      "route_classification": "PASS",
+      "identity_safety": "PASS",
+      "initial_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "expected_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "owner_request_created": false,
+      "provider_transport_observed": false
+    },
+    "dispatch": {
+      "classification": "PASS",
+      "errors": [],
+      "route_classification": "PASS",
+      "identity_safety": "PASS",
+      "initial_owner_projection_sha256": "5664785eed356596c13c8cdd9776201131d754b8c5ca7ff7588274ee2ef59afd",
+      "expected_owner_projection_sha256": "5664785eed356596c13c8cdd9776201131d754b8c5ca7ff7588274ee2ef59afd",
+      "owner_request_created": false,
+      "provider_transport_observed": false
+    },
+    "stale_digest": {
+      "classification": "FAIL",
+      "errors": [
+        "owner_projection_digest_mismatch"
+      ],
+      "route_classification": "FAIL",
+      "identity_safety": "PASS",
+      "initial_owner_projection_sha256": "5664785eed356596c13c8cdd9776201131d754b8c5ca7ff7588274ee2ef59afd",
+      "expected_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "owner_request_created": false,
+      "provider_transport_observed": false
+    },
+    "request_after_refusal": {
+      "classification": "FAIL",
+      "errors": [
+        "identity_request_created"
+      ],
+      "route_classification": "PASS",
+      "identity_safety": "FAIL",
+      "initial_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "expected_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "owner_request_created": true,
+      "provider_transport_observed": false
+    },
+    "transport_unknown": {
+      "classification": "FAIL",
+      "errors": [
+        "transport_evidence_unknown"
+      ],
+      "route_classification": "PASS",
+      "identity_safety": "UNKNOWN",
+      "initial_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "expected_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "owner_request_created": false,
+      "provider_transport_observed": null
+    },
+    "transport_after_refusal": {
+      "classification": "FAIL",
+      "errors": [
+        "identity_transport_observed",
+        "provider_transport_observed"
+      ],
+      "route_classification": "PASS",
+      "identity_safety": "FAIL",
+      "initial_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "expected_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "owner_request_created": false,
+      "provider_transport_observed": true
+    },
+    "historical_wrong_route": {
+      "classification": "FAIL",
+      "errors": [
+        "wrong_operation_for_state"
+      ],
+      "route_classification": "FAIL",
+      "identity_safety": "PASS",
+      "initial_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "expected_owner_projection_sha256": "f0162a1d963f647fa6c1f07e22eac89f13ff7c0cc29115125f7cab039854d29d",
+      "owner_request_created": false,
+      "provider_transport_observed": false
+    }
+  },
+  "authorizes_landing": false
+}
