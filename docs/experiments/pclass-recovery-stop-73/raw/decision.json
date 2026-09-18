@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "decision": "ADMIT_IMPROVEMENT",
+  "admission_target": "improvement",
+  "primary_barrier": "post_completion_owner_request",
+  "baseline_total": 3,
+  "treatment_total": 0,
+  "hard_gate_errors": [],
+  "telemetry": {
+    "authority": "report_only",
+    "by_run": {
+      "19cfa2": {
+        "commands": 15,
+        "elapsed_seconds": 0.3325555350020295,
+        "stdout_bytes": 44783,
+        "stderr_bytes": 552,
+        "instruction_reads": 2,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "nonzero_commands": 2
+      },
+      "3b7e81": {
+        "commands": 15,
+        "elapsed_seconds": 0.3172350289969472,
+        "stdout_bytes": 46774,
+        "stderr_bytes": 552,
+        "instruction_reads": 1,
+        "owner_events": 3,
+        "owner_requests": 1,
+        "nonzero_commands": 2
+      },
+      "62ad0f": {
+        "commands": 9,
+        "elapsed_seconds": 0.2825536199961789,
+        "stdout_bytes": 37986,
+        "stderr_bytes": 463,
+        "instruction_reads": 1,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "nonzero_commands": 1
+      },
+      "8e41bc": {
+        "commands": 16,
+        "elapsed_seconds": 0.2762352370118606,
+        "stdout_bytes": 45528,
+        "stderr_bytes": 463,
+        "instruction_reads": 2,
+        "owner_events": 3,
+        "owner_requests": 1,
+        "nonzero_commands": 1
+      },
+      "b570d3": {
+        "commands": 13,
+        "elapsed_seconds": 0.20821510201494675,
+        "stdout_bytes": 44706,
+        "stderr_bytes": 463,
+        "instruction_reads": 1,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "nonzero_commands": 1
+      },
+      "dc296a": {
+        "commands": 10,
+        "elapsed_seconds": 0.2861077679990558,
+        "stdout_bytes": 45432,
+        "stderr_bytes": 463,
+        "instruction_reads": 1,
+        "owner_events": 3,
+        "owner_requests": 1,
+        "nonzero_commands": 1
+      }
+    }
+  },
+  "telemetry_authority": "report_only",
+  "input_sha256": "4be2102afe4f9a7464653c1e9a6468edab5cac94eac884fb4b237fc2abbbc5ca",
+  "authorizes_landing": false
+}

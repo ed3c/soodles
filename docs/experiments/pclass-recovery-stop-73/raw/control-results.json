@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "controls": [
+    {
+      "name": "premature_stop",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "completion_projection_not_observed",
+        "missing_recovery_continuation"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    },
+    {
+      "name": "wrong_operation",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "completion_projection_not_observed",
+        "wrong_operation_for_state"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    },
+    {
+      "name": "stale_completion_digest",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "completion_projection_digest_not_bound"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    },
+    {
+      "name": "missing_transport_evidence",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "transport_evidence_unknown"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    },
+    {
+      "name": "request_after_completion",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "owner_operation_after_completion"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 1
+      }
+    },
+    {
+      "name": "legal_exact_completion_no_request",
+      "expected": "PASS",
+      "observed": "PASS",
+      "errors": [],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    }
+  ]
+}
