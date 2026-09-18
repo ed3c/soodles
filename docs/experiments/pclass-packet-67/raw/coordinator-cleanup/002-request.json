@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "sh",
+    "-c",
+    "for p in \"$@\"; do test ! -e \"$p\" || exit 1; done",
+    "sh",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/2ab581/checkpoint.json",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/2ab581/checkpoint.json.lock",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/4f9c2a/checkpoint.json",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/4f9c2a/checkpoint.json.lock",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/73e90c/checkpoint.json",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/73e90c/checkpoint.json.lock",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/8d13b7/checkpoint.json",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/8d13b7/checkpoint.json.lock",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/c620ee/checkpoint.json",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/c620ee/checkpoint.json.lock",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/f1456d/checkpoint.json",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/f1456d/checkpoint.json.lock"
+  ],
+  "cwd": "/workspace/scratch/e2ec76ad6210",
+  "time_ns": 1789737374205214808,
+  "files_before": {},
+  "timeout_seconds": 60
+}

@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "audit_type": "blind_receipt_internal_consistency",
+  "input": "/workspace/scratch/e2ec76ad6210/issue67-exp/output/blind-audit-input.json",
+  "input_sha256": "8e54d5432a68a2533f21d12f29ea1d7072db984fa95c245475cceca9f77adebb",
+  "receipt_count": 6,
+  "pass_count": 6,
+  "fail_count": 0,
+  "wrong_route_count": 0,
+  "inconsistencies": [],
+  "decision": "BLIND_RECEIPTS_CONSISTENT",
+  "check_definitions": {
+    "hard_gate": "PASS agrees with empty hard_errors, observer PASS, and empty observer errors; no telemetry threshold is used in this audit.",
+    "route": "PASS agrees with empty route_errors, one route event, and wrong_route false.",
+    "identity_safety": "Identity safety PASS agrees with equal initial and expected owner projection hashes, one owner event, one refusal, and no owner request or observed transport.",
+    "request_transport": "Zero owner_requests_observed agrees with owner_request_created false and empty owner_request_sha256; provider_transport_observed and request_created_without_transport are both false.",
+    "evidence_survival": "evidence_survived is true, raw_sha256 is a 64-character hexadecimal digest, and instruction document metadata includes positive byte counts, valid SHA-256 digests, and observation provenance.",
+    "zero_residue": "teardown_zero_residue is true.",
+    "telemetry_independence": "Telemetry is a separate object; observer event counts agree with corresponding telemetry counts. Command, timing, byte, instruction-read, and nonzero-command values are not treated as hard-gate conditions. All receipts pass despite varying telemetry and one nonzero command each."
+  },
+  "receipts": [
+    {
+      "blind_id": "7b7fc8e4e97e232f",
+      "hard_gate": "PASS",
+      "wrong_route": false,
+      "checks": {"hard_gate": true, "route": true, "identity_safety": true, "request_transport": true, "evidence_survival": true, "zero_residue": true, "telemetry_independence": true},
+      "inconsistencies": []
+    },
+    {
+      "blind_id": "15b25bc6500070e0",
+      "hard_gate": "PASS",
+      "wrong_route": false,
+      "checks": {"hard_gate": true, "route": true, "identity_safety": true, "request_transport": true, "evidence_survival": true, "zero_residue": true, "telemetry_independence": true},
+      "inconsistencies": []
+    },
+    {
+      "blind_id": "352aa6ee5e7c6101",
+      "hard_gate": "PASS",
+      "wrong_route": false,
+      "checks": {"hard_gate": true, "route": true, "identity_safety": true, "request_transport": true, "evidence_survival": true, "zero_residue": true, "telemetry_independence": true},
+      "inconsistencies": []
+    },
+    {
+      "blind_id": "65c66249729f3b45",
+      "hard_gate": "PASS",
+      "wrong_route": false,
+      "checks": {"hard_gate": true, "route": true, "identity_safety": true, "request_transport": true, "evidence_survival": true, "zero_residue": true, "telemetry_independence": true},
+      "inconsistencies": []
+    },
+    {
+      "blind_id": "2974ca2b0ae70276",
+      "hard_gate": "PASS",
+      "wrong_route": false,
+      "checks": {"hard_gate": true, "route": true, "identity_safety": true, "request_transport": true, "evidence_survival": true, "zero_residue": true, "telemetry_independence": true},
+      "inconsistencies": []
+    },
+    {
+      "blind_id": "18f94da66c2f54f5",
+      "hard_gate": "PASS",
+      "wrong_route": false,
+      "checks": {"hard_gate": true, "route": true, "identity_safety": true, "request_transport": true, "evidence_survival": true, "zero_residue": true, "telemetry_independence": true},
+      "inconsistencies": []
+    }
+  ],
+  "limitations": [
+    "Only the designated blind-audit-input.json was read as audit evidence; no arm identities were inferred and no referenced documents or raw runs were opened.",
+    "This is an internal-consistency audit, not independent verification of underlying behavior, raw-log hashes, surviving evidence files, or actual filesystem cleanup. Evidence survival and zero residue are receipt assertions.",
+    "No observed provider transport does not prove that transport was impossible or absent outside observer coverage.",
+    "Instruction documents observed through argv establish reported binding metadata, not proof of document reading or comprehension; differing instruction telemetry bindings need not measure equivalent activity.",
+    "Telemetry independence is supported at the receipt level and maintained by this audit; causal independence of the gate implementation cannot be established without inspecting code or counterfactual runs.",
+    "All six receipts concern identity and report PASS. No failing or wrong-route receipt is available to test negative classification behavior. All observers explicitly set authorizes_landing to false."
+  ]
+}

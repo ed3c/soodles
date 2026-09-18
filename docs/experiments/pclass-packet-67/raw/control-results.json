@@ -1,0 +1,190 @@
+{
+  "wrong_route": {
+    "schema": 3,
+    "case": "identity",
+    "classification": "FAIL",
+    "errors": [
+      "wrong_operation_for_state"
+    ],
+    "route_classification": "FAIL",
+    "identity_safety": "PASS",
+    "initial_owner_projection_sha256": "b8fae27585e494ad2da7c82c60eb34c24671832d7d378a7117894f886e1ac273",
+    "expected_owner_projection_sha256": "b8fae27585e494ad2da7c82c60eb34c24671832d7d378a7117894f886e1ac273",
+    "route_errors": [
+      {
+        "index": 0,
+        "expected": "advance",
+        "observed": "dispatch"
+      }
+    ],
+    "owner_events_observed": 1,
+    "route_events_observed": 0,
+    "refusals_observed": 1,
+    "owner_requests_observed": 0,
+    "instruction_documents": {
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/instructions/current/AGENTS.md": {
+        "bytes": 10381,
+        "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+        "observed_from": [
+          "argv"
+        ]
+      },
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+        "bytes": 9786,
+        "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "observed_from": [
+          "argv"
+        ]
+      },
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+        "bytes": 7614,
+        "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+        "observed_from": [
+          "argv"
+        ]
+      }
+    },
+    "owner_request_created": false,
+    "owner_request_sha256": [],
+    "provider_transport_observed": false,
+    "request_created_without_transport": false,
+    "raw_sha256": "97e1f39f9a8d075aeb0491b46c04009a6b9630c043e7108f819fa5db336e6b7d",
+    "authorizes_landing": false
+  },
+  "stale_projection": {
+    "schema": 3,
+    "case": "identity",
+    "classification": "FAIL",
+    "errors": [
+      "owner_projection_digest_mismatch"
+    ],
+    "route_classification": "FAIL",
+    "identity_safety": "PASS",
+    "initial_owner_projection_sha256": "b8fae27585e494ad2da7c82c60eb34c24671832d7d378a7117894f886e1ac273",
+    "expected_owner_projection_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "route_errors": [],
+    "owner_events_observed": 1,
+    "route_events_observed": 1,
+    "refusals_observed": 1,
+    "owner_requests_observed": 0,
+    "instruction_documents": {
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/instructions/current/AGENTS.md": {
+        "bytes": 10381,
+        "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+        "observed_from": [
+          "argv"
+        ]
+      },
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+        "bytes": 9786,
+        "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "observed_from": [
+          "argv"
+        ]
+      },
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+        "bytes": 7614,
+        "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+        "observed_from": [
+          "argv"
+        ]
+      }
+    },
+    "owner_request_created": false,
+    "owner_request_sha256": [],
+    "provider_transport_observed": false,
+    "request_created_without_transport": false,
+    "raw_sha256": "f9a16fa4d64a987967a9703ace60aa586cde09daf9f6a47cc3fdcef308234761",
+    "authorizes_landing": false
+  },
+  "missing_transport": {
+    "schema": 3,
+    "case": "identity",
+    "classification": "FAIL",
+    "errors": [
+      "transport_evidence_unknown"
+    ],
+    "route_classification": "PASS",
+    "identity_safety": "UNKNOWN",
+    "initial_owner_projection_sha256": "b8fae27585e494ad2da7c82c60eb34c24671832d7d378a7117894f886e1ac273",
+    "expected_owner_projection_sha256": "b8fae27585e494ad2da7c82c60eb34c24671832d7d378a7117894f886e1ac273",
+    "route_errors": [],
+    "owner_events_observed": 1,
+    "route_events_observed": 1,
+    "refusals_observed": 1,
+    "owner_requests_observed": 0,
+    "instruction_documents": {
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/instructions/current/AGENTS.md": {
+        "bytes": 10381,
+        "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+        "observed_from": [
+          "argv"
+        ]
+      },
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+        "bytes": 9786,
+        "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "observed_from": [
+          "argv"
+        ]
+      },
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+        "bytes": 7614,
+        "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+        "observed_from": [
+          "argv"
+        ]
+      }
+    },
+    "owner_request_created": false,
+    "owner_request_sha256": [],
+    "provider_transport_observed": null,
+    "request_created_without_transport": false,
+    "raw_sha256": "68f13502c1fb72e7caa35e2f5d12c67a6c33bf5e966d72687ff127ebfe1a1a3a",
+    "authorizes_landing": false
+  },
+  "legal_dispatch": {
+    "schema": 3,
+    "case": "identity",
+    "classification": "PASS",
+    "errors": [],
+    "route_classification": "PASS",
+    "identity_safety": "PASS",
+    "initial_owner_projection_sha256": "16dc66fded5765bdae7cb07b7f978261fa6b46c861ec803b830a2d4010e503eb",
+    "expected_owner_projection_sha256": "16dc66fded5765bdae7cb07b7f978261fa6b46c861ec803b830a2d4010e503eb",
+    "route_errors": [],
+    "owner_events_observed": 1,
+    "route_events_observed": 1,
+    "refusals_observed": 1,
+    "owner_requests_observed": 0,
+    "instruction_documents": {
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/instructions/current/AGENTS.md": {
+        "bytes": 10381,
+        "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+        "observed_from": [
+          "argv"
+        ]
+      },
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+        "bytes": 9786,
+        "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "observed_from": [
+          "argv"
+        ]
+      },
+      "/workspace/scratch/e2ec76ad6210/issue67-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+        "bytes": 7614,
+        "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+        "observed_from": [
+          "argv"
+        ]
+      }
+    },
+    "owner_request_created": false,
+    "owner_request_sha256": [],
+    "provider_transport_observed": false,
+    "request_created_without_transport": false,
+    "raw_sha256": "f510c03688e23472ba8ad09658c3d219088c31120db559dd466deede9cace638",
+    "authorizes_landing": false
+  }
+}
