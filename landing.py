@@ -16,6 +16,8 @@ from soodles import Refusal, checked, clean_env, runtime_check, source_identity
 
 REPOSITORY = "ed3c/soodles"
 ACTION = "./soodles landing"
+COMMON_CLAIM_FIELDS = {"repository", "issue", "pr", "head", "tree", "base_head", "run_id",
+                       "run_attempt", "worktree", "verifier_sha256"}
 
 
 class LandingRefusal(Refusal):
@@ -117,10 +119,10 @@ def save(path, state):
             os.unlink(temporary)
 
 
-def validate_claim(claim):
-    fields = {"repository", "issue", "pr", "head", "tree", "base_head", "run_id", "run_attempt",
-              "worktree", "control_root", "verifier_sha256"}
-    require(isinstance(claim, dict) and set(claim) in (fields, fields | {"execution_envelope"}),
+def validate_claim(claim, *, verify_verifier=True):
+    local_fields = COMMON_CLAIM_FIELDS | {"control_root"}
+    require(isinstance(claim, dict) and set(claim) in
+            (COMMON_CLAIM_FIELDS, local_fields, local_fields | {"execution_envelope"}),
             "claim.fields", list(claim))
     if "execution_envelope" in claim:
         ref = claim["execution_envelope"]
@@ -133,11 +135,17 @@ def validate_claim(claim):
         require(type(claim[key]) is int and claim[key] > 0, "claim." + key, claim[key])
     for key in ("head", "tree", "base_head"):
         require(isinstance(claim[key], str) and re.fullmatch("[0-9a-f]{40}", claim[key]), "claim." + key, claim[key])
-    require(claim["verifier_sha256"] == verifier_digest(), "claim.verifier_sha256", claim["verifier_sha256"])
+    if verify_verifier:
+        require(claim["verifier_sha256"] == verifier_digest(), "claim.verifier_sha256", claim["verifier_sha256"])
     require(isinstance(claim["worktree"], str) and re.fullmatch("[a-z0-9][a-z0-9-]{0,99}", claim["worktree"]),
             "claim.worktree", claim["worktree"])
-    require(isinstance(claim["control_root"], str) and Path(claim["control_root"]).is_absolute(),
-            "claim.control_root", claim["control_root"])
+    if "control_root" in claim:
+        require(isinstance(claim["control_root"], str) and Path(claim["control_root"]).is_absolute(),
+                "claim.control_root", claim["control_root"])
+
+
+def claim_route(claim):
+    return "local" if "control_root" in claim else "cloud"
 
 
 def validate_merge_commit(claim, snapshot, *, operation, checkpoint):
@@ -170,6 +178,16 @@ def validate_merge_commit(claim, snapshot, *, operation, checkpoint):
         raise
 
 
+def validate_provider_main(claim, snapshot, *, operation, checkpoint):
+    """Require the admitted merge on provider main without using shell Git."""
+    merge_sha = snapshot["pr"]["merge_commit_sha"]
+    main_sha = snapshot["branch"]["commit"]["sha"]
+    if main_sha != merge_sha:
+        validate_comparison(snapshot, "main_comparison", merge_sha, main_sha,
+                            claim=claim, checkpoint=checkpoint, operation=operation)
+    return main_sha
+
+
 def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
     """The supervisor's claim selects external bytes; no candidate self-admission."""
     from issue_admission import AdmissionRefusal, load_external_envelope, validate_issue, validate_delivery_paths
@@ -178,6 +196,7 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
         require(issue is None or "soodles:execution-v1" not in (issue.get("body") or ""),
                 "claim.execution_envelope", "required for an execution contract")
         return None
+    require(claim_route(claim) == "local", "claim.route", "cloud execution cannot bind a local envelope")
     root = Path(claim["control_root"]).resolve()
     subject = root / ".worktrees" / claim["worktree"]
     try:
@@ -243,7 +262,8 @@ def start(claim, snapshot, checkpoint):
     with locked(checkpoint) as path:
         require(not path.exists(), "checkpoint", "already admitted")
         state = {"schema": 2, "claim": claim, "phase": "admitted", "observations": [fingerprint(snapshot)],
-                 "classification": None, "scope": "supervised single-Issue landing", "writes_offered": []}
+                 "classification": None, "scope": f"supervised single-Issue {claim_route(claim)} landing",
+                 "writes_offered": []}
         save(path, state)
         return response("start", state, "readback", provider_next(claim, "advance", path), checkpoint=str(path))
 
@@ -376,8 +396,11 @@ def readmit(checkpoint, claim, snapshot):
         require(state["phase"] == "readmission_pending", "readmit.phase",
                 state["phase"], provider_next(old, "advance", path))
         require(state["writes_offered"] == [], "readmit.writes_offered", state["writes_offered"])
-        for field in ("repository", "issue", "pr", "worktree", "control_root", "verifier_sha256"):
+        require(claim_route(claim) == claim_route(old), "readmit.route", claim_route(claim))
+        for field in ("repository", "issue", "pr", "worktree", "verifier_sha256"):
             require(claim[field] == old[field], "readmit." + field, claim[field])
+        if claim_route(claim) == "local":
+            require(claim["control_root"] == old["control_root"], "readmit.control_root", claim["control_root"])
         require(("execution_envelope" in claim) == ("execution_envelope" in old),
                 "readmit.execution_envelope", "binding cannot be added or removed during readmission")
         amendment = state["recovery"].get("kind") == "amendment"
@@ -428,7 +451,13 @@ def advance(checkpoint, snapshot):
             if snapshot["issue"]["state"] == "closed":
                 require("close" in state["writes_offered"], "closure.owner", "no close request offered by this checkpoint")
                 state["issue_closed_at"] = snapshot["issue"]["closed_at"]
-                if phase not in {"reconciling", "resolved"}:
+                if claim_route(claim) == "cloud":
+                    main_sha = validate_provider_main(claim, snapshot, operation="advance", checkpoint=path)
+                    state["provider_reconciliation"] = {
+                        "mode": "cloud", "main_head": main_sha, "merge_sha": state["merge_sha"],
+                        "provider": "GitHub", "local_reconciliation_required": False}
+                    state["phase"], state["classification"] = "resolved", "RESOLVED"
+                elif phase not in {"reconciling", "resolved"}:
                     state["phase"] = "awaiting_reconcile"
             elif phase == "merge_pending":
                 state["phase"] = "close_pending"
@@ -438,6 +467,8 @@ def advance(checkpoint, snapshot):
             state["phase"] = "merge_pending"
             state["delivery"] = {"action": "merge", "status": "prepared"}
         save(path, state)
+        if state["phase"] == "resolved":
+            return {**state, **response("advance", state, "stop", None)}
         prepared = state["phase"] in {"merge_pending", "close_pending"} and state["delivery"]["status"] == "prepared"
         if prepared:
             return response("advance", state, "dispatch", provider_next(claim, "dispatch", path))
@@ -479,7 +510,7 @@ def dispatch(checkpoint, snapshot):
 
 
 def resume(checkpoint, claim):
-    """Re-admit a corrected verifier only after provider writes are complete."""
+    """Re-admit a corrected verifier/route only after provider writes are complete."""
     validate_claim(claim)
     with locked(checkpoint) as path:
         state = read(path)
@@ -488,13 +519,32 @@ def resume(checkpoint, claim):
                 and state.get("merge_sha") and state.get("issue_closed_at")
                 and state["writes_offered"] == ["merge", "close"], "resume.phase", state["phase"])
         old = state["claim"]
-        require({k: v for k, v in old.items() if k != "verifier_sha256"} ==
-                {k: v for k, v in claim.items() if k != "verifier_sha256"}, "resume.claim", "identity changes are forbidden")
+        validate_claim(old, verify_verifier=False)
+        old_route, new_route = claim_route(old), claim_route(claim)
+        if old_route == new_route:
+            require({k: v for k, v in old.items() if k != "verifier_sha256"} ==
+                    {k: v for k, v in claim.items() if k != "verifier_sha256"},
+                    "resume.claim", "identity changes are forbidden")
+        else:
+            require(old_route == "local" and new_route == "cloud", "resume.route", f"{old_route}->{new_route}")
+            require("execution_envelope" not in old, "resume.route", "local execution envelope is not cloud-migratable")
+            cleanup = state.get("cleanup_intent")
+            require(cleanup is None or (isinstance(cleanup, dict) and cleanup.get("mode") == "no_op"
+                    and cleanup.get("path_present") is False and cleanup.get("branch_head") is None
+                    and cleanup.get("registrations") == []), "resume.cleanup_intent", cleanup)
+            require({key: old[key] for key in COMMON_CLAIM_FIELDS if key != "verifier_sha256"} ==
+                    {key: claim[key] for key in COMMON_CLAIM_FIELDS if key != "verifier_sha256"},
+                    "resume.claim", "provider identity changes are forbidden")
+            state.setdefault("prior_routes", []).append({"route": old_route, "control_root": old["control_root"]})
         require(old["verifier_sha256"] != claim["verifier_sha256"], "resume.verifier", "unchanged")
         state.setdefault("prior_verifiers", []).append(old["verifier_sha256"])
         state["claim"] = claim
+        state["scope"] = f"supervised single-Issue {new_route} landing"
         save(path, state)
-        return response("resume", state, "reconcile", input_next("reconcile", ["binary"], path), provider_requests=[])
+        next_action = (provider_next(claim, "advance", path) if new_route == "cloud"
+                       else input_next("reconcile", ["binary"], path))
+        return response("resume", state, "readback" if new_route == "cloud" else "reconcile",
+                        next_action, provider_requests=[])
 
 
 def fetch_main(root):
@@ -514,6 +564,7 @@ def reconcile(checkpoint, binary):
         require(state.get("schema") in (1, 2), "checkpoint.schema", state.get("schema"))
         claim = state["claim"]
         validate_claim(claim)
+        require(claim_route(claim) == "local", "reconcile.route", claim_route(claim))
         require(state["phase"] in {"awaiting_reconcile", "reconciling", "resolved"}, "checkpoint.phase", state["phase"])
         root = Path(claim["control_root"]).resolve()
         require(not path.is_relative_to(root), "checkpoint.path", "must be outside source/worktree lifecycle")
