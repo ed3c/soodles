@@ -44,7 +44,7 @@ def files(argv):
     result = {}
     values, parse_error = referenced_values(argv)
     for source, value in values:
-        path = Path(os.path.expandvars(value))
+        path = Path(value)
         try:
             if path.is_file():
                 data = path.read_bytes()
