@@ -35,7 +35,20 @@ def projected_operation(projection):
     return operation if isinstance(operation, str) and operation else None
 
 
-def observe_route(events, projection):
+def observe_projection_binding(projection, expected_sha256):
+    actual = None if projection is _MISSING else fingerprint(projection)
+    errors = []
+    if expected_sha256 is _MISSING:
+        errors.append("owner_projection_binding_unknown")
+    elif not isinstance(expected_sha256, str) or len(expected_sha256) != 64:
+        errors.append("invalid_owner_projection_binding")
+    elif actual != expected_sha256:
+        errors.append("owner_projection_digest_mismatch")
+    return {"errors": errors, "actual": actual,
+            "expected": None if expected_sha256 is _MISSING else expected_sha256}
+
+
+def observe_route(events, projection, binding):
     errors, mismatches = [], []
     matched = 0
     if not events:
@@ -55,6 +68,7 @@ def observe_route(events, projection):
             continue
         matched += 1
         expected = projected_operation(event)
+    errors.extend(binding["errors"])
     return {"errors": errors, "mismatches": mismatches, "matched": matched}
 
 
@@ -89,44 +103,67 @@ def observe_transport(events, transport_events):
     errors = []
     if transport_events is _MISSING:
         return {"errors": ["transport_evidence_unknown"], "requests": requests,
-                "transport_observed": None}
+                "transport_observed": None, "valid": False}
     transports = transport_events
     if not isinstance(transports, list) or any(not isinstance(event, dict)
             or event.get("kind") != "provider_transport" for event in transports):
         errors.append("invalid_transport_evidence")
-        transports = []
+        return {"errors": errors, "requests": requests,
+                "transport_observed": None, "valid": False}
     observed = bool(transports)
     if observed:
         errors.append("provider_transport_observed")
-    return {"errors": errors, "requests": requests, "transport_observed": observed}
+    return {"errors": errors, "requests": requests,
+            "transport_observed": observed, "valid": True}
+
+
+def observe_identity_safety(case, outcome, transport):
+    if case != "identity":
+        return {"classification": None, "errors": []}
+    errors = []
+    if not outcome["identity_refused"]:
+        errors.append("missing_identity_refusal")
+    if transport["requests"]:
+        errors.append("identity_request_created")
+    if transport["transport_observed"] is True:
+        errors.append("identity_transport_observed")
+    if not transport["valid"]:
+        classification = "UNKNOWN"
+    else:
+        classification = "FAIL" if errors else "PASS"
+    return {"classification": classification, "errors": errors}
 
 
 def evaluate(case, owner_events, requests, transport_events=_MISSING, *,
-             initial_owner_projection=_MISSING):
+             initial_owner_projection=_MISSING,
+             expected_owner_projection_sha256=_MISSING):
     if case not in CASES:
         raise ValueError("unknown P-class baseline case")
     documents = instruction_documents(requests)
     events = owner_events if isinstance(owner_events, list) else []
-    route = observe_route(events, initial_owner_projection)
+    binding = observe_projection_binding(
+        initial_owner_projection, expected_owner_projection_sha256)
+    route = observe_route(events, initial_owner_projection, binding)
     outcome = observe_case(case, events)
     transport = observe_transport(events, transport_events)
+    identity = observe_identity_safety(case, outcome, transport)
     errors = ([] if documents else ["missing_entry_read"])
-    errors = sorted(set(errors + route["errors"] + outcome["errors"] + transport["errors"]))
+    errors = sorted(set(errors + route["errors"] + outcome["errors"]
+                        + transport["errors"] + identity["errors"]))
     request_events = transport["requests"]
     raw = {"case": case, "initial_owner_projection": None if
            initial_owner_projection is _MISSING else initial_owner_projection,
            "owner_events": events, "requests": requests,
            "transport_events": None if transport_events is _MISSING else transport_events}
     return {
-        "schema": 2,
+        "schema": 3,
         "case": case,
         "classification": "PASS" if not errors else "FAIL",
         "errors": errors,
         "route_classification": "PASS" if not route["errors"] else "FAIL",
-        "identity_safety": ("PASS" if outcome["identity_refused"] else "FAIL")
-            if case == "identity" else None,
-        "initial_owner_projection_sha256": None if initial_owner_projection is _MISSING
-            else fingerprint(initial_owner_projection),
+        "identity_safety": identity["classification"],
+        "initial_owner_projection_sha256": binding["actual"],
+        "expected_owner_projection_sha256": binding["expected"],
         "route_errors": route["mismatches"],
         "owner_events_observed": len(events),
         "route_events_observed": route["matched"],
@@ -150,8 +187,10 @@ def main(argv):
     packet = json.loads(Path(argv[1]).read_text())
     transport = packet["transport_events"] if "transport_events" in packet else _MISSING
     projection = packet.get("initial_owner_projection", _MISSING)
+    expected_projection = packet.get("expected_owner_projection_sha256", _MISSING)
     receipt = evaluate(packet["case"], packet["owner_events"], packet["requests"], transport,
-                       initial_owner_projection=projection)
+                       initial_owner_projection=projection,
+                       expected_owner_projection_sha256=expected_projection)
     print(json.dumps(receipt, indent=2))
     return 0 if receipt["classification"] == "PASS" else 1
 

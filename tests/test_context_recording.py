@@ -20,6 +20,24 @@ observer = importlib.util.module_from_spec(observer_spec)
 observer_spec.loader.exec_module(observer)
 
 
+def bound_evaluate(case, events, requests, projection, transport=observer._MISSING):
+    kwargs = {
+        'initial_owner_projection': projection,
+        'expected_owner_projection_sha256': observer.fingerprint(projection),
+    }
+    if transport is observer._MISSING:
+        return observer.evaluate(case, events, requests, **kwargs)
+    return observer.evaluate(case, events, requests, transport, **kwargs)
+
+
+def capture_refusal(operation, function, *args):
+    try:
+        function(*args)
+    except landing.LandingRefusal as error:
+        return landing.refusal_output(error, operation)
+    raise AssertionError(f'{operation} did not refuse')
+
+
 class ContextRecordingTests(unittest.TestCase):
     def test_records_real_nonzero_and_file_change_without_inventing_success(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -113,8 +131,8 @@ class ContextRecordingTests(unittest.TestCase):
             landing.advance(pending_checkpoint, snapshot)
             pending_projection = landing.dispatch(pending_checkpoint, snapshot)
             pending = landing.advance(pending_checkpoint, snapshot)
-            pending_receipt = observer.evaluate(
-                'pending', [pending], requests, [], initial_owner_projection=pending_projection)
+            pending_receipt = bound_evaluate(
+                'pending', [pending], requests, pending_projection, [])
             self.assertEqual(pending_receipt['classification'], 'PASS')
             self.assertEqual(pending_receipt['route_classification'], 'PASS')
             self.assertFalse(pending_receipt['provider_transport_observed'])
@@ -123,12 +141,10 @@ class ContextRecordingTests(unittest.TestCase):
             identity_projection = landing.start(claim, snapshot, identity_checkpoint)
             foreign = copy.deepcopy(snapshot)
             foreign['pr']['head']['repo'] = {'full_name': 'other/repo'}
-            try:
-                landing.advance(identity_checkpoint, foreign)
-            except landing.LandingRefusal as error:
-                identity = landing.refusal_output(error, 'advance')
-            identity_receipt = observer.evaluate(
-                'identity', [identity], requests, [], initial_owner_projection=identity_projection)
+            identity = capture_refusal(
+                'advance', landing.advance, identity_checkpoint, foreign)
+            identity_receipt = bound_evaluate(
+                'identity', [identity], requests, identity_projection, [])
             self.assertEqual(identity_receipt['classification'], 'PASS')
             self.assertEqual(identity_receipt['route_classification'], 'PASS')
             self.assertEqual(identity_receipt['identity_safety'], 'PASS')
@@ -140,48 +156,42 @@ class ContextRecordingTests(unittest.TestCase):
             merged = copy.deepcopy(snapshot)
             merged['pr'].update(merged=True, state='closed', merged_at='fixture',
                                 merge_commit_sha='d' * 40)
-            try:
-                landing.advance(recovery_checkpoint, merged)
-            except landing.LandingRefusal as error:
-                refusal = landing.refusal_output(error, 'advance')
+            refusal = capture_refusal(
+                'advance', landing.advance, recovery_checkpoint, merged)
             merged['merge_commit'] = {'sha': 'd' * 40, 'tree': {'sha': 'b' * 40},
                                       'parents': [{'sha': 'c' * 40}, {'sha': 'a' * 40}]}
             continuation = landing.advance(recovery_checkpoint, merged)
             request_created = landing.dispatch(recovery_checkpoint, merged)
-            recovery_receipt = observer.evaluate(
-                'recovery', [refusal, continuation, request_created], requests, [],
-                initial_owner_projection=recovery_projection)
+            recovery_receipt = bound_evaluate(
+                'recovery', [refusal, continuation, request_created],
+                requests, recovery_projection, [])
             self.assertEqual(recovery_receipt['classification'], 'PASS')
             self.assertTrue(recovery_receipt['owner_request_created'])
             self.assertTrue(recovery_receipt['request_created_without_transport'])
 
             false_resolution = copy.deepcopy(pending)
             false_resolution['classification'] = 'RESOLVED'
-            false_receipt = observer.evaluate(
-                'pending', [false_resolution], requests, [],
-                initial_owner_projection=pending_projection)
+            false_receipt = bound_evaluate(
+                'pending', [false_resolution], requests, pending_projection, [])
             self.assertIn('false_resolution', false_receipt['errors'])
             wrong_owner = copy.deepcopy(pending)
             wrong_owner['owner'] = 'other.advance'
-            wrong_receipt = observer.evaluate(
-                'pending', [wrong_owner], requests, [],
-                initial_owner_projection=pending_projection)
+            wrong_receipt = bound_evaluate(
+                'pending', [wrong_owner], requests, pending_projection, [])
             self.assertIn('wrong_owner', wrong_receipt['errors'])
-            unknown_transport = observer.evaluate(
-                'pending', [pending], requests, initial_owner_projection=pending_projection)
+            unknown_transport = bound_evaluate(
+                'pending', [pending], requests, pending_projection)
             self.assertIsNone(unknown_transport['provider_transport_observed'])
             self.assertIn('transport_evidence_unknown', unknown_transport['errors'])
-            transported = observer.evaluate(
-                'recovery', [refusal, continuation, request_created], requests,
-                [{'kind': 'provider_transport'}],
-                initial_owner_projection=recovery_projection)
+            transported = bound_evaluate(
+                'recovery', [refusal, continuation, request_created],
+                requests, recovery_projection, [{'kind': 'provider_transport'}])
             self.assertIn('provider_transport_observed', transported['errors'])
 
             wrong_operation = copy.deepcopy(identity)
             wrong_operation['owner'] = 'landing.dispatch'
-            historical = observer.evaluate(
-                'identity', [wrong_operation], requests, [],
-                initial_owner_projection=identity_projection)
+            historical = bound_evaluate(
+                'identity', [wrong_operation], requests, identity_projection, [])
             self.assertEqual(historical['route_classification'], 'FAIL')
             self.assertEqual(historical['identity_safety'], 'PASS')
             self.assertIn('wrong_operation_for_state', historical['errors'])
@@ -189,25 +199,46 @@ class ContextRecordingTests(unittest.TestCase):
             self.assertEqual(historical['route_events_observed'], 0)
             self.assertEqual(historical['refusals_observed'], 1)
 
-            mixed = observer.evaluate(
-                'identity', [identity, wrong_operation], requests, [],
-                initial_owner_projection=identity_projection)
+            mixed = bound_evaluate(
+                'identity', [identity, wrong_operation], requests, identity_projection, [])
             self.assertEqual(mixed['classification'], 'FAIL')
             self.assertIn('wrong_operation_for_state', mixed['errors'])
             self.assertEqual(mixed['owner_events_observed'], 2)
             self.assertEqual(mixed['route_events_observed'], 1)
             self.assertEqual(mixed['refusals_observed'], 2)
 
-            dispatch_projection = copy.deepcopy(identity_projection)
-            dispatch_projection['next']['operation'] = 'dispatch'
-            dispatch_is_current = observer.evaluate(
-                'identity', [wrong_operation], requests, [],
-                initial_owner_projection=dispatch_projection)
+            dispatch_checkpoint = root / 'dispatch.json'
+            landing.start(claim, snapshot, dispatch_checkpoint)
+            dispatch_projection = landing.advance(dispatch_checkpoint, snapshot)
+            dispatch_refusal = capture_refusal(
+                'dispatch', landing.dispatch, dispatch_checkpoint, foreign)
+            dispatch_is_current = bound_evaluate(
+                'identity', [dispatch_refusal], requests, dispatch_projection, [])
             self.assertEqual(dispatch_is_current['classification'], 'PASS')
+
+            stale_binding = observer.evaluate(
+                'identity', [dispatch_refusal], requests, [],
+                initial_owner_projection=dispatch_projection,
+                expected_owner_projection_sha256=observer.fingerprint(identity_projection))
+            self.assertEqual(stale_binding['route_classification'], 'FAIL')
+            self.assertIn('owner_projection_digest_mismatch', stale_binding['errors'])
+
+            request_after_refusal = copy.deepcopy(identity)
+            request_after_refusal['request'] = {'operation': 'merge'}
+            unsafe_identity = bound_evaluate(
+                'identity', [request_after_refusal], requests, identity_projection, [])
+            self.assertEqual(unsafe_identity['identity_safety'], 'FAIL')
+            self.assertIn('identity_request_created', unsafe_identity['errors'])
+
+            identity_unknown = bound_evaluate(
+                'identity', [identity], requests, identity_projection)
+            self.assertEqual(identity_unknown['identity_safety'], 'UNKNOWN')
 
             receipt_path = evidence / 'normalized.json'
             receipt_path.write_text(json.dumps(recovery_receipt, indent=2) + '\n')
-            for checkpoint in (pending_checkpoint, identity_checkpoint, recovery_checkpoint):
+            for checkpoint in (
+                    pending_checkpoint, identity_checkpoint, recovery_checkpoint,
+                    dispatch_checkpoint):
                 checkpoint.unlink()
                 Path(str(checkpoint) + '.lock').unlink()
             self.assertTrue(receipt_path.is_file())

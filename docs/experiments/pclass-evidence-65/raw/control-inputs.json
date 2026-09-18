@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#65",
+  "base": "d1a09f50fa38449dd7a00bc3ef207b77c03d3561",
+  "external_oracle_sha256": "cefbade8ec5ca65e4a5bf1a8fa9a3fd8c2579effb5a1d073359686fadeefd5b4",
+  "controls": {
+    "advance": "real landing owner projection from offered checkpoint",
+    "dispatch": "real landing owner projection from prepared checkpoint",
+    "stale_digest": "dispatch projection paired with selected advance digest",
+    "request_after_refusal": "foreign-repository refusal carrying an owner request",
+    "transport_unknown": "transport evidence omitted",
+    "transport_after_refusal": "explicit provider transport after refusal",
+    "historical_wrong_route": "selected advance, observed dispatch refusal"
+  },
+  "authorizes_landing": false
+}
