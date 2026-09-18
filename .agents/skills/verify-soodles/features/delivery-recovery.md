@@ -4,7 +4,7 @@ Exercise interruption, readmission and cleanup behavior through existing executa
 
 ## Preconditions and drive
 
-Use a clean committed candidate in a Noodle worktree, a fresh evidence destination outside it, and the admitted absolute Noodle path. Begin with `./soodles runtime check` and `noodle skills list`; verify this checkout's exact skill path/digests. Record source head/tree and clean status before the drive. Do not start `noodle start` or repair missing scheduling adapters.
+Use a clean committed candidate, a fresh evidence destination outside it, and the admitted absolute Noodle path. Existing-resource controls use a Noodle worktree; the cloud no-op control must begin without its candidate path, branch or registration. Begin with `./soodles runtime check` and `noodle skills list`; verify this checkout's exact skill path/digests. Record source head/tree and clean status before the drive. Do not start `noodle start`, manufacture a worktree for the no-op case, or repair missing scheduling adapters.
 
 From that checkout, use the existing entrypoints (replace the binary path only with the already-confirmed path):
 
@@ -24,7 +24,7 @@ Capture each command's actual argv, stdout/stderr, exit and elapsed time in surv
 | `delivery_oracle.py` | Prepared-intent SIGKILL recovery, lost responses and dispatch gaps, one concurrent offer, legacy unknown writes, head drift, structured owner refusal, dependent merged-commit readback recovery and terminal projection without checkpoint rewrite |
 | `base_recovery_oracle.py` | Base drift and interrupted readmission; exact comparison GET and original operation for missing/malformed base, candidate and recovery readbacks; retained fresh claim; invalid endpoint/foreign repository refusal before guidance; same-base amendment and offered/legacy unknown preservation |
 | `cleanup_lock_oracle.py` | Lock refusal before deletion, consumed recovery, released-lock progress, moved-branch protection and no residue using real Noodle |
-| `cleanup_recovery_probe` | Interrupted cleanup, moved/foreign worktree protection, unchanged-attempt refusal and legacy checkpoint recovery using real Noodle |
+| `cleanup_recovery_probe` | Interrupted cleanup, moved/foreign worktree protection, unchanged-attempt refusal, legacy checkpoint recovery, and `awaiting_reconcile` verifier migration plus never-created cloud-worktree no-op using real Noodle |
 
 All selected commands must succeed and contain their actual case results. A zero exit with absent evidence is not a successful pass. For cleanup lock treatment, also require `lock_refusal_before_deletion: true` in each case: its baseline compatibility can otherwise accept an older refusal after deletion. Preserve fault signals, refused side effects/reoffers and before/after observations. Only the fixture creator removes its planted lock; never copy that operation onto a production lock. Do not freeze test count or help wording as the behavior contract. The fixed external #21 experiment additionally rejected wrong `dispatch` guidance, terminal polling and a candidate fake GREEN oracle; refer to its receipt as historical independent evidence, not a fresh run by this skill.
 

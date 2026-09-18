@@ -4,7 +4,7 @@ A supervisor admits one exact Issue/PR claim to an immutable external landing ow
 
 ## Preconditions and entry
 
-Use a legitimate admitted Issue, its Noodle-owned worktree, clean final candidate head/tree, canonical acceptance and exact-head runtime Actions evidence. The supervisor selects an external publisher from an explicit immutable commit/digest before this acceptance. Never resolve the active judge from a default-branch tip, candidate import or historical next command.
+Use a legitimate admitted Issue, clean final candidate head/tree, canonical acceptance and exact-head runtime Actions evidence. A local execution retains its Noodle-owned worktree; a cloud execution preserves evidence that no local candidate path, branch or registration was created. The supervisor selects an external publisher from an explicit immutable commit/digest before this acceptance. Never resolve the active judge from a default-branch tip, candidate import or historical next command.
 
 Run the session doctor and resolve this checkout's skill as described in SKILL.md. Read the selected publisher's `landing start --help`; supply its confirmed claim, raw provider readback and fresh checkpoint paths. Preserve publisher `landing identity`, candidate identity, skill path/digests and the subject-specific trace outside the worktree. The selected publisher path is supplied by the supervisor, not guessed by this recipe.
 
@@ -29,6 +29,8 @@ For a merged PR, missing or malformed `merge_commit` returns the dependent GET u
 ## Observe completion and failures
 
 Positive completion requires the admitted candidate's merge commit/tree, GitHub PR merged and Issue closed/completed readbacks, and the external owner's `classification: RESOLVED`, `phase: resolved`, `next: null`. Independently inspect the surviving control root's merged head/tree, clean status, and absent task worktree/branch. Preserve checkpoint digest, provider subjects and exact-head run/attempt. Green tests, a prepared request, provider closure alone or `next: null` alone are insufficient.
+
+When a completed cloud delivery has no candidate path, branch or registration, a corrected external verifier may resume the unchanged checkpoint from `awaiting_reconcile`. The owner must persist the three-way absence as no-op cleanup before Git synchronization. This path emits no provider request and must not create a synthetic worktree; any existing branch or registration returns to the Noodle-owned cleanup boundary.
 
 Record each owner command and provider operation, expected versus unexpected refusals, fresh versus repeated readbacks, verification invocations and terminal receipt. Keep counter scope explicit; timestamps not actually observed remain unknown. A connector write that returns no reliable result requires the specific owner readback before any further offer. Same input without a material change does not justify a retry.
 

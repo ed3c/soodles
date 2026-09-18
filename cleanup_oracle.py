@@ -22,7 +22,8 @@ def cleanup_recovery_probe(binary, cli_root=ROOT):
 
     with tempfile.TemporaryDirectory(prefix="soodles-cleanup-oracle-") as directory:
         area = Path(directory)
-        for case in ("resume", "moved_branch", "foreign_checkout", "unchanged_attempt", "legacy_checkpoint"):
+        for case in ("resume", "moved_branch", "foreign_checkout", "unchanged_attempt", "legacy_checkpoint",
+                     "cloud_noop"):
             home = area / case
             root, shim = home / "repo", home / "shim"
             root.mkdir(parents=True)
@@ -70,11 +71,38 @@ def cleanup_recovery_probe(binary, cli_root=ROOT):
             commit = ["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit"]
             invoke([*commit, "-m", "Local recovery fixture"])
             head, tree = output(["git", "rev-parse", "HEAD"]), output(["git", "rev-parse", "HEAD^{tree}"])
-            invoke([binary, "worktree", "create", "probe"])
             claim = {"repository": "ed3c/soodles", "issue": 1, "pr": 2, "head": head, "tree": tree,
                      "base_head": head, "run_id": 1, "run_attempt": 1, "worktree": "probe",
                      "control_root": str(root), "verifier_sha256": json.loads(output([cli, "landing", "identity"]))["verifier_sha256"]}
             checkpoint = home / "checkpoint.json"
+            if case == "cloud_noop":
+                previous = {**claim, "verifier_sha256": "0" * 64}
+                checkpoint.write_text(json.dumps({"schema": 2, "claim": previous, "phase": "awaiting_reconcile",
+                    "classification": None, "merge_sha": head, "issue_closed_at": "fixture-only",
+                    "writes_offered": ["merge", "close"],
+                    "delivery": {"action": "close", "status": "offered"}}))
+                claim_file = home / "claim.json"
+                claim_file.write_text(json.dumps(claim))
+                migrated = json.loads(invoke([cli, "landing", "resume", checkpoint, claim_file]).stdout)
+                require(migrated["phase"] == "awaiting_reconcile" and migrated["provider_requests"] == [],
+                        "cloud_noop: migration changed phase or emitted provider work")
+                result = json.loads(invoke([cli, "landing", "reconcile", checkpoint, binary]).stdout)
+                state = json.loads(checkpoint.read_text())
+                require(result["classification"] == "RESOLVED" and result["local"]["cleanup_mode"] == "no_op",
+                        "cloud_noop: missing terminal no-op classification")
+                require(state["cleanup_intent"]["mode"] == "no_op" and state["prior_verifiers"] == ["0" * 64],
+                        "cloud_noop: missing durable absence or verifier history")
+                require(not deletion_log(), "cloud_noop: invoked worktree deletion")
+                require(result["writes_offered"] == ["merge", "close"], "cloud_noop: repeated provider intent")
+                require(not output(["git", "branch", "--list", "probe"]), "cloud_noop: created candidate branch")
+                require(output(["git", "worktree", "list", "--porcelain"]).count("worktree ") == 1,
+                        "cloud_noop: created candidate worktree")
+                require(not output(["git", "status", "--porcelain", "--untracked-files=all"]),
+                        "cloud_noop: source residue")
+                cases.append({"case": case, "migration": "awaiting_reconcile", "cleanup": "no_op",
+                              "provider_requests": 0, "zero_residue": True})
+                continue
+            invoke([binary, "worktree", "create", "probe"])
             checkpoint.write_text(json.dumps({"schema": 1, "claim": claim, "phase": "awaiting_reconcile",
                 "classification": None, "merge_sha": head, "issue_closed_at": "fixture-only",
                 "writes_offered": ["merge", "close"]}))
