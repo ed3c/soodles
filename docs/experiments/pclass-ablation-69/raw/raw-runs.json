@@ -1,0 +1,4053 @@
+{
+  "schema": 1,
+  "runs": [
+    {
+      "run_id": "13cd9b",
+      "arm": "treatment",
+      "packet": {
+        "schema": 2,
+        "run_id": "13cd9b",
+        "case": "identity",
+        "source_ref": "d92c6ed995227416f97b51de54481f0c6f435887",
+        "instruction": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+          "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f"
+        },
+        "owner_package": "/workspace/scratch/e2ec76ad6210/issue69-exp/package",
+        "checkpoint": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+          "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+        },
+        "readbacks": [
+          {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "sha256": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106"
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "expected_owner_projection_sha256": "7eaf5f10c4629728f40c14a5a5760735f178fe38dab881c44249b6167445b994",
+        "next_operation": "advance",
+        "allowed_owner_operations": [
+          "advance"
+        ],
+        "connector_transport_authorized": false,
+        "stop_when_owner_request_created": true,
+        "transport_events": [],
+        "evidence_destination": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/evidence",
+        "consumer_receipt": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/consumer.json",
+        "teardown_paths": [
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json.lock"
+        ],
+        "requested_model": "gpt-6-astra",
+        "observed_model": null
+      },
+      "precondition": {
+        "schema": 1,
+        "run_id": "13cd9b",
+        "case": "identity",
+        "owner_commands": [
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "start",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/claim.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.start",
+              "action": "readback",
+              "phase": "admitted",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json"
+            },
+            "stdout_sha256": "5f671b2cc075dbaf34930d86faedc69fe3bf089dfa52ed1fb8c7fc464f72069a",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.advance",
+              "action": "dispatch",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "dispatch",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "dispatch",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              }
+            },
+            "stdout_sha256": "6532c4b99d2c8040463af1d157ebf61e37aeec7faa5d5302185366e08e0414a5",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "dispatch",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.dispatch",
+              "action": "merge",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "request": {
+                "action": "merge",
+                "repository_full_name": "ed3c/soodles",
+                "pr_number": 2,
+                "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "merge_method": "merge"
+              }
+            },
+            "stdout_sha256": "b7d4e398d84e30262a106dd66a1ef9ed29575d3cdf02721f26ee3a45457c51fc",
+            "stderr": ""
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "initial_owner_projection_sha256": "7eaf5f10c4629728f40c14a5a5760735f178fe38dab881c44249b6167445b994",
+        "checkpoint_sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+        "checkpoint_projection": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null
+        },
+        "owner_request_created": true,
+        "provider_transport_observed": false,
+        "transport_events": [],
+        "authorizes_landing": false
+      },
+      "consumer": {
+        "schema": 1,
+        "run_id": "13cd9b",
+        "selected_operation": "advance",
+        "selection_source": "packet.initial_owner_projection.next.operation",
+        "owner_status": "refused",
+        "owner_request_created": false,
+        "transport_events": [],
+        "digest_checks": {
+          "instruction": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+            "expected": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "actual": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "match": true
+          },
+          "checkpoint": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+            "expected": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "actual": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "match": true
+          },
+          "readback": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "expected": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "actual": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "match": true
+          }
+        }
+      },
+      "commands": [
+        {
+          "label": "absence",
+          "argv": [
+            "python3",
+            "-B",
+            "-c",
+            "import os,sys,json; p=sys.argv[1:]; a={x:not os.path.lexists(x) for x in p}; print(json.dumps(a)); sys.exit(0 if all(a.values()) else 1)",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.017732863998389803,
+          "stdout_bytes": 168,
+          "stderr_bytes": 0,
+          "stdout_sha256": "a634a05c6eba8ee82b08a0e2bb6b7e7ee0fde68b0ea18dfcc8f897064c86e045",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "advance",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 1,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0592478359976667,
+          "stdout_bytes": 537,
+          "stderr_bytes": 246,
+          "stdout_sha256": "1f7cfbfa0d8930bcf2755a7fa81276d2e91600600f724662bb6e2b473c02e37d",
+          "stderr_sha256": "d43ffdf0bbf58c9c2883c1e0e5f99d241aa1a3de67afee158345de75690ae29b",
+          "owner_event": {
+            "owner": "landing.advance",
+            "status": "refused",
+            "invalid": {
+              "field": "pr.head.repository",
+              "value": "other/repo"
+            },
+            "next": {
+              "kind": "input",
+              "owner": "supervisor",
+              "operation": "advance",
+              "required": [
+                "corrected_input"
+              ],
+              "known": {},
+              "help_argv": [
+                "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                "-B",
+                "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                "landing",
+                "advance",
+                "--help"
+              ]
+            }
+          }
+        },
+        {
+          "label": "advance-help",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0366159900004277,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "stdout_sha256": "09929e43065c78a4cdb2a1bfac9c75e1c29f3c7007c99e3027a9407c43e75ffb",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "digests",
+          "argv": [
+            "sha256sum",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0023142580030253157,
+          "stdout_bytes": 413,
+          "stderr_bytes": 0,
+          "stdout_sha256": "6d4f0a11e1bb72813444f86d945fb449710b60f1b611f423dfe4c6fd1e3d4608",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "inputs",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0028114169981563464,
+          "stdout_bytes": 12598,
+          "stderr_bytes": 0,
+          "stdout_sha256": "cb8a8f5cd1baf12eb58f0f6d312aae3154979115b355763045735f30add9af5b",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "packet",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/packet.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0050574030028656125,
+          "stdout_bytes": 3380,
+          "stderr_bytes": 0,
+          "stdout_sha256": "cf7b33d4340adde491753b94bbf8e3731ff749f4167c3816bf682af5846452e9",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "recipe",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.001379053996060975,
+          "stdout_bytes": 7614,
+          "stderr_bytes": 0,
+          "stdout_sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "skill",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0025012490004883148,
+          "stdout_bytes": 9786,
+          "stderr_bytes": 0,
+          "stdout_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "teardown",
+          "argv": [
+            "rm",
+            "-f",
+            "--",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.001265957995201461,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        }
+      ],
+      "instruction_observations": [
+        {
+          "label": "digests",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+          "bytes": 10101,
+          "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "inputs",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+          "bytes": 10101,
+          "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "recipe",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md",
+          "bytes": 7614,
+          "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "skill",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md",
+          "bytes": 9786,
+          "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      ],
+      "owner_events": [
+        {
+          "owner": "landing.advance",
+          "status": "refused",
+          "invalid": {
+            "field": "pr.head.repository",
+            "value": "other/repo"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "operation": "advance",
+            "required": [
+              "corrected_input"
+            ],
+            "known": {},
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ]
+          }
+        }
+      ],
+      "remaining_disposable_paths": []
+    },
+    {
+      "run_id": "51fa28",
+      "arm": "treatment",
+      "packet": {
+        "schema": 2,
+        "run_id": "51fa28",
+        "case": "identity",
+        "source_ref": "d92c6ed995227416f97b51de54481f0c6f435887",
+        "instruction": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+          "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f"
+        },
+        "owner_package": "/workspace/scratch/e2ec76ad6210/issue69-exp/package",
+        "checkpoint": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+          "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+        },
+        "readbacks": [
+          {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "sha256": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106"
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "expected_owner_projection_sha256": "1e288efd81758d584cad5dc7104518b499fbc95f305b5ce9c7a9153ae99f0fec",
+        "next_operation": "advance",
+        "allowed_owner_operations": [
+          "advance"
+        ],
+        "connector_transport_authorized": false,
+        "stop_when_owner_request_created": true,
+        "transport_events": [],
+        "evidence_destination": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/evidence",
+        "consumer_receipt": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/consumer.json",
+        "teardown_paths": [
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json.lock"
+        ],
+        "requested_model": "gpt-6-astra",
+        "observed_model": null
+      },
+      "precondition": {
+        "schema": 1,
+        "run_id": "51fa28",
+        "case": "identity",
+        "owner_commands": [
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "start",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/claim.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.start",
+              "action": "readback",
+              "phase": "admitted",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json"
+            },
+            "stdout_sha256": "0d1f743c50e0c9254ee92d71ac451d7aacc08e9fdec1ed68ae39e1e679c46a48",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.advance",
+              "action": "dispatch",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "dispatch",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "dispatch",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              }
+            },
+            "stdout_sha256": "06762d19ca06c196210a1506f276f35fd1fb8942fbe47c951287bcfae52c2cdf",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "dispatch",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.dispatch",
+              "action": "merge",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "request": {
+                "action": "merge",
+                "repository_full_name": "ed3c/soodles",
+                "pr_number": 2,
+                "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "merge_method": "merge"
+              }
+            },
+            "stdout_sha256": "0bd0f90e72617e19888c33e5606938105b00eefbb65c5d8f6b96bc9cac5b3cf4",
+            "stderr": ""
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "initial_owner_projection_sha256": "1e288efd81758d584cad5dc7104518b499fbc95f305b5ce9c7a9153ae99f0fec",
+        "checkpoint_sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+        "checkpoint_projection": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null
+        },
+        "owner_request_created": true,
+        "provider_transport_observed": false,
+        "transport_events": [],
+        "authorizes_landing": false
+      },
+      "consumer": {
+        "schema": 1,
+        "run_id": "51fa28",
+        "selected_operation": "advance",
+        "selection_source": "packet.initial_owner_projection.next.operation",
+        "owner_status": "refused",
+        "owner_request_created": false,
+        "transport_events": [],
+        "digest_checks": {
+          "instruction": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+            "expected": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "actual": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "match": true
+          },
+          "checkpoint": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+            "expected": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "actual": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "match": true
+          },
+          "readback": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "expected": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "actual": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "match": true
+          }
+        }
+      },
+      "commands": [
+        {
+          "label": "advance",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 1,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.054908641999645624,
+          "stdout_bytes": 537,
+          "stderr_bytes": 246,
+          "stdout_sha256": "1f7cfbfa0d8930bcf2755a7fa81276d2e91600600f724662bb6e2b473c02e37d",
+          "stderr_sha256": "d43ffdf0bbf58c9c2883c1e0e5f99d241aa1a3de67afee158345de75690ae29b",
+          "owner_event": {
+            "owner": "landing.advance",
+            "status": "refused",
+            "invalid": {
+              "field": "pr.head.repository",
+              "value": "other/repo"
+            },
+            "next": {
+              "kind": "input",
+              "owner": "supervisor",
+              "operation": "advance",
+              "required": [
+                "corrected_input"
+              ],
+              "known": {},
+              "help_argv": [
+                "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                "-B",
+                "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                "landing",
+                "advance",
+                "--help"
+              ]
+            }
+          }
+        },
+        {
+          "label": "advance-help",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.04401130699989153,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "stdout_sha256": "09929e43065c78a4cdb2a1bfac9c75e1c29f3c7007c99e3027a9407c43e75ffb",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "digests",
+          "argv": [
+            "sha256sum",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0036971530062146485,
+          "stdout_bytes": 413,
+          "stderr_bytes": 0,
+          "stdout_sha256": "55aca29e022573246760317caf637f3efdfb0d71274aa691f87c0093a36eab59",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "inputs",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0024942390009528026,
+          "stdout_bytes": 12598,
+          "stderr_bytes": 0,
+          "stdout_sha256": "cb8a8f5cd1baf12eb58f0f6d312aae3154979115b355763045735f30add9af5b",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "packet",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/packet.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0014826339975115843,
+          "stdout_bytes": 3380,
+          "stderr_bytes": 0,
+          "stdout_sha256": "c493a2f91a512f94642f2a76fba0157e35d9cf291346bafa15bea3c9bb2d304b",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "recipe",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0013925790044595487,
+          "stdout_bytes": 7614,
+          "stderr_bytes": 0,
+          "stdout_sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "skill",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0012336789950495586,
+          "stdout_bytes": 9786,
+          "stderr_bytes": 0,
+          "stdout_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "teardown",
+          "argv": [
+            "rm",
+            "-f",
+            "--",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0014570860003004782,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "teardown-proof",
+          "argv": [
+            "python3",
+            "-B",
+            "-c",
+            "import os,sys; paths=sys.argv[1:]; residue=[p for p in paths if os.path.lexists(p)]; print({\"teardown_paths\":paths,\"residue\":residue}); sys.exit(bool(residue))",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/51fa28/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.013588750996859744,
+          "stdout_bytes": 191,
+          "stderr_bytes": 0,
+          "stdout_sha256": "4f6e1688f2ea195705c451be9528b9975ce0beec28d3277db5f9e27ca5062c19",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        }
+      ],
+      "instruction_observations": [
+        {
+          "label": "digests",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+          "bytes": 10101,
+          "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "inputs",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+          "bytes": 10101,
+          "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "recipe",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md",
+          "bytes": 7614,
+          "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "skill",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md",
+          "bytes": 9786,
+          "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      ],
+      "owner_events": [
+        {
+          "owner": "landing.advance",
+          "status": "refused",
+          "invalid": {
+            "field": "pr.head.repository",
+            "value": "other/repo"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "operation": "advance",
+            "required": [
+              "corrected_input"
+            ],
+            "known": {},
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ]
+          }
+        }
+      ],
+      "remaining_disposable_paths": []
+    },
+    {
+      "run_id": "a702de",
+      "arm": "treatment",
+      "packet": {
+        "schema": 2,
+        "run_id": "a702de",
+        "case": "identity",
+        "source_ref": "d92c6ed995227416f97b51de54481f0c6f435887",
+        "instruction": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+          "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f"
+        },
+        "owner_package": "/workspace/scratch/e2ec76ad6210/issue69-exp/package",
+        "checkpoint": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+          "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+        },
+        "readbacks": [
+          {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "sha256": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106"
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "expected_owner_projection_sha256": "889918c1bca9f39474c6c2d69ea70b4308e9894dbb3e5370bd184cd3c815167e",
+        "next_operation": "advance",
+        "allowed_owner_operations": [
+          "advance"
+        ],
+        "connector_transport_authorized": false,
+        "stop_when_owner_request_created": true,
+        "transport_events": [],
+        "evidence_destination": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/evidence",
+        "consumer_receipt": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/consumer.json",
+        "teardown_paths": [
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json.lock"
+        ],
+        "requested_model": "gpt-6-astra",
+        "observed_model": null
+      },
+      "precondition": {
+        "schema": 1,
+        "run_id": "a702de",
+        "case": "identity",
+        "owner_commands": [
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "start",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/claim.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.start",
+              "action": "readback",
+              "phase": "admitted",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json"
+            },
+            "stdout_sha256": "4e21e2e18cb05c6754fdf96728090f459c42d2ae73da9b190f6de98eb37470ec",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.advance",
+              "action": "dispatch",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "dispatch",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "dispatch",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              }
+            },
+            "stdout_sha256": "992d1bf58055686174bb7af0865a782781e9f397e868351e688ac62c982c61cf",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "dispatch",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.dispatch",
+              "action": "merge",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "request": {
+                "action": "merge",
+                "repository_full_name": "ed3c/soodles",
+                "pr_number": 2,
+                "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "merge_method": "merge"
+              }
+            },
+            "stdout_sha256": "fe39743d89c95607fc8ea21d6d04b4a717faa6c8bf76e008351daf20f75d8215",
+            "stderr": ""
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "initial_owner_projection_sha256": "889918c1bca9f39474c6c2d69ea70b4308e9894dbb3e5370bd184cd3c815167e",
+        "checkpoint_sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+        "checkpoint_projection": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null
+        },
+        "owner_request_created": true,
+        "provider_transport_observed": false,
+        "transport_events": [],
+        "authorizes_landing": false
+      },
+      "consumer": {
+        "schema": 1,
+        "run_id": "a702de",
+        "selected_operation": "advance",
+        "selection_source": "packet.initial_owner_projection.next.operation",
+        "owner_status": "refused",
+        "owner_request_created": false,
+        "transport_events": [],
+        "digest_checks": {
+          "instruction": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+            "expected": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "actual": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "match": true
+          },
+          "checkpoint": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+            "expected": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "actual": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "match": true
+          },
+          "readback": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "expected": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "actual": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "match": true
+          }
+        }
+      },
+      "commands": [
+        {
+          "label": "advance",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 1,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.049002815001585986,
+          "stdout_bytes": 537,
+          "stderr_bytes": 246,
+          "stdout_sha256": "1f7cfbfa0d8930bcf2755a7fa81276d2e91600600f724662bb6e2b473c02e37d",
+          "stderr_sha256": "d43ffdf0bbf58c9c2883c1e0e5f99d241aa1a3de67afee158345de75690ae29b",
+          "owner_event": {
+            "owner": "landing.advance",
+            "status": "refused",
+            "invalid": {
+              "field": "pr.head.repository",
+              "value": "other/repo"
+            },
+            "next": {
+              "kind": "input",
+              "owner": "supervisor",
+              "operation": "advance",
+              "required": [
+                "corrected_input"
+              ],
+              "known": {},
+              "help_argv": [
+                "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                "-B",
+                "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                "landing",
+                "advance",
+                "--help"
+              ]
+            }
+          }
+        },
+        {
+          "label": "advance_help",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.037160228996071965,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "stdout_sha256": "09929e43065c78a4cdb2a1bfac9c75e1c29f3c7007c99e3027a9407c43e75ffb",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "digests",
+          "argv": [
+            "sha256sum",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0033530029977555387,
+          "stdout_bytes": 413,
+          "stderr_bytes": 0,
+          "stdout_sha256": "94fd327ee451c35f4d4188117632e3f86f88dc07ce53c11c6b8953c22840ffcf",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "inputs",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.00267844699556008,
+          "stdout_bytes": 12598,
+          "stderr_bytes": 0,
+          "stdout_sha256": "cb8a8f5cd1baf12eb58f0f6d312aae3154979115b355763045735f30add9af5b",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "packet",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/packet.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.002310082003532443,
+          "stdout_bytes": 3380,
+          "stderr_bytes": 0,
+          "stdout_sha256": "040c97202694b8de85ba71fcc61b183158343a8c287458b1f305f4997af75a9f",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "recipe",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0014017829962540418,
+          "stdout_bytes": 7614,
+          "stderr_bytes": 0,
+          "stdout_sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "skill",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0016945839961408637,
+          "stdout_bytes": 9786,
+          "stderr_bytes": 0,
+          "stdout_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "teardown",
+          "argv": [
+            "rm",
+            "-f",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.002781762996164616,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "teardown_verify",
+          "argv": [
+            "python3",
+            "-B",
+            "-c",
+            "import os,sys; paths=sys.argv[1:]; result={p: os.path.lexists(p) for p in paths}; print(result); sys.exit(int(any(result.values())))",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/a702de/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.012220949996844865,
+          "stdout_bytes": 170,
+          "stderr_bytes": 0,
+          "stdout_sha256": "47f2ead34ed2d3d11f9fa41fa315ce4025a1e96ddd9e86d67362ea6d5f755d11",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        }
+      ],
+      "instruction_observations": [
+        {
+          "label": "digests",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+          "bytes": 10101,
+          "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "inputs",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md",
+          "bytes": 10101,
+          "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "recipe",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md",
+          "bytes": 7614,
+          "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "skill",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md",
+          "bytes": 9786,
+          "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      ],
+      "owner_events": [
+        {
+          "owner": "landing.advance",
+          "status": "refused",
+          "invalid": {
+            "field": "pr.head.repository",
+            "value": "other/repo"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "operation": "advance",
+            "required": [
+              "corrected_input"
+            ],
+            "known": {},
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ]
+          }
+        }
+      ],
+      "remaining_disposable_paths": []
+    },
+    {
+      "run_id": "b34c71",
+      "arm": "baseline",
+      "packet": {
+        "schema": 2,
+        "run_id": "b34c71",
+        "case": "identity",
+        "source_ref": "d92c6ed995227416f97b51de54481f0c6f435887",
+        "instruction": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+          "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58"
+        },
+        "owner_package": "/workspace/scratch/e2ec76ad6210/issue69-exp/package",
+        "checkpoint": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+          "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+        },
+        "readbacks": [
+          {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "sha256": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106"
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "expected_owner_projection_sha256": "06e1518e80e305c03a5f970a5b62598dea9becda6a1c2596cc31f0451b074994",
+        "next_operation": "advance",
+        "allowed_owner_operations": [
+          "advance"
+        ],
+        "connector_transport_authorized": false,
+        "stop_when_owner_request_created": true,
+        "transport_events": [],
+        "evidence_destination": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/evidence",
+        "consumer_receipt": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/consumer.json",
+        "teardown_paths": [
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json.lock"
+        ],
+        "requested_model": "gpt-6-astra",
+        "observed_model": null
+      },
+      "precondition": {
+        "schema": 1,
+        "run_id": "b34c71",
+        "case": "identity",
+        "owner_commands": [
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "start",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/claim.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.start",
+              "action": "readback",
+              "phase": "admitted",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json"
+            },
+            "stdout_sha256": "7daf0dcc5137f47a4be1092fc22cb11cbe0f4501a7655bd6a473781aa9eb9b43",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.advance",
+              "action": "dispatch",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "dispatch",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "dispatch",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              }
+            },
+            "stdout_sha256": "2f39159b2a12a7786a8d54f9ed0df106c4f8567c29d91e0957c1623d80f9b2fc",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "dispatch",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.dispatch",
+              "action": "merge",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "request": {
+                "action": "merge",
+                "repository_full_name": "ed3c/soodles",
+                "pr_number": 2,
+                "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "merge_method": "merge"
+              }
+            },
+            "stdout_sha256": "9400b54433662e99301e9014ba6a53c88d85a7fb55386ed9f7f25592bbf9bfce",
+            "stderr": ""
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "initial_owner_projection_sha256": "06e1518e80e305c03a5f970a5b62598dea9becda6a1c2596cc31f0451b074994",
+        "checkpoint_sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+        "checkpoint_projection": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null
+        },
+        "owner_request_created": true,
+        "provider_transport_observed": false,
+        "transport_events": [],
+        "authorizes_landing": false
+      },
+      "consumer": {
+        "schema": 1,
+        "run_id": "b34c71",
+        "selected_operation": "advance",
+        "selection_source": "packet.initial_owner_projection.next.operation",
+        "owner_status": "refused",
+        "owner_request_created": false,
+        "transport_events": [],
+        "digest_checks": {
+          "instruction": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+            "expected": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+            "actual": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+            "match": true
+          },
+          "checkpoint": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+            "expected": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "actual": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "match": true
+          },
+          "readback": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "expected": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "actual": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "match": true
+          }
+        }
+      },
+      "commands": [
+        {
+          "label": "absent",
+          "argv": [
+            "python3",
+            "-B",
+            "-c",
+            "import os,sys; paths=sys.argv[1:]; residue=[p for p in paths if os.path.lexists(p)]; print({\"teardown_residue\":residue,\"both_absent\":not residue}); sys.exit(bool(residue))",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.013367523999477271,
+          "stdout_bytes": 46,
+          "stderr_bytes": 0,
+          "stdout_sha256": "cf8ac03d617a1570b0974aefc876f9fde7752cb8eb613753dbb2b8d277772741",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "advance",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 1,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.06582375500147464,
+          "stdout_bytes": 537,
+          "stderr_bytes": 246,
+          "stdout_sha256": "1f7cfbfa0d8930bcf2755a7fa81276d2e91600600f724662bb6e2b473c02e37d",
+          "stderr_sha256": "d43ffdf0bbf58c9c2883c1e0e5f99d241aa1a3de67afee158345de75690ae29b",
+          "owner_event": {
+            "owner": "landing.advance",
+            "status": "refused",
+            "invalid": {
+              "field": "pr.head.repository",
+              "value": "other/repo"
+            },
+            "next": {
+              "kind": "input",
+              "owner": "supervisor",
+              "operation": "advance",
+              "required": [
+                "corrected_input"
+              ],
+              "known": {},
+              "help_argv": [
+                "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                "-B",
+                "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                "landing",
+                "advance",
+                "--help"
+              ]
+            }
+          }
+        },
+        {
+          "label": "advance_help",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.04206641599739669,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "stdout_sha256": "09929e43065c78a4cdb2a1bfac9c75e1c29f3c7007c99e3027a9407c43e75ffb",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "digest",
+          "argv": [
+            "sha256sum",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.003235465999750886,
+          "stdout_bytes": 412,
+          "stderr_bytes": 0,
+          "stdout_sha256": "8549fb41cc519338a7a43c5fea1b727b480cf66a4d196462e806e92ede40b111",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "inputs",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0014957349994801916,
+          "stdout_bytes": 12878,
+          "stderr_bytes": 0,
+          "stdout_sha256": "d1eb56631b08370a6ad58d7f539b6b74c1cbe7dca0a79922e670a09a4b913056",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "packet",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/packet.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0018485160035197623,
+          "stdout_bytes": 3379,
+          "stderr_bytes": 0,
+          "stdout_sha256": "b408a0648be3f601529c4733ddf1697abff15defdd8ab0132783313aa911ccf7",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "recipe",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0034281620028195903,
+          "stdout_bytes": 7614,
+          "stderr_bytes": 0,
+          "stdout_sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "skill",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0016783099999884143,
+          "stdout_bytes": 9786,
+          "stderr_bytes": 0,
+          "stdout_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "teardown",
+          "argv": [
+            "rm",
+            "-f",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.002254658000310883,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        }
+      ],
+      "instruction_observations": [
+        {
+          "label": "digest",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+          "bytes": 10381,
+          "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "inputs",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+          "bytes": 10381,
+          "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "recipe",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md",
+          "bytes": 7614,
+          "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "skill",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md",
+          "bytes": 9786,
+          "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      ],
+      "owner_events": [
+        {
+          "owner": "landing.advance",
+          "status": "refused",
+          "invalid": {
+            "field": "pr.head.repository",
+            "value": "other/repo"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "operation": "advance",
+            "required": [
+              "corrected_input"
+            ],
+            "known": {},
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ]
+          }
+        }
+      ],
+      "remaining_disposable_paths": []
+    },
+    {
+      "run_id": "d19f42",
+      "arm": "baseline",
+      "packet": {
+        "schema": 2,
+        "run_id": "d19f42",
+        "case": "identity",
+        "source_ref": "d92c6ed995227416f97b51de54481f0c6f435887",
+        "instruction": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+          "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58"
+        },
+        "owner_package": "/workspace/scratch/e2ec76ad6210/issue69-exp/package",
+        "checkpoint": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+          "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+        },
+        "readbacks": [
+          {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "sha256": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106"
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "expected_owner_projection_sha256": "8b494fbb69a28fbf5540e18ec052a4264b647c2e77c83223d3929c2e464cc9c4",
+        "next_operation": "advance",
+        "allowed_owner_operations": [
+          "advance"
+        ],
+        "connector_transport_authorized": false,
+        "stop_when_owner_request_created": true,
+        "transport_events": [],
+        "evidence_destination": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/evidence",
+        "consumer_receipt": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/consumer.json",
+        "teardown_paths": [
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json.lock"
+        ],
+        "requested_model": "gpt-6-astra",
+        "observed_model": null
+      },
+      "precondition": {
+        "schema": 1,
+        "run_id": "d19f42",
+        "case": "identity",
+        "owner_commands": [
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "start",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/claim.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.start",
+              "action": "readback",
+              "phase": "admitted",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json"
+            },
+            "stdout_sha256": "69f15b2f7419a2c8ee6edb0ec757f832fc1a2760bce5182f13dd5245e6778fa6",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.advance",
+              "action": "dispatch",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "dispatch",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "dispatch",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              }
+            },
+            "stdout_sha256": "8cc65a0dfd2a54bacaa7155746643e964d945c102155617cb5f8503ca9ec5e5c",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "dispatch",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.dispatch",
+              "action": "merge",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "request": {
+                "action": "merge",
+                "repository_full_name": "ed3c/soodles",
+                "pr_number": 2,
+                "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "merge_method": "merge"
+              }
+            },
+            "stdout_sha256": "7a092be708c9ab4ebbfa05fcb77731759a62455ceea7582058f0aef82afcc004",
+            "stderr": ""
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "initial_owner_projection_sha256": "8b494fbb69a28fbf5540e18ec052a4264b647c2e77c83223d3929c2e464cc9c4",
+        "checkpoint_sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+        "checkpoint_projection": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null
+        },
+        "owner_request_created": true,
+        "provider_transport_observed": false,
+        "transport_events": [],
+        "authorizes_landing": false
+      },
+      "consumer": {
+        "schema": 1,
+        "run_id": "d19f42",
+        "selected_operation": "advance",
+        "selection_source": "packet.initial_owner_projection.next.operation",
+        "owner_status": "refused",
+        "owner_request_created": false,
+        "owner_request_count": 0,
+        "transport_events": [],
+        "digest_checks": {
+          "instruction": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+            "expected": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+            "actual": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+            "match": true
+          },
+          "checkpoint": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+            "expected": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "actual": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "match": true
+          },
+          "readback": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "expected": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "actual": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "match": true
+          }
+        }
+      },
+      "commands": [
+        {
+          "label": "absent",
+          "argv": [
+            "python3",
+            "-B",
+            "-c",
+            "import os,sys; paths=sys.argv[1:]; residue=[p for p in paths if os.path.lexists(p)]; print({\"checked_paths\":paths,\"teardown_residue\":residue}); sys.exit(bool(residue))",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.011996271001407877,
+          "stdout_bytes": 199,
+          "stderr_bytes": 0,
+          "stdout_sha256": "5146cb445bb81bac950a9e10dcb5e784d277600092ee00506ae195336a1c04f5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "digest",
+          "argv": [
+            "sha256sum",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0050826609949581325,
+          "stdout_bytes": 412,
+          "stderr_bytes": 0,
+          "stdout_sha256": "06bfe8842792f2e0e0fde3ed80523da2eca91a6c61d5017a298bd1ac65bcf6fe",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "help",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.03993492200243054,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "stdout_sha256": "09929e43065c78a4cdb2a1bfac9c75e1c29f3c7007c99e3027a9407c43e75ffb",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "inputs",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.002237263004644774,
+          "stdout_bytes": 12878,
+          "stderr_bytes": 0,
+          "stdout_sha256": "d1eb56631b08370a6ad58d7f539b6b74c1cbe7dca0a79922e670a09a4b913056",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "owner",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 1,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.05869373799941968,
+          "stdout_bytes": 537,
+          "stderr_bytes": 246,
+          "stdout_sha256": "1f7cfbfa0d8930bcf2755a7fa81276d2e91600600f724662bb6e2b473c02e37d",
+          "stderr_sha256": "d43ffdf0bbf58c9c2883c1e0e5f99d241aa1a3de67afee158345de75690ae29b",
+          "owner_event": {
+            "owner": "landing.advance",
+            "status": "refused",
+            "invalid": {
+              "field": "pr.head.repository",
+              "value": "other/repo"
+            },
+            "next": {
+              "kind": "input",
+              "owner": "supervisor",
+              "operation": "advance",
+              "required": [
+                "corrected_input"
+              ],
+              "known": {},
+              "help_argv": [
+                "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                "-B",
+                "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                "landing",
+                "advance",
+                "--help"
+              ]
+            }
+          }
+        },
+        {
+          "label": "packet",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/packet.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0014433249962166883,
+          "stdout_bytes": 3379,
+          "stderr_bytes": 0,
+          "stdout_sha256": "b0de2bb173bcea64cb0840eef09e965f4fd75df40e518e6de4853e18eefb342c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "recipe",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.001418477993865963,
+          "stdout_bytes": 7614,
+          "stderr_bytes": 0,
+          "stdout_sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "skill",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0014473820046987385,
+          "stdout_bytes": 9786,
+          "stderr_bytes": 0,
+          "stdout_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "teardown",
+          "argv": [
+            "rm",
+            "-f",
+            "--",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0024895120004657656,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        }
+      ],
+      "instruction_observations": [
+        {
+          "label": "digest",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+          "bytes": 10381,
+          "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "inputs",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+          "bytes": 10381,
+          "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "recipe",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md",
+          "bytes": 7614,
+          "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "skill",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md",
+          "bytes": 9786,
+          "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      ],
+      "owner_events": [
+        {
+          "owner": "landing.advance",
+          "status": "refused",
+          "invalid": {
+            "field": "pr.head.repository",
+            "value": "other/repo"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "operation": "advance",
+            "required": [
+              "corrected_input"
+            ],
+            "known": {},
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ]
+          }
+        }
+      ],
+      "remaining_disposable_paths": []
+    },
+    {
+      "run_id": "e85a06",
+      "arm": "baseline",
+      "packet": {
+        "schema": 2,
+        "run_id": "e85a06",
+        "case": "identity",
+        "source_ref": "d92c6ed995227416f97b51de54481f0c6f435887",
+        "instruction": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+          "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58"
+        },
+        "owner_package": "/workspace/scratch/e2ec76ad6210/issue69-exp/package",
+        "checkpoint": {
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+          "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+        },
+        "readbacks": [
+          {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "sha256": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106"
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "expected_owner_projection_sha256": "7445c734ba3e53c8ec4ef4f9d018d31e0156ce49233796dfb40c31d953243e30",
+        "next_operation": "advance",
+        "allowed_owner_operations": [
+          "advance"
+        ],
+        "connector_transport_authorized": false,
+        "stop_when_owner_request_created": true,
+        "transport_events": [],
+        "evidence_destination": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/evidence",
+        "consumer_receipt": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/consumer.json",
+        "teardown_paths": [
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json.lock"
+        ],
+        "requested_model": "gpt-6-astra",
+        "observed_model": null
+      },
+      "precondition": {
+        "schema": 1,
+        "run_id": "e85a06",
+        "case": "identity",
+        "owner_commands": [
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "start",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/claim.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.start",
+              "action": "readback",
+              "phase": "admitted",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json"
+            },
+            "stdout_sha256": "eb36518f6e3d0a077004e96371baff18377307ac0a5a980878e84e268f83ceaf",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.advance",
+              "action": "dispatch",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "dispatch",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "dispatch",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              }
+            },
+            "stdout_sha256": "19b1c698c7a9bc6add6024495b0ac8b989114af17ea528dbdbec62aae85f4929",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "dispatch",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/open.json"
+            ],
+            "exit_code": 0,
+            "stdout": {
+              "owner": "landing.dispatch",
+              "action": "merge",
+              "phase": "merge_pending",
+              "classification": null,
+              "next": {
+                "kind": "provider_readback",
+                "owner": "GitHub",
+                "operation": "advance",
+                "required": [
+                  "readback"
+                ],
+                "known": {
+                  "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json"
+                },
+                "help_argv": [
+                  "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                  "-B",
+                  "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                  "landing",
+                  "advance",
+                  "--help"
+                ],
+                "requests": {
+                  "pr": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+                  },
+                  "issue": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+                  },
+                  "commit": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "branch": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+                  },
+                  "run": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+                  },
+                  "jobs": {
+                    "method": "GET",
+                    "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+                  }
+                },
+                "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+              },
+              "request": {
+                "action": "merge",
+                "repository_full_name": "ed3c/soodles",
+                "pr_number": 2,
+                "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "merge_method": "merge"
+              }
+            },
+            "stdout_sha256": "00816408d9ddc4d09a7f92a673c0665a32b850ce11b279887532f019df68562c",
+            "stderr": ""
+          }
+        ],
+        "initial_owner_projection": {
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "phase": "merge_pending",
+          "classification": null,
+          "next": {
+            "kind": "provider_readback",
+            "owner": "GitHub",
+            "operation": "advance",
+            "required": [
+              "readback"
+            ],
+            "known": {
+              "checkpoint": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json"
+            },
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ],
+            "requests": {
+              "pr": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+              },
+              "issue": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+              },
+              "commit": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "branch": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+              },
+              "run": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+              },
+              "jobs": {
+                "method": "GET",
+                "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+              }
+            },
+            "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."
+          },
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          }
+        },
+        "initial_owner_projection_sha256": "7445c734ba3e53c8ec4ef4f9d018d31e0156ce49233796dfb40c31d953243e30",
+        "checkpoint_sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+        "checkpoint_projection": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null
+        },
+        "owner_request_created": true,
+        "provider_transport_observed": false,
+        "transport_events": [],
+        "authorizes_landing": false
+      },
+      "consumer": {
+        "schema": 1,
+        "run_id": "e85a06",
+        "selected_operation": "advance",
+        "selection_source": "packet.initial_owner_projection.next.operation",
+        "owner_status": "refused",
+        "owner_request_created": false,
+        "transport_events": [],
+        "digest_checks": {
+          "instruction": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+            "expected": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+            "actual": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+            "match": true
+          },
+          "checkpoint": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+            "expected": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "actual": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+            "match": true
+          },
+          "readback": {
+            "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json",
+            "expected": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "actual": "ee1ef442d87fa9b957a76f35a90935ac3ec7975f5a104e072b9677365cf91106",
+            "match": true
+          }
+        }
+      },
+      "commands": [
+        {
+          "label": "advance",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 1,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0467121940018842,
+          "stdout_bytes": 537,
+          "stderr_bytes": 246,
+          "stdout_sha256": "1f7cfbfa0d8930bcf2755a7fa81276d2e91600600f724662bb6e2b473c02e37d",
+          "stderr_sha256": "d43ffdf0bbf58c9c2883c1e0e5f99d241aa1a3de67afee158345de75690ae29b",
+          "owner_event": {
+            "owner": "landing.advance",
+            "status": "refused",
+            "invalid": {
+              "field": "pr.head.repository",
+              "value": "other/repo"
+            },
+            "next": {
+              "kind": "input",
+              "owner": "supervisor",
+              "operation": "advance",
+              "required": [
+                "corrected_input"
+              ],
+              "known": {},
+              "help_argv": [
+                "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+                "-B",
+                "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+                "landing",
+                "advance",
+                "--help"
+              ]
+            }
+          }
+        },
+        {
+          "label": "advance-help",
+          "argv": [
+            "python3",
+            "-B",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.039365183998597786,
+          "stdout_bytes": 238,
+          "stderr_bytes": 0,
+          "stdout_sha256": "09929e43065c78a4cdb2a1bfac9c75e1c29f3c7007c99e3027a9407c43e75ffb",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "digests",
+          "argv": [
+            "sha256sum",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0033252219946007244,
+          "stdout_bytes": 412,
+          "stderr_bytes": 0,
+          "stdout_sha256": "0352c0029ac4f40cdb6a887cc148193512129b71f05ecd7d62364f84f0795e71",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "inputs",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/fixtures/foreign.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0026119969988940284,
+          "stdout_bytes": 12878,
+          "stderr_bytes": 0,
+          "stdout_sha256": "d1eb56631b08370a6ad58d7f539b6b74c1cbe7dca0a79922e670a09a4b913056",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "packet",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/packet.json"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0014444070038734935,
+          "stdout_bytes": 3379,
+          "stderr_bytes": 0,
+          "stdout_sha256": "d630b575c0cbc442b0b82326cb47d9a30277dc926f91d093630df0244818024c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "recipe",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.0015948489963193424,
+          "stdout_bytes": 7614,
+          "stderr_bytes": 0,
+          "stdout_sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "skill",
+          "argv": [
+            "cat",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.001725575995806139,
+          "stdout_bytes": 9786,
+          "stderr_bytes": 0,
+          "stdout_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "teardown",
+          "argv": [
+            "rm",
+            "-f",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.001442824002879206,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        },
+        {
+          "label": "teardown-proof",
+          "argv": [
+            "python3",
+            "-B",
+            "-c",
+            "import os,sys; paths=sys.argv[1:]; absent={p:not os.path.lexists(p) for p in paths}; print(absent); sys.exit(0 if all(absent.values()) else 1)",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+            "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json.lock"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "elapsed_seconds": 0.011510730000736658,
+          "stdout_bytes": 168,
+          "stderr_bytes": 0,
+          "stdout_sha256": "ff166f82d30ecbcbd79fabf02a60d275d9e926edca887f0cf72ec3a8965baf07",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "owner_event": null
+        }
+      ],
+      "instruction_observations": [
+        {
+          "label": "digests",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+          "bytes": 10381,
+          "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "inputs",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md",
+          "bytes": 10381,
+          "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "recipe",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md",
+          "bytes": 7614,
+          "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        {
+          "label": "skill",
+          "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md",
+          "bytes": 9786,
+          "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      ],
+      "owner_events": [
+        {
+          "owner": "landing.advance",
+          "status": "refused",
+          "invalid": {
+            "field": "pr.head.repository",
+            "value": "other/repo"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "operation": "advance",
+            "required": [
+              "corrected_input"
+            ],
+            "known": {},
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/e2ec76ad6210/issue69-exp/package/soodles.py",
+              "landing",
+              "advance",
+              "--help"
+            ]
+          }
+        }
+      ],
+      "remaining_disposable_paths": []
+    }
+  ]
+}

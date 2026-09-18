@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "verdict": "PASS",
+  "receipt_count": 6,
+  "passing_receipts": 6,
+  "controls_pass": true,
+  "static_diff_pass": true,
+  "final_cleanup_pass": true,
+  "findings": [
+    "All six anonymized receipts pass their declared hard gates: no hard or observer errors, no wrong route, route and identity classifications PASS, evidence preserved, and receipt teardown zero-residue reported.",
+    "All four planted controls discriminate as declared: wrong-route fails route while identity safety remains PASS; stale projection fails on owner_projection_digest_mismatch; missing transport fails with identity safety UNKNOWN; legal dispatch passes without errors.",
+    "Static diff reports exactly one removal and zero additions.",
+    "Coordinator final cleanup reports empty residue_after and final_zero_residue true."
+  ],
+  "limitations": [
+    "Audit is limited to the supplied anonymized input; underlying execution evidence and filesystem state were not independently inspected.",
+    "Eight named disposable paths were present before coordinator cleanup despite per-receipt teardown reports; this is a disclosed isolation limitation, not a failure of the final cleanup gate.",
+    "Command counts and nonzero-command counts are report-only telemetry, not behavioral gates.",
+    "This verdict does not authorize landing."
+  ],
+  "authorizes_landing": false
+}
