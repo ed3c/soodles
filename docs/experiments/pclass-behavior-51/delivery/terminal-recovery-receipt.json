@@ -1,0 +1,52 @@
+{
+  "schema": "soodles.cloud-landing-recovery-receipt.v1",
+  "recorded_at": "2026-09-18T04:34:59Z",
+  "repository": "ed3c/soodles",
+  "issue": 51,
+  "pr": 52,
+  "result": {
+    "phase": "resolved",
+    "classification": "RESOLVED",
+    "action": "stop",
+    "next": null
+  },
+  "delivery": {
+    "merge_sha": "f3e54c25caac833b1ce2970aaebfb4e1d75defa0",
+    "issue_closed_at": "2026-09-17T15:11:30Z",
+    "writes_offered": ["merge", "close"],
+    "writes_replayed_during_recovery": []
+  },
+  "route_migration": {
+    "from": "local",
+    "to": "cloud",
+    "provider_identity_changed": false,
+    "cleanup_intent": "absent",
+    "provider_requests_emitted_by_resume": [],
+    "reconcile_invoked_after_migration": false
+  },
+  "provider_reconciliation": {
+    "provider": "GitHub",
+    "mode": "cloud",
+    "main_head": "9cafdcd5a8e602e1d62ca342c31212a648eccad7",
+    "merge_sha": "f3e54c25caac833b1ce2970aaebfb4e1d75defa0",
+    "proof": {
+      "kind": "complete_comparison",
+      "status": "ahead",
+      "merge_base": "f3e54c25caac833b1ce2970aaebfb4e1d75defa0",
+      "total_commits": 4,
+      "tip": "9cafdcd5a8e602e1d62ca342c31212a648eccad7"
+    },
+    "local_reconciliation_required": false
+  },
+  "verifier": {
+    "source_commit": "9cafdcd5a8e602e1d62ca342c31212a648eccad7",
+    "sha256": "0d7eaca8b73b2e4c27ea9dc81bd2b97d037711317812156c25018133671e8ca1",
+    "prior_sha256": "e779c6f9b6fc66e2173dd358d85028c1d8b3b7515c58aae823b9c1c43e1d9e55"
+  },
+  "evidence_sha256": {
+    "checkpoint": "55937842930accda1e5d67c03d64160506c16e229a0e079e51c1bccccbc03f61",
+    "fresh_readback": "2365a80ae3b32a8d40312a1b586ed1ece0012b82bdc1651d2238c52fb83d0a05",
+    "resume_result": "d0a9e6536c4abfcdea760e3e82c34ce2c9c9a50b835aa92c4e82a102de35102e",
+    "advance_result": "d7134a0225bc5397a12ed55ec814eca8e67af6740234c20302514f516eabb409"
+  }
+}
