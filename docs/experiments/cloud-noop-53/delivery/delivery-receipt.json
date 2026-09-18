@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 53,
+  "pull_request": 54,
+  "provider_delivery": {
+    "status": "complete",
+    "pr_state": "closed",
+    "pr_merged": true,
+    "issue_state": "closed",
+    "issue_state_reason": "completed",
+    "candidate_head": "a2bb0baf5905d63fe9609f2b52032ce04ab137ee",
+    "candidate_tree": "6a48fd9b7c04bf964bc0b129acdf8d0566ac01d5",
+    "merge_commit": "008d5e98e092f3c13a04a501188dc41cb73094c7",
+    "merge_tree": "6a48fd9b7c04bf964bc0b129acdf8d0566ac01d5",
+    "merge_parents": [
+      "f3e54c25caac833b1ce2970aaebfb4e1d75defa0",
+      "a2bb0baf5905d63fe9609f2b52032ce04ab137ee"
+    ],
+    "issue_closed_at": "2026-09-18T02:59:08Z"
+  },
+  "runtime_evidence": {
+    "run_id": 35301214910,
+    "run_attempt": 1,
+    "run_conclusion": "success",
+    "job_id": 105464053060,
+    "job_conclusion": "success",
+    "head_sha": "a2bb0baf5905d63fe9609f2b52032ce04ab137ee",
+    "acceptance_tests": 108,
+    "cloud_noop": {
+      "migration": "awaiting_reconcile",
+      "cleanup": "no_op",
+      "provider_requests": 0,
+      "zero_residue": true
+    },
+    "artifact_id": 10530281390,
+    "artifact_digest": "sha256:7793e7501cbb261a438e9dde3fab178e148dd869954eaeefd248ec0d2c458e43"
+  },
+  "landing": {
+    "owner": "landing.py",
+    "checkpoint_phase": "reconciling",
+    "checkpoint_classification": null,
+    "writes_offered": [
+      "merge",
+      "close"
+    ],
+    "provider_writes_repeated": false,
+    "verifier_migration": {
+      "status": "accepted",
+      "from": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83",
+      "to": "e779c6f9b6fc66e2173dd358d85028c1d8b3b7515c58aae823b9c1c43e1d9e55",
+      "provider_requests": 0
+    },
+    "local_reconcile": {
+      "status": "refused",
+      "classification": "RECONCILING_BLOCKED_GIT_FETCH",
+      "cleanup_mode": "no_op",
+      "path_present": false,
+      "candidate_branch_head": null,
+      "worktree_registrations": [],
+      "git_fetch_exit": 128,
+      "meaning": "The corrected owner accepted and durably recorded the cloud-only no-op cleanup before Git synchronization. The current environment then blocked git fetch, so terminal RESOLVED was not asserted."
+    }
+  },
+  "local_observation": {
+    "control_root": "/workspace/scratch/bd9d2e05d141/pclass49-control",
+    "main_head_before_fetch": "defc5f41153837f4db5ee0858fd03c9029523c6c",
+    "candidate_branch_present": false,
+    "candidate_worktree_present": false,
+    "noodle_sha256": "9f1354bea227a5e71fa36260645fa6102f1474f9fba170f9a76ad9f6dd678472",
+    "git_sha256": "2dae8066ef4d6a926561b4b0eaca7b458d4f5b56bb83760656e6baa7fc3e974f"
+  },
+  "evidence_sha256": {
+    "after_close_readback": "5eb9f8c6df45281e85d124595f6a3e466bae2d4e8681a471f80baf04d2e308a1",
+    "checkpoint": "562983cbdeea3d44e5dcff194ec324c0276ace98616e43d634dec53ab674b45c",
+    "resume_result": "5f673213ddc83c30a80771fa5268ba6530348869b53f5b08eaefffda34317e08",
+    "reconcile_result": "b7e1b0a324579f226f278520b4e07bc85671f882e975ee7eaae0205c31030362"
+  },
+  "recovery": {
+    "safe_next_action": "When Git transport is materially restored, run landing reconcile once against this exact checkpoint, verifier and Noodle binary. Do not replay merge or close.",
+    "forbidden_shortcut": "Do not manufacture a candidate worktree, edit the checkpoint phase, or retry unchanged provider writes.",
+    "resolved": false
+  }
+}
