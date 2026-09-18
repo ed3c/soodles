@@ -1,0 +1,51 @@
+{
+  "schema": "soodles.cloud-landing-receipt.v1",
+  "recorded_at": "2026-09-18T04:34:59Z",
+  "repository": "ed3c/soodles",
+  "issue": 55,
+  "pr": 56,
+  "result": {
+    "phase": "resolved",
+    "classification": "RESOLVED",
+    "action": "stop",
+    "next": null
+  },
+  "candidate": {
+    "head": "2b531b4ff3bf3c14dc09f60c3e3555c938802f0d",
+    "tree": "ef0ae26343f4d8a3cdc7a1b287bdfa8fb6aabe5b",
+    "run_id": 35306886689,
+    "run_attempt": 1
+  },
+  "delivery": {
+    "merge_sha": "9cafdcd5a8e602e1d62ca342c31212a648eccad7",
+    "issue_closed_at": "2026-09-18T04:31:22Z",
+    "writes_offered": ["merge", "close"],
+    "writes_replayed_during_migration": []
+  },
+  "route_migration": {
+    "from": "local",
+    "to": "cloud",
+    "provider_identity_changed": false,
+    "provider_requests_emitted_by_resume": [],
+    "reconcile_invoked": false
+  },
+  "provider_reconciliation": {
+    "provider": "GitHub",
+    "mode": "cloud",
+    "main_head": "9cafdcd5a8e602e1d62ca342c31212a648eccad7",
+    "merge_sha": "9cafdcd5a8e602e1d62ca342c31212a648eccad7",
+    "proof": "main_equals_merge",
+    "local_reconciliation_required": false
+  },
+  "verifier": {
+    "source_commit": "9cafdcd5a8e602e1d62ca342c31212a648eccad7",
+    "sha256": "0d7eaca8b73b2e4c27ea9dc81bd2b97d037711317812156c25018133671e8ca1",
+    "prior_sha256": "e779c6f9b6fc66e2173dd358d85028c1d8b3b7515c58aae823b9c1c43e1d9e55"
+  },
+  "evidence_sha256": {
+    "checkpoint": "4851a36653c4cdd912480bbb57e59ebc190927441a36e7001341f6dee4d0a961",
+    "fresh_readback": "f0b07c3444f3ebbcc594a3e7a4395e1816c6bda30be418c6fb59d50754937d61",
+    "resume_result": "90ce8f95740662f4b67cbd9421fc276adc1a4ebc14d58c9f4228c0b63762ca1e",
+    "advance_result": "bccb9b285fecfc320e4e55e2ed7223894478e0c3e1b04c0e46d166fb3a9c2ec2"
+  }
+}

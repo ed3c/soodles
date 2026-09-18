@@ -1,0 +1,49 @@
+{
+  "schema": 2,
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 55,
+    "pr": 56,
+    "head": "2b531b4ff3bf3c14dc09f60c3e3555c938802f0d",
+    "tree": "ef0ae26343f4d8a3cdc7a1b287bdfa8fb6aabe5b",
+    "base_head": "008d5e98e092f3c13a04a501188dc41cb73094c7",
+    "run_id": 35306886689,
+    "run_attempt": 1,
+    "worktree": "issue-55-cloud-provider-finalize",
+    "verifier_sha256": "0d7eaca8b73b2e4c27ea9dc81bd2b97d037711317812156c25018133671e8ca1"
+  },
+  "phase": "resolved",
+  "observations": [
+    "912ab24f76bf567b05e2e3e2bfee8d91e953dcfccae6d21fa70847ff408a1e78",
+    "bd1a781dcae20cd90ff1c4572df710ccec880334c603a09ae979c57128ab256f",
+    "8057c9151204028d004ea5dcdb074ff7412692646fcd277c8bd4fb58644b5909"
+  ],
+  "classification": "RESOLVED",
+  "scope": "supervised single-Issue cloud landing",
+  "writes_offered": [
+    "merge",
+    "close"
+  ],
+  "delivery": {
+    "action": "close",
+    "status": "offered"
+  },
+  "merge_sha": "9cafdcd5a8e602e1d62ca342c31212a648eccad7",
+  "issue_closed_at": "2026-09-18T04:31:22Z",
+  "prior_routes": [
+    {
+      "route": "local",
+      "control_root": "/workspace/scratch/bd9d2e05d141/pclass49-control"
+    }
+  ],
+  "prior_verifiers": [
+    "e779c6f9b6fc66e2173dd358d85028c1d8b3b7515c58aae823b9c1c43e1d9e55"
+  ],
+  "provider_reconciliation": {
+    "mode": "cloud",
+    "main_head": "9cafdcd5a8e602e1d62ca342c31212a648eccad7",
+    "merge_sha": "9cafdcd5a8e602e1d62ca342c31212a648eccad7",
+    "provider": "GitHub",
+    "local_reconciliation_required": false
+  }
+}
