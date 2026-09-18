@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "map": {
+    "3257731c0fc236ba": {
+      "run_id": "i_b1",
+      "arm": "baseline",
+      "case": "identity"
+    },
+    "2a102ecfc0d4b0e7": {
+      "run_id": "i_b2",
+      "arm": "baseline",
+      "case": "identity"
+    },
+    "a8f859d4102d9bef": {
+      "run_id": "i_b3",
+      "arm": "baseline",
+      "case": "identity"
+    },
+    "698886f78e723049": {
+      "run_id": "i_t1",
+      "arm": "treatment",
+      "case": "identity"
+    },
+    "0f52fb5ed6aff664": {
+      "run_id": "i_t2",
+      "arm": "treatment",
+      "case": "identity"
+    },
+    "583aff52b3929886": {
+      "run_id": "i_t3",
+      "arm": "treatment",
+      "case": "identity"
+    },
+    "b5d567ab8c899a71": {
+      "run_id": "p_b1",
+      "arm": "baseline",
+      "case": "pending"
+    },
+    "6dd6118d8c88699a": {
+      "run_id": "p_b2",
+      "arm": "baseline",
+      "case": "pending"
+    },
+    "4ca01983ba3ca9ca": {
+      "run_id": "p_b3",
+      "arm": "baseline",
+      "case": "pending"
+    },
+    "fd40067509aa384d": {
+      "run_id": "p_t1",
+      "arm": "treatment",
+      "case": "pending"
+    },
+    "4fd490a49645c53a": {
+      "run_id": "p_t2",
+      "arm": "treatment",
+      "case": "pending"
+    },
+    "b86c05c2e81c0c12": {
+      "run_id": "p_t3",
+      "arm": "treatment",
+      "case": "pending"
+    },
+    "3ca7765d0d2b978d": {
+      "run_id": "r_b1",
+      "arm": "baseline",
+      "case": "recovery"
+    },
+    "697aa4a2abac9e81": {
+      "run_id": "r_b2",
+      "arm": "baseline",
+      "case": "recovery"
+    },
+    "cc0e1f4abec8437d": {
+      "run_id": "r_b3",
+      "arm": "baseline",
+      "case": "recovery"
+    },
+    "7f1c32e96591263d": {
+      "run_id": "r_t1",
+      "arm": "treatment",
+      "case": "recovery"
+    },
+    "3a477019f9d9268d": {
+      "run_id": "r_t2",
+      "arm": "treatment",
+      "case": "recovery"
+    },
+    "a62f3e1fc49c6548": {
+      "run_id": "r_t3",
+      "arm": "treatment",
+      "case": "recovery"
+    }
+  }
+}
