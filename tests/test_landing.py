@@ -367,6 +367,123 @@ class LandingTests(unittest.TestCase):
         with self.assertRaisesRegex(soodles.Refusal, "resume.phase"):
             landing.resume(self.checkpoint, self.claim)
 
+    def test_cloud_claim_resolves_from_provider_readback_without_local_tools(self):
+        claim = {key: value for key, value in self.claim.items() if key != "control_root"}
+        landing.start(claim, self.snapshot, self.checkpoint)
+        landing.advance(self.checkpoint, self.snapshot)
+        landing.dispatch(self.checkpoint, self.snapshot)
+        self.merged()
+        landing.advance(self.checkpoint, self.snapshot)
+        landing.dispatch(self.checkpoint, self.snapshot)
+        self.snapshot["issue"].update(state="closed", state_reason="completed", closed_at="now")
+        self.snapshot["branch"]["commit"]["sha"] = "d" * 40
+        with patch.object(landing, "fetch_main") as fetch, patch.object(landing, "runtime_check") as runtime:
+            result = landing.advance(self.checkpoint, self.snapshot)
+        fetch.assert_not_called()
+        runtime.assert_not_called()
+        self.assertEqual((result["phase"], result["classification"], result["action"], result["next"]),
+                         ("resolved", "RESOLVED", "stop", None))
+        self.assertEqual(result["provider_reconciliation"], {
+            "mode": "cloud", "main_head": "d" * 40, "merge_sha": "d" * 40,
+            "provider": "GitHub", "local_reconciliation_required": False})
+        self.assertEqual(result["writes_offered"], ["merge", "close"])
+
+    def test_cloud_provider_main_advance_requires_complete_comparison(self):
+        claim = {key: value for key, value in self.claim.items() if key != "control_root"}
+        landing.start(claim, self.snapshot, self.checkpoint)
+        state = landing.read(self.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha="d" * 40, issue_closed_at="now",
+                     writes_offered=["merge", "close"],
+                     delivery={"action": "close", "status": "offered"})
+        landing.save(self.checkpoint, state)
+        self.merged()
+        self.snapshot["issue"].update(state="closed", state_reason="completed", closed_at="now")
+        self.snapshot["branch"]["commit"]["sha"] = "e" * 40
+        before = self.checkpoint.read_bytes()
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            landing.advance(self.checkpoint, self.snapshot)
+        self.assertEqual(caught.exception.invalid["field"], "main_comparison")
+        self.assertEqual(caught.exception.next_action["operation"], "advance")
+        self.assertIn("main_comparison", caught.exception.next_action["requests"])
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+        self.snapshot["main_comparison"] = {
+            "base_commit": {"sha": "d" * 40}, "merge_base_commit": {"sha": "d" * 40},
+            "status": "ahead", "total_commits": 1, "commits": [{"sha": "e" * 40}]}
+        self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["classification"], "RESOLVED")
+
+    def test_completed_legacy_checkpoint_can_migrate_local_to_cloud_route(self):
+        self.start()
+        state = landing.read(self.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha="d" * 40, issue_closed_at="now",
+                     writes_offered=["merge", "close"], delivery={"action": "close", "status": "offered"})
+        state["claim"]["verifier_sha256"] = "old-source"
+        state["cleanup_intent"] = {"mode": "no_op", "path_present": False, "branch_head": None,
+                                   "registrations": [], "main_head": "c" * 40}
+        landing.save(self.checkpoint, state)
+        cloud = {key: value for key, value in self.claim.items() if key != "control_root"}
+        result = landing.resume(self.checkpoint, cloud)
+        self.assertEqual((result["action"], result["next"]["kind"], result["next"]["operation"]),
+                         ("readback", "provider_readback", "advance"))
+        self.assertEqual(result["provider_requests"], [])
+        migrated = landing.read(self.checkpoint)
+        self.assertNotIn("control_root", migrated["claim"])
+        self.assertEqual(migrated["prior_routes"], [{"route": "local", "control_root": "/fixture"}])
+        self.merged()
+        self.snapshot["issue"].update(state="closed", state_reason="completed", closed_at="now")
+        self.snapshot["branch"]["commit"]["sha"] = "d" * 40
+        self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["classification"], "RESOLVED")
+
+    def test_cloud_route_migration_refuses_local_obligations_and_identity_changes(self):
+        self.start()
+        state = landing.read(self.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha="d" * 40, issue_closed_at="now",
+                     writes_offered=["merge", "close"], delivery={"action": "close", "status": "offered"})
+        state["claim"]["verifier_sha256"] = "old-source"
+        cloud = {key: value for key, value in self.claim.items() if key != "control_root"}
+        for mutation, value, field in (
+                ("identity", {**cloud, "issue": 99}, "resume.claim"),
+                ("cleanup", cloud, "resume.cleanup_intent"),
+                ("envelope", cloud, "resume.route")):
+            candidate = copy.deepcopy(state)
+            if mutation == "cleanup":
+                candidate["cleanup_intent"] = {"path_present": True}
+            elif mutation == "envelope":
+                candidate["claim"]["execution_envelope"] = {"path": "/fixture/envelope", "sha256": "f" * 64}
+            landing.save(self.checkpoint, candidate)
+            before = self.checkpoint.read_bytes()
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(soodles.Refusal, field):
+                landing.resume(self.checkpoint, value)
+            self.assertEqual(self.checkpoint.read_bytes(), before)
+        legacy_cloud = copy.deepcopy(state)
+        legacy_cloud["claim"].pop("control_root")
+        landing.save(self.checkpoint, legacy_cloud)
+        with self.assertRaisesRegex(soodles.Refusal, "resume.route"):
+            landing.resume(self.checkpoint, self.claim)
+
+    def test_cloud_claim_refuses_local_reconcile_and_local_claim_keeps_binary_boundary(self):
+        cloud = {key: value for key, value in self.claim.items() if key != "control_root"}
+        landing.start(cloud, self.snapshot, self.checkpoint)
+        state = landing.read(self.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha="d" * 40, issue_closed_at="now",
+                     writes_offered=["merge", "close"], delivery={"action": "close", "status": "offered"})
+        landing.save(self.checkpoint, state)
+        with patch.object(landing, "checked") as command, self.assertRaisesRegex(soodles.Refusal, "reconcile.route"):
+            landing.reconcile(self.checkpoint, "/unused")
+        command.assert_not_called()
+        self.checkpoint.unlink()
+        self.start()
+        local = landing.read(self.checkpoint)
+        local.update(phase="awaiting_reconcile", merge_sha="d" * 40, issue_closed_at="now",
+                     writes_offered=["merge", "close"], delivery={"action": "close", "status": "offered"})
+        landing.save(self.checkpoint, local)
+        result = landing.advance(self.checkpoint, {**self.snapshot,
+            "pr": {**self.snapshot["pr"], "merged": True, "state": "closed", "merged_at": "now",
+                   "merge_commit_sha": "d" * 40},
+            "issue": {**self.snapshot["issue"], "state": "closed", "state_reason": "completed", "closed_at": "now"},
+            "merge_commit": {"sha": "d" * 40, "tree": {"sha": "b" * 40},
+                             "parents": [{"sha": "c" * 40}, {"sha": "a" * 40}]}})
+        self.assertEqual((result["action"], result["next"]["required"]), ("reconcile", ["binary"]))
+
     def test_cloud_only_absence_is_persisted_as_noop_cleanup(self):
         root, claim, snapshot, head = self.cloud_control("cloud-control")
         soodles.checked(["git", "update-ref", "refs/remotes/origin/main", head], root)

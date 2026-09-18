@@ -227,7 +227,7 @@ def parser():
                                 epilog="Examples: ./soodles landing dispatch /tmp/checkpoint.json /tmp/readback.json")
     dispatch.add_argument("checkpoint")
     dispatch.add_argument("readback")
-    resume = verbs.add_parser("resume", description="Supervisor re-admits a corrected verifier for an interrupted local reconciliation only.",
+    resume = verbs.add_parser("resume", description="Supervisor re-admits a corrected verifier after provider closure; an identity-preserving local-to-cloud migration returns fresh connector readback instead of a binary.",
                              epilog="Examples: ./soodles landing resume /tmp/checkpoint.json /tmp/fresh-claim.json")
     resume.add_argument("checkpoint")
     resume.add_argument("claim")
@@ -239,7 +239,7 @@ def parser():
     readmit.add_argument("checkpoint")
     readmit.add_argument("claim")
     readmit.add_argument("readback")
-    reconcile = verbs.add_parser("reconcile", epilog="Examples: ./soodles landing reconcile /tmp/checkpoint.json /absolute/path/to/noodle")
+    reconcile = verbs.add_parser("reconcile", description="Local route only: synchronize main and delegate real worktree cleanup to Noodle.", epilog="Examples: ./soodles landing reconcile /tmp/checkpoint.json /absolute/path/to/noodle")
     reconcile.add_argument("checkpoint")
     reconcile.add_argument("binary")
     return p

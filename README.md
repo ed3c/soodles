@@ -27,7 +27,7 @@ Exact lock → host/digest/version admission → focused refusal controls → re
 
 ## Supervised landing
 
-The supervisor pins `./soodles landing identity` (covering landing.py, soodles.py and the runtime lock), reviews the exact Issue/PR and acceptance evidence, and supplies a claim JSON with exactly: `repository`, `issue`, `pr`, `head`, `tree`, `base_head`, `run_id`, `run_attempt`, `worktree`, `control_root`, `verifier_sha256`. The repository is fixed to `ed3c/soodles`; paths and identities are never auto-corrected. Store claims, raw readbacks and checkpoints outside the source/worktree lifecycle.
+The supervisor pins `./soodles landing identity` (covering landing.py, soodles.py and the runtime lock), reviews the exact Issue/PR and acceptance evidence, and supplies a claim JSON with `repository`, `issue`, `pr`, `head`, `tree`, `base_head`, `run_id`, `run_attempt`, `worktree` (the exact PR head ref) and `verifier_sha256`. A local claim additionally supplies `control_root`; a cloud claim omits it. This shape preserves the Session route without another policy flag. The repository is fixed to `ed3c/soodles`; paths and identities are never auto-corrected. Store claims, raw readbacks and checkpoints outside the source/worktree lifecycle.
 
 The readback JSON contains raw GitHub responses under `pr`, `issue`, `run`, `jobs`, `commit` (Git commit API), and `branch`. After merge, include `merge_commit` from the Git commit API. Capture these through the provider adapter; do not accept files from the candidate as provider truth.
 
@@ -38,17 +38,17 @@ The readback JSON contains raw GitHub responses under `pr`, `issue`, `run`, `job
 
 The CLI returns either an exact merge/close request, `readback`, or `reconcile`. Execute an offered provider request once through the existing connector. Then refresh provider readbacks and call `advance`. No credentials are passed into candidate code. A pending checkpoint prevents duplicate writes even if the previous response was lost. Do not reset it to retry.
 
-When `reconcile` is offered:
+Only when local `reconcile` is offered:
 
 ```sh
 ./soodles landing reconcile /tmp/checkpoint.json /absolute/path/to/noodle
 ```
 
-The checkpoint becomes RESOLVED only after the provider merge, completed Issue, local main and Noodle cleanup have been read back. This is a supervised fallback, not an installed unattended Actions lander or a production generation scheduler. Administration permissions and classic-protection configuration are not universal prerequisites; all existing GitHub rules still apply.
+For a cloud claim, the final fresh `landing advance` becomes RESOLVED after exact provider merge, completed Issue, runtime and provider-main ancestry readback; it never calls shell Git or Noodle. A local claim becomes RESOLVED only after those provider facts plus local main and Noodle cleanup readback. This is a supervised fallback, not an installed unattended Actions lander or a production generation scheduler. Administration permissions and classic-protection configuration are not universal prerequisites; all existing GitHub rules still apply.
 
-If a source fix changes the pinned verifier after provider closure, the supervisor can use `landing resume CHECKPOINT FRESH_CLAIM` from `awaiting_reconcile` or `reconciling`. It accepts only a changed verifier digest with identical provider/local identities and complete merge/closure evidence; it preserves both offered writes and emits no provider request. Network Git retains the carrier's proxy route while excluding provider credentials and Git environment injection.
+If a source fix changes the pinned verifier after provider closure, the supervisor can use `landing resume CHECKPOINT FRESH_CLAIM` from `awaiting_reconcile` or `reconciling`. It accepts a changed verifier with unchanged subject identity and preserves both offered writes. An independently selected cloud migration may additionally drop only `control_root` when no execution envelope or real cleanup intent exists; it then requests fresh provider readback instead of a binary. Local resume retains the Git/Noodle route. Neither form emits a provider write.
 
-If Noodle stops after removing the worktree directory, `landing reconcile` can finish the remaining exact branch through Noodle. If a cloud delivery never created the path, branch or registration, it records their absence as no-op cleanup instead of manufacturing a worktree. It refuses a moved branch, another checkout, or an unchanged failed cleanup observation. Canonical acceptance includes five real SIGKILL/recovery controls and one cloud no-op control in `cleanup_oracle.py`; these use local provider fixtures and retain their transcripts in the runtime receipt.
+If Noodle stops after removing a local worktree directory, `landing reconcile` can finish the remaining exact branch through Noodle. The legacy local-shaped no-resource recovery remains compatible and never manufactures a worktree, but a native cloud claim does not enter this function. It refuses a moved branch, another checkout, or an unchanged failed cleanup observation. Canonical acceptance retains the real SIGKILL/recovery controls in `cleanup_oracle.py`; these use local provider fixtures and retain their transcripts in the runtime receipt.
 
 Start with [Issue #1](https://github.com/ed3c/soodles/issues/1), the executable boundary in `soodles.py`, and `tests/test_admission.py`. `docs/` records N-class observations; it is not correctness authority.
 
