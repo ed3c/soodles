@@ -1,0 +1,942 @@
+{
+  "schema": 1,
+  "receipts": [
+    {
+      "schema": 1,
+      "run_id": "i_b1",
+      "case": "identity",
+      "arm": "baseline",
+      "observer": {
+        "schema": 1,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "392c15744ed4608be106240186a91ffc3c5af4b540fe9293400efd845ae07dea",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 13,
+        "elapsed_seconds": 0.34074217600027623,
+        "stdout_bytes": 15269,
+        "stderr_bytes": 244,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 1,
+        "nonzero_commands": 1,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "e2e9ede7c2785973bdf97c08fb151d2dae5e55bcf3966a665bbebc82fb3fea6e",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "i_b2",
+      "case": "identity",
+      "arm": "baseline",
+      "observer": {
+        "schema": 1,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "61d79460f63a98a9cf24f5c9bfbec3e2b1798bffa601c03d70ddd36e28ab933a",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 17,
+        "elapsed_seconds": 0.4860225930024171,
+        "stdout_bytes": 15245,
+        "stderr_bytes": 244,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 1,
+        "nonzero_commands": 3,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "836f0f624364451f85404c7ed4947dbfad6bd0a40662acbf4d134163dae4b4a0",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "i_b3",
+      "case": "identity",
+      "arm": "baseline",
+      "observer": {
+        "schema": 1,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "ac397060bc137f33e12d3d7fce93e4d541081e366a27298fdb74f4eb6af1b425",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 18,
+        "elapsed_seconds": 0.36966278700310795,
+        "stdout_bytes": 19950,
+        "stderr_bytes": 244,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 1,
+        "nonzero_commands": 2,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "8d89592726d4ab98049fe106b0a4ff9f8cf7b7f6c77d44f229d75b6643956a87",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "i_t1",
+      "case": "identity",
+      "arm": "treatment",
+      "observer": {
+        "schema": 1,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/package/.agents/skills/verify-soodles/scripts/record_context.py": {
+            "bytes": 4529,
+            "sha256": "f5ff0be66d49619751938f92b54433714a75162d2520334dc1980643eebf8a65",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/treatment/AGENTS.md": {
+            "bytes": 10102,
+            "sha256": "604242858dbf8b24e9f788dd622ec306e9585450e5711556e1c90a2986cdbd7f",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "14bf46bf16b18e8f330c5071629264b743c320907ff8773b0a79c3ae0f52cd61",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 18,
+        "elapsed_seconds": 0.3821432040040236,
+        "stdout_bytes": 14471,
+        "stderr_bytes": 323,
+        "instruction_reads": 3,
+        "instruction_bytes": 30306,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 1,
+        "nonzero_commands": 2,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "51e11b579c2820eaf044f2cb1efcaddfa63d41595f5fcc5956aaae5784800f81",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "i_t2",
+      "case": "identity",
+      "arm": "treatment",
+      "observer": {
+        "schema": 1,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/treatment/AGENTS.md": {
+            "bytes": 10102,
+            "sha256": "604242858dbf8b24e9f788dd622ec306e9585450e5711556e1c90a2986cdbd7f",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "31497a3e202d4a11e3a24a52f0df98956558ea6a49ab4c93375ca4f0fcd41bcc",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "teardown_residue"
+      ],
+      "telemetry": {
+        "commands": 17,
+        "elapsed_seconds": 0.3569633749939385,
+        "stdout_bytes": 19437,
+        "stderr_bytes": 342,
+        "instruction_reads": 1,
+        "instruction_bytes": 10102,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 1,
+        "nonzero_commands": 3,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "ca1ee2875fea432602584478f363198963306cb31c5819b7898fd27d3d834d5e",
+      "evidence_survived": true,
+      "teardown_zero_residue": false,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "i_t3",
+      "case": "identity",
+      "arm": "treatment",
+      "observer": {
+        "schema": 1,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/treatment/AGENTS.md": {
+            "bytes": 10102,
+            "sha256": "604242858dbf8b24e9f788dd622ec306e9585450e5711556e1c90a2986cdbd7f",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "c7cbd1836679492e242e4d454d721d651af5ab7ad248233e00f4bfb5c7f35eee",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 17,
+        "elapsed_seconds": 0.4752201499977673,
+        "stdout_bytes": 16308,
+        "stderr_bytes": 334,
+        "instruction_reads": 1,
+        "instruction_bytes": 10102,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 1,
+        "nonzero_commands": 2,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "10bfc6ab00f0ba9d5be56dbea7a033702bbaabcaa434be950a3f84124e4de4a8",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "p_b1",
+      "case": "pending",
+      "arm": "baseline",
+      "observer": {
+        "schema": 1,
+        "case": "pending",
+        "classification": "FAIL",
+        "errors": [
+          "missing_owner_observation",
+          "missing_pending_readback"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "41a523c1979aaf80b780c9c952a2639d185a712c24084338da995874235a15ee",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_owner_observation",
+        "missing_pending_readback",
+        "teardown_residue"
+      ],
+      "telemetry": {
+        "commands": 16,
+        "elapsed_seconds": 0.29515642400292563,
+        "stdout_bytes": 15035,
+        "stderr_bytes": 90,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 0,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 1,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "b7f582dbd022953b3492fad9cad0d2771f7906f848ba9bca6a694b1d68eaff69",
+      "evidence_survived": true,
+      "teardown_zero_residue": false,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "p_b2",
+      "case": "pending",
+      "arm": "baseline",
+      "observer": {
+        "schema": 1,
+        "case": "pending",
+        "classification": "FAIL",
+        "errors": [
+          "missing_owner_observation",
+          "missing_pending_readback"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "8b25f26bf5de9f8316d98c65071f584987719115f1cc0dc04188e07f155999e3",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_owner_observation",
+        "missing_pending_readback"
+      ],
+      "telemetry": {
+        "commands": 18,
+        "elapsed_seconds": 0.2239579040033277,
+        "stdout_bytes": 18108,
+        "stderr_bytes": 0,
+        "instruction_reads": 2,
+        "instruction_bytes": 20764,
+        "owner_events": 0,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 0,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "c155568f905b9a4210993ea9278033e8e421faa5a38505be4304e30cb76b5c86",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "p_b3",
+      "case": "pending",
+      "arm": "baseline",
+      "observer": {
+        "schema": 1,
+        "case": "pending",
+        "classification": "FAIL",
+        "errors": [
+          "missing_owner_observation",
+          "missing_pending_readback"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "d41f35b65028e6398b86ce9bb4a5cfb19a58c7c01c5bef2ab63b85dbb67750a1",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_owner_observation",
+        "missing_pending_readback"
+      ],
+      "telemetry": {
+        "commands": 5,
+        "elapsed_seconds": 0.025353063001603005,
+        "stdout_bytes": 10753,
+        "stderr_bytes": 122,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 0,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 1,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "dd9cf2633a5c4c6e50fd2d058dedefd85cc17faa6947d8b7af001dc36715b499",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "p_t1",
+      "case": "pending",
+      "arm": "treatment",
+      "observer": {
+        "schema": 1,
+        "case": "pending",
+        "classification": "FAIL",
+        "errors": [
+          "missing_owner_observation",
+          "missing_pending_readback"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/treatment/AGENTS.md": {
+            "bytes": 10102,
+            "sha256": "604242858dbf8b24e9f788dd622ec306e9585450e5711556e1c90a2986cdbd7f",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "623ff1bf64fef169892413ad29a79e1666cee10375e05c8b1fb02d4330e45895",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_owner_observation",
+        "missing_pending_readback",
+        "teardown_residue"
+      ],
+      "telemetry": {
+        "commands": 22,
+        "elapsed_seconds": 0.26830719700228656,
+        "stdout_bytes": 14584,
+        "stderr_bytes": 141,
+        "instruction_reads": 1,
+        "instruction_bytes": 10102,
+        "owner_events": 0,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 1,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "839bd9f9c51517246d95f859670d02a599aea7f7daab332e6fa5d1fde9196b6c",
+      "evidence_survived": true,
+      "teardown_zero_residue": false,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "p_t2",
+      "case": "pending",
+      "arm": "treatment",
+      "observer": {
+        "schema": 1,
+        "case": "pending",
+        "classification": "FAIL",
+        "errors": [
+          "missing_owner_observation",
+          "missing_pending_readback"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/treatment/AGENTS.md": {
+            "bytes": 10102,
+            "sha256": "604242858dbf8b24e9f788dd622ec306e9585450e5711556e1c90a2986cdbd7f",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "4c74d45d9c19bdeb00df629ed9b67c26424b813b04e32d5302d085c388085d1f",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_owner_observation",
+        "missing_pending_readback"
+      ],
+      "telemetry": {
+        "commands": 17,
+        "elapsed_seconds": 0.23111201299980166,
+        "stdout_bytes": 14000,
+        "stderr_bytes": 141,
+        "instruction_reads": 1,
+        "instruction_bytes": 10102,
+        "owner_events": 0,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 1,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "66c9f717fa3bf851c1bdd77092c2f67c438b91221fea3423c273bdd19f1313a7",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "p_t3",
+      "case": "pending",
+      "arm": "treatment",
+      "observer": {
+        "schema": 1,
+        "case": "pending",
+        "classification": "FAIL",
+        "errors": [
+          "missing_owner_observation",
+          "missing_pending_readback"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/treatment/AGENTS.md": {
+            "bytes": 10102,
+            "sha256": "604242858dbf8b24e9f788dd622ec306e9585450e5711556e1c90a2986cdbd7f",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "99b0dc9608207413948c0e4817ec0b199a4e7d72bb4c7275d70475cd79a4e131",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_owner_observation",
+        "missing_pending_readback"
+      ],
+      "telemetry": {
+        "commands": 14,
+        "elapsed_seconds": 0.2506400999973266,
+        "stdout_bytes": 15612,
+        "stderr_bytes": 141,
+        "instruction_reads": 1,
+        "instruction_bytes": 10102,
+        "owner_events": 0,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 1,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "9c8a04c5af287d2b8abd356e45d34a42417480f18abf4c9d2f251c5f5829acc1",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "r_b1",
+      "case": "recovery",
+      "arm": "baseline",
+      "observer": {
+        "schema": 1,
+        "case": "recovery",
+        "classification": "FAIL",
+        "errors": [
+          "missing_recovery_continuation"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "86bb7ff8fb1fffcae59ed7e4dbcd36e0873a3b03c8232c88e5f4b803bc1d648f",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_recovery_continuation"
+      ],
+      "telemetry": {
+        "commands": 26,
+        "elapsed_seconds": 0.43888731299921346,
+        "stdout_bytes": 36044,
+        "stderr_bytes": 884,
+        "instruction_reads": 2,
+        "instruction_bytes": 20764,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "recovery_refusals": 2,
+        "nonzero_commands": 4,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "edc39e198b4c14face09ec9a5f7db5a587744128e5453d4ba4ff781d6cb3fe9b",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "r_b2",
+      "case": "recovery",
+      "arm": "baseline",
+      "observer": {
+        "schema": 1,
+        "case": "recovery",
+        "classification": "FAIL",
+        "errors": [
+          "missing_recovery_continuation"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "677922642b55a0e0b66dfa82fdb5b75055a9a05b8f47ca5d33895189cec55bfb",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_recovery_continuation",
+        "teardown_residue"
+      ],
+      "telemetry": {
+        "commands": 16,
+        "elapsed_seconds": 0.43669441499696404,
+        "stdout_bytes": 18402,
+        "stderr_bytes": 822,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "recovery_refusals": 2,
+        "nonzero_commands": 4,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "aaf182481fbccecc7d467f3d98e835fc537bcad8e17429ab007804118bf3fefa",
+      "evidence_survived": true,
+      "teardown_zero_residue": false,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "r_b3",
+      "case": "recovery",
+      "arm": "baseline",
+      "observer": {
+        "schema": 1,
+        "case": "recovery",
+        "classification": "FAIL",
+        "errors": [
+          "missing_recovery_continuation"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "f1aa727ebd66237479874d6428b20d6778f4be69c1736d1535b7d73d0c9ca753",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_recovery_continuation"
+      ],
+      "telemetry": {
+        "commands": 20,
+        "elapsed_seconds": 0.28505681000024197,
+        "stdout_bytes": 14953,
+        "stderr_bytes": 732,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "recovery_refusals": 2,
+        "nonzero_commands": 2,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "d808d616e18c951b483966c22694eaeaf8f476eca9119ec4ce7aad5340a2cb5d",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "r_t1",
+      "case": "recovery",
+      "arm": "treatment",
+      "observer": {
+        "schema": 1,
+        "case": "recovery",
+        "classification": "FAIL",
+        "errors": [
+          "missing_recovery_continuation"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/treatment/AGENTS.md": {
+            "bytes": 10102,
+            "sha256": "604242858dbf8b24e9f788dd622ec306e9585450e5711556e1c90a2986cdbd7f",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "1a68fb50842e19de9eec735cb2770aa2d3030884bff983afba2aaf6c120eb09a",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_recovery_continuation"
+      ],
+      "telemetry": {
+        "commands": 29,
+        "elapsed_seconds": 0.4197995870035811,
+        "stdout_bytes": 25041,
+        "stderr_bytes": 732,
+        "instruction_reads": 1,
+        "instruction_bytes": 10102,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "recovery_refusals": 2,
+        "nonzero_commands": 2,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "2df4edfadb7f1e85dca732779e0a6a2f02a5bac2ee776f72c0067c12e9ada22b",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "r_t2",
+      "case": "recovery",
+      "arm": "treatment",
+      "observer": {
+        "schema": 1,
+        "case": "recovery",
+        "classification": "FAIL",
+        "errors": [
+          "missing_recovery_continuation"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/treatment/AGENTS.md": {
+            "bytes": 10102,
+            "sha256": "604242858dbf8b24e9f788dd622ec306e9585450e5711556e1c90a2986cdbd7f",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "f70dd368a878d94483df761556d0def773f804826d046a400cc355808a9f6d95",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_recovery_continuation",
+        "teardown_residue"
+      ],
+      "telemetry": {
+        "commands": 13,
+        "elapsed_seconds": 0.4017818550037191,
+        "stdout_bytes": 18725,
+        "stderr_bytes": 732,
+        "instruction_reads": 1,
+        "instruction_bytes": 10102,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "recovery_refusals": 2,
+        "nonzero_commands": 2,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "9fb54b65236d1f8fa4b775f82f2570d2fdf7a37167d3b3dade5ead3944871724",
+      "evidence_survived": true,
+      "teardown_zero_residue": false,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "r_t3",
+      "case": "recovery",
+      "arm": "treatment",
+      "observer": {
+        "schema": 1,
+        "case": "recovery",
+        "classification": "FAIL",
+        "errors": [
+          "missing_recovery_continuation"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/ablation59/instructions/treatment/AGENTS.md": {
+            "bytes": 10102,
+            "sha256": "604242858dbf8b24e9f788dd622ec306e9585450e5711556e1c90a2986cdbd7f",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "833b5f9b5d04d60d5bc4a51f7a15bcf0224291d4b6cf2c95952cae4591bfac1f",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_recovery_continuation"
+      ],
+      "telemetry": {
+        "commands": 15,
+        "elapsed_seconds": 0.44554771599905507,
+        "stdout_bytes": 20975,
+        "stderr_bytes": 873,
+        "instruction_reads": 1,
+        "instruction_bytes": 10102,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "recovery_refusals": 2,
+        "nonzero_commands": 3,
+        "confirmation_or_question_observed": true
+      },
+      "raw_sha256": "c3fc68fe5fc7f9797f9883e5890fd0e8ca13d531a6f36e3be0ad56cc4d883cb2",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-5.6-sol",
+      "observed_model": null,
+      "authorizes_landing": false
+    }
+  ]
+}

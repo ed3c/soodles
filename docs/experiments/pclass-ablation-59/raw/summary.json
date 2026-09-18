@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#59",
+  "baseline": "254db7776943a12181a507dee3499c959c3200c7",
+  "treatment": "cfa9b03f7d50e82eca9294901a03d415a9059e3d",
+  "runs": 18,
+  "hard_gate_passes": 5,
+  "hard_gate_failures": 13,
+  "by_case_arm": {
+    "pending:baseline": {
+      "passes": 0,
+      "runs": 3
+    },
+    "pending:treatment": {
+      "passes": 0,
+      "runs": 3
+    },
+    "identity:baseline": {
+      "passes": 3,
+      "runs": 3
+    },
+    "identity:treatment": {
+      "passes": 2,
+      "runs": 3
+    },
+    "recovery:baseline": {
+      "passes": 0,
+      "runs": 3
+    },
+    "recovery:treatment": {
+      "passes": 0,
+      "runs": 3
+    }
+  },
+  "controls": {
+    "false_resolution": {
+      "schema": 1,
+      "case": "pending",
+      "classification": "FAIL",
+      "errors": [
+        "false_resolution"
+      ],
+      "instruction_documents": {
+        "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+          "bytes": 10382,
+          "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "owner_request_created": false,
+      "owner_request_sha256": [],
+      "provider_transport_observed": false,
+      "request_created_without_transport": false,
+      "raw_sha256": "96816dbd1fa24eda5505a6e0bdc937bdbed77c405a138a24985c657daced4fa6",
+      "authorizes_landing": false
+    },
+    "wrong_owner": {
+      "schema": 1,
+      "case": "pending",
+      "classification": "FAIL",
+      "errors": [
+        "wrong_owner"
+      ],
+      "instruction_documents": {
+        "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+          "bytes": 10382,
+          "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "owner_request_created": false,
+      "owner_request_sha256": [],
+      "provider_transport_observed": false,
+      "request_created_without_transport": false,
+      "raw_sha256": "595c442b5edba3d07c4c3dcee2430cc5242c8419baa1a6f2b639f2c8d5af4f58",
+      "authorizes_landing": false
+    },
+    "transport_unknown": {
+      "schema": 1,
+      "case": "pending",
+      "classification": "FAIL",
+      "errors": [
+        "transport_evidence_unknown"
+      ],
+      "instruction_documents": {
+        "/workspace/scratch/63f8168f540a/ablation59/instructions/baseline/AGENTS.md": {
+          "bytes": 10382,
+          "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "owner_request_created": false,
+      "owner_request_sha256": [],
+      "provider_transport_observed": null,
+      "request_created_without_transport": false,
+      "raw_sha256": "dc2e432c0e0101fa6e75e10c114347e0d121f1398fc7c1d19e9ae458382eb56d",
+      "authorizes_landing": false
+    }
+  },
+  "deletion_authorized": false,
+  "decision": "INCONCLUSIVE_HARD_GATES_FAILED_RESTORE_P_CLASS",
+  "reason": "Not all 18 runs passed; recovery continuation and teardown/instruction evidence failures cannot be averaged away.",
+  "requested_model": "gpt-5.6-sol",
+  "observed_model": null,
+  "authorizes_landing": false
+}
