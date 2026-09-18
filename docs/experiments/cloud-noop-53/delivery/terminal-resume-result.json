@@ -1,0 +1,24 @@
+{
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 0.05019056899982388,
+  "files_after": {
+    "/workspace/scratch/bd9d2e05d141/pclass55-verifier/soodles.py": {
+      "bytes": 19910,
+      "sha256": "7024cec3df3a68e576077f70344ed5c67ad23cd0cae78bdf51084275345374e9"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass53-delivery/checkpoint.json": {
+      "bytes": 1824,
+      "sha256": "41912cdfb90d0c190ea801df2b362d6a15700d2a25d63d14a9f2f0c7c9058cef"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass53-delivery/resume-cloud-claim.json": {
+      "bytes": 410,
+      "sha256": "57921ff4a3680949aceb60b0f00c72c0a1bff66d51a9ff835773f6dc6d140cad"
+    }
+  },
+  "stdout_sha256": "2882ba9aface34fe07a6c5bd77bc0732efd6e1f5e441e655953674b49ea51865",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
