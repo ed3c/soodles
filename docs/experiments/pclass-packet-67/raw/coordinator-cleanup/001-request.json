@@ -1,0 +1,59 @@
+{
+  "argv": [
+    "rm",
+    "--",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/73e90c/checkpoint.json",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/73e90c/checkpoint.json.lock",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/8d13b7/checkpoint.json",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/8d13b7/checkpoint.json.lock",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/f1456d/checkpoint.json",
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/f1456d/checkpoint.json.lock"
+  ],
+  "cwd": "/workspace/scratch/e2ec76ad6210",
+  "time_ns": 1789737374169378389,
+  "files_before": {
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/73e90c/checkpoint.json": {
+      "bytes": 738,
+      "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+      "observed_from": [
+        "argv"
+      ]
+    },
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/73e90c/checkpoint.json.lock": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_from": [
+        "argv"
+      ]
+    },
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/8d13b7/checkpoint.json": {
+      "bytes": 738,
+      "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+      "observed_from": [
+        "argv"
+      ]
+    },
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/8d13b7/checkpoint.json.lock": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_from": [
+        "argv"
+      ]
+    },
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/f1456d/checkpoint.json": {
+      "bytes": 738,
+      "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9",
+      "observed_from": [
+        "argv"
+      ]
+    },
+    "/workspace/scratch/e2ec76ad6210/issue67-exp/runs/f1456d/checkpoint.json.lock": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_from": [
+        "argv"
+      ]
+    }
+  },
+  "timeout_seconds": 60
+}
