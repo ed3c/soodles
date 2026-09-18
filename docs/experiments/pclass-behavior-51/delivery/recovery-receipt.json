@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 51,
+  "pull_request": 52,
+  "source_receipt_sha256": "bada8666acc4bfa0682015a22566a638a9f31991c1ce85778432cf5de8e264ae",
+  "recovery_atom": {
+    "issue": 53,
+    "pull_request": 54,
+    "merge_commit": "008d5e98e092f3c13a04a501188dc41cb73094c7"
+  },
+  "verifier_migration": {
+    "status": "accepted",
+    "checkpoint_phase": "awaiting_reconcile",
+    "from": "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83",
+    "to": "e779c6f9b6fc66e2173dd358d85028c1d8b3b7515c58aae823b9c1c43e1d9e55",
+    "provider_requests": 0,
+    "provider_writes_repeated": false
+  },
+  "reconcile": {
+    "status": "not_retried",
+    "classification": "AWAITING_GIT_TRANSPORT",
+    "reason": "The same control root and transport had just refused Issue #53 git fetch with exit 128. Repeating the unchanged carrier attempt for this checkpoint would add no evidence.",
+    "cleanup_intent_persisted": false
+  },
+  "evidence_sha256": {
+    "checkpoint": "898ca12705c5c6846cbb7c5882204185fc4bb57ea038b4646854aa2b70b4d4ab",
+    "resume_result": "bc1cb5601c97e7f6802d736939596ef342b8f846d3406985b89dc816fdcc9571"
+  },
+  "safe_next_action": "After Git transport is materially restored, reconcile Issue #53 first. Then run landing reconcile once for this exact migrated checkpoint without replaying merge or close.",
+  "resolved": false
+}

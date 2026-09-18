@@ -1,0 +1,37 @@
+{
+  "schema": 2,
+  "claim": {
+    "repository": "ed3c/soodles",
+    "issue": 51,
+    "pr": 52,
+    "head": "70db7360f84d32bc73cdf77dea23904d304a368d",
+    "tree": "5f225fa900bd195360d8e070a1b0d2ed2f193bec",
+    "base_head": "50a1e881f29d341cb4529dfc0b38a1cd9ed0bc87",
+    "run_id": 35237876987,
+    "run_attempt": 1,
+    "worktree": "issue-51-pclass-behavior",
+    "control_root": "/workspace/scratch/bd9d2e05d141/pclass49-control",
+    "verifier_sha256": "e779c6f9b6fc66e2173dd358d85028c1d8b3b7515c58aae823b9c1c43e1d9e55"
+  },
+  "phase": "awaiting_reconcile",
+  "observations": [
+    "0d8ca10e19c7588036192f557b724c187d2c142ac26ca1f06af7be466ca49b99",
+    "89eabb66b09427a48c6a35a70180931f9edf92f5df26cbd9932842a989ca73e2",
+    "fe8e161f031ac7d2072f3000fd38da3358a4b6164c3f3590cd7943da826460a7"
+  ],
+  "classification": null,
+  "scope": "supervised single-Issue landing",
+  "writes_offered": [
+    "merge",
+    "close"
+  ],
+  "delivery": {
+    "action": "close",
+    "status": "offered"
+  },
+  "merge_sha": "f3e54c25caac833b1ce2970aaebfb4e1d75defa0",
+  "issue_closed_at": "2026-09-17T15:11:30Z",
+  "prior_verifiers": [
+    "ac37ef1c3093186275f0de132683af7597651fd81b8436855b068e27b65e1b83"
+  ]
+}

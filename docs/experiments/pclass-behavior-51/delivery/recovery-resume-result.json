@@ -1,0 +1,24 @@
+{
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 0.044919603999915125,
+  "files_after": {
+    "/workspace/scratch/bd9d2e05d141/pclass53-verifier/soodles.py": {
+      "bytes": 19734,
+      "sha256": "792b7e32efc34f89958b2441b0e71cdea3e8ecba6e1c4f37d219269d18c54eb3"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass51-delivery/checkpoint.json": {
+      "bytes": 1197,
+      "sha256": "898ca12705c5c6846cbb7c5882204185fc4bb57ea038b4646854aa2b70b4d4ab"
+    },
+    "/workspace/scratch/bd9d2e05d141/pclass51-delivery/resume-claim.json": {
+      "bytes": 475,
+      "sha256": "1642580d33164ff72f9169cb2f5b6bb949d78da3af8bf9cbd5c350b8c289c47d"
+    }
+  },
+  "stdout_sha256": "f8a133c065c9605d884e97017a48794bbb054ef92f667c987b448a701847bd89",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
