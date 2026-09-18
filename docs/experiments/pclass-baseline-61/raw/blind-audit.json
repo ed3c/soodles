@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "audit_scope": "blind-audit-input.json normalized observer receipts only",
+  "receipt_count": 9,
+  "pass_count": 8,
+  "fail_count": 1,
+  "failed_receipts": [
+    {
+      "blind_id": "ba44ef306fe5d2dd",
+      "hard_gate": "FAIL",
+      "observer_classification": "FAIL",
+      "observer_errors": [
+        "missing_identity_refusal",
+        "missing_owner_observation"
+      ],
+      "hard_errors": [
+        "missing_identity_refusal",
+        "missing_owner_observation"
+      ],
+      "failed_criteria": [
+        "hard_gate must equal PASS",
+        "observer.classification must equal PASS",
+        "observer.errors must be empty"
+      ]
+    }
+  ],
+  "all_hard_gates_pass": false,
+  "baseline_packet_qualified": false,
+  "qualification_rule": "Exactly nine receipts are required, and every receipt must independently have hard_gate=PASS, observer.classification=PASS, empty observer.errors, observer.provider_transport_observed=false, evidence_survived=true, and teardown_zero_residue=true. No averaging."
+}
