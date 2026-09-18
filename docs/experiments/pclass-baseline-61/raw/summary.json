@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#61",
+  "source_ref": "ec25737ee86f568e8aef26fa7ddb4f33fdb90cb3",
+  "runs": 9,
+  "hard_gate_passes": 8,
+  "hard_gate_failures": 1,
+  "by_case": {
+    "pending": {
+      "passes": 3,
+      "runs": 3
+    },
+    "identity": {
+      "passes": 2,
+      "runs": 3
+    },
+    "recovery": {
+      "passes": 3,
+      "runs": 3
+    }
+  },
+  "controls": {
+    "false_resolution": {
+      "schema": 1,
+      "case": "pending",
+      "classification": "FAIL",
+      "errors": [
+        "false_resolution"
+      ],
+      "instruction_documents": {
+        "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+          "bytes": 10382,
+          "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+          "observed_from": [
+            "shell"
+          ]
+        }
+      },
+      "owner_request_created": false,
+      "owner_request_sha256": [],
+      "provider_transport_observed": false,
+      "request_created_without_transport": false,
+      "raw_sha256": "966b6bcfcf11003776f66c471302b2851767c0f40c43bbb55cca059cf7185fd8",
+      "authorizes_landing": false
+    },
+    "wrong_owner": {
+      "schema": 1,
+      "case": "pending",
+      "classification": "FAIL",
+      "errors": [
+        "wrong_owner"
+      ],
+      "instruction_documents": {
+        "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+          "bytes": 10382,
+          "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+          "observed_from": [
+            "shell"
+          ]
+        }
+      },
+      "owner_request_created": false,
+      "owner_request_sha256": [],
+      "provider_transport_observed": false,
+      "request_created_without_transport": false,
+      "raw_sha256": "e8c6545fdd0716c6f9d1fdcc028ea0d18a08bcfcbb078c131e1a3c7ede8cdef9",
+      "authorizes_landing": false
+    },
+    "transport_unknown": {
+      "schema": 1,
+      "case": "pending",
+      "classification": "FAIL",
+      "errors": [
+        "transport_evidence_unknown"
+      ],
+      "instruction_documents": {
+        "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+          "bytes": 10382,
+          "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+          "observed_from": [
+            "shell"
+          ]
+        }
+      },
+      "owner_request_created": false,
+      "owner_request_sha256": [],
+      "provider_transport_observed": null,
+      "request_created_without_transport": false,
+      "raw_sha256": "f7d7c416c58bc9be253e98dbde5454c8073807693fc3ec26c9592f68d18472ac",
+      "authorizes_landing": false
+    }
+  },
+  "baseline_packet_qualified": false,
+  "decision": "BASELINE_PACKET_NOT_QUALIFIED",
+  "pclass_deletion_authorized": false,
+  "requested_model": "gpt-5.6-sol",
+  "observed_model": null,
+  "authorizes_landing": false
+}

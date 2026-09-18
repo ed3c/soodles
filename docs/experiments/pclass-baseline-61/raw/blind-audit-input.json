@@ -1,0 +1,384 @@
+{
+  "schema": 1,
+  "receipts": [
+    {
+      "observer": {
+        "schema": 1,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "5b2e8c800027da078f03fec54c63b5b86b5ca04b98b170ca043764180f194833",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 10,
+        "elapsed_seconds": 0.09554348599704099,
+        "stdout_bytes": 62303,
+        "stderr_bytes": 277,
+        "instruction_reads": 2,
+        "instruction_bytes": 20764,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 1,
+        "nonzero_commands": 2,
+        "questions_or_confirmations": true
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "blind_id": "b44b09563ce700f1"
+    },
+    {
+      "observer": {
+        "schema": 1,
+        "case": "identity",
+        "classification": "FAIL",
+        "errors": [
+          "missing_identity_refusal",
+          "missing_owner_observation"
+        ],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "574d70035267fad2ee55cdd309150071e16cba1cbb4d3f367b17253c6deb9dde",
+        "authorizes_landing": false
+      },
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "missing_identity_refusal",
+        "missing_owner_observation"
+      ],
+      "telemetry": {
+        "commands": 12,
+        "elapsed_seconds": 0.22227272899181116,
+        "stdout_bytes": 16689,
+        "stderr_bytes": 246,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 0,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 1,
+        "questions_or_confirmations": true
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "blind_id": "ba44ef306fe5d2dd"
+    },
+    {
+      "observer": {
+        "schema": 1,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "cf848409d8baf379497b93aff86799bfd9462c1ba9800ce640303e80ba7cae0b",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 8,
+        "elapsed_seconds": 0.08386866100045154,
+        "stdout_bytes": 15534,
+        "stderr_bytes": 244,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 1,
+        "nonzero_commands": 1,
+        "questions_or_confirmations": true
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "blind_id": "76ec2ae19821ff86"
+    },
+    {
+      "observer": {
+        "schema": 1,
+        "case": "pending",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "23ac6da20fc02e41d2b94ee027d3e2a30ec2cf036d93f772cd1cae9c2f1f3f64",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 11,
+        "elapsed_seconds": 0.11457798899937188,
+        "stdout_bytes": 16139,
+        "stderr_bytes": 0,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 0,
+        "questions_or_confirmations": true
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "blind_id": "493a3d4dc801c9e3"
+    },
+    {
+      "observer": {
+        "schema": 1,
+        "case": "pending",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "5340c45198f9810e67c6cb58372cf5099878800f94583800e77eec29acd6e9ac",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 8,
+        "elapsed_seconds": 0.0790533140025218,
+        "stdout_bytes": 16563,
+        "stderr_bytes": 0,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 0,
+        "questions_or_confirmations": true
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "blind_id": "6375dfcb0638a038"
+    },
+    {
+      "observer": {
+        "schema": 1,
+        "case": "pending",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "29c04f57971e30baedad22605acbb98c1764bd63966dcf0a95d66da95f7852ff",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 10,
+        "elapsed_seconds": 0.29331704300420824,
+        "stdout_bytes": 15447,
+        "stderr_bytes": 0,
+        "instruction_reads": 1,
+        "instruction_bytes": 10382,
+        "owner_events": 1,
+        "owner_requests": 0,
+        "recovery_refusals": 0,
+        "nonzero_commands": 0,
+        "questions_or_confirmations": true
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "blind_id": "23c9be5bb2b38ad5"
+    },
+    {
+      "observer": {
+        "schema": 1,
+        "case": "recovery",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": true,
+        "owner_request_sha256": [
+          "a1a4a028f15b42caaa17795349953e1af23bc51812ff5501d0926e62ba679965"
+        ],
+        "provider_transport_observed": false,
+        "request_created_without_transport": true,
+        "raw_sha256": "9865c8afec0d0ce9e33ff9422e585c1365ede02d00fb614f79ef249feceb6048",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 8,
+        "elapsed_seconds": 0.15236037499562372,
+        "stdout_bytes": 18573,
+        "stderr_bytes": 462,
+        "instruction_reads": 2,
+        "instruction_bytes": 20764,
+        "owner_events": 3,
+        "owner_requests": 1,
+        "recovery_refusals": 1,
+        "nonzero_commands": 1,
+        "questions_or_confirmations": true
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "blind_id": "93e99a166d0953df"
+    },
+    {
+      "observer": {
+        "schema": 1,
+        "case": "recovery",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "shell"
+            ]
+          }
+        },
+        "owner_request_created": true,
+        "owner_request_sha256": [
+          "a1a4a028f15b42caaa17795349953e1af23bc51812ff5501d0926e62ba679965"
+        ],
+        "provider_transport_observed": false,
+        "request_created_without_transport": true,
+        "raw_sha256": "10488e6712cb82efc78eb9cbf425a5d590b7d5fd0ab9d4f8c64a3ec2b02d71b2",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 11,
+        "elapsed_seconds": 0.21910791400659946,
+        "stdout_bytes": 18821,
+        "stderr_bytes": 463,
+        "instruction_reads": 2,
+        "instruction_bytes": 20764,
+        "owner_events": 3,
+        "owner_requests": 1,
+        "recovery_refusals": 1,
+        "nonzero_commands": 1,
+        "questions_or_confirmations": true
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "blind_id": "14f4fc9eb8f6b62b"
+    },
+    {
+      "observer": {
+        "schema": 1,
+        "case": "recovery",
+        "classification": "PASS",
+        "errors": [],
+        "instruction_documents": {
+          "/workspace/scratch/63f8168f540a/baseline61/instructions/current/AGENTS.md": {
+            "bytes": 10382,
+            "sha256": "c7a8c98fe530a36ad1163e4c08436fdc8040e693e5168da47c17f5ec7f956ae7",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "f643b3e468d1c11888e9ca162e6bae419cec932b6054e2808618682f046280b2",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "telemetry": {
+        "commands": 14,
+        "elapsed_seconds": 0.3370587370118301,
+        "stdout_bytes": 19102,
+        "stderr_bytes": 605,
+        "instruction_reads": 2,
+        "instruction_bytes": 20764,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "recovery_refusals": 1,
+        "nonzero_commands": 2,
+        "questions_or_confirmations": true
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "blind_id": "433d284702fa7ce8"
+    }
+  ]
+}
