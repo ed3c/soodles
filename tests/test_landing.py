@@ -46,6 +46,28 @@ class LandingTests(unittest.TestCase):
         self.snapshot["merge_commit"] = {"sha": "d" * 40, "tree": {"sha": "b" * 40},
                                          "parents": [{"sha": "c" * 40}, {"sha": "a" * 40}]}
 
+    def cloud_control(self, name):
+        root = Path(self.temp.name) / name
+        root.mkdir()
+        soodles.checked(["git", "init", "-b", "main"], root)
+        (root / "file").write_text("clean")
+        soodles.checked(["git", "add", "."], root)
+        soodles.checked(["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                         "commit", "-m", "fixture"], root)
+        soodles.checked(["git", "remote", "add", "origin", "https://github.com/ed3c/soodles.git"], root)
+        head = soodles.checked(["git", "rev-parse", "HEAD"], root)
+        tree = soodles.checked(["git", "rev-parse", "HEAD^{tree}"], root)
+        claim = {**self.claim, "head": head, "tree": tree, "base_head": head,
+                 "worktree": "cloud-only", "control_root": str(root)}
+        snapshot = copy.deepcopy(self.snapshot)
+        snapshot["pr"]["head"].update(sha=head, ref="cloud-only")
+        snapshot["pr"]["base"]["sha"] = head
+        snapshot["commit"] = {"sha": head, "tree": {"sha": tree}}
+        snapshot["run"]["head_sha"] = head
+        snapshot["jobs"]["jobs"][0]["head_sha"] = head
+        snapshot["branch"]["commit"]["sha"] = head
+        return root, claim, snapshot, head
+
     def test_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry(self):
         self.start()
         request = self.offer()
@@ -318,6 +340,85 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(resumed["writes_offered"], ["merge", "close"])
         self.assertEqual(resumed["prior_verifiers"], ["old-source"])
         self.assertEqual(resumed["claim"], self.claim)
+
+    def test_corrected_verifier_can_resume_completed_awaiting_reconcile(self):
+        self.start()
+        state = landing.read(self.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha="d" * 40, issue_closed_at="now",
+                     writes_offered=["merge", "close"])
+        state["claim"]["verifier_sha256"] = "old-source"
+        landing.save(self.checkpoint, state)
+        result = landing.resume(self.checkpoint, self.claim)
+        self.assertEqual(result["phase"], "awaiting_reconcile")
+        self.assertEqual(result["provider_requests"], [])
+        resumed = landing.read(self.checkpoint)
+        self.assertEqual(resumed["writes_offered"], ["merge", "close"])
+        self.assertEqual(resumed["prior_verifiers"], ["old-source"])
+        self.assertEqual(resumed["claim"], self.claim)
+        for field in ("merge_sha", "issue_closed_at"):
+            incomplete = copy.deepcopy(state)
+            incomplete.pop(field)
+            landing.save(self.checkpoint, incomplete)
+            with self.subTest(field=field), self.assertRaisesRegex(soodles.Refusal, "resume.phase"):
+                landing.resume(self.checkpoint, self.claim)
+        incomplete = copy.deepcopy(state)
+        incomplete["writes_offered"] = ["merge"]
+        landing.save(self.checkpoint, incomplete)
+        with self.assertRaisesRegex(soodles.Refusal, "resume.phase"):
+            landing.resume(self.checkpoint, self.claim)
+
+    def test_cloud_only_absence_is_persisted_as_noop_cleanup(self):
+        root, claim, snapshot, head = self.cloud_control("cloud-control")
+        soodles.checked(["git", "update-ref", "refs/remotes/origin/main", head], root)
+        landing.start(claim, snapshot, self.checkpoint)
+        state = landing.read(self.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha=head, issue_closed_at="now",
+                     writes_offered=["merge", "close"])
+        landing.save(self.checkpoint, state)
+        runtime = {"observed_binary_sha256": "f" * 64}
+        with patch.object(landing, "runtime_check", return_value=runtime), \
+                patch.object(landing, "fetch_main", side_effect=landing.LandingRefusal("git.fetch.exit", 128)):
+            with self.assertRaisesRegex(soodles.Refusal, "git.fetch.exit"):
+                landing.reconcile(self.checkpoint, "/unused")
+        interrupted = landing.read(self.checkpoint)
+        self.assertEqual(interrupted["phase"], "reconciling")
+        self.assertEqual(interrupted["cleanup_intent"]["mode"], "no_op")
+        with patch.object(landing, "runtime_check", return_value=runtime), patch.object(landing, "fetch_main") as fetch:
+            result = landing.reconcile(self.checkpoint, "/unused")
+        fetch.assert_called_once_with(root.resolve())
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertIsNone(result["next"])
+        self.assertEqual(result["writes_offered"], ["merge", "close"])
+        self.assertEqual(result["local"]["cleanup_mode"], "no_op")
+        intent = landing.read(self.checkpoint)["cleanup_intent"]
+        self.assertEqual((intent["mode"], intent["path_present"], intent["branch_head"], intent["registrations"]),
+                         ("no_op", False, None, []))
+
+    def test_cloud_only_noop_refuses_branch_or_registration_before_checkpoint_change(self):
+        root, claim, snapshot, head = self.cloud_control("cloud-negative")
+        landing.start(claim, snapshot, self.checkpoint)
+        state = landing.read(self.checkpoint)
+        state.update(phase="awaiting_reconcile", merge_sha=head, issue_closed_at="now",
+                     writes_offered=["merge", "close"])
+        landing.save(self.checkpoint, state)
+        runtime = {"observed_binary_sha256": "f" * 64}
+        soodles.checked(["git", "branch", "cloud-only", head], root)
+        before = self.checkpoint.read_bytes()
+        with patch.object(landing, "runtime_check", return_value=runtime), patch.object(landing, "fetch_main") as fetch:
+            with self.assertRaisesRegex(soodles.Refusal, "cleanup.branch"):
+                landing.reconcile(self.checkpoint, "/unused")
+        fetch.assert_not_called()
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+        soodles.checked(["git", "branch", "-D", "cloud-only"], root)
+        foreign = Path(self.temp.name) / "foreign-cloud-only"
+        soodles.checked(["git", "worktree", "add", "-b", "cloud-only", str(foreign), head], root)
+        with patch.object(landing, "runtime_check", return_value=runtime), patch.object(landing, "fetch_main") as fetch:
+            with self.assertRaisesRegex(soodles.Refusal, "cleanup.registration"):
+                landing.reconcile(self.checkpoint, "/unused")
+        fetch.assert_not_called()
+        self.assertEqual(self.checkpoint.read_bytes(), before)
+        soodles.checked(["git", "worktree", "remove", str(foreign)], root)
+        soodles.checked(["git", "branch", "-D", "cloud-only"], root)
 
     def test_cli_help_and_malformed_input_refuse_before_checkpoint(self):
         for route in (["landing"], ["landing", "start"], ["landing", "advance"], ["landing", "dispatch"], ["landing", "readmit"], ["landing", "reconcile"]):

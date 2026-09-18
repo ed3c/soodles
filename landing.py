@@ -484,7 +484,8 @@ def resume(checkpoint, claim):
     with locked(checkpoint) as path:
         state = read(path)
         require(state.get("schema") in (1, 2), "checkpoint.schema", state.get("schema"))
-        require(state["phase"] == "reconciling" and state.get("merge_sha") and state.get("issue_closed_at")
+        require(state["phase"] in {"awaiting_reconcile", "reconciling"}
+                and state.get("merge_sha") and state.get("issue_closed_at")
                 and state["writes_offered"] == ["merge", "close"], "resume.phase", state["phase"])
         old = state["claim"]
         require({k: v for k, v in old.items() if k != "verifier_sha256"} ==
@@ -536,19 +537,48 @@ def reconcile(checkpoint, binary):
         worktree = root / ".worktrees" / claim["worktree"]
         branch = checked(["git", "branch", "--list", claim["worktree"]], root)
         branch_head = checked(["git", "rev-parse", "refs/heads/" + claim["worktree"]], root) if branch else None
+        entries = checked(["git", "worktree", "list", "--porcelain"], root).split("\n\n")
+        registrations = []
+        for entry in entries:
+            lines = entry.splitlines()
+            registered = next((line[9:] for line in lines if line.startswith("worktree ")), None)
+            registered_branch = next((line[7:] for line in lines if line.startswith("branch ")), None)
+            if registered == str(worktree) or registered_branch == "refs/heads/" + claim["worktree"]:
+                registrations.append({"worktree": registered, "branch": registered_branch})
         if worktree.exists():
             require(source_identity(worktree) == {"head": claim["head"], "tree": claim["tree"]}, "worktree.identity", str(worktree))
         else:
-            require(state["phase"] in {"reconciling", "resolved"}, "worktree.path", "missing before cleanup intent")
+            if state["phase"] == "awaiting_reconcile":
+                require(not registrations, "cleanup.registration", registrations)
+                require(not branch, "cleanup.branch", branch_head)
+                require("cleanup_intent" not in state, "cleanup.intent", state.get("cleanup_intent"))
+                git_path = shutil.which("git")
+                require(git_path is not None, "cleanup.git", "not found")
+                state["cleanup_intent"] = {
+                    "mode": "no_op", "path_present": False, "branch_head": None,
+                    "registrations": [], "main_head": before["head"],
+                    "git_path": str(Path(git_path).resolve()),
+                    "git_sha256": hashlib.sha256(Path(git_path).read_bytes()).hexdigest(),
+                    "noodle_sha256": runtime["observed_binary_sha256"],
+                    "verifier_sha256": claim["verifier_sha256"]}
+            else:
+                require(state["phase"] in {"reconciling", "resolved"}, "worktree.path", "missing before cleanup intent")
+                if state.get("cleanup_intent", {}).get("mode") == "no_op":
+                    require(not registrations, "cleanup.registration", registrations)
+                    require(not branch, "cleanup.branch", branch_head)
+                    intent = state["cleanup_intent"]
+                    git_path = shutil.which("git")
+                    require(git_path is not None, "cleanup.git", "not found")
+                    require(intent.get("git_path") == str(Path(git_path).resolve())
+                            and intent.get("git_sha256") == hashlib.sha256(Path(git_path).read_bytes()).hexdigest()
+                            and intent.get("noodle_sha256") == runtime["observed_binary_sha256"]
+                            and intent.get("verifier_sha256") == claim["verifier_sha256"],
+                            "cleanup.observation", "no-op owner identity changed")
             if branch:
                 require(state["phase"] == "reconciling", "cleanup.phase", state["phase"])
                 require(branch_head == claim["head"], "cleanup.branch_head", branch_head)
-                entries = checked(["git", "worktree", "list", "--porcelain"], root).split("\n\n")
-                for entry in entries:
-                    lines = entry.splitlines()
-                    if "branch refs/heads/" + claim["worktree"] in lines:
-                        registered = next((line[9:] for line in lines if line.startswith("worktree ")), None)
-                        require(registered == str(worktree), "cleanup.checkout", registered)
+                for registration in registrations:
+                    require(registration["worktree"] == str(worktree), "cleanup.checkout", registration["worktree"])
         state["phase"] = "reconciling"
         save(path, state)
         fetch_main(root)
@@ -606,8 +636,13 @@ def reconcile(checkpoint, binary):
             checked([str(Path(binary).resolve()), "worktree", "cleanup", claim["worktree"]], root)
         require(not worktree.exists(), "cleanup.path", str(worktree))
         require(not checked(["git", "branch", "--list", claim["worktree"]], root), "cleanup.branch", claim["worktree"])
-        require(str(worktree) not in checked(["git", "worktree", "list", "--porcelain"], root), "cleanup.registration", str(worktree))
-        state["local"] = {**source_identity(root), "removed_worktree": claim["worktree"], "worktree_owner": "Noodle"}
+        final_registrations = checked(["git", "worktree", "list", "--porcelain"], root)
+        require(str(worktree) not in final_registrations
+                and "branch refs/heads/" + claim["worktree"] not in final_registrations,
+                "cleanup.registration", claim["worktree"])
+        cleanup_mode = "no_op" if state.get("cleanup_intent", {}).get("mode") == "no_op" else "noodle"
+        state["local"] = {**source_identity(root), "removed_worktree": claim["worktree"],
+                          "worktree_owner": "Noodle", "cleanup_mode": cleanup_mode}
         state["phase"], state["classification"] = "resolved", "RESOLVED"
         save(path, state)
         return {**state, **response("reconcile", state, "stop", None)}

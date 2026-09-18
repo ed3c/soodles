@@ -30,7 +30,7 @@ Merged state must agree with the expected parent pair and candidate tree before 
 
 There is at most one merge request and one closure request per checkpoint, no automatic retries, and no polling loop. Pending unknown outcomes remain pending for owner-specific readback. No production generation closure, autonomous scheduling, crash-safe remote transaction, or independent default-branch verification is claimed. The supervisor must not delete/recreate a checkpoint to repeat an unknown write.
 
-After provider closure, a corrected verifier can resume an interrupted reconciliation through `landing resume`: only the verifier digest may change under a fresh supervisor claim; preserve prior digest and all provider/local identities and write intents. This emits no provider write. The real bootstrap reconciliation exposed missing proxy transport in the fixture-only environment; network fetch therefore retains standard proxy variables while excluding provider credentials and Git environment overrides.
+After provider closure, a corrected verifier can resume an `awaiting_reconcile` or interrupted `reconciling` checkpoint through `landing resume`: only the verifier digest may change under a fresh supervisor claim; preserve prior digest and all provider/local identities and write intents. Both merge and closure must already have matching offered/readback evidence. This emits no provider write. The real bootstrap reconciliation exposed missing proxy transport in the fixture-only environment; network fetch therefore retains standard proxy variables while excluding provider credentials and Git environment overrides.
 
 ### Interrupted cleanup — ed3c/soodles#6
 
@@ -38,7 +38,9 @@ A reconciling checkpoint may retain its exact admitted branch after Noodle has r
 
 Persist `cleanup_intent` before calling Noodle. It binds observed path presence, branch/main heads, Git executable path/digest, Noodle digest and verifier digest. The same observation cannot issue another cleanup request; changed owner readback or executable capability is required. Existing reconciling checkpoints without this field are read as the prior schema, with all identity checks still required. Path/branch/registration absence and clean main remain prerequisites for RESOLVED.
 
-The nearest oracle is `cleanup_oracle.cleanup_recovery_probe`, called by canonical acceptance after the original runtime oracle. It physically kills the pinned Noodle process between worktree removal and branch deletion, exercises the real CLI, and checks positive recovery, moved-branch/foreign-checkout refusals, unchanged-attempt refusal, and old-checkpoint compatibility. Provider closure fields and the Git fetch transport are local fixture data; it makes no provider requests and does not claim production provider-crash recovery.
+A cloud delivery that never created the admitted candidate path, branch or worktree registration records that three-way absence as `cleanup_intent.mode=no_op` and enters `reconciling` before Git synchronization. It never creates or asks Noodle to delete a synthetic worktree. Any matching branch or registration refuses this no-op path; the existing Noodle-owned cleanup remains the only path for resources that exist.
+
+The nearest oracle is `cleanup_oracle.cleanup_recovery_probe`, called by canonical acceptance after the original runtime oracle. It physically kills the pinned Noodle process between worktree removal and branch deletion, exercises the real CLI, and checks positive recovery, moved-branch/foreign-checkout refusals, unchanged-attempt refusal, old-checkpoint compatibility, plus verifier migration and no-op cleanup for a never-created cloud worktree. Provider closure fields and the Git fetch transport are local fixture data; it makes no provider requests and does not claim production provider-crash recovery.
 
 ### Observed Git lock recovery — ed3c/soodles#8
 
