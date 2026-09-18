@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "receipt_count": 18,
+  "pass_count": 5,
+  "fail_count": 13,
+  "failed_receipts": [
+    {"blind_id": "0f52fb5ed6aff664", "errors": ["teardown_residue"]},
+    {"blind_id": "b5d567ab8c899a71", "errors": ["missing_owner_observation", "missing_pending_readback", "teardown_residue"]},
+    {"blind_id": "6dd6118d8c88699a", "errors": ["missing_owner_observation", "missing_pending_readback"]},
+    {"blind_id": "4ca01983ba3ca9ca", "errors": ["missing_owner_observation", "missing_pending_readback"]},
+    {"blind_id": "fd40067509aa384d", "errors": ["missing_owner_observation", "missing_pending_readback", "teardown_residue"]},
+    {"blind_id": "4fd490a49645c53a", "errors": ["missing_owner_observation", "missing_pending_readback"]},
+    {"blind_id": "b86c05c2e81c0c12", "errors": ["missing_owner_observation", "missing_pending_readback"]},
+    {"blind_id": "3ca7765d0d2b978d", "errors": ["missing_recovery_continuation"]},
+    {"blind_id": "697aa4a2abac9e81", "errors": ["missing_recovery_continuation", "teardown_residue"]},
+    {"blind_id": "cc0e1f4abec8437d", "errors": ["missing_recovery_continuation"]},
+    {"blind_id": "7f1c32e96591263d", "errors": ["missing_recovery_continuation"]},
+    {"blind_id": "3a477019f9d9268d", "errors": ["missing_recovery_continuation", "teardown_residue"]},
+    {"blind_id": "a62f3e1fc49c6548", "errors": ["missing_recovery_continuation"]}
+  ],
+  "all_hard_gates_pass": false,
+  "change_authorized": false,
+  "authorization_rule": "All 18 receipts must independently pass every hard gate; a failure cannot be averaged away.",
+  "gate_observations": {
+    "observer_pass_with_no_errors_count": 6,
+    "hard_gate_pass_with_no_hard_errors_count": 5,
+    "explicit_provider_transport_observed_false_count": 18,
+    "evidence_survived_true_count": 18,
+    "teardown_zero_residue_true_count": 13
+  },
+  "limitations": [
+    "Only blind-audit-input.json was inspected; no raw receipts, run directories, GitHub state, arm mapping, summaries, or experiment history were inspected.",
+    "Instruction-evidence and case-lifecycle assessments rely on the supplied fixed observer classifications and errors, and supplied hard errors, as required; the observer implementation and underlying evidence were not independently re-executed or verified.",
+    "The input includes instruction-document path metadata with potentially identifying labels. Those labels were not used to infer, group, compare, or report arm identities; the input is therefore not fully opaque despite blind IDs.",
+    "Provider transport absence, evidence survival, and teardown status are assessed from explicit receipt fields rather than external inspection."
+  ]
+}
