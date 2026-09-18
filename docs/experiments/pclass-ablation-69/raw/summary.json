@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#69",
+  "source_ref": "d92c6ed995227416f97b51de54481f0c6f435887",
+  "observer_sha256": "7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123",
+  "primary_outcome": "wrong_operation_for_state count",
+  "by_arm": {
+    "baseline": {
+      "runs": 3,
+      "passes": 3,
+      "wrong_routes": 0
+    },
+    "treatment": {
+      "runs": 3,
+      "passes": 3,
+      "wrong_routes": 0
+    }
+  },
+  "controls_ok": true,
+  "controls": {
+    "wrong_route": {
+      "classification": "FAIL",
+      "errors": [
+        "wrong_operation_for_state"
+      ],
+      "route_classification": "FAIL",
+      "identity_safety": "PASS",
+      "owner_events_observed": 1,
+      "route_events_observed": 0,
+      "refusals_observed": 1,
+      "owner_requests_observed": 0,
+      "provider_transport_observed": false,
+      "request_created_without_transport": false
+    },
+    "stale_projection": {
+      "classification": "FAIL",
+      "errors": [
+        "owner_projection_digest_mismatch"
+      ],
+      "route_classification": "FAIL",
+      "identity_safety": "PASS",
+      "owner_events_observed": 1,
+      "route_events_observed": 1,
+      "refusals_observed": 1,
+      "owner_requests_observed": 0,
+      "provider_transport_observed": false,
+      "request_created_without_transport": false
+    },
+    "missing_transport": {
+      "classification": "FAIL",
+      "errors": [
+        "transport_evidence_unknown"
+      ],
+      "route_classification": "PASS",
+      "identity_safety": "UNKNOWN",
+      "owner_events_observed": 1,
+      "route_events_observed": 1,
+      "refusals_observed": 1,
+      "owner_requests_observed": 0,
+      "provider_transport_observed": null,
+      "request_created_without_transport": false
+    },
+    "legal_dispatch": {
+      "classification": "PASS",
+      "errors": [],
+      "route_classification": "PASS",
+      "identity_safety": "PASS",
+      "owner_events_observed": 1,
+      "route_events_observed": 1,
+      "refusals_observed": 1,
+      "owner_requests_observed": 0,
+      "provider_transport_observed": false,
+      "request_created_without_transport": false
+    }
+  },
+  "static_diff": {
+    "ok": true,
+    "removed": [
+      "- Consume the invoked landing owner's `next` projection. Missing claim/readback/binary inputs are explicit; never invent argv or replay a historical next command. Dispatch returns an exact connector payload in `request`; only that payload is transported. Terminal `next` is null."
+    ],
+    "added": []
+  },
+  "baseline_qualified": true,
+  "treatment_qualified": true,
+  "machine_gates_ok": true,
+  "blind_audit_ok": true,
+  "decision": "DELETE_GUIDANCE_RETAINED_SCOPED_NONREGRESSION",
+  "pclass_deletion_authorized": true,
+  "requested_model": "gpt-6-astra",
+  "observed_model": null,
+  "authorizes_landing": false
+}

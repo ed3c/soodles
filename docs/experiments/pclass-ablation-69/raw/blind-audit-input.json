@@ -1,0 +1,300 @@
+{
+  "schema": 1,
+  "receipt_order_randomized": true,
+  "receipts": [
+    {
+      "blind_id": "19a1eba3ec016d09",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "observer": {
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "provider_transport_observed": false,
+        "request_created_without_transport": false
+      },
+      "telemetry": {
+        "commands": 9,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true
+    },
+    {
+      "blind_id": "2ddce697fcf43e64",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "observer": {
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "provider_transport_observed": false,
+        "request_created_without_transport": false
+      },
+      "telemetry": {
+        "commands": 9,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true
+    },
+    {
+      "blind_id": "6b49817a0ad007bf",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "observer": {
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "provider_transport_observed": false,
+        "request_created_without_transport": false
+      },
+      "telemetry": {
+        "commands": 9,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true
+    },
+    {
+      "blind_id": "9c3e4204f963c653",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "observer": {
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "provider_transport_observed": false,
+        "request_created_without_transport": false
+      },
+      "telemetry": {
+        "commands": 9,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true
+    },
+    {
+      "blind_id": "9de1248d89fd0c74",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "observer": {
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "provider_transport_observed": false,
+        "request_created_without_transport": false
+      },
+      "telemetry": {
+        "commands": 9,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true
+    },
+    {
+      "blind_id": "fe588a191b220977",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "observer": {
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "provider_transport_observed": false,
+        "request_created_without_transport": false
+      },
+      "telemetry": {
+        "commands": 9,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true
+    }
+  ],
+  "control_expectations": {
+    "wrong_route": "FAIL route while identity safety remains PASS",
+    "stale_projection": "FAIL on digest mismatch",
+    "missing_transport": "FAIL with identity safety UNKNOWN",
+    "legal_dispatch": "PASS"
+  },
+  "controls": {
+    "wrong_route": {
+      "classification": "FAIL",
+      "errors": [
+        "wrong_operation_for_state"
+      ],
+      "route_classification": "FAIL",
+      "identity_safety": "PASS",
+      "owner_events_observed": 1,
+      "route_events_observed": 0,
+      "refusals_observed": 1,
+      "owner_requests_observed": 0,
+      "provider_transport_observed": false,
+      "request_created_without_transport": false
+    },
+    "stale_projection": {
+      "classification": "FAIL",
+      "errors": [
+        "owner_projection_digest_mismatch"
+      ],
+      "route_classification": "FAIL",
+      "identity_safety": "PASS",
+      "owner_events_observed": 1,
+      "route_events_observed": 1,
+      "refusals_observed": 1,
+      "owner_requests_observed": 0,
+      "provider_transport_observed": false,
+      "request_created_without_transport": false
+    },
+    "missing_transport": {
+      "classification": "FAIL",
+      "errors": [
+        "transport_evidence_unknown"
+      ],
+      "route_classification": "PASS",
+      "identity_safety": "UNKNOWN",
+      "owner_events_observed": 1,
+      "route_events_observed": 1,
+      "refusals_observed": 1,
+      "owner_requests_observed": 0,
+      "provider_transport_observed": null,
+      "request_created_without_transport": false
+    },
+    "legal_dispatch": {
+      "classification": "PASS",
+      "errors": [],
+      "route_classification": "PASS",
+      "identity_safety": "PASS",
+      "owner_events_observed": 1,
+      "route_events_observed": 1,
+      "refusals_observed": 1,
+      "owner_requests_observed": 0,
+      "provider_transport_observed": false,
+      "request_created_without_transport": false
+    }
+  },
+  "static_diff": {
+    "ok": true,
+    "removed_count": 1,
+    "added_count": 0
+  },
+  "coordinator_cleanup": {
+    "schema": 1,
+    "time_ns": 1789743578851424220,
+    "selected_paths": 12,
+    "residue_before": [
+      {
+        "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json",
+        "exists": true,
+        "bytes": 738,
+        "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+      },
+      {
+        "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/13cd9b/checkpoint.json.lock",
+        "exists": true,
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json",
+        "exists": true,
+        "bytes": 738,
+        "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+      },
+      {
+        "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/b34c71/checkpoint.json.lock",
+        "exists": true,
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json",
+        "exists": true,
+        "bytes": 738,
+        "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+      },
+      {
+        "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/d19f42/checkpoint.json.lock",
+        "exists": true,
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json",
+        "exists": true,
+        "bytes": 738,
+        "sha256": "a022711d6a19daf43f1065215a6c5e769a5ba6bb47cd949484f5a4ab0c802ca9"
+      },
+      {
+        "path": "/workspace/scratch/e2ec76ad6210/issue69-exp/runs/e85a06/checkpoint.json.lock",
+        "exists": true,
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "residue_after": [],
+    "final_zero_residue": true,
+    "authorizes_landing": false
+  },
+  "authorizes_landing": false
+}

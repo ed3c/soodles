@@ -1,0 +1,437 @@
+{
+  "schema": 1,
+  "receipts": [
+    {
+      "schema": 1,
+      "run_id": "13cd9b",
+      "arm": "treatment",
+      "observer": {
+        "schema": 3,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "initial_owner_projection_sha256": "7eaf5f10c4629728f40c14a5a5760735f178fe38dab881c44249b6167445b994",
+        "expected_owner_projection_sha256": "7eaf5f10c4629728f40c14a5a5760735f178fe38dab881c44249b6167445b994",
+        "route_errors": [],
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md": {
+            "bytes": 10101,
+            "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7614,
+            "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "8e7255d14865f51db0e1c4d4a48321c652fadd448291290c58b79fe02558338b",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "telemetry": {
+        "commands": 9,
+        "elapsed_seconds": 0.12892602899228223,
+        "stdout_bytes": 34734,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20202,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "precondition_sha256": "36c4bd47b025cd37ffe2fc40941952bf1c147ec4898c94ffda4a423470bca731",
+      "raw_sha256": "4c25369d1510b2d5ae8b281fbf3a6fddda24964880483674fab449620aafa129",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "51fa28",
+      "arm": "treatment",
+      "observer": {
+        "schema": 3,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "initial_owner_projection_sha256": "1e288efd81758d584cad5dc7104518b499fbc95f305b5ce9c7a9153ae99f0fec",
+        "expected_owner_projection_sha256": "1e288efd81758d584cad5dc7104518b499fbc95f305b5ce9c7a9153ae99f0fec",
+        "route_errors": [],
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md": {
+            "bytes": 10101,
+            "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7614,
+            "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "10f7c77f37d4948f61c6f7684bb0ccdc76b5b1839b2698254b24110c4d32bbfa",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "telemetry": {
+        "commands": 9,
+        "elapsed_seconds": 0.12426607000088552,
+        "stdout_bytes": 34757,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20202,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "precondition_sha256": "4f1e956ea23af98152361a28935bc9ff608c766f1714dbd37976b3852e35fea9",
+      "raw_sha256": "56c8e588109805cf69a8ca61fa59c2d4069c70a241ec295c63b19492a5bed685",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "a702de",
+      "arm": "treatment",
+      "observer": {
+        "schema": 3,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "initial_owner_projection_sha256": "889918c1bca9f39474c6c2d69ea70b4308e9894dbb3e5370bd184cd3c815167e",
+        "expected_owner_projection_sha256": "889918c1bca9f39474c6c2d69ea70b4308e9894dbb3e5370bd184cd3c815167e",
+        "route_errors": [],
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/treatment/AGENTS.md": {
+            "bytes": 10101,
+            "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7614,
+            "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "52cb792f8032dd77c8b4bc4568e42627f67e2411c16fcb599865bc08fd75f23c",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "telemetry": {
+        "commands": 9,
+        "elapsed_seconds": 0.1126036559799104,
+        "stdout_bytes": 34736,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20202,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "precondition_sha256": "70537b56b4e6f6fc86f0a4f47a719f3e8e52ffe2e4ab0de284c04f770ae5847d",
+      "raw_sha256": "bb4646334525383c29217b78239ebe0d2f25b61058f5ac34a58c0114399ce1cc",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "b34c71",
+      "arm": "baseline",
+      "observer": {
+        "schema": 3,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "initial_owner_projection_sha256": "06e1518e80e305c03a5f970a5b62598dea9becda6a1c2596cc31f0451b074994",
+        "expected_owner_projection_sha256": "06e1518e80e305c03a5f970a5b62598dea9becda6a1c2596cc31f0451b074994",
+        "route_errors": [],
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md": {
+            "bytes": 10381,
+            "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7614,
+            "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "4f3d38196782cad658dbb9e15597233b4ea83ed2cba0dea3382992aeb11f860f",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "telemetry": {
+        "commands": 9,
+        "elapsed_seconds": 0.13519854200421833,
+        "stdout_bytes": 34890,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20762,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "precondition_sha256": "29e388e288d1353702ce7007b7b3a11dccc37dc975abddb28367565b811887b5",
+      "raw_sha256": "f2c6ce3865501755bfb4e0a384b358760ee8dcc629100d6b8d98be7a28d0fe53",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "d19f42",
+      "arm": "baseline",
+      "observer": {
+        "schema": 3,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "initial_owner_projection_sha256": "8b494fbb69a28fbf5540e18ec052a4264b647c2e77c83223d3929c2e464cc9c4",
+        "expected_owner_projection_sha256": "8b494fbb69a28fbf5540e18ec052a4264b647c2e77c83223d3929c2e464cc9c4",
+        "route_errors": [],
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md": {
+            "bytes": 10381,
+            "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7614,
+            "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "4f85392024088d6043dbd8b83353a4d5647cfc419332782894a9d99be8a07ed6",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "telemetry": {
+        "commands": 9,
+        "elapsed_seconds": 0.12474355199810816,
+        "stdout_bytes": 35043,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20762,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "precondition_sha256": "bcfb3849c201464fe971ce4111d72f0a9cae0bbe6cb031b8981ab2c57948dab7",
+      "raw_sha256": "96e71121ef176605eedb1c14bb1a2d9ff2e365da30355e8cec4443e38889a1a7",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "e85a06",
+      "arm": "baseline",
+      "observer": {
+        "schema": 3,
+        "case": "identity",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": "PASS",
+        "initial_owner_projection_sha256": "7445c734ba3e53c8ec4ef4f9d018d31e0156ce49233796dfb40c31d953243e30",
+        "expected_owner_projection_sha256": "7445c734ba3e53c8ec4ef4f9d018d31e0156ce49233796dfb40c31d953243e30",
+        "route_errors": [],
+        "owner_events_observed": 1,
+        "route_events_observed": 1,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/instructions/baseline/AGENTS.md": {
+            "bytes": 10381,
+            "sha256": "a590f6462e1aa73d51aa71cdf3494916920795fe42730482949a681b14e76e58",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7614,
+            "sha256": "275940e8bf0a7db98aab317221586d1bbfc4a572a19480444c7157f634744588",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue69-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "36eccada17136c2b7fbf16e3c93722c7fbbca461ae580bd42f8c1cd48092880b",
+        "authorizes_landing": false
+      },
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "wrong_route": false,
+      "telemetry": {
+        "commands": 9,
+        "elapsed_seconds": 0.10973298299359158,
+        "stdout_bytes": 35012,
+        "stderr_bytes": 246,
+        "instruction_reads": 2,
+        "instruction_bytes": 20762,
+        "instruction_binding": "recorder_files_before",
+        "owner_events": 1,
+        "owner_requests": 0,
+        "refusals": 1,
+        "nonzero_commands": 1
+      },
+      "precondition_sha256": "3811f5364751015da23cd4b34391831368c9eb49ca43f55173524dc53c91d569",
+      "raw_sha256": "6664c202494acd02396b09895faae9495d57d65a43153c1ee48ce7562a2b633d",
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    }
+  ]
+}
