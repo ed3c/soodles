@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "reason": "post-consumer exact cleanup after shared-filesystem path reappearance",
+  "records": [
+    {
+      "run_id": "19cfa2",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/19cfa2/checkpoint.json",
+      "existed_before": false,
+      "before_sha256": null,
+      "exists_after": false
+    },
+    {
+      "run_id": "19cfa2",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/19cfa2/checkpoint.json.lock",
+      "existed_before": false,
+      "before_sha256": null,
+      "exists_after": false
+    },
+    {
+      "run_id": "3b7e81",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/3b7e81/checkpoint.json",
+      "existed_before": false,
+      "before_sha256": null,
+      "exists_after": false
+    },
+    {
+      "run_id": "3b7e81",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/3b7e81/checkpoint.json.lock",
+      "existed_before": false,
+      "before_sha256": null,
+      "exists_after": false
+    },
+    {
+      "run_id": "62ad0f",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/62ad0f/checkpoint.json",
+      "existed_before": true,
+      "before_sha256": "9fd944f4745c5dad39072f96813a747a5951684729b85fe2422710ec01ca8b48",
+      "exists_after": false
+    },
+    {
+      "run_id": "62ad0f",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/62ad0f/checkpoint.json.lock",
+      "existed_before": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exists_after": false
+    },
+    {
+      "run_id": "8e41bc",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/8e41bc/checkpoint.json",
+      "existed_before": true,
+      "before_sha256": "7aa2d36a45419253bb47c77f00983db9a602dfc1fbb727bea5b1a219b783c082",
+      "exists_after": false
+    },
+    {
+      "run_id": "8e41bc",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/8e41bc/checkpoint.json.lock",
+      "existed_before": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exists_after": false
+    },
+    {
+      "run_id": "b570d3",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/b570d3/checkpoint.json",
+      "existed_before": false,
+      "before_sha256": null,
+      "exists_after": false
+    },
+    {
+      "run_id": "b570d3",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/b570d3/checkpoint.json.lock",
+      "existed_before": false,
+      "before_sha256": null,
+      "exists_after": false
+    },
+    {
+      "run_id": "dc296a",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/dc296a/checkpoint.json",
+      "existed_before": true,
+      "before_sha256": "7aa2d36a45419253bb47c77f00983db9a602dfc1fbb727bea5b1a219b783c082",
+      "exists_after": false
+    },
+    {
+      "run_id": "dc296a",
+      "path": "/workspace/scratch/e2ec76ad6210/issue73-exp/runs/dc296a/checkpoint.json.lock",
+      "existed_before": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exists_after": false
+    }
+  ],
+  "zero_residue": true,
+  "consumer_evidence_preserved": true,
+  "authorizes_landing": false
+}

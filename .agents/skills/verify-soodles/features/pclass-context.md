@@ -16,6 +16,8 @@ The coordinator may launch independent consumers when the current task authorize
 4. Compare the target behavior and nearest legal different case. Retain failures. A planted bad result tests observer sensitivity, not a historical defect. Equal successful arms support nonregression; improvement requires the declared observable barrier to decrease without violating behavior. Missing evidence is inconclusive, never zero or success.
 
    After `observe_pclass.py` has normalized each run, `scripts/decide_pclass.py COMPARISON.json` may combine the frozen receipts. Its admission target, primary barrier, controls, causal-delta check and independent audit are inputs selected before evaluation. It rejects missing hard-gate evidence and keeps telemetry report-only; its receipt cannot authorize landing.
+
+   A bounded recovery packet may also carry an externally selected completion projection and its exact digest. Once the real owner emits that projection, stop before invoking its `next.operation` or creating its request when provider transport is not authorized. The projection bounds this observation only; it is not provider truth and grants no transport or landing authority.
 5. Return goal/scope, subject and instruction identities, actual evidence locators, supported result, unknowns and next owner readback. A distinct consumer must read that handoff and refresh current owner state when transfer is part of the claim. The coordinator reports feature coverage and existing landing status separately.
 
 ## Bounded working context

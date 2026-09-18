@@ -1,0 +1,490 @@
+{
+  "schema": 1,
+  "receipts": [
+    {
+      "schema": 1,
+      "run_id": "19cfa2",
+      "arm": "treatment",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 0
+      },
+      "completion_event_index": 1,
+      "owner_events_observed": 2,
+      "owner_requests_observed": 0,
+      "refusals_observed": 1,
+      "observer": {
+        "schema": 3,
+        "case": "recovery",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": null,
+        "initial_owner_projection_sha256": "40f3506f8cb888b43158f0d2eb883ff1b5617237bf86f13b1ce34dc3ac579fce",
+        "expected_owner_projection_sha256": "40f3506f8cb888b43158f0d2eb883ff1b5617237bf86f13b1ce34dc3ac579fce",
+        "route_errors": [],
+        "owner_events_observed": 2,
+        "route_events_observed": 2,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/instructions/current/AGENTS.md": {
+            "bytes": 10101,
+            "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/delivery-recovery.md": {
+            "bytes": 6440,
+            "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7983,
+            "sha256": "c15f19e89651fbbf486f28947706fee18569b7cd3e83d36e00f8d4c4ef3c4f6e",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "4045e57e66e8989da0c825660cb7b602f85ffb39f417a2d15b48437e91524756",
+        "authorizes_landing": false
+      },
+      "telemetry": {
+        "commands": 15,
+        "elapsed_seconds": 0.3325555350020295,
+        "stdout_bytes": 44783,
+        "stderr_bytes": 552,
+        "instruction_reads": 2,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "nonzero_commands": 2
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "raw_sha256": "cab36dc808eba8f0ddc8fe24bc13f6ff374a6fcb282b577e66a73841318bda84",
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "3b7e81",
+      "arm": "baseline",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 1
+      },
+      "completion_event_index": 1,
+      "owner_events_observed": 3,
+      "owner_requests_observed": 1,
+      "refusals_observed": 1,
+      "observer": {
+        "schema": 3,
+        "case": "recovery",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": null,
+        "initial_owner_projection_sha256": "b668d08ec90b15660d8f988a85fd761ea7114a1febb4b887d5e42032931588de",
+        "expected_owner_projection_sha256": "b668d08ec90b15660d8f988a85fd761ea7114a1febb4b887d5e42032931588de",
+        "route_errors": [],
+        "owner_events_observed": 3,
+        "route_events_observed": 3,
+        "refusals_observed": 1,
+        "owner_requests_observed": 1,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/instructions/current/AGENTS.md": {
+            "bytes": 10101,
+            "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/delivery-recovery.md": {
+            "bytes": 6440,
+            "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7983,
+            "sha256": "c15f19e89651fbbf486f28947706fee18569b7cd3e83d36e00f8d4c4ef3c4f6e",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": true,
+        "owner_request_sha256": [
+          "a1a4a028f15b42caaa17795349953e1af23bc51812ff5501d0926e62ba679965"
+        ],
+        "provider_transport_observed": false,
+        "request_created_without_transport": true,
+        "raw_sha256": "a9fcb9aaa3914855cd213e4dc0e51f92303dcaca37f237f118d36d238205c598",
+        "authorizes_landing": false
+      },
+      "telemetry": {
+        "commands": 15,
+        "elapsed_seconds": 0.3172350289969472,
+        "stdout_bytes": 46774,
+        "stderr_bytes": 552,
+        "instruction_reads": 1,
+        "owner_events": 3,
+        "owner_requests": 1,
+        "nonzero_commands": 2
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "raw_sha256": "6de0b401589b8db85a49facb06c93ba5f9c8885830910f103293f537769927ff",
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "62ad0f",
+      "arm": "treatment",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 0
+      },
+      "completion_event_index": 1,
+      "owner_events_observed": 2,
+      "owner_requests_observed": 0,
+      "refusals_observed": 1,
+      "observer": {
+        "schema": 3,
+        "case": "recovery",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": null,
+        "initial_owner_projection_sha256": "93d06cb8910a4c582c105e05f02f8ebe554505732ffff5e9957d65c2d9c9d591",
+        "expected_owner_projection_sha256": "93d06cb8910a4c582c105e05f02f8ebe554505732ffff5e9957d65c2d9c9d591",
+        "route_errors": [],
+        "owner_events_observed": 2,
+        "route_events_observed": 2,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/instructions/current/AGENTS.md": {
+            "bytes": 10101,
+            "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7983,
+            "sha256": "c15f19e89651fbbf486f28947706fee18569b7cd3e83d36e00f8d4c4ef3c4f6e",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "fa97bfccb8f8d0067096e8cff2b1f18893d474a50369ca2e9020c69f01eea479",
+        "authorizes_landing": false
+      },
+      "telemetry": {
+        "commands": 9,
+        "elapsed_seconds": 0.2825536199961789,
+        "stdout_bytes": 37986,
+        "stderr_bytes": 463,
+        "instruction_reads": 1,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "raw_sha256": "183924c03cc08e6343475ce0db4e15226a4f54d0d15ae972c238a4f92f55b216",
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "8e41bc",
+      "arm": "baseline",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 1
+      },
+      "completion_event_index": 1,
+      "owner_events_observed": 3,
+      "owner_requests_observed": 1,
+      "refusals_observed": 1,
+      "observer": {
+        "schema": 3,
+        "case": "recovery",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": null,
+        "initial_owner_projection_sha256": "c5522e9abb471b6f8843de69955f73440e07c30eefa065cc08ccff2ebcfe01ef",
+        "expected_owner_projection_sha256": "c5522e9abb471b6f8843de69955f73440e07c30eefa065cc08ccff2ebcfe01ef",
+        "route_errors": [],
+        "owner_events_observed": 3,
+        "route_events_observed": 3,
+        "refusals_observed": 1,
+        "owner_requests_observed": 1,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/instructions/current/AGENTS.md": {
+            "bytes": 10101,
+            "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/delivery-recovery.md": {
+            "bytes": 6440,
+            "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7983,
+            "sha256": "c15f19e89651fbbf486f28947706fee18569b7cd3e83d36e00f8d4c4ef3c4f6e",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": true,
+        "owner_request_sha256": [
+          "a1a4a028f15b42caaa17795349953e1af23bc51812ff5501d0926e62ba679965"
+        ],
+        "provider_transport_observed": false,
+        "request_created_without_transport": true,
+        "raw_sha256": "ca96293331efb7ae554248f971b49840e4de666f587b8a59111dcfa53a4772b1",
+        "authorizes_landing": false
+      },
+      "telemetry": {
+        "commands": 16,
+        "elapsed_seconds": 0.2762352370118606,
+        "stdout_bytes": 45528,
+        "stderr_bytes": 463,
+        "instruction_reads": 2,
+        "owner_events": 3,
+        "owner_requests": 1,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "raw_sha256": "d265797e0c96cb8e88a45ee95a5c75ee9c6d533983bdea99205c2e8af91faf30",
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "b570d3",
+      "arm": "treatment",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 0
+      },
+      "completion_event_index": 1,
+      "owner_events_observed": 2,
+      "owner_requests_observed": 0,
+      "refusals_observed": 1,
+      "observer": {
+        "schema": 3,
+        "case": "recovery",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": null,
+        "initial_owner_projection_sha256": "975c4083f0aa0c9308855c885dc5de666cb16898698959675e50de6f2e033dd3",
+        "expected_owner_projection_sha256": "975c4083f0aa0c9308855c885dc5de666cb16898698959675e50de6f2e033dd3",
+        "route_errors": [],
+        "owner_events_observed": 2,
+        "route_events_observed": 2,
+        "refusals_observed": 1,
+        "owner_requests_observed": 0,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/instructions/current/AGENTS.md": {
+            "bytes": 10101,
+            "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7983,
+            "sha256": "c15f19e89651fbbf486f28947706fee18569b7cd3e83d36e00f8d4c4ef3c4f6e",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/delivery-recovery.md": {
+            "bytes": 6440,
+            "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": false,
+        "owner_request_sha256": [],
+        "provider_transport_observed": false,
+        "request_created_without_transport": false,
+        "raw_sha256": "6c2bcd8e8f5d979450ebbdd015600c41d24d0011c829aaed725f33c1901c99af",
+        "authorizes_landing": false
+      },
+      "telemetry": {
+        "commands": 13,
+        "elapsed_seconds": 0.20821510201494675,
+        "stdout_bytes": 44706,
+        "stderr_bytes": 463,
+        "instruction_reads": 1,
+        "owner_events": 2,
+        "owner_requests": 0,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "raw_sha256": "003e5296adb0f7303ca18679d71be4678501b04863b4602b761da3c53bb676bd",
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    },
+    {
+      "schema": 1,
+      "run_id": "dc296a",
+      "arm": "baseline",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 1
+      },
+      "completion_event_index": 1,
+      "owner_events_observed": 3,
+      "owner_requests_observed": 1,
+      "refusals_observed": 1,
+      "observer": {
+        "schema": 3,
+        "case": "recovery",
+        "classification": "PASS",
+        "errors": [],
+        "route_classification": "PASS",
+        "identity_safety": null,
+        "initial_owner_projection_sha256": "2b1544ea12b6f27b3b5076da255bdbfd79644147cc69a56dd061e3a8c7fff7cf",
+        "expected_owner_projection_sha256": "2b1544ea12b6f27b3b5076da255bdbfd79644147cc69a56dd061e3a8c7fff7cf",
+        "route_errors": [],
+        "owner_events_observed": 3,
+        "route_events_observed": 3,
+        "refusals_observed": 1,
+        "owner_requests_observed": 1,
+        "instruction_documents": {
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/instructions/current/AGENTS.md": {
+            "bytes": 10101,
+            "sha256": "18572ed1a66239858b0f646656d65d98e9d8d9d4d000535df4c03d44c24cc46f",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/SKILL.md": {
+            "bytes": 9786,
+            "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/delivery-recovery.md": {
+            "bytes": 6440,
+            "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+            "observed_from": [
+              "argv"
+            ]
+          },
+          "/workspace/scratch/e2ec76ad6210/issue73-exp/package/.agents/skills/verify-soodles/features/pclass-context.md": {
+            "bytes": 7983,
+            "sha256": "c15f19e89651fbbf486f28947706fee18569b7cd3e83d36e00f8d4c4ef3c4f6e",
+            "observed_from": [
+              "argv"
+            ]
+          }
+        },
+        "owner_request_created": true,
+        "owner_request_sha256": [
+          "a1a4a028f15b42caaa17795349953e1af23bc51812ff5501d0926e62ba679965"
+        ],
+        "provider_transport_observed": false,
+        "request_created_without_transport": true,
+        "raw_sha256": "239cfa819fa6684a9ad067c5f8406c025a841006b77af18159ae13669042a15d",
+        "authorizes_landing": false
+      },
+      "telemetry": {
+        "commands": 10,
+        "elapsed_seconds": 0.2861077679990558,
+        "stdout_bytes": 45432,
+        "stderr_bytes": 463,
+        "instruction_reads": 1,
+        "owner_events": 3,
+        "owner_requests": 1,
+        "nonzero_commands": 1
+      },
+      "evidence_survived": true,
+      "teardown_zero_residue": true,
+      "raw_sha256": "ec58217fe312969561e24ef1a477b18253c033a2848f41c0759fa2e6be3f5634",
+      "requested_model": "gpt-6-astra",
+      "observed_model": null,
+      "authorizes_landing": false
+    }
+  ]
+}

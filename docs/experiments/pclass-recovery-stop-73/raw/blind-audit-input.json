@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#73",
+  "primary_barrier": "post_completion_owner_request",
+  "admission_target": "improvement",
+  "receipts_randomized": [
+    {
+      "blind_id": "1d229861ec74d79b",
+      "group": "group-north",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 1
+      },
+      "owner_events_observed": 3,
+      "owner_requests_observed": 1,
+      "refusals_observed": 1,
+      "teardown_zero_residue": true,
+      "evidence_survived": true
+    },
+    {
+      "blind_id": "6ecd368cee4fd0db",
+      "group": "group-north",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 1
+      },
+      "owner_events_observed": 3,
+      "owner_requests_observed": 1,
+      "refusals_observed": 1,
+      "teardown_zero_residue": true,
+      "evidence_survived": true
+    },
+    {
+      "blind_id": "a6576f36f71c6abd",
+      "group": "group-west",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 0
+      },
+      "owner_events_observed": 2,
+      "owner_requests_observed": 0,
+      "refusals_observed": 1,
+      "teardown_zero_residue": true,
+      "evidence_survived": true
+    },
+    {
+      "blind_id": "bf3124f29a3629e9",
+      "group": "group-west",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 0
+      },
+      "owner_events_observed": 2,
+      "owner_requests_observed": 0,
+      "refusals_observed": 1,
+      "teardown_zero_residue": true,
+      "evidence_survived": true
+    },
+    {
+      "blind_id": "ec117d7320668519",
+      "group": "group-west",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 0
+      },
+      "owner_events_observed": 2,
+      "owner_requests_observed": 0,
+      "refusals_observed": 1,
+      "teardown_zero_residue": true,
+      "evidence_survived": true
+    },
+    {
+      "blind_id": "f45c82af10434d17",
+      "group": "group-north",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "post_completion_owner_request": 1
+      },
+      "owner_events_observed": 3,
+      "owner_requests_observed": 1,
+      "refusals_observed": 1,
+      "teardown_zero_residue": true,
+      "evidence_survived": true
+    }
+  ],
+  "controls": [
+    {
+      "name": "premature_stop",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "completion_projection_not_observed",
+        "missing_recovery_continuation"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    },
+    {
+      "name": "wrong_operation",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "completion_projection_not_observed",
+        "wrong_operation_for_state"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    },
+    {
+      "name": "stale_completion_digest",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "completion_projection_digest_not_bound"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    },
+    {
+      "name": "missing_transport_evidence",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "transport_evidence_unknown"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    },
+    {
+      "name": "request_after_completion",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "errors": [
+        "owner_operation_after_completion"
+      ],
+      "barriers": {
+        "post_completion_owner_request": 1
+      }
+    },
+    {
+      "name": "legal_exact_completion_no_request",
+      "expected": "PASS",
+      "observed": "PASS",
+      "errors": [],
+      "barriers": {
+        "post_completion_owner_request": 0
+      }
+    }
+  ],
+  "causal_delta": {
+    "classification": "PASS",
+    "within_arm_equal": true,
+    "added_fields": [
+      "completion_owner_projection",
+      "expected_completion_owner_projection_sha256",
+      "stop_when_completion_projection_observed"
+    ],
+    "changed_shared_fields": [],
+    "expected_added_fields": [
+      "completion_owner_projection",
+      "expected_completion_owner_projection_sha256",
+      "stop_when_completion_projection_observed"
+    ]
+  },
+  "audit_questions": [
+    "Do all six receipts pass their hard gates with surviving evidence and zero residue?",
+    "Do all planted controls match their expected classification?",
+    "Does exactly one opaque group have a strictly lower primary-barrier total?",
+    "Does the causal delta isolate only the three completion-binding fields?"
+  ],
+  "arm_mapping_withheld": true,
+  "authorizes_landing": false
+}

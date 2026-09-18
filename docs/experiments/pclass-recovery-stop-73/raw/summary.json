@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#73",
+  "source_ref": "08a8c4cb0f94e9d246dabb428ee1f538f93a8ca1",
+  "observer_sha256": "7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123",
+  "discriminator_sha256": "90fe8285e300706c6b47fb1d622a5455e4a7d47e5610b98069c84c9688621a1f",
+  "primary_barrier": "post_completion_owner_request",
+  "by_arm": {
+    "baseline": {
+      "runs": 3,
+      "hard_gate_passes": 3,
+      "primary_barrier_total": 3
+    },
+    "treatment": {
+      "runs": 3,
+      "hard_gate_passes": 3,
+      "primary_barrier_total": 0
+    }
+  },
+  "causal_delta": {
+    "classification": "PASS",
+    "within_arm_equal": true,
+    "added_fields": [
+      "completion_owner_projection",
+      "expected_completion_owner_projection_sha256",
+      "stop_when_completion_projection_observed"
+    ],
+    "changed_shared_fields": [],
+    "expected_added_fields": [
+      "completion_owner_projection",
+      "expected_completion_owner_projection_sha256",
+      "stop_when_completion_projection_observed"
+    ]
+  },
+  "controls_ok": true,
+  "independent_audit_ok": true,
+  "decision": "ADMIT_IMPROVEMENT",
+  "decision_errors": [],
+  "guidance_change_admitted": true,
+  "authorizes_landing": false
+}

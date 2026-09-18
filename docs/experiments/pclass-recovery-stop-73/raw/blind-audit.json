@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "verdict": "PASS",
+  "receipt_count": 6,
+  "unique_blind_ids": [
+    "1d229861ec74d79b",
+    "6ecd368cee4fd0db",
+    "a6576f36f71c6abd",
+    "bf3124f29a3629e9",
+    "ec117d7320668519",
+    "f45c82af10434d17"
+  ],
+  "group_totals": {
+    "group-north": 3,
+    "group-west": 0
+  },
+  "controls_match": true,
+  "causal_delta_match": true,
+  "hard_gates_match": true,
+  "findings": [
+    {
+      "check": "six_unique_receipts",
+      "passed": true,
+      "detail": "Six receipts have six distinct blind IDs; each opaque group contains three receipts."
+    },
+    {
+      "question": "Do all six receipts pass their hard gates with surviving evidence and zero residue?",
+      "answer": "YES",
+      "detail": "All six hard_gate values are PASS, all hard_errors arrays are empty, and evidence_survived and teardown_zero_residue are true for all six receipts."
+    },
+    {
+      "question": "Do all planted controls match their expected classification?",
+      "answer": "YES",
+      "detail": "premature_stop, wrong_operation, stale_completion_digest, missing_transport_evidence, and request_after_completion each have expected FAIL and observed FAIL with nonempty errors. legal_exact_completion_no_request has expected PASS and observed PASS with no errors. All six match."
+    },
+    {
+      "question": "Does exactly one opaque group have a strictly lower primary-barrier total?",
+      "answer": "YES",
+      "detail": "For post_completion_owner_request, group-north totals 1+1+1=3 and group-west totals 0+0+0=0. Exactly one group, group-west, is strictly lower; the difference is 3. No baseline or treatment identity is inferred."
+    },
+    {
+      "question": "Does the causal delta isolate only the three completion-binding fields?",
+      "answer": "YES",
+      "detail": "The supplied causal_delta reports PASS and within_arm_equal=true, with no changed shared fields. added_fields exactly matches expected_added_fields: completion_owner_projection, expected_completion_owner_projection_sha256, and stop_when_completion_projection_observed."
+    },
+    {
+      "check": "scope_and_blinding",
+      "passed": true,
+      "detail": "Only blind-audit-input.json was inspected. Checks are mechanical consistency checks of the supplied blinded input; underlying execution evidence was not independently inspected. The input states arm_mapping_withheld=true and authorizes_landing=false."
+    }
+  ],
+  "arm_mapping_seen": false,
+  "authorizes_landing": false
+}
