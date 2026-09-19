@@ -190,6 +190,8 @@ class PacketTests(unittest.TestCase):
 
     def test_actions_builds_the_tracked_ui_before_the_embedded_binary(self):
         workflow = (Path(packet.__file__).parent / '.github/workflows/runtime.yml').read_text()
+        self.assertIn('GITHUB_API_TOKEN: ${{ github.token }}', workflow)
+        self.assertIn("authenticated=True", workflow)
         install = workflow.index('corepack pnpm install --frozen-lockfile')
         ui = workflow.index('corepack pnpm --filter noodle-ui build')
         binary = workflow.index('go build -o "$RUNNER_TEMP/noodle-admission"')
