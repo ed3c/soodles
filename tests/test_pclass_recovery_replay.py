@@ -1,6 +1,8 @@
+import base64
 import copy
 import hashlib
 import importlib.util
+import json
 from pathlib import Path
 import unittest
 
@@ -15,15 +17,38 @@ spec.loader.exec_module(replayer)
 
 SUBJECT = {"repository": "ed3c/noodle",
            "source_revision": "ca81f942f478e8e4afcbbce6ca69640867efe753"}
+CARRIER = {"id": "linux_amd64", "os": "linux", "arch": "amd64"}
 FIXED_OBSERVER = "a" * 64
-INSTRUCTION = {"path": ".agents/skills/verify-noodle/features/admission-recovery.md",
-               "sha256": "b" * 64}
-INPUT = "c" * 64
-CANONICAL = {"orders-next.json": "d" * 64, "state.snapshot.json": "e" * 64,
-             "orders.json": "f" * 64}
+TASK = b"Retire the current disposable admission proposal and prove completion."
+BASELINE_INSTRUCTION = b"Inspect the owner state, recover it, and verify completion."
+TREATMENT_INSTRUCTION = (
+    b"Inspect once, execute the exact projected continuation, then inspect once for completion."
+)
+EXPOSURE = {"tools": ["shell"], "budget": 8, "network": False}
+CANONICAL_PATHS = ["orders-next.json", "orders.json", "state.snapshot.json"]
+CLEANUP_SCOPE = "disposable fixture and its process group"
+BARRIERS = [
+    "repeated_unchanged_inspect",
+    "help_after_complete_projection",
+    "repeated_unchanged_instruction_read",
+    "avoidable_confirmation",
+]
+
+
+def encoded(raw):
+    return base64.b64encode(raw).decode()
+
+
+def json_raw(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+
+
+def document(raw):
+    return {"bytes_b64": encoded(raw), "sha256": hashlib.sha256(raw).hexdigest()}
 
 
 def projection(status, revision=7):
+    subject = {"proposal_sha256": "1" * 64}
     if status == "recoverable":
         next_value = {
             "argv": ["/tmp/noodle", "--project-dir", "/tmp/project", "admission",
@@ -32,88 +57,167 @@ def projection(status, revision=7):
         }
     else:
         next_value = None
-    return {"owner": "Noodle", "status": status,
-            "subject": {"proposal_sha256": "1" * 64},
-            "current_order_revision": revision, "next": next_value}
+    return {"owner": "Noodle initial admission", "status": status,
+            "subject": subject, "current_order_revision": revision,
+            "next": next_value}
 
 
-def process_event(**values):
-    return {"exit_code": 0, "elapsed_ms": 1,
-            "stdout_sha256": "2" * 64, "stderr_sha256": "3" * 64, **values}
-
-
-def raw_run(run_id, arm, repeated=False, manual=False):
-    initial = projection("recoverable")
-    completed = projection("no_proposal")
-    initial_sha = replayer.fingerprint(initial)
-    completed_sha = replayer.fingerprint(completed)
-    inspect = process_event(kind="owner_read", operation="admission.inspect",
-                            projection=initial, projection_sha256=initial_sha)
-    operations = [inspect]
-    if repeated:
-        operations.append(copy.deepcopy(inspect))
-    operations.extend([
-        process_event(kind="owner_action", operation="admission.retire",
-                      argv=initial["next"]["argv"],
-                      argv_source="manual" if manual else "projection",
-                      bound_projection_sha256=initial_sha),
-        process_event(kind="owner_read", operation="admission.inspect",
-                      projection=completed, projection_sha256=completed_sha),
-    ])
+def operation(kind, operation_name, output, **values):
+    stdout = json_raw(output)
+    stderr = b""
     return {
-        "run_id": run_id,
-        "arm": arm,
-        "packet": {
-            "run_id": run_id, "arm": arm, "case": "admission_recovery",
-            "subject": copy.deepcopy(SUBJECT), "carrier": {"id": "linux_amd64", "os": "linux", "arch": "amd64"},
-            "instruction": copy.deepcopy(INSTRUCTION),
-            "initial_owner_projection": initial,
-            "expected_owner_projection_sha256": initial_sha,
-            "transport_events": [],
-        },
-        "precondition": {
-            "subject": copy.deepcopy(SUBJECT), "carrier": {"id": "linux_amd64", "os": "linux", "arch": "amd64"},
-            "initial_owner_projection": initial,
-            "initial_owner_projection_sha256": initial_sha,
-            "provider_transport_observed": False,
-            "preserved_input_sha256": INPUT,
-            "canonical_files": copy.deepcopy(CANONICAL),
-        },
-        "operations": operations,
-        "postcondition": {
-            "completion_owner_projection": completed,
-            "completion_owner_projection_sha256": completed_sha,
-            "retired_archive_sha256": INPUT,
-            "canonical_files": copy.deepcopy(CANONICAL),
-            "mailbox_absent": True,
-            "remaining_processes": [],
-            "residue_paths": [],
-            "cleanup_scope": ["fixture", "process_group"],
-        },
-        "instruction_observations": [copy.deepcopy(INSTRUCTION)],
-        "external_observer": {"sha256": FIXED_OBSERVER, "classification": "GREEN",
-                              "receipt_sha256": "4" * 64},
-        "consumer": {"run_id": run_id, "authorizes_landing": False},
+        "kind": kind,
+        "operation": operation_name,
+        "exit_code": 0,
+        "elapsed_ms": 1,
+        "stdout_b64": encoded(stdout),
+        "stderr_b64": encoded(stderr),
+        "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
+        "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
+        **values,
     }
 
 
-def raw_bundle():
+def raw_run(run_id, arm, repeated=False, phase="confirmation",
+            legal_uncertainty=False):
+    initial = projection("recoverable")
+    retired = {**projection("retired"), "owner": "Noodle initial admission"}
+    completed = {**projection("no_proposal"), "owner": "Noodle initial admission"}
+    initial_sha = replayer.fingerprint(initial)
+    inspect = operation("owner_read", "admission.inspect", initial)
+    operations = [inspect]
+    if repeated:
+        operations.append(copy.deepcopy(inspect))
+    if legal_uncertainty:
+        operations[0]["opens_uncertainty"] = "owner-state-race"
+        second = copy.deepcopy(inspect)
+        second.pop("opens_uncertainty", None)
+        second["resolves_uncertainty"] = "owner-state-race"
+        operations.append(second)
+    operations.extend([
+        operation("owner_action", "admission.retire", retired,
+                  argv=initial["next"]["argv"],
+                  argv_source="manual" if run_id.endswith("-0") else "projection",
+                  bound_projection_sha256=initial_sha),
+        operation("owner_read", "admission.inspect", completed),
+    ])
+    observer_receipt = json_raw({
+        "classification": "GREEN",
+        "observer_sha256": FIXED_OBSERVER,
+        "errors": [],
+        "production_mutations": 0,
+        "authorizes_landing": False,
+    })
+    cleanup_receipt = json_raw({
+        "owned_residue_absent": True,
+        "scope": CLEANUP_SCOPE,
+    })
+    canonical = {
+        path: encoded(f"fixed:{path}".encode()) for path in CANONICAL_PATHS
+    }
+    packet = {
+        "run_id": run_id,
+        "arm": arm,
+        "case": "admission_recovery",
+        "subject": copy.deepcopy(SUBJECT),
+        "carrier": copy.deepcopy(CARRIER),
+        "task": document(TASK),
+        "instruction": document(
+            BASELINE_INSTRUCTION if arm == "baseline" else TREATMENT_INSTRUCTION),
+        "exposure": copy.deepcopy(EXPOSURE),
+        "transport_events": [],
+    }
+    return {
+        "run_id": run_id,
+        "arm": arm,
+        "packet": packet,
+        "operations": operations,
+        "evidence": {
+            "external_observer_receipt_b64": encoded(observer_receipt),
+            "cleanup_receipt_b64": encoded(cleanup_receipt),
+            "preserved_input_b64": encoded(b"original proposal bytes"),
+            "retired_archive_b64": encoded(b"original proposal bytes"),
+            "canonical_before": copy.deepcopy(canonical),
+            "canonical_after": copy.deepcopy(canonical),
+            "mailbox_absent": True,
+            "remaining_processes": [],
+            "provider_transport_events": [],
+        },
+        "consumer": {"run_id": run_id, "authorizes_landing": False},
+        "_phase": phase,
+    }
+
+
+def declaration(run, phase):
+    initial_raw = base64.b64decode(run["operations"][0]["stdout_b64"])
+    initial = json.loads(initial_raw)
+    observer_raw = base64.b64decode(
+        run["evidence"]["external_observer_receipt_b64"])
+    cleanup_raw = base64.b64decode(run["evidence"]["cleanup_receipt_b64"])
+    clean = copy.deepcopy(run)
+    clean.pop("_phase", None)
+    return {
+        "run_id": run["run_id"],
+        "arm": run["arm"],
+        "case": run["packet"]["case"],
+        "phase": phase,
+        "evidence_sha256": replayer.fingerprint(clean),
+        "initial_owner_projection_sha256": replayer.fingerprint(initial),
+        "external_observer_receipt_sha256":
+            hashlib.sha256(observer_raw).hexdigest(),
+        "cleanup_receipt_sha256": hashlib.sha256(cleanup_raw).hexdigest(),
+    }
+
+
+def raw_bundle(pilot_repeated=True, baseline_repeated=True):
+    pilots = [raw_run(f"pilot-{index}", "baseline",
+                      repeated=pilot_repeated, phase="exploration")
+              for index in range(3)]
     runs = []
     for arm in ("baseline", "treatment"):
         for index in range(3):
-            runs.append(raw_run(f"{arm}-{index}", arm,
-                                repeated=arm == "baseline",
-                                manual=arm == "treatment" and index == 0))
-    return {"runs": runs}
+            runs.append(raw_run(
+                f"{arm}-{index}", arm,
+                repeated=baseline_repeated and arm == "baseline"))
+    return {"pilot_runs": pilots, "runs": runs}
 
 
-def manifest(raw, target="improvement"):
+def manifest(raw, target="improvement", selected=None):
     gates = {
-        "schema": 1, "experiment_id": "ed3c/soodles#81-fixture",
+        "schema": 1,
+        "experiment_id": "ed3c/soodles#81-fixture",
         "causal_delta": {"classification": "PASS"},
         "independent_audit": {"classification": "PASS"},
         "telemetry": {"authority": "report_only"},
     }
+    pilot_declarations = [
+        declaration(run, "exploration") for run in raw["pilot_runs"]
+    ]
+    pilot_total = sum(
+        1 for run in raw["pilot_runs"]
+        if len([event for event in run["operations"]
+                if event.get("kind") == "owner_read"
+                and event.get("operation") == "admission.inspect"]) > 2
+    )
+    totals = {name: 0 for name in BARRIERS}
+    totals["repeated_unchanged_inspect"] = pilot_total
+    chosen = next((name for name in BARRIERS if totals[name] > 0), None)
+    if selected is not None:
+        chosen = selected
+    selection = {
+        "schema": 1,
+        "pilot_runs": [
+            {"run_id": item["run_id"],
+             "evidence_sha256": item["evidence_sha256"]}
+            for item in pilot_declarations
+        ],
+        "barrier_order": BARRIERS,
+        "barrier_totals": totals,
+        "selected_barrier": chosen,
+    }
+    selection_sha = replayer.fingerprint(selection)
+    for run in raw["runs"]:
+        run["packet"]["selection_sha256"] = selection_sha
     controls = [
         {"name": "stale_projection_binding", "source_run_id": "treatment-0",
          "mutation": "stale_recovery_binding", "expected_hard_gate": "FAIL",
@@ -129,12 +233,36 @@ def manifest(raw, target="improvement"):
          "expected_barrier": 0},
         {"name": "false_cleanup", "source_run_id": "treatment-0",
          "mutation": "false_recovery_cleanup", "expected_hard_gate": "FAIL",
-         "expected_errors": ["observer_cleanup_residue"],
+         "expected_errors": ["observer_remaining_process"],
          "expected_barrier": 0},
-        {"name": "legal_equivalent_argv", "source_run_id": "treatment-0",
-         "mutation": "none", "expected_hard_gate": "PASS",
+        {"name": "changed_canonical", "source_run_id": "treatment-0",
+         "mutation": "changed_recovery_canonical", "expected_hard_gate": "FAIL",
+         "expected_errors": ["observer_canonical_file_changed_orders-next.json"],
+         "expected_barrier": 0},
+        {"name": "provider_transport", "source_run_id": "treatment-0",
+         "mutation": "recovery_provider_transport", "expected_hard_gate": "FAIL",
+         "expected_errors": ["observer_provider_transport_observed"],
+         "expected_barrier": 0},
+        {"name": "duplicate_continuation", "source_run_id": "treatment-0",
+         "mutation": "duplicate_recovery_continuation", "expected_hard_gate": "FAIL",
+         "expected_errors": ["observer_duplicate_mutating_continuation"],
+         "expected_barrier": 0},
+        {"name": "wrong_argv", "source_run_id": "treatment-0",
+         "mutation": "wrong_recovery_argv", "expected_hard_gate": "FAIL",
+         "expected_errors": ["observer_continuation_argv_mismatch"],
+         "expected_barrier": 0},
+        {"name": "instruction_mismatch", "source_run_id": "treatment-0",
+         "mutation": "recovery_instruction_mismatch", "expected_hard_gate": "FAIL",
+         "expected_errors": ["observer_instruction_digest_mismatch"],
+         "expected_barrier": 0},
+        {"name": "exposure_mismatch", "source_run_id": "treatment-0",
+         "mutation": "recovery_exposure_mismatch", "expected_hard_gate": "FAIL",
+         "expected_errors": ["observer_exposure_manifest_mismatch"],
+         "expected_barrier": 0},
+        {"name": "legal_declared_uncertainty", "source_run_id": "treatment-0",
+         "mutation": "legal_declared_uncertainty", "expected_hard_gate": "PASS",
          "expected_errors": [], "expected_barrier": 0},
-        {"name": "legal_fresh_completion_inspect", "source_run_id": "treatment-1",
+        {"name": "legal_equivalent_argv", "source_run_id": "treatment-0",
          "mutation": "none", "expected_hard_gate": "PASS",
          "expected_errors": [], "expected_barrier": 0},
     ]
@@ -143,42 +271,54 @@ def manifest(raw, target="improvement"):
         "feature": "noodle_admission_recovery",
         "experiment_id": "ed3c/soodles#81-fixture",
         "admission_target": target,
-        "primary_barrier": "repeated_unchanged_inspect",
+        "primary_barrier": chosen or "repeated_unchanged_inspect",
+        "selected_barrier": chosen,
+        "barrier_order": BARRIERS,
+        "allowed_uncertainties": ["owner-state-race"],
+        "pilot_run_count": 3,
         "runs_per_arm": 3,
         "subject": copy.deepcopy(SUBJECT),
-        "carrier": {"id": "linux_amd64", "os": "linux", "arch": "amd64"},
+        "carrier": copy.deepcopy(CARRIER),
+        "task_sha256": hashlib.sha256(TASK).hexdigest(),
+        "instructions": {
+            "baseline": hashlib.sha256(BASELINE_INSTRUCTION).hexdigest(),
+            "treatment": hashlib.sha256(TREATMENT_INSTRUCTION).hexdigest(),
+        },
+        "exposure_sha256": replayer.fingerprint(EXPOSURE),
+        "selection_sha256": selection_sha,
         "fixed_observer_sha256": FIXED_OBSERVER,
         "fixed_observer_classification": "GREEN",
-        "cleanup_scope": ["fixture", "process_group"],
+        "cleanup_scope": CLEANUP_SCOPE,
         "completion_statuses": ["no_proposal"],
-        "canonical_paths": sorted(CANONICAL),
+        "canonical_paths": CANONICAL_PATHS,
         "observer_sha256": hashlib.sha256(OBSERVER.read_bytes()).hexdigest(),
         "normalizer_sha256": hashlib.sha256(REPLAY.read_bytes()).hexdigest(),
         "decider_sha256": hashlib.sha256(DECIDER.read_bytes()).hexdigest(),
         "gates_sha256": replayer.fingerprint(gates),
         "required_controls": [item["name"] for item in controls],
         "control_specs": controls,
-        "runs": [{
-            "run_id": run["run_id"], "arm": run["arm"],
-            "case": run["packet"]["case"],
-            "evidence_sha256": replayer.fingerprint(run),
-            "initial_owner_projection_sha256":
-                run["packet"]["expected_owner_projection_sha256"],
-            "external_observer_receipt_sha256":
-                run["external_observer"]["receipt_sha256"],
-        } for run in raw["runs"]],
+        "pilot_runs": pilot_declarations,
+        "runs": [declaration(run, "confirmation") for run in raw["runs"]],
     }
-    return value, gates
+    clean = copy.deepcopy(raw)
+    for run in clean["pilot_runs"] + clean["runs"]:
+        run.pop("_phase", None)
+    return value, gates, clean
 
 
 class RecoveryPclassReplayTests(unittest.TestCase):
-    def test_complete_recovery_evidence_replays_three_to_zero(self):
-        raw = raw_bundle()
-        specification, gates = manifest(raw)
-        receipt = replayer.replay(
-            raw, gates, specification, replayer.fingerprint(specification),
+    def replay(self, raw, target="improvement"):
+        specification, gates, clean = manifest(raw, target)
+        return replayer.replay(
+            clean, gates, specification, replayer.fingerprint(specification),
             OBSERVER, DECIDER, REPLAY)
+
+    def test_fresh_pilot_selects_first_positive_and_confirmation_replays(self):
+        receipt = self.replay(raw_bundle())
         self.assertEqual(receipt["classification"], "PASS", receipt["errors"])
+        self.assertEqual(receipt["disposition"], "IMPROVEMENT")
+        self.assertEqual(receipt["selection"]["selected_barrier"],
+                         "repeated_unchanged_inspect")
         self.assertEqual(receipt["decision"]["decision"], "ADMIT_IMPROVEMENT")
         self.assertEqual(receipt["decision"]["baseline_total"], 3)
         self.assertEqual(receipt["decision"]["treatment_total"], 0)
@@ -186,80 +326,114 @@ class RecoveryPclassReplayTests(unittest.TestCase):
                             for item in receipt["controls"]))
         self.assertFalse(receipt["authorizes_landing"])
 
-    def test_raw_subject_tampering_is_bound_by_manifest(self):
+    def test_zero_pilot_has_no_qualified_barrier(self):
+        raw = raw_bundle(pilot_repeated=False, baseline_repeated=False)
+        receipt = self.replay(raw)
+        self.assertEqual(receipt["classification"], "PASS", receipt["errors"])
+        self.assertEqual(receipt["disposition"], "NO_QUALIFIED_BARRIER")
+        self.assertNotIn("decision", receipt)
+
+    def test_missing_pilot_is_inconclusive(self):
         raw = raw_bundle()
-        specification, gates = manifest(raw)
-        raw["runs"][0]["packet"]["subject"]["source_revision"] = "9" * 40
+        specification, gates, clean = manifest(raw)
+        clean["pilot_runs"].pop()
         receipt = replayer.replay(
-            raw, gates, specification, replayer.fingerprint(specification),
+            clean, gates, specification, replayer.fingerprint(specification),
             OBSERVER, DECIDER, REPLAY)
-        self.assertEqual(receipt["classification"], "FAIL")
-        self.assertTrue(any("evidence_sha256_manifest_mismatch" in item
-                            for item in receipt["errors"]))
+        self.assertEqual(receipt["classification"], "INCONCLUSIVE")
+        self.assertEqual(receipt["disposition"], "INCONCLUSIVE")
+        self.assertIn("pilot_run_set_mismatch", receipt["errors"])
 
-    def test_manifest_cannot_omit_recovery_owner_bindings(self):
+    def test_wrong_preselected_barrier_is_inconclusive(self):
         raw = raw_bundle()
-        expected = {
-            "subject": "observer_invalid_manifest_subject",
-            "carrier": "observer_invalid_manifest_carrier",
-            "fixed_observer_classification":
-                "observer_invalid_manifest_observer_classification",
-            "cleanup_scope": "observer_invalid_manifest_cleanup_scope",
-            "completion_statuses":
-                "observer_invalid_manifest_completion_statuses",
-            "canonical_paths": "observer_invalid_manifest_canonical_paths",
-        }
-        for key, error in expected.items():
-            with self.subTest(key=key):
-                specification, gates = manifest(raw)
-                del specification[key]
-                receipt = replayer.replay(
-                    raw, gates, specification, replayer.fingerprint(specification),
-                    OBSERVER, DECIDER, REPLAY)
-                self.assertEqual(receipt["classification"], "FAIL")
-                self.assertTrue(any(error in item for item in receipt["errors"]),
-                                receipt["errors"])
+        specification, gates, clean = manifest(raw, selected="help_after_complete_projection")
+        receipt = replayer.replay(
+            clean, gates, specification, replayer.fingerprint(specification),
+            OBSERVER, DECIDER, REPLAY)
+        self.assertEqual(receipt["classification"], "INCONCLUSIVE")
+        self.assertTrue(
+            {"selection_digest_mismatch", "selected_barrier_mismatch"}
+            & set(receipt["errors"]))
 
-    def test_external_observer_receipt_is_bound_per_run(self):
+    def test_raw_operation_bytes_are_rehashed_and_parsed(self):
         raw = raw_bundle()
-        specification, _ = manifest(raw)
-        run = copy.deepcopy(raw["runs"][3])
-        run["external_observer"]["receipt_sha256"] = "9" * 64
+        specification, _, clean = manifest(raw)
+        run = clean["runs"][3]
+        run["operations"][0]["stdout_b64"] = encoded(b"{}")
         declared = copy.deepcopy(specification["runs"][3])
         declared["evidence_sha256"] = replayer.fingerprint(run)
-        observer_spec = importlib.util.spec_from_file_location(
-            "recovery_observer_test", OBSERVER)
-        observer = importlib.util.module_from_spec(observer_spec)
-        observer_spec.loader.exec_module(observer)
-        receipt = replayer.normalize_run(
-            run, declared, specification, observer)
+        observer = replayer.load_module("recovery_observer_bytes", OBSERVER)
+        receipt = replayer.normalize_run(run, declared, specification, observer)
         self.assertEqual(receipt["hard_gate"], "FAIL")
-        self.assertIn("external_observer_receipt_manifest_mismatch",
+        self.assertIn("observer_operation_0_stdout_digest_mismatch",
                       receipt["hard_errors"])
 
-    def test_zero_to_zero_cannot_admit_improvement(self):
+    def test_external_and_cleanup_receipt_bytes_are_manifest_bound(self):
         raw = raw_bundle()
-        for run in raw["runs"]:
-            if run["arm"] == "baseline":
-                run["operations"].pop(1)
-        specification, gates = manifest(raw)
-        receipt = replayer.replay(
-            raw, gates, specification, replayer.fingerprint(specification),
-            OBSERVER, DECIDER, REPLAY)
-        self.assertEqual(receipt["classification"], "FAIL")
-        self.assertEqual(receipt["decision"]["decision"], "REJECT")
-        self.assertIn("primary_barrier_not_improved",
-                      receipt["decision"]["hard_gate_errors"])
+        specification, _, clean = manifest(raw)
+        for field, expected in (
+                ("external_observer_receipt_b64",
+                 "observer_external_observer_receipt_manifest_mismatch"),
+                ("cleanup_receipt_b64",
+                 "observer_cleanup_receipt_manifest_mismatch")):
+            with self.subTest(field=field):
+                run = copy.deepcopy(clean["runs"][3])
+                run["evidence"][field] = encoded(b"{}")
+                declared = copy.deepcopy(specification["runs"][3])
+                declared["evidence_sha256"] = replayer.fingerprint(run)
+                observer = replayer.load_module(
+                    f"recovery_observer_{field}", OBSERVER)
+                receipt = replayer.normalize_run(
+                    run, declared, specification, observer)
+                self.assertEqual(receipt["hard_gate"], "FAIL")
+                self.assertIn(expected, receipt["hard_errors"])
 
-    def test_incomplete_arm_is_rejected_before_comparison(self):
+    def test_instruction_delta_and_equal_exposure_are_enforced(self):
         raw = raw_bundle()
-        specification, gates = manifest(raw)
-        raw["runs"].pop()
+        specification, gates, clean = manifest(raw)
+        specification["instructions"]["treatment"] = (
+            specification["instructions"]["baseline"])
         receipt = replayer.replay(
-            raw, gates, specification, replayer.fingerprint(specification),
+            clean, gates, specification, replayer.fingerprint(specification),
+            OBSERVER, DECIDER, REPLAY)
+        self.assertEqual(receipt["classification"], "INCONCLUSIVE")
+        self.assertTrue(any("invalid_manifest_instruction_delta" in item
+                            for item in receipt["errors"]))
+
+        specification, _, clean = manifest(raw_bundle())
+        run = clean["runs"][3]
+        run["packet"]["exposure"]["budget"] = 99
+        declared = copy.deepcopy(specification["runs"][3])
+        declared["evidence_sha256"] = replayer.fingerprint(run)
+        observer = replayer.load_module("recovery_observer_exposure", OBSERVER)
+        normalized = replayer.normalize_run(
+            run, declared, specification, observer)
+        self.assertIn("observer_exposure_manifest_mismatch",
+                      normalized["hard_errors"])
+
+    def test_legal_uncertainty_reinspection_is_not_a_barrier(self):
+        raw = raw_bundle()
+        specification, _, clean = manifest(raw)
+        run = raw_run("treatment-u", "treatment", legal_uncertainty=True)
+        run["packet"]["selection_sha256"] = specification["selection_sha256"]
+        run.pop("_phase")
+        declared = declaration({**copy.deepcopy(run), "_phase": "confirmation"},
+                               "confirmation")
+        observer = replayer.load_module("recovery_observer_uncertainty", OBSERVER)
+        receipt = replayer.normalize_run(
+            run, declared, specification, observer)
+        self.assertEqual(receipt["hard_gate"], "PASS", receipt["hard_errors"])
+        self.assertEqual(receipt["barriers"]["repeated_unchanged_inspect"], 0)
+
+    def test_incomplete_confirmation_is_rejected(self):
+        raw = raw_bundle()
+        specification, gates, clean = manifest(raw)
+        clean["runs"].pop()
+        receipt = replayer.replay(
+            clean, gates, specification, replayer.fingerprint(specification),
             OBSERVER, DECIDER, REPLAY)
         self.assertEqual(receipt["classification"], "FAIL")
-        self.assertIn("run_set_mismatch", receipt["errors"])
+        self.assertIn("confirmation_run_set_mismatch", receipt["errors"])
 
 
 if __name__ == "__main__":

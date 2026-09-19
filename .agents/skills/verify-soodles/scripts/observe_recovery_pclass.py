@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Observe Noodle admission recovery without granting continuation authority."""
+"""Replay raw Noodle admission-recovery evidence without continuation authority."""
+import base64
+import binascii
 import hashlib
 import json
 
@@ -19,8 +21,12 @@ def fingerprint(value):
     return hashlib.sha256(encoded).hexdigest()
 
 
-def valid_digest(value):
-    if not isinstance(value, str) or len(value) != 64:
+def sha256(value):
+    return hashlib.sha256(value).hexdigest()
+
+
+def valid_hex(value, length):
+    if not isinstance(value, str) or len(value) != length:
         return False
     try:
         int(value, 16)
@@ -29,137 +35,163 @@ def valid_digest(value):
     return True
 
 
-def valid_commit(value):
-    if not isinstance(value, str) or len(value) != 40:
-        return False
+def decode_bytes(value, label, errors):
+    if not isinstance(value, str):
+        errors.append(f"missing_{label}_bytes")
+        return None
     try:
-        int(value, 16)
-    except ValueError:
-        return False
-    return True
+        return base64.b64decode(value, validate=True)
+    except (binascii.Error, ValueError):
+        errors.append(f"invalid_{label}_base64")
+        return None
 
 
-def projected_next(projection):
+def decode_json(value, label, errors):
+    raw = decode_bytes(value, label, errors)
+    if raw is None:
+        return None, None
+    try:
+        return raw, json.loads(raw)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        errors.append(f"invalid_{label}_json")
+        return raw, None
+
+
+def bound_document(document, label, errors):
+    if not isinstance(document, dict):
+        errors.append(f"missing_{label}")
+        return None
+    raw = decode_bytes(document.get("bytes_b64"), label, errors)
+    expected = document.get("sha256")
+    if raw is not None and sha256(raw) != expected:
+        errors.append(f"{label}_digest_mismatch")
+    return expected
+
+
+def projected_argv(projection):
     if not isinstance(projection, dict):
-        return None, None
-    value = projection.get("next")
-    if not isinstance(value, dict):
-        return None, None
-    operation = value.get("operation")
-    argv = value.get("argv")
-    if operation is not None and (not isinstance(operation, str) or not operation):
-        operation = None
+        return None
+    next_value = projection.get("next")
+    if not isinstance(next_value, dict):
+        return None
+    argv = next_value.get("argv")
     if not isinstance(argv, list) or not all(isinstance(item, str) for item in argv):
-        argv = None
-    return operation, argv
+        return None
+    return argv
 
 
-def process_errors(event, index):
-    errors = []
+def process_event(event, index, errors):
+    prefix = f"operation_{index}"
     exit_code = event.get("exit_code")
     if type(exit_code) is not int:
-        errors.append(f"operation_{index}_invalid_exit_code")
+        errors.append(f"{prefix}_invalid_exit_code")
     elapsed = event.get("elapsed_ms")
     if type(elapsed) not in (int, float) or elapsed < 0:
-        errors.append(f"operation_{index}_invalid_elapsed_ms")
-    for key in ("stdout_sha256", "stderr_sha256"):
-        if not valid_digest(event.get(key)):
-            errors.append(f"operation_{index}_invalid_{key}")
-    return errors
+        errors.append(f"{prefix}_invalid_elapsed_ms")
+    stdout = decode_bytes(event.get("stdout_b64"), f"{prefix}_stdout", errors)
+    stderr = decode_bytes(event.get("stderr_b64"), f"{prefix}_stderr", errors)
+    if stdout is not None and sha256(stdout) != event.get("stdout_sha256"):
+        errors.append(f"{prefix}_stdout_digest_mismatch")
+    if stderr is not None and sha256(stderr) != event.get("stderr_sha256"):
+        errors.append(f"{prefix}_stderr_digest_mismatch")
+    parsed = None
+    if stdout is not None:
+        try:
+            parsed = json.loads(stdout)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            errors.append(f"{prefix}_stdout_not_json")
+    return parsed
 
 
-def evaluate(run, manifest):
-    errors = []
-    packet = run.get("packet") if isinstance(run.get("packet"), dict) else {}
-    precondition = (run.get("precondition")
-                    if isinstance(run.get("precondition"), dict) else {})
-    postcondition = (run.get("postcondition")
-                     if isinstance(run.get("postcondition"), dict) else {})
-    operations = run.get("operations") if isinstance(run.get("operations"), list) else []
-
-    if manifest.get("feature") != FEATURE:
-        errors.append("feature_manifest_mismatch")
+def validate_manifest(manifest, errors):
     subject = manifest.get("subject")
     if (not isinstance(subject, dict)
             or subject.get("repository") != "ed3c/noodle"
-            or not valid_commit(subject.get("source_revision"))):
+            or not valid_hex(subject.get("source_revision"), 40)):
         errors.append("invalid_manifest_subject")
     carrier = manifest.get("carrier")
     if (not isinstance(carrier, dict)
             or not all(isinstance(carrier.get(key), str) and carrier.get(key)
                        for key in ("id", "os", "arch"))):
         errors.append("invalid_manifest_carrier")
-    if not valid_digest(manifest.get("fixed_observer_sha256")):
+    if not valid_hex(manifest.get("fixed_observer_sha256"), 64):
         errors.append("invalid_manifest_fixed_observer")
-    if not isinstance(manifest.get("fixed_observer_classification"), str):
+    if manifest.get("fixed_observer_classification") != "GREEN":
         errors.append("invalid_manifest_observer_classification")
-    cleanup_scope = manifest.get("cleanup_scope")
-    if cleanup_scope in (None, "", [], {}):
+    if not isinstance(manifest.get("cleanup_scope"), str) or not manifest.get("cleanup_scope"):
         errors.append("invalid_manifest_cleanup_scope")
-    completion_statuses = manifest.get("completion_statuses")
-    if (not isinstance(completion_statuses, list) or not completion_statuses
-            or not all(isinstance(item, str) and item
-                       for item in completion_statuses)):
+    completion = manifest.get("completion_statuses")
+    if (not isinstance(completion, list) or not completion
+            or not all(isinstance(item, str) and item for item in completion)):
         errors.append("invalid_manifest_completion_statuses")
-        completion_statuses = []
-    canonical_paths = manifest.get("canonical_paths")
-    if (not isinstance(canonical_paths, list) or not canonical_paths
-            or len(canonical_paths) != len(set(canonical_paths))
-            or not all(isinstance(item, str) and item for item in canonical_paths)):
+        completion = []
+    paths = manifest.get("canonical_paths")
+    if (not isinstance(paths, list) or not paths
+            or len(paths) != len(set(paths))
+            or not all(isinstance(item, str) and item for item in paths)):
         errors.append("invalid_manifest_canonical_paths")
-        canonical_paths = []
+        paths = []
+    instructions = manifest.get("instructions")
+    if (not isinstance(instructions, dict)
+            or set(instructions) != {"baseline", "treatment"}
+            or not all(valid_hex(instructions.get(arm), 64)
+                       for arm in ("baseline", "treatment"))
+            or instructions.get("baseline") == instructions.get("treatment")):
+        errors.append("invalid_manifest_instruction_delta")
+        instructions = {}
+    for key in ("task_sha256", "exposure_sha256"):
+        if not valid_hex(manifest.get(key), 64):
+            errors.append(f"invalid_manifest_{key}")
+    if manifest.get("barrier_order") != list(BARRIERS):
+        errors.append("invalid_manifest_barrier_order")
+    uncertainties = manifest.get("allowed_uncertainties")
+    if (not isinstance(uncertainties, list)
+            or len(uncertainties) != len(set(uncertainties))
+            or not all(isinstance(item, str) and item for item in uncertainties)):
+        errors.append("invalid_manifest_allowed_uncertainties")
+    return completion, paths, instructions
+
+
+def evaluate(run, manifest, declared=None):
+    errors = []
+    if manifest.get("feature") != FEATURE:
+        errors.append("feature_manifest_mismatch")
+    completion_statuses, canonical_paths, instructions = validate_manifest(
+        manifest, errors)
+    packet = run.get("packet") if isinstance(run.get("packet"), dict) else {}
+    evidence = run.get("evidence") if isinstance(run.get("evidence"), dict) else {}
+    operations = run.get("operations") if isinstance(run.get("operations"), list) else []
+    arm = run.get("arm")
+    subject = manifest.get("subject")
     if packet.get("subject") != subject:
         errors.append("packet_subject_manifest_mismatch")
-    if precondition.get("subject") != subject:
-        errors.append("precondition_subject_manifest_mismatch")
     if packet.get("carrier") != manifest.get("carrier"):
         errors.append("packet_carrier_manifest_mismatch")
-    if precondition.get("carrier") != manifest.get("carrier"):
-        errors.append("precondition_carrier_manifest_mismatch")
 
-    initial = packet.get("initial_owner_projection")
-    initial_sha = packet.get("expected_owner_projection_sha256")
-    if not isinstance(initial, dict):
-        errors.append("missing_initial_owner_projection")
-    elif fingerprint(initial) != initial_sha:
-        errors.append("initial_owner_projection_digest_mismatch")
-    if precondition.get("initial_owner_projection") != initial:
-        errors.append("initial_owner_projection_internal_mismatch")
-    if precondition.get("initial_owner_projection_sha256") != initial_sha:
-        errors.append("initial_owner_projection_binding_mismatch")
-    expected_operation, expected_argv = projected_next(initial)
-    if isinstance(initial, dict) and initial.get("status") != "recoverable":
-        errors.append("initial_owner_projection_not_recoverable")
-    if expected_argv is None:
-        errors.append("initial_owner_continuation_incomplete")
-
-    instruction = packet.get("instruction")
-    observations = run.get("instruction_observations")
-    if (not isinstance(instruction, dict)
-            or not isinstance(instruction.get("path"), str)
-            or not instruction.get("path")
-            or not valid_digest(instruction.get("sha256"))
-            or not isinstance(observations, list)):
-        errors.append("missing_instruction_binding")
-    elif not any(isinstance(item, dict)
-                 and item.get("path") == instruction.get("path")
-                 and item.get("sha256") == instruction.get("sha256")
-                 for item in observations):
-        errors.append("instruction_binding_not_observed")
-
+    task_sha = bound_document(packet.get("task"), "task", errors)
+    if task_sha != manifest.get("task_sha256"):
+        errors.append("task_manifest_mismatch")
+    instruction_sha = bound_document(packet.get("instruction"), "instruction", errors)
+    if instruction_sha != instructions.get(arm):
+        errors.append("instruction_manifest_mismatch")
+    exposure = packet.get("exposure")
+    if not isinstance(exposure, dict) or fingerprint(exposure) != manifest.get("exposure_sha256"):
+        errors.append("exposure_manifest_mismatch")
     if packet.get("transport_events") != []:
         errors.append("provider_transport_observed")
-    if precondition.get("provider_transport_observed") is not False:
-        errors.append("provider_transport_unknown")
 
-    initial_reads = []
-    actions = []
-    completion_reads = []
     barriers = {name: 0 for name in BARRIERS}
+    initial_projection = None
+    initial_sha = None
+    initial_index = None
+    action_index = None
+    action_result = None
+    completion_projection = None
     last_inspect_sha = None
     state_changed = False
-    instruction_reads = set()
     complete_projection_seen = False
+    instruction_reads = set()
+    open_uncertainties = set()
 
     for index, event in enumerate(operations):
         if not isinstance(event, dict):
@@ -167,39 +199,51 @@ def evaluate(run, manifest):
             continue
         kind = event.get("kind")
         if kind in {"owner_read", "owner_action"}:
-            errors.extend(process_errors(event, index))
+            output = process_event(event, index, errors)
+        else:
+            output = None
         if kind == "owner_read" and event.get("operation") == "admission.inspect":
-            projection = event.get("projection")
-            projection_sha = event.get("projection_sha256")
-            if fingerprint(projection) != projection_sha:
-                errors.append(f"operation_{index}_projection_digest_mismatch")
-            if projection_sha == initial_sha:
-                initial_reads.append(index)
-                complete_projection_seen = expected_argv is not None
-            if last_inspect_sha == projection_sha and not state_changed:
+            projection = output
+            projection_sha = fingerprint(projection)
+            if initial_projection is None:
+                initial_projection = projection
+                initial_sha = projection_sha
+                initial_index = index
+                complete_projection_seen = projected_argv(projection) is not None
+            resolution = event.get("resolves_uncertainty")
+            legal_resolution = (isinstance(resolution, str)
+                                and resolution in open_uncertainties)
+            if legal_resolution:
+                open_uncertainties.remove(resolution)
+            if last_inspect_sha == projection_sha and not state_changed and not legal_resolution:
                 barriers["repeated_unchanged_inspect"] += 1
+            opened = event.get("opens_uncertainty")
+            if isinstance(opened, str) and opened:
+                if opened in manifest.get("allowed_uncertainties", []):
+                    open_uncertainties.add(opened)
+                else:
+                    errors.append("undeclared_uncertainty")
             last_inspect_sha = projection_sha
             state_changed = False
-            if postcondition.get("completion_owner_projection_sha256") == projection_sha:
-                completion_reads.append(index)
+            if action_index is not None:
+                completion_projection = projection
         elif kind == "owner_action":
-            actions.append(index)
-            if not initial_reads or index < initial_reads[0]:
+            if action_index is not None:
+                errors.append("duplicate_mutating_continuation")
+            action_index = index
+            if initial_projection is None:
                 errors.append("continuation_before_fresh_projection")
             if event.get("bound_projection_sha256") != initial_sha:
                 errors.append("continuation_projection_binding_mismatch")
-            if (expected_operation is not None
-                    and event.get("operation") != expected_operation):
-                errors.append("wrong_current_owner_operation")
-            if event.get("argv") != expected_argv:
+            if event.get("argv") != projected_argv(initial_projection):
                 errors.append("continuation_argv_mismatch")
             if event.get("exit_code") != 0:
                 errors.append("continuation_failed")
+            action_result = output
             state_changed = event.get("exit_code") == 0
             complete_projection_seen = False
-        elif kind == "help_read":
-            if complete_projection_seen:
-                barriers["help_after_complete_projection"] += 1
+        elif kind == "help_read" and complete_projection_seen:
+            barriers["help_after_complete_projection"] += 1
         elif kind == "instruction_read":
             binding = (event.get("path"), event.get("sha256"))
             if binding in instruction_reads:
@@ -208,61 +252,96 @@ def evaluate(run, manifest):
         elif kind == "confirmation" and event.get("required") is False:
             barriers["avoidable_confirmation"] += 1
 
-    if not initial_reads:
+    if not isinstance(initial_projection, dict):
         errors.append("fresh_initial_projection_not_observed")
-    if len(actions) != 1:
-        errors.append("mutating_continuation_observation_not_unique")
+    else:
+        if initial_projection.get("status") != "recoverable":
+            errors.append("initial_owner_projection_not_recoverable")
+        if not str(initial_projection.get("owner", "")).startswith("Noodle"):
+            errors.append("initial_owner_mismatch")
+        if projected_argv(initial_projection) is None:
+            errors.append("initial_owner_continuation_incomplete")
+    if declared is not None and initial_sha != declared.get(
+            "initial_owner_projection_sha256"):
+        errors.append("initial_owner_projection_manifest_mismatch")
+    if action_index is None:
+        errors.append("mutating_continuation_not_observed")
+    if isinstance(action_result, dict) and isinstance(initial_projection, dict):
+        if action_result.get("status") != "retired":
+            errors.append("retirement_result_not_retired")
+        if not str(action_result.get("owner", "")).startswith("Noodle"):
+            errors.append("retirement_owner_mismatch")
+        for key in ("subject", "current_order_revision"):
+            if action_result.get(key) != initial_projection.get(key):
+                errors.append(f"retirement_{key}_mismatch")
+    else:
+        errors.append("missing_retirement_result")
 
-    completion = postcondition.get("completion_owner_projection")
-    completion_sha = postcondition.get("completion_owner_projection_sha256")
-    if not isinstance(completion, dict):
+    if not isinstance(completion_projection, dict):
         errors.append("missing_completion_owner_projection")
     else:
-        if fingerprint(completion) != completion_sha:
-            errors.append("completion_owner_projection_digest_mismatch")
-        if completion.get("status") not in completion_statuses:
+        if completion_projection.get("status") not in completion_statuses:
             errors.append("unexpected_completion_status")
-        if len(completion_reads) != 1:
-            errors.append("completion_projection_observation_not_unique")
-        elif actions and completion_reads[0] < actions[0]:
-            errors.append("completion_observed_before_continuation")
-        _, completion_argv = projected_next(completion)
-        if (isinstance(completion_argv, list)
-                and "admission" in completion_argv
-                and "retire" in completion_argv):
-            errors.append("completion_still_offers_recovery_continuation")
+        if not str(completion_projection.get("owner", "")).startswith("Noodle"):
+            errors.append("completion_owner_mismatch")
+        if projected_argv(completion_projection) is not None:
+            errors.append("completion_offers_executable_continuation")
 
-    fixed = run.get("external_observer")
-    if not isinstance(fixed, dict):
-        errors.append("missing_external_observer_receipt")
-    else:
-        if fixed.get("sha256") != manifest.get("fixed_observer_sha256"):
+    observer_raw, observer_receipt = decode_json(
+        evidence.get("external_observer_receipt_b64"),
+        "external_observer_receipt", errors)
+    if observer_raw is not None and declared is not None:
+        if sha256(observer_raw) != declared.get("external_observer_receipt_sha256"):
+            errors.append("external_observer_receipt_manifest_mismatch")
+    if isinstance(observer_receipt, dict):
+        if observer_receipt.get("observer_sha256") != manifest.get("fixed_observer_sha256"):
             errors.append("external_observer_digest_mismatch")
-        if fixed.get("classification") != manifest.get("fixed_observer_classification"):
-            errors.append("external_observer_not_pass")
-        if not valid_digest(fixed.get("receipt_sha256")):
-            errors.append("external_observer_receipt_digest_missing")
+        if observer_receipt.get("classification") != "GREEN":
+            errors.append("external_observer_not_green")
+        if observer_receipt.get("errors") != []:
+            errors.append("external_observer_has_errors")
+        if observer_receipt.get("production_mutations") != 0:
+            errors.append("external_observer_mutated_production")
+        if observer_receipt.get("authorizes_landing") is not False:
+            errors.append("external_observer_claims_authority")
 
-    before_input = precondition.get("preserved_input_sha256")
-    if not valid_digest(before_input):
-        errors.append("invalid_preserved_input_digest")
-    elif postcondition.get("retired_archive_sha256") != before_input:
-        errors.append("retired_archive_digest_mismatch")
-    canonical_before = precondition.get("canonical_files")
-    if (not isinstance(canonical_before, dict)
-            or set(canonical_before) != set(canonical_paths)
-            or not all(valid_digest(value) for value in canonical_before.values())):
-        errors.append("invalid_canonical_files")
-    elif canonical_before != postcondition.get("canonical_files"):
-        errors.append("canonical_files_changed")
-    if postcondition.get("mailbox_absent") is not True:
+    cleanup_raw, cleanup = decode_json(
+        evidence.get("cleanup_receipt_b64"), "cleanup_receipt", errors)
+    if cleanup_raw is not None and declared is not None:
+        if sha256(cleanup_raw) != declared.get("cleanup_receipt_sha256"):
+            errors.append("cleanup_receipt_manifest_mismatch")
+    if isinstance(cleanup, dict):
+        if cleanup.get("owned_residue_absent") is not True:
+            errors.append("cleanup_residue")
+        if cleanup.get("scope") != manifest.get("cleanup_scope"):
+            errors.append("cleanup_scope_mismatch")
+
+    preserved = decode_bytes(evidence.get("preserved_input_b64"),
+                             "preserved_input", errors)
+    archived = decode_bytes(evidence.get("retired_archive_b64"),
+                            "retired_archive", errors)
+    if preserved is not None and archived is not None and preserved != archived:
+        errors.append("retired_archive_bytes_changed")
+    before = evidence.get("canonical_before")
+    after = evidence.get("canonical_after")
+    if not isinstance(before, dict) or set(before) != set(canonical_paths):
+        errors.append("invalid_canonical_before")
+    elif not isinstance(after, dict) or set(after) != set(canonical_paths):
+        errors.append("invalid_canonical_after")
+    else:
+        for path in canonical_paths:
+            old = decode_bytes(before[path], f"canonical_before_{path}", errors)
+            new = decode_bytes(after[path], f"canonical_after_{path}", errors)
+            if old is not None and new is not None and old != new:
+                errors.append(f"canonical_file_changed_{path}")
+    if evidence.get("mailbox_absent") is not True:
         errors.append("retired_mailbox_present")
-    if postcondition.get("remaining_processes") != []:
+    if evidence.get("remaining_processes") != []:
         errors.append("remaining_process")
-    if postcondition.get("residue_paths") != []:
-        errors.append("cleanup_residue")
-    if postcondition.get("cleanup_scope") != manifest.get("cleanup_scope"):
-        errors.append("cleanup_scope_mismatch")
+    if evidence.get("provider_transport_events") != []:
+        errors.append("provider_transport_observed")
+    if open_uncertainties:
+        errors.append("unresolved_declared_uncertainty")
     consumer = run.get("consumer")
     if not isinstance(consumer, dict) or consumer.get("run_id") != run.get("run_id"):
         errors.append("invalid_consumer_receipt")
@@ -270,13 +349,12 @@ def evaluate(run, manifest):
         errors.append("consumer_claims_landing_authority")
 
     return {
-        "schema": 1,
+        "schema": 2,
         "feature": FEATURE,
         "classification": PASS if not errors else "FAIL",
         "errors": sorted(set(errors)),
         "barriers": barriers,
         "initial_projection_sha256": initial_sha,
-        "completion_projection_sha256": completion_sha,
         "operations_observed": len(operations),
         "authorizes_landing": False,
     }

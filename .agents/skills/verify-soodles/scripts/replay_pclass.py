@@ -60,16 +60,11 @@ def normalize_recovery_run(run, declared, manifest, observer):
             errors.append(f"{key}_manifest_mismatch")
     if packet.get("run_id") != run_id or packet.get("arm") != arm:
         errors.append("run_identity_internal_mismatch")
-    if packet.get("expected_owner_projection_sha256") != declared.get(
-            "initial_owner_projection_sha256"):
-        errors.append("initial_owner_projection_manifest_mismatch")
-    external = run.get("external_observer")
-    if (not isinstance(external, dict)
-            or external.get("receipt_sha256")
-            != declared.get("external_observer_receipt_sha256")):
-        errors.append("external_observer_receipt_manifest_mismatch")
+    if declared.get("phase") == "confirmation":
+        if packet.get("selection_sha256") != manifest.get("selection_sha256"):
+            errors.append("selection_binding_mismatch")
     try:
-        observed = observer.evaluate(run, manifest)
+        observed = observer.evaluate(run, manifest, declared)
     except (KeyError, TypeError, ValueError) as error:
         observed = {
             "classification": "FAIL",
@@ -88,6 +83,7 @@ def normalize_recovery_run(run, declared, manifest, observer):
         "run_id": run_id,
         "arm": arm,
         "case": packet.get("case"),
+        "phase": declared.get("phase"),
         "hard_gate": PASS if not errors else "FAIL",
         "hard_errors": sorted(set(errors)),
         "barriers": barriers,
@@ -223,6 +219,19 @@ def failed_receipt(errors, manifest, expected_manifest_sha256, raw_bundle=None):
     }
 
 
+def incomplete_receipt(errors, manifest, expected_manifest_sha256, raw_bundle=None):
+    return {
+        "schema": 2,
+        "classification": "INCONCLUSIVE",
+        "disposition": "INCONCLUSIVE",
+        "errors": sorted(set(errors)),
+        "experiment_id": manifest.get("experiment_id") if isinstance(manifest, dict) else None,
+        "manifest_sha256": expected_manifest_sha256,
+        "raw_bundle_sha256": fingerprint(raw_bundle) if raw_bundle is not None else None,
+        "authorizes_landing": False,
+    }
+
+
 def validate_gates(gates, manifest, errors):
     keys = {"schema", "experiment_id", "causal_delta", "independent_audit",
             "telemetry"}
@@ -255,7 +264,11 @@ def validate_control_specs(manifest, errors):
     mutations = {"premature_stop", "wrong_operation", "stale_completion_digest",
                  "missing_transport_evidence", "request_after_completion", "none",
                  "stale_recovery_binding", "wrong_recovery_subject",
-                 "missing_recovery_completion", "false_recovery_cleanup"}
+                 "missing_recovery_completion", "false_recovery_cleanup",
+                 "changed_recovery_canonical", "recovery_provider_transport",
+                 "duplicate_recovery_continuation", "wrong_recovery_argv",
+                 "failed_recovery_observer", "recovery_instruction_mismatch",
+                 "recovery_exposure_mismatch", "legal_declared_uncertainty"}
     for index, control in enumerate(specs):
         if not isinstance(control, dict):
             errors.append(f"invalid_control_spec_{index}")
@@ -305,12 +318,35 @@ def mutate_control(source, control, raw_by_id):
                       if item.get("kind") == "owner_action")
         action["bound_projection_sha256"] = "f" * 64
     elif mutation == "wrong_recovery_subject":
-        mutated["packet"]["subject"]["commit"] = "f" * 40
+        mutated["packet"]["subject"]["source_revision"] = "f" * 40
     elif mutation == "missing_recovery_completion":
-        mutated["postcondition"].pop("completion_owner_projection", None)
-        mutated["postcondition"].pop("completion_owner_projection_sha256", None)
+        mutated["operations"] = mutated["operations"][:-1]
     elif mutation == "false_recovery_cleanup":
-        mutated["postcondition"]["residue_paths"] = ["/tmp/stale-recovery"]
+        mutated["evidence"]["remaining_processes"] = [123]
+    elif mutation == "changed_recovery_canonical":
+        path = next(iter(mutated["evidence"]["canonical_after"]))
+        mutated["evidence"]["canonical_after"][path] = "Y2hhbmdlZA=="
+    elif mutation == "recovery_provider_transport":
+        mutated["evidence"]["provider_transport_events"] = [{"kind": "connector"}]
+    elif mutation == "duplicate_recovery_continuation":
+        action = next(item for item in mutated["operations"]
+                      if item.get("kind") == "owner_action")
+        mutated["operations"].insert(-1, copy.deepcopy(action))
+    elif mutation == "wrong_recovery_argv":
+        action = next(item for item in mutated["operations"]
+                      if item.get("kind") == "owner_action")
+        action["argv"] = ["/tmp/noodle", "admission", "inspect"]
+    elif mutation == "failed_recovery_observer":
+        mutated["evidence"]["external_observer_receipt_b64"] = "e30="
+    elif mutation == "recovery_instruction_mismatch":
+        mutated["packet"]["instruction"]["bytes_b64"] = "dGFtcGVyZWQ="
+    elif mutation == "recovery_exposure_mismatch":
+        mutated["packet"]["exposure"]["budget"] = 999
+    elif mutation == "legal_declared_uncertainty":
+        inspect = copy.deepcopy(mutated["operations"][0])
+        mutated["operations"][0]["opens_uncertainty"] = "owner-state-race"
+        inspect["resolves_uncertainty"] = "owner-state-race"
+        mutated["operations"].insert(1, inspect)
     elif mutation == "none":
         pass
     else:
@@ -360,6 +396,74 @@ def replay_controls(raw_by_id, declared, manifest, observer):
     return receipts, errors
 
 
+def bind_run_collection(declarations, runs, label, errors):
+    prefix = f"{label}_" if label else ""
+    if not isinstance(declarations, list) or not isinstance(runs, list):
+        errors.append(f"invalid_{prefix}run_collections")
+        return {}, []
+    declared = {}
+    for item in declarations:
+        if not isinstance(item, dict) or not isinstance(item.get("run_id"), str):
+            errors.append(f"invalid_{prefix}manifest_run")
+            continue
+        run_id = item["run_id"]
+        if run_id in declared:
+            errors.append(f"duplicate_{prefix}manifest_run_id_{run_id}")
+        declared[run_id] = item
+    raw_ids = [run.get("run_id") for run in runs if isinstance(run, dict)]
+    if len(raw_ids) != len(set(raw_ids)):
+        errors.append(f"duplicate_{prefix}raw_run_id")
+    if set(raw_ids) != set(declared) or len(raw_ids) != len(declared):
+        errors.append(f"{prefix}run_set_mismatch")
+    return declared, runs
+
+
+def replay_recovery_pilot(raw_bundle, manifest, observer):
+    errors = []
+    count = manifest.get("pilot_run_count")
+    if type(count) is not int or count < 1:
+        errors.append("invalid_pilot_run_count")
+    declared, runs = bind_run_collection(
+        manifest.get("pilot_runs"),
+        raw_bundle.get("pilot_runs") if isinstance(raw_bundle, dict) else None,
+        "pilot", errors)
+    if len(declared) != count:
+        errors.append("pilot_run_count_mismatch")
+    for item in declared.values():
+        if item.get("arm") != "baseline" or item.get("phase") != "exploration":
+            errors.append(f"pilot_{item.get('run_id')}_invalid_phase_or_arm")
+    if errors:
+        return None, errors
+    receipts = [normalize_recovery_run(run, declared[run["run_id"]], manifest, observer)
+                for run in runs]
+    for receipt in receipts:
+        if receipt["hard_gate"] != PASS:
+            errors.extend(f"pilot_{receipt['run_id']}_{error}"
+                          for error in receipt["hard_errors"])
+    if errors:
+        return None, errors
+    order = manifest.get("barrier_order", [])
+    totals = {name: sum(receipt["barriers"].get(name, 0)
+                        for receipt in receipts) for name in order}
+    selected = next((name for name in order if totals[name] > 0), None)
+    selection = {
+        "schema": 1,
+        "pilot_runs": [{"run_id": receipt["run_id"],
+                         "evidence_sha256": receipt["evidence_sha256"]}
+                        for receipt in receipts],
+        "barrier_order": order,
+        "barrier_totals": totals,
+        "selected_barrier": selected,
+    }
+    if fingerprint(selection) != manifest.get("selection_sha256"):
+        errors.append("selection_digest_mismatch")
+    if selected != manifest.get("selected_barrier"):
+        errors.append("selected_barrier_mismatch")
+    if selected is not None and selected != manifest.get("primary_barrier"):
+        errors.append("primary_barrier_not_first_positive")
+    return {"receipts": receipts, "selection": selection}, errors
+
+
 def replay(raw_bundle, gates, manifest, expected_manifest_sha256, observer_path,
            decider_path, normalizer_path=None):
     errors = []
@@ -388,31 +492,38 @@ def replay(raw_bundle, gates, manifest, expected_manifest_sha256, observer_path,
     if errors:
         return failed_receipt(errors, manifest, expected_manifest_sha256, raw_bundle)
 
+    observer = load_module("pclass_observer", observer_path)
+    decider = load_module("pclass_decider", decider_path)
+    pilot = None
+    if manifest.get("feature") == "noodle_admission_recovery":
+        pilot, pilot_errors = replay_recovery_pilot(raw_bundle, manifest, observer)
+        if pilot_errors:
+            return incomplete_receipt(
+                pilot_errors, manifest, expected_manifest_sha256, raw_bundle)
+        if pilot["selection"]["selected_barrier"] is None:
+            return {
+                "schema": 2,
+                "classification": PASS,
+                "disposition": "NO_QUALIFIED_BARRIER",
+                "errors": [],
+                "experiment_id": manifest.get("experiment_id"),
+                "manifest_sha256": expected_manifest_sha256,
+                "pilot": pilot["receipts"],
+                "selection": pilot["selection"],
+                "raw_bundle_sha256": fingerprint(raw_bundle),
+                "authorizes_landing": False,
+            }
+
     declarations = manifest.get("runs")
     runs = raw_bundle.get("runs") if isinstance(raw_bundle, dict) else None
-    if not isinstance(declarations, list) or not isinstance(runs, list):
-        errors.append("invalid_run_collections")
-        declarations, runs = [], []
-    declared = {}
-    for item in declarations:
-        if not isinstance(item, dict) or not isinstance(item.get("run_id"), str):
-            errors.append("invalid_manifest_run")
-            continue
-        run_id = item["run_id"]
-        if run_id in declared:
-            errors.append(f"duplicate_manifest_run_id_{run_id}")
-        declared[run_id] = item
-    raw_ids = [run.get("run_id") for run in runs if isinstance(run, dict)]
-    if len(raw_ids) != len(set(raw_ids)):
-        errors.append("duplicate_raw_run_id")
-    if set(raw_ids) != set(declared) or len(raw_ids) != len(declared):
-        errors.append("run_set_mismatch")
-
+    collection_label = ("confirmation"
+                        if manifest.get("feature") == "noodle_admission_recovery"
+                        else "")
+    declared, runs = bind_run_collection(
+        declarations, runs, collection_label, errors)
     if errors:
         return failed_receipt(errors, manifest, expected_manifest_sha256, raw_bundle)
 
-    observer = load_module("pclass_observer", observer_path)
-    decider = load_module("pclass_decider", decider_path)
     receipts = []
     for run in runs:
         if not isinstance(run, dict) or run.get("run_id") not in declared:
@@ -442,9 +553,15 @@ def replay(raw_bundle, gates, manifest, expected_manifest_sha256, observer_path,
     decision = decider.evaluate(comparison, manifest, expected_manifest_sha256)
     if not decision.get("decision", "").startswith("ADMIT_"):
         errors.append("comparison_not_admitted")
+    dispositions = {
+        "ADMIT_IMPROVEMENT": "IMPROVEMENT",
+        "ADMIT_NONREGRESSION": "SCOPED_NONREGRESSION",
+        "REJECT": "REJECTED",
+    }
     return {
         "schema": 2,
         "classification": PASS if not errors else "FAIL",
+        "disposition": dispositions.get(decision.get("decision"), "REJECTED"),
         "errors": sorted(set(errors)),
         "experiment_id": manifest.get("experiment_id"),
         "manifest_sha256": expected_manifest_sha256,
@@ -452,6 +569,8 @@ def replay(raw_bundle, gates, manifest, expected_manifest_sha256, observer_path,
         "controls": controls,
         "comparison_sha256": fingerprint(comparison),
         "decision": decision,
+        "pilot": pilot["receipts"] if pilot else None,
+        "selection": pilot["selection"] if pilot else None,
         "raw_bundle_sha256": fingerprint(raw_bundle),
         "observer_sha256": manifest.get("observer_sha256"),
         "normalizer_sha256": manifest.get("normalizer_sha256"),
