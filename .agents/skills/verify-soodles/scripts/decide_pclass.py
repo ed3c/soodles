@@ -2,14 +2,13 @@
 """Decide one manifest-bound P-class comparison without landing authority."""
 import hashlib
 import json
-from pathlib import Path
 import sys
 
 
 TARGETS = {"improvement", "nonregression"}
 ARMS = {"baseline", "treatment"}
 PASS = "PASS"
-CONTROL_STATES = {"PASS", "FAIL", "UNKNOWN"}
+CONTROL_STATES = {"PASS", "FAIL"}
 
 
 def fingerprint(value):
@@ -45,18 +44,23 @@ def validate_manifest(manifest, expected_sha256, errors):
     actual_sha256 = fingerprint(manifest)
     if not valid_digest(expected_sha256) or actual_sha256 != expected_sha256:
         errors.append("manifest_digest_mismatch")
-    if manifest.get("schema") != 1:
+    if manifest.get("schema") != 2:
         errors.append("invalid_manifest_schema")
     for key in ("experiment_id", "primary_barrier", "observer_sha256",
-                "normalizer_sha256"):
+                "normalizer_sha256", "decider_sha256", "gates_sha256"):
         value = required(manifest, key, str, errors, "manifest_")
         if value == "":
             errors.append(f"invalid_manifest_{key}")
     if manifest.get("admission_target") not in TARGETS:
         errors.append("invalid_manifest_admission_target")
-    for key in ("observer_sha256", "normalizer_sha256"):
+    for key in ("observer_sha256", "normalizer_sha256", "decider_sha256",
+                "gates_sha256"):
         if not valid_digest(manifest.get(key)):
             errors.append(f"invalid_manifest_{key}")
+
+    runs_per_arm = manifest.get("runs_per_arm")
+    if type(runs_per_arm) is not int or runs_per_arm < 1:
+        errors.append("invalid_manifest_runs_per_arm")
 
     required_controls = required(
         manifest, "required_controls", list, errors, "manifest_") or []
@@ -98,8 +102,8 @@ def validate_manifest(manifest, expected_sha256, errors):
         if not valid_digest(evidence):
             errors.append(f"invalid_{prefix}evidence_sha256")
     for arm, count in arm_counts.items():
-        if count == 0:
-            errors.append(f"missing_manifest_{arm}_runs")
+        if count != runs_per_arm:
+            errors.append(f"manifest_{arm}_exposure_mismatch")
     return manifest, declared, control_set
 
 
@@ -253,17 +257,9 @@ def evaluate(packet, manifest, expected_manifest_sha256):
 
 
 def main(argv):
-    if len(argv) != 4:
-        raise SystemExit(
-            "usage: decide_pclass.py COMPARISON.json MANIFEST.json EXPECTED_MANIFEST_SHA256")
-    try:
-        packet = json.loads(Path(argv[1]).read_text())
-        manifest = json.loads(Path(argv[2]).read_text())
-    except (OSError, json.JSONDecodeError) as error:
-        raise SystemExit(f"cannot read comparison evidence: {type(error).__name__}") from error
-    receipt = evaluate(packet, manifest, argv[3])
-    print(json.dumps(receipt, indent=2))
-    return 0 if receipt["decision"].startswith("ADMIT_") else 1
+    raise SystemExit(
+        "direct comparison input is disabled; use replay_pclass.py so receipts "
+        "and controls are derived from manifest-bound raw evidence")
 
 
 if __name__ == "__main__":

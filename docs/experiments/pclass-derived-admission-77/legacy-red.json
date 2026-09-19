@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "candidate_commit": "5463e7b212dcdd578e39f3cfc9e5c6da800ea541",
+  "probe_sha256": "126f47241a7521aa0621f93a7b935d35e42c0f974398b17ecefdc2232809c0e4",
+  "failures": {
+    "forged_barrier_admitted": true,
+    "unknown_controls_admitted": true,
+    "unbalanced_exposure_admitted": true,
+    "post_completion_treatment_passed": true
+  },
+  "observed_decisions": {
+    "forged_barrier": "ADMIT_IMPROVEMENT",
+    "unknown_controls": "ADMIT_IMPROVEMENT",
+    "unbalanced_exposure": "ADMIT_IMPROVEMENT",
+    "post_completion_treatment_hard_gate": "PASS"
+  }
+}
