@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Replay and decide fixed P-class evidence under an externally pinned manifest."""
+import base64
 import copy
 import hashlib
 import importlib.util
@@ -60,6 +61,9 @@ def normalize_recovery_run(run, declared, manifest, observer):
             errors.append(f"{key}_manifest_mismatch")
     if packet.get("run_id") != run_id or packet.get("arm") != arm:
         errors.append("run_identity_internal_mismatch")
+    consumer = run.get("consumer") if isinstance(run.get("consumer"), dict) else {}
+    if consumer.get("session_id") != declared.get("consumer_session_id"):
+        errors.append("consumer_session_manifest_mismatch")
     if declared.get("phase") == "confirmation":
         if packet.get("selection_sha256") != manifest.get("selection_sha256"):
             errors.append("selection_binding_mismatch")
@@ -316,7 +320,10 @@ def mutate_control(source, control, raw_by_id):
     elif mutation == "stale_recovery_binding":
         action = next(item for item in mutated["operations"]
                       if item.get("kind") == "owner_action")
-        action["bound_projection_sha256"] = "f" * 64
+        process = json.loads(base64.b64decode(action["process_receipt_b64"]))
+        process["bound_projection_sha256"] = "f" * 64
+        action["process_receipt_b64"] = base64.b64encode(json.dumps(
+            process, sort_keys=True, separators=(",", ":")).encode()).decode()
     elif mutation == "wrong_recovery_subject":
         mutated["packet"]["subject"]["source_revision"] = "f" * 40
     elif mutation == "missing_recovery_completion":
@@ -335,7 +342,10 @@ def mutate_control(source, control, raw_by_id):
     elif mutation == "wrong_recovery_argv":
         action = next(item for item in mutated["operations"]
                       if item.get("kind") == "owner_action")
-        action["argv"] = ["/tmp/noodle", "admission", "inspect"]
+        process = json.loads(base64.b64decode(action["process_receipt_b64"]))
+        process["argv"] = ["/tmp/noodle", "admission", "inspect"]
+        action["process_receipt_b64"] = base64.b64encode(json.dumps(
+            process, sort_keys=True, separators=(",", ":")).encode()).decode()
     elif mutation == "failed_recovery_observer":
         mutated["evidence"]["external_observer_receipt_b64"] = "e30="
     elif mutation == "recovery_instruction_mismatch":
@@ -522,7 +532,24 @@ def replay(raw_bundle, gates, manifest, expected_manifest_sha256, observer_path,
     declared, runs = bind_run_collection(
         declarations, runs, collection_label, errors)
     if errors:
+        if manifest.get("feature") == "noodle_admission_recovery":
+            return incomplete_receipt(
+                errors, manifest, expected_manifest_sha256, raw_bundle)
         return failed_receipt(errors, manifest, expected_manifest_sha256, raw_bundle)
+    if manifest.get("feature") == "noodle_admission_recovery":
+        pilot_declarations = manifest.get("pilot_runs", [])
+        for key in ("run_id", "evidence_sha256", "consumer_session_id"):
+            pilot_values = {item.get(key) for item in pilot_declarations
+                            if isinstance(item, dict)}
+            confirmation_values = {item.get(key) for item in declared.values()}
+            if pilot_values & confirmation_values:
+                errors.append(f"pilot_confirmation_{key}_not_distinct")
+        if any(item.get("phase") != "confirmation"
+               for item in declared.values()):
+            errors.append("confirmation_invalid_phase")
+        if errors:
+            return incomplete_receipt(
+                errors, manifest, expected_manifest_sha256, raw_bundle)
 
     receipts = []
     for run in runs:

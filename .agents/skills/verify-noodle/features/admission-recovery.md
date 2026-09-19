@@ -131,12 +131,14 @@ events such as an unchanged repeated inspect, help after a complete projection,
 an unchanged repeated instruction read or an unnecessary confirmation. A fresh
 read after retirement is required completion evidence and is not a barrier.
 Equivalent argv remains legal only when it is bound to the current projection.
-Replay derives projections from captured stdout bytes and re-hashes the external
-observer and cleanup receipt bytes. Before confirmation, three fresh baseline
+Replay derives projections and command metadata from captured stdout/process
+receipt bytes. External-observer and cleanup receipts bind the run, arm, consumer
+session, subject, initial projection and operation digest. Before confirmation,
+three fresh baseline
 pilots select the first nonzero barrier in the fixed feature order. All-zero
 pilots produce `NO_QUALIFIED_BARRIER`; missing pilots produce `INCONCLUSIVE`.
-Confirmation uses three runs per arm with one common task/exposure and separately
-pinned baseline and treatment instruction bytes.
+Confirmation uses distinct fresh sessions, three runs per arm, one common
+task/exposure and separately pinned baseline and treatment instruction bytes.
 
 ## Gotchas
 
