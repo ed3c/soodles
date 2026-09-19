@@ -117,6 +117,21 @@ false cleanup, traversal or any portable continuation is a refusal with the
 field and existing inspect entry. No production proposal or runtime-lock identity
 is migrated by this format.
 
+## P-class comparison evidence
+
+A scoped behavior comparison starts from this feature's stopped-owner state and
+records this chain without inventing another recovery owner:
+
+`stopped owner → fresh admission inspect projection → projection-bound retire → completion inspect → archive/canonical/process cleanup oracle → manifest-bound replay`.
+
+The fixed replay rejects a stale projection binding, a different Noodle subject,
+missing completion readback, changed canonical input, provider transport or
+cleanup residue. Its hill-climb counters cover only legal but avoidable decision
+events such as an unchanged repeated inspect, help after a complete projection,
+an unchanged repeated instruction read or an unnecessary confirmation. A fresh
+read after retirement is required completion evidence and is not a barrier.
+Equivalent argv remains legal only when it is bound to the current projection.
+
 ## Gotchas
 
 Correct refusal of a valid, already admitted/owned, unknown/ambiguous or live

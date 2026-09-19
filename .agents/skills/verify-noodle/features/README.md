@@ -6,7 +6,7 @@ N-class inventory; recipes are P-class guidance consuming existing owners.
 | Feature | User entry | Observable end state and boundary |
 | --- | --- | --- |
 | [Identity and skill resolution](identity-skills.md) | version/build metadata; skills list in the selected project | Exact measured binary/source/carrier and resolved Skill files; resolution does not prove loading |
-| [Initial admission recovery](admission-recovery.md) | admission inspect; current owner continuation | Rejected disposable proposal archived, canonical bytes preserved; legal refusal GREEN; no admission or restart |
+| [Initial admission recovery](admission-recovery.md) | stopped owner → fresh admission inspect projection → current bound continuation | Proposal archived, canonical bytes preserved, completion/cleanup replayable; legal refusal GREEN; no admission or restart |
 | [Original order/session handoff](order-handoff.md) | Already admitted original order; status and worker event interface | Matching own outcome, external actual exit and process/group absence; provider delivery and cleanup remain separate |
 
 Ordinary use selects one recipe. Full maintenance needs one source reviewer and

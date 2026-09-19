@@ -47,7 +47,53 @@ def completion_projection(run, errors):
     return projection, matches[0]
 
 
+def normalize_recovery_run(run, declared, manifest, observer):
+    errors = []
+    run_id = run.get("run_id")
+    arm = run.get("arm")
+    packet = run.get("packet") if isinstance(run.get("packet"), dict) else {}
+    evidence_sha256 = fingerprint(run)
+    for key, actual in (("run_id", run_id), ("arm", arm),
+                        ("case", packet.get("case")),
+                        ("evidence_sha256", evidence_sha256)):
+        if actual != declared.get(key):
+            errors.append(f"{key}_manifest_mismatch")
+    if packet.get("run_id") != run_id or packet.get("arm") != arm:
+        errors.append("run_identity_internal_mismatch")
+    try:
+        observed = observer.evaluate(run, manifest)
+    except (KeyError, TypeError, ValueError) as error:
+        observed = {
+            "classification": "FAIL",
+            "errors": [f"exception_{type(error).__name__}"],
+            "barriers": {},
+        }
+    if observed.get("classification") != PASS:
+        errors.extend(f"observer_{item}" for item in observed.get("errors", []))
+    barrier_name = manifest.get("primary_barrier")
+    barriers = observed.get("barriers") if isinstance(observed.get("barriers"), dict) else {}
+    if barrier_name not in barriers:
+        errors.append("primary_barrier_not_observed")
+    return {
+        "schema": 1,
+        "feature": manifest.get("feature"),
+        "run_id": run_id,
+        "arm": arm,
+        "case": packet.get("case"),
+        "hard_gate": PASS if not errors else "FAIL",
+        "hard_errors": sorted(set(errors)),
+        "barriers": barriers,
+        "operations_observed": observed.get("operations_observed"),
+        "evidence_sha256": evidence_sha256,
+        "observer_sha256": manifest.get("observer_sha256"),
+        "normalizer_sha256": manifest.get("normalizer_sha256"),
+        "authorizes_landing": False,
+    }
+
+
 def normalize_run(run, declared, manifest, observer):
+    if manifest.get("feature") == "noodle_admission_recovery":
+        return normalize_recovery_run(run, declared, manifest, observer)
     errors = []
     evidence_sha256 = fingerprint(run)
     run_id = run.get("run_id")
@@ -199,7 +245,9 @@ def validate_control_specs(manifest, errors):
         return
     names = []
     mutations = {"premature_stop", "wrong_operation", "stale_completion_digest",
-                 "missing_transport_evidence", "request_after_completion", "none"}
+                 "missing_transport_evidence", "request_after_completion", "none",
+                 "stale_recovery_binding", "wrong_recovery_subject",
+                 "missing_recovery_completion", "false_recovery_cleanup"}
     for index, control in enumerate(specs):
         if not isinstance(control, dict):
             errors.append(f"invalid_control_spec_{index}")
@@ -244,6 +292,17 @@ def mutate_control(source, control, raw_by_id):
         if not isinstance(donor, dict) or not donor.get("owner_events"):
             raise ValueError("invalid_control_donor")
         mutated["owner_events"].append(copy.deepcopy(donor["owner_events"][-1]))
+    elif mutation == "stale_recovery_binding":
+        action = next(item for item in mutated["operations"]
+                      if item.get("kind") == "owner_action")
+        action["bound_projection_sha256"] = "f" * 64
+    elif mutation == "wrong_recovery_subject":
+        mutated["packet"]["subject"]["commit"] = "f" * 40
+    elif mutation == "missing_recovery_completion":
+        mutated["postcondition"].pop("completion_owner_projection", None)
+        mutated["postcondition"].pop("completion_owner_projection_sha256", None)
+    elif mutation == "false_recovery_cleanup":
+        mutated["postcondition"]["residue_paths"] = ["/tmp/stale-recovery"]
     elif mutation == "none":
         pass
     else:
