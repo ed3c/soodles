@@ -92,7 +92,8 @@ jobs:
           (cd "$subject" && corepack pnpm install --frozen-lockfile)
           (cd "$subject" && corepack pnpm --filter noodle-ui build)
           (cd "$subject" && go build -o "$RUNNER_TEMP/noodle-admission" .)
-          ./soodles packet observe "$RUNNER_TEMP/noodle-admission" "$subject" "$RUNNER_TEMP/admission-packet"
+          go version -m "$RUNNER_TEMP/noodle-admission" > "$RUNNER_TEMP/noodle-build.txt"
+          ./soodles packet observe "$RUNNER_TEMP/noodle-admission" "$subject" "$RUNNER_TEMP/admission-packet" --build-info "$RUNNER_TEMP/noodle-build.txt"
           ./soodles packet create "$RUNNER_TEMP/admission-packet" "$RUNNER_TEMP/soodles-runtime/admission-recovery.tar" --carrier linux_amd64
           ./soodles packet verify "$RUNNER_TEMP/soodles-runtime/admission-recovery.tar" --expected-carrier linux_amd64
           python3 - <<'PYTHON'
