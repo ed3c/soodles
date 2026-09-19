@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "classification": "PASS",
+  "consumer": "fresh_independent_read_only",
+  "final_binding": {
+    "manifest_sha256": "f76150365d9ef60ebf5fe45a1ed56967b01b8e07156d575fc4ed6bc6a54ade1e",
+    "observer_sha256": "7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123",
+    "normalizer_sha256": "d771252304c3f45fdc431b4615239e79428115451ec941197fca8834f0cfeb10",
+    "decider_sha256": "74d5c273a756dd793fd7275a7e90e4df53e8966ca8a17d459afa354168be30cc",
+    "raw_bundle_sha256": "e22f2d3b0c62319459346e30692d52186c7d96a442e9a0c1a0e26b0fc2fcac84"
+  },
+  "replay": {
+    "exit_code": 0,
+    "classification": "PASS",
+    "errors": [],
+    "baseline": {"run_ids": ["3b7e81", "8e41bc", "dc296a"], "barriers": [1, 1, 1], "total": 3},
+    "treatment": {"run_ids": ["19cfa2", "62ad0f", "b570d3"], "barriers": [0, 0, 0], "total": 0},
+    "all_run_hard_errors": []
+  },
+  "decision": {
+    "exit_code": 0,
+    "classification": "ADMIT_IMPROVEMENT",
+    "hard_gate_errors": [],
+    "observed_run_count": 6,
+    "declared_run_count": 6,
+    "input_sha256": "b887fd9e9fe296da7843e6810fb56776de1b83af695c20836ee155be16a04f9a"
+  },
+  "preserved_discrepancy": {
+    "classification": "SUPERSEDED_PRE_FREEZE_REVISION",
+    "old_manifest_sha256": "7e38da3ae5b8e72b27749af4e2fa3035cc21406da83ba9198bf961ee3bfd39cc",
+    "old_normalizer_sha256": "c3cfebab3238249871574d494ec7e12b6fd45a998aa7e37e825923da3e839b70",
+    "observed_with_old_pin_after_revision": [
+      "manifest_digest_mismatch",
+      "normalizer_digest_mismatch"
+    ],
+    "outcome": "REJECT_FAIL_CLOSED"
+  },
+  "authorizes_landing": false
+}

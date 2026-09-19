@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "experiment_id": "ed3c/soodles#73-replay-for-#75",
+  "manifest_sha256": "f76150365d9ef60ebf5fe45a1ed56967b01b8e07156d575fc4ed6bc6a54ade1e",
+  "admission_target": "improvement",
+  "primary_barrier": "post_completion_owner_request",
+  "baseline": [
+    {"run_id":"3b7e81","arm":"baseline","case":"recovery","evidence_sha256":"6de0b401589b8db85a49facb06c93ba5f9c8885830910f103293f537769927ff","observer_sha256":"7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123","normalizer_sha256":"d771252304c3f45fdc431b4615239e79428115451ec941197fca8834f0cfeb10","hard_gate":"PASS","barriers":{"post_completion_owner_request":1}},
+    {"run_id":"8e41bc","arm":"baseline","case":"recovery","evidence_sha256":"d265797e0c96cb8e88a45ee95a5c75ee9c6d533983bdea99205c2e8af91faf30","observer_sha256":"7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123","normalizer_sha256":"d771252304c3f45fdc431b4615239e79428115451ec941197fca8834f0cfeb10","hard_gate":"PASS","barriers":{"post_completion_owner_request":1}},
+    {"run_id":"dc296a","arm":"baseline","case":"recovery","evidence_sha256":"ec58217fe312969561e24ef1a477b18253c033a2848f41c0759fa2e6be3f5634","observer_sha256":"7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123","normalizer_sha256":"d771252304c3f45fdc431b4615239e79428115451ec941197fca8834f0cfeb10","hard_gate":"PASS","barriers":{"post_completion_owner_request":1}}
+  ],
+  "treatment": [
+    {"run_id":"19cfa2","arm":"treatment","case":"recovery","evidence_sha256":"cab36dc808eba8f0ddc8fe24bc13f6ff374a6fcb282b577e66a73841318bda84","observer_sha256":"7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123","normalizer_sha256":"d771252304c3f45fdc431b4615239e79428115451ec941197fca8834f0cfeb10","hard_gate":"PASS","barriers":{"post_completion_owner_request":0}},
+    {"run_id":"62ad0f","arm":"treatment","case":"recovery","evidence_sha256":"183924c03cc08e6343475ce0db4e15226a4f54d0d15ae972c238a4f92f55b216","observer_sha256":"7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123","normalizer_sha256":"d771252304c3f45fdc431b4615239e79428115451ec941197fca8834f0cfeb10","hard_gate":"PASS","barriers":{"post_completion_owner_request":0}},
+    {"run_id":"b570d3","arm":"treatment","case":"recovery","evidence_sha256":"003e5296adb0f7303ca18679d71be4678501b04863b4602b761da3c53bb676bd","observer_sha256":"7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123","normalizer_sha256":"d771252304c3f45fdc431b4615239e79428115451ec941197fca8834f0cfeb10","hard_gate":"PASS","barriers":{"post_completion_owner_request":0}}
+  ],
+  "controls": [
+    {"name":"premature_stop","expected":"FAIL","observed":"FAIL"},
+    {"name":"wrong_operation","expected":"FAIL","observed":"FAIL"},
+    {"name":"stale_completion_digest","expected":"FAIL","observed":"FAIL"},
+    {"name":"missing_transport_evidence","expected":"FAIL","observed":"FAIL"},
+    {"name":"request_after_completion","expected":"FAIL","observed":"FAIL"},
+    {"name":"legal_exact_completion_no_request","expected":"PASS","observed":"PASS"}
+  ],
+  "causal_delta": {"classification":"PASS"},
+  "independent_audit": {"classification":"PASS"},
+  "telemetry": {"authority":"report_only","source":"docs/experiments/pclass-recovery-stop-73/raw/comparison.json"}
+}

@@ -1,0 +1,20 @@
+{
+  "schema": 2,
+  "decision": "ADMIT_IMPROVEMENT",
+  "experiment_id": "ed3c/soodles#73-replay-for-#75",
+  "manifest_sha256": "f76150365d9ef60ebf5fe45a1ed56967b01b8e07156d575fc4ed6bc6a54ade1e",
+  "admission_target": "improvement",
+  "primary_barrier": "post_completion_owner_request",
+  "baseline_total": 3,
+  "treatment_total": 0,
+  "observed_run_count": 6,
+  "declared_run_count": 6,
+  "hard_gate_errors": [],
+  "telemetry": {
+    "authority": "report_only",
+    "source": "docs/experiments/pclass-recovery-stop-73/raw/comparison.json"
+  },
+  "telemetry_authority": "report_only",
+  "input_sha256": "b887fd9e9fe296da7843e6810fb56776de1b83af695c20836ee155be16a04f9a",
+  "authorizes_landing": false
+}

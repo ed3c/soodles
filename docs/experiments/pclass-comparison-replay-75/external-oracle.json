@@ -1,0 +1,14 @@
+{
+  "classification": "PASS",
+  "oracle_sha256": "f5a051d78e3f34aa39526191137d59040cc3194a4bb5e5802fa8c0a2299c3193",
+  "frozen_before_candidate_edit": true,
+  "cases": [
+    "complete_3_plus_3_improvement",
+    "complete_0_to_0_rejects_improvement",
+    "incomplete_3_against_1_rejected",
+    "duplicate_run_rejected",
+    "missing_required_control_rejected",
+    "evidence_binding_mismatch_rejected"
+  ],
+  "authorizes_landing": false
+}

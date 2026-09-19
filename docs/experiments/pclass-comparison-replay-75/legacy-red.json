@@ -1,0 +1,12 @@
+{
+  "input_sha256": "0942311670c103df6a7894643f3d32b2a87c59509fb408054822382fdba83cdf",
+  "pre_change_decider_sha256": "90fe8285e300706c6b47fb1d622a5455e4a7d47e5610b98069c84c9688621a1f",
+  "baseline_run_count": 3,
+  "treatment_run_count": 1,
+  "per_run_barrier": 1,
+  "baseline_total": 3,
+  "treatment_total": 1,
+  "pre_change_decision": "ADMIT_IMPROVEMENT",
+  "expected_classification": "REJECT_INCOMPLETE",
+  "authorizes_landing": false
+}
