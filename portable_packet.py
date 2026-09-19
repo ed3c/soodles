@@ -217,7 +217,7 @@ def record(argv, cwd, output, scratch, timeout=120):
     return result
 
 
-def run_observers(binary, source, output):
+def run_observers(binary, source, output, build_info=None):
     """Selected disposable controls only; build/source is checked before effects."""
     binary, source, output = Path(binary).resolve(), Path(source).resolve(), Path(output).resolve()
     require(not output.exists(), 'output.exists')
@@ -230,7 +230,13 @@ def run_observers(binary, source, output):
         return p.stdout
     require(checked(['git', 'rev-parse', 'HEAD']).decode().strip() == SOURCE, 'source_revision')
     require(not checked(['git', 'status', '--porcelain']).strip(), 'source.clean')
-    build = checked(['go', 'version', '-m', str(binary)])
+    if build_info is None:
+        build = checked(['go', 'version', '-m', str(binary)])
+    else:
+        build_path = Path(build_info)
+        require(build_path.is_file() and not build_path.is_symlink(), 'build_info.path')
+        build_path = build_path.resolve()
+        build = build_path.read_bytes()
     require(('vcs.revision=' + SOURCE).encode() in build and b'vcs.modified=false' in build, 'build.source')
     output.mkdir(parents=True)
     write(output, 'subject.json', {'repository': 'ed3c/noodle', 'source_revision': SOURCE,

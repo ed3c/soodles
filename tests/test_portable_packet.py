@@ -195,8 +195,12 @@ class PacketTests(unittest.TestCase):
         install = workflow.index('corepack pnpm install --frozen-lockfile')
         ui = workflow.index('corepack pnpm --filter noodle-ui build')
         binary = workflow.index('go build -o "$RUNNER_TEMP/noodle-admission"')
+        measurement = workflow.index('go version -m "$RUNNER_TEMP/noodle-admission"')
+        observation = workflow.index('--build-info "$RUNNER_TEMP/noodle-build.txt"')
         self.assertLess(install, ui)
         self.assertLess(ui, binary)
+        self.assertLess(binary, measurement)
+        self.assertLess(measurement, observation)
 
 
 if __name__ == '__main__':
