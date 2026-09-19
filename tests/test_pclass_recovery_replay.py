@@ -150,6 +150,8 @@ def manifest(raw, target="improvement"):
         "fixed_observer_sha256": FIXED_OBSERVER,
         "fixed_observer_classification": "GREEN",
         "cleanup_scope": ["fixture", "process_group"],
+        "completion_statuses": ["no_proposal"],
+        "canonical_paths": sorted(CANONICAL),
         "observer_sha256": hashlib.sha256(OBSERVER.read_bytes()).hexdigest(),
         "normalizer_sha256": hashlib.sha256(REPLAY.read_bytes()).hexdigest(),
         "decider_sha256": hashlib.sha256(DECIDER.read_bytes()).hexdigest(),
@@ -203,6 +205,9 @@ class RecoveryPclassReplayTests(unittest.TestCase):
             "fixed_observer_classification":
                 "observer_invalid_manifest_observer_classification",
             "cleanup_scope": "observer_invalid_manifest_cleanup_scope",
+            "completion_statuses":
+                "observer_invalid_manifest_completion_statuses",
+            "canonical_paths": "observer_invalid_manifest_canonical_paths",
         }
         for key, error in expected.items():
             with self.subTest(key=key):

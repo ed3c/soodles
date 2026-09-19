@@ -56,10 +56,12 @@ def projected_next(projection):
 
 def process_errors(event, index):
     errors = []
-    for key in ("exit_code", "elapsed_ms"):
-        value = event.get(key)
-        if type(value) not in (int, float) or value < 0:
-            errors.append(f"operation_{index}_invalid_{key}")
+    exit_code = event.get("exit_code")
+    if type(exit_code) is not int:
+        errors.append(f"operation_{index}_invalid_exit_code")
+    elapsed = event.get("elapsed_ms")
+    if type(elapsed) not in (int, float) or elapsed < 0:
+        errors.append(f"operation_{index}_invalid_elapsed_ms")
     for key in ("stdout_sha256", "stderr_sha256"):
         if not valid_digest(event.get(key)):
             errors.append(f"operation_{index}_invalid_{key}")
@@ -94,6 +96,18 @@ def evaluate(run, manifest):
     cleanup_scope = manifest.get("cleanup_scope")
     if cleanup_scope in (None, "", [], {}):
         errors.append("invalid_manifest_cleanup_scope")
+    completion_statuses = manifest.get("completion_statuses")
+    if (not isinstance(completion_statuses, list) or not completion_statuses
+            or not all(isinstance(item, str) and item
+                       for item in completion_statuses)):
+        errors.append("invalid_manifest_completion_statuses")
+        completion_statuses = []
+    canonical_paths = manifest.get("canonical_paths")
+    if (not isinstance(canonical_paths, list) or not canonical_paths
+            or len(canonical_paths) != len(set(canonical_paths))
+            or not all(isinstance(item, str) and item for item in canonical_paths)):
+        errors.append("invalid_manifest_canonical_paths")
+        canonical_paths = []
     if packet.get("subject") != subject:
         errors.append("packet_subject_manifest_mismatch")
     if precondition.get("subject") != subject:
@@ -114,12 +128,18 @@ def evaluate(run, manifest):
     if precondition.get("initial_owner_projection_sha256") != initial_sha:
         errors.append("initial_owner_projection_binding_mismatch")
     expected_operation, expected_argv = projected_next(initial)
+    if isinstance(initial, dict) and initial.get("status") != "recoverable":
+        errors.append("initial_owner_projection_not_recoverable")
     if expected_argv is None:
         errors.append("initial_owner_continuation_incomplete")
 
     instruction = packet.get("instruction")
     observations = run.get("instruction_observations")
-    if not isinstance(instruction, dict) or not isinstance(observations, list):
+    if (not isinstance(instruction, dict)
+            or not isinstance(instruction.get("path"), str)
+            or not instruction.get("path")
+            or not valid_digest(instruction.get("sha256"))
+            or not isinstance(observations, list)):
         errors.append("missing_instruction_binding")
     elif not any(isinstance(item, dict)
                  and item.get("path") == instruction.get("path")
@@ -200,6 +220,8 @@ def evaluate(run, manifest):
     else:
         if fingerprint(completion) != completion_sha:
             errors.append("completion_owner_projection_digest_mismatch")
+        if completion.get("status") not in completion_statuses:
+            errors.append("unexpected_completion_status")
         if len(completion_reads) != 1:
             errors.append("completion_projection_observation_not_unique")
         elif actions and completion_reads[0] < actions[0]:
@@ -226,7 +248,12 @@ def evaluate(run, manifest):
         errors.append("invalid_preserved_input_digest")
     elif postcondition.get("retired_archive_sha256") != before_input:
         errors.append("retired_archive_digest_mismatch")
-    if precondition.get("canonical_files") != postcondition.get("canonical_files"):
+    canonical_before = precondition.get("canonical_files")
+    if (not isinstance(canonical_before, dict)
+            or set(canonical_before) != set(canonical_paths)
+            or not all(valid_digest(value) for value in canonical_before.values())):
+        errors.append("invalid_canonical_files")
+    elif canonical_before != postcondition.get("canonical_files"):
         errors.append("canonical_files_changed")
     if postcondition.get("mailbox_absent") is not True:
         errors.append("retired_mailbox_present")
