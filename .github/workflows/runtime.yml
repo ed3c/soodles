@@ -15,7 +15,7 @@ concurrency:
 jobs:
   runtime-evidence:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout exact candidate without persisted credentials
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -74,10 +74,38 @@ jobs:
           ./soodles acceptance verify "$RUNNER_TEMP/soodles-runtime/noodle" > "$RUNNER_TEMP/soodles-runtime/acceptance.json"
           python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(json.dumps({"candidate":r["candidate"],"zero_residue":r["physical"]["zero_residue"],"authorizes_landing":r["authorizes_landing"]}))' "$RUNNER_TEMP/soodles-runtime/acceptance.json"
 
+      - name: Build exact admission-recovery subject and preserve observer processes
+        env:
+          GOTOOLCHAIN: go1.26.1
+        run: |
+          subject="$RUNNER_TEMP/noodle-admission-source"
+          git init "$subject"
+          git -C "$subject" remote add origin https://github.com/ed3c/noodle.git
+          git -C "$subject" fetch --depth=1 origin ca81f942f478e8e4afcbbce6ca69640867efe753
+          git -C "$subject" checkout --detach FETCH_HEAD
+          test "$(git -C "$subject" rev-parse HEAD)" = ca81f942f478e8e4afcbbce6ca69640867efe753
+          (cd "$subject" && corepack pnpm install --frozen-lockfile)
+          (cd "$subject" && corepack pnpm --filter noodle-ui build)
+          (cd "$subject" && go build -o "$RUNNER_TEMP/noodle-admission" .)
+          ./soodles packet observe "$RUNNER_TEMP/noodle-admission" "$subject" "$RUNNER_TEMP/admission-packet"
+          ./soodles packet create "$RUNNER_TEMP/admission-packet" "$RUNNER_TEMP/soodles-runtime/admission-recovery.tar" --carrier linux_amd64
+          ./soodles packet verify "$RUNNER_TEMP/soodles-runtime/admission-recovery.tar" --expected-carrier linux_amd64
+          python3 - <<'PYTHON'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'admission-packet'
+          for label in ('recovery', 'refusal'):
+              process = json.loads((root / label / 'process.json').read_text())
+              assert process['exit_code'] == 0 and process['waited'] and not process['timed_out'], (label, process)
+          PYTHON
+
       - name: Preserve non-authorizing evidence
+        if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: runtime-evidence-${{ github.event.pull_request.head.sha || github.sha }}
-          path: ${{ runner.temp }}/soodles-runtime/*.json
+          path: |
+            ${{ runner.temp }}/soodles-runtime/*.json
+            ${{ runner.temp }}/soodles-runtime/admission-recovery.tar
           if-no-files-found: error
           retention-days: 30
