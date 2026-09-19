@@ -52,7 +52,7 @@ The #46 selection pins recovery observer SHA-256
 and refusal observer SHA-256
 `b0029229f2794b283d8ab30faba8a621e0cd7035d83edcc6001a1a994229662b`.
 Their adjacent `preserved-input-selection.json` and `preserved-soodles-input`
-remain external inputs. The recovery observer contains a bounded idempotence
+remain supervisor-selected inputs; the #79 portable fixture copy preserves their bytes. The recovery observer contains a bounded idempotence
 control; it is not a general instruction to replay old argv. The coordinator's
 normal drive always consumes fresh next and includes the post-retirement readback.
 The fixed refusal observer covers wrong digest/revision, admitted ledger, valid
@@ -67,6 +67,55 @@ Source: `cmd_admission.go`; `loop/admission_recovery.go:InspectAdmission`,
 `RetireAdmission`, `admissionRetirementNext`; `loop/admission_evidence.go`.
 Nearest controls: `loop/admission_recovery_test.go` exact-byte retirement,
 refusal gates, legal non-cases and physical crash controls.
+
+## Portable evidence (Soodles #79)
+
+For the selected `ed3c/noodle@ca81f942f478e8e4afcbbce6ca69640867efe753`
+subject, `./soodles packet --help` owns packaging and verification. The fixed
+observer bytes and input selection now also live in
+`tests/fixtures/admission-recovery-portable`; their digests above remain the
+selection, not candidate-granted authority. The preserved input selection digest
+is `9b5c6505bcd023fb1a872d44d8a33880e862046883349bd032c4b830ccf18e14`.
+
+Actions builds that exact source separately from the runtime-lock release,
+runs both observers in disposable scratch directories with a credential-free
+environment, waits for their actual exits, and packages `admission-recovery.tar`
+beside the existing acceptance/release JSON. Download the exact-head artifact
+through the existing provider owner and run:
+
+```sh
+./soodles packet verify /download/admission-recovery.tar --expected-carrier linux_amd64
+```
+
+This reads tar members without extracting or executing them. A local unpacked
+packet uses the same command. For existing native macOS evidence, use
+`--expected-carrier darwin_arm64`; it must refuse the Linux claim. Verification
+checks evidence integrity and preserves nonzero exits, including legal refusals;
+it does not turn an observer's failure into behavioral success. Actions separately
+requires successful observer exits. The receipt is always non-authorizing.
+
+To produce a new evidence set, use `packet observe BINARY SOURCE OUTPUT` with the
+supplied exact source build, then `packet create OUTPUT ARCHIVE --carrier ID`.
+The producer selects only its fixed relative file list: measured `subject.json`
+and `build.txt`, both fixed observers, preserved selection/input, and each
+observer's `process.json`, `stdout.bin`, `stderr.bin`, `receipt.json` and
+`cleanup.json`. Process records require actual integer exit, `waited`, timeout
+status and stream digests. Existing evidence can be mapped to those names while
+preserving raw stream/receipt bytes and the original measurements; never invent
+an unobserved wait or cleanup. `cleanup.json` identifies the observed scope;
+Actions measures scratch filesystem absence after wait. The fixed refusal
+observer's process-group limitation above remains unchanged. Extra ambient files
+are not included; packet.json contains no executable argv or host paths.
+
+The packet states `continuation.portable=false`, `owner=Noodle`,
+`entry=admission inspect`. Historical absolute paths inside raw receipts are
+observations only. A downloaded packet never authorizes replay of their argv.
+For a new carrier-specific continuation, obtain the existing supervisor selection
+and fresh Noodle `admission inspect` readback on that carrier; consume only that
+owner's current continuation. Carrier mismatch, missing role/file, changed bytes,
+false cleanup, traversal or any portable continuation is a refusal with the
+field and existing inspect entry. No production proposal or runtime-lock identity
+is migrated by this format.
 
 ## Gotchas
 

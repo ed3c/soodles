@@ -51,6 +51,15 @@ For runtime-admission, bounded-Issue-execution, supervised-delivery, delivery-re
 
 For verification of Noodle itself (CLI identity/skill resolution, stopped initial-proposal recovery, or original order/session handoff), use [.agents/skills/verify-noodle/SKILL.md](.agents/skills/verify-noodle/SKILL.md) and its independent feature map; existing Noodle owners and Soodles acceptance/delivery retain authority.
 
+Downloaded admission-recovery artifacts use the verify-noodle
+[packet route](.agents/skills/verify-noodle/features/admission-recovery.md):
+`./soodles packet verify ARCHIVE --expected-carrier linux_amd64` (or
+`darwin_arm64` for native macOS evidence). The deterministic tar preserves the
+selected source, observers/input, actual process results and scoped cleanup.
+This verifies evidence integrity only, with `authorizes_landing: false`;
+carrier-specific execution requires fresh Noodle `admission inspect`, never
+historical argv from a receipt. Runtime-lock acceptance remains Linux-only.
+
 ## Guarantee classes
 
 Classes describe authority of a claim, not confidence or file type (Noodles reference: `d4fa0da322cbb7a581328398906a4f04deaf0a69`). N describes inventory/prose/metrics and proves nothing. P guides model reasoning, skill use and routing; it cannot grant correctness authority. L is a tested executable local discriminator bound to its subject/readback/residue; it may reject locally. R is provider-enforced check/merge/closure truth for the exact provider claim. A run's success does not prove full behavior or local reconciliation. Guidance or repeated green results cannot promote N/P into L/R. The selected external judge remains fixed for this acceptance; its source and erroneous controls remain correctable under a fresh supervisor boundary.
