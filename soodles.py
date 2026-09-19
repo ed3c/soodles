@@ -191,6 +191,20 @@ def parser():
     p = Parser(prog="./soodles", description="Noodle runtime evidence and supervised landing checkpoints.",
                                 epilog="Examples: ./soodles runtime --help; ./soodles acceptance --help; ./soodles landing --help")
     groups = p.add_subparsers(dest="group", required=True)
+    packet = groups.add_parser("packet", description="Portable admission-recovery evidence; no executable continuation.")
+    packet_verbs = packet.add_subparsers(dest="verb", required=True)
+    create = packet_verbs.add_parser("create", description="Package only the fixed evidence allowlist, validate, and write deterministic tar.")
+    create.add_argument("root")
+    create.add_argument("archive")
+    create.add_argument("--carrier", required=True, choices=("linux_amd64", "darwin_arm64"))
+    verify = packet_verbs.add_parser("verify", description="Verify a directory or tar without executing or extracting it.")
+    verify.add_argument("root")
+    verify.add_argument("--expected-carrier", required=True, choices=("linux_amd64", "darwin_arm64"))
+    drive = packet_verbs.add_parser("observe", description="Run only the pinned disposable recovery/refusal observers against the selected exact source build.")
+    drive.add_argument("binary")
+    drive.add_argument("source")
+    drive.add_argument("output")
+    drive.add_argument("--build-info", help="Actual successful `go version -m BINARY` output from the same carrier.")
     github = groups.add_parser("github", description="Authenticated Issue readback; credentials come from the supervisor.")
     github_verbs = github.add_subparsers(dest="verb", required=True)
     read_issue = github_verbs.add_parser("issue", description="Read one ed3c/soodles Issue using supervisor-supplied GH_TOKEN. Missing credentials refuse; quota waits exit 75. No token discovery, minting, anonymous fallback or retry.", epilog="Example: ./soodles github issue 44. The supervisor supplies a repository-scoped installation token with Issues:read in the child environment. Never put credentials in argv. Cache uses XDG_CACHE_HOME or ~/.cache; 304 requires server confirmation.")
@@ -249,7 +263,15 @@ def main():
     args = parser().parse_args()
     import landing
     try:
-        if args.group == "github":
+        if args.group == "packet":
+            import portable_packet
+            if args.verb == "create":
+                result = portable_packet.create(args.root, args.carrier, args.archive)
+            elif args.verb == "verify":
+                result = portable_packet.verify(args.root, args.expected_carrier)
+            else:
+                result = portable_packet.run_observers(args.binary, args.source, args.output, args.build_info)
+        elif args.group == "github":
             import github_reader
             result = github_reader.issue(args.number)
         elif args.group == "issue":

@@ -75,6 +75,11 @@ subject readbacks, before/after state and cleanup observations. Separate local
 fixtures, live process observations and provider claims. Capture actions and
 resulting state; a final summary or status line alone is insufficient.
 
+For downloaded admission-recovery evidence, use the selected feature recipe's
+`./soodles packet verify` route. The same format binds Linux and macOS evidence
+to distinct carriers; executable continuation always requires fresh Noodle
+`admission inspect` on the selected carrier. Packaging grants no landing authority.
+
 A receipt states covered feature, classification and unresolved limits with
 `authorizes_landing: false`. Correct refusal of valid, admitted, unknown or live
 proposals is GREEN when preservation is observed. Missing input remains blocked;
@@ -103,7 +108,8 @@ supplied skill checkout. Invoke it as
 with the actual checkout and a fresh label. It records one subprocess, not a
 native Agent trace or verdict. Reuse the supervisor-selected #84 observers
 and process recorder as specified in the feature recipes. Their bytes, input
-selection, invocation and receipts remain external; do not copy their recovery
+selection, invocation and receipts remain attributable to the supervisor selection
+(the admission-recovery recipe maps the portable fixture copy); do not copy their recovery
 algorithm, rewrite the active judge or create a retry engine. Missing tools or
 observer inputs are supplied by the supervisor through the existing selection.
 
