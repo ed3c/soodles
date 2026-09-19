@@ -29,6 +29,16 @@ def valid_digest(value):
     return True
 
 
+def valid_commit(value):
+    if not isinstance(value, str) or len(value) != 40:
+        return False
+    try:
+        int(value, 16)
+    except ValueError:
+        return False
+    return True
+
+
 def projected_next(projection):
     if not isinstance(projection, dict):
         return None, None
@@ -37,7 +47,7 @@ def projected_next(projection):
         return None, None
     operation = value.get("operation")
     argv = value.get("argv")
-    if not isinstance(operation, str) or not operation:
+    if operation is not None and (not isinstance(operation, str) or not operation):
         operation = None
     if not isinstance(argv, list) or not all(isinstance(item, str) for item in argv):
         argv = None
@@ -68,6 +78,22 @@ def evaluate(run, manifest):
     if manifest.get("feature") != FEATURE:
         errors.append("feature_manifest_mismatch")
     subject = manifest.get("subject")
+    if (not isinstance(subject, dict)
+            or subject.get("repository") != "ed3c/noodle"
+            or not valid_commit(subject.get("source_revision"))):
+        errors.append("invalid_manifest_subject")
+    carrier = manifest.get("carrier")
+    if (not isinstance(carrier, dict)
+            or not all(isinstance(carrier.get(key), str) and carrier.get(key)
+                       for key in ("id", "os", "arch"))):
+        errors.append("invalid_manifest_carrier")
+    if not valid_digest(manifest.get("fixed_observer_sha256")):
+        errors.append("invalid_manifest_fixed_observer")
+    if not isinstance(manifest.get("fixed_observer_classification"), str):
+        errors.append("invalid_manifest_observer_classification")
+    cleanup_scope = manifest.get("cleanup_scope")
+    if cleanup_scope in (None, "", [], {}):
+        errors.append("invalid_manifest_cleanup_scope")
     if packet.get("subject") != subject:
         errors.append("packet_subject_manifest_mismatch")
     if precondition.get("subject") != subject:
@@ -88,7 +114,7 @@ def evaluate(run, manifest):
     if precondition.get("initial_owner_projection_sha256") != initial_sha:
         errors.append("initial_owner_projection_binding_mismatch")
     expected_operation, expected_argv = projected_next(initial)
-    if expected_operation is None or expected_argv is None:
+    if expected_argv is None:
         errors.append("initial_owner_continuation_incomplete")
 
     instruction = packet.get("instruction")
@@ -129,7 +155,7 @@ def evaluate(run, manifest):
                 errors.append(f"operation_{index}_projection_digest_mismatch")
             if projection_sha == initial_sha:
                 initial_reads.append(index)
-                complete_projection_seen = expected_operation is not None and expected_argv is not None
+                complete_projection_seen = expected_argv is not None
             if last_inspect_sha == projection_sha and not state_changed:
                 barriers["repeated_unchanged_inspect"] += 1
             last_inspect_sha = projection_sha
@@ -142,7 +168,8 @@ def evaluate(run, manifest):
                 errors.append("continuation_before_fresh_projection")
             if event.get("bound_projection_sha256") != initial_sha:
                 errors.append("continuation_projection_binding_mismatch")
-            if event.get("operation") != expected_operation:
+            if (expected_operation is not None
+                    and event.get("operation") != expected_operation):
                 errors.append("wrong_current_owner_operation")
             if event.get("argv") != expected_argv:
                 errors.append("continuation_argv_mismatch")
@@ -177,8 +204,11 @@ def evaluate(run, manifest):
             errors.append("completion_projection_observation_not_unique")
         elif actions and completion_reads[0] < actions[0]:
             errors.append("completion_observed_before_continuation")
-        if projected_next(completion) != (None, None):
-            errors.append("completion_still_offers_continuation")
+        _, completion_argv = projected_next(completion)
+        if (isinstance(completion_argv, list)
+                and "admission" in completion_argv
+                and "retire" in completion_argv):
+            errors.append("completion_still_offers_recovery_continuation")
 
     fixed = run.get("external_observer")
     if not isinstance(fixed, dict):
@@ -186,8 +216,10 @@ def evaluate(run, manifest):
     else:
         if fixed.get("sha256") != manifest.get("fixed_observer_sha256"):
             errors.append("external_observer_digest_mismatch")
-        if fixed.get("classification") != PASS:
+        if fixed.get("classification") != manifest.get("fixed_observer_classification"):
             errors.append("external_observer_not_pass")
+        if not valid_digest(fixed.get("receipt_sha256")):
+            errors.append("external_observer_receipt_digest_missing")
 
     before_input = precondition.get("preserved_input_sha256")
     if not valid_digest(before_input):

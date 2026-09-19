@@ -14,7 +14,7 @@ replayer = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(replayer)
 
 SUBJECT = {"repository": "ed3c/noodle",
-           "commit": "ca81f942f478e8e4afcbbce6ca69640867efe753"}
+           "source_revision": "ca81f942f478e8e4afcbbce6ca69640867efe753"}
 FIXED_OBSERVER = "a" * 64
 INSTRUCTION = {"path": ".agents/skills/verify-noodle/features/admission-recovery.md",
                "sha256": "b" * 64}
@@ -26,7 +26,6 @@ CANONICAL = {"orders-next.json": "d" * 64, "state.snapshot.json": "e" * 64,
 def projection(status, revision=7):
     if status == "recoverable":
         next_value = {
-            "operation": "admission.retire",
             "argv": ["/tmp/noodle", "--project-dir", "/tmp/project", "admission",
                      "retire", "--proposal-sha256", "1" * 64,
                      "--revision", str(revision)],
@@ -66,14 +65,14 @@ def raw_run(run_id, arm, repeated=False, manual=False):
         "arm": arm,
         "packet": {
             "run_id": run_id, "arm": arm, "case": "admission_recovery",
-            "subject": copy.deepcopy(SUBJECT), "carrier": "linux_amd64",
+            "subject": copy.deepcopy(SUBJECT), "carrier": {"id": "linux_amd64", "os": "linux", "arch": "amd64"},
             "instruction": copy.deepcopy(INSTRUCTION),
             "initial_owner_projection": initial,
             "expected_owner_projection_sha256": initial_sha,
             "transport_events": [],
         },
         "precondition": {
-            "subject": copy.deepcopy(SUBJECT), "carrier": "linux_amd64",
+            "subject": copy.deepcopy(SUBJECT), "carrier": {"id": "linux_amd64", "os": "linux", "arch": "amd64"},
             "initial_owner_projection": initial,
             "initial_owner_projection_sha256": initial_sha,
             "provider_transport_observed": False,
@@ -92,7 +91,8 @@ def raw_run(run_id, arm, repeated=False, manual=False):
             "cleanup_scope": ["fixture", "process_group"],
         },
         "instruction_observations": [copy.deepcopy(INSTRUCTION)],
-        "external_observer": {"sha256": FIXED_OBSERVER, "classification": "PASS"},
+        "external_observer": {"sha256": FIXED_OBSERVER, "classification": "GREEN",
+                              "receipt_sha256": "4" * 64},
         "consumer": {"run_id": run_id, "authorizes_landing": False},
     }
 
@@ -146,8 +146,9 @@ def manifest(raw, target="improvement"):
         "primary_barrier": "repeated_unchanged_inspect",
         "runs_per_arm": 3,
         "subject": copy.deepcopy(SUBJECT),
-        "carrier": "linux_amd64",
+        "carrier": {"id": "linux_amd64", "os": "linux", "arch": "amd64"},
         "fixed_observer_sha256": FIXED_OBSERVER,
+        "fixed_observer_classification": "GREEN",
         "cleanup_scope": ["fixture", "process_group"],
         "observer_sha256": hashlib.sha256(OBSERVER.read_bytes()).hexdigest(),
         "normalizer_sha256": hashlib.sha256(REPLAY.read_bytes()).hexdigest(),
@@ -159,6 +160,10 @@ def manifest(raw, target="improvement"):
             "run_id": run["run_id"], "arm": run["arm"],
             "case": run["packet"]["case"],
             "evidence_sha256": replayer.fingerprint(run),
+            "initial_owner_projection_sha256":
+                run["packet"]["expected_owner_projection_sha256"],
+            "external_observer_receipt_sha256":
+                run["external_observer"]["receipt_sha256"],
         } for run in raw["runs"]],
     }
     return value, gates
@@ -182,13 +187,50 @@ class RecoveryPclassReplayTests(unittest.TestCase):
     def test_raw_subject_tampering_is_bound_by_manifest(self):
         raw = raw_bundle()
         specification, gates = manifest(raw)
-        raw["runs"][0]["packet"]["subject"]["commit"] = "9" * 40
+        raw["runs"][0]["packet"]["subject"]["source_revision"] = "9" * 40
         receipt = replayer.replay(
             raw, gates, specification, replayer.fingerprint(specification),
             OBSERVER, DECIDER, REPLAY)
         self.assertEqual(receipt["classification"], "FAIL")
         self.assertTrue(any("evidence_sha256_manifest_mismatch" in item
                             for item in receipt["errors"]))
+
+    def test_manifest_cannot_omit_recovery_owner_bindings(self):
+        raw = raw_bundle()
+        expected = {
+            "subject": "observer_invalid_manifest_subject",
+            "carrier": "observer_invalid_manifest_carrier",
+            "fixed_observer_classification":
+                "observer_invalid_manifest_observer_classification",
+            "cleanup_scope": "observer_invalid_manifest_cleanup_scope",
+        }
+        for key, error in expected.items():
+            with self.subTest(key=key):
+                specification, gates = manifest(raw)
+                del specification[key]
+                receipt = replayer.replay(
+                    raw, gates, specification, replayer.fingerprint(specification),
+                    OBSERVER, DECIDER, REPLAY)
+                self.assertEqual(receipt["classification"], "FAIL")
+                self.assertTrue(any(error in item for item in receipt["errors"]),
+                                receipt["errors"])
+
+    def test_external_observer_receipt_is_bound_per_run(self):
+        raw = raw_bundle()
+        specification, _ = manifest(raw)
+        run = copy.deepcopy(raw["runs"][3])
+        run["external_observer"]["receipt_sha256"] = "9" * 64
+        declared = copy.deepcopy(specification["runs"][3])
+        declared["evidence_sha256"] = replayer.fingerprint(run)
+        observer_spec = importlib.util.spec_from_file_location(
+            "recovery_observer_test", OBSERVER)
+        observer = importlib.util.module_from_spec(observer_spec)
+        observer_spec.loader.exec_module(observer)
+        receipt = replayer.normalize_run(
+            run, declared, specification, observer)
+        self.assertEqual(receipt["hard_gate"], "FAIL")
+        self.assertIn("external_observer_receipt_manifest_mismatch",
+                      receipt["hard_errors"])
 
     def test_zero_to_zero_cannot_admit_improvement(self):
         raw = raw_bundle()

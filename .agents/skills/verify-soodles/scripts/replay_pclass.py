@@ -60,6 +60,14 @@ def normalize_recovery_run(run, declared, manifest, observer):
             errors.append(f"{key}_manifest_mismatch")
     if packet.get("run_id") != run_id or packet.get("arm") != arm:
         errors.append("run_identity_internal_mismatch")
+    if packet.get("expected_owner_projection_sha256") != declared.get(
+            "initial_owner_projection_sha256"):
+        errors.append("initial_owner_projection_manifest_mismatch")
+    external = run.get("external_observer")
+    if (not isinstance(external, dict)
+            or external.get("receipt_sha256")
+            != declared.get("external_observer_receipt_sha256")):
+        errors.append("external_observer_receipt_manifest_mismatch")
     try:
         observed = observer.evaluate(run, manifest)
     except (KeyError, TypeError, ValueError) as error:
