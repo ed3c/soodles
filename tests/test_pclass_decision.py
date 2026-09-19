@@ -2,6 +2,8 @@ import copy
 import hashlib
 import importlib.util
 from pathlib import Path
+import subprocess
+import sys
 import unittest
 
 
@@ -27,12 +29,15 @@ def manifest(target="nonregression"):
                 "evidence_sha256": hashlib.sha256(run_id.encode()).hexdigest(),
             })
     return {
-        "schema": 1,
+        "schema": 2,
         "experiment_id": "test-comparison",
         "admission_target": target,
         "primary_barrier": "wrong_route",
+        "runs_per_arm": 3,
         "observer_sha256": OBSERVER,
         "normalizer_sha256": NORMALIZER,
+        "decider_sha256": "3" * 64,
+        "gates_sha256": "4" * 64,
         "required_controls": ["wrong_route", "legal_route"],
         "runs": runs,
     }
@@ -100,6 +105,18 @@ class PclassDecisionTests(unittest.TestCase):
         self.assertEqual(receipt["decision"], "REJECT")
         self.assertIn("run_set_mismatch", receipt["hard_gate_errors"])
 
+    def test_unbalanced_manifest_cannot_define_its_own_exposure(self):
+        specification = manifest(target="improvement")
+        specification["runs"] = [
+            *[item for item in specification["runs"] if item["arm"] == "baseline"],
+            next(item for item in specification["runs"] if item["arm"] == "treatment"),
+        ]
+        value = packet(specification, baseline=(1, 1, 1), treatment=(1,))
+        receipt = evaluate(specification, value)
+        self.assertEqual(receipt["decision"], "REJECT")
+        self.assertIn("manifest_treatment_exposure_mismatch",
+                      receipt["hard_gate_errors"])
+
     def test_duplicate_or_extra_run_rejects(self):
         specification = manifest(target="improvement")
         value = packet(specification, baseline=(1, 1, 1))
@@ -157,6 +174,23 @@ class PclassDecisionTests(unittest.TestCase):
                 receipt = evaluate(specification, value)
                 self.assertEqual(receipt["decision"], "REJECT")
                 self.assertIn("control_set_mismatch", receipt["hard_gate_errors"])
+
+    def test_unknown_controls_cannot_self_validate(self):
+        specification = manifest(target="improvement")
+        value = packet(specification, baseline=(1, 1, 1))
+        for control in value["controls"]:
+            control["expected"] = "UNKNOWN"
+            control["observed"] = "UNKNOWN"
+        receipt = evaluate(specification, value)
+        self.assertEqual(receipt["decision"], "REJECT")
+        self.assertTrue(any(error.endswith("expected")
+                            for error in receipt["hard_gate_errors"]))
+
+    def test_direct_candidate_comparison_entry_is_disabled(self):
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT)], text=True, capture_output=True, check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("direct comparison input is disabled", result.stderr)
 
     def test_behavior_failure_rejects_despite_better_telemetry(self):
         specification = manifest()

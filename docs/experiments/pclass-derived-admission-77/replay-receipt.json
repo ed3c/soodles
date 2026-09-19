@@ -1,0 +1,31 @@
+{
+  "schema": 2,
+  "classification": "PASS",
+  "errors": [],
+  "experiment_id": "ed3c/soodles#73-replay-for-#77",
+  "manifest_sha256": "7fa30e1de5e02e74afa7456ad2bd40c4bcc8f217966d9a4d826e1289720ea93b",
+  "raw_bundle_sha256": "e22f2d3b0c62319459346e30692d52186c7d96a442e9a0c1a0e26b0fc2fcac84",
+  "comparison_sha256": "35dfcc7e52ed804c969990251a674cfd2c26741dc23f502ab24e1cb0d6c78207",
+  "baseline": {
+    "run_count": 3,
+    "barriers": [1, 1, 1],
+    "total": 3,
+    "hard_gates": ["PASS", "PASS", "PASS"]
+  },
+  "treatment": {
+    "run_count": 3,
+    "barriers": [0, 0, 0],
+    "total": 0,
+    "hard_gates": ["PASS", "PASS", "PASS"]
+  },
+  "controls": {
+    "premature_stop": "PASS",
+    "wrong_operation": "PASS",
+    "stale_completion_digest": "PASS",
+    "missing_transport_evidence": "PASS",
+    "request_after_completion": "PASS",
+    "legal_exact_completion_no_request": "PASS"
+  },
+  "decision": "ADMIT_IMPROVEMENT",
+  "authorizes_landing": false
+}

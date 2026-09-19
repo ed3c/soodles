@@ -1,0 +1,121 @@
+{
+  "schema": 2,
+  "experiment_id": "ed3c/soodles#73-replay-for-#77",
+  "admission_target": "improvement",
+  "primary_barrier": "post_completion_owner_request",
+  "runs_per_arm": 3,
+  "observer_sha256": "7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123",
+  "normalizer_sha256": "b809ce1e6c2e7f9ac3d902003aafc73bf2bff54eb0d36d809bcb1758b47cc4e9",
+  "decider_sha256": "fc433aad9342d82988a06f9dbde3ac26cc52c8905d1b997c1756f604bf3103a4",
+  "gates_sha256": "2f0c3a9668d808ca2fecf906564af4fd09279694c1e51abf90af08e0cd7ada73",
+  "required_controls": [
+    "premature_stop",
+    "wrong_operation",
+    "stale_completion_digest",
+    "missing_transport_evidence",
+    "request_after_completion",
+    "legal_exact_completion_no_request"
+  ],
+  "control_specs": [
+    {
+      "name": "premature_stop",
+      "source_run_id": "19cfa2",
+      "mutation": "premature_stop",
+      "expected_hard_gate": "FAIL",
+      "expected_errors": [
+        "completion_projection_observation_not_unique",
+        "observer_missing_recovery_continuation"
+      ],
+      "expected_barrier": 0
+    },
+    {
+      "name": "wrong_operation",
+      "source_run_id": "19cfa2",
+      "mutation": "wrong_operation",
+      "expected_hard_gate": "FAIL",
+      "expected_errors": [
+        "completion_projection_observation_not_unique",
+        "observer_wrong_operation_for_state"
+      ],
+      "expected_barrier": 0
+    },
+    {
+      "name": "stale_completion_digest",
+      "source_run_id": "19cfa2",
+      "mutation": "stale_completion_digest",
+      "expected_hard_gate": "FAIL",
+      "expected_errors": [
+        "treatment_completion_digest_mismatch"
+      ],
+      "expected_barrier": 0
+    },
+    {
+      "name": "missing_transport_evidence",
+      "source_run_id": "19cfa2",
+      "mutation": "missing_transport_evidence",
+      "expected_hard_gate": "FAIL",
+      "expected_errors": [
+        "observer_invalid_transport_evidence",
+        "packet_transport_not_empty"
+      ],
+      "expected_barrier": 0
+    },
+    {
+      "name": "request_after_completion",
+      "source_run_id": "19cfa2",
+      "donor_run_id": "3b7e81",
+      "mutation": "request_after_completion",
+      "expected_hard_gate": "FAIL",
+      "expected_errors": [
+        "owner_operation_after_completion"
+      ],
+      "expected_barrier": 1
+    },
+    {
+      "name": "legal_exact_completion_no_request",
+      "source_run_id": "19cfa2",
+      "mutation": "none",
+      "expected_hard_gate": "PASS",
+      "expected_errors": [],
+      "expected_barrier": 0
+    }
+  ],
+  "runs": [
+    {
+      "run_id": "19cfa2",
+      "arm": "treatment",
+      "case": "recovery",
+      "evidence_sha256": "cab36dc808eba8f0ddc8fe24bc13f6ff374a6fcb282b577e66a73841318bda84"
+    },
+    {
+      "run_id": "3b7e81",
+      "arm": "baseline",
+      "case": "recovery",
+      "evidence_sha256": "6de0b401589b8db85a49facb06c93ba5f9c8885830910f103293f537769927ff"
+    },
+    {
+      "run_id": "62ad0f",
+      "arm": "treatment",
+      "case": "recovery",
+      "evidence_sha256": "183924c03cc08e6343475ce0db4e15226a4f54d0d15ae972c238a4f92f55b216"
+    },
+    {
+      "run_id": "8e41bc",
+      "arm": "baseline",
+      "case": "recovery",
+      "evidence_sha256": "d265797e0c96cb8e88a45ee95a5c75ee9c6d533983bdea99205c2e8af91faf30"
+    },
+    {
+      "run_id": "b570d3",
+      "arm": "treatment",
+      "case": "recovery",
+      "evidence_sha256": "003e5296adb0f7303ca18679d71be4678501b04863b4602b761da3c53bb676bd"
+    },
+    {
+      "run_id": "dc296a",
+      "arm": "baseline",
+      "case": "recovery",
+      "evidence_sha256": "ec58217fe312969561e24ef1a477b18253c033a2848f41c0759fa2e6be3f5634"
+    }
+  ]
+}

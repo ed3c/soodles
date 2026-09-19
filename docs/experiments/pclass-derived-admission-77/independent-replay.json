@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "carrier": "native fresh consumer",
+  "inherited_context": false,
+  "read_only": true,
+  "digests": {
+    "manifest": "7fa30e1de5e02e74afa7456ad2bd40c4bcc8f217966d9a4d826e1289720ea93b",
+    "raw_bundle": "e22f2d3b0c62319459346e30692d52186c7d96a442e9a0c1a0e26b0fc2fcac84",
+    "gates": "2f0c3a9668d808ca2fecf906564af4fd09279694c1e51abf90af08e0cd7ada73",
+    "observer": "7f9285d7f4ab9ee8009dda80483ec5c7a3a61533201734fec0103785b1096123",
+    "normalizer": "b809ce1e6c2e7f9ac3d902003aafc73bf2bff54eb0d36d809bcb1758b47cc4e9",
+    "decider": "fc433aad9342d82988a06f9dbde3ac26cc52c8905d1b997c1756f604bf3103a4"
+  },
+  "digest_discrepancies": [],
+  "exit_code": 0,
+  "classification": "PASS",
+  "errors": [],
+  "baseline": {
+    "run_count": 3,
+    "barriers": [1, 1, 1],
+    "hard_gates": ["PASS", "PASS", "PASS"]
+  },
+  "treatment": {
+    "run_count": 3,
+    "barriers": [0, 0, 0],
+    "hard_gates": ["PASS", "PASS", "PASS"]
+  },
+  "control_predicates": {
+    "premature_stop": "PASS",
+    "wrong_operation": "PASS",
+    "stale_completion_digest": "PASS",
+    "missing_transport_evidence": "PASS",
+    "request_after_completion": "PASS",
+    "legal_exact_completion_no_request": "PASS"
+  },
+  "decision": "ADMIT_IMPROVEMENT",
+  "baseline_total": 3,
+  "treatment_total": 0,
+  "comparison_sha256": "35dfcc7e52ed804c969990251a674cfd2c26741dc23f502ab24e1cb0d6c78207",
+  "telemetry_authority": "report_only",
+  "authorizes_landing": false,
+  "discrepancies": []
+}

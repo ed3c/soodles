@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Replay fixed P-class raw evidence under an externally pinned manifest."""
+"""Replay and decide fixed P-class evidence under an externally pinned manifest."""
+import copy
 import hashlib
 import importlib.util
 import json
@@ -19,8 +20,8 @@ def file_sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def load_observer(path):
-    spec = importlib.util.spec_from_file_location("pclass_observer", path)
+def load_module(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -113,6 +114,8 @@ def normalize_run(run, declared, manifest, observer):
             errors.append("treatment_completion_digest_mismatch")
         if packet.get("stop_when_completion_projection_observed") is not True:
             errors.append("treatment_completion_stop_not_required")
+        if completion_index is not None and events[completion_index + 1:]:
+            errors.append("owner_operation_after_completion")
     elif arm == "baseline":
         if "completion_owner_projection" in packet:
             errors.append("baseline_contains_treatment_projection")
@@ -154,21 +157,169 @@ def normalize_run(run, declared, manifest, observer):
     }
 
 
-def replay(raw_bundle, manifest, expected_manifest_sha256, observer_path,
-           normalizer_path=None):
+def failed_receipt(errors, manifest, expected_manifest_sha256, raw_bundle=None):
+    return {
+        "schema": 2,
+        "classification": "FAIL",
+        "errors": sorted(set(errors)),
+        "experiment_id": manifest.get("experiment_id") if isinstance(manifest, dict) else None,
+        "manifest_sha256": expected_manifest_sha256,
+        "raw_bundle_sha256": fingerprint(raw_bundle) if raw_bundle is not None else None,
+        "authorizes_landing": False,
+    }
+
+
+def validate_gates(gates, manifest, errors):
+    keys = {"schema", "experiment_id", "causal_delta", "independent_audit",
+            "telemetry"}
+    if not isinstance(gates, dict) or set(gates) != keys:
+        errors.append("invalid_gates_schema")
+        return
+    if gates.get("schema") != 1:
+        errors.append("invalid_gates_schema")
+    if gates.get("experiment_id") != manifest.get("experiment_id"):
+        errors.append("gates_experiment_id_mismatch")
+    if fingerprint(gates) != manifest.get("gates_sha256"):
+        errors.append("gates_digest_mismatch")
+    for key in ("causal_delta", "independent_audit"):
+        value = gates.get(key)
+        if not isinstance(value, dict) or set(value) != {"classification"}:
+            errors.append(f"invalid_{key}_gate")
+        elif value.get("classification") != PASS:
+            errors.append(f"{key}_not_pass")
+    if not isinstance(gates.get("telemetry"), dict):
+        errors.append("invalid_telemetry")
+
+
+def validate_control_specs(manifest, errors):
+    specs = manifest.get("control_specs")
+    required = manifest.get("required_controls")
+    if not isinstance(specs, list) or not isinstance(required, list):
+        errors.append("invalid_control_specs")
+        return
+    names = []
+    mutations = {"premature_stop", "wrong_operation", "stale_completion_digest",
+                 "missing_transport_evidence", "request_after_completion", "none"}
+    for index, control in enumerate(specs):
+        if not isinstance(control, dict):
+            errors.append(f"invalid_control_spec_{index}")
+            continue
+        name = control.get("name")
+        names.append(name)
+        if not isinstance(name, str) or not name:
+            errors.append(f"invalid_control_spec_{index}_name")
+        if not isinstance(control.get("source_run_id"), str):
+            errors.append(f"invalid_control_spec_{index}_source")
+        if control.get("mutation") not in mutations:
+            errors.append(f"invalid_control_spec_{index}_mutation")
+        if control.get("expected_hard_gate") not in {PASS, "FAIL"}:
+            errors.append(f"invalid_control_spec_{index}_hard_gate")
+        expected_errors = control.get("expected_errors")
+        if (not isinstance(expected_errors, list)
+                or not all(isinstance(item, str) for item in expected_errors)):
+            errors.append(f"invalid_control_spec_{index}_errors")
+        barrier = control.get("expected_barrier")
+        if type(barrier) is not int or barrier < 0:
+            errors.append(f"invalid_control_spec_{index}_barrier")
+        if (control.get("mutation") == "request_after_completion"
+                and not isinstance(control.get("donor_run_id"), str)):
+            errors.append(f"invalid_control_spec_{index}_donor")
+    if names != required or len(names) != len(set(names)):
+        errors.append("control_spec_set_mismatch")
+
+
+def mutate_control(source, control, raw_by_id):
+    mutated = copy.deepcopy(source)
+    mutation = control.get("mutation")
+    if mutation == "premature_stop":
+        mutated["owner_events"] = mutated["owner_events"][:1]
+    elif mutation == "wrong_operation":
+        mutated["owner_events"][1]["owner"] = "landing.dispatch"
+    elif mutation == "stale_completion_digest":
+        mutated["packet"]["expected_completion_owner_projection_sha256"] = "f" * 64
+    elif mutation == "missing_transport_evidence":
+        mutated["packet"].pop("transport_events", None)
+    elif mutation == "request_after_completion":
+        donor = raw_by_id.get(control.get("donor_run_id"))
+        if not isinstance(donor, dict) or not donor.get("owner_events"):
+            raise ValueError("invalid_control_donor")
+        mutated["owner_events"].append(copy.deepcopy(donor["owner_events"][-1]))
+    elif mutation == "none":
+        pass
+    else:
+        raise ValueError("unknown_control_mutation")
+    return mutated
+
+
+def replay_controls(raw_by_id, declared, manifest, observer):
+    receipts = []
+    errors = []
+    barrier_name = manifest.get("primary_barrier")
+    for control in manifest.get("control_specs", []):
+        name = control.get("name")
+        source = raw_by_id.get(control.get("source_run_id"))
+        if not isinstance(source, dict):
+            errors.append(f"control_{name}_source_missing")
+            continue
+        try:
+            mutated = mutate_control(source, control, raw_by_id)
+        except (IndexError, KeyError, TypeError, ValueError) as error:
+            errors.append(f"control_{name}_{error}")
+            continue
+        declaration = copy.deepcopy(declared[source["run_id"]])
+        declaration["evidence_sha256"] = fingerprint(mutated)
+        observed = normalize_run(mutated, declaration, manifest, observer)
+        expected_errors = sorted(control.get("expected_errors", []))
+        expected_gate = control.get("expected_hard_gate")
+        expected_barrier = control.get("expected_barrier")
+        actual_barrier = observed["barriers"].get(barrier_name)
+        matched = (observed["hard_gate"] == expected_gate
+                   and observed["hard_errors"] == expected_errors
+                   and actual_barrier == expected_barrier)
+        if not matched:
+            errors.append(f"control_{name}_predicate_mismatch")
+        receipts.append({
+            "name": name,
+            "expected": expected_gate,
+            "observed": observed["hard_gate"],
+            "expected_errors": expected_errors,
+            "observed_errors": observed["hard_errors"],
+            "expected_barrier": expected_barrier,
+            "observed_barrier": actual_barrier,
+            "predicate": PASS if matched else "FAIL",
+        })
+    if [item.get("name") for item in manifest.get("control_specs", [])] != manifest.get("required_controls"):
+        errors.append("control_spec_set_mismatch")
+    return receipts, errors
+
+
+def replay(raw_bundle, gates, manifest, expected_manifest_sha256, observer_path,
+           decider_path, normalizer_path=None):
     errors = []
     normalizer_path = Path(normalizer_path or __file__).resolve()
     observer_path = Path(observer_path).resolve()
+    decider_path = Path(decider_path).resolve()
     manifest_sha256 = fingerprint(manifest) if isinstance(manifest, dict) else None
     if manifest_sha256 != expected_manifest_sha256:
         errors.append("manifest_digest_mismatch")
-    if not isinstance(manifest, dict) or manifest.get("schema") != 1:
+    if not isinstance(manifest, dict) or manifest.get("schema") != 2:
         errors.append("invalid_manifest")
         manifest = {}
-    if file_sha256(observer_path) != manifest.get("observer_sha256"):
-        errors.append("observer_digest_mismatch")
-    if file_sha256(normalizer_path) != manifest.get("normalizer_sha256"):
-        errors.append("normalizer_digest_mismatch")
+    for label, path in (("observer", observer_path), ("normalizer", normalizer_path),
+                        ("decider", decider_path)):
+        try:
+            actual = file_sha256(path)
+        except OSError:
+            errors.append(f"{label}_unreadable")
+            continue
+        if actual != manifest.get(f"{label}_sha256"):
+            errors.append(f"{label}_digest_mismatch")
+    validate_gates(gates, manifest, errors)
+    validate_control_specs(manifest, errors)
+
+    # Analyzer bytes are never imported after a failed preflight.
+    if errors:
+        return failed_receipt(errors, manifest, expected_manifest_sha256, raw_bundle)
 
     declarations = manifest.get("runs")
     runs = raw_bundle.get("runs") if isinstance(raw_bundle, dict) else None
@@ -190,7 +341,11 @@ def replay(raw_bundle, manifest, expected_manifest_sha256, observer_path,
     if set(raw_ids) != set(declared) or len(raw_ids) != len(declared):
         errors.append("run_set_mismatch")
 
-    observer = load_observer(observer_path)
+    if errors:
+        return failed_receipt(errors, manifest, expected_manifest_sha256, raw_bundle)
+
+    observer = load_module("pclass_observer", observer_path)
+    decider = load_module("pclass_decider", decider_path)
     receipts = []
     for run in runs:
         if not isinstance(run, dict) or run.get("run_id") not in declared:
@@ -202,30 +357,55 @@ def replay(raw_bundle, manifest, expected_manifest_sha256, observer_path,
         for receipt in receipts for error in receipt["hard_errors"])
     arms = {arm: [receipt for receipt in receipts if receipt["arm"] == arm]
             for arm in ("baseline", "treatment")}
+    raw_by_id = {run["run_id"]: run for run in runs if isinstance(run, dict)}
+    controls, control_errors = replay_controls(raw_by_id, declared, manifest, observer)
+    errors.extend(control_errors)
+    comparison = {
+        "schema": 2,
+        "experiment_id": manifest.get("experiment_id"),
+        "manifest_sha256": expected_manifest_sha256,
+        "admission_target": manifest.get("admission_target"),
+        "primary_barrier": manifest.get("primary_barrier"),
+        **arms,
+        "controls": controls,
+        "causal_delta": gates.get("causal_delta"),
+        "independent_audit": gates.get("independent_audit"),
+        "telemetry": gates.get("telemetry"),
+    }
+    decision = decider.evaluate(comparison, manifest, expected_manifest_sha256)
+    if not decision.get("decision", "").startswith("ADMIT_"):
+        errors.append("comparison_not_admitted")
     return {
-        "schema": 1,
+        "schema": 2,
         "classification": PASS if not errors else "FAIL",
         "errors": sorted(set(errors)),
         "experiment_id": manifest.get("experiment_id"),
         "manifest_sha256": expected_manifest_sha256,
         **arms,
+        "controls": controls,
+        "comparison_sha256": fingerprint(comparison),
+        "decision": decision,
         "raw_bundle_sha256": fingerprint(raw_bundle),
         "observer_sha256": manifest.get("observer_sha256"),
         "normalizer_sha256": manifest.get("normalizer_sha256"),
+        "decider_sha256": manifest.get("decider_sha256"),
+        "gates_sha256": manifest.get("gates_sha256"),
         "authorizes_landing": False,
     }
 
 
 def main(argv):
-    if len(argv) != 5:
+    if len(argv) != 7:
         raise SystemExit(
-            "usage: replay_pclass.py RAW.json MANIFEST.json EXPECTED_MANIFEST_SHA256 OBSERVER.py")
+            "usage: replay_pclass.py RAW.json GATES.json MANIFEST.json "
+            "EXPECTED_MANIFEST_SHA256 OBSERVER.py DECIDER.py")
     try:
         raw_bundle = json.loads(Path(argv[1]).read_text())
-        manifest = json.loads(Path(argv[2]).read_text())
+        gates = json.loads(Path(argv[2]).read_text())
+        manifest = json.loads(Path(argv[3]).read_text())
     except (OSError, json.JSONDecodeError) as error:
         raise SystemExit(f"cannot read replay evidence: {type(error).__name__}") from error
-    receipt = replay(raw_bundle, manifest, argv[3], argv[4])
+    receipt = replay(raw_bundle, gates, manifest, argv[4], argv[5], argv[6])
     print(json.dumps(receipt, indent=2))
     return 0 if receipt["classification"] == PASS else 1
 
