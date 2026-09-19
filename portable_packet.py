@@ -40,6 +40,11 @@ def write(root, name, value):
     path.write_bytes(value if isinstance(value, bytes) else rendered(value))
 
 
+def credential_free_environment(*optional):
+    names = ('PATH', 'LANG', 'LC_ALL') + optional
+    return {name: os.environ[name] for name in names if name in os.environ}
+
+
 def read_file(root, name):
     require(isinstance(name, str) and re.fullmatch(r'[A-Za-z0-9_.\-/]+', name)
             and name == str(PurePosixPath(name)) and not name.startswith('/')
@@ -188,7 +193,7 @@ def record(argv, cwd, output, scratch, timeout=120):
     output, scratch = Path(output), Path(scratch)
     require(not output.exists() and not scratch.exists(), 'record.output.exists')
     scratch.mkdir(parents=True)
-    env = {k: os.environ[k] for k in ('PATH', 'LANG', 'LC_ALL') if k in os.environ}
+    env = credential_free_environment()
     env.update(TMPDIR=str(scratch.resolve()), PYTHONDONTWRITEBYTECODE='1')
     proc = subprocess.Popen(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL,
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
@@ -216,7 +221,9 @@ def run_observers(binary, source, output):
     """Selected disposable controls only; build/source is checked before effects."""
     binary, source, output = Path(binary).resolve(), Path(source).resolve(), Path(output).resolve()
     require(not output.exists(), 'output.exists')
-    env = {k: os.environ[k] for k in ('PATH', 'LANG', 'LC_ALL') if k in os.environ}
+    # A runner may select a newer toolchain than its ambient `go`. Preserve that
+    # non-secret selector so `go version -m` can inspect the binary it just built.
+    env = credential_free_environment('GOTOOLCHAIN')
     def checked(argv):
         p = subprocess.run(argv, cwd=source, env=env, capture_output=True, timeout=30)
         require(p.returncode == 0, f'source.measurement:{argv[0]}:exit={p.returncode}')

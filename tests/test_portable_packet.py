@@ -2,6 +2,7 @@
 import copy
 import io
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -85,6 +86,13 @@ class PacketTests(unittest.TestCase):
                 self.root, output, Path(self.temp.name) / 'scratch')
         self.assertEqual(result['exit_code'], 0)
         self.assertEqual((output / 'stdout.bin').read_bytes(), b'[]\n')
+
+    def test_source_measurement_keeps_only_the_explicit_toolchain_selector(self):
+        with patch.dict(os.environ, {'GOTOOLCHAIN': 'go1.26.1',
+                                     'GITHUB_TOKEN': 'private-sentinel'}):
+            environment = packet.credential_free_environment('GOTOOLCHAIN')
+        self.assertEqual(environment['GOTOOLCHAIN'], 'go1.26.1')
+        self.assertNotIn('GITHUB_TOKEN', environment)
 
     def test_manifest_planted_defects(self):
         valid = self.create()
