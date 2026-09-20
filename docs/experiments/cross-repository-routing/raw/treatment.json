@@ -1,0 +1,253 @@
+{
+  "schema": 1,
+  "arm": "treatment",
+  "source": "/workspace/scratch/9af267d7b32b/atom-cross",
+  "observer_sha256": "f63351064edbe0113c0c293d26fcf0e1b105c3c97fd1f2a53b5ab958f3ac42e0",
+  "task_sha256": "db8e7928726bcd48f55bda3864383b9c96cea481f865c245b534ff517619c924",
+  "records": {
+    "legal": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-route-w9lvdslo/legal-claim.json",
+        "/tmp/cross-repository-route-w9lvdslo/legal-readback.json",
+        "/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"action\": \"readback\",\n  \"phase\": \"admitted\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json\",\n      \"readback\": \"/tmp/cross-repository-route-w9lvdslo/legal-readback.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom-cross/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom-cross/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json\",\n      \"/tmp/cross-repository-route-w9lvdslo/legal-readback.json\"\n    ]\n  },\n  \"checkpoint\": \"/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json\"\n}\n",
+      "stderr": "",
+      "output": {
+        "owner": "landing.start",
+        "action": "readback",
+        "phase": "admitted",
+        "classification": null,
+        "next": {
+          "kind": "provider_readback",
+          "owner": "GitHub",
+          "operation": "advance",
+          "required": [
+            "readback"
+          ],
+          "known": {
+            "checkpoint": "/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json",
+            "readback": "/tmp/cross-repository-route-w9lvdslo/legal-readback.json"
+          },
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "requests": {
+            "pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22"
+            },
+            "issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21"
+            },
+            "commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0"
+            },
+            "branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main"
+            },
+            "run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263"
+            },
+            "jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs"
+            }
+          },
+          "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+            "landing",
+            "advance",
+            "/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json",
+            "/tmp/cross-repository-route-w9lvdslo/legal-readback.json"
+          ]
+        },
+        "checkpoint": "/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json"
+      },
+      "checkpoint": "/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json",
+      "readback": "/tmp/cross-repository-route-w9lvdslo/legal-readback.json"
+    },
+    "draft": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-route-w9lvdslo/draft-claim.json",
+        "/tmp/cross-repository-route-w9lvdslo/draft-readback.json",
+        "/tmp/cross-repository-route-w9lvdslo/draft-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"pr.state\",\n    \"value\": {\n      \"state\": \"open\",\n      \"draft\": true\n    }\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom-cross/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid pr.state={'state': 'open', 'draft': True}; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/atom-cross/soodles.py landing start --help\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "pr.state",
+          "value": {
+            "state": "open",
+            "draft": true
+          }
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "operation": "start",
+          "required": [
+            "corrected_input"
+          ],
+          "known": {},
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-route-w9lvdslo/draft-checkpoint.json",
+      "readback": "/tmp/cross-repository-route-w9lvdslo/draft-readback.json"
+    },
+    "missing_step": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-route-w9lvdslo/missing_step-claim.json",
+        "/tmp/cross-repository-route-w9lvdslo/missing_step-readback.json",
+        "/tmp/cross-repository-route-w9lvdslo/missing_step-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"job.acceptance\",\n    \"value\": {\n      \"job\": \"postgres\",\n      \"steps\": [\n        \"Run python scripts/verify_browser.py\",\n        \"Run python scripts/verify_mapping.py\",\n        \"Run python scripts/verify_owner.py\",\n        \"Run python scripts/verify_runtime.py\"\n      ]\n    }\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom-cross/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid job.acceptance={'job': 'postgres', 'steps': ['Run python scripts/verify_browser.py', 'Run python scripts/verify_mapping.py', 'Run python scripts/verify_owner.py', 'Run python scripts/verify_runtime.py']}; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/atom-cross/soodles.py landing start --help\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "job.acceptance",
+          "value": {
+            "job": "postgres",
+            "steps": [
+              "Run python scripts/verify_browser.py",
+              "Run python scripts/verify_mapping.py",
+              "Run python scripts/verify_owner.py",
+              "Run python scripts/verify_runtime.py"
+            ]
+          }
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "operation": "start",
+          "required": [
+            "corrected_input"
+          ],
+          "known": {},
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-route-w9lvdslo/missing_step-checkpoint.json",
+      "readback": "/tmp/cross-repository-route-w9lvdslo/missing_step-readback.json"
+    },
+    "unsupported": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-route-w9lvdslo/unsupported-claim.json",
+        "/tmp/cross-repository-route-w9lvdslo/unsupported-readback.json",
+        "/tmp/cross-repository-route-w9lvdslo/unsupported-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"claim.repository\",\n    \"value\": \"ed3c/unregistered\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom-cross/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid claim.repository='ed3c/unregistered'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/atom-cross/soodles.py landing start --help\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/unregistered"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "operation": "start",
+          "required": [
+            "corrected_input"
+          ],
+          "known": {},
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-route-w9lvdslo/unsupported-checkpoint.json",
+      "readback": "/tmp/cross-repository-route-w9lvdslo/unsupported-readback.json"
+    }
+  },
+  "authorizes_landing": false,
+  "evaluation": {
+    "classification": "VERIFIED",
+    "failures": []
+  },
+  "sensitivity": [
+    {
+      "plant": "wrong_repo_request",
+      "rejected": true
+    },
+    {
+      "plant": "missing_argv",
+      "rejected": true
+    },
+    {
+      "plant": "draft_accepted",
+      "rejected": true
+    },
+    {
+      "plant": "missing_step_accepted",
+      "rejected": true
+    },
+    {
+      "plant": "unsupported_accepted",
+      "rejected": true
+    }
+  ]
+}

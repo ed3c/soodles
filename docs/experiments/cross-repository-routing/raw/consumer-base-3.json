@@ -1,0 +1,132 @@
+{
+  "arm": "baseline",
+  "run": 3,
+  "case_decisions": {
+    "legal": {
+      "refusal": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/ops-reconciliation-copilot"
+        }
+      },
+      "supported_next_action": {
+        "kind": "input",
+        "owner": "supervisor",
+        "operation": "start",
+        "required": [
+          "corrected_input"
+        ],
+        "known": {},
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+          "landing",
+          "start",
+          "--help"
+        ]
+      },
+      "unknowns": [
+        "corrected_input"
+      ]
+    },
+    "draft": {
+      "refusal": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/ops-reconciliation-copilot"
+        }
+      },
+      "supported_next_action": {
+        "kind": "input",
+        "owner": "supervisor",
+        "operation": "start",
+        "required": [
+          "corrected_input"
+        ],
+        "known": {},
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+          "landing",
+          "start",
+          "--help"
+        ]
+      },
+      "unknowns": [
+        "corrected_input"
+      ]
+    },
+    "missing_step": {
+      "refusal": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/ops-reconciliation-copilot"
+        }
+      },
+      "supported_next_action": {
+        "kind": "input",
+        "owner": "supervisor",
+        "operation": "start",
+        "required": [
+          "corrected_input"
+        ],
+        "known": {},
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+          "landing",
+          "start",
+          "--help"
+        ]
+      },
+      "unknowns": [
+        "corrected_input"
+      ]
+    },
+    "unsupported": {
+      "refusal": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/unregistered"
+        }
+      },
+      "supported_next_action": {
+        "kind": "input",
+        "owner": "supervisor",
+        "operation": "start",
+        "required": [
+          "corrected_input"
+        ],
+        "known": {},
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+          "landing",
+          "start",
+          "--help"
+        ]
+      },
+      "unknowns": [
+        "corrected_input"
+      ]
+    }
+  },
+  "wrong_routes": 0,
+  "guessed_repository": 0,
+  "help_reads": 0,
+  "instruction_reads": 3,
+  "unknowns": 4,
+  "classification": "BLOCKED"
+}

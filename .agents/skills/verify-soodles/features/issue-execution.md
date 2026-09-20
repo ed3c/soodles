@@ -1,5 +1,10 @@
 # Bounded Issue execution and supervised handoff
 
+For a supervisor-selected repository other than Soodles, first use the
+[cross-repository delivery](cross-repository-delivery.md) recipe. Repository
+identity comes from the external envelope; do not reconstruct it from the
+current checkout, conversation or Issue prose.
+
 The supervisor selects one real Issue and an external execution envelope. A real
 Noodle-launched scheduler consumes the shared admission entry; Noodle owns the
 order/worktree and dispatches the actual Codex worker. This recipe covers the

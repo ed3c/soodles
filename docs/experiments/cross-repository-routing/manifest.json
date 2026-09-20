@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 111
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/README.md",
+      "baseline_sha256": "b64f6dd4a97563d40887a0f192d6227cf6cd9f4f6f6fc28469c57ce700727949",
+      "treatment_sha256": "da22804e0e59c7b25e0908dfebdf8367af9f2ba3d809e6354136e3674d910c4c"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/issue-execution.md",
+      "baseline_sha256": "ba42e55103d5e6aed97624fb8dce83e8eaf757f28d0818e85fb6512c801c97c9",
+      "treatment_sha256": "4560b947671645281802c14412730031df2ed10c438723ae246506d40602f0ac"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+      "baseline_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+      "treatment_sha256": "65c4b13931528af1f47b470245bd8736e626ee6b22acad6f43573c32dc5c788d"
+    },
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+      "treatment_sha256": "08c1f9bbd56bd06b617c7aa195fed899c38814850a2512d14dfe423cf6c9527a"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "role": "required correction control or raw evidence",
+      "sha256": "675857ba7a5aadb3bb8096320e0919e92cca009548510930ca926a6a19856eab"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/observer.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "f63351064edbe0113c0c293d26fcf0e1b105c3c97fd1f2a53b5ab958f3ac42e0"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/raw/agents.json",
+      "role": "required correction control or raw evidence",
+      "sha256": "9c8c5cb73e229eb25cc24602a743232f9b1be7a102abf5c6c707c04d9a94a7ea"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/raw/baseline.json",
+      "role": "required correction control or raw evidence",
+      "sha256": "1f661e70ca235b5d300f40b281e9af7d00ea8e89cbd76143f7810aab0b51cf06"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/raw/consumer-base-1.json",
+      "role": "required correction control or raw evidence",
+      "sha256": "19466a16aab7335b67ae0638a9bc2c5b6b0ec2aae404565eb3157e68c4e5c0e6"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/raw/consumer-base-2.json",
+      "role": "required correction control or raw evidence",
+      "sha256": "958ce0fce4db643ffead614c240138bb6da6f0d8cfab60e4d849e64e25503ef2"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/raw/consumer-base-3.json",
+      "role": "required correction control or raw evidence",
+      "sha256": "11ef6e99eaa9ff3b854ca4efce30f34c32e44e4c3de80b0598c5ad291c22e10e"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/raw/consumer-treatment-1.json",
+      "role": "required correction control or raw evidence",
+      "sha256": "a22b5ecfb3374db002f5218d3a0d7927dd9de247b607c4c3c69f2917c00528af"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/raw/consumer-treatment-2.json",
+      "role": "required correction control or raw evidence",
+      "sha256": "220bd1856aea1663da24cfa0d33cd729b47cfc70a687d10399924a42204a8387"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/raw/consumer-treatment-3.json",
+      "role": "required correction control or raw evidence",
+      "sha256": "84c7198c0bfabfd513673be70a5b1ace73c45f30722e934417ac99ea8c39b016"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/raw/treatment.json",
+      "role": "required correction control or raw evidence",
+      "sha256": "8af43a0ea58842f69d8304c336a78092d386f65a86001f7013a696813f4e4242"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/results.md",
+      "role": "required correction control or raw evidence",
+      "sha256": "433c3a287b26694445b22892517e17a9a5ce7d93e2d49c83fd8fb5fbc363ec3e"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/task.md",
+      "role": "required correction control or raw evidence",
+      "sha256": "db8e7928726bcd48f55bda3864383b9c96cea481f865c245b534ff517619c924"
+    },
+    {
+      "path": "github_reader.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "fe77af00f49e249a61265e850aff1c22b857018dec1d5cbd28e8d3fd2fabf6aa"
+    },
+    {
+      "path": "issue_admission.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "148b31839529174aa85a3bf8942fd718cdb6ee4ff76b58f327ffd547a46ff9bd"
+    },
+    {
+      "path": "issue_execution.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "f0cf3eaf74e7c3b72d6a0d9970bf3c680a9fe20b029b0591e2fdd275261fd8c9"
+    },
+    {
+      "path": "landing.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "fbe538844bf23dce9b38bb2b32a3fb2e28a4081f49251a772e792ae283b90680"
+    },
+    {
+      "path": "repository_binding.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "9259641b37b7e313037e1bc8bd078db6337c19e9405fcead20df0b8349557af1"
+    },
+    {
+      "path": "soodles.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "979d74967c966a00317794dfa2dc1df5e64893af0c3b9757f31c346cb7bf77cc"
+    },
+    {
+      "path": "tests/test_cross_repository_delivery.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "90c184ca1e2d5f591bb703c6b0f5cf201866db198466d911747ae12e7ad656a3"
+    },
+    {
+      "path": "tests/test_github_reader.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "2461b2313c7498b33dfe7cf0ca4f923d75d0a430698f107ec11a9a07d6fa83e0"
+    },
+    {
+      "path": "tests/test_issue_execution.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "6c912a36b55ee634f3cfc07aa6766739686d09324a78d24cef0ddf2e3d4d4463"
+    },
+    {
+      "path": "tests/test_issue_resume.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "1dccf2727d49dae86499857abc892fdd74d08d38be99f63c46defe2715add43c"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#111"
+  },
+  "authorizes_landing": false
+}

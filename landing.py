@@ -13,8 +13,8 @@ import subprocess
 import tempfile
 
 from soodles import Refusal, checked, clean_env, runtime_check, source_identity
+from repository_binding import PROFILES, git_origins, profile
 
-REPOSITORY = "ed3c/soodles"
 ACTION = "./soodles landing"
 COMMON_CLAIM_FIELDS = {"repository", "issue", "pr", "head", "tree", "base_head", "run_id",
                        "run_attempt", "worktree", "verifier_sha256"}
@@ -45,8 +45,9 @@ def input_next(operation, required, checkpoint=None):
 
 def provider_next(claim, operation, checkpoint):
     base = "https://api.github.com/repos/" + claim["repository"] + "/"
+    base_ref = profile(claim["repository"])["base_ref"]
     paths = {"pr": f"pulls/{claim['pr']}", "issue": f"issues/{claim['issue']}",
-             "commit": f"git/commits/{claim['head']}", "branch": "branches/main",
+             "commit": f"git/commits/{claim['head']}", "branch": "branches/" + base_ref,
              "run": f"actions/runs/{claim['run_id']}", "jobs": f"actions/runs/{claim['run_id']}/jobs"}
     return {**input_next(operation, ["readback"], checkpoint), "kind": "provider_readback", "owner": "GitHub",
             "requests": {key: {"method": "GET", "url": base + path} for key, path in paths.items()},
@@ -82,6 +83,7 @@ def verifier_digest():
     root = Path(__file__).resolve().parent
     return fingerprint({name: hashlib.sha256((root / name).read_bytes()).hexdigest()
                         for name in ("landing.py", "soodles.py", "issue_admission.py",
+                                     "repository_binding.py",
                                      "issue_execution.py", "policy/runtime.lock.json")})
 
 
@@ -130,7 +132,7 @@ def validate_claim(claim, *, verify_verifier=True):
         require(isinstance(ref["path"], str) and Path(ref["path"]).is_absolute(), "claim.envelope.path", ref["path"])
         require(isinstance(ref["sha256"], str) and re.fullmatch("[0-9a-f]{64}", ref["sha256"]),
                 "claim.envelope.sha256", ref["sha256"])
-    require(claim["repository"] == REPOSITORY, "claim.repository", claim["repository"])
+    require(profile(claim["repository"]) is not None, "claim.repository", claim["repository"])
     for key in ("issue", "pr", "run_id", "run_attempt"):
         require(type(claim[key]) is int and claim[key] > 0, "claim." + key, claim[key])
     for key in ("head", "tree", "base_head"):
@@ -158,7 +160,7 @@ def validate_merge_commit(claim, snapshot, *, operation, checkpoint):
                              "its merge_commit_sha must be a complete commit SHA before requesting that commit.")
     require(isinstance(sha, str) and re.fullmatch("[0-9a-f]{40}", sha),
             "pr.merge_commit_sha", sha, next_action)
-    url = f"https://api.github.com/repos/{REPOSITORY}/git/commits/{sha}"
+    url = f"https://api.github.com/repos/{claim['repository']}/git/commits/{sha}"
     next_action["requests"]["merge_commit"] = {"method": "GET", "url": url}
     next_action["reason"] = (f"Supply readback.merge_commit from GET {url}; re-enter {operation} "
                              "with fresh provider readback. Retry only after the readback materially changes.")
@@ -205,6 +207,8 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
     subject = root / ".worktrees" / claim["worktree"]
     try:
         envelope = load_external_envelope(ref["path"], ref["sha256"], root)
+        require(envelope["repository"] == claim["repository"],
+                "claim.envelope.repository", envelope["repository"])
         require(envelope["issue"] == claim["issue"], "claim.envelope.issue", envelope["issue"])
         for key in ("control_root", "worktree"):
             require(envelope["execution"][key] == claim[key], "claim.envelope." + key, envelope["execution"][key])
@@ -221,37 +225,45 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
 
 
 def validate_snapshot(claim, snapshot, *, operation, checkpoint):
+    repository = claim["repository"]
+    acceptance = profile(repository)
+    base_ref = acceptance["base_ref"]
     pr, issue, run, jobs, commit = (snapshot[k] for k in ("pr", "issue", "run", "jobs", "commit"))
     for kind, obj, number in (("pr", pr, claim["pr"]), ("issue", issue, claim["issue"])):
         require(obj.get("number") == number, kind + ".number", obj.get("number"))
         suffix = "pull" if kind == "pr" else "issues"
-        require(obj.get("html_url") == f"https://github.com/{REPOSITORY}/{suffix}/{number}", kind + ".html_url", obj.get("html_url"))
+        require(obj.get("html_url") == f"https://github.com/{repository}/{suffix}/{number}", kind + ".html_url", obj.get("html_url"))
     refs = re.findall(r"^Refs ([^\n\r]+)\s*$", pr.get("body") or "", re.MULTILINE)
-    require(refs == [f"{REPOSITORY}#{claim['issue']}"], "pr.Refs", refs)
+    require(refs == [f"{repository}#{claim['issue']}"], "pr.Refs", refs)
     require(not re.search(r"\b(?:closes?|fix(?:es)?|resolves?)\s+(?:\S+#|#)\d+", pr.get("body") or "", re.I), "pr.auto_close", "must use Refs")
-    require(pr["head"]["repo"]["full_name"] == REPOSITORY, "pr.head.repository", pr["head"]["repo"]["full_name"])
-    require(pr["base"]["repo"]["full_name"] == REPOSITORY and pr["base"]["ref"] == "main", "pr.base", pr["base"])
+    require(pr["head"]["repo"]["full_name"] == repository, "pr.head.repository", pr["head"]["repo"]["full_name"])
+    require(pr["base"]["repo"]["full_name"] == repository and pr["base"]["ref"] == base_ref, "pr.base", pr["base"])
     require(pr["head"]["sha"] == claim["head"], "pr.head.sha", pr["head"]["sha"])
     require(pr["head"]["ref"] == claim["worktree"], "pr.head.ref", pr["head"]["ref"])
     require(commit.get("sha") == claim["head"] and commit["tree"]["sha"] == claim["tree"], "commit.identity", commit.get("sha"))
     require(run.get("id") == claim["run_id"] and run.get("run_attempt") == claim["run_attempt"], "run.identity", run.get("id"))
-    require(run["repository"]["full_name"] == REPOSITORY and run["head_repository"]["full_name"] == REPOSITORY,
+    require(run["repository"]["full_name"] == repository and run["head_repository"]["full_name"] == repository,
             "run.repository", run["repository"]["full_name"])
     require(run.get("head_sha") == claim["head"], "run.head_sha", run.get("head_sha"))
-    require(run.get("event") == "pull_request" and run.get("path") == ".github/workflows/runtime.yml", "run.workflow", run.get("path"))
+    require(run.get("event") == "pull_request" and run.get("path") == acceptance["workflow_path"], "run.workflow", run.get("path"))
     require(run.get("status") == "completed" and run.get("conclusion") == "success", "run.conclusion", run.get("conclusion"))
-    require(jobs.get("total_count") == len(jobs["jobs"]) == 1, "jobs.count", jobs.get("total_count"))
-    job = jobs["jobs"][0]
-    require(job.get("name") == "runtime-evidence" and job.get("run_id") == claim["run_id"] and job.get("head_sha") == claim["head"], "job.identity", job.get("id"))
-    require(job.get("status") == "completed" and job.get("conclusion") == "success", "job.conclusion", job.get("conclusion"))
-    steps = job.get("steps") or []
-    require(any(s.get("name") == "Canonical acceptance on the exact candidate head" for s in steps), "job.acceptance", steps)
+    expected_jobs = acceptance["jobs"]
+    require(jobs.get("total_count") == len(jobs.get("jobs", [])) == len(expected_jobs), "jobs.count", jobs.get("total_count"))
+    observed_jobs = {job.get("name"): job for job in jobs["jobs"]}
+    require(set(observed_jobs) == set(expected_jobs), "jobs.names", sorted(observed_jobs))
+    for name, required_steps in expected_jobs.items():
+        job = observed_jobs[name]
+        require(job.get("run_id") == claim["run_id"] and job.get("head_sha") == claim["head"], "job.identity", job.get("id"))
+        require(job.get("status") == "completed" and job.get("conclusion") == "success", "job.conclusion", job.get("conclusion"))
+        steps = job.get("steps") or []
+        names = {s.get("name") for s in steps}
+        require(all(step in names for step in required_steps), "job.acceptance", {"job": name, "steps": sorted(names)})
+        require(all(s.get("status") == "completed" and s.get("conclusion") == "success" for s in steps), "job.steps", steps)
     if (claim_route(claim) == "cloud"
             and "soodles:execution-v1" in (issue.get("body") or "")):
         require(any(s.get("name") == "Verify exact candidate evidence from fresh Issue readback"
-                    for s in steps), "job.candidate_evidence", steps)
-    require(all(s.get("status") == "completed" and s.get("conclusion") == "success" for s in steps), "job.steps", steps)
-    require(snapshot["branch"].get("name") == "main", "branch.name", snapshot["branch"].get("name"))
+                    for job in observed_jobs.values() for s in (job.get("steps") or [])), "job.candidate_evidence", observed_jobs)
+    require(snapshot["branch"].get("name") == base_ref, "branch.name", snapshot["branch"].get("name"))
     if not pr.get("merged"):
         require(pr.get("state") == "open" and not pr.get("draft"), "pr.state", {"state": pr.get("state"), "draft": pr.get("draft")})
         require(issue.get("state") == "open", "issue.state", issue.get("state"))
@@ -316,7 +328,7 @@ def validate_comparison(snapshot, field, base, head, *, claim, checkpoint, opera
     for name, value in (("base", base), ("head", head)):
         require(isinstance(value, str) and re.fullmatch("[0-9a-f]{40}", value),
                 field + ".request." + name, value)
-    url = f"https://api.github.com/repos/{REPOSITORY}/compare/{base}...{head}"
+    url = f"https://api.github.com/repos/{claim['repository']}/compare/{base}...{head}"
     next_action = provider_next(claim, operation, checkpoint)
     next_action["requests"][field] = {"method": "GET", "url": url}
     if operation == "readmit":
@@ -504,12 +516,12 @@ def dispatch(checkpoint, snapshot):
         if delivery["action"] == "merge":
             require(not snapshot["pr"].get("merged") and snapshot["pr"].get("mergeable") is True,
                     "dispatch.pr", "merge no longer eligible", provider_next(claim, "advance", path))
-            request = {"action": "merge", "repository_full_name": REPOSITORY, "pr_number": claim["pr"],
+            request = {"action": "merge", "repository_full_name": claim["repository"], "pr_number": claim["pr"],
                        "expected_head_sha": claim["head"], "merge_method": "merge"}
         else:
             require(snapshot["pr"].get("merged") and snapshot["issue"]["state"] == "open",
                     "dispatch.issue", "closure no longer eligible", provider_next(claim, "advance", path))
-            request = {"action": "close", "repository_full_name": REPOSITORY, "issue_number": claim["issue"],
+            request = {"action": "close", "repository_full_name": claim["repository"], "issue_number": claim["issue"],
                        "state": "closed", "state_reason": "completed"}
         delivery["status"] = "offered"
         state["writes_offered"].append(delivery["action"])
@@ -576,11 +588,11 @@ def reconcile(checkpoint, binary):
         require(state["phase"] in {"awaiting_reconcile", "reconciling", "resolved"}, "checkpoint.phase", state["phase"])
         root = Path(claim["control_root"]).resolve()
         require(not path.is_relative_to(root), "checkpoint.path", "must be outside source/worktree lifecycle")
-        origins = {f"https://github.com/{REPOSITORY}.git"}
-        if "execution_envelope" in claim:
-            origins.add(f"git@github.com:{REPOSITORY}.git")
+        acceptance = profile(claim["repository"])
+        base_ref = acceptance["base_ref"]
+        origins = git_origins(claim["repository"])
         require(checked(["git", "remote", "get-url", "origin"], root) in origins, "origin", "unexpected; no automatic correction")
-        require(checked(["git", "branch", "--show-current"], root) == "main", "local.branch", "expected main")
+        require(checked(["git", "branch", "--show-current"], root) == base_ref, "local.branch", "expected " + base_ref)
         before = source_identity(root)
         envelope = execution_binding(claim, operation="reconcile", checkpoint=path)
         if envelope is None:
@@ -641,9 +653,10 @@ def reconcile(checkpoint, binary):
         state["phase"] = "reconciling"
         save(path, state)
         fetch_main(root)
-        checked(["git", "merge-base", "--is-ancestor", state["merge_sha"], "origin/main"], root)
-        checked(["git", "merge-base", "--is-ancestor", before["head"], "origin/main"], root)
-        checked(["git", "merge", "--ff-only", "origin/main"], root)
+        remote_ref = "origin/" + base_ref
+        checked(["git", "merge-base", "--is-ancestor", state["merge_sha"], remote_ref], root)
+        checked(["git", "merge-base", "--is-ancestor", before["head"], remote_ref], root)
+        checked(["git", "merge", "--ff-only", remote_ref], root)
         if envelope is not None:
             from issue_execution import completed_original_order, read_owner
             try:

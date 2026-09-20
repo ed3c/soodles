@@ -1,5 +1,11 @@
 # Supervised delivery
 
+When the claim names a registered external repository, use the
+[cross-repository delivery](cross-repository-delivery.md) recipe for its
+repository-owned acceptance and exact provider paths. Continue to consume only
+the current landing owner output; never replace its repository or assemble a
+provider write from prose.
+
 A supervisor admits one exact Issue/PR claim to an immutable external landing owner. That owner emits guarded intent and exact transport requests. GitHub remains the provider; Noodle owns local reconciliation. This feature does not start autonomous scheduling or a Codex Agent.
 
 ## Preconditions and entry

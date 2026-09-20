@@ -11,8 +11,8 @@ import re
 import subprocess
 
 from soodles import Refusal
+from repository_binding import issue_urls, profile, valid_name
 
-REPOSITORY = "ed3c/soodles"
 MARKER = "soodles:execution-v1"
 CONTRACT_V1_FIELDS = {
     "schema", "trigger", "source", "owner", "changes", "write_paths",
@@ -148,7 +148,9 @@ def parse_contract(body):
 def validate_envelope(envelope):
     exact_object(envelope, ENVELOPE_FIELDS, "envelope.fields")
     require(type(envelope["schema"]) is int and envelope["schema"] == 1, "envelope.schema", envelope["schema"])
-    require(envelope["repository"] == REPOSITORY, "envelope.repository", envelope["repository"])
+    require(valid_name(envelope["repository"]) and profile(envelope["repository"]) is not None,
+            "envelope.repository", envelope["repository"],
+            owner="supervisor", required="supported_repository_envelope")
     require(type(envelope["issue"]) is int and envelope["issue"] > 0, "envelope.issue", envelope["issue"])
     for field, length in (("body_sha256", 64), ("base_head", 40)):
         require(isinstance(envelope[field], str) and re.fullmatch(r"[0-9a-f]{" + str(length) + "}", envelope[field]),
@@ -181,8 +183,10 @@ def validate_issue(readback, envelope, *, completed=False):
     source = {"owner": "GitHub", "required": "fresh_issue_readback"}
     require(isinstance(readback, dict), "issue.readback", readback, **source)
     number = envelope["issue"]
-    for field, expected in (("url", f"https://api.github.com/repos/{REPOSITORY}/issues/{number}"),
-                            ("html_url", f"https://github.com/{REPOSITORY}/issues/{number}"),
+    repository = envelope["repository"]
+    api_url, html_url = issue_urls(repository, number)
+    for field, expected in (("url", api_url),
+                            ("html_url", html_url),
                             ("number", number)):
         actual = readback.get(field)
         require(type(actual) is type(expected) and actual == expected, "issue." + field, actual, **source)
@@ -203,7 +207,7 @@ def validate_issue(readback, envelope, *, completed=False):
     require(contract["owner"] == envelope["owner"], "envelope.owner", envelope["owner"])
     require(contract["write_paths"] == envelope["write_paths"], "envelope.write_paths", envelope["write_paths"])
     return {
-        "repository": REPOSITORY, "issue": number, "body_sha256": envelope["body_sha256"],
+        "repository": repository, "issue": number, "body_sha256": envelope["body_sha256"],
         "body_updated_at": envelope["body_updated_at"], "owner": contract["owner"],
         "write_paths": envelope["write_paths"], "base_head": envelope["base_head"],
         "execution": envelope["execution"], "contract": contract, "authorizes_landing": False,
@@ -291,7 +295,7 @@ def validate_candidate_evidence(root, base, head, binding, paths):
     issue = manifest["issue"]
     exact_object(issue, {"repository", "number"},
                  "candidate.evidence_manifest.issue")
-    require(issue == {"repository": REPOSITORY, "number": binding.get("issue")},
+    require(issue == {"repository": binding.get("repository"), "number": binding.get("issue")},
             "candidate.evidence_manifest.issue", issue)
     owner = manifest["owner"]
     exact_object(owner, {"name", "tool", "authorization"},
@@ -301,7 +305,7 @@ def validate_candidate_evidence(root, base, head, binding, paths):
     require(owner["tool"] == "issue_admission.validate_delivery_paths",
             "candidate.evidence_manifest.owner.tool", owner["tool"])
     require(owner["authorization"]
-            == f"{REPOSITORY}#{binding.get('issue')}",
+            == f"{binding.get('repository')}#{binding.get('issue')}",
             "candidate.evidence_manifest.owner.authorization",
             owner["authorization"])
     require(manifest["authorizes_landing"] is False,
@@ -385,12 +389,17 @@ def verify_candidate(root, base, head, readback):
     require(type(number) is int and number > 0,
             "candidate.issue.number", number,
             owner="GitHub", required="exact_issue_readback")
-    require(readback.get("url")
-            == f"https://api.github.com/repos/{REPOSITORY}/issues/{number}",
+    match = re.fullmatch(r"https://api\.github\.com/repos/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)/issues/[0-9]+",
+                         str(readback.get("url")))
+    repository = match.group(1) if match else None
+    require(repository is not None and profile(repository) is not None,
+            "candidate.issue.repository", repository,
+            owner="supervisor", required="supported_repository_readback")
+    api_url, html_url = issue_urls(repository, number)
+    require(readback.get("url") == api_url,
             "candidate.issue.url", readback.get("url"),
             owner="GitHub", required="exact_issue_readback")
-    require(readback.get("html_url")
-            == f"https://github.com/{REPOSITORY}/issues/{number}",
+    require(readback.get("html_url") == html_url,
             "candidate.issue.html_url", readback.get("html_url"),
             owner="GitHub", required="exact_issue_readback")
     require("pull_request" not in readback,
@@ -413,6 +422,7 @@ def verify_candidate(root, base, head, readback):
             owner="Git", required="exact_candidate_checkout")
     binding = {
         "issue": number,
+        "repository": repository,
         "base_head": base,
         "write_paths": contract["write_paths"],
         "contract": contract,

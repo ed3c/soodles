@@ -66,7 +66,8 @@ class IssueExecutionTests(unittest.TestCase):
     def save_owner(self):
         (self.runtime / "state.snapshot.json").write_text(json.dumps(self.snapshot))
 
-    def reader(self, number):
+    def reader(self, repository, number):
+        self.assertEqual(repository, self.envelope["repository"])
         self.assertEqual(number, 18)
         return copy.deepcopy(self.issue)
 

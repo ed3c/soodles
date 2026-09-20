@@ -1,0 +1,153 @@
+{
+  "arm": "treatment",
+  "run": 3,
+  "case_decisions": {
+    "legal": {
+      "action": "obtain every GET in output.next.requests and save the fresh provider readback",
+      "selected_by": {
+        "field": "output.next.kind",
+        "value": "provider_readback"
+      },
+      "owner": "GitHub",
+      "operation": "advance",
+      "required": [
+        "readback"
+      ],
+      "requests": {
+        "pr": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22"
+        },
+        "issue": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21"
+        },
+        "commit": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0"
+        },
+        "branch": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main"
+        },
+        "run": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263"
+        },
+        "jobs": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs"
+        }
+      },
+      "argv_after_readback": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json",
+        "/tmp/cross-repository-route-w9lvdslo/legal-readback.json"
+      ],
+      "known": {
+        "checkpoint": "/tmp/cross-repository-route-w9lvdslo/legal-checkpoint.json",
+        "readback": "/tmp/cross-repository-route-w9lvdslo/legal-readback.json"
+      },
+      "unknown": "fresh provider readback"
+    },
+    "draft": {
+      "action": "obtain corrected_input from the supervisor before retrying landing.start",
+      "selected_by": {
+        "field": "output.next.required",
+        "value": [
+          "corrected_input"
+        ]
+      },
+      "status": "refused",
+      "invalid": {
+        "field": "pr.state",
+        "value": {
+          "state": "open",
+          "draft": true
+        }
+      },
+      "owner": "supervisor",
+      "operation": "start",
+      "known": {},
+      "help_argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+        "landing",
+        "start",
+        "--help"
+      ],
+      "unknown": "corrected_input"
+    },
+    "missing_step": {
+      "action": "obtain corrected_input from the supervisor before retrying landing.start",
+      "selected_by": {
+        "field": "output.next.required",
+        "value": [
+          "corrected_input"
+        ]
+      },
+      "status": "refused",
+      "invalid": {
+        "field": "job.acceptance",
+        "value": {
+          "job": "postgres",
+          "steps": [
+            "Run python scripts/verify_browser.py",
+            "Run python scripts/verify_mapping.py",
+            "Run python scripts/verify_owner.py",
+            "Run python scripts/verify_runtime.py"
+          ]
+        }
+      },
+      "owner": "supervisor",
+      "operation": "start",
+      "known": {},
+      "help_argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+        "landing",
+        "start",
+        "--help"
+      ],
+      "unknown": "corrected_input"
+    },
+    "unsupported": {
+      "action": "obtain corrected_input from the supervisor before retrying landing.start",
+      "selected_by": {
+        "field": "output.next.required",
+        "value": [
+          "corrected_input"
+        ]
+      },
+      "status": "refused",
+      "invalid": {
+        "field": "claim.repository",
+        "value": "ed3c/unregistered"
+      },
+      "owner": "supervisor",
+      "operation": "start",
+      "known": {},
+      "help_argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross/soodles.py",
+        "landing",
+        "start",
+        "--help"
+      ],
+      "unknown": "corrected_input"
+    }
+  },
+  "wrong_routes": 0,
+  "guessed_repository": 0,
+  "help_reads": 0,
+  "instruction_reads": 2,
+  "unknowns": 4,
+  "classification": "VERIFIED"
+}

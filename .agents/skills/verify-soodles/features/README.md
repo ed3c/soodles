@@ -11,6 +11,7 @@ Scoped runtime/delivery features and #18's physically observed bounded execution
 | [Supervised delivery](supervised-delivery.md) | Fixed external landing owner and GitHub connector | Actual admitted PR/Issue, merge/closure readbacks and Noodle terminal reconciliation |
 | [Delivery recovery](delivery-recovery.md) | Existing process-fault and Noodle cleanup oracles | Local provider fixtures, real child processes/runtime; no provider landing authority |
 | [Order handoff](order-handoff.md) | Landing current-next consumer and pinned Noodle A → cleanup → B lifecycle | Local provider fixtures; real Sessions, typed outcomes, exits, worktrees and cleanup |
+| [Cross-repository delivery](cross-repository-delivery.md) | Supervisor-selected supported repository through Issue read, admission, worker and landing owners | Ops acceptance fixtures bound to its real candidate/run; no provider write or dependency-satisfaction claim |
 
 The standalone runtime and recovery recipes require the admitted Linux amd64 binary. The runtime driver provides command tracing, an external receipt and scratch teardown; its first runtime check is both doctor and positive drive. Bounded Issue execution has a distinct supervisor-selected carrier and preflight. Follow the selected recipe; do not use a platform label as evidence for another route.
 
@@ -18,4 +19,4 @@ Every mapped feature must be driven during a full maintenance pass. A feature ou
 
 Supervised delivery requires a real admitted subject. When none exists, report that feature blocked for a full live pass; do not create a task, mutation or PR solely to tick a maintenance box. Prior #19/#21 receipts are historical context, not a newly driven provider cycle. A legitimately changed maintenance atom can supply its own live delivery after final-candidate validation, and the pass remains incomplete until its terminal readback.
 
-Quality reporting, general scheduling and Issue DAG execution remain unmapped. The order-handoff recipe proves only its bounded A → cleanup → B lifecycle. This inventory is N-class. Recipes remain P-class consumers of owner output, never another state machine or acceptance authority.
+Quality reporting, general scheduling and Issue DAG execution remain unmapped. The order-handoff recipe proves only its bounded A → cleanup → B lifecycle. Cross-repository delivery proves repository routing and repository-owned acceptance only; dependency satisfaction remains unmapped. This inventory is N-class. Recipes remain P-class consumers of owner output, never another state machine or acceptance authority.
