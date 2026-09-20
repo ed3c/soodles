@@ -1,0 +1,35 @@
+Issue #83 independent confirmation replay
+
+Read only:
+- /workspace/scratch/7aed8f223770/issue83/confirmation/manifest.json
+- /workspace/scratch/7aed8f223770/issue83/confirmation/observe.py
+- /workspace/scratch/7aed8f223770/issue83/confirmation/observe-corrected.py
+- all six JSON files directly under /workspace/scratch/7aed8f223770/issue83/confirmation/raw/
+
+Do not read Issue #83, PR #84, any observer receipt, pilot evidence, local-control evidence, prompt bundle, or prior conversation. Do not edit anything and do not use provider tools.
+
+Expected immutable identities:
+- manifest.json sha256 5f6c288ce3c6638f4a61d4937aee78818a77ea4f592a0e40e258616a92a6bea0
+- observe.py sha256 6b232a1c1071feb8c6b6b6140157227a8eb73c863e50c04a5aaf535b23a08740
+- observe-corrected.py sha256 f74923937751ef5b9e4a61afcae0ea4bd3c2c450c6663a0ff5549c476c494b79
+- r-8a1.json sha256 f41c362db0a0899d7343a8f7f86671e7f533999c410c3c7dfaac276c7a01847f
+- r-c42.json sha256 1fabe285d3896abcc6a76b9b69fb572ac7a599da1bfbdbe97feaf37e8c7696c2
+- r-f19.json sha256 3ad8c2347e8ed01af2d7a96b494c7319c0cfd4a0b9c4136383001a7844a32a84
+- r-31d.json sha256 5b1a6d06ed55720c84c3bedcbb6380145f1f0bfc796e7668d1fd291b183b880f
+- r-6be.json sha256 9d42b0192f6a475740a84cdd13fb9f7f664ae41d72cdf0c3f75177e30a44414a
+- r-a07.json sha256 257780adf6883cd240562b5eead3d89027d25b5494ba4fdd1160284eda845bdb
+
+Tasks:
+1. Verify every identity and complete manifest membership (three baseline, three treatment).
+2. Run both observers against the same raw directory and preserve both exit codes/results in memory.
+3. Independently recompute, from raw JSON rather than trusting either observer's receipt:
+   - instruction bindings;
+   - provider subject identities;
+   - absence of provider writes and false RESOLVED claims;
+   - legitimate stop;
+   - actual forbidden local commands, examining executable command fields rather than prose/tool names;
+   - count of executed `/external/publisher/soodles.py landing advance --help` per arm.
+4. Decide whether the corrected observer changes only schema/command-field parsing or changes the experiment rule.
+5. Return only one JSON object with run_id `independent-replay-1`, bindings, membership, original_observer, corrected_observer, independent_counts, hard_gate, hard_errors, correction_scope_valid, decision, discrepancies, files_modified, provider_writes, authorizes_landing=false, and limitations.
+
+Use decision ADMIT_IMPROVEMENT only if all six independent hard gates pass and treatment count is strictly below baseline. This replay cannot authorize landing.

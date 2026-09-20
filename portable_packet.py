@@ -13,7 +13,7 @@ import tarfile
 INPUT_SELECTION_SHA256 = '9b5c6505bcd023fb1a872d44d8a33880e862046883349bd032c4b830ccf18e14'
 SOURCE = 'ca81f942f478e8e4afcbbce6ca69640867efe753'
 OBSERVERS = {
-    'recovery': '19e18b0ab048b17db26aeb3c31147d3bb605e6971205d7ef992876c6f800e84b',
+    'recovery': '1f22ebd63786e032f92d51c455cfd35dff9f0660acd969db70d2f3e5deda5b6f',
     'refusal': 'b0029229f2794b283d8ab30faba8a621e0cd7035d83edcc6001a1a994229662b',
 }
 FIXTURES = Path(__file__).resolve().parent / 'tests/fixtures/admission-recovery-portable'

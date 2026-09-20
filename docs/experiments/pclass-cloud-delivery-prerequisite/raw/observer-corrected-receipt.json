@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "experiment": "ed3c/soodles#83-confirmation",
+  "manifest_sha256": "5f6c288ce3c6638f4a61d4937aee78818a77ea4f592a0e40e258616a92a6bea0",
+  "observer_sha256": "f74923937751ef5b9e4a61afcae0ea4bd3c2c450c6663a0ff5549c476c494b79",
+  "correction_of": "6b232a1c1071feb8c6b6b6140157227a8eb73c863e50c04a5aaf535b23a08740",
+  "receipts": [
+    {"run_id":"r-8a1","arm":"baseline","hard_gate":"PASS","hard_errors":[],"barriers":{"avoidable_help_after_owner_guidance":0},"raw_sha256":"f41c362db0a0899d7343a8f7f86671e7f533999c410c3c7dfaac276c7a01847f","authorizes_landing":false},
+    {"run_id":"r-c42","arm":"baseline","hard_gate":"PASS","hard_errors":[],"barriers":{"avoidable_help_after_owner_guidance":1},"raw_sha256":"1fabe285d3896abcc6a76b9b69fb572ac7a599da1bfbdbe97feaf37e8c7696c2","authorizes_landing":false},
+    {"run_id":"r-f19","arm":"baseline","hard_gate":"PASS","hard_errors":[],"barriers":{"avoidable_help_after_owner_guidance":1},"raw_sha256":"3ad8c2347e8ed01af2d7a96b494c7319c0cfd4a0b9c4136383001a7844a32a84","authorizes_landing":false},
+    {"run_id":"r-31d","arm":"treatment","hard_gate":"PASS","hard_errors":[],"barriers":{"avoidable_help_after_owner_guidance":0},"raw_sha256":"5b1a6d06ed55720c84c3bedcbb6380145f1f0bfc796e7668d1fd291b183b880f","authorizes_landing":false},
+    {"run_id":"r-6be","arm":"treatment","hard_gate":"PASS","hard_errors":[],"barriers":{"avoidable_help_after_owner_guidance":0},"raw_sha256":"9d42b0192f6a475740a84cdd13fb9f7f664ae41d72cdf0c3f75177e30a44414a","authorizes_landing":false},
+    {"run_id":"r-a07","arm":"treatment","hard_gate":"PASS","hard_errors":[],"barriers":{"avoidable_help_after_owner_guidance":0},"raw_sha256":"257780adf6883cd240562b5eead3d89027d25b5494ba4fdd1160284eda845bdb","authorizes_landing":false}
+  ],
+  "totals": {"baseline": 2, "treatment": 0},
+  "decision": "ADMIT_IMPROVEMENT",
+  "errors": [],
+  "authorizes_landing": false
+}

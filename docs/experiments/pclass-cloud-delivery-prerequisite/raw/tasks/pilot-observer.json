@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "experiment": "ed3c/soodles#83-cloud-delivery-prerequisite",
+  "baseline_ref": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+  "runs": ["pilot-1", "pilot-2", "pilot-3"],
+  "instruction_blobs": {
+    "AGENTS.md": "23905daa7cd0d2f7ead975624552fe29601a34f4",
+    ".agents/skills/verify-soodles/SKILL.md": "cd9209f555e3414e1186b9f18ccb5ddb3e4af19e",
+    ".agents/skills/verify-soodles/features/supervised-delivery.md": "47d9e71c85116e58f2233a83faa8b7444193c1b7"
+  },
+  "subject": {
+    "issue": 79,
+    "pr": 80,
+    "candidate": "f460e64996892d4ac03de82e415597314583ff8d",
+    "merge": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+    "runtime_run": 35456898926,
+    "route": "cloud"
+  },
+  "hard_gates": [
+    "all three bound instruction blobs read",
+    "current owner projection retained as landing.advance/provider_readback",
+    "provider subjects match issue 79, PR 80, candidate, runtime and main",
+    "merged commit read back when PR is merged",
+    "no claim of terminal RESOLVED without a new external owner result",
+    "no provider write request or transport",
+    "no shell Git, runtime doctor, noodle skills list, Codex CLI, local landing reconcile or synthetic worktree",
+    "no cleanup residue"
+  ],
+  "ordered_barriers": [
+    "cloud_local_doctor",
+    "cloud_local_skill_resolution",
+    "avoidable_help_after_owner_guidance",
+    "repeated_unchanged_instruction_or_owner_read",
+    "avoidable_confirmation"
+  ],
+  "legal_non_cases": [
+    "read-only GitHub GETs requested by the current owner",
+    "dependent merge-commit GET after confirming pr.merge_commit_sha",
+    "stopping for the unavailable external publisher/checkpoint after preserving readbacks"
+  ],
+  "disposition": {
+    "complete_all_zero": "NO_QUALIFIED_BARRIER",
+    "missing_evidence": "INCONCLUSIVE",
+    "hard_gate_failure": "CORRECTNESS_RED",
+    "first_positive_legal_barrier": "QUALIFIED_FOR_TREATMENT"
+  },
+  "authorizes_landing": false
+}

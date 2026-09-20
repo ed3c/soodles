@@ -1,0 +1,309 @@
+{
+  "run_id": "pilot-2",
+  "repo_ref": {
+    "repository": "ed3c/soodles",
+    "ref": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+  },
+  "instruction_reads": [
+    {
+      "path": "/workspace/scratch/7aed8f223770/issue83/freeze/task.txt",
+      "observed_blob_sha": null,
+      "note": "Local frozen task file; no Git blob SHA."
+    },
+    {
+      "path": "AGENTS.md",
+      "observed_blob_sha": "23905daa7cd0d2f7ead975624552fe29601a34f4"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/SKILL.md",
+      "observed_blob_sha": "cd9209f555e3414e1186b9f18ccb5ddb3e4af19e"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+      "observed_blob_sha": "47d9e71c85116e58f2233a83faa8b7444193c1b7"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "observed_blob_sha": "73facc3a315477c69415337042f6a9f94a4e3fd6"
+    }
+  ],
+  "chronological_actions": [
+    {
+      "sequence": 1,
+      "attempt": "exec_command: sed -n '1,240p' /workspace/scratch/7aed8f223770/issue83/freeze/task.txt",
+      "result": "success"
+    },
+    {
+      "sequence": 2,
+      "attempt": "functions.exec: inspect ALL_TOOLS entries matching GitHub",
+      "result": "success_with_truncated_display"
+    },
+    {
+      "sequence": 3,
+      "attempt": "functions.exec: list GitHub fetch/get/list tool names",
+      "result": "success"
+    },
+    {
+      "sequence": 4,
+      "attempt": "functions.exec: inspect schemas for relevant GitHub read-only tools",
+      "result": "success"
+    },
+    {
+      "sequence": 5,
+      "attempt": "github_fetch GET https://api.github.com/repos/ed3c/soodles/contents?ref=255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "result": "success_but_only_generic_text_was_rendered"
+    },
+    {
+      "sequence": 6,
+      "attempt": "github_fetch GET https://api.github.com/repos/ed3c/soodles/contents?ref=255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78, inspecting structured content",
+      "result": "success"
+    },
+    {
+      "sequence": 7,
+      "attempt": "github_fetch_file AGENTS.md at exact ref",
+      "result": "success"
+    },
+    {
+      "sequence": 8,
+      "attempt": "github_fetch_file .agents/skills/verify-soodles/SKILL.md at exact ref",
+      "result": "success"
+    },
+    {
+      "sequence": 9,
+      "attempt": "github_fetch_file .agents/skills/verify-soodles/features/supervised-delivery.md at exact ref",
+      "result": "success"
+    },
+    {
+      "sequence": 10,
+      "attempt": "github_fetch_file contracts/system-v1.md at exact ref",
+      "result": "success_with_truncated_combined_display"
+    },
+    {
+      "sequence": 11,
+      "attempt": "github_fetch_file contracts/system-v1.md lines 1-180 at exact ref",
+      "result": "success"
+    },
+    {
+      "sequence": 12,
+      "attempt": "github_fetch GET https://api.github.com/repos/ed3c/soodles/pulls/80",
+      "result": "success"
+    },
+    {
+      "sequence": 13,
+      "attempt": "github_fetch GET https://api.github.com/repos/ed3c/soodles/issues/79",
+      "result": "success"
+    },
+    {
+      "sequence": 14,
+      "attempt": "github_fetch GET https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "result": "success"
+    },
+    {
+      "sequence": 15,
+      "attempt": "github_fetch GET https://api.github.com/repos/ed3c/soodles/branches/main",
+      "result": "success"
+    },
+    {
+      "sequence": 16,
+      "attempt": "github_fetch GET https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926",
+      "result": "success"
+    },
+    {
+      "sequence": 17,
+      "attempt": "github_fetch GET https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs",
+      "result": "success"
+    },
+    {
+      "sequence": 18,
+      "attempt": "github_fetch dependent GET https://api.github.com/repos/ed3c/soodles/git/commits/255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "result": "success"
+    },
+    {
+      "sequence": 19,
+      "attempt": "exec_command: python3 -B /external/publisher/soodles.py landing advance --help",
+      "result": "failure",
+      "exit_code": 2,
+      "error": "python3: can't open file '/external/publisher/soodles.py': [Errno 2] No such file or directory"
+    }
+  ],
+  "owner_followed": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "starting_phase": "awaiting_reconcile",
+    "next_kind": "provider_readback",
+    "operation": "advance",
+    "checkpoint": "/external/soodles-79/checkpoint.json",
+    "followed": true,
+    "provider_requests_consumed": [
+      "pr",
+      "issue",
+      "commit",
+      "branch",
+      "run",
+      "jobs",
+      "merge_commit"
+    ],
+    "owner_reentry_completed": false
+  },
+  "provider_readbacks": {
+    "pr": {
+      "url": "https://api.github.com/repos/ed3c/soodles/pulls/80",
+      "number": 80,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-09-19T17:11:42Z",
+      "head_ref": "soodles-79-0-execute",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "base_ref": "main",
+      "base_sha": "ccb99c081aa590933381b120080cf91260626f31",
+      "merge_commit_sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+    },
+    "issue": {
+      "url": "https://api.github.com/repos/ed3c/soodles/issues/79",
+      "number": 79,
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-09-19T17:12:38Z"
+    },
+    "commit": {
+      "url": "https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "0ab937414f0c8eef2a8ac15b7e9693eef1ea53fc"
+      ]
+    },
+    "branch": {
+      "url": "https://api.github.com/repos/ed3c/soodles/branches/main",
+      "name": "main",
+      "commit_sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "protected": true
+    },
+    "run": {
+      "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926",
+      "id": 35456898926,
+      "name": "runtime",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "workflow_id": 358677190
+    },
+    "jobs": {
+      "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs",
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 105933695480,
+          "name": "runtime-evidence",
+          "run_attempt": 1,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Checkout exact candidate without persisted credentials",
+              "conclusion": "success"
+            },
+            {
+              "name": "Set up Python",
+              "conclusion": "success"
+            },
+            {
+              "name": "Read release identity and verify archive and binary before execution",
+              "conclusion": "success"
+            },
+            {
+              "name": "Canonical acceptance on the exact candidate head",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build exact admission-recovery subject and preserve observer processes",
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve non-authorizing evidence",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Set up Python",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Checkout exact candidate without persisted credentials",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    "merge_commit": {
+      "url": "https://api.github.com/repos/ed3c/soodles/git/commits/255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "ccb99c081aa590933381b120080cf91260626f31",
+        "f460e64996892d4ac03de82e415597314583ff8d"
+      ]
+    }
+  },
+  "bounded_result": {
+    "status": "blocked_before_terminal_owner_receipt",
+    "provider_state_observed": "PR 80 is merged, Issue 79 is closed as completed, the exact-head runtime run and job succeeded, the merge commit has ordered base/candidate parents and the candidate tree, and main equals the merge commit.",
+    "terminal_classification": null,
+    "reason": "The supplied owner requires re-entry through landing advance with raw readbacks, but the named external publisher executable is absent in this Session. Therefore the repository owner could not emit classification RESOLVED, phase resolved, and next null."
+  },
+  "legitimate_stop": true,
+  "provider_write_requests_created": 0,
+  "provider_writes_transported": 0,
+  "local_prerequisites_attempted": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "/external/publisher/soodles.py",
+        "landing",
+        "advance",
+        "--help"
+      ],
+      "result": "failed_missing_executable",
+      "exit_code": 2
+    }
+  ],
+  "repeated_unchanged_reads": [
+    {
+      "subject": "repository root contents at exact ref",
+      "count_after_first": 1,
+      "reason": "The first successful connector response rendered only generic text, so structured content was read once more.",
+      "mutable_provider_owner_readback": false
+    },
+    {
+      "subject": "contracts/system-v1.md",
+      "count_after_first": 1,
+      "reason": "The combined display was truncated, so the relevant line range was fetched again.",
+      "mutable_provider_owner_readback": false
+    }
+  ],
+  "confirmations_requested": 0,
+  "cleanup_or_residue": {
+    "provider_mutations": "none",
+    "shared_file_writes": "none",
+    "local_artifacts_created": "none",
+    "cleanup_required": false
+  },
+  "evidence_limitations": [
+    "Raw provider responses were observed through the GitHub connector but could not be supplied to the named landing owner because its executable was unavailable.",
+    "No terminal owner receipt, checkpoint digest, resolved phase, or owner-issued RESOLVED classification was obtained.",
+    "The provider readbacks are coherent with the cloud completion prerequisites, but they cannot substitute for the owning transition.",
+    "Issue #83 and docs/experiments results were not read."
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "run_id": "local-noncase-2",
+  "bindings": [
+    {
+      "path": "/workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e/AGENTS.md",
+      "expected_sha256": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+      "observed_sha256": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+      "match": true
+    },
+    {
+      "path": "/workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e/SKILL.md",
+      "expected_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+      "observed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+      "match": true
+    },
+    {
+      "path": "/workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e/supervised-delivery.md",
+      "expected_sha256": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317",
+      "observed_sha256": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317",
+      "match": true
+    },
+    {
+      "path": "/workspace/scratch/7aed8f223770/audit-soodles/landing.py",
+      "expected_sha256": "0cc1a1e2954bf0e9f4121cca97750bd0e8a33d401a8ed7b10dab88fbd450ab1e",
+      "observed_sha256": "0cc1a1e2954bf0e9f4121cca97750bd0e8a33d401a8ed7b10dab88fbd450ab1e",
+      "match": true
+    },
+    {
+      "path": "/workspace/scratch/7aed8f223770/audit-soodles/tests/test_landing.py",
+      "expected_sha256": "ed1187506f3d93d74e211686a0d1b39c583ce195b7538a06b50efd911d2f3255",
+      "observed_sha256": "ed1187506f3d93d74e211686a0d1b39c583ce195b7538a06b50efd911d2f3255",
+      "match": true
+    }
+  ],
+  "chronological_actions": [
+    "Read the source-bound task-v2 instructions.",
+    "Computed SHA-256 hashes for the five permitted files and confirmed all bindings matched.",
+    "Read all five permitted files completely.",
+    "Ran exactly the specified focused unittest from /workspace/scratch/7aed8f223770/audit-soodles.",
+    "Observed exit code 0 with one test passing."
+  ],
+  "hard_gate": "PASS",
+  "hard_errors": [],
+  "test_exit_code": 0,
+  "test_result": "PASS: Ran 1 test in 0.006s; OK",
+  "treatment_scope": {
+    "applies_to_local_next_kind_input": false,
+    "applies_to_local_reconcile_result": false,
+    "reason": "The added sentence is explicitly scoped to next.kind: provider_readback. The local route returns next.kind: input with operation reconcile and required input binary."
+  },
+  "local_route_preserved": true,
+  "legal_local_actions": [
+    "For applicable lock-bound local recipes, run the local doctor against the supplied admitted binary.",
+    "Resolve and retain this checkout's verify-soodles skill identity and digests when that local recipe requires it.",
+    "Supply the confirmed binary and checkpoint to the supported local reconcile operation when the current owner requests required: [binary].",
+    "Leave original-order observation, quiescent-session validation, worktree cleanup, and reconciliation to Noodle and the existing delivery owner.",
+    "Treat help_argv as syntax documentation only, not as an executed transition or capability probe."
+  ],
+  "forbidden_cross_route_actions": [
+    "Apply provider_readback/help_argv guidance to the local next.kind: input reconcile boundary.",
+    "Resolve a local claim solely from provider readback without Git/Noodle reconciliation.",
+    "Invoke local reconcile for a cloud claim.",
+    "Cross from a cloud route into shell Git or Noodle because a local checkout exists.",
+    "Execute help_argv as the transition or reconstruct an executable transition argv.",
+    "Send, repeat, or infer provider writes from historical guidance or model memory."
+  ],
+  "provider_writes_created": [],
+  "files_modified": [],
+  "authorizes_landing": false,
+  "limitations": [
+    "This was a compatibility-only focused local oracle.",
+    "It did not read Issue #83, experiment manifests, observer evidence, cloud-run evidence, or task.txt v1.",
+    "It did not inspect live provider state or execute provider operations.",
+    "It did not run local doctor, skill resolution, binary reconciliation, Noodle cleanup, canonical acceptance, or full delivery.",
+    "Passing this oracle cannot establish Issue resolution, full local delivery completion, or landing authorization."
+  ]
+}

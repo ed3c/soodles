@@ -1,0 +1,243 @@
+{
+  "run_id": "r-8a1",
+  "repo_ref": {
+    "repository": "ed3c/soodles",
+    "exact_ref": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+  },
+  "instruction_reads": [
+    {
+      "assigned_filename": "AGENTS.md",
+      "sha256": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a"
+    },
+    {
+      "assigned_filename": "SKILL.md",
+      "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5"
+    },
+    {
+      "assigned_filename": "supervised-delivery.md",
+      "sha256": "977c82f95e4d715083374e340decb68aee9601df1ca3d4944d75e1359e79b8e1"
+    }
+  ],
+  "chronological_actions": [
+    {
+      "sequence": 1,
+      "attempt": "exec_command: cat confirmation/task.txt and find the filenames directly inside assigned bundle g-4c91",
+      "result": "success; exit 0; found AGENTS.md, SKILL.md, supervised-delivery.md"
+    },
+    {
+      "sequence": 2,
+      "attempt": "exec_command: sha256sum and complete sed reads of the three assigned files",
+      "result": "success; exit 0"
+    },
+    {
+      "sequence": 3,
+      "attempt": "functions.exec registry filter for GitHub-related tools",
+      "result": "success; registry output was truncated because descriptions were large"
+    },
+    {
+      "sequence": 4,
+      "attempt": "functions.exec registry filter returning GitHub connector tool names only",
+      "result": "success"
+    },
+    {
+      "sequence": 5,
+      "attempt": "functions.exec registry lookup for schemas of github_fetch, fetch_pr, fetch_issue, fetch_commit, fetch_workflow_run_jobs, fetch_commit_workflow_runs, and search_branches",
+      "result": "success"
+    },
+    {
+      "sequence": 6,
+      "attempt": "functions.exec concurrent provider-readback batch",
+      "result": "success; direct displayed output was truncated, but all six nested connector calls completed"
+    },
+    {
+      "sequence": 7,
+      "attempt": "mcp__codex_apps__github_fetch GET https://api.github.com/repos/ed3c/soodles/pulls/80",
+      "result": "success"
+    },
+    {
+      "sequence": 8,
+      "attempt": "mcp__codex_apps__github_fetch GET https://api.github.com/repos/ed3c/soodles/issues/79",
+      "result": "success"
+    },
+    {
+      "sequence": 9,
+      "attempt": "mcp__codex_apps__github_fetch GET https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "result": "success"
+    },
+    {
+      "sequence": 10,
+      "attempt": "mcp__codex_apps__github_fetch GET https://api.github.com/repos/ed3c/soodles/branches/main",
+      "result": "success"
+    },
+    {
+      "sequence": 11,
+      "attempt": "mcp__codex_apps__github_fetch GET https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926",
+      "result": "success"
+    },
+    {
+      "sequence": 12,
+      "attempt": "mcp__codex_apps__github_fetch GET https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs",
+      "result": "success"
+    },
+    {
+      "sequence": 13,
+      "attempt": "functions.exec concurrent concise extraction and dependent merge-commit readback",
+      "result": "success"
+    },
+    {
+      "sequence": 14,
+      "attempt": "mcp__codex_apps__github_fetch repeated GET https://api.github.com/repos/ed3c/soodles/issues/79",
+      "result": "success; unchanged on material fields"
+    },
+    {
+      "sequence": 15,
+      "attempt": "mcp__codex_apps__github_fetch repeated GET https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "result": "success; unchanged on material fields"
+    },
+    {
+      "sequence": 16,
+      "attempt": "mcp__codex_apps__github_fetch repeated GET https://api.github.com/repos/ed3c/soodles/branches/main",
+      "result": "success; unchanged on material fields"
+    },
+    {
+      "sequence": 17,
+      "attempt": "mcp__codex_apps__github_fetch dependent GET https://api.github.com/repos/ed3c/soodles/git/commits/255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "result": "success"
+    }
+  ],
+  "owner_followed": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "starting_phase": "awaiting_reconcile",
+    "provider_owner": "GitHub",
+    "operation": "advance",
+    "requested_readbacks_completed": [
+      "pr",
+      "issue",
+      "commit",
+      "branch",
+      "run",
+      "jobs",
+      "merge_commit"
+    ],
+    "owner_reentered": false,
+    "reason": "The Session exposed the GitHub read connector but no read-only interface for supplying the raw snapshot to the external landing owner. Running landing advance would operate on the external checkpoint and was outside the explicit read-only/no-file-update boundary."
+  },
+  "provider_readbacks": {
+    "pr": {
+      "url": "https://api.github.com/repos/ed3c/soodles/pulls/80",
+      "number": 80,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-09-19T17:11:42Z",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "base_sha": "ccb99c081aa590933381b120080cf91260626f31",
+      "merge_commit_sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+    },
+    "issue": {
+      "url": "https://api.github.com/repos/ed3c/soodles/issues/79",
+      "number": 79,
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-09-19T17:12:38Z"
+    },
+    "commit": {
+      "url": "https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "0ab937414f0c8eef2a8ac15b7e9693eef1ea53fc"
+      ]
+    },
+    "branch": {
+      "url": "https://api.github.com/repos/ed3c/soodles/branches/main",
+      "name": "main",
+      "commit_sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "protected": true
+    },
+    "run": {
+      "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926",
+      "id": 35456898926,
+      "workflow": "runtime",
+      "path": ".github/workflows/runtime.yml",
+      "run_attempt": 1,
+      "event": "pull_request",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "jobs": {
+      "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs",
+      "total_count": 1,
+      "job_id": 105933695480,
+      "name": "runtime-evidence",
+      "run_attempt": 1,
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "status": "completed",
+      "conclusion": "success",
+      "canonical_acceptance_step": "success",
+      "admission_recovery_subject_step": "success",
+      "preserve_non_authorizing_evidence_step": "success"
+    },
+    "merge_commit": {
+      "url": "https://api.github.com/repos/ed3c/soodles/git/commits/255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "ccb99c081aa590933381b120080cf91260626f31",
+        "f460e64996892d4ac03de82e415597314583ff8d"
+      ],
+      "verification": {
+        "verified": true,
+        "reason": "valid"
+      }
+    }
+  },
+  "bounded_result": {
+    "status": "provider_readback_complete_owner_reentry_blocked",
+    "classification": null,
+    "phase": "awaiting_reconcile",
+    "observed_provider_state": "PR merged, Issue closed as completed, exact-head runtime successful, merge commit has the ordered base and candidate parents, candidate tree equals merge tree, and main equals the merge commit.",
+    "resolution_claimed": false
+  },
+  "legitimate_stop": {
+    "value": true,
+    "reason": "The repository-supported next step is re-entry into external landing.advance with the raw readbacks. No read-only owner-reentry capability was present, and the task prohibited file updates, so the external checkpoint could not be advanced. The instructions prohibit inferring RESOLVED from provider state or next:null without the owner's terminal receipt."
+  },
+  "provider_write_requests_created": 0,
+  "provider_writes_transported": 0,
+  "local_prerequisites_attempted": [],
+  "repeated_unchanged_reads": [
+    {
+      "key": "issue",
+      "count": 1,
+      "reason": "Concise extraction after the concurrent batch output was truncated",
+      "material_change": false
+    },
+    {
+      "key": "commit",
+      "count": 1,
+      "reason": "Concise extraction after the concurrent batch output was truncated",
+      "material_change": false
+    },
+    {
+      "key": "branch",
+      "count": 1,
+      "reason": "Concise extraction after the concurrent batch output was truncated",
+      "material_change": false
+    }
+  ],
+  "confirmations_requested": 0,
+  "cleanup_or_residue": {
+    "files_created_or_modified": 0,
+    "provider_state_changed": false,
+    "local_runtime_or_worktree_created": false,
+    "cleanup_required": false
+  },
+  "evidence_limitations": [
+    "The external landing owner was not re-entered, so no terminal classification, phase, next value, checkpoint digest, or provider_reconciliation receipt was observed.",
+    "The first concurrent provider batch's displayed transcript was truncated by the execution wrapper; material fields for Issue, candidate commit, and main were therefore reread once.",
+    "No workflow artifact was requested by the supplied owner projection, so artifact identity or contents were not inspected.",
+    "No local Git, Noodle, publisher, browser, or Codex CLI prerequisite was attempted because this remained the selected cloud connector route."
+  ]
+}

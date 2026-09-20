@@ -1,0 +1,76 @@
+{
+  "run_id": "local-noncase-1",
+  "instruction_reads": [
+    {
+      "filename": "AGENTS.md",
+      "sha256": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a"
+    },
+    {
+      "filename": "SKILL.md",
+      "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5"
+    },
+    {
+      "filename": "supervised-delivery.md",
+      "sha256": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317"
+    }
+  ],
+  "source_reads": [
+    {
+      "filename": "landing.py",
+      "sha256": "0cc1a1e2954bf0e9f4121cca97750bd0e8a33d401a8ed7b10dab88fbd450ab1e"
+    },
+    {
+      "filename": "tests/test_landing.py",
+      "sha256": "b30d715a2ff98db722f00b43b6836acc95555e4f08bb49eb17312c8e0b527830"
+    }
+  ],
+  "chronological_actions": [
+    "Read the assigned local-control task.",
+    "Read and hashed the three assigned instruction files.",
+    "Read and hashed landing.py and tests/test_landing.py; repeated the source reads in bounded line ranges to ensure complete consumption after an initially truncated display.",
+    "Ran exactly the assigned focused unittest from audit-soodles."
+  ],
+  "test_exit_code": 0,
+  "test_result": "PASS: Ran 1 test in 0.006s; OK.",
+  "treatment_scope": {
+    "applies_to_local_next_kind_input_or_reconcile": false,
+    "reason": "The added provider_readback/help_argv sentence is explicitly scoped to next.kind provider_readback. A local result remains next.kind input with operation reconcile and required binary."
+  },
+  "local_route_preserved": true,
+  "legal_local_actions": [
+    {
+      "boundary": "doctor",
+      "authorized_scope": "Run the applicable local session/runtime doctor only with the supplied admitted binary and selected local recipe.",
+      "executed": false
+    },
+    {
+      "boundary": "skill",
+      "authorized_scope": "Resolve this checkout's verify-soodles skill and preserve its path and digests when the selected local recipe requires it.",
+      "executed": false
+    },
+    {
+      "boundary": "binary",
+      "authorized_scope": "Supply the confirmed binary only when the local owner's next.kind input names operation reconcile and requires binary.",
+      "executed": false
+    },
+    {
+      "boundary": "Noodle",
+      "authorized_scope": "Let Noodle own local worktree lifecycle and reconciliation, including original-order and quiescent-session requirements; the skill must not remove the worktree itself.",
+      "executed": false
+    }
+  ],
+  "forbidden_cross_route_actions": [
+    "Do not invoke local reconcile for a cloud claim.",
+    "Do not use shell Git, a local binary, Noodle, or scratch-checkout cleanup to complete a cloud route.",
+    "Do not treat provider_readback help_argv as an executable capability probe or reconstruct a runnable transition argv.",
+    "Do not use provider tools or create provider writes in this control."
+  ],
+  "provider_writes_created": [],
+  "files_modified": [],
+  "limitations": [
+    "This is a read-only compatibility control.",
+    "It does not authorize landing.",
+    "It does not claim full local delivery completion.",
+    "No doctor, skill-resolution, binary reconciliation, Noodle reconciliation, provider readback, provider operation, or cleanup action was executed."
+  ]
+}

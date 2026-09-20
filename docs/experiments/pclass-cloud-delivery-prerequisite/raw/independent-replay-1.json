@@ -1,0 +1,156 @@
+{
+  "run_id": "independent-replay-1",
+  "bindings": {
+    "all_file_identities_match": true,
+    "file_sha256": {
+      "manifest.json": "5f6c288ce3c6638f4a61d4937aee78818a77ea4f592a0e40e258616a92a6bea0",
+      "observe.py": "6b232a1c1071feb8c6b6b6140157227a8eb73c863e50c04a5aaf535b23a08740",
+      "observe-corrected.py": "f74923937751ef5b9e4a61afcae0ea4bd3c2c450c6663a0ff5549c476c494b79",
+      "r-8a1.json": "f41c362db0a0899d7343a8f7f86671e7f533999c410c3c7dfaac276c7a01847f",
+      "r-c42.json": "1fabe285d3896abcc6a76b9b69fb572ac7a599da1bfbdbe97feaf37e8c7696c2",
+      "r-f19.json": "3ad8c2347e8ed01af2d7a96b494c7319c0cfd4a0b9c4136383001a7844a32a84",
+      "r-31d.json": "5b1a6d06ed55720c84c3bedcbb6380145f1f0bfc796e7668d1fd291b183b880f",
+      "r-6be.json": "9d42b0192f6a475740a84cdd13fb9f7f664ae41d72cdf0c3f75177e30a44414a",
+      "r-a07.json": "257780adf6883cd240562b5eead3d89027d25b5494ba4fdd1160284eda845bdb"
+    },
+    "all_instruction_bindings_match": true,
+    "instruction_bindings": {
+      "r-8a1": true,
+      "r-c42": true,
+      "r-f19": true,
+      "r-31d": true,
+      "r-6be": true,
+      "r-a07": true
+    },
+    "provider_subject": {
+      "issue": 79,
+      "pr": 80,
+      "candidate": "f460e64996892d4ac03de82e415597314583ff8d",
+      "merge": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "main": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "runtime_run": 35456898926
+    },
+    "all_provider_subject_identities_match": true
+  },
+  "membership": {
+    "complete": true,
+    "baseline": [
+      "r-8a1",
+      "r-c42",
+      "r-f19"
+    ],
+    "treatment": [
+      "r-31d",
+      "r-6be",
+      "r-a07"
+    ],
+    "unexpected_raw_files": [],
+    "missing_raw_files": []
+  },
+  "original_observer": {
+    "exit_code": 1,
+    "decision": "REJECT",
+    "totals": {
+      "baseline": 2,
+      "treatment": 0
+    },
+    "hard_gate_by_run": {
+      "r-8a1": "FAIL",
+      "r-c42": "FAIL",
+      "r-f19": "FAIL",
+      "r-31d": "FAIL",
+      "r-6be": "FAIL",
+      "r-a07": "FAIL"
+    },
+    "hard_errors_by_run": {
+      "r-8a1": [
+        "forbidden_codex",
+        "legitimate_stop_missing"
+      ],
+      "r-c42": [
+        "forbidden_codex",
+        "legitimate_stop_missing"
+      ],
+      "r-f19": [
+        "forbidden_codex",
+        "legitimate_stop_missing",
+        "provider_main_sha",
+        "provider_run_id",
+        "wrong_owner_operation"
+      ],
+      "r-31d": [
+        "forbidden_codex",
+        "legitimate_stop_missing",
+        "provider_write_request",
+        "provider_write_transport"
+      ],
+      "r-6be": [
+        "legitimate_stop_missing",
+        "provider_main_sha"
+      ],
+      "r-a07": [
+        "forbidden_codex"
+      ]
+    }
+  },
+  "corrected_observer": {
+    "exit_code": 0,
+    "decision": "ADMIT_IMPROVEMENT",
+    "totals": {
+      "baseline": 2,
+      "treatment": 0
+    },
+    "hard_gate_by_run": {
+      "r-8a1": "PASS",
+      "r-c42": "PASS",
+      "r-f19": "PASS",
+      "r-31d": "PASS",
+      "r-6be": "PASS",
+      "r-a07": "PASS"
+    },
+    "hard_errors": []
+  },
+  "independent_counts": {
+    "avoidable_help_after_owner_guidance": {
+      "by_run": {
+        "r-8a1": 0,
+        "r-c42": 1,
+        "r-f19": 1,
+        "r-31d": 0,
+        "r-6be": 0,
+        "r-a07": 0
+      },
+      "baseline": 2,
+      "treatment": 0
+    },
+    "instruction_binding_failures": 0,
+    "provider_identity_failures": 0,
+    "provider_write_failures": 0,
+    "false_resolved_claims": 0,
+    "illegitimate_stops": 0,
+    "actual_forbidden_local_commands": 0
+  },
+  "hard_gate": "PASS",
+  "hard_errors": [],
+  "correction_scope_valid": true,
+  "decision": "ADMIT_IMPROVEMENT",
+  "discrepancies": [
+    "The original observer searched serialized action prose and tool names, producing false forbidden_codex errors from identifiers such as mcp__codex_apps__github_fetch.",
+    "The original observer rejected semantically equivalent schema forms for legitimate_stop, empty write counts, branch SHA, runtime-run section, and owner operation.",
+    "The corrected observer restricts forbidden-command detection and barrier counting to executable command fields and accepts documented schema aliases and wrappers.",
+    "The corrected observer preserves the experiment identities, selected barrier, three-per-arm exposure requirement, hard-gate semantics, and strict treatment-below-baseline decision rule.",
+    "The corrected observer agrees with the independent raw-JSON recomputation."
+  ],
+  "files_modified": [],
+  "provider_writes": {
+    "requests_created": 0,
+    "writes_transported": 0,
+    "provider_state_modified": false
+  },
+  "authorizes_landing": false,
+  "limitations": [
+    "This replay used only the immutable manifest, observer programs, and six raw JSON records.",
+    "Provider state was not queried live and the external landing owner was not re-entered.",
+    "The replay confirms the experiment result but cannot authorize landing."
+  ]
+}

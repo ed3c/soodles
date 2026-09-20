@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "observer_sha256": "6b232a1c1071feb8c6b6b6140157227a8eb73c863e50c04a5aaf535b23a08740",
+  "manifest_sha256": "5f6c288ce3c6638f4a61d4937aee78818a77ea4f592a0e40e258616a92a6bea0",
+  "decision": "REJECT",
+  "totals": {"baseline": 2, "treatment": 0},
+  "exit_code": 1,
+  "defect_classification": "observer_schema_error",
+  "observed_false_hard_errors": [
+    "forbidden_codex_from_tool-name text rather than an executed Codex CLI command",
+    "legitimate_stop_missing for true values wrapped as value/stopped fields",
+    "provider_write_request/provider_write_transport for empty arrays",
+    "provider_main_sha for head_sha or main_branch aliases",
+    "provider_run_id for runtime_run alias",
+    "wrong_owner_operation for provider_operation alias"
+  ],
+  "disposition": "preserved; does not authorize landing; corrected observer may evaluate the same immutable raw files without consumer reruns"
+}

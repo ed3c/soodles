@@ -1,0 +1,239 @@
+{
+  "run_id": "r-a07",
+  "repo_ref": {
+    "repository": "ed3c/soodles",
+    "ref": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+  },
+  "instruction_reads": [
+    {
+      "assigned_filename": "AGENTS.md",
+      "sha256": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a"
+    },
+    {
+      "assigned_filename": "SKILL.md",
+      "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5"
+    },
+    {
+      "assigned_filename": "supervised-delivery.md",
+      "sha256": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317"
+    }
+  ],
+  "chronological_actions": [
+    {
+      "sequence": 1,
+      "attempt": "exec_command",
+      "operation": "Read confirmation/task.txt and enumerate filenames in assigned bundle g-a27e.",
+      "outcome": "success"
+    },
+    {
+      "sequence": 2,
+      "attempt": "exec_command",
+      "operation": "Compute SHA-256 and read the complete assigned AGENTS.md, SKILL.md, and supervised-delivery.md.",
+      "outcome": "success"
+    },
+    {
+      "sequence": 3,
+      "attempt": "tool-registry inspection",
+      "operation": "Filter available tool names and descriptions for GitHub capabilities.",
+      "outcome": "success; displayed registry output was truncated"
+    },
+    {
+      "sequence": 4,
+      "attempt": "tool-registry inspection",
+      "operation": "List relevant GitHub tool names.",
+      "outcome": "success"
+    },
+    {
+      "sequence": 5,
+      "attempt": "tool-registry inspection",
+      "operation": "Inspect declarations for github_fetch and relevant specialized read tools.",
+      "outcome": "success"
+    },
+    {
+      "sequence": 6,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "GET https://api.github.com/repos/ed3c/soodles/pulls/80",
+      "outcome": "success"
+    },
+    {
+      "sequence": 7,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "GET https://api.github.com/repos/ed3c/soodles/issues/79",
+      "outcome": "success"
+    },
+    {
+      "sequence": 8,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "GET https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "outcome": "success"
+    },
+    {
+      "sequence": 9,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "GET https://api.github.com/repos/ed3c/soodles/branches/main",
+      "outcome": "success"
+    },
+    {
+      "sequence": 10,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "GET https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926",
+      "outcome": "success"
+    },
+    {
+      "sequence": 11,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "GET https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs",
+      "outcome": "success"
+    },
+    {
+      "sequence": 12,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "Repeat GET https://api.github.com/repos/ed3c/soodles/issues/79 after combined display truncation.",
+      "outcome": "success; relevant state unchanged"
+    },
+    {
+      "sequence": 13,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "Repeat GET https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d after combined display truncation.",
+      "outcome": "success; relevant identity unchanged"
+    },
+    {
+      "sequence": 14,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "Repeat GET https://api.github.com/repos/ed3c/soodles/branches/main after combined display truncation.",
+      "outcome": "success; relevant identity unchanged"
+    },
+    {
+      "sequence": 15,
+      "attempt": "mcp__codex_apps__github_fetch",
+      "operation": "Dependent GET https://api.github.com/repos/ed3c/soodles/git/commits/255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78 using PR merge_commit_sha.",
+      "outcome": "success"
+    },
+    {
+      "sequence": 16,
+      "attempt": "exec_command",
+      "operation": "Combined readability check for /external/publisher/soodles.py and /external/soodles-79/checkpoint.json.",
+      "outcome": "failure; exit_code 1 with no output"
+    },
+    {
+      "sequence": 17,
+      "attempt": "exec_command",
+      "operation": "Individual readability checks for the external publisher and checkpoint.",
+      "outcome": "command succeeded; both paths reported unavailable"
+    }
+  ],
+  "owner_followed": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "starting_phase": "awaiting_reconcile",
+    "next_kind": "provider_readback",
+    "provider_owner": "GitHub",
+    "operation": "advance",
+    "readbacks_completed": true,
+    "owner_reentry_attempted": false,
+    "reason_owner_reentry_not_attempted": "The externally selected publisher and checkpoint required to re-enter landing advance were unavailable; the supplied help command was not executed because it only documents syntax and cannot perform the transition."
+  },
+  "provider_readbacks": {
+    "pr": {
+      "number": 80,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-09-19T17:11:42Z",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "base_sha": "ccb99c081aa590933381b120080cf91260626f31",
+      "merge_commit_sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+    },
+    "issue": {
+      "number": 79,
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-09-19T17:12:38Z"
+    },
+    "commit": {
+      "sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "0ab937414f0c8eef2a8ac15b7e9693eef1ea53fc"
+      ]
+    },
+    "branch": {
+      "name": "main",
+      "sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "protected": true
+    },
+    "run": {
+      "id": 35456898926,
+      "workflow": "runtime",
+      "path": ".github/workflows/runtime.yml",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "jobs": {
+      "total_count": 1,
+      "job_id": 105933695480,
+      "name": "runtime-evidence",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "all_reported_steps_successful": true
+    },
+    "merge_commit": {
+      "sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "ccb99c081aa590933381b120080cf91260626f31",
+        "f460e64996892d4ac03de82e415597314583ff8d"
+      ],
+      "verification": {
+        "verified": true,
+        "reason": "valid"
+      }
+    }
+  },
+  "bounded_result": {
+    "status": "blocked_after_provider_readback",
+    "provider_facts_support_completion": true,
+    "classification": null,
+    "phase": "awaiting_reconcile",
+    "terminal_resolution_claimed": false,
+    "blocking_capability": "The selected landing publisher and checkpoint needed for landing advance are unavailable in this Session."
+  },
+  "legitimate_stop": true,
+  "provider_write_requests_created": 0,
+  "provider_writes_transported": 0,
+  "local_prerequisites_attempted": {
+    "publisher_readability_check": true,
+    "checkpoint_readability_check": true,
+    "publisher_available": false,
+    "checkpoint_available": false,
+    "git_operations": 0,
+    "noodle_operations": 0,
+    "runtime_operations": 0
+  },
+  "repeated_unchanged_reads": {
+    "count": 3,
+    "subjects": [
+      "issue",
+      "commit",
+      "branch"
+    ],
+    "reason": "The first combined tool display was truncated; targeted repeated reads supplied the missing relevant fields.",
+    "material_changes_observed": false
+  },
+  "confirmations_requested": 0,
+  "cleanup_or_residue": {
+    "files_created_or_modified": 0,
+    "provider_state_modified": false,
+    "worktrees_or_branches_created": 0,
+    "cleanup_required": false,
+    "residue": null
+  },
+  "evidence_limitations": [
+    "The provider responses were consumed read-only and were not persisted because shared-file writes were prohibited.",
+    "The landing owner could not be re-entered, so no external-owner terminal receipt with classification RESOLVED, phase resolved, and next null was observed.",
+    "The first combined provider-readback display was truncated; targeted repeat reads supplied the missing relevant fields."
+  ]
+}
