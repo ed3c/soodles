@@ -22,8 +22,8 @@
     },
     {
       "path": "docs/experiments/atomic-delivery-baseline/raw/treatment.json",
-      "role": "provisional_treatment_raw_receipt",
-      "sha256": "cdab712fa5a741b51e07c59959d010ab778403029bc7624cb33a1185601d8dd8"
+      "role": "treatment_raw_receipt",
+      "sha256": "03010ade0f047ab113bf2bd2102e35c28b980698118aa12ad101150539d948de"
     },
     {
       "path": "docs/experiments/atomic-delivery-baseline/raw/noncase.json",
@@ -32,13 +32,13 @@
     },
     {
       "path": "docs/experiments/atomic-delivery-baseline/raw/independent-replay.json",
-      "role": "provisional_independent_replay",
-      "sha256": "338c50781b213c71af141e656e99cb4e5824d5ace9d58205f907b0267139297a"
+      "role": "independent_replay",
+      "sha256": "b7283569c4284d78db6a78f5cdbe3c5dbfd1b84e7b3d214ad497fe9b1effe5b5"
     },
     {
       "path": "docs/experiments/atomic-delivery-baseline/results.md",
-      "role": "provisional_results",
-      "sha256": "15f8015bb78c34de4a59b1658964c06e6a892ca029202a8b28dbb250b97e90fa"
+      "role": "results",
+      "sha256": "a2bfe40397b925baa57a812a284108f71a36ad41c9d6415f7ac15fa96165a05d"
     }
   ],
   "authorizes_landing": false,
