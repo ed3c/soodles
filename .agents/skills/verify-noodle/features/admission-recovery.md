@@ -48,11 +48,11 @@ inconsistent evidence. A `status` summary alone does not prove a stopped owner.
    actual exits and evidence survival; historical GREEN is not this live pass.
 
 The #46 selection pins recovery observer SHA-256
-`19e18b0ab048b17db26aeb3c31147d3bb605e6971205d7ef992876c6f800e84b`
+`1f22ebd63786e032f92d51c455cfd35dff9f0660acd969db70d2f3e5deda5b6f`
 and refusal observer SHA-256
 `b0029229f2794b283d8ab30faba8a621e0cd7035d83edcc6001a1a994229662b`.
 Their adjacent `preserved-input-selection.json` and `preserved-soodles-input`
-remain supervisor-selected inputs; the #79 portable fixture copy preserves their bytes. The recovery observer contains a bounded idempotence
+remain supervisor-selected inputs; the #79 portable fixture copy preserves their bytes. After verifying those original bytes, the recovery observer replaces captured historical PIDs only in its disposable execution copy with an out-of-range sentinel and records every adjustment. This prevents an unrelated carrier process from impersonating a captured session. The refusal observer still creates its own live PID and orphan-process-group controls and is unchanged. The recovery observer contains a bounded idempotence
 control; it is not a general instruction to replay old argv. The coordinator's
 normal drive always consumes fresh next and includes the post-retirement readback.
 The fixed refusal observer covers wrong digest/revision, admitted ledger, valid

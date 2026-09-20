@@ -1,0 +1,32 @@
+Issue #83 local-route legal non-case (read-only fresh consumer)
+
+Repository identity: ed3c/soodles at 255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78.
+
+Read only these complete instruction files:
+- /workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e/AGENTS.md
+- /workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e/SKILL.md
+- /workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e/supervised-delivery.md
+
+Read only these implementation/oracle slices:
+- /workspace/scratch/7aed8f223770/audit-soodles/landing.py
+- /workspace/scratch/7aed8f223770/audit-soodles/tests/test_landing.py
+
+Then run exactly this focused existing oracle from /workspace/scratch/7aed8f223770/audit-soodles:
+
+python3 -B -m unittest tests.test_landing.LandingTests.test_cloud_claim_refuses_local_reconcile_and_local_claim_keeps_binary_boundary
+
+Do not edit files, use provider tools, or run any other test. Return one JSON object with:
+- run_id: local-noncase-1
+- instruction_reads: assigned filename and SHA-256 for the three instructions
+- source_reads: filename and SHA-256 for landing.py and tests/test_landing.py
+- chronological_actions
+- test_exit_code and test_result
+- treatment_scope: whether the added provider_readback/help_argv sentence applies to a local next.kind:input or reconcile result
+- local_route_preserved: true only if the existing oracle passes and local output still requires binary/reconcile while cloud refuses local reconcile
+- legal_local_actions: the prompt-authorized local-only doctor/skill/binary/Noodle boundaries, without claiming they were executed
+- forbidden_cross_route_actions
+- provider_writes_created
+- files_modified
+- limitations
+
+This control tests compatibility only. It cannot authorize landing or claim full local delivery completion.

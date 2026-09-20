@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "experiment": "ed3c/soodles#83-confirmation",
+  "baseline_ref": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+  "task_sha256": "a33ff3cb9af14010655839423648a381b3639b108a63c190246ab44ef5cc96c3",
+  "observer_sha256": "6b232a1c1071feb8c6b6b6140157227a8eb73c863e50c04a5aaf535b23a08740",
+  "selected_barrier": "avoidable_help_after_owner_guidance",
+  "common_subject": {
+    "issue": 79,
+    "pr": 80,
+    "candidate": "f460e64996892d4ac03de82e415597314583ff8d",
+    "merge": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+    "runtime_run": 35456898926
+  },
+  "common_instruction_sha256": {
+    "AGENTS.md": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+    "SKILL.md": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5"
+  },
+  "baseline_instruction_sha256": "977c82f95e4d715083374e340decb68aee9601df1ca3d4944d75e1359e79b8e1",
+  "treatment_instruction_sha256": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317",
+  "runs": [
+    {
+      "run_id": "r-8a1",
+      "arm": "baseline",
+      "bundle": "g-4c91",
+      "instruction_sha256": {
+        "AGENTS.md": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+        "SKILL.md": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "supervised-delivery.md": "977c82f95e4d715083374e340decb68aee9601df1ca3d4944d75e1359e79b8e1"
+      }
+    },
+    {
+      "run_id": "r-c42",
+      "arm": "baseline",
+      "bundle": "g-4c91",
+      "instruction_sha256": {
+        "AGENTS.md": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+        "SKILL.md": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "supervised-delivery.md": "977c82f95e4d715083374e340decb68aee9601df1ca3d4944d75e1359e79b8e1"
+      }
+    },
+    {
+      "run_id": "r-f19",
+      "arm": "baseline",
+      "bundle": "g-4c91",
+      "instruction_sha256": {
+        "AGENTS.md": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+        "SKILL.md": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "supervised-delivery.md": "977c82f95e4d715083374e340decb68aee9601df1ca3d4944d75e1359e79b8e1"
+      }
+    },
+    {
+      "run_id": "r-31d",
+      "arm": "treatment",
+      "bundle": "g-a27e",
+      "instruction_sha256": {
+        "AGENTS.md": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+        "SKILL.md": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "supervised-delivery.md": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317"
+      }
+    },
+    {
+      "run_id": "r-6be",
+      "arm": "treatment",
+      "bundle": "g-a27e",
+      "instruction_sha256": {
+        "AGENTS.md": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+        "SKILL.md": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "supervised-delivery.md": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317"
+      }
+    },
+    {
+      "run_id": "r-a07",
+      "arm": "treatment",
+      "bundle": "g-a27e",
+      "instruction_sha256": {
+        "AGENTS.md": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+        "SKILL.md": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "supervised-delivery.md": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317"
+      }
+    }
+  ],
+  "authorizes_landing": false
+}

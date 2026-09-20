@@ -1,0 +1,358 @@
+{
+  "run_id": "r-c42",
+  "repo_ref": {
+    "repository": "ed3c/soodles",
+    "ref": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+  },
+  "instruction_reads": [
+    {
+      "assigned_filename": "AGENTS.md",
+      "sha256": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a"
+    },
+    {
+      "assigned_filename": "SKILL.md",
+      "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5"
+    },
+    {
+      "assigned_filename": "supervised-delivery.md",
+      "sha256": "977c82f95e4d715083374e340decb68aee9601df1ca3d4944d75e1359e79b8e1"
+    }
+  ],
+  "chronological_actions": [
+    {
+      "order": "1",
+      "attempt": "exec_command",
+      "command": "cat /workspace/scratch/7aed8f223770/issue83/confirmation/task.txt",
+      "result": "success",
+      "exit_code": 0
+    },
+    {
+      "order": "2",
+      "attempt": "exec_command",
+      "command": "find /workspace/scratch/7aed8f223770/issue83/confirmation/g-4c91 -maxdepth 1 -type f -printf '%f\\n' | sort",
+      "result": "success",
+      "exit_code": 0,
+      "output_summary": [
+        "AGENTS.md",
+        "SKILL.md",
+        "supervised-delivery.md"
+      ]
+    },
+    {
+      "order": "3",
+      "attempt": "exec_command",
+      "command": "sha256sum /workspace/scratch/7aed8f223770/issue83/confirmation/g-4c91/AGENTS.md /workspace/scratch/7aed8f223770/issue83/confirmation/g-4c91/SKILL.md /workspace/scratch/7aed8f223770/issue83/confirmation/g-4c91/supervised-delivery.md && sed -n '1,$p' /workspace/scratch/7aed8f223770/issue83/confirmation/g-4c91/AGENTS.md && sed -n '1,$p' /workspace/scratch/7aed8f223770/issue83/confirmation/g-4c91/SKILL.md && sed -n '1,$p' /workspace/scratch/7aed8f223770/issue83/confirmation/g-4c91/supervised-delivery.md",
+      "result": "success",
+      "exit_code": 0
+    },
+    {
+      "order": "4",
+      "attempt": "tool-registry inspection",
+      "tool": "functions.exec",
+      "operation": "filter ALL_TOOLS names and descriptions for GitHub",
+      "result": "success_with_truncated_display"
+    },
+    {
+      "order": "5",
+      "attempt": "tool-registry inspection",
+      "tool": "functions.exec",
+      "operation": "list GitHub tool names related to pull requests, issues, commits, branches, workflows, and jobs",
+      "result": "success"
+    },
+    {
+      "order": "6",
+      "attempt": "tool-registry inspection",
+      "tool": "functions.exec",
+      "operation": "list all mcp__codex_apps__github_* tool names",
+      "result": "success"
+    },
+    {
+      "order": "7",
+      "attempt": "tool-registry inspection",
+      "tool": "functions.exec",
+      "operation": "inspect declarations for github_fetch_pr, github_fetch_issue, github_fetch_commit, github_search_branches, github_fetch, and github_fetch_workflow_run_jobs",
+      "result": "success"
+    },
+    {
+      "order": "8",
+      "attempt": "functions.exec orchestrating six concurrent connector reads",
+      "result": "success_with_truncated_display"
+    },
+    {
+      "order": "8a",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/pulls/80"
+      },
+      "result": "success"
+    },
+    {
+      "order": "8b",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/issues/79"
+      },
+      "result": "success"
+    },
+    {
+      "order": "8c",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d"
+      },
+      "result": "success"
+    },
+    {
+      "order": "8d",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+      },
+      "result": "success"
+    },
+    {
+      "order": "8e",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926"
+      },
+      "result": "success"
+    },
+    {
+      "order": "8f",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs"
+      },
+      "result": "success"
+    },
+    {
+      "order": "9",
+      "attempt": "functions.exec orchestrating six concurrent connector rereads and compact parsing",
+      "result": "success"
+    },
+    {
+      "order": "9a",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/pulls/80"
+      },
+      "result": "success_unchanged"
+    },
+    {
+      "order": "9b",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/issues/79"
+      },
+      "result": "success_unchanged"
+    },
+    {
+      "order": "9c",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d"
+      },
+      "result": "success_unchanged"
+    },
+    {
+      "order": "9d",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+      },
+      "result": "success_unchanged"
+    },
+    {
+      "order": "9e",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926"
+      },
+      "result": "success_unchanged"
+    },
+    {
+      "order": "9f",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs"
+      },
+      "result": "success_unchanged"
+    },
+    {
+      "order": "10",
+      "attempt": "mcp__codex_apps__github_fetch",
+      "request": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/ed3c/soodles/git/commits/255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+      },
+      "result": "success"
+    },
+    {
+      "order": "11",
+      "attempt": "exec_command",
+      "command": "python3 -B /external/publisher/soodles.py landing advance --help",
+      "result": "failure",
+      "exit_code": 2,
+      "stderr": "python3: can't open file '/external/publisher/soodles.py': [Errno 2] No such file or directory"
+    }
+  ],
+  "owner_followed": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "phase": "awaiting_reconcile",
+    "operation": "advance",
+    "checkpoint": "/external/soodles-79/checkpoint.json",
+    "explicit_provider_requests_completed": [
+      "pr",
+      "issue",
+      "commit",
+      "branch",
+      "run",
+      "jobs"
+    ],
+    "dependent_merge_commit_request_completed": true,
+    "owner_reentry_completed": false,
+    "owner_reentry_blocker": "The supplied external publisher executable /external/publisher/soodles.py is absent."
+  },
+  "provider_readbacks": {
+    "pr": {
+      "url": "https://api.github.com/repos/ed3c/soodles/pulls/80",
+      "number": 80,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-09-19T17:11:42Z",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "base_sha": "ccb99c081aa590933381b120080cf91260626f31",
+      "merge_commit_sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+    },
+    "issue": {
+      "url": "https://api.github.com/repos/ed3c/soodles/issues/79",
+      "number": 79,
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-09-19T17:12:38Z"
+    },
+    "candidate_commit": {
+      "url": "https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "0ab937414f0c8eef2a8ac15b7e9693eef1ea53fc"
+      ]
+    },
+    "branch": {
+      "url": "https://api.github.com/repos/ed3c/soodles/branches/main",
+      "name": "main",
+      "commit_sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "protected": true
+    },
+    "run": {
+      "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926",
+      "id": 35456898926,
+      "name": "runtime",
+      "path": ".github/workflows/runtime.yml",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "jobs": {
+      "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs",
+      "total_count": 1,
+      "job": {
+        "id": 105933695480,
+        "name": "runtime-evidence",
+        "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "all_returned_steps_completed_successfully": true
+      }
+    },
+    "merge_commit": {
+      "url": "https://api.github.com/repos/ed3c/soodles/git/commits/255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "ccb99c081aa590933381b120080cf91260626f31",
+        "f460e64996892d4ac03de82e415597314583ff8d"
+      ]
+    }
+  },
+  "bounded_result": {
+    "status": "blocked_before_owner_terminal_receipt",
+    "provider_facts": {
+      "pr_merged": true,
+      "issue_closed_completed": true,
+      "exact_head_runtime_success": true,
+      "merge_commit_contains_candidate_parent": true,
+      "merge_commit_tree_matches_candidate_tree": true,
+      "provider_main_equals_merge_commit": true
+    },
+    "classification": null,
+    "phase": "awaiting_reconcile",
+    "next": "Re-enter the supplied external landing owner with the raw readbacks when that owner executable is available; no provider request should be replayed."
+  },
+  "legitimate_stop": {
+    "value": true,
+    "reason": "The repository-supported route requires landing advance, but the supplied /external/publisher/soodles.py capability is not present in this Session. Provider readbacks were completed, while read-only scope forbids substituting a new owner or manufacturing a terminal receipt."
+  },
+  "provider_write_requests_created": 0,
+  "provider_writes_transported": 0,
+  "local_prerequisites_attempted": [
+    {
+      "kind": "owner_help",
+      "argv": [
+        "python3",
+        "-B",
+        "/external/publisher/soodles.py",
+        "landing",
+        "advance",
+        "--help"
+      ],
+      "result": "failed_missing_executable"
+    }
+  ],
+  "repeated_unchanged_reads": {
+    "count": 6,
+    "subjects": [
+      "pr",
+      "issue",
+      "candidate_commit",
+      "branch",
+      "run",
+      "jobs"
+    ],
+    "reason": "The initial combined connector output was display-truncated, so the same six explicit GETs were repeated once and compactly parsed; all observed fields were unchanged."
+  },
+  "confirmations_requested": 0,
+  "cleanup_or_residue": {
+    "filesystem_writes": 0,
+    "provider_writes": 0,
+    "branches_or_worktrees_created": 0,
+    "processes_started": 0,
+    "cleanup_required": false,
+    "residue": "none"
+  },
+  "evidence_limitations": [
+    "The external landing owner could not be re-entered, so no owner-issued classification RESOLVED, phase resolved, next null, checkpoint digest, or provider_reconciliation receipt was obtained.",
+    "The first combined connector-result display was truncated; a second unchanged read of the six requested subjects supplied compact verified fields.",
+    "Read-only scope prevented creating a raw-readback file or altering the supplied checkpoint.",
+    "No workflow artifact was inspected because the current owner projection requested run and jobs readbacks, not an artifact request.",
+    "Issue #83, the confirmation manifest, observer material, other bundles or runs, and docs/experiments were not read."
+  ]
+}

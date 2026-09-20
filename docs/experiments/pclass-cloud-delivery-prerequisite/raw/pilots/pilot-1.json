@@ -1,0 +1,249 @@
+{
+  "run_id": "pilot-1",
+  "repo_ref": {
+    "repository": "ed3c/soodles",
+    "ref": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+  },
+  "instruction_reads": [
+    {
+      "path": "AGENTS.md",
+      "observed_blob_sha": "23905daa7cd0d2f7ead975624552fe29601a34f4"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/SKILL.md",
+      "observed_blob_sha": "cd9209f555e3414e1186b9f18ccb5ddb3e4af19e"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+      "observed_blob_sha": "47d9e71c85116e58f2233a83faa8b7444193c1b7"
+    },
+    {
+      "path": ".github/workflows/runtime.yml",
+      "observed_blob_sha": "575e57ce54b8a1135f8e26a68d3adda0a8bcca73"
+    }
+  ],
+  "chronological_actions": [
+    {
+      "sequence": 1,
+      "attempt": "exec_command: cat /workspace/scratch/7aed8f223770/issue83/freeze/task.txt",
+      "result": "success"
+    },
+    {
+      "sequence": 2,
+      "attempt": "Inspect available tool registry for GitHub-related tools",
+      "result": "success; output was truncated because the broad match included extensive tool descriptions"
+    },
+    {
+      "sequence": 3,
+      "attempt": "Inspect tool registry for candidate GitHub fetch/status tools",
+      "result": "success"
+    },
+    {
+      "sequence": 4,
+      "attempt": "GitHub fetch_file: ed3c/soodles AGENTS.md at the pinned ref",
+      "result": "success"
+    },
+    {
+      "sequence": 5,
+      "attempt": "GitHub fetch_file: .agents/skills/verify-soodles/SKILL.md at the pinned ref",
+      "result": "success"
+    },
+    {
+      "sequence": 6,
+      "attempt": "GitHub fetch_file: .agents/skills/verify-soodles/features/supervised-delivery.md at the pinned ref",
+      "result": "success"
+    },
+    {
+      "sequence": 7,
+      "attempt": "Inspect tool registry for all GitHub connector tool names",
+      "result": "success"
+    },
+    {
+      "sequence": 8,
+      "attempt": "Inspect schemas for GitHub generic fetch, commit, issue, PR, workflow-job, workflow-step, and branch tools",
+      "result": "success"
+    },
+    {
+      "sequence": 9,
+      "attempt": "GitHub GET https://api.github.com/repos/ed3c/soodles/pulls/80",
+      "result": "success"
+    },
+    {
+      "sequence": 10,
+      "attempt": "GitHub GET https://api.github.com/repos/ed3c/soodles/issues/79",
+      "result": "success"
+    },
+    {
+      "sequence": 11,
+      "attempt": "GitHub GET https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "result": "success"
+    },
+    {
+      "sequence": 12,
+      "attempt": "GitHub GET https://api.github.com/repos/ed3c/soodles/branches/main",
+      "result": "success"
+    },
+    {
+      "sequence": 13,
+      "attempt": "GitHub GET https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926",
+      "result": "success"
+    },
+    {
+      "sequence": 14,
+      "attempt": "GitHub GET https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs",
+      "result": "success; composite display included complete job evidence"
+    },
+    {
+      "sequence": 15,
+      "attempt": "Repeat GitHub GET for Issue 79 to recover fields obscured by composite-output truncation",
+      "result": "success; unchanged"
+    },
+    {
+      "sequence": 16,
+      "attempt": "Repeat GitHub GET for candidate git commit f460e64996892d4ac03de82e415597314583ff8d to recover fields obscured by composite-output truncation",
+      "result": "success; unchanged"
+    },
+    {
+      "sequence": 17,
+      "attempt": "Repeat GitHub GET for branch main to recover fields obscured by composite-output truncation",
+      "result": "success; unchanged"
+    },
+    {
+      "sequence": 18,
+      "attempt": "Dependent GitHub GET https://api.github.com/repos/ed3c/soodles/git/commits/255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78 after PR readback confirmed the merge SHA",
+      "result": "success"
+    },
+    {
+      "sequence": 19,
+      "attempt": "GitHub fetch_file: .github/workflows/runtime.yml at the pinned ref",
+      "result": "success"
+    },
+    {
+      "sequence": 20,
+      "attempt": "exec_command: python3 -B /external/publisher/soodles.py landing advance --help",
+      "result": "failure; exit 2; /external/publisher/soodles.py was absent"
+    }
+  ],
+  "owner_followed": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "phase": "awaiting_reconcile",
+    "operation_followed": "advance",
+    "checkpoint": "/external/soodles-79/checkpoint.json",
+    "outcome": "All emitted provider GETs and the dependent merge-commit GET were consumed. Re-entry into the owning operation was blocked because its supplied executable path was not present."
+  },
+  "provider_readbacks": {
+    "pr": {
+      "number": 80,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-09-19T17:11:42Z",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "base_sha": "ccb99c081aa590933381b120080cf91260626f31",
+      "merge_commit_sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+    },
+    "issue": {
+      "number": 79,
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-09-19T17:12:38Z"
+    },
+    "candidate_commit": {
+      "sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "0ab937414f0c8eef2a8ac15b7e9693eef1ea53fc"
+      ]
+    },
+    "main_branch": {
+      "name": "main",
+      "sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7"
+    },
+    "runtime_run": {
+      "id": 35456898926,
+      "run_attempt": 1,
+      "event": "pull_request",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "runtime_jobs": {
+      "total_count": 1,
+      "job_id": 105933695480,
+      "name": "runtime-evidence",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "canonical_acceptance_step": "success",
+      "evidence_build_step": "success",
+      "artifact_preservation_step": "success"
+    },
+    "merge_commit": {
+      "sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "ccb99c081aa590933381b120080cf91260626f31",
+        "f460e64996892d4ac03de82e415597314583ff8d"
+      ],
+      "verification": "valid"
+    }
+  },
+  "bounded_result": {
+    "classification": "BLOCKED_OWNER_CAPABILITY",
+    "observed_provider_state": "PR 80 is merged, Issue 79 is closed as completed, main equals the confirmed merge commit, candidate and merge trees match, merge parents include the base and candidate, and the exact-head runtime run and job succeeded.",
+    "terminal_claim": "Not asserted. The external landing owner could not consume the fresh readback and emit classification RESOLVED, phase resolved, next null, or provider reconciliation."
+  },
+  "legitimate_stop": true,
+  "provider_write_requests_created": 0,
+  "provider_writes_transported": 0,
+  "local_prerequisites_attempted": [
+    {
+      "prerequisite": "Supplied landing.advance help entrypoint",
+      "command": [
+        "python3",
+        "-B",
+        "/external/publisher/soodles.py",
+        "landing",
+        "advance",
+        "--help"
+      ],
+      "result": "failed because /external/publisher/soodles.py does not exist in this Session"
+    }
+  ],
+  "repeated_unchanged_reads": [
+    {
+      "subject": "Issue 79",
+      "count": 1,
+      "reason": "Initial composite tool output was truncated",
+      "material_change": false
+    },
+    {
+      "subject": "candidate commit f460e64996892d4ac03de82e415597314583ff8d",
+      "count": 1,
+      "reason": "Initial composite tool output was truncated",
+      "material_change": false
+    },
+    {
+      "subject": "main branch",
+      "count": 1,
+      "reason": "Initial composite tool output was truncated",
+      "material_change": false
+    }
+  ],
+  "confirmations_requested": 0,
+  "cleanup_or_residue": {
+    "provider_mutations": "none",
+    "local_files_created_or_modified": "none",
+    "local_worktree_or_branch_created": "none",
+    "cleanup_required": false
+  },
+  "evidence_limitations": [
+    "The first composite provider-readback display was truncated, so selected fields for Issue 79, the candidate commit, and main were fetched again.",
+    "Raw provider responses were not written to files because the task prohibited shared-file writes.",
+    "The supplied external publisher executable was absent, so the fresh readbacks could not be submitted to landing.advance.",
+    "The checkpoint was not modified or independently interpreted, and no owner terminal receipt was produced.",
+    "Provider state is consistent with resolution, but repository instructions require the external owner's explicit terminal classification; this consumer therefore cannot promote the observation to RESOLVED."
+  ]
+}

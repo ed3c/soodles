@@ -1,9 +1,11 @@
 """Physical packet defects, exact fixture selection and legal carrier/nonzero cases."""
 import copy
 import io
+import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -40,6 +42,28 @@ class PacketTests(unittest.TestCase):
                          'stderr_sha256': packet.digest(b'')})
             packet.write(self.root, label + '/cleanup.json', {'owned_residue_absent': True})
         self.archive = Path(self.temp.name) / 'packet.tar'
+
+    def test_recovery_scratch_isolates_captured_process_identity(self):
+        observer_path = packet.FIXTURES / 'recovery-observer.py'
+        spec = importlib.util.spec_from_file_location('recovery_observer', observer_path)
+        observer = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(observer)
+        source = Path(self.temp.name) / 'source'
+        scratch = Path(self.temp.name) / 'scratch'
+        process = source / '.noodle/sessions/captured/process.json'
+        process.parent.mkdir(parents=True)
+        process.write_text(json.dumps({'pid': os.getpid(), 'session_id': 'captured'}) + '\n')
+        original = process.read_bytes()
+        shutil.copytree(source, scratch)
+        adjustments = observer.isolate_captured_process_identities(scratch)
+        self.assertEqual(process.read_bytes(), original)
+        changed = json.loads((scratch / '.noodle/sessions/captured/process.json').read_text())
+        self.assertEqual(changed['pid'], observer.HISTORICAL_ABSENT_PID)
+        self.assertEqual(adjustments, [{
+            'path': '.noodle/sessions/captured/process.json',
+            'captured_pid': os.getpid(),
+            'scratch_pid': observer.HISTORICAL_ABSENT_PID,
+        }])
 
     def create(self):
         packet.create(self.root, 'darwin_arm64', self.archive)
