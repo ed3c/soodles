@@ -852,6 +852,23 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(help_result.returncode, 0)
         self.assertFalse(self.checkpoint.exists())
 
+    def test_cloud_marked_contract_requires_exact_candidate_gate_not_local_envelope(self):
+        self.claim.pop("control_root")
+        self.snapshot["issue"]["body"] = "<!-- soodles:execution-v1 -->\n"
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            self.start()
+        self.assertEqual(caught.exception.invalid["field"], "job.candidate_evidence")
+        self.assertFalse(self.checkpoint.exists())
+        self.snapshot["jobs"]["jobs"][0]["steps"].insert(0, {
+            "name": "Verify exact candidate evidence from fresh Issue readback",
+            "status": "completed", "conclusion": "success",
+        })
+        result = self.start()
+        self.assertEqual(result["owner"], "landing.start")
+        self.assertEqual(landing.read(self.checkpoint)["scope"],
+                         "supervised single-Issue cloud landing")
+        self.assertNotIn("execution_envelope", landing.read(self.checkpoint)["claim"])
+
 
 class BoundLandingTests(unittest.TestCase):
     """Real Git paths and owner functions; provider responses are fixtures."""

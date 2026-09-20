@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 99
+  },
+  "instructions": [
+    {
+      "path": "issue_admission.py",
+      "baseline_sha256": "bf4822934f4759068600189b5482832a3c381cf5f08769492dddd24145838eae",
+      "treatment_sha256": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/results.md",
+      "baseline_sha256": "a2bfe40397b925baa57a812a284108f71a36ad41c9d6415f7ac15fa96165a05d",
+      "treatment_sha256": "29c9bc066ecef5a6328ac2fee432df81a579573ac73d752a7c493d6cbd1c1518"
+    },
+    {
+      "path": "landing.py",
+      "baseline_sha256": "0cc1a1e2954bf0e9f4121cca97750bd0e8a33d401a8ed7b10dab88fbd450ab1e",
+      "treatment_sha256": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/task.md",
+      "role": "frozen_input",
+      "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/protocol.md",
+      "role": "frozen_input",
+      "sha256": "d2f324c88cba3ccb8fa7f744c7b0f0bed95f309cee0999c96af124323430ab8a"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/observer.py",
+      "role": "frozen_input",
+      "sha256": "7f25119a2faf388518ca015ab49714849f5c8612dbd9fdaa7ad80a098449cc90"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/prepare.py",
+      "role": "frozen_input",
+      "sha256": "0a7b62d689d907601f068fbb17c281e1b05546e9df4c2ae977633f0aa37cd191"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/A.json",
+      "role": "frozen_input",
+      "sha256": "d9c72507b0bc2bbc7073452771cb501412e106285f2f9ba9f43b7753c6639e6d"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/B.json",
+      "role": "frozen_input",
+      "sha256": "e4b9df349dc2107633460472b4c9cf539c0981f612a4dc3cdd7d86465a8b73a6"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/C.json",
+      "role": "frozen_input",
+      "sha256": "9a868a24647be280386db9c4d7bcb91f8e6851edbfebf8f238135adc507c4854"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/D.json",
+      "role": "frozen_input",
+      "sha256": "49e0c7cd7b6def2d02985be7ddd5663fafa38d46ef6dfb69e46a4919ce4e033f"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/context.json",
+      "role": "frozen_input",
+      "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/owner-traces.json",
+      "role": "frozen_input",
+      "sha256": "19643ee62638068a12bc5126e1070a4535a17f7b391aeab8214ae74e57b2db4f"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/launches.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "35e70317fbd9c8c34f34f693c4a925901727073f25e190efc4fd5bb641e94425"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/responses.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "7c610192dd4dde3bc10edce80f6d86bc9f5f5c74a576bb9eed23d81109ef49fc"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/reads.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "8811a17479bb78517fe43838f9a85b5816cc176c7469e9ee201a52d24e8741ae"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/read-A.txt",
+      "role": "non_authorizing_evidence",
+      "sha256": "7c8c1ec97de00bb2c80d6069ca958430bda4b285aa9c7413563f264483327be4"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/read-B.txt",
+      "role": "non_authorizing_evidence",
+      "sha256": "ccd601ca3f822315a0c271730eb34db7fd33d173dc53cb57d9beed756433ec62"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/read-C.txt",
+      "role": "non_authorizing_evidence",
+      "sha256": "6a871ad1e7d8db4f4ebc479f44f808b88db4648d2029790fb66e3ffa5d97262a"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/read-D.txt",
+      "role": "non_authorizing_evidence",
+      "sha256": "e97a755014caf20a5b9e99f74442afebf8609af6a689ab0062b47a62daf4e2be"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/external-pins.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "e1d9894f7c356d75c9a3b1ca1b3ad9e9137d12a84008aeb10b07a4607aa2c571"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/protocol-review.md",
+      "role": "non_authorizing_evidence",
+      "sha256": "0cacfa28b2100bbc9fb180a3b08ff737b507332eef36fd326ff30cb0a776d13b"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/independent-replay.md",
+      "role": "non_authorizing_evidence",
+      "sha256": "8ca975b2a750dee439aea47e8642cf45fc85327d7c41901fceb33c3de076517a"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/results.md",
+      "role": "non_authorizing_evidence",
+      "sha256": "784fccb29b6151eddcaeb133f9fadbae14bd1cef871bf39d6af6bd11e5535586"
+    },
+    {
+      "path": "tests/test_fresh_delivery_decisions.py",
+      "role": "frozen_input",
+      "sha256": "adfa4ea04a13472dc343579fd09b9034390e541c5de70d32bed623a3170589ce"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/manifest.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "7bee3daef004b0ba153302bba1ba0f441eaeed024753ef0f5e0f2d612cd54a73"
+    },
+    {
+      "path": "tests/test_candidate_guidance.py",
+      "role": "frozen_input",
+      "sha256": "47777a0a9527e4c7c2987ab58727cd120ec0493e957bcc40206c4661683e6213"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/guidance-protocol.md",
+      "role": "frozen_input",
+      "sha256": "da9106392d282e2dde5a1c2df97be5029df84c4563b5fd5ea1e27cb8adc1df7a"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/guidance-drive.py",
+      "role": "frozen_input",
+      "sha256": "0d1cc9391ea8d49cd25b458ad75498727371b745ac9bef2dc24b8de11b186847"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/guidance-review.md",
+      "role": "non_authorizing_evidence",
+      "sha256": "8fa7f1eaedcbf699b8491bf9ef9aa0596fc27ecd1a08ba3821d598c7661272b6"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/baseline-admission.py",
+      "role": "frozen_input",
+      "sha256": "bf4822934f4759068600189b5482832a3c381cf5f08769492dddd24145838eae"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/guidance.json",
+      "role": "frozen_input",
+      "sha256": "c0daff056c5498e57f3e648dff5081678a619393b1e610bdf5a7c5bd0e7d5089"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/guidance-launches.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "a7c4521a893c07ecb811b6c50b60a04d4ab90accc0a997d4fc53c97e33d2c65d"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/guidance-responses.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "54d92fd7da92f3ef7fb19ad8408480fbe79eb546df97b9f831ead413ac3cd251"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/guidance-reads.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "0df41fa2442314df3e12b60418da6aa7007f32ff268b6d1d8765ed2d86d0a250"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/read-X.txt",
+      "role": "non_authorizing_evidence",
+      "sha256": "c37753ab5b860bf4f5818627e67d49549886640887b9d4ef6b8f80c7d1e2e789"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/read-Y.txt",
+      "role": "non_authorizing_evidence",
+      "sha256": "11d4f95046513035f8c4726962fcce3354295cb33525dc7c45433b587c23d884"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/X.json",
+      "role": "frozen_input",
+      "sha256": "ab5b8cad1001afbb326f943137b0c18d2e96a03754b1bd7db7fd7bde159624b3"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/inputs/Y.json",
+      "role": "frozen_input",
+      "sha256": "031c4fc20f55d6dcdc7859b2c3b870874c996c5ad5871bd73aa9d7f35cf2b169"
+    },
+    {
+      "path": ".github/workflows/runtime.yml",
+      "role": "delivery_adapter",
+      "sha256": "1251bcf02023ad6616b011662a922ddfb0a11e2860c51b38607f39ccf6bb986f"
+    },
+    {
+      "path": "tests/test_delivery_refs.py",
+      "role": "unit_control",
+      "sha256": "f02225759a2fa56feace95842c5b72fdfe256c6c68f13b37bb114a88478bc713"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/delivery-entry-refusal.json",
+      "role": "owner_refusal_raw",
+      "sha256": "849dd4274dbeb66c42b0d206c5d9a286370899994a94ba219437b65b02149732"
+    },
+    {
+      "path": "tests/test_landing.py",
+      "role": "unit_control",
+      "sha256": "89a62c3a257a9d0583b19e9e9a8ac9ae895e772547942ae340d545e732b1bb39"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/publisher-cloud-refusal.json",
+      "role": "owner_refusal_raw",
+      "sha256": "c780fb24467ac13c6232fd6d6be19f8ea4f218f979fb521a4fafefff5c89da80"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/external-publisher-control.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "fdbd53c7f9b733813c155a623a2fb510625c354a4914760d4151364adf99f633"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#99"
+  },
+  "authorizes_landing": false
+}

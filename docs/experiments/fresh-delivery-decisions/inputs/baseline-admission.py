@@ -326,9 +326,7 @@ def validate_candidate_evidence(root, base, head, binding, paths):
             require(isinstance(expected, str)
                     and re.fullmatch(r"[0-9a-f]{64}", expected)
                     and actual == expected,
-                    f"candidate.instruction.{label}_sha256", expected,
-                    owner="Soodles Issue admission",
-                    required="candidate_instruction_matches_frozen_evidence")
+                    f"candidate.instruction.{label}_sha256", expected)
 
     artifacts = manifest["artifacts"]
     require(isinstance(artifacts, list),

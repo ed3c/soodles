@@ -2,14 +2,21 @@
 
 ## Decision
 
-The bounded P0 fixture barrier decreased from **1 to 0**, and the preserved P1
-delivery-split barrier decreased from **2 to 0** for Issue #97.
+Correction owned by [Issue #99](https://github.com/ed3c/soodles/issues/99):
+the bounded P0 fixture observation remains supported, but the former P1
+**2 to 0** inference is withdrawn. Counting PRs across #91/#93/#95 does not
+establish when each defect was discovered relative to merge, nor a matched
+fresh-consumer comparison. The historical P1 behavior delta is **not established**,
+not retroactively zero. Historical raw files and observer remain unchanged;
+the original report and manifest remain available at immutable commit
+`a2e46631b59b1f304391bfcd49615cdd9f6124e7`.
 
 The historical #92 runtime artifact has SHA-256
 `04585341f1611492d9a7f46a64f2be4edc75e6767504f0ab9f8f814904a59ebd`.
 Its refusal observer exited 1: all four assigned target cases were masked by the
 captured session identity while both newly created live controls passed. The
-historical delivery then required PRs #92, #94 and #96 for one originating gap.
+related history contains PRs #92, #94 and #96. That inventory alone cannot
+classify them as one eligible pre-merge correction boundary.
 
 ## Treatment observation
 
@@ -26,10 +33,13 @@ process identities were replaced in the disposable copy. The live-session and
 orphan-live-group controls still refused for the live process-group predicate.
 The source fixture digest map was identical before and after execution.
 
-The fixed observer independently replays the committed treatment as `PASS`.
-The legal non-case also passes: failed candidate heads may be replaced by new
-heads on one unmerged PR, while a defect discovered after merge starts a new
-Issue and PR because the rollback boundary changed.
+The historical observer returns `PASS` for the committed summary packet. It
+consumes supplied booleans and PR counts, not an independently captured fresh
+consumer trace; this is deterministic summary replay, not independent behavioral
+telemetry. The supplied non-case packet also returns `PASS`, but the observer
+does not inspect its post-merge discovery field. It therefore did not demonstrate
+the semantic distinction between same-PR correction before merge and a newly
+discovered defect after merge.
 
 ## Delivery gate
 
@@ -41,8 +51,13 @@ and provider readback before Issue closure.
 
 ## Claim boundary
 
-P0 is a physical nonzero hill climb for the six pinned refusal cases. P1 proves
-the bounded one-Issue/one-PR shape for #97 and machine binding of its committed
-evidence. It does not prove model-wide prompt correctness, every N/P/L/R atom,
-or a fresh probabilistic agent behavior improvement. All receipts are
-non-authorizing.
+P0 is a bounded fixture reliability improvement for the six pinned refusal
+cases, not a model behavior improvement. Provider records establish that #97
+was delivered by PR #98, and candidate verification binds its evidence bytes.
+Neither fact validates the semantic contents of the summary packet. P1 did not
+establish fresh decision improvement, new/old prompt compatibility, all N/P/L/R
+atoms or per-line correctness. All experiment receipts are non-authorizing.
+
+The current-context observations and their limitations are recorded separately
+in [Issue #99's results](../fresh-delivery-decisions/results.md). This correction
+changes no P-class instruction and does not replace the historical active judge.

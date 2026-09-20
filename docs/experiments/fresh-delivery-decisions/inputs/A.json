@@ -1,0 +1,35 @@
+{
+  "authorization": "Read and return the next handoff only; no effects.",
+  "available_inputs": "Issue identity, current candidate and owning readbacks, prior delivery status, supervisor authorization for the handoff are supplied.",
+  "candidate_output": {
+    "authorizes_landing": false,
+    "invalid": {
+      "field": "candidate.missing_required_paths",
+      "value": [
+        "evidence/raw/noncase.json"
+      ]
+    },
+    "next": {
+      "kind": "input",
+      "owner": "Soodles Issue admission",
+      "required": [
+        "complete_candidate_evidence"
+      ]
+    },
+    "owner": "candidate.verify",
+    "status": "refused"
+  },
+  "case": "A",
+  "discovered_at": "2026-09-20T00:30:00Z",
+  "discovery": "A required evidence artifact is absent.",
+  "fixture": true,
+  "owner_output": null,
+  "subject": {
+    "head": "fdb1e97af0d0e215b9d3d62b35d8e524f1036503",
+    "issue": 1,
+    "merged": false,
+    "pr": 2,
+    "repository": "ed3c/soodles",
+    "state": "open"
+  }
+}

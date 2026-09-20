@@ -192,11 +192,15 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
     """The supervisor's claim selects external bytes; no candidate self-admission."""
     from issue_admission import AdmissionRefusal, load_external_envelope, validate_issue, validate_delivery_paths
     ref = claim.get("execution_envelope")
+    if claim_route(claim) == "cloud":
+        # Cloud claims are bound by the exact-head candidate-evidence workflow
+        # step checked in validate_snapshot; they cannot carry a local envelope.
+        require(ref is None, "claim.execution_envelope", "cloud execution cannot bind a local envelope")
+        return None
     if ref is None:
         require(issue is None or "soodles:execution-v1" not in (issue.get("body") or ""),
                 "claim.execution_envelope", "required for an execution contract")
         return None
-    require(claim_route(claim) == "local", "claim.route", "cloud execution cannot bind a local envelope")
     root = Path(claim["control_root"]).resolve()
     subject = root / ".worktrees" / claim["worktree"]
     try:
@@ -242,6 +246,10 @@ def validate_snapshot(claim, snapshot, *, operation, checkpoint):
     require(job.get("status") == "completed" and job.get("conclusion") == "success", "job.conclusion", job.get("conclusion"))
     steps = job.get("steps") or []
     require(any(s.get("name") == "Canonical acceptance on the exact candidate head" for s in steps), "job.acceptance", steps)
+    if (claim_route(claim) == "cloud"
+            and "soodles:execution-v1" in (issue.get("body") or "")):
+        require(any(s.get("name") == "Verify exact candidate evidence from fresh Issue readback"
+                    for s in steps), "job.candidate_evidence", steps)
     require(all(s.get("status") == "completed" and s.get("conclusion") == "success" for s in steps), "job.steps", steps)
     require(snapshot["branch"].get("name") == "main", "branch.name", snapshot["branch"].get("name"))
     if not pr.get("merged"):
