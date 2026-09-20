@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "arm": "treatment",
+  "consumer": "treatment-2",
+  "instruction_reads": [
+    {
+      "path": "/workspace/scratch/9af267d7b32b/soodles-full/docs/experiments/cross-repository-dependency/task.md",
+      "sha256": "a7b976ddaed9f01db506082be592cd2bc6cd813e45c75afc4511e474af16192b"
+    },
+    {
+      "path": "/workspace/scratch/9af267d7b32b/soodles-full/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "9539cecb01565745ab48cf61fb908bfff571f405f4dafc50580cbb8f7e490ce3"
+    },
+    {
+      "path": "/workspace/scratch/9af267d7b32b/soodles-full/docs/experiments/cross-repository-dependency/raw/treatment.json",
+      "sha256": "23f14679a758b68ea9b901a5289d1b0d2ff164afb0f83e438d6d6a868095cb68"
+    }
+  ],
+  "decisions": [
+    {
+      "case": "legal",
+      "selected_action": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/cross-repository-dependency-snueh9jv/legal-checkpoint.json",
+        "/tmp/cross-repository-dependency-snueh9jv/legal-readback.json"
+      ],
+      "owner_field": "landing.start",
+      "command_source": "records.legal.output.next.argv",
+      "guessed_fields": [],
+      "supported": true
+    },
+    {
+      "case": "closure_only",
+      "selected_action": "stop",
+      "owner_field": "landing.start",
+      "command_source": "records.closure_only.output.status",
+      "guessed_fields": [],
+      "supported": false
+    },
+    {
+      "case": "wrong_repo",
+      "selected_action": "stop",
+      "owner_field": "landing.start",
+      "command_source": "records.wrong_repo.output.status",
+      "guessed_fields": [],
+      "supported": false
+    },
+    {
+      "case": "wrong_revision",
+      "selected_action": "stop",
+      "owner_field": "landing.start",
+      "command_source": "records.wrong_revision.output.status",
+      "guessed_fields": [],
+      "supported": false
+    },
+    {
+      "case": "stale",
+      "selected_action": "stop",
+      "owner_field": "landing.start",
+      "command_source": "records.stale.output.status",
+      "guessed_fields": [],
+      "supported": false
+    },
+    {
+      "case": "missing_step",
+      "selected_action": "stop",
+      "owner_field": "landing.start",
+      "command_source": "records.missing_step.output.status",
+      "guessed_fields": [],
+      "supported": false
+    }
+  ],
+  "totals": {
+    "legal_routes": 1,
+    "invalid_routes_selected": 0,
+    "repository_guesses": 0,
+    "instruction_reads": 3
+  },
+  "authorizes_landing": false
+}

@@ -14,6 +14,7 @@ import tempfile
 
 from soodles import Refusal, checked, clean_env, runtime_check, source_identity
 from repository_binding import PROFILES, git_origins, profile
+from dependency_binding import requests as dependency_requests, validate as validate_dependency
 
 ACTION = "./soodles landing"
 COMMON_CLAIM_FIELDS = {"repository", "issue", "pr", "head", "tree", "base_head", "run_id",
@@ -49,8 +50,10 @@ def provider_next(claim, operation, checkpoint):
     paths = {"pr": f"pulls/{claim['pr']}", "issue": f"issues/{claim['issue']}",
              "commit": f"git/commits/{claim['head']}", "branch": "branches/" + base_ref,
              "run": f"actions/runs/{claim['run_id']}", "jobs": f"actions/runs/{claim['run_id']}/jobs"}
+    requests = {key: {"method": "GET", "url": base + path} for key, path in paths.items()}
+    requests.update(dependency_requests(claim))
     return {**input_next(operation, ["readback"], checkpoint), "kind": "provider_readback", "owner": "GitHub",
-            "requests": {key: {"method": "GET", "url": base + path} for key, path in paths.items()},
+            "requests": requests,
             "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."}
 
 
@@ -83,7 +86,7 @@ def verifier_digest():
     root = Path(__file__).resolve().parent
     return fingerprint({name: hashlib.sha256((root / name).read_bytes()).hexdigest()
                         for name in ("landing.py", "soodles.py", "issue_admission.py",
-                                     "repository_binding.py",
+                                     "repository_binding.py", "dependency_binding.py",
                                      "issue_execution.py", "policy/runtime.lock.json")})
 
 
@@ -228,6 +231,10 @@ def validate_snapshot(claim, snapshot, *, operation, checkpoint):
     repository = claim["repository"]
     acceptance = profile(repository)
     base_ref = acceptance["base_ref"]
+    dependency_next = provider_next(claim, operation, checkpoint)
+    dependency_next["reason"] = ("Supply every registered producer GET in next.requests, then re-enter "
+                                 f"{operation} with the changed readback. Issue closure alone is insufficient.")
+    validate_dependency(claim, snapshot, require, dependency_next)
     pr, issue, run, jobs, commit = (snapshot[k] for k in ("pr", "issue", "run", "jobs", "commit"))
     for kind, obj, number in (("pr", pr, claim["pr"]), ("issue", issue, claim["issue"])):
         require(obj.get("number") == number, kind + ".number", obj.get("number"))
