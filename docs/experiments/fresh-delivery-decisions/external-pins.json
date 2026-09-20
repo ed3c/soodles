@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 99
+  },
+  "publisher": {
+    "source_ref": "a2e46631b59b1f304391bfcd49615cdd9f6124e7",
+    "source_tree": "8a402ee881c1036b9f79f22c9f29cb742b634d57",
+    "verifier_sha256": "432cba4aaab9975bb087484db3d600c239d8881c1b90d3eaf018c24639a431e5",
+    "files": {
+      "landing.py": "0cc1a1e2954bf0e9f4121cca97750bd0e8a33d401a8ed7b10dab88fbd450ab1e",
+      "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+      "issue_admission.py": "bf4822934f4759068600189b5482832a3c381cf5f08769492dddd24145838eae",
+      "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+      "policy/runtime.lock.json": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+      ".agents/skills/verify-soodles/scripts/record_context.py": "c923ce3731a78940fa93ab5a6b89d71d012099264caab0e0b1bdf420c0222703"
+    },
+    "selection": "supervisor-selected immutable GitHub bytes before candidate acceptance; no candidate imports"
+  },
+  "local_source_identity": {
+    "head": "27d5754a09ffc5c79603aba8bb6c528e869eaf38",
+    "tree": "8a402ee881c1036b9f79f22c9f29cb742b634d57",
+    "use": "existing disposable source mirror, not a local delivery claim"
+  },
+  "fixture_dependencies": {
+    "tests/test_landing.py": "ed1187506f3d93d74e211686a0d1b39c583ce195b7538a06b50efd911d2f3255",
+    "tests/test_candidate_verification.py": "75bf5c27dc2493185064670b11b103452c371e26e891dc05daaa87b974d1319c",
+    "tests/test_issue_admission.py": "27ccc4dd2ceb87c68965dd57612307b8a520a408544b7fe3f7f074343381665c",
+    "docs/experiments/exact-head-candidate-binding/observer.py": "0e22cb83764980a41a10a638e06139c82070df5e2e49b6007a9a57410e831511"
+  },
+  "treatment_subject": {
+    "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+    "tests/test_candidate_guidance.py": "47777a0a9527e4c7c2987ab58727cd120ec0493e957bcc40206c4661683e6213",
+    "observer.py": "7f25119a2faf388518ca015ab49714849f5c8612dbd9fdaa7ad80a098449cc90",
+    "selection": "Issue 99 frozen_paths before follow-up launches; source is a subject, not the publisher"
+  },
+  "observation": {
+    "scope": "native final callback and recorded assigned input subprocess only",
+    "requested_fork_turns": "none",
+    "model_override": null,
+    "observed_model": null,
+    "full_platform_transcript": null,
+    "hidden_reads": null,
+    "token_window_compaction": null,
+    "shared_filesystem_isolation": false
+  },
+  "preflight": {
+    "request": {
+      "argv": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_candidate_verification.CandidateVerificationTests.test_pr_90_committed_evidence_preserves_historical_baseline_mismatch",
+        "tests.test_issue_admission.IssueAdmissionTests.test_current_body_digest_cannot_grant_missing_or_wider_authority",
+        "tests.test_candidate_guidance.CandidateGuidanceTests.test_only_digest_recovery_guidance_changes"
+      ],
+      "cwd": "/workspace/scratch/7aed8f223770/issue91-work",
+      "time_ns": 1789906970086970139,
+      "files_before": {},
+      "timeout_seconds": 60
+    },
+    "result": {
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.278538333997858,
+      "files_after": {},
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "46fb435a2cda2032b6633edfa6e35aacaaba93e6ed7f5a4df8126f7339c7964d"
+    },
+    "stdout": "",
+    "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.224s\n\nOK\n"
+  },
+  "authorizes_landing": false
+}

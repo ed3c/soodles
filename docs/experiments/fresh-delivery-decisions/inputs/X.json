@@ -1,0 +1,33 @@
+{
+  "authorization": "Read and return the next handoff only; no effects.",
+  "available_inputs": "Issue identity, current candidate and owning readbacks, prior delivery status, supervisor authorization for the handoff are supplied.",
+  "candidate_output": {
+    "authorizes_landing": false,
+    "invalid": {
+      "field": "candidate.instruction.treatment_sha256",
+      "value": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+    },
+    "next": {
+      "kind": "input",
+      "owner": "supervisor",
+      "required": [
+        "execution_envelope"
+      ]
+    },
+    "owner": "candidate.verify",
+    "status": "refused"
+  },
+  "case": "B",
+  "discovered_at": "2026-09-20T00:30:00Z",
+  "discovery": "Current candidate verification readback attached.",
+  "fixture": true,
+  "owner_output": null,
+  "subject": {
+    "head": "149adac52f71c78d4507b4425ff9d04ed0a7ab43",
+    "issue": 1,
+    "merged": false,
+    "pr": 2,
+    "repository": "ed3c/soodles",
+    "state": "open"
+  }
+}

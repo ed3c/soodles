@@ -1,0 +1,95 @@
+{
+  "authorization": "Read and return the next handoff only; no effects.",
+  "available_inputs": "Issue identity, current candidate and owning readbacks, prior delivery status, supervisor authorization for the handoff are supplied.",
+  "candidate_output": {
+    "authorizes_landing": false,
+    "base_head": "bb7eddb03c3f01904cbe8e30cc4dc0d4690a7d6a",
+    "changed_paths": [
+      "evidence/manifest.json",
+      "evidence/observer.py",
+      "evidence/raw/baseline.json",
+      "evidence/raw/noncase.json",
+      "evidence/raw/treatment.json",
+      "evidence/results.md",
+      "evidence/task.md",
+      "policy.md"
+    ],
+    "classification": "VERIFIED",
+    "evidence_manifest_sha256": "0b5310876de5f36b0546169d6dff8c3a14aa62ec9e9ad6185ce3fa8150910220",
+    "frozen_paths": [
+      {
+        "actual_sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975",
+        "path": "evidence/task.md",
+        "revision": "head",
+        "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+      },
+      {
+        "actual_sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec",
+        "path": "evidence/observer.py",
+        "revision": "head",
+        "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+      }
+    ],
+    "head": "2f3740d82b177efc6970474fb5c8ba8161668e60",
+    "issue": 1,
+    "issue_body_sha256": "9ad2ffa76950110bcf0eeaa3117d918a7b6e74206b25f7cb50cfd7c475625077",
+    "owner": "candidate.verify",
+    "tree": "c5d1ffe054133fff2a4d5a17bb03c5eadede86c6"
+  },
+  "case": "D",
+  "discovered_at": "2026-09-20T02:00:00Z",
+  "discovery": "A required evidence artifact is absent.",
+  "fixture": true,
+  "owner_output": {
+    "action": "stop",
+    "claim": {
+      "base_head": "bb7eddb03c3f01904cbe8e30cc4dc0d4690a7d6a",
+      "head": "2f3740d82b177efc6970474fb5c8ba8161668e60",
+      "issue": 1,
+      "pr": 2,
+      "repository": "ed3c/soodles",
+      "run_attempt": 1,
+      "run_id": 10,
+      "tree": "c5d1ffe054133fff2a4d5a17bb03c5eadede86c6",
+      "verifier_sha256": "432cba4aaab9975bb087484db3d600c239d8881c1b90d3eaf018c24639a431e5",
+      "worktree": "example"
+    },
+    "classification": "RESOLVED",
+    "delivery": {
+      "action": "close",
+      "status": "offered"
+    },
+    "issue_closed_at": "2026-09-20T01:01:00Z",
+    "merge_sha": "dddddddddddddddddddddddddddddddddddddddd",
+    "next": null,
+    "observations": [
+      "463af156084f0081d15405cf49da5d1ad6360f2e194a3c619e5890616806e9a6",
+      "20906273d95b374ba238d330ca9f84ad3b541e8c7bccb4ab5236b26054e58174",
+      "73bb35e14037d79a8acf0cf2d148e9150fd21037c0b01befc401f53762a72b82"
+    ],
+    "owner": "landing.advance",
+    "phase": "resolved",
+    "provider_reconciliation": {
+      "local_reconciliation_required": false,
+      "main_head": "dddddddddddddddddddddddddddddddddddddddd",
+      "merge_sha": "dddddddddddddddddddddddddddddddddddddddd",
+      "mode": "cloud",
+      "provider": "GitHub"
+    },
+    "schema": 2,
+    "scope": "supervised single-Issue cloud landing",
+    "writes_offered": [
+      "merge",
+      "close"
+    ]
+  },
+  "subject": {
+    "head": "2f3740d82b177efc6970474fb5c8ba8161668e60",
+    "issue": 1,
+    "merged": true,
+    "merged_at": "2026-09-20T01:00:00Z",
+    "pr": 2,
+    "repository": "ed3c/soodles",
+    "state": "closed"
+  }
+}
