@@ -2,6 +2,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,8 +34,13 @@ class FreshDeliveryDecisionsTests(unittest.TestCase):
             self.assertEqual(observer.evaluate(case, json.dumps(contradictory))["classification"], "MATCHING_CHOICE")
 
     def test_context_is_exact_selected_source(self):
-        for document in read("inputs/context.json")["documents"]:
-            source = (ROOT / document["path"]).read_bytes()
+        context = read("inputs/context.json")
+        self.assertRegex(context["source_provider_sha"], r"^[0-9a-f]{40}$")
+        for document in context["documents"]:
+            # Historical observations bind their selected revision, not today's recipe.
+            source = subprocess.run(
+                ["git", "show", f"{context['source_provider_sha']}:{document['path']}"],
+                cwd=ROOT, check=True, capture_output=True).stdout
             self.assertEqual(hashlib.sha256(source).hexdigest(), document["source_sha256"])
             loaded = source.decode()
             if document["path"] == "contracts/system-v1.md":

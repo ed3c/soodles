@@ -1,8 +1,8 @@
 Traceback (most recent call last):
-  File "/tmp/issue105-frozen-handoff-oracle.py", line 329, in <module>
+  File "/tmp/issue105-frozen-handoff-oracle.py", line 341, in <module>
     print(json.dumps(handoff_probe(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else None), indent=2))
                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/tmp/issue105-frozen-handoff-oracle.py", line 262, in handoff_probe
+  File "/tmp/issue105-frozen-handoff-oracle.py", line 274, in handoff_probe
     a_completion = issue_execution.completed_original_order(a_envelope, a_state)
                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AttributeError: module 'issue_execution' has no attribute 'completed_original_order'

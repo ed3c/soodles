@@ -77,19 +77,6 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "readback")
         self.assertEqual(landing.read(self.checkpoint)["writes_offered"], ["merge"])
 
-    def test_consume_selects_current_owner_operation_without_replaying_an_offer(self):
-        self.start()
-        prepared = landing.consume(self.checkpoint, self.snapshot)
-        self.assertEqual(prepared["action"], "dispatch")
-        self.assertEqual(landing.read(self.checkpoint)["writes_offered"], [])
-        offered = landing.consume(self.checkpoint, self.snapshot)
-        self.assertEqual(offered["request"]["action"], "merge")
-        self.assertEqual(landing.read(self.checkpoint)["writes_offered"], ["merge"])
-        readback = landing.consume(self.checkpoint, self.snapshot)
-        self.assertEqual(readback["action"], "readback")
-        self.assertNotIn("request", readback)
-        self.assertEqual(landing.read(self.checkpoint)["writes_offered"], ["merge"])
-
     def test_prepared_intent_is_not_an_offer_and_requires_fresh_identity(self):
         self.start()
         self.assertEqual(landing.advance(self.checkpoint, self.snapshot)["action"], "dispatch")
@@ -552,7 +539,7 @@ class LandingTests(unittest.TestCase):
 
     def test_cli_help_and_malformed_input_refuse_before_checkpoint(self):
         for route in (["landing"], ["landing", "start"], ["landing", "advance"],
-                      ["landing", "consume"], ["landing", "dispatch"],
+                      ["landing", "dispatch"],
                       ["landing", "readmit"], ["landing", "reconcile"]):
             result = soodles.run(["./soodles", *route, "--help"], soodles.ROOT)
             self.assertEqual(result.returncode, 0, result.stderr)

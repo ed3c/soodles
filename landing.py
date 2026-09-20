@@ -485,23 +485,6 @@ def advance(checkpoint, snapshot):
         return response("advance", state, "readback", provider_next(claim, "advance", path))
 
 
-def consume(checkpoint, snapshot):
-    """Consume provider readback through the operation owned by the checkpoint.
-
-    The selected operation is only a projection of durable state.  The delegated
-    owner acquires the checkpoint lock and revalidates every identity and phase,
-    so a concurrent consumer can cause a refusal but cannot duplicate an offer.
-    """
-    state = delivery_state(Path(checkpoint))
-    delivery = state.get("delivery")
-    prepared = (
-        state["phase"] in {"merge_pending", "close_pending"}
-        and isinstance(delivery, dict)
-        and delivery.get("status") == "prepared"
-    )
-    return dispatch(checkpoint, snapshot) if prepared else advance(checkpoint, snapshot)
-
-
 def dispatch(checkpoint, snapshot):
     """Consume one prepared intent for the supervisor's existing connector transport."""
     with locked(checkpoint) as path:

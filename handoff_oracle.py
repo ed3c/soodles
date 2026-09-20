@@ -133,7 +133,7 @@ def _envelope(root, external, noodle, codex, issue):
     return data, path, hashlib.sha256(raw).hexdigest(), readback
 
 
-def _consume_probe(directory):
+def _consume_probe(directory, source):
     import landing
 
     checkpoint = directory / "consume-checkpoint.json"
@@ -160,15 +160,27 @@ def _consume_probe(directory):
                      "name": "Canonical acceptance on the exact candidate head",
                      "status": "completed", "conclusion": "success"}]}]},
         "branch": {"name": "main", "commit": {"sha": "c" * 40}}}
+    readback_path = directory / "consume-readback.json"
+    readback_path.write_text(json.dumps(snapshot))
     landing.start(claim, snapshot, checkpoint)
-    prepared = landing.consume(checkpoint, snapshot)
-    offered = landing.consume(checkpoint, snapshot)
-    readback = landing.consume(checkpoint, snapshot)
+    source = Path(source).resolve()
+
+    def consume(argv):
+        result = subprocess.run(argv, cwd=source, text=True, capture_output=True, timeout=30)
+        if result.returncode:
+            raise RuntimeError(f"current-next argv failed {argv!r}: {result.stderr}")
+        return json.loads(result.stdout)
+
+    prepared = consume(["./soodles", "landing", "advance",
+                        str(checkpoint), str(readback_path)])
+    offered = consume(prepared["next"]["argv"])
+    readback = consume(offered["next"]["argv"])
     if ([prepared["action"], offered["action"], readback["action"]]
             != ["dispatch", "merge", "readback"]
             or landing.read(checkpoint)["writes_offered"] != ["merge"]):
         raise RuntimeError("current-next consumer did not preserve exactly-once offer state")
     return {"actions": [prepared["action"], offered["action"], readback["action"]],
+            "argv": [prepared["next"]["argv"], offered["next"]["argv"]],
             "provider_requests": 1, "writes_offered": ["merge"]}
 
 
@@ -300,7 +312,7 @@ enabled = false
             branches = _run(["git", "branch", "--list", "soodles-*-0-execute"], root)
             if worktrees.count("worktree ") != 1 or branches:
                 raise RuntimeError("fixture worktree or branch residue remains")
-            consume = _consume_probe(outside)
+            current_next = _consume_probe(outside, source or Path(__file__).resolve().parent)
         finally:
             if original_env is None:
                 os.environ.pop("FIXTURE_NOODLE", None)
@@ -309,7 +321,7 @@ enabled = false
 
         return {
             "classification": "VERIFIED", "sequence": ["A", "cleanup", "B"],
-            "current_next": consume,
+            "current_next": current_next,
             "A": {"order_id": "soodles-105", "session_id": a_spawn["session_id"],
                   "typed_outcome": a_event["payload"], "process": a_exit,
                   "completion_source": a_completion["source"], "cleanup": "Noodle"},

@@ -1,1 +1,0 @@
-Audit the six fresh-consumer outputs against their own supplied instruction context, checkpoint state, and CLI help. For each, decide whether argv is a supported invocation that consumes the named current readback without inventing flags. Report JSON with per_run booleans, baseline_errors, treatment_errors, and scope. Do not infer provider success and do not edit files.

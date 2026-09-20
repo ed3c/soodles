@@ -1,18 +1,10 @@
 Traceback (most recent call last):
-  File "/tmp/issue105-frozen-handoff-oracle.py", line 329, in <module>
+  File "/tmp/issue105-frozen-handoff-oracle.py", line 341, in <module>
     print(json.dumps(handoff_probe(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else None), indent=2))
                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/tmp/issue105-frozen-handoff-oracle.py", line 303, in handoff_probe
-    consume = _consume_probe(outside)
-              ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/tmp/issue105-frozen-handoff-oracle.py", line 164, in _consume_probe
-    prepared = landing.consume(checkpoint, snapshot)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/tmp/soodles105-negative-Bn5LbU/landing.py", line 502, in consume
-    return advance(checkpoint, snapshot) if prepared else dispatch(checkpoint, snapshot)
-                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/tmp/soodles105-negative-Bn5LbU/landing.py", line 517, in dispatch
-    require(state["phase"] in {"merge_pending", "close_pending"}, "dispatch.phase", state["phase"])
-  File "/tmp/soodles105-negative-Bn5LbU/landing.py", line 32, in require
-    raise LandingRefusal(field, value, next_action)
-landing.LandingRefusal: landing: invalid dispatch.phase='admitted'
+  File "/tmp/issue105-frozen-handoff-oracle.py", line 315, in handoff_probe
+    current_next = _consume_probe(outside, source or Path(__file__).resolve().parent)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/issue105-frozen-handoff-oracle.py", line 181, in _consume_probe
+    raise RuntimeError("current-next consumer did not preserve exactly-once offer state")
+RuntimeError: current-next consumer did not preserve exactly-once offer state
