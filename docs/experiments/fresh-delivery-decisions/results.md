@@ -11,10 +11,11 @@ The minimal source correction names Soodles Issue admission and
 refuse; normal Issue admission still requires its envelope.
 
 All P-class source bytes remain unchanged. The manifest's legacy `instructions`
-field binds two changed subjects: this atom's L-class admission source and the
-amended N-class #97 report. That schema field does not classify either as a
-prompt treatment. Loaded delivery context is separately bound as an artifact
-and compared byte-for-byte with final repository source by deterministic tests.
+field binds three changed subjects: this atom's L-class admission source, the
+amended N-class #97 report and the landing owner correction. That schema field
+does not classify any of them as a prompt treatment. Loaded delivery context is
+separately bound as an artifact and compared byte-for-byte with final repository
+source by deterministic tests.
 
 ## Preserved discovery baseline
 
@@ -92,6 +93,30 @@ and duplicate recognized references still fail extraction. Existing publisher
 identity and auto-close checks remain unchanged. The raw refusal, original
 provider readback and old parser are retained in `raw/delivery-entry-refusal.json`.
 The old head is not rerun or merged; its successor needs all exact-head checks.
+
+### Preserved second-head cloud refusal and owner correction
+
+Head `1347e5f0a31bc6a26f64f041b84db7465a86c0ac` passed runtime
+`35511217774` (job `106079346804`), quality `35511217921` and artifact
+publication (`10605576772`, digest
+`sha256:7443306df1c9c93ebb7702aa72f652814900b1883d96f70639a717a136b1a479`).
+After the PR body removed its ambiguous auto-close phrase, the selected external
+publisher refused `claim.execution_envelope=required for an execution contract`
+before checkpoint or request creation. The raw provider readback and refusal are
+preserved in `raw/publisher-cloud-refusal.json`; the artifact metadata is
+provider evidence, but its ZIP contents were not inspected locally.
+
+The marked cloud path was unsatisfiable: the same owner required a local
+execution envelope while its claim schema prohibits one for cloud. The minimum
+correction makes marked cloud admission depend on the successful exact-head
+candidate-evidence workflow step already emitted by runtime, while preserving
+local envelope validation. A separately materialized publisher, based on the
+original pinned main bytes plus only this landing correction, was selected and
+tested before the successor candidate. Its negative control removes that step
+and refuses `job.candidate_evidence`; its positive control starts the marked
+cloud scope without an envelope. Both are synthetic, non-authorizing fixture
+tests recorded in `raw/external-publisher-control.json`. The next head still
+requires fresh provider runtime/readback and a real external-owner drive.
 
 ## Not established
 

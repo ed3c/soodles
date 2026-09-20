@@ -14,6 +14,11 @@
       "path": "docs/experiments/atomic-delivery-baseline/results.md",
       "baseline_sha256": "a2bfe40397b925baa57a812a284108f71a36ad41c9d6415f7ac15fa96165a05d",
       "treatment_sha256": "29c9bc066ecef5a6328ac2fee432df81a579573ac73d752a7c493d6cbd1c1518"
+    },
+    {
+      "path": "landing.py",
+      "baseline_sha256": "0cc1a1e2954bf0e9f4121cca97750bd0e8a33d401a8ed7b10dab88fbd450ab1e",
+      "treatment_sha256": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
     }
   ],
   "artifacts": [
@@ -105,7 +110,7 @@
     {
       "path": "docs/experiments/fresh-delivery-decisions/external-pins.json",
       "role": "non_authorizing_evidence",
-      "sha256": "3f907ca675c50cb6bd770b61957b5c244730c43d33ce639b83f85e0443bba009"
+      "sha256": "e1d9894f7c356d75c9a3b1ca1b3ad9e9137d12a84008aeb10b07a4607aa2c571"
     },
     {
       "path": "docs/experiments/fresh-delivery-decisions/protocol-review.md",
@@ -120,7 +125,7 @@
     {
       "path": "docs/experiments/fresh-delivery-decisions/results.md",
       "role": "non_authorizing_evidence",
-      "sha256": "53f2349b1a55c6d30431535426f1481b63b1349f8271842bbbd2d889f3a3a53f"
+      "sha256": "784fccb29b6151eddcaeb133f9fadbae14bd1cef871bf39d6af6bd11e5535586"
     },
     {
       "path": "tests/test_fresh_delivery_decisions.py",
@@ -211,6 +216,21 @@
       "path": "docs/experiments/fresh-delivery-decisions/raw/delivery-entry-refusal.json",
       "role": "owner_refusal_raw",
       "sha256": "849dd4274dbeb66c42b0d206c5d9a286370899994a94ba219437b65b02149732"
+    },
+    {
+      "path": "tests/test_landing.py",
+      "role": "unit_control",
+      "sha256": "89a62c3a257a9d0583b19e9e9a8ac9ae895e772547942ae340d545e732b1bb39"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/publisher-cloud-refusal.json",
+      "role": "owner_refusal_raw",
+      "sha256": "c780fb24467ac13c6232fd6d6be19f8ea4f218f979fb521a4fafefff5c89da80"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/external-publisher-control.json",
+      "role": "non_authorizing_evidence",
+      "sha256": "fdbd53c7f9b733813c155a623a2fb510625c354a4914760d4151364adf99f633"
     }
   ],
   "owner": {
