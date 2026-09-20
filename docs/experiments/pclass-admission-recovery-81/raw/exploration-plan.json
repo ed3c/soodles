@@ -1,0 +1,43 @@
+{
+  "schema": 2,
+  "experiment_id": "ed3c/soodles#81-exploration",
+  "subject": {
+    "soodles": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+    "noodle": "ca81f942f478e8e4afcbbce6ca69640867efe753"
+  },
+  "carrier": {
+    "id": "darwin_arm64",
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "arm": "baseline",
+  "run_ids": [
+    "e_b4",
+    "e_b5",
+    "e_b6"
+  ],
+  "task_sha256": "fad7b2f1503c6c8fe19b7ecb29370c39d70af3367b9a8e4601542a9a0a7607b8",
+  "instruction_files": {
+    "admission-recovery.md": "4cd470eac5ff8e8481d6577967f26f41bbb80f5c7bfeeb782814d31507c5280f",
+    "pclass-context.md": "84e3c7dc8f985e16797b307bdc5b5571eafeda5b967a71079f4ce3e2674b2098",
+    "verify-noodle.SKILL.md": "e2ac1576f4f41e08e50397ef1a7f73ecb9b9c7e44b2544f41450272d4ad6aff6"
+  },
+  "recorder_sha256": "c923ce3731a78940fa93ab5a6b89d71d012099264caab0e0b1bdf420c0222703",
+  "input_selection_sha256": "9b5c6505bcd023fb1a872d44d8a33880e862046883349bd032c4b830ccf18e14",
+  "binary": "/Users/neon/.codex/experiments/noodle84-20260917/noodle-merged-ca81",
+  "binary_sha256": "5657c8c3dcaa2491d290a35995c35e4c3d46993955b151f3c75e3bac94476aff",
+  "barrier_order": [
+    "repeated_unchanged_projection",
+    "help_after_complete_projection",
+    "repeated_unchanged_instruction",
+    "avoidable_confirmation"
+  ],
+  "authorizes_landing": false,
+  "recorder_path": "/Users/neon/soodles/.agents/skills/verify-soodles/scripts/record_context.py",
+  "preflight_aborts": [
+    "e_b1",
+    "e_b2",
+    "e_b3"
+  ],
+  "preflight_abort_reason": "copied recorder resolved checkout root as /Users/neon and refused external evidence before reading task or invoking owner"
+}

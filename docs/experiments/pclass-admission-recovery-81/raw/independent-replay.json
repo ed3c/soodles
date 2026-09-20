@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "authorizes_landing": false,
+  "evidence_kind": "consumer_returned_receipt_not_complete_platform_transcript",
+  "consumer": {
+    "tool": "collaboration.spawn_agent",
+    "task_name": "/root/independent_replay",
+    "fork_turns": "none",
+    "authority": "read-only replay; no files written, archived argv, Noodle drive, provider write or exploration rerun"
+  },
+  "raw_bundle_sha256": "dd21fb472472ca228c0c99ecdba5f122bee4bb173374acbf204dfa2d4c33e370",
+  "independent_raw_checks": {
+    "method": "Python standard-library blob decoding, hash verification, chronological request/result review, owner argv comparison and archive/canonical byte comparison; command exit 0",
+    "record_counts": {
+      "e_b4": 40,
+      "e_b5": 34,
+      "e_b6": 40
+    },
+    "fresh_next_argv_matches_retire": true,
+    "retired_next_argv_matches_completion": true,
+    "owner_exits": [
+      0,
+      0,
+      0
+    ],
+    "proposal_bytes": 1915,
+    "proposal_sha256": "c715406cd22b04ed125e6c7f98e8c2fa3267518e6ae5b84b46a9088c455b8088",
+    "archive_decodes_to_original": true,
+    "canonical_before_after_equal": true,
+    "raw_barrier_counts": {
+      "e_b4": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "e_b5": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "e_b6": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "scored_barriers": {
+      "e_b4": null,
+      "e_b5": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "e_b6": null
+    },
+    "hard_gates": {
+      "e_b4": [
+        "retained_runtime_lock"
+      ],
+      "e_b5": [],
+      "e_b6": [
+        "recovery_residue"
+      ]
+    }
+  },
+  "preflight_aborts": {
+    "scored": false,
+    "canonical_sha256": "4dd381a7b47ea45d45c7961489732e6668bfb1e5bc7a6e0a5ac642d1d29e4b81",
+    "byte_sha256": "cc7d1913332b6725662fc13cf2f2ee7700e9a76e4f4440fef127ce098e9355bd",
+    "e_b3_records": 11,
+    "e_b3_actual_exit_zero": 10,
+    "e_b3_spawn_failures": 1,
+    "task_instruction_help_version_observed": true,
+    "admission_inspect_or_retire_observed": false,
+    "disagreements": [
+      "The supplied blanket no-task-read/no-Noodle-invocation statement is contradicted by e_b3 raw records.",
+      "Raw timestamp order puts 003_recovery_read before 002_skill_read; consumer ordered_labels reverses them.",
+      "Go spawn failure has exit_code=null; 125 is recorder CLI fallback, not a Go child exit.",
+      "e_b1/e_b2 pre-entry refusals are consumer observations, not a full platform transcript."
+    ]
+  },
+  "limits": [
+    "e_b5 consumer manually removed its disposable lock after absent PID/group and exclusive-lock readback; this is not Noodle automatic cleanup or production delete-lock authority.",
+    "All three lack source-checkout HEAD/clean-state observations.",
+    "e_b6 successful build metadata read follows retirement/completion; no complete Doctor-before-drive claim.",
+    "Confirmation zero is consumer-recorded, and provider absence is limited to recorded subprocesses.",
+    "e_b6 process scope covers recorded session PIDs and equal-numbered groups, not the retained lock PID.",
+    "Positive barrier and synthetic zero controls are unit fixtures, not new exploration consumers."
+  ],
+  "superseded_replays": [
+    {
+      "manifest_sha256": "d3fa329cb432554424f8c9c33bfaa3d16ccf6083790ad3144b66dfeb3cafdf2e",
+      "normalizer_sha256": "4e007c3ff5fd0a20d6be09fb8bdccbde2d9977292d5aba9dd6956963ef48b8b9",
+      "observer_sha256": "9679d504862dd2d2de7bc04c82da0c4213ccae9b9bdc53976a1d6d52df84f4a1",
+      "exit_code": 1,
+      "classification": "FAIL",
+      "disposition": "INCONCLUSIVE",
+      "revision_explicitly_supplied": true,
+      "authorizes_landing": false
+    },
+    {
+      "manifest_sha256": "c01eef4b6a2fd0e3d8a73cabb9e6fbf2eddb2d8a99c841e2321f52c861eccbe6",
+      "observer_sha256": "40c9c747b3cebcfedb2f4f4e741d13b4374a971c28f7a686718b0e6ecb88a91d",
+      "exit_code": 1,
+      "wrapper_exit_code": 0,
+      "classification": "FAIL",
+      "disposition": "INCONCLUSIVE",
+      "stdout_sha256": "5740db559fa523a46125e4fa9afedeb226568a5b13ffd651504a3178b77f4697",
+      "receipt_canonical_sha256": "5a2797b8b459546fc6c4718555abb2390509f86f4f6cd74576165d264ce820db",
+      "controls_passed": 14,
+      "matches_stored_at_observation": true,
+      "revision_explicitly_supplied": true,
+      "authorizes_landing": false
+    }
+  ],
+  "final_replay": {
+    "pins_verified_before_execution": true,
+    "authorizes_landing": false,
+    "manifest_canonical_sha256": "01a25394f14bc08c6ccaad28c8b808042da2edd377b32cefa3dd7a7d4e288a42",
+    "byte_sha256": {
+      "manifest.json": "95b9f4d3bd67ee208a87aed3cb015224d97571cff5bd5760a677a66c717bc997",
+      "replay_pclass.py": "bd04512d733f29594a90d4ce89d821ee2712d48ec950739ed0a94516b8e69ccd",
+      "observe_admission_recovery_pclass.py": "b1b6596cf2549909d3a0454e9d585feec5b7df0e44aae573c1e5866523645812",
+      "decide_admission_recovery_pclass.py": "e8748a7836c8e4577f23204e107f4e2a5885e4e315aace37dfa2981de2c1df09"
+    },
+    "argv": [
+      "python3",
+      "-B",
+      ".agents/skills/verify-soodles/scripts/replay_pclass.py",
+      "docs/experiments/pclass-admission-recovery-81/raw/raw-runs.json",
+      "docs/experiments/pclass-admission-recovery-81/raw/gates.json",
+      "docs/experiments/pclass-admission-recovery-81/raw/manifest.json",
+      "01a25394f14bc08c6ccaad28c8b808042da2edd377b32cefa3dd7a7d4e288a42",
+      ".agents/skills/verify-soodles/scripts/observe_admission_recovery_pclass.py",
+      ".agents/skills/verify-soodles/scripts/decide_admission_recovery_pclass.py"
+    ],
+    "exit_code": 1,
+    "wrapper_exit_code": 0,
+    "stdout_sha256": "362b15d98f06dcf3879c1b786248f5e710a3c5d89e1c49d81fad686632f47a7e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt_canonical_sha256": "290d91b92cadf519d4a08c52c51eeccfff0c3b23cc7474d8143f4162f095695e",
+    "matches_stored": true,
+    "classification": "FAIL",
+    "disposition": "INCONCLUSIVE",
+    "errors": [
+      "e_b4:retained_runtime_lock",
+      "e_b6:recovery_residue",
+      "failed_hard_gate"
+    ],
+    "barrier_totals": null,
+    "selected_barrier": null,
+    "controls_count": 14,
+    "controls_predicate_pass": 14,
+    "confirmation_authorized": false,
+    "treatment_retained": false,
+    "disagreement_with_stored_receipt": null
+  }
+}

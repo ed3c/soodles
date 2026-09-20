@@ -1,0 +1,266 @@
+{
+  "schema": 3,
+  "classification": "FAIL",
+  "experiment_id": "ed3c/soodles#81-exploration",
+  "errors": [
+    "e_b4:retained_runtime_lock",
+    "e_b6:recovery_residue",
+    "failed_hard_gate"
+  ],
+  "manifest_sha256": "01a25394f14bc08c6ccaad28c8b808042da2edd377b32cefa3dd7a7d4e288a42",
+  "raw_bundle_sha256": "dd21fb472472ca228c0c99ecdba5f122bee4bb173374acbf204dfa2d4c33e370",
+  "observer_sha256": "b1b6596cf2549909d3a0454e9d585feec5b7df0e44aae573c1e5866523645812",
+  "normalizer_sha256": "bd04512d733f29594a90d4ce89d821ee2712d48ec950739ed0a94516b8e69ccd",
+  "decider_sha256": "e8748a7836c8e4577f23204e107f4e2a5885e4e315aace37dfa2981de2c1df09",
+  "gates_sha256": "1b734703a273fb8f8e8c4c8996440db36682365b85590821e95f00e05ff78254",
+  "baseline": [
+    {
+      "run_id": "e_b4",
+      "arm": "baseline",
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "retained_runtime_lock"
+      ],
+      "barriers": null,
+      "observed_legal_barriers": {
+        "repeated_unchanged_projection": 0,
+        "help_after_complete_projection": 0,
+        "repeated_unchanged_instruction": 0,
+        "avoidable_confirmation": 0
+      },
+      "records": 40,
+      "evidence_sha256": "9fbce8a8c55852a3a30158c27f211e873b7557f3f78fed2302ce317e1f59855a",
+      "authorizes_landing": false
+    },
+    {
+      "run_id": "e_b5",
+      "arm": "baseline",
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "repeated_unchanged_projection": 0,
+        "help_after_complete_projection": 0,
+        "repeated_unchanged_instruction": 0,
+        "avoidable_confirmation": 0
+      },
+      "observed_legal_barriers": {
+        "repeated_unchanged_projection": 0,
+        "help_after_complete_projection": 0,
+        "repeated_unchanged_instruction": 0,
+        "avoidable_confirmation": 0
+      },
+      "records": 34,
+      "evidence_sha256": "00f0e932d748c5d0197757156e717645236e3d70420a4dd79333715e7e069984",
+      "authorizes_landing": false
+    },
+    {
+      "run_id": "e_b6",
+      "arm": "baseline",
+      "hard_gate": "FAIL",
+      "hard_errors": [
+        "recovery_residue"
+      ],
+      "barriers": null,
+      "observed_legal_barriers": {
+        "repeated_unchanged_projection": 0,
+        "help_after_complete_projection": 0,
+        "repeated_unchanged_instruction": 0,
+        "avoidable_confirmation": 0
+      },
+      "records": 40,
+      "evidence_sha256": "98b16536e4babe1e008a8eda9e1ccdb32c6dce337b8a20f990229d7d64af24f1",
+      "authorizes_landing": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "stale_continuation",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "stale_or_unbound_continuation",
+      "predicate": "PASS",
+      "errors": [
+        "e_b5:initial_not_recoverable",
+        "e_b5:initial_projection_digest_mismatch",
+        "e_b5:missing_completion",
+        "e_b5:projection_subject_mismatch",
+        "e_b5:record_membership_mismatch",
+        "e_b5:stale_or_unbound_continuation"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "wrong_projection_digest",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "initial_projection_digest_mismatch",
+      "predicate": "PASS",
+      "errors": [
+        "e_b5:initial_projection_digest_mismatch"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "wrong_subject",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "noodle_subject_or_carrier_mismatch",
+      "predicate": "PASS",
+      "errors": [
+        "e_b5:noodle_subject_or_carrier_mismatch"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "missing_completion",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "missing_completion",
+      "predicate": "PASS",
+      "errors": [
+        "e_b5:missing_completion",
+        "e_b5:record_membership_mismatch"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "false_cleanup",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "recovery_residue",
+      "predicate": "PASS",
+      "errors": [
+        "e_b5:recovery_residue"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "incomplete_membership",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "incomplete_or_duplicate_membership",
+      "predicate": "PASS",
+      "errors": [
+        "incomplete_or_duplicate_membership"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "duplicate_membership",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "incomplete_or_duplicate_membership",
+      "predicate": "PASS",
+      "errors": [
+        "incomplete_or_duplicate_membership"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "observer_identity",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "input_selection_mismatch",
+      "predicate": "PASS",
+      "errors": [
+        "input_selection_mismatch"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "run_identity",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "consumer_identity_mismatch",
+      "predicate": "PASS",
+      "errors": [
+        "e_b5:consumer_identity_mismatch"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "archive_changed",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "archive_preservation_failed",
+      "predicate": "PASS",
+      "errors": [
+        "e_b5:archive_preservation_failed"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "provider_transport",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "unbound_command_or_transport",
+      "predicate": "PASS",
+      "errors": [
+        "e_b5:missing_completion",
+        "e_b5:mutating_continuation_count",
+        "e_b5:unbound_command_or_transport"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "unwaited_process",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "required_error": "process_not_waited",
+      "predicate": "PASS",
+      "errors": [
+        "e_b5:missing_completion",
+        "e_b5:mutating_continuation_count",
+        "e_b5:owner_operation_failed",
+        "e_b5:process_not_waited"
+      ],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "fresh_reinspection",
+      "expected": "PASS",
+      "observed": "PASS",
+      "required_error": null,
+      "predicate": "PASS",
+      "errors": [],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    },
+    {
+      "name": "equivalent_argv",
+      "expected": "PASS",
+      "observed": "PASS",
+      "required_error": null,
+      "predicate": "PASS",
+      "errors": [],
+      "source_run_id": "e_b5",
+      "authorizes_landing": false
+    }
+  ],
+  "decision": {
+    "disposition": "INCONCLUSIVE",
+    "barrier_totals": null,
+    "selected_barrier": null,
+    "errors": [
+      "e_b4:retained_runtime_lock",
+      "e_b6:recovery_residue",
+      "failed_hard_gate"
+    ],
+    "confirmation_authorized": false,
+    "treatment_retained": false,
+    "authorizes_landing": false
+  },
+  "authorizes_landing": false
+}

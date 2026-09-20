@@ -293,8 +293,63 @@ def replay_controls(raw_by_id, declared, manifest, observer):
     return receipts, errors
 
 
+def replay_admission_recovery(raw_bundle, gates, manifest, expected_digest,
+                              observer_path, decider_path, normalizer_path):
+    errors = []
+    if fingerprint(manifest) != expected_digest:
+        errors.append("manifest_digest_mismatch")
+    if (manifest.get("schema") != 3 or manifest.get("phase") != "exploration"
+            or manifest.get("issue") != {"repository": "ed3c/soodles", "number": 81}
+            or manifest.get("authorizes_landing") is not False):
+        errors.append("invalid_admission_recovery_manifest")
+    if normalizer_path is not None and Path(normalizer_path).resolve() != Path(__file__).resolve():
+        errors.append("normalizer_path_mismatch")
+    for name, path in (("observer", observer_path), ("decider", decider_path),
+                       ("normalizer", __file__)):
+        try:
+            if file_sha256(path) != manifest.get(name + "_sha256"):
+                errors.append(name + "_digest_mismatch")
+        except OSError:
+            errors.append(name + "_unreadable")
+    if fingerprint(raw_bundle) != manifest.get("raw_bundle_sha256"):
+        errors.append("raw_bundle_digest_mismatch")
+    if (not isinstance(gates, dict)
+            or set(gates) != {"schema", "experiment_id", "scope", "authorizes_landing"}
+            or gates.get("schema") != 1
+            or gates.get("experiment_id") != manifest.get("experiment_id")
+            or gates.get("scope") != "recorded_exploration_only"
+            or gates.get("authorizes_landing") is not False
+            or fingerprint(gates) != manifest.get("gates_sha256")):
+        errors.append("invalid_exploration_gates")
+    # No analyzer code runs until every externally pinned byte digest matches.
+    if errors:
+        return failed_receipt(errors, manifest, expected_digest, raw_bundle)
+    observer = load_module("admission_recovery_observer", observer_path)
+    decider = load_module("admission_recovery_decider", decider_path)
+    try:
+        receipts, errors = observer.evaluate(raw_bundle, manifest)
+        controls = observer.controls(raw_bundle, manifest)
+        decision = decider.evaluate(receipts, controls, errors, manifest)
+    except (KeyError, TypeError, ValueError, IndexError, StopIteration) as error:
+        return failed_receipt([f"missing_or_invalid_evidence:{error}"],
+                              manifest, expected_digest, raw_bundle)
+    return {"schema": 3, "classification": "FAIL" if decision["errors"] else "PASS",
+            "experiment_id": manifest["experiment_id"], "errors": decision["errors"],
+            "manifest_sha256": expected_digest, "raw_bundle_sha256": fingerprint(raw_bundle),
+            "observer_sha256": manifest["observer_sha256"],
+            "normalizer_sha256": manifest["normalizer_sha256"],
+            "decider_sha256": manifest["decider_sha256"],
+            "gates_sha256": manifest["gates_sha256"],
+            "baseline": receipts, "controls": controls, "decision": decision,
+            "authorizes_landing": False}
+
+
 def replay(raw_bundle, gates, manifest, expected_manifest_sha256, observer_path,
            decider_path, normalizer_path=None):
+    if isinstance(manifest, dict) and manifest.get("feature") == "admission_recovery":
+        return replay_admission_recovery(
+            raw_bundle, gates, manifest, expected_manifest_sha256,
+            observer_path, decider_path, normalizer_path)
     errors = []
     normalizer_path = Path(normalizer_path or __file__).resolve()
     observer_path = Path(observer_path).resolve()
