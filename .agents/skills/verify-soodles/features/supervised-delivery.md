@@ -20,7 +20,19 @@ This is an output contract, not a phase-to-command table:
 | `invalid` / nonzero exit | Preserve exact field/value and owning action. Text and JSON must agree. Follow explicit missing-input/readback guidance or supported help; help alone may not identify a recovery action. Do not infer one from field prefixes. |
 | `next: null` | No next operation is offered. Inspect the receipt's scope/classification; identity or a fixture is not Issue resolution. |
 
-The current implementation emits input/provider guidance and executable `help_argv`; it does not emit a general runnable transition `argv`.
+For existing `advance`/`dispatch` continuations, the CLI binds `next.argv` when
+the invocation already supplied the confirmed checkpoint and readback paths.
+First satisfy the emitted provider GETs and replace the raw snapshot at
+`next.known.readback`; then execute the current `next.argv` as an argument array.
+Keep the selected publisher and every argument unchanged. This removes command
+assembly from the consumer; it does not certify freshness or grant authority.
+An emitted `request` still goes through the existing transport once before its
+fresh readback. A historical argv is trace evidence, never a retry capability.
+
+When those paths or other required inputs are unknown, no argv is supplied.
+Use the named owner and existing help route; do not infer a command from phase,
+invalid-field spelling or a previous result. Every invoked transition retains
+its current identity, checkpoint, provider-readback and offered-write guards.
 
 For `next.kind: provider_readback`, `help_argv` documents syntax only. Consume the emitted GETs; if the externally selected publisher or checkpoint needed to re-enter the owner is unavailable, preserve those readbacks and stop for that exact capability. Do not execute `help_argv` as a capability probe because it cannot perform the transition. Missing or malformed comparison readbacks now include an exact GitHub compare GET, original operation and known checkpoint. For `readmit`, `next.known.claim` retains the validated fresh claim: supply those same values through the existing claim-file argument, without changing identity or authority. The owner does not invent a claim-file path. Human diagnostics include the same owner reason and compare URL as the structured output.
 

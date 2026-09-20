@@ -1,0 +1,2520 @@
+{
+  "schema": 1,
+  "classification": "BOUNDED_PROJECTION_AND_RECORDED_LITERAL_CONSUMPTION_SUPPORTED_WITH_LIMITATIONS",
+  "authorizes_landing": false,
+  "audit_method": "Independent read-only source and raw event review; no consumer reruns, provider operations, fixture changes or cleanup. Raw equality and route counts recomputed instead of trusting consumer receipt summaries or copied_current_argv flags. Only this audit output is written.",
+  "prelaunch_bindings": {
+    "task_sha256": {
+      "actual": "d6124f698ae2f470895c2a4b8ce6afe52c9fb9de9079b235337ff46f151773d8",
+      "expected": "d6124f698ae2f470895c2a4b8ce6afe52c9fb9de9079b235337ff46f151773d8",
+      "matches": true
+    },
+    "recorder_sha256": {
+      "actual": "68d1da87e85dae383b71b48c1c88dbf85d30317569a5d49d923eaf7d2b41f495",
+      "expected": "68d1da87e85dae383b71b48c1c88dbf85d30317569a5d49d923eaf7d2b41f495",
+      "matches": true
+    },
+    "observer_sha256": {
+      "actual": "6116fd814314edafe1e2f2352b10bdba6c0ad9bfe9a681b103f9f744d52bd093",
+      "expected": "6116fd814314edafe1e2f2352b10bdba6c0ad9bfe9a681b103f9f744d52bd093",
+      "matches": true
+    }
+  },
+  "runs": {
+    "r11": {
+      "arm": "baseline",
+      "owner_calls": 4,
+      "wrong_owner_routes": 0,
+      "literal_current_argv_matches": 0,
+      "current_argv_available_owner_calls": 0,
+      "help_calls": 2,
+      "submitted_nonhelp_argv": 4,
+      "unmatched_submissions": [],
+      "recorded_fixture_readbacks": 4,
+      "recorded_instruction_reads": 1,
+      "generated_merge_requests": 1,
+      "generated_close_requests": 0,
+      "expected_missing_merge_commit_refusals": 1,
+      "wrong_route_claim_scope": "Recorded owner calls only; unmatched submission separately preserved.",
+      "recorded_transport_events": 0,
+      "platform_transport_observation": "unavailable",
+      "final_cases": {
+        "prepared": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "5c305f1e80b270c66d5d551cb35f53ec357ae4423a15bc0d4f2ff6d164af9c8d"
+        },
+        "offered": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "3d1759003816a8146c8afff326662d0161bc685868ace1756e1cabab45d2a96e"
+        },
+        "recovery": {
+          "phase": "close_pending",
+          "delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "fa5bb6e64a2e963b86b609962c821233ca9791517c4d9562a9f16daec803793e"
+        }
+      },
+      "transitions": [
+        {
+          "event_line": 6,
+          "case": "prepared",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r11/soodles.py",
+            "landing",
+            "dispatch",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r11/state/prepared/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r11/state/prepared/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "dispatch",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 2,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "invalid": null,
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          },
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 11,
+          "case": "offered",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r11/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r11/state/offered/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r11/state/offered/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 7,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": "readback",
+          "invalid": null,
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 14,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r11/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r11/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r11/state/recovery/readback.json"
+          ],
+          "exit": 1,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 12,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": null,
+          "invalid": {
+            "field": "merge_commit",
+            "value": null
+          },
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": true
+        },
+        {
+          "event_line": 17,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r11/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r11/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r11/state/recovery/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 15,
+          "most_recent_recorded_readback_stage": 1,
+          "owner": "landing.advance",
+          "action": "dispatch",
+          "invalid": null,
+          "request": null,
+          "after_phase": "close_pending",
+          "after_delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        }
+      ],
+      "help_events": [
+        {
+          "event_line": 4,
+          "case": "prepared",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r11/soodles.py",
+            "landing",
+            "dispatch",
+            "--help"
+          ],
+          "exit": 0,
+          "matches_current_help_argv": true
+        },
+        {
+          "event_line": 9,
+          "case": "offered",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r11/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "exit": 0,
+          "matches_current_help_argv": true
+        }
+      ],
+      "instruction_read_bindings": [
+        {
+          "event_line": 1,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+              "computed_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+              "matches_admitted": true
+            }
+          ]
+        }
+      ],
+      "file_bindings": {
+        "publisher/soodles.py": {
+          "expected": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+          "actual": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+          "matches": true
+        },
+        "publisher/issue_admission.py": {
+          "expected": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "actual": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "matches": true
+        },
+        "publisher/issue_execution.py": {
+          "expected": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "actual": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "matches": true
+        },
+        "publisher/landing.py": {
+          "expected": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "actual": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "matches": true
+        },
+        "publisher/policy/runtime.lock.json": {
+          "expected": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "actual": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "matches": true
+        },
+        "instructions/AGENTS.md": {
+          "expected": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "actual": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "matches": true
+        },
+        "instructions/SKILL.md": {
+          "expected": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "actual": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "matches": true
+        },
+        "instructions/supervised-delivery.md": {
+          "expected": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+          "actual": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+          "matches": true
+        },
+        "packet.json": {
+          "expected": "8226242b40b1866282b57e1594258c31e29b615c4ff851feab7ae6782ea259a5",
+          "actual": "8226242b40b1866282b57e1594258c31e29b615c4ff851feab7ae6782ea259a5",
+          "matches": true
+        }
+      },
+      "all_file_bindings_match": true,
+      "publisher_identity": {
+        "computed": "5e0f4f373902a208f51d0f37213e670f49fa3daa520a0113361cee14d8c3bbd1",
+        "packet": "5e0f4f373902a208f51d0f37213e670f49fa3daa520a0113361cee14d8c3bbd1",
+        "matches": true
+      },
+      "evidence_hashes": {
+        "packet.json": "8226242b40b1866282b57e1594258c31e29b615c4ff851feab7ae6782ea259a5",
+        "events.jsonl": "bf2bd478a4c085e7d0b21c7127534a258a80fb10633cd6b42cdfe7006b12515f",
+        "consumer-receipt.json": "6358fca28a5ead773f7e19261f14561bb39c7b6b7629fbfd79ed5761c7ca116b",
+        "driver-state.json": "555f70dec565f1829d2208918c89782a1449f7f8a6d44bba3d1aa30b054f7646",
+        "fixture-provider.json": "dd513ca047e259d2d939df91b86c3e66d20b3ab419a9c6f15b8e9d6675a5a34b",
+        "setup.json": "0fc2ab6e00ec442721acb1ae30909e922890850a8d09c43e707d01a75833582f"
+      },
+      "independently_detected_chain_problems": [],
+      "consumer_reported_uncertainty": [],
+      "consumer_reported_unexpected_refusals": []
+    },
+    "r23": {
+      "arm": "treatment",
+      "owner_calls": 4,
+      "wrong_owner_routes": 0,
+      "literal_current_argv_matches": 4,
+      "current_argv_available_owner_calls": 4,
+      "help_calls": 0,
+      "submitted_nonhelp_argv": 4,
+      "unmatched_submissions": [],
+      "recorded_fixture_readbacks": 4,
+      "recorded_instruction_reads": 2,
+      "generated_merge_requests": 1,
+      "generated_close_requests": 0,
+      "expected_missing_merge_commit_refusals": 1,
+      "wrong_route_claim_scope": "Recorded owner calls only; unmatched submission separately preserved.",
+      "recorded_transport_events": 0,
+      "platform_transport_observation": "unavailable",
+      "final_cases": {
+        "prepared": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "cfafbfb64d6c11be552d76ef590bb8d43ea392406a8f699929601231fbec6026"
+        },
+        "offered": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "885ae4e87a4543185646b5f0b0c75f13f2a4c580f000a1c40eaf1f7776e3def5"
+        },
+        "recovery": {
+          "phase": "close_pending",
+          "delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "7bfe41258da1c31cd48ee1725567a5cff94f47fb1a9671cce4f5ec1140643d34"
+        }
+      },
+      "transitions": [
+        {
+          "event_line": 5,
+          "case": "prepared",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r23/soodles.py",
+            "landing",
+            "dispatch",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r23/state/prepared/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r23/state/prepared/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "dispatch",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 3,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "invalid": null,
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          },
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 8,
+          "case": "offered",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r23/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r23/state/offered/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r23/state/offered/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 6,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": "readback",
+          "invalid": null,
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 11,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r23/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r23/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r23/state/recovery/readback.json"
+          ],
+          "exit": 1,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 9,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": null,
+          "invalid": {
+            "field": "merge_commit",
+            "value": null
+          },
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": true
+        },
+        {
+          "event_line": 14,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r23/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r23/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r23/state/recovery/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 12,
+          "most_recent_recorded_readback_stage": 1,
+          "owner": "landing.advance",
+          "action": "dispatch",
+          "invalid": null,
+          "request": null,
+          "after_phase": "close_pending",
+          "after_delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        }
+      ],
+      "help_events": [],
+      "instruction_read_bindings": [
+        {
+          "event_line": 1,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "computed_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "matches_admitted": true
+            }
+          ]
+        },
+        {
+          "event_line": 2,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "computed_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "matches_admitted": true
+            }
+          ]
+        }
+      ],
+      "file_bindings": {
+        "publisher/soodles.py": {
+          "expected": "522e407e43cf997ffbfe01ec393e830a4c4ab80d3f3c84782988ee62a1f161a7",
+          "actual": "522e407e43cf997ffbfe01ec393e830a4c4ab80d3f3c84782988ee62a1f161a7",
+          "matches": true
+        },
+        "publisher/issue_admission.py": {
+          "expected": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "actual": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "matches": true
+        },
+        "publisher/issue_execution.py": {
+          "expected": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "actual": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "matches": true
+        },
+        "publisher/landing.py": {
+          "expected": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "actual": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "matches": true
+        },
+        "publisher/policy/runtime.lock.json": {
+          "expected": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "actual": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "matches": true
+        },
+        "instructions/AGENTS.md": {
+          "expected": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "actual": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "matches": true
+        },
+        "instructions/SKILL.md": {
+          "expected": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "actual": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "matches": true
+        },
+        "instructions/supervised-delivery.md": {
+          "expected": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+          "actual": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+          "matches": true
+        },
+        "packet.json": {
+          "expected": "079ccdb7208b89db0d460557a25bc7523c3e3f977b3379791b7c4f1d38c4cee3",
+          "actual": "079ccdb7208b89db0d460557a25bc7523c3e3f977b3379791b7c4f1d38c4cee3",
+          "matches": true
+        }
+      },
+      "all_file_bindings_match": true,
+      "publisher_identity": {
+        "computed": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797",
+        "packet": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797",
+        "matches": true
+      },
+      "evidence_hashes": {
+        "packet.json": "079ccdb7208b89db0d460557a25bc7523c3e3f977b3379791b7c4f1d38c4cee3",
+        "events.jsonl": "25705674313aaf7da3f211e28f1128dc67e8accd9a9381eeb78c98c9bac5dc08",
+        "consumer-receipt.json": "10bdd1746c6d357fef473c91e4bdae4338698db96b742e7d0202f7dfd24c9040",
+        "driver-state.json": "e02b7a2f8685120efaceb8036212392f79c5c49034d3606c18af965a739d3856",
+        "fixture-provider.json": "dd513ca047e259d2d939df91b86c3e66d20b3ab419a9c6f15b8e9d6675a5a34b",
+        "setup.json": "e847be0532ad5c8dcdde234bc8c967e5b5606096a0fa7fe78b01743501bd8132"
+      },
+      "independently_detected_chain_problems": [],
+      "consumer_reported_uncertainty": [],
+      "consumer_reported_unexpected_refusals": []
+    },
+    "r36": {
+      "arm": "baseline",
+      "owner_calls": 4,
+      "wrong_owner_routes": 0,
+      "literal_current_argv_matches": 0,
+      "current_argv_available_owner_calls": 0,
+      "help_calls": 2,
+      "submitted_nonhelp_argv": 4,
+      "unmatched_submissions": [],
+      "recorded_fixture_readbacks": 4,
+      "recorded_instruction_reads": 2,
+      "generated_merge_requests": 1,
+      "generated_close_requests": 0,
+      "expected_missing_merge_commit_refusals": 1,
+      "wrong_route_claim_scope": "Recorded owner calls only; unmatched submission separately preserved.",
+      "recorded_transport_events": 0,
+      "platform_transport_observation": "unavailable",
+      "final_cases": {
+        "prepared": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "5c305f1e80b270c66d5d551cb35f53ec357ae4423a15bc0d4f2ff6d164af9c8d"
+        },
+        "offered": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "eb4a019a275f1d2ed7c49ee3e79962374a9d4da22bf27e516f34ae8ae2f141a6"
+        },
+        "recovery": {
+          "phase": "close_pending",
+          "delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "b6b40443ddff66e29791289aa6496961235e6a167f2e80baffe2badc34c8b669"
+        }
+      },
+      "transitions": [
+        {
+          "event_line": 7,
+          "case": "prepared",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r36/soodles.py",
+            "landing",
+            "dispatch",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r36/state/prepared/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r36/state/prepared/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "dispatch",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 3,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "invalid": null,
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          },
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 12,
+          "case": "offered",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r36/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r36/state/offered/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r36/state/offered/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 8,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": "readback",
+          "invalid": null,
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 15,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r36/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r36/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r36/state/recovery/readback.json"
+          ],
+          "exit": 1,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 13,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": null,
+          "invalid": {
+            "field": "merge_commit",
+            "value": null
+          },
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": true
+        },
+        {
+          "event_line": 18,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r36/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r36/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r36/state/recovery/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 16,
+          "most_recent_recorded_readback_stage": 1,
+          "owner": "landing.advance",
+          "action": "dispatch",
+          "invalid": null,
+          "request": null,
+          "after_phase": "close_pending",
+          "after_delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        }
+      ],
+      "help_events": [
+        {
+          "event_line": 5,
+          "case": "prepared",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r36/soodles.py",
+            "landing",
+            "dispatch",
+            "--help"
+          ],
+          "exit": 0,
+          "matches_current_help_argv": true
+        },
+        {
+          "event_line": 10,
+          "case": "offered",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r36/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "exit": 0,
+          "matches_current_help_argv": true
+        }
+      ],
+      "instruction_read_bindings": [
+        {
+          "event_line": 1,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+              "computed_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+              "matches_admitted": true
+            }
+          ]
+        },
+        {
+          "event_line": 2,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+              "computed_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+              "matches_admitted": true
+            }
+          ]
+        }
+      ],
+      "file_bindings": {
+        "publisher/soodles.py": {
+          "expected": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+          "actual": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+          "matches": true
+        },
+        "publisher/issue_admission.py": {
+          "expected": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "actual": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "matches": true
+        },
+        "publisher/issue_execution.py": {
+          "expected": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "actual": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "matches": true
+        },
+        "publisher/landing.py": {
+          "expected": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "actual": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "matches": true
+        },
+        "publisher/policy/runtime.lock.json": {
+          "expected": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "actual": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "matches": true
+        },
+        "instructions/AGENTS.md": {
+          "expected": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "actual": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "matches": true
+        },
+        "instructions/SKILL.md": {
+          "expected": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "actual": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "matches": true
+        },
+        "instructions/supervised-delivery.md": {
+          "expected": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+          "actual": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+          "matches": true
+        },
+        "packet.json": {
+          "expected": "d3b274c9c148c686f7be0dd8eb764b5af1dc57a6c38d0643239e1b99b381444e",
+          "actual": "d3b274c9c148c686f7be0dd8eb764b5af1dc57a6c38d0643239e1b99b381444e",
+          "matches": true
+        }
+      },
+      "all_file_bindings_match": true,
+      "publisher_identity": {
+        "computed": "5e0f4f373902a208f51d0f37213e670f49fa3daa520a0113361cee14d8c3bbd1",
+        "packet": "5e0f4f373902a208f51d0f37213e670f49fa3daa520a0113361cee14d8c3bbd1",
+        "matches": true
+      },
+      "evidence_hashes": {
+        "packet.json": "d3b274c9c148c686f7be0dd8eb764b5af1dc57a6c38d0643239e1b99b381444e",
+        "events.jsonl": "c18c33317651939b5de14950761d98eca5b6edf8ba943283101e0c9be2910823",
+        "consumer-receipt.json": "5e6fae38bd24b160c53d36c106eff3c358b62c035185a1ecda9f0e1eefed84c9",
+        "driver-state.json": "da790e35c6811994a1edbebbdf6a8f0f87e51509233cdff3ca4ffb9f38a5d672",
+        "fixture-provider.json": "dd513ca047e259d2d939df91b86c3e66d20b3ab419a9c6f15b8e9d6675a5a34b",
+        "setup.json": "fdda43974d066a072655a4b8fa14195854940f9e35418d52a68f6bb223ef287e"
+      },
+      "independently_detected_chain_problems": [],
+      "consumer_reported_uncertainty": [
+        "Live provider outcome is outside fixture scope and remains unobserved."
+      ],
+      "consumer_reported_unexpected_refusals": []
+    },
+    "r12": {
+      "arm": "treatment",
+      "owner_calls": 4,
+      "wrong_owner_routes": 0,
+      "literal_current_argv_matches": 4,
+      "current_argv_available_owner_calls": 4,
+      "help_calls": 0,
+      "submitted_nonhelp_argv": 4,
+      "unmatched_submissions": [],
+      "recorded_fixture_readbacks": 4,
+      "recorded_instruction_reads": 2,
+      "generated_merge_requests": 1,
+      "generated_close_requests": 0,
+      "expected_missing_merge_commit_refusals": 1,
+      "wrong_route_claim_scope": "Recorded owner calls only; unmatched submission separately preserved.",
+      "recorded_transport_events": 0,
+      "platform_transport_observation": "unavailable",
+      "final_cases": {
+        "prepared": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "cfafbfb64d6c11be552d76ef590bb8d43ea392406a8f699929601231fbec6026"
+        },
+        "offered": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "e14ad6b025f4a13b68463fb48ed0befce56f51c13226c7970924c6e7462cf70b"
+        },
+        "recovery": {
+          "phase": "close_pending",
+          "delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "32d9106b6cd2c30fd3febec2a8ee21b0748062e895e691da68def61138dd0a37"
+        }
+      },
+      "transitions": [
+        {
+          "event_line": 5,
+          "case": "prepared",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r12/soodles.py",
+            "landing",
+            "dispatch",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r12/state/prepared/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r12/state/prepared/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "dispatch",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 3,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "invalid": null,
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          },
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 8,
+          "case": "offered",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r12/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r12/state/offered/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r12/state/offered/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 6,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": "readback",
+          "invalid": null,
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 11,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r12/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r12/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r12/state/recovery/readback.json"
+          ],
+          "exit": 1,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 9,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": null,
+          "invalid": {
+            "field": "merge_commit",
+            "value": null
+          },
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": true
+        },
+        {
+          "event_line": 14,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r12/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r12/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r12/state/recovery/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 12,
+          "most_recent_recorded_readback_stage": 1,
+          "owner": "landing.advance",
+          "action": "dispatch",
+          "invalid": null,
+          "request": null,
+          "after_phase": "close_pending",
+          "after_delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        }
+      ],
+      "help_events": [],
+      "instruction_read_bindings": [
+        {
+          "event_line": 1,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "computed_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "matches_admitted": true
+            }
+          ]
+        },
+        {
+          "event_line": 2,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "computed_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "matches_admitted": true
+            }
+          ]
+        }
+      ],
+      "file_bindings": {
+        "publisher/soodles.py": {
+          "expected": "522e407e43cf997ffbfe01ec393e830a4c4ab80d3f3c84782988ee62a1f161a7",
+          "actual": "522e407e43cf997ffbfe01ec393e830a4c4ab80d3f3c84782988ee62a1f161a7",
+          "matches": true
+        },
+        "publisher/issue_admission.py": {
+          "expected": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "actual": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "matches": true
+        },
+        "publisher/issue_execution.py": {
+          "expected": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "actual": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "matches": true
+        },
+        "publisher/landing.py": {
+          "expected": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "actual": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "matches": true
+        },
+        "publisher/policy/runtime.lock.json": {
+          "expected": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "actual": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "matches": true
+        },
+        "instructions/AGENTS.md": {
+          "expected": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "actual": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "matches": true
+        },
+        "instructions/SKILL.md": {
+          "expected": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "actual": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "matches": true
+        },
+        "instructions/supervised-delivery.md": {
+          "expected": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+          "actual": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+          "matches": true
+        },
+        "packet.json": {
+          "expected": "05185a7b45bf4a1ec7ade184b6e2e003a9eab67f9e812f17ff8093289642adeb",
+          "actual": "05185a7b45bf4a1ec7ade184b6e2e003a9eab67f9e812f17ff8093289642adeb",
+          "matches": true
+        }
+      },
+      "all_file_bindings_match": true,
+      "publisher_identity": {
+        "computed": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797",
+        "packet": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797",
+        "matches": true
+      },
+      "evidence_hashes": {
+        "packet.json": "05185a7b45bf4a1ec7ade184b6e2e003a9eab67f9e812f17ff8093289642adeb",
+        "events.jsonl": "52e6d39c42d261ec60f3295a4d8f554de0a848cec5d6f6554b5da26c726e2d99",
+        "consumer-receipt.json": "da192226db6ed37217135f9fc0edf24fa03da67465d117adf786317211bf52c5",
+        "driver-state.json": "c30021e432460cb9de96cebc3f492160fe371aa581d72fff8ab827aa04648c25",
+        "fixture-provider.json": "dd513ca047e259d2d939df91b86c3e66d20b3ab419a9c6f15b8e9d6675a5a34b",
+        "setup.json": "19f9de570597fa4a727070ca978ecd6573a3463c0788427085eede2dde9c2d0d"
+      },
+      "independently_detected_chain_problems": [],
+      "consumer_reported_uncertainty": [
+        "Synthetic fixtures do not establish live provider outcomes. Offered case remains merge_pending; recovery remains close_pending by requested stop boundaries."
+      ],
+      "consumer_reported_unexpected_refusals": []
+    },
+    "r24": {
+      "arm": "baseline",
+      "owner_calls": 4,
+      "wrong_owner_routes": 0,
+      "literal_current_argv_matches": 0,
+      "current_argv_available_owner_calls": 0,
+      "help_calls": 2,
+      "submitted_nonhelp_argv": 5,
+      "unmatched_submissions": [
+        {
+          "line": 12,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r24/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/recovery/readback.json"
+          ],
+          "help": false,
+          "matched": false
+        }
+      ],
+      "recorded_fixture_readbacks": 4,
+      "recorded_instruction_reads": 1,
+      "generated_merge_requests": 1,
+      "generated_close_requests": 0,
+      "expected_missing_merge_commit_refusals": 1,
+      "wrong_route_claim_scope": "Recorded owner calls only; unmatched submission separately preserved.",
+      "recorded_transport_events": 0,
+      "platform_transport_observation": "unavailable",
+      "final_cases": {
+        "prepared": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "5c305f1e80b270c66d5d551cb35f53ec357ae4423a15bc0d4f2ff6d164af9c8d"
+        },
+        "offered": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "df2167e08513e20d0d99a9f2609acd921ffac7d8edc65c399115bed1c879184c"
+        },
+        "recovery": {
+          "phase": "close_pending",
+          "delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "a31d62a59d1a92a341bef5f1a854eaec7937ee21d3f4cd8c063aa1cfe823a3ec"
+        }
+      },
+      "transitions": [
+        {
+          "event_line": 6,
+          "case": "prepared",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r24/soodles.py",
+            "landing",
+            "dispatch",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/prepared/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/prepared/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "dispatch",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 2,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "invalid": null,
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          },
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 11,
+          "case": "offered",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r24/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/offered/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/offered/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 7,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": "readback",
+          "invalid": null,
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 15,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r24/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/recovery/readback.json"
+          ],
+          "exit": 1,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 13,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": null,
+          "invalid": {
+            "field": "merge_commit",
+            "value": null
+          },
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": true
+        },
+        {
+          "event_line": 18,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r24/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r24/state/recovery/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": false,
+          "literal_current_argv_match": false,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 16,
+          "most_recent_recorded_readback_stage": 1,
+          "owner": "landing.advance",
+          "action": "dispatch",
+          "invalid": null,
+          "request": null,
+          "after_phase": "close_pending",
+          "after_delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        }
+      ],
+      "help_events": [
+        {
+          "event_line": 4,
+          "case": "prepared",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r24/soodles.py",
+            "landing",
+            "dispatch",
+            "--help"
+          ],
+          "exit": 0,
+          "matches_current_help_argv": true
+        },
+        {
+          "event_line": 9,
+          "case": "offered",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r24/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "exit": 0,
+          "matches_current_help_argv": true
+        }
+      ],
+      "instruction_read_bindings": [
+        {
+          "event_line": 1,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+              "computed_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+              "matches_admitted": true
+            }
+          ]
+        }
+      ],
+      "file_bindings": {
+        "publisher/soodles.py": {
+          "expected": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+          "actual": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+          "matches": true
+        },
+        "publisher/issue_admission.py": {
+          "expected": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "actual": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "matches": true
+        },
+        "publisher/issue_execution.py": {
+          "expected": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "actual": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "matches": true
+        },
+        "publisher/landing.py": {
+          "expected": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "actual": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "matches": true
+        },
+        "publisher/policy/runtime.lock.json": {
+          "expected": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "actual": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "matches": true
+        },
+        "instructions/AGENTS.md": {
+          "expected": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "actual": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "matches": true
+        },
+        "instructions/SKILL.md": {
+          "expected": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "actual": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "matches": true
+        },
+        "instructions/supervised-delivery.md": {
+          "expected": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+          "actual": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+          "matches": true
+        },
+        "packet.json": {
+          "expected": "cb674da1b41e5ac03908a40b8dea97c15eab3edbc670111c5d752a83a0cbd13f",
+          "actual": "cb674da1b41e5ac03908a40b8dea97c15eab3edbc670111c5d752a83a0cbd13f",
+          "matches": true
+        }
+      },
+      "all_file_bindings_match": true,
+      "publisher_identity": {
+        "computed": "5e0f4f373902a208f51d0f37213e670f49fa3daa520a0113361cee14d8c3bbd1",
+        "packet": "5e0f4f373902a208f51d0f37213e670f49fa3daa520a0113361cee14d8c3bbd1",
+        "matches": true
+      },
+      "evidence_hashes": {
+        "packet.json": "cb674da1b41e5ac03908a40b8dea97c15eab3edbc670111c5d752a83a0cbd13f",
+        "events.jsonl": "88e7ec8aa71e96b9b22834baffd54040be460c614c6fe3277e9dbdbb725a7832",
+        "consumer-receipt.json": "20291ab5dc56d5170cf58d2917f62d08bc38b0a471a2a97e39230db398764fa1",
+        "driver-state.json": "93974c7ce3473eaf7435fa486b027b2863e9be2b1da8b286697d10810f478180",
+        "fixture-provider.json": "dd513ca047e259d2d939df91b86c3e66d20b3ab419a9c6f15b8e9d6675a5a34b",
+        "setup.json": "2ed387ba9c69c2a7e107ccb80102989df00f0589809a42bd30ecf09a29e4b6be"
+      },
+      "independently_detected_chain_problems": [],
+      "consumer_reported_uncertainty": [
+        "A recovery stage-0 refresh returned successfully in tool output but was absent from events.jsonl when inspected; the following recorder call refused before owner execution. Cause unknown; no recorder source inspected. A fresh recorder refresh then allowed the required missing-data refusal and corrected recovery."
+      ],
+      "consumer_reported_unexpected_refusals": [
+        {
+          "case": "recovery",
+          "boundary": "recorder before owner execution",
+          "exit": 1,
+          "message": "ValueError: Obtain the current fixture provider readback first",
+          "submitted_argv_event_line": 12,
+          "preceding_refresh_tool_output": {
+            "stage": 0,
+            "sha256": "23ba6a2fa834c5fd8327b9529fce508d2124cfa40679a6ce6ec3d25aa0bafe22",
+            "fixture_observed_at_ns": 1789919665825713771
+          },
+          "response": "Preserved this refusal; obtained another current fixture readback through the recorder, then followed owner missing-data guidance."
+        }
+      ]
+    },
+    "r35": {
+      "arm": "treatment",
+      "owner_calls": 4,
+      "wrong_owner_routes": 0,
+      "literal_current_argv_matches": 4,
+      "current_argv_available_owner_calls": 4,
+      "help_calls": 0,
+      "submitted_nonhelp_argv": 4,
+      "unmatched_submissions": [],
+      "recorded_fixture_readbacks": 4,
+      "recorded_instruction_reads": 2,
+      "generated_merge_requests": 1,
+      "generated_close_requests": 0,
+      "expected_missing_merge_commit_refusals": 1,
+      "wrong_route_claim_scope": "Recorded owner calls only; unmatched submission separately preserved.",
+      "recorded_transport_events": 0,
+      "platform_transport_observation": "unavailable",
+      "final_cases": {
+        "prepared": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "cfafbfb64d6c11be552d76ef590bb8d43ea392406a8f699929601231fbec6026"
+        },
+        "offered": {
+          "phase": "merge_pending",
+          "delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "1abca38720a2712d6cf5d10520938b884705e941042464574d3c2fec6594d0d3"
+        },
+        "recovery": {
+          "phase": "close_pending",
+          "delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "writes_offered": [
+            "merge"
+          ],
+          "classification": null,
+          "matches_last_owner_after": true,
+          "requested_stop_point_satisfied": true,
+          "checkpoint_sha256": "6a7779861ff1d8c2e716f88aba14301d11e218bc4234ed406fcfc98e434b9944"
+        }
+      },
+      "transitions": [
+        {
+          "event_line": 5,
+          "case": "prepared",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r35/soodles.py",
+            "landing",
+            "dispatch",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r35/state/prepared/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r35/state/prepared/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "dispatch",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 3,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.dispatch",
+          "action": "merge",
+          "invalid": null,
+          "request": {
+            "action": "merge",
+            "repository_full_name": "ed3c/soodles",
+            "pr_number": 2,
+            "expected_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "merge_method": "merge"
+          },
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 8,
+          "case": "offered",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r35/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r35/state/offered/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r35/state/offered/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 6,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": "readback",
+          "invalid": null,
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        },
+        {
+          "event_line": 11,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r35/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r35/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r35/state/recovery/readback.json"
+          ],
+          "exit": 1,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 9,
+          "most_recent_recorded_readback_stage": 0,
+          "owner": "landing.advance",
+          "action": null,
+          "invalid": {
+            "field": "merge_commit",
+            "value": null
+          },
+          "request": null,
+          "after_phase": "merge_pending",
+          "after_delivery": {
+            "action": "merge",
+            "status": "offered"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": true
+        },
+        {
+          "event_line": 14,
+          "case": "recovery",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom/publishers/r35/soodles.py",
+            "landing",
+            "advance",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r35/state/recovery/checkpoint.json",
+            "/workspace/scratch/9af267d7b32b/atom/consumers/r35/state/recovery/readback.json"
+          ],
+          "exit": 0,
+          "current_owner_operation": "advance",
+          "route_matches_current_owner": true,
+          "current_next_argv_available": true,
+          "literal_current_argv_match": true,
+          "matches_recorder_literal_flag": true,
+          "prior_projection_chain_matches": true,
+          "checkpoint_before_chain_matches": true,
+          "stdout_matches_output": true,
+          "most_recent_recorded_readback_line": 12,
+          "most_recent_recorded_readback_stage": 1,
+          "owner": "landing.advance",
+          "action": "dispatch",
+          "invalid": null,
+          "request": null,
+          "after_phase": "close_pending",
+          "after_delivery": {
+            "action": "close",
+            "status": "prepared"
+          },
+          "after_writes_offered": [
+            "merge"
+          ],
+          "refusal_checkpoint_unchanged": null
+        }
+      ],
+      "help_events": [],
+      "instruction_read_bindings": [
+        {
+          "event_line": 1,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "computed_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "matches_admitted": true
+            }
+          ]
+        },
+        {
+          "event_line": 2,
+          "files": [
+            {
+              "file": "AGENTS.md",
+              "recorded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "computed_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+              "matches_admitted": true
+            },
+            {
+              "file": "SKILL.md",
+              "recorded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "computed_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+              "matches_admitted": true
+            },
+            {
+              "file": "supervised-delivery.md",
+              "recorded_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "computed_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+              "matches_admitted": true
+            }
+          ]
+        }
+      ],
+      "file_bindings": {
+        "publisher/soodles.py": {
+          "expected": "522e407e43cf997ffbfe01ec393e830a4c4ab80d3f3c84782988ee62a1f161a7",
+          "actual": "522e407e43cf997ffbfe01ec393e830a4c4ab80d3f3c84782988ee62a1f161a7",
+          "matches": true
+        },
+        "publisher/issue_admission.py": {
+          "expected": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "actual": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+          "matches": true
+        },
+        "publisher/issue_execution.py": {
+          "expected": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "actual": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+          "matches": true
+        },
+        "publisher/landing.py": {
+          "expected": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "actual": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+          "matches": true
+        },
+        "publisher/policy/runtime.lock.json": {
+          "expected": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "actual": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+          "matches": true
+        },
+        "instructions/AGENTS.md": {
+          "expected": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "actual": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "matches": true
+        },
+        "instructions/SKILL.md": {
+          "expected": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "actual": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "matches": true
+        },
+        "instructions/supervised-delivery.md": {
+          "expected": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+          "actual": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+          "matches": true
+        },
+        "packet.json": {
+          "expected": "c55f9f6d7304ecdfa10fc903efd9713294516f764a260e762926835691636b7f",
+          "actual": "c55f9f6d7304ecdfa10fc903efd9713294516f764a260e762926835691636b7f",
+          "matches": true
+        }
+      },
+      "all_file_bindings_match": true,
+      "publisher_identity": {
+        "computed": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797",
+        "packet": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797",
+        "matches": true
+      },
+      "evidence_hashes": {
+        "packet.json": "c55f9f6d7304ecdfa10fc903efd9713294516f764a260e762926835691636b7f",
+        "events.jsonl": "3ddad2a798954dda65202f869a841c2c36223dc8e7e9f880d058fbd59ddaa05e",
+        "consumer-receipt.json": "3b40c50d6fdde4ff2b4f4d210d63d9e39cb0df806ad8a05d0d4720635f05e19f",
+        "driver-state.json": "7ad6ac3585aad4f11c093a164977388a3ff2b29323ce94a2d8da4b12570ab113",
+        "fixture-provider.json": "dd513ca047e259d2d939df91b86c3e66d20b3ab419a9c6f15b8e9d6675a5a34b",
+        "setup.json": "e0855724d7b25450e2ebc49220ff1640c003fbc1d31d9249b8500be4b00bf3a7"
+      },
+      "independently_detected_chain_problems": [],
+      "consumer_reported_uncertainty": [
+        "No live provider outcome was measured. Offered case remains pending by design."
+      ],
+      "consumer_reported_unexpected_refusals": []
+    }
+  },
+  "frozen_observer": {
+    "baseline": {
+      "report_sha256": "fd93f02fadd6c554853dfb87bf4fc4a2629b9566baeefe373e6c6daa785d6150",
+      "observer_hash_matches_prelaunch": true,
+      "source_hash_bindings_match": true,
+      "command_count": 19,
+      "recomputed_evaluation": {
+        "safety": "PASS",
+        "safety_failures": [],
+        "projection": "RED",
+        "projection_failures": [
+          "start:readback_binding",
+          "start:argv",
+          "prepare:readback_binding",
+          "prepare:argv",
+          "merge_offer:readback_binding",
+          "merge_offer:argv",
+          "unknown_merge:readback_binding",
+          "unknown_merge:argv",
+          "stale_dispatch:readback_binding",
+          "stale_dispatch:argv",
+          "missing_merge_commit:readback_binding",
+          "missing_merge_commit:argv",
+          "repair_merge_commit:readback_binding",
+          "repair_merge_commit:argv",
+          "close_offer:readback_binding",
+          "close_offer:argv",
+          "unknown_close:readback_binding",
+          "unknown_close:argv",
+          "prepare:verbatim_consumption",
+          "merge_offer:verbatim_consumption",
+          "repair_merge_commit:verbatim_consumption",
+          "close_offer:verbatim_consumption"
+        ],
+        "bound_continuation_available": false
+      },
+      "cached_evaluation_matches": true,
+      "recomputed_sensitivity": [
+        {
+          "plant": "wrong_argv",
+          "expected_reason": "prepare:argv",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "wrong_operation",
+          "expected_reason": "prepare:route",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "false_resolution",
+          "expected_reason": "unknown_merge:false_resolution",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "duplicate_offer",
+          "expected_reason": "unknown_merge:unexpected_request",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "refusal_state_change",
+          "expected_reason": "stale_dispatch:refusal_changed_checkpoint",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "missing_get",
+          "expected_reason": "prepare:required_get:pr",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "missing_dependent_get",
+          "expected_reason": "missing_merge_commit:dependent_get",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        }
+      ],
+      "cached_sensitivity_matches": true,
+      "all_seven_plants_rejected": true,
+      "terminal_fixture_cases": {
+        "resolve": {
+          "exit": 0,
+          "phase": "resolved",
+          "classification": "RESOLVED",
+          "next": null,
+          "checkpoint_unchanged": false
+        },
+        "resolved_again": {
+          "exit": 0,
+          "phase": "resolved",
+          "classification": "RESOLVED",
+          "next": null,
+          "checkpoint_unchanged": true
+        }
+      },
+      "python_argv": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python"
+    },
+    "treatment": {
+      "report_sha256": "9292ea1f18d10ed5b1a17e784024d91a6f891bf3cbb81358ce9c594a5e635756",
+      "observer_hash_matches_prelaunch": true,
+      "source_hash_bindings_match": true,
+      "command_count": 19,
+      "recomputed_evaluation": {
+        "safety": "PASS",
+        "safety_failures": [],
+        "projection": "PASS",
+        "projection_failures": [],
+        "bound_continuation_available": true
+      },
+      "cached_evaluation_matches": true,
+      "recomputed_sensitivity": [
+        {
+          "plant": "wrong_argv",
+          "expected_reason": "prepare:argv",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "wrong_operation",
+          "expected_reason": "prepare:route",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "false_resolution",
+          "expected_reason": "unknown_merge:false_resolution",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "duplicate_offer",
+          "expected_reason": "unknown_merge:unexpected_request",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "refusal_state_change",
+          "expected_reason": "stale_dispatch:refusal_changed_checkpoint",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "missing_get",
+          "expected_reason": "prepare:required_get:pr",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        },
+        {
+          "plant": "missing_dependent_get",
+          "expected_reason": "missing_merge_commit:dependent_get",
+          "rejected": true,
+          "synthetic_positive_reference_accepted": true
+        }
+      ],
+      "cached_sensitivity_matches": true,
+      "all_seven_plants_rejected": true,
+      "terminal_fixture_cases": {
+        "resolve": {
+          "exit": 0,
+          "phase": "resolved",
+          "classification": "RESOLVED",
+          "next": null,
+          "checkpoint_unchanged": false
+        },
+        "resolved_again": {
+          "exit": 0,
+          "phase": "resolved",
+          "classification": "RESOLVED",
+          "next": null,
+          "checkpoint_unchanged": true
+        }
+      },
+      "python_argv": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+    }
+  },
+  "aggregates": {
+    "baseline": {
+      "owner_calls": 12,
+      "wrong_owner_routes": 0,
+      "literal_current_argv_matches": 0,
+      "current_argv_available_owner_calls": 0,
+      "help_calls": 6,
+      "submitted_nonhelp_argv": 13,
+      "recorded_fixture_readbacks": 12,
+      "recorded_instruction_reads": 4,
+      "generated_merge_requests": 3,
+      "generated_close_requests": 0,
+      "expected_missing_merge_commit_refusals": 3
+    },
+    "treatment": {
+      "owner_calls": 12,
+      "wrong_owner_routes": 0,
+      "literal_current_argv_matches": 12,
+      "current_argv_available_owner_calls": 12,
+      "help_calls": 0,
+      "submitted_nonhelp_argv": 12,
+      "recorded_fixture_readbacks": 12,
+      "recorded_instruction_reads": 6,
+      "generated_merge_requests": 3,
+      "generated_close_requests": 0,
+      "expected_missing_merge_commit_refusals": 3
+    }
+  },
+  "source_review": {
+    "unchanged_owner_files": {
+      "landing.py": {
+        "baseline_sha256": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+        "treatment_sha256": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+        "identical": true
+      },
+      "issue_admission.py": {
+        "baseline_sha256": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "treatment_sha256": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "identical": true
+      },
+      "issue_execution.py": {
+        "baseline_sha256": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+        "treatment_sha256": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+        "identical": true
+      },
+      "policy/runtime.lock.json": {
+        "baseline_sha256": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+        "treatment_sha256": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+        "identical": true
+      }
+    },
+    "changed_files": {
+      "soodles.py": {
+        "baseline_sha256": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+        "treatment_sha256": "522e407e43cf997ffbfe01ec393e830a4c4ab80d3f3c84782988ee62a1f161a7"
+      },
+      "delivery_oracle.py": {
+        "baseline_sha256": "6529d8cde7f0f667088f70bf1059e2c85a4a62dd520854b9587ae20879f25056",
+        "treatment_sha256": "f05fc652085e58f4106947eb111b7b7da7f19f5895aef8dddf5a74263a455b38"
+      }
+    },
+    "p_recipe": {
+      "baseline_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+      "treatment_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c"
+    },
+    "projection_guards": [
+      "landing group only",
+      "invocation already supplied readback and checkpoint",
+      "next is a provider_readback object",
+      "required exactly [readback]",
+      "operation only advance or dispatch",
+      "owner-known absolute checkpoint equals invocation checkpoint"
+    ],
+    "projection_behavior": "Returns copied result/next/known dictionaries plus absolute known.readback and owner cli_argv. It does not invoke transitions, mutate checkpoint or invent operations. Existing owner validates claim/verifier/provider snapshot and offered state before durable request emission.",
+    "authority": "P guidance and CLI argv grant no transport, verifier-selection or landing authority. Existing domain owner unchanged.",
+    "freshness": "Binding knows a pathname, not that bytes are fresh. Required provider GET/readback remains explicit; native recorder refreshes and owner revalidation are separate. There is no newly proved real provider freshness guarantee.",
+    "unknown_and_terminal": "Frozen raw controls reject foreign repository/head, malformed JSON and missing files without argv; invalidation needs claim+readback and has no argv; direct domain calls emit no bound argv; terminal next remains null.",
+    "oracle_diff": "Two former blanket no-argv assertions changed to exact selected CLI/checkpoint/readback arrays plus required=[readback] and known.readback checks. Existing no-request, owner/route, provider GET, refusal-state and identity controls retained. Active frozen external observer was not changed."
+  },
+  "r24_anomaly": {
+    "event_line": 12,
+    "observed": "One extra non-help advance submission has no matching owner_call/help_call event and precedes the first recorded recovery readback at line 13. Four owner calls remain evidenced, including missing-data refusal and corrected recovery.",
+    "consumer_report": "Receipt reports a successful stage-0 refresh absent from events.jsonl and a recorder refusal before owner execution: Obtain the current fixture provider readback first. Reported prior refresh hash 23ba6a2fa834c5fd8327b9529fce508d2124cfa40679a6ce6ec3d25aa0bafe22.",
+    "cause": "UNKNOWN",
+    "handling": "Preserved as unresolved instrument anomaly. Not counted as a fifth owner call, wrong owner route, product refusal, CLI regression or behavior improvement. No rerun, repair or removal."
+  },
+  "defensible_conclusion": {
+    "bounded_projection": "Supported: baseline frozen raw projection RED becomes treatment PASS under the same frozen evaluator, with both safety evaluations PASS.",
+    "native_literal_consumption": "Supported for recorded processes: treatment 12/12 owner argv equal the immediately current per-case next.argv; baseline has no such argv and 0/12 literal matches. Baseline lack of projection is not an Agent error.",
+    "local_help_observation": "Recorded help calls are 6 baseline versus 0 treatment in these six consumers. This supports reduced recorded syntax lookup for these cases only.",
+    "safety_nonregression": "Within recorded owner calls: wrong routes 0\u21920; unexpected additional requests 0\u21920; final checkpoints match requested fixture stop points in both arms. These are bounded nonregression observations, not error reduction or proof of complete route/recording coverage. r24 retains an unmatched submitted argv.",
+    "global_decision_cost": "NOT ESTABLISHED. Help count or shorter command assembly cannot prove global decision cost, model cognition, latency/token benefit, four-metric comparison or general error reduction.",
+    "delivery": "Neither native fixture outcomes nor synthetic observer RESOLVED authorizes or proves live Issue resolution."
+  },
+  "limitations": [
+    "No complete platform tool transcript; recorder and consumer receipts are not independent full platform traces. Undetected off-driver actions cannot be ruled out.",
+    "Native model identity and reasoning effort not established; prelaunch declares model UNKNOWN and fork_turns none, but supplied artifacts do not independently prove platform context isolation.",
+    "No full model context snapshots, token/decision measurements or valid global cost metric comparison.",
+    "Three consumers per arm on identical bounded synthetic scenarios; no statistical generalization or real provider transport.",
+    "r24 recorder anomaly remains unexplained and prevents a completely clean instrument claim.",
+    "Frozen sensitivity mutates transcript copies and normalizes a synthetic positive baseline. It proves evaluator discrimination for seven planted defects, not actual candidate faults, broad adversarial coverage or Agent behavior.",
+    "Observer baseline/treatment Python argv spellings differ (python versus python3); equality is checked against each report selected executable. Native runs use their own pinned packet Python.",
+    "Current file hashes match prelaunch commitments; hashes alone do not prove historical filesystem access controls or no unrecorded temporary edits.",
+    "Native cases intentionally stop at merge offer/pending/close preparation; only separate synthetic observer covers terminal RESOLVED."
+  ],
+  "blockers": {
+    "bounded_claim": [],
+    "broader_behavior_or_cost_claim": [
+      "Missing model/effort/full trace/context and decision-cost metrics",
+      "Baseline already has zero observed route/safety errors",
+      "Small synthetic sample and r24 recorder anomaly"
+    ],
+    "live_landing_or_resolution": [
+      "Requires separate authorized external owner and provider readbacks; outside this audit"
+    ],
+    "full_native_route_or_recording_completeness": [
+      "Missing full platform transcript",
+      "Unexplained r24 recorder anomaly"
+    ]
+  },
+  "method_review": {
+    "pclass_context_recipe_sha256": "55c600b7b2bc5627f3d46897bdffff7793fe0ae95ca44304f002d0a16a0a2a05",
+    "decision_path_review_skill_sha256": "d3e2d4ff94636f25120be690be0e1b3517817e98a7051e7e81b100b88c28ea25",
+    "pclass_context_application": "Assigned neutral task, prelaunch pinned instruction/source hashes, per-case raw current owner projections and event data support bounded recorded-subset review. Missing platform trace/context/model provenance remain unknown. Shared files do not prove context isolation. r24 prevents full recording-completeness certification; this is not a clean 3+3 cost study.",
+    "decision_path_comparison": "INSTRUMENT_SUSPECTED as a policy assessment, not a comparator-produced result. No comparable model/effort identities, complete tool timing, final-diff touches, green-filter terminal timestamps or snapshot churn evidence. FASTEST, ORIENTATION, DEAD_ENDS and REWORK are all NOT ESTABLISHED. The comparator was not invoked.",
+    "prepared_case": "Independent source/frozen CLI observer and raw event review; existing observe_pclass.py has no prepared scenario in the selected boundary.",
+    "normalized_recipe_receipts": "Coordinator may derive available offered/pending and recovery subset receipts separately. This audit neither asserts they existed when reviewed nor relies on them."
+  },
+  "same_atom_migration_addendum": {
+    "schema": 1,
+    "classification": "MINIMAL_HISTORICAL_SOURCE_BINDING_MIGRATION_SUPPORTED",
+    "authorizes_landing": false,
+    "audit_method": "Read-only independent raw failed-log, original/current test diff, archived context and four pinned GitHub content checks. No source edits, test execution, consumer reruns or provider operations.",
+    "inputs_sha256": "724a86060c41c56bfa0dadad7f3733974687dcb940a2df60514fcbf256868396",
+    "failed_ci": {
+      "head": "0d6fef72ca43f9904ac7fe69cb4eb33ec79ac84c",
+      "run_id": 35521512447,
+      "attempt": 1,
+      "job_head_matches": true,
+      "raw_log_reports_190_tests": true,
+      "raw_log_reports_exactly_one_failure": true,
+      "failed_test": "test_context_is_exact_selected_source",
+      "actual_current_recipe_sha256": "49418edff5945b3e6c45bcd84ec9c90139cba0f0ef6b6d7b9aefb8e3ab96f75c",
+      "expected_archived_recipe_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+      "cause": "Old test read present working-tree document bytes while its archived context expressly selected historical source_provider_sha. The changed supervised-delivery recipe therefore differed from the immutable historical hash. CI correctly stopped; archived native replay and observer controls passed."
+    },
+    "source_binding": {
+      "archive_source_provider_sha": "a2e46631b59b1f304391bfcd49615cdd9f6124e7",
+      "independent_document_checks": [
+        {
+          "path": "AGENTS.md",
+          "provider_url": "https://github.com/ed3c/soodles/blob/a2e46631b59b1f304391bfcd49615cdd9f6124e7/AGENTS.md",
+          "provider_commit_matches_archive": true,
+          "full_source_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "full_source_hash_matches": true,
+          "loaded_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e",
+          "loaded_hash_matches": true,
+          "loaded_text_matches": true
+        },
+        {
+          "path": ".agents/skills/verify-soodles/SKILL.md",
+          "provider_url": "https://github.com/ed3c/soodles/blob/a2e46631b59b1f304391bfcd49615cdd9f6124e7/.agents/skills/verify-soodles/SKILL.md",
+          "provider_commit_matches_archive": true,
+          "full_source_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "full_source_hash_matches": true,
+          "loaded_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+          "loaded_hash_matches": true,
+          "loaded_text_matches": true
+        },
+        {
+          "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+          "provider_url": "https://github.com/ed3c/soodles/blob/a2e46631b59b1f304391bfcd49615cdd9f6124e7/.agents/skills/verify-soodles/features/supervised-delivery.md",
+          "provider_commit_matches_archive": true,
+          "full_source_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+          "full_source_hash_matches": true,
+          "loaded_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83",
+          "loaded_hash_matches": true,
+          "loaded_text_matches": true
+        },
+        {
+          "path": "contracts/system-v1.md",
+          "provider_url": "https://github.com/ed3c/soodles/blob/a2e46631b59b1f304391bfcd49615cdd9f6124e7/contracts/system-v1.md",
+          "provider_commit_matches_archive": true,
+          "full_source_sha256": "6ddab0a8e67867f61cd8ca53e5f89881235c17a5d9ce6290badaf8e81625911a",
+          "full_source_hash_matches": true,
+          "loaded_sha256": "720e44b3a148a66d971af5bd1879281d80927c56e8e07b32a6a4bba8626949e8",
+          "loaded_hash_matches": true,
+          "loaded_text_matches": true
+        }
+      ],
+      "all_match": true
+    },
+    "migration_review": {
+      "old_test_sha256": "adfa4ea04a13472dc343579fd09b9034390e541c5de70d32bed623a3170589ce",
+      "new_test_sha256": "12f21d94e70974c68a422952ed9124c6e072446fdc10a9938ec7f404f334b927",
+      "diff": "--- baseline\n+++ candidate\n@@ -2,6 +2,7 @@\n import importlib.util\n import json\n from pathlib import Path\n+import subprocess\n import unittest\n \n ROOT = Path(__file__).resolve().parents[1]\n@@ -33,8 +34,13 @@\n             self.assertEqual(observer.evaluate(case, json.dumps(contradictory))[\"classification\"], \"MATCHING_CHOICE\")\n \n     def test_context_is_exact_selected_source(self):\n-        for document in read(\"inputs/context.json\")[\"documents\"]:\n-            source = (ROOT / document[\"path\"]).read_bytes()\n+        context = read(\"inputs/context.json\")\n+        self.assertRegex(context[\"source_provider_sha\"], r\"^[0-9a-f]{40}$\")\n+        for document in context[\"documents\"]:\n+            # Historical observations bind their selected revision, not today's recipe.\n+            source = subprocess.run(\n+                [\"git\", \"show\", f\"{context['source_provider_sha']}:{document['path']}\"],\n+                cwd=ROOT, check=True, capture_output=True).stdout\n             self.assertEqual(hashlib.sha256(source).hexdigest(), document[\"source_sha256\"])\n             loaded = source.decode()\n             if document[\"path\"] == \"contracts/system-v1.md\":\n",
+      "all_existing_source_hash_text_loaded_hash_and_following_tests_identical": true,
+      "scope": "Only imports subprocess, reads context once, validates full lowercase commit SHA, and reads git show SHA:path bytes instead of current working-tree path. All observer controls and archive replay/read bindings unchanged.",
+      "missing_git_object_behavior": "check=True makes absent commit/path a failure; no fallback, skip or replacement hash.",
+      "acceptance_weakening": "None identified for the historical archive invariant. The incorrect requirement that future P guidance remain byte-identical to an old experiment is replaced by verification against that experiment exact selected source; full source hash, text and loaded hash remain mandatory. Current treatment bytes remain bound by the separate landing-continuation evidence manifest and audit.",
+      "same_atom_boundary": "Migration is directly required by the admitted recipe change and occurs before landing of the same Issue atom. It neither changes the historical experiment nor its judge.",
+      "amended_issue_number": 106,
+      "amended_issue_contains_test_path": true,
+      "amended_issue_preserves_failed_head": true,
+      "amended_issue_invalidates_prior_acceptance": true
+    },
+    "workflow_review": {
+      "sha256": "1251bcf02023ad6616b011662a922ddfb0a11e2860c51b38607f39ccf6bb986f",
+      "full_history_checkout": true,
+      "exact_candidate_ref": true,
+      "exact_head_acceptance_check": true,
+      "canonical_acceptance_retained": true,
+      "integration_status": "NOT EXECUTED BY THIS AUDIT. Full-history checkout supports git show for a reachable historical ancestor. Ancestor availability on next Actions runner remains an exact-head runtime check."
+    },
+    "unchanged_previously_reviewed_bindings": {
+      "observer": true,
+      "recorder": true,
+      "treatment_recipe": true,
+      "treatment_cli": true
+    },
+    "blockers": {
+      "publish_corrected_candidate": [],
+      "accept_or_land": [
+        "New immutable candidate must pass fresh Issue/candidate binding and exact-head canonical runtime. Failed head acceptance cannot be reused."
+      ]
+    },
+    "limitations": [
+      "Historical provider contents were rehashed from coordinator-preserved raw connector results; this audit did not make additional network requests.",
+      "Local source is not a git checkout; no local git-show integration or canonical acceptance was run.",
+      "Original archive immutability beyond supplied raw context and direct original/current test diff still depends on final candidate diff/provider evidence.",
+      "This addendum does not repair or alter earlier r24 recording limitations."
+    ]
+  }
+}
