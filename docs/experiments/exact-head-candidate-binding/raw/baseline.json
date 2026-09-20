@@ -1,0 +1,22 @@
+{
+  "authorizes_landing": false,
+  "classification": "RED",
+  "errors": [],
+  "observer_sha256": "0e22cb83764980a41a10a638e06139c82070df5e2e49b6007a9a57410e831511",
+  "phase": "baseline",
+  "records": [
+    {
+      "case": "prompt_mismatch",
+      "outcome": "accepted"
+    },
+    {
+      "case": "frozen_observer_mismatch",
+      "outcome": "accepted"
+    },
+    {
+      "case": "complete",
+      "outcome": "accepted"
+    }
+  ],
+  "schema": 1
+}

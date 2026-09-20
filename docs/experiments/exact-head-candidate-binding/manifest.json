@@ -1,0 +1,82 @@
+{
+  "artifacts": [
+    {
+      "path": ".github/ISSUE_TEMPLATE/execution.yml",
+      "role": "issue_contract_template",
+      "sha256": "956670bd61556cc501135b8de0ed652575f6f2cbf3c385dba16a2677ba52898e"
+    },
+    {
+      "path": "issue_admission.py",
+      "role": "candidate_verifier",
+      "sha256": "bf4822934f4759068600189b5482832a3c381cf5f08769492dddd24145838eae"
+    },
+    {
+      "path": "soodles.py",
+      "role": "candidate_verify_cli",
+      "sha256": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec"
+    },
+    {
+      "path": "tests/test_issue_admission.py",
+      "role": "schema_compatibility_tests",
+      "sha256": "27ccc4dd2ceb87c68965dd57612307b8a520a408544b7fe3f7f074343381665c"
+    },
+    {
+      "path": "tests/test_candidate_verification.py",
+      "role": "exact_head_regression_tests",
+      "sha256": "75bf5c27dc2493185064670b11b103452c371e26e891dc05daaa87b974d1319c"
+    },
+    {
+      "path": "docs/experiments/exact-head-candidate-binding/task.md",
+      "role": "experiment_task",
+      "sha256": "30b78486bd351eb567299e88310094867ebdc3393c15c9046f7c2b4ab2f2aea9"
+    },
+    {
+      "path": "docs/experiments/exact-head-candidate-binding/observer.py",
+      "role": "observer",
+      "sha256": "0e22cb83764980a41a10a638e06139c82070df5e2e49b6007a9a57410e831511"
+    },
+    {
+      "path": "docs/experiments/exact-head-candidate-binding/raw/baseline.json",
+      "role": "baseline_raw_receipt",
+      "sha256": "110d693f349623124824e0b8cf93918d3c5fd06998f4e159645070d0aee0acb9"
+    },
+    {
+      "path": "docs/experiments/exact-head-candidate-binding/raw/treatment.json",
+      "role": "treatment_raw_receipt",
+      "sha256": "71c426bc7bb1d9c9bdbddf970a59c2bbeb578716c42859b42eede166f6b3d153"
+    },
+    {
+      "path": "docs/experiments/exact-head-candidate-binding/raw/noncase.json",
+      "role": "legal_noncase_receipt",
+      "sha256": "37766b9e4fec0838515b1cf98f8c006cebaa683a627b1cb2c883276e55e76c46"
+    },
+    {
+      "path": "docs/experiments/exact-head-candidate-binding/raw/independent-replay.json",
+      "role": "independent_replay_receipt",
+      "sha256": "1fc0e975b363b8ff4a56c5b80271d9acd9e939b92d598e3740e9b8c062674209"
+    },
+    {
+      "path": "docs/experiments/exact-head-candidate-binding/results.md",
+      "role": "results",
+      "sha256": "e5b49ad1317022007167c3fd764a3052e3f5a555ae8076cea6cf8cce1018c6c2"
+    }
+  ],
+  "authorizes_landing": false,
+  "instructions": [
+    {
+      "baseline_sha256": "fd4fbc9efb66258664e1f7ce5067ee024b239e76b78274da48a7ff528a413015",
+      "path": ".github/workflows/runtime.yml",
+      "treatment_sha256": "12c92abee0e6ff01012f88e92067ae111dba699aa0b11bf2377ec5be6afa935f"
+    }
+  ],
+  "issue": {
+    "number": 91,
+    "repository": "ed3c/soodles"
+  },
+  "owner": {
+    "authorization": "ed3c/soodles#91",
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths"
+  },
+  "schema": 1
+}

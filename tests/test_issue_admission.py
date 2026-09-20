@@ -126,6 +126,26 @@ class IssueAdmissionTests(unittest.TestCase):
             caught.exception.invalid["field"],
             "issue.contract.required_paths")
 
+    def test_schema_three_binds_base_and_external_frozen_paths(self):
+        body = self.issue["body"].replace(
+            '"schema": 1,',
+            '"schema": 3,\n'
+            '  "required_paths": ["allowed.py"],\n'
+            '  "evidence_manifest": "allowed.py",\n'
+            '  "base_head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",\n'
+            '  "frozen_paths": [{"path": "allowed.py", "revision": "head", '
+            '"sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}],',
+            1)
+        contract = admission.parse_contract(body)
+        self.assertEqual(contract["schema"], 3)
+        self.assertEqual(contract["base_head"], "a" * 40)
+        self.assertEqual(contract["frozen_paths"][0]["revision"], "head")
+        invalid = body.replace('"revision": "head"', '"revision": "candidate"')
+        with self.assertRaises(admission.AdmissionRefusal) as caught:
+            admission.parse_contract(invalid)
+        self.assertEqual(caught.exception.invalid["field"],
+                         "issue.contract.frozen_path.revision")
+
     def test_invalid_paths_and_duplicate_paths_refuse(self):
         for value in ("../escape", "/absolute", "a/../b", "a//b", "./a", "a\\b", ".git/config", "a\nfile"):
             with self.subTest(value=value), self.assertRaises(admission.AdmissionRefusal) as caught:

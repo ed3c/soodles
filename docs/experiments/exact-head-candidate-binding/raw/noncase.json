@@ -1,0 +1,23 @@
+{
+  "authorizes_landing": false,
+  "cases": [
+    {
+      "case": "schema_1_contract",
+      "classification": "GREEN",
+      "schema": 1
+    },
+    {
+      "case": "schema_2_contract",
+      "classification": "GREEN",
+      "schema": 2
+    },
+    {
+      "case": "pclass_replay_owner_unchanged",
+      "classification": "GREEN",
+      "path": ".agents/skills/verify-soodles/scripts/replay_pclass.py",
+      "sha256": "bd04512d733f29594a90d4ce89d821ee2712d48ec950739ed0a94516b8e69ccd"
+    }
+  ],
+  "classification": "GREEN",
+  "schema": 1
+}
