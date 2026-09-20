@@ -119,3 +119,30 @@ Snapshot validation receives its invoking operation and checkpoint from the exis
 Corrected raw readback must still prove the exact merge SHA, ordered base/candidate parents and candidate tree. Refusals preserve checkpoint bytes and offered-write history; no write request or runnable transition argv is emitted. Re-enter only after material readback change. Valid data can reach the existing close preparation, but cannot adopt an unoffered merge, reopen an invalid admission, repeat an unknown write or claim Issue resolution. Existing schemas require no new fields or migration; next actions remain derived outputs.
 
 The extended `delivery_oracle.py` drives the real CLI with supervisor-owned provider fixtures, including malformed merge objects, invalid PR SHA, foreign/stale subjects, advance/dispatch ownership, legacy offered history and changed-input recovery through the existing close/crash path. Local planted wrong subject, wrong operation and removed SHA validation are rejected by a frozen external observer. These controls do not prove a live GitHub failure or lower Agent decision cost. Actual provider delivery and isolation carry their own receipts; canonical acceptance and the selected external publisher remain unchanged.
+
+### Cross-repository dependency satisfaction — ed3c/soodles#113
+
+`dependency_binding.py` registers the single producer/consumer edge from the
+Soodles Issue 111 merged routing result to the Ops Issue 21 landing route. The
+edge fixes the producer repository, Issue, PR, candidate, merge revision, tree,
+runtime run, workflow and acceptance step in source. No CLI field lets an Agent
+replace those decisions.
+
+The existing `landing` owner projects the producer Issue, PR, merged commit,
+main branch, merge-to-main comparison, runtime and jobs as `dependency_*` GETs
+beside the Ops consumer GETs. Every landing transition validates them before
+consumer acceptance. A complete result proves completed Issue closure, the
+merged PR identity and parents, exact tree, successful exact-head runtime and
+that the merged artifact is identical to or an ancestor of current Soodles
+main. Missing evidence, closure alone, foreign repository, wrong revision,
+diverged ancestry or missing acceptance step refuses before checkpoint or
+provider write and returns the same owner route with exact readbacks.
+
+Eligibility creates no dependency checkpoint. After it passes, the existing
+Ops acceptance and landing state machine remain the only consumer and effect
+owner. Ops still needs its own exact PR/head/run/jobs success; producer cleanup,
+order creation and Issue closure are not substitutes. The frozen observer and
+focused controls cover identical and forward-main positive cases plus the
+closure-only, foreign, wrong-revision, stale and incomplete negative cases.
+Provider fixtures are L-class discrimination only; the source Issue/PR/run and
+final Soodles delivery readbacks retain their own R-class scope.
