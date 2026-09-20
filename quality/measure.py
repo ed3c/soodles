@@ -98,7 +98,7 @@ def scope(path):
     if path in ('landing.py','soodles.py'): return 'production'
     if path.startswith('tests/'): return 'tests'
     if path in ('cleanup_oracle.py','cleanup_lock_oracle.py','delivery_oracle.py',
-                'handoff_oracle.py'): return 'oracles'
+                'handoff_oracle.py','resume_oracle.py'): return 'oracles'
     if path.startswith('quality/'): return 'tooling'
     return 'unclassified'
 

@@ -391,6 +391,73 @@ def supervised(envelope_path, envelope_digest, root, reader=fetch_issue):
     return _admit(envelope_path, envelope_digest, root, reader, "supervised")
 
 
+def resume(checkpoint, envelope_path, envelope_digest, root, reader=fetch_issue):
+    """Read a completed predecessor, then use the existing admission owner.
+
+    The supervisor supplies the predecessor checkpoint and successor envelope.
+    This adds no durable state or cleanup writer. It is a sequential recovery
+    boundary, not a transaction with a concurrently consuming scheduler.
+    """
+    import landing
+
+    root = Path(root).resolve()
+    path = Path(checkpoint).resolve()
+    require(Path(checkpoint).is_absolute() and not path.is_relative_to(root),
+            "resume.checkpoint", "supervisor checkpoint must be outside the control root")
+    try:
+        state = landing.read(path)
+        require(isinstance(state, dict) and state.get("schema") == 2,
+                "resume.checkpoint.schema", "expected landing checkpoint schema 2")
+        claim = state.get("claim")
+        require(isinstance(claim, dict), "resume.claim", "missing")
+        # Historical cleanup is not a request to promote its verifier today.
+        landing.validate_claim(claim, verify_verifier=False)
+    except (OSError, ValueError, TypeError, KeyError, landing.LandingRefusal) as error:
+        raise AdmissionRefusal("resume.checkpoint", str(error)) from error
+    require(state.get("phase") == "resolved" and state.get("classification") == "RESOLVED",
+            "resume.predecessor", "cleanup has not reached RESOLVED")
+    require(claim.get("control_root") == str(root), "resume.control_root", claim.get("control_root"))
+    local = state.get("local", {})
+    require(isinstance(local, dict), "resume.cleanup", "missing local receipt")
+    require(local.get("removed_worktree") == claim["worktree"]
+            and local.get("worktree_owner") == "Noodle" and local.get("cleanup_mode") == "noodle",
+            "resume.cleanup", "original Noodle cleanup receipt required")
+    ref = claim.get("execution_envelope", {})
+    require(set(ref) == {"path", "sha256"}, "resume.predecessor_envelope", ref)
+    predecessor = load_external_envelope(ref["path"], ref["sha256"], root)
+    execution = predecessor["execution"]
+    require(predecessor["issue"] == claim["issue"]
+            and execution["control_root"] == str(root) and execution["worktree"] == claim["worktree"],
+            "resume.predecessor_identity", "checkpoint and envelope differ")
+    successor = load_external_envelope(envelope_path, envelope_digest, root)
+    require(successor["execution"]["control_root"] == str(root)
+            and successor["issue"] != predecessor["issue"]
+            and successor["execution"]["order_id"] != execution["order_id"]
+            and successor["execution"]["worktree"] != execution["worktree"],
+            "resume.successor_identity", "distinct successor in the same control root required")
+    worktree = root / ".worktrees" / claim["worktree"]
+    require(not os.path.lexists(worktree), "resume.cleanup.path", str(worktree))
+
+    def git(*argv):
+        result = subprocess.run(["git", *argv], cwd=root, capture_output=True, text=True)
+        require(result.returncode == 0, "resume.git", result.stderr)
+        return result.stdout.strip()
+
+    require(not git("branch", "--list", claim["worktree"]), "resume.cleanup.branch", claim["worktree"])
+    registrations = git("worktree", "list", "--porcelain").splitlines()
+    require("worktree " + str(worktree) not in registrations
+            and "branch refs/heads/" + claim["worktree"] not in registrations,
+            "resume.cleanup.registration", claim["worktree"])
+    completion = completed_original_order(predecessor, read_owner(predecessor))
+    # Keep the automatic proposal bytes unchanged so an unknown publication is
+    # recognized by publish_once; current and retained ownership stay with Noodle.
+    result = _admit(envelope_path, envelope_digest, root, reader, "automatic")
+    result["next"] = continuation(result["next"], "resume")
+    result["predecessor"] = {"checkpoint": str(path), "order_id": execution["order_id"],
+                             "completion": completion, "cleanup": "absent"}
+    return result
+
+
 def validate_worktree(root, binding):
     execution = binding["execution"]
     control = Path(execution["control_root"]).resolve()

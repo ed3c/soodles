@@ -177,6 +177,8 @@ def acceptance_verify(root, binary):
     physical["base_recovery"] = base_recovery_probe(ROOT)
     from handoff_oracle import handoff_probe
     physical["order_handoff"] = handoff_probe(runtime["binary"], ROOT)
+    from resume_oracle import resume_probe
+    physical["interruption_resume"] = resume_probe(runtime["binary"], ROOT)
     print(json.dumps({"delivery_recovery": physical["delivery_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_lock_recovery": physical["cleanup_lock_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_recovery": physical["cleanup_recovery"]["cases"]}), file=sys.stderr)
@@ -225,8 +227,11 @@ def parser():
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
     issue_verbs.add_parser("inspect", description="Read current Noodle schedule identity and launcher capability without effects.")
-    for name in ("automatic", "supervised", "worker"):
-        command = issue_verbs.add_parser(name, epilog=f"Examples: ./soodles issue {name} /external/envelope.json SHA256")
+    for name in ("automatic", "supervised", "worker", "resume"):
+        example = ("/external/A-checkpoint.json " if name == "resume" else "") + "/external/envelope.json SHA256"
+        command = issue_verbs.add_parser(name, epilog=f"Examples: ./soodles issue {name} {example}")
+        if name == "resume":
+            command.add_argument("checkpoint", help="Supervisor-selected resolved predecessor landing checkpoint.")
         command.add_argument("envelope", help="Supervisor-selected envelope outside the candidate.")
         command.add_argument("envelope_digest", help="Digest fixed by the external supervisor launcher, not Issue prose.")
         if name == "worker":
@@ -320,6 +325,8 @@ def main():
                 operation = getattr(issue_execution, args.verb)
                 if args.verb == "worker":
                     result = operation(args.envelope, args.envelope_digest, Path.cwd(), args.worker_argv)
+                elif args.verb == "resume":
+                    result = operation(args.checkpoint, args.envelope, args.envelope_digest, Path.cwd())
                 else:
                     result = operation(args.envelope, args.envelope_digest, Path.cwd())
         elif args.group == "landing":
