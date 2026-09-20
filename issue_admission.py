@@ -14,11 +14,12 @@ from soodles import Refusal
 
 REPOSITORY = "ed3c/soodles"
 MARKER = "soodles:execution-v1"
-CONTRACT_FIELDS = {
+CONTRACT_V1_FIELDS = {
     "schema", "trigger", "source", "owner", "changes", "write_paths",
     "behavior", "defect_controls", "non_cases", "dependencies",
     "acceptance", "delivery", "reconciliation", "feature_scope",
 }
+CONTRACT_FIELDS = CONTRACT_V1_FIELDS | {"required_paths", "evidence_manifest"}
 ENVELOPE_FIELDS = {
     "schema", "repository", "issue", "body_sha256", "body_updated_at",
     "owner", "write_paths", "base_head", "execution",
@@ -79,9 +80,12 @@ def parse_contract(body):
         contract = json.loads(blocks[0])
     except (ValueError, TypeError) as error:
         raise AdmissionRefusal("issue.contract.json", str(error), **source) from error
-    exact_object(contract, CONTRACT_FIELDS, "issue.contract.fields", **source)
-    require(type(contract["schema"]) is int and contract["schema"] == 1,
-            "issue.contract.schema", contract["schema"], **source)
+    require(isinstance(contract, dict), "issue.contract.fields", contract, **source)
+    schema = contract.get("schema")
+    require(type(schema) is int and schema in (1, 2),
+            "issue.contract.schema", schema, **source)
+    exact_object(contract, CONTRACT_V1_FIELDS if schema == 1 else CONTRACT_FIELDS,
+                 "issue.contract.fields", **source)
     for field in ("trigger", "source", "owner", "acceptance", "delivery", "reconciliation", "feature_scope"):
         require(nonempty(contract[field]), "issue.contract." + field, contract[field], **source)
     for field in ("changes", "behavior", "defect_controls", "non_cases"):
@@ -89,6 +93,18 @@ def parse_contract(body):
         require(isinstance(values, list) and bool(values) and all(nonempty(v) for v in values),
                 "issue.contract." + field, values, **source)
     contract["write_paths"] = path_set(contract["write_paths"], "issue.contract.write_paths")
+    if schema == 2:
+        contract["required_paths"] = path_set(
+            contract["required_paths"], "issue.contract.required_paths")
+        contract["evidence_manifest"] = git_path(
+            contract["evidence_manifest"], "issue.contract.evidence_manifest")
+        require(contract["evidence_manifest"] in contract["required_paths"],
+                "issue.contract.evidence_manifest",
+                contract["evidence_manifest"], **source)
+        require(set(contract["required_paths"]) <= set(contract["write_paths"]),
+                "issue.contract.required_paths",
+                sorted(set(contract["required_paths"]) - set(contract["write_paths"])),
+                **source)
     dependencies = contract["dependencies"]
     require(isinstance(dependencies, list), "issue.contract.dependencies", dependencies, **source)
     for dependency in dependencies:
@@ -203,9 +219,124 @@ def changed_paths(root, base, head):
     return sorted(set(paths))
 
 
+def git_bytes(root, revision, path):
+    result = subprocess.run(
+        ["git", "--no-pager", "show", f"{revision}:{path}"],
+        cwd=root, capture_output=True, timeout=30)
+    require(result.returncode == 0, "candidate.evidence_path", path,
+            owner="Git", required="exact_candidate_evidence")
+    return result.stdout
+
+
+def validate_candidate_evidence(root, base, head, binding, paths):
+    contract = binding.get("contract", {})
+    evidence = contract.get("candidate_evidence")
+    if evidence is None and contract.get("schema") == 2:
+        evidence = {
+            "manifest_path": contract.get("evidence_manifest"),
+            "required_paths": contract.get("required_paths"),
+        }
+    if evidence is None:
+        return None
+    exact_object(evidence, {"manifest_path", "required_paths"},
+                 "candidate.evidence.fields")
+    manifest_path = git_path(evidence["manifest_path"],
+                             "candidate.evidence.manifest_path")
+    required_paths = path_set(evidence["required_paths"],
+                              "candidate.evidence.required_paths")
+    require(manifest_path in required_paths, "candidate.evidence.manifest_path",
+            manifest_path)
+    missing = sorted(set(required_paths) - set(paths))
+    require(not missing, "candidate.missing_required_paths", missing,
+            owner="Soodles Issue admission",
+            required="complete_candidate_evidence")
+    raw_manifest = git_bytes(root, head, manifest_path)
+    try:
+        manifest = json.loads(raw_manifest)
+    except (TypeError, ValueError) as error:
+        raise AdmissionRefusal(
+            "candidate.evidence_manifest.json", str(error),
+            "Soodles Issue admission", "valid_candidate_evidence") from error
+    exact_object(manifest, {
+        "schema", "issue", "instructions", "artifacts", "owner",
+        "authorizes_landing"}, "candidate.evidence_manifest.fields")
+    require(type(manifest["schema"]) is int and manifest["schema"] == 1,
+            "candidate.evidence_manifest.schema", manifest["schema"])
+    issue = manifest["issue"]
+    exact_object(issue, {"repository", "number"},
+                 "candidate.evidence_manifest.issue")
+    require(issue == {"repository": REPOSITORY, "number": binding.get("issue")},
+            "candidate.evidence_manifest.issue", issue)
+    owner = manifest["owner"]
+    exact_object(owner, {"name", "tool", "authorization"},
+                 "candidate.evidence_manifest.owner")
+    require(all(nonempty(owner[field]) for field in owner),
+            "candidate.evidence_manifest.owner", owner)
+    require(owner["tool"] == "issue_admission.validate_delivery_paths",
+            "candidate.evidence_manifest.owner.tool", owner["tool"])
+    require(owner["authorization"]
+            == f"{REPOSITORY}#{binding.get('issue')}",
+            "candidate.evidence_manifest.owner.authorization",
+            owner["authorization"])
+    require(manifest["authorizes_landing"] is False,
+            "candidate.evidence_manifest.authorizes_landing",
+            manifest["authorizes_landing"])
+
+    instructions = manifest["instructions"]
+    require(isinstance(instructions, list) and bool(instructions),
+            "candidate.evidence_manifest.instructions", instructions)
+    instruction_paths = []
+    for instruction in instructions:
+        exact_object(instruction, {
+            "path", "baseline_sha256", "treatment_sha256"},
+            "candidate.evidence_manifest.instruction")
+        path = git_path(instruction["path"], "candidate.instruction.path")
+        require(path in required_paths, "candidate.instruction.path", path)
+        require(path not in instruction_paths, "candidate.instruction.path", path)
+        instruction_paths.append(path)
+        for label, revision in (("baseline", base), ("treatment", head)):
+            actual = hashlib.sha256(git_bytes(root, revision, path)).hexdigest()
+            expected = instruction[label + "_sha256"]
+            require(isinstance(expected, str)
+                    and re.fullmatch(r"[0-9a-f]{64}", expected)
+                    and actual == expected,
+                    f"candidate.instruction.{label}_sha256", expected)
+
+    artifacts = manifest["artifacts"]
+    require(isinstance(artifacts, list),
+            "candidate.evidence_manifest.artifacts", artifacts)
+    artifact_paths = []
+    for artifact in artifacts:
+        exact_object(artifact, {"path", "role", "sha256"},
+                     "candidate.evidence_manifest.artifact")
+        path = git_path(artifact["path"], "candidate.artifact.path")
+        require(path in required_paths and path != manifest_path
+                and path not in instruction_paths and path not in artifact_paths,
+                "candidate.artifact.path", path)
+        require(nonempty(artifact["role"]),
+                "candidate.artifact.role", artifact["role"])
+        actual = hashlib.sha256(git_bytes(root, head, path)).hexdigest()
+        expected = artifact["sha256"]
+        require(isinstance(expected, str)
+                and re.fullmatch(r"[0-9a-f]{64}", expected)
+                and actual == expected,
+                "candidate.artifact.sha256", expected)
+        artifact_paths.append(path)
+    expected_artifacts = (
+        set(required_paths) - {manifest_path} - set(instruction_paths))
+    require(set(artifact_paths) == expected_artifacts,
+            "candidate.evidence_manifest.artifacts",
+            sorted(expected_artifacts - set(artifact_paths)))
+    return hashlib.sha256(raw_manifest).hexdigest()
+
+
 def validate_delivery_paths(root, base, head, binding):
     require(base == binding["base_head"], "candidate.base", base)
     paths = changed_paths(root, base, head)
     outside = sorted(set(paths) - set(binding["write_paths"]))
     require(not outside, "candidate.outside_write_paths", outside)
-    return {"head": head, "base_head": base, "changed_paths": paths, "authorizes_landing": False}
+    manifest_sha256 = validate_candidate_evidence(
+        root, base, head, binding, paths)
+    return {"head": head, "base_head": base, "changed_paths": paths,
+            "evidence_manifest_sha256": manifest_sha256,
+            "authorizes_landing": False}

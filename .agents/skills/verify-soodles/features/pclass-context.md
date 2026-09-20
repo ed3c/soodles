@@ -30,6 +30,18 @@ Observable barriers include wrong route, rejected guessed command, unnecessary r
 
 ## Maintain, migrate and stop
 
+For a P-class correction, declare the instruction and its task, observer, raw
+receipts, manifest and results in the originating Issue's write boundary before
+the experiment. Freeze baseline and treatment instruction bytes separately.
+After the comparison, deliver the minimal instruction correction and complete
+evidence through one candidate. Its manifest binds both instruction digests and
+every required evidence artifact. The delivery-path owner refuses a missing
+required path or a candidate instruction that differs from the treatment
+digest. Exact-head verification replays the deterministic validator and reads
+the provider result before merge. A failed required runtime keeps that Issue
+open; a correctly refused planted control is passing evidence. Equal legal
+arms remain nonregression and cannot become a hill-climb claim.
+
 Use pstack maintain's source review, live drive, evidence survival, teardown and drift triage for this feature. Preserve its full-map requirement for a full pass; a single feature can be verified while overall maintenance remains blocked. The coordinator owns launch and collection; isolated consumers act only on their assigned tasks. Source reviewers do not drive or edit.
 
 Classify changes as recipe drift, recording gap or product regression. Correct recipe/helper drift within the skill; preserve product failures for the issue's owner. A changed helper must be re-driven. The candidate cannot replace its active judge. Correct a defective observer under a separately pinned supervisor boundary before a new comparison; do not recursively require another maintenance layer.
