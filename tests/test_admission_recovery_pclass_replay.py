@@ -50,6 +50,9 @@ def complete_fixture(raw, manifest):
     These are unit fixtures, never fresh consumers or experiment evidence.
     """
     raw, manifest = copy.deepcopy(raw), copy.deepcopy(manifest)
+    raw.pop('cleanup_supplement', None)
+    manifest.pop('cleanup_supplement', None)
+    manifest['required_controls'] = observer.CONTROLS
     source = raw['runs'][1]
     declared = manifest['runs'][1]
     runs, declarations = [], []
@@ -91,7 +94,12 @@ class AdmissionRecoveryReplayTests(unittest.TestCase):
                              manifest, replay.fingerprint(manifest), OBSERVER, DECIDER)
 
     def test_raw_exploration_preserves_cleanup_disagreement(self):
-        result = self.evaluate()
+        raw, manifest = copy.deepcopy(self.raw), copy.deepcopy(self.manifest)
+        raw.pop('cleanup_supplement')
+        manifest.pop('cleanup_supplement')
+        manifest['required_controls'] = observer.CONTROLS
+        bind(raw, manifest)
+        result = self.evaluate(raw, manifest)
         self.assertEqual(result['classification'], 'FAIL')
         self.assertEqual(result['decision']['disposition'], 'INCONCLUSIVE')
         self.assertIn('e_b4:retained_runtime_lock', result['errors'])
@@ -100,6 +108,73 @@ class AdmissionRecoveryReplayTests(unittest.TestCase):
         self.assertIsNone(result['decision']['barrier_totals'])
         self.assertTrue(all(c['predicate'] == 'PASS' for c in result['controls']), result['controls'])
         self.assertFalse(result['authorizes_landing'])
+
+    def test_fixed_append_only_supplement_completes_same_packet(self):
+        result = self.evaluate()
+        self.assertEqual(result['classification'], 'PASS', result['errors'])
+        self.assertEqual(result['decision']['disposition'], 'NO_QUALIFIED_BARRIER')
+        self.assertEqual(result['decision']['barrier_totals'], dict.fromkeys(observer.BARRIERS, 0))
+        self.assertEqual([r['initial_cleanup_errors'] for r in result['baseline']],
+                         [['retained_runtime_lock'], [], ['recovery_residue']])
+        self.assertEqual([r['cleanup_supplement_verified'] for r in result['baseline']],
+                         [True, False, True])
+        initial = json.loads(observer.unpack(self.raw['initial_replay']))
+        self.assertEqual(initial['decision']['disposition'], 'INCONCLUSIVE')
+        original = json.loads(observer.unpack(self.raw['initial_manifest']))
+        self.assertEqual([replay.fingerprint(r) for r in self.raw['runs']],
+                         [r['evidence_sha256'] for r in original['runs']])
+        self.assertTrue(all(c['predicate'] == 'PASS' for c in result['controls']))
+
+    def test_supplement_omission_and_rebinding_are_red(self):
+        for mutation in ('omit', 'observer', 'selection', 'receipt', 'run', 'project', 'lock', 'original'):
+            with self.subTest(mutation=mutation):
+                raw, manifest = copy.deepcopy(self.raw), copy.deepcopy(self.manifest)
+                s = raw['cleanup_supplement']
+                b = manifest['cleanup_supplement']['runs']['e_b4']
+                if mutation == 'omit':
+                    raw.pop('cleanup_supplement')
+                elif mutation in ('observer', 'selection'):
+                    s[mutation] = observer.pack(b'changed')
+                elif mutation == 'receipt':
+                    s['receipts']['e_b4'] = s['receipts']['e_b6']
+                elif mutation in ('run', 'project'):
+                    receipt = json.loads(observer.unpack(s['receipts']['e_b4']))
+                    receipt['run_id' if mutation == 'run' else 'project'] = 'another'
+                    s['receipts']['e_b4'] = observer.pack(json.dumps(receipt).encode())
+                    b['receipt_sha256'] = s['receipts']['e_b4']['sha256']
+                elif mutation == 'lock':
+                    b['lock']['lock_sha256'] = '0' * 64
+                else:
+                    b['original_run_sha256'] = '0' * 64
+                bind(raw, manifest)
+                result = self.evaluate(raw, manifest)
+                self.assertEqual(result['classification'], 'FAIL', result)
+                self.assertIsNone(result['decision']['barrier_totals'])
+
+    def test_supplement_cannot_hide_scope_or_process_failures(self):
+        for field in ('scope', 'process', 'sessions', 'residue', 'archive', 'time'):
+            with self.subTest(field=field):
+                raw, manifest = copy.deepcopy(self.raw), copy.deepcopy(self.manifest)
+                s = raw['cleanup_supplement']
+                receipt = json.loads(observer.unpack(s['receipts']['e_b4']))
+                if field == 'scope':
+                    receipt['scope']['owned_path'] = '.noodle/orders.json'
+                elif field == 'process':
+                    receipt['process_readback'][0]['absent'] = False
+                elif field == 'sessions':
+                    receipt['session_readback'].pop()
+                elif field == 'residue':
+                    receipt['before']['temporary_paths'] = ['residue.tmp']
+                elif field == 'archive':
+                    receipt['after']['archives'] = []
+                else:
+                    receipt['observed_at_ns'] = 1
+                s['receipts']['e_b4'] = observer.pack(json.dumps(receipt).encode())
+                manifest['cleanup_supplement']['runs']['e_b4']['receipt_sha256'] = s['receipts']['e_b4']['sha256']
+                bind(raw, manifest)
+                result = self.evaluate(raw, manifest)
+                self.assertIn('e_b4:cleanup_supplement_incomplete_readback', result['errors'])
+                self.assertIsNone(result['baseline'][0]['barriers'])
 
     def test_complete_zero_is_no_qualified_barrier(self):
         raw, manifest = complete_fixture(self.raw, self.manifest)

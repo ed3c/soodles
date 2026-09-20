@@ -146,12 +146,17 @@ never optimization targets. Missing evidence never supplies a zero.
 Three complete baseline runs with all four totals zero yield
 `NO_QUALIFIED_BARRIER`, not improvement or scoped nonregression. That predicate
 is exercised by explicitly synthetic controls; it creates no treatment or
-confirmation. The actual #81 e_b4/e_b5/e_b6 records have zero observed legal
-barriers but retain runtime-lock residue in e_b4/e_b6. Their replay is
-`INCONCLUSIVE` with failed cleanup gates, not an admitted zero-baseline result.
-The supervisor must supply the missing final scoped cleanup/process evidence;
-a summary cannot override the recorded residue. e_b1/e_b2/e_b3 remain separately
-preserved, unscored aborted drives, including e_b3's recorded pre-owner reads.
+confirmation. The initial #81 e_b4/e_b5/e_b6 replay was `INCONCLUSIVE` because
+e_b4/e_b6 retained runtime-lock residue. That original raw evidence and failed
+receipt remain preserved. A supervisor-fixed append-only cleanup supplement
+now binds the same runs, projects, original lock digests and process/session
+scope. The same replay entry verifies the observer/selection/receipt bytes and
+final absence before discharging only those original lock-residue errors.
+Omission or rebinding is RED; the corrected packet and already-complete e_b5
+are GREEN. All three final hard gates pass and all four barrier totals are zero:
+`NO_QUALIFIED_BARRIER`, without treatment or confirmation runs. e_b1/e_b2 remain
+unscored recorder preflight aborts; e_b3 read task/instruction/help/version but
+never invoked admission inspect or retire and remains unscored.
 
 Evidence is in `docs/experiments/pclass-admission-recovery-81/raw`: original
 request/result/stdout/stderr bytes, fixed inputs, consumer receipts, manifest,

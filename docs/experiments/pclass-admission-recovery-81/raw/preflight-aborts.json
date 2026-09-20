@@ -233,5 +233,10 @@
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       }
     }
-  ]
+  ],
+  "boundaries": {
+    "e_b1": "recorder preflight abort",
+    "e_b2": "recorder preflight abort",
+    "e_b3": "read task/instruction/help/version; never invoked admission inspect or retire"
+  }
 }

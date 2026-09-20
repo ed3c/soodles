@@ -1,15 +1,11 @@
 {
   "schema": 3,
-  "classification": "FAIL",
+  "classification": "PASS",
   "experiment_id": "ed3c/soodles#81-exploration",
-  "errors": [
-    "e_b4:retained_runtime_lock",
-    "e_b6:recovery_residue",
-    "failed_hard_gate"
-  ],
-  "manifest_sha256": "01a25394f14bc08c6ccaad28c8b808042da2edd377b32cefa3dd7a7d4e288a42",
-  "raw_bundle_sha256": "dd21fb472472ca228c0c99ecdba5f122bee4bb173374acbf204dfa2d4c33e370",
-  "observer_sha256": "b1b6596cf2549909d3a0454e9d585feec5b7df0e44aae573c1e5866523645812",
+  "errors": [],
+  "manifest_sha256": "7e6e39dca7d5ae16a8a5e5c7c09fa62da3057449f9a2e7049d035f2adb33afa9",
+  "raw_bundle_sha256": "bb45efdba017372ea53ba794d5988c4a3adc14d4e9a6701e002d66ddc1a90e1e",
+  "observer_sha256": "fdbbd3a99d2ea4da433556fdd266d1135270315aac890ca57c0cd034bb5d6fff",
   "normalizer_sha256": "bd04512d733f29594a90d4ce89d821ee2712d48ec950739ed0a94516b8e69ccd",
   "decider_sha256": "e8748a7836c8e4577f23204e107f4e2a5885e4e315aace37dfa2981de2c1df09",
   "gates_sha256": "1b734703a273fb8f8e8c4c8996440db36682365b85590821e95f00e05ff78254",
@@ -17,11 +13,14 @@
     {
       "run_id": "e_b4",
       "arm": "baseline",
-      "hard_gate": "FAIL",
-      "hard_errors": [
-        "retained_runtime_lock"
-      ],
-      "barriers": null,
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "repeated_unchanged_projection": 0,
+        "help_after_complete_projection": 0,
+        "repeated_unchanged_instruction": 0,
+        "avoidable_confirmation": 0
+      },
       "observed_legal_barriers": {
         "repeated_unchanged_projection": 0,
         "help_after_complete_projection": 0,
@@ -29,6 +28,10 @@
         "avoidable_confirmation": 0
       },
       "records": 40,
+      "initial_cleanup_errors": [
+        "retained_runtime_lock"
+      ],
+      "cleanup_supplement_verified": true,
       "evidence_sha256": "9fbce8a8c55852a3a30158c27f211e873b7557f3f78fed2302ce317e1f59855a",
       "authorizes_landing": false
     },
@@ -50,17 +53,22 @@
         "avoidable_confirmation": 0
       },
       "records": 34,
+      "initial_cleanup_errors": [],
+      "cleanup_supplement_verified": false,
       "evidence_sha256": "00f0e932d748c5d0197757156e717645236e3d70420a4dd79333715e7e069984",
       "authorizes_landing": false
     },
     {
       "run_id": "e_b6",
       "arm": "baseline",
-      "hard_gate": "FAIL",
-      "hard_errors": [
-        "recovery_residue"
-      ],
-      "barriers": null,
+      "hard_gate": "PASS",
+      "hard_errors": [],
+      "barriers": {
+        "repeated_unchanged_projection": 0,
+        "help_after_complete_projection": 0,
+        "repeated_unchanged_instruction": 0,
+        "avoidable_confirmation": 0
+      },
       "observed_legal_barriers": {
         "repeated_unchanged_projection": 0,
         "help_after_complete_projection": 0,
@@ -68,6 +76,10 @@
         "avoidable_confirmation": 0
       },
       "records": 40,
+      "initial_cleanup_errors": [
+        "recovery_residue"
+      ],
+      "cleanup_supplement_verified": true,
       "evidence_sha256": "98b16536e4babe1e008a8eda9e1ccdb32c6dce337b8a20f990229d7d64af24f1",
       "authorizes_landing": false
     }
@@ -247,17 +259,54 @@
       "errors": [],
       "source_run_id": "e_b5",
       "authorizes_landing": false
+    },
+    {
+      "name": "cleanup_supplement_omitted",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "predicate": "PASS",
+      "errors": [
+        "invalid_cleanup_supplement:cleanup_supplement_missing_or_unbound"
+      ],
+      "authorizes_landing": false
+    },
+    {
+      "name": "cleanup_supplement_rebound",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "predicate": "PASS",
+      "errors": [
+        "invalid_cleanup_supplement:cleanup_supplement_receipt_digest_mismatch"
+      ],
+      "authorizes_landing": false
+    },
+    {
+      "name": "cleanup_supplement_corrected",
+      "expected": "PASS",
+      "observed": "PASS",
+      "predicate": "PASS",
+      "errors": [],
+      "authorizes_landing": false
+    },
+    {
+      "name": "complete_cleanup_non_case",
+      "expected": "PASS",
+      "observed": "PASS",
+      "predicate": "PASS",
+      "errors": [],
+      "authorizes_landing": false
     }
   ],
   "decision": {
-    "disposition": "INCONCLUSIVE",
-    "barrier_totals": null,
+    "disposition": "NO_QUALIFIED_BARRIER",
+    "barrier_totals": {
+      "repeated_unchanged_projection": 0,
+      "help_after_complete_projection": 0,
+      "repeated_unchanged_instruction": 0,
+      "avoidable_confirmation": 0
+    },
     "selected_barrier": null,
-    "errors": [
-      "e_b4:retained_runtime_lock",
-      "e_b6:recovery_residue",
-      "failed_hard_gate"
-    ],
+    "errors": [],
     "confirmation_authorized": false,
     "treatment_retained": false,
     "authorizes_landing": false

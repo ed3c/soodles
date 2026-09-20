@@ -17,6 +17,11 @@ CONTROLS = ["stale_continuation", "wrong_projection_digest", "wrong_subject",
             "duplicate_membership", "observer_identity", "run_identity",
             "archive_changed", "provider_transport", "unwaited_process",
             "fresh_reinspection", "equivalent_argv"]
+SUPPLEMENT_CONTROLS = ["cleanup_supplement_omitted", "cleanup_supplement_rebound",
+                       "cleanup_supplement_corrected", "complete_cleanup_non_case"]
+CLEANUP_SCOPE = [".noodle/noodle.lock", ".noodle/orders-next.json",
+                 ".noodle/admission-retirements/*.json",
+                 ".noodle/sessions/*/process.json", ".noodle/**/*.tmp"]
 
 
 def fingerprint(value):
@@ -43,7 +48,101 @@ def parsed(record, name):
     return json.loads(unpack(record[name]))
 
 
-def evaluate_run(run, declaration, manifest):
+def cleanup_supplement(raw, manifest):
+    """Read fixed external bytes as data, never execute the cleanup observer."""
+    declared = manifest.get("cleanup_supplement")
+    supplied = raw.get("cleanup_supplement")
+    if declared is None and supplied is None:
+        return {}
+    if declared is None or supplied is None:
+        raise ValueError("cleanup_supplement_missing_or_unbound")
+    for name in ("observer", "selection"):
+        if sha(unpack(supplied[name])) != declared[name + "_sha256"]:
+            raise ValueError("cleanup_supplement_" + name + "_digest_mismatch")
+    selection = json.loads(unpack(supplied["selection"]))
+    if (selection["schema"] != 1 or selection["authorizes_landing"] is not False
+            or selection["observer_sha256"] != declared["observer_sha256"]
+            or selection["scope"] != CLEANUP_SCOPE
+            or set(selection["runs"]) != set(declared["runs"])
+            or set(supplied["receipts"]) != set(declared["runs"])):
+        raise ValueError("cleanup_supplement_selection_mismatch")
+    receipts = {}
+    for rid, binding in declared["runs"].items():
+        data = unpack(supplied["receipts"][rid])
+        if sha(data) != binding["receipt_sha256"]:
+            raise ValueError("cleanup_supplement_receipt_digest_mismatch")
+        receipt = json.loads(data)
+        if (receipt["run_id"] != rid or receipt["project"] != selection["runs"][rid]
+                or receipt["project"] != binding["project"]):
+            raise ValueError("cleanup_supplement_run_binding_mismatch")
+        receipts[rid] = receipt
+    return receipts
+
+
+def apply_cleanup_supplement(run, bindings, manifest, receipt, initial_errors, by_label):
+    """Discharge only the observed lock residue, retaining all initial errors."""
+    selected = manifest["cleanup_supplement"]["runs"][run["run_id"]]
+    if (fingerprint(run) != selected["original_run_sha256"]
+            or bindings["project"] != selected["project"]):
+        return ["cleanup_supplement_original_run_mismatch"]
+    before, after = receipt["before"], receipt["after"]
+    lock = selected["lock"]
+    if ({k: before[k] for k in ("lock_bytes", "lock_sha256", "lock_pid")} != lock
+            or type(lock["lock_pid"]) is not int or lock["lock_pid"] <= 1):
+        return ["cleanup_supplement_lock_binding_mismatch"]
+    # e_b4 recorded lock bytes; e_b6 recorded lock presence only. Its before
+    # digest is supplied by the fixed external observer, not invented here.
+    if bindings["cleanup_format"] == "find":
+        original_lock = unpack(by_label[bindings["roles"]["lock"]]["stdout.bin"])
+        if sha(original_lock) != lock["lock_sha256"] or len(original_lock) != lock["lock_bytes"]:
+            return ["cleanup_supplement_original_lock_mismatch"]
+        expected_errors = ["retained_runtime_lock"]
+    elif bindings["cleanup_format"] == "kernel_signals":
+        original = parsed(by_label[bindings["roles"]["cleanup"]], "stdout.bin")
+        if original["recovery_named_residue"] != [".noodle/noodle.lock"]:
+            return ["cleanup_supplement_residue_scope_mismatch"]
+        expected_errors = ["recovery_residue"]
+    else:
+        return ["cleanup_supplement_unselected_cleanup_format"]
+    archive = f'.noodle/admission-retirements/{bindings["proposal_sha256"]}-{bindings["revision"]}.json'
+    sessions = receipt["session_readback"]
+    original_sessions = []
+    decoder = json.JSONDecoder()
+    for label in selected["session_record_labels"]:
+        record = by_label[label]
+        if parsed(record, "result.json")["exit_code"] != 0:
+            return ["cleanup_supplement_original_sessions_failed"]
+        text = unpack(record["stdout.bin"]).decode()
+        # The e_b4 recorder concatenated path lines and JSON objects; e_b6
+        # recorded one JSON object per command. Decode both without execution.
+        while "{" in text:
+            text = text[text.index("{"):]
+            item, end = decoder.raw_decode(text)
+            original_sessions.append((item["session_id"], item["pid"]))
+            text = text[end:]
+    if (receipt["schema"] != 1 or receipt["authorizes_landing"] is not False
+            or receipt["classification"] != "GREEN" or receipt["errors"] != []
+            or receipt["removed"] is not True
+            or receipt["scope"] != {"owned_path": CLEANUP_SCOPE[0], "mailbox": CLEANUP_SCOPE[1],
+                                     "session_process_records": len(bindings["session_pids"])}
+            or before["mailbox_absent"] is not True or before["temporary_paths"] != []
+            or before["archives"] != [archive]
+            or after != {"lock_absent": True, "mailbox_absent": True, "archives": [archive]}
+            or receipt["process_readback"] != [{"target": lock["lock_pid"], "absent": True},
+                                               {"target": -lock["lock_pid"], "absent": True}]
+            or sorted(s["pid"] for s in sessions) != bindings["session_pids"]
+            or sorted((s["session_id"], s["pid"]) for s in sessions) != sorted(original_sessions)
+            or len({s["session_id"] for s in sessions}) != len(sessions)
+            or any(s["process_absent"] is not True or s["group_absent"] is not True for s in sessions)
+            or type(receipt["observed_at_ns"]) is not int
+            or receipt["observed_at_ns"] <= max(parsed(r, "request.json")["time_ns"] for r in run["records"])):
+        return ["cleanup_supplement_incomplete_readback"]
+    if sorted(set(initial_errors)) != expected_errors:
+        return ["cleanup_supplement_initial_scope_mismatch"]
+    return []
+
+
+def evaluate_run(run, declaration, manifest, supplement=None):
     errors = []
     counts = dict.fromkeys(BARRIERS, 0)
     bindings = declaration["bindings"]
@@ -244,6 +343,7 @@ def evaluate_run(run, declaration, manifest):
 
     # Three recorded cleanup interfaces. Exact commands and scopes are pinned
     # by the manifest; none of these archived programs is imported or executed.
+    cleanup_error_start = len(errors)
     cleanup = get("cleanup")[3]
     process = get("process")[3]
     if bindings["cleanup_format"] == "find":
@@ -286,6 +386,14 @@ def evaluate_run(run, declaration, manifest):
     for role in ("cleanup", "process"):
         if get(role)[2]["exit_code"] != 0:
             errors.append("cleanup_observation_failed")
+    initial_cleanup_errors = errors[cleanup_error_start:]
+    if supplement is not None:
+        remaining = apply_cleanup_supplement(
+            run, bindings, manifest, supplement, initial_cleanup_errors, by_label)
+        if remaining:
+            errors.extend(remaining)
+        else:
+            del errors[cleanup_error_start:]
     if bindings["transport_scope"] != "recorded_subprocesses_only":
         errors.append("unbound_transport_scope")
     # Consumer-recorded non-subprocess events remain explicit evidence. Missing
@@ -305,6 +413,8 @@ def evaluate_run(run, declaration, manifest):
             "hard_gate": "FAIL" if errors else "PASS", "hard_errors": sorted(set(errors)),
             "barriers": counts if not errors else None,
             "observed_legal_barriers": counts, "records": len(records),
+            "initial_cleanup_errors": initial_cleanup_errors,
+            "cleanup_supplement_verified": supplement is not None and not errors,
             "evidence_sha256": fingerprint(run), "authorizes_landing": False}
 
 
@@ -333,13 +443,18 @@ def evaluate(raw, manifest):
             or sha(unpack(raw["inputs"]["preserved-input-selection.json"])) != selection["input_selection_sha256"]
             or sha(unpack(raw["task"])) != selection["task_sha256"]):
         errors.append("input_selection_mismatch")
-    if selection["barrier_order"] != BARRIERS or manifest["required_controls"] != CONTROLS:
+    required = CONTROLS + (SUPPLEMENT_CONTROLS if "cleanup_supplement" in manifest else [])
+    if selection["barrier_order"] != BARRIERS or manifest["required_controls"] != required:
         errors.append("experiment_contract_mismatch")
+    try:
+        supplements = cleanup_supplement(raw, manifest)
+    except (KeyError, TypeError, ValueError) as error:
+        errors.append(f"invalid_cleanup_supplement:{error}")
     if errors:
         return receipts, errors
     for run, declaration in zip(runs, declarations):
         try:
-            receipt = evaluate_run(run, declaration, manifest)
+            receipt = evaluate_run(run, declaration, manifest, supplements.get(run["run_id"]))
         except (KeyError, TypeError, ValueError, IndexError, StopIteration) as error:
             receipt = {"run_id": run.get("run_id"), "arm": run.get("arm"),
                        "hard_gate": "FAIL", "hard_errors": [f"missing_or_invalid_evidence:{error}"],
@@ -415,7 +530,8 @@ def controls(raw, manifest):
             matched = any(target in e for e in scoped_errors)
             observed = "FAIL" if scoped_errors else "PASS"
         else:
-            receipt = next(r for r in receipts if r["run_id"] == run["run_id"])
+            receipt = next((r for r in receipts if r["run_id"] == run["run_id"]),
+                           {"hard_gate": "FAIL", "barriers": None})
             observed = receipt["hard_gate"]
             matched = observed == "PASS" and receipt["barriers"] == dict.fromkeys(BARRIERS, 0)
         results.append({"name": name, "expected": "FAIL" if target else "PASS",
@@ -423,4 +539,24 @@ def controls(raw, manifest):
                         "predicate": "PASS" if matched else "FAIL",
                         "errors": [e for e in errors if e.startswith(run["run_id"] + ":") or ":" not in e],
                         "source_run_id": run["run_id"], "authorizes_landing": False})
+    if "cleanup_supplement" in manifest:
+        for name in SUPPLEMENT_CONTROLS:
+            changed = copy.deepcopy(raw)
+            if name == "cleanup_supplement_omitted":
+                changed.pop("cleanup_supplement", None)
+            elif name == "cleanup_supplement_rebound" and "cleanup_supplement" in changed:
+                receipts = changed["cleanup_supplement"]["receipts"]
+                receipts["e_b4"] = receipts["e_b6"]
+            receipts, errors = evaluate(changed, manifest)
+            if name in SUPPLEMENT_CONTROLS[:2]:
+                matched = any(e.startswith("invalid_cleanup_supplement:") for e in errors)
+                expected, observed = "FAIL", "FAIL" if errors else "PASS"
+            else:
+                selected = receipts if name == "cleanup_supplement_corrected" else [
+                    r for r in receipts if r["run_id"] == manifest["control_source_run_id"]]
+                matched = bool(selected) and all(r["hard_gate"] == "PASS" for r in selected)
+                expected, observed = "PASS", "PASS" if matched else "FAIL"
+            results.append({"name": name, "expected": expected, "observed": observed,
+                            "predicate": "PASS" if matched else "FAIL", "errors": errors,
+                            "authorizes_landing": False})
     return results

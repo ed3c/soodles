@@ -50,7 +50,7 @@
     ],
     "preflight_abort_reason": "copied recorder resolved checkout root as /Users/neon and refused external evidence before reading task or invoking owner"
   },
-  "raw_bundle_sha256": "dd21fb472472ca228c0c99ecdba5f122bee4bb173374acbf204dfa2d4c33e370",
+  "raw_bundle_sha256": "bb45efdba017372ea53ba794d5988c4a3adc14d4e9a6701e002d66ddc1a90e1e",
   "gates_sha256": "1b734703a273fb8f8e8c4c8996440db36682365b85590821e95f00e05ff78254",
   "required_controls": [
     "stale_continuation",
@@ -66,7 +66,11 @@
     "provider_transport",
     "unwaited_process",
     "fresh_reinspection",
-    "equivalent_argv"
+    "equivalent_argv",
+    "cleanup_supplement_omitted",
+    "cleanup_supplement_rebound",
+    "cleanup_supplement_corrected",
+    "complete_cleanup_non_case"
   ],
   "control_source_run_id": "e_b5",
   "runs": [
@@ -202,7 +206,7 @@
           "model_observed": "UNKNOWN",
           "config_observed": "UNKNOWN"
         },
-        "observer_sha256": "b1b6596cf2549909d3a0454e9d585feec5b7df0e44aae573c1e5866523645812",
+        "observer_sha256": "fdbbd3a99d2ea4da433556fdd266d1135270315aac890ca57c0cd034bb5d6fff",
         "completion_sha256": "8afc984aaaeffeb21dc01c8772ac6d2027e2fbfe0c6b8e29cb9f1904a3f07b34"
       }
     },
@@ -334,7 +338,7 @@
           "model_observed": "UNKNOWN",
           "config_observed": "UNKNOWN"
         },
-        "observer_sha256": "b1b6596cf2549909d3a0454e9d585feec5b7df0e44aae573c1e5866523645812",
+        "observer_sha256": "fdbbd3a99d2ea4da433556fdd266d1135270315aac890ca57c0cd034bb5d6fff",
         "completion_sha256": "d80011e6944c464b291767b36cce4b505238a73e82b31b305355193e6253f1b1"
       }
     },
@@ -470,14 +474,14 @@
           "model_observed": "UNKNOWN",
           "config_observed": "UNKNOWN"
         },
-        "observer_sha256": "b1b6596cf2549909d3a0454e9d585feec5b7df0e44aae573c1e5866523645812",
+        "observer_sha256": "fdbbd3a99d2ea4da433556fdd266d1135270315aac890ca57c0cd034bb5d6fff",
         "completion_sha256": "52a660e4e8ff9d139973a12ba27145c2caaa316afebec284ab2b2af1c762546c"
       }
     }
   ],
   "authorizes_landing": false,
   "normalizer_sha256": "bd04512d733f29594a90d4ce89d821ee2712d48ec950739ed0a94516b8e69ccd",
-  "observer_sha256": "b1b6596cf2549909d3a0454e9d585feec5b7df0e44aae573c1e5866523645812",
+  "observer_sha256": "fdbbd3a99d2ea4da433556fdd266d1135270315aac890ca57c0cd034bb5d6fff",
   "decider_sha256": "e8748a7836c8e4577f23204e107f4e2a5885e4e315aace37dfa2981de2c1df09",
   "carrier": {
     "platform": "darwin_arm64",
@@ -496,7 +500,52 @@
     },
     {
       "path": "preflight-aborts.json",
-      "sha256": "cc7d1913332b6725662fc13cf2f2ee7700e9a76e4f4440fef127ce098e9355bd"
+      "sha256": "0a74185523a4873647fdb4eb5519709830ba141cd8dfd45c00e479e496ca94fa"
     }
-  ]
+  ],
+  "cleanup_supplement": {
+    "observer_sha256": "73766b3af692412080381a79504be04e6802890cdc278dd8ce8e6f49e4a804e4",
+    "selection_sha256": "014482ad74be3377845ebb5b71120bebcef388449a19e9c704cbdf77263d22d3",
+    "runs": {
+      "e_b4": {
+        "receipt_sha256": "91cb2471d74eeb27c0005979a1ad98740d16d8ae5ef2ff3158de04650525dff5",
+        "project": "/Users/neon/.codex/experiments/soodles81-pclass-admission-recovery/exploration/e_b4/project",
+        "original_run_sha256": "9fbce8a8c55852a3a30158c27f211e873b7557f3f78fed2302ce317e1f59855a",
+        "lock": {
+          "lock_bytes": 6,
+          "lock_sha256": "e8803715182f41810f42210189953184b7d35624906530a049f9dcddcdd58305",
+          "lock_pid": 65227
+        },
+        "session_record_labels": [
+          "before_process_records_01"
+        ]
+      },
+      "e_b6": {
+        "receipt_sha256": "d418da4ac7bfcfd4d1628d642e4352ab030c8f489d22e449c793cca8dc9044d3",
+        "project": "/Users/neon/.codex/experiments/soodles81-pclass-admission-recovery/exploration/e_b6/project",
+        "original_run_sha256": "98b16536e4babe1e008a8eda9e1ccdb32c6dce337b8a20f990229d7d64af24f1",
+        "lock": {
+          "lock_bytes": 6,
+          "lock_sha256": "40530cde3e5be2951b683df362ad737ddb4adcba95c59ea2c8d9317ff2c02f54",
+          "lock_pid": 65571
+        },
+        "session_record_labels": [
+          "e_b6_before_session_process_01",
+          "e_b6_before_session_process_02",
+          "e_b6_before_session_process_03",
+          "e_b6_before_session_process_04",
+          "e_b6_before_session_process_05",
+          "e_b6_before_session_process_06",
+          "e_b6_before_session_process_07",
+          "e_b6_before_session_process_08",
+          "e_b6_before_session_process_09"
+        ]
+      }
+    }
+  },
+  "continuation_admission": {
+    "body_sha256": "a575720bbfc3a4c297ec5180e86b2de5020576adc781f0802f4fd344284a151f",
+    "body_updated_at": "2026-09-20T06:16:31Z",
+    "envelope_sha256": "bee902acc8156e1ecc5bf49695a42599a11dc427a1b00afc3c8c5a22dcee5484"
+  }
 }
