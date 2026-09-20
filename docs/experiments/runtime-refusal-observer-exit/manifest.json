@@ -1,0 +1,21 @@
+{
+  "artifacts": [],
+  "authorizes_landing": false,
+  "instructions": [
+    {
+      "baseline_sha256": "12c92abee0e6ff01012f88e92067ae111dba699aa0b11bf2377ec5be6afa935f",
+      "path": ".github/workflows/runtime.yml",
+      "treatment_sha256": "24313cc7542bc0a748719d5e2def4130a790644010ca12f54e88d1fbd99ccba4"
+    }
+  ],
+  "issue": {
+    "number": 93,
+    "repository": "ed3c/soodles"
+  },
+  "owner": {
+    "authorization": "ed3c/soodles#93",
+    "name": "Soodles runtime observer consumer",
+    "tool": "issue_admission.validate_delivery_paths"
+  },
+  "schema": 1
+}
