@@ -1,9 +1,11 @@
 import copy
 import hashlib
 import json
+import os
 import re
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -102,6 +104,28 @@ class IssueAdmissionTests(unittest.TestCase):
         with self.assertRaises(admission.AdmissionRefusal):
             admission.parse_contract(template)
 
+    def test_schema_two_requires_manifest_and_evidence_inside_write_boundary(self):
+        contract = admission.parse_contract(
+            self.issue["body"].replace(
+                '"schema": 1,',
+                '"schema": 2,\n'
+                '  "required_paths": ["allowed.py"],\n'
+                '  "evidence_manifest": "allowed.py",',
+                1))
+        self.assertEqual(contract["required_paths"], ["allowed.py"])
+        self.assertEqual(contract["evidence_manifest"], "allowed.py")
+        outside = self.issue["body"].replace(
+            '"schema": 1,',
+            '"schema": 2,\n'
+            '  "required_paths": ["outside.json"],\n'
+            '  "evidence_manifest": "outside.json",',
+            1)
+        with self.assertRaises(admission.AdmissionRefusal) as caught:
+            admission.parse_contract(outside)
+        self.assertEqual(
+            caught.exception.invalid["field"],
+            "issue.contract.required_paths")
+
     def test_invalid_paths_and_duplicate_paths_refuse(self):
         for value in ("../escape", "/absolute", "a/../b", "a//b", "./a", "a\\b", ".git/config", "a\nfile"):
             with self.subTest(value=value), self.assertRaises(admission.AdmissionRefusal) as caught:
@@ -158,6 +182,31 @@ class IssueAdmissionTests(unittest.TestCase):
                         admission.validate_delivery_paths(root, base, head, restricted)
                     self.assertEqual(caught.exception.invalid["field"], "candidate.outside_write_paths")
                     self.assertIn(excluded, caught.exception.invalid["value"])
+
+    def test_frozen_observer_replays_treatment_and_preserves_baseline_red(self):
+        root = Path(admission.__file__).resolve().parent
+        evidence = root / "docs/experiments/pclass-atom-binding"
+        observer = evidence / "observer.py"
+        expected_sha = (
+            "19c01cb1b4de51c20c3d9d0275e40633ae2a801d78d4d20f0e027c24be452ae7")
+        self.assertEqual(hashlib.sha256(observer.read_bytes()).hexdigest(),
+                         expected_sha)
+        environment = dict(os.environ)
+        environment["PYTHONPATH"] = str(root)
+        result = subprocess.run(
+            [sys.executable, str(observer), str(Path(admission.__file__)),
+             "89", "treatment"],
+            cwd=root, env=environment, capture_output=True, text=True,
+            timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(
+            json.loads(result.stdout),
+            json.loads((evidence / "raw/treatment.json").read_text()))
+        baseline = json.loads((evidence / "raw/baseline.json").read_text())
+        self.assertEqual(baseline["classification"], "RED")
+        self.assertEqual(
+            [item["outcome"] for item in baseline["records"]],
+            ["accepted", "accepted", "accepted"])
 
 
 if __name__ == "__main__":

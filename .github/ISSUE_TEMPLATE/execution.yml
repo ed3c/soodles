@@ -15,12 +15,14 @@ body:
         <!-- soodles:execution-v1 -->
         ```json
         {
-          "schema": 1,
+          "schema": 2,
           "trigger": "",
           "source": "",
           "owner": "",
           "changes": [],
           "write_paths": [],
+          "required_paths": [],
+          "evidence_manifest": "",
           "behavior": [],
           "defect_controls": [],
           "non_cases": [],

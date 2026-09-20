@@ -1,0 +1,39 @@
+{
+  "authorizes_landing": false,
+  "classification": "RED",
+  "errors": [],
+  "observer_sha256": "19c01cb1b4de51c20c3d9d0275e40633ae2a801d78d4d20f0e027c24be452ae7",
+  "phase": "baseline",
+  "records": [
+    {
+      "case": "missing",
+      "changed_paths": [
+        ".agents/skills/verify-soodles/features/pclass-context.md"
+      ],
+      "outcome": "accepted"
+    },
+    {
+      "case": "mismatch",
+      "changed_paths": [
+        ".agents/skills/verify-soodles/features/pclass-context.md",
+        "docs/experiments/pclass-atom-binding/manifest.json",
+        "docs/experiments/pclass-atom-binding/raw.json",
+        "docs/experiments/pclass-atom-binding/results.md",
+        "docs/experiments/pclass-atom-binding/task.md"
+      ],
+      "outcome": "accepted"
+    },
+    {
+      "case": "complete",
+      "changed_paths": [
+        ".agents/skills/verify-soodles/features/pclass-context.md",
+        "docs/experiments/pclass-atom-binding/manifest.json",
+        "docs/experiments/pclass-atom-binding/raw.json",
+        "docs/experiments/pclass-atom-binding/results.md",
+        "docs/experiments/pclass-atom-binding/task.md"
+      ],
+      "outcome": "accepted"
+    }
+  ],
+  "schema": 1
+}

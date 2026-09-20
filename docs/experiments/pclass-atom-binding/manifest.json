@@ -1,0 +1,52 @@
+{
+  "artifacts": [
+    {
+      "path": "docs/experiments/pclass-atom-binding/task.md",
+      "role": "experiment_task",
+      "sha256": "4cca56ba0371ffab7662022b83876aca839e12c6d60751ae700599220d98d4db"
+    },
+    {
+      "path": "docs/experiments/pclass-atom-binding/observer.py",
+      "role": "observer",
+      "sha256": "19c01cb1b4de51c20c3d9d0275e40633ae2a801d78d4d20f0e027c24be452ae7"
+    },
+    {
+      "path": "docs/experiments/pclass-atom-binding/raw/baseline.json",
+      "role": "baseline_raw_receipt",
+      "sha256": "5d70253733fbabd8d4a99710303b7f505e5c6f99a7129e8bf548e4b43bd572a6"
+    },
+    {
+      "path": "docs/experiments/pclass-atom-binding/raw/treatment.json",
+      "role": "treatment_raw_receipt",
+      "sha256": "323256fc1d5ce036476644fde26cf35118a1b479b890f83922ccbda92afc56f5"
+    },
+    {
+      "path": "docs/experiments/pclass-atom-binding/raw/noncase.json",
+      "role": "legal_noncase_receipt",
+      "sha256": "0931c270427e4a454f3ce52173fb0857db81e5f362bb9cc420b0070701a07501"
+    },
+    {
+      "path": "docs/experiments/pclass-atom-binding/results.md",
+      "role": "results",
+      "sha256": "94c01a6042c06ae209dedfaf423078baf2cbc678f7cad3d3cc21b3f4c0ecf599"
+    }
+  ],
+  "authorizes_landing": false,
+  "instructions": [
+    {
+      "baseline_sha256": "dd8fb2ef1f296655f7f79cf8581a1129a6543e6bbc7afe0205db1b1732533498",
+      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "treatment_sha256": "55c600b7b2bc5627f3d46897bdffff7793fe0ae95ca44304f002d0a16a0a2a05"
+    }
+  ],
+  "issue": {
+    "number": 89,
+    "repository": "ed3c/soodles"
+  },
+  "owner": {
+    "authorization": "ed3c/soodles#89",
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths"
+  },
+  "schema": 1
+}

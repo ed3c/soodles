@@ -1,0 +1,31 @@
+{
+  "authorizes_landing": false,
+  "classification": "GREEN",
+  "errors": [],
+  "observer_sha256": "19c01cb1b4de51c20c3d9d0275e40633ae2a801d78d4d20f0e027c24be452ae7",
+  "phase": "treatment",
+  "records": [
+    {
+      "case": "missing",
+      "field": "candidate.missing_required_paths",
+      "outcome": "refused"
+    },
+    {
+      "case": "mismatch",
+      "field": "candidate.instruction.treatment_sha256",
+      "outcome": "refused"
+    },
+    {
+      "case": "complete",
+      "changed_paths": [
+        ".agents/skills/verify-soodles/features/pclass-context.md",
+        "docs/experiments/pclass-atom-binding/manifest.json",
+        "docs/experiments/pclass-atom-binding/raw.json",
+        "docs/experiments/pclass-atom-binding/results.md",
+        "docs/experiments/pclass-atom-binding/task.md"
+      ],
+      "outcome": "accepted"
+    }
+  ],
+  "schema": 1
+}
