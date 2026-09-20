@@ -222,6 +222,7 @@ def parser():
     issue = groups.add_parser("issue", description="Consume one externally pinned Issue envelope before Noodle effects.",
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
+    issue_verbs.add_parser("inspect", description="Read current Noodle schedule identity and launcher capability without effects.")
     for name in ("automatic", "supervised", "worker"):
         command = issue_verbs.add_parser(name, epilog=f"Examples: ./soodles issue {name} /external/envelope.json SHA256")
         command.add_argument("envelope", help="Supervisor-selected envelope outside the candidate.")
@@ -291,11 +292,14 @@ def main():
                 ROOT, args.base_head, args.candidate_head, readback)
         elif args.group == "issue":
             import issue_execution
-            operation = getattr(issue_execution, args.verb)
-            if args.verb == "worker":
-                result = operation(args.envelope, args.envelope_digest, Path.cwd(), args.worker_argv)
+            if args.verb == "inspect":
+                result = issue_execution.inspect_schedule(Path.cwd())
             else:
-                result = operation(args.envelope, args.envelope_digest, Path.cwd())
+                operation = getattr(issue_execution, args.verb)
+                if args.verb == "worker":
+                    result = operation(args.envelope, args.envelope_digest, Path.cwd(), args.worker_argv)
+                else:
+                    result = operation(args.envelope, args.envelope_digest, Path.cwd())
         elif args.group == "landing":
             import landing
             if args.verb == "identity":

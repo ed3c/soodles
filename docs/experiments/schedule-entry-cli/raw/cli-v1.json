@@ -1,0 +1,1334 @@
+{
+  "baseline": {
+    "scope": "disposable subprocess fixtures; no real Noodle dispatch or provider writes",
+    "authorizes_landing": false,
+    "rows": [
+      {
+        "case": "generic",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/generic/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "916c678f5cfc926e06d1365ce69e48f1adb84504b595887d0b9de9b6e84c44df",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "916c678f5cfc926e06d1365ce69e48f1adb84504b595887d0b9de9b6e84c44df",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "ready",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/ready/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "85efd347794ae76e18e30aae4259a627a8e60305307094abe46b21d9ce9a97ed",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "85efd347794ae76e18e30aae4259a627a8e60305307094abe46b21d9ce9a97ed",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "missing_launcher",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/missing_launcher/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "c89a372729a12ab3be233395289f6f8e7e6148be62eebbf135538906ec513b86",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "c89a372729a12ab3be233395289f6f8e7e6148be62eebbf135538906ec513b86",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "relative_launcher",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/relative_launcher/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "93de7c7847c03bc9e54ec67c39c640b0023ff36f1936f2feea8e86f0187ddde6",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "93de7c7847c03bc9e54ec67c39c640b0023ff36f1936f2feea8e86f0187ddde6",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "nonexecutable_launcher",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/nonexecutable_launcher/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "7fc855aa29b75ec4820ea2925fd79f1e21dc2e4a342666775f5807f2beaefe3c",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "7fc855aa29b75ec4820ea2925fd79f1e21dc2e4a342666775f5807f2beaefe3c",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "missing_root",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/missing_root/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "73ba33e2f97cde0aef8ff7548af5c7bab0461a15d941641e8872b85de2eeb7f2",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "73ba33e2f97cde0aef8ff7548af5c7bab0461a15d941641e8872b85de2eeb7f2",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "foreign_root",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/foreign_root/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "d9fd3573dea5b5b7a26401328136922173ff916be3626c019bb5e2f07b928cc2",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "d9fd3573dea5b5b7a26401328136922173ff916be3626c019bb5e2f07b928cc2",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "invalid_session",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/invalid_session/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "51b98025e169fe61705091130a947664f8f2cca9e0bb4a0f0b293987a078010a",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "51b98025e169fe61705091130a947664f8f2cca9e0bb4a0f0b293987a078010a",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "missing_spawn",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/missing_spawn/selected launcher",
+        "before": {
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "malformed_spawn",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/malformed_spawn/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "foreign_session",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/foreign_session/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "a10b6f5ee4a6f0c16ad96f6226e27259f3c5e21cc316ba180db6fe78db92bed9",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "a10b6f5ee4a6f0c16ad96f6226e27259f3c5e21cc316ba180db6fe78db92bed9",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "foreign_skill",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/foreign_skill/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "cac8afc0428eb45b39dd34db20958699e2415fe40521a824d45d39d2ac64e033",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "cac8afc0428eb45b39dd34db20958699e2415fe40521a824d45d39d2ac64e033",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      },
+      {
+        "case": "foreign_worktree",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 2,
+        "stdout": "{\n  \"owner\": \"issue.\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"arguments\",\n    \"value\": \"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ],\n    \"operation\": \"\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py\",\n      \"issue\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.: invalid arguments=\"argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)\"; owner: supervisor; required: ['execution_envelope']; continuation: issue ; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.",
+          "status": "refused",
+          "invalid": {
+            "field": "arguments",
+            "value": "argument verb: invalid choice: 'inspect' (choose from automatic, supervised, worker)"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ],
+            "operation": "",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/baseline/soodles.py",
+              "issue",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-7i9tg3mm/foreign_worktree/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "b4c1fc63214b37bfc29283f14f3ed0eadc7a04b3e70bf2df7ef3f068be1b000d",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "b4c1fc63214b37bfc29283f14f3ed0eadc7a04b3e70bf2df7ef3f068be1b000d",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": false
+      }
+    ],
+    "pass": false,
+    "cleanup": true
+  },
+  "treatment": {
+    "scope": "disposable subprocess fixtures; no real Noodle dispatch or provider writes",
+    "authorizes_landing": false,
+    "rows": [
+      {
+        "case": "generic",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"authorizes_landing\": false,\n  \"action\": \"not_applicable\",\n  \"next\": null\n}\n",
+        "stderr": "",
+        "output": {
+          "owner": "issue.inspect",
+          "authorizes_landing": false,
+          "action": "not_applicable",
+          "next": null
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/generic/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "7e64f8be01ca9adbbdf3b4eb447dc49e479e735d6d8a2dc946789d9f7b2e352c",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "7e64f8be01ca9adbbdf3b4eb447dc49e479e735d6d8a2dc946789d9f7b2e352c",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "ready",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"authorizes_landing\": false,\n  \"action\": \"ready\",\n  \"session_id\": \"schedule-observation\",\n  \"next\": {\n    \"kind\": \"executable\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"automatic\",\n    \"argv\": [\n      \"/tmp/schedule-observer-gpnwwe_x/ready/selected launcher\",\n      \"automatic\"\n    ]\n  }\n}\n",
+        "stderr": "",
+        "output": {
+          "owner": "issue.inspect",
+          "authorizes_landing": false,
+          "action": "ready",
+          "session_id": "schedule-observation",
+          "next": {
+            "kind": "executable",
+            "owner": "supervisor",
+            "operation": "automatic",
+            "argv": [
+              "/tmp/schedule-observer-gpnwwe_x/ready/selected launcher",
+              "automatic"
+            ]
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/ready/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "29cd01716638674893f6d7703a1e2723eaef786895f42878133d7676eba96f82",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "29cd01716638674893f6d7703a1e2723eaef786895f42878133d7676eba96f82",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true,
+        "handoff": {
+          "exit_code": 0,
+          "stdout": "{\"owner\": \"Noodle\", \"action\": \"owned\", \"published\": false, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_order_and_session_readback\"]}}\n",
+          "stderr": "",
+          "events": [
+            [
+              "automatic"
+            ]
+          ]
+        }
+      },
+      {
+        "case": "missing_launcher",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.launcher\",\n    \"value\": null\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"SOODLES_ADMISSION_LAUNCHER\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.launcher=None; owner: supervisor; required: ['SOODLES_ADMISSION_LAUNCHER']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.launcher",
+            "value": null
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "SOODLES_ADMISSION_LAUNCHER"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/missing_launcher/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "20804c588313b56fd33323af49dd3f9b090d3e0b57a69272154c430316b39692",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "20804c588313b56fd33323af49dd3f9b090d3e0b57a69272154c430316b39692",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "relative_launcher",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.launcher\",\n    \"value\": \"selected launcher\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"SOODLES_ADMISSION_LAUNCHER\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.launcher='selected launcher'; owner: supervisor; required: ['SOODLES_ADMISSION_LAUNCHER']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.launcher",
+            "value": "selected launcher"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "SOODLES_ADMISSION_LAUNCHER"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/relative_launcher/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "7d8e0ec11124930c91d0f9079b2ef1c700d791c687cca30638e92306bea8bf7b",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "7d8e0ec11124930c91d0f9079b2ef1c700d791c687cca30638e92306bea8bf7b",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "nonexecutable_launcher",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.launcher\",\n    \"value\": \"/tmp/schedule-observer-gpnwwe_x/nonexecutable_launcher/selected launcher\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"SOODLES_ADMISSION_LAUNCHER\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.launcher='/tmp/schedule-observer-gpnwwe_x/nonexecutable_launcher/selected launcher'; owner: supervisor; required: ['SOODLES_ADMISSION_LAUNCHER']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.launcher",
+            "value": "/tmp/schedule-observer-gpnwwe_x/nonexecutable_launcher/selected launcher"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "SOODLES_ADMISSION_LAUNCHER"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/nonexecutable_launcher/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "85d452c94de6df25388f3c070668e78ffc47122fc3fe495d6d0b00bb03e2d8c1",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "85d452c94de6df25388f3c070668e78ffc47122fc3fe495d6d0b00bb03e2d8c1",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "missing_root",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.control_root\",\n    \"value\": null\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"current_dispatch_identity\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.control_root=None; owner: Noodle; required: ['current_dispatch_identity']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.control_root",
+            "value": null
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_dispatch_identity"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/missing_root/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "91532abb3adf0c33586987db343062cad4e41b242102e12748308b7a728ae502",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "91532abb3adf0c33586987db343062cad4e41b242102e12748308b7a728ae502",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "foreign_root",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.control_root\",\n    \"value\": \"/tmp/schedule-observer-gpnwwe_x/foreign_root/foreign\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"current_dispatch_identity\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.control_root='/tmp/schedule-observer-gpnwwe_x/foreign_root/foreign'; owner: Noodle; required: ['current_dispatch_identity']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.control_root",
+            "value": "/tmp/schedule-observer-gpnwwe_x/foreign_root/foreign"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_dispatch_identity"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/foreign_root/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "25bc5f0e8eba5b95aa139a9b10f43648db04ce3ce1880e86c39c9aa78bb26c99",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "25bc5f0e8eba5b95aa139a9b10f43648db04ce3ce1880e86c39c9aa78bb26c99",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "invalid_session",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.session_id\",\n    \"value\": \"../foreign\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"current_dispatch_identity\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.session_id='../foreign'; owner: Noodle; required: ['current_dispatch_identity']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.session_id",
+            "value": "../foreign"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_dispatch_identity"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/invalid_session/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "e8e4b84c332571bd947c979d34abaf3e5388f36c8902f35112a6688716a172da",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "e8e4b84c332571bd947c979d34abaf3e5388f36c8902f35112a6688716a172da",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "missing_spawn",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.spawn\",\n    \"value\": \"/tmp/schedule-observer-gpnwwe_x/missing_spawn/.noodle/sessions/schedule-observation/spawn.json\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"current_dispatch_identity\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.spawn='/tmp/schedule-observer-gpnwwe_x/missing_spawn/.noodle/sessions/schedule-observation/spawn.json'; owner: Noodle; required: ['current_dispatch_identity']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.spawn",
+            "value": "/tmp/schedule-observer-gpnwwe_x/missing_spawn/.noodle/sessions/schedule-observation/spawn.json"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_dispatch_identity"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/missing_spawn/selected launcher",
+        "before": {
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "malformed_spawn",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.spawn\",\n    \"value\": \"/tmp/schedule-observer-gpnwwe_x/malformed_spawn/.noodle/sessions/schedule-observation/spawn.json\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"current_dispatch_identity\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.spawn='/tmp/schedule-observer-gpnwwe_x/malformed_spawn/.noodle/sessions/schedule-observation/spawn.json'; owner: Noodle; required: ['current_dispatch_identity']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.spawn",
+            "value": "/tmp/schedule-observer-gpnwwe_x/malformed_spawn/.noodle/sessions/schedule-observation/spawn.json"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_dispatch_identity"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/malformed_spawn/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "foreign_session",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.spawn.session_id\",\n    \"value\": \"foreign\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"current_dispatch_identity\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.spawn.session_id='foreign'; owner: Noodle; required: ['current_dispatch_identity']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.spawn.session_id",
+            "value": "foreign"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_dispatch_identity"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/foreign_session/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "269bb60b9534d6e326fe5f8b3821d91347d8a835f7694959a6763789a8c15175",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "269bb60b9534d6e326fe5f8b3821d91347d8a835f7694959a6763789a8c15175",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "foreign_skill",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.spawn.skill\",\n    \"value\": \"execute\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"current_dispatch_identity\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.spawn.skill='execute'; owner: Noodle; required: ['current_dispatch_identity']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.spawn.skill",
+            "value": "execute"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_dispatch_identity"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/foreign_skill/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "64b83613e8d23311847375c95e6a9b15cf3f8f1806d1aac780be3cd94b9fe15c",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "64b83613e8d23311847375c95e6a9b15cf3f8f1806d1aac780be3cd94b9fe15c",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      },
+      {
+        "case": "foreign_worktree",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+          "issue",
+          "inspect"
+        ],
+        "exit_code": 1,
+        "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.spawn.worktree_path\",\n    \"value\": \"/tmp/schedule-observer-gpnwwe_x/foreign_worktree/foreign\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"current_dispatch_identity\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+        "stderr": "REFUSED: issue.inspect: invalid scheduler.spawn.worktree_path='/tmp/schedule-observer-gpnwwe_x/foreign_worktree/foreign'; owner: Noodle; required: ['current_dispatch_identity']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+        "output": {
+          "owner": "issue.inspect",
+          "status": "refused",
+          "invalid": {
+            "field": "scheduler.spawn.worktree_path",
+            "value": "/tmp/schedule-observer-gpnwwe_x/foreign_worktree/foreign"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_dispatch_identity"
+            ],
+            "operation": "inspect",
+            "help_argv": [
+              "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+              "-B",
+              "/workspace/scratch/0c77ffa2d541/atom/candidate/soodles.py",
+              "issue",
+              "inspect",
+              "--help"
+            ],
+            "reason": "Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer."
+          }
+        },
+        "launcher": "/tmp/schedule-observer-gpnwwe_x/foreign_worktree/selected launcher",
+        "before": {
+          ".noodle/sessions/schedule-observation/spawn.json": "bd84041b8fd7ea41849073d01769ade387fd0ea785b716355665cd43edf66166",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "after": {
+          ".noodle/sessions/schedule-observation/spawn.json": "bd84041b8fd7ea41849073d01769ade387fd0ea785b716355665cd43edf66166",
+          ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+          "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423"
+        },
+        "unchanged": true,
+        "inspect_launcher_events": [],
+        "pass": true
+      }
+    ],
+    "pass": true,
+    "cleanup": true
+  }
+}

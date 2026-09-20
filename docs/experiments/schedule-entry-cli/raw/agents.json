@@ -1,0 +1,1959 @@
+{
+  "scope": "Native fresh consumers; sanitized local fixture subprocess recorder; no complete platform transcript or global transport monitor",
+  "authorizes_landing": false,
+  "origin_issue": 103,
+  "launch_instructions_template": "Run consumer.py RUN read; apply supplied task/Skill. All observations/execution use consumer.py RUN run. No network, other directories, source/canonical edits. Finish decision JSON. No sibling/observer/reports access. Fresh context fork_turns none.",
+  "recorder_sha256": "2bf067516b40c5907a6adb408e41ba5ef775888c4500b4b065c8e4ca8b024f34",
+  "superseded_implementation": {
+    "path": "issue_execution.py",
+    "sha256": "92019c41dc33db8ddf132b9cd7e67b7c32f25076f632bf479bc887ee9b343e98",
+    "content": "\"\"\"Consumers for one externally admitted Issue; Noodle owns scheduling/state.\n\nProvider reads are live by default. Test callers may supply a reader explicitly.\nOnly the existing orders-next mailbox is written; no independent order ledger,\nlock or retry loop is introduced. An installed supervisor launcher fixes the\nexternal envelope path/digest and this implementation before executing it.\n\"\"\"\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport platform\nimport re\nimport subprocess\nimport sys\nimport tempfile\nimport time\n\nfrom issue_admission import (AdmissionRefusal, REPOSITORY, load_external_envelope,\n                             require, validate_issue)\n\n\ndef fetch_issue(number):\n    # Landing consumes supplied readbacks and must not load a credential reader.\n    # Automatic/supervised/worker retain the same default callable boundary.\n    from github_reader import fetch_issue as read\n    return read(number)\n\n\ndef inspect_schedule(root, environ=None):\n    \"\"\"Project current Noodle role and supervisor capability without effects.\"\"\"\n    environ = os.environ if environ is None else environ\n    session = environ.get(\"NOODLE_SESSION_ID\")\n    result = {\"owner\": \"issue.inspect\", \"authorizes_landing\": False}\n    if not session:\n        return {**result, \"action\": \"not_applicable\", \"next\": None}\n    source = {\"owner\": \"Noodle\", \"required\": \"current_dispatch_identity\"}\n    require(isinstance(session, str) and re.fullmatch(r\"[a-zA-Z0-9-]+\", session),\n            \"scheduler.session_id\", session, **source)\n    root = Path(root).resolve()\n    control = environ.get(\"NOODLE_PROJECT_DIR\")\n    require(isinstance(control, str) and Path(control).is_absolute()\n            and Path(control).resolve() == root,\n            \"scheduler.control_root\", control, **source)\n    path = root / \".noodle/sessions\" / session / \"spawn.json\"\n    try:\n        spawn = json.loads(path.read_text())\n    except (OSError, ValueError) as error:\n        raise AdmissionRefusal(\"scheduler.spawn\", str(path), **source) from error\n    require(isinstance(spawn, dict), \"scheduler.spawn\", str(path), **source)\n    for key, expected in ((\"session_id\", session), (\"skill\", \"schedule\")):\n        require(spawn.get(key) == expected, \"scheduler.spawn.\" + key,\n                spawn.get(key), **source)\n    worktree = spawn.get(\"worktree_path\")\n    require(isinstance(worktree, str) and Path(worktree).is_absolute()\n            and Path(worktree).resolve() == root,\n            \"scheduler.spawn.worktree_path\", worktree, **source)\n    launcher = environ.get(\"SOODLES_ADMISSION_LAUNCHER\")\n    require(isinstance(launcher, str) and Path(launcher).is_absolute()\n            and Path(launcher).is_file() and os.access(launcher, os.X_OK),\n            \"scheduler.launcher\", launcher, owner=\"supervisor\",\n            required=\"SOODLES_ADMISSION_LAUNCHER\")\n    return {**result, \"action\": \"ready\", \"session_id\": session,\n            \"next\": {\"kind\": \"executable\", \"owner\": \"supervisor\",\n                     \"operation\": \"automatic\", \"argv\": [launcher, \"automatic\"]}}\n\n\ndef executable_identity(spec, field):\n    require(isinstance(spec, dict), field, spec)\n    path = spec.get(\"path\")\n    require(isinstance(path, str) and Path(path).is_absolute(), field + \".path\", path)\n    path = Path(path).resolve()\n    require(path.is_file() and os.access(path, os.X_OK), field + \".path\", str(path))\n    observed = hashlib.sha256(path.read_bytes()).hexdigest()\n    require(observed == spec.get(\"sha256\"), field + \".sha256\", observed)\n    return str(path)\n\n\ndef validate_carrier(binding, worker=False):\n    carrier = binding[\"execution\"][\"carrier\"]\n    host = platform.system().lower() + \"_\" + platform.machine().lower()\n    require(host == carrier.get(\"platform\"), \"carrier.platform\", host)\n    noodle = executable_identity(carrier.get(\"noodle\"), \"carrier.noodle\")\n    result = {\"noodle\": noodle}\n    if worker:\n        codex = carrier.get(\"codex\")\n        result[\"codex\"] = executable_identity(codex, \"carrier.codex\")\n        require(isinstance(codex.get(\"argv\"), list) and bool(codex[\"argv\"])\n                and all(isinstance(a, str) and \"\\0\" not in a for a in codex[\"argv\"]),\n                \"carrier.codex.argv\", codex.get(\"argv\"))\n        require(isinstance(codex.get(\"model\"), str) and bool(codex[\"model\"]),\n                \"carrier.codex.model\", codex.get(\"model\"))\n    return result\n\n\ndef read_owner(binding):\n    root = Path(binding[\"execution\"][\"control_root\"]).resolve()\n    path = root / \".noodle/state.snapshot.json\"\n    try:\n        state = json.loads(path.read_text())\n    except (OSError, ValueError) as error:\n        raise AdmissionRefusal(\"noodle.snapshot\", str(error), \"Noodle\", \"canonical_checkpoint_readback\") from error\n    require(isinstance(state, dict) and isinstance(state.get(\"state\"), dict),\n            \"noodle.snapshot\", state, owner=\"Noodle\", required=\"canonical_checkpoint_readback\")\n    require(isinstance(state[\"state\"].get(\"orders\"), dict),\n            \"noodle.orders\", state[\"state\"].get(\"orders\"), owner=\"Noodle\", required=\"canonical_checkpoint_readback\")\n    require(isinstance(state.get(\"effect_ledger\"), list),\n            \"noodle.effect_ledger\", state.get(\"effect_ledger\"), owner=\"Noodle\", required=\"canonical_checkpoint_readback\")\n    for record in state[\"effect_ledger\"]:\n        require(isinstance(record, dict) and isinstance(record.get(\"effect\"), dict),\n                \"noodle.effect_ledger.record\", record, owner=\"Noodle\", required=\"canonical_checkpoint_readback\")\n        effect = record[\"effect\"]\n        if effect.get(\"type\") == \"initial_admission\":\n            require(isinstance(effect.get(\"payload\"), dict) and isinstance(effect[\"payload\"].get(\"order_id\"), str),\n                    \"noodle.initial_admission\", effect, owner=\"Noodle\", required=\"canonical_checkpoint_readback\")\n    revision = state.get(\"order_revision\")\n    require(isinstance(revision, str) and re.fullmatch(r\"[0-9a-f]{32}\", revision),\n            \"noodle.order_revision\", revision, owner=\"Noodle\", required=\"current_order_revision\")\n    return state\n\n\ndef context(envelope_path, envelope_digest, root, reader):\n    envelope = load_external_envelope(envelope_path, envelope_digest, root)\n    try:\n        readback = reader(envelope[\"issue\"])\n        return validate_issue(readback, envelope)\n    except AdmissionRefusal as error:\n        # Retain only externally pinned identity, never identity from the rejected\n        # provider payload. These values locate prior input; they do not renew it.\n        error.next[\"known\"] = {\"repository\": envelope[\"repository\"], \"issue\": envelope[\"issue\"],\n                               \"envelope\": str(Path(envelope_path).resolve()),\n                               \"envelope_digest\": envelope_digest}\n        raise\n\n\ndef quiescent_order(binding, state):\n    \"\"\"Read the canonical attempts and their Noodle-owned process groups.\n\n    This is a bounded local readback, not a new lease or permission to retry.\n    A recycled PID or an unreadable process remains a refusal.\n    \"\"\"\n    order_id = binding[\"execution\"][\"order_id\"]\n    order = state[\"state\"][\"orders\"].get(order_id)\n    require(isinstance(order, dict) and isinstance(order.get(\"stages\"), list) and bool(order[\"stages\"]),\n            \"takeover.order\", order, owner=\"Noodle\", required=\"canonical_order_readback\")\n    observations = []\n    for stage in order[\"stages\"]:\n        require(isinstance(stage, dict) and stage.get(\"status\") in (\"review\", \"completed\", \"failed\", \"cancelled\"),\n                \"takeover.stage\", stage, owner=\"Noodle\", required=\"quiescent_writer_and_session_readback\")\n        attempts = stage.get(\"attempts\")\n        require(isinstance(attempts, list) and bool(attempts), \"takeover.attempts\", attempts,\n                owner=\"Noodle\", required=\"canonical_attempt_readback\")\n        for attempt in attempts:\n            require(isinstance(attempt, dict) and attempt.get(\"status\") in (\"completed\", \"failed\", \"cancelled\"),\n                    \"takeover.prior_writer\", attempt, owner=\"Noodle\", required=\"quiescent_writer_and_session_readback\")\n            session = attempt.get(\"session_id\")\n            require(isinstance(session, str) and re.fullmatch(r\"[a-zA-Z0-9-]+\", session), \"takeover.session\", session,\n                    owner=\"Noodle\", required=\"canonical_attempt_readback\")\n            directory = Path(binding[\"execution\"][\"control_root\"]) / \".noodle/sessions\" / session\n            try:\n                process = json.loads((directory / \"process.json\").read_text())\n            except (OSError, ValueError) as error:\n                raise AdmissionRefusal(\"takeover.process\", str(error), \"Noodle\", \"process_group_readback\") from error\n            require(isinstance(process, dict) and process.get(\"session_id\") == session\n                    and type(process.get(\"pid\")) is int and process[\"pid\"] > 1,\n                    \"takeover.process\", process, owner=\"Noodle\", required=\"process_group_readback\")\n            for target in (process[\"pid\"], -process[\"pid\"]):\n                try:\n                    os.kill(target, 0)\n                except ProcessLookupError:\n                    continue\n                except PermissionError as error:\n                    raise AdmissionRefusal(\"takeover.process\", str(error), \"Noodle\", \"process_group_readback\") from error\n                raise AdmissionRefusal(\"takeover.process_alive\", target, \"Noodle\", \"quiescent_writer_and_session_readback\")\n            observations.append({\"session_id\": session, \"pid\": process[\"pid\"], \"process_and_group_absent\": True})\n    require(read_owner(binding)[\"state\"][\"orders\"].get(order_id) == order,\n            \"takeover.owner_changed\", order_id, owner=\"Noodle\", required=\"fresh_canonical_checkpoint\")\n    return observations\n\n\ndef projection(binding, envelope_digest, route):\n    return {\"repository\": binding[\"repository\"], \"issue\": binding[\"issue\"],\n            \"body_sha256\": binding[\"body_sha256\"], \"body_updated_at\": binding[\"body_updated_at\"],\n            \"envelope_sha256\": envelope_digest, \"route\": route, \"task\": binding[\"execution\"][\"task\"]}\n\n\ndef publish_once(path, proposal):\n    \"\"\"Use Noodle's one mailbox without replacing an outstanding proposal.\"\"\"\n    data = (json.dumps(proposal, sort_keys=True) + \"\\n\").encode()\n    fd, name = tempfile.mkstemp(prefix=\".soodles-proposal-\", dir=path.parent)\n    try:\n        with os.fdopen(fd, \"wb\") as stream:\n            stream.write(data)\n            stream.flush()\n            os.fsync(stream.fileno())\n        try:\n            os.link(name, path)\n        except FileExistsError:\n            # This is owner readback, not permission to overwrite/retry a write.\n            try:\n                current = path.read_bytes()\n            except FileNotFoundError as error:\n                raise AdmissionRefusal(\"noodle.proposal\", \"changed during owner readback\",\n                                       \"Noodle\", \"fresh_canonical_checkpoint\") from error\n            require(current == data, \"noodle.proposal\", \"different outstanding proposal\",\n                    owner=\"Noodle\", required=\"pending_proposal_readback\")\n            return False\n        directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)\n        try:\n            os.fsync(directory)\n        finally:\n            os.close(directory)\n        return True\n    finally:\n        os.unlink(name)\n\n\ndef _admit(envelope_path, envelope_digest, root, reader, route):\n    root = Path(root).resolve()\n    binding = context(envelope_path, envelope_digest, root, reader)\n    execution = binding[\"execution\"]\n    require(root == Path(execution[\"control_root\"]).resolve(), \"execution.control_root\", str(root))\n    validate_carrier(binding)\n    state = read_owner(binding)\n    order_id = execution[\"order_id\"]\n    orders = state[\"state\"][\"orders\"]\n    if order_id in orders:\n        order = orders[order_id]\n        require(isinstance(order, dict) and isinstance(order.get(\"stages\"), list),\n                \"noodle.order\", order, owner=\"Noodle\", required=\"canonical_order_readback\")\n        for stage in order[\"stages\"]:\n            require(isinstance(stage, dict) and isinstance(stage.get(\"attempts\"), list)\n                    and all(isinstance(a, dict) for a in stage[\"attempts\"]),\n                    \"noodle.stage\", stage, owner=\"Noodle\", required=\"canonical_order_readback\")\n        live = [a for stage in order[\"stages\"] for a in stage.get(\"attempts\", [])\n                if a.get(\"status\") in (\"launching\", \"running\")]\n        if route == \"supervised\":\n            require(not live, \"takeover.prior_writer\", live,\n                    owner=\"Noodle\", required=\"quiescent_writer_and_session_readback\")\n            quiescent_order(binding, state)\n        return {\"owner\": \"Noodle\", \"action\": \"owned\", \"binding\": binding,\n                \"next\": continuation({\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_order_and_session_readback\"],\n                         \"known\": {\"order_id\": order_id}}, route), \"published\": False}\n    for record in state[\"effect_ledger\"]:\n        effect = record.get(\"effect\", {})\n        if effect.get(\"type\") == \"initial_admission\" and effect.get(\"payload\", {}).get(\"order_id\") == order_id:\n            return {\"owner\": \"Noodle\", \"action\": \"previously_admitted\", \"binding\": binding, \"published\": False,\n                    \"next\": continuation({\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"original_order_recovery\"],\n                             \"known\": {\"order_id\": order_id, \"effect_id\": record.get(\"effect_id\")}}, route)}\n    # Proposal identity does not select the provider policy; the installed carrier does.\n    codex = execution[\"carrier\"].get(\"codex\")\n    require(isinstance(codex, dict) and isinstance(codex.get(\"model\"), str),\n            \"carrier.codex\", codex)\n    validate_carrier(binding, worker=True)\n    proposal = {\"initial_revision\": state[\"order_revision\"], \"orders\": [{\n        \"id\": order_id, \"title\": f\"Execute {REPOSITORY}#{binding['issue']}\",\n        \"rationale\": \"Externally admitted current Issue\",\n        \"stages\": [{\"do\": \"execute\", \"with\": \"codex\", \"model\": codex[\"model\"], \"runtime\": \"process\",\n                    \"prompt\": json.dumps(projection(binding, envelope_digest, route), sort_keys=True)}],\n    }]}\n    published = publish_once(root / \".noodle/orders-next.json\", proposal)\n    return {\"owner\": \"Noodle\", \"action\": \"proposal_pending\", \"binding\": binding,\n            \"published\": published, \"next\": continuation({\"kind\": \"input\", \"owner\": \"Noodle\",\n            \"required\": [\"canonical_promotion_readback\"], \"known\": {\"order_id\": order_id}}, route)}\n\n\ndef automatic(envelope_path, envelope_digest, root, reader=fetch_issue):\n    return _admit(envelope_path, envelope_digest, root, reader, \"automatic\")\n\n\ndef supervised(envelope_path, envelope_digest, root, reader=fetch_issue):\n    return _admit(envelope_path, envelope_digest, root, reader, \"supervised\")\n\n\ndef validate_worktree(root, binding):\n    execution = binding[\"execution\"]\n    control = Path(execution[\"control_root\"]).resolve()\n    def git(cwd, *args):\n        result = subprocess.run([\"git\", *args], cwd=cwd, capture_output=True, text=True, timeout=30)\n        require(result.returncode == 0, \"worker.git\", result.stderr,\n                owner=\"Git\", required=\"registered_worktree_readback\")\n        return result.stdout.strip()\n    require(git(root, \"rev-parse\", \"--show-toplevel\") == str(root),\n            \"worker.git.root\", str(root), owner=\"Git\", required=\"registered_worktree_readback\")\n    common = Path(git(root, \"rev-parse\", \"--path-format=absolute\", \"--git-common-dir\")).resolve()\n    expected = Path(git(control, \"rev-parse\", \"--path-format=absolute\", \"--git-common-dir\")).resolve()\n    require(common == expected, \"worker.git.common_dir\", str(common),\n            owner=\"Git\", required=\"registered_worktree_readback\")\n    branch = git(root, \"branch\", \"--show-current\")\n    require(branch == execution[\"worktree\"], \"worker.git.branch\", branch,\n            owner=\"Git\", required=\"registered_worktree_readback\")\n    head = git(root, \"rev-parse\", \"HEAD\")\n    require(head == execution[\"source_head\"], \"worker.git.head\", head,\n            owner=\"supervisor\", required=\"fresh_execution_envelope\")\n    origin = git(root, \"remote\", \"get-url\", \"origin\")\n    require(origin in (f\"https://github.com/{REPOSITORY}.git\", f\"git@github.com:{REPOSITORY}.git\"),\n            \"worker.git.origin\", origin, owner=\"Git\", required=\"admitted_repository_identity\")\n    residue = git(root, \"status\", \"--porcelain=v1\", \"--untracked-files=all\")\n    require(not residue, \"worker.git.residue\", residue, owner=\"Git\", required=\"clean_worker_subject\")\n    result = subprocess.run([\"git\", \"merge-base\", \"--is-ancestor\", binding[\"base_head\"], \"HEAD\"],\n                            cwd=root, capture_output=True, text=True, timeout=30)\n    require(result.returncode == 0, \"worker.git.base\", binding[\"base_head\"],\n            owner=\"Git\", required=\"admitted_base_ancestry\")\n\n\ndef spawn_readback(binding, session):\n    path = Path(binding[\"execution\"][\"control_root\"]) / \".noodle/sessions\" / session / \"spawn.json\"\n    # Noodle writes spawn metadata immediately after starting this same process.\n    # Bound this initialization observation; never start another writer on expiry.\n    deadline = time.monotonic() + 2\n    while True:\n        try:\n            spawn = json.loads(path.read_text())\n            break\n        except FileNotFoundError as error:\n            if time.monotonic() >= deadline:\n                raise AdmissionRefusal(\"worker.spawn\", str(path), \"Noodle\", \"current_dispatch_metadata\") from error\n            time.sleep(0.01)\n    require(isinstance(spawn, dict), \"worker.spawn\", spawn, owner=\"Noodle\", required=\"current_dispatch_identity\")\n    return spawn\n\n\ndef launch_checked(binding, session, root, spawn, argv, execute):\n    carrier = binding[\"execution\"][\"carrier\"]\n    for key, expected in ((\"session_id\", session), (\"provider\", \"codex\"), (\"runtime\", \"process\"),\n                          (\"worktree_path\", str(root)), (\"model\", carrier.get(\"codex\", {}).get(\"model\"))):\n        require(spawn.get(key) == expected, \"worker.spawn.\" + key, spawn.get(key),\n                owner=\"Noodle\", required=\"current_dispatch_identity\")\n    identities = validate_carrier(binding, worker=True)\n    require(list(argv) == carrier[\"codex\"][\"argv\"], \"worker.argv\", list(argv))\n    execute(identities[\"codex\"], [identities[\"codex\"], *argv])\n    return {\"owner\": \"Noodle\", \"action\": \"worker_started\", \"binding\": binding, \"session_id\": session}\n\n\ndef worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, environ=None, execute=os.execv):\n    environ = os.environ if environ is None else environ\n    root = Path(root).resolve()\n    binding = context(envelope_path, envelope_digest, root, reader)\n    execution = binding[\"execution\"]\n    session = environ.get(\"NOODLE_SESSION_ID\")\n    require(isinstance(session, str) and re.fullmatch(r\"[a-zA-Z0-9-]+\", session),\n            \"worker.session_id\", session, owner=\"Noodle\", required=\"current_dispatch_identity\")\n    spawn = spawn_readback(binding, session)\n    state = read_owner(binding)\n    if spawn.get(\"skill\") == \"schedule\":\n        require(root == Path(execution[\"control_root\"]).resolve(), \"scheduler.control_root\", str(root))\n        require(environ.get(\"NOODLE_WORKTREE\") == str(root), \"scheduler.worktree\", environ.get(\"NOODLE_WORKTREE\"),\n                owner=\"Noodle\", required=\"current_dispatch_identity\")\n        schedule = state[\"state\"][\"orders\"].get(\"schedule\")\n        require(isinstance(schedule, dict) and isinstance(schedule.get(\"stages\"), list)\n                and len(schedule[\"stages\"]) == 1, \"scheduler.order\", schedule,\n                owner=\"Noodle\", required=\"current_schedule_readback\")\n        stage = schedule[\"stages\"][0]\n        require(isinstance(stage, dict) and stage.get(\"status\") in (\"dispatching\", \"running\"),\n                \"scheduler.stage\", stage, owner=\"Noodle\", required=\"current_schedule_readback\")\n        attempts = stage.get(\"attempts\", [])\n        require(isinstance(attempts, list) and bool(attempts) and isinstance(attempts[-1], dict)\n                and attempts[-1].get(\"status\") in (\"launching\", \"running\")\n                and attempts[-1].get(\"session_id\") in (\"\", session)\n                and all(isinstance(a, dict) and a.get(\"status\") not in (\"launching\", \"running\") for a in attempts[:-1]),\n                \"scheduler.attempts\", attempts, owner=\"Noodle\", required=\"current_schedule_readback\")\n        return launch_checked(binding, session, root, spawn, argv, execute)\n    expected_root = (Path(execution[\"control_root\"]) / \".worktrees\" / execution[\"worktree\"]).resolve()\n    require(root == expected_root, \"worker.worktree\", str(root))\n    validate_worktree(root, binding)\n    for key, expected in ((\"NOODLE_PROJECT_DIR\", execution[\"control_root\"]),\n                          (\"NOODLE_WORKTREE\", str(expected_root)),\n                          (\"NOODLE_ORDER_ID\", execution[\"order_id\"]),\n                          (\"NOODLE_STAGE_INDEX\", str(execution[\"stage_index\"]))):\n        require(environ.get(key) == expected, \"worker.\" + key, environ.get(key),\n                owner=\"Noodle\", required=\"current_dispatch_identity\")\n    order = state[\"state\"][\"orders\"].get(execution[\"order_id\"])\n    require(isinstance(order, dict) and isinstance(order.get(\"stages\"), list) and len(order[\"stages\"]) == 1,\n            \"worker.order\", order, owner=\"Noodle\", required=\"current_dispatch_identity\")\n    stage = order[\"stages\"][0]\n    require(isinstance(stage, dict), \"worker.stage\", stage, owner=\"Noodle\", required=\"current_dispatch_identity\")\n    require(stage.get(\"status\") in (\"dispatching\", \"running\"), \"worker.stage.status\", stage.get(\"status\"),\n            owner=\"Noodle\", required=\"current_dispatch_identity\")\n    try:\n        subject = json.loads(stage.get(\"prompt\", \"\"))\n    except (ValueError, TypeError) as error:\n        raise AdmissionRefusal(\"worker.stage.prompt\", str(error), \"Noodle\", \"admitted_order_readback\") from error\n    require(isinstance(subject, dict) and subject.get(\"route\") in (\"automatic\", \"supervised\"),\n            \"worker.stage.binding\", subject)\n    require(subject == projection(binding, envelope_digest, subject[\"route\"]), \"worker.stage.binding\", subject)\n    attempts = stage.get(\"attempts\", [])\n    require(isinstance(attempts, list) and bool(attempts) and all(isinstance(a, dict) for a in attempts), \"worker.attempts\", attempts,\n            owner=\"Noodle\", required=\"current_dispatch_identity\")\n    current = attempts[-1]\n    require(current.get(\"status\") in (\"launching\", \"running\")\n            and current.get(\"session_id\") in (\"\", session)\n            and not any(a.get(\"status\") in (\"launching\", \"running\") for a in attempts[:-1]),\n            \"worker.attempt\", attempts, owner=\"Noodle\", required=\"quiescent_prior_attempt\")\n    # This replaces the Noodle-owned process; it cannot create a parallel writer.\n    require(spawn.get(\"skill\") == \"execute\", \"worker.spawn.skill\", spawn.get(\"skill\"),\n            owner=\"Noodle\", required=\"current_dispatch_identity\")\n    return launch_checked(binding, session, root, spawn, argv, execute)\n\n\ndef continuation(next_action, operation):\n    # The invoked boundary owns this route; invalid-field text never selects it.\n    return {**next_action, \"operation\": operation,\n            \"help_argv\": [sys.executable, \"-B\", str(Path(__file__).resolve().parent / \"soodles.py\"),\n                          \"issue\", *([operation] if operation else []), \"--help\"],\n            \"reason\": (\"Obtain changed input/readback from the named owner before re-entering this boundary. \"\n                       \"Preserve existing identity and history; do not retry unchanged input. \"\n                       \"Worker entry remains Noodle-dispatched; help does not authorize another writer.\")}\n\n\ndef refusal_output(error, operation):\n    return {\"owner\": \"issue.\" + operation, \"status\": \"wait\" if getattr(error, \"exit_code\", 1) == 75 else \"refused\", \"invalid\": error.invalid,\n            \"next\": continuation(error.next, operation)}\n\n\ndef refusal_text(result):\n    next_action, invalid = result[\"next\"], result[\"invalid\"]\n    return (f\"REFUSED: {result['owner']}: invalid {invalid['field']}={invalid['value']!r}; \"\n            f\"owner: {next_action['owner']}; required: {next_action['required']}; \"\n            f\"continuation: issue {next_action['operation']}; {next_action['reason']}\")\n"
+  },
+  "waves": [
+    {
+      "selection": "consumer-selection.json",
+      "disposition": "unscored_setup_failure",
+      "runs": [
+        {
+          "run": "r-19c",
+          "arm": "baseline",
+          "case": "generic",
+          "skill_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+          "subject": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-19c/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-19c/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-19c/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\n## Establish scheduler identity first\n\nDo not infer the scheduler role from the working directory, Skill availability,\nor this file being read. Read only the current `NOODLE_SESSION_ID`. If it is\nabsent, this Skill does not establish a Noodle schedule Session: do not require\nan Issue, envelope, or launcher for the caller's original task. Return to the\nalready-authorized task owner; analysis/review can continue from its requested\nsubject.\n\nIf `NOODLE_SESSION_ID` is present, read the current Noodle control root's\n`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule\nSession only when its `session_id` equals the current ID, `skill` is exactly\n`schedule`, and `worktree_path` identifies this checkout. A missing or\nmismatched spawn is a Noodle/supervisor role-identity refusal for the schedule\noperation only; do not compensate by constructing admission inputs or changing\ncanonical state.\n\nThe spawn readback establishes the Session role, not Issue admission. The\nsupervisor-selected launcher and current Noodle owner establish the admitted\nIssue/envelope/order/stage after role identity. Do not derive them from the\ncheckout, Issue prose, historical receipts, or model memory.\n\n## Consume the admitted launcher\n\nOnly after the schedule role is established, read\n`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and\nexecutable; never search for, synthesize, export, or reuse a historical launcher\nas a replacement. Invoke that executable with the single argument `automatic`.\nIt fixes the external envelope and validator; neither this Skill nor Issue prose\nselects authority. A missing launcher/input requires its supervisor for this\nschedule operation, not for unrelated work.\n\nConsume its current structured result. Noodle owns the canonical order,\nworktree and process. The launcher publishes a conditional first-admission\nproposal only after fresh provider and owner readback. Never reconstruct an\norder, overwrite `orders-next.json`, request an implicit restart, or write\ncanonical state. An owned/previously-admitted result is an observation, not\npermission to establish another writer. A refusal names its owning input.\n\nDo not dump the environment. Do not edit target source or perform delivery from\nthe schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-19c/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-19c/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-19c/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,json; print(json.dumps({\"NOODLE_SESSION_ID\":os.environ.get(\"NOODLE_SESSION_ID\")}))"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"NOODLE_SESSION_ID\": null}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.016471757997351233
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "return_to_original_analysis_task",
+                "owner": "already-authorized original task owner",
+                "missing_inputs": [],
+                "reason": "NOODLE_SESSION_ID is absent, so the Skill does not establish a schedule Session. No Issue, envelope, or launcher is required for unrelated analysis; no launcher was read or invoked."
+              }
+            }
+          ],
+          "decision": {
+            "action": "return_to_original_analysis_task",
+            "owner": "already-authorized original task owner",
+            "missing_inputs": [],
+            "reason": "NOODLE_SESSION_ID is absent, so the Skill does not establish a schedule Session. No Issue, envelope, or launcher is required for unrelated analysis; no launcher was read or invoked."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "d1f474ae930d481927221779116f35d2d6d104d5dc6b565e9c3c3c5771a6625a",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "daade7236b32d38e1e9d70e48ac29bf8c72f5c0ad600dcab88ea207d4b1ca279"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "d1f474ae930d481927221779116f35d2d6d104d5dc6b565e9c3c3c5771a6625a",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "daade7236b32d38e1e9d70e48ac29bf8c72f5c0ad600dcab88ea207d4b1ca279"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-19c/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /usr/local/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-19c/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-52a",
+          "arm": "baseline",
+          "case": "missing_launcher",
+          "skill_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+          "subject": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-52a/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-52a/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-52a/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\n## Establish scheduler identity first\n\nDo not infer the scheduler role from the working directory, Skill availability,\nor this file being read. Read only the current `NOODLE_SESSION_ID`. If it is\nabsent, this Skill does not establish a Noodle schedule Session: do not require\nan Issue, envelope, or launcher for the caller's original task. Return to the\nalready-authorized task owner; analysis/review can continue from its requested\nsubject.\n\nIf `NOODLE_SESSION_ID` is present, read the current Noodle control root's\n`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule\nSession only when its `session_id` equals the current ID, `skill` is exactly\n`schedule`, and `worktree_path` identifies this checkout. A missing or\nmismatched spawn is a Noodle/supervisor role-identity refusal for the schedule\noperation only; do not compensate by constructing admission inputs or changing\ncanonical state.\n\nThe spawn readback establishes the Session role, not Issue admission. The\nsupervisor-selected launcher and current Noodle owner establish the admitted\nIssue/envelope/order/stage after role identity. Do not derive them from the\ncheckout, Issue prose, historical receipts, or model memory.\n\n## Consume the admitted launcher\n\nOnly after the schedule role is established, read\n`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and\nexecutable; never search for, synthesize, export, or reuse a historical launcher\nas a replacement. Invoke that executable with the single argument `automatic`.\nIt fixes the external envelope and validator; neither this Skill nor Issue prose\nselects authority. A missing launcher/input requires its supervisor for this\nschedule operation, not for unrelated work.\n\nConsume its current structured result. Noodle owns the canonical order,\nworktree and process. The launcher publishes a conditional first-admission\nproposal only after fresh provider and owner readback. Never reconstruct an\norder, overwrite `orders-next.json`, request an implicit restart, or write\ncanonical state. An owned/previously-admitted result is an observation, not\npermission to establish another writer. A refusal names its owning input.\n\nDo not dump the environment. Do not edit target source or perform delivery from\nthe schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-52a/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-52a/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-52a/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os; print(os.environ.get(\"NOODLE_SESSION_ID\", \"\"))"
+              ],
+              "exit_code": 0,
+              "stdout": "schedule-observation\n",
+              "stderr": "",
+              "elapsed_seconds": 0.011933193003642373
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,pathlib; p=pathlib.Path(os.environ[\"NOODLE_PROJECT_DIR\"])/\".noodle\"/\"sessions\"/os.environ[\"NOODLE_SESSION_ID\"] / \"spawn.json\"; print(p.read_text())"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-52a/checkout\"}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.023847548000048846
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os; p=os.environ.get(\"SOODLES_ADMISSION_LAUNCHER\"); print({\"launcher\":p,\"present\":bool(p and os.path.isfile(p)),\"executable\":bool(p and os.access(p,os.X_OK))})"
+              ],
+              "exit_code": 0,
+              "stdout": "{'launcher': None, 'present': False, 'executable': False}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.013104794001264963
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "stop_schedule_operation",
+                "owner": "Noodle/supervisor",
+                "missing_inputs": [
+                  "SOODLES_ADMISSION_LAUNCHER"
+                ],
+                "reason": "Spawn establishes the schedule Session for this checkout, but no supervisor-selected admission launcher is set. Dependent operation stopped without inventing inputs or modifying state."
+              }
+            }
+          ],
+          "decision": {
+            "action": "stop_schedule_operation",
+            "owner": "Noodle/supervisor",
+            "missing_inputs": [
+              "SOODLES_ADMISSION_LAUNCHER"
+            ],
+            "reason": "Spawn establishes the schedule Session for this checkout, but no supervisor-selected admission launcher is set. Dependent operation stopped without inventing inputs or modifying state."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "75fbdbea12d289a639f4c32b8d268d3203019ab3cb5c06c6acb7b06b65823b04",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "8f61df262e553f1b40902996a0758558245375ff64420b7cfb2505495e2fadbf"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "75fbdbea12d289a639f4c32b8d268d3203019ab3cb5c06c6acb7b06b65823b04",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "8f61df262e553f1b40902996a0758558245375ff64420b7cfb2505495e2fadbf"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-52a/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /usr/local/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-52a/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-8b4",
+          "arm": "baseline",
+          "case": "ready",
+          "skill_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+          "subject": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout",
+              "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout/selected launcher"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\n## Establish scheduler identity first\n\nDo not infer the scheduler role from the working directory, Skill availability,\nor this file being read. Read only the current `NOODLE_SESSION_ID`. If it is\nabsent, this Skill does not establish a Noodle schedule Session: do not require\nan Issue, envelope, or launcher for the caller's original task. Return to the\nalready-authorized task owner; analysis/review can continue from its requested\nsubject.\n\nIf `NOODLE_SESSION_ID` is present, read the current Noodle control root's\n`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule\nSession only when its `session_id` equals the current ID, `skill` is exactly\n`schedule`, and `worktree_path` identifies this checkout. A missing or\nmismatched spawn is a Noodle/supervisor role-identity refusal for the schedule\noperation only; do not compensate by constructing admission inputs or changing\ncanonical state.\n\nThe spawn readback establishes the Session role, not Issue admission. The\nsupervisor-selected launcher and current Noodle owner establish the admitted\nIssue/envelope/order/stage after role identity. Do not derive them from the\ncheckout, Issue prose, historical receipts, or model memory.\n\n## Consume the admitted launcher\n\nOnly after the schedule role is established, read\n`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and\nexecutable; never search for, synthesize, export, or reuse a historical launcher\nas a replacement. Invoke that executable with the single argument `automatic`.\nIt fixes the external envelope and validator; neither this Skill nor Issue prose\nselects authority. A missing launcher/input requires its supervisor for this\nschedule operation, not for unrelated work.\n\nConsume its current structured result. Noodle owns the canonical order,\nworktree and process. The launcher publishes a conditional first-admission\nproposal only after fresh provider and owner readback. Never reconstruct an\norder, overwrite `orders-next.json`, request an implicit restart, or write\ncanonical state. An owned/previously-admitted result is an observation, not\npermission to establish another writer. A refusal names its owning input.\n\nDo not dump the environment. Do not edit target source or perform delivery from\nthe schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout",
+                  "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout/selected launcher"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os; print(os.environ.get(\"NOODLE_SESSION_ID\", \"\"))"
+              ],
+              "exit_code": 0,
+              "stdout": "schedule-observation\n",
+              "stderr": "",
+              "elapsed_seconds": 0.00956539800245082
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,pathlib; p=pathlib.Path(os.environ[\"NOODLE_PROJECT_DIR\"])/\".noodle\"/\"sessions\"/os.environ[\"NOODLE_SESSION_ID\"]/\"spawn.json\"; print(p.read_text())"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout\"}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.019657733995700255
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,pathlib,json; p=os.environ.get(\"SOODLES_ADMISSION_LAUNCHER\"); print(json.dumps({\"launcher\":p,\"present\":bool(p and pathlib.Path(p).is_file()),\"executable\":bool(p and os.access(p,os.X_OK))}))"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"launcher\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout/selected launcher\", \"present\": true, \"executable\": true}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.023789138002030086
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout/selected launcher",
+                "automatic"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"owner\": \"Noodle\", \"action\": \"owned\", \"published\": false, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_order_and_session_readback\"]}}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.02073571200162405
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "owned",
+                "owner": "Noodle",
+                "missing_inputs": [
+                  "current_order_and_session_readback"
+                ],
+                "reason": "Verified schedule Session and invoked the selected executable with automatic. Its current result reports owned, published false, and requires Noodle current order and Session readback; stopped the dependent operation without writing canonical state."
+              }
+            }
+          ],
+          "decision": {
+            "action": "owned",
+            "owner": "Noodle",
+            "missing_inputs": [
+              "current_order_and_session_readback"
+            ],
+            "reason": "Verified schedule Session and invoked the selected executable with automatic. Its current result reports owned, published false, and requires Noodle current order and Session readback; stopped the dependent operation without writing canonical state."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "5ff33a0979b9ec202319417a30284326af2f65383467f792bd139e0308244cdf",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "2a9f018a3d96c08999ca5a24fb02ae232ca18156ea571a005a61a2dec4bc1ddd"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "5ff33a0979b9ec202319417a30284326af2f65383467f792bd139e0308244cdf",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "launcher-events.json": "6b95674904cc233bc1037e2575eb9fc3749266ff8116f89ffe294edc27f74c26",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "2a9f018a3d96c08999ca5a24fb02ae232ca18156ea571a005a61a2dec4bc1ddd"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "launcher-events.json": "[[\"automatic\"]]",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /usr/local/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-8b4/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-6d1",
+          "arm": "treatment",
+          "case": "generic",
+          "skill_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f",
+          "subject": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "92019c41dc33db8ddf132b9cd7e67b7c32f25076f632bf479bc887ee9b343e98",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-6d1/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-6d1/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-6d1/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\nFrom the current checkout, run `./soodles issue inspect`. This read-only entry\nreads the current Noodle role before checking the supervisor-selected launcher.\nConsume its result:\n\n- `action: not_applicable`: return to the caller's original task; no schedule\n  prerequisite or completion is implied by `next: null`.\n- `next.kind: input` / refusal: report the named owner and required input for\n  this operation. Continue unrelated authorized work; do not retry unchanged\n  input or use help as a capability probe.\n- `next.kind: executable`: execute the current `next.argv` array exactly once,\n  without shell reconstruction, then consume the launcher's structured result.\n\nInspection does not admit an Issue, execute the launcher, or grant authority.\nThe selected launcher revalidates its external envelope and current Noodle and\nprovider state before effects. Never search for, synthesize, export, or reuse a\nhistorical launcher; do not dump the environment.\n\nNoodle owns the canonical order, worktree and process. An owned or previously\nadmitted result is an observation, not permission to establish another writer.\nNever reconstruct an order, overwrite `orders-next.json`, request an implicit\nrestart, or write canonical state. Do not edit target source or perform delivery\nfrom the schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-6d1/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-6d1/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-6d1/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "./soodles",
+                "issue",
+                "inspect"
+              ],
+              "exit_code": 127,
+              "stdout": "",
+              "stderr": "./soodles: 2: exec: /usr/local/bin/python3: not found\n",
+              "elapsed_seconds": 0.0007862380007281899
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "blocked",
+                "owner": "Noodle",
+                "missing_inputs": [
+                  "Executable /usr/local/bin/python3 required by ./soodles"
+                ],
+                "reason": "The required ./soodles issue inspect failed with exit 127 because /usr/local/bin/python3 was not found. No structured inspection result or launcher argv was available; stopped the dependent operation without retry or modification."
+              }
+            }
+          ],
+          "decision": {
+            "action": "blocked",
+            "owner": "Noodle",
+            "missing_inputs": [
+              "Executable /usr/local/bin/python3 required by ./soodles"
+            ],
+            "reason": "The required ./soodles issue inspect failed with exit 127 because /usr/local/bin/python3 was not found. No structured inspection result or launcher argv was available; stopped the dependent operation without retry or modification."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "a7a85e41944df71bee7c6949db05ad603684072bfdebce16703da060930f4966",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "914b2caf4fcbae7765f51e214c0fd33e642d17c6d298ea055f06298c6c77e3cc"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "a7a85e41944df71bee7c6949db05ad603684072bfdebce16703da060930f4966",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "914b2caf4fcbae7765f51e214c0fd33e642d17c6d298ea055f06298c6c77e3cc"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-6d1/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /usr/local/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-6d1/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-37f",
+          "arm": "treatment",
+          "case": "missing_launcher",
+          "skill_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f",
+          "subject": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "92019c41dc33db8ddf132b9cd7e67b7c32f25076f632bf479bc887ee9b343e98",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-37f/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-37f/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-37f/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\nFrom the current checkout, run `./soodles issue inspect`. This read-only entry\nreads the current Noodle role before checking the supervisor-selected launcher.\nConsume its result:\n\n- `action: not_applicable`: return to the caller's original task; no schedule\n  prerequisite or completion is implied by `next: null`.\n- `next.kind: input` / refusal: report the named owner and required input for\n  this operation. Continue unrelated authorized work; do not retry unchanged\n  input or use help as a capability probe.\n- `next.kind: executable`: execute the current `next.argv` array exactly once,\n  without shell reconstruction, then consume the launcher's structured result.\n\nInspection does not admit an Issue, execute the launcher, or grant authority.\nThe selected launcher revalidates its external envelope and current Noodle and\nprovider state before effects. Never search for, synthesize, export, or reuse a\nhistorical launcher; do not dump the environment.\n\nNoodle owns the canonical order, worktree and process. An owned or previously\nadmitted result is an observation, not permission to establish another writer.\nNever reconstruct an order, overwrite `orders-next.json`, request an implicit\nrestart, or write canonical state. Do not edit target source or perform delivery\nfrom the schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-37f/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-37f/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-37f/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "./soodles",
+                "issue",
+                "inspect"
+              ],
+              "exit_code": 127,
+              "stdout": "",
+              "stderr": "./soodles: 2: exec: /usr/local/bin/python3: not found\n",
+              "elapsed_seconds": 0.000976359995547682
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "blocked",
+                "owner": "runtime environment maintainer",
+                "missing_inputs": [
+                  "Executable /usr/local/bin/python3 required by ./soodles"
+                ],
+                "reason": "Required ./soodles issue inspect failed with exit code 127 because /usr/local/bin/python3 was not found. No structured inspection result or authorized launcher argv was available; dependent launcher execution stopped."
+              }
+            }
+          ],
+          "decision": {
+            "action": "blocked",
+            "owner": "runtime environment maintainer",
+            "missing_inputs": [
+              "Executable /usr/local/bin/python3 required by ./soodles"
+            ],
+            "reason": "Required ./soodles issue inspect failed with exit code 127 because /usr/local/bin/python3 was not found. No structured inspection result or authorized launcher argv was available; dependent launcher execution stopped."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "939342aca0e58af130b6779e5001f7493470537742930d9181d971f5961a042f",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "6d697eb185db3fc87fa132d2b6241c3ff6c11fce0a009bb2d5cf906843ca353c"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "939342aca0e58af130b6779e5001f7493470537742930d9181d971f5961a042f",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "6d697eb185db3fc87fa132d2b6241c3ff6c11fce0a009bb2d5cf906843ca353c"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-37f/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /usr/local/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-37f/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-92e",
+          "arm": "treatment",
+          "case": "ready",
+          "skill_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f",
+          "subject": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "92019c41dc33db8ddf132b9cd7e67b7c32f25076f632bf479bc887ee9b343e98",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-92e/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-92e/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-92e/checkout",
+              "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-92e/checkout/selected launcher"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\nFrom the current checkout, run `./soodles issue inspect`. This read-only entry\nreads the current Noodle role before checking the supervisor-selected launcher.\nConsume its result:\n\n- `action: not_applicable`: return to the caller's original task; no schedule\n  prerequisite or completion is implied by `next: null`.\n- `next.kind: input` / refusal: report the named owner and required input for\n  this operation. Continue unrelated authorized work; do not retry unchanged\n  input or use help as a capability probe.\n- `next.kind: executable`: execute the current `next.argv` array exactly once,\n  without shell reconstruction, then consume the launcher's structured result.\n\nInspection does not admit an Issue, execute the launcher, or grant authority.\nThe selected launcher revalidates its external envelope and current Noodle and\nprovider state before effects. Never search for, synthesize, export, or reuse a\nhistorical launcher; do not dump the environment.\n\nNoodle owns the canonical order, worktree and process. An owned or previously\nadmitted result is an observation, not permission to establish another writer.\nNever reconstruct an order, overwrite `orders-next.json`, request an implicit\nrestart, or write canonical state. Do not edit target source or perform delivery\nfrom the schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-92e/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-92e/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-92e/checkout",
+                  "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-92e/checkout/selected launcher"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "./soodles",
+                "issue",
+                "inspect"
+              ],
+              "exit_code": 127,
+              "stdout": "",
+              "stderr": "./soodles: 2: exec: /usr/local/bin/python3: not found\n",
+              "elapsed_seconds": 0.0010004459982155822
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "blocked",
+                "owner": null,
+                "missing_inputs": [
+                  "Executable /usr/local/bin/python3 required by ./soodles"
+                ],
+                "reason": "Required inspection failed with exit code 127 because its hard-coded interpreter was absent. No structured decision or named owner was returned; launcher consumption remains unestablished and no launcher was executed."
+              }
+            }
+          ],
+          "decision": {
+            "action": "blocked",
+            "owner": null,
+            "missing_inputs": [
+              "Executable /usr/local/bin/python3 required by ./soodles"
+            ],
+            "reason": "Required inspection failed with exit code 127 because its hard-coded interpreter was absent. No structured decision or named owner was returned; launcher consumption remains unestablished and no launcher was executed."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "dc2aca7b96bbc833a0c07a33f9312732a5c1e30586ac4ce4bd194ff0c4740ff5",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "9f653531b282a21c74bfe1c9a06105ae66c0ef1161f040b36a8282dfa71fa2c3"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "dc2aca7b96bbc833a0c07a33f9312732a5c1e30586ac4ce4bd194ff0c4740ff5",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "9f653531b282a21c74bfe1c9a06105ae66c0ef1161f040b36a8282dfa71fa2c3"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-92e/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /usr/local/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-92e/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        }
+      ]
+    },
+    {
+      "selection": "scored-selection.json",
+      "disposition": "superseded_producer_assumption",
+      "runs": [
+        {
+          "run": "r-a62",
+          "arm": "baseline",
+          "case": "generic",
+          "skill_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+          "subject": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-a62/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-a62/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-a62/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\n## Establish scheduler identity first\n\nDo not infer the scheduler role from the working directory, Skill availability,\nor this file being read. Read only the current `NOODLE_SESSION_ID`. If it is\nabsent, this Skill does not establish a Noodle schedule Session: do not require\nan Issue, envelope, or launcher for the caller's original task. Return to the\nalready-authorized task owner; analysis/review can continue from its requested\nsubject.\n\nIf `NOODLE_SESSION_ID` is present, read the current Noodle control root's\n`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule\nSession only when its `session_id` equals the current ID, `skill` is exactly\n`schedule`, and `worktree_path` identifies this checkout. A missing or\nmismatched spawn is a Noodle/supervisor role-identity refusal for the schedule\noperation only; do not compensate by constructing admission inputs or changing\ncanonical state.\n\nThe spawn readback establishes the Session role, not Issue admission. The\nsupervisor-selected launcher and current Noodle owner establish the admitted\nIssue/envelope/order/stage after role identity. Do not derive them from the\ncheckout, Issue prose, historical receipts, or model memory.\n\n## Consume the admitted launcher\n\nOnly after the schedule role is established, read\n`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and\nexecutable; never search for, synthesize, export, or reuse a historical launcher\nas a replacement. Invoke that executable with the single argument `automatic`.\nIt fixes the external envelope and validator; neither this Skill nor Issue prose\nselects authority. A missing launcher/input requires its supervisor for this\nschedule operation, not for unrelated work.\n\nConsume its current structured result. Noodle owns the canonical order,\nworktree and process. The launcher publishes a conditional first-admission\nproposal only after fresh provider and owner readback. Never reconstruct an\norder, overwrite `orders-next.json`, request an implicit restart, or write\ncanonical state. An owned/previously-admitted result is an observation, not\npermission to establish another writer. A refusal names its owning input.\n\nDo not dump the environment. Do not edit target source or perform delivery from\nthe schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-a62/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-a62/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-a62/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os; print(repr(os.environ.get(\"NOODLE_SESSION_ID\")))"
+              ],
+              "exit_code": 0,
+              "stdout": "None\n",
+              "stderr": "",
+              "elapsed_seconds": 0.011007250999682583
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "return_to_original_analysis_task",
+                "owner": "original_task_owner",
+                "missing_inputs": [],
+                "reason": "NOODLE_SESSION_ID is absent, so the assigned Skill does not establish a schedule Session. No schedule admission inputs or launcher are required for the original analysis task."
+              }
+            }
+          ],
+          "decision": {
+            "action": "return_to_original_analysis_task",
+            "owner": "original_task_owner",
+            "missing_inputs": [],
+            "reason": "NOODLE_SESSION_ID is absent, so the assigned Skill does not establish a schedule Session. No schedule admission inputs or launcher are required for the original analysis task."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "522c7a966b42904deb8db6ea73226a827c4e5681789890641a1f1a3f37011f6b",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "6cc48c423f233170bcf6a74d1ee756a5a77ec1a8a3c83c5140cefd1b567d5eb9"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "522c7a966b42904deb8db6ea73226a827c4e5681789890641a1f1a3f37011f6b",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "6cc48c423f233170bcf6a74d1ee756a5a77ec1a8a3c83c5140cefd1b567d5eb9"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-a62/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-a62/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-c18",
+          "arm": "baseline",
+          "case": "missing_launcher",
+          "skill_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+          "subject": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-c18/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-c18/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-c18/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\n## Establish scheduler identity first\n\nDo not infer the scheduler role from the working directory, Skill availability,\nor this file being read. Read only the current `NOODLE_SESSION_ID`. If it is\nabsent, this Skill does not establish a Noodle schedule Session: do not require\nan Issue, envelope, or launcher for the caller's original task. Return to the\nalready-authorized task owner; analysis/review can continue from its requested\nsubject.\n\nIf `NOODLE_SESSION_ID` is present, read the current Noodle control root's\n`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule\nSession only when its `session_id` equals the current ID, `skill` is exactly\n`schedule`, and `worktree_path` identifies this checkout. A missing or\nmismatched spawn is a Noodle/supervisor role-identity refusal for the schedule\noperation only; do not compensate by constructing admission inputs or changing\ncanonical state.\n\nThe spawn readback establishes the Session role, not Issue admission. The\nsupervisor-selected launcher and current Noodle owner establish the admitted\nIssue/envelope/order/stage after role identity. Do not derive them from the\ncheckout, Issue prose, historical receipts, or model memory.\n\n## Consume the admitted launcher\n\nOnly after the schedule role is established, read\n`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and\nexecutable; never search for, synthesize, export, or reuse a historical launcher\nas a replacement. Invoke that executable with the single argument `automatic`.\nIt fixes the external envelope and validator; neither this Skill nor Issue prose\nselects authority. A missing launcher/input requires its supervisor for this\nschedule operation, not for unrelated work.\n\nConsume its current structured result. Noodle owns the canonical order,\nworktree and process. The launcher publishes a conditional first-admission\nproposal only after fresh provider and owner readback. Never reconstruct an\norder, overwrite `orders-next.json`, request an implicit restart, or write\ncanonical state. An owned/previously-admitted result is an observation, not\npermission to establish another writer. A refusal names its owning input.\n\nDo not dump the environment. Do not edit target source or perform delivery from\nthe schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-c18/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-c18/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-c18/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os; print(os.environ.get(\"NOODLE_SESSION_ID\", \"\"))"
+              ],
+              "exit_code": 0,
+              "stdout": "schedule-observation\n",
+              "stderr": "",
+              "elapsed_seconds": 0.010614719001750927
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,pathlib; p=pathlib.Path(os.environ[\"NOODLE_PROJECT_DIR\"])/\".noodle\"/\"sessions\"/os.environ[\"NOODLE_SESSION_ID\"] / \"spawn.json\"; print(p.read_text()); print(\"checkout=\"+str(pathlib.Path.cwd()))"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-c18/checkout\"}\ncheckout=/workspace/scratch/0c77ffa2d541/atom/runs/r-c18/checkout\n",
+              "stderr": "",
+              "elapsed_seconds": 0.019553081998310518
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,json; p=os.environ.get(\"SOODLES_ADMISSION_LAUNCHER\"); print(json.dumps({\"launcher\":p,\"present\":bool(p and os.path.exists(p)),\"executable\":bool(p and os.access(p,os.X_OK))}))"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"launcher\": null, \"present\": false, \"executable\": false}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.018386452000413556
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "stop_schedule_operation",
+                "owner": "Noodle/supervisor",
+                "missing_inputs": [
+                  "SOODLES_ADMISSION_LAUNCHER"
+                ],
+                "reason": "Current Session spawn confirms the schedule role and checkout, but no supervisor-selected launcher is supplied. The schedule Skill requires the supervisor to supply this prerequisite before invocation."
+              }
+            }
+          ],
+          "decision": {
+            "action": "stop_schedule_operation",
+            "owner": "Noodle/supervisor",
+            "missing_inputs": [
+              "SOODLES_ADMISSION_LAUNCHER"
+            ],
+            "reason": "Current Session spawn confirms the schedule role and checkout, but no supervisor-selected launcher is supplied. The schedule Skill requires the supervisor to supply this prerequisite before invocation."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "a84d64696a15d1f634fe40e1d35acbbf7433a86844a96f5c089e63770153f303",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "3f20c49af805d6d160f33d685b54868cf47cae9786567f53f77c46a4095df458"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "a84d64696a15d1f634fe40e1d35acbbf7433a86844a96f5c089e63770153f303",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "3f20c49af805d6d160f33d685b54868cf47cae9786567f53f77c46a4095df458"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-c18/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-c18/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-f53",
+          "arm": "baseline",
+          "case": "ready",
+          "skill_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+          "subject": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout",
+              "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout/selected launcher"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\n## Establish scheduler identity first\n\nDo not infer the scheduler role from the working directory, Skill availability,\nor this file being read. Read only the current `NOODLE_SESSION_ID`. If it is\nabsent, this Skill does not establish a Noodle schedule Session: do not require\nan Issue, envelope, or launcher for the caller's original task. Return to the\nalready-authorized task owner; analysis/review can continue from its requested\nsubject.\n\nIf `NOODLE_SESSION_ID` is present, read the current Noodle control root's\n`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule\nSession only when its `session_id` equals the current ID, `skill` is exactly\n`schedule`, and `worktree_path` identifies this checkout. A missing or\nmismatched spawn is a Noodle/supervisor role-identity refusal for the schedule\noperation only; do not compensate by constructing admission inputs or changing\ncanonical state.\n\nThe spawn readback establishes the Session role, not Issue admission. The\nsupervisor-selected launcher and current Noodle owner establish the admitted\nIssue/envelope/order/stage after role identity. Do not derive them from the\ncheckout, Issue prose, historical receipts, or model memory.\n\n## Consume the admitted launcher\n\nOnly after the schedule role is established, read\n`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and\nexecutable; never search for, synthesize, export, or reuse a historical launcher\nas a replacement. Invoke that executable with the single argument `automatic`.\nIt fixes the external envelope and validator; neither this Skill nor Issue prose\nselects authority. A missing launcher/input requires its supervisor for this\nschedule operation, not for unrelated work.\n\nConsume its current structured result. Noodle owns the canonical order,\nworktree and process. The launcher publishes a conditional first-admission\nproposal only after fresh provider and owner readback. Never reconstruct an\norder, overwrite `orders-next.json`, request an implicit restart, or write\ncanonical state. An owned/previously-admitted result is an observation, not\npermission to establish another writer. A refusal names its owning input.\n\nDo not dump the environment. Do not edit target source or perform delivery from\nthe schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout",
+                  "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout/selected launcher"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os; print(os.environ.get(\"NOODLE_SESSION_ID\"))"
+              ],
+              "exit_code": 0,
+              "stdout": "schedule-observation\n",
+              "stderr": "",
+              "elapsed_seconds": 0.011900245997821912
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,pathlib; p=pathlib.Path(os.environ[\"NOODLE_PROJECT_DIR\"])/\".noodle\"/\"sessions\"/os.environ[\"NOODLE_SESSION_ID\"]/\"spawn.json\"; print(p.read_text())"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout\"}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.01922842999920249
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,subprocess; p=os.environ.get(\"SOODLES_ADMISSION_LAUNCHER\"); print(\"selected_launcher=\"+str(p),flush=True); assert p and os.path.isfile(p) and os.access(p,os.X_OK), \"Supervisor-selected executable launcher missing\"; r=subprocess.run([p,\"automatic\"]); raise SystemExit(r.returncode)"
+              ],
+              "exit_code": 0,
+              "stdout": "selected_launcher=/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout/selected launcher\n{\"owner\": \"Noodle\", \"action\": \"owned\", \"published\": false, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_order_and_session_readback\"]}}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.04911067099601496
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "owned",
+                "owner": "Noodle",
+                "missing_inputs": [
+                  "current_order_and_session_readback"
+                ],
+                "reason": "Verified schedule Session identity and invoked the selected executable with automatic. Launcher returned owned, published false, and requires Noodle current order and Session readback; stopped the dependent operation without canonical changes."
+              }
+            }
+          ],
+          "decision": {
+            "action": "owned",
+            "owner": "Noodle",
+            "missing_inputs": [
+              "current_order_and_session_readback"
+            ],
+            "reason": "Verified schedule Session identity and invoked the selected executable with automatic. Launcher returned owned, published false, and requires Noodle current order and Session readback; stopped the dependent operation without canonical changes."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "64d34c1041efb00468a530433e23e58094c252b8e60afd5746918fd0ab396755",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "a56076b90b232fb481274f92811ff824b7c17cac446ffe9b88f813e3dcfc62de"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "64d34c1041efb00468a530433e23e58094c252b8e60afd5746918fd0ab396755",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "launcher-events.json": "6b95674904cc233bc1037e2575eb9fc3749266ff8116f89ffe294edc27f74c26",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "a56076b90b232fb481274f92811ff824b7c17cac446ffe9b88f813e3dcfc62de"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-f53/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "launcher-events.json": "[[\"automatic\"]]",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-f53/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-b47",
+          "arm": "treatment",
+          "case": "generic",
+          "skill_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f",
+          "subject": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "92019c41dc33db8ddf132b9cd7e67b7c32f25076f632bf479bc887ee9b343e98",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-b47/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-b47/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-b47/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\nFrom the current checkout, run `./soodles issue inspect`. This read-only entry\nreads the current Noodle role before checking the supervisor-selected launcher.\nConsume its result:\n\n- `action: not_applicable`: return to the caller's original task; no schedule\n  prerequisite or completion is implied by `next: null`.\n- `next.kind: input` / refusal: report the named owner and required input for\n  this operation. Continue unrelated authorized work; do not retry unchanged\n  input or use help as a capability probe.\n- `next.kind: executable`: execute the current `next.argv` array exactly once,\n  without shell reconstruction, then consume the launcher's structured result.\n\nInspection does not admit an Issue, execute the launcher, or grant authority.\nThe selected launcher revalidates its external envelope and current Noodle and\nprovider state before effects. Never search for, synthesize, export, or reuse a\nhistorical launcher; do not dump the environment.\n\nNoodle owns the canonical order, worktree and process. An owned or previously\nadmitted result is an observation, not permission to establish another writer.\nNever reconstruct an order, overwrite `orders-next.json`, request an implicit\nrestart, or write canonical state. Do not edit target source or perform delivery\nfrom the schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-b47/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-b47/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-b47/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "./soodles",
+                "issue",
+                "inspect"
+              ],
+              "exit_code": 0,
+              "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"authorizes_landing\": false,\n  \"action\": \"not_applicable\",\n  \"next\": null\n}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.05782367199572036
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "not_applicable",
+                "owner": "issue.inspect",
+                "missing_inputs": [],
+                "reason": "Inspection returned not_applicable with next null; return to the original analysis task. No schedule prerequisite or completion is implied."
+              }
+            }
+          ],
+          "decision": {
+            "action": "not_applicable",
+            "owner": "issue.inspect",
+            "missing_inputs": [],
+            "reason": "Inspection returned not_applicable with next null; return to the original analysis task. No schedule prerequisite or completion is implied."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "7d29ea146c9f712dc9c9cf6ba3aaf5f5dd300faadc5f9cdd7ebea3f3e224a344",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "417d6a0e283689c6172fc7ac98c9afe54f8e5d00820cfe8bad460c7cbb1750c9"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "7d29ea146c9f712dc9c9cf6ba3aaf5f5dd300faadc5f9cdd7ebea3f3e224a344",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "417d6a0e283689c6172fc7ac98c9afe54f8e5d00820cfe8bad460c7cbb1750c9"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-b47/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-b47/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-e29",
+          "arm": "treatment",
+          "case": "missing_launcher",
+          "skill_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f",
+          "subject": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "92019c41dc33db8ddf132b9cd7e67b7c32f25076f632bf479bc887ee9b343e98",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-e29/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-e29/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-e29/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\nFrom the current checkout, run `./soodles issue inspect`. This read-only entry\nreads the current Noodle role before checking the supervisor-selected launcher.\nConsume its result:\n\n- `action: not_applicable`: return to the caller's original task; no schedule\n  prerequisite or completion is implied by `next: null`.\n- `next.kind: input` / refusal: report the named owner and required input for\n  this operation. Continue unrelated authorized work; do not retry unchanged\n  input or use help as a capability probe.\n- `next.kind: executable`: execute the current `next.argv` array exactly once,\n  without shell reconstruction, then consume the launcher's structured result.\n\nInspection does not admit an Issue, execute the launcher, or grant authority.\nThe selected launcher revalidates its external envelope and current Noodle and\nprovider state before effects. Never search for, synthesize, export, or reuse a\nhistorical launcher; do not dump the environment.\n\nNoodle owns the canonical order, worktree and process. An owned or previously\nadmitted result is an observation, not permission to establish another writer.\nNever reconstruct an order, overwrite `orders-next.json`, request an implicit\nrestart, or write canonical state. Do not edit target source or perform delivery\nfrom the schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-e29/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-e29/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-e29/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "./soodles",
+                "issue",
+                "inspect"
+              ],
+              "exit_code": 1,
+              "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.launcher\",\n    \"value\": null\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"SOODLES_ADMISSION_LAUNCHER\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/runs/r-e29/subject/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+              "stderr": "REFUSED: issue.inspect: invalid scheduler.launcher=None; owner: supervisor; required: ['SOODLES_ADMISSION_LAUNCHER']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+              "elapsed_seconds": 0.056229797002743
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "stop_dependent_operation",
+                "owner": "supervisor",
+                "missing_inputs": [
+                  "SOODLES_ADMISSION_LAUNCHER"
+                ],
+                "reason": "issue inspect refused because scheduler.launcher is missing. Supervisor must provide changed input before inspection can continue; no launcher was executed."
+              }
+            }
+          ],
+          "decision": {
+            "action": "stop_dependent_operation",
+            "owner": "supervisor",
+            "missing_inputs": [
+              "SOODLES_ADMISSION_LAUNCHER"
+            ],
+            "reason": "issue inspect refused because scheduler.launcher is missing. Supervisor must provide changed input before inspection can continue; no launcher was executed."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "d14b3e50b1eb07dfe018ce93031242648f96fb4d05dd8f148bc1c47171ff7c48",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "a0ac35193b0aaca6ad7e5b3970580f4d37a1cfabfc59045fa3a1675ce181a51e"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "d14b3e50b1eb07dfe018ce93031242648f96fb4d05dd8f148bc1c47171ff7c48",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "a0ac35193b0aaca6ad7e5b3970580f4d37a1cfabfc59045fa3a1675ce181a51e"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-e29/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-e29/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-d85",
+          "arm": "treatment",
+          "case": "ready",
+          "skill_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f",
+          "subject": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "92019c41dc33db8ddf132b9cd7e67b7c32f25076f632bf479bc887ee9b343e98",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout",
+              "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout/selected launcher"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\nFrom the current checkout, run `./soodles issue inspect`. This read-only entry\nreads the current Noodle role before checking the supervisor-selected launcher.\nConsume its result:\n\n- `action: not_applicable`: return to the caller's original task; no schedule\n  prerequisite or completion is implied by `next: null`.\n- `next.kind: input` / refusal: report the named owner and required input for\n  this operation. Continue unrelated authorized work; do not retry unchanged\n  input or use help as a capability probe.\n- `next.kind: executable`: execute the current `next.argv` array exactly once,\n  without shell reconstruction, then consume the launcher's structured result.\n\nInspection does not admit an Issue, execute the launcher, or grant authority.\nThe selected launcher revalidates its external envelope and current Noodle and\nprovider state before effects. Never search for, synthesize, export, or reuse a\nhistorical launcher; do not dump the environment.\n\nNoodle owns the canonical order, worktree and process. An owned or previously\nadmitted result is an observation, not permission to establish another writer.\nNever reconstruct an order, overwrite `orders-next.json`, request an implicit\nrestart, or write canonical state. Do not edit target source or perform delivery\nfrom the schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_PROJECT_DIR": "/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout",
+                  "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout/selected launcher"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "./soodles",
+                "issue",
+                "inspect"
+              ],
+              "exit_code": 0,
+              "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"authorizes_landing\": false,\n  \"action\": \"ready\",\n  \"session_id\": \"schedule-observation\",\n  \"next\": {\n    \"kind\": \"executable\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"automatic\",\n    \"argv\": [\n      \"/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout/selected launcher\",\n      \"automatic\"\n    ]\n  }\n}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.06528209899988724
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout/selected launcher",
+                "automatic"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"owner\": \"Noodle\", \"action\": \"owned\", \"published\": false, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_order_and_session_readback\"]}}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.02207920300133992
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "owned",
+                "owner": "Noodle",
+                "missing_inputs": [
+                  "current_order_and_session_readback"
+                ],
+                "reason": "Executed the supervisor-selected launcher exactly once after inspection. It reported owned, published false, and requires Noodle current order and Session readback; stopped the dependent operation."
+              }
+            }
+          ],
+          "decision": {
+            "action": "owned",
+            "owner": "Noodle",
+            "missing_inputs": [
+              "current_order_and_session_readback"
+            ],
+            "reason": "Executed the supervisor-selected launcher exactly once after inspection. It reported owned, published false, and requires Noodle current order and Session readback; stopped the dependent operation."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "70d070fddd111b59d6a0d38a1a39fcc84ced2c238fb97d6be9faa2209b79e631",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "e04a3d6d61f5f03164fea0d9c450e8141b2046f67bcd6b5e2e8e1ebde0282eab"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "70d070fddd111b59d6a0d38a1a39fcc84ced2c238fb97d6be9faa2209b79e631",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "launcher-events.json": "6b95674904cc233bc1037e2575eb9fc3749266ff8116f89ffe294edc27f74c26",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "e04a3d6d61f5f03164fea0d9c450e8141b2046f67bcd6b5e2e8e1ebde0282eab"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-d85/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "launcher-events.json": "[[\"automatic\"]]",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-d85/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "fixture_cleanup": true
+        }
+      ]
+    },
+    {
+      "selection": "final-selection.json",
+      "disposition": "final_scored",
+      "runs": [
+        {
+          "run": "r-24b",
+          "arm": "baseline",
+          "case": "generic",
+          "skill_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+          "subject": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-24b/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-24b/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\n## Establish scheduler identity first\n\nDo not infer the scheduler role from the working directory, Skill availability,\nor this file being read. Read only the current `NOODLE_SESSION_ID`. If it is\nabsent, this Skill does not establish a Noodle schedule Session: do not require\nan Issue, envelope, or launcher for the caller's original task. Return to the\nalready-authorized task owner; analysis/review can continue from its requested\nsubject.\n\nIf `NOODLE_SESSION_ID` is present, read the current Noodle control root's\n`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule\nSession only when its `session_id` equals the current ID, `skill` is exactly\n`schedule`, and `worktree_path` identifies this checkout. A missing or\nmismatched spawn is a Noodle/supervisor role-identity refusal for the schedule\noperation only; do not compensate by constructing admission inputs or changing\ncanonical state.\n\nThe spawn readback establishes the Session role, not Issue admission. The\nsupervisor-selected launcher and current Noodle owner establish the admitted\nIssue/envelope/order/stage after role identity. Do not derive them from the\ncheckout, Issue prose, historical receipts, or model memory.\n\n## Consume the admitted launcher\n\nOnly after the schedule role is established, read\n`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and\nexecutable; never search for, synthesize, export, or reuse a historical launcher\nas a replacement. Invoke that executable with the single argument `automatic`.\nIt fixes the external envelope and validator; neither this Skill nor Issue prose\nselects authority. A missing launcher/input requires its supervisor for this\nschedule operation, not for unrelated work.\n\nConsume its current structured result. Noodle owns the canonical order,\nworktree and process. The launcher publishes a conditional first-admission\nproposal only after fresh provider and owner readback. Never reconstruct an\norder, overwrite `orders-next.json`, request an implicit restart, or write\ncanonical state. An owned/previously-admitted result is an observation, not\npermission to establish another writer. A refusal names its owning input.\n\nDo not dump the environment. Do not edit target source or perform delivery from\nthe schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-24b/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-24b/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,json; print(json.dumps({\"NOODLE_SESSION_ID\":os.environ.get(\"NOODLE_SESSION_ID\")}))"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"NOODLE_SESSION_ID\": null}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.017434763998608105
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "return_to_original_analysis",
+                "owner": "already-authorized task owner",
+                "missing_inputs": [],
+                "reason": "NOODLE_SESSION_ID is absent, so the Skill does not establish a schedule Session. Return to the original analysis task without requiring admission inputs or invoking a launcher."
+              }
+            }
+          ],
+          "decision": {
+            "action": "return_to_original_analysis",
+            "owner": "already-authorized task owner",
+            "missing_inputs": [],
+            "reason": "NOODLE_SESSION_ID is absent, so the Skill does not establish a schedule Session. Return to the original analysis task without requiring admission inputs or invoking a launcher."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "7f3e9540fb35af8351212250f1693e434c12add8eebd2b703ee91de03fd37c9d",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "c9f074a8f32a27bb4fd2357ad76df80f2f2def9119cfc813b520d86896ff65cf"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "7f3e9540fb35af8351212250f1693e434c12add8eebd2b703ee91de03fd37c9d",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "c9f074a8f32a27bb4fd2357ad76df80f2f2def9119cfc813b520d86896ff65cf"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-24b/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-24b/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-73d",
+          "arm": "baseline",
+          "case": "missing_launcher",
+          "skill_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+          "subject": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-73d/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-73d/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\n## Establish scheduler identity first\n\nDo not infer the scheduler role from the working directory, Skill availability,\nor this file being read. Read only the current `NOODLE_SESSION_ID`. If it is\nabsent, this Skill does not establish a Noodle schedule Session: do not require\nan Issue, envelope, or launcher for the caller's original task. Return to the\nalready-authorized task owner; analysis/review can continue from its requested\nsubject.\n\nIf `NOODLE_SESSION_ID` is present, read the current Noodle control root's\n`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule\nSession only when its `session_id` equals the current ID, `skill` is exactly\n`schedule`, and `worktree_path` identifies this checkout. A missing or\nmismatched spawn is a Noodle/supervisor role-identity refusal for the schedule\noperation only; do not compensate by constructing admission inputs or changing\ncanonical state.\n\nThe spawn readback establishes the Session role, not Issue admission. The\nsupervisor-selected launcher and current Noodle owner establish the admitted\nIssue/envelope/order/stage after role identity. Do not derive them from the\ncheckout, Issue prose, historical receipts, or model memory.\n\n## Consume the admitted launcher\n\nOnly after the schedule role is established, read\n`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and\nexecutable; never search for, synthesize, export, or reuse a historical launcher\nas a replacement. Invoke that executable with the single argument `automatic`.\nIt fixes the external envelope and validator; neither this Skill nor Issue prose\nselects authority. A missing launcher/input requires its supervisor for this\nschedule operation, not for unrelated work.\n\nConsume its current structured result. Noodle owns the canonical order,\nworktree and process. The launcher publishes a conditional first-admission\nproposal only after fresh provider and owner readback. Never reconstruct an\norder, overwrite `orders-next.json`, request an implicit restart, or write\ncanonical state. An owned/previously-admitted result is an observation, not\npermission to establish another writer. A refusal names its owning input.\n\nDo not dump the environment. Do not edit target source or perform delivery from\nthe schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-73d/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-73d/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,pathlib; s=os.environ.get(\"NOODLE_SESSION_ID\"); print(\"NOODLE_SESSION_ID=\"+str(s)); p=pathlib.Path(\".noodle/sessions\")/s/\"spawn.json\" if s else None; print(p.read_text() if p else \"No schedule Session identity\")"
+              ],
+              "exit_code": 0,
+              "stdout": "NOODLE_SESSION_ID=schedule-observation\n{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-73d/checkout\"}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.019082507998973597
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,pathlib,subprocess; p=os.environ.get(\"SOODLES_ADMISSION_LAUNCHER\"); print(\"SOODLES_ADMISSION_LAUNCHER=\"+str(p),flush=True); present=bool(p and pathlib.Path(p).is_file()); executable=bool(present and os.access(p,os.X_OK)); print(\"present=\"+str(present)+\" executable=\"+str(executable),flush=True); subprocess.run([p,\"automatic\"],check=False) if executable else None"
+              ],
+              "exit_code": 0,
+              "stdout": "SOODLES_ADMISSION_LAUNCHER=None\npresent=False executable=False\n",
+              "stderr": "",
+              "elapsed_seconds": 0.026192461999016814
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "stop_schedule_operation",
+                "owner": "Noodle/supervisor",
+                "missing_inputs": [
+                  "SOODLES_ADMISSION_LAUNCHER"
+                ],
+                "reason": "The current Session spawn establishes the schedule role for this checkout, but SOODLES_ADMISSION_LAUNCHER is absent. The supervisor must supply the selected launcher before scheduling can continue."
+              }
+            }
+          ],
+          "decision": {
+            "action": "stop_schedule_operation",
+            "owner": "Noodle/supervisor",
+            "missing_inputs": [
+              "SOODLES_ADMISSION_LAUNCHER"
+            ],
+            "reason": "The current Session spawn establishes the schedule role for this checkout, but SOODLES_ADMISSION_LAUNCHER is absent. The supervisor must supply the selected launcher before scheduling can continue."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "2daf3ba8d68e086427ab64855bd2780a726eac2f98a8c91b901dbfe5b2432ad1",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "b0c476030ec98061f758fd1155d5cd98b46e3f151a2f1ef282c72929ff7da19c"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "2daf3ba8d68e086427ab64855bd2780a726eac2f98a8c91b901dbfe5b2432ad1",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "b0c476030ec98061f758fd1155d5cd98b46e3f151a2f1ef282c72929ff7da19c"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-73d/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-73d/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-16f",
+          "arm": "baseline",
+          "case": "ready",
+          "skill_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+          "subject": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-16f/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-16f/checkout",
+              "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-16f/checkout/selected launcher"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\n## Establish scheduler identity first\n\nDo not infer the scheduler role from the working directory, Skill availability,\nor this file being read. Read only the current `NOODLE_SESSION_ID`. If it is\nabsent, this Skill does not establish a Noodle schedule Session: do not require\nan Issue, envelope, or launcher for the caller's original task. Return to the\nalready-authorized task owner; analysis/review can continue from its requested\nsubject.\n\nIf `NOODLE_SESSION_ID` is present, read the current Noodle control root's\n`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule\nSession only when its `session_id` equals the current ID, `skill` is exactly\n`schedule`, and `worktree_path` identifies this checkout. A missing or\nmismatched spawn is a Noodle/supervisor role-identity refusal for the schedule\noperation only; do not compensate by constructing admission inputs or changing\ncanonical state.\n\nThe spawn readback establishes the Session role, not Issue admission. The\nsupervisor-selected launcher and current Noodle owner establish the admitted\nIssue/envelope/order/stage after role identity. Do not derive them from the\ncheckout, Issue prose, historical receipts, or model memory.\n\n## Consume the admitted launcher\n\nOnly after the schedule role is established, read\n`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and\nexecutable; never search for, synthesize, export, or reuse a historical launcher\nas a replacement. Invoke that executable with the single argument `automatic`.\nIt fixes the external envelope and validator; neither this Skill nor Issue prose\nselects authority. A missing launcher/input requires its supervisor for this\nschedule operation, not for unrelated work.\n\nConsume its current structured result. Noodle owns the canonical order,\nworktree and process. The launcher publishes a conditional first-admission\nproposal only after fresh provider and owner readback. Never reconstruct an\norder, overwrite `orders-next.json`, request an implicit restart, or write\ncanonical state. An owned/previously-admitted result is an observation, not\npermission to establish another writer. A refusal names its owning input.\n\nDo not dump the environment. Do not edit target source or perform delivery from\nthe schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-16f/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-16f/checkout",
+                  "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-16f/checkout/selected launcher"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os; print(os.environ.get(\"NOODLE_SESSION_ID\", \"\"))"
+              ],
+              "exit_code": 0,
+              "stdout": "schedule-observation\n",
+              "stderr": "",
+              "elapsed_seconds": 0.010342088004108518
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,pathlib; p=pathlib.Path(\".noodle/sessions\")/os.environ[\"NOODLE_SESSION_ID\"]/\"spawn.json\"; print(p.read_text())"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-16f/checkout\"}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.028387334001308773
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "python3",
+                "-c",
+                "import os,pathlib,subprocess; p=os.environ.get(\"SOODLES_ADMISSION_LAUNCHER\"); print({\"launcher\":p,\"present\":bool(p and pathlib.Path(p).is_file()),\"executable\":bool(p and os.access(p,os.X_OK))},flush=True); assert p and pathlib.Path(p).is_file() and os.access(p,os.X_OK), \"Missing supervisor launcher\"; r=subprocess.run([p,\"automatic\"]); raise SystemExit(r.returncode)"
+              ],
+              "exit_code": 0,
+              "stdout": "{'launcher': '/workspace/scratch/0c77ffa2d541/atom/runs/r-16f/checkout/selected launcher', 'present': True, 'executable': True}\n{\"owner\": \"Noodle\", \"action\": \"owned\", \"published\": false, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_order_and_session_readback\"]}}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.047043931001098827
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "owned",
+                "owner": "Noodle",
+                "missing_inputs": [
+                  "current_order_and_session_readback"
+                ],
+                "reason": "Verified schedule Session identity and invoked the selected executable with automatic. Current structured result reports owned, published false, and requires Noodle current order and Session readback; stopped dependent operation without creating another writer or editing canonical state."
+              }
+            }
+          ],
+          "decision": {
+            "action": "owned",
+            "owner": "Noodle",
+            "missing_inputs": [
+              "current_order_and_session_readback"
+            ],
+            "reason": "Verified schedule Session identity and invoked the selected executable with automatic. Current structured result reports owned, published false, and requires Noodle current order and Session readback; stopped dependent operation without creating another writer or editing canonical state."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "7e9ffdbd6d6e9df08912776608d6fe2887756999b40f1c8b29b71fa1d5b44aa0",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "821a569e757f1b25ba65cf5c824d7d92cfbbba4d765708ce90ca920a2bf588d7"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "7e9ffdbd6d6e9df08912776608d6fe2887756999b40f1c8b29b71fa1d5b44aa0",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "launcher-events.json": "6b95674904cc233bc1037e2575eb9fc3749266ff8116f89ffe294edc27f74c26",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "821a569e757f1b25ba65cf5c824d7d92cfbbba4d765708ce90ca920a2bf588d7"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-16f/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "launcher-events.json": "[[\"automatic\"]]",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-16f/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-58a",
+          "arm": "treatment",
+          "case": "generic",
+          "skill_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f",
+          "subject": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-58a/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-58a/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\nFrom the current checkout, run `./soodles issue inspect`. This read-only entry\nreads the current Noodle role before checking the supervisor-selected launcher.\nConsume its result:\n\n- `action: not_applicable`: return to the caller's original task; no schedule\n  prerequisite or completion is implied by `next: null`.\n- `next.kind: input` / refusal: report the named owner and required input for\n  this operation. Continue unrelated authorized work; do not retry unchanged\n  input or use help as a capability probe.\n- `next.kind: executable`: execute the current `next.argv` array exactly once,\n  without shell reconstruction, then consume the launcher's structured result.\n\nInspection does not admit an Issue, execute the launcher, or grant authority.\nThe selected launcher revalidates its external envelope and current Noodle and\nprovider state before effects. Never search for, synthesize, export, or reuse a\nhistorical launcher; do not dump the environment.\n\nNoodle owns the canonical order, worktree and process. An owned or previously\nadmitted result is an observation, not permission to establish another writer.\nNever reconstruct an order, overwrite `orders-next.json`, request an implicit\nrestart, or write canonical state. Do not edit target source or perform delivery\nfrom the schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-58a/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-58a/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "./soodles",
+                "issue",
+                "inspect"
+              ],
+              "exit_code": 0,
+              "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"authorizes_landing\": false,\n  \"action\": \"not_applicable\",\n  \"next\": null\n}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.06181979899702128
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "not_applicable",
+                "owner": "issue.inspect",
+                "missing_inputs": [],
+                "reason": "Inspection returned not_applicable with next null. Return to the caller original analysis task; no schedule prerequisite or completion is implied, and no launcher was executed."
+              }
+            }
+          ],
+          "decision": {
+            "action": "not_applicable",
+            "owner": "issue.inspect",
+            "missing_inputs": [],
+            "reason": "Inspection returned not_applicable with next null. Return to the caller original analysis task; no schedule prerequisite or completion is implied, and no launcher was executed."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "d288dcf3c10fb0ac3961be346acc910b27a525f6b0380eba07fa308f47dc1d8b",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "14258da8345e4c2d3d49847f6a8fc759e25585a43f655d669d739ed74852fa29"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "d288dcf3c10fb0ac3961be346acc910b27a525f6b0380eba07fa308f47dc1d8b",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "14258da8345e4c2d3d49847f6a8fc759e25585a43f655d669d739ed74852fa29"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-58a/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-58a/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-91c",
+          "arm": "treatment",
+          "case": "missing_launcher",
+          "skill_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f",
+          "subject": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-91c/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-91c/checkout"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\nFrom the current checkout, run `./soodles issue inspect`. This read-only entry\nreads the current Noodle role before checking the supervisor-selected launcher.\nConsume its result:\n\n- `action: not_applicable`: return to the caller's original task; no schedule\n  prerequisite or completion is implied by `next: null`.\n- `next.kind: input` / refusal: report the named owner and required input for\n  this operation. Continue unrelated authorized work; do not retry unchanged\n  input or use help as a capability probe.\n- `next.kind: executable`: execute the current `next.argv` array exactly once,\n  without shell reconstruction, then consume the launcher's structured result.\n\nInspection does not admit an Issue, execute the launcher, or grant authority.\nThe selected launcher revalidates its external envelope and current Noodle and\nprovider state before effects. Never search for, synthesize, export, or reuse a\nhistorical launcher; do not dump the environment.\n\nNoodle owns the canonical order, worktree and process. An owned or previously\nadmitted result is an observation, not permission to establish another writer.\nNever reconstruct an order, overwrite `orders-next.json`, request an implicit\nrestart, or write canonical state. Do not edit target source or perform delivery\nfrom the schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-91c/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-91c/checkout"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "./soodles",
+                "issue",
+                "inspect"
+              ],
+              "exit_code": 1,
+              "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"scheduler.launcher\",\n    \"value\": null\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"SOODLES_ADMISSION_LAUNCHER\"\n    ],\n    \"operation\": \"inspect\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/0c77ffa2d541/atom/runs/r-91c/subject/soodles.py\",\n      \"issue\",\n      \"inspect\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  }\n}\n",
+              "stderr": "REFUSED: issue.inspect: invalid scheduler.launcher=None; owner: supervisor; required: ['SOODLES_ADMISSION_LAUNCHER']; continuation: issue inspect; Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\n",
+              "elapsed_seconds": 0.05468683299841359
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "stop_dependent_operation",
+                "owner": "supervisor",
+                "missing_inputs": [
+                  "SOODLES_ADMISSION_LAUNCHER"
+                ],
+                "reason": "Issue inspection refused because scheduler.launcher is null. The supervisor must supply changed launcher input before inspection can continue; no launcher executed."
+              }
+            }
+          ],
+          "decision": {
+            "action": "stop_dependent_operation",
+            "owner": "supervisor",
+            "missing_inputs": [
+              "SOODLES_ADMISSION_LAUNCHER"
+            ],
+            "reason": "Issue inspection refused because scheduler.launcher is null. The supervisor must supply changed launcher input before inspection can continue; no launcher executed."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "c191c4e522e1efe27a10c55fdaee7294146ad235f0150fd7a5e57321e4b40c7f",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "a9b791c2ed5fa046312f0c8474ded625cee031123dd7b88e36c451d3b8fd8ac9"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "c191c4e522e1efe27a10c55fdaee7294146ad235f0150fd7a5e57321e4b40c7f",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "a9b791c2ed5fa046312f0c8474ded625cee031123dd7b88e36c451d3b8fd8ac9"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-91c/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-91c/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [],
+          "fixture_cleanup": true
+        },
+        {
+          "run": "r-40e",
+          "arm": "treatment",
+          "case": "ready",
+          "skill_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f",
+          "subject": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "requested_context": "fork_turns=none",
+          "observed_model": "UNKNOWN",
+          "complete_platform_transcript": "UNAVAILABLE",
+          "packet": {
+            "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+            "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-40e/checkout",
+            "env": {
+              "PATH": "/usr/local/bin:/usr/bin:/bin",
+              "LANG": "C.UTF-8",
+              "LC_ALL": "C.UTF-8",
+              "NOODLE_SESSION_ID": "schedule-observation",
+              "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-40e/checkout",
+              "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-40e/checkout/selected launcher"
+            }
+          },
+          "requests": [
+            {
+              "kind": "instruction_read",
+              "output": {
+                "task": "At the selected Soodles checkout, establish whether the current Session can consume its supervisor-selected schedule launcher. Use the assigned schedule Skill and current Noodle inputs. Perform only the supported next step. For a missing prerequisite, report its owner and stop the dependent operation; for an unrelated Session, return to its original analysis task. Do not invent a launcher, envelope, order, identity, or policy option.",
+                "skill": "---\nname: schedule\ndescription: Materialize the one externally admitted Soodles Issue through the shared validator.\nschedule: When Noodle requests a Soodles schedule decision.\n---\n\n# Schedule the admitted Issue\n\nFrom the current checkout, run `./soodles issue inspect`. This read-only entry\nreads the current Noodle role before checking the supervisor-selected launcher.\nConsume its result:\n\n- `action: not_applicable`: return to the caller's original task; no schedule\n  prerequisite or completion is implied by `next: null`.\n- `next.kind: input` / refusal: report the named owner and required input for\n  this operation. Continue unrelated authorized work; do not retry unchanged\n  input or use help as a capability probe.\n- `next.kind: executable`: execute the current `next.argv` array exactly once,\n  without shell reconstruction, then consume the launcher's structured result.\n\nInspection does not admit an Issue, execute the launcher, or grant authority.\nThe selected launcher revalidates its external envelope and current Noodle and\nprovider state before effects. Never search for, synthesize, export, or reuse a\nhistorical launcher; do not dump the environment.\n\nNoodle owns the canonical order, worktree and process. An owned or previously\nadmitted result is an observation, not permission to establish another writer.\nNever reconstruct an order, overwrite `orders-next.json`, request an implicit\nrestart, or write canonical state. Do not edit target source or perform delivery\nfrom the schedule task. This Skill is guidance; the installed validator/worker\nboundary performs enforcement.\n",
+                "checkout": "/workspace/scratch/0c77ffa2d541/atom/runs/r-40e/checkout",
+                "current_environment": {
+                  "PATH": "/usr/local/bin:/usr/bin:/bin",
+                  "LANG": "C.UTF-8",
+                  "LC_ALL": "C.UTF-8",
+                  "NOODLE_SESSION_ID": "schedule-observation",
+                  "NOODLE_WORKTREE": "/workspace/scratch/0c77ffa2d541/atom/runs/r-40e/checkout",
+                  "SOODLES_ADMISSION_LAUNCHER": "/workspace/scratch/0c77ffa2d541/atom/runs/r-40e/checkout/selected launcher"
+                },
+                "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+              }
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "./soodles",
+                "issue",
+                "inspect"
+              ],
+              "exit_code": 0,
+              "stdout": "{\n  \"owner\": \"issue.inspect\",\n  \"authorizes_landing\": false,\n  \"action\": \"ready\",\n  \"session_id\": \"schedule-observation\",\n  \"next\": {\n    \"kind\": \"executable\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"automatic\",\n    \"argv\": [\n      \"/workspace/scratch/0c77ffa2d541/atom/runs/r-40e/checkout/selected launcher\",\n      \"automatic\"\n    ]\n  }\n}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.05257267099659657
+            },
+            {
+              "kind": "process",
+              "argv": [
+                "/workspace/scratch/0c77ffa2d541/atom/runs/r-40e/checkout/selected launcher",
+                "automatic"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"owner\": \"Noodle\", \"action\": \"owned\", \"published\": false, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_order_and_session_readback\"]}}\n",
+              "stderr": "",
+              "elapsed_seconds": 0.02562740600114921
+            },
+            {
+              "kind": "decision",
+              "value": {
+                "action": "owned",
+                "owner": "Noodle",
+                "missing_inputs": [
+                  "current_order_and_session_readback"
+                ],
+                "reason": "Executed the inspected launcher argv exactly once. It reported owned, published false, and requires Noodle current order and Session readback; dependent operation stopped."
+              }
+            }
+          ],
+          "decision": {
+            "action": "owned",
+            "owner": "Noodle",
+            "missing_inputs": [
+              "current_order_and_session_readback"
+            ],
+            "reason": "Executed the inspected launcher argv exactly once. It reported owned, published false, and requires Noodle current order and Session readback; dependent operation stopped."
+          },
+          "before": {
+            ".noodle/sessions/schedule-observation/spawn.json": "01c3f861ce6488479a9033579629bc1f9aad784b33af7d1d2309984ad0f09873",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "0321bb6366415931a72d88f4c3de423a2299d9d0051881c6d50805965b929abc"
+          },
+          "after": {
+            ".noodle/sessions/schedule-observation/spawn.json": "01c3f861ce6488479a9033579629bc1f9aad784b33af7d1d2309984ad0f09873",
+            ".noodle/state.snapshot.json": "9d1bb6f264ec41e431c744519c903a9409130de138e7410ba958d36a178b1bba",
+            "launcher-events.json": "6b95674904cc233bc1037e2575eb9fc3749266ff8116f89ffe294edc27f74c26",
+            "selected launcher": "9756cc770d60cc55effda59b8b89c42a734a5f54e0762b752c7730a967874423",
+            "soodles": "0321bb6366415931a72d88f4c3de423a2299d9d0051881c6d50805965b929abc"
+          },
+          "final_fixture_contents": {
+            ".noodle/sessions/schedule-observation/spawn.json": "{\"session_id\": \"schedule-observation\", \"skill\": \"schedule\", \"worktree_path\": \"/workspace/scratch/0c77ffa2d541/atom/runs/r-40e/checkout\"}",
+            ".noodle/state.snapshot.json": "{\"fixture\":\"unchanged canonical sentinel\"}\n",
+            "launcher-events.json": "[[\"automatic\"]]",
+            "selected launcher": "#!/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\nimport json,sys\nfrom pathlib import Path\np=Path(__file__).with_name(\"launcher-events.json\")\ne=json.loads(p.read_text()) if p.exists() else []\ne.append(sys.argv[1:]);p.write_text(json.dumps(e))\nprint(json.dumps({\"owner\":\"Noodle\",\"action\":\"owned\",\"published\":False,\"next\":{\"kind\":\"input\",\"owner\":\"Noodle\",\"required\":[\"current_order_and_session_readback\"]}}))\n",
+            "soodles": "#!/bin/sh\nexec /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/0c77ffa2d541/atom/runs/r-40e/subject/soodles.py \"$@\"\n"
+          },
+          "canonical_unchanged": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "fixture_cleanup": true
+        }
+      ]
+    }
+  ]
+}
