@@ -71,7 +71,7 @@ not owner-automatic cleanup or general permission to delete locks.
 The first executable replay truthfully returned `INCONCLUSIVE`: e_b4/e_b6
 had null scored barriers and aggregate totals were null. The original run bytes,
 initial manifest and failed replay receipt remain losslessly embedded in the
-raw packet, and commit `29eb8e9` remains in history. No consumer, owner operation
+raw packet. No consumer, owner operation
 or exploration run was restarted or replaced.
 
 The supervisor then selected and executed the external cleanup observer. Its
