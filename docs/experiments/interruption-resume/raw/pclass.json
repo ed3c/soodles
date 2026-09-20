@@ -1,0 +1,1359 @@
+{
+  "origin": "ed3c/soodles#109",
+  "carrier": "native platform subagents; fork_turns none",
+  "observed_model": null,
+  "tokens": null,
+  "context_window": null,
+  "complete_platform_transcript": false,
+  "arms": {
+    "baseline": {
+      "instruction_sha256": "3a9fbd2145594ad17b955696a2d65c38bc0f861192076699d454f551904f24e3",
+      "source_sha256": {
+        "github_reader.py": "7434e60640fdf39ab39c76af25969d0fee9f5f6878eba39273cc4082bebc9c98",
+        "soodles.py": "f4b6fd277330e6d4b6aa5ead30f85737dec833669bb197e56f9090b5b1f03b90",
+        "delivery_oracle.py": "f05fc652085e58f4106947eb111b7b7da7f19f5895aef8dddf5a74263a455b38",
+        "cleanup_lock_oracle.py": "da40093a1d3f180920dccdc9d562d95e64e2c2ece53a3490bd75c45e99c4f7ff",
+        "portable_packet.py": "4a6f0147f00700aed228251880f54e8f14e5cdeb0df84849640ce8e163222691",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "issue_execution.py": "c2883c97b3f85d6a7131693bbb5ab48288ddfba660552b90cdb941f6671ad579",
+        "base_recovery_oracle.py": "fb59735cbdb679d7a6056d1f698f8b8c532fb6388b9d5e1f332d26f78ace5369",
+        "cleanup_oracle.py": "8e7b9502301668c1268fdeb5f0d8ae6f9b6bc5f45c6974dd7b1ed524cb6ed640",
+        "handoff_oracle.py": "144b28e40c280505c2fa4f897d0528bee3850e5aa99df042cc78dc00f202ba96",
+        "landing.py": "510ab36ff39ab8fc4100dfdd9fdb18726d8e71767ef28289762354253218e210",
+        "resume_oracle.py": "c97452033fef92ecb1ba2989c2900a17d0180799d16b9fb3b737a0a5db48774b"
+      },
+      "handoff": {
+        "origin": "ed3c/soodles#109",
+        "provider_fixture": true,
+        "evidence": "/tmp/issue109-consumers/baseline/evidence",
+        "actual_operation_labels": [
+          "initial-instruction",
+          "initial-inputs",
+          "pinned-identities",
+          "absent-resume",
+          "pending-resume",
+          "retained-resume",
+          "write-handoff"
+        ],
+        "cases": {
+          "absent": {
+            "operation_label": "absent-resume",
+            "process_exit": 0,
+            "owner": "Noodle",
+            "action": "proposal_pending",
+            "published": true,
+            "next": {
+              "kind": "input",
+              "owner": "Noodle",
+              "required": [
+                "canonical_promotion_readback"
+              ],
+              "known": {
+                "order_id": "soodles-20"
+              }
+            },
+            "predecessor": {
+              "order_id": "soodles-18",
+              "completion_source": "archived_projection",
+              "typed_outcome": "completed",
+              "blocking": false,
+              "cleanup": "absent"
+            }
+          },
+          "pending": {
+            "operation_label": "pending-resume",
+            "process_exit": 0,
+            "owner": "Noodle",
+            "action": "proposal_pending",
+            "published": false,
+            "next": {
+              "kind": "input",
+              "owner": "Noodle",
+              "required": [
+                "canonical_promotion_readback"
+              ],
+              "known": {
+                "order_id": "soodles-20"
+              }
+            },
+            "predecessor": {
+              "order_id": "soodles-18",
+              "completion_source": "archived_projection",
+              "typed_outcome": "completed",
+              "blocking": false,
+              "cleanup": "absent"
+            }
+          },
+          "retained": {
+            "operation_label": "retained-resume",
+            "process_exit": 0,
+            "owner": "Noodle",
+            "action": "previously_admitted",
+            "published": false,
+            "next": {
+              "kind": "input",
+              "owner": "Noodle",
+              "required": [
+                "original_order_recovery"
+              ],
+              "known": {
+                "order_id": "soodles-20",
+                "effect_id": "B-dispatch"
+              }
+            },
+            "predecessor": {
+              "order_id": "soodles-18",
+              "completion_source": "archived_projection",
+              "typed_outcome": "completed",
+              "blocking": false,
+              "cleanup": "absent"
+            }
+          }
+        },
+        "limitations": [
+          "Each supplied complete invocation ran once in its supplied cwd. Each returned an input prerequisite; no unchanged input was retried, no operation was reconstructed, and no additional writer was started.",
+          "Unknown effects were preserved; retained B-dispatch remains the identity requiring original-order recovery.",
+          "Observations are consumer-recorded subprocess output, not a full platform transcript or independent proof of fixture internals.",
+          "Source identity manifest was read; executable/source digests were not independently recomputed.",
+          "No complete runtime-check, canonical acceptance, or external oracle invocation was supplied or run. No VERIFIED A-cleanup-B, zero-residue, externally waited original Session exit, or landing claim is made.",
+          "Only supplied disposable fixture invocations were used; no live providers. authorizes_landing was false in all returned bindings.",
+          "Actual consumer model and token provenance remain unknown; fixture-model is only a field in fixture output."
+        ]
+      },
+      "inputs": {
+        "origin": "ed3c/soodles#109",
+        "provider_fixture": true,
+        "permitted_effects": "Only supplied disposable fixture invocations; no live provider writes.",
+        "cases": {
+          "absent": {
+            "cwd": "/tmp/tmpbay378y2/control",
+            "argv": [
+              "/tmp/tmpbay378y2/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmpbay378y2/A-checkpoint.json",
+              "/tmp/tmpbay378y2/B-envelope.json",
+              "1d38121df30da471d718f78f199dac4531887017df8274595d9fb8949cbc74b3"
+            ]
+          },
+          "pending": {
+            "cwd": "/tmp/tmp7id7fjir/control",
+            "argv": [
+              "/tmp/tmp7id7fjir/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmp7id7fjir/A-checkpoint.json",
+              "/tmp/tmp7id7fjir/B-envelope.json",
+              "d24c89aee1c449473a391a35041b3d6eca1fa18d6a2b4a7eae87bd77d029680b"
+            ]
+          },
+          "retained": {
+            "cwd": "/tmp/tmphcs303gb/control",
+            "argv": [
+              "/tmp/tmphcs303gb/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmphcs303gb/A-checkpoint.json",
+              "/tmp/tmphcs303gb/B-envelope.json",
+              "5f4cacb74ef8dfe77b77572e7be34a7d031dd914ad7d9340837e2b0dc0a64423"
+            ]
+          }
+        }
+      },
+      "runs": {
+        "absent": {
+          "argv": [
+            "/tmp/tmpbay378y2/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmpbay378y2/A-checkpoint.json",
+            "/tmp/tmpbay378y2/B-envelope.json",
+            "1d38121df30da471d718f78f199dac4531887017df8274595d9fb8949cbc74b3"
+          ],
+          "supplied_argv": [
+            "/tmp/tmpbay378y2/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmpbay378y2/A-checkpoint.json",
+            "/tmp/tmpbay378y2/B-envelope.json",
+            "1d38121df30da471d718f78f199dac4531887017df8274595d9fb8949cbc74b3"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "authorizes_landing": false,
+          "scope": "one_subprocess",
+          "elapsed_seconds": 0.0818320100006531,
+          "files_after": {
+            "/tmp/tmpbay378y2/soodles": {
+              "bytes": 262,
+              "sha256": "d70b242f6dc5a15d9630352c901dd18dee5a288358079dcdaf69e194d2a98ba3",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmpbay378y2/A-checkpoint.json": {
+              "bytes": 740,
+              "sha256": "eb4d21459086084712cfc3e4d99fd49b936c91da67278b61d4914d6bc034527f",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmpbay378y2/B-envelope.json": {
+              "bytes": 993,
+              "sha256": "1d38121df30da471d718f78f199dac4531887017df8274595d9fb8949cbc74b3",
+              "observed_from": [
+                "argv"
+              ]
+            }
+          },
+          "stdout_sha256": "8676ce3b5e8da9d57ed75b4f440eaff63238dce97d8fe79f881d34087472c4ca",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"proposal_pending\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmpbay378y2/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmpbay378y2/executable-sentinel\",\n          \"sha256\": \"0ce5b4271ec221f5157408cef0c91b69f9bdd2d102f2464b08659afc5a72c273\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmpbay378y2/executable-sentinel\",\n          \"sha256\": \"0ce5b4271ec221f5157408cef0c91b69f9bdd2d102f2464b08659afc5a72c273\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": true,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"canonical_promotion_readback\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmpbay378y2/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 19,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        },
+        "pending": {
+          "argv": [
+            "/tmp/tmp7id7fjir/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmp7id7fjir/A-checkpoint.json",
+            "/tmp/tmp7id7fjir/B-envelope.json",
+            "d24c89aee1c449473a391a35041b3d6eca1fa18d6a2b4a7eae87bd77d029680b"
+          ],
+          "supplied_argv": [
+            "/tmp/tmp7id7fjir/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmp7id7fjir/A-checkpoint.json",
+            "/tmp/tmp7id7fjir/B-envelope.json",
+            "d24c89aee1c449473a391a35041b3d6eca1fa18d6a2b4a7eae87bd77d029680b"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "authorizes_landing": false,
+          "scope": "one_subprocess",
+          "elapsed_seconds": 0.055818870998336934,
+          "files_after": {
+            "/tmp/tmp7id7fjir/soodles": {
+              "bytes": 262,
+              "sha256": "ac6e97d7c3f5cd43b7378cdac8e7aef25df52be546dd8b5eeedf95b255e70bc2",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmp7id7fjir/A-checkpoint.json": {
+              "bytes": 740,
+              "sha256": "eb00881ebce8a9feb38d6794f8ae07f002902392f2736f0d6dcfb4c6b2a551c8",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmp7id7fjir/B-envelope.json": {
+              "bytes": 993,
+              "sha256": "d24c89aee1c449473a391a35041b3d6eca1fa18d6a2b4a7eae87bd77d029680b",
+              "observed_from": [
+                "argv"
+              ]
+            }
+          },
+          "stdout_sha256": "141a37e7e8001e09ab6cc3bf75e22e5458d5854f7bec35a9cc61c27025353aca",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"proposal_pending\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmp7id7fjir/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmp7id7fjir/executable-sentinel\",\n          \"sha256\": \"b9220996d62277f1b4594793f298272541783a531d97030635c1497b0eee52b1\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmp7id7fjir/executable-sentinel\",\n          \"sha256\": \"b9220996d62277f1b4594793f298272541783a531d97030635c1497b0eee52b1\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": false,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"canonical_promotion_readback\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmp7id7fjir/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 34,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        },
+        "retained": {
+          "argv": [
+            "/tmp/tmphcs303gb/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmphcs303gb/A-checkpoint.json",
+            "/tmp/tmphcs303gb/B-envelope.json",
+            "5f4cacb74ef8dfe77b77572e7be34a7d031dd914ad7d9340837e2b0dc0a64423"
+          ],
+          "supplied_argv": [
+            "/tmp/tmphcs303gb/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmphcs303gb/A-checkpoint.json",
+            "/tmp/tmphcs303gb/B-envelope.json",
+            "5f4cacb74ef8dfe77b77572e7be34a7d031dd914ad7d9340837e2b0dc0a64423"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "authorizes_landing": false,
+          "scope": "one_subprocess",
+          "elapsed_seconds": 0.05830644999514334,
+          "files_after": {
+            "/tmp/tmphcs303gb/soodles": {
+              "bytes": 262,
+              "sha256": "64566eb6263e813320001b50c3f1f4f17bce145efb44ea3d514ad21a74b7059a",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmphcs303gb/A-checkpoint.json": {
+              "bytes": 740,
+              "sha256": "1befdb15b7a3c986314bc9c4a6773c0feee2eb802d5afa39259d17ceb27a1580",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmphcs303gb/B-envelope.json": {
+              "bytes": 993,
+              "sha256": "5f4cacb74ef8dfe77b77572e7be34a7d031dd914ad7d9340837e2b0dc0a64423",
+              "observed_from": [
+                "argv"
+              ]
+            }
+          },
+          "stdout_sha256": "1dd0f0322796513de10a5006828927ed428703ca54016b453b67ac8715d81876",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"previously_admitted\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmphcs303gb/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmphcs303gb/executable-sentinel\",\n          \"sha256\": \"4ef30528a386725d006f11069213c613de0e5375934894971a156844545e40bb\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmphcs303gb/executable-sentinel\",\n          \"sha256\": \"4ef30528a386725d006f11069213c613de0e5375934894971a156844545e40bb\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": false,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"original_order_recovery\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\",\n      \"effect_id\": \"B-dispatch\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmphcs303gb/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 51,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        }
+      },
+      "raw_recorder": {
+        "absent-resume": {
+          "request": {
+            "argv": [
+              "/tmp/tmpbay378y2/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmpbay378y2/A-checkpoint.json",
+              "/tmp/tmpbay378y2/B-envelope.json",
+              "1d38121df30da471d718f78f199dac4531887017df8274595d9fb8949cbc74b3"
+            ],
+            "cwd": "/tmp/tmpbay378y2/control",
+            "time_ns": 1789922503945465969,
+            "files_before": {
+              "/tmp/tmpbay378y2/soodles": {
+                "bytes": 262,
+                "sha256": "d70b242f6dc5a15d9630352c901dd18dee5a288358079dcdaf69e194d2a98ba3",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpbay378y2/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "eb4d21459086084712cfc3e4d99fd49b936c91da67278b61d4914d6bc034527f",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpbay378y2/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "1d38121df30da471d718f78f199dac4531887017df8274595d9fb8949cbc74b3",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.0818320100006531,
+            "files_after": {
+              "/tmp/tmpbay378y2/soodles": {
+                "bytes": 262,
+                "sha256": "d70b242f6dc5a15d9630352c901dd18dee5a288358079dcdaf69e194d2a98ba3",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpbay378y2/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "eb4d21459086084712cfc3e4d99fd49b936c91da67278b61d4914d6bc034527f",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpbay378y2/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "1d38121df30da471d718f78f199dac4531887017df8274595d9fb8949cbc74b3",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "8676ce3b5e8da9d57ed75b4f440eaff63238dce97d8fe79f881d34087472c4ca",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"proposal_pending\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmpbay378y2/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmpbay378y2/executable-sentinel\",\n          \"sha256\": \"0ce5b4271ec221f5157408cef0c91b69f9bdd2d102f2464b08659afc5a72c273\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmpbay378y2/executable-sentinel\",\n          \"sha256\": \"0ce5b4271ec221f5157408cef0c91b69f9bdd2d102f2464b08659afc5a72c273\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": true,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"canonical_promotion_readback\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmpbay378y2/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 19,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        },
+        "initial-inputs": {
+          "request": {
+            "argv": [
+              "cat",
+              "/tmp/issue109-consumers/baseline/inputs.json"
+            ],
+            "cwd": "/workspace/scratch/d745da144edd",
+            "time_ns": 1789922481908348918,
+            "files_before": {
+              "/tmp/issue109-consumers/baseline/inputs.json": {
+                "bytes": 1151,
+                "sha256": "5b6e3463fc6258741e06d91d691ce29b4e8189f4df471c1de2d9f4cb0dfff3e7",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.001362352995784022,
+            "files_after": {
+              "/tmp/issue109-consumers/baseline/inputs.json": {
+                "bytes": 1151,
+                "sha256": "5b6e3463fc6258741e06d91d691ce29b4e8189f4df471c1de2d9f4cb0dfff3e7",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "5b6e3463fc6258741e06d91d691ce29b4e8189f4df471c1de2d9f4cb0dfff3e7",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"origin\": \"ed3c/soodles#109\",\n  \"provider_fixture\": true,\n  \"permitted_effects\": \"Only supplied disposable fixture invocations; no live provider writes.\",\n  \"cases\": {\n    \"absent\": {\n      \"cwd\": \"/tmp/tmpbay378y2/control\",\n      \"argv\": [\n        \"/tmp/tmpbay378y2/soodles\",\n        \"issue\",\n        \"resume\",\n        \"/tmp/tmpbay378y2/A-checkpoint.json\",\n        \"/tmp/tmpbay378y2/B-envelope.json\",\n        \"1d38121df30da471d718f78f199dac4531887017df8274595d9fb8949cbc74b3\"\n      ]\n    },\n    \"pending\": {\n      \"cwd\": \"/tmp/tmp7id7fjir/control\",\n      \"argv\": [\n        \"/tmp/tmp7id7fjir/soodles\",\n        \"issue\",\n        \"resume\",\n        \"/tmp/tmp7id7fjir/A-checkpoint.json\",\n        \"/tmp/tmp7id7fjir/B-envelope.json\",\n        \"d24c89aee1c449473a391a35041b3d6eca1fa18d6a2b4a7eae87bd77d029680b\"\n      ]\n    },\n    \"retained\": {\n      \"cwd\": \"/tmp/tmphcs303gb/control\",\n      \"argv\": [\n        \"/tmp/tmphcs303gb/soodles\",\n        \"issue\",\n        \"resume\",\n        \"/tmp/tmphcs303gb/A-checkpoint.json\",\n        \"/tmp/tmphcs303gb/B-envelope.json\",\n        \"5f4cacb74ef8dfe77b77572e7be34a7d031dd914ad7d9340837e2b0dc0a64423\"\n      ]\n    }\n  }\n}",
+          "stderr": ""
+        },
+        "initial-instruction": {
+          "request": {
+            "argv": [
+              "cat",
+              "/tmp/issue109-consumers/baseline/instruction.md"
+            ],
+            "cwd": "/workspace/scratch/d745da144edd",
+            "time_ns": 1789922481553517149,
+            "files_before": {
+              "/tmp/issue109-consumers/baseline/instruction.md": {
+                "bytes": 1425,
+                "sha256": "3a9fbd2145594ad17b955696a2d65c38bc0f861192076699d454f551904f24e3",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.0012113789998693392,
+            "files_after": {
+              "/tmp/issue109-consumers/baseline/instruction.md": {
+                "bytes": 1425,
+                "sha256": "3a9fbd2145594ad17b955696a2d65c38bc0f861192076699d454f551904f24e3",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "3a9fbd2145594ad17b955696a2d65c38bc0f861192076699d454f551904f24e3",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "# Landing current-next and order handoff\n\nUse this recipe for the bounded local claim that a completed original Noodle\norder can be reconciled and cleaned before the next Issue order starts.\n\nRun `./soodles runtime check ABSOLUTE_NOODLE` first. Then run canonical\n`./soodles acceptance verify ABSOLUTE_NOODLE` once on the final clean candidate.\nRead `physical.order_handoff` from its receipt and require:\n\n- `classification: VERIFIED` and `sequence: [A, cleanup, B]`;\n- current `next.argv` actions `dispatch, merge, readback` with exactly one\n  offered write and no reconstructed operation;\n- A and B each have one original Session, a completed nonblocking typed outcome,\n  an externally waited zero process exit and the pinned binary digest;\n- A completion comes from the retained projection and its cleanup owner is Noodle;\n- B records `issue.automatic` admission and starts after A cleanup;\n- `zero_residue: true`, `provider_fixture: true`, and\n  `authorizes_landing: false`.\n\nPreserve the supervisor-selected external `handoff_oracle.py` bytes and digest.\nRun those same bytes against the admitted baseline and candidate; the repository\ncopy participates in acceptance but cannot select itself. A missing current row\nalone never proves completion. Do not replace missing Session, outcome, exit,\neffect or kernel readback with prose or a fabricated order. Provider merge and\nIssue closure remain with supervised delivery.\n",
+          "stderr": ""
+        },
+        "pending-resume": {
+          "request": {
+            "argv": [
+              "/tmp/tmp7id7fjir/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmp7id7fjir/A-checkpoint.json",
+              "/tmp/tmp7id7fjir/B-envelope.json",
+              "d24c89aee1c449473a391a35041b3d6eca1fa18d6a2b4a7eae87bd77d029680b"
+            ],
+            "cwd": "/tmp/tmp7id7fjir/control",
+            "time_ns": 1789922504355584416,
+            "files_before": {
+              "/tmp/tmp7id7fjir/soodles": {
+                "bytes": 262,
+                "sha256": "ac6e97d7c3f5cd43b7378cdac8e7aef25df52be546dd8b5eeedf95b255e70bc2",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmp7id7fjir/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "eb00881ebce8a9feb38d6794f8ae07f002902392f2736f0d6dcfb4c6b2a551c8",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmp7id7fjir/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "d24c89aee1c449473a391a35041b3d6eca1fa18d6a2b4a7eae87bd77d029680b",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.055818870998336934,
+            "files_after": {
+              "/tmp/tmp7id7fjir/soodles": {
+                "bytes": 262,
+                "sha256": "ac6e97d7c3f5cd43b7378cdac8e7aef25df52be546dd8b5eeedf95b255e70bc2",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmp7id7fjir/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "eb00881ebce8a9feb38d6794f8ae07f002902392f2736f0d6dcfb4c6b2a551c8",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmp7id7fjir/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "d24c89aee1c449473a391a35041b3d6eca1fa18d6a2b4a7eae87bd77d029680b",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "141a37e7e8001e09ab6cc3bf75e22e5458d5854f7bec35a9cc61c27025353aca",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"proposal_pending\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmp7id7fjir/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmp7id7fjir/executable-sentinel\",\n          \"sha256\": \"b9220996d62277f1b4594793f298272541783a531d97030635c1497b0eee52b1\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmp7id7fjir/executable-sentinel\",\n          \"sha256\": \"b9220996d62277f1b4594793f298272541783a531d97030635c1497b0eee52b1\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": false,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"canonical_promotion_readback\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmp7id7fjir/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 34,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        },
+        "pinned-identities": {
+          "request": {
+            "argv": [
+              "cat",
+              "/tmp/issue109-consumers/baseline/source-sha256.json"
+            ],
+            "cwd": "/workspace/scratch/d745da144edd",
+            "time_ns": 1789922503591204188,
+            "files_before": {
+              "/tmp/issue109-consumers/baseline/source-sha256.json": {
+                "bytes": 1093,
+                "sha256": "07c27e3f59a9e8688d4609856f79728b2b4c862667019c225226f9b33c774459",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.0012396110032568686,
+            "files_after": {
+              "/tmp/issue109-consumers/baseline/source-sha256.json": {
+                "bytes": 1093,
+                "sha256": "07c27e3f59a9e8688d4609856f79728b2b4c862667019c225226f9b33c774459",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "07c27e3f59a9e8688d4609856f79728b2b4c862667019c225226f9b33c774459",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"github_reader.py\": \"7434e60640fdf39ab39c76af25969d0fee9f5f6878eba39273cc4082bebc9c98\",\n  \"soodles.py\": \"f4b6fd277330e6d4b6aa5ead30f85737dec833669bb197e56f9090b5b1f03b90\",\n  \"delivery_oracle.py\": \"f05fc652085e58f4106947eb111b7b7da7f19f5895aef8dddf5a74263a455b38\",\n  \"cleanup_lock_oracle.py\": \"da40093a1d3f180920dccdc9d562d95e64e2c2ece53a3490bd75c45e99c4f7ff\",\n  \"portable_packet.py\": \"4a6f0147f00700aed228251880f54e8f14e5cdeb0df84849640ce8e163222691\",\n  \"issue_admission.py\": \"b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396\",\n  \"issue_execution.py\": \"c2883c97b3f85d6a7131693bbb5ab48288ddfba660552b90cdb941f6671ad579\",\n  \"base_recovery_oracle.py\": \"fb59735cbdb679d7a6056d1f698f8b8c532fb6388b9d5e1f332d26f78ace5369\",\n  \"cleanup_oracle.py\": \"8e7b9502301668c1268fdeb5f0d8ae6f9b6bc5f45c6974dd7b1ed524cb6ed640\",\n  \"handoff_oracle.py\": \"144b28e40c280505c2fa4f897d0528bee3850e5aa99df042cc78dc00f202ba96\",\n  \"landing.py\": \"510ab36ff39ab8fc4100dfdd9fdb18726d8e71767ef28289762354253218e210\",\n  \"resume_oracle.py\": \"c97452033fef92ecb1ba2989c2900a17d0180799d16b9fb3b737a0a5db48774b\"\n}",
+          "stderr": ""
+        },
+        "retained-resume": {
+          "request": {
+            "argv": [
+              "/tmp/tmphcs303gb/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmphcs303gb/A-checkpoint.json",
+              "/tmp/tmphcs303gb/B-envelope.json",
+              "5f4cacb74ef8dfe77b77572e7be34a7d031dd914ad7d9340837e2b0dc0a64423"
+            ],
+            "cwd": "/tmp/tmphcs303gb/control",
+            "time_ns": 1789922504751409576,
+            "files_before": {
+              "/tmp/tmphcs303gb/soodles": {
+                "bytes": 262,
+                "sha256": "64566eb6263e813320001b50c3f1f4f17bce145efb44ea3d514ad21a74b7059a",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmphcs303gb/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "1befdb15b7a3c986314bc9c4a6773c0feee2eb802d5afa39259d17ceb27a1580",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmphcs303gb/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "5f4cacb74ef8dfe77b77572e7be34a7d031dd914ad7d9340837e2b0dc0a64423",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.05830644999514334,
+            "files_after": {
+              "/tmp/tmphcs303gb/soodles": {
+                "bytes": 262,
+                "sha256": "64566eb6263e813320001b50c3f1f4f17bce145efb44ea3d514ad21a74b7059a",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmphcs303gb/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "1befdb15b7a3c986314bc9c4a6773c0feee2eb802d5afa39259d17ceb27a1580",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmphcs303gb/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "5f4cacb74ef8dfe77b77572e7be34a7d031dd914ad7d9340837e2b0dc0a64423",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "1dd0f0322796513de10a5006828927ed428703ca54016b453b67ac8715d81876",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"previously_admitted\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmphcs303gb/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmphcs303gb/executable-sentinel\",\n          \"sha256\": \"4ef30528a386725d006f11069213c613de0e5375934894971a156844545e40bb\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmphcs303gb/executable-sentinel\",\n          \"sha256\": \"4ef30528a386725d006f11069213c613de0e5375934894971a156844545e40bb\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": false,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"original_order_recovery\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\",\n      \"effect_id\": \"B-dispatch\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmphcs303gb/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 51,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        },
+        "write-handoff": {
+          "request": {
+            "argv": [
+              "python3",
+              "-c",
+              "import json,pathlib; p=pathlib.Path('/tmp/issue109-consumers/baseline/handoff.json'); p.write_text(json.dumps(json.loads(\"{\\\"origin\\\":\\\"ed3c/soodles#109\\\",\\\"provider_fixture\\\":true,\\\"evidence\\\":\\\"/tmp/issue109-consumers/baseline/evidence\\\",\\\"actual_operation_labels\\\":[\\\"initial-instruction\\\",\\\"initial-inputs\\\",\\\"pinned-identities\\\",\\\"absent-resume\\\",\\\"pending-resume\\\",\\\"retained-resume\\\",\\\"write-handoff\\\"],\\\"cases\\\":{\\\"absent\\\":{\\\"operation_label\\\":\\\"absent-resume\\\",\\\"process_exit\\\":0,\\\"owner\\\":\\\"Noodle\\\",\\\"action\\\":\\\"proposal_pending\\\",\\\"published\\\":true,\\\"next\\\":{\\\"kind\\\":\\\"input\\\",\\\"owner\\\":\\\"Noodle\\\",\\\"required\\\":[\\\"canonical_promotion_readback\\\"],\\\"known\\\":{\\\"order_id\\\":\\\"soodles-20\\\"}},\\\"predecessor\\\":{\\\"order_id\\\":\\\"soodles-18\\\",\\\"completion_source\\\":\\\"archived_projection\\\",\\\"typed_outcome\\\":\\\"completed\\\",\\\"blocking\\\":false,\\\"cleanup\\\":\\\"absent\\\"}},\\\"pending\\\":{\\\"operation_label\\\":\\\"pending-resume\\\",\\\"process_exit\\\":0,\\\"owner\\\":\\\"Noodle\\\",\\\"action\\\":\\\"proposal_pending\\\",\\\"published\\\":false,\\\"next\\\":{\\\"kind\\\":\\\"input\\\",\\\"owner\\\":\\\"Noodle\\\",\\\"required\\\":[\\\"canonical_promotion_readback\\\"],\\\"known\\\":{\\\"order_id\\\":\\\"soodles-20\\\"}},\\\"predecessor\\\":{\\\"order_id\\\":\\\"soodles-18\\\",\\\"completion_source\\\":\\\"archived_projection\\\",\\\"typed_outcome\\\":\\\"completed\\\",\\\"blocking\\\":false,\\\"cleanup\\\":\\\"absent\\\"}},\\\"retained\\\":{\\\"operation_label\\\":\\\"retained-resume\\\",\\\"process_exit\\\":0,\\\"owner\\\":\\\"Noodle\\\",\\\"action\\\":\\\"previously_admitted\\\",\\\"published\\\":false,\\\"next\\\":{\\\"kind\\\":\\\"input\\\",\\\"owner\\\":\\\"Noodle\\\",\\\"required\\\":[\\\"original_order_recovery\\\"],\\\"known\\\":{\\\"order_id\\\":\\\"soodles-20\\\",\\\"effect_id\\\":\\\"B-dispatch\\\"}},\\\"predecessor\\\":{\\\"order_id\\\":\\\"soodles-18\\\",\\\"completion_source\\\":\\\"archived_projection\\\",\\\"typed_outcome\\\":\\\"completed\\\",\\\"blocking\\\":false,\\\"cleanup\\\":\\\"absent\\\"}}},\\\"limitations\\\":[\\\"Each supplied complete invocation ran once in its supplied cwd. Each returned an input prerequisite; no unchanged input was retried, no operation was reconstructed, and no additional writer was started.\\\",\\\"Unknown effects were preserved; retained B-dispatch remains the identity requiring original-order recovery.\\\",\\\"Observations are consumer-recorded subprocess output, not a full platform transcript or independent proof of fixture internals.\\\",\\\"Source identity manifest was read; executable/source digests were not independently recomputed.\\\",\\\"No complete runtime-check, canonical acceptance, or external oracle invocation was supplied or run. No VERIFIED A-cleanup-B, zero-residue, externally waited original Session exit, or landing claim is made.\\\",\\\"Only supplied disposable fixture invocations were used; no live providers. authorizes_landing was false in all returned bindings.\\\",\\\"Actual consumer model and token provenance remain unknown; fixture-model is only a field in fixture output.\\\"]}\"),indent=2)+'\\n'); print(str(p))"
+            ],
+            "cwd": "/workspace/scratch/d745da144edd",
+            "time_ns": 1789922532994094857,
+            "files_before": {},
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.02294961200095713,
+            "files_after": {},
+            "stdout_sha256": "0a32e9c5eb164662e1b681da741f6d3104453b1ff4e283dc7d0846a5fa4c7983",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "/tmp/issue109-consumers/baseline/handoff.json\n",
+          "stderr": ""
+        }
+      }
+    },
+    "treatment": {
+      "instruction_sha256": "1c594a4ba162ef0d7c62611b61d847feace174712adb3e5f2f9fec3008bca3f5",
+      "source_sha256": {
+        "github_reader.py": "7434e60640fdf39ab39c76af25969d0fee9f5f6878eba39273cc4082bebc9c98",
+        "soodles.py": "f4b6fd277330e6d4b6aa5ead30f85737dec833669bb197e56f9090b5b1f03b90",
+        "delivery_oracle.py": "f05fc652085e58f4106947eb111b7b7da7f19f5895aef8dddf5a74263a455b38",
+        "cleanup_lock_oracle.py": "da40093a1d3f180920dccdc9d562d95e64e2c2ece53a3490bd75c45e99c4f7ff",
+        "portable_packet.py": "4a6f0147f00700aed228251880f54e8f14e5cdeb0df84849640ce8e163222691",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "issue_execution.py": "c2883c97b3f85d6a7131693bbb5ab48288ddfba660552b90cdb941f6671ad579",
+        "base_recovery_oracle.py": "fb59735cbdb679d7a6056d1f698f8b8c532fb6388b9d5e1f332d26f78ace5369",
+        "cleanup_oracle.py": "8e7b9502301668c1268fdeb5f0d8ae6f9b6bc5f45c6974dd7b1ed524cb6ed640",
+        "handoff_oracle.py": "144b28e40c280505c2fa4f897d0528bee3850e5aa99df042cc78dc00f202ba96",
+        "landing.py": "510ab36ff39ab8fc4100dfdd9fdb18726d8e71767ef28289762354253218e210",
+        "resume_oracle.py": "c97452033fef92ecb1ba2989c2900a17d0180799d16b9fb3b737a0a5db48774b"
+      },
+      "handoff": {
+        "origin": "ed3c/soodles#109",
+        "operation_labels": [
+          "initial_instruction_read",
+          "initial_inputs_read",
+          "pinned_identity_read",
+          "absent_resume",
+          "pending_resume",
+          "retained_resume",
+          "handoff_write"
+        ],
+        "cases": {
+          "absent": {
+            "operation_label": "absent_resume",
+            "exit_code": 0,
+            "owner": "Noodle",
+            "action": "proposal_pending",
+            "published": true,
+            "next": {
+              "owner": "Noodle",
+              "required": [
+                "canonical_promotion_readback"
+              ],
+              "order_id": "soodles-20"
+            }
+          },
+          "pending": {
+            "operation_label": "pending_resume",
+            "exit_code": 0,
+            "owner": "Noodle",
+            "action": "proposal_pending",
+            "published": false,
+            "next": {
+              "owner": "Noodle",
+              "required": [
+                "canonical_promotion_readback"
+              ],
+              "order_id": "soodles-20"
+            }
+          },
+          "retained": {
+            "operation_label": "retained_resume",
+            "exit_code": 0,
+            "owner": "Noodle",
+            "action": "previously_admitted",
+            "published": false,
+            "next": {
+              "owner": "Noodle",
+              "required": [
+                "original_order_recovery"
+              ],
+              "order_id": "soodles-20",
+              "effect_id": "B-dispatch"
+            }
+          }
+        },
+        "predecessor_observation": "All three returned A order soodles-18 completed nonblocking from archived_projection, process_and_group_absent true, cleanup absent.",
+        "continuation": "Stop for named Noodle readback. Preserve current successor identity/history and unknown effects. No unchanged retry, second publication, restart, or worker entry performed.",
+        "limitations": [
+          "Only supplied disposable fixture invocations were executed; no live providers.",
+          "Pinned executable identity manifest read, not independently rehashed.",
+          "Evidence is recorder subprocess observations, not a full platform transcript.",
+          "Actual model and token provenance remain unknown; fixture-model in binding is fixture metadata.",
+          "No acceptance, oracle, real runtime lifecycle, concurrent, cross-host, or landing authorization claim."
+        ]
+      },
+      "inputs": {
+        "origin": "ed3c/soodles#109",
+        "provider_fixture": true,
+        "permitted_effects": "Only supplied disposable fixture invocations; no live provider writes.",
+        "cases": {
+          "absent": {
+            "cwd": "/tmp/tmpz20e1hf6/control",
+            "argv": [
+              "/tmp/tmpz20e1hf6/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmpz20e1hf6/A-checkpoint.json",
+              "/tmp/tmpz20e1hf6/B-envelope.json",
+              "4198148c2bd46870fd30891f37664f51a970fe16413777b47110a9c61f26ebdc"
+            ]
+          },
+          "pending": {
+            "cwd": "/tmp/tmp0v41zwo9/control",
+            "argv": [
+              "/tmp/tmp0v41zwo9/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmp0v41zwo9/A-checkpoint.json",
+              "/tmp/tmp0v41zwo9/B-envelope.json",
+              "a668f96b08930d5c673b02a7f519004492dbaa740594ef304d49856861cb45d8"
+            ]
+          },
+          "retained": {
+            "cwd": "/tmp/tmpcw_u7_a7/control",
+            "argv": [
+              "/tmp/tmpcw_u7_a7/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmpcw_u7_a7/A-checkpoint.json",
+              "/tmp/tmpcw_u7_a7/B-envelope.json",
+              "813f78a23d208807ddf99871ccacb816fcef7b2b67204ae2379fb6b45e1b95f7"
+            ]
+          }
+        }
+      },
+      "runs": {
+        "absent": {
+          "argv": [
+            "/tmp/tmpz20e1hf6/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmpz20e1hf6/A-checkpoint.json",
+            "/tmp/tmpz20e1hf6/B-envelope.json",
+            "4198148c2bd46870fd30891f37664f51a970fe16413777b47110a9c61f26ebdc"
+          ],
+          "supplied_argv": [
+            "/tmp/tmpz20e1hf6/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmpz20e1hf6/A-checkpoint.json",
+            "/tmp/tmpz20e1hf6/B-envelope.json",
+            "4198148c2bd46870fd30891f37664f51a970fe16413777b47110a9c61f26ebdc"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "authorizes_landing": false,
+          "scope": "one_subprocess",
+          "elapsed_seconds": 0.06582858500041766,
+          "files_after": {
+            "/tmp/tmpz20e1hf6/soodles": {
+              "bytes": 262,
+              "sha256": "f5e9da0738cdc7957d1a8e63e7692634c96699daabe596c26173ba1d039fa22d",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmpz20e1hf6/A-checkpoint.json": {
+              "bytes": 740,
+              "sha256": "c887a2b68eed00177290b4441b8c937bffac017f93a026a0954ec486bb60546d",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmpz20e1hf6/B-envelope.json": {
+              "bytes": 993,
+              "sha256": "4198148c2bd46870fd30891f37664f51a970fe16413777b47110a9c61f26ebdc",
+              "observed_from": [
+                "argv"
+              ]
+            }
+          },
+          "stdout_sha256": "23872cea05148349410eceee2c4ec1a74c0921f0ea12249243783a5e81e5d3c3",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"proposal_pending\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmpz20e1hf6/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmpz20e1hf6/executable-sentinel\",\n          \"sha256\": \"8d2f26ca1eab05930a1b06f7c2dacab3579f41509fef80e86b7caa6b6e3d3af5\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmpz20e1hf6/executable-sentinel\",\n          \"sha256\": \"8d2f26ca1eab05930a1b06f7c2dacab3579f41509fef80e86b7caa6b6e3d3af5\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": true,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"canonical_promotion_readback\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmpz20e1hf6/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 66,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        },
+        "pending": {
+          "argv": [
+            "/tmp/tmp0v41zwo9/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmp0v41zwo9/A-checkpoint.json",
+            "/tmp/tmp0v41zwo9/B-envelope.json",
+            "a668f96b08930d5c673b02a7f519004492dbaa740594ef304d49856861cb45d8"
+          ],
+          "supplied_argv": [
+            "/tmp/tmp0v41zwo9/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmp0v41zwo9/A-checkpoint.json",
+            "/tmp/tmp0v41zwo9/B-envelope.json",
+            "a668f96b08930d5c673b02a7f519004492dbaa740594ef304d49856861cb45d8"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "authorizes_landing": false,
+          "scope": "one_subprocess",
+          "elapsed_seconds": 0.05982057800429175,
+          "files_after": {
+            "/tmp/tmp0v41zwo9/soodles": {
+              "bytes": 262,
+              "sha256": "fdbeca37b214daa9c1ef319f37a83639c3d3916c825f8601867f56a39f6f4d9f",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmp0v41zwo9/A-checkpoint.json": {
+              "bytes": 740,
+              "sha256": "8fdcf382680c3e8da0b457c9f460307aa1ab3e4be775a803da490580503d090b",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmp0v41zwo9/B-envelope.json": {
+              "bytes": 993,
+              "sha256": "a668f96b08930d5c673b02a7f519004492dbaa740594ef304d49856861cb45d8",
+              "observed_from": [
+                "argv"
+              ]
+            }
+          },
+          "stdout_sha256": "ef034784bea0437993385c3f5b9cc81bd3e18b265d078b2c8d50f6150c72b839",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"proposal_pending\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmp0v41zwo9/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmp0v41zwo9/executable-sentinel\",\n          \"sha256\": \"613e2896a111bfd1a62f8b9531fc37ebd300f4995f619f363b8151f5a65baf8a\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmp0v41zwo9/executable-sentinel\",\n          \"sha256\": \"613e2896a111bfd1a62f8b9531fc37ebd300f4995f619f363b8151f5a65baf8a\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": false,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"canonical_promotion_readback\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmp0v41zwo9/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 81,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        },
+        "retained": {
+          "argv": [
+            "/tmp/tmpcw_u7_a7/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmpcw_u7_a7/A-checkpoint.json",
+            "/tmp/tmpcw_u7_a7/B-envelope.json",
+            "813f78a23d208807ddf99871ccacb816fcef7b2b67204ae2379fb6b45e1b95f7"
+          ],
+          "supplied_argv": [
+            "/tmp/tmpcw_u7_a7/soodles",
+            "issue",
+            "resume",
+            "/tmp/tmpcw_u7_a7/A-checkpoint.json",
+            "/tmp/tmpcw_u7_a7/B-envelope.json",
+            "813f78a23d208807ddf99871ccacb816fcef7b2b67204ae2379fb6b45e1b95f7"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "error": null,
+          "authorizes_landing": false,
+          "scope": "one_subprocess",
+          "elapsed_seconds": 0.0708323879953241,
+          "files_after": {
+            "/tmp/tmpcw_u7_a7/soodles": {
+              "bytes": 262,
+              "sha256": "b011939b2eee94b7bd007e281522681f97ed2585250139f4fe9772b118f02b71",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmpcw_u7_a7/A-checkpoint.json": {
+              "bytes": 740,
+              "sha256": "97b9d2ce63c49a035855941c1b70077d04eae26e094cfd3f9f1f7be044db0ae2",
+              "observed_from": [
+                "argv"
+              ]
+            },
+            "/tmp/tmpcw_u7_a7/B-envelope.json": {
+              "bytes": 993,
+              "sha256": "813f78a23d208807ddf99871ccacb816fcef7b2b67204ae2379fb6b45e1b95f7",
+              "observed_from": [
+                "argv"
+              ]
+            }
+          },
+          "stdout_sha256": "ccf4100f81d5ee99f1a94f450cec462fcfa22ccb61d2a5fee2a9978d19a18d59",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"previously_admitted\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmpcw_u7_a7/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmpcw_u7_a7/executable-sentinel\",\n          \"sha256\": \"9dcddec63d4f0ee2d8d96107566ed2e0c2bd6bfd6d9c9e41a2abbf3b2c29b497\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmpcw_u7_a7/executable-sentinel\",\n          \"sha256\": \"9dcddec63d4f0ee2d8d96107566ed2e0c2bd6bfd6d9c9e41a2abbf3b2c29b497\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": false,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"original_order_recovery\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\",\n      \"effect_id\": \"B-dispatch\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmpcw_u7_a7/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 98,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        }
+      },
+      "raw_recorder": {
+        "absent_resume": {
+          "request": {
+            "argv": [
+              "/tmp/tmpz20e1hf6/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmpz20e1hf6/A-checkpoint.json",
+              "/tmp/tmpz20e1hf6/B-envelope.json",
+              "4198148c2bd46870fd30891f37664f51a970fe16413777b47110a9c61f26ebdc"
+            ],
+            "cwd": "/tmp/tmpz20e1hf6/control",
+            "time_ns": 1789922514652179460,
+            "files_before": {
+              "/tmp/tmpz20e1hf6/soodles": {
+                "bytes": 262,
+                "sha256": "f5e9da0738cdc7957d1a8e63e7692634c96699daabe596c26173ba1d039fa22d",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpz20e1hf6/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "c887a2b68eed00177290b4441b8c937bffac017f93a026a0954ec486bb60546d",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpz20e1hf6/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "4198148c2bd46870fd30891f37664f51a970fe16413777b47110a9c61f26ebdc",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.06582858500041766,
+            "files_after": {
+              "/tmp/tmpz20e1hf6/soodles": {
+                "bytes": 262,
+                "sha256": "f5e9da0738cdc7957d1a8e63e7692634c96699daabe596c26173ba1d039fa22d",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpz20e1hf6/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "c887a2b68eed00177290b4441b8c937bffac017f93a026a0954ec486bb60546d",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpz20e1hf6/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "4198148c2bd46870fd30891f37664f51a970fe16413777b47110a9c61f26ebdc",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "23872cea05148349410eceee2c4ec1a74c0921f0ea12249243783a5e81e5d3c3",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"proposal_pending\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmpz20e1hf6/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmpz20e1hf6/executable-sentinel\",\n          \"sha256\": \"8d2f26ca1eab05930a1b06f7c2dacab3579f41509fef80e86b7caa6b6e3d3af5\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmpz20e1hf6/executable-sentinel\",\n          \"sha256\": \"8d2f26ca1eab05930a1b06f7c2dacab3579f41509fef80e86b7caa6b6e3d3af5\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": true,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"canonical_promotion_readback\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmpz20e1hf6/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 66,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        },
+        "handoff_write": {
+          "request": {
+            "argv": [
+              "python3",
+              "-B",
+              "-c",
+              "import json,pathlib; p=pathlib.Path('/tmp/issue109-consumers/treatment/handoff.json'); p.write_text(\"{\\n  \\\"origin\\\": \\\"ed3c/soodles#109\\\",\\n  \\\"operation_labels\\\": [\\n    \\\"initial_instruction_read\\\",\\n    \\\"initial_inputs_read\\\",\\n    \\\"pinned_identity_read\\\",\\n    \\\"absent_resume\\\",\\n    \\\"pending_resume\\\",\\n    \\\"retained_resume\\\",\\n    \\\"handoff_write\\\"\\n  ],\\n  \\\"cases\\\": {\\n    \\\"absent\\\": {\\n      \\\"operation_label\\\": \\\"absent_resume\\\",\\n      \\\"exit_code\\\": 0,\\n      \\\"owner\\\": \\\"Noodle\\\",\\n      \\\"action\\\": \\\"proposal_pending\\\",\\n      \\\"published\\\": true,\\n      \\\"next\\\": {\\n        \\\"owner\\\": \\\"Noodle\\\",\\n        \\\"required\\\": [\\n          \\\"canonical_promotion_readback\\\"\\n        ],\\n        \\\"order_id\\\": \\\"soodles-20\\\"\\n      }\\n    },\\n    \\\"pending\\\": {\\n      \\\"operation_label\\\": \\\"pending_resume\\\",\\n      \\\"exit_code\\\": 0,\\n      \\\"owner\\\": \\\"Noodle\\\",\\n      \\\"action\\\": \\\"proposal_pending\\\",\\n      \\\"published\\\": false,\\n      \\\"next\\\": {\\n        \\\"owner\\\": \\\"Noodle\\\",\\n        \\\"required\\\": [\\n          \\\"canonical_promotion_readback\\\"\\n        ],\\n        \\\"order_id\\\": \\\"soodles-20\\\"\\n      }\\n    },\\n    \\\"retained\\\": {\\n      \\\"operation_label\\\": \\\"retained_resume\\\",\\n      \\\"exit_code\\\": 0,\\n      \\\"owner\\\": \\\"Noodle\\\",\\n      \\\"action\\\": \\\"previously_admitted\\\",\\n      \\\"published\\\": false,\\n      \\\"next\\\": {\\n        \\\"owner\\\": \\\"Noodle\\\",\\n        \\\"required\\\": [\\n          \\\"original_order_recovery\\\"\\n        ],\\n        \\\"order_id\\\": \\\"soodles-20\\\",\\n        \\\"effect_id\\\": \\\"B-dispatch\\\"\\n      }\\n    }\\n  },\\n  \\\"predecessor_observation\\\": \\\"All three returned A order soodles-18 completed nonblocking from archived_projection, process_and_group_absent true, cleanup absent.\\\",\\n  \\\"continuation\\\": \\\"Stop for named Noodle readback. Preserve current successor identity/history and unknown effects. No unchanged retry, second publication, restart, or worker entry performed.\\\",\\n  \\\"limitations\\\": [\\n    \\\"Only supplied disposable fixture invocations were executed; no live providers.\\\",\\n    \\\"Pinned executable identity manifest read, not independently rehashed.\\\",\\n    \\\"Evidence is recorder subprocess observations, not a full platform transcript.\\\",\\n    \\\"Actual model and token provenance remain unknown; fixture-model in binding is fixture metadata.\\\",\\n    \\\"No acceptance, oracle, real runtime lifecycle, concurrent, cross-host, or landing authorization claim.\\\"\\n  ]\\n}\\n\"); print(str(p))"
+            ],
+            "cwd": "/workspace/scratch/d745da144edd",
+            "time_ns": 1789922534477404792,
+            "files_before": {},
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.023647890993743204,
+            "files_after": {},
+            "stdout_sha256": "3519db1f597993bbfb73cef553d44f9d2d0d962fb717aaaf6c102fcd8b02778e",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "/tmp/issue109-consumers/treatment/handoff.json\n",
+          "stderr": ""
+        },
+        "initial_inputs_read": {
+          "request": {
+            "argv": [
+              "cat",
+              "/tmp/issue109-consumers/treatment/inputs.json"
+            ],
+            "cwd": "/workspace/scratch/d745da144edd",
+            "time_ns": 1789922495327396508,
+            "files_before": {
+              "/tmp/issue109-consumers/treatment/inputs.json": {
+                "bytes": 1151,
+                "sha256": "27e25b660c3494eb58e220410639f98ba03855d981198c0ef9c8bd03e71b666a",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.0013247769966255873,
+            "files_after": {
+              "/tmp/issue109-consumers/treatment/inputs.json": {
+                "bytes": 1151,
+                "sha256": "27e25b660c3494eb58e220410639f98ba03855d981198c0ef9c8bd03e71b666a",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "27e25b660c3494eb58e220410639f98ba03855d981198c0ef9c8bd03e71b666a",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"origin\": \"ed3c/soodles#109\",\n  \"provider_fixture\": true,\n  \"permitted_effects\": \"Only supplied disposable fixture invocations; no live provider writes.\",\n  \"cases\": {\n    \"absent\": {\n      \"cwd\": \"/tmp/tmpz20e1hf6/control\",\n      \"argv\": [\n        \"/tmp/tmpz20e1hf6/soodles\",\n        \"issue\",\n        \"resume\",\n        \"/tmp/tmpz20e1hf6/A-checkpoint.json\",\n        \"/tmp/tmpz20e1hf6/B-envelope.json\",\n        \"4198148c2bd46870fd30891f37664f51a970fe16413777b47110a9c61f26ebdc\"\n      ]\n    },\n    \"pending\": {\n      \"cwd\": \"/tmp/tmp0v41zwo9/control\",\n      \"argv\": [\n        \"/tmp/tmp0v41zwo9/soodles\",\n        \"issue\",\n        \"resume\",\n        \"/tmp/tmp0v41zwo9/A-checkpoint.json\",\n        \"/tmp/tmp0v41zwo9/B-envelope.json\",\n        \"a668f96b08930d5c673b02a7f519004492dbaa740594ef304d49856861cb45d8\"\n      ]\n    },\n    \"retained\": {\n      \"cwd\": \"/tmp/tmpcw_u7_a7/control\",\n      \"argv\": [\n        \"/tmp/tmpcw_u7_a7/soodles\",\n        \"issue\",\n        \"resume\",\n        \"/tmp/tmpcw_u7_a7/A-checkpoint.json\",\n        \"/tmp/tmpcw_u7_a7/B-envelope.json\",\n        \"813f78a23d208807ddf99871ccacb816fcef7b2b67204ae2379fb6b45e1b95f7\"\n      ]\n    }\n  }\n}",
+          "stderr": ""
+        },
+        "initial_instruction_read": {
+          "request": {
+            "argv": [
+              "cat",
+              "/tmp/issue109-consumers/treatment/instruction.md"
+            ],
+            "cwd": "/workspace/scratch/d745da144edd",
+            "time_ns": 1789922494982750840,
+            "files_before": {
+              "/tmp/issue109-consumers/treatment/instruction.md": {
+                "bytes": 3160,
+                "sha256": "1c594a4ba162ef0d7c62611b61d847feace174712adb3e5f2f9fec3008bca3f5",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.0014258869996410795,
+            "files_after": {
+              "/tmp/issue109-consumers/treatment/instruction.md": {
+                "bytes": 3160,
+                "sha256": "1c594a4ba162ef0d7c62611b61d847feace174712adb3e5f2f9fec3008bca3f5",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "1c594a4ba162ef0d7c62611b61d847feace174712adb3e5f2f9fec3008bca3f5",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "# Landing current-next and order handoff\n\nUse this recipe for the bounded local claim that a completed original Noodle\norder can be reconciled and cleaned before the next Issue order starts.\n\nRun `./soodles runtime check ABSOLUTE_NOODLE` first. Then run canonical\n`./soodles acceptance verify ABSOLUTE_NOODLE` once on the final clean candidate.\nRead `physical.order_handoff` from its receipt and require:\n\n- `classification: VERIFIED` and `sequence: [A, cleanup, B]`;\n- current `next.argv` actions `dispatch, merge, readback` with exactly one\n  offered write and no reconstructed operation;\n- A and B each have one original Session, a completed nonblocking typed outcome,\n  an externally waited zero process exit and the pinned binary digest;\n- A completion comes from the retained projection and its cleanup owner is Noodle;\n- B records `issue.automatic` admission and starts after A cleanup;\n- `zero_residue: true`, `provider_fixture: true`, and\n  `authorizes_landing: false`.\n\nPreserve the supervisor-selected external `handoff_oracle.py` bytes and digest.\nRun those same bytes against the admitted baseline and candidate; the repository\ncopy participates in acceptance but cannot select itself. A missing current row\nalone never proves completion. Do not replace missing Session, outcome, exit,\neffect or kernel readback with prose or a fabricated order. Provider merge and\nIssue closure remain with supervised delivery.\n\n## Interrupted after A cleanup, before B admission\n\nThe supervisor supplies the existing A landing checkpoint and B external\nenvelope/digest in a complete invocation of\n`./soodles issue resume A_CHECKPOINT B_ENVELOPE SHA256`. Consume that invocation\nverbatim from the control root. This one entry reads A's resolved cleanup and\noriginal-order evidence, checks that its path, branch and registration remain\nabsent, then reads B through the existing admission owner. Do not infer cleanup\nfrom a missing order row or compose a second admission writer.\n\nIf the prior publication result is unknown, re-enter this guarded boundary with\nthe supervisor's same inputs to obtain fresh owner readback. `proposal_pending`\nwith `published: false`, `owned`, or `previously_admitted` requires the named\nNoodle readback; none authorizes another publication or restart. A refusal names\nthe owner/input needed before continuation. The entry neither cleans A nor\nselects B, and adds no durable ledger, retry loop or concurrent exactly-once claim.\n\nRead `physical.interruption_resume` from canonical acceptance. Require two\nexternally waited SIGKILL exits (before admission and after publication before\nresponse), a fresh CLI readback preserving the pending mailbox identity/bytes,\na retained-owner readback without publication, one original B session in the\nreal Noodle lifecycle, and zero residue. Preserve the supervisor-pinned\n`resume_oracle.py` and task bytes, baseline missing-entry and planted duplicate\ncontrols. Provider data remains a fixture; this is sequential local recovery,\nnot cross-host recovery or authority to merge. P-class comparisons use the\n[bounded context recipe](pclass-context.md) and report equal legal arms as\nnonregression.\n",
+          "stderr": ""
+        },
+        "pending_resume": {
+          "request": {
+            "argv": [
+              "/tmp/tmp0v41zwo9/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmp0v41zwo9/A-checkpoint.json",
+              "/tmp/tmp0v41zwo9/B-envelope.json",
+              "a668f96b08930d5c673b02a7f519004492dbaa740594ef304d49856861cb45d8"
+            ],
+            "cwd": "/tmp/tmp0v41zwo9/control",
+            "time_ns": 1789922515071239647,
+            "files_before": {
+              "/tmp/tmp0v41zwo9/soodles": {
+                "bytes": 262,
+                "sha256": "fdbeca37b214daa9c1ef319f37a83639c3d3916c825f8601867f56a39f6f4d9f",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmp0v41zwo9/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "8fdcf382680c3e8da0b457c9f460307aa1ab3e4be775a803da490580503d090b",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmp0v41zwo9/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "a668f96b08930d5c673b02a7f519004492dbaa740594ef304d49856861cb45d8",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.05982057800429175,
+            "files_after": {
+              "/tmp/tmp0v41zwo9/soodles": {
+                "bytes": 262,
+                "sha256": "fdbeca37b214daa9c1ef319f37a83639c3d3916c825f8601867f56a39f6f4d9f",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmp0v41zwo9/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "8fdcf382680c3e8da0b457c9f460307aa1ab3e4be775a803da490580503d090b",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmp0v41zwo9/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "a668f96b08930d5c673b02a7f519004492dbaa740594ef304d49856861cb45d8",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "ef034784bea0437993385c3f5b9cc81bd3e18b265d078b2c8d50f6150c72b839",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"proposal_pending\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmp0v41zwo9/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmp0v41zwo9/executable-sentinel\",\n          \"sha256\": \"613e2896a111bfd1a62f8b9531fc37ebd300f4995f619f363b8151f5a65baf8a\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmp0v41zwo9/executable-sentinel\",\n          \"sha256\": \"613e2896a111bfd1a62f8b9531fc37ebd300f4995f619f363b8151f5a65baf8a\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": false,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"canonical_promotion_readback\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmp0v41zwo9/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 81,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        },
+        "pinned_identity_read": {
+          "request": {
+            "argv": [
+              "cat",
+              "/tmp/issue109-consumers/treatment/source-sha256.json"
+            ],
+            "cwd": "/workspace/scratch/d745da144edd",
+            "time_ns": 1789922514297797149,
+            "files_before": {
+              "/tmp/issue109-consumers/treatment/source-sha256.json": {
+                "bytes": 1093,
+                "sha256": "07c27e3f59a9e8688d4609856f79728b2b4c862667019c225226f9b33c774459",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.0013082629957352765,
+            "files_after": {
+              "/tmp/issue109-consumers/treatment/source-sha256.json": {
+                "bytes": 1093,
+                "sha256": "07c27e3f59a9e8688d4609856f79728b2b4c862667019c225226f9b33c774459",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "07c27e3f59a9e8688d4609856f79728b2b4c862667019c225226f9b33c774459",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"github_reader.py\": \"7434e60640fdf39ab39c76af25969d0fee9f5f6878eba39273cc4082bebc9c98\",\n  \"soodles.py\": \"f4b6fd277330e6d4b6aa5ead30f85737dec833669bb197e56f9090b5b1f03b90\",\n  \"delivery_oracle.py\": \"f05fc652085e58f4106947eb111b7b7da7f19f5895aef8dddf5a74263a455b38\",\n  \"cleanup_lock_oracle.py\": \"da40093a1d3f180920dccdc9d562d95e64e2c2ece53a3490bd75c45e99c4f7ff\",\n  \"portable_packet.py\": \"4a6f0147f00700aed228251880f54e8f14e5cdeb0df84849640ce8e163222691\",\n  \"issue_admission.py\": \"b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396\",\n  \"issue_execution.py\": \"c2883c97b3f85d6a7131693bbb5ab48288ddfba660552b90cdb941f6671ad579\",\n  \"base_recovery_oracle.py\": \"fb59735cbdb679d7a6056d1f698f8b8c532fb6388b9d5e1f332d26f78ace5369\",\n  \"cleanup_oracle.py\": \"8e7b9502301668c1268fdeb5f0d8ae6f9b6bc5f45c6974dd7b1ed524cb6ed640\",\n  \"handoff_oracle.py\": \"144b28e40c280505c2fa4f897d0528bee3850e5aa99df042cc78dc00f202ba96\",\n  \"landing.py\": \"510ab36ff39ab8fc4100dfdd9fdb18726d8e71767ef28289762354253218e210\",\n  \"resume_oracle.py\": \"c97452033fef92ecb1ba2989c2900a17d0180799d16b9fb3b737a0a5db48774b\"\n}",
+          "stderr": ""
+        },
+        "retained_resume": {
+          "request": {
+            "argv": [
+              "/tmp/tmpcw_u7_a7/soodles",
+              "issue",
+              "resume",
+              "/tmp/tmpcw_u7_a7/A-checkpoint.json",
+              "/tmp/tmpcw_u7_a7/B-envelope.json",
+              "813f78a23d208807ddf99871ccacb816fcef7b2b67204ae2379fb6b45e1b95f7"
+            ],
+            "cwd": "/tmp/tmpcw_u7_a7/control",
+            "time_ns": 1789922515471737866,
+            "files_before": {
+              "/tmp/tmpcw_u7_a7/soodles": {
+                "bytes": 262,
+                "sha256": "b011939b2eee94b7bd007e281522681f97ed2585250139f4fe9772b118f02b71",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpcw_u7_a7/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "97b9d2ce63c49a035855941c1b70077d04eae26e094cfd3f9f1f7be044db0ae2",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpcw_u7_a7/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "813f78a23d208807ddf99871ccacb816fcef7b2b67204ae2379fb6b45e1b95f7",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "timeout_seconds": 60
+          },
+          "result": {
+            "exit_code": 0,
+            "timed_out": false,
+            "error": null,
+            "authorizes_landing": false,
+            "scope": "one_subprocess",
+            "elapsed_seconds": 0.0708323879953241,
+            "files_after": {
+              "/tmp/tmpcw_u7_a7/soodles": {
+                "bytes": 262,
+                "sha256": "b011939b2eee94b7bd007e281522681f97ed2585250139f4fe9772b118f02b71",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpcw_u7_a7/A-checkpoint.json": {
+                "bytes": 740,
+                "sha256": "97b9d2ce63c49a035855941c1b70077d04eae26e094cfd3f9f1f7be044db0ae2",
+                "observed_from": [
+                  "argv"
+                ]
+              },
+              "/tmp/tmpcw_u7_a7/B-envelope.json": {
+                "bytes": 993,
+                "sha256": "813f78a23d208807ddf99871ccacb816fcef7b2b67204ae2379fb6b45e1b95f7",
+                "observed_from": [
+                  "argv"
+                ]
+              }
+            },
+            "stdout_sha256": "ccf4100f81d5ee99f1a94f450cec462fcfa22ccb61d2a5fee2a9978d19a18d59",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": "{\n  \"owner\": \"Noodle\",\n  \"action\": \"previously_admitted\",\n  \"binding\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 20,\n    \"body_sha256\": \"6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd\",\n    \"body_updated_at\": \"2026-09-16T15:00:00Z\",\n    \"owner\": \"Soodles Issue admission\",\n    \"write_paths\": [\n      \"allowed.py\",\n      \"renamed.py\",\n      \"\\u8cc7\\u6599[1].txt\"\n    ],\n    \"base_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n    \"execution\": {\n      \"control_root\": \"/tmp/tmpcw_u7_a7/control\",\n      \"worktree\": \"soodles-20-0-execute\",\n      \"order_id\": \"soodles-20\",\n      \"stage_index\": 0,\n      \"task\": \"Execute the admitted bounded fixture task.\",\n      \"source_head\": \"fedab91180f0c2fb58d7aae6942333d7461d1458\",\n      \"carrier\": {\n        \"platform\": \"linux_x86_64\",\n        \"noodle\": {\n          \"path\": \"/tmp/tmpcw_u7_a7/executable-sentinel\",\n          \"sha256\": \"9dcddec63d4f0ee2d8d96107566ed2e0c2bd6bfd6d9c9e41a2abbf3b2c29b497\"\n        },\n        \"codex\": {\n          \"path\": \"/tmp/tmpcw_u7_a7/executable-sentinel\",\n          \"sha256\": \"9dcddec63d4f0ee2d8d96107566ed2e0c2bd6bfd6d9c9e41a2abbf3b2c29b497\",\n          \"model\": \"fixture-model\",\n          \"argv\": [\n            \"exec\",\n            \"--json\",\n            \"--model\",\n            \"fixture-model\"\n          ]\n        }\n      }\n    },\n    \"contract\": {\n      \"schema\": 1,\n      \"trigger\": \"An old body could reach execution.\",\n      \"source\": \"provider Issue 18\",\n      \"owner\": \"Soodles Issue admission\",\n      \"changes\": [\n        \"Bind the real consumers before effects.\"\n      ],\n      \"write_paths\": [\n        \"allowed.py\",\n        \"renamed.py\",\n        \"\\u8cc7\\u6599[1].txt\"\n      ],\n      \"behavior\": [\n        \"Reject obsolete body before effects.\"\n      ],\n      \"defect_controls\": [\n        \"Remove body binding: the same control must fail.\"\n      ],\n      \"non_cases\": [\n        \"Current supervised runtime-only work remains legal.\"\n      ],\n      \"dependencies\": [\n        {\n          \"repository\": \"ed3c/noodle\",\n          \"issue\": 82,\n          \"owner\": \"Noodle\",\n          \"evidence\": \"An exact, externally supplied delivery receipt.\"\n        }\n      ],\n      \"acceptance\": \"Canonical acceptance on the final clean head.\",\n      \"delivery\": \"Use the existing landing next/request.\",\n      \"reconciliation\": \"Noodle cleanup and provider readback.\",\n      \"feature_scope\": \"No general scheduler or filesystem confinement claim.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"published\": false,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"original_order_recovery\"\n    ],\n    \"known\": {\n      \"order_id\": \"soodles-20\",\n      \"effect_id\": \"B-dispatch\"\n    },\n    \"operation\": \"resume\",\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/tmp/issue109-consumer-source/soodles.py\",\n      \"issue\",\n      \"resume\",\n      \"--help\"\n    ],\n    \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n  },\n  \"predecessor\": {\n    \"checkpoint\": \"/tmp/tmpcw_u7_a7/A-checkpoint.json\",\n    \"order_id\": \"soodles-18\",\n    \"completion\": {\n      \"order_id\": \"soodles-18\",\n      \"source\": \"archived_projection\",\n      \"initial_admission_effect\": \"owner-fixture-receipt\",\n      \"dispatch_effect\": \"event-2-effect-0\",\n      \"projection_effects\": [\n        \"event-3-effect-0\",\n        \"event-3-effect-1\"\n      ],\n      \"typed_outcome\": {\n        \"message\": \"fixture result\",\n        \"blocking\": false,\n        \"outcome\": \"completed\",\n        \"order_id\": \"soodles-18\",\n        \"stage_index\": 0\n      },\n      \"quiescent_sessions\": [\n        {\n          \"session_id\": \"soodles-18-0-execute-session\",\n          \"pid\": 98,\n          \"process_and_group_absent\": true\n        }\n      ]\n    },\n    \"cleanup\": \"absent\"\n  }\n}\n",
+          "stderr": ""
+        }
+      }
+    }
+  },
+  "authorizes_landing": false,
+  "independent_audit": {
+    "task": "ed3c/soodles#109",
+    "reviewed_base": "2384e68244e3bfb48ec9d1205b7572e2ce9c9703",
+    "classification": "NO_BLOCKING_FINDINGS",
+    "findings": [],
+    "checks": [
+      "Guarded predecessor requires resolved external checkpoint, same control root, matching original envelope, absent path/branch/registration, and original completion before admission.",
+      "Existing automatic proposal bytes preserved; pending, current, and retained B ownership return owner readback without publication.",
+      "All 8 test_issue_resume tests passed, including frozen evidence predicate.",
+      "Physical oracle SHA-256 matches recorded pin. Candidate process results are waited -9,-9,0,0; baseline fails for missing resume entry; planted mailbox unlink is rejected for publication replacement.",
+      "P-class source manifests match current files; supplied argv and recorder stdout/digests match for all 6 legal runs. Both arms pass 3/3: scoped nonregression only."
+    ],
+    "limits": [
+      "Review of working candidate before final commit/canonical acceptance.",
+      "No runtime rerun or provider writes performed by this auditor.",
+      "Physical evidence covers sequential recovery with Noodle scheduler stopped during admission and local provider fixtures.",
+      "No concurrent exactly-once, cross-host, model error-rate improvement, full platform transcript, or landing authority claim verified."
+    ]
+  }
+}
