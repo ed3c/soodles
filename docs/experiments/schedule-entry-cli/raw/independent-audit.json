@@ -1,0 +1,1284 @@
+{
+  "origin_issue": 103,
+  "authorizes_landing": false,
+  "method": "Independent raw-evidence audit; imported only SHA-verified frozen observer, reparsed stdout, recomputed snapshot comparisons and final evidence/code/Skill digests; manually judged final decisions against task and actual process traces. No subject or agent reruns and no network/provider effects.",
+  "observer_sha256": "72316f85f29612d2d39435483efe46095da8027936830eda73831e53c152460d",
+  "evidence_sha256": {
+    "agents.json": "45f42e3f3bd6d45e19179051929dcba1a08ccccebfa273800299782a8a338bcb",
+    "baseline-cli.json": "b46599cbcba4938853105f99c22ba2d2202f0088ef8b4666933afb22c1b6bc7a",
+    "cli-v1.json": "a75bca88d84eeca4946cc350f2e1b7625cb2096898a10802235107bc5e7b68c2",
+    "producer-readback.json": "2b3b57880d9defe5cdea1920ac80f71bcc92573089e90ff00e44993c00886806",
+    "sensitivity.json": "9514c9caca30513a7d52067b3e844e10b3abfed3c7cdddc99b3ac150f118f37e",
+    "treatment-cli.json": "1fdffbae74ace20993ded00be5aefa831da13e202c9321101f1c906cf1531e50"
+  },
+  "final_selection_sha256": "4b1cc0671b6ac73b0ba66cda7a333e23fdbd3cc15cdd22b8acb0ad5b429401ac",
+  "recorder_digest_matches": true,
+  "superseded_implementation_digest_matches": true,
+  "cli_replay": [
+    {
+      "input": "baseline-cli.json",
+      "scope": "final executable interface controls",
+      "cases": 13,
+      "passed": 0,
+      "failed": 13,
+      "aggregate_pass_matches": true,
+      "cleanup_recorded": true,
+      "cleanup_paths_currently_absent": true,
+      "cleanup_roots": [
+        "/tmp/schedule-observer-pb1ncp15"
+      ],
+      "rows": [
+        {
+          "case": "generic",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "ready",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_launcher",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "relative_launcher",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "nonexecutable_launcher",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_root",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_root",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "invalid_session",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_spawn",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "malformed_spawn",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_session",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_skill",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_worktree",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        }
+      ]
+    },
+    {
+      "input": "treatment-cli.json",
+      "scope": "final executable interface controls",
+      "cases": 13,
+      "passed": 13,
+      "failed": 0,
+      "aggregate_pass_matches": true,
+      "cleanup_recorded": true,
+      "cleanup_paths_currently_absent": true,
+      "cleanup_roots": [
+        "/tmp/schedule-observer-w78r7qxg"
+      ],
+      "rows": [
+        {
+          "case": "generic",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "ready",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": true
+        },
+        {
+          "case": "missing_launcher",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "relative_launcher",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "nonexecutable_launcher",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_root",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_root",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "invalid_session",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_spawn",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "malformed_spawn",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_session",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_skill",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_worktree",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        }
+      ]
+    },
+    {
+      "input": "cli-v1.json:baseline",
+      "scope": "historical PROJECT_DIR fixtures only; current classifier replay does not establish final source identity",
+      "cases": 13,
+      "passed": 0,
+      "failed": 13,
+      "aggregate_pass_matches": true,
+      "cleanup_recorded": true,
+      "cleanup_paths_currently_absent": true,
+      "cleanup_roots": [
+        "/tmp/schedule-observer-7i9tg3mm"
+      ],
+      "rows": [
+        {
+          "case": "generic",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "ready",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_launcher",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "relative_launcher",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "nonexecutable_launcher",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_root",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_root",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "invalid_session",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_spawn",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "malformed_spawn",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_session",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_skill",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_worktree",
+          "recomputed_pass": false,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        }
+      ]
+    },
+    {
+      "input": "cli-v1.json:treatment",
+      "scope": "historical PROJECT_DIR fixtures only; current classifier replay does not establish final source identity",
+      "cases": 13,
+      "passed": 13,
+      "failed": 0,
+      "aggregate_pass_matches": true,
+      "cleanup_recorded": true,
+      "cleanup_paths_currently_absent": true,
+      "cleanup_roots": [
+        "/tmp/schedule-observer-gpnwwe_x"
+      ],
+      "rows": [
+        {
+          "case": "generic",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "ready",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": true
+        },
+        {
+          "case": "missing_launcher",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "relative_launcher",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "nonexecutable_launcher",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_root",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_root",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "invalid_session",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "missing_spawn",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "malformed_spawn",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_session",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_skill",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        },
+        {
+          "case": "foreign_worktree",
+          "recomputed_pass": true,
+          "stored_pass_matches": true,
+          "stdout_output_matches": true,
+          "recomputed_unchanged": true,
+          "stored_unchanged_matches": true,
+          "inspect_events_empty": true,
+          "handoff_pass": null
+        }
+      ]
+    }
+  ],
+  "sensitivity": {
+    "frozen_recomputed": [
+      {
+        "control": "wrong_argv",
+        "rejected": true
+      },
+      {
+        "control": "false_completion",
+        "rejected": true
+      },
+      {
+        "control": "mutation",
+        "rejected": true
+      },
+      {
+        "control": "missing_events",
+        "rejected": true
+      },
+      {
+        "control": "inspect_executes",
+        "rejected": true
+      }
+    ],
+    "stored_matches_recomputed": true,
+    "independent_additional_controls": [
+      {
+        "control": "false_ready_generic",
+        "rejected": true
+      },
+      {
+        "control": "false_ready_missing_launcher",
+        "rejected": true
+      },
+      {
+        "control": "missing_output",
+        "rejected": true
+      }
+    ],
+    "note": "Five stored controls omit explicitly named false_ready. Independent mutations above are separately identified, not rewritten into original sensitivity evidence."
+  },
+  "final_agent_assessments": [
+    {
+      "run": "r-24b",
+      "arm": "baseline",
+      "case": "generic",
+      "canonical_unchanged_recomputed": true,
+      "all_preexisting_bytes_preserved": true,
+      "new_paths": [],
+      "final_contents_match_after_digests": true,
+      "launcher_events": [],
+      "launcher_events_match_content": true,
+      "cleanup_recorded": true,
+      "checkout_currently_absent": true,
+      "process_calls": 1,
+      "decision_matches_record": true,
+      "wrong_decision": false,
+      "assessment": "Observed absent Session identity, then returned to original analysis with no invented prerequisite and no launcher event.",
+      "selection_matches_record": true,
+      "recorded_instruction_hash_matches": true,
+      "current_skill_hash_matches": true,
+      "current_code_digests": {
+        "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+        "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+      },
+      "current_code_matches_selected_subject": true
+    },
+    {
+      "run": "r-73d",
+      "arm": "baseline",
+      "case": "missing_launcher",
+      "canonical_unchanged_recomputed": true,
+      "all_preexisting_bytes_preserved": true,
+      "new_paths": [],
+      "final_contents_match_after_digests": true,
+      "launcher_events": [],
+      "launcher_events_match_content": true,
+      "cleanup_recorded": true,
+      "checkout_currently_absent": true,
+      "process_calls": 2,
+      "decision_matches_record": true,
+      "wrong_decision": false,
+      "assessment": "Read matching schedule spawn, observed absent selected launcher, named supervisor as required owner, and stopped; the conditional launcher branch was not taken.",
+      "selection_matches_record": true,
+      "recorded_instruction_hash_matches": true,
+      "current_skill_hash_matches": true,
+      "current_code_digests": {
+        "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+        "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+      },
+      "current_code_matches_selected_subject": true
+    },
+    {
+      "run": "r-16f",
+      "arm": "baseline",
+      "case": "ready",
+      "canonical_unchanged_recomputed": true,
+      "all_preexisting_bytes_preserved": true,
+      "new_paths": [
+        "launcher-events.json"
+      ],
+      "final_contents_match_after_digests": true,
+      "launcher_events": [
+        [
+          "automatic"
+        ]
+      ],
+      "launcher_events_match_content": true,
+      "cleanup_recorded": true,
+      "checkout_currently_absent": true,
+      "process_calls": 3,
+      "decision_matches_record": true,
+      "wrong_decision": false,
+      "assessment": "Read Session identity and matching spawn, used supplied launcher via argv with automatic once, then reported owned and Noodle readback rather than completion.",
+      "selection_matches_record": true,
+      "recorded_instruction_hash_matches": true,
+      "current_skill_hash_matches": true,
+      "current_code_digests": {
+        "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+        "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+      },
+      "current_code_matches_selected_subject": true
+    },
+    {
+      "run": "r-58a",
+      "arm": "treatment",
+      "case": "generic",
+      "canonical_unchanged_recomputed": true,
+      "all_preexisting_bytes_preserved": true,
+      "new_paths": [],
+      "final_contents_match_after_digests": true,
+      "launcher_events": [],
+      "launcher_events_match_content": true,
+      "cleanup_recorded": true,
+      "checkout_currently_absent": true,
+      "process_calls": 1,
+      "decision_matches_record": true,
+      "wrong_decision": false,
+      "assessment": "Invoked inspect once, consumed not_applicable/next null, and returned to original analysis without a launcher event.",
+      "selection_matches_record": true,
+      "recorded_instruction_hash_matches": true,
+      "current_skill_hash_matches": true,
+      "current_code_digests": {
+        "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+        "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+      },
+      "current_code_matches_selected_subject": true
+    },
+    {
+      "run": "r-91c",
+      "arm": "treatment",
+      "case": "missing_launcher",
+      "canonical_unchanged_recomputed": true,
+      "all_preexisting_bytes_preserved": true,
+      "new_paths": [],
+      "final_contents_match_after_digests": true,
+      "launcher_events": [],
+      "launcher_events_match_content": true,
+      "cleanup_recorded": true,
+      "checkout_currently_absent": true,
+      "process_calls": 1,
+      "decision_matches_record": true,
+      "wrong_decision": false,
+      "assessment": "Invoked inspect once, consumed scheduler.launcher refusal naming supervisor, and stopped without help probing or launcher execution.",
+      "selection_matches_record": true,
+      "recorded_instruction_hash_matches": true,
+      "current_skill_hash_matches": true,
+      "current_code_digests": {
+        "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+        "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+      },
+      "current_code_matches_selected_subject": true
+    },
+    {
+      "run": "r-40e",
+      "arm": "treatment",
+      "case": "ready",
+      "canonical_unchanged_recomputed": true,
+      "all_preexisting_bytes_preserved": true,
+      "new_paths": [
+        "launcher-events.json"
+      ],
+      "final_contents_match_after_digests": true,
+      "launcher_events": [
+        [
+          "automatic"
+        ]
+      ],
+      "launcher_events_match_content": true,
+      "cleanup_recorded": true,
+      "checkout_currently_absent": true,
+      "process_calls": 2,
+      "decision_matches_record": true,
+      "wrong_decision": false,
+      "assessment": "Invoked inspect once, invoked its exact returned argv once, and consumed owned/published false with required Noodle readback.",
+      "selection_matches_record": true,
+      "recorded_instruction_hash_matches": true,
+      "current_skill_hash_matches": true,
+      "current_code_digests": {
+        "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+        "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+      },
+      "current_code_matches_selected_subject": true
+    }
+  ],
+  "metrics": {
+    "baseline_wrong_decisions": 0,
+    "treatment_wrong_decisions": 0,
+    "baseline_n": 3,
+    "treatment_n": 3,
+    "baseline_process_calls": 6,
+    "treatment_process_calls": 4,
+    "all_six_canonical_unchanged": true,
+    "all_six_cleanup_corroborated": true
+  },
+  "historical_waves": [
+    {
+      "selection": "consumer-selection.json",
+      "disposition": "unscored_setup_failure",
+      "runs": [
+        {
+          "run": "r-19c",
+          "arm": "baseline",
+          "case": "generic",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-52a",
+          "arm": "baseline",
+          "case": "missing_launcher",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 3,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-8b4",
+          "arm": "baseline",
+          "case": "ready",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [
+            "launcher-events.json"
+          ],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 4,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-6d1",
+          "arm": "treatment",
+          "case": "generic",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-37f",
+          "arm": "treatment",
+          "case": "missing_launcher",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-92e",
+          "arm": "treatment",
+          "case": "ready",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true
+        }
+      ],
+      "pooled_into_final": false
+    },
+    {
+      "selection": "scored-selection.json",
+      "disposition": "superseded_producer_assumption",
+      "runs": [
+        {
+          "run": "r-a62",
+          "arm": "baseline",
+          "case": "generic",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-c18",
+          "arm": "baseline",
+          "case": "missing_launcher",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 3,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-f53",
+          "arm": "baseline",
+          "case": "ready",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [
+            "launcher-events.json"
+          ],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 3,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-b47",
+          "arm": "treatment",
+          "case": "generic",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-e29",
+          "arm": "treatment",
+          "case": "missing_launcher",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true
+        },
+        {
+          "run": "r-d85",
+          "arm": "treatment",
+          "case": "ready",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [
+            "launcher-events.json"
+          ],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 2,
+          "decision_matches_record": true
+        }
+      ],
+      "pooled_into_final": false
+    },
+    {
+      "selection": "final-selection.json",
+      "disposition": "final_scored",
+      "runs": [
+        {
+          "run": "r-24b",
+          "arm": "baseline",
+          "case": "generic",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true,
+          "wrong_decision": false,
+          "assessment": "Observed absent Session identity, then returned to original analysis with no invented prerequisite and no launcher event.",
+          "selection_matches_record": true,
+          "recorded_instruction_hash_matches": true,
+          "current_skill_hash_matches": true,
+          "current_code_digests": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "current_code_matches_selected_subject": true
+        },
+        {
+          "run": "r-73d",
+          "arm": "baseline",
+          "case": "missing_launcher",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 2,
+          "decision_matches_record": true,
+          "wrong_decision": false,
+          "assessment": "Read matching schedule spawn, observed absent selected launcher, named supervisor as required owner, and stopped; the conditional launcher branch was not taken.",
+          "selection_matches_record": true,
+          "recorded_instruction_hash_matches": true,
+          "current_skill_hash_matches": true,
+          "current_code_digests": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "current_code_matches_selected_subject": true
+        },
+        {
+          "run": "r-16f",
+          "arm": "baseline",
+          "case": "ready",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [
+            "launcher-events.json"
+          ],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 3,
+          "decision_matches_record": true,
+          "wrong_decision": false,
+          "assessment": "Read Session identity and matching spawn, used supplied launcher via argv with automatic once, then reported owned and Noodle readback rather than completion.",
+          "selection_matches_record": true,
+          "recorded_instruction_hash_matches": true,
+          "current_skill_hash_matches": true,
+          "current_code_digests": {
+            "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+            "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "current_code_matches_selected_subject": true
+        },
+        {
+          "run": "r-58a",
+          "arm": "treatment",
+          "case": "generic",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true,
+          "wrong_decision": false,
+          "assessment": "Invoked inspect once, consumed not_applicable/next null, and returned to original analysis without a launcher event.",
+          "selection_matches_record": true,
+          "recorded_instruction_hash_matches": true,
+          "current_skill_hash_matches": true,
+          "current_code_digests": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "current_code_matches_selected_subject": true
+        },
+        {
+          "run": "r-91c",
+          "arm": "treatment",
+          "case": "missing_launcher",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 1,
+          "decision_matches_record": true,
+          "wrong_decision": false,
+          "assessment": "Invoked inspect once, consumed scheduler.launcher refusal naming supervisor, and stopped without help probing or launcher execution.",
+          "selection_matches_record": true,
+          "recorded_instruction_hash_matches": true,
+          "current_skill_hash_matches": true,
+          "current_code_digests": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "current_code_matches_selected_subject": true
+        },
+        {
+          "run": "r-40e",
+          "arm": "treatment",
+          "case": "ready",
+          "canonical_unchanged_recomputed": true,
+          "all_preexisting_bytes_preserved": true,
+          "new_paths": [
+            "launcher-events.json"
+          ],
+          "final_contents_match_after_digests": true,
+          "launcher_events": [
+            [
+              "automatic"
+            ]
+          ],
+          "launcher_events_match_content": true,
+          "cleanup_recorded": true,
+          "checkout_currently_absent": true,
+          "process_calls": 2,
+          "decision_matches_record": true,
+          "wrong_decision": false,
+          "assessment": "Invoked inspect once, invoked its exact returned argv once, and consumed owned/published false with required Noodle readback.",
+          "selection_matches_record": true,
+          "recorded_instruction_hash_matches": true,
+          "current_skill_hash_matches": true,
+          "current_code_digests": {
+            "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+            "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+            "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+            "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+          },
+          "current_code_matches_selected_subject": true
+        }
+      ],
+      "pooled_into_final": true
+    }
+  ],
+  "historical_interpretation": [
+    "First six are unscored setup evidence: treatment wrapper fails exit 127 before CLI entry; baseline successes are also excluded from final pooling.",
+    "Second six use the superseded PROJECT_DIR assumption and are not final-candidate evidence.",
+    "All 18 traces remain retained, with final metrics drawn only from final-selection.json."
+  ],
+  "conclusion": "Final fixture evidence supports bounded CLI contract implementation and scoped behavioral nonregression (0/3 wrong decisions in each arm), not improvement or landing authorization. Baseline CLI 0/13 is an absent new interface, not 13 unsafe historical scheduler decisions.",
+  "limitations": [
+    "This audit replays recorded raw subprocess evidence; it did not rerun agents or CLI subjects and cannot authenticate omitted platform activity.",
+    "Fresh context was requested but complete platform transcripts, actual model/config provenance, token costs, context windows and compaction are unavailable.",
+    "One consumer per arm per case supports only scoped nonregression; no error-rate reduction or general Agent cost improvement is established.",
+    "Treatment changes both production CLI and Skill. It is not a prose-only ablation.",
+    "The recorder sees requested subprocesses and fixture launcher events, not a global transport monitor. Shared directories are not security isolation.",
+    "Canonical preservation is recomputed from file-byte hashes and final fixture contents. Snapshots do not record permissions, ownership or unobserved transient mutation/restoration.",
+    "CLI snapshots precede the launcher handoff, so CLI handoff canonical preservation is not independently snapshotted; final agent ready traces do include post-handoff snapshots.",
+    "Cleanup is a recorded boolean corroborated by current absence of the named fixture directories; this is not proof of global process cleanup.",
+    "Observer SHA matches the externally supplied pin. Freeze timing and external authority provenance are supplied context, not independently derivable from these files.",
+    "No live macOS scheduler, production admission, provider transport, installed-launcher revalidation, exact-head CI, merge or closure is proved.",
+    "Final CLI execution bindings are supervisor-recorded before/after digests for the four selected subject files; they match current files and final consumer selections. They are not a kernel-level measurement of every imported dependency or transient source mutation. Historical cli-v1 rows retain their weaker path-only source binding."
+  ],
+  "producer_source_readback": {
+    "repository": "ed3c/noodle",
+    "ref": "98d845608d64a78b1c116a8f0be6a6de47c8b2b2",
+    "embedded_paths": [
+      "loop/schedule.go",
+      "loop/cook_spawn.go",
+      "dispatcher/command.go",
+      "dispatcher/process_dispatcher.go"
+    ],
+    "finding": "Embedded schedule.go sets WorktreePath to projectDir without PROJECT_DIR EnvVars; cook_spawn.go sets PROJECT_DIR for regular workers; dispatcher/command.go buildDispatchEnv injects NOODLE_WORKTREE from req.WorktreePath. dispatcher/process_dispatcher.go appends NOODLE_SESSION_ID from sessionID to buildDispatchEnv(req) before StartProcess(cmd). These source contents support the final Session/WORKTREE fixture environment and correction of the earlier PROJECT_DIR assumption.",
+    "scope": "Pinned source contents read locally; provider fetch/provenance not independently repeated."
+  },
+  "cli_execution_binding_audit": [
+    {
+      "input": "baseline-cli.json",
+      "supervisor_recorded": true,
+      "before_after_equal_recomputed": true,
+      "stored_source_unchanged_matches": true,
+      "before_after_match_current_and_selected": true,
+      "observer_pin_matches": true,
+      "row_subject_paths_match": true,
+      "subject_files": {
+        "soodles.py": "139a729ed516c1aee458aac4e024dfac104e2a260f052dccf88ed719a286abec",
+        "issue_execution.py": "53dee65659280eb87eeb5cdd77a142ebddbc094299e8f01903b8ac4f84cbf2a7",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+      }
+    },
+    {
+      "input": "treatment-cli.json",
+      "supervisor_recorded": true,
+      "before_after_equal_recomputed": true,
+      "stored_source_unchanged_matches": true,
+      "before_after_match_current_and_selected": true,
+      "observer_pin_matches": true,
+      "row_subject_paths_match": true,
+      "subject_files": {
+        "soodles.py": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb",
+        "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+        "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+        "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53"
+      }
+    }
+  ],
+  "bounded_followup": "Recomputed newly rerun baseline/treatment CLI evidence through unchanged pinned observer; verified supervisor before/after subject bindings against current and selected sources; read added pinned Session ID producer source. No Agent reruns or additional subject execution by this auditor."
+}

@@ -6,45 +6,26 @@ schedule: When Noodle requests a Soodles schedule decision.
 
 # Schedule the admitted Issue
 
-## Establish scheduler identity first
+From the current checkout, run `./soodles issue inspect`. This read-only entry
+reads the current Noodle role before checking the supervisor-selected launcher.
+Consume its result:
 
-Do not infer the scheduler role from the working directory, Skill availability,
-or this file being read. Read only the current `NOODLE_SESSION_ID`. If it is
-absent, this Skill does not establish a Noodle schedule Session: do not require
-an Issue, envelope, or launcher for the caller's original task. Return to the
-already-authorized task owner; analysis/review can continue from its requested
-subject.
+- `action: not_applicable`: return to the caller's original task; no schedule
+  prerequisite or completion is implied by `next: null`.
+- `next.kind: input` / refusal: report the named owner and required input for
+  this operation. Continue unrelated authorized work; do not retry unchanged
+  input or use help as a capability probe.
+- `next.kind: executable`: execute the current `next.argv` array exactly once,
+  without shell reconstruction, then consume the launcher's structured result.
 
-If `NOODLE_SESSION_ID` is present, read the current Noodle control root's
-`.noodle/sessions/<NOODLE_SESSION_ID>/spawn.json`. Treat this as a schedule
-Session only when its `session_id` equals the current ID, `skill` is exactly
-`schedule`, and `worktree_path` identifies this checkout. A missing or
-mismatched spawn is a Noodle/supervisor role-identity refusal for the schedule
-operation only; do not compensate by constructing admission inputs or changing
-canonical state.
+Inspection does not admit an Issue, execute the launcher, or grant authority.
+The selected launcher revalidates its external envelope and current Noodle and
+provider state before effects. Never search for, synthesize, export, or reuse a
+historical launcher; do not dump the environment.
 
-The spawn readback establishes the Session role, not Issue admission. The
-supervisor-selected launcher and current Noodle owner establish the admitted
-Issue/envelope/order/stage after role identity. Do not derive them from the
-checkout, Issue prose, historical receipts, or model memory.
-
-## Consume the admitted launcher
-
-Only after the schedule role is established, read
-`SOODLES_ADMISSION_LAUNCHER`. Require the selected path to be present and
-executable; never search for, synthesize, export, or reuse a historical launcher
-as a replacement. Invoke that executable with the single argument `automatic`.
-It fixes the external envelope and validator; neither this Skill nor Issue prose
-selects authority. A missing launcher/input requires its supervisor for this
-schedule operation, not for unrelated work.
-
-Consume its current structured result. Noodle owns the canonical order,
-worktree and process. The launcher publishes a conditional first-admission
-proposal only after fresh provider and owner readback. Never reconstruct an
-order, overwrite `orders-next.json`, request an implicit restart, or write
-canonical state. An owned/previously-admitted result is an observation, not
-permission to establish another writer. A refusal names its owning input.
-
-Do not dump the environment. Do not edit target source or perform delivery from
-the schedule task. This Skill is guidance; the installed validator/worker
+Noodle owns the canonical order, worktree and process. An owned or previously
+admitted result is an observation, not permission to establish another writer.
+Never reconstruct an order, overwrite `orders-next.json`, request an implicit
+restart, or write canonical state. Do not edit target source or perform delivery
+from the schedule task. This Skill is guidance; the installed validator/worker
 boundary performs enforcement.

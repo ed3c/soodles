@@ -27,6 +27,45 @@ def fetch_issue(number):
     return read(number)
 
 
+def inspect_schedule(root, environ=None):
+    """Project current Noodle role and supervisor capability without effects."""
+    environ = os.environ if environ is None else environ
+    session = environ.get("NOODLE_SESSION_ID")
+    result = {"owner": "issue.inspect", "authorizes_landing": False}
+    if not session:
+        return {**result, "action": "not_applicable", "next": None}
+    source = {"owner": "Noodle", "required": "current_dispatch_identity"}
+    require(isinstance(session, str) and re.fullmatch(r"[a-zA-Z0-9-]+", session),
+            "scheduler.session_id", session, **source)
+    root = Path(root).resolve()
+    # Scheduler dispatch supplies NOODLE_WORKTREE; PROJECT_DIR is worker-only.
+    control = environ.get("NOODLE_WORKTREE")
+    require(isinstance(control, str) and Path(control).is_absolute()
+            and Path(control).resolve() == root,
+            "scheduler.control_root", control, **source)
+    path = root / ".noodle/sessions" / session / "spawn.json"
+    try:
+        spawn = json.loads(path.read_text())
+    except (OSError, ValueError) as error:
+        raise AdmissionRefusal("scheduler.spawn", str(path), **source) from error
+    require(isinstance(spawn, dict), "scheduler.spawn", str(path), **source)
+    for key, expected in (("session_id", session), ("skill", "schedule")):
+        require(spawn.get(key) == expected, "scheduler.spawn." + key,
+                spawn.get(key), **source)
+    worktree = spawn.get("worktree_path")
+    require(isinstance(worktree, str) and Path(worktree).is_absolute()
+            and Path(worktree).resolve() == root,
+            "scheduler.spawn.worktree_path", worktree, **source)
+    launcher = environ.get("SOODLES_ADMISSION_LAUNCHER")
+    require(isinstance(launcher, str) and Path(launcher).is_absolute()
+            and Path(launcher).is_file() and os.access(launcher, os.X_OK),
+            "scheduler.launcher", launcher, owner="supervisor",
+            required="SOODLES_ADMISSION_LAUNCHER")
+    return {**result, "action": "ready", "session_id": session,
+            "next": {"kind": "executable", "owner": "supervisor",
+                     "operation": "automatic", "argv": [launcher, "automatic"]}}
+
+
 def executable_identity(spec, field):
     require(isinstance(spec, dict), field, spec)
     path = spec.get("path")
