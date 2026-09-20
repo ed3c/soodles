@@ -270,6 +270,26 @@ def parser():
     return p
 
 
+def bind_landing_continuation(result, args):
+    """Bind known CLI paths; required provider readback still precedes execution."""
+    if args.group != "landing" or not getattr(args, "readback", None):
+        return result
+    next_action = result.get("next")
+    checkpoint = getattr(args, "checkpoint", None)
+    if (not isinstance(next_action, dict) or not checkpoint
+            or next_action.get("kind") != "provider_readback"
+            or next_action.get("required") != ["readback"]
+            or next_action.get("operation") not in {"advance", "dispatch"}
+            or next_action.get("known", {}).get("checkpoint") != str(Path(checkpoint).resolve())):
+        return result
+    import landing
+    readback = str(Path(args.readback).resolve())
+    return {**result, "next": {**next_action,
+            "known": {**next_action["known"], "readback": readback},
+            "argv": landing.cli_argv(next_action["operation"],
+                                     next_action["known"]["checkpoint"], readback)}}
+
+
 def main():
     args = parser().parse_args()
     import landing
@@ -320,10 +340,10 @@ def main():
                 result = landing.reconcile(args.checkpoint, args.binary)
         else:
             result = runtime_check(ROOT, args.binary) if args.group == "runtime" else acceptance_verify(ROOT, args.binary)
-        print(json.dumps(result, indent=2))
+        print(json.dumps(bind_landing_continuation(result, args), indent=2))
     except landing.LandingRefusal as exc:
         result = landing.refusal_output(exc, args.verb)
-        print(json.dumps(result, indent=2))
+        print(json.dumps(bind_landing_continuation(result, args), indent=2))
         print(landing.refusal_text(result), file=sys.stderr)
         return 1
     except (KeyError, TypeError) as exc:
@@ -335,11 +355,11 @@ def main():
             from issue_admission import AdmissionRefusal
             from issue_execution import refusal_output, refusal_text
             result = refusal_output(AdmissionRefusal("input.field", str(exc)), args.verb)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(refusal_text(result), file=sys.stderr)
         elif args.group == "landing":
             result = landing.refusal_output(landing.LandingRefusal("input.field", str(exc)), args.verb)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(landing.refusal_text(result), file=sys.stderr)
         else:
             print(f"REFUSED: {args.group}: invalid input field={exc}; supported help: ./soodles {args.group} --help", file=sys.stderr)
@@ -356,7 +376,7 @@ def main():
             import issue_execution
             error = exc if isinstance(exc, AdmissionRefusal) else AdmissionRefusal("input", str(exc))
             result = issue_execution.refusal_output(error, args.verb)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(issue_execution.refusal_text(result), file=sys.stderr)
             return getattr(error, "exit_code", 1)
         if args.group == "candidate":
@@ -370,7 +390,7 @@ def main():
                     "required": ["valid_candidate_evidence"]}),
                 "authorizes_landing": False,
             }
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(
                 f"REFUSED: candidate verify: invalid {invalid['field']}={invalid['value']!r}; "
                 "supported help: ./soodles candidate verify --help",
@@ -379,7 +399,7 @@ def main():
         elif args.group == "landing":
             invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
             result = landing.refusal_output(landing.LandingRefusal(invalid["field"], invalid["value"]), args.verb)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(landing.refusal_text(result), file=sys.stderr)
         else:
             print(f"REFUSED: {exc}", file=sys.stderr)
