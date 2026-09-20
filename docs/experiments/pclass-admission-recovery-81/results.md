@@ -1,7 +1,8 @@
 # Admission-recovery P-class replay — Issue #81
 
 **Disposition: NO_QUALIFIED_BARRIER.** The same three exploration runs pass all
-hard gates after the fixed append-only cleanup supplement; all four totals are zero. This is a non-authorizing handoff,
+hard gates after the fixed append-only cleanup supplement; all four totals are
+zero. This is a non-authorizing handoff,
 `authorizes_landing: false`, not Issue resolution or an improvement claim.
 
 ## Subject and fixed evidence
@@ -59,7 +60,8 @@ reads occurred before a complete executable projection. Confirmation absence is
 explicitly consumer-recorded; it is not inferred from an absent command.
 
 The initial raw packet did not support the supplied prose claiming complete
-cleanup. Its e_b4 observation retains `.noodle/noodle.lock` with a recorded absent PID/group.
+cleanup. Its e_b4 observation retains `.noodle/noodle.lock` with a recorded
+absent PID/group.
 e_b6's final inventory explicitly includes that lock; its kernel check covers
 nine historical session PIDs/groups, not the lock's PID. e_b5 observed absent
 session and lock PIDs/groups and removed its disposable lock manually before
@@ -134,7 +136,8 @@ All 18 manifest-selected mutation/non-case controls match their predicates:
 stale continuation, wrong projection, wrong Noodle subject, missing completion,
 false cleanup, incomplete/duplicate membership, recorder/run identity, changed
 archive, provider command and missing wait are RED; exact fresh completion and
-independently assembled equivalent current argv are GREEN. Predicates require the source run's specific error. Four additional controls
+independently assembled equivalent current argv are GREEN. Predicates require
+the source run's specific error. Four additional controls
 reject supplement omission/rebinding and accept the corrected same packet and
 the legal complete-cleanup non-case.
 
@@ -148,15 +151,21 @@ pilots select the first positive barrier but authorize no new experiment.
 These fixtures are not fresh consumers or confirmation evidence.
 
 Validation: 20 recovery replay tests, 19 existing P-class tests, and 8 recorder
-context tests pass. The recorder tests initially failed on macOS `/var` versus
+context tests pass. In the initial implementation the recorder tests failed on macOS `/var` versus
 `/private/var` tempfile aliases; using physical `TMPDIR=/private/tmp` passes
 without disabling or editing a test. `git diff --check` passes.
 
 The original distinct read-only consumer's requests, pinned identities, raw
 checks, failed replay and discrepancies remain in `raw/independent-replay.json`.
-A continuation replay from committed raw evidence is the next readback; it will
-record its own process, pins, actual exit and comparison without rerunning an
-exploration consumer or owner operation.
+The continuation uses a separate read-only process over files read with `git show`
+from commit `a308815d5c40dae06ca0730d491f62ce37ad9aa8`. It independently checks
+all embedded blob hashes, unchanged original run hashes and original raw digest,
+then invokes the same pinned replay entry. It exited 0 and reproduced the stored
+receipt exactly: PASS / `NO_QUALIFIED_BARRIER`, no disagreement. Its source,
+input pins, raw stdout/stderr, actual wait/exit and scratch removal are appended
+to `raw/independent-replay.json`; the earlier independent Agent review remains
+unchanged. This continuation is process-level replay, not a new independent
+Agent judgment. No exploration consumer or owner operation was rerun.
 
 No treatment arm or 3+3 confirmation was created. The recipe records this
 bounded zero disposition without treatment guidance.
