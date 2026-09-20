@@ -105,7 +105,7 @@
     {
       "path": "issue_admission.py",
       "role": "required correction control or raw evidence",
-      "sha256": "148b31839529174aa85a3bf8942fd718cdb6ee4ff76b58f327ffd547a46ff9bd"
+      "sha256": "1c64a5aaccbcd2cb48dd0628dc8f5d955ad847f082cff2482755e9fac9526a9d"
     },
     {
       "path": "issue_execution.py",
@@ -128,9 +128,14 @@
       "sha256": "979d74967c966a00317794dfa2dc1df5e64893af0c3b9757f31c346cb7bf77cc"
     },
     {
+      "path": "tests/test_candidate_guidance.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "671d17d576e982e62cd116721e208b6c6bb4c893f1c8e6f845fbc6a2ddc830b3"
+    },
+    {
       "path": "tests/test_cross_repository_delivery.py",
       "role": "required correction control or raw evidence",
-      "sha256": "90c184ca1e2d5f591bb703c6b0f5cf201866db198466d911747ae12e7ad656a3"
+      "sha256": "1986e440b7653839428c70806e28faa79a397b8579f14569da6eee4397d52b9d"
     },
     {
       "path": "tests/test_github_reader.py",

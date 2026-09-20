@@ -258,6 +258,22 @@ def git_bytes(root, revision, path):
     return result.stdout
 
 
+def candidate_repository(binding):
+    """Return a bound repository, with one explicit schema-2 compatibility."""
+    repository = binding.get("repository")
+    if repository is None:
+        require(binding.get("contract", {}).get("schema") == 2,
+                "candidate.binding.repository", repository,
+                owner="Soodles Issue admission",
+                required="repository_bound_candidate")
+        return "ed3c/soodles"
+    require(profile(repository) is not None,
+            "candidate.binding.repository", repository,
+            owner="Soodles Issue admission",
+            required="supported_repository_binding")
+    return repository
+
+
 def validate_candidate_evidence(root, base, head, binding, paths):
     contract = binding.get("contract", {})
     evidence = contract.get("candidate_evidence")
@@ -293,9 +309,13 @@ def validate_candidate_evidence(root, base, head, binding, paths):
     require(type(manifest["schema"]) is int and manifest["schema"] == 1,
             "candidate.evidence_manifest.schema", manifest["schema"])
     issue = manifest["issue"]
+    # Schema 2 predates repository-bearing bindings and was Soodles-only.
+    # Replay those frozen observers without deriving a current repository from
+    # candidate-owned manifest bytes. Current schema 3 must carry the owner.
+    repository = candidate_repository(binding)
     exact_object(issue, {"repository", "number"},
                  "candidate.evidence_manifest.issue")
-    require(issue == {"repository": binding.get("repository"), "number": binding.get("issue")},
+    require(issue == {"repository": repository, "number": binding.get("issue")},
             "candidate.evidence_manifest.issue", issue)
     owner = manifest["owner"]
     exact_object(owner, {"name", "tool", "authorization"},
@@ -305,7 +325,7 @@ def validate_candidate_evidence(root, base, head, binding, paths):
     require(owner["tool"] == "issue_admission.validate_delivery_paths",
             "candidate.evidence_manifest.owner.tool", owner["tool"])
     require(owner["authorization"]
-            == f"{binding.get('repository')}#{binding.get('issue')}",
+            == f"{repository}#{binding.get('issue')}",
             "candidate.evidence_manifest.owner.authorization",
             owner["authorization"])
     require(manifest["authorizes_landing"] is False,

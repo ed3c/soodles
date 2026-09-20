@@ -99,6 +99,18 @@ class CrossRepositoryDeliveryTests(unittest.TestCase):
         transport.assert_not_called()
         self.assertFalse(self.checkpoint.exists())
 
+    def test_only_legacy_schema_two_has_a_soodles_compatibility_binding(self):
+        self.assertEqual(
+            issue_admission.candidate_repository({"contract": {"schema": 2}}),
+            "ed3c/soodles")
+        self.assertEqual(
+            issue_admission.candidate_repository({
+                "repository": OPS, "contract": {"schema": 3}}), OPS)
+        with self.assertRaises(issue_admission.AdmissionRefusal) as raised:
+            issue_admission.candidate_repository({"contract": {"schema": 3}})
+        self.assertEqual(raised.exception.invalid["field"],
+                         "candidate.binding.repository")
+
 
 if __name__ == "__main__":
     unittest.main()
