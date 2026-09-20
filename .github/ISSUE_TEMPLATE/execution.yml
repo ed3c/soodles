@@ -15,7 +15,7 @@ body:
         <!-- soodles:execution-v1 -->
         ```json
         {
-          "schema": 2,
+          "schema": 3,
           "trigger": "",
           "source": "",
           "owner": "",
@@ -23,6 +23,8 @@ body:
           "write_paths": [],
           "required_paths": [],
           "evidence_manifest": "",
+          "base_head": "",
+          "frozen_paths": [],
           "behavior": [],
           "defect_controls": [],
           "non_cases": [],

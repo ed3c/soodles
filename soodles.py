@@ -209,6 +209,16 @@ def parser():
     github_verbs = github.add_subparsers(dest="verb", required=True)
     read_issue = github_verbs.add_parser("issue", description="Read one ed3c/soodles Issue using supervisor-supplied GH_TOKEN. Missing credentials refuse; quota waits exit 75. No token discovery, minting, anonymous fallback or retry.", epilog="Example: ./soodles github issue 44. The supervisor supplies a repository-scoped installation token with Issues:read in the child environment. Never put credentials in argv. Cache uses XDG_CACHE_HOME or ~/.cache; 304 requires server confirmation.")
     read_issue.add_argument("number", type=int)
+    candidate = groups.add_parser(
+        "candidate",
+        description="Read-only exact Git-object verification against a fresh Issue readback.",
+        epilog="Example: ./soodles candidate verify /tmp/issue.json BASE_SHA HEAD_SHA")
+    candidate_verbs = candidate.add_subparsers(dest="verb", required=True)
+    candidate_verify = candidate_verbs.add_parser(
+        "verify", description="Verify the checked-out candidate and its required evidence; no provider write or landing authority.")
+    candidate_verify.add_argument("issue_readback")
+    candidate_verify.add_argument("base_head")
+    candidate_verify.add_argument("candidate_head")
     issue = groups.add_parser("issue", description="Consume one externally pinned Issue envelope before Noodle effects.",
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
@@ -274,6 +284,11 @@ def main():
         elif args.group == "github":
             import github_reader
             result = github_reader.issue(args.number)
+        elif args.group == "candidate":
+            import issue_admission
+            readback = json.loads(Path(args.issue_readback).read_text())
+            result = issue_admission.verify_candidate(
+                ROOT, args.base_head, args.candidate_head, readback)
         elif args.group == "issue":
             import issue_execution
             operation = getattr(issue_execution, args.verb)
@@ -340,6 +355,23 @@ def main():
             print(json.dumps(result, indent=2))
             print(issue_execution.refusal_text(result), file=sys.stderr)
             return getattr(error, "exit_code", 1)
+        if args.group == "candidate":
+            invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
+            result = {
+                "owner": "candidate.verify",
+                "status": "refused",
+                "invalid": invalid,
+                "next": getattr(exc, "next", {
+                    "kind": "input", "owner": "supervisor",
+                    "required": ["valid_candidate_evidence"]}),
+                "authorizes_landing": False,
+            }
+            print(json.dumps(result, indent=2))
+            print(
+                f"REFUSED: candidate verify: invalid {invalid['field']}={invalid['value']!r}; "
+                "supported help: ./soodles candidate verify --help",
+                file=sys.stderr)
+            return getattr(exc, "exit_code", 1)
         elif args.group == "landing":
             invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
             result = landing.refusal_output(landing.LandingRefusal(invalid["field"], invalid["value"]), args.verb)

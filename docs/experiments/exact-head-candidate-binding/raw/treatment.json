@@ -1,0 +1,24 @@
+{
+  "authorizes_landing": false,
+  "classification": "GREEN",
+  "errors": [],
+  "observer_sha256": "0e22cb83764980a41a10a638e06139c82070df5e2e49b6007a9a57410e831511",
+  "phase": "treatment",
+  "records": [
+    {
+      "case": "prompt_mismatch",
+      "field": "candidate.instruction.treatment_sha256",
+      "outcome": "refused"
+    },
+    {
+      "case": "frozen_observer_mismatch",
+      "field": "candidate.frozen_path.sha256",
+      "outcome": "refused"
+    },
+    {
+      "case": "complete",
+      "outcome": "accepted"
+    }
+  ],
+  "schema": 1
+}

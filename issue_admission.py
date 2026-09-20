@@ -19,7 +19,8 @@ CONTRACT_V1_FIELDS = {
     "behavior", "defect_controls", "non_cases", "dependencies",
     "acceptance", "delivery", "reconciliation", "feature_scope",
 }
-CONTRACT_FIELDS = CONTRACT_V1_FIELDS | {"required_paths", "evidence_manifest"}
+CONTRACT_V2_FIELDS = CONTRACT_V1_FIELDS | {"required_paths", "evidence_manifest"}
+CONTRACT_FIELDS = CONTRACT_V2_FIELDS | {"base_head", "frozen_paths"}
 ENVELOPE_FIELDS = {
     "schema", "repository", "issue", "body_sha256", "body_updated_at",
     "owner", "write_paths", "base_head", "execution",
@@ -82,9 +83,11 @@ def parse_contract(body):
         raise AdmissionRefusal("issue.contract.json", str(error), **source) from error
     require(isinstance(contract, dict), "issue.contract.fields", contract, **source)
     schema = contract.get("schema")
-    require(type(schema) is int and schema in (1, 2),
+    require(type(schema) is int and schema in (1, 2, 3),
             "issue.contract.schema", schema, **source)
-    exact_object(contract, CONTRACT_V1_FIELDS if schema == 1 else CONTRACT_FIELDS,
+    fields = (CONTRACT_V1_FIELDS if schema == 1 else
+              CONTRACT_V2_FIELDS if schema == 2 else CONTRACT_FIELDS)
+    exact_object(contract, fields,
                  "issue.contract.fields", **source)
     for field in ("trigger", "source", "owner", "acceptance", "delivery", "reconciliation", "feature_scope"):
         require(nonempty(contract[field]), "issue.contract." + field, contract[field], **source)
@@ -93,7 +96,7 @@ def parse_contract(body):
         require(isinstance(values, list) and bool(values) and all(nonempty(v) for v in values),
                 "issue.contract." + field, values, **source)
     contract["write_paths"] = path_set(contract["write_paths"], "issue.contract.write_paths")
-    if schema == 2:
+    if schema >= 2:
         contract["required_paths"] = path_set(
             contract["required_paths"], "issue.contract.required_paths")
         contract["evidence_manifest"] = git_path(
@@ -105,6 +108,29 @@ def parse_contract(body):
                 "issue.contract.required_paths",
                 sorted(set(contract["required_paths"]) - set(contract["write_paths"])),
                 **source)
+    if schema == 3:
+        base_head = contract["base_head"]
+        require(isinstance(base_head, str) and re.fullmatch(r"[0-9a-f]{40}", base_head),
+                "issue.contract.base_head", base_head, **source)
+        frozen = contract["frozen_paths"]
+        require(isinstance(frozen, list) and bool(frozen),
+                "issue.contract.frozen_paths", frozen, **source)
+        identities = []
+        for pin in frozen:
+            exact_object(pin, {"path", "revision", "sha256"},
+                         "issue.contract.frozen_path", **source)
+            path = git_path(pin["path"], "issue.contract.frozen_path.path")
+            require(path in contract["required_paths"],
+                    "issue.contract.frozen_path.path", path, **source)
+            require(pin["revision"] in ("base", "head"),
+                    "issue.contract.frozen_path.revision", pin["revision"], **source)
+            require(isinstance(pin["sha256"], str)
+                    and re.fullmatch(r"[0-9a-f]{64}", pin["sha256"]),
+                    "issue.contract.frozen_path.sha256", pin["sha256"], **source)
+            identity = (path, pin["revision"])
+            require(identity not in identities,
+                    "issue.contract.frozen_paths", list(identity), **source)
+            identities.append(identity)
     dependencies = contract["dependencies"]
     require(isinstance(dependencies, list), "issue.contract.dependencies", dependencies, **source)
     for dependency in dependencies:
@@ -231,7 +257,7 @@ def git_bytes(root, revision, path):
 def validate_candidate_evidence(root, base, head, binding, paths):
     contract = binding.get("contract", {})
     evidence = contract.get("candidate_evidence")
-    if evidence is None and contract.get("schema") == 2:
+    if evidence is None and contract.get("schema") in (2, 3):
         evidence = {
             "manifest_path": contract.get("evidence_manifest"),
             "required_paths": contract.get("required_paths"),
@@ -340,3 +366,79 @@ def validate_delivery_paths(root, base, head, binding):
     return {"head": head, "base_head": base, "changed_paths": paths,
             "evidence_manifest_sha256": manifest_sha256,
             "authorizes_landing": False}
+
+
+def verify_candidate(root, base, head, readback):
+    """Verify exact Git objects against one fresh, read-only Issue readback."""
+    if isinstance(readback, dict) and readback.get("owner") == "github.issue":
+        require(readback.get("status") == "read"
+                and readback.get("next") is None
+                and readback.get("authorizes_landing") is False,
+                "candidate.issue_readback", readback.get("status"),
+                owner="GitHub", required="fresh_issue_readback")
+        readback = readback.get("issue")
+    require(isinstance(readback, dict), "candidate.issue_readback", readback,
+            owner="GitHub", required="fresh_issue_readback")
+    number = readback.get("number")
+    require(type(number) is int and number > 0,
+            "candidate.issue.number", number,
+            owner="GitHub", required="exact_issue_readback")
+    require(readback.get("url")
+            == f"https://api.github.com/repos/{REPOSITORY}/issues/{number}",
+            "candidate.issue.url", readback.get("url"),
+            owner="GitHub", required="exact_issue_readback")
+    require(readback.get("html_url")
+            == f"https://github.com/{REPOSITORY}/issues/{number}",
+            "candidate.issue.html_url", readback.get("html_url"),
+            owner="GitHub", required="exact_issue_readback")
+    require("pull_request" not in readback,
+            "candidate.issue.pull_request", readback.get("pull_request"),
+            owner="GitHub", required="exact_issue_readback")
+    require(readback.get("state") == "open", "candidate.issue.state",
+            readback.get("state"), owner="GitHub", required="open_issue")
+    body = readback.get("body")
+    contract = parse_contract(body)
+    require(contract["schema"] >= 2, "candidate.issue.contract.schema",
+            contract["schema"], owner="Soodles candidate verification",
+            required="schema_2_or_3_evidence_contract")
+    if contract["schema"] == 3:
+        require(base == contract["base_head"], "candidate.base", base)
+    checkout = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=root, capture_output=True,
+        text=True, timeout=30)
+    require(checkout.returncode == 0 and checkout.stdout.strip() == head,
+            "candidate.checkout_head", checkout.stdout.strip(),
+            owner="Git", required="exact_candidate_checkout")
+    binding = {
+        "issue": number,
+        "base_head": base,
+        "write_paths": contract["write_paths"],
+        "contract": contract,
+    }
+    receipt = validate_delivery_paths(root, base, head, binding)
+    frozen_receipts = []
+    for pin in contract.get("frozen_paths", []):
+        revision = base if pin["revision"] == "base" else head
+        actual = hashlib.sha256(git_bytes(root, revision, pin["path"])).hexdigest()
+        require(actual == pin["sha256"], "candidate.frozen_path.sha256",
+                {"path": pin["path"], "revision": pin["revision"],
+                 "expected": pin["sha256"], "actual": actual},
+                owner="Soodles candidate verification",
+                required="externally_frozen_candidate_bytes")
+        frozen_receipts.append({**pin, "actual_sha256": actual})
+    tree = subprocess.run(
+        ["git", "rev-parse", f"{head}^{{tree}}"], cwd=root,
+        capture_output=True, text=True, timeout=30)
+    require(tree.returncode == 0 and re.fullmatch(r"[0-9a-f]{40}", tree.stdout.strip()),
+            "candidate.tree", tree.stdout.strip(),
+            owner="Git", required="exact_candidate_tree")
+    return {
+        **receipt,
+        "issue": number,
+        "issue_body_sha256": body_digest(body),
+        "tree": tree.stdout.strip(),
+        "frozen_paths": frozen_receipts,
+        "owner": "candidate.verify",
+        "classification": "VERIFIED",
+        "authorizes_landing": False,
+    }
