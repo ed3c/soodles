@@ -20,6 +20,15 @@ The complete schema 3 candidate passes. Schema 1 and schema 2 parsing remain
 legal, and the existing P-class replay owner is unchanged. The focused tests
 and the full 174-test suite pass locally.
 
+The first exact head `84584ac61474c3ac1354ad8f70efb2fea3e29807`
+remains an immutable failed attempt. Its candidate-verification step, canonical
+acceptance and quality report passed, but runtime run `35502602979` exposed a
+stale direct-consumer assertion: the admission-recovery fixture correctly
+preserved the planted `refusal` process as exit 1 while the shell assertion
+required exit 0 for both `recovery` and `refusal`. The terminal candidate fixes
+only that declared control interpretation to require `recovery=0` and
+`refusal=1`; it does not rerun or relabel the failed head.
+
 ## PR #90 regression
 
 Replaying the historical PR #90 candidate directly from Git objects exposes a

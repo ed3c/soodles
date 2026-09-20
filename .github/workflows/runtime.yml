@@ -123,9 +123,9 @@ jobs:
           import json, os
           from pathlib import Path
           root = Path(os.environ['RUNNER_TEMP']) / 'admission-packet'
-          for label in ('recovery', 'refusal'):
+          for label, expected_exit in (('recovery', 0), ('refusal', 1)):
               process = json.loads((root / label / 'process.json').read_text())
-              assert process['exit_code'] == 0 and process['waited'] and not process['timed_out'], (label, process)
+              assert process['exit_code'] == expected_exit and process['waited'] and not process['timed_out'], (label, process)
           PYTHON
 
       - name: Preserve non-authorizing evidence
