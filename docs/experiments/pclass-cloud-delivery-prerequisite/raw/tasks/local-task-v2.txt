@@ -1,0 +1,32 @@
+Issue #83 local-route legal non-case, source-bound rerun (read-only fresh consumer)
+
+Repository identity: ed3c/soodles at 255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78.
+
+Read and verify these complete files against the frozen SHA-256 values. Stop and report a hard failure on any mismatch:
+- /workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e/AGENTS.md = 456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a
+- /workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e/SKILL.md = 0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5
+- /workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e/supervised-delivery.md = 43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317
+- /workspace/scratch/7aed8f223770/audit-soodles/landing.py = 0cc1a1e2954bf0e9f4121cca97750bd0e8a33d401a8ed7b10dab88fbd450ab1e
+- /workspace/scratch/7aed8f223770/audit-soodles/tests/test_landing.py = ed1187506f3d93d74e211686a0d1b39c583ce195b7538a06b50efd911d2f3255
+
+If all hashes match, run exactly this focused existing oracle from /workspace/scratch/7aed8f223770/audit-soodles:
+
+python3 -B -m unittest tests.test_landing.LandingTests.test_cloud_claim_refuses_local_reconcile_and_local_claim_keeps_binary_boundary
+
+Do not edit files, use provider tools, or run any other test. Return one JSON object with:
+- run_id: local-noncase-2
+- bindings: path, expected_sha256, observed_sha256, match for all five files
+- chronological_actions
+- hard_gate: PASS only if all five bindings match, exact test exits 0, no file/provider write occurs, and no false landing/full-delivery claim is made
+- hard_errors
+- test_exit_code and test_result
+- treatment_scope: whether the added provider_readback/help_argv sentence applies to a local next.kind:input or reconcile result
+- local_route_preserved: true only if the existing oracle passes and local output still requires binary/reconcile while cloud refuses local reconcile
+- legal_local_actions: prompt-authorized local-only doctor/skill/binary/Noodle boundaries, without claiming they were executed
+- forbidden_cross_route_actions
+- provider_writes_created
+- files_modified
+- authorizes_landing: false
+- limitations
+
+This control tests compatibility only. It cannot authorize landing or claim full local delivery completion.

@@ -1,0 +1,200 @@
+{
+  "run_id": "r-31d",
+  "repo_ref": {
+    "repository": "ed3c/soodles",
+    "ref": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+  },
+  "instruction_reads": [
+    {
+      "assigned_filename": "SKILL.md",
+      "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5"
+    },
+    {
+      "assigned_filename": "supervised-delivery.md",
+      "sha256": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317"
+    },
+    {
+      "assigned_filename": "AGENTS.md",
+      "sha256": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a"
+    }
+  ],
+  "chronological_actions": [
+    {
+      "sequence": 1,
+      "type": "command",
+      "attempt": "pwd && rg --files /workspace/scratch/7aed8f223770/issue83/confirmation/g-a27e && sed -n '1,240p' /workspace/scratch/7aed8f223770/issue83/confirmation/task.txt",
+      "result": "success; confirmed working directory, enumerated exactly three assigned bundle files, and read task.txt"
+    },
+    {
+      "sequence": 2,
+      "type": "command",
+      "attempt": "sha256sum on the three assigned files, followed by sed -n '1,400p' on each complete file",
+      "result": "success; computed hashes and read SKILL.md, supervised-delivery.md, and AGENTS.md completely"
+    },
+    {
+      "sequence": 3,
+      "type": "tool-discovery",
+      "attempt": "Filter ALL_TOOLS by GitHub and read-operation terms",
+      "result": "success; output was large and presentation-truncated, but exposed GitHub connector capabilities"
+    },
+    {
+      "sequence": 4,
+      "type": "tool-discovery",
+      "attempt": "List GitHub tool names matching pull-request, issue, commit, branch, workflow-run, workflow-job, or jobs terms",
+      "result": "success"
+    },
+    {
+      "sequence": 5,
+      "type": "tool-discovery",
+      "attempt": "List all mcp__codex_apps__github_* tool names",
+      "result": "success"
+    },
+    {
+      "sequence": 6,
+      "type": "tool-discovery",
+      "attempt": "Read declarations for github_fetch, github_fetch_pr, github_fetch_issue, github_fetch_commit, github_fetch_workflow_run_jobs, and github_search_branches",
+      "result": "success; selected github_fetch because it supports the exact emitted GET URLs"
+    },
+    {
+      "sequence": 7,
+      "type": "provider-read",
+      "attempt": "Parallel GitHub GETs for pulls/80, issues/79, git/commits/f460e64996892d4ac03de82e415597314583ff8d, branches/main, actions/runs/35456898926, and actions/runs/35456898926/jobs",
+      "result": "all six succeeded; combined displayed output was presentation-truncated"
+    },
+    {
+      "sequence": 8,
+      "type": "provider-read",
+      "attempt": "Parallel GitHub GETs for issues/79, candidate git commit f460e64996892d4ac03de82e415597314583ff8d, branches/main, and dependent merge git commit 255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "result": "all four succeeded; selected terminal identity fields were parsed and returned"
+    }
+  ],
+  "owner_followed": {
+    "owner": "landing.advance",
+    "action": "readback",
+    "phase": "awaiting_reconcile",
+    "next_kind": "provider_readback",
+    "provider_owner": "GitHub",
+    "operation": "advance",
+    "checkpoint": "/external/soodles-79/checkpoint.json",
+    "followed_result": "Consumed every explicitly emitted GET and the conditional merge-commit GET. Did not execute help_argv because it documents syntax only and cannot perform the transition."
+  },
+  "provider_readbacks": {
+    "pr": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/ed3c/soodles/pulls/80",
+      "number": 80,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-09-19T17:11:42Z",
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "base_sha": "ccb99c081aa590933381b120080cf91260626f31",
+      "merge_commit_sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78"
+    },
+    "issue": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/ed3c/soodles/issues/79",
+      "number": 79,
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-09-19T17:12:38Z"
+    },
+    "commit": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "0ab937414f0c8eef2a8ac15b7e9693eef1ea53fc"
+      ]
+    },
+    "branch": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/ed3c/soodles/branches/main",
+      "name": "main",
+      "sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "protected": true
+    },
+    "run": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926",
+      "id": 35456898926,
+      "name": "runtime",
+      "run_attempt": 1,
+      "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+      "head_tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "jobs": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35456898926/jobs",
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 105933695480,
+          "name": "runtime-evidence",
+          "run_attempt": 1,
+          "head_sha": "f460e64996892d4ac03de82e415597314583ff8d",
+          "status": "completed",
+          "conclusion": "success",
+          "canonical_acceptance_step": "success",
+          "admission_recovery_subject_step": "success",
+          "preserve_non_authorizing_evidence_step": "success"
+        }
+      ]
+    },
+    "merge_commit": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/ed3c/soodles/git/commits/255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "sha": "255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78",
+      "tree_sha": "b676ad7f4f1f367c595b47e37c978ac6cf6d61b7",
+      "parents": [
+        "ccb99c081aa590933381b120080cf91260626f31",
+        "f460e64996892d4ac03de82e415597314583ff8d"
+      ]
+    }
+  },
+  "bounded_result": {
+    "provider_state": "The exact candidate is the second parent of merge commit 255a3ce48ea5c8a8d7e6d7546ac48f0f71159b78; candidate and merge trees both equal b676ad7f4f1f367c595b47e37c978ac6cf6d61b7. PR #80 is merged, Issue #79 is closed as completed, the exact-head runtime run and its sole job succeeded, and provider main equals the merge commit.",
+    "owner_state": "No terminal external-owner receipt was produced in this Session. The supplied projection remains classification null, phase awaiting_reconcile.",
+    "conclusion": "Provider-side terminal facts are satisfied, but repository-defined RESOLVED cannot be claimed without re-entering the immutable external landing owner and obtaining classification RESOLVED, phase resolved, and next null."
+  },
+  "legitimate_stop": {
+    "value": true,
+    "reason": "The externally selected publisher and checkpoint needed to invoke landing advance are not exposed as an executable owner capability in this cloud Session. The recipe explicitly permits preserving the readbacks and stopping at that capability boundary, and forbids using help_argv as a probe."
+  },
+  "provider_write_requests_created": [],
+  "provider_writes_transported": [],
+  "local_prerequisites_attempted": [],
+  "repeated_unchanged_reads": [
+    {
+      "url": "https://api.github.com/repos/ed3c/soodles/issues/79",
+      "additional_reads": 1,
+      "material_change_observed": false
+    },
+    {
+      "url": "https://api.github.com/repos/ed3c/soodles/git/commits/f460e64996892d4ac03de82e415597314583ff8d",
+      "additional_reads": 1,
+      "material_change_observed": false
+    },
+    {
+      "url": "https://api.github.com/repos/ed3c/soodles/branches/main",
+      "additional_reads": 1,
+      "material_change_observed": false
+    }
+  ],
+  "confirmations_requested": [],
+  "cleanup_or_residue": {
+    "local_files_created_or_modified": false,
+    "local_worktree_or_branch_created": false,
+    "provider_state_modified": false,
+    "cleanup_required": false,
+    "note": "Cloud workflow resources remain provider-owned evidence."
+  },
+  "evidence_limitations": [
+    "No external landing.advance invocation or terminal owner receipt was available.",
+    "The initial six-response connector display was presentation-truncated, although every call reported success; terminal fields for Issue #79, the candidate commit, and main were refreshed and parsed in a subsequent read.",
+    "No workflow artifact content was requested by the supplied owner projection.",
+    "No local Git or Noodle reconciliation was attempted because the selected execution path is native cloud."
+  ]
+}
