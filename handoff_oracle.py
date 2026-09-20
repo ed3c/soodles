@@ -295,20 +295,15 @@ enabled = false
                 raise RuntimeError("A was not reconciled and cleaned by the landing owner")
             cleanup_at = time.time_ns()
 
-            b_envelope, b_path, b_digest, b_issue = _envelope(
+            _, b_path, b_digest, b_issue = _envelope(
                 root, outside, noodle, codex, 106)
             issue_reads = []
-            def read_b(repository, number=None):
-                # Keep the older physical fixture callable replayable while the
-                # production consumer uses the repository-bearing form.
-                form = "repository-bound"
-                if number is None:
-                    form = "legacy-fixture"
-                    repository, number = b_envelope["repository"], repository
+            def read_b(repository, number):
                 if repository != REPOSITORY or number != 106:
                     raise RuntimeError(
                         f"unexpected Issue read {repository}#{number}")
-                issue_reads.append({"form": form, "repository": repository,
+                issue_reads.append({"form": "repository-bound",
+                                    "repository": repository,
                                     "issue": number})
                 return b_issue
             admitted = issue_execution.automatic(

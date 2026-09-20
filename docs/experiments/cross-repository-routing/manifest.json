@@ -105,7 +105,7 @@
     {
       "path": "handoff_oracle.py",
       "role": "required correction control or raw evidence",
-      "sha256": "1f3f3bfcbfd09c1a56d5e4de86a8f8a84405909ad6fc1a183575a58978f11915"
+      "sha256": "e02ce81705f8ea974d135848d50277b2735306280a4509882782df52f4abcd98"
     },
     {
       "path": "issue_admission.py",
@@ -126,6 +126,11 @@
       "path": "repository_binding.py",
       "role": "required correction control or raw evidence",
       "sha256": "9259641b37b7e313037e1bc8bd078db6337c19e9405fcead20df0b8349557af1"
+    },
+    {
+      "path": "resume_oracle.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "9bb812f17f68b31ea10b2b7233000fd8a9c4e93592ac02b86661cbf3d854a662"
     },
     {
       "path": "soodles.py",
