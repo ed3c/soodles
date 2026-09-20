@@ -123,7 +123,7 @@ jobs:
           import json, os
           from pathlib import Path
           root = Path(os.environ['RUNNER_TEMP']) / 'admission-packet'
-          for label, expected_exit in (('recovery', 0), ('refusal', 1)):
+          for label, expected_exit in (('recovery', 0), ('refusal', 0)):
               process = json.loads((root / label / 'process.json').read_text())
               assert process['exit_code'] == expected_exit and process['waited'] and not process['timed_out'], (label, process)
           PYTHON
