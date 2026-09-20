@@ -98,3 +98,22 @@ planted-negative control`, `baseline/treatment`, `nonregression`, `exact-head
 acceptance`, and `receipted terminal classification` when specifying this atom.
 Do not replace these observable obligations with a request to merely apply
 Clean Code, an idempotency key, or a globally shortest path.
+
+## First candidate refusal and same-atom migration
+
+Head `0d6fef72ca43f9904ac7fe69cb4eb33ec79ac84c`, runtime run
+`35521512447` attempt 1, passed fresh Issue/evidence binding but failed canonical
+acceptance (189/190 tests passed). The historical experiment test read the
+current recipe instead of its archived `source_provider_sha`; this correction
+legitimately changed that recipe. Quality reporting passed and no merge was
+offered. The failed head was preserved and was not rerun.
+
+Issue #106 was amended and read back before expanding the write boundary to
+`tests/test_fresh_delivery_decisions.py`. Prior acceptance was invalidated.
+The test now uses `git show` at its recorded 40-character immutable source SHA,
+keeping every complete-source hash, loaded-text and loaded-hash assertion.
+Four direct provider source reads independently match the archived evidence.
+The workflow already fetches complete Git history. Its new-head run must verify
+the Git integration and all acceptance again. Historical experiment data, current
+CLI/P treatment, frozen controls and the externally selected publisher remain
+unchanged. This migration is a consumer dependency of the same recipe change.

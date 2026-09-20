@@ -45,7 +45,7 @@
     {
       "path": "docs/experiments/landing-continuation/results.md",
       "role": "required correction control or raw evidence",
-      "sha256": "032b5ffc1c816066551272b067f6444cbfe7ae1936e54d6fdf113836a9ab6f54"
+      "sha256": "43b5100ee47b2aaec057e9d6d3c25c2d47cbda01b9c7fdd86d0448bce59c3899"
     },
     {
       "path": "docs/experiments/landing-continuation/raw/baseline-cli.json",
@@ -65,12 +65,17 @@
     {
       "path": "docs/experiments/landing-continuation/raw/independent-audit.json",
       "role": "required correction control or raw evidence",
-      "sha256": "743f4b7a4884bb32a317a0194394c374522bda7ffb6493dbc76db2711c1d40a4"
+      "sha256": "c7947ebac6a0c59fd69dd0d7b0a85217cda7c2a104b35b482304d593019f857e"
     },
     {
       "path": "docs/experiments/landing-continuation/raw/verification.json",
       "role": "required correction control or raw evidence",
-      "sha256": "1f04d1d59fc9c2d104ca72cceb9f829598074822a47e98698d7549f1a0d34996"
+      "sha256": "d565fdc6cc3df7535529369bd527e7d6e20bc9c30231a3d1a00c3329b6a76042"
+    },
+    {
+      "path": "tests/test_fresh_delivery_decisions.py",
+      "role": "required correction control or raw evidence",
+      "sha256": "12f21d94e70974c68a422952ed9124c6e072446fdc10a9938ec7f404f334b927"
     }
   ],
   "owner": {
