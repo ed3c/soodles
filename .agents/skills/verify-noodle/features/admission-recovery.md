@@ -117,6 +117,54 @@ false cleanup, traversal or any portable continuation is a refusal with the
 field and existing inspect entry. No production proposal or runtime-lock identity
 is migrated by this format.
 
+## Bounded P-class replay (Soodles #81)
+
+The demonstrated route is stopped-owner input → fresh `admission inspect`
+projection → exact selected `next.argv` retirement → fresh `no_proposal`
+completion and prohibited-effect observations → manifest-bound executable
+observer/decider → preserved raw/replay packet. Noodle alone owns retirement.
+`replay_pclass.py` selects `feature=admission_recovery`; it checks the supplied
+manifest and analyzer digests before importing the observer or decider. It never
+executes commands archived in the packet. Use the externally supplied manifest
+digest, not a new digest chosen to make changed evidence pass:
+
+```sh
+python3 .agents/skills/verify-soodles/scripts/replay_pclass.py \
+  RAW.json GATES.json MANIFEST.json EXPECTED_MANIFEST_SHA256 \
+  .agents/skills/verify-soodles/scripts/observe_admission_recovery_pclass.py \
+  .agents/skills/verify-soodles/scripts/decide_admission_recovery_pclass.py
+```
+
+The four ordered legal barriers are unchanged-projection reinspection, help after
+an executable projection, repeated unchanged instruction reads, and avoidable
+confirmation. Reinspection after retirement observes changed state and is legal;
+an argv identical to current `next.argv` remains legal regardless of how the
+consumer assembled it. Stale continuation, wrong identity, missing completion,
+changed archive/canonical bytes and process or cleanup residue are hard failures,
+never optimization targets. Missing evidence never supplies a zero.
+
+Three complete baseline runs with all four totals zero yield
+`NO_QUALIFIED_BARRIER`, not improvement or scoped nonregression. That predicate
+is exercised by explicitly synthetic controls; it creates no treatment or
+confirmation. The initial #81 e_b4/e_b5/e_b6 replay was `INCONCLUSIVE` because
+e_b4/e_b6 retained runtime-lock residue. That original raw evidence and failed
+receipt remain preserved. A supervisor-fixed append-only cleanup supplement
+now binds the same runs, projects, original lock digests and process/session
+scope. The same replay entry verifies the observer/selection/receipt bytes and
+final absence before discharging only those original lock-residue errors.
+Omission or rebinding is RED; the corrected packet and already-complete e_b5
+are GREEN. All three final hard gates pass and all four barrier totals are zero:
+`NO_QUALIFIED_BARRIER`, without treatment or confirmation runs. e_b1/e_b2 remain
+unscored recorder preflight aborts; e_b3 read task/instruction/help/version but
+never invoked admission inspect or retire and remains unscored.
+
+Evidence is in `docs/experiments/pclass-admission-recovery-81/raw`: original
+request/result/stdout/stderr bytes, fixed inputs, consumer receipts, manifest,
+gates, replay and independent readback. These are recorded subprocess and
+consumer observations, not a complete platform transcript or a global transport
+monitor. Model/config identity remains UNKNOWN where not observable. All
+receipts are non-authorizing; this adds no treatment guidance or landing authority.
+
 ## Gotchas
 
 Correct refusal of a valid, already admitted/owned, unknown/ambiguous or live
