@@ -102,7 +102,7 @@ class IssueExecutionTests(unittest.TestCase):
     def test_both_real_entry_functions_consume_same_normalized_binding(self):
         automatic = self.admit("automatic")
         proposal = json.loads((self.runtime / "orders-next.json").read_text())
-        self.assertEqual(proposal["initial_revision"], self.snapshot["order_revision"])
+        self.assertEqual(set(proposal), {"orders"})
         self.assertEqual(proposal["orders"][0]["id"], "soodles-18")
         self.assertFalse(self.effect.exists())
         (self.runtime / "orders-next.json").unlink()
@@ -249,14 +249,12 @@ class IssueExecutionTests(unittest.TestCase):
         self.assertEqual(caught.exception.invalid["field"], "worker.git.head")
         self.assertFalse(self.effect.exists())
 
-    def test_unknown_owner_revision_refuses_before_publication(self):
+    def test_lock_selected_noodle_proposal_does_not_invent_revision_protocol(self):
         del self.snapshot["order_revision"]
         self.save_owner()
-        with self.assertRaises(admission.AdmissionRefusal) as caught:
-            self.admit("automatic")
-        self.assertEqual(caught.exception.invalid["field"], "noodle.order_revision")
-        self.assertEqual(caught.exception.next["owner"], "Noodle")
-        self.assertFalse((self.runtime / "orders-next.json").exists())
+        result = self.admit("automatic")
+        self.assertTrue(result["published"])
+        self.assertEqual(set(json.loads((self.runtime / "orders-next.json").read_text())), {"orders"})
 
     def test_real_scheduler_provider_entry_also_revalidates_before_launch(self):
         self.snapshot["state"]["orders"]["schedule"] = {
@@ -363,6 +361,59 @@ class IssueExecutionTests(unittest.TestCase):
             import signal
             os.killpg(process.pid, signal.SIGTERM)
             process.wait()
+
+    def archived_completion(self, *, outcome="completed", blocking=False):
+        self.admit("automatic")
+        self.promote_fixture()
+        ended = subprocess.Popen(["/bin/sh", "-c", "exit 0"], start_new_session=True)
+        ended.wait()
+        session_dir = self.runtime / "sessions" / self.session
+        (session_dir / "process.json").write_text(json.dumps(
+            {"pid": ended.pid, "session_id": self.session}))
+        (session_dir / "meta.json").write_text(json.dumps(
+            {"session_id": self.session, "status": "exited", "alive": False}))
+        (session_dir / "events.ndjson").write_text(json.dumps({
+            "type": "stage_message", "payload": {
+                "message": "fixture result", "blocking": blocking, "outcome": outcome,
+                "order_id": "soodles-18", "stage_index": 0}}) + "\n")
+        created = "2026-09-20T00:00:00Z"
+        admission_record = self.snapshot["effect_ledger"][0]
+        admission_record.update(status="done", result={"status": "completed"})
+        admission_record["effect"]["effect_id"] = admission_record["effect_id"]
+        self.snapshot["effect_ledger"].extend([
+            {"effect_id": "event-2-effect-0", "effect": {
+                "effect_id": "event-2-effect-0", "type": "dispatch", "payload": {
+                    "attempt_id": "soodles-18-0-attempt-0", "order_id": "soodles-18",
+                    "stage_index": 0}, "created_at": "2026-09-20T00:00:00Z"}},
+            {"effect_id": "event-3-effect-0", "effect": {
+                "effect_id": "event-3-effect-0", "type": "write_projection",
+                "payload": {"order_id": "soodles-18"}, "created_at": created}},
+            {"effect_id": "event-3-effect-1", "effect": {
+                "effect_id": "event-3-effect-1", "type": "ack",
+                "payload": {"order_id": "soodles-18"}, "created_at": created}},
+        ])
+        self.snapshot["state"]["orders"] = {}
+        self.save_owner()
+        return session_dir
+
+    def test_projected_away_original_order_requires_exact_completed_session(self):
+        self.archived_completion()
+        self.snapshot["effect_ledger"] = [record for record in self.snapshot["effect_ledger"]
+                                          if record["effect"]["type"] != "initial_admission"]
+        self.save_owner()
+        result = execution.completed_original_order(self.envelope, self.snapshot)
+        self.assertEqual(result["source"], "archived_projection")
+        self.assertIsNone(result["initial_admission_effect"])
+        self.assertEqual(result["typed_outcome"]["outcome"], "completed")
+        self.assertTrue(result["quiescent_sessions"][0]["process_and_group_absent"])
+        self.assertEqual(self.admit("automatic")["action"], "previously_admitted")
+        self.assertFalse((self.runtime / "orders-next.json").exists())
+
+    def test_projected_away_blocked_outcome_cannot_authorize_cleanup(self):
+        self.archived_completion(outcome="blocked", blocking=True)
+        with self.assertRaises(admission.AdmissionRefusal) as caught:
+            execution.completed_original_order(self.envelope, self.snapshot)
+        self.assertEqual(caught.exception.invalid["field"], "completion.typed_outcome")
 
 
 if __name__ == "__main__":

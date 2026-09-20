@@ -175,6 +175,8 @@ def acceptance_verify(root, binary):
     physical["delivery_recovery"] = delivery_probe(ROOT)
     from base_recovery_oracle import base_recovery_probe
     physical["base_recovery"] = base_recovery_probe(ROOT)
+    from handoff_oracle import handoff_probe
+    physical["order_handoff"] = handoff_probe(runtime["binary"], ROOT)
     print(json.dumps({"delivery_recovery": physical["delivery_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_lock_recovery": physical["cleanup_lock_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_recovery": physical["cleanup_recovery"]["cases"]}), file=sys.stderr)
@@ -248,6 +250,10 @@ def parser():
     advance = verbs.add_parser("advance", epilog="Examples: ./soodles landing advance /tmp/checkpoint.json /tmp/readback.json")
     advance.add_argument("checkpoint")
     advance.add_argument("readback")
+    consume = verbs.add_parser("consume", description="Consume fresh provider readback through the operation selected by the durable checkpoint; emits no provider transport.",
+                               epilog="Examples: ./soodles landing consume /tmp/checkpoint.json /tmp/readback.json")
+    consume.add_argument("checkpoint")
+    consume.add_argument("readback")
     dispatch = verbs.add_parser("dispatch", description="Consume one prepared intent with fresh owner readback; emit its exact connector request once.",
                                 epilog="Examples: ./soodles landing dispatch /tmp/checkpoint.json /tmp/readback.json")
     dispatch.add_argument("checkpoint")
@@ -308,6 +314,8 @@ def main():
                 result = landing.start(landing.read(args.claim), landing.read(args.readback), args.checkpoint)
             elif args.verb == "advance":
                 result = landing.advance(args.checkpoint, landing.read(args.readback))
+            elif args.verb == "consume":
+                result = landing.consume(args.checkpoint, landing.read(args.readback))
             elif args.verb == "dispatch":
                 result = landing.dispatch(args.checkpoint, landing.read(args.readback))
             elif args.verb == "resume":

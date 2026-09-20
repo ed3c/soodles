@@ -114,9 +114,6 @@ def read_owner(binding):
         if effect.get("type") == "initial_admission":
             require(isinstance(effect.get("payload"), dict) and isinstance(effect["payload"].get("order_id"), str),
                     "noodle.initial_admission", effect, owner="Noodle", required="canonical_checkpoint_readback")
-    revision = state.get("order_revision")
-    require(isinstance(revision, str) and re.fullmatch(r"[0-9a-f]{32}", revision),
-            "noodle.order_revision", revision, owner="Noodle", required="current_order_revision")
     return state
 
 
@@ -177,6 +174,126 @@ def quiescent_order(binding, state):
     require(read_owner(binding)["state"]["orders"].get(order_id) == order,
             "takeover.owner_changed", order_id, owner="Noodle", required="fresh_canonical_checkpoint")
     return observations
+
+
+def _matching_effects(state, order_id, kind):
+    matches = []
+    for record in state["effect_ledger"]:
+        effect = record["effect"]
+        if effect.get("type") == kind and effect.get("payload", {}).get("order_id") == order_id:
+            matches.append(record)
+    return matches
+
+
+def _absent_process(directory, session):
+    try:
+        process = json.loads((directory / "process.json").read_text())
+    except (OSError, ValueError) as error:
+        raise AdmissionRefusal("completion.process", str(error), "Noodle", "process_group_readback") from error
+    require(isinstance(process, dict) and process.get("session_id") == session
+            and type(process.get("pid")) is int and process["pid"] > 1,
+            "completion.process", process, owner="Noodle", required="process_group_readback")
+    for target in (process["pid"], -process["pid"]):
+        try:
+            os.kill(target, 0)
+        except ProcessLookupError:
+            continue
+        except PermissionError as error:
+            raise AdmissionRefusal("completion.process", str(error), "Noodle", "process_group_readback") from error
+        raise AdmissionRefusal("completion.process_alive", target, "Noodle", "quiescent_writer_and_session_readback")
+    return {"session_id": session, "pid": process["pid"], "process_and_group_absent": True}
+
+
+def completed_original_order(binding, state):
+    """Prove completion from the current row or Noodle's retained projection history."""
+    order_id = binding["execution"]["order_id"]
+    order = state["state"]["orders"].get(order_id)
+    if isinstance(order, dict):
+        require(order.get("status") == "completed", "completion.order.status", order.get("status"),
+                owner="Noodle", required="completed_original_order_and_quiescent_sessions")
+        return {"order_id": order_id, "source": "current_order", "order": order,
+                "quiescent_sessions": quiescent_order(binding, state)}
+    require(order is None, "completion.order", order,
+            owner="Noodle", required="canonical_order_readback")
+
+    admission = _matching_effects(state, order_id, "initial_admission")
+    require(len(admission) <= 1, "completion.initial_admission", len(admission),
+            owner="Noodle", required="canonical_effect_history")
+    admitted = admission[0] if admission else None
+    if admitted is not None:
+        require(admitted.get("status") == "done"
+                and admitted.get("result", {}).get("status") == "completed",
+                "completion.initial_admission.status", admitted.get("status"),
+                owner="Noodle", required="canonical_effect_history")
+
+    dispatches = [record for record in _matching_effects(state, order_id, "dispatch")
+                  if record["effect"].get("payload", {}).get("stage_index") == binding["execution"]["stage_index"]]
+    require(len(dispatches) == 1, "completion.dispatch", len(dispatches),
+            owner="Noodle", required="canonical_attempt_readback")
+    projections = _matching_effects(state, order_id, "write_projection")
+    acknowledgements = _matching_effects(state, order_id, "ack")
+    require(len(projections) == len(acknowledgements) == 1,
+            "completion.projection", {"write_projection": len(projections), "ack": len(acknowledgements)},
+            owner="Noodle", required="completed_order_projection_readback")
+    projected, acknowledged = projections[0]["effect"], acknowledgements[0]["effect"]
+    require(projected.get("created_at") == acknowledged.get("created_at")
+            and projected.get("effect_id", "").rsplit("-", 1)[0] == acknowledged.get("effect_id", "").rsplit("-", 1)[0],
+            "completion.projection.pair", [projected.get("effect_id"), acknowledged.get("effect_id")],
+            owner="Noodle", required="completed_order_projection_readback")
+
+    root = Path(binding["execution"]["control_root"])
+    expected_worktree = str((root / ".worktrees" / binding["execution"]["worktree"]).resolve())
+    sessions = []
+    session_root = root / ".noodle/sessions"
+    try:
+        directories = list(session_root.iterdir())
+    except OSError as error:
+        raise AdmissionRefusal("completion.sessions", str(error), "Noodle",
+                               "original_session_readback") from error
+    carrier = binding["execution"]["carrier"]
+    expected_model = carrier.get("codex", {}).get("model")
+    for directory in directories:
+        if not directory.is_dir():
+            continue
+        try:
+            spawn = json.loads((directory / "spawn.json").read_text())
+        except (OSError, ValueError):
+            continue
+        if (spawn.get("skill") == "execute" and spawn.get("worktree_path") == expected_worktree
+                and spawn.get("provider") == "codex" and spawn.get("model") == expected_model):
+            sessions.append((directory, spawn))
+    require(len(sessions) == 1, "completion.sessions", len(sessions),
+            owner="Noodle", required="original_session_readback")
+    directory, spawn = sessions[0]
+    session = spawn.get("session_id")
+    require(isinstance(session, str) and directory.name == session,
+            "completion.session_id", session, owner="Noodle", required="original_session_readback")
+    try:
+        meta = json.loads((directory / "meta.json").read_text())
+        events = [json.loads(line) for line in (directory / "events.ndjson").read_text().splitlines() if line.strip()]
+    except (OSError, ValueError) as error:
+        raise AdmissionRefusal("completion.session", str(error), "Noodle", "original_session_readback") from error
+    require(meta.get("session_id") == session and meta.get("status") == "exited" and meta.get("alive") is False,
+            "completion.meta", meta, owner="Noodle", required="original_session_exit_readback")
+    terminal = [event for event in events if event.get("type") == "stage_message"
+                and event.get("payload", {}).get("order_id") == order_id
+                and event.get("payload", {}).get("stage_index") == binding["execution"]["stage_index"]]
+    require(len(terminal) == 1, "completion.typed_outcome", len(terminal),
+            owner="Noodle", required="completed_typed_outcome")
+    payload = terminal[0]["payload"]
+    require(payload.get("outcome") == "completed" and payload.get("blocking") is False,
+            "completion.typed_outcome", payload, owner="Noodle", required="completed_typed_outcome")
+    quiescent = _absent_process(directory, session)
+    fresh = read_owner(binding)
+    require(fresh.get("order_revision") == state.get("order_revision")
+            and fresh["state"]["orders"].get(order_id) is None
+            and fresh["effect_ledger"] == state["effect_ledger"],
+            "completion.owner_changed", order_id, owner="Noodle", required="fresh_canonical_checkpoint")
+    return {"order_id": order_id, "source": "archived_projection",
+            "initial_admission_effect": admitted["effect_id"] if admitted else None,
+            "dispatch_effect": dispatches[0]["effect_id"],
+            "projection_effects": [projections[0]["effect_id"], acknowledgements[0]["effect_id"]],
+            "typed_outcome": payload, "quiescent_sessions": [quiescent]}
 
 
 def projection(binding, envelope_digest, route):
@@ -244,7 +361,8 @@ def _admit(envelope_path, envelope_digest, root, reader, route):
                          "known": {"order_id": order_id}}, route), "published": False}
     for record in state["effect_ledger"]:
         effect = record.get("effect", {})
-        if effect.get("type") == "initial_admission" and effect.get("payload", {}).get("order_id") == order_id:
+        if (effect.get("type") in {"initial_admission", "dispatch", "write_projection", "ack"}
+                and effect.get("payload", {}).get("order_id") == order_id):
             return {"owner": "Noodle", "action": "previously_admitted", "binding": binding, "published": False,
                     "next": continuation({"kind": "input", "owner": "Noodle", "required": ["original_order_recovery"],
                              "known": {"order_id": order_id, "effect_id": record.get("effect_id")}}, route)}
@@ -253,7 +371,7 @@ def _admit(envelope_path, envelope_digest, root, reader, route):
     require(isinstance(codex, dict) and isinstance(codex.get("model"), str),
             "carrier.codex", codex)
     validate_carrier(binding, worker=True)
-    proposal = {"initial_revision": state["order_revision"], "orders": [{
+    proposal = {"orders": [{
         "id": order_id, "title": f"Execute {REPOSITORY}#{binding['issue']}",
         "rationale": "Externally admitted current Issue",
         "stages": [{"do": "execute", "with": "codex", "model": codex["model"], "runtime": "process",

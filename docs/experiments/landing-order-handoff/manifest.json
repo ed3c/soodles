@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 105
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/README.md",
+      "baseline_sha256": "8dc89c146fd4ba0058eb535014601d91e72460ee063ba9cbca7fe10b25cb0904",
+      "treatment_sha256": "b64f6dd4a97563d40887a0f192d6227cf6cd9f4f6f6fc28469c57ce700727949"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/features/order-handoff.md",
+      "role": "verification_recipe",
+      "sha256": "2cc71699e1e9a723cd20c663a4e68761e3346d9d0f3cbbd7a057673780fa76db"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/agent-inputs/baseline-A.md",
+      "role": "bounded_evidence",
+      "sha256": "c8d064ba7a4f7f38cfa86fb3f3c078909de094adb3750bdf6cda930f2032f944"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/agent-inputs/baseline-B.md",
+      "role": "bounded_evidence",
+      "sha256": "f4eb0d3ef9ea2751b18c6b0bf81dd25c65d3bab21639fe3173c48c5da5907523"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/agent-inputs/baseline-C.md",
+      "role": "bounded_evidence",
+      "sha256": "9ed4b64f20d21969dc66c3b96785d20336203a1d2529de4a408c02dbf9988081"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/agent-inputs/treatment-A.md",
+      "role": "bounded_evidence",
+      "sha256": "7cc30817615b48af73aead757f7bdd10db8b87058fdda4fe38d98d1cc5e36809"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/agent-inputs/treatment-B.md",
+      "role": "bounded_evidence",
+      "sha256": "a5ddb9b55653571153ccda0bdd6face886b603fa3e5a13fab2bb748e89bc5ca4"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/agent-inputs/treatment-C.md",
+      "role": "bounded_evidence",
+      "sha256": "eeffc13bb07bbc74292d38733e86eaa171320ebe3cca13bbd34d985661400ed8"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/audit-task.md",
+      "role": "bounded_evidence",
+      "sha256": "ecec5e9e16512b0e9e109f62d046038b0c28a7d84501ea2de361faa08db7ba27"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/raw/agents.json",
+      "role": "bounded_evidence",
+      "sha256": "e3e88cf7db2c1d9b8af01e66850aa41cdda2575b4b66e0b302e68136360d5857"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/raw/baseline.stderr",
+      "role": "bounded_evidence",
+      "sha256": "4bc79cc876f12783d69b3d94e65435032c9cb430f0436ea163a68189abed1086"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/raw/candidate.json",
+      "role": "bounded_evidence",
+      "sha256": "c4c4444682e0b553513e52afc73daf813dea743f95ccc0d390588164e567ba9c"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/raw/independent-audit.json",
+      "role": "bounded_evidence",
+      "sha256": "3e9ce6716397408b99cb2790096c9bb77b349d656f832ec2655d9a30e6bdeede"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/raw/planted-negative.stderr",
+      "role": "bounded_evidence",
+      "sha256": "0ab3842f47aa5f0d0d5af48856eb2294e928150d86427bf84d1fc07898dd6a83"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/results.md",
+      "role": "bounded_evidence",
+      "sha256": "9231a31556abe9e2a0b7cb7e308c736ee64cd860aea01a188940fa5e7d4761d4"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/task.md",
+      "role": "bounded_evidence",
+      "sha256": "07904c95a79e2112d5d567d4dbfbcecd178438a6b7c5e157bb49a59529bb9cbf"
+    },
+    {
+      "path": "handoff_oracle.py",
+      "role": "implementation",
+      "sha256": "d9a3830d30f7789067328db7b7aafff236bd7b2738979da0a9c1d261090d7b51"
+    },
+    {
+      "path": "issue_execution.py",
+      "role": "implementation",
+      "sha256": "4d2bc4071d9b6767f1dd9f3e2d9b8bc8de312b082aa6045d4937985c9438ef13"
+    },
+    {
+      "path": "landing.py",
+      "role": "implementation",
+      "sha256": "c4a6505489015085657993a11211d5e58d0302ccbd61f969ed73b075011df358"
+    },
+    {
+      "path": "quality/measure.py",
+      "role": "implementation",
+      "sha256": "8dbf29e6c4ce59bcf2b4475e3975a491deb5f468fbfe398fcd2b42725a10232a"
+    },
+    {
+      "path": "soodles.py",
+      "role": "implementation",
+      "sha256": "f38647a44cf22ffd29dcd495c8ea8bbab7214f7553cfef17a99eccb000e3c033"
+    },
+    {
+      "path": "tests/test_issue_execution.py",
+      "role": "test",
+      "sha256": "63e682303368f2f8d39242bf7019eb578c570184844639e301abd2bfb1458565"
+    },
+    {
+      "path": "tests/test_landing.py",
+      "role": "test",
+      "sha256": "9cb8cf7dbea01ce2bb33a80d3c91e975d8bab7b07d63440ff2107007d9c95312"
+    },
+    {
+      "path": "tests/test_quality.py",
+      "role": "test",
+      "sha256": "1138ed7daffe481a80ce6c2ef29b9204430a926491efb8bc84033586f64c0af4"
+    }
+  ],
+  "owner": {
+    "name": "supervisor-selected Issue 105 boundary",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#105"
+  },
+  "authorizes_landing": false
+}
