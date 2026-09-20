@@ -42,9 +42,9 @@ jobs:
           mkdir -p "$RUNNER_TEMP/soodles-runtime"
           issue="$(python3 - <<'PY'
           import os, re
-          matches = re.findall(r'(?mi)^Refs #([1-9][0-9]*)\.?\s*$', os.environ.get('PR_BODY', ''))
+          matches = re.findall(r'(?mi)^Refs (?:ed3c/soodles)?#([1-9][0-9]*)\.?\s*$', os.environ.get('PR_BODY', ''))
           if len(matches) != 1:
-              raise SystemExit('PR body must contain exactly one `Refs #N` line')
+              raise SystemExit('PR body must contain exactly one local `Refs #N` or `Refs ed3c/soodles#N` line')
           print(matches[0])
           PY
           )"

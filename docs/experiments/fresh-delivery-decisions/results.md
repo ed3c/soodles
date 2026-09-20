@@ -76,6 +76,23 @@ It names the one PR and one terminal SHA. A green test or this report cannot
 authorize landing. There is no local candidate branch/worktree/registration to
 reconcile on this cloud path; the external publisher is not a candidate checkout.
 
+### Preserved first-head delivery refusal
+
+Head `816e4950be9a731d5fa5663917fcde5d4ad1df76` passed runtime
+`35510855835` (job `106078396953`) and quality `35510855808`, but the
+unchanged external publisher then refused `pr.Refs=['#99']`. It created no
+checkpoint or request. The workflow extracted only short `Refs #99`, whereas
+the publisher requires `Refs ed3c/soodles#99`. This is a directly observed
+adapter incompatibility, independent of the fresh-consumer pilot.
+
+The same PR corrects only the workflow extraction pattern to accept the selected
+repository-qualified form, retains the short CI compatibility form, and uses
+the publisher's qualified spelling in the PR body. Foreign-only, zero, missing
+and duplicate recognized references still fail extraction. Existing publisher
+identity and auto-close checks remain unchanged. The raw refusal, original
+provider readback and old parser are retained in `raw/delivery-entry-refusal.json`.
+The old head is not rerun or merged; its successor needs all exact-head checks.
+
 ## Not established
 
 No completed repair or GitHub transport by the fresh consumers was measured;

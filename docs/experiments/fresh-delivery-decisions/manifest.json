@@ -120,7 +120,7 @@
     {
       "path": "docs/experiments/fresh-delivery-decisions/results.md",
       "role": "non_authorizing_evidence",
-      "sha256": "a942e9db01a92f6f6757f154bfba3d149b3626191ca63c3976854c254b30716a"
+      "sha256": "53f2349b1a55c6d30431535426f1481b63b1349f8271842bbbd2d889f3a3a53f"
     },
     {
       "path": "tests/test_fresh_delivery_decisions.py",
@@ -196,6 +196,21 @@
       "path": "docs/experiments/fresh-delivery-decisions/inputs/Y.json",
       "role": "frozen_input",
       "sha256": "031c4fc20f55d6dcdc7859b2c3b870874c996c5ad5871bd73aa9d7f35cf2b169"
+    },
+    {
+      "path": ".github/workflows/runtime.yml",
+      "role": "delivery_adapter",
+      "sha256": "1251bcf02023ad6616b011662a922ddfb0a11e2860c51b38607f39ccf6bb986f"
+    },
+    {
+      "path": "tests/test_delivery_refs.py",
+      "role": "unit_control",
+      "sha256": "f02225759a2fa56feace95842c5b72fdfe256c6c68f13b37bb114a88478bc713"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/raw/delivery-entry-refusal.json",
+      "role": "owner_refusal_raw",
+      "sha256": "849dd4274dbeb66c42b0d206c5d9a286370899994a94ba219437b65b02149732"
     }
   ],
   "owner": {
