@@ -1,0 +1,44 @@
+{
+  "scope": "#97 single-PR candidate measured by exact-head provider runtime",
+  "fixture": {
+    "historical_identities_isolated": true,
+    "original_fixture_unchanged": true,
+    "target_cases_passed": 4,
+    "live_controls_passed": 2,
+    "observer_exit": 0,
+    "observer_sha256": "64cd30de8faeea72b38d839cefadb900d9a87c2f96ea7acd123387f2fa58efce",
+    "cases": [
+      {"case": "wrong-digest", "invalid": "proposal_sha256 changed; later mailbox preserved", "adjustments": 9, "passed": true},
+      {"case": "wrong-revision", "invalid": "current_order_revision changed", "adjustments": 9, "passed": true},
+      {"case": "admitted-ledger", "invalid": "initial subject is owned, admitted, duplicate, reserved or ambiguous", "adjustments": 9, "passed": true},
+      {"case": "valid-proposal", "invalid": "initial proposal is currently valid; retain it for normal admission", "adjustments": 9, "passed": true},
+      {"case": "live-session", "invalid": "external-live-guard process or process group is present", "adjustments": 9, "passed": true},
+      {"case": "orphan-live-group", "invalid": "external-live-guard process or process group is present", "adjustments": 9, "passed": true}
+    ]
+  },
+  "delivery": {
+    "issues": [97],
+    "pull_requests": [98],
+    "attempts": [
+      {"head": "90a2b33b71cf51e0a633501ff5fc2da7016bd5b7", "failed": false, "rerun_same_head": false}
+    ],
+    "all_required_evidence_present": true,
+    "exact_bytes_verified": true,
+    "terminal_runtime_green": true
+  },
+  "provider": {
+    "runtime_run": 35507779444,
+    "runtime_job": 106070388595,
+    "quality_run": 35507779440,
+    "artifact_id": 10604906292,
+    "artifact_sha256": "fb989ea8112ec9adbfe957a6f31ffe0d731228b97cce27a812937694c645fa34",
+    "packet_sha256": "d04097fab67d5d2095a4e4aef3b34f77b6f70d76fd9e2c2c66cfefb7b319ef3b",
+    "candidate_tree": "7c136849eaa9b318e82aefe058e08a313012ba76",
+    "candidate_manifest_sha256": "d16a14f618e5c2f93bc13861426f5324c81730efcf0d7764e2b9e96839ee434a",
+    "candidate_receipt_sha256": "8c62b5b78e998111c41ffd4a3dec828b5d4f7a9d90c70a1497ebf68c92a3ff91",
+    "acceptance_receipt_sha256": "8d706ca88ae78c046020e2e0e47e8d5eaea39b700708fd582e410f167caa59fa",
+    "refusal_receipt_sha256": "bc0a947bf20dbaf1091a9240c9d66d413755253a70f23a398de6cec8073d2ae4",
+    "refusal_process_sha256": "c0c0694388ea023b663081eaf23c121f4371081718e2dad58def073a3afadade"
+  },
+  "authorizes_landing": false
+}

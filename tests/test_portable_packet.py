@@ -65,6 +65,34 @@ class PacketTests(unittest.TestCase):
             'scratch_pid': observer.HISTORICAL_ABSENT_PID,
         }])
 
+    def test_refusal_scratch_isolates_only_captured_process_identity(self):
+        observer_path = packet.FIXTURES / 'refusal-observer.py'
+        spec = importlib.util.spec_from_file_location('refusal_observer', observer_path)
+        observer = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(observer)
+        source = Path(self.temp.name) / 'source-refusal'
+        scratch = Path(self.temp.name) / 'scratch-refusal'
+        captured = source / '.noodle/sessions/captured/process.json'
+        captured.parent.mkdir(parents=True)
+        captured.write_text(json.dumps({'pid': os.getpid(), 'session_id': 'captured'}) + '\n')
+        original = captured.read_bytes()
+        shutil.copytree(source, scratch)
+
+        adjustments = observer.isolate_captured_process_identities(scratch)
+        live = scratch / '.noodle/sessions/external-live-guard/process.json'
+        live.parent.mkdir()
+        live.write_text(json.dumps({'pid': os.getpid(), 'session_id': 'external-live-guard'}))
+
+        self.assertEqual(captured.read_bytes(), original)
+        changed = json.loads((scratch / '.noodle/sessions/captured/process.json').read_text())
+        self.assertEqual(changed['pid'], observer.HISTORICAL_ABSENT_PID)
+        self.assertEqual(json.loads(live.read_text())['pid'], os.getpid())
+        self.assertEqual(adjustments, [{
+            'path': '.noodle/sessions/captured/process.json',
+            'captured_pid': os.getpid(),
+            'scratch_pid': observer.HISTORICAL_ABSENT_PID,
+        }])
+
     def create(self):
         packet.create(self.root, 'darwin_arm64', self.archive)
         return json.loads((self.root / 'packet.json').read_bytes())

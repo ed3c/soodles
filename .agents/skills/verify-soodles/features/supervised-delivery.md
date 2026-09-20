@@ -36,6 +36,8 @@ For a native cloud claim, omit `control_root`; after closure the current owner c
 
 Record each owner command and provider operation, expected versus unexpected refusals, fresh versus repeated readbacks, verification invocations and terminal receipt. Keep counter scope explicit; timestamps not actually observed remain unknown. A connector write that returns no reliable result requires the specific owner readback before any further offer. Same input without a material change does not justify a retry.
 
+For a one-Issue-atom delivery, use one PR for the causal correction and all required evidence. Treat missing evidence, an exact-byte mismatch or a failed runtime as a blocked candidate head. Preserve that head as an immutable attempt, make the correction on a new head of the same PR and do not rerun the unchanged failed head. Merge only the terminal head after the required exact-head checks. A defect observed only after merge starts a distinct corrective Issue because the rollback boundary has changed.
+
 For fault/refusal controls, use [delivery recovery](delivery-recovery.md). Never plant a destructive failure in the real provider merely to make maintenance look complete. If live provider execution is unavailable, retain a blocked result for this feature, even if every local control passed.
 
 ## Cleanup and authority
