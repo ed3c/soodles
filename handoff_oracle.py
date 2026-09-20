@@ -295,11 +295,21 @@ enabled = false
                 raise RuntimeError("A was not reconciled and cleaned by the landing owner")
             cleanup_at = time.time_ns()
 
-            _, b_path, b_digest, b_issue = _envelope(root, outside, noodle, codex, 106)
-            def read_b(repository, number):
+            b_envelope, b_path, b_digest, b_issue = _envelope(
+                root, outside, noodle, codex, 106)
+            issue_reads = []
+            def read_b(repository, number=None):
+                # Keep the older physical fixture callable replayable while the
+                # production consumer uses the repository-bearing form.
+                form = "repository-bound"
+                if number is None:
+                    form = "legacy-fixture"
+                    repository, number = b_envelope["repository"], repository
                 if repository != REPOSITORY or number != 106:
                     raise RuntimeError(
                         f"unexpected Issue read {repository}#{number}")
+                issue_reads.append({"form": form, "repository": repository,
+                                    "issue": number})
                 return b_issue
             admitted = issue_execution.automatic(
                 b_path, b_digest, root, reader=read_b)
@@ -333,6 +343,7 @@ enabled = false
             "B": {"order_id": "soodles-106", "session_id": b_spawn["session_id"],
                   "typed_outcome": b_event["payload"], "process": b_exit,
                   "admission": "issue.automatic",
+                  "issue_reads": issue_reads,
                   "projection_effect": _effect(b_state, "soodles-106", "write_projection")[0]["effect_id"]},
             "runtime": {"binary": noodle,
                         "sha256": hashlib.sha256(Path(noodle).read_bytes()).hexdigest()},
