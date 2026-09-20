@@ -1,0 +1,22 @@
+{
+  "scope": "provisional #97 candidate before exact-head provider runtime",
+  "fixture": {
+    "historical_identities_isolated": true,
+    "original_fixture_unchanged": true,
+    "target_cases_passed": 4,
+    "live_controls_passed": 2,
+    "observer_exit": 0
+  },
+  "delivery": {
+    "issues": [97],
+    "pull_requests": ["pending-single-pr"],
+    "attempts": [
+      {"head": "pending", "failed": false, "rerun_same_head": false}
+    ],
+    "all_required_evidence_present": true,
+    "exact_bytes_verified": true,
+    "terminal_runtime_green": false
+  },
+  "status": "BLOCKED pending exact-head runtime; this provisional head must not merge",
+  "authorizes_landing": false
+}

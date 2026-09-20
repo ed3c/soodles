@@ -52,6 +52,12 @@ The standalone `cleanup_lock_oracle.py` imports no candidate verdict logic. Its 
 
 The existing externally selected publishing verifier remains unchanged for this Issue. A changed default-branch tip or merged verifier source does not change that selection. `landing resume` cannot supply its own initial trust. New code and tests can be corrected in the same causal atom without replacing the active judge; a separate authorization is needed to promote a new judge.
 
+### Atomic candidate delivery — ed3c/soodles#97
+
+One causal Issue atom carries its P-class correction and required N-class task, observer, manifest, raw receipts and results through one PR. Candidate heads are immutable attempts: missing evidence, an exact-byte mismatch or a failed runtime blocks merge and is corrected by a new head on that PR, never by rerunning the unchanged head. The terminal head alone may merge after its required exact-head runtime and quality checks pass. The merged main tree then requires its existing runtime and provider readback. A defect discovered after merge starts a new Issue and rollback boundary; it is not evidence that the completed delivery used one PR.
+
+This rule changes no evaluator authority. Frozen external observers judge candidate behavior, the candidate verifier checks committed byte bindings, and provider checks/readback establish only their own R-class claims. One PR may contain P-class source and N-class evidence, but neither class authorizes its own landing.
+
 ### Interrupted delivery preparation — ed3c/soodles#10
 
 The same landing owner contains the intent producer, CLI dispatch consumer and schema migration. Schema 2 distinguishes `delivery.status=prepared` from `offered`. Preparing produces no provider request and does not append `writes_offered`. A restarted supervisor can consume that original prepared intent through `landing dispatch`; its checkpoint lock serializes concurrent consumers. Fresh repository/head/base/run readback must still agree before consumption. After the durable offered state, another dispatch refuses and only provider readback can advance. Merge/closure readbacks without this checkpoint's matching offered write cannot be adopted.

@@ -14,7 +14,7 @@ INPUT_SELECTION_SHA256 = '9b5c6505bcd023fb1a872d44d8a33880e862046883349bd032c4b8
 SOURCE = 'ca81f942f478e8e4afcbbce6ca69640867efe753'
 OBSERVERS = {
     'recovery': '1f22ebd63786e032f92d51c455cfd35dff9f0660acd969db70d2f3e5deda5b6f',
-    'refusal': 'b0029229f2794b283d8ab30faba8a621e0cd7035d83edcc6001a1a994229662b',
+    'refusal': '64cd30de8faeea72b38d839cefadb900d9a87c2f96ea7acd123387f2fa58efce',
 }
 FIXTURES = Path(__file__).resolve().parent / 'tests/fixtures/admission-recovery-portable'
 CONTINUATION = {'portable': False, 'owner': 'Noodle', 'entry': 'admission inspect'}

@@ -1,0 +1,92 @@
+{
+  "artifacts": [
+    {
+      "path": "tests/test_portable_packet.py",
+      "role": "unit_control",
+      "sha256": "305f3e213c5082b21f667260dd46c93ea0eee95d7877c3f2935afb15bb29b62b"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/task.md",
+      "role": "experiment_task",
+      "sha256": "dc0b4c7a17df6c318b0b2fec07d0afcb13fc4b12cd8bdddf95236d09afadfafd"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/observer.py",
+      "role": "frozen_observer",
+      "sha256": "2f78e515bbf82b6219e2709d822f7be96153cb6184e03af53d20933fcc004c4c"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/raw/baseline.json",
+      "role": "baseline_raw_receipt",
+      "sha256": "8ebc6b7f0d2c797e8415fc6513439d9a2443e7d84cb063166c072a8e5feed767"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/raw/treatment.json",
+      "role": "provisional_treatment_raw_receipt",
+      "sha256": "cdab712fa5a741b51e07c59959d010ab778403029bc7624cb33a1185601d8dd8"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/raw/noncase.json",
+      "role": "legal_noncase_receipt",
+      "sha256": "311976d094168be7fe8917877686597e93706444fe6921815c334a5bbdbf0b84"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/raw/independent-replay.json",
+      "role": "provisional_independent_replay",
+      "sha256": "338c50781b213c71af141e656e99cb4e5824d5ace9d58205f907b0267139297a"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/results.md",
+      "role": "provisional_results",
+      "sha256": "15f8015bb78c34de4a59b1658964c06e6a892ca029202a8b28dbb250b97e90fa"
+    }
+  ],
+  "authorizes_landing": false,
+  "instructions": [
+    {
+      "baseline_sha256": "956670bd61556cc501135b8de0ed652575f6f2cbf3c385dba16a2677ba52898e",
+      "path": ".github/ISSUE_TEMPLATE/execution.yml",
+      "treatment_sha256": "b0957a9f2b5dc4f09d7e6a60d2230f3be07e6a489647dec05ff03e740c02492b"
+    },
+    {
+      "baseline_sha256": "a680955c8a76aa8c8acf7462f9d4564817aec27fcf333c52be97144e942345d9",
+      "path": ".agents/skills/verify-noodle/features/admission-recovery.md",
+      "treatment_sha256": "34b8fbbddb76f11c471bb226f83e12f350cce91a71441da38e858a763f0568f7"
+    },
+    {
+      "baseline_sha256": "43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317",
+      "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+      "treatment_sha256": "7b818fbe92ad4149c0ddf3cd73148509cf5b9f2c909ed74a707973f36a476e83"
+    },
+    {
+      "baseline_sha256": "456cf1ec44af2bf1af952e8f7950ddcc9190e9169d19ebb6efbc18d3f6c3125a",
+      "path": "AGENTS.md",
+      "treatment_sha256": "8756664b3c969ed14e504ee64130e62fc32fb435d8bee8c4f24c53dd8c94110e"
+    },
+    {
+      "baseline_sha256": "45197e603e4669dc31ce54092eb749fa25bc33ee1d791b80586856b833bc0bac",
+      "path": "contracts/system-v1.md",
+      "treatment_sha256": "6ddab0a8e67867f61cd8ca53e5f89881235c17a5d9ce6290badaf8e81625911a"
+    },
+    {
+      "baseline_sha256": "6b0aae28821af272e55572571573d2487f1d4a34ef5166c36b06eef4df331440",
+      "path": "portable_packet.py",
+      "treatment_sha256": "4a6f0147f00700aed228251880f54e8f14e5cdeb0df84849640ce8e163222691"
+    },
+    {
+      "baseline_sha256": "b0029229f2794b283d8ab30faba8a621e0cd7035d83edcc6001a1a994229662b",
+      "path": "tests/fixtures/admission-recovery-portable/refusal-observer.py",
+      "treatment_sha256": "64cd30de8faeea72b38d839cefadb900d9a87c2f96ea7acd123387f2fa58efce"
+    }
+  ],
+  "issue": {
+    "number": 97,
+    "repository": "ed3c/soodles"
+  },
+  "owner": {
+    "authorization": "ed3c/soodles#97",
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths"
+  },
+  "schema": 1
+}
