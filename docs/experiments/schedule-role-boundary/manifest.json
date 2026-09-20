@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 101
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/schedule/SKILL.md",
+      "baseline_sha256": "d3425452e5b92152976e9cb2f5f9214b7def129147f9f79f5bd8b9bc94ff57e4",
+      "treatment_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tests/test_schedule_role.py",
+      "role": "focused executable role/capability controls",
+      "sha256": "621b302284c18239aeaea517f006be902bee6663efe7c12d76ef419cb21d221b"
+    },
+    {
+      "path": "docs/experiments/schedule-role-boundary/results.md",
+      "role": "bounded physical baseline and correction report",
+      "sha256": "55470e97fee385ee21e18137a2d44b25ee0d868a2856766baa6b8f15c7a6c246"
+    }
+  ],
+  "owner": {
+    "name": "Issue 101 candidate evidence",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#101"
+  },
+  "authorizes_landing": false
+}
