@@ -38,6 +38,7 @@ class QualityTests(unittest.TestCase):
     def test_new_source_is_visible_in_unclassified_scope(self):
         paths = {'landing.py':'production', 'tests/test_landing.py':'tests',
                  'delivery_oracle.py':'oracles', 'quality/measure.py':'tooling',
+                 'handoff_oracle.py':'oracles',
                  'new_owner/new.py':'unclassified'}
         self.assertEqual({p:measure.scope(p) for p in paths}, paths)
 

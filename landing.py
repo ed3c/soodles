@@ -645,17 +645,9 @@ def reconcile(checkpoint, binary):
         checked(["git", "merge-base", "--is-ancestor", before["head"], "origin/main"], root)
         checked(["git", "merge", "--ff-only", "origin/main"], root)
         if envelope is not None:
-            from issue_execution import read_owner, quiescent_order
+            from issue_execution import completed_original_order, read_owner
             try:
                 owner = read_owner(envelope)
-                order = owner["state"]["orders"].get(envelope["execution"]["order_id"])
-                if not isinstance(order, dict) or order.get("status") != "completed":
-                    return response("reconcile", state, "noodle_reconcile", {
-                        "kind": "input", "owner": "Noodle", "operation": "reconcile",
-                        "required": ["completed_original_order_and_quiescent_sessions"],
-                        "known": {"checkpoint": str(path), "order_id": envelope["execution"]["order_id"]},
-                        "help_argv": cli_argv("reconcile", "--help")})
-                quiescent = quiescent_order(envelope, owner)
             except Refusal as error:
                 invalid = getattr(error, "invalid", {"field": "reconcile.noodle", "value": str(error)})
                 required = getattr(error, "next", {}).get("required", ["completed_original_order_and_quiescent_sessions"])
@@ -663,8 +655,18 @@ def reconcile(checkpoint, binary):
                 next_action["owner"] = "Noodle"
                 next_action["known"]["order_id"] = envelope["execution"]["order_id"]
                 raise LandingRefusal(invalid["field"], invalid["value"], next_action) from error
-            state["noodle_reconciliation"] = {"order_id": envelope["execution"]["order_id"],
-                                               "order": order, "quiescent_sessions": quiescent}
+            try:
+                completion = completed_original_order(envelope, owner)
+            except Refusal as error:
+                required = getattr(error, "next", {}).get(
+                    "required", ["completed_original_order_and_quiescent_sessions"])
+                return response("reconcile", state, "noodle_reconcile", {
+                    "kind": "input", "owner": "Noodle", "operation": "reconcile",
+                    "required": required,
+                    "known": {"checkpoint": str(path),
+                              "order_id": envelope["execution"]["order_id"]},
+                    "help_argv": cli_argv("reconcile", "--help")})
+            state["noodle_reconciliation"] = completion
             save(path, state)
         if worktree.exists() or branch:
             git_path = shutil.which("git")

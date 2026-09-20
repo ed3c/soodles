@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 105
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/README.md",
+      "baseline_sha256": "8dc89c146fd4ba0058eb535014601d91e72460ee063ba9cbca7fe10b25cb0904",
+      "treatment_sha256": "b64f6dd4a97563d40887a0f192d6227cf6cd9f4f6f6fc28469c57ce700727949"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/features/order-handoff.md",
+      "role": "verification_recipe",
+      "sha256": "3a9fbd2145594ad17b955696a2d65c38bc0f861192076699d454f551904f24e3"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/raw/baseline.stderr",
+      "role": "bounded_evidence",
+      "sha256": "1389658567f46222f25614ff2c1290dde586e7fde489edaa831f704ffdd6f31a"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/raw/candidate.json",
+      "role": "bounded_evidence",
+      "sha256": "f1cd609d0aed83fe17a4618e602628485fdb22634d1a9e328377f592ef5d07c4"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/raw/planted-negative.stderr",
+      "role": "bounded_evidence",
+      "sha256": "2165c3d5457b416a11164414d95a496da9f28b65620423598584fb17104b179f"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/results.md",
+      "role": "bounded_evidence",
+      "sha256": "a65fb1ad990b1c1b4b42f7d4e23102270fa2836810669f1a984f33f077a11b4e"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/task.md",
+      "role": "bounded_evidence",
+      "sha256": "658c927f200dc80002a0c449df555ddf09b3afc87a0a65e0ad7113c69dcef9c8"
+    },
+    {
+      "path": "handoff_oracle.py",
+      "role": "implementation",
+      "sha256": "144b28e40c280505c2fa4f897d0528bee3850e5aa99df042cc78dc00f202ba96"
+    },
+    {
+      "path": "issue_execution.py",
+      "role": "implementation",
+      "sha256": "4d2bc4071d9b6767f1dd9f3e2d9b8bc8de312b082aa6045d4937985c9438ef13"
+    },
+    {
+      "path": "landing.py",
+      "role": "implementation",
+      "sha256": "510ab36ff39ab8fc4100dfdd9fdb18726d8e71767ef28289762354253218e210"
+    },
+    {
+      "path": "quality/measure.py",
+      "role": "implementation",
+      "sha256": "8dbf29e6c4ce59bcf2b4475e3975a491deb5f468fbfe398fcd2b42725a10232a"
+    },
+    {
+      "path": "soodles.py",
+      "role": "implementation",
+      "sha256": "fb2e23b41f2176064c01727aa2a322ee13ee9fb5e37d5935b0302bf641c78642"
+    },
+    {
+      "path": "tests/test_issue_execution.py",
+      "role": "test",
+      "sha256": "63e682303368f2f8d39242bf7019eb578c570184844639e301abd2bfb1458565"
+    },
+    {
+      "path": "tests/test_landing.py",
+      "role": "test",
+      "sha256": "b615a01f6c83a2e3baeda42dfeef383a44e083f2ee0fb9917088fd783c29ea2f"
+    },
+    {
+      "path": "tests/test_quality.py",
+      "role": "test",
+      "sha256": "1138ed7daffe481a80ce6c2ef29b9204430a926491efb8bc84033586f64c0af4"
+    }
+  ],
+  "owner": {
+    "name": "supervisor-selected Issue 105 boundary",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#105"
+  },
+  "authorizes_landing": false
+}

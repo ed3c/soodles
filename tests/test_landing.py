@@ -538,7 +538,9 @@ class LandingTests(unittest.TestCase):
         soodles.checked(["git", "branch", "-D", "cloud-only"], root)
 
     def test_cli_help_and_malformed_input_refuse_before_checkpoint(self):
-        for route in (["landing"], ["landing", "start"], ["landing", "advance"], ["landing", "dispatch"], ["landing", "readmit"], ["landing", "reconcile"]):
+        for route in (["landing"], ["landing", "start"], ["landing", "advance"],
+                      ["landing", "dispatch"],
+                      ["landing", "readmit"], ["landing", "reconcile"]):
             result = soodles.run(["./soodles", *route, "--help"], soodles.ROOT)
             self.assertEqual(result.returncode, 0, result.stderr)
         bad = Path(self.temp.name) / "bad.json"
