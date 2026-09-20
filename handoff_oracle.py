@@ -295,9 +295,19 @@ enabled = false
                 raise RuntimeError("A was not reconciled and cleaned by the landing owner")
             cleanup_at = time.time_ns()
 
-            _, b_path, b_digest, b_issue = _envelope(root, outside, noodle, codex, 106)
+            _, b_path, b_digest, b_issue = _envelope(
+                root, outside, noodle, codex, 106)
+            issue_reads = []
+            def read_b(repository, number):
+                if repository != REPOSITORY or number != 106:
+                    raise RuntimeError(
+                        f"unexpected Issue read {repository}#{number}")
+                issue_reads.append({"form": "repository-bound",
+                                    "repository": repository,
+                                    "issue": number})
+                return b_issue
             admitted = issue_execution.automatic(
-                b_path, b_digest, root, reader=lambda number: b_issue)
+                b_path, b_digest, root, reader=read_b)
             if not admitted.get("published"):
                 raise RuntimeError("B was not admitted through the Soodles mailbox owner")
             second = _start(noodle, root)
@@ -328,6 +338,7 @@ enabled = false
             "B": {"order_id": "soodles-106", "session_id": b_spawn["session_id"],
                   "typed_outcome": b_event["payload"], "process": b_exit,
                   "admission": "issue.automatic",
+                  "issue_reads": issue_reads,
                   "projection_effect": _effect(b_state, "soodles-106", "write_projection")[0]["effect_id"]},
             "runtime": {"binary": noodle,
                         "sha256": hashlib.sha256(Path(noodle).read_bytes()).hexdigest()},

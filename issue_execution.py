@@ -16,15 +16,16 @@ import sys
 import tempfile
 import time
 
-from issue_admission import (AdmissionRefusal, REPOSITORY, load_external_envelope,
+from issue_admission import (AdmissionRefusal, load_external_envelope,
                              require, validate_issue)
+from repository_binding import git_origins
 
 
-def fetch_issue(number):
+def fetch_issue(repository, number):
     # Landing consumes supplied readbacks and must not load a credential reader.
     # Automatic/supervised/worker retain the same default callable boundary.
     from github_reader import fetch_issue as read
-    return read(number)
+    return read(repository, number)
 
 
 def inspect_schedule(root, environ=None):
@@ -120,7 +121,7 @@ def read_owner(binding):
 def context(envelope_path, envelope_digest, root, reader):
     envelope = load_external_envelope(envelope_path, envelope_digest, root)
     try:
-        readback = reader(envelope["issue"])
+        readback = reader(envelope["repository"], envelope["issue"])
         return validate_issue(readback, envelope)
     except AdmissionRefusal as error:
         # Retain only externally pinned identity, never identity from the rejected
@@ -372,7 +373,7 @@ def _admit(envelope_path, envelope_digest, root, reader, route):
             "carrier.codex", codex)
     validate_carrier(binding, worker=True)
     proposal = {"orders": [{
-        "id": order_id, "title": f"Execute {REPOSITORY}#{binding['issue']}",
+        "id": order_id, "title": f"Execute {binding['repository']}#{binding['issue']}",
         "rationale": "Externally admitted current Issue",
         "stages": [{"do": "execute", "with": "codex", "model": codex["model"], "runtime": "process",
                     "prompt": json.dumps(projection(binding, envelope_digest, route), sort_keys=True)}],
@@ -426,10 +427,14 @@ def resume(checkpoint, envelope_path, envelope_digest, root, reader=fetch_issue)
     require(set(ref) == {"path", "sha256"}, "resume.predecessor_envelope", ref)
     predecessor = load_external_envelope(ref["path"], ref["sha256"], root)
     execution = predecessor["execution"]
+    require(predecessor["repository"] == claim["repository"],
+            "resume.predecessor.repository", predecessor["repository"])
     require(predecessor["issue"] == claim["issue"]
             and execution["control_root"] == str(root) and execution["worktree"] == claim["worktree"],
             "resume.predecessor_identity", "checkpoint and envelope differ")
     successor = load_external_envelope(envelope_path, envelope_digest, root)
+    require(successor["repository"] == predecessor["repository"],
+            "resume.successor.repository", successor["repository"])
     require(successor["execution"]["control_root"] == str(root)
             and successor["issue"] != predecessor["issue"]
             and successor["execution"]["order_id"] != execution["order_id"]
@@ -479,7 +484,7 @@ def validate_worktree(root, binding):
     require(head == execution["source_head"], "worker.git.head", head,
             owner="supervisor", required="fresh_execution_envelope")
     origin = git(root, "remote", "get-url", "origin")
-    require(origin in (f"https://github.com/{REPOSITORY}.git", f"git@github.com:{REPOSITORY}.git"),
+    require(origin in git_origins(binding["repository"]),
             "worker.git.origin", origin, owner="Git", required="admitted_repository_identity")
     residue = git(root, "status", "--porcelain=v1", "--untracked-files=all")
     require(not residue, "worker.git.residue", residue, owner="Git", required="clean_worker_subject")

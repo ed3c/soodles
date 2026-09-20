@@ -31,7 +31,11 @@ from pathlib import Path
 packet = json.loads(Path(sys.argv[1]).read_text())
 sys.path.insert(0, packet['source'])
 import github_reader, issue_execution, soodles
-github_reader.fetch_issue = lambda number: packet['issue']
+def fetch_issue(repository, number):
+    if repository != 'ed3c/soodles' or number != 106:
+        raise RuntimeError(f'unexpected Issue read {repository}#{number}')
+    return packet['issue']
+github_reader.fetch_issue = fetch_issue
 mode = sys.argv[2]
 def stopped():
     marker = Path(packet['marker'])
@@ -92,7 +96,8 @@ soodles.main()
         if mailbox.exists():
             raise RuntimeError('B mailbox already exists before interruption')
         packet = outside / 'resume-input.json'
-        packet.write_text(json.dumps({'source': str(source), 'issue': reader(106),
+        packet.write_text(json.dumps({'source': str(source),
+            'issue': reader('ed3c/soodles', 106),
             'marker': str(outside / 'consumer-ready'),
             'argv': [str(source / 'soodles'), 'issue', 'resume', str(checkpoint), str(envelope), digest]}))
         consumer(root, packet, 'before')

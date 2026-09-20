@@ -47,7 +47,7 @@ class IssueResumeTests(unittest.TestCase):
 
     def resume(self):
         return issue_execution.resume(self.checkpoint, self.path, self.pin,
-                                      self.fixture.root, reader=lambda _: self.issue)
+                                      self.fixture.root, reader=lambda _repository, _number: self.issue)
 
     def refused(self, field):
         before = (self.fixture.runtime / 'state.snapshot.json').read_bytes()

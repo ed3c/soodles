@@ -26,7 +26,14 @@ class CandidateGuidanceTests(unittest.TestCase):
         archived = json.loads((HERE / "inputs/guidance.json").read_text())["arms"]
         for arm in ("baseline", "treatment"):
             self.assertEqual(observed[arm]["input"], archived[arm]["input"])
-            self.assertEqual(observed[arm]["module_sha256"], archived[arm]["module_sha256"])
+        # The archived treatment digest identifies that historical experiment;
+        # a later compatible admission module may replay its behavior.
+        self.assertEqual(observed["baseline"]["module_sha256"],
+                         archived["baseline"]["module_sha256"])
+        import issue_admission
+        self.assertEqual(
+            observed["treatment"]["module_sha256"],
+            hashlib.sha256(Path(issue_admission.__file__).read_bytes()).hexdigest())
 
     def test_actual_admission_still_requires_its_envelope(self):
         import issue_admission

@@ -211,7 +211,8 @@ def parser():
     drive.add_argument("--build-info", help="Actual successful `go version -m BINARY` output from the same carrier.")
     github = groups.add_parser("github", description="Authenticated Issue readback; credentials come from the supervisor.")
     github_verbs = github.add_subparsers(dest="verb", required=True)
-    read_issue = github_verbs.add_parser("issue", description="Read one ed3c/soodles Issue using supervisor-supplied GH_TOKEN. Missing credentials refuse; quota waits exit 75. No token discovery, minting, anonymous fallback or retry.", epilog="Example: ./soodles github issue 44. The supervisor supplies a repository-scoped installation token with Issues:read in the child environment. Never put credentials in argv. Cache uses XDG_CACHE_HOME or ~/.cache; 304 requires server confirmation.")
+    read_issue = github_verbs.add_parser("issue", description="Read one Issue from a supported supervisor-selected repository using GH_TOKEN. Missing credentials refuse; quota waits exit 75. No token discovery, minting, anonymous fallback or retry.", epilog="Example: ./soodles github issue ed3c/ops-reconciliation-copilot 21. The supervisor supplies a repository-scoped installation token with Issues:read in the child environment. Never put credentials in argv. Cache uses XDG_CACHE_HOME or ~/.cache; 304 requires server confirmation.")
+    read_issue.add_argument("repository")
     read_issue.add_argument("number", type=int)
     candidate = groups.add_parser(
         "candidate",
@@ -311,7 +312,7 @@ def main():
                 result = portable_packet.run_observers(args.binary, args.source, args.output, args.build_info)
         elif args.group == "github":
             import github_reader
-            result = github_reader.issue(args.number)
+            result = github_reader.issue(args.repository, args.number)
         elif args.group == "candidate":
             import issue_admission
             readback = json.loads(Path(args.issue_readback).read_text())

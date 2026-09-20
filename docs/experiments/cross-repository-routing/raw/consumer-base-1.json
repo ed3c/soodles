@@ -1,0 +1,146 @@
+{
+  "arm": "baseline",
+  "run": 1,
+  "case_decisions": {
+    "legal": {
+      "refusal": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/ops-reconciliation-copilot"
+        }
+      },
+      "next_action": "Obtain corrected_input from supervisor for operation start.",
+      "selected_by": {
+        "kind": "input",
+        "owner": "supervisor",
+        "operation": "start",
+        "required": [
+          "corrected_input"
+        ],
+        "known": {},
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+          "landing",
+          "start",
+          "--help"
+        ]
+      },
+      "decision_barriers": 1,
+      "unknowns": [
+        "corrected repository identity",
+        "any later owner action"
+      ]
+    },
+    "draft": {
+      "refusal": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/ops-reconciliation-copilot"
+        }
+      },
+      "next_action": "Obtain corrected_input from supervisor for operation start.",
+      "selected_by": {
+        "kind": "input",
+        "owner": "supervisor",
+        "operation": "start",
+        "required": [
+          "corrected_input"
+        ],
+        "known": {},
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+          "landing",
+          "start",
+          "--help"
+        ]
+      },
+      "decision_barriers": 1,
+      "unknowns": [
+        "corrected repository identity",
+        "draft status after corrected input",
+        "any later owner action"
+      ]
+    },
+    "missing_step": {
+      "refusal": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/ops-reconciliation-copilot"
+        }
+      },
+      "next_action": "Obtain corrected_input from supervisor for operation start.",
+      "selected_by": {
+        "kind": "input",
+        "owner": "supervisor",
+        "operation": "start",
+        "required": [
+          "corrected_input"
+        ],
+        "known": {},
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+          "landing",
+          "start",
+          "--help"
+        ]
+      },
+      "decision_barriers": 1,
+      "unknowns": [
+        "corrected repository identity",
+        "repository-owned acceptance state after corrected input",
+        "any later owner action"
+      ]
+    },
+    "unsupported": {
+      "refusal": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/unregistered"
+        }
+      },
+      "next_action": "Obtain corrected_input from supervisor for operation start.",
+      "selected_by": {
+        "kind": "input",
+        "owner": "supervisor",
+        "operation": "start",
+        "required": [
+          "corrected_input"
+        ],
+        "known": {},
+        "help_argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+          "landing",
+          "start",
+          "--help"
+        ]
+      },
+      "decision_barriers": 1,
+      "unknowns": [
+        "corrected repository identity",
+        "any later owner action"
+      ]
+    }
+  },
+  "wrong_routes": 0,
+  "guessed_repository": false,
+  "help_reads": 0,
+  "instruction_reads": 3,
+  "unknowns": 10,
+  "classification": "RED"
+}
