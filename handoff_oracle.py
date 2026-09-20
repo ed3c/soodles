@@ -296,8 +296,13 @@ enabled = false
             cleanup_at = time.time_ns()
 
             _, b_path, b_digest, b_issue = _envelope(root, outside, noodle, codex, 106)
+            def read_b(repository, number):
+                if repository != REPOSITORY or number != 106:
+                    raise RuntimeError(
+                        f"unexpected Issue read {repository}#{number}")
+                return b_issue
             admitted = issue_execution.automatic(
-                b_path, b_digest, root, reader=lambda number: b_issue)
+                b_path, b_digest, root, reader=read_b)
             if not admitted.get("published"):
                 raise RuntimeError("B was not admitted through the Soodles mailbox owner")
             second = _start(noodle, root)
