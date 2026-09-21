@@ -1,10 +1,19 @@
 # Local supervisor admission
 
-Use this recipe only when a local Soodles task already has an externally selected
-fresh Issue readback, measured carrier and control root. The local host
-supervisor must also already own a provider credential supplier through
-`NOODLES_TOKEN_COMMAND`; the Agent never receives that command as task input and
-never reconstructs GitHub App identity.
+Use this recipe only for the local Soodles → Noodle carrier after the supervisor
+has selected a fresh Issue readback, measured carrier and control root. Cloud
+connector/Actions work keeps its existing provider identity and does not use
+this bootstrap.
+
+The local bootstrap has two inseparable supervisor-owned inputs:
+
+1. immutable Soodles admission identity: external envelope + committed runtime
+   bundle + launcher;
+2. provider identity: the existing machine-local `NOODLES_TOKEN_COMMAND`.
+
+Do not ask the Agent to discover either input. The command string and its token
+output are host capabilities and must remain outside Git, argv, receipts and
+candidate evidence.
 
 From a committed Soodles checkout run:
 
@@ -16,53 +25,54 @@ python3 -B ./supervisor-admission prepare \
   /absolute/new-external-admission-directory
 ```
 
-`prepare` is a supervisor preflight. It refuses before creating output when
-`NOODLES_TOKEN_COMMAND` is absent. A ready result returns one
-`next.kind=executable` whose argv contains only the generated external
-`start-noodle` wrapper path. Execute that argv exactly; do not add environment
-assignments, copy a token into argv, search for another launcher or mint
-credentials inside the candidate.
+`prepare` refuses before creating the output directory when
+`NOODLES_TOKEN_COMMAND` is absent. A ready result returns one executable
+`next.argv=[/external/.../start-noodle]`; execute that array unchanged. The
+wrapper validates the pinned bundle and measured Noodle binary, executes the
+host supplier exactly once immediately before child start, overwrites inherited
+`GH_TOKEN` and `GITHUB_TOKEN`, injects `SOODLES_ADMISSION_LAUNCHER`, removes
+`NOODLES_TOKEN_COMMAND` from the child environment and execs Noodle. It never
+persists token bytes.
 
-The start wrapper is the local equivalent of cloud-owned provider identity
-injection. Immediately before Noodle starts it executes the configured
-`NOODLES_TOKEN_COMMAND`, requires exactly one non-whitespace credential,
-overwrites inherited `GH_TOKEN`/`GITHUB_TOKEN`, injects the selected
-`SOODLES_ADMISSION_LAUNCHER`, removes `NOODLES_TOKEN_COMMAND` from the child
-environment, and execs the measured Noodle binary. Token bytes are never written
-to the admission bundle or returned in structured output. Supplier failure is a
-supervisor refusal before Noodle starts.
+A supplier failure is a supervisor-owned refusal before Noodle child start.
+Do not repair App client/installation/key configuration inside Soodles and do
+not fall back to PAT, SSH, anonymous GitHub access or another identity. Those
+machine-local inputs remain with the existing host credential owner.
 
-The producer requires a registered Soodles origin and an executable measured
-carrier. For schema-3 Issues, `base_head` must equal the control root's committed
-`HEAD`; legacy schema-1/2 Issues use that exact supervisor-selected committed
-`HEAD` as the external envelope base. It materializes envelope/runtime bytes
-from `git show HEAD:path`, not from working-tree bytes. The output directory
-must be new and outside the control root. Existing output is a refusal; never
-overwrite or reuse it.
+The producer requires a registered Soodles origin and executable measured
+carrier. For schema-3 Issues, the control-root committed `HEAD` must equal the
+Issue `base_head`; legacy schema-1/2 Issues use that exact committed `HEAD`.
+Bundle bytes come from `git show HEAD:path`, never dirty working-tree bytes.
+The output directory must be new and outside the control root; existing output
+is a refusal, never an overwrite/retry target.
 
-When the resulting Noodle schedule session runs, follow the existing schedule
-entry unchanged:
+After Noodle starts, the existing schedule entry is unchanged:
 
 ```sh
 ./soodles issue inspect
 ```
 
-A ready result must return exactly `[selected_launcher, "automatic"]`. Execute
-that argv once and consume the existing admission owner's result. The launcher
-rechecks the external envelope/runtime digests before calling the existing
+A ready schedule result returns exactly `[selected_launcher, "automatic"]`.
+Execute that argv once and consume the existing admission owner's result. The
+launcher revalidates envelope/runtime digests before calling the existing
 automatic boundary.
 
-Verification requires: missing-launcher baseline with zero proposal; missing
-credential supplier refusing before bundle creation; treatment proving the
-start wrapper injects fake provider credentials and launcher while removing the
-supplier; no token/supplier in argv or bundle; treatment reaching
-`proposal_pending`; dirty working-tree bytes excluded from the bundle;
-envelope/runtime tamper refused before proposal; historical unselected launcher
-ignored; existing output refused. Receipts are local and
-`authorizes_landing=false`.
+Verification requires all of these directions:
 
-Do not use this recipe to recover a stale schedule, dead PID, historical order,
-unknown provider write or request-changes state. Those remain with their current
-Noodle/landing owners. Do not add App client IDs, installation IDs, private keys,
-PATs or fallback identities to repository state. The host's configured supplier
-remains the only local credential owner.
+- baseline missing launcher → supervisor-owned refusal, zero proposal;
+- valid supplier → start wrapper child receives exact token in
+  `GH_TOKEN/GITHUB_TOKEN`, receives launcher, and does not receive the supplier;
+- stale inherited provider token is overwritten;
+- token value and supplier command are absent from returned argv and persisted
+  bundle bytes;
+- treatment schedule inspect → launcher automatic → `proposal_pending`;
+- missing supplier refuses before bundle creation;
+- failing supplier refuses before child/proposal;
+- envelope/runtime tamper, historical unselected launcher, foreign origin,
+  carrier digest mismatch and existing output all fail closed.
+
+These receipts are local and `authorizes_landing=false`. Do not use this recipe
+for stale schedule recovery, dead-PID recovery, unknown writes or request-changes.
+Those remain with their current Noodle/landing owners. A local credential
+capability gap blocks this local operation only; it does not add prerequisites
+to the independent cloud connector/Actions route.
