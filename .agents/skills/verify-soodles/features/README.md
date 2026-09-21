@@ -8,7 +8,7 @@ Scoped runtime/delivery features and #18's physically observed bounded execution
 | [Authenticated Issue readback](github-read.md) | Shared Session CLI/admission reader with a supervisor-scoped App token | Live 200 → 304 and token scope; local owner fixture for admission, no daemon fail-soft claim |
 | [Runtime admission](runtime-admission.md) | Pinned binary through the real runtime CLI | Local admission/refusal, exact skill resolution and cleanup |
 | [Bounded Issue execution](issue-execution.md) | Supervisor-pinned automatic entry, real Noodle/Codex worker and supervised inspection | Exact task/session outcome and quiescent handoff; separate from provider delivery |
-| [Supervised delivery](supervised-delivery.md) | Fixed external landing owner and GitHub connector | Actual admitted PR/Issue, merge/closure readbacks and Noodle terminal reconciliation |
+| [Supervised delivery](supervised-delivery.md) | Fixed external landing owner; cloud connector or exact local provider executable | Actual admitted PR/Issue, merge/closure readbacks, local transport cardinality and Noodle terminal reconciliation |
 | [Delivery recovery](delivery-recovery.md) | Existing process-fault and Noodle cleanup oracles | Local provider fixtures, real child processes/runtime; no provider landing authority |
 | [Order handoff](order-handoff.md) | Landing current-next consumer and pinned Noodle A → cleanup → B lifecycle | Local provider fixtures; real Sessions, typed outcomes, exits, worktrees and cleanup |
 | [Cross-repository delivery](cross-repository-delivery.md) | Supervisor-selected supported repository through Issue read, admission, worker and landing owners | Ops acceptance fixtures bound to its real candidate/run; no provider write or dependency-satisfaction claim |
