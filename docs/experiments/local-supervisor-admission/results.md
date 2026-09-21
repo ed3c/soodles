@@ -1,45 +1,61 @@
 # Local supervisor admission result
 
-Classification: **IN PROGRESS** for the provider-identity correction on the same
-#118 atom. The previously verified launcher-only candidate is retained as
-historical evidence, not terminal evidence for the stronger local/cloud-parity
-claim.
+Classification: **VERIFIED** for the bounded local/cloud-compatible supervisor
+bootstrap on exact candidate `db270035fa4bb3a13b22d49a36d38d0fbac064ac`.
+This evidence is non-authorizing.
 
-## Preserved prior candidate
+## Exact candidate
 
-- Prior exact head: `e351d4331ef0c2515a0fe7342fb59d729e9c9396`
-- Prior runtime run: `35557242674` — success
-- Prior quality run: `35557242607` — success
-- Prior bounded result: committed-byte external bundle plus exact
-  `issue inspect -> [launcher, automatic] -> proposal_pending`
+- head: `db270035fa4bb3a13b22d49a36d38d0fbac064ac`
+- runtime run: `35558257475` — success
+- quality run: `35558257476` — success
+- runtime artifact: `10621183817`
+- artifact digest:
+  `sha256:13efb1e194f767de83e76ca67bc908c6ec8e1ee8b991bef941e2136e7520f230`
 
-That candidate explicitly did **not** prove App-token/provider-identity
-injection. The retained #117 local handoff then showed the practical consequence:
-a local consumer can still stop at missing `GH_TOKEN`/credential ownership after
-the launcher seam is fixed.
+The exact-head runtime job passed fresh Issue candidate verification, pinned
+runtime identity, canonical acceptance, admission-recovery preservation and
+non-authorizing evidence upload.
 
-## Current correction
+## Demonstrated local/cloud parity
 
-The same supervisor bootstrap now owns provider identity before Noodle starts:
+Cloud remains unchanged: connector/Actions own provider identity outside the
+Agent.
 
-- `prepare` requires the host-owned `NOODLES_TOKEN_COMMAND` before creating an
-  external bundle;
-- returned `start_noodle` argv contains only the generated start-wrapper path;
-- the start wrapper invokes the host supplier immediately before the generation,
-  requires one token, overwrites inherited `GH_TOKEN`/`GITHUB_TOKEN`, injects the
-  selected admission launcher, removes `NOODLES_TOKEN_COMMAND` from the child,
-  and execs the measured Noodle binary;
-- token bytes are neither argv nor bundle/receipt content;
-- missing or failing supplier refuses before the Noodle process/proposal;
-- cloud behavior remains unchanged: connector/Actions own cloud provider
-  identity, while the local host supervisor owns local provider identity.
+The bounded local treatment mirrors that ownership model:
 
-The existing schedule Skill, Issue #117 owner paths, Noodle source, stale failed
-schedule and provider-write ownership remain unchanged.
+1. supervisor prepare requires machine-local `NOODLES_TOKEN_COMMAND` before
+   creating an external bundle;
+2. returned executable argv contains only the generated `start-noodle` path;
+3. the wrapper obtains exactly one fake installation token immediately before
+   child start, overwrites stale inherited `GH_TOKEN/GITHUB_TOKEN`, injects the
+   selected admission launcher and removes `NOODLES_TOKEN_COMMAND` from the
+   child environment;
+4. token bytes and supplier command are absent from argv and persisted bundle;
+5. existing `issue inspect -> [launcher, automatic]` remains unchanged and the
+   launcher reaches the existing `proposal_pending` boundary.
 
-## Acceptance state
+The committed-byte control also preserves a deliberate dirty working-tree
+`soodles.py` sentinel and proves those dirty bytes do not enter the external
+runtime bundle.
 
-Focused controls and exact-head runtime/quality must be rerun on the final
-credential-injection head before this file can be treated as verified. All
-candidate/local receipts remain `authorizes_landing=false`; provider merge and
-Issue closure remain with the existing external landing owner.
+## Fail-closed controls
+
+- missing supplier refuses before bundle creation;
+- failing supplier refuses before Noodle child/proposal;
+- stale parent provider tokens are overwritten by the supervisor-owned token;
+- envelope/runtime tamper refuses before proposal;
+- historical unselected launcher is ignored;
+- foreign repository origin, carrier digest mismatch and existing output refuse
+  before effects.
+
+## Scope
+
+This does not prove a live macOS App-token mint, daemon restart or stale Noodle
+lifecycle recovery. It adds no App private key/client/installation ID, PAT,
+fallback identity, scheduler, Noodle source change or provider-write adapter.
+Issue #117 owner paths and `.agents/skills/schedule/SKILL.md` remain unchanged.
+
+All local/candidate receipts have `authorizes_landing=false`. Provider merge,
+Issue closure and provider-main reconciliation remain with the existing external
+landing owner.
