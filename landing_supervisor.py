@@ -176,12 +176,16 @@ def _write(path, data):
 def prepare(snapshot, publisher, route, output):
     """Create one external landing activation and return the selected owner's current result."""
     publisher_root, publisher_cli, verifier = _publisher_identity(publisher)
+    source_root = Path(__file__).resolve().parent
+    require(not publisher_root.is_relative_to(source_root)
+            and not source_root.is_relative_to(publisher_root),
+            "publisher.root", str(publisher_root),
+            "external_immutable_publisher")
     claim = _derive_claim(snapshot, route, verifier)
 
     output = Path(output)
     require(output.is_absolute(), "output", str(output), "absolute_external_output")
     output = output.resolve()
-    source_root = Path(__file__).resolve().parent
     require(not output.is_relative_to(source_root), "output", str(output),
             "external_output_outside_candidate")
     require(not output.is_relative_to(publisher_root), "output", str(output),
