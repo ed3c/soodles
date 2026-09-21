@@ -361,8 +361,11 @@ def delivery_state(path):
             # Old advance could already have emitted the request. Absence is never proof of non-delivery.
             state["delivery"] = {"action": action, "status": "offered"}
         delivery = state.get("delivery")
-        require(isinstance(delivery, dict) and set(delivery) == {"action", "status"}
-                and delivery["action"] == action and delivery["status"] in {"prepared", "offered"},
+        require(isinstance(delivery, dict)
+                and {"action", "status"} <= set(delivery)
+                and set(delivery) <= {"action", "status", "request"}
+                and delivery["action"] == action and delivery["status"] in {"prepared", "offered"}
+                and (delivery["status"] == "offered" or "request" not in delivery),
                 "checkpoint.delivery", delivery)
         expected = [] if action == "merge" else ["merge"]
         if delivery["status"] == "offered":
