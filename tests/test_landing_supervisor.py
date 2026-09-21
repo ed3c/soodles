@@ -174,6 +174,8 @@ class SupervisorFixture:
         snapshot["pr"]["head"]["sha"] = head
         snapshot["pr"]["head"]["ref"] = worktree
         snapshot["pr"]["base"]["sha"] = head
+        snapshot["issue"]["url"] = (
+            f"https://api.github.com/repos/{self.repository}/issues/{self.issue_number}")
         snapshot["issue"]["body"] = body
         snapshot["issue"]["updated_at"] = updated
         snapshot["commit"] = {"sha": head, "tree": {"sha": tree}}
