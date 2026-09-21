@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import sys
 import tempfile
 import urllib.error
 import urllib.request
@@ -414,14 +415,14 @@ def _http(method, url, payload, token):
     try:
         with urllib.request.urlopen(request, timeout=30) as response:
             raw = response.read()
-    except (urllib.error.URLError, TimeoutError, OSError) as error:
-        raise ProviderUnknown(type(error).__name__) from error
     except urllib.error.HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")[:500]
         raise NextIssueRefusal(
             "provider.http", f"{error.code}:{detail}",
             owner="GitHub", required="provider_issue_create_readback"
         ) from error
+    except (urllib.error.URLError, TimeoutError, OSError) as error:
+        raise ProviderUnknown(type(error).__name__) from error
     try:
         return json.loads(raw) if raw else {}
     except ValueError as error:
@@ -600,5 +601,4 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    import sys
     raise SystemExit(main())
