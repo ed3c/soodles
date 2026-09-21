@@ -120,29 +120,29 @@ Corrected raw readback must still prove the exact merge SHA, ordered base/candid
 
 The extended `delivery_oracle.py` drives the real CLI with supervisor-owned provider fixtures, including malformed merge objects, invalid PR SHA, foreign/stale subjects, advance/dispatch ownership, legacy offered history and changed-input recovery through the existing close/crash path. Local planted wrong subject, wrong operation and removed SHA validation are rejected by a frozen external observer. These controls do not prove a live GitHub failure or lower Agent decision cost. Actual provider delivery and isolation carry their own receipts; canonical acceptance and the selected external publisher remain unchanged.
 
-### Cross-repository dependency satisfaction — ed3c/soodles#113
+### Cross-repository dependency satisfaction — ed3c/soodles#113, #115
 
-`dependency_binding.py` registers the single producer/consumer edge from the
-Soodles Issue 111 merged routing result to the Ops Issue 21 landing route. The
-edge fixes the producer repository, Issue, PR, candidate, merge revision, tree,
-runtime run, workflow and acceptance step in source. No CLI field lets an Agent
-replace those decisions.
+The installed supervisor owns DAG edge selection and carries each exact result
+in the immutable landing claim. `dependency_binding.py` validates that list and
+projects the producer Issue, PR, merged commit, base branch, merge-to-main
+comparison, runtime and jobs as indexed `dependency_N_*` GETs beside the
+consumer GETs. Soodles contains no producer/consumer edge registry and exposes
+no Agent-facing repository, revision, workflow or dependency policy flag.
 
-The existing `landing` owner projects the producer Issue, PR, merged commit,
-main branch, merge-to-main comparison, runtime and jobs as `dependency_*` GETs
-beside the Ops consumer GETs. Every landing transition validates them before
-consumer acceptance. A complete result proves completed Issue closure, the
-merged PR identity and parents, exact tree, successful exact-head runtime and
-that the merged artifact is identical to or an ancestor of current Soodles
+Every landing transition validates all selected results before consumer
+acceptance. A complete result proves completed Issue closure, merged PR
+identity and ordered parents, exact tree, successful exact-head runtime and
+that the merged artifact is identical to or an ancestor of current producer
 main. Missing evidence, closure alone, foreign repository, wrong revision,
 diverged ancestry or missing acceptance step refuses before checkpoint or
-provider write and returns the same owner route with exact readbacks.
+provider write and returns the same owner route with exact readbacks. Malformed
+or duplicate dependency identities refuse during claim validation.
 
-Eligibility creates no dependency checkpoint. After it passes, the existing
-Ops acceptance and landing state machine remain the only consumer and effect
-owner. Ops still needs its own exact PR/head/run/jobs success; producer cleanup,
-order creation and Issue closure are not substitutes. The frozen observer and
-focused controls cover identical and forward-main positive cases plus the
-closure-only, foreign, wrong-revision, stale and incomplete negative cases.
-Provider fixtures are L-class discrimination only; the source Issue/PR/run and
-final Soodles delivery readbacks retain their own R-class scope.
+Eligibility creates no dependency checkpoint. After all selected results pass,
+the existing repository profile and landing state machine remain the only
+consumer acceptance and effect owners. A claim without dependencies stays
+independent; landing never infers that omission proves DAG completeness. The
+external supervisor/admission owner must supply the complete set. Route
+migration preserves the list exactly. Provider fixtures are L-class
+discrimination only; exact provider Issue/PR/run and final delivery readbacks
+retain their own R-class scope.

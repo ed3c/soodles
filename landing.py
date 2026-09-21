@@ -14,11 +14,14 @@ import tempfile
 
 from soodles import Refusal, checked, clean_env, runtime_check, source_identity
 from repository_binding import PROFILES, git_origins, profile
-from dependency_binding import requests as dependency_requests, validate as validate_dependency
+from dependency_binding import (dependencies as claim_dependencies,
+                                requests as dependency_requests,
+                                validate as validate_dependency)
 
 ACTION = "./soodles landing"
 COMMON_CLAIM_FIELDS = {"repository", "issue", "pr", "head", "tree", "base_head", "run_id",
                        "run_attempt", "worktree", "verifier_sha256"}
+DEPENDENCY_CLAIM_FIELDS = COMMON_CLAIM_FIELDS | {"dependencies"}
 
 
 class LandingRefusal(Refusal):
@@ -51,7 +54,7 @@ def provider_next(claim, operation, checkpoint):
              "commit": f"git/commits/{claim['head']}", "branch": "branches/" + base_ref,
              "run": f"actions/runs/{claim['run_id']}", "jobs": f"actions/runs/{claim['run_id']}/jobs"}
     requests = {key: {"method": "GET", "url": base + path} for key, path in paths.items()}
-    requests.update(dependency_requests(claim))
+    requests.update(dependency_requests(claim, require))
     return {**input_next(operation, ["readback"], checkpoint), "kind": "provider_readback", "owner": "GitHub",
             "requests": requests,
             "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."}
@@ -126,8 +129,12 @@ def save(path, state):
 
 def validate_claim(claim, *, verify_verifier=True):
     local_fields = COMMON_CLAIM_FIELDS | {"control_root"}
+    dependency_local_fields = DEPENDENCY_CLAIM_FIELDS | {"control_root"}
     require(isinstance(claim, dict) and set(claim) in
-            (COMMON_CLAIM_FIELDS, local_fields, local_fields | {"execution_envelope"}),
+            (COMMON_CLAIM_FIELDS, DEPENDENCY_CLAIM_FIELDS,
+             local_fields, dependency_local_fields,
+             local_fields | {"execution_envelope"},
+             dependency_local_fields | {"execution_envelope"}),
             "claim.fields", list(claim))
     if "execution_envelope" in claim:
         ref = claim["execution_envelope"]
@@ -147,6 +154,7 @@ def validate_claim(claim, *, verify_verifier=True):
     if "control_root" in claim:
         require(isinstance(claim["control_root"], str) and Path(claim["control_root"]).is_absolute(),
                 "claim.control_root", claim["control_root"])
+    claim_dependencies(claim, require)
 
 
 def claim_route(claim):
@@ -559,8 +567,13 @@ def resume(checkpoint, claim):
             require(cleanup is None or (isinstance(cleanup, dict) and cleanup.get("mode") == "no_op"
                     and cleanup.get("path_present") is False and cleanup.get("branch_head") is None
                     and cleanup.get("registrations") == []), "resume.cleanup_intent", cleanup)
-            require({key: old[key] for key in COMMON_CLAIM_FIELDS if key != "verifier_sha256"} ==
-                    {key: claim[key] for key in COMMON_CLAIM_FIELDS if key != "verifier_sha256"},
+            old_identity = {key: old[key] for key in COMMON_CLAIM_FIELDS
+                            if key != "verifier_sha256"}
+            new_identity = {key: claim[key] for key in COMMON_CLAIM_FIELDS
+                            if key != "verifier_sha256"}
+            old_identity["dependencies"] = old.get("dependencies", [])
+            new_identity["dependencies"] = claim.get("dependencies", [])
+            require(old_identity == new_identity,
                     "resume.claim", "provider identity changes are forbidden")
             state.setdefault("prior_routes", []).append({"route": old_route, "control_root": old["control_root"]})
         require(old["verifier_sha256"] != claim["verifier_sha256"], "resume.verifier", "unchanged")
