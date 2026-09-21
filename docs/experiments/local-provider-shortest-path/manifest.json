@@ -13,6 +13,31 @@
   ],
   "artifacts": [
     {
+      "path": ".agents/skills/verify-soodles/features/README.md",
+      "role": "verification_map",
+      "sha256": "80095caf6683f22f854dc0687461881dea03c9f6a0a2d8d54df89cd3d801ce11"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "role": "stable_contract",
+      "sha256": "3229c7e1a0bbfde9aa8fe8a921806ff95d1c21d2d769848fded898ecdbb42448"
+    },
+    {
+      "path": "docs/experiments/local-provider-shortest-path/observer.py",
+      "role": "observer",
+      "sha256": "07be0f1e1166bbd14375a6d16a8ee284eed4aac8fe5e9cea0c70bd37521a0672"
+    },
+    {
+      "path": "docs/experiments/local-provider-shortest-path/results.md",
+      "role": "result",
+      "sha256": "a32749dae9c0b819a0e6d9ea418ed9d66490053dce27b343178957fa54c01f6f"
+    },
+    {
+      "path": "docs/experiments/local-provider-shortest-path/task.md",
+      "role": "bounded_task",
+      "sha256": "f6c380c45a2d96cf9cb413fccc3f4250cac04a9342d1792560a23e6d9d3f0d2e"
+    },
+    {
       "path": "landing.py",
       "role": "transition_owner",
       "sha256": "9507622e90da814e1306811d754a1a01140954c5288f41fc620e1e10ece2d2b7"
@@ -28,34 +53,14 @@
       "sha256": "502adb46f93ae2e5d499dd18900e87e61e2d17691c8dc7a997325b5193048e8a"
     },
     {
+      "path": "tests/test_landing.py",
+      "role": "existing_owner_projection_control",
+      "sha256": "29eefec138e819d3a9a55d9c5bb383202d5b207912b78862eb984ac6392deb1e"
+    },
+    {
       "path": "tests/test_local_provider_transport.py",
       "role": "hard_controls",
       "sha256": "5882b7b62a46eae8fbfeb3a7bdb9d5eed023d1450cbc1323bdbf56cef19d7c0e"
-    },
-    {
-      "path": ".agents/skills/verify-soodles/features/README.md",
-      "role": "verification_map",
-      "sha256": "80095caf6683f22f854dc0687461881dea03c9f6a0a2d8d54df89cd3d801ce11"
-    },
-    {
-      "path": "contracts/system-v1.md",
-      "role": "stable_contract",
-      "sha256": "3229c7e1a0bbfde9aa8fe8a921806ff95d1c21d2d769848fded898ecdbb42448"
-    },
-    {
-      "path": "docs/experiments/local-provider-shortest-path/task.md",
-      "role": "bounded_task",
-      "sha256": "f6c380c45a2d96cf9cb413fccc3f4250cac04a9342d1792560a23e6d9d3f0d2e"
-    },
-    {
-      "path": "docs/experiments/local-provider-shortest-path/observer.py",
-      "role": "observer",
-      "sha256": "07be0f1e1166bbd14375a6d16a8ee284eed4aac8fe5e9cea0c70bd37521a0672"
-    },
-    {
-      "path": "docs/experiments/local-provider-shortest-path/results.md",
-      "role": "result",
-      "sha256": "a32749dae9c0b819a0e6d9ea418ed9d66490053dce27b343178957fa54c01f6f"
     }
   ],
   "owner": {
