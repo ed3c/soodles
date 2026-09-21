@@ -41,6 +41,11 @@ def cli_argv(operation, *arguments):
             "landing", *([operation] if operation else []), *map(str, arguments)]
 
 
+def provider_cli_argv(checkpoint):
+    return [sys.executable, "-B", str(Path(__file__).resolve().parent / "provider-execute"),
+            str(Path(checkpoint).resolve())]
+
+
 def input_next(operation, required, checkpoint=None):
     return {"kind": "input", "owner": "supervisor", "operation": operation, "required": required,
             "known": {"checkpoint": str(Path(checkpoint).resolve())} if checkpoint else {},
@@ -58,6 +63,18 @@ def provider_next(claim, operation, checkpoint):
     return {**input_next(operation, ["readback"], checkpoint), "kind": "provider_readback", "owner": "GitHub",
             "requests": requests,
             "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."}
+
+
+def delivery_request(claim, action):
+    if action == "merge":
+        return {"action": "merge", "repository_full_name": claim["repository"],
+                "pr_number": claim["pr"], "expected_head_sha": claim["head"],
+                "merge_method": "merge"}
+    if action == "close":
+        return {"action": "close", "repository_full_name": claim["repository"],
+                "issue_number": claim["issue"], "state": "closed",
+                "state_reason": "completed"}
+    raise LandingRefusal("delivery.action", action)
 
 
 def response(operation, state, action, next_action, **details):
@@ -88,9 +105,10 @@ def verifier_digest():
     # A supervisor selects this implementation outside the candidate under evaluation.
     root = Path(__file__).resolve().parent
     return fingerprint({name: hashlib.sha256((root / name).read_bytes()).hexdigest()
-                        for name in ("landing.py", "soodles.py", "issue_admission.py",
-                                     "repository_binding.py", "dependency_binding.py",
-                                     "issue_execution.py", "policy/runtime.lock.json")})
+                        for name in ("landing.py", "provider_transport.py", "soodles.py",
+                                     "issue_admission.py", "repository_binding.py",
+                                     "dependency_binding.py", "issue_execution.py",
+                                     "policy/runtime.lock.json")})
 
 
 def read(path):
@@ -233,6 +251,22 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
                               "reason": "Preserve the original claim/checkpoint. Supervisor corrections use "
                                         "invalidate/readmit only for unoffered work; unknown offered writes "
                                         "remain readback-only. This refusal does not renew authority."}) from error
+
+
+def reconcile_next(claim, checkpoint):
+    envelope = execution_binding(claim, operation="reconcile", checkpoint=checkpoint)
+    if envelope is None:
+        return input_next("reconcile", ["binary"], checkpoint)
+    from issue_execution import validate_carrier
+    try:
+        identity = validate_carrier(envelope)
+    except Refusal as error:
+        raise LandingRefusal("reconcile.carrier", str(error)) from error
+    binary = identity["noodle"]
+    return {"kind": "executable", "owner": "landing.reconcile",
+            "operation": "reconcile",
+            "known": {"checkpoint": str(Path(checkpoint).resolve()), "binary": binary},
+            "argv": cli_argv("reconcile", checkpoint, binary)}
 
 
 def validate_snapshot(claim, snapshot, *, operation, checkpoint):
@@ -508,7 +542,7 @@ def advance(checkpoint, snapshot):
         if prepared:
             return response("advance", state, "dispatch", provider_next(claim, "dispatch", path))
         if state["phase"] in {"awaiting_reconcile", "reconciling"}:
-            return response("advance", state, "reconcile", input_next("reconcile", ["binary"], path))
+            return response("advance", state, "reconcile", reconcile_next(claim, path))
         return response("advance", state, "readback", provider_next(claim, "advance", path))
 
 
@@ -531,17 +565,21 @@ def dispatch(checkpoint, snapshot):
         if delivery["action"] == "merge":
             require(not snapshot["pr"].get("merged") and snapshot["pr"].get("mergeable") is True,
                     "dispatch.pr", "merge no longer eligible", provider_next(claim, "advance", path))
-            request = {"action": "merge", "repository_full_name": claim["repository"], "pr_number": claim["pr"],
-                       "expected_head_sha": claim["head"], "merge_method": "merge"}
         else:
             require(snapshot["pr"].get("merged") and snapshot["issue"]["state"] == "open",
                     "dispatch.issue", "closure no longer eligible", provider_next(claim, "advance", path))
-            request = {"action": "close", "repository_full_name": claim["repository"], "issue_number": claim["issue"],
-                       "state": "closed", "state_reason": "completed"}
+        request = delivery_request(claim, delivery["action"])
+        delivery["request"] = request
         delivery["status"] = "offered"
         state["writes_offered"].append(delivery["action"])
         save(path, state)  # Must precede request emission; an interrupted offer remains unknown.
-        return response("dispatch", state, request["action"], provider_next(claim, "advance", path), request=request)
+        next_action = provider_next(claim, "advance", path)
+        if claim_route(claim) == "local":
+            next_action = {"kind": "executable", "owner": "local-provider",
+                           "operation": "execute",
+                           "known": {"checkpoint": str(path)},
+                           "argv": provider_cli_argv(path)}
+        return response("dispatch", state, request["action"], next_action, request=request)
 
 
 def resume(checkpoint, claim):
@@ -582,7 +620,7 @@ def resume(checkpoint, claim):
         state["scope"] = f"supervised single-Issue {new_route} landing"
         save(path, state)
         next_action = (provider_next(claim, "advance", path) if new_route == "cloud"
-                       else input_next("reconcile", ["binary"], path))
+                       else reconcile_next(claim, path))
         return response("resume", state, "readback" if new_route == "cloud" else "reconcile",
                         next_action, provider_requests=[])
 
