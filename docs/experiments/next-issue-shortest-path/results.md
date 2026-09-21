@@ -1,35 +1,66 @@
 # Next-Issue shortest path result
 
-Classification: **IN PROGRESS** until the exact candidate passes candidate
-binding, canonical runtime acceptance and quality.
+Classification: **VERIFIED** for the bounded RESOLVED → exact next-Issue provider
+identity path on candidate `29cc1209c8fe90b50221e85ae44a085ddafc74df`.
 
-Bounded target:
+## Attempts
+
+- `327fba31d4fa1bc4d3c8ce3e8e421f9bea5517b8`: immutable RED. Exact candidate
+  verification correctly rejected the Issue because the P-class treatment path
+  was in `required_paths` but omitted from the Issue `write_paths`. The Issue
+  contract was corrected; this head was not rerun.
+- `29cc1209c8fe90b50221e85ae44a085ddafc74df`: implementation GREEN.
+
+## Exact candidate evidence
+
+- tree: `413045281788871cff101a26d8e4d4d4c708b1ff`
+- runtime run: `35587224079` / job `106293244705` — success
+- quality run: `35587223863` — success
+- runtime artifact: `10632987144`
+- artifact digest: `sha256:7e85e998770d05c725c2d92a16aaf3dcbb0472eb54fea446ad4d081ec0697c26`
+- canonical acceptance: 220 tests in 13.164s — OK
+- acceptance: `zero_residue=true`, `authorizes_landing=false`
+
+## Focused behavior
+
+All seven next-Issue controls passed:
+
+- dependency and write-boundary qualification are mechanical gates;
+- local create consumes only the persisted intent and stops at provider Issue identity;
+- P-class contains one executable entry and no manual create decisions;
+- one eligible candidate materializes one exact Cloud create intent;
+- unknown create outcome performs zero automatic retry and adopts one exact readback;
+- unresolved predecessor/incomplete frontier refuse before intent; and
+- zero/multiple eligible candidates never invent product priority.
+
+The bounded shortest path is:
 
 ```text
 RESOLVED
-→ finite supervisor candidate set
-→ mechanical qualification
-→ exactly one eligible atom
-→ persisted Issue-create intent
-→ exact create/readback
-→ one GitHub Issue identity
+→ finite supervisor semantic candidates
+→ complete provider frontier
+→ eligibility / dependency / duplicate / write-boundary gates
+→ exactly one eligible candidate
+→ persisted causal fingerprint + create intent
+→ Cloud exact connector request | Local exact executable
+→ exact provider Issue readback
 → STOP
 ```
 
-The implementation explicitly refuses to manufacture product priority:
-zero eligible candidates stop; multiple eligible candidates return supervisor
-input.
+Zero eligible candidates stop. More than one eligible candidate returns
+`selected_candidate` to the supervisor. No lexical/oldest/first-item priority
+rule exists.
 
-The P-class Skill only routes the consumer into the executable owner and current
-next. No quantified model-behavior improvement is claimed without a fresh
-matched baseline/treatment experiment.
+## P-class disposition
 
-Every candidate/fixture receipt is non-authorizing.
+The new next-Issue Skill and verify-soodles route remove backlog discovery,
+candidate ranking, Issue-body assembly and transport selection from the
+instruction surface. Executable tests bind that route to the CLI.
 
-## Immutable candidate attempt 1
+No fresh matched independent model baseline/treatment experiment was run in this
+atom, so the P-class disposition is **SCOPED_ALIGNMENT**, not a quantified model
+behavior improvement.
 
-Head `327fba31d4fa1bc4d3c8ce3e8e421f9bea5517b8` was rejected by exact candidate
-verification before runtime because the Issue schema-3 `required_paths` included
-`.agents/skills/verify-soodles/SKILL.md` while the Issue `write_paths` omitted it.
-The head is retained as RED and is not rerun. The Issue contract was corrected
-before producing the next candidate head.
+Terminal success of this owner is one exact open GitHub Issue identity. Noodle
+scheduling/admission remains a downstream owner. Every candidate/fixture receipt
+is non-authorizing.
