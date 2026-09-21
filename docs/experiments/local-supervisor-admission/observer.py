@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the frozen local-supervisor admission discriminator."""
+"""Run the frozen local-supervisor bootstrap discriminator."""
 import hashlib
 import json
 from pathlib import Path
@@ -34,29 +34,28 @@ def main():
             and baseline["required"] == ["SOODLES_ADMISSION_LAUNCHER"]
             and baseline["proposal_exists"] is False
         ),
-        "treatment_supervisor_bootstrap": (
+        "provider_identity_owned_before_child": (
             treatment["prepared_action"] == "ready"
             and treatment["start_operation"] == "start_noodle"
             and len(treatment["start_argv"]) == 1
             and treatment["start_exit"] == 0
-            and treatment["inspect_action"] == "ready"
+            and treatment["child_started"] is True
+            and treatment["child_gh_token"] == "fixture-installation-token"
+            and treatment["child_github_token"] == "fixture-installation-token"
+            and treatment["child_supplier"] is None
+        ),
+        "credential_non_persistence": (
+            treatment["token_absent_from_argv"] is True
+            and treatment["token_absent_from_bundle"] is True
+            and treatment["supplier_command_absent_from_bundle"] is True
+        ),
+        "treatment_exact_route": (
+            treatment["inspect_action"] == "ready"
             and treatment["inspect_argv"][1] == "automatic"
+            and treatment["child_launcher"] == treatment["inspect_argv"][0]
             and treatment["launcher_exit"] == 0
             and treatment["launcher_action"] == "proposal_pending"
             and treatment["proposal_exists"] is True
-        ),
-        "provider_identity_owned_before_child": (
-            treatment["provider_identity"]["owner"] == "supervisor"
-            and treatment["provider_identity"]["supplier"] == "NOODLES_TOKEN_COMMAND"
-            and treatment["provider_identity"]["in_argv"] is False
-            and treatment["provider_identity"]["persisted_token"] is False
-            and treatment["child_env"]["gh_token_injected"] is True
-            and treatment["child_env"]["github_token_injected"] is True
-            and treatment["child_env"]["launcher_injected"] is True
-            and treatment["child_env"]["supplier_removed"] is True
-            and treatment["token_in_start_argv"] is False
-            and treatment["supplier_in_start_argv"] is False
-            and treatment["token_persisted_in_bundle"] is False
         ),
         "committed_bytes_only": (
             treatment["status_unchanged_by_prepare"] is True
@@ -64,20 +63,25 @@ def main():
             and treatment["dirty_sentinel_excluded"] is True
         ),
         "non_authorizing": treatment["authorizes_landing"] is False,
-        "sensitivity": (
-            sensitivity["historical_unselected_launcher"]["field"] == "scheduler.launcher"
-            and sensitivity["historical_unselected_launcher"]["historical_executed"] is False
-            and sensitivity["missing_supplier"]["field"] == "supervisor.provider_credential_supplier"
+        "supplier_refusals": (
+            sensitivity["missing_supplier"]["field"]
+            == "supervisor.provider_credential_supplier"
             and sensitivity["missing_supplier"]["output_exists"] is False
-            and sensitivity["bad_supplier"]["field"] == "start.provider_credential_supplier_exit"
-            and sensitivity["bad_supplier"]["exit"] == 64
-            and sensitivity["bad_supplier"]["receipt_exists"] is False
-            and sensitivity["bad_supplier"]["proposal_exists"] is False
+            and sensitivity["failing_supplier"]["field"]
+            == "start.provider_credential_supplier_exit"
+            and sensitivity["failing_supplier"]["child_started"] is False
+            and sensitivity["failing_supplier"]["proposal_exists"] is False
+        ),
+        "integrity_sensitivity": (
+            sensitivity["historical_unselected_launcher"]["field"]
+            == "scheduler.launcher"
+            and sensitivity["historical_unselected_launcher"]["historical_executed"] is False
             and sensitivity["envelope_tamper"]["exit"] == 64
             and sensitivity["envelope_tamper"]["proposal_exists"] is False
             and sensitivity["runtime_tamper"]["exit"] == 64
             and sensitivity["runtime_tamper"]["proposal_exists"] is False
-            and sensitivity["existing_output"]["field"] == "supervisor.output.exists"
+            and sensitivity["existing_output"]["field"]
+            == "supervisor.output.exists"
         ),
     }
     receipt = {
@@ -89,6 +93,12 @@ def main():
             "supervisor_admission.py": sha(ROOT / "supervisor_admission.py"),
             "tests/test_supervisor_admission.py": sha(ROOT / "tests/test_supervisor_admission.py"),
             ".agents/skills/schedule/SKILL.md": sha(ROOT / ".agents/skills/schedule/SKILL.md"),
+        },
+        "provider_identity": {
+            "cloud_reference": "connector/actions",
+            "local_owner": "NOODLES_TOKEN_COMMAND",
+            "token_persisted": False,
+            "supplier_exposed_to_child": False,
         },
         "authorizes_landing": False,
     }
