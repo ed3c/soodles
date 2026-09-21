@@ -4,7 +4,9 @@
 The supervisor selects the fresh Issue readback, carrier, control root and new
 external output directory. This module derives no task identity and performs no
 Noodle/provider write. Runtime bytes are copied from committed Git objects, not
-from the working tree.
+from the working tree. Provider credentials remain supervisor-owned: a configured
+NOODLES_TOKEN_COMMAND is consumed only by the generated start wrapper, which
+injects its result into the Noodle child environment and never persists it.
 """
 import argparse
 import hashlib
@@ -21,6 +23,7 @@ from issue_execution import validate_carrier
 from repository_binding import git_origins, issue_urls
 
 REPOSITORY = "ed3c/soodles"
+TOKEN_COMMAND_ENV = "NOODLES_TOKEN_COMMAND"
 BUNDLE_PATHS = (
     "soodles.py",
     "issue_admission.py",
@@ -140,14 +143,127 @@ if __name__ == "__main__":
     )
 
 
-def prepare(issue_readback, carrier, control_root, output, *, interpreter=None):
+def _start_text(control_root, launcher_sha256, manifest_sha256,
+                noodle_path, noodle_sha256, interpreter):
+    template = """#!{interpreter}
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parent
+CONTROL_ROOT = {control_root!r}
+LAUNCHER_SHA256 = {launcher_sha256!r}
+MANIFEST_SHA256 = {manifest_sha256!r}
+NOODLE_PATH = {noodle_path!r}
+NOODLE_SHA256 = {noodle_sha256!r}
+TOKEN_COMMAND_ENV = {token_command_env!r}
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def refuse(field, value, required):
+    print(json.dumps({{
+        "owner": "supervisor.start",
+        "status": "refused",
+        "invalid": {{"field": field, "value": value}},
+        "next": {{"kind": "input", "owner": "supervisor",
+                  "required": [required]}},
+        "authorizes_landing": False
+    }}, indent=2))
+    return 64
+
+
+def main():
+    if sys.argv[1:]:
+        return refuse("start.argv", sys.argv[1:], "exact_start_no_args")
+    try:
+        manifest = ROOT / "manifest.json"
+        observed_manifest = digest(manifest.read_bytes())
+        if observed_manifest != MANIFEST_SHA256:
+            return refuse("start.manifest_sha256", observed_manifest,
+                          "fresh_supervisor_admission")
+        launcher = ROOT / "launcher"
+        observed_launcher = digest(launcher.read_bytes())
+        if observed_launcher != LAUNCHER_SHA256:
+            return refuse("start.launcher_sha256", observed_launcher,
+                          "fresh_supervisor_admission")
+        noodle = Path(NOODLE_PATH)
+        observed_noodle = digest(noodle.read_bytes())
+        if observed_noodle != NOODLE_SHA256:
+            return refuse("start.noodle_sha256", observed_noodle,
+                          "measured_local_carrier")
+    except OSError as error:
+        return refuse("start.bundle", type(error).__name__,
+                      "fresh_supervisor_admission")
+
+    token_command = os.environ.get(TOKEN_COMMAND_ENV, "")
+    if not token_command.strip():
+        return refuse("start.provider_credential_supplier", "absent",
+                      "NOODLES_TOKEN_COMMAND")
+    try:
+        supplied = subprocess.run(
+            ["bash", "-c", token_command],
+            capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.TimeoutExpired) as error:
+        return refuse("start.provider_credential_supplier", type(error).__name__,
+                      "working_provider_credential_supplier")
+    if supplied.returncode != 0:
+        return refuse("start.provider_credential_supplier_exit",
+                      supplied.returncode,
+                      "working_provider_credential_supplier")
+    token = supplied.stdout.strip()
+    if not token or any(character.isspace() for character in token):
+        return refuse("start.provider_credential", "not-single-token",
+                      "repository_scoped_installation_token")
+
+    env = os.environ.copy()
+    env["GH_TOKEN"] = token
+    env["GITHUB_TOKEN"] = token
+    env["SOODLES_ADMISSION_LAUNCHER"] = str(ROOT / "launcher")
+    env.setdefault("NOODLE_NO_BROWSER", "1")
+    env.pop(TOKEN_COMMAND_ENV, None)
+    os.execve(
+        NOODLE_PATH,
+        [NOODLE_PATH, "--project-dir", CONTROL_ROOT, "start"],
+        env,
+    )
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+"""
+    return template.format(
+        interpreter=interpreter,
+        control_root=str(control_root),
+        launcher_sha256=launcher_sha256,
+        manifest_sha256=manifest_sha256,
+        noodle_path=noodle_path,
+        noodle_sha256=noodle_sha256,
+        token_command_env=TOKEN_COMMAND_ENV,
+    )
+
+
+def prepare(issue_readback, carrier, control_root, output, *,
+            interpreter=None, environ=None):
     """Create one immutable external bundle and return the only start continuation."""
+    environ = os.environ if environ is None else environ
     root = Path(control_root)
     require(root.is_absolute(), "supervisor.control_root", str(control_root),
             owner="supervisor", required="absolute_control_root")
     root = root.resolve()
     require(root.is_dir(), "supervisor.control_root", str(root),
             owner="supervisor", required="existing_control_root")
+
+    token_command = environ.get(TOKEN_COMMAND_ENV)
+    require(isinstance(token_command, str) and bool(token_command.strip()),
+            "supervisor.provider_credential_supplier",
+            "absent" if not token_command else "empty",
+            owner="supervisor", required=TOKEN_COMMAND_ENV)
 
     output = Path(output)
     require(output.is_absolute(), "supervisor.output", str(output),
@@ -224,6 +340,7 @@ def prepare(issue_readback, carrier, control_root, output, *, interpreter=None):
         "source_head": head,
         "envelope_sha256": envelope_digest,
         "runtime": runtime,
+        "credential_supplier": TOKEN_COMMAND_ENV,
         "authorizes_landing": False,
     }
     manifest_bytes = _canonical(manifest)
@@ -235,6 +352,11 @@ def prepare(issue_readback, carrier, control_root, output, *, interpreter=None):
             owner="supervisor", required="executable_python_interpreter")
     launcher_bytes = _launcher_text(
         root, envelope_digest, manifest_digest, interpreter).encode()
+    launcher_digest = _sha256(launcher_bytes)
+    start_bytes = _start_text(
+        root, launcher_digest, manifest_digest,
+        carrier["noodle"]["path"], carrier["noodle"]["sha256"],
+        interpreter).encode()
 
     temporary = Path(tempfile.mkdtemp(prefix="." + output.name + "-", dir=output.parent))
     try:
@@ -249,25 +371,16 @@ def prepare(issue_readback, carrier, control_root, output, *, interpreter=None):
         launcher = temporary / "launcher"
         launcher.write_bytes(launcher_bytes)
         launcher.chmod(0o755)
+        start = temporary / "start-noodle"
+        start.write_bytes(start_bytes)
+        start.chmod(0o755)
         os.rename(temporary, output)
     except BaseException:
         shutil.rmtree(temporary, ignore_errors=True)
         raise
 
     launcher = output / "launcher"
-    env_path = shutil.which("env") or "/usr/bin/env"
-    require(Path(env_path).is_absolute() and Path(env_path).is_file()
-            and os.access(env_path, os.X_OK),
-            "supervisor.env", env_path, owner="supervisor",
-            required="executable_environment_launcher")
-    next_argv = [
-        str(Path(env_path).resolve()),
-        "SOODLES_ADMISSION_LAUNCHER=" + str(launcher),
-        carrier["noodle"]["path"],
-        "--project-dir",
-        str(root),
-        "start",
-    ]
+    start = output / "start-noodle"
     return {
         "owner": "supervisor.admission",
         "action": "ready",
@@ -278,12 +391,20 @@ def prepare(issue_readback, carrier, control_root, output, *, interpreter=None):
         "envelope_sha256": envelope_digest,
         "launcher": str(launcher),
         "launcher_sha256": _sha256(launcher.read_bytes()),
+        "start": str(start),
+        "start_sha256": _sha256(start.read_bytes()),
+        "provider_identity": {
+            "owner": "supervisor",
+            "supplier": TOKEN_COMMAND_ENV,
+            "in_argv": False,
+            "persisted_token": False,
+        },
         "authorizes_landing": False,
         "next": {
             "kind": "executable",
             "owner": "supervisor",
             "operation": "start_noodle",
-            "argv": next_argv,
+            "argv": [str(start)],
         },
     }
 
