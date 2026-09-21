@@ -454,6 +454,19 @@ class LandingTests(unittest.TestCase):
             with self.subTest(mutation=mutation), self.assertRaisesRegex(soodles.Refusal, field):
                 landing.resume(self.checkpoint, value)
             self.assertEqual(self.checkpoint.read_bytes(), before)
+        landing.save(self.checkpoint, state)
+        changed_dependencies = {**cloud, "dependencies": [{
+            "repository": "ed3c/soodles", "issue": 113, "pr": 114,
+            "base_ref": "main", "base_head": "a" * 40,
+            "candidate_head": "b" * 40, "tree": "c" * 40,
+            "revision": "d" * 40, "run_id": 1, "run_attempt": 1,
+            "workflow_path": ".github/workflows/runtime.yml",
+            "jobs": {"runtime-evidence": ["Canonical acceptance on the exact candidate head"]},
+        }]}
+        before = self.checkpoint.read_bytes()
+        with self.assertRaisesRegex(soodles.Refusal, "resume.claim"):
+            landing.resume(self.checkpoint, changed_dependencies)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
         legacy_cloud = copy.deepcopy(state)
         legacy_cloud["claim"].pop("control_root")
         landing.save(self.checkpoint, legacy_cloud)

@@ -28,33 +28,43 @@ def step(name):
     return {"name": name, "status": "completed", "conclusion": "success"}
 
 
+def dependency_claim():
+    return {
+        "repository": SOODLES, "issue": 111, "pr": 112, "base_ref": "main",
+        "base_head": UP_BASE, "candidate_head": UP_HEAD, "tree": UP_TREE,
+        "revision": UP_MERGE, "run_id": UP_RUN, "run_attempt": 1,
+        "workflow_path": ".github/workflows/runtime.yml",
+        "jobs": {"runtime-evidence": ["Canonical acceptance on the exact candidate head"]},
+    }
+
+
 def dependency_snapshot():
     repo = {"full_name": SOODLES}
     return {
-        "dependency_issue": {
+        "dependency_0_issue": {
             "url": f"https://api.github.com/repos/{SOODLES}/issues/111",
             "html_url": f"https://github.com/{SOODLES}/issues/111",
             "number": 111, "state": "closed", "state_reason": "completed",
             "closed_at": "2026-09-20T22:30:59Z"},
-        "dependency_pr": {
+        "dependency_0_pr": {
             "number": 112, "html_url": f"https://github.com/{SOODLES}/pull/112",
             "state": "closed", "merged": True, "merged_at": "2026-09-20T22:30:59Z",
             "merge_commit_sha": UP_MERGE,
             "head": {"repo": repo, "sha": UP_HEAD},
             "base": {"repo": repo, "sha": UP_BASE, "ref": "main"}},
-        "dependency_commit": {"sha": UP_MERGE, "tree": {"sha": UP_TREE},
-                              "parents": [{"sha": UP_BASE}, {"sha": UP_HEAD}]},
-        "dependency_branch": {"name": "main", "commit": {"sha": UP_MERGE}},
-        "dependency_ancestry": {
+        "dependency_0_commit": {"sha": UP_MERGE, "tree": {"sha": UP_TREE},
+                                "parents": [{"sha": UP_BASE}, {"sha": UP_HEAD}]},
+        "dependency_0_branch": {"name": "main", "commit": {"sha": UP_MERGE}},
+        "dependency_0_ancestry": {
             "status": "identical", "base_commit": {"sha": UP_MERGE},
             "merge_base_commit": {"sha": UP_MERGE}, "head_commit": {"sha": UP_MERGE},
             "total_commits": 0, "commits": []},
-        "dependency_run": {
+        "dependency_0_run": {
             "id": UP_RUN, "run_attempt": 1, "repository": repo, "head_repository": repo,
             "head_sha": UP_HEAD, "event": "pull_request",
             "path": ".github/workflows/runtime.yml", "status": "completed",
             "conclusion": "success"},
-        "dependency_jobs": {"total_count": 1, "jobs": [{
+        "dependency_0_jobs": {"total_count": 1, "jobs": [{
             "id": 106160654219, "name": "runtime-evidence", "run_id": UP_RUN,
             "head_sha": UP_HEAD, "status": "completed", "conclusion": "success",
             "steps": [step("Canonical acceptance on the exact candidate head")]}]},
@@ -65,7 +75,8 @@ def fixture(identity, *, draft=False):
     repo = {"full_name": OPS}
     claim = {"repository": OPS, "issue": 21, "pr": 22, "head": HEAD,
              "tree": TREE, "base_head": BASE, "run_id": RUN, "run_attempt": 1,
-             "worktree": "research-jev-foundation-21", "verifier_sha256": identity}
+             "worktree": "research-jev-foundation-21", "verifier_sha256": identity,
+             "dependencies": [dependency_claim()]}
     common = ["Run python scripts/verify_runtime.py", "Run python scripts/verify_owner.py",
               "Run python scripts/verify_browser.py", "Run python scripts/verify_mapping.py"]
     jobs = [

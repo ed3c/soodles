@@ -76,9 +76,11 @@ never falls back to anonymous API. Provider wait is exit 75 with a deadline,
 not permission to change identity or restart a writer. This boundary does not
 certify the daemon response to adapter failure or resume a paused comparison.
 
-For the registered Ops Issue 21 dependency, `landing next.requests` is the
-shortest path and includes both the Ops consumer readbacks and the exact
-`dependency_*` Soodles producer readbacks. Supply all of them in one readback
-and execute the returned argv unchanged. A closed producer Issue, cleanup or
-order is not eligibility. Do not add a repository, revision, workflow or
-dependency flag; `dependency_binding.py` owns the edge and exact artifact.
+For cross-repository dependencies, the external supervisor claim owns the
+exact edge set. `landing next.requests` is the shortest path and includes the
+consumer readbacks plus indexed `dependency_N_*` producer readbacks derived
+from that immutable claim. Supply all returned GETs in one readback and execute
+the returned argv unchanged. A closed producer Issue, cleanup or order is not
+eligibility. Do not edit a source registry or add repository, revision,
+workflow or dependency flags. Soodles owns validation semantics; it does not
+choose, discover or complete the DAG.

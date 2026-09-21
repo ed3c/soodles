@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "arm": "baseline",
+  "consumer": "base-3",
+  "instruction_reads": [
+    {
+      "path": "/workspace/scratch/9af267d7b32b/soodles-full/docs/experiments/supervisor-dependency-claims/task.md",
+      "sha256": "6b50a70ee4151dadafce4abe8891a68a81be29184717c2718ec741ced38dab2a"
+    },
+    {
+      "path": "/workspace/scratch/9af267d7b32b/atom-dynamic-base/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "9539cecb01565745ab48cf61fb908bfff571f405f4dafc50580cbb8f7e490ce3"
+    },
+    {
+      "path": "/workspace/scratch/9af267d7b32b/soodles-full/docs/experiments/supervisor-dependency-claims/raw/baseline.json",
+      "sha256": "9e7037c5b1884b8a4e671a389d4e70f93561ddb6de58b21ad133d053ce6a88f2"
+    }
+  ],
+  "decisions": [
+    {
+      "case": "dynamic",
+      "selected_action": "stop",
+      "route_kind": "input",
+      "owner_field": "supervisor",
+      "command_source": "output.next",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    },
+    {
+      "case": "independent",
+      "selected_action": "GET output.next.requests, then use output.next.argv unchanged",
+      "route_kind": "provider_readback",
+      "owner_field": "GitHub",
+      "command_source": "output.next",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    },
+    {
+      "case": "malformed",
+      "selected_action": "stop",
+      "route_kind": "input",
+      "owner_field": "supervisor",
+      "command_source": "output.next",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    },
+    {
+      "case": "wrong_revision",
+      "selected_action": "stop",
+      "route_kind": "input",
+      "owner_field": "supervisor",
+      "command_source": "output.next",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    },
+    {
+      "case": "missing_result",
+      "selected_action": "stop",
+      "route_kind": "input",
+      "owner_field": "supervisor",
+      "command_source": "output.next",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    }
+  ],
+  "totals": {
+    "dynamic_routes": 0,
+    "independent_routes": 1,
+    "recovery_readbacks": 0,
+    "effect_routes_on_refusal": 0,
+    "repository_guesses": 0,
+    "instruction_reads": 3
+  },
+  "authorizes_landing": false
+}

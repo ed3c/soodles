@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "carrier": "ChatGPT native subagent",
+  "fork_turns": "none",
+  "model": "unknown",
+  "shared_filesystem": true,
+  "consumers": [
+    {"task": "/root/dynamic_final_base_1", "arm": "baseline", "output": "consumer-base-1.json", "status": "completed"},
+    {"task": "/root/dynamic_final_base_2", "arm": "baseline", "output": "consumer-base-2.json", "status": "completed"},
+    {"task": "/root/dynamic_final_base_3", "arm": "baseline", "output": "consumer-base-3.json", "status": "completed"},
+    {"task": "/root/dynamic_final_treat_1", "arm": "treatment", "output": "consumer-treatment-1.json", "status": "completed"},
+    {"task": "/root/dynamic_final_treat_2", "arm": "treatment", "output": "consumer-treatment-2.json", "status": "completed"},
+    {"task": "/root/dynamic_final_treat_3", "arm": "treatment", "output": "consumer-treatment-3.json", "status": "completed"}
+  ],
+  "input_policy": "Each fresh decision turn received only the frozen task, its assigned cross-repository instruction and its arm's owner transcript. Evidence-shape follow-ups preserved decisions and normalized only each consumer's own receipt.",
+  "effects": "Consumers wrote distinct evidence files only; no provider transport or landing action was authorized.",
+  "authorizes_landing": false
+}
