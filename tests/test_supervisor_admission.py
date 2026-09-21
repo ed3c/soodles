@@ -15,6 +15,7 @@ import supervisor_admission
 
 ROOT = Path(__file__).resolve().parents[1]
 BUNDLE_PATHS = supervisor_admission.BUNDLE_PATHS
+TOKEN_COMMAND_ENV = supervisor_admission.TOKEN_COMMAND_ENV
 
 
 def _sha(data):
@@ -54,19 +55,20 @@ class SupervisorFixture:
         self._git("remote", "add", "origin", "https://github.com/ed3c/soodles.git")
         self.head = self._git("rev-parse", "HEAD")
 
-        self.env_receipt = self.external / "child-env.json"
+        self.child_env = self.external / "child-env.json"
+        self.child_marker = self.external / "child-started"
         self.binary = self.external / "carrier-sentinel"
         self.binary.write_text(
             "#!/usr/bin/env python3\n"
-            "import json, os, sys\n"
+            "import json, os\n"
             "from pathlib import Path\n"
-            "if os.environ.get('GH_TOKEN') != 'fixture-token': sys.exit(41)\n"
-            "if os.environ.get('GITHUB_TOKEN') != 'fixture-token': sys.exit(42)\n"
-            "if not os.environ.get('SOODLES_ADMISSION_LAUNCHER'): sys.exit(43)\n"
-            "if os.environ.get('NOODLES_TOKEN_COMMAND'): sys.exit(44)\n"
-            "Path(os.environ['SUPERVISOR_ENV_RECEIPT']).write_text(json.dumps({"
-            "'gh_token_injected': True, 'github_token_injected': True, "
-            "'launcher_injected': True, 'supplier_removed': True}))\n"
+            "target=os.environ.get('FIXTURE_CHILD_ENV_READBACK')\n"
+            "if target:\n"
+            "    Path(target).write_text(json.dumps({k:os.environ.get(k) for k in "
+            "['GH_TOKEN','GITHUB_TOKEN','SOODLES_ADMISSION_LAUNCHER','NOODLES_TOKEN_COMMAND']}))\n"
+            "marker=os.environ.get('FIXTURE_CHILD_STARTED')\n"
+            "if marker:\n"
+            "    Path(marker).write_text('started')\n"
         )
         self.binary.chmod(0o755)
         identity = {"path": str(self.binary), "sha256": _sha(self.binary.read_bytes())}
@@ -75,9 +77,8 @@ class SupervisorFixture:
             "noodle": dict(identity),
             "codex": {**identity, "model": "fixture-model", "argv": ["exec"]},
         }
-        self.supervisor_env = {
-            supervisor_admission.TOKEN_COMMAND_ENV: "printf 'fixture-token\\n'",
-        }
+        self.token = "fixture-installation-token"
+        self.token_command = "printf fixture-installation-token"
 
         self.contract = {
             "schema": 3,
@@ -101,11 +102,10 @@ class SupervisorFixture:
                 "path": "evidence.json", "revision": "head", "sha256": "0" * 64
             }],
         }
-        fence = chr(96) * 3
         body = (
-            "<!-- soodles:execution-v1 -->\n" + fence + "json\n"
+            "<!-- soodles:execution-v1 -->\n```json\n"
             + json.dumps(self.contract, indent=2)
-            + "\n" + fence + "\n<!-- /soodles:execution-v1 -->\n"
+            + "\n```\n<!-- /soodles:execution-v1 -->\n"
         )
         self.issue = {
             "url": "https://api.github.com/repos/ed3c/soodles/issues/118",
@@ -152,9 +152,10 @@ class SupervisorFixture:
 
     def prepare(self, name="bundle", environ=None):
         output = self.external / name
+        if environ is None:
+            environ = {TOKEN_COMMAND_ENV: self.token_command}
         result = supervisor_admission.prepare(
-            self.issue, self.carrier, self.root, output,
-            environ=self.supervisor_env if environ is None else environ)
+            self.issue, self.carrier, self.root, output, environ=environ)
         return output, result
 
     def baseline(self):
@@ -179,14 +180,17 @@ class SupervisorFixture:
         bundle_soodles = (output / "runtime/soodles.py").read_bytes()
 
         start_env = os.environ.copy()
-        start_env.update(self.supervisor_env)
-        start_env["GH_TOKEN"] = "stale-parent-token"
-        start_env["GITHUB_TOKEN"] = "stale-parent-token"
-        start_env["SUPERVISOR_ENV_RECEIPT"] = str(self.env_receipt)
-        start = subprocess.run(
+        start_env.update({
+            TOKEN_COMMAND_ENV: self.token_command,
+            "GH_TOKEN": "stale-parent-token",
+            "GITHUB_TOKEN": "stale-parent-token",
+            "FIXTURE_CHILD_ENV_READBACK": str(self.child_env),
+            "FIXTURE_CHILD_STARTED": str(self.child_marker),
+        })
+        start_run = subprocess.run(
             prepared["next"]["argv"], cwd=self.root, env=start_env,
             capture_output=True, text=True, timeout=30)
-        child_env = json.loads(self.env_receipt.read_text()) if self.env_receipt.exists() else {}
+        child = json.loads(self.child_env.read_text())
 
         env = {**self.schedule_env,
                "SOODLES_ADMISSION_LAUNCHER": prepared["launcher"]}
@@ -197,20 +201,22 @@ class SupervisorFixture:
             projected["next"]["argv"], cwd=self.root, env=process_env,
             capture_output=True, text=True, timeout=30)
         payload = json.loads(run.stdout)
-        files = [path for path in output.rglob("*") if path.is_file()]
-        token_persisted = any(b"fixture-token" in path.read_bytes() for path in files)
-        argv_text = "\0".join(prepared["next"]["argv"])
+
+        bundle_bytes = b"".join(
+            path.read_bytes() for path in output.rglob("*") if path.is_file())
         return {
             "prepared_action": prepared["action"],
             "start_operation": prepared["next"]["operation"],
             "start_argv": prepared["next"]["argv"],
-            "start_exit": start.returncode,
-            "start_stderr": start.stderr,
-            "provider_identity": prepared["provider_identity"],
-            "child_env": child_env,
-            "token_in_start_argv": "fixture-token" in argv_text,
-            "supplier_in_start_argv": supervisor_admission.TOKEN_COMMAND_ENV in argv_text,
-            "token_persisted_in_bundle": token_persisted,
+            "start_exit": start_run.returncode,
+            "child_started": self.child_marker.exists(),
+            "child_gh_token": child["GH_TOKEN"],
+            "child_github_token": child["GITHUB_TOKEN"],
+            "child_launcher": child["SOODLES_ADMISSION_LAUNCHER"],
+            "child_supplier": child["NOODLES_TOKEN_COMMAND"],
+            "token_absent_from_argv": self.token not in "\n".join(prepared["next"]["argv"]),
+            "token_absent_from_bundle": self.token.encode() not in bundle_bytes,
+            "supplier_command_absent_from_bundle": self.token_command.encode() not in bundle_bytes,
             "inspect_action": projected["action"],
             "inspect_argv": projected["next"]["argv"],
             "launcher_exit": run.returncode,
@@ -250,34 +256,39 @@ def observe_sensitivity():
 
     fixture = SupervisorFixture()
     try:
+        output = fixture.external / "missing-supplier"
         try:
-            fixture.prepare("missing-supplier", environ={})
+            supervisor_admission.prepare(
+                fixture.issue, fixture.carrier, fixture.root, output, environ={})
         except AdmissionRefusal as error:
             results["missing_supplier"] = {
                 "field": error.invalid["field"],
                 "owner": error.next["owner"],
                 "required": error.next["required"],
-                "output_exists": (fixture.external / "missing-supplier").exists(),
+                "output_exists": output.exists(),
             }
         else:
-            raise AssertionError("missing supplier was accepted")
+            raise AssertionError("missing supplier unexpectedly prepared output")
     finally:
         fixture.close()
 
     fixture = SupervisorFixture()
     try:
-        output, prepared = fixture.prepare("bad-supplier")
+        output, prepared = fixture.prepare("supplier-failure")
         env = os.environ.copy()
-        env[supervisor_admission.TOKEN_COMMAND_ENV] = "exit 23"
-        env["SUPERVISOR_ENV_RECEIPT"] = str(fixture.env_receipt)
+        env.update({
+            TOKEN_COMMAND_ENV: "exit 23",
+            "FIXTURE_CHILD_ENV_READBACK": str(fixture.child_env),
+            "FIXTURE_CHILD_STARTED": str(fixture.child_marker),
+        })
         run = subprocess.run(
             prepared["next"]["argv"], cwd=fixture.root, env=env,
             capture_output=True, text=True, timeout=30)
         payload = json.loads(run.stdout)
-        results["bad_supplier"] = {
+        results["failing_supplier"] = {
             "exit": run.returncode,
             "field": payload["invalid"]["field"],
-            "receipt_exists": fixture.env_receipt.exists(),
+            "child_started": fixture.child_marker.exists(),
             "proposal_exists": (fixture.root / ".noodle/orders-next.json").exists(),
         }
     finally:
@@ -321,7 +332,7 @@ def observe_sensitivity():
         try:
             supervisor_admission.prepare(
                 fixture.issue, fixture.carrier, fixture.root, output,
-                environ=fixture.supervisor_env)
+                environ={TOKEN_COMMAND_ENV: fixture.token_command})
         except AdmissionRefusal as error:
             results["existing_output"] = {
                 "field": error.invalid["field"],
@@ -336,7 +347,7 @@ def observe_sensitivity():
 
 
 class SupervisorAdmissionTests(unittest.TestCase):
-    def test_baseline_to_exact_launcher_automatic_closes_capability_gap(self):
+    def test_bootstrap_injects_provider_identity_then_uses_exact_launcher(self):
         observed = observe_baseline_and_treatment()
         baseline = observed["baseline"]
         treatment = observed["treatment"]
@@ -348,20 +359,15 @@ class SupervisorAdmissionTests(unittest.TestCase):
         self.assertEqual(treatment["prepared_action"], "ready")
         self.assertEqual(treatment["start_operation"], "start_noodle")
         self.assertEqual(len(treatment["start_argv"]), 1)
-        self.assertEqual(treatment["start_exit"], 0, treatment["start_stderr"])
-        self.assertEqual(treatment["provider_identity"]["owner"], "supervisor")
-        self.assertEqual(
-            treatment["provider_identity"]["supplier"],
-            supervisor_admission.TOKEN_COMMAND_ENV)
-        self.assertFalse(treatment["provider_identity"]["in_argv"])
-        self.assertFalse(treatment["provider_identity"]["persisted_token"])
-        self.assertTrue(treatment["child_env"]["gh_token_injected"])
-        self.assertTrue(treatment["child_env"]["github_token_injected"])
-        self.assertTrue(treatment["child_env"]["launcher_injected"])
-        self.assertTrue(treatment["child_env"]["supplier_removed"])
-        self.assertFalse(treatment["token_in_start_argv"])
-        self.assertFalse(treatment["supplier_in_start_argv"])
-        self.assertFalse(treatment["token_persisted_in_bundle"])
+        self.assertEqual(treatment["start_exit"], 0)
+        self.assertTrue(treatment["child_started"])
+        self.assertEqual(treatment["child_gh_token"], "fixture-installation-token")
+        self.assertEqual(treatment["child_github_token"], "fixture-installation-token")
+        self.assertEqual(treatment["child_launcher"], treatment["inspect_argv"][0])
+        self.assertIsNone(treatment["child_supplier"])
+        self.assertTrue(treatment["token_absent_from_argv"])
+        self.assertTrue(treatment["token_absent_from_bundle"])
+        self.assertTrue(treatment["supplier_command_absent_from_bundle"])
 
         self.assertEqual(treatment["inspect_action"], "ready")
         self.assertEqual(treatment["inspect_argv"][1], "automatic")
@@ -373,27 +379,28 @@ class SupervisorAdmissionTests(unittest.TestCase):
         self.assertTrue(treatment["dirty_sentinel_excluded"])
         self.assertFalse(treatment["authorizes_landing"])
 
-    def test_tamper_historical_supplier_and_overwrite_controls_refuse_before_proposal(self):
+    def test_supplier_integrity_and_overwrite_controls_refuse_before_effects(self):
         observed = observe_sensitivity()
         self.assertEqual(
             observed["historical_unselected_launcher"]["field"],
             "scheduler.launcher")
         self.assertFalse(
             observed["historical_unselected_launcher"]["historical_executed"])
+
         self.assertEqual(
             observed["missing_supplier"]["field"],
             "supervisor.provider_credential_supplier")
         self.assertEqual(observed["missing_supplier"]["owner"], "supervisor")
         self.assertEqual(
-            observed["missing_supplier"]["required"],
-            [supervisor_admission.TOKEN_COMMAND_ENV])
+            observed["missing_supplier"]["required"], [TOKEN_COMMAND_ENV])
         self.assertFalse(observed["missing_supplier"]["output_exists"])
+
         self.assertEqual(
-            observed["bad_supplier"]["field"],
+            observed["failing_supplier"]["field"],
             "start.provider_credential_supplier_exit")
-        self.assertEqual(observed["bad_supplier"]["exit"], 64)
-        self.assertFalse(observed["bad_supplier"]["receipt_exists"])
-        self.assertFalse(observed["bad_supplier"]["proposal_exists"])
+        self.assertEqual(observed["failing_supplier"]["exit"], 64)
+        self.assertFalse(observed["failing_supplier"]["child_started"])
+        self.assertFalse(observed["failing_supplier"]["proposal_exists"])
 
         self.assertEqual(
             observed["envelope_tamper"]["field"],
