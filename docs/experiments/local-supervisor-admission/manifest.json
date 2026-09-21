@@ -8,29 +8,29 @@
     {
       "path": ".agents/skills/verify-soodles/features/README.md",
       "baseline_sha256": "da22804e0e59c7b25e0908dfebdf8367af9f2ba3d809e6354136e3674d910c4c",
-      "treatment_sha256": "b6e96d36a2ed4e2d91c103cca53d36af76b221df91f05178128198550f7997c5"
+      "treatment_sha256": "f8fc77b9d2d21d225c5149249c293e58b3c3683eb8dcff58972176b929e03300"
     }
   ],
   "artifacts": [
     {
       "path": ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
       "role": "verification_recipe",
-      "sha256": "a720a006f24d608db4d7716a364eb4b4b79b64dac443ed3b525def41d4aa29a2"
+      "sha256": "c07540d5ef3648454e70cad08b5c8e3687f23bc6d9be6ca7319993e49c183dea"
     },
     {
       "path": "docs/experiments/local-supervisor-admission/task.md",
       "role": "bounded_task",
-      "sha256": "92c3791cdfadb70ab56911ad118b421984ca3cdd684e4763b1d85337bba7b74d"
+      "sha256": "69930420df6525a5fa0e211269e410f169276a47eae3291ccdc73e0a27674600"
     },
     {
       "path": "docs/experiments/local-supervisor-admission/observer.py",
       "role": "bounded_observer",
-      "sha256": "e0e40fb88ac9af6ca4fcc2a6140a249e46ea6fdd598d967fdc001462833bc59f"
+      "sha256": "94e150808325d25ad037a3f9e568a81b19fd0a9574cb1e209f1a4644458859c9"
     },
     {
       "path": "docs/experiments/local-supervisor-admission/results.md",
       "role": "bounded_result",
-      "sha256": "c70f50aaf9090078b082c73453ce8475398b5bcdaf38d479cdb8681c9e8a2c77"
+      "sha256": "2ffb04bb2dbabf35b63903215e20be7efbbfe5b5b26969cfd926f1f66f671c33"
     },
     {
       "path": "supervisor-admission",
@@ -40,12 +40,12 @@
     {
       "path": "supervisor_admission.py",
       "role": "implementation",
-      "sha256": "6d49225e6132589fccb93acf878676fab9ab200de2cdbff8151e85155f37502e"
+      "sha256": "6a7f0e8bdaa418ae9c14486e30947fb9f20380e620bcea551d880347d04819bc"
     },
     {
       "path": "tests/test_supervisor_admission.py",
       "role": "implementation_control",
-      "sha256": "d5e228513903dfbf3ea881394cbe2bddb98a18c8349f175dcbf88b6c3ed492aa"
+      "sha256": "1bee2727aeb6504d178c4e1f296ef18df791837bacd436500fe2ca5cfae7a594"
     }
   ],
   "owner": {
