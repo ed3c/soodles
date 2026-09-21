@@ -162,6 +162,9 @@ def _new_output(output):
     output = Path(output)
     require(output.is_absolute(), "output", str(output), "absolute_external_output")
     output = output.resolve()
+    source_root = Path(__file__).resolve().parent
+    require(not output.is_relative_to(source_root), "output", str(output),
+            "external_output_outside_candidate")
     require(not output.exists(), "output.exists", str(output), "new_external_output")
     require(output.parent.is_dir(), "output.parent", str(output.parent),
             "existing_external_parent")
@@ -266,7 +269,6 @@ def _landing_consume(result, next_action, requests, context, output, token, api)
             readback["merge_commit"] = payload
             reads.append(merge_url)
 
-    output = _new_output(output)
     readback_path = output / "readback.json"
     result_path = output / "result.json"
     argv = [
@@ -392,7 +394,22 @@ def _next_issue_consume(result, next_action, requests, context, output, token, a
         next_url = _link_next(headers)
         if not next_url:
             break
-        _repository_from_url(next_url)
+        require(_repository_from_url(next_url) == repository,
+                "provider.pagination.repository", next_url,
+                "same_repository_pagination")
+        next_parsed = urllib.parse.urlsplit(next_url)
+        require(next_parsed.path == f"/repos/{repository}/issues",
+                "provider.pagination.path", next_parsed.path,
+                "same_issues_endpoint")
+        next_query = urllib.parse.parse_qs(
+            next_parsed.query, keep_blank_values=True)
+        require(next_query.get("state") == ["all"]
+                and next_query.get("per_page") == ["100"]
+                and len(next_query.get("page", [])) == 1
+                and next_query["page"][0].isdigit()
+                and int(next_query["page"][0]) >= 2,
+                "provider.pagination.query", next_query,
+                "same_issues_frontier_pagination")
         url = next_url
     else:
         raise ReadbackRefusal(
@@ -408,7 +425,6 @@ def _next_issue_consume(result, next_action, requests, context, output, token, a
             "next.known.intent", intent, "absolute_next_issue_intent")
 
     frontier = {"schema": 1, "complete": True, "issues": items}
-    output = _new_output(output)
     frontier_path = output / "frontier.json"
     argv = [
         sys.executable, "-B", str(cli), "reconcile",
@@ -440,6 +456,7 @@ def _next_issue_consume(result, next_action, requests, context, output, token, a
 
 
 def consume(result, context, output, *, environ=None, api=None):
+    output = _new_output(output)
     environ = os.environ if environ is None else environ
     token = _token(environ)
     next_action, requests = _next_projection(result)
