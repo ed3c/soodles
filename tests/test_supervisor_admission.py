@@ -54,14 +54,29 @@ class SupervisorFixture:
         self._git("remote", "add", "origin", "https://github.com/ed3c/soodles.git")
         self.head = self._git("rev-parse", "HEAD")
 
+        self.env_receipt = self.external / "child-env.json"
         self.binary = self.external / "carrier-sentinel"
-        self.binary.write_text("#!/bin/sh\nexit 0\n")
+        self.binary.write_text(
+            "#!/usr/bin/env python3\n"
+            "import json, os, sys\n"
+            "from pathlib import Path\n"
+            "if os.environ.get('GH_TOKEN') != 'fixture-token': sys.exit(41)\n"
+            "if os.environ.get('GITHUB_TOKEN') != 'fixture-token': sys.exit(42)\n"
+            "if not os.environ.get('SOODLES_ADMISSION_LAUNCHER'): sys.exit(43)\n"
+            "if os.environ.get('NOODLES_TOKEN_COMMAND'): sys.exit(44)\n"
+            "Path(os.environ['SUPERVISOR_ENV_RECEIPT']).write_text(json.dumps({"
+            "'gh_token_injected': True, 'github_token_injected': True, "
+            "'launcher_injected': True, 'supplier_removed': True}))\n"
+        )
         self.binary.chmod(0o755)
         identity = {"path": str(self.binary), "sha256": _sha(self.binary.read_bytes())}
         self.carrier = {
             "platform": platform.system().lower() + "_" + platform.machine().lower(),
             "noodle": dict(identity),
             "codex": {**identity, "model": "fixture-model", "argv": ["exec"]},
+        }
+        self.supervisor_env = {
+            supervisor_admission.TOKEN_COMMAND_ENV: "printf 'fixture-token\\n'",
         }
 
         self.contract = {
@@ -86,10 +101,11 @@ class SupervisorFixture:
                 "path": "evidence.json", "revision": "head", "sha256": "0" * 64
             }],
         }
+        fence = chr(96) * 3
         body = (
-            "<!-- soodles:execution-v1 -->\n```json\n"
+            "<!-- soodles:execution-v1 -->\n" + fence + "json\n"
             + json.dumps(self.contract, indent=2)
-            + "\n```\n<!-- /soodles:execution-v1 -->\n"
+            + "\n" + fence + "\n<!-- /soodles:execution-v1 -->\n"
         )
         self.issue = {
             "url": "https://api.github.com/repos/ed3c/soodles/issues/118",
@@ -134,10 +150,11 @@ class SupervisorFixture:
             ["git", *args], cwd=self.root, text=True, stderr=subprocess.PIPE
         ).strip()
 
-    def prepare(self, name="bundle"):
+    def prepare(self, name="bundle", environ=None):
         output = self.external / name
         result = supervisor_admission.prepare(
-            self.issue, self.carrier, self.root, output)
+            self.issue, self.carrier, self.root, output,
+            environ=self.supervisor_env if environ is None else environ)
         return output, result
 
     def baseline(self):
@@ -161,6 +178,16 @@ class SupervisorFixture:
             ["git", "show", self.head + ":soodles.py"], cwd=self.root)
         bundle_soodles = (output / "runtime/soodles.py").read_bytes()
 
+        start_env = os.environ.copy()
+        start_env.update(self.supervisor_env)
+        start_env["GH_TOKEN"] = "stale-parent-token"
+        start_env["GITHUB_TOKEN"] = "stale-parent-token"
+        start_env["SUPERVISOR_ENV_RECEIPT"] = str(self.env_receipt)
+        start = subprocess.run(
+            prepared["next"]["argv"], cwd=self.root, env=start_env,
+            capture_output=True, text=True, timeout=30)
+        child_env = json.loads(self.env_receipt.read_text()) if self.env_receipt.exists() else {}
+
         env = {**self.schedule_env,
                "SOODLES_ADMISSION_LAUNCHER": prepared["launcher"]}
         projected = inspect_schedule(self.root, env)
@@ -170,10 +197,20 @@ class SupervisorFixture:
             projected["next"]["argv"], cwd=self.root, env=process_env,
             capture_output=True, text=True, timeout=30)
         payload = json.loads(run.stdout)
+        files = [path for path in output.rglob("*") if path.is_file()]
+        token_persisted = any(b"fixture-token" in path.read_bytes() for path in files)
+        argv_text = "\0".join(prepared["next"]["argv"])
         return {
             "prepared_action": prepared["action"],
             "start_operation": prepared["next"]["operation"],
             "start_argv": prepared["next"]["argv"],
+            "start_exit": start.returncode,
+            "start_stderr": start.stderr,
+            "provider_identity": prepared["provider_identity"],
+            "child_env": child_env,
+            "token_in_start_argv": "fixture-token" in argv_text,
+            "supplier_in_start_argv": supervisor_admission.TOKEN_COMMAND_ENV in argv_text,
+            "token_persisted_in_bundle": token_persisted,
             "inspect_action": projected["action"],
             "inspect_argv": projected["next"]["argv"],
             "launcher_exit": run.returncode,
@@ -207,6 +244,41 @@ def observe_sensitivity():
             "field": baseline["field"],
             "owner": baseline["owner"],
             "historical_executed": False,
+        }
+    finally:
+        fixture.close()
+
+    fixture = SupervisorFixture()
+    try:
+        try:
+            fixture.prepare("missing-supplier", environ={})
+        except AdmissionRefusal as error:
+            results["missing_supplier"] = {
+                "field": error.invalid["field"],
+                "owner": error.next["owner"],
+                "required": error.next["required"],
+                "output_exists": (fixture.external / "missing-supplier").exists(),
+            }
+        else:
+            raise AssertionError("missing supplier was accepted")
+    finally:
+        fixture.close()
+
+    fixture = SupervisorFixture()
+    try:
+        output, prepared = fixture.prepare("bad-supplier")
+        env = os.environ.copy()
+        env[supervisor_admission.TOKEN_COMMAND_ENV] = "exit 23"
+        env["SUPERVISOR_ENV_RECEIPT"] = str(fixture.env_receipt)
+        run = subprocess.run(
+            prepared["next"]["argv"], cwd=fixture.root, env=env,
+            capture_output=True, text=True, timeout=30)
+        payload = json.loads(run.stdout)
+        results["bad_supplier"] = {
+            "exit": run.returncode,
+            "field": payload["invalid"]["field"],
+            "receipt_exists": fixture.env_receipt.exists(),
+            "proposal_exists": (fixture.root / ".noodle/orders-next.json").exists(),
         }
     finally:
         fixture.close()
@@ -248,7 +320,8 @@ def observe_sensitivity():
         }
         try:
             supervisor_admission.prepare(
-                fixture.issue, fixture.carrier, fixture.root, output)
+                fixture.issue, fixture.carrier, fixture.root, output,
+                environ=fixture.supervisor_env)
         except AdmissionRefusal as error:
             results["existing_output"] = {
                 "field": error.invalid["field"],
@@ -274,6 +347,22 @@ class SupervisorAdmissionTests(unittest.TestCase):
 
         self.assertEqual(treatment["prepared_action"], "ready")
         self.assertEqual(treatment["start_operation"], "start_noodle")
+        self.assertEqual(len(treatment["start_argv"]), 1)
+        self.assertEqual(treatment["start_exit"], 0, treatment["start_stderr"])
+        self.assertEqual(treatment["provider_identity"]["owner"], "supervisor")
+        self.assertEqual(
+            treatment["provider_identity"]["supplier"],
+            supervisor_admission.TOKEN_COMMAND_ENV)
+        self.assertFalse(treatment["provider_identity"]["in_argv"])
+        self.assertFalse(treatment["provider_identity"]["persisted_token"])
+        self.assertTrue(treatment["child_env"]["gh_token_injected"])
+        self.assertTrue(treatment["child_env"]["github_token_injected"])
+        self.assertTrue(treatment["child_env"]["launcher_injected"])
+        self.assertTrue(treatment["child_env"]["supplier_removed"])
+        self.assertFalse(treatment["token_in_start_argv"])
+        self.assertFalse(treatment["supplier_in_start_argv"])
+        self.assertFalse(treatment["token_persisted_in_bundle"])
+
         self.assertEqual(treatment["inspect_action"], "ready")
         self.assertEqual(treatment["inspect_argv"][1], "automatic")
         self.assertEqual(treatment["launcher_exit"], 0)
@@ -284,13 +373,28 @@ class SupervisorAdmissionTests(unittest.TestCase):
         self.assertTrue(treatment["dirty_sentinel_excluded"])
         self.assertFalse(treatment["authorizes_landing"])
 
-    def test_tamper_historical_and_overwrite_controls_refuse_before_proposal(self):
+    def test_tamper_historical_supplier_and_overwrite_controls_refuse_before_proposal(self):
         observed = observe_sensitivity()
         self.assertEqual(
             observed["historical_unselected_launcher"]["field"],
             "scheduler.launcher")
         self.assertFalse(
             observed["historical_unselected_launcher"]["historical_executed"])
+        self.assertEqual(
+            observed["missing_supplier"]["field"],
+            "supervisor.provider_credential_supplier")
+        self.assertEqual(observed["missing_supplier"]["owner"], "supervisor")
+        self.assertEqual(
+            observed["missing_supplier"]["required"],
+            [supervisor_admission.TOKEN_COMMAND_ENV])
+        self.assertFalse(observed["missing_supplier"]["output_exists"])
+        self.assertEqual(
+            observed["bad_supplier"]["field"],
+            "start.provider_credential_supplier_exit")
+        self.assertEqual(observed["bad_supplier"]["exit"], 64)
+        self.assertFalse(observed["bad_supplier"]["receipt_exists"])
+        self.assertFalse(observed["bad_supplier"]["proposal_exists"])
+
         self.assertEqual(
             observed["envelope_tamper"]["field"],
             "launcher.envelope_sha256")
