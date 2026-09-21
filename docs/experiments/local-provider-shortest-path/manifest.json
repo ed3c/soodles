@@ -1,14 +1,67 @@
 {
   "schema": 1,
-  "issue": {"repository": "ed3c/soodles", "number": 120},
-  "artifacts": [
-    {"path": "landing.py", "role": "transition_owner"},
-    {"path": "provider_transport.py", "role": "local_transport"},
-    {"path": "provider-execute", "role": "cli"},
-    {"path": "tests/test_local_provider_transport.py", "role": "hard_controls"},
-    {"path": ".agents/skills/verify-soodles/features/supervised-delivery.md", "role": "pclass"},
-    {"path": "docs/experiments/local-provider-shortest-path/observer.py", "role": "observer"},
-    {"path": "docs/experiments/local-provider-shortest-path/results.md", "role": "result"}
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 120
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+      "baseline_sha256": "65c4b13931528af1f47b470245bd8736e626ee6b22acad6f43573c32dc5c788d",
+      "treatment_sha256": "cf340470a6955d63418700e0350a40f3c72706d92a74eab1825bd131f2826b8f"
+    }
   ],
+  "artifacts": [
+    {
+      "path": "landing.py",
+      "role": "transition_owner",
+      "sha256": "9507622e90da814e1306811d754a1a01140954c5288f41fc620e1e10ece2d2b7"
+    },
+    {
+      "path": "provider_transport.py",
+      "role": "local_transport",
+      "sha256": "8b9112eb6f5ab51d54ed20cf671ac3ec6ed9113e4d3118d3e7b4998c6581fb79"
+    },
+    {
+      "path": "provider-execute",
+      "role": "cli",
+      "sha256": "502adb46f93ae2e5d499dd18900e87e61e2d17691c8dc7a997325b5193048e8a"
+    },
+    {
+      "path": "tests/test_local_provider_transport.py",
+      "role": "hard_controls",
+      "sha256": "5882b7b62a46eae8fbfeb3a7bdb9d5eed023d1450cbc1323bdbf56cef19d7c0e"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/README.md",
+      "role": "verification_map",
+      "sha256": "80095caf6683f22f854dc0687461881dea03c9f6a0a2d8d54df89cd3d801ce11"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "role": "stable_contract",
+      "sha256": "3229c7e1a0bbfde9aa8fe8a921806ff95d1c21d2d769848fded898ecdbb42448"
+    },
+    {
+      "path": "docs/experiments/local-provider-shortest-path/task.md",
+      "role": "bounded_task",
+      "sha256": "f6c380c45a2d96cf9cb413fccc3f4250cac04a9342d1792560a23e6d9d3f0d2e"
+    },
+    {
+      "path": "docs/experiments/local-provider-shortest-path/observer.py",
+      "role": "observer",
+      "sha256": "07be0f1e1166bbd14375a6d16a8ee284eed4aac8fe5e9cea0c70bd37521a0672"
+    },
+    {
+      "path": "docs/experiments/local-provider-shortest-path/results.md",
+      "role": "result",
+      "sha256": "4f87b6dbb485b4407e444a90bd67767d9409b045a5c05000fabfc6dd593750cf"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#120"
+  },
   "authorizes_landing": false
 }
