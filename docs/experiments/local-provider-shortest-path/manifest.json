@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "issue": {"repository": "ed3c/soodles", "number": 120},
+  "artifacts": [
+    {"path": "landing.py", "role": "transition_owner"},
+    {"path": "provider_transport.py", "role": "local_transport"},
+    {"path": "provider-execute", "role": "cli"},
+    {"path": "tests/test_local_provider_transport.py", "role": "hard_controls"},
+    {"path": ".agents/skills/verify-soodles/features/supervised-delivery.md", "role": "pclass"},
+    {"path": "docs/experiments/local-provider-shortest-path/observer.py", "role": "observer"},
+    {"path": "docs/experiments/local-provider-shortest-path/results.md", "role": "result"}
+  ],
+  "authorizes_landing": false
+}
