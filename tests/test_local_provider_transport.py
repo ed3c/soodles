@@ -5,12 +5,17 @@ import json
 import os
 from pathlib import Path
 import platform
+import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
 
 import landing
 import provider_transport
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class ProviderFixture:
@@ -118,6 +123,13 @@ class LocalProviderTransportTests(unittest.TestCase):
         persisted = landing.read(self.f.checkpoint)["delivery"]
         self.assertEqual(persisted["request"], dispatch["request"])
 
+        recipe = (ROOT / ".agents/skills/verify-soodles/features/supervised-delivery.md").read_text()
+        self.assertIn("next.kind: executable", recipe)
+        self.assertIn("next.argv", recipe)
+        for forbidden in ("gh pr merge", "gh api", "PUT /pulls", "PATCH /issues"):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, recipe)
+
         merged = provider_transport.execute(
             self.f.checkpoint, environ=self.env, api=self.f.api)
         self.assertEqual(self.f.merge_calls, 1)
@@ -158,6 +170,17 @@ class LocalProviderTransportTests(unittest.TestCase):
         self.f.start_and_dispatch()
         with self.assertRaises(provider_transport.ProviderRefusal):
             provider_transport.execute(self.f.checkpoint, environ={}, api=self.f.api)
+        self.assertEqual(self.f.merge_calls, 0)
+
+        cli = subprocess.run(
+            [sys.executable, "-B", str(ROOT / "provider-execute"),
+             str(self.f.checkpoint), "--repo", "ed3c/soodles"],
+            cwd=ROOT, capture_output=True, text=True, timeout=30)
+        self.assertEqual(cli.returncode, 2, cli.stderr)
+        refusal = json.loads(cli.stdout)
+        self.assertEqual(refusal["invalid"]["field"], "arguments")
+        self.assertEqual(refusal["next"]["owner"], "caller")
+        self.assertEqual(refusal["next"]["required"], ["checkpoint_only"])
         self.assertEqual(self.f.merge_calls, 0)
 
         state = landing.read(self.f.checkpoint)
