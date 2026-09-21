@@ -17,6 +17,10 @@ For a cloud task requiring independent Agent work or context-transfer verificati
 
 Retain the selected path and its evidence in the existing task handoff: repo/ref, Issue/PR/head, carrier/reason, run/attempt or local owner/session/checkpoint, and next required readback. Refresh mutable owner/provider state on resume; reselect only when execution ownership changes. No new flag, state file or repeated preflight is required. Scratch `environment_offline` blocks only dependent scratch operations. Missing capabilities block their own operation, not the other path. Consume current owner `next`/`request`; never replay historical writes.
 
+### Terminal candidate delivery entry
+
+When the supplied provider snapshot already identifies one exact-head successful terminal candidate and the supervisor has selected immutable external publisher bytes plus the Cloud/Local route, run the repository `landing-supervisor` entry with those supplied inputs and a new external output directory. Consume the returned current landing-owner `next` exactly. Do not search repository history for another publisher, derive authority from latest/default branch, assemble a landing claim or checkpoint in the Agent, or choose `start`/`advance`/`dispatch` from prose. A refusal names the missing supervisor/provider input; it is not permission to substitute historical identity.
+
 ## Task scope and completion
 
 Within the current task's authorization, continue through necessary inspection, local correction and relevant checks. Existing disposable local controls may run without a new approval at each step. Finish an analysis/review with findings; finish an implementation with its requested artifact and evidence. A delivery task continues through the existing supervised owner to its requested terminal state. A blocked effect does not prevent unrelated authorized read-only work.
