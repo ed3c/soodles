@@ -24,26 +24,37 @@ class AdmissionTests(unittest.TestCase):
     def write_lock(self):
         (self.root / "policy/runtime.lock.json").write_text(json.dumps(self.lock))
 
-    def test_admitted_version_is_observed_not_inferred_from_filename(self):
+    # These four tests use a shell sentinel, not a Linux Noodle executable.
+    # Fix their admitted-host fixture explicitly so native macOS can exercise
+    # digest/version/path discrimination without claiming Linux acceptance.
+    @patch.object(soodles.platform, "system", return_value="Linux")
+    @patch.object(soodles.platform, "machine", return_value="x86_64")
+    def test_admitted_version_is_observed_not_inferred_from_filename(self, *_host):
         result = soodles.runtime_check(self.root, self.binary)
         self.assertEqual(result["observed_version"], self.lock["release"])
         self.assertFalse(result["authorizes_landing"])
 
-    def test_wrong_digest_refuses_before_executable_sentinel(self):
+    @patch.object(soodles.platform, "system", return_value="Linux")
+    @patch.object(soodles.platform, "machine", return_value="x86_64")
+    def test_wrong_digest_refuses_before_executable_sentinel(self, *_host):
         sentinel = self.root / "effect"
         self.binary.write_text(f"#!/bin/sh\ntouch '{sentinel}'\n")
         with self.assertRaisesRegex(soodles.Refusal, r"runtime check: invalid binary.sha256=.*runtime check --help"):
             soodles.runtime_check(self.root, self.binary)
         self.assertFalse(sentinel.exists())
 
-    def test_missing_binary_does_not_fall_back_to_path(self):
+    @patch.object(soodles.platform, "system", return_value="Linux")
+    @patch.object(soodles.platform, "machine", return_value="x86_64")
+    def test_missing_binary_does_not_fall_back_to_path(self, *_host):
         self.binary.unlink()
         with patch.object(soodles, "run") as run:
             with self.assertRaisesRegex(soodles.Refusal, "binary.path"):
                 soodles.runtime_check(self.root, self.binary)
             run.assert_not_called()
 
-    def test_wrong_observed_version_refuses_worktree_execution(self):
+    @patch.object(soodles.platform, "system", return_value="Linux")
+    @patch.object(soodles.platform, "machine", return_value="x86_64")
+    def test_wrong_observed_version_refuses_worktree_execution(self, *_host):
         self.binary.write_text("#!/bin/sh\nprintf '%s\\n' 'v0.0.0'\n")
         self.lock["binary_sha256"] = soodles.digest(self.binary)
         self.write_lock()

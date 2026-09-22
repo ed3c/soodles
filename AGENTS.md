@@ -12,9 +12,13 @@ Read this file at the task's selected repository ref when entering Soodles; a cl
 | Local Soodles → Noodle → Codex child | Use the supplied local control root, admitted launcher/envelope and Noodle owner; load only the [bounded execution recipe](.agents/skills/verify-soodles/features/issue-execution.md). Confirm the actual child's Codex CLI capability there, then observe its session/order/stage outcome. Do not reconstruct launcher argv. |
 
 After a local child is parked with a completed typed outcome, the supervisor
-uses Noodle's exact publication claim and the canonical acceptance receipt via
+uses Noodle's exact publication claim and the native publication-readiness
+receipt (or canonical acceptance receipt) via
 the [candidate-publication skill](.agents/skills/candidate-publication/SKILL.md).
 That entry owns push/readback/PR identity; the Agent never reconstructs them.
+Native readiness permits publication only. Linux exact-head Actions acceptance
+still precedes landing; the local external landing owner emits merge/closure
+requests and owns reconciliation. CI need not hold merge authority.
 
 Local runtime tests that launch no Codex child need no Codex CLI. A cloud Session does not inherit local-launcher requirements because a CLI binary happens to exist. If ownership is unknown, inspect the next operation's owner; only unresolved identity/authority requires clarification.
 

@@ -13,6 +13,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shlex
 import shutil
 import subprocess
 import sys
@@ -145,7 +146,7 @@ if __name__ == "__main__":
 
 
 def _start_text(control_root, launcher_sha256, manifest_sha256,
-                noodle_path, noodle_sha256, interpreter):
+                noodle_path, noodle_sha256, interpreter, config_sha256=None):
     template = """#!{interpreter}
 import hashlib
 import json
@@ -160,6 +161,7 @@ LAUNCHER_SHA256 = {launcher_sha256!r}
 MANIFEST_SHA256 = {manifest_sha256!r}
 NOODLE_PATH = {noodle_path!r}
 NOODLE_SHA256 = {noodle_sha256!r}
+CONFIG_SHA256 = {config_sha256!r}
 TOKEN_COMMAND_ENV = {token_command_env!r}
 
 
@@ -198,6 +200,8 @@ def main():
         if observed_noodle != NOODLE_SHA256:
             return refuse("start.noodle_sha256", observed_noodle,
                           "measured_local_carrier")
+        if CONFIG_SHA256 is not None and digest((Path(CONTROL_ROOT) / ".noodle.toml").read_bytes()) != CONFIG_SHA256:
+            return refuse("start.host_config", "changed", "unchanged_installed_configuration")
     except OSError as error:
         return refuse("start.bundle", type(error).__name__,
                       "fresh_supervisor_admission")
@@ -238,12 +242,77 @@ if __name__ == "__main__":
         manifest_sha256=manifest_sha256,
         noodle_path=noodle_path,
         noodle_sha256=noodle_sha256,
+        config_sha256=config_sha256,
         token_command_env=TOKEN_COMMAND_ENV,
     )
 
 
+def _entry_text(root, envelope_digest, runtime, interpreter, operation):
+    """Bind the existing worker/backlog consumers; never create another order."""
+    return f'''#!{interpreter}
+import hashlib, json, os, sys
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[{1 if operation == "worker" else 0}]
+CONTROL = Path({str(root)!r})
+HASHES = {runtime!r}
+for name, expected in HASHES.items():
+    if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != expected:
+        raise SystemExit("changed admission bytes: " + name)
+sys.path.insert(0, str(ROOT / "runtime"))
+from issue_admission import load_external_envelope, validate_issue, AdmissionRefusal
+import issue_execution
+try:
+    envelope = load_external_envelope(ROOT / "envelope.json", {envelope_digest!r}, CONTROL)
+    if {operation!r} == "worker":
+        issue_execution.worker(ROOT / "envelope.json", {envelope_digest!r},
+                               Path.cwd(), sys.argv[1:])
+    else:
+        argv = sys.argv[1:]
+        order = envelope["execution"]["order_id"]
+        if argv == ["done", "schedule"]:
+            print("{{}}")
+        elif argv == ["sync"] or argv == ["done", order]:
+            issue = issue_execution.fetch_issue(envelope["repository"], envelope["issue"])
+            completed = issue.get("state") == "closed"
+            validate_issue(issue, envelope, completed=completed)
+            if argv == ["sync"]:
+                if not completed:
+                    print(json.dumps({{"id": order, "title": issue.get("title", order),
+                        "status": "open", "plan": envelope["execution"]["task"]}}))
+            elif not completed:
+                raise SystemExit("provider Issue is not completed")
+            else:
+                print(json.dumps({{"readback": "closed/completed", "issue": envelope["issue"]}}))
+        else:
+            raise SystemExit("unsupported exact-Issue adapter operation")
+except AdmissionRefusal as error:
+    print(json.dumps(issue_execution.refusal_output(error, {operation!r})))
+    raise SystemExit(getattr(error, "exit_code", 1))
+'''
+
+
+def _config_bytes(output, carrier):
+    codex = carrier["codex"]
+    prefix = ["exec", "--skip-git-repo-check", "--json", "--model", codex["model"]]
+    require(codex["argv"][:len(prefix)] == prefix, "supervisor.worker.argv", codex["argv"],
+            owner="supervisor", required="measured_noodle_worker_argv")
+    # JSON strings/arrays are valid TOML basic strings/arrays. Shell commands
+    # belong only to the existing adapter contract, with exact quoted paths.
+    quote = json.dumps
+    backlog = shlex.quote(str(output / "backlog"))
+    return (f'mode = "supervised"\n[server]\nenabled = false\n'
+            f'[concurrency]\nmax_concurrency = 1\n[routing.defaults]\n'
+            f'provider = "codex"\nmodel = {quote(codex["model"])}\n'
+            f'[skills]\npaths = [{quote(str(output / "runtime/.agents/skills"))}]\n'
+            f'[agents.codex]\npath = {quote(str(output / "provider"))}\n'
+            f'args = {quote(codex["argv"][len(prefix):])}\nrequire_typed_outcome = true\n'
+            f'[adapters.backlog.scripts]\n'
+            + ''.join(f'{verb} = {quote(backlog + " " + verb)}\n'
+                      for verb in ("sync", "add", "edit", "done"))).encode()
+
+
 def prepare(issue_readback, carrier, control_root, output, *,
-            interpreter=None, environ=None):
+            interpreter=None, environ=None, task=None, wire_host=False):
     """Create one immutable external bundle and return the only start continuation."""
     environ = os.environ if environ is None else environ
     root = Path(control_root)
@@ -312,20 +381,41 @@ def prepare(issue_readback, carrier, control_root, output, *,
             "order_id": f"soodles-{number}",
             "stage_index": 0,
             "carrier": carrier,
-            "task": f"Execute externally admitted {REPOSITORY}#{number}.",
+            "task": task if task is not None else f"Execute externally admitted {REPOSITORY}#{number}.",
             "source_head": head,
         },
     }
     validate_issue(issue_readback, envelope)
+    require(isinstance(envelope["execution"]["task"], str)
+            and bool(envelope["execution"]["task"].strip()),
+            "supervisor.task", task, owner="supervisor", required="bounded_task")
 
     envelope_bytes = _canonical(envelope)
     envelope_digest = _sha256(envelope_bytes)
     runtime = []
     runtime_bytes = {}
-    for path in BUNDLE_PATHS:
+    bundle_paths = BUNDLE_PATHS + ((".agents/skills/execute/SKILL.md",
+                                  ".agents/skills/schedule/SKILL.md") if wire_host else ())
+    for path in bundle_paths:
         data = _git_bytes(root, head, path)
         runtime_bytes[path] = data
         runtime.append({"path": "runtime/" + path, "sha256": _sha256(data)})
+
+    interpreter = str(Path(interpreter or sys.executable).resolve())
+    require(Path(interpreter).is_absolute() and Path(interpreter).is_file()
+            and os.access(interpreter, os.X_OK),
+            "supervisor.interpreter", interpreter,
+            owner="supervisor", required="executable_python_interpreter")
+    host_files = {}
+    if wire_host:
+        pins = {item["path"]: item["sha256"] for item in runtime}
+        pins["envelope.json"] = envelope_digest
+        host_files = {
+            "provider/codex": _entry_text(root, envelope_digest, pins, interpreter, "worker").encode(),
+            "backlog": _entry_text(root, envelope_digest, pins, interpreter, "backlog").encode(),
+            "noodle.toml": _config_bytes(output, carrier),
+        }
+        runtime.extend({"path": path, "sha256": _sha256(data)} for path, data in host_files.items())
 
     manifest = {
         "schema": 1,
@@ -339,24 +429,24 @@ def prepare(issue_readback, carrier, control_root, output, *,
     }
     manifest_bytes = _canonical(manifest)
     manifest_digest = _sha256(manifest_bytes)
-    interpreter = str(Path(interpreter or sys.executable).resolve())
-    require(Path(interpreter).is_absolute() and Path(interpreter).is_file()
-            and os.access(interpreter, os.X_OK),
-            "supervisor.interpreter", interpreter,
-            owner="supervisor", required="executable_python_interpreter")
     launcher_bytes = _launcher_text(
         root, envelope_digest, manifest_digest, interpreter).encode()
     launcher_digest = _sha256(launcher_bytes)
     start_bytes = _start_text(
         root, launcher_digest, manifest_digest,
         carrier["noodle"]["path"], carrier["noodle"]["sha256"],
-        interpreter).encode()
+        interpreter, _sha256(host_files["noodle.toml"]) if wire_host else None).encode()
 
     temporary = Path(tempfile.mkdtemp(prefix="." + output.name + "-", dir=output.parent))
     try:
         runtime_dir = temporary / "runtime"
         runtime_dir.mkdir()
         (temporary / "envelope.json").write_bytes(envelope_bytes)
+        for path, data in host_files.items():
+            target = temporary / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(data)
+            target.chmod(0o600 if path == "noodle.toml" else 0o755)
         for path, data in runtime_bytes.items():
             target = runtime_dir / path
             target.parent.mkdir(parents=True, exist_ok=True)

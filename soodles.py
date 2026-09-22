@@ -340,7 +340,7 @@ def main():
                     ROOT, args.acceptance_receipt, args.noodle_claim)
         elif args.group == "atom":
             import issue_atom
-            result = issue_atom.run(args.authorization)
+            result = issue_atom.drive(args.authorization)
         elif args.group == "issue":
             import issue_execution
             if args.verb == "inspect":

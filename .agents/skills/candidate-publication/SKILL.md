@@ -1,12 +1,16 @@
 ---
 name: candidate-publication
-description: Publish one canonically accepted local Soodles candidate from an exact Noodle claim to one exact GitHub PR.
+description: Publish one verified local Soodles candidate from its exact Noodle claim and publication-readiness receipt to one exact GitHub PR.
 ---
 
 # Candidate publication
 
-Use only after canonical acceptance produced a receipt for the current clean
-candidate and the Noodle supervisor produced the matching publication claim.
+Use only after native publication readiness (or canonical acceptance) produced
+a receipt for the current clean candidate and the Noodle supervisor produced
+the matching publication claim. Native readiness binds actual platform,
+executable, checks and head/tree; it is not Linux canonical acceptance. On the
+local macOS route, publish first, then observe the existing Linux exact-head
+Actions acceptance before landing. Do not install a local Linux runner.
 Do not rediscover or rewrite repository, subject, worktree, branch, base, HEAD,
 tree, remote, PR title, PR body, or provider identity.
 

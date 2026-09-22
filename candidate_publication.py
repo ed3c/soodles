@@ -7,8 +7,11 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import platform
 import re
 import subprocess
+import sys
+import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -27,6 +30,11 @@ CLAIM_FIELDS = {
     "base_head", "push_remote", "remote_url", "evidence",
     "authorizes_provider_write", "authorizes_landing",
 }
+NATIVE_SCOPE = "native publication readiness"
+# These controls exercise the native routing boundary. Linux runtime-lock
+# admission and its process oracles remain in the post-publication Actions gate.
+NATIVE_TESTS = ("test_issue_atom.py", "test_issue_execution.py", "test_candidate_publication.py",
+                "test_local_continuation.py", "test_supervisor_admission.py")
 
 
 class PublicationRefusal(ValueError):
@@ -81,7 +89,7 @@ def _git_value(root, *args):
     return _git(root, *args).stdout.strip()
 
 
-def validate_inputs(root, acceptance, claim):
+def validate_claim(root, claim):
     root = Path(root).resolve()
     _require(set(claim) == CLAIM_FIELDS, "claim.fields", sorted(claim))
     for field in ("head", "tree", "base_head"):
@@ -118,14 +126,6 @@ def validate_inputs(root, acceptance, claim):
     _require(_digest(events) == evidence["session_events_sha256"],
              "claim.evidence.session_events_sha256", evidence["session_events_sha256"])
 
-    candidate = acceptance.get("candidate")
-    _require(acceptance.get("repository") == claim["repository"]
-             and acceptance.get("scope") == "candidate runtime acceptance"
-             and acceptance.get("authorizes_landing") is False
-             and isinstance(candidate, dict), "acceptance.identity", acceptance)
-    _require(candidate.get("head") == claim["head"] and candidate.get("tree") == claim["tree"],
-             "acceptance.candidate", candidate)
-
     _require(_git_value(root, "rev-parse", "--show-toplevel") == str(root), "git.root", str(root))
     _require(_git_value(root, "status", "--porcelain", "--untracked-files=all") == "", "git.status", "dirty")
     _require(_git_value(root, "symbolic-ref", "--short", "HEAD") == claim["branch"],
@@ -139,6 +139,88 @@ def validate_inputs(root, acceptance, claim):
     _require(bool(_git_value(root, "diff", "--name-only", claim["base_head"] + ".." + claim["head"])),
              "git.changes", "none")
     return root, int(match.group(2))
+
+
+def native_readiness(root, claim, noodle):
+    """Produce non-authorizing, native-only evidence before PR publication.
+
+    Claim custody and clean source are checked on both sides of execution. Raw
+    process results are retained; a failed native check cannot become a receipt.
+    """
+    root, _ = validate_claim(root, claim)
+    binary = _native_binary(noodle)
+    for name in NATIVE_TESTS:
+        _require((root / "tests" / name).is_file(), "readiness.test", name)
+    checks = []
+    # Use a physical temporary path: this is fixture configuration, not a
+    # portability claim for the Linux-only runtime acceptance implementation.
+    with tempfile.TemporaryDirectory(prefix="soodles-native-") as temporary:
+        env = {key: value for key, value in os.environ.items()
+               if key not in {"GH_TOKEN", "GITHUB_TOKEN", "GIT_ASKPASS", "SSH_ASKPASS",
+                              "GIT_SSH_COMMAND", "SOODLES_AUTHORIZATION_SHA256"}
+               and not key.startswith(("NOODLES_APP_", "NOODLES_TOKEN_", "GIT_CONFIG_"))}
+        env["TMPDIR"] = str(Path(temporary).resolve())
+        commands = [[binary, "publication", "claim", "--help"],
+                    [binary, "worktree", "cleanup", "--help"]]
+        commands += [[sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", name]
+                     for name in NATIVE_TESTS]
+        for argv in commands:
+            try:
+                process = subprocess.run(argv, cwd=root, env=env, stdin=subprocess.DEVNULL,
+                                         capture_output=True, text=True, timeout=180)
+            except (OSError, subprocess.TimeoutExpired) as error:
+                raise PublicationRefusal("readiness.process", {"argv": argv, "error": type(error).__name__}) from None
+            result = {"argv": argv, "exit_status": process.returncode,
+                      "stdout": process.stdout, "stderr": process.stderr}
+            checks.append(result)
+            _require(process.returncode == 0, "readiness.check", result, "changed_candidate_or_native_capability")
+    validate_claim(root, claim)
+    _native_binary(noodle)
+    return {"schema_version": 1, "scope": NATIVE_SCOPE,
+            "repository": claim["repository"], "subject": claim["subject"],
+            "candidate": {"head": claim["head"], "tree": claim["tree"]},
+            "platform": platform.system().lower() + "_" + platform.machine().lower(),
+            "noodle": {"path": binary, "sha256": noodle["sha256"]}, "checks": checks,
+            "canonical_acceptance": "required after publication on exact-head Linux Actions",
+            "authorizes_landing": False}
+
+
+def _native_binary(spec):
+    from issue_admission import AdmissionRefusal
+    from issue_execution import executable_identity
+    try:
+        return executable_identity(spec, "readiness.noodle")
+    except AdmissionRefusal as error:
+        raise PublicationRefusal(error.invalid["field"], error.invalid["value"],
+                                 "exact_native_noodle_capability") from error
+
+
+def validate_inputs(root, acceptance, claim):
+    candidate = acceptance.get("candidate")
+    scope = acceptance.get("scope")
+    _require(acceptance.get("repository") == claim.get("repository")
+             and scope in {"candidate runtime acceptance", NATIVE_SCOPE}
+             and acceptance.get("authorizes_landing") is False
+             and isinstance(candidate, dict), "acceptance.identity", acceptance)
+    _require(candidate.get("head") == claim.get("head") and candidate.get("tree") == claim.get("tree"),
+             "acceptance.candidate", candidate)
+    root, number = validate_claim(root, claim)
+    if scope == NATIVE_SCOPE:
+        _require(acceptance.get("schema_version") == 1 and acceptance.get("subject") == claim["subject"],
+                 "readiness.identity", acceptance.get("subject"))
+        observed = platform.system().lower() + "_" + platform.machine().lower()
+        _require(acceptance.get("platform") == observed, "readiness.platform", acceptance.get("platform"))
+        binary = _native_binary(acceptance.get("noodle"))
+        checks = acceptance.get("checks")
+        _require(isinstance(checks, list) and len(checks) == 2 + len(NATIVE_TESTS), "readiness.checks", checks)
+        expected = [[binary, "publication", "claim", "--help"], [binary, "worktree", "cleanup", "--help"]]
+        expected += [[sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", name]
+                     for name in NATIVE_TESTS]
+        _require(all(isinstance(check, dict) and check.get("argv") == argv
+                     and type(check.get("exit_status")) is int and check["exit_status"] == 0
+                     and isinstance(check.get("stdout"), str) and isinstance(check.get("stderr"), str)
+                     for check, argv in zip(checks, expected)), "readiness.checks", checks)
+    return root, number
 
 
 class GitHubProvider:
