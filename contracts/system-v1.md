@@ -186,8 +186,18 @@ existing exact PR publisher, exact-head CI and the existing landing
 checkpoint. Merge, Issue closure and local reconciliation remain decisions of
 the landing owner; this entry only consumes its exact transition.
 
-Provider credentials are explicit supervisor environment input and are
-removed from Noodle/candidate children. Missing or ambiguous mutation responses
+The host-selected `NOODLES_TOKEN_COMMAND` is the local credential source, not
+a token carried in a handoff. After authorization validation, the entry requests
+only that repository with contents/issues/pull_requests write and actions read.
+It never falls back to an inherited provider token. Supplier failure precedes
+new checkpoint creation; secrets and supplier output are not refusal evidence.
+The existing supervisor admission wrapper uses this same consumer for its
+issues-read token. App configuration remains with the host, not in repository
+configuration. The cloud connector path has no local supplier prerequisite.
+The authorization is still external; checkpoint, envelope and launcher are
+derived execution state, not additional inputs an Agent must prepare.
+Provider credentials and host supplier/App configuration are removed from
+Issue-atom Noodle/candidate children. Missing or ambiguous mutation responses
 never authorize repetition. Unchanged failed candidate heads, foreign markers,
 drifted identities and non-exact checks refuse.
 

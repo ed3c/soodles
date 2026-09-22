@@ -21,6 +21,7 @@ import candidate_publication
 import issue_admission
 import issue_execution
 import landing
+import provider_credential
 
 
 SHA40 = re.compile(r"[0-9a-f]{40}")
@@ -113,9 +114,7 @@ def _git(root, *args):
 
 def clean_child_env():
     # Provider credentials never enter candidate or Noodle child processes.
-    return {key: value for key, value in os.environ.items()
-            if key not in {"GH_TOKEN", "GITHUB_TOKEN", "GIT_ASKPASS",
-                           "SSH_ASKPASS", "GIT_SSH_COMMAND"}}
+    return provider_credential.clean_child_env()
 
 
 def validate_authorization(path, expected_digest, *, allow_advanced=False):
@@ -420,10 +419,18 @@ def run(authorization_path, *, environ=None, provider=None):
     else:
         state = {"schema_version": 1, "authorization_sha256": authorization_digest,
                  "phase": "issue", "writes": {}, "issue": None, "publication": None}
-        save_json(state_path, state, fresh=True)
 
-    provider = provider or GitHubProvider(authorization["repository"],
-                                          token=environ.get("GH_TOKEN", ""))
+    if provider is None:
+        try:
+            token = provider_credential.supply_token(
+                authorization["repository"],
+                {"contents": "write", "issues": "write",
+                 "pull_requests": "write", "actions": "read"}, environ=environ)
+        except provider_credential.CredentialRefusal as error:
+            raise AtomRefusal(error.field, error.value, error.required) from None
+        provider = GitHubProvider(authorization["repository"], token=token)
+    if not state_path.exists():
+        save_json(state_path, state, fresh=True)
     issue, body = exact_issue(provider, authorization, authorization_digest)
     if issue is None:
         write = state["writes"].get("issue_create")

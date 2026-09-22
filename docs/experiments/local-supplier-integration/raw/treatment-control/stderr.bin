@@ -1,0 +1,11 @@
+test_candidate_child_cannot_inherit_supplier_or_app_material (__main__.SupplierBoundary.test_candidate_child_cannot_inherit_supplier_or_app_material) ... ok
+test_configured_supplier_without_parent_token_reaches_existing_owner (__main__.SupplierBoundary.test_configured_supplier_without_parent_token_reaches_existing_owner) ... ok
+test_invalid_authorization_never_calls_supplier (__main__.SupplierBoundary.test_invalid_authorization_never_calls_supplier) ... ok
+test_missing_supplier_refuses_before_checkpoint_even_with_parent_token (__main__.SupplierBoundary.test_missing_supplier_refuses_before_checkpoint_even_with_parent_token) ... ok
+test_stale_parent_token_does_not_select_another_identity (__main__.SupplierBoundary.test_stale_parent_token_does_not_select_another_identity) ... ok
+test_supplier_failure_is_redacted_and_creates_no_checkpoint (__main__.SupplierBoundary.test_supplier_failure_is_redacted_and_creates_no_checkpoint) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.024s
+
+OK

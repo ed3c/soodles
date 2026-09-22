@@ -30,6 +30,7 @@ BUNDLE_PATHS = (
     "issue_execution.py",
     "github_reader.py",
     "repository_binding.py",
+    "provider_credential.py",
 )
 
 
@@ -201,27 +202,20 @@ def main():
         return refuse("start.bundle", type(error).__name__,
                       "fresh_supervisor_admission")
 
-    token_command = os.environ.get(TOKEN_COMMAND_ENV, "")
-    if not token_command.strip():
-        return refuse("start.provider_credential_supplier", "absent",
-                      "NOODLES_TOKEN_COMMAND")
     try:
-        supplied = subprocess.run(
-            ["bash", "-c", token_command],
-            capture_output=True, text=True, timeout=30)
-    except (OSError, subprocess.TimeoutExpired) as error:
-        return refuse("start.provider_credential_supplier", type(error).__name__,
-                      "working_provider_credential_supplier")
-    if supplied.returncode != 0:
-        return refuse("start.provider_credential_supplier_exit",
-                      supplied.returncode,
-                      "working_provider_credential_supplier")
-    token = supplied.stdout.strip()
-    if not token or any(character.isspace() for character in token):
-        return refuse("start.provider_credential", "not-single-token",
-                      "repository_scoped_installation_token")
+        for item in json.loads(manifest.read_bytes())["runtime"]:
+            if digest((ROOT / item["path"]).read_bytes()) != item["sha256"]:
+                return refuse("start.runtime", item["path"], "fresh_supervisor_admission")
+    except (OSError, ValueError, KeyError) as error:
+        return refuse("start.runtime", type(error).__name__, "fresh_supervisor_admission")
+    sys.path.insert(0, str(ROOT / "runtime"))
+    from provider_credential import CredentialRefusal, clean_child_env, supply_token
+    try:
+        token = supply_token("ed3c/soodles", {{"issues": "read"}})
+    except CredentialRefusal as error:
+        return refuse("start." + error.field, error.value, error.required)
 
-    env = os.environ.copy()
+    env = clean_child_env()
     env["GH_TOKEN"] = token
     env["GITHUB_TOKEN"] = token
     env["SOODLES_ADMISSION_LAUNCHER"] = str(ROOT / "launcher")

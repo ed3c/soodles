@@ -7,7 +7,11 @@ description: Advance one externally authorized local Soodles plus Noodle Issue t
 
 Use only with the immutable authorization file selected by the external
 supervisor. The supervisor also supplies its SHA-256 in
-`SOODLES_AUTHORIZATION_SHA256` and a repository-scoped `GH_TOKEN`. The
+`SOODLES_AUTHORIZATION_SHA256`. The host's existing `NOODLES_TOKEN_COMMAND`
+is the single credential source; the entry requests an installation token
+scoped to the authorized repository. Do not ask a person or another session
+to carry a `GH_TOKEN`, discover App keys, or prepare a checkpoint, envelope
+or phase launcher. The entry materializes that execution state itself. The
 authorization fixes the repository, exact base, Issue contract, control root,
 task, Noodle and worker binaries, and required exact-head workflow evidence.
 
@@ -30,6 +34,13 @@ acceptance once per immutable head, delegates PR publication to its existing
 owner, requires exact-head CI, then delegates merge/closure/reconciliation to
 the existing landing owner. Provider credentials are stripped from Noodle and
 candidate child environments.
+
+A missing or failing supplier is a host credential owner's refusal, before a
+new lifecycle checkpoint or provider write. An inherited `GH_TOKEN` is not a
+fallback. External authorization still selects identity and capabilities;
+having an App key does not authorize an Issue or select a Noodle/worker binary.
+The cloud connector route keeps its own credential source and does not need
+this local supplier or any token transfer.
 
 An unchanged failed candidate head is terminal evidence, not retry authority.
 An unknown Issue-create, branch, PR, merge, or closure outcome permits only

@@ -1,5 +1,11 @@
 # Local supervisor admission
 
+For an externally authorized Issue atom, the Agent uses only the
+[issue-atom entry](../../issue-atom/SKILL.md). It does not run `prepare` or ask
+for its generated envelope/checkpoint/launcher. The lower-level producer below
+is retained for the supervisor's existing admitted execution, not a second
+Agent-facing lifecycle route.
+
 Use this recipe only for the local Soodles → Noodle carrier after the supervisor
 has selected a fresh Issue readback, measured carrier and control root. Cloud
 connector/Actions work keeps its existing provider identity and does not use
@@ -31,7 +37,9 @@ python3 -B ./supervisor-admission prepare \
 wrapper validates the pinned bundle and measured Noodle binary, executes the
 host supplier exactly once immediately before child start, overwrites inherited
 `GH_TOKEN` and `GITHUB_TOKEN`, injects `SOODLES_ADMISSION_LAUNCHER`, removes
-`NOODLES_TOKEN_COMMAND` from the child environment and execs Noodle. It never
+`NOODLES_TOKEN_COMMAND` and App configuration from the child environment and execs Noodle.
+The shared supplier consumer fixes repository `soodles` and permission
+`issues:read`, ignoring wider inherited scope requests. It never
 persists token bytes.
 
 A supplier failure is a supervisor-owned refusal before Noodle child start.

@@ -130,23 +130,6 @@ class IssueAtomTests(unittest.TestCase):
         self.assertIn("authorization", result.stdout)
         self.assertIn("same command", result.stdout)
 
-    def test_host_supplier_replaces_stale_parent_token(self):
-        provider = Provider()
-        self.ready_issue(provider)
-        self.env["NOODLES_TOKEN_COMMAND"] = "printf fixture-installation-token"
-        first, second = self.pending_patches()
-        with first, second, patch.object(atom, "GitHubProvider", return_value=provider) as factory:
-            result = atom.run(self.path, environ=self.env)
-        factory.assert_called_once_with("ed3c/soodles", token="fixture-installation-token")
-        self.assertEqual(result["waiting_on"], "Noodle")
-        self.assertEqual(provider.create_calls, 0)
-
-    def test_missing_supplier_leaves_no_new_checkpoint(self):
-        with self.assertRaises(atom.AtomRefusal) as caught:
-            atom.run(self.path, environ=self.env)
-        self.assertEqual(caught.exception.required, "NOODLES_TOKEN_COMMAND")
-        self.assertFalse(atom.artifact_paths(self.path)["state"].exists())
-
     def test_lost_issue_create_adopts_exact_readback_and_never_recreates(self):
         provider = Provider()
         provider.create_unknown = True
