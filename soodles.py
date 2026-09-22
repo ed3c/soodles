@@ -229,6 +229,16 @@ def parser():
         "publish", description="Publish one accepted Noodle-owned local candidate to one exact provider PR.")
     candidate_publish.add_argument("acceptance_receipt")
     candidate_publish.add_argument("noodle_claim")
+    atom = groups.add_parser(
+        "atom",
+        description=("Run one local Issue lifecycle from an external authorization file. "
+                     "Re-enter the same command after material state changes; "
+                     "the Agent never selects phase-specific Issue or landing verbs."))
+    atom_verbs = atom.add_subparsers(dest="verb", required=True)
+    atom_run = atom_verbs.add_parser(
+        "run",
+        description="Advance one authorized local atom through its exact next owner transition.")
+    atom_run.add_argument("authorization")
     issue = groups.add_parser("issue", description="Consume one externally pinned Issue envelope before Noodle effects.",
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
@@ -328,6 +338,9 @@ def main():
                 import candidate_publication
                 result = candidate_publication.run(
                     ROOT, args.acceptance_receipt, args.noodle_claim)
+        elif args.group == "atom":
+            import issue_atom
+            result = issue_atom.run(args.authorization)
         elif args.group == "issue":
             import issue_execution
             if args.verb == "inspect":
@@ -425,6 +438,19 @@ def main():
                 "supported help: ./soodles candidate verify --help",
                 file=sys.stderr)
             return getattr(exc, "exit_code", 1)
+        if args.group == "atom":
+            import issue_atom
+            if isinstance(exc, issue_atom.AtomRefusal):
+                result = issue_atom.refusal_output(exc, args.authorization)
+                print(json.dumps(result, indent=2))
+                print(
+                    f"REFUSED: issue atom: invalid {exc.invalid['field']}={exc.invalid['value']!r}; "
+                    "supported help: ./issue-atom --help",
+                    file=sys.stderr)
+                return 1
+            print(f"REFUSED: issue atom: {exc}; supported help: ./issue-atom --help",
+                  file=sys.stderr)
+            return 1
         elif args.group == "landing":
             invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
             result = landing.refusal_output(landing.LandingRefusal(invalid["field"], invalid["value"]), args.verb)

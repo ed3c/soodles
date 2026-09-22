@@ -168,3 +168,31 @@ effect; otherwise it returns the provider readback prerequisite and stops.
 The receipt terminates at PR identity with `authorizes_landing=false`; merge,
 Issue closure, landing checkpoints and Noodle cleanup remain with their
 existing owners.
+
+### Local Issue atom shortest path — ed3c/soodles#131
+
+An external supervisor authorization fixes the repository, base, exact Issue
+contract, control root, task, Noodle and worker identities, and exact-head
+workflow evidence. Its digest is supplied outside candidate prose. The one
+local entry is `issue-atom run AUTHORIZATION`; every nonterminal result returns
+the same argv. The Agent never selects an Issue admission, publication or
+landing verb.
+
+The lifecycle checkpoint is stored beside the external authorization and is
+fsync'd before a provider mutation. Issue creation uses a digest marker and
+adopts only one exact fresh readback. Noodle admission is always supervised.
+The owner then consumes Noodle's publication claim, canonical acceptance, the
+existing exact PR publisher, exact-head CI and the existing landing
+checkpoint. Merge, Issue closure and local reconciliation remain decisions of
+the landing owner; this entry only consumes its exact transition.
+
+Provider credentials are explicit supervisor environment input and are
+removed from Noodle/candidate children. Missing or ambiguous mutation responses
+never authorize repetition. Unchanged failed candidate heads, foreign markers,
+drifted identities and non-exact checks refuse.
+
+This is a bootstrap atom: #131 itself was opened by the pre-existing cloud
+supervisor. Frozen P-class and executable provider fixtures prove the new
+route, while its own live merge/closure still uses the pre-existing landing
+authority. The first live R-class Issue creation by this new entry must be a
+subsequent atom.
