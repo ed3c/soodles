@@ -262,3 +262,21 @@ supervisor. Frozen P-class and executable provider fixtures prove the new
 route, while its own live merge/closure still uses the pre-existing landing
 authority. The first live R-class Issue creation by this new entry must be a
 subsequent atom.
+
+### Complete admitted child contract — ed3c/soodles#135
+
+Soodles Issue admission validates the structured Issue contract.
+`issue_execution.projection` delivers that complete `binding['contract']`
+alongside the existing exact identity and bounded task in both automatic and
+supervised stage prompts. The implementation child consumes it without a
+mandatory duplicate GitHub read. Missing contract returns to the existing
+admission owner; an amended body requires the supervisor's fresh envelope.
+
+Installed-entry provider freshness and exact worker/owner prompt comparisons
+remain enforced: an omitted or altered contract refuses before worker execution.
+`tests/test_issue_execution.py` checks full delivery, prompt tampering, stale
+provider refusal and legal unchanged execution using local provider/owner fixtures.
+Those controls do not prove child behavior; the externally prepared bounded
+comparison supplies only its observed scope, with missing behavior evidence
+remaining INCONCLUSIVE. Publication readiness, exact-head Linux acceptance,
+landing readbacks and reconciliation retain their existing owners and authority.

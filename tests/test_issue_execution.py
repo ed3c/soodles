@@ -113,6 +113,69 @@ class IssueExecutionTests(unittest.TestCase):
         self.assertEqual(automatic["binding"], supervised["binding"])
         self.assertTrue(supervised["published"])
 
+    def test_both_routes_deliver_complete_validated_contract_for_every_schema(self):
+        contract = admission.parse_contract(self.issue["body"])
+        for schema in (1, 2, 3):
+            contract["schema"] = schema
+            if schema >= 2:
+                contract.update(required_paths=["allowed.py"], evidence_manifest="allowed.py")
+            if schema == 3:
+                contract.update(base_head=self.envelope["base_head"], frozen_paths=[{
+                    "path": "allowed.py", "revision": "head", "sha256": "f" * 64}])
+            self.issue["body"] = ("<!-- soodles:execution-v1 -->\n```json\n"
+                                  + json.dumps(contract) + "\n```\n<!-- /soodles:execution-v1 -->")
+            self.envelope["body_sha256"] = admission.body_digest(self.issue["body"])
+            self.bind_envelope()
+            for route in ("automatic", "supervised"):
+                with self.subTest(schema=schema, route=route):
+                    self.admit(route)
+                    mailbox = self.runtime / "orders-next.json"
+                    proposal = json.loads(mailbox.read_text())
+                    prompt = json.loads(proposal["orders"][0]["stages"][0]["prompt"])
+                    mailbox.unlink()
+                    self.assertEqual(prompt, {
+                        "repository": self.envelope["repository"], "issue": self.issue["number"],
+                        "body_sha256": self.envelope["body_sha256"],
+                        "body_updated_at": self.issue["updated_at"],
+                        "envelope_sha256": self.pin, "route": route,
+                        "task": self.envelope["execution"]["task"], "contract": contract})
+                    self.assertFalse(self.effect.exists())
+
+    def test_missing_or_tampered_contract_refuses_before_worker_and_live_observation(self):
+        self.admit("supervised")
+        self.promote_fixture()
+        stage = self.snapshot["state"]["orders"]["soodles-18"]["stages"][0]
+        original = json.loads(stage["prompt"])
+        for change in ("missing", "write_paths", "behavior", "task"):
+            with self.subTest(change=change):
+                prompt = copy.deepcopy(original)
+                if change == "missing":
+                    del prompt["contract"]
+                elif change == "task":
+                    prompt["task"] = "A different task."
+                else:
+                    prompt["contract"][change] = ["foreign.py"]
+                stage["prompt"] = json.dumps(prompt)
+                self.save_owner()
+                before = (self.runtime / "state.snapshot.json").read_bytes()
+                with self.assertRaises(admission.AdmissionRefusal) as caught:
+                    self.launch()
+                self.assertEqual(caught.exception.invalid["field"], "worker.stage.binding")
+                with self.assertRaises(admission.AdmissionRefusal) as caught:
+                    execution.supervised(self.path, self.pin, self.root,
+                                         reader=self.reader, observe_live=True)
+                self.assertEqual(caught.exception.invalid["field"], "observe.binding")
+                self.assertEqual((self.runtime / "state.snapshot.json").read_bytes(), before)
+                self.assertFalse((self.runtime / "orders-next.json").exists())
+                self.assertFalse(self.effect.exists())
+        stage["prompt"] = json.dumps(original)
+        self.save_owner()
+        observed = execution.supervised(self.path, self.pin, self.root,
+                                        reader=self.reader, observe_live=True)
+        self.assertEqual(observed["action"], "running")
+        self.assertEqual(self.launch()["session_id"], self.session)
+        self.assertEqual(self.effect.read_text(), "observed")
+
     def test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding(self):
         original = self.issue["body"]
         for route in ("automatic", "supervised"):
