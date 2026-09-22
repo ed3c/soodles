@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "need": "Determine whether the verification map already covers satisfaction of one producer result selected by an immutable external landing claim before consumer acceptance.",
+  "producer_result_evidence": [
+    "completed Issue closure",
+    "merged PR identity",
+    "ordered merge parents and exact tree",
+    "merged revision identical to or ancestor of current producer main",
+    "successful exact-head workflow run, jobs and required steps"
+  ],
+  "requested_output": [
+    "mapped or unmapped",
+    "feature and recipe path",
+    "existing owner/next boundary",
+    "whether any new feature, CLI flag or registry is needed"
+  ],
+  "permitted_effects": ["read checkout", "write assigned consumer report"],
+  "authorizes_landing": false
+}
