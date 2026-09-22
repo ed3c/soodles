@@ -1,0 +1,157 @@
+E...F..FF........................F..FF.F......E...................................................................................................................................F...................................F..............
+======================================================================
+ERROR: test_admitted_version_is_observed_not_inferred_from_filename (test_admission.AdmissionTests.test_admitted_version_is_observed_not_inferred_from_filename)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_admission.py", line 28, in test_admitted_version_is_observed_not_inferred_from_filename
+    result = soodles.runtime_check(self.root, self.binary)
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/soodles.py", line 93, in runtime_check
+    refuse("runtime check", "platform", host)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/soodles.py", line 47, in refuse
+    raise error
+soodles.Refusal: runtime check: invalid platform='darwin_arm64'; supported help: ./soodles runtime check --help
+
+======================================================================
+ERROR: test_records_real_nonzero_and_file_change_without_inventing_success (test_context_recording.ContextRecordingTests.test_records_real_nonzero_and_file_change_without_inventing_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_context_recording.py", line 51, in test_records_real_nonzero_and_file_change_without_inventing_success
+    self.assertNotEqual(before[str(path)]['sha256'], result['files_after'][str(path)]['sha256'])
+                        ~~~~~~^^^^^^^^^^^
+KeyError: '/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpap3g73nw/state'
+
+======================================================================
+FAIL: test_missing_binary_does_not_fall_back_to_path (test_admission.AdmissionTests.test_missing_binary_does_not_fall_back_to_path)
+----------------------------------------------------------------------
+soodles.Refusal: runtime check: invalid platform='darwin_arm64'; supported help: ./soodles runtime check --help
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_admission.py", line 42, in test_missing_binary_does_not_fall_back_to_path
+    with self.assertRaisesRegex(soodles.Refusal, "binary.path"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "binary.path" does not match "runtime check: invalid platform='darwin_arm64'; supported help: ./soodles runtime check --help"
+
+======================================================================
+FAIL: test_wrong_digest_refuses_before_executable_sentinel (test_admission.AdmissionTests.test_wrong_digest_refuses_before_executable_sentinel)
+----------------------------------------------------------------------
+soodles.Refusal: runtime check: invalid platform='darwin_arm64'; supported help: ./soodles runtime check --help
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_admission.py", line 35, in test_wrong_digest_refuses_before_executable_sentinel
+    with self.assertRaisesRegex(soodles.Refusal, r"runtime check: invalid binary.sha256=.*runtime check --help"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "runtime check: invalid binary.sha256=.*runtime check --help" does not match "runtime check: invalid platform='darwin_arm64'; supported help: ./soodles runtime check --help"
+
+======================================================================
+FAIL: test_wrong_observed_version_refuses_worktree_execution (test_admission.AdmissionTests.test_wrong_observed_version_refuses_worktree_execution)
+----------------------------------------------------------------------
+soodles.Refusal: runtime check: invalid platform='darwin_arm64'; supported help: ./soodles runtime check --help
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_admission.py", line 50, in test_wrong_observed_version_refuses_worktree_execution
+    with self.assertRaisesRegex(soodles.Refusal, "binary.version"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "binary.version" does not match "runtime check: invalid platform='darwin_arm64'; supported help: ./soodles runtime check --help"
+
+======================================================================
+FAIL: test_creates_exact_branch_and_pr (test_candidate_publication.CandidatePublicationTests.test_creates_exact_branch_and_pr)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_candidate_publication.py", line 128, in test_creates_exact_branch_and_pr
+    result = publication.publish(self.root, self.acceptance, self.claim,
+                                 self.provider, push=self.push())
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/candidate_publication.py", line 259, in publish
+    result = push(root, "push", "--porcelain",
+                  "--force-with-lease=refs/heads/" + branch + ":",
+                  claim["push_remote"], claim["head"] + ":refs/heads/" + branch,
+                  check=False)
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_candidate_publication.py", line 121, in operation
+    self.assertEqual(Path(root), self.root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PosixPath('/private/var/folders/l6/44bf7nvs64j60f1mpy[52 chars]ate') != PosixPath('/var/folders/l6/44bf7nvs64j60f1mpyy88hdm00[44 chars]ate')
+
+======================================================================
+FAIL: test_failed_push_is_adopted_only_after_exact_readback (test_candidate_publication.CandidatePublicationTests.test_failed_push_is_adopted_only_after_exact_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_candidate_publication.py", line 160, in test_failed_push_is_adopted_only_after_exact_readback
+    result = publication.publish(self.root, self.acceptance, self.claim,
+                                 self.provider, push=self.push(result=1))
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/candidate_publication.py", line 259, in publish
+    result = push(root, "push", "--porcelain",
+                  "--force-with-lease=refs/heads/" + branch + ":",
+                  claim["push_remote"], claim["head"] + ":refs/heads/" + branch,
+                  check=False)
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_candidate_publication.py", line 121, in operation
+    self.assertEqual(Path(root), self.root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PosixPath('/private/var/folders/l6/44bf7nvs64j60f1mpy[52 chars]ate') != PosixPath('/var/folders/l6/44bf7nvs64j60f1mpyy88hdm00[44 chars]ate')
+
+======================================================================
+FAIL: test_lost_create_response_adopts_only_fresh_exact_readback (test_candidate_publication.CandidatePublicationTests.test_lost_create_response_adopts_only_fresh_exact_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_candidate_publication.py", line 146, in test_lost_create_response_adopts_only_fresh_exact_readback
+    result = publication.publish(self.root, self.acceptance, self.claim,
+                                 self.provider, push=self.push())
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/candidate_publication.py", line 259, in publish
+    result = push(root, "push", "--porcelain",
+                  "--force-with-lease=refs/heads/" + branch + ":",
+                  claim["push_remote"], claim["head"] + ":refs/heads/" + branch,
+                  check=False)
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_candidate_publication.py", line 121, in operation
+    self.assertEqual(Path(root), self.root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PosixPath('/private/var/folders/l6/44bf7nvs64j60f1mpy[52 chars]ate') != PosixPath('/var/folders/l6/44bf7nvs64j60f1mpyy88hdm00[44 chars]ate')
+
+======================================================================
+FAIL: test_unknown_create_without_effect_refuses_without_retry (test_candidate_publication.CandidatePublicationTests.test_unknown_create_without_effect_refuses_without_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_candidate_publication.py", line 155, in test_unknown_create_without_effect_refuses_without_retry
+    publication.publish(self.root, self.acceptance, self.claim,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        self.provider, push=self.push())
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/candidate_publication.py", line 259, in publish
+    result = push(root, "push", "--porcelain",
+                  "--force-with-lease=refs/heads/" + branch + ":",
+                  claim["push_remote"], claim["head"] + ":refs/heads/" + branch,
+                  check=False)
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_candidate_publication.py", line 121, in operation
+    self.assertEqual(Path(root), self.root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PosixPath('/private/var/folders/l6/44bf7nvs64j60f1mpy[52 chars]ate') != PosixPath('/var/folders/l6/44bf7nvs64j60f1mpyy88hdm00[44 chars]ate')
+
+======================================================================
+FAIL: test_current_argv_is_executable_without_weakening_readback_guards (test_landing_continuation.LandingContinuationTests.test_current_argv_is_executable_without_weakening_readback_guards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_landing_continuation.py", line 17, in test_current_argv_is_executable_without_weakening_readback_guards
+    self.assertEqual(report['evaluation']['safety'], 'PASS', report['evaluation'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'FAIL' != 'PASS'
+- FAIL
++ PASS
+ : {'safety': 'FAIL', 'safety_failures': ['start:checkpoint_binding', 'prepare:checkpoint_binding', 'merge_offer:checkpoint_binding', 'unknown_merge:checkpoint_binding', 'stale_dispatch:checkpoint_binding', 'missing_merge_commit:checkpoint_binding', 'repair_merge_commit:checkpoint_binding', 'close_offer:checkpoint_binding', 'unknown_close:checkpoint_binding'], 'projection': 'RED', 'projection_failures': ['start:readback_binding', 'start:argv', 'prepare:readback_binding', 'prepare:argv', 'merge_offer:readback_binding', 'merge_offer:argv', 'unknown_merge:readback_binding', 'unknown_merge:argv', 'stale_dispatch:readback_binding', 'stale_dispatch:argv', 'missing_merge_commit:readback_binding', 'missing_merge_commit:argv', 'repair_merge_commit:readback_binding', 'repair_merge_commit:argv', 'close_offer:readback_binding', 'close_offer:argv', 'unknown_close:readback_binding', 'unknown_close:argv'], 'bound_continuation_available': False}
+
+======================================================================
+FAIL: test_exact_same_head_allowed_but_output_inside_subject_refused (test_quality.QualityTests.test_exact_same_head_allowed_but_output_inside_subject_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/soodles/.worktrees/issue-118-supplier-baseline/tests/test_quality.py", line 30, in test_exact_same_head_allowed_but_output_inside_subject_refused
+    self.assertEqual(measure.preflight(ROOT, head, head, out), out)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PosixPath('/private/var/folders/l6/44bf7nvs64j60f1mpy[30 chars]ort') != PosixPath('/var/folders/l6/44bf7nvs64j60f1mpyy88hdm00[22 chars]ort')
+
+----------------------------------------------------------------------
+Ran 229 tests in 31.148s
+
+FAILED (failures=9, errors=2)

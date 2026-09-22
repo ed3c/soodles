@@ -84,20 +84,110 @@ class ContextRecordingTests(unittest.TestCase):
 
     def test_snapshot_error_after_effect_preserves_result(self):
         from unittest.mock import patch
+        for shell in (False, True):
+            with self.subTest(shell=shell), tempfile.TemporaryDirectory() as tmp:
+                path = Path(tmp)/'state'
+                path.write_text('before')
+                original = Path.read_bytes
+                def read_bytes(p):
+                    if p == path and p.read_text() == 'after':
+                        raise PermissionError('injected snapshot failure')
+                    return original(p)
+                argv = [sys.executable, '-c',
+                    'import pathlib,sys;pathlib.Path(sys.argv[1]).write_text("after")', str(path)]
+                if shell:
+                    argv = ['/bin/sh', '-c', shlex.join(argv)]
+                with patch.object(Path, 'read_bytes', read_bytes):
+                    result, _, _ = module.record(tmp, 'changed', argv)
+                request = json.loads((Path(tmp)/'changed/request.json').read_text())
+                self.assertEqual(request['files_before'][str(path)]['bytes'], len(b'before'))
+                self.assertEqual(result['exit_code'], 0)
+                self.assertEqual(result['files_after'][str(path)], {
+                    'snapshot_error': 'PermissionError',
+                    'observed_from': ['shell' if shell else 'argv']})
+                self.assertTrue((Path(tmp)/'changed/result.json').is_file())
+
+    def test_snapshot_errors_before_and_after_remain_in_raw_requests(self):
+        from unittest.mock import patch
+        for shell in (False, True):
+            with self.subTest(shell=shell), tempfile.TemporaryDirectory() as tmp:
+                path = Path(tmp)/'AGENTS.md'
+                path.write_text('route\n')
+                original = Path.read_bytes
+                def read_bytes(p):
+                    if p == path:
+                        raise PermissionError('injected snapshot failure')
+                    return original(p)
+                argv = ['cat', str(path)]
+                if shell:
+                    argv = ['/bin/sh', '-c', shlex.join(argv)]
+                with patch.object(Path, 'read_bytes', read_bytes):
+                    result, stdout, _ = module.record(tmp, 'denied', argv)
+                request = json.loads((Path(tmp)/'denied/request.json').read_text())
+                expected = {'snapshot_error': 'PermissionError',
+                            'observed_from': ['shell' if shell else 'argv']}
+                self.assertEqual(request['files_before'][str(path)], expected)
+                self.assertEqual(result['files_after'][str(path)], expected)
+                # The injected snapshot failure does not affect the subprocess.
+                self.assertEqual(result['exit_code'], 0)
+                self.assertEqual(stdout, b'route\n')
+                self.assertEqual(observer.instruction_documents([request]), {})
+
+    def test_instruction_bindings_require_valid_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp)/'state'
-            path.write_text('before')
-            original = Path.read_bytes
-            def read_bytes(p):
-                if p == path and p.read_text() == 'after':
-                    raise PermissionError('injected snapshot failure')
-                return original(p)
-            with patch.object(Path, 'read_bytes', read_bytes):
-                result, _, _ = module.record(tmp, 'changed', [sys.executable, '-c',
-                    'import pathlib,sys;pathlib.Path(sys.argv[1]).write_text("after")', str(path)])
+            claim, snapshot = self.landing_inputs()
+            checkpoint = Path(tmp)/'pending.json'
+            landing.start(claim, snapshot, checkpoint)
+            landing.advance(checkpoint, snapshot)
+            projection = landing.dispatch(checkpoint, snapshot)
+            pending = landing.advance(checkpoint, snapshot)
+            instruction = Path(tmp)/'AGENTS.md'
+            instruction.write_bytes(b'')
+            result, stdout, _ = module.record(tmp, 'empty', ['cat', str(instruction)])
+            request = json.loads((Path(tmp)/'empty/request.json').read_text())
+            valid = request['files_before'][str(instruction)]
+            receipt = bound_evaluate('pending', [pending], [request], projection, [])
             self.assertEqual(result['exit_code'], 0)
-            self.assertEqual(result['files_after'][str(path)]['snapshot_error'], 'PermissionError')
-            self.assertTrue((Path(tmp)/'changed/result.json').is_file())
+            self.assertEqual(stdout, b'')
+            self.assertEqual(valid['bytes'], 0)
+            self.assertEqual(receipt['classification'], 'PASS')
+
+            invalid = [None, [], 'metadata', 0, {},
+                       {'snapshot_error': 'PermissionError'},
+                       {'bytes': 0}, {'sha256': valid['sha256']},
+                       {**valid, 'snapshot_error': None}]
+            invalid.extend({**valid, 'bytes': value}
+                           for value in (None, True, False, -1, 0.0, '0'))
+            invalid.extend({**valid, 'sha256': value}
+                           for value in (None, 64, '', 'a' * 63, 'a' * 65,
+                                         'g' * 64, 'a' * 63 + '\n'))
+            for path in (str(instruction), str(Path(tmp)/'.agents/skills/example/SKILL.md')):
+                for observation in invalid:
+                    with self.subTest(path=path, observation=observation):
+                        bad_request = {'files_before': {path: observation}}
+                        original_request = copy.deepcopy(bad_request)
+                        receipt = bound_evaluate(
+                            'pending', [pending], [bad_request], projection, [])
+                        self.assertEqual(receipt['classification'], 'FAIL')
+                        self.assertEqual(receipt['errors'], ['missing_entry_read'])
+                        self.assertEqual(receipt['instruction_documents'], {})
+                        self.assertEqual(receipt['route_classification'], 'PASS')
+                        self.assertFalse(receipt['provider_transport_observed'])
+                        self.assertEqual(bad_request, original_request)
+
+            failed = {'snapshot_error': 'PermissionError'}
+            mixed_request = {'files_before': {
+                str(instruction): valid,
+                str(Path(tmp)/'.agents/skills/denied/SKILL.md'): failed}}
+            repeated_failure = {'files_before': {str(instruction): failed}}
+            for requests in ([mixed_request, repeated_failure],
+                             [repeated_failure, mixed_request]):
+                receipt = bound_evaluate('pending', [pending], requests, projection, [])
+                self.assertEqual(receipt['classification'], 'PASS')
+                self.assertEqual(receipt['instruction_documents'], {str(instruction): valid})
+            uppercase = {**valid, 'sha256': valid['sha256'].upper()}
+            self.assertEqual(observer.instruction_documents([
+                {'files_before': {str(instruction): uppercase}}]), {str(instruction): uppercase})
 
     def test_shell_wrapped_instruction_read_and_parse_failure_are_recorded(self):
         with tempfile.TemporaryDirectory() as tmp:

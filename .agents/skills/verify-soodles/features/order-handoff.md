@@ -24,6 +24,14 @@ alone never proves completion. Do not replace missing Session, outcome, exit,
 effect or kernel readback with prose or a fabricated order. Provider merge and
 Issue closure remain with supervised delivery.
 
+On a failed A or B projection, require the oracle-owned child to be stopped and
+reaped before its fixture is removed, with the original failure retained and
+any cleanup failure visible. A graceful-stop timeout must force bounded process
+group cleanup and still fail; forced termination cannot produce `VERIFIED`.
+Preserve the fixed external failed-projection control and portable cleanup test
+results separately from canonical Linux positive handoff evidence. This fault
+control is not a fresh model comparison.
+
 ## Interrupted after A cleanup, before B admission
 
 The supervisor supplies the existing A landing checkpoint and B external

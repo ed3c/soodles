@@ -300,7 +300,8 @@ def completed_original_order(binding, state):
 def projection(binding, envelope_digest, route):
     return {"repository": binding["repository"], "issue": binding["issue"],
             "body_sha256": binding["body_sha256"], "body_updated_at": binding["body_updated_at"],
-            "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"]}
+            "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"],
+            "contract": binding["contract"]}
 
 
 def publish_once(path, proposal):
@@ -334,7 +335,7 @@ def publish_once(path, proposal):
         os.unlink(name)
 
 
-def _admit(envelope_path, envelope_digest, root, reader, route):
+def _admit(envelope_path, envelope_digest, root, reader, route, *, observe_live=False):
     root = Path(root).resolve()
     binding = context(envelope_path, envelope_digest, root, reader)
     execution = binding["execution"]
@@ -353,6 +354,27 @@ def _admit(envelope_path, envelope_digest, root, reader, route):
                     "noodle.stage", stage, owner="Noodle", required="canonical_order_readback")
         live = [a for stage in order["stages"] for a in stage.get("attempts", [])
                 if a.get("status") in ("launching", "running")]
+        if route == "supervised" and observe_live and live:
+            # The Issue-atom foreground continuation observes the existing owner;
+            # it is not the stopped-writer takeover entry. Never start or reset
+            # anything because canonical state still reports a live attempt.
+            require(len(order["stages"]) == 1 and len(live) == 1,
+                    "observe.order", order_id, owner="Noodle", required="current_dispatch_identity")
+            stage = order["stages"][0]
+            try:
+                subject = json.loads(stage.get("prompt", ""))
+            except (ValueError, TypeError) as error:
+                raise AdmissionRefusal("observe.binding", order_id, "Noodle", "admitted_order_readback") from error
+            require(isinstance(subject, dict) and subject.get("route") in ("automatic", "supervised")
+                    and subject == projection(binding, envelope_digest, subject["route"]),
+                    "observe.binding", order_id, owner="Noodle", required="admitted_order_readback")
+            require(stage.get("status") in ("dispatching", "running")
+                    and stage.get("skill") == "execute" and stage.get("provider") == "codex"
+                    and stage.get("model") == execution["carrier"]["codex"]["model"],
+                    "observe.stage", order_id, owner="Noodle", required="current_dispatch_identity")
+            return {"owner": "Noodle", "action": "running", "binding": binding, "published": False,
+                    "attempt": live[0], "next": continuation({"kind": "input", "owner": "Noodle",
+                    "required": ["current_order_and_session_readback"], "known": {"order_id": order_id}}, route)}
         if route == "supervised":
             require(not live, "takeover.prior_writer", live,
                     owner="Noodle", required="quiescent_writer_and_session_readback")
@@ -388,8 +410,8 @@ def automatic(envelope_path, envelope_digest, root, reader=fetch_issue):
     return _admit(envelope_path, envelope_digest, root, reader, "automatic")
 
 
-def supervised(envelope_path, envelope_digest, root, reader=fetch_issue):
-    return _admit(envelope_path, envelope_digest, root, reader, "supervised")
+def supervised(envelope_path, envelope_digest, root, reader=fetch_issue, *, observe_live=False):
+    return _admit(envelope_path, envelope_digest, root, reader, "supervised", observe_live=observe_live)
 
 
 def resume(checkpoint, envelope_path, envelope_digest, root, reader=fetch_issue):

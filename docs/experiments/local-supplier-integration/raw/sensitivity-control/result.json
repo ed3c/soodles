@@ -1,0 +1,19 @@
+{
+  "exit_code": 1,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 1.1011849170317873,
+  "files_after": {
+    "/private/tmp/soodles118-supplier.ZGUqA8/sensitivity.py": {
+      "bytes": 382,
+      "sha256": "e39fd5c47ea90f98221433ccc5da42acb541b7a92f22366bd8d2dd87ecdb9e64",
+      "observed_from": [
+        "argv"
+      ]
+    }
+  },
+  "stdout_sha256": "61811bed81c9874d383e7081268243708e4358064e8e7447d9791ff6111dd629",
+  "stderr_sha256": "2980e3dab3034d0cdd418bcb841193905ea5da7dacb49ddff0ce929b32a3bcbe"
+}

@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 137
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/github-read.md",
+      "baseline_sha256": "0e57df60e4363f91f3302e01da267ef2b3a00cda40c62d7136e3a7125e5afe51",
+      "treatment_sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "baseline_sha256": "809f7daed44825ac7cd91316a190aa6948fe819b9915bbb3963af753ba3a14ce",
+      "treatment_sha256": "4a7f812bd600c10bf8c912c1ddcb98729326a36bbe3d545e7f4e29be09bfbc74"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/read-caller-recovery/amendment.md",
+      "role": "bounded correction or frozen non-authorizing evidence",
+      "sha256": "f64dc47de954469b7b621620b9c8232096cf75f4aeeb00668e11d0aa83879a8c"
+    },
+    {
+      "path": "docs/experiments/read-caller-recovery/observer.py",
+      "role": "bounded correction or frozen non-authorizing evidence",
+      "sha256": "8a69b6011d8509e3876abd3222c83783bc59a9dbafb258d0cb09c66a09a895f8"
+    },
+    {
+      "path": "docs/experiments/read-caller-recovery/protocol.md",
+      "role": "bounded correction or frozen non-authorizing evidence",
+      "sha256": "c5c4effcd0188abc4d8959633ce4d1adba2bb4e17566a859d943f633adab8352"
+    },
+    {
+      "path": "docs/experiments/read-caller-recovery/raw.json",
+      "role": "bounded correction or frozen non-authorizing evidence",
+      "sha256": "bbf79c6bfb3480919c6a61c89e63825a2a25d54bf5533c9352ba32e989abd2f1"
+    },
+    {
+      "path": "docs/experiments/read-caller-recovery/results.md",
+      "role": "bounded correction or frozen non-authorizing evidence",
+      "sha256": "f4f1083c3eb252d99a5288fea3fe2a2503ca7d146f178933f82f0f990674eb89"
+    },
+    {
+      "path": "soodles.py",
+      "role": "bounded correction or frozen non-authorizing evidence",
+      "sha256": "1e660f289e1eedf096de5306f522284cbce4b27a78e248df0f12d727fd8941ff"
+    },
+    {
+      "path": "tests/test_github_reader.py",
+      "role": "bounded correction or frozen non-authorizing evidence",
+      "sha256": "d1f82511f19b4cd0b0de143301d46c6246cce3aa727b2365f9509fe63095db09"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#137"
+  },
+  "authorizes_landing": false
+}
