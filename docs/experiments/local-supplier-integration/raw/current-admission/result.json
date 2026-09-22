@@ -1,0 +1,19 @@
+{
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 0.03534908301662654,
+  "files_after": {
+    "/Users/neon/.codex/experiments/noodle86-requeue-restart-20260920/noodle-merged-ac088": {
+      "bytes": 16427634,
+      "sha256": "8cf02b4bf28d15a5c9701aa7ad20a3423256516a6ab14637bc148d706671e13c",
+      "observed_from": [
+        "argv"
+      ]
+    }
+  },
+  "stdout_sha256": "219b880c87cddcdc0895b6e3a744d21fbc194309aae272a093853dbe5b59d936",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 115
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "baseline_sha256": "9539cecb01565745ab48cf61fb908bfff571f405f4dafc50580cbb8f7e490ce3",
+      "treatment_sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222"
+    },
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "16bdf32a3dd80c0bb4e562b5c0315e30fe2ca9d2ecb44423acb882847f8050e0",
+      "treatment_sha256": "5ecb405612945d0a0ccc50b906852e2e8697e866a6bfe172dd7ca225818be64f"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "baseline_sha256": "2c271f272104616df383fae3b2e9017345adf13b0af248bba842d2fff714532f",
+      "treatment_sha256": "7f10fa0008c7539e15d19504c984f3a84d8cea229d14abbc4f63adff7e980646"
+    }
+  ],
+  "artifacts": [
+    {"path": "dependency_binding.py", "role": "supervisor-bound dependency validator", "sha256": "d7a6e43e8bace3de378c8b07fc87a3b52f7b63564fbf2bd2f54e5188fdb266b0"},
+    {"path": "landing.py", "role": "claim admission and owner projection", "sha256": "a2d2a228f5911a2e726ec283a33dc3ecf9e79f8e2bfac9620a8d68949588b28a"},
+    {"path": "tests/test_cross_repository_delivery.py", "role": "consumer delivery regression", "sha256": "7df56a4d237b2b05af57fbe6cc9200df7788054b6421c5d8b4a4303589d54b91"},
+    {"path": "tests/test_cross_repository_dependency.py", "role": "dynamic dependency controls", "sha256": "0de83e240ab6c39d9524b4f92d788fb3f64b7634a2483600d7c1a29a32701b84"},
+    {"path": "tests/test_landing.py", "role": "resume identity regression", "sha256": "2a334016a7700c8a27d3bf428afbd5466276a39669fc2bfbc679543e36cb4e44"},
+    {"path": "docs/experiments/supervisor-dependency-claims/observer.py", "role": "frozen executable observer", "sha256": "91332b08a76930dad6f40459236934719969c50d7fa95bbaf99c74fc4c9a50eb"},
+    {"path": "docs/experiments/supervisor-dependency-claims/task.md", "role": "frozen consumer task", "sha256": "6b50a70ee4151dadafce4abe8891a68a81be29184717c2718ec741ced38dab2a"},
+    {"path": "docs/experiments/supervisor-dependency-claims/results.md", "role": "scoped result report", "sha256": "7b7978243404cebb9a037a77f7163a3bed633e2f02614ccf11d3852d26f7e280"},
+    {"path": "docs/experiments/supervisor-dependency-claims/raw/agents.json", "role": "consumer carrier record", "sha256": "98134e21aa4ea7ef4c6ff5c9860ab0082c8e6627e34d5cd43d906d771670cf75"},
+    {"path": "docs/experiments/supervisor-dependency-claims/raw/baseline.json", "role": "baseline owner transcript", "sha256": "9e7037c5b1884b8a4e671a389d4e70f93561ddb6de58b21ad133d053ce6a88f2"},
+    {"path": "docs/experiments/supervisor-dependency-claims/raw/consumer-base-1.json", "role": "fresh baseline decision receipt", "sha256": "051cbb5c986a8b7e5a57a92de5d7b17f28c8915e4bbc4a5ea79092fc442a17ec"},
+    {"path": "docs/experiments/supervisor-dependency-claims/raw/consumer-base-2.json", "role": "fresh baseline decision receipt", "sha256": "348d53c41e18616a83866d8bc7b1090a29fa6b68793ee7c125a65dd90e240291"},
+    {"path": "docs/experiments/supervisor-dependency-claims/raw/consumer-base-3.json", "role": "fresh baseline decision receipt", "sha256": "f23d16e257dabf3089c15cb871b221c47ba113d9929fe6f3612ac64b41006245"},
+    {"path": "docs/experiments/supervisor-dependency-claims/raw/consumer-treatment-1.json", "role": "fresh treatment decision receipt", "sha256": "f96e048c79c11232050f9278b53b81cb4689991b82344ba1ba5e966fee6e3d34"},
+    {"path": "docs/experiments/supervisor-dependency-claims/raw/consumer-treatment-2.json", "role": "fresh treatment decision receipt", "sha256": "10d9f0f472ba9a14709fd35f05b99f1120c22ac4347be5a9037dc71642579591"},
+    {"path": "docs/experiments/supervisor-dependency-claims/raw/consumer-treatment-3.json", "role": "fresh treatment decision receipt", "sha256": "3c53389dddbfd5610c48ef60e8b2ca99aac8c5873701068352796b199996e036"},
+    {"path": "docs/experiments/supervisor-dependency-claims/raw/treatment.json", "role": "treatment owner transcript", "sha256": "c2afad0c79fbe1eaba81445cef551c9525ae33ef433cc1f4fcbedf885cf1c0ac"}
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#115"
+  },
+  "authorizes_landing": false
+}

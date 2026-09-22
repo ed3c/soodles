@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/Users/neon/.local/bin/codex",
+    "-C",
+    "/Users/neon/soodles/.worktrees/issue-118-local-supervisor-admission",
+    "doctor",
+    "--json"
+  ],
+  "cwd": "/Users/neon/soodles",
+  "time_ns": 1790050885762139000,
+  "files_before": {
+    "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex": {
+      "bytes": 220584000,
+      "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+      "observed_from": [
+        "argv"
+      ]
+    }
+  },
+  "timeout_seconds": 60
+}

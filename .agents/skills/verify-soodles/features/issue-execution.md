@@ -1,5 +1,10 @@
 # Bounded Issue execution and supervised handoff
 
+For a supervisor-selected repository other than Soodles, first use the
+[cross-repository delivery](cross-repository-delivery.md) recipe. Repository
+identity comes from the external envelope; do not reconstruct it from the
+current checkout, conversation or Issue prose.
+
 The supervisor selects one real Issue and an external execution envelope. A real
 Noodle-launched scheduler consumes the shared admission entry; Noodle owns the
 order/worktree and dispatches the actual Codex worker. This recipe covers the
@@ -11,8 +16,9 @@ Issue resolution, general scheduling, DAG execution or cross-platform support.
 Use only the supervisor-supplied control root, existing worktree, fixed launcher,
 envelope path/digest, measured Noodle/Codex executables and bounded task. The
 envelope binds the current provider Issue/body, owner, allowed paths and actual
-starting source head. The child receives an explicit task and selected Skill;
-it does not inherit this Session's conversation or authority.
+starting source head. The child receives an explicit task, selected Skill and
+the complete validated structured Issue contract alongside the exact binding
+in its stage prompt; it does not inherit this Session's conversation or authority.
 
 The observed carrier is native macOS; the separate Linux runtime lock remains
 unchanged. The installed entry checks platform and executable digests, current
@@ -34,8 +40,12 @@ order/session state comes from Noodle; provider readback comes from GitHub.
   `automatic`. Preserve its actual tool trace and normalized binding. Noodle
   consumes the conditional first-admission proposal; a fixture promotion is not
   evidence for this step.
-- Observe the actual worker loading its selected Skill, reading the current
-  Issue and executing the bounded task. Preserve code/Skill identities, actual
+- Observe the actual worker loading its selected Skill, consuming the complete
+  admitted contract from its stage prompt and executing the bounded task. No
+  duplicate GitHub read is required from the child; the installed entry retains
+  its fresh provider readback and exact prompt guards. Missing contract returns
+  to the existing admission owner; amendments require a fresh supervisor envelope.
+  Preserve code/Skill identities, actual
   commands, results and unexpected failures. A scheduler start alone is not a
   worker success.
 - The Agent itself uses the admitted Noodle event interface to emit its typed

@@ -56,9 +56,8 @@ def files(argv):
                     "observed_from": sorted(observed)
                 }
         except OSError as error:
-            if source == "argv":
-                result[value] = {"snapshot_error": type(error).__name__,
-                                 "observed_from": [source]}
+            result[value] = {"snapshot_error": type(error).__name__,
+                             "observed_from": [source]}
     return result, parse_error
 
 

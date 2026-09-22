@@ -50,9 +50,9 @@ inconsistent evidence. A `status` summary alone does not prove a stopped owner.
 The #46 selection pins recovery observer SHA-256
 `1f22ebd63786e032f92d51c455cfd35dff9f0660acd969db70d2f3e5deda5b6f`
 and refusal observer SHA-256
-`b0029229f2794b283d8ab30faba8a621e0cd7035d83edcc6001a1a994229662b`.
+`64cd30de8faeea72b38d839cefadb900d9a87c2f96ea7acd123387f2fa58efce`.
 Their adjacent `preserved-input-selection.json` and `preserved-soodles-input`
-remain supervisor-selected inputs; the #79 portable fixture copy preserves their bytes. After verifying those original bytes, the recovery observer replaces captured historical PIDs only in its disposable execution copy with an out-of-range sentinel and records every adjustment. This prevents an unrelated carrier process from impersonating a captured session. The refusal observer still creates its own live PID and orphan-process-group controls and is unchanged. The recovery observer contains a bounded idempotence
+remain supervisor-selected inputs; the #79 portable fixture copy preserves their bytes. After verifying those original bytes, both observers replace captured historical PIDs only in their disposable execution copies with an out-of-range sentinel and record every adjustment. This prevents an unrelated carrier process from impersonating a captured session. The refusal observer creates its own live PID and orphan-process-group controls only after that isolation, so those controls remain live. The recovery observer contains a bounded idempotence
 control; it is not a general instruction to replay old argv. The coordinator's
 normal drive always consumes fresh next and includes the post-retirement readback.
 The fixed refusal observer covers wrong digest/revision, admitted ledger, valid
@@ -103,8 +103,8 @@ observer's `process.json`, `stdout.bin`, `stderr.bin`, `receipt.json` and
 status and stream digests. Existing evidence can be mapped to those names while
 preserving raw stream/receipt bytes and the original measurements; never invent
 an unobserved wait or cleanup. `cleanup.json` identifies the observed scope;
-Actions measures scratch filesystem absence after wait. The fixed refusal
-observer's process-group limitation above remains unchanged. Extra ambient files
+Actions measures scratch filesystem absence after wait. The refusal observer
+isolates captured identities without changing the preserved source and retains its live process-group controls. Extra ambient files
 are not included; packet.json contains no executable argv or host paths.
 
 The packet states `continuation.portable=false`, `owner=Noodle`,

@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "arm": "baseline",
+  "source": "/workspace/scratch/9af267d7b32b/atom-cross-base",
+  "observer_sha256": "f63351064edbe0113c0c293d26fcf0e1b105c3c97fd1f2a53b5ab958f3ac42e0",
+  "task_sha256": "db8e7928726bcd48f55bda3864383b9c96cea481f865c245b534ff517619c924",
+  "records": {
+    "legal": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-route-hhkbdkkd/legal-claim.json",
+        "/tmp/cross-repository-route-hhkbdkkd/legal-readback.json",
+        "/tmp/cross-repository-route-hhkbdkkd/legal-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"claim.repository\",\n    \"value\": \"ed3c/ops-reconciliation-copilot\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid claim.repository='ed3c/ops-reconciliation-copilot'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py landing start --help\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/ops-reconciliation-copilot"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "operation": "start",
+          "required": [
+            "corrected_input"
+          ],
+          "known": {},
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-route-hhkbdkkd/legal-checkpoint.json",
+      "readback": "/tmp/cross-repository-route-hhkbdkkd/legal-readback.json"
+    },
+    "draft": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-route-hhkbdkkd/draft-claim.json",
+        "/tmp/cross-repository-route-hhkbdkkd/draft-readback.json",
+        "/tmp/cross-repository-route-hhkbdkkd/draft-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"claim.repository\",\n    \"value\": \"ed3c/ops-reconciliation-copilot\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid claim.repository='ed3c/ops-reconciliation-copilot'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py landing start --help\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/ops-reconciliation-copilot"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "operation": "start",
+          "required": [
+            "corrected_input"
+          ],
+          "known": {},
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-route-hhkbdkkd/draft-checkpoint.json",
+      "readback": "/tmp/cross-repository-route-hhkbdkkd/draft-readback.json"
+    },
+    "missing_step": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-route-hhkbdkkd/missing_step-claim.json",
+        "/tmp/cross-repository-route-hhkbdkkd/missing_step-readback.json",
+        "/tmp/cross-repository-route-hhkbdkkd/missing_step-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"claim.repository\",\n    \"value\": \"ed3c/ops-reconciliation-copilot\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid claim.repository='ed3c/ops-reconciliation-copilot'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py landing start --help\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/ops-reconciliation-copilot"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "operation": "start",
+          "required": [
+            "corrected_input"
+          ],
+          "known": {},
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-route-hhkbdkkd/missing_step-checkpoint.json",
+      "readback": "/tmp/cross-repository-route-hhkbdkkd/missing_step-readback.json"
+    },
+    "unsupported": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-route-hhkbdkkd/unsupported-claim.json",
+        "/tmp/cross-repository-route-hhkbdkkd/unsupported-readback.json",
+        "/tmp/cross-repository-route-hhkbdkkd/unsupported-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"claim.repository\",\n    \"value\": \"ed3c/unregistered\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid claim.repository='ed3c/unregistered'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py landing start --help\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "claim.repository",
+          "value": "ed3c/unregistered"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "operation": "start",
+          "required": [
+            "corrected_input"
+          ],
+          "known": {},
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/atom-cross-base/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-route-hhkbdkkd/unsupported-checkpoint.json",
+      "readback": "/tmp/cross-repository-route-hhkbdkkd/unsupported-readback.json"
+    }
+  },
+  "authorizes_landing": false,
+  "evaluation": {
+    "classification": "RED",
+    "failures": []
+  },
+  "sensitivity": []
+}

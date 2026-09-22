@@ -18,11 +18,19 @@ class Refusal(Exception):
 
 
 class Parser(argparse.ArgumentParser):
+    def parse_known_args(self, args=None, namespace=None):
+        parsed, unknown = super().parse_known_args(args, namespace)
+        # Keep unknown read flags at the reader's error boundary instead of the root parser.
+        if self.prog.startswith("./soodles github") and unknown:
+            self.error("unrecognized arguments: " + " ".join(unknown))
+        return parsed, unknown
+
     def error(self, message):
         if self.prog.startswith("./soodles github"):
             from issue_admission import AdmissionRefusal
             from github_reader import refusal_output
-            print(json.dumps(refusal_output(AdmissionRefusal("arguments", message)), indent=2))
+            print(json.dumps(refusal_output(AdmissionRefusal(
+                "arguments", message, "caller", "valid_read_arguments")), indent=2))
             self.exit(2)
         if self.prog.startswith("./soodles issue"):
             from issue_admission import AdmissionRefusal
@@ -56,9 +64,9 @@ def clean_env():
     return {key: os.environ[key] for key in ("PATH", "LANG", "LC_ALL", "TMPDIR") if key in os.environ}
 
 
-def run(argv, cwd):
+def run(argv, cwd, timeout=30):
     return subprocess.run([str(v) for v in argv], cwd=cwd, env=clean_env(),
-                          stdin=subprocess.DEVNULL, text=True, capture_output=True, timeout=30)
+                          stdin=subprocess.DEVNULL, text=True, capture_output=True, timeout=timeout)
 
 
 def checked(argv, cwd):
@@ -162,7 +170,8 @@ def worktree_probe(binary):
 def acceptance_verify(root, binary):
     before = source_identity(root)
     runtime = runtime_check(root, binary)
-    result = run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-v"], root)
+    result = run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-v"], root,
+                 timeout=120)
     print(result.stderr, file=sys.stderr, end="")
     if result.returncode or not re.search(r"Ran [1-9][0-9]* tests?", result.stderr) or "skipped=" in result.stderr:
         raise Refusal("acceptance verify: test discovery failed, empty, or skipped; supported help: ./soodles acceptance verify --help")
@@ -175,6 +184,10 @@ def acceptance_verify(root, binary):
     physical["delivery_recovery"] = delivery_probe(ROOT)
     from base_recovery_oracle import base_recovery_probe
     physical["base_recovery"] = base_recovery_probe(ROOT)
+    from handoff_oracle import handoff_probe
+    physical["order_handoff"] = handoff_probe(runtime["binary"], ROOT)
+    from resume_oracle import resume_probe
+    physical["interruption_resume"] = resume_probe(runtime["binary"], ROOT)
     print(json.dumps({"delivery_recovery": physical["delivery_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_lock_recovery": physical["cleanup_lock_recovery"]["cases"]}), file=sys.stderr)
     print(json.dumps({"cleanup_recovery": physical["cleanup_recovery"]["cases"]}), file=sys.stderr)
@@ -207,7 +220,8 @@ def parser():
     drive.add_argument("--build-info", help="Actual successful `go version -m BINARY` output from the same carrier.")
     github = groups.add_parser("github", description="Authenticated Issue readback; credentials come from the supervisor.")
     github_verbs = github.add_subparsers(dest="verb", required=True)
-    read_issue = github_verbs.add_parser("issue", description="Read one ed3c/soodles Issue using supervisor-supplied GH_TOKEN. Missing credentials refuse; quota waits exit 75. No token discovery, minting, anonymous fallback or retry.", epilog="Example: ./soodles github issue 44. The supervisor supplies a repository-scoped installation token with Issues:read in the child environment. Never put credentials in argv. Cache uses XDG_CACHE_HOME or ~/.cache; 304 requires server confirmation.")
+    read_issue = github_verbs.add_parser("issue", description="Read one Issue from a supported supervisor-selected repository using GH_TOKEN. Missing credentials refuse; quota waits exit 75. No token discovery, minting, anonymous fallback or retry.", epilog="Example: ./soodles github issue ed3c/ops-reconciliation-copilot 21. The supervisor supplies a repository-scoped installation token with Issues:read in the child environment. Never put credentials in argv. Cache uses XDG_CACHE_HOME or ~/.cache; 304 requires server confirmation.")
+    read_issue.add_argument("repository")
     read_issue.add_argument("number", type=int)
     candidate = groups.add_parser(
         "candidate",
@@ -219,11 +233,29 @@ def parser():
     candidate_verify.add_argument("issue_readback")
     candidate_verify.add_argument("base_head")
     candidate_verify.add_argument("candidate_head")
+    candidate_publish = candidate_verbs.add_parser(
+        "publish", description="Publish one accepted Noodle-owned local candidate to one exact provider PR.")
+    candidate_publish.add_argument("acceptance_receipt")
+    candidate_publish.add_argument("noodle_claim")
+    atom = groups.add_parser(
+        "atom",
+        description=("Run one local Issue lifecycle from an external authorization file. "
+                     "Re-enter the same command after material state changes; "
+                     "the Agent never selects phase-specific Issue or landing verbs."))
+    atom_verbs = atom.add_subparsers(dest="verb", required=True)
+    atom_run = atom_verbs.add_parser(
+        "run",
+        description="Advance one authorized local atom through its exact next owner transition.")
+    atom_run.add_argument("authorization")
     issue = groups.add_parser("issue", description="Consume one externally pinned Issue envelope before Noodle effects.",
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
-    for name in ("automatic", "supervised", "worker"):
-        command = issue_verbs.add_parser(name, epilog=f"Examples: ./soodles issue {name} /external/envelope.json SHA256")
+    issue_verbs.add_parser("inspect", description="Read current Noodle schedule identity and launcher capability without effects.")
+    for name in ("automatic", "supervised", "worker", "resume"):
+        example = ("/external/A-checkpoint.json " if name == "resume" else "") + "/external/envelope.json SHA256"
+        command = issue_verbs.add_parser(name, epilog=f"Examples: ./soodles issue {name} {example}")
+        if name == "resume":
+            command.add_argument("checkpoint", help="Supervisor-selected resolved predecessor landing checkpoint.")
         command.add_argument("envelope", help="Supervisor-selected envelope outside the candidate.")
         command.add_argument("envelope_digest", help="Digest fixed by the external supervisor launcher, not Issue prose.")
         if name == "worker":
@@ -269,6 +301,26 @@ def parser():
     return p
 
 
+def bind_landing_continuation(result, args):
+    """Bind known CLI paths; required provider readback still precedes execution."""
+    if args.group != "landing" or not getattr(args, "readback", None):
+        return result
+    next_action = result.get("next")
+    checkpoint = getattr(args, "checkpoint", None)
+    if (not isinstance(next_action, dict) or not checkpoint
+            or next_action.get("kind") != "provider_readback"
+            or next_action.get("required") != ["readback"]
+            or next_action.get("operation") not in {"advance", "dispatch"}
+            or next_action.get("known", {}).get("checkpoint") != str(Path(checkpoint).resolve())):
+        return result
+    import landing
+    readback = str(Path(args.readback).resolve())
+    return {**result, "next": {**next_action,
+            "known": {**next_action["known"], "readback": readback},
+            "argv": landing.cli_argv(next_action["operation"],
+                                     next_action["known"]["checkpoint"], readback)}}
+
+
 def main():
     args = parser().parse_args()
     import landing
@@ -283,19 +335,32 @@ def main():
                 result = portable_packet.run_observers(args.binary, args.source, args.output, args.build_info)
         elif args.group == "github":
             import github_reader
-            result = github_reader.issue(args.number)
+            result = github_reader.issue(args.repository, args.number)
         elif args.group == "candidate":
-            import issue_admission
-            readback = json.loads(Path(args.issue_readback).read_text())
-            result = issue_admission.verify_candidate(
-                ROOT, args.base_head, args.candidate_head, readback)
+            if args.verb == "verify":
+                import issue_admission
+                readback = json.loads(Path(args.issue_readback).read_text())
+                result = issue_admission.verify_candidate(
+                    ROOT, args.base_head, args.candidate_head, readback)
+            else:
+                import candidate_publication
+                result = candidate_publication.run(
+                    ROOT, args.acceptance_receipt, args.noodle_claim)
+        elif args.group == "atom":
+            import issue_atom
+            result = issue_atom.drive(args.authorization)
         elif args.group == "issue":
             import issue_execution
-            operation = getattr(issue_execution, args.verb)
-            if args.verb == "worker":
-                result = operation(args.envelope, args.envelope_digest, Path.cwd(), args.worker_argv)
+            if args.verb == "inspect":
+                result = issue_execution.inspect_schedule(Path.cwd())
             else:
-                result = operation(args.envelope, args.envelope_digest, Path.cwd())
+                operation = getattr(issue_execution, args.verb)
+                if args.verb == "worker":
+                    result = operation(args.envelope, args.envelope_digest, Path.cwd(), args.worker_argv)
+                elif args.verb == "resume":
+                    result = operation(args.checkpoint, args.envelope, args.envelope_digest, Path.cwd())
+                else:
+                    result = operation(args.envelope, args.envelope_digest, Path.cwd())
         elif args.group == "landing":
             import landing
             if args.verb == "identity":
@@ -316,10 +381,10 @@ def main():
                 result = landing.reconcile(args.checkpoint, args.binary)
         else:
             result = runtime_check(ROOT, args.binary) if args.group == "runtime" else acceptance_verify(ROOT, args.binary)
-        print(json.dumps(result, indent=2))
+        print(json.dumps(bind_landing_continuation(result, args), indent=2))
     except landing.LandingRefusal as exc:
         result = landing.refusal_output(exc, args.verb)
-        print(json.dumps(result, indent=2))
+        print(json.dumps(bind_landing_continuation(result, args), indent=2))
         print(landing.refusal_text(result), file=sys.stderr)
         return 1
     except (KeyError, TypeError) as exc:
@@ -331,11 +396,11 @@ def main():
             from issue_admission import AdmissionRefusal
             from issue_execution import refusal_output, refusal_text
             result = refusal_output(AdmissionRefusal("input.field", str(exc)), args.verb)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(refusal_text(result), file=sys.stderr)
         elif args.group == "landing":
             result = landing.refusal_output(landing.LandingRefusal("input.field", str(exc)), args.verb)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(landing.refusal_text(result), file=sys.stderr)
         else:
             print(f"REFUSED: {args.group}: invalid input field={exc}; supported help: ./soodles {args.group} --help", file=sys.stderr)
@@ -352,10 +417,19 @@ def main():
             import issue_execution
             error = exc if isinstance(exc, AdmissionRefusal) else AdmissionRefusal("input", str(exc))
             result = issue_execution.refusal_output(error, args.verb)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(issue_execution.refusal_text(result), file=sys.stderr)
             return getattr(error, "exit_code", 1)
         if args.group == "candidate":
+            import candidate_publication
+            if isinstance(exc, candidate_publication.PublicationRefusal):
+                result = candidate_publication.refusal_output(exc)
+                print(json.dumps(result, indent=2))
+                print(
+                    f"REFUSED: candidate publish: invalid {exc.invalid['field']}={exc.invalid['value']!r}; "
+                    "supported help: ./soodles candidate publish --help",
+                    file=sys.stderr)
+                return 1
             invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
             result = {
                 "owner": "candidate.verify",
@@ -366,16 +440,29 @@ def main():
                     "required": ["valid_candidate_evidence"]}),
                 "authorizes_landing": False,
             }
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(
                 f"REFUSED: candidate verify: invalid {invalid['field']}={invalid['value']!r}; "
                 "supported help: ./soodles candidate verify --help",
                 file=sys.stderr)
             return getattr(exc, "exit_code", 1)
+        if args.group == "atom":
+            import issue_atom
+            if isinstance(exc, issue_atom.AtomRefusal):
+                result = issue_atom.refusal_output(exc, args.authorization)
+                print(json.dumps(result, indent=2))
+                print(
+                    f"REFUSED: issue atom: invalid {exc.invalid['field']}={exc.invalid['value']!r}; "
+                    "supported help: ./issue-atom --help",
+                    file=sys.stderr)
+                return 1
+            print(f"REFUSED: issue atom: {exc}; supported help: ./issue-atom --help",
+                  file=sys.stderr)
+            return 1
         elif args.group == "landing":
             invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
             result = landing.refusal_output(landing.LandingRefusal(invalid["field"], invalid["value"]), args.verb)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(landing.refusal_text(result), file=sys.stderr)
         else:
             print(f"REFUSED: {exc}", file=sys.stderr)

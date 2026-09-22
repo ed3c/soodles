@@ -454,6 +454,19 @@ class LandingTests(unittest.TestCase):
             with self.subTest(mutation=mutation), self.assertRaisesRegex(soodles.Refusal, field):
                 landing.resume(self.checkpoint, value)
             self.assertEqual(self.checkpoint.read_bytes(), before)
+        landing.save(self.checkpoint, state)
+        changed_dependencies = {**cloud, "dependencies": [{
+            "repository": "ed3c/soodles", "issue": 113, "pr": 114,
+            "base_ref": "main", "base_head": "a" * 40,
+            "candidate_head": "b" * 40, "tree": "c" * 40,
+            "revision": "d" * 40, "run_id": 1, "run_attempt": 1,
+            "workflow_path": ".github/workflows/runtime.yml",
+            "jobs": {"runtime-evidence": ["Canonical acceptance on the exact candidate head"]},
+        }]}
+        before = self.checkpoint.read_bytes()
+        with self.assertRaisesRegex(soodles.Refusal, "resume.claim"):
+            landing.resume(self.checkpoint, changed_dependencies)
+        self.assertEqual(self.checkpoint.read_bytes(), before)
         legacy_cloud = copy.deepcopy(state)
         legacy_cloud["claim"].pop("control_root")
         landing.save(self.checkpoint, legacy_cloud)
@@ -538,7 +551,9 @@ class LandingTests(unittest.TestCase):
         soodles.checked(["git", "branch", "-D", "cloud-only"], root)
 
     def test_cli_help_and_malformed_input_refuse_before_checkpoint(self):
-        for route in (["landing"], ["landing", "start"], ["landing", "advance"], ["landing", "dispatch"], ["landing", "readmit"], ["landing", "reconcile"]):
+        for route in (["landing"], ["landing", "start"], ["landing", "advance"],
+                      ["landing", "dispatch"],
+                      ["landing", "readmit"], ["landing", "reconcile"]):
             result = soodles.run(["./soodles", *route, "--help"], soodles.ROOT)
             self.assertEqual(result.returncode, 0, result.stderr)
         bad = Path(self.temp.name) / "bad.json"
@@ -812,7 +827,9 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(prepared['next']['operation'], 'dispatch')
         request = landing.dispatch(self.checkpoint, self.snapshot)
         self.assertEqual(request['request']['expected_head_sha'], self.claim['head'])
-        self.assertEqual(request['next']['operation'], 'advance')
+        self.assertEqual(request['next']['kind'], 'executable')
+        self.assertEqual(request['next']['operation'], 'execute')
+        self.assertEqual(request['next']['argv'], landing.provider_cli_argv(self.checkpoint))
         self.assertNotIn('next', landing.read(self.checkpoint))
         with self.assertRaises(landing.LandingRefusal) as refused:
             landing.dispatch(self.checkpoint, self.snapshot)
@@ -851,6 +868,23 @@ class LandingTests(unittest.TestCase):
         help_result = soodles.run(argv, soodles.ROOT)
         self.assertEqual(help_result.returncode, 0)
         self.assertFalse(self.checkpoint.exists())
+
+    def test_cloud_marked_contract_requires_exact_candidate_gate_not_local_envelope(self):
+        self.claim.pop("control_root")
+        self.snapshot["issue"]["body"] = "<!-- soodles:execution-v1 -->\n"
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            self.start()
+        self.assertEqual(caught.exception.invalid["field"], "job.candidate_evidence")
+        self.assertFalse(self.checkpoint.exists())
+        self.snapshot["jobs"]["jobs"][0]["steps"].insert(0, {
+            "name": "Verify exact candidate evidence from fresh Issue readback",
+            "status": "completed", "conclusion": "success",
+        })
+        result = self.start()
+        self.assertEqual(result["owner"], "landing.start")
+        self.assertEqual(landing.read(self.checkpoint)["scope"],
+                         "supervised single-Issue cloud landing")
+        self.assertNotIn("execution_envelope", landing.read(self.checkpoint)["claim"])
 
 
 class BoundLandingTests(unittest.TestCase):
@@ -999,3 +1033,4 @@ class BoundLandingTests(unittest.TestCase):
         self.assertEqual(len(requests), 1)
         self.assertFalse(c.worktree.exists())
         self.assertEqual(result["noodle_reconciliation"]["order_id"], "soodles-18")
+

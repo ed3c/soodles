@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "carrier": "ChatGPT native subagent",
+  "fork_turns": "none",
+  "model": "unknown",
+  "shared_filesystem": true,
+  "consumers": [
+    {"task": "/root/dep_base_1", "arm": "baseline", "output": "consumer-base-1.json", "status": "completed"},
+    {"task": "/root/dep_base_2", "arm": "baseline", "output": "consumer-base-2.json", "status": "completed"},
+    {"task": "/root/dep_base_3", "arm": "baseline", "output": "consumer-base-3.json", "status": "completed"},
+    {"task": "/root/dep_final_1", "arm": "treatment", "output": "consumer-treatment-1.json", "status": "completed"},
+    {"task": "/root/dep_final_2", "arm": "treatment", "output": "consumer-treatment-2.json", "status": "completed"},
+    {"task": "/root/dep_final_3", "arm": "treatment", "output": "consumer-treatment-3.json", "status": "completed"}
+  ],
+  "input_policy": "Each consumer received only the frozen task, its assigned instruction file and its arm's owner transcript. Expected outcomes, observer source, other arm and other consumer outputs were excluded.",
+  "effects": "Consumers wrote distinct evidence files only; no provider transport or landing action was authorized.",
+  "authorizes_landing": false
+}

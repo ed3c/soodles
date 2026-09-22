@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 103
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/schedule/SKILL.md",
+      "baseline_sha256": "14fd89d95831e33de1a75f1ef6c24f6c463b50a4616d94429a82487c1f859685",
+      "treatment_sha256": "9cd458866f36f19234b28be18046256186f02dba210b42fb949e0b9fd3d1a16f"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "issue_execution.py",
+      "role": "implementation",
+      "sha256": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea"
+    },
+    {
+      "path": "soodles.py",
+      "role": "implementation",
+      "sha256": "1d37ddff5d9b66ba904c3e2e4167e9638deb8768ca7f99bfb3b094f078ea4bdb"
+    },
+    {
+      "path": "tests/test_schedule_role.py",
+      "role": "implementation",
+      "sha256": "52f7639e1517edf09c3a437b361dc7bc0ee1fb4fe880eed9981d778486ae6e1e"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/task.md",
+      "role": "bounded_evidence",
+      "sha256": "80409eaa7463e9a90264583a8bcb13cfdd3aba4367a84e7b143213a216fe4c5e"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/observer.py",
+      "role": "bounded_evidence",
+      "sha256": "72316f85f29612d2d39435483efe46095da8027936830eda73831e53c152460d"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/consumer.py",
+      "role": "bounded_evidence",
+      "sha256": "2bf067516b40c5907a6adb408e41ba5ef775888c4500b4b065c8e4ca8b024f34"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/raw/baseline-cli.json",
+      "role": "bounded_evidence",
+      "sha256": "b46599cbcba4938853105f99c22ba2d2202f0088ef8b4666933afb22c1b6bc7a"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/raw/treatment-cli.json",
+      "role": "bounded_evidence",
+      "sha256": "1fdffbae74ace20993ded00be5aefa831da13e202c9321101f1c906cf1531e50"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/raw/sensitivity.json",
+      "role": "bounded_evidence",
+      "sha256": "9514c9caca30513a7d52067b3e844e10b3abfed3c7cdddc99b3ac150f118f37e"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/raw/agents.json",
+      "role": "bounded_evidence",
+      "sha256": "45f42e3f3bd6d45e19179051929dcba1a08ccccebfa273800299782a8a338bcb"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/raw/independent-audit.json",
+      "role": "bounded_evidence",
+      "sha256": "563bfd86bb030274b9b561a3d10d35f0c054a52fd51e09a7e9db2b4e6c7235a9"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/results.md",
+      "role": "bounded_evidence",
+      "sha256": "08e7a981495cd607ff0745c2f382ee123f93abe6c2b0b188e89a5004c59d589a"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/observer-v1.py",
+      "role": "bounded_evidence",
+      "sha256": "df9374b968fde11031e09ed7645558233a4a431986a6e228102bb638baa9b9ab"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/raw/cli-v1.json",
+      "role": "bounded_evidence",
+      "sha256": "a75bca88d84eeca4946cc350f2e1b7625cb2096898a10802235107bc5e7b68c2"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/raw/producer-readback.json",
+      "role": "bounded_evidence",
+      "sha256": "2b3b57880d9defe5cdea1920ac80f71bcc92573089e90ff00e44993c00886806"
+    }
+  ],
+  "owner": {
+    "name": "supervisor-selected Issue 103 boundary",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#103"
+  },
+  "authorizes_landing": false
+}

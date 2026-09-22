@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 109
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/order-handoff.md",
+      "baseline_sha256": "3a9fbd2145594ad17b955696a2d65c38bc0f861192076699d454f551904f24e3",
+      "treatment_sha256": "1c594a4ba162ef0d7c62611b61d847feace174712adb3e5f2f9fec3008bca3f5"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/interruption-resume/observer.py",
+      "role": "experiment evidence",
+      "sha256": "8a8c8a9c033ff59120d269923c08983c14f906eada3167f2646e04773bc652dd"
+    },
+    {
+      "path": "docs/experiments/interruption-resume/raw/pclass.json",
+      "role": "experiment evidence",
+      "sha256": "68f013db70fd4aaa6ce31dbc02b1453f6d34a295fac6d1ae7c97bbc5c86bd28a"
+    },
+    {
+      "path": "docs/experiments/interruption-resume/raw/physical.json",
+      "role": "experiment evidence",
+      "sha256": "fe2ba933401136cbea656cafa80051fb7e2942846222aa388079a79d3981bf73"
+    },
+    {
+      "path": "docs/experiments/interruption-resume/results.md",
+      "role": "experiment evidence",
+      "sha256": "19ad2e8caa5a48b3700e7d03f70cfbf664c23af6a89c14ce8b2f3a2a75284cbd"
+    },
+    {
+      "path": "docs/experiments/interruption-resume/task.md",
+      "role": "experiment evidence",
+      "sha256": "f458dbb20277f9486fa99166c75397253be1a16d69cef86575171778432d8ef7"
+    },
+    {
+      "path": "issue_execution.py",
+      "role": "implementation",
+      "sha256": "c2883c97b3f85d6a7131693bbb5ab48288ddfba660552b90cdb941f6671ad579"
+    },
+    {
+      "path": "quality/measure.py",
+      "role": "implementation",
+      "sha256": "43b345af21b5fb75a8ed41a6ab87b67b08d0fea557415748827c0258a06b55e3"
+    },
+    {
+      "path": "resume_oracle.py",
+      "role": "implementation",
+      "sha256": "c97452033fef92ecb1ba2989c2900a17d0180799d16b9fb3b737a0a5db48774b"
+    },
+    {
+      "path": "soodles.py",
+      "role": "implementation",
+      "sha256": "f4b6fd277330e6d4b6aa5ead30f85737dec833669bb197e56f9090b5b1f03b90"
+    },
+    {
+      "path": "tests/test_issue_resume.py",
+      "role": "implementation",
+      "sha256": "21bf91333a90af823320966b994c5f4eafd5b923a0d9076bad01fc736938af29"
+    },
+    {
+      "path": "tests/test_quality.py",
+      "role": "implementation",
+      "sha256": "0c11ae1d601af67e39db90932b35b2158a25a4257870cbf364c2e079a8ec5905"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue execution",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#109"
+  },
+  "authorizes_landing": false
+}

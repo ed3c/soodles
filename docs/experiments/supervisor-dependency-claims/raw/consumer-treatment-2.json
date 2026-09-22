@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "arm": "treatment",
+  "consumer": "treatment-2",
+  "instruction_reads": [
+    {
+      "path": "docs/experiments/supervisor-dependency-claims/task.md",
+      "sha256": "6b50a70ee4151dadafce4abe8891a68a81be29184717c2718ec741ced38dab2a"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222"
+    },
+    {
+      "path": "docs/experiments/supervisor-dependency-claims/raw/treatment.json",
+      "sha256": "c2afad0c79fbe1eaba81445cef551c9525ae33ef433cc1f4fcbedf885cf1c0ac"
+    }
+  ],
+  "decisions": [
+    {
+      "case": "dynamic",
+      "selected_action": "follow exact output.next provider_readback GET requests, then exact output.next.argv",
+      "route_kind": "provider_readback",
+      "owner_field": "landing.start",
+      "command_source": "output.next",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    },
+    {
+      "case": "independent",
+      "selected_action": "follow exact output.next provider_readback GET requests, then exact output.next.argv",
+      "route_kind": "provider_readback",
+      "owner_field": "landing.start",
+      "command_source": "output.next",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    },
+    {
+      "case": "malformed",
+      "selected_action": "stop",
+      "route_kind": "input",
+      "owner_field": "landing.start",
+      "command_source": "output.next",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    },
+    {
+      "case": "wrong_revision",
+      "selected_action": "follow exact read-only GETs in output.next.requests",
+      "route_kind": "provider_readback",
+      "owner_field": "landing.start",
+      "command_source": "output.next.requests",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    },
+    {
+      "case": "missing_result",
+      "selected_action": "follow exact read-only GETs in output.next.requests",
+      "route_kind": "provider_readback",
+      "owner_field": "landing.start",
+      "command_source": "output.next.requests",
+      "guessed_fields": [],
+      "supported": true,
+      "effect_selected": false
+    }
+  ],
+  "totals": {
+    "dynamic_routes": 1,
+    "independent_routes": 1,
+    "recovery_readbacks": 2,
+    "effect_routes_on_refusal": 0,
+    "repository_guesses": 0,
+    "instruction_reads": 3
+  },
+  "authorizes_landing": false
+}

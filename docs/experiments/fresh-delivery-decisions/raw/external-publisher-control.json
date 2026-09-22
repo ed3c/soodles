@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "publisher_selection": {
+    "source_commit": "a2e46631b59b1f304391bfcd49615cdd9f6124e7",
+    "source_tree": "8a402ee881c1036b9f79f22c9f29cb742b634d57",
+    "original_verifier_sha256": "432cba4aaab9975bb087484db3d600c239d8881c1b90d3eaf018c24639a431e5",
+    "corrected_landing_sha256": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+    "corrected_verifier_sha256": "6d3ca318a31336668efbf865ebfe12d572f53de286e510f5a708c61e6c3b29e0",
+    "selection": "original pinned publisher plus the Issue 99 landing.py correction, outside the candidate checkout and before successor candidate acceptance"
+  },
+  "fixture": {
+    "kind": "provider-shaped synthetic control",
+    "claim_sha256": "07487f708b5d8636004d2e0500e57ae00bc7f6c3accc0f173c1d1c95c10a4066",
+    "snapshot_sha256": "9fd09eddca5ee9daa1adcdf754c386a14d1a34daa4a274f3de59e53e2432ef0f",
+    "driver_sha256": "b719cb36a12fd7070acc9aada9631a5b60e95a0169ee39b018235c0064c26788",
+    "provider_truth": false
+  },
+  "harness_attempts": [
+    {
+      "result": "ERROR",
+      "reason": "external publisher directory was absent from sys.path",
+      "owner_entered": false,
+      "checkpoint_created": false
+    },
+    {
+      "result": "ERROR",
+      "reason": "claim fixture carried a leading patch marker and was invalid JSON",
+      "owner_entered": false,
+      "checkpoint_created": false
+    }
+  ],
+  "control": {
+    "classification": "PASS",
+    "negative": {
+      "mutation": "remove exact candidate evidence workflow step",
+      "refusal_field": "job.candidate_evidence",
+      "checkpoint_created": false
+    },
+    "positive": {
+      "scope": "supervised single-Issue cloud landing",
+      "execution_envelope_present": false,
+      "request_created": false
+    }
+  },
+  "authorizes_landing": false
+}

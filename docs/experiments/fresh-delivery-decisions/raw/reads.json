@@ -1,0 +1,674 @@
+{
+  "A1": {
+    "stdout_path": "raw/read-A.txt",
+    "request": {
+      "argv": [
+        "/usr/bin/cat",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/A.json"
+      ],
+      "cwd": "/workspace/scratch/7aed8f223770",
+      "time_ns": 1789906140684264691,
+      "files_before": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/A.json": {
+          "bytes": 981,
+          "sha256": "d9c72507b0bc2bbc7073452771cb501412e106285f2f9ba9f43b7753c6639e6d",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "timeout_seconds": 60
+    },
+    "result": {
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.0027261169998382684,
+      "files_after": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/A.json": {
+          "bytes": 981,
+          "sha256": "d9c72507b0bc2bbc7073452771cb501412e106285f2f9ba9f43b7753c6639e6d",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "stdout_sha256": "7c8c1ec97de00bb2c80d6069ca958430bda4b285aa9c7413563f264483327be4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "A2": {
+    "stdout_path": "raw/read-A.txt",
+    "request": {
+      "argv": [
+        "/usr/bin/cat",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/A.json"
+      ],
+      "cwd": "/workspace/scratch/7aed8f223770",
+      "time_ns": 1789906204504087201,
+      "files_before": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/A.json": {
+          "bytes": 981,
+          "sha256": "d9c72507b0bc2bbc7073452771cb501412e106285f2f9ba9f43b7753c6639e6d",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "timeout_seconds": 60
+    },
+    "result": {
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.0026405199969303794,
+      "files_after": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/A.json": {
+          "bytes": 981,
+          "sha256": "d9c72507b0bc2bbc7073452771cb501412e106285f2f9ba9f43b7753c6639e6d",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "stdout_sha256": "7c8c1ec97de00bb2c80d6069ca958430bda4b285aa9c7413563f264483327be4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "B1": {
+    "stdout_path": "raw/read-B.txt",
+    "request": {
+      "argv": [
+        "/usr/bin/cat",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/B.json"
+      ],
+      "cwd": "/workspace/scratch/7aed8f223770",
+      "time_ns": 1789906150656021358,
+      "files_before": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/B.json": {
+          "bytes": 996,
+          "sha256": "e4b9df349dc2107633460472b4c9cf539c0981f612a4dc3cdd7d86465a8b73a6",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "timeout_seconds": 60
+    },
+    "result": {
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.002456095997331431,
+      "files_after": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/B.json": {
+          "bytes": 996,
+          "sha256": "e4b9df349dc2107633460472b4c9cf539c0981f612a4dc3cdd7d86465a8b73a6",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "stdout_sha256": "ccd601ca3f822315a0c271730eb34db7fd33d173dc53cb57d9beed756433ec62",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "B2": {
+    "stdout_path": "raw/read-B.txt",
+    "request": {
+      "argv": [
+        "/usr/bin/cat",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/B.json"
+      ],
+      "cwd": "/workspace/scratch/7aed8f223770",
+      "time_ns": 1789906237371088515,
+      "files_before": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/B.json": {
+          "bytes": 996,
+          "sha256": "e4b9df349dc2107633460472b4c9cf539c0981f612a4dc3cdd7d86465a8b73a6",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "timeout_seconds": 60
+    },
+    "result": {
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.002878502000385197,
+      "files_after": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/B.json": {
+          "bytes": 996,
+          "sha256": "e4b9df349dc2107633460472b4c9cf539c0981f612a4dc3cdd7d86465a8b73a6",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "stdout_sha256": "ccd601ca3f822315a0c271730eb34db7fd33d173dc53cb57d9beed756433ec62",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "C1": {
+    "stdout_path": "raw/read-C.txt",
+    "request": {
+      "argv": [
+        "/usr/bin/cat",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/C.json"
+      ],
+      "cwd": "/workspace/scratch/7aed8f223770",
+      "time_ns": 1789906162805406855,
+      "files_before": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/C.json": {
+          "bytes": 3477,
+          "sha256": "9a868a24647be280386db9c4d7bcb91f8e6851edbfebf8f238135adc507c4854",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "timeout_seconds": 60
+    },
+    "result": {
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.0020238750003045425,
+      "files_after": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/C.json": {
+          "bytes": 3477,
+          "sha256": "9a868a24647be280386db9c4d7bcb91f8e6851edbfebf8f238135adc507c4854",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "stdout_sha256": "6a871ad1e7d8db4f4ebc479f44f808b88db4648d2029790fb66e3ffa5d97262a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "C2": {
+    "stdout_path": "raw/read-C.txt",
+    "request": {
+      "argv": [
+        "/usr/bin/cat",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/C.json"
+      ],
+      "cwd": "/workspace/scratch/7aed8f223770",
+      "time_ns": 1789906254547037354,
+      "files_before": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/C.json": {
+          "bytes": 3477,
+          "sha256": "9a868a24647be280386db9c4d7bcb91f8e6851edbfebf8f238135adc507c4854",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "timeout_seconds": 60
+    },
+    "result": {
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.00151817400183063,
+      "files_after": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/C.json": {
+          "bytes": 3477,
+          "sha256": "9a868a24647be280386db9c4d7bcb91f8e6851edbfebf8f238135adc507c4854",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "stdout_sha256": "6a871ad1e7d8db4f4ebc479f44f808b88db4648d2029790fb66e3ffa5d97262a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "D1": {
+    "stdout_path": "raw/read-D.txt",
+    "request": {
+      "argv": [
+        "/usr/bin/cat",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/D.json"
+      ],
+      "cwd": "/workspace/scratch/7aed8f223770",
+      "time_ns": 1789906176704639729,
+      "files_before": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/D.json": {
+          "bytes": 3342,
+          "sha256": "49e0c7cd7b6def2d02985be7ddd5663fafa38d46ef6dfb69e46a4919ce4e033f",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "timeout_seconds": 60
+    },
+    "result": {
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.0017558260005898774,
+      "files_after": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/D.json": {
+          "bytes": 3342,
+          "sha256": "49e0c7cd7b6def2d02985be7ddd5663fafa38d46ef6dfb69e46a4919ce4e033f",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "stdout_sha256": "e97a755014caf20a5b9e99f74442afebf8609af6a689ab0062b47a62daf4e2be",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "D2": {
+    "stdout_path": "raw/read-D.txt",
+    "request": {
+      "argv": [
+        "/usr/bin/cat",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json",
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/D.json"
+      ],
+      "cwd": "/workspace/scratch/7aed8f223770",
+      "time_ns": 1789906265516497487,
+      "files_before": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/D.json": {
+          "bytes": 3342,
+          "sha256": "49e0c7cd7b6def2d02985be7ddd5663fafa38d46ef6dfb69e46a4919ce4e033f",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "timeout_seconds": 60
+    },
+    "result": {
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "authorizes_landing": false,
+      "scope": "one_subprocess",
+      "elapsed_seconds": 0.0026309460008633323,
+      "files_after": {
+        "/usr/bin/cat": {
+          "bytes": 39384,
+          "sha256": "90c9437a02857838ccc0ce1ff8652691181bfb67135a1173dd276f91fa57d7ec",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/task.md": {
+          "bytes": 1466,
+          "sha256": "93271ff0a380636cf2d99931f5d764bc9cba7d97b2acb89bdc55619b07a6452d",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/context.json": {
+          "bytes": 53382,
+          "sha256": "63b614e225a78ba3dc286e0415aa34e54acf671a42221e51f513a3ec51c18d14",
+          "observed_from": [
+            "argv"
+          ]
+        },
+        "/workspace/scratch/7aed8f223770/issue91-work/docs/experiments/fresh-delivery-decisions/inputs/D.json": {
+          "bytes": 3342,
+          "sha256": "49e0c7cd7b6def2d02985be7ddd5663fafa38d46ef6dfb69e46a4919ce4e033f",
+          "observed_from": [
+            "argv"
+          ]
+        }
+      },
+      "stdout_sha256": "e97a755014caf20a5b9e99f74442afebf8609af6a689ab0062b47a62daf4e2be",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

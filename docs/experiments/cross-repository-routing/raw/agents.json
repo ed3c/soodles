@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "task": "Select the single owner-supported next action for four frozen cross-repository cases.",
+  "arms": {
+    "baseline": {
+      "receipts": [
+        "raw/consumer-base-1.json",
+        "raw/consumer-base-2.json",
+        "raw/consumer-base-3.json"
+      ],
+      "legal_route_available": 0,
+      "runs": 3,
+      "wrong_routes": 0,
+      "guessed_repository": 0,
+      "instruction_reads": [3, 3, 3]
+    },
+    "treatment": {
+      "receipts": [
+        "raw/consumer-treatment-1.json",
+        "raw/consumer-treatment-2.json",
+        "raw/consumer-treatment-3.json"
+      ],
+      "legal_route_available": 3,
+      "runs": 3,
+      "wrong_routes": 0,
+      "guessed_repository": 0,
+      "instruction_reads": [2, 2, 2],
+      "legal_provider_gets": 6,
+      "bound_deferred_argv": 3
+    }
+  },
+  "observed_change": {
+    "legal_route_availability": "0/3 -> 3/3",
+    "median_instruction_reads": "3 -> 2",
+    "wrong_routes": "0 -> 0",
+    "guessed_repository": "0 -> 0"
+  },
+  "scope": "One frozen Ops candidate and four cases; no provider transport or write was executed.",
+  "authorizes_landing": false
+}

@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 126
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-noodle/SKILL.md",
+      "baseline_sha256": "e2ac1576f4f41e08e50397ef1a7f73ecb9b9c7e44b2544f41450272d4ad6aff6",
+      "treatment_sha256": "555283bcb0f4c35f8f8a5b9cdce69e42675c953ecb334dd5a8eedbf221efe56d"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "provider_readback.py",
+      "role": "implementation",
+      "sha256": "abe12628d75295b7508164ff3135e661ac5285722d385d55e60291022bc6b41d"
+    },
+    {
+      "path": "provider-readback",
+      "role": "cli",
+      "sha256": "0e8434f5d3ee4f3cbcb0f0d8fd7de2e0057af96858d3fdd6668f526e622e932d"
+    },
+    {
+      "path": "tests/test_provider_readback.py",
+      "role": "hard_controls",
+      "sha256": "72851a71e25346760f17fafa4e860c76e8b7f851b8582a27b0914bd74e10ccf1"
+    },
+    {
+      "path": ".agents/skills/provider-readback/SKILL.md",
+      "role": "pclass_skill",
+      "sha256": "c3bff0c8bc40a2b511ac6296357218437e56b70a837728c427fa7c8265c8bb80"
+    },
+    {
+      "path": "contracts/provider-readback-v1.md",
+      "role": "stable_contract",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd"
+    },
+    {
+      "path": "docs/experiments/provider-readback-shortest-path/task.md",
+      "role": "bounded_task",
+      "sha256": "aa81990281d3660f74d5bc92a55bc611bdcff849013ee3d615224f6805b35e08"
+    },
+    {
+      "path": "docs/experiments/provider-readback-shortest-path/observer.py",
+      "role": "observer",
+      "sha256": "611d2f2bf3dff9153bf6c44cfe7e30f54cc03808a331ca05e0e341cb94dbbf30"
+    },
+    {
+      "path": "docs/experiments/provider-readback-shortest-path/results.md",
+      "role": "result",
+      "sha256": "15e27e35e022ea4fddd1ef31008ec0356cf22ee58085a0abce7fcd97453c340e"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#126"
+  },
+  "authorizes_landing": false
+}

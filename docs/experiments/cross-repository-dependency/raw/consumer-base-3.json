@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "arm": "baseline",
+  "consumer": "base-3",
+  "instruction_reads": [
+    {
+      "path": "/workspace/scratch/9af267d7b32b/soodles-full/docs/experiments/cross-repository-dependency/task.md",
+      "sha256": "a7b976ddaed9f01db506082be592cd2bc6cd813e45c75afc4511e474af16192b"
+    },
+    {
+      "path": "/workspace/scratch/9af267d7b32b/atom-dependency-base/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "675857ba7a5aadb3bb8096320e0919e92cca009548510930ca926a6a19856eab"
+    },
+    {
+      "path": "/workspace/scratch/9af267d7b32b/soodles-full/docs/experiments/cross-repository-dependency/raw/baseline.json",
+      "sha256": "ed78923fbfd62cc0889889ee95bb3f8f22ac48e9032bc4aa5fdbc52bc5907bae"
+    }
+  ],
+  "decisions": [
+    {
+      "case": "legal",
+      "selected_action": {
+        "kind": "provider_readback",
+        "owner": "GitHub",
+        "requests": {
+          "pr": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22"
+          },
+          "issue": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21"
+          },
+          "commit": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0"
+          },
+          "branch": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main"
+          },
+          "run": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263"
+          },
+          "jobs": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs"
+          }
+        },
+        "save_to": "/tmp/cross-repository-dependency-5diisekj/legal-readback.json"
+      },
+      "owner_field": "records.legal.output.next.owner",
+      "command_source": "records.legal.output.next.requests",
+      "guessed_fields": [],
+      "supported": true
+    },
+    {
+      "case": "closure_only",
+      "selected_action": "stop",
+      "owner_field": "records.closure_only.output.owner",
+      "command_source": "task.md: Issue closure alone is insufficient",
+      "guessed_fields": [],
+      "supported": false
+    },
+    {
+      "case": "wrong_repo",
+      "selected_action": "stop",
+      "owner_field": "records.wrong_repo.output.owner",
+      "command_source": "task.md: reject a foreign repository or repository mismatch",
+      "guessed_fields": [],
+      "supported": false
+    },
+    {
+      "case": "wrong_revision",
+      "selected_action": "stop",
+      "owner_field": "records.wrong_revision.output.owner",
+      "command_source": "task.md: reject a wrong revision or wrong head",
+      "guessed_fields": [],
+      "supported": false
+    },
+    {
+      "case": "stale",
+      "selected_action": "stop",
+      "owner_field": "records.stale.output.owner",
+      "command_source": "task.md: reject stale ancestry",
+      "guessed_fields": [],
+      "supported": false
+    },
+    {
+      "case": "missing_step",
+      "selected_action": "stop",
+      "owner_field": "records.missing_step.output.owner",
+      "command_source": "task.md: reject a missing producer acceptance step",
+      "guessed_fields": [],
+      "supported": false
+    }
+  ],
+  "totals": {
+    "legal_routes": 1,
+    "invalid_routes_selected": 0,
+    "repository_guesses": 0,
+    "instruction_reads": 3
+  },
+  "authorizes_landing": false
+}

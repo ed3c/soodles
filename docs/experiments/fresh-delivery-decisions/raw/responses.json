@@ -1,0 +1,98 @@
+{
+  "A1": {
+    "raw_final": "{\"action\":\"revise_candidate\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"fdb1e97af0d0e215b9d3d62b35d8e524f1036503\",\"owner\":\"Soodles Issue admission\",\"reason\":\"The current PR is open and unmerged, and candidate verification refused missing evidence/raw/noncase.json. Supply complete candidate evidence in a new immutable head on the same PR; do not repeat the unchanged failed head.\"}",
+    "agent": "/root/atom99_a1",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "MATCHING_CHOICE",
+      "violations": 0,
+      "errors": [],
+      "authorizes_landing": false
+    }
+  },
+  "B1": {
+    "raw_final": "{\"action\":\"consume_owner\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"9850fad6f61c7355884f610dbfe5947f10a9ddc4\",\"owner\":\"supervisor\",\"reason\":\"Candidate verification refused the instruction treatment digest and explicitly requires the supervisor to supply an execution_envelope before proceeding; the current PR remains open and unmerged.\"}",
+    "agent": "/root/atom99_b1",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "CHOICE_MISMATCH",
+      "violations": 1,
+      "errors": [
+        "next_action"
+      ],
+      "authorizes_landing": false
+    }
+  },
+  "C1": {
+    "raw_final": "{\"action\":\"consume_owner\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"2f3740d82b177efc6970474fb5c8ba8161668e60\",\"owner\":\"GitHub\",\"reason\":\"The current landing output requires fresh GitHub provider readback before dispatch. Candidate verification is VERIFIED but explicitly non-authorizing; consume next.requests before any transport.\"}",
+    "agent": "/root/atom99_c1",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "MATCHING_CHOICE",
+      "violations": 0,
+      "errors": [],
+      "authorizes_landing": false
+    }
+  },
+  "D1": {
+    "raw_final": "{\"action\":\"new_atom\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"2f3740d82b177efc6970474fb5c8ba8161668e60\",\"owner\":\"Soodles Issue admission\",\"reason\":\"The required artifact was discovered missing after the PR merged and the original delivery resolved. This post-merge defect requires a distinct corrective Issue and PR with a new rollback boundary.\"}",
+    "agent": "/root/atom99_d1",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "CHOICE_MISMATCH",
+      "violations": 1,
+      "errors": [
+        "next_owner"
+      ],
+      "authorizes_landing": false
+    }
+  },
+  "A2": {
+    "raw_final": "{\"action\":\"revise_candidate\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"fdb1e97af0d0e215b9d3d62b35d8e524f1036503\",\"owner\":\"Soodles Issue admission\",\"reason\":\"The current unmerged candidate is missing required evidence/raw/noncase.json. Complete the evidence on a new immutable head of the same PR; do not repeat the unchanged refused head.\"}",
+    "agent": "/root/atom99_a2",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "MATCHING_CHOICE",
+      "violations": 0,
+      "errors": [],
+      "authorizes_landing": false
+    }
+  },
+  "B2": {
+    "raw_final": "{\"action\":\"consume_owner\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"9850fad6f61c7355884f610dbfe5947f10a9ddc4\",\"owner\":\"supervisor\",\"reason\":\"Current candidate verification refused the instruction treatment digest and explicitly requires a supervisor-supplied execution_envelope next; consume that prerequisite before candidate correction or transport.\"}",
+    "agent": "/root/atom99_b2",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "CHOICE_MISMATCH",
+      "violations": 1,
+      "errors": [
+        "next_action"
+      ],
+      "authorizes_landing": false
+    }
+  },
+  "C2": {
+    "raw_final": "{\"action\":\"consume_owner\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"2f3740d82b177efc6970474fb5c8ba8161668e60\",\"owner\":\"GitHub\",\"reason\":\"The current owner requires fresh provider readback for dispatch in merge_pending. Consume its exact-subject GET requests before any transport; the VERIFIED candidate receipt does not authorize landing.\"}",
+    "agent": "/root/atom99_c2",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "MATCHING_CHOICE",
+      "violations": 0,
+      "errors": [],
+      "authorizes_landing": false
+    }
+  },
+  "D2": {
+    "raw_final": "{\"action\":\"new_atom\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"2f3740d82b177efc6970474fb5c8ba8161668e60\",\"owner\":\"Soodles Issue admission\",\"reason\":\"The required artifact was discovered missing after the PR merged and the Issue reached RESOLVED. This post-merge defect requires a distinct corrective Issue and PR with a new rollback boundary.\"}",
+    "agent": "/root/atom99_d2",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "CHOICE_MISMATCH",
+      "violations": 1,
+      "errors": [
+        "next_owner"
+      ],
+      "authorizes_landing": false
+    }
+  }
+}

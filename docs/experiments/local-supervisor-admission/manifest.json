@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 118
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/README.md",
+      "baseline_sha256": "da22804e0e59c7b25e0908dfebdf8367af9f2ba3d809e6354136e3674d910c4c",
+      "treatment_sha256": "f8fc77b9d2d21d225c5149249c293e58b3c3683eb8dcff58972176b929e03300"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "role": "verification_recipe",
+      "sha256": "650936511f8cff90354cfd4848b2adb174e8ac1bf9e1194f0e7d81533e9c7500"
+    },
+    {
+      "path": "docs/experiments/local-supervisor-admission/task.md",
+      "role": "bounded_task",
+      "sha256": "e848588d96c6a29d5ade362ae7196df9e8c295a961cc43d5984d07f4dd851d4b"
+    },
+    {
+      "path": "docs/experiments/local-supervisor-admission/observer.py",
+      "role": "bounded_observer",
+      "sha256": "89043b6f7d122d15959a3d1a7040fee38e44ddec0fb765cef9407062354b6ec8"
+    },
+    {
+      "path": "docs/experiments/local-supervisor-admission/results.md",
+      "role": "bounded_result",
+      "sha256": "e7eee7e55c0305f08d77118d1057142db5ebce2df9730514e07a537c3a9f9d37"
+    },
+    {
+      "path": "supervisor-admission",
+      "role": "command_shim",
+      "sha256": "c3b962697a0a89b312e52f18101803a785fa630e8bdd89b252f55d1ff4e66ced"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "implementation",
+      "sha256": "6a7f0e8bdaa418ae9c14486e30947fb9f20380e620bcea551d880347d04819bc"
+    },
+    {
+      "path": "tests/test_supervisor_admission.py",
+      "role": "implementation_control",
+      "sha256": "1f572cc5f2c105119d2373453e86be3bf6276333dfe2e3364c29a6e1f9432a4c"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#118"
+  },
+  "authorizes_landing": false
+}

@@ -1,0 +1,650 @@
+{
+  "schema": 1,
+  "arm": "treatment",
+  "source": "/workspace/scratch/9af267d7b32b/soodles-full",
+  "observer_sha256": "95ceb879404d2da537b3d59b2d2600c0d212ebb245b18a6bd977ab974f28a953",
+  "task_sha256": "a7b976ddaed9f01db506082be592cd2bc6cd813e45c75afc4511e474af16192b",
+  "records": {
+    "legal": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-dependency-snueh9jv/legal-claim.json",
+        "/tmp/cross-repository-dependency-snueh9jv/legal-readback.json",
+        "/tmp/cross-repository-dependency-snueh9jv/legal-checkpoint.json"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"action\": \"readback\",\n  \"phase\": \"admitted\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/cross-repository-dependency-snueh9jv/legal-checkpoint.json\",\n      \"readback\": \"/tmp/cross-repository-dependency-snueh9jv/legal-readback.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/soodles-full/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs\"\n      },\n      \"dependency_issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/111\"\n      },\n      \"dependency_pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/112\"\n      },\n      \"dependency_commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d\"\n      },\n      \"dependency_branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"dependency_ancestry\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main\"\n      },\n      \"dependency_run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068\"\n      },\n      \"dependency_jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/soodles-full/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/cross-repository-dependency-snueh9jv/legal-checkpoint.json\",\n      \"/tmp/cross-repository-dependency-snueh9jv/legal-readback.json\"\n    ]\n  },\n  \"checkpoint\": \"/tmp/cross-repository-dependency-snueh9jv/legal-checkpoint.json\"\n}\n",
+      "stderr": "",
+      "output": {
+        "owner": "landing.start",
+        "action": "readback",
+        "phase": "admitted",
+        "classification": null,
+        "next": {
+          "kind": "provider_readback",
+          "owner": "GitHub",
+          "operation": "advance",
+          "required": [
+            "readback"
+          ],
+          "known": {
+            "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/legal-checkpoint.json",
+            "readback": "/tmp/cross-repository-dependency-snueh9jv/legal-readback.json"
+          },
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+            "landing",
+            "advance",
+            "--help"
+          ],
+          "requests": {
+            "pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22"
+            },
+            "issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21"
+            },
+            "commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0"
+            },
+            "branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main"
+            },
+            "run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263"
+            },
+            "jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs"
+            },
+            "dependency_issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/issues/111"
+            },
+            "dependency_pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/pulls/112"
+            },
+            "dependency_commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d"
+            },
+            "dependency_branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+            },
+            "dependency_ancestry": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main"
+            },
+            "dependency_run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068"
+            },
+            "dependency_jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs"
+            }
+          },
+          "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+          "argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+            "landing",
+            "advance",
+            "/tmp/cross-repository-dependency-snueh9jv/legal-checkpoint.json",
+            "/tmp/cross-repository-dependency-snueh9jv/legal-readback.json"
+          ]
+        },
+        "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/legal-checkpoint.json"
+      },
+      "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/legal-checkpoint.json",
+      "readback": "/tmp/cross-repository-dependency-snueh9jv/legal-readback.json"
+    },
+    "closure_only": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-dependency-snueh9jv/closure_only-claim.json",
+        "/tmp/cross-repository-dependency-snueh9jv/closure_only-readback.json",
+        "/tmp/cross-repository-dependency-snueh9jv/closure_only-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"dependency.pr\",\n    \"value\": null\n  },\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/cross-repository-dependency-snueh9jv/closure_only-checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/soodles-full/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs\"\n      },\n      \"dependency_issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/111\"\n      },\n      \"dependency_pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/112\"\n      },\n      \"dependency_commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d\"\n      },\n      \"dependency_branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"dependency_ancestry\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main\"\n      },\n      \"dependency_run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068\"\n      },\n      \"dependency_jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"reason\": \"Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\"\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid dependency.pr=None; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/soodles-full/soodles.py landing start --help; Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "dependency.pr",
+          "value": null
+        },
+        "next": {
+          "kind": "provider_readback",
+          "owner": "GitHub",
+          "operation": "start",
+          "required": [
+            "readback"
+          ],
+          "known": {
+            "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/closure_only-checkpoint.json"
+          },
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ],
+          "requests": {
+            "pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22"
+            },
+            "issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21"
+            },
+            "commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0"
+            },
+            "branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main"
+            },
+            "run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263"
+            },
+            "jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs"
+            },
+            "dependency_issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/issues/111"
+            },
+            "dependency_pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/pulls/112"
+            },
+            "dependency_commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d"
+            },
+            "dependency_branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+            },
+            "dependency_ancestry": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main"
+            },
+            "dependency_run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068"
+            },
+            "dependency_jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs"
+            }
+          },
+          "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+          "reason": "Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient."
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/closure_only-checkpoint.json",
+      "readback": "/tmp/cross-repository-dependency-snueh9jv/closure_only-readback.json"
+    },
+    "wrong_repo": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-dependency-snueh9jv/wrong_repo-claim.json",
+        "/tmp/cross-repository-dependency-snueh9jv/wrong_repo-readback.json",
+        "/tmp/cross-repository-dependency-snueh9jv/wrong_repo-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"dependency.pr.repository\",\n    \"value\": {\n      \"head\": \"ed3c/ops-reconciliation-copilot\",\n      \"base\": \"ed3c/ops-reconciliation-copilot\"\n    }\n  },\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/cross-repository-dependency-snueh9jv/wrong_repo-checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/soodles-full/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs\"\n      },\n      \"dependency_issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/111\"\n      },\n      \"dependency_pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/112\"\n      },\n      \"dependency_commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d\"\n      },\n      \"dependency_branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"dependency_ancestry\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main\"\n      },\n      \"dependency_run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068\"\n      },\n      \"dependency_jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"reason\": \"Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\"\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid dependency.pr.repository={'head': 'ed3c/ops-reconciliation-copilot', 'base': 'ed3c/ops-reconciliation-copilot'}; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/soodles-full/soodles.py landing start --help; Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "dependency.pr.repository",
+          "value": {
+            "head": "ed3c/ops-reconciliation-copilot",
+            "base": "ed3c/ops-reconciliation-copilot"
+          }
+        },
+        "next": {
+          "kind": "provider_readback",
+          "owner": "GitHub",
+          "operation": "start",
+          "required": [
+            "readback"
+          ],
+          "known": {
+            "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/wrong_repo-checkpoint.json"
+          },
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ],
+          "requests": {
+            "pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22"
+            },
+            "issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21"
+            },
+            "commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0"
+            },
+            "branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main"
+            },
+            "run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263"
+            },
+            "jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs"
+            },
+            "dependency_issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/issues/111"
+            },
+            "dependency_pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/pulls/112"
+            },
+            "dependency_commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d"
+            },
+            "dependency_branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+            },
+            "dependency_ancestry": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main"
+            },
+            "dependency_run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068"
+            },
+            "dependency_jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs"
+            }
+          },
+          "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+          "reason": "Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient."
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/wrong_repo-checkpoint.json",
+      "readback": "/tmp/cross-repository-dependency-snueh9jv/wrong_repo-readback.json"
+    },
+    "wrong_revision": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-dependency-snueh9jv/wrong_revision-claim.json",
+        "/tmp/cross-repository-dependency-snueh9jv/wrong_revision-readback.json",
+        "/tmp/cross-repository-dependency-snueh9jv/wrong_revision-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"dependency.commit.sha\",\n    \"value\": \"498f384337609fc2a76c1cb293aa100e5d639b0d\"\n  },\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/cross-repository-dependency-snueh9jv/wrong_revision-checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/soodles-full/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs\"\n      },\n      \"dependency_issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/111\"\n      },\n      \"dependency_pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/112\"\n      },\n      \"dependency_commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d\"\n      },\n      \"dependency_branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"dependency_ancestry\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main\"\n      },\n      \"dependency_run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068\"\n      },\n      \"dependency_jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"reason\": \"Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\"\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid dependency.commit.sha='498f384337609fc2a76c1cb293aa100e5d639b0d'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/soodles-full/soodles.py landing start --help; Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "dependency.commit.sha",
+          "value": "498f384337609fc2a76c1cb293aa100e5d639b0d"
+        },
+        "next": {
+          "kind": "provider_readback",
+          "owner": "GitHub",
+          "operation": "start",
+          "required": [
+            "readback"
+          ],
+          "known": {
+            "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/wrong_revision-checkpoint.json"
+          },
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ],
+          "requests": {
+            "pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22"
+            },
+            "issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21"
+            },
+            "commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0"
+            },
+            "branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main"
+            },
+            "run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263"
+            },
+            "jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs"
+            },
+            "dependency_issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/issues/111"
+            },
+            "dependency_pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/pulls/112"
+            },
+            "dependency_commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d"
+            },
+            "dependency_branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+            },
+            "dependency_ancestry": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main"
+            },
+            "dependency_run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068"
+            },
+            "dependency_jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs"
+            }
+          },
+          "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+          "reason": "Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient."
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/wrong_revision-checkpoint.json",
+      "readback": "/tmp/cross-repository-dependency-snueh9jv/wrong_revision-readback.json"
+    },
+    "stale": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-dependency-snueh9jv/stale-claim.json",
+        "/tmp/cross-repository-dependency-snueh9jv/stale-readback.json",
+        "/tmp/cross-repository-dependency-snueh9jv/stale-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"dependency.ancestry.status\",\n    \"value\": \"behind\"\n  },\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/cross-repository-dependency-snueh9jv/stale-checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/soodles-full/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs\"\n      },\n      \"dependency_issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/111\"\n      },\n      \"dependency_pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/112\"\n      },\n      \"dependency_commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d\"\n      },\n      \"dependency_branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"dependency_ancestry\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main\"\n      },\n      \"dependency_run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068\"\n      },\n      \"dependency_jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"reason\": \"Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\"\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid dependency.ancestry.status='behind'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/soodles-full/soodles.py landing start --help; Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "dependency.ancestry.status",
+          "value": "behind"
+        },
+        "next": {
+          "kind": "provider_readback",
+          "owner": "GitHub",
+          "operation": "start",
+          "required": [
+            "readback"
+          ],
+          "known": {
+            "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/stale-checkpoint.json"
+          },
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ],
+          "requests": {
+            "pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22"
+            },
+            "issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21"
+            },
+            "commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0"
+            },
+            "branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main"
+            },
+            "run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263"
+            },
+            "jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs"
+            },
+            "dependency_issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/issues/111"
+            },
+            "dependency_pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/pulls/112"
+            },
+            "dependency_commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d"
+            },
+            "dependency_branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+            },
+            "dependency_ancestry": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main"
+            },
+            "dependency_run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068"
+            },
+            "dependency_jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs"
+            }
+          },
+          "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+          "reason": "Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient."
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/stale-checkpoint.json",
+      "readback": "/tmp/cross-repository-dependency-snueh9jv/stale-readback.json"
+    },
+    "missing_step": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+        "landing",
+        "start",
+        "/tmp/cross-repository-dependency-snueh9jv/missing_step-claim.json",
+        "/tmp/cross-repository-dependency-snueh9jv/missing_step-readback.json",
+        "/tmp/cross-repository-dependency-snueh9jv/missing_step-checkpoint.json"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"dependency.job.acceptance\",\n    \"value\": {\n      \"job\": \"runtime-evidence\",\n      \"steps\": []\n    }\n  },\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"start\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/cross-repository-dependency-snueh9jv/missing_step-checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/soodles-full/soodles.py\",\n      \"landing\",\n      \"start\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs\"\n      },\n      \"dependency_issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/111\"\n      },\n      \"dependency_pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/112\"\n      },\n      \"dependency_commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d\"\n      },\n      \"dependency_branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"dependency_ancestry\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main\"\n      },\n      \"dependency_run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068\"\n      },\n      \"dependency_jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"reason\": \"Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\"\n  }\n}\n",
+      "stderr": "REFUSED: landing.start: invalid dependency.job.acceptance={'job': 'runtime-evidence', 'steps': []}; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python -B /workspace/scratch/9af267d7b32b/soodles-full/soodles.py landing start --help; Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient.\n",
+      "output": {
+        "owner": "landing.start",
+        "status": "refused",
+        "invalid": {
+          "field": "dependency.job.acceptance",
+          "value": {
+            "job": "runtime-evidence",
+            "steps": []
+          }
+        },
+        "next": {
+          "kind": "provider_readback",
+          "owner": "GitHub",
+          "operation": "start",
+          "required": [
+            "readback"
+          ],
+          "known": {
+            "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/missing_step-checkpoint.json"
+          },
+          "help_argv": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+            "-B",
+            "/workspace/scratch/9af267d7b32b/soodles-full/soodles.py",
+            "landing",
+            "start",
+            "--help"
+          ],
+          "requests": {
+            "pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/pulls/22"
+            },
+            "issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/issues/21"
+            },
+            "commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/git/commits/e3c530340aa8d8070206b0a893b9a9aef5e462d0"
+            },
+            "branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/branches/main"
+            },
+            "run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263"
+            },
+            "jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/ops-reconciliation-copilot/actions/runs/35217009263/jobs"
+            },
+            "dependency_issue": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/issues/111"
+            },
+            "dependency_pr": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/pulls/112"
+            },
+            "dependency_commit": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/git/commits/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d"
+            },
+            "dependency_branch": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+            },
+            "dependency_ancestry": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/compare/b7dd55ab1074d28afe83dae3a469fc5e6f5ad36d...main"
+            },
+            "dependency_run": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068"
+            },
+            "dependency_jobs": {
+              "method": "GET",
+              "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/35541786068/jobs"
+            }
+          },
+          "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+          "reason": "Supply every registered producer GET in next.requests, then re-enter start with the changed readback. Issue closure alone is insufficient."
+        }
+      },
+      "checkpoint": "/tmp/cross-repository-dependency-snueh9jv/missing_step-checkpoint.json",
+      "readback": "/tmp/cross-repository-dependency-snueh9jv/missing_step-readback.json"
+    }
+  },
+  "authorizes_landing": false,
+  "evaluation": {
+    "classification": "VERIFIED",
+    "failures": []
+  },
+  "sensitivity": [
+    {
+      "plant": "closure_accepted",
+      "rejected": true
+    },
+    {
+      "plant": "wrong_repo_accepted",
+      "rejected": true
+    },
+    {
+      "plant": "wrong_revision_accepted",
+      "rejected": true
+    },
+    {
+      "plant": "stale_accepted",
+      "rejected": true
+    },
+    {
+      "plant": "missing_dependency_request",
+      "rejected": true
+    }
+  ]
+}

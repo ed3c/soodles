@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/issue105-frozen-handoff-oracle.py", line 341, in <module>
+    print(json.dumps(handoff_probe(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else None), indent=2))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/issue105-frozen-handoff-oracle.py", line 315, in handoff_probe
+    current_next = _consume_probe(outside, source or Path(__file__).resolve().parent)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/issue105-frozen-handoff-oracle.py", line 181, in _consume_probe
+    raise RuntimeError("current-next consumer did not preserve exactly-once offer state")
+RuntimeError: current-next consumer did not preserve exactly-once offer state

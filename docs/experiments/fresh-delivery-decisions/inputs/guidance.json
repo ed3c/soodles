@@ -1,0 +1,604 @@
+{
+  "arms": {
+    "baseline": {
+      "input": {
+        "authorization": "Read and return the next handoff only; no effects.",
+        "available_inputs": "Issue identity, current candidate and owning readbacks, prior delivery status, supervisor authorization for the handoff are supplied.",
+        "candidate_output": {
+          "authorizes_landing": false,
+          "invalid": {
+            "field": "candidate.instruction.treatment_sha256",
+            "value": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "supervisor",
+            "required": [
+              "execution_envelope"
+            ]
+          },
+          "owner": "candidate.verify",
+          "status": "refused"
+        },
+        "case": "B",
+        "discovered_at": "2026-09-20T00:30:00Z",
+        "discovery": "Current candidate verification readback attached.",
+        "fixture": true,
+        "owner_output": null,
+        "subject": {
+          "head": "149adac52f71c78d4507b4425ff9d04ed0a7ab43",
+          "issue": 1,
+          "merged": false,
+          "pr": 2,
+          "repository": "ed3c/soodles",
+          "state": "open"
+        }
+      },
+      "module_sha256": "bf4822934f4759068600189b5482832a3c381cf5f08769492dddd24145838eae",
+      "observations": {
+        "A": {
+          "base": "8d753d0dbf907122ff95028355abffedcd98f259",
+          "head": "2453eb07539dfe4d927331328f61b68b90bfb152",
+          "input": {
+            "body": "<!-- soodles:execution-v1 -->\n```json\n{\n  \"acceptance\": \"The frozen observer records treatment GREEN.\",\n  \"base_head\": \"8d753d0dbf907122ff95028355abffedcd98f259\",\n  \"behavior\": [\n    \"Invalid exact candidate bytes refuse.\"\n  ],\n  \"changes\": [\n    \"Verify the exact candidate tree before runtime acceptance.\"\n  ],\n  \"defect_controls\": [\n    \"Change one bound byte.\"\n  ],\n  \"delivery\": \"One non-authorizing candidate receipt.\",\n  \"dependencies\": [],\n  \"evidence_manifest\": \"evidence/manifest.json\",\n  \"feature_scope\": \"Exact candidate byte binding only.\",\n  \"frozen_paths\": [\n    {\n      \"path\": \"evidence/task.md\",\n      \"revision\": \"head\",\n      \"sha256\": \"4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975\"\n    },\n    {\n      \"path\": \"evidence/observer.py\",\n      \"revision\": \"head\",\n      \"sha256\": \"5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec\"\n    }\n  ],\n  \"non_cases\": [\n    \"The complete candidate remains legal.\"\n  ],\n  \"owner\": \"Soodles candidate verification\",\n  \"reconciliation\": \"Read back the exact provider head.\",\n  \"required_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ],\n  \"schema\": 3,\n  \"source\": \"Externally frozen exact-head observer.\",\n  \"trigger\": \"Exact candidate bytes can avoid the workflow gate.\",\n  \"write_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ]\n}\n```\n<!-- /soodles:execution-v1 -->\n",
+            "html_url": "https://github.com/ed3c/soodles/issues/1",
+            "number": 1,
+            "state": "open",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+          },
+          "manifest": {
+            "artifacts": [
+              {
+                "path": "evidence/task.md",
+                "role": "fixture",
+                "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+              },
+              {
+                "path": "evidence/observer.py",
+                "role": "fixture",
+                "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+              },
+              {
+                "path": "evidence/raw/baseline.json",
+                "role": "fixture",
+                "sha256": "6c366795794de3a3ff7dda6fd92cfe4da4b90b3e2015f50f0e271812247939c7"
+              },
+              {
+                "path": "evidence/raw/treatment.json",
+                "role": "fixture",
+                "sha256": "760a415b24cebde09c74347efbc90439b1188cf10a2354c5863a57b276a6718f"
+              },
+              {
+                "path": "evidence/raw/noncase.json",
+                "role": "fixture",
+                "sha256": "dddad13428b76952ad297bb6f2033665183edfff8e057c38acfc26c26897b477"
+              },
+              {
+                "path": "evidence/results.md",
+                "role": "fixture",
+                "sha256": "5b2e05edf90b69bebd1b276b5e2ab734296ed46f77836b07075488937a242ed8"
+              }
+            ],
+            "authorizes_landing": false,
+            "instructions": [
+              {
+                "baseline_sha256": "51859ac9e2e66e5ac47ec4ddad987a3c1e00f18a2e7d42f52caffa5801701156",
+                "path": "policy.md",
+                "treatment_sha256": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+              }
+            ],
+            "issue": {
+              "number": 1,
+              "repository": "ed3c/soodles"
+            },
+            "owner": {
+              "authorization": "ed3c/soodles#1",
+              "name": "Soodles Issue admission",
+              "tool": "issue_admission.validate_delivery_paths"
+            },
+            "schema": 1
+          },
+          "output": {
+            "authorizes_landing": false,
+            "invalid": {
+              "field": "candidate.missing_required_paths",
+              "value": [
+                "evidence/raw/noncase.json"
+              ]
+            },
+            "next": {
+              "kind": "input",
+              "owner": "Soodles Issue admission",
+              "required": [
+                "complete_candidate_evidence"
+              ]
+            },
+            "owner": "candidate.verify",
+            "status": "refused"
+          },
+          "tree": "081d975e2dd13c669a1147ca0e30d4a37205264d"
+        },
+        "B": {
+          "base": "8d753d0dbf907122ff95028355abffedcd98f259",
+          "head": "149adac52f71c78d4507b4425ff9d04ed0a7ab43",
+          "input": {
+            "body": "<!-- soodles:execution-v1 -->\n```json\n{\n  \"acceptance\": \"The frozen observer records treatment GREEN.\",\n  \"base_head\": \"8d753d0dbf907122ff95028355abffedcd98f259\",\n  \"behavior\": [\n    \"Invalid exact candidate bytes refuse.\"\n  ],\n  \"changes\": [\n    \"Verify the exact candidate tree before runtime acceptance.\"\n  ],\n  \"defect_controls\": [\n    \"Change one bound byte.\"\n  ],\n  \"delivery\": \"One non-authorizing candidate receipt.\",\n  \"dependencies\": [],\n  \"evidence_manifest\": \"evidence/manifest.json\",\n  \"feature_scope\": \"Exact candidate byte binding only.\",\n  \"frozen_paths\": [\n    {\n      \"path\": \"evidence/task.md\",\n      \"revision\": \"head\",\n      \"sha256\": \"4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975\"\n    },\n    {\n      \"path\": \"evidence/observer.py\",\n      \"revision\": \"head\",\n      \"sha256\": \"5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec\"\n    }\n  ],\n  \"non_cases\": [\n    \"The complete candidate remains legal.\"\n  ],\n  \"owner\": \"Soodles candidate verification\",\n  \"reconciliation\": \"Read back the exact provider head.\",\n  \"required_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ],\n  \"schema\": 3,\n  \"source\": \"Externally frozen exact-head observer.\",\n  \"trigger\": \"Exact candidate bytes can avoid the workflow gate.\",\n  \"write_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ]\n}\n```\n<!-- /soodles:execution-v1 -->\n",
+            "html_url": "https://github.com/ed3c/soodles/issues/1",
+            "number": 1,
+            "state": "open",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+          },
+          "manifest": {
+            "artifacts": [
+              {
+                "path": "evidence/task.md",
+                "role": "fixture",
+                "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+              },
+              {
+                "path": "evidence/observer.py",
+                "role": "fixture",
+                "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+              },
+              {
+                "path": "evidence/raw/baseline.json",
+                "role": "fixture",
+                "sha256": "6c366795794de3a3ff7dda6fd92cfe4da4b90b3e2015f50f0e271812247939c7"
+              },
+              {
+                "path": "evidence/raw/treatment.json",
+                "role": "fixture",
+                "sha256": "760a415b24cebde09c74347efbc90439b1188cf10a2354c5863a57b276a6718f"
+              },
+              {
+                "path": "evidence/raw/noncase.json",
+                "role": "fixture",
+                "sha256": "dddad13428b76952ad297bb6f2033665183edfff8e057c38acfc26c26897b477"
+              },
+              {
+                "path": "evidence/results.md",
+                "role": "fixture",
+                "sha256": "5b2e05edf90b69bebd1b276b5e2ab734296ed46f77836b07075488937a242ed8"
+              }
+            ],
+            "authorizes_landing": false,
+            "instructions": [
+              {
+                "baseline_sha256": "51859ac9e2e66e5ac47ec4ddad987a3c1e00f18a2e7d42f52caffa5801701156",
+                "path": "policy.md",
+                "treatment_sha256": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+              }
+            ],
+            "issue": {
+              "number": 1,
+              "repository": "ed3c/soodles"
+            },
+            "owner": {
+              "authorization": "ed3c/soodles#1",
+              "name": "Soodles Issue admission",
+              "tool": "issue_admission.validate_delivery_paths"
+            },
+            "schema": 1
+          },
+          "output": {
+            "authorizes_landing": false,
+            "invalid": {
+              "field": "candidate.instruction.treatment_sha256",
+              "value": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+            },
+            "next": {
+              "kind": "input",
+              "owner": "supervisor",
+              "required": [
+                "execution_envelope"
+              ]
+            },
+            "owner": "candidate.verify",
+            "status": "refused"
+          },
+          "tree": "7d4b2de954ea013f84b5049e350df16585357c34"
+        },
+        "C": {
+          "base": "8d753d0dbf907122ff95028355abffedcd98f259",
+          "head": "23ec3a9193901f43e996eb3fddade3b8011492e3",
+          "input": {
+            "body": "<!-- soodles:execution-v1 -->\n```json\n{\n  \"acceptance\": \"The frozen observer records treatment GREEN.\",\n  \"base_head\": \"8d753d0dbf907122ff95028355abffedcd98f259\",\n  \"behavior\": [\n    \"Invalid exact candidate bytes refuse.\"\n  ],\n  \"changes\": [\n    \"Verify the exact candidate tree before runtime acceptance.\"\n  ],\n  \"defect_controls\": [\n    \"Change one bound byte.\"\n  ],\n  \"delivery\": \"One non-authorizing candidate receipt.\",\n  \"dependencies\": [],\n  \"evidence_manifest\": \"evidence/manifest.json\",\n  \"feature_scope\": \"Exact candidate byte binding only.\",\n  \"frozen_paths\": [\n    {\n      \"path\": \"evidence/task.md\",\n      \"revision\": \"head\",\n      \"sha256\": \"4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975\"\n    },\n    {\n      \"path\": \"evidence/observer.py\",\n      \"revision\": \"head\",\n      \"sha256\": \"5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec\"\n    }\n  ],\n  \"non_cases\": [\n    \"The complete candidate remains legal.\"\n  ],\n  \"owner\": \"Soodles candidate verification\",\n  \"reconciliation\": \"Read back the exact provider head.\",\n  \"required_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ],\n  \"schema\": 3,\n  \"source\": \"Externally frozen exact-head observer.\",\n  \"trigger\": \"Exact candidate bytes can avoid the workflow gate.\",\n  \"write_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ]\n}\n```\n<!-- /soodles:execution-v1 -->\n",
+            "html_url": "https://github.com/ed3c/soodles/issues/1",
+            "number": 1,
+            "state": "open",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+          },
+          "manifest": {
+            "artifacts": [
+              {
+                "path": "evidence/task.md",
+                "role": "fixture",
+                "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+              },
+              {
+                "path": "evidence/observer.py",
+                "role": "fixture",
+                "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+              },
+              {
+                "path": "evidence/raw/baseline.json",
+                "role": "fixture",
+                "sha256": "6c366795794de3a3ff7dda6fd92cfe4da4b90b3e2015f50f0e271812247939c7"
+              },
+              {
+                "path": "evidence/raw/treatment.json",
+                "role": "fixture",
+                "sha256": "760a415b24cebde09c74347efbc90439b1188cf10a2354c5863a57b276a6718f"
+              },
+              {
+                "path": "evidence/raw/noncase.json",
+                "role": "fixture",
+                "sha256": "dddad13428b76952ad297bb6f2033665183edfff8e057c38acfc26c26897b477"
+              },
+              {
+                "path": "evidence/results.md",
+                "role": "fixture",
+                "sha256": "5b2e05edf90b69bebd1b276b5e2ab734296ed46f77836b07075488937a242ed8"
+              }
+            ],
+            "authorizes_landing": false,
+            "instructions": [
+              {
+                "baseline_sha256": "51859ac9e2e66e5ac47ec4ddad987a3c1e00f18a2e7d42f52caffa5801701156",
+                "path": "policy.md",
+                "treatment_sha256": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+              }
+            ],
+            "issue": {
+              "number": 1,
+              "repository": "ed3c/soodles"
+            },
+            "owner": {
+              "authorization": "ed3c/soodles#1",
+              "name": "Soodles Issue admission",
+              "tool": "issue_admission.validate_delivery_paths"
+            },
+            "schema": 1
+          },
+          "output": {
+            "authorizes_landing": false,
+            "base_head": "8d753d0dbf907122ff95028355abffedcd98f259",
+            "changed_paths": [
+              "evidence/manifest.json",
+              "evidence/observer.py",
+              "evidence/raw/baseline.json",
+              "evidence/raw/noncase.json",
+              "evidence/raw/treatment.json",
+              "evidence/results.md",
+              "evidence/task.md",
+              "policy.md"
+            ],
+            "classification": "VERIFIED",
+            "evidence_manifest_sha256": "0b5310876de5f36b0546169d6dff8c3a14aa62ec9e9ad6185ce3fa8150910220",
+            "frozen_paths": [
+              {
+                "actual_sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975",
+                "path": "evidence/task.md",
+                "revision": "head",
+                "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+              },
+              {
+                "actual_sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec",
+                "path": "evidence/observer.py",
+                "revision": "head",
+                "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+              }
+            ],
+            "head": "23ec3a9193901f43e996eb3fddade3b8011492e3",
+            "issue": 1,
+            "issue_body_sha256": "348168283b39cd379a81b10e6f8d33c8ca3ad4728a1e9fb5547c8937d349da15",
+            "owner": "candidate.verify",
+            "tree": "c5d1ffe054133fff2a4d5a17bb03c5eadede86c6"
+          },
+          "tree": "c5d1ffe054133fff2a4d5a17bb03c5eadede86c6"
+        }
+      }
+    },
+    "treatment": {
+      "input": {
+        "authorization": "Read and return the next handoff only; no effects.",
+        "available_inputs": "Issue identity, current candidate and owning readbacks, prior delivery status, supervisor authorization for the handoff are supplied.",
+        "candidate_output": {
+          "authorizes_landing": false,
+          "invalid": {
+            "field": "candidate.instruction.treatment_sha256",
+            "value": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Soodles Issue admission",
+            "required": [
+              "candidate_instruction_matches_frozen_evidence"
+            ]
+          },
+          "owner": "candidate.verify",
+          "status": "refused"
+        },
+        "case": "B",
+        "discovered_at": "2026-09-20T00:30:00Z",
+        "discovery": "Current candidate verification readback attached.",
+        "fixture": true,
+        "owner_output": null,
+        "subject": {
+          "head": "149adac52f71c78d4507b4425ff9d04ed0a7ab43",
+          "issue": 1,
+          "merged": false,
+          "pr": 2,
+          "repository": "ed3c/soodles",
+          "state": "open"
+        }
+      },
+      "module_sha256": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+      "observations": {
+        "A": {
+          "base": "8d753d0dbf907122ff95028355abffedcd98f259",
+          "head": "2453eb07539dfe4d927331328f61b68b90bfb152",
+          "input": {
+            "body": "<!-- soodles:execution-v1 -->\n```json\n{\n  \"acceptance\": \"The frozen observer records treatment GREEN.\",\n  \"base_head\": \"8d753d0dbf907122ff95028355abffedcd98f259\",\n  \"behavior\": [\n    \"Invalid exact candidate bytes refuse.\"\n  ],\n  \"changes\": [\n    \"Verify the exact candidate tree before runtime acceptance.\"\n  ],\n  \"defect_controls\": [\n    \"Change one bound byte.\"\n  ],\n  \"delivery\": \"One non-authorizing candidate receipt.\",\n  \"dependencies\": [],\n  \"evidence_manifest\": \"evidence/manifest.json\",\n  \"feature_scope\": \"Exact candidate byte binding only.\",\n  \"frozen_paths\": [\n    {\n      \"path\": \"evidence/task.md\",\n      \"revision\": \"head\",\n      \"sha256\": \"4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975\"\n    },\n    {\n      \"path\": \"evidence/observer.py\",\n      \"revision\": \"head\",\n      \"sha256\": \"5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec\"\n    }\n  ],\n  \"non_cases\": [\n    \"The complete candidate remains legal.\"\n  ],\n  \"owner\": \"Soodles candidate verification\",\n  \"reconciliation\": \"Read back the exact provider head.\",\n  \"required_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ],\n  \"schema\": 3,\n  \"source\": \"Externally frozen exact-head observer.\",\n  \"trigger\": \"Exact candidate bytes can avoid the workflow gate.\",\n  \"write_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ]\n}\n```\n<!-- /soodles:execution-v1 -->\n",
+            "html_url": "https://github.com/ed3c/soodles/issues/1",
+            "number": 1,
+            "state": "open",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+          },
+          "manifest": {
+            "artifacts": [
+              {
+                "path": "evidence/task.md",
+                "role": "fixture",
+                "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+              },
+              {
+                "path": "evidence/observer.py",
+                "role": "fixture",
+                "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+              },
+              {
+                "path": "evidence/raw/baseline.json",
+                "role": "fixture",
+                "sha256": "6c366795794de3a3ff7dda6fd92cfe4da4b90b3e2015f50f0e271812247939c7"
+              },
+              {
+                "path": "evidence/raw/treatment.json",
+                "role": "fixture",
+                "sha256": "760a415b24cebde09c74347efbc90439b1188cf10a2354c5863a57b276a6718f"
+              },
+              {
+                "path": "evidence/raw/noncase.json",
+                "role": "fixture",
+                "sha256": "dddad13428b76952ad297bb6f2033665183edfff8e057c38acfc26c26897b477"
+              },
+              {
+                "path": "evidence/results.md",
+                "role": "fixture",
+                "sha256": "5b2e05edf90b69bebd1b276b5e2ab734296ed46f77836b07075488937a242ed8"
+              }
+            ],
+            "authorizes_landing": false,
+            "instructions": [
+              {
+                "baseline_sha256": "51859ac9e2e66e5ac47ec4ddad987a3c1e00f18a2e7d42f52caffa5801701156",
+                "path": "policy.md",
+                "treatment_sha256": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+              }
+            ],
+            "issue": {
+              "number": 1,
+              "repository": "ed3c/soodles"
+            },
+            "owner": {
+              "authorization": "ed3c/soodles#1",
+              "name": "Soodles Issue admission",
+              "tool": "issue_admission.validate_delivery_paths"
+            },
+            "schema": 1
+          },
+          "output": {
+            "authorizes_landing": false,
+            "invalid": {
+              "field": "candidate.missing_required_paths",
+              "value": [
+                "evidence/raw/noncase.json"
+              ]
+            },
+            "next": {
+              "kind": "input",
+              "owner": "Soodles Issue admission",
+              "required": [
+                "complete_candidate_evidence"
+              ]
+            },
+            "owner": "candidate.verify",
+            "status": "refused"
+          },
+          "tree": "081d975e2dd13c669a1147ca0e30d4a37205264d"
+        },
+        "B": {
+          "base": "8d753d0dbf907122ff95028355abffedcd98f259",
+          "head": "149adac52f71c78d4507b4425ff9d04ed0a7ab43",
+          "input": {
+            "body": "<!-- soodles:execution-v1 -->\n```json\n{\n  \"acceptance\": \"The frozen observer records treatment GREEN.\",\n  \"base_head\": \"8d753d0dbf907122ff95028355abffedcd98f259\",\n  \"behavior\": [\n    \"Invalid exact candidate bytes refuse.\"\n  ],\n  \"changes\": [\n    \"Verify the exact candidate tree before runtime acceptance.\"\n  ],\n  \"defect_controls\": [\n    \"Change one bound byte.\"\n  ],\n  \"delivery\": \"One non-authorizing candidate receipt.\",\n  \"dependencies\": [],\n  \"evidence_manifest\": \"evidence/manifest.json\",\n  \"feature_scope\": \"Exact candidate byte binding only.\",\n  \"frozen_paths\": [\n    {\n      \"path\": \"evidence/task.md\",\n      \"revision\": \"head\",\n      \"sha256\": \"4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975\"\n    },\n    {\n      \"path\": \"evidence/observer.py\",\n      \"revision\": \"head\",\n      \"sha256\": \"5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec\"\n    }\n  ],\n  \"non_cases\": [\n    \"The complete candidate remains legal.\"\n  ],\n  \"owner\": \"Soodles candidate verification\",\n  \"reconciliation\": \"Read back the exact provider head.\",\n  \"required_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ],\n  \"schema\": 3,\n  \"source\": \"Externally frozen exact-head observer.\",\n  \"trigger\": \"Exact candidate bytes can avoid the workflow gate.\",\n  \"write_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ]\n}\n```\n<!-- /soodles:execution-v1 -->\n",
+            "html_url": "https://github.com/ed3c/soodles/issues/1",
+            "number": 1,
+            "state": "open",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+          },
+          "manifest": {
+            "artifacts": [
+              {
+                "path": "evidence/task.md",
+                "role": "fixture",
+                "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+              },
+              {
+                "path": "evidence/observer.py",
+                "role": "fixture",
+                "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+              },
+              {
+                "path": "evidence/raw/baseline.json",
+                "role": "fixture",
+                "sha256": "6c366795794de3a3ff7dda6fd92cfe4da4b90b3e2015f50f0e271812247939c7"
+              },
+              {
+                "path": "evidence/raw/treatment.json",
+                "role": "fixture",
+                "sha256": "760a415b24cebde09c74347efbc90439b1188cf10a2354c5863a57b276a6718f"
+              },
+              {
+                "path": "evidence/raw/noncase.json",
+                "role": "fixture",
+                "sha256": "dddad13428b76952ad297bb6f2033665183edfff8e057c38acfc26c26897b477"
+              },
+              {
+                "path": "evidence/results.md",
+                "role": "fixture",
+                "sha256": "5b2e05edf90b69bebd1b276b5e2ab734296ed46f77836b07075488937a242ed8"
+              }
+            ],
+            "authorizes_landing": false,
+            "instructions": [
+              {
+                "baseline_sha256": "51859ac9e2e66e5ac47ec4ddad987a3c1e00f18a2e7d42f52caffa5801701156",
+                "path": "policy.md",
+                "treatment_sha256": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+              }
+            ],
+            "issue": {
+              "number": 1,
+              "repository": "ed3c/soodles"
+            },
+            "owner": {
+              "authorization": "ed3c/soodles#1",
+              "name": "Soodles Issue admission",
+              "tool": "issue_admission.validate_delivery_paths"
+            },
+            "schema": 1
+          },
+          "output": {
+            "authorizes_landing": false,
+            "invalid": {
+              "field": "candidate.instruction.treatment_sha256",
+              "value": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+            },
+            "next": {
+              "kind": "input",
+              "owner": "Soodles Issue admission",
+              "required": [
+                "candidate_instruction_matches_frozen_evidence"
+              ]
+            },
+            "owner": "candidate.verify",
+            "status": "refused"
+          },
+          "tree": "7d4b2de954ea013f84b5049e350df16585357c34"
+        },
+        "C": {
+          "base": "8d753d0dbf907122ff95028355abffedcd98f259",
+          "head": "23ec3a9193901f43e996eb3fddade3b8011492e3",
+          "input": {
+            "body": "<!-- soodles:execution-v1 -->\n```json\n{\n  \"acceptance\": \"The frozen observer records treatment GREEN.\",\n  \"base_head\": \"8d753d0dbf907122ff95028355abffedcd98f259\",\n  \"behavior\": [\n    \"Invalid exact candidate bytes refuse.\"\n  ],\n  \"changes\": [\n    \"Verify the exact candidate tree before runtime acceptance.\"\n  ],\n  \"defect_controls\": [\n    \"Change one bound byte.\"\n  ],\n  \"delivery\": \"One non-authorizing candidate receipt.\",\n  \"dependencies\": [],\n  \"evidence_manifest\": \"evidence/manifest.json\",\n  \"feature_scope\": \"Exact candidate byte binding only.\",\n  \"frozen_paths\": [\n    {\n      \"path\": \"evidence/task.md\",\n      \"revision\": \"head\",\n      \"sha256\": \"4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975\"\n    },\n    {\n      \"path\": \"evidence/observer.py\",\n      \"revision\": \"head\",\n      \"sha256\": \"5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec\"\n    }\n  ],\n  \"non_cases\": [\n    \"The complete candidate remains legal.\"\n  ],\n  \"owner\": \"Soodles candidate verification\",\n  \"reconciliation\": \"Read back the exact provider head.\",\n  \"required_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ],\n  \"schema\": 3,\n  \"source\": \"Externally frozen exact-head observer.\",\n  \"trigger\": \"Exact candidate bytes can avoid the workflow gate.\",\n  \"write_paths\": [\n    \"policy.md\",\n    \"evidence/manifest.json\",\n    \"evidence/task.md\",\n    \"evidence/observer.py\",\n    \"evidence/raw/baseline.json\",\n    \"evidence/raw/treatment.json\",\n    \"evidence/raw/noncase.json\",\n    \"evidence/results.md\"\n  ]\n}\n```\n<!-- /soodles:execution-v1 -->\n",
+            "html_url": "https://github.com/ed3c/soodles/issues/1",
+            "number": 1,
+            "state": "open",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+          },
+          "manifest": {
+            "artifacts": [
+              {
+                "path": "evidence/task.md",
+                "role": "fixture",
+                "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+              },
+              {
+                "path": "evidence/observer.py",
+                "role": "fixture",
+                "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+              },
+              {
+                "path": "evidence/raw/baseline.json",
+                "role": "fixture",
+                "sha256": "6c366795794de3a3ff7dda6fd92cfe4da4b90b3e2015f50f0e271812247939c7"
+              },
+              {
+                "path": "evidence/raw/treatment.json",
+                "role": "fixture",
+                "sha256": "760a415b24cebde09c74347efbc90439b1188cf10a2354c5863a57b276a6718f"
+              },
+              {
+                "path": "evidence/raw/noncase.json",
+                "role": "fixture",
+                "sha256": "dddad13428b76952ad297bb6f2033665183edfff8e057c38acfc26c26897b477"
+              },
+              {
+                "path": "evidence/results.md",
+                "role": "fixture",
+                "sha256": "5b2e05edf90b69bebd1b276b5e2ab734296ed46f77836b07075488937a242ed8"
+              }
+            ],
+            "authorizes_landing": false,
+            "instructions": [
+              {
+                "baseline_sha256": "51859ac9e2e66e5ac47ec4ddad987a3c1e00f18a2e7d42f52caffa5801701156",
+                "path": "policy.md",
+                "treatment_sha256": "0d9f670c2fefc4a4bc6dc55802a7c3a25a70c89158bfe1eca4bc24e6dd4ff832"
+              }
+            ],
+            "issue": {
+              "number": 1,
+              "repository": "ed3c/soodles"
+            },
+            "owner": {
+              "authorization": "ed3c/soodles#1",
+              "name": "Soodles Issue admission",
+              "tool": "issue_admission.validate_delivery_paths"
+            },
+            "schema": 1
+          },
+          "output": {
+            "authorizes_landing": false,
+            "base_head": "8d753d0dbf907122ff95028355abffedcd98f259",
+            "changed_paths": [
+              "evidence/manifest.json",
+              "evidence/observer.py",
+              "evidence/raw/baseline.json",
+              "evidence/raw/noncase.json",
+              "evidence/raw/treatment.json",
+              "evidence/results.md",
+              "evidence/task.md",
+              "policy.md"
+            ],
+            "classification": "VERIFIED",
+            "evidence_manifest_sha256": "0b5310876de5f36b0546169d6dff8c3a14aa62ec9e9ad6185ce3fa8150910220",
+            "frozen_paths": [
+              {
+                "actual_sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975",
+                "path": "evidence/task.md",
+                "revision": "head",
+                "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+              },
+              {
+                "actual_sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec",
+                "path": "evidence/observer.py",
+                "revision": "head",
+                "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+              }
+            ],
+            "head": "23ec3a9193901f43e996eb3fddade3b8011492e3",
+            "issue": 1,
+            "issue_body_sha256": "348168283b39cd379a81b10e6f8d33c8ca3ad4728a1e9fb5547c8937d349da15",
+            "owner": "candidate.verify",
+            "tree": "c5d1ffe054133fff2a4d5a17bb03c5eadede86c6"
+          },
+          "tree": "c5d1ffe054133fff2a4d5a17bb03c5eadede86c6"
+        }
+      }
+    }
+  },
+  "authorizes_landing": false,
+  "scope": "real function calls on disposable identical Git fixtures; no transport"
+}

@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "classification": "OBSERVED_BARRIER_REDUCED",
+  "experiment": "P-only feature-map routing",
+  "baseline": {
+    "source": "e9cd8378bc1ff1570ca21261a2506dbd1ae57929",
+    "classification": "OBSERVED_BARRIER",
+    "barriers": [
+      "classification_mapped",
+      "selected_existing_feature",
+      "no_new_feature",
+      "not_delivery_complete"
+    ]
+  },
+  "treatment": {
+    "source": "a6b48138e7b129fa9ff49180df1594085a0ac8bf",
+    "classification": "NO_OBSERVED_BARRIER",
+    "barriers": []
+  },
+  "samples": {
+    "baseline": 1,
+    "treatment": 1
+  },
+  "same_task_input_sha256": "ecc10755d07e881aee423d3f75663baeb7de8daaa9b3e1bf9eddcd6711ed92d5",
+  "same_evaluator_sha256": "6617808d707fad221f1e8ca73e62fb03bdd01369d38f376c7b068944ae23fd2e",
+  "executable_unchanged": true,
+  "only_instruction_delta": ".agents/skills/verify-soodles/features/README.md",
+  "baseline_instruction_sha256": "f8fc77b9d2d21d225c5149249c293e58b3c3683eb8dcff58972176b929e03300",
+  "treatment_instruction_sha256": "ef4fea0685df8aff9172c2470c58f7c00f15ce455ce2a2e0476220713679066f",
+  "behavior_delta": [
+    "unmapped -> mapped",
+    "new feature required true -> false",
+    "delivery_complete true -> false"
+  ],
+  "side_effects": {
+    "consumer_external_operations": 0,
+    "source_changes": [
+      "feature README"
+    ],
+    "provider_operations": "Issue lifecycle only, outside behavior arms"
+  },
+  "test_environment": {
+    "TMPDIR": "/private/tmp",
+    "initial_inherited_identity_exit": 1,
+    "isolated_live_noodle_identity_exit": 0,
+    "tests": 301
+  },
+  "limits": [
+    "One task and two fresh native consumers; no universal prompt efficacy claim.",
+    "Native platform transcript/model/config/context/hidden reads remain incomplete or unknown.",
+    "Provider fixtures are L-class; exact live provider facts retain R-class scope.",
+    "Initial full suite inherited live NOODLE_* identity and failed one negative control; raw failure retained."
+  ],
+  "authorizes_landing": false
+}

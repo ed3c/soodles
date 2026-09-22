@@ -15,7 +15,8 @@ import urllib.error
 import urllib.request
 from email.utils import parsedate_to_datetime
 
-from issue_admission import AdmissionRefusal, REPOSITORY
+from issue_admission import AdmissionRefusal
+from repository_binding import issue_urls, profile, valid_name
 
 RATE_HEADERS = ("x-ratelimit-limit", "x-ratelimit-remaining", "x-ratelimit-used",
                 "x-ratelimit-reset", "x-ratelimit-resource", "retry-after")
@@ -84,14 +85,17 @@ def _deadline(headers, now):
     return max([now] + dates)
 
 
-def issue(number):
+def issue(repository, number):
+    if not valid_name(repository) or profile(repository) is None:
+        raise AdmissionRefusal("issue.repository", repository, "supervisor",
+                               "supported_repository_identity")
     if type(number) is not int or number <= 0:
         raise AdmissionRefusal("issue.number", number)
     token = os.environ.get("GH_TOKEN", "")
     if not token or any(not 33 <= ord(character) <= 126 for character in token):
         raise AdmissionRefusal("github.credential", "missing or invalid GH_TOKEN", "supervisor",
                                "repository_scoped_installation_token_in_GH_TOKEN")
-    url = f"https://api.github.com/repos/{REPOSITORY}/issues/{number}"
+    url, _ = issue_urls(repository, number)
     identity = _hash(token.encode())
     directory = Path(os.environ.get("XDG_CACHE_HOME", str(Path.home() / ".cache"))) / "soodles/github" / identity
     directory.mkdir(parents=True, exist_ok=True, mode=0o700)
@@ -163,8 +167,8 @@ def issue(number):
             raise AdmissionRefusal("issue.provider_readback", type(error).__name__, "GitHub", "fresh_issue_readback") from None
 
 
-def fetch_issue(number):
-    return issue(number)["issue"]
+def fetch_issue(repository, number):
+    return issue(repository, number)["issue"]
 
 
 def refusal_output(error):

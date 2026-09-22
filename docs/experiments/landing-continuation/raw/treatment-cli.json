@@ -1,0 +1,1029 @@
+{
+  "schema": 1,
+  "source_root": "/workspace/scratch/9af267d7b32b/atom/source",
+  "python": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+  "synthetic_provider": true,
+  "authorizes_landing": false,
+  "observer_sha256": "6116fd814314edafe1e2f2352b10bdba6c0ad9bfe9a681b103f9f744d52bd093",
+  "commands": [
+    {
+      "case": "identity",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "identity"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.identity\",\n  \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\",\n  \"next\": null\n}\n",
+      "stderr": "",
+      "readback_bytes": null,
+      "checkpoint_before": null,
+      "checkpoint_after": null,
+      "state_after": null
+    },
+    {
+      "case": "start",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "start",
+        "/tmp/continuation observer po8q42w0/claim with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"action\": \"readback\",\n  \"phase\": \"admitted\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  },\n  \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\"\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": null,
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"admitted\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": []\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "admitted",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": []
+      }
+    },
+    {
+      "case": "prepare",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "emitted_argv",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"dispatch\",\n  \"phase\": \"merge_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"dispatch\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"dispatch\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"dispatch\",\n      \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  }\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"admitted\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": []\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"prepared\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "merge_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [],
+        "delivery": {
+          "action": "merge",
+          "status": "prepared"
+        }
+      }
+    },
+    {
+      "case": "merge_offer",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "dispatch",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "emitted_argv",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.dispatch\",\n  \"action\": \"merge\",\n  \"phase\": \"merge_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  },\n  \"request\": {\n    \"action\": \"merge\",\n    \"repository_full_name\": \"ed3c/soodles\",\n    \"pr_number\": 2,\n    \"expected_head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"merge_method\": \"merge\"\n  }\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"prepared\"\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "merge_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge"
+        ],
+        "delivery": {
+          "action": "merge",
+          "status": "offered"
+        }
+      }
+    },
+    {
+      "case": "unknown_merge",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"readback\",\n  \"phase\": \"merge_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  }\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "merge_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge"
+        ],
+        "delivery": {
+          "action": "merge",
+          "status": "offered"
+        }
+      }
+    },
+    {
+      "case": "stale_dispatch",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "dispatch",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "historical_dispatch_replay_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.dispatch\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"dispatch.status\",\n    \"value\": \"offered\"\n  },\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.dispatch: invalid dispatch.status='offered'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/9af267d7b32b/atom/source/soodles.py landing advance --help\n",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "merge_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge"
+        ],
+        "delivery": {
+          "action": "merge",
+          "status": "offered"
+        }
+      }
+    },
+    {
+      "case": "foreign_repository",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"pr.head.repository\",\n    \"value\": \"other/repository\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.advance: invalid pr.head.repository='other/repository'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/9af267d7b32b/atom/source/soodles.py landing advance --help\n",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"other/repository\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "merge_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge"
+        ],
+        "delivery": {
+          "action": "merge",
+          "status": "offered"
+        }
+      }
+    },
+    {
+      "case": "foreign_head",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"pr.head.sha\",\n    \"value\": \"ffffffffffffffffffffffffffffffffffffffff\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.advance: invalid pr.head.sha='ffffffffffffffffffffffffffffffffffffffff'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/9af267d7b32b/atom/source/soodles.py landing advance --help\n",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"ffffffffffffffffffffffffffffffffffffffff\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "merge_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge"
+        ],
+        "delivery": {
+          "action": "merge",
+          "status": "offered"
+        }
+      }
+    },
+    {
+      "case": "malformed_json",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.advance: invalid input='Expecting property name enclosed in double quotes: line 1 column 2 (char 1)'; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/9af267d7b32b/atom/source/soodles.py landing advance --help\n",
+      "readback_bytes": "{malformed JSON",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "merge_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge"
+        ],
+        "delivery": {
+          "action": "merge",
+          "status": "offered"
+        }
+      }
+    },
+    {
+      "case": "missing_file",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/missing readback.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/missing readback.json",
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"input\",\n    \"value\": \"[Errno 2] No such file or directory: '/tmp/continuation observer po8q42w0/missing readback.json'\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"corrected_input\"\n    ],\n    \"known\": {},\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.advance: invalid input=\"[Errno 2] No such file or directory: '/tmp/continuation observer po8q42w0/missing readback.json'\"; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/9af267d7b32b/atom/source/soodles.py landing advance --help\n",
+      "readback_bytes": null,
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "merge_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge"
+        ],
+        "delivery": {
+          "action": "merge",
+          "status": "offered"
+        }
+      }
+    },
+    {
+      "case": "missing_merge_commit",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"merge_commit\",\n    \"value\": null\n  },\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      },\n      \"merge_commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/dddddddddddddddddddddddddddddddddddddddd\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"reason\": \"Supply readback.merge_commit from GET https://api.github.com/repos/ed3c/soodles/git/commits/dddddddddddddddddddddddddddddddddddddddd; re-enter advance with fresh provider readback. Retry only after the readback materially changes.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  }\n}\n",
+      "stderr": "REFUSED: landing.advance: invalid merge_commit=None; supported help: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B /workspace/scratch/9af267d7b32b/atom/source/soodles.py landing advance --help; Supply readback.merge_commit from GET https://api.github.com/repos/ed3c/soodles/git/commits/dddddddddddddddddddddddddddddddddddddddd; re-enter advance with fresh provider readback. Retry only after the readback materially changes.\n",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": true,\n    \"state\": \"closed\",\n    \"draft\": false,\n    \"mergeable\": true,\n    \"merged_at\": \"2026-09-20T00:00:00Z\",\n    \"merge_commit_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "merge_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge"
+        ],
+        "delivery": {
+          "action": "merge",
+          "status": "offered"
+        }
+      }
+    },
+    {
+      "case": "repair_merge_commit",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "emitted_argv",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"dispatch\",\n  \"phase\": \"close_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"dispatch\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"dispatch\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"dispatch\",\n      \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  }\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": true,\n    \"state\": \"closed\",\n    \"draft\": false,\n    \"mergeable\": true,\n    \"merged_at\": \"2026-09-20T00:00:00Z\",\n    \"merge_commit_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  },\n  \"merge_commit\": {\n    \"sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    },\n    \"parents\": [\n      {\n        \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n      },\n      {\n        \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      }\n    ]\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"merge_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"merge\",\n    \"status\": \"offered\"\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"close_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"prepared\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "close_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e",
+          "4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge"
+        ],
+        "delivery": {
+          "action": "close",
+          "status": "prepared"
+        },
+        "merge_sha": "dddddddddddddddddddddddddddddddddddddddd"
+      }
+    },
+    {
+      "case": "close_offer",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "dispatch",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "emitted_argv",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.dispatch\",\n  \"action\": \"close\",\n  \"phase\": \"close_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  },\n  \"request\": {\n    \"action\": \"close\",\n    \"repository_full_name\": \"ed3c/soodles\",\n    \"issue_number\": 1,\n    \"state\": \"closed\",\n    \"state_reason\": \"completed\"\n  }\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": true,\n    \"state\": \"closed\",\n    \"draft\": false,\n    \"mergeable\": true,\n    \"merged_at\": \"2026-09-20T00:00:00Z\",\n    \"merge_commit_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  },\n  \"merge_commit\": {\n    \"sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    },\n    \"parents\": [\n      {\n        \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n      },\n      {\n        \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      }\n    ]\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"close_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"prepared\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"close_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"offered\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "close_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e",
+          "4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge",
+          "close"
+        ],
+        "delivery": {
+          "action": "close",
+          "status": "offered"
+        },
+        "merge_sha": "dddddddddddddddddddddddddddddddddddddddd"
+      }
+    },
+    {
+      "case": "unknown_close",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"readback\",\n  \"phase\": \"close_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/continuation observer po8q42w0/checkpoint with spaces.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  }\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": true,\n    \"state\": \"closed\",\n    \"draft\": false,\n    \"mergeable\": true,\n    \"merged_at\": \"2026-09-20T00:00:00Z\",\n    \"merge_commit_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  },\n  \"merge_commit\": {\n    \"sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    },\n    \"parents\": [\n      {\n        \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n      },\n      {\n        \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      }\n    ]\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"close_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"offered\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"close_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"offered\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "close_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e",
+          "4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge",
+          "close"
+        ],
+        "delivery": {
+          "action": "close",
+          "status": "offered"
+        },
+        "merge_sha": "dddddddddddddddddddddddddddddddddddddddd"
+      }
+    },
+    {
+      "case": "resolve",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"resolved\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\",\n    \"ba4967ecace643ef9d63f289879a80ce1c1a85e4db6c15c335ca93c90d428c2d\"\n  ],\n  \"classification\": \"RESOLVED\",\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"offered\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n  \"issue_closed_at\": \"2026-09-20T00:01:00Z\",\n  \"provider_reconciliation\": {\n    \"mode\": \"cloud\",\n    \"main_head\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"provider\": \"GitHub\",\n    \"local_reconciliation_required\": false\n  },\n  \"owner\": \"landing.advance\",\n  \"action\": \"stop\",\n  \"next\": null\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": true,\n    \"state\": \"closed\",\n    \"draft\": false,\n    \"mergeable\": true,\n    \"merged_at\": \"2026-09-20T00:00:00Z\",\n    \"merge_commit_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"closed\",\n    \"state_reason\": \"completed\",\n    \"closed_at\": \"2026-09-20T00:01:00Z\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n    }\n  },\n  \"merge_commit\": {\n    \"sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    },\n    \"parents\": [\n      {\n        \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n      },\n      {\n        \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      }\n    ]\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"close_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"offered\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"resolved\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\",\n    \"ba4967ecace643ef9d63f289879a80ce1c1a85e4db6c15c335ca93c90d428c2d\"\n  ],\n  \"classification\": \"RESOLVED\",\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"offered\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n  \"issue_closed_at\": \"2026-09-20T00:01:00Z\",\n  \"provider_reconciliation\": {\n    \"mode\": \"cloud\",\n    \"main_head\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"provider\": \"GitHub\",\n    \"local_reconciliation_required\": false\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "resolved",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e",
+          "4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be",
+          "ba4967ecace643ef9d63f289879a80ce1c1a85e4db6c15c335ca93c90d428c2d"
+        ],
+        "classification": "RESOLVED",
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge",
+          "close"
+        ],
+        "delivery": {
+          "action": "close",
+          "status": "offered"
+        },
+        "merge_sha": "dddddddddddddddddddddddddddddddddddddddd",
+        "issue_closed_at": "2026-09-20T00:01:00Z",
+        "provider_reconciliation": {
+          "mode": "cloud",
+          "main_head": "dddddddddddddddddddddddddddddddddddddddd",
+          "merge_sha": "dddddddddddddddddddddddddddddddddddddddd",
+          "provider": "GitHub",
+          "local_reconciliation_required": false
+        }
+      }
+    },
+    {
+      "case": "resolved_again",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "advance",
+        "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/checkpoint with spaces.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.advance\",\n  \"action\": \"stop\",\n  \"phase\": \"resolved\",\n  \"classification\": \"RESOLVED\",\n  \"next\": null\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": true,\n    \"state\": \"closed\",\n    \"draft\": false,\n    \"mergeable\": true,\n    \"merged_at\": \"2026-09-20T00:00:00Z\",\n    \"merge_commit_sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"closed\",\n    \"state_reason\": \"completed\",\n    \"closed_at\": \"2026-09-20T00:01:00Z\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"dddddddddddddddddddddddddddddddddddddddd\"\n    }\n  },\n  \"merge_commit\": {\n    \"sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    },\n    \"parents\": [\n      {\n        \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n      },\n      {\n        \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      }\n    ]\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"resolved\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\",\n    \"ba4967ecace643ef9d63f289879a80ce1c1a85e4db6c15c335ca93c90d428c2d\"\n  ],\n  \"classification\": \"RESOLVED\",\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"offered\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n  \"issue_closed_at\": \"2026-09-20T00:01:00Z\",\n  \"provider_reconciliation\": {\n    \"mode\": \"cloud\",\n    \"main_head\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"provider\": \"GitHub\",\n    \"local_reconciliation_required\": false\n  }\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"resolved\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\",\n    \"4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be\",\n    \"ba4967ecace643ef9d63f289879a80ce1c1a85e4db6c15c335ca93c90d428c2d\"\n  ],\n  \"classification\": \"RESOLVED\",\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [\n    \"merge\",\n    \"close\"\n  ],\n  \"delivery\": {\n    \"action\": \"close\",\n    \"status\": \"offered\"\n  },\n  \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n  \"issue_closed_at\": \"2026-09-20T00:01:00Z\",\n  \"provider_reconciliation\": {\n    \"mode\": \"cloud\",\n    \"main_head\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"merge_sha\": \"dddddddddddddddddddddddddddddddddddddddd\",\n    \"provider\": \"GitHub\",\n    \"local_reconciliation_required\": false\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "resolved",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e",
+          "4865d18d94ddaeaa6330f43720a4e18628bd18699aff7a91babbf54e5b2ec0be",
+          "ba4967ecace643ef9d63f289879a80ce1c1a85e4db6c15c335ca93c90d428c2d"
+        ],
+        "classification": "RESOLVED",
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [
+          "merge",
+          "close"
+        ],
+        "delivery": {
+          "action": "close",
+          "status": "offered"
+        },
+        "merge_sha": "dddddddddddddddddddddddddddddddddddddddd",
+        "issue_closed_at": "2026-09-20T00:01:00Z",
+        "provider_reconciliation": {
+          "mode": "cloud",
+          "main_head": "dddddddddddddddddddddddddddddddddddddddd",
+          "merge_sha": "dddddddddddddddddddddddddddddddddddddddd",
+          "provider": "GitHub",
+          "local_reconciliation_required": false
+        }
+      }
+    },
+    {
+      "case": "start_for_invalidate",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "start",
+        "/tmp/continuation observer po8q42w0/claim with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json",
+        "/tmp/continuation observer po8q42w0/unoffered checkpoint.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/unoffered checkpoint.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.start\",\n  \"action\": \"readback\",\n  \"phase\": \"admitted\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"advance\",\n    \"required\": [\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/unoffered checkpoint.json\",\n      \"readback\": \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"--help\"\n    ],\n    \"requests\": {\n      \"pr\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"\n      },\n      \"issue\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"\n      },\n      \"commit\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n      },\n      \"branch\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"\n      },\n      \"run\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"\n      },\n      \"jobs\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"\n      }\n    },\n    \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\",\n    \"argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"advance\",\n      \"/tmp/continuation observer po8q42w0/unoffered checkpoint.json\",\n      \"/tmp/continuation observer po8q42w0/readback with spaces.json\"\n    ]\n  },\n  \"checkpoint\": \"/tmp/continuation observer po8q42w0/unoffered checkpoint.json\"\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": null,
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"admitted\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": []\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "admitted",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": []
+      }
+    },
+    {
+      "case": "invalidate",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/9af267d7b32b/atom/source/soodles.py",
+        "landing",
+        "invalidate",
+        "/tmp/continuation observer po8q42w0/unoffered checkpoint.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/unoffered checkpoint.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"landing.invalidate\",\n  \"action\": \"readmit\",\n  \"phase\": \"readmission_pending\",\n  \"classification\": null,\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"operation\": \"readmit\",\n    \"required\": [\n      \"claim\",\n      \"readback\"\n    ],\n    \"known\": {\n      \"checkpoint\": \"/tmp/continuation observer po8q42w0/unoffered checkpoint.json\"\n    },\n    \"help_argv\": [\n      \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\",\n      \"-B\",\n      \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\",\n      \"landing\",\n      \"readmit\",\n      \"--help\"\n    ]\n  },\n  \"provider_requests\": [],\n  \"reason\": \"Prior acceptance is invalidated; supply a fresh supervisor claim and exact-head evidence.\"\n}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"admitted\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": []\n}\n",
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"readmission_pending\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": [],\n  \"recovery\": {\n    \"kind\": \"amendment\",\n    \"previous_head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"previous_base\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\"\n  }\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "readmission_pending",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": [],
+        "recovery": {
+          "kind": "amendment",
+          "previous_head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "previous_base": "cccccccccccccccccccccccccccccccccccccccc",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc"
+        }
+      }
+    },
+    {
+      "case": "direct_domain",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys;sys.path.insert(0,sys.argv[1]);import landing;print(json.dumps(landing.start(landing.read(sys.argv[2]),landing.read(sys.argv[3]),sys.argv[4])))",
+        "/workspace/scratch/9af267d7b32b/atom/source",
+        "/tmp/continuation observer po8q42w0/claim with spaces.json",
+        "/tmp/continuation observer po8q42w0/readback with spaces.json",
+        "/tmp/continuation observer po8q42w0/direct domain checkpoint.json"
+      ],
+      "provenance": "observer_control",
+      "cwd": "/tmp/continuation observer po8q42w0",
+      "checkpoint": "/tmp/continuation observer po8q42w0/direct domain checkpoint.json",
+      "readback": "/tmp/continuation observer po8q42w0/readback with spaces.json",
+      "exit": 0,
+      "stdout": "{\"owner\": \"landing.start\", \"action\": \"readback\", \"phase\": \"admitted\", \"classification\": null, \"next\": {\"kind\": \"provider_readback\", \"owner\": \"GitHub\", \"operation\": \"advance\", \"required\": [\"readback\"], \"known\": {\"checkpoint\": \"/tmp/continuation observer po8q42w0/direct domain checkpoint.json\"}, \"help_argv\": [\"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3\", \"-B\", \"/workspace/scratch/9af267d7b32b/atom/source/soodles.py\", \"landing\", \"advance\", \"--help\"], \"requests\": {\"pr\": {\"method\": \"GET\", \"url\": \"https://api.github.com/repos/ed3c/soodles/pulls/2\"}, \"issue\": {\"method\": \"GET\", \"url\": \"https://api.github.com/repos/ed3c/soodles/issues/1\"}, \"commit\": {\"method\": \"GET\", \"url\": \"https://api.github.com/repos/ed3c/soodles/git/commits/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}, \"branch\": {\"method\": \"GET\", \"url\": \"https://api.github.com/repos/ed3c/soodles/branches/main\"}, \"run\": {\"method\": \"GET\", \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10\"}, \"jobs\": {\"method\": \"GET\", \"url\": \"https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs\"}}, \"merge_commit\": \"If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.\"}, \"checkpoint\": \"/tmp/continuation observer po8q42w0/direct domain checkpoint.json\"}\n",
+      "stderr": "",
+      "readback_bytes": "{\n  \"pr\": {\n    \"number\": 2,\n    \"html_url\": \"https://github.com/ed3c/soodles/pull/2\",\n    \"body\": \"Refs ed3c/soodles#1\",\n    \"head\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n      \"ref\": \"fixture\"\n    },\n    \"base\": {\n      \"repo\": {\n        \"full_name\": \"ed3c/soodles\"\n      },\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\",\n      \"ref\": \"main\"\n    },\n    \"merged\": false,\n    \"state\": \"open\",\n    \"draft\": false,\n    \"mergeable\": true\n  },\n  \"issue\": {\n    \"number\": 1,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/1\",\n    \"state\": \"open\"\n  },\n  \"run\": {\n    \"id\": 10,\n    \"run_attempt\": 1,\n    \"repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_repository\": {\n      \"full_name\": \"ed3c/soodles\"\n    },\n    \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"event\": \"pull_request\",\n    \"path\": \".github/workflows/runtime.yml\",\n    \"status\": \"completed\",\n    \"conclusion\": \"success\"\n  },\n  \"commit\": {\n    \"sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": {\n      \"sha\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n    }\n  },\n  \"jobs\": {\n    \"total_count\": 1,\n    \"jobs\": [\n      {\n        \"id\": 11,\n        \"name\": \"runtime-evidence\",\n        \"run_id\": 10,\n        \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n        \"status\": \"completed\",\n        \"conclusion\": \"success\",\n        \"steps\": [\n          {\n            \"name\": \"Canonical acceptance on the exact candidate head\",\n            \"status\": \"completed\",\n            \"conclusion\": \"success\"\n          }\n        ]\n      }\n    ]\n  },\n  \"branch\": {\n    \"name\": \"main\",\n    \"commit\": {\n      \"sha\": \"cccccccccccccccccccccccccccccccccccccccc\"\n    }\n  }\n}\n",
+      "checkpoint_before": null,
+      "checkpoint_after": "{\n  \"schema\": 2,\n  \"claim\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 1,\n    \"pr\": 2,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n    \"tree\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n    \"base_head\": \"cccccccccccccccccccccccccccccccccccccccc\",\n    \"run_id\": 10,\n    \"run_attempt\": 1,\n    \"worktree\": \"fixture\",\n    \"verifier_sha256\": \"f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797\"\n  },\n  \"phase\": \"admitted\",\n  \"observations\": [\n    \"965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e\"\n  ],\n  \"classification\": null,\n  \"scope\": \"supervised single-Issue cloud landing\",\n  \"writes_offered\": []\n}\n",
+      "state_after": {
+        "schema": 2,
+        "claim": {
+          "repository": "ed3c/soodles",
+          "issue": 1,
+          "pr": 2,
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "run_id": 10,
+          "run_attempt": 1,
+          "worktree": "fixture",
+          "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+        },
+        "phase": "admitted",
+        "observations": [
+          "965f88789b134c1b142494f0958367b321d317269596e78440bd7c2b56ecb73e"
+        ],
+        "classification": null,
+        "scope": "supervised single-Issue cloud landing",
+        "writes_offered": []
+      }
+    }
+  ],
+  "source_sha256": {
+    "landing.py": "3ea5ffacf7964a7b2a20a52aafd764f648a93bc8265bb2604dc91e6259723f53",
+    "soodles.py": "522e407e43cf997ffbfe01ec393e830a4c4ab80d3f3c84782988ee62a1f161a7",
+    "issue_admission.py": "b1b69d5476ae6cd7ef99dbba1108055eaa301298d424390a3b2b670d7a579396",
+    "issue_execution.py": "d033bcc1dc6f44e0d83cc6640e190bc1cc334102861fef8a7b34e935520b99ea",
+    "policy/runtime.lock.json": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830"
+  },
+  "fixture_claim": {
+    "repository": "ed3c/soodles",
+    "issue": 1,
+    "pr": 2,
+    "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "run_id": 10,
+    "run_attempt": 1,
+    "worktree": "fixture",
+    "verifier_sha256": "f0639b45af2bbcee8f99b80c8c24664435e751ce6f502c80960091c32d927797"
+  },
+  "cleanup": {
+    "directory": "/tmp/continuation observer po8q42w0",
+    "entries_before_removal": [
+      "checkpoint with spaces.json",
+      "checkpoint with spaces.json.lock",
+      "claim with spaces.json",
+      "direct domain checkpoint.json",
+      "direct domain checkpoint.json.lock",
+      "readback with spaces.json",
+      "unoffered checkpoint.json",
+      "unoffered checkpoint.json.lock"
+    ],
+    "removed": true
+  },
+  "evaluation": {
+    "safety": "PASS",
+    "safety_failures": [],
+    "projection": "PASS",
+    "projection_failures": [],
+    "bound_continuation_available": true
+  },
+  "sensitivity": [
+    {
+      "plant": "wrong_argv",
+      "expected_reason": "prepare:argv",
+      "rejected": true,
+      "synthetic_positive_reference_accepted": true
+    },
+    {
+      "plant": "wrong_operation",
+      "expected_reason": "prepare:route",
+      "rejected": true,
+      "synthetic_positive_reference_accepted": true
+    },
+    {
+      "plant": "false_resolution",
+      "expected_reason": "unknown_merge:false_resolution",
+      "rejected": true,
+      "synthetic_positive_reference_accepted": true
+    },
+    {
+      "plant": "duplicate_offer",
+      "expected_reason": "unknown_merge:unexpected_request",
+      "rejected": true,
+      "synthetic_positive_reference_accepted": true
+    },
+    {
+      "plant": "refusal_state_change",
+      "expected_reason": "stale_dispatch:refusal_changed_checkpoint",
+      "rejected": true,
+      "synthetic_positive_reference_accepted": true
+    },
+    {
+      "plant": "missing_get",
+      "expected_reason": "prepare:required_get:pr",
+      "rejected": true,
+      "synthetic_positive_reference_accepted": true
+    },
+    {
+      "plant": "missing_dependent_get",
+      "expected_reason": "missing_merge_commit:dependent_get",
+      "rejected": true,
+      "synthetic_positive_reference_accepted": true
+    }
+  ]
+}

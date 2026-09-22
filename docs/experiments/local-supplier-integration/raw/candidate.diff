@@ -1,0 +1,209 @@
+diff --git a/.agents/skills/issue-atom/SKILL.md b/.agents/skills/issue-atom/SKILL.md
+index e50f384..b21a554 100644
+--- a/.agents/skills/issue-atom/SKILL.md
++++ b/.agents/skills/issue-atom/SKILL.md
+@@ -7,7 +7,11 @@ description: Advance one externally authorized local Soodles plus Noodle Issue t
+ 
+ Use only with the immutable authorization file selected by the external
+ supervisor. The supervisor also supplies its SHA-256 in
+-`SOODLES_AUTHORIZATION_SHA256` and a repository-scoped `GH_TOKEN`. The
++`SOODLES_AUTHORIZATION_SHA256`. The host's existing `NOODLES_TOKEN_COMMAND`
++is the single credential source; the entry requests an installation token
++scoped to the authorized repository. Do not ask a person or another session
++to carry a `GH_TOKEN`, discover App keys, or prepare a checkpoint, envelope
++or phase launcher. The entry materializes that execution state itself. The
+ authorization fixes the repository, exact base, Issue contract, control root,
+ task, Noodle and worker binaries, and required exact-head workflow evidence.
+ 
+@@ -31,6 +35,13 @@ owner, requires exact-head CI, then delegates merge/closure/reconciliation to
+ the existing landing owner. Provider credentials are stripped from Noodle and
+ candidate child environments.
+ 
++A missing or failing supplier is a host credential owner's refusal, before a
++new lifecycle checkpoint or provider write. An inherited `GH_TOKEN` is not a
++fallback. External authorization still selects identity and capabilities;
++having an App key does not authorize an Issue or select a Noodle/worker binary.
++The cloud connector route keeps its own credential source and does not need
++this local supplier or any token transfer.
++
+ An unchanged failed candidate head is terminal evidence, not retry authority.
+ An unknown Issue-create, branch, PR, merge, or closure outcome permits only
+ fresh exact readback. A competing marker or identity is a refusal.
+diff --git a/.agents/skills/verify-soodles/features/local-supervisor-admission.md b/.agents/skills/verify-soodles/features/local-supervisor-admission.md
+index ba11f4a..0cecd19 100644
+--- a/.agents/skills/verify-soodles/features/local-supervisor-admission.md
++++ b/.agents/skills/verify-soodles/features/local-supervisor-admission.md
+@@ -1,5 +1,11 @@
+ # Local supervisor admission
+ 
++For an externally authorized Issue atom, the Agent uses only the
++[issue-atom entry](../../issue-atom/SKILL.md). It does not run `prepare` or ask
++for its generated envelope/checkpoint/launcher. The lower-level producer below
++is retained for the supervisor's existing admitted execution, not a second
++Agent-facing lifecycle route.
++
+ Use this recipe only for the local Soodles → Noodle carrier after the supervisor
+ has selected a fresh Issue readback, measured carrier and control root. Cloud
+ connector/Actions work keeps its existing provider identity and does not use
+@@ -31,7 +37,9 @@ python3 -B ./supervisor-admission prepare \
+ wrapper validates the pinned bundle and measured Noodle binary, executes the
+ host supplier exactly once immediately before child start, overwrites inherited
+ `GH_TOKEN` and `GITHUB_TOKEN`, injects `SOODLES_ADMISSION_LAUNCHER`, removes
+-`NOODLES_TOKEN_COMMAND` from the child environment and execs Noodle. It never
++`NOODLES_TOKEN_COMMAND` and App configuration from the child environment and execs Noodle.
++The shared supplier consumer fixes repository `soodles` and permission
++`issues:read`, ignoring wider inherited scope requests. It never
+ persists token bytes.
+ 
+ A supplier failure is a supervisor-owned refusal before Noodle child start.
+diff --git a/contracts/system-v1.md b/contracts/system-v1.md
+index fcf68a8..42868b2 100644
+--- a/contracts/system-v1.md
++++ b/contracts/system-v1.md
+@@ -186,8 +186,18 @@ existing exact PR publisher, exact-head CI and the existing landing
+ checkpoint. Merge, Issue closure and local reconciliation remain decisions of
+ the landing owner; this entry only consumes its exact transition.
+ 
+-Provider credentials are explicit supervisor environment input and are
+-removed from Noodle/candidate children. Missing or ambiguous mutation responses
++The host-selected `NOODLES_TOKEN_COMMAND` is the local credential source, not
++a token carried in a handoff. After authorization validation, the entry requests
++only that repository with contents/issues/pull_requests write and actions read.
++It never falls back to an inherited provider token. Supplier failure precedes
++new checkpoint creation; secrets and supplier output are not refusal evidence.
++The existing supervisor admission wrapper uses this same consumer for its
++issues-read token. App configuration remains with the host, not in repository
++configuration. The cloud connector path has no local supplier prerequisite.
++The authorization is still external; checkpoint, envelope and launcher are
++derived execution state, not additional inputs an Agent must prepare.
++Provider credentials and host supplier/App configuration are removed from
++Issue-atom Noodle/candidate children. Missing or ambiguous mutation responses
+ never authorize repetition. Unchanged failed candidate heads, foreign markers,
+ drifted identities and non-exact checks refuse.
+ 
+diff --git a/issue_atom.py b/issue_atom.py
+index a4707cb..641565d 100644
+--- a/issue_atom.py
++++ b/issue_atom.py
+@@ -21,6 +21,7 @@ import candidate_publication
+ import issue_admission
+ import issue_execution
+ import landing
++import provider_credential
+ 
+ 
+ SHA40 = re.compile(r"[0-9a-f]{40}")
+@@ -113,9 +114,7 @@ def _git(root, *args):
+ 
+ def clean_child_env():
+     # Provider credentials never enter candidate or Noodle child processes.
+-    return {key: value for key, value in os.environ.items()
+-            if key not in {"GH_TOKEN", "GITHUB_TOKEN", "GIT_ASKPASS",
+-                           "SSH_ASKPASS", "GIT_SSH_COMMAND"}}
++    return provider_credential.clean_child_env()
+ 
+ 
+ def validate_authorization(path, expected_digest, *, allow_advanced=False):
+@@ -420,10 +419,18 @@ def run(authorization_path, *, environ=None, provider=None):
+     else:
+         state = {"schema_version": 1, "authorization_sha256": authorization_digest,
+                  "phase": "issue", "writes": {}, "issue": None, "publication": None}
+-        save_json(state_path, state, fresh=True)
+ 
+-    provider = provider or GitHubProvider(authorization["repository"],
+-                                          token=environ.get("GH_TOKEN", ""))
++    if provider is None:
++        try:
++            token = provider_credential.supply_token(
++                authorization["repository"],
++                {"contents": "write", "issues": "write",
++                 "pull_requests": "write", "actions": "read"}, environ=environ)
++        except provider_credential.CredentialRefusal as error:
++            raise AtomRefusal(error.field, error.value, error.required) from None
++        provider = GitHubProvider(authorization["repository"], token=token)
++    if not state_path.exists():
++        save_json(state_path, state, fresh=True)
+     issue, body = exact_issue(provider, authorization, authorization_digest)
+     if issue is None:
+         write = state["writes"].get("issue_create")
+diff --git a/supervisor_admission.py b/supervisor_admission.py
+index b70737c..bc6444b 100644
+--- a/supervisor_admission.py
++++ b/supervisor_admission.py
+@@ -30,6 +30,7 @@ BUNDLE_PATHS = (
+     "issue_execution.py",
+     "github_reader.py",
+     "repository_binding.py",
++    "provider_credential.py",
+ )
+ 
+ 
+@@ -201,27 +202,20 @@ def main():
+         return refuse("start.bundle", type(error).__name__,
+                       "fresh_supervisor_admission")
+ 
+-    token_command = os.environ.get(TOKEN_COMMAND_ENV, "")
+-    if not token_command.strip():
+-        return refuse("start.provider_credential_supplier", "absent",
+-                      "NOODLES_TOKEN_COMMAND")
+     try:
+-        supplied = subprocess.run(
+-            ["bash", "-c", token_command],
+-            capture_output=True, text=True, timeout=30)
+-    except (OSError, subprocess.TimeoutExpired) as error:
+-        return refuse("start.provider_credential_supplier", type(error).__name__,
+-                      "working_provider_credential_supplier")
+-    if supplied.returncode != 0:
+-        return refuse("start.provider_credential_supplier_exit",
+-                      supplied.returncode,
+-                      "working_provider_credential_supplier")
+-    token = supplied.stdout.strip()
+-    if not token or any(character.isspace() for character in token):
+-        return refuse("start.provider_credential", "not-single-token",
+-                      "repository_scoped_installation_token")
+-
+-    env = os.environ.copy()
++        for item in json.loads(manifest.read_bytes())["runtime"]:
++            if digest((ROOT / item["path"]).read_bytes()) != item["sha256"]:
++                return refuse("start.runtime", item["path"], "fresh_supervisor_admission")
++    except (OSError, ValueError, KeyError) as error:
++        return refuse("start.runtime", type(error).__name__, "fresh_supervisor_admission")
++    sys.path.insert(0, str(ROOT / "runtime"))
++    from provider_credential import CredentialRefusal, clean_child_env, supply_token
++    try:
++        token = supply_token("ed3c/soodles", {{"issues": "read"}})
++    except CredentialRefusal as error:
++        return refuse("start." + error.field, error.value, error.required)
++
++    env = clean_child_env()
+     env["GH_TOKEN"] = token
+     env["GITHUB_TOKEN"] = token
+     env["SOODLES_ADMISSION_LAUNCHER"] = str(ROOT / "launcher")
+diff --git a/tests/test_issue_atom.py b/tests/test_issue_atom.py
+index a414818..56402d0 100644
+--- a/tests/test_issue_atom.py
++++ b/tests/test_issue_atom.py
+@@ -130,6 +130,23 @@ class IssueAtomTests(unittest.TestCase):
+         self.assertIn("authorization", result.stdout)
+         self.assertIn("same command", result.stdout)
+ 
++    def test_host_supplier_replaces_stale_parent_token(self):
++        provider = Provider()
++        self.ready_issue(provider)
++        self.env["NOODLES_TOKEN_COMMAND"] = "printf fixture-installation-token"
++        first, second = self.pending_patches()
++        with first, second, patch.object(atom, "GitHubProvider", return_value=provider) as factory:
++            result = atom.run(self.path, environ=self.env)
++        factory.assert_called_once_with("ed3c/soodles", token="fixture-installation-token")
++        self.assertEqual(result["waiting_on"], "Noodle")
++        self.assertEqual(provider.create_calls, 0)
++
++    def test_missing_supplier_leaves_no_new_checkpoint(self):
++        with self.assertRaises(atom.AtomRefusal) as caught:
++            atom.run(self.path, environ=self.env)
++        self.assertEqual(caught.exception.required, "NOODLES_TOKEN_COMMAND")
++        self.assertFalse(atom.artifact_paths(self.path)["state"].exists())
++
+     def test_lost_issue_create_adopts_exact_readback_and_never_recreates(self):
+         provider = Provider()
+         provider.create_unknown = True

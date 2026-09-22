@@ -1,0 +1,103 @@
+{
+  "authorization": "Read and return the next handoff only; no effects.",
+  "available_inputs": "Issue identity, current candidate and owning readbacks, prior delivery status, supervisor authorization for the handoff are supplied.",
+  "candidate_output": {
+    "authorizes_landing": false,
+    "base_head": "bb7eddb03c3f01904cbe8e30cc4dc0d4690a7d6a",
+    "changed_paths": [
+      "evidence/manifest.json",
+      "evidence/observer.py",
+      "evidence/raw/baseline.json",
+      "evidence/raw/noncase.json",
+      "evidence/raw/treatment.json",
+      "evidence/results.md",
+      "evidence/task.md",
+      "policy.md"
+    ],
+    "classification": "VERIFIED",
+    "evidence_manifest_sha256": "0b5310876de5f36b0546169d6dff8c3a14aa62ec9e9ad6185ce3fa8150910220",
+    "frozen_paths": [
+      {
+        "actual_sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975",
+        "path": "evidence/task.md",
+        "revision": "head",
+        "sha256": "4116c3d90c99a8b78909b188dc194423326aaa8f0b858e20d4ca9c6025af8975"
+      },
+      {
+        "actual_sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec",
+        "path": "evidence/observer.py",
+        "revision": "head",
+        "sha256": "5dfd80efd9ea70757c4a380452972c39da81e3d3126382eac1d9142c4bc76eec"
+      }
+    ],
+    "head": "2f3740d82b177efc6970474fb5c8ba8161668e60",
+    "issue": 1,
+    "issue_body_sha256": "9ad2ffa76950110bcf0eeaa3117d918a7b6e74206b25f7cb50cfd7c475625077",
+    "owner": "candidate.verify",
+    "tree": "c5d1ffe054133fff2a4d5a17bb03c5eadede86c6"
+  },
+  "case": "C",
+  "discovered_at": "2026-09-20T00:30:00Z",
+  "discovery": "Current candidate verification readback attached.",
+  "fixture": true,
+  "owner_output": {
+    "action": "dispatch",
+    "classification": null,
+    "next": {
+      "help_argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/scratch/7aed8f223770/issue91-work/soodles.py",
+        "landing",
+        "dispatch",
+        "--help"
+      ],
+      "kind": "provider_readback",
+      "known": {
+        "checkpoint": "/tmp/tmpbxrx7utv/checkpoint.json"
+      },
+      "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository.",
+      "operation": "dispatch",
+      "owner": "GitHub",
+      "requests": {
+        "branch": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/branches/main"
+        },
+        "commit": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/git/commits/2f3740d82b177efc6970474fb5c8ba8161668e60"
+        },
+        "issue": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/issues/1"
+        },
+        "jobs": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10/jobs"
+        },
+        "pr": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/pulls/2"
+        },
+        "run": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ed3c/soodles/actions/runs/10"
+        }
+      },
+      "required": [
+        "readback"
+      ]
+    },
+    "owner": "landing.advance",
+    "phase": "merge_pending"
+  },
+  "subject": {
+    "head": "2f3740d82b177efc6970474fb5c8ba8161668e60",
+    "issue": 1,
+    "merged": false,
+    "pr": 2,
+    "repository": "ed3c/soodles",
+    "state": "open"
+  }
+}

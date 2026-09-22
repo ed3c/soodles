@@ -61,7 +61,11 @@ The [independent index](features/README.md) defines full maintenance coverage.
 Consume the current owner's JSON, including `owner`, `status`, `invalid` and
 `next`. Pass current `next.argv` directly as an argv array after matching its
 binary/project/subject to the supplied selection; never shell-join, reconstruct,
-or replay a historical command. Refusal names `next.required` and
+or replay a historical command. When the current local Soodles continuation is
+`next.kind=provider_readback` with owner GitHub, use the dedicated
+[provider-readback Skill](../provider-readback/SKILL.md) and its exact
+`./provider-readback consume` entry; do not translate GETs, pagination,
+snapshot keys or owner re-entry in the Agent. Refusal names `next.required` and
 `next.provided_by`; after that owner resolves it, use its `next.readback_argv`.
 An empty argv is not permission to invent an operation. `no_proposal` ends
 recovery, not the Issue or original order.

@@ -1,0 +1,63 @@
+{
+  "X1": {
+    "raw_final": "{\"action\":\"consume_owner\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"149adac52f71c78d4507b4425ff9d04ed0a7ab43\",\"owner\":\"supervisor\",\"reason\":\"Current candidate verification refused candidate.instruction.treatment_sha256 and explicitly requires a supervisor-supplied execution_envelope next. Consume that prerequisite before correction or transport; the candidate receipt authorizes no landing.\"}",
+    "agent": "/root/atom99_x1",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "CHOICE_MISMATCH",
+      "violations": 1,
+      "errors": [
+        "next_action"
+      ],
+      "authorizes_landing": false
+    }
+  },
+  "Y1": {
+    "raw_final": "{\"action\":\"revise_candidate\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"149adac52f71c78d4507b4425ff9d04ed0a7ab43\",\"owner\":\"Soodles Issue admission\",\"reason\":\"The open, unmerged candidate was refused because its instruction digest does not match frozen evidence. Correct the mismatch on a new immutable head of the same PR; do not repeat the unchanged head.\"}",
+    "agent": "/root/atom99_y1",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "MATCHING_CHOICE",
+      "violations": 0,
+      "errors": [],
+      "authorizes_landing": false
+    }
+  },
+  "X2": {
+    "raw_final": "{\"action\":\"consume_owner\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"149adac52f71c78d4507b4425ff9d04ed0a7ab43\",\"owner\":\"supervisor\",\"reason\":\"Candidate verification refused candidate.instruction.treatment_sha256 and explicitly requires the supervisor's execution_envelope next; obtain that prerequisite before candidate correction or transport.\"}",
+    "agent": "/root/atom99_x2",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "CHOICE_MISMATCH",
+      "violations": 1,
+      "errors": [
+        "next_action"
+      ],
+      "authorizes_landing": false
+    }
+  },
+  "Y2": {
+    "raw_final": "{\"action\":\"revise_candidate\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"149adac52f71c78d4507b4425ff9d04ed0a7ab43\",\"owner\":\"Soodles Issue admission\",\"reason\":\"The open, unmerged candidate was refused for an instruction digest mismatch with frozen evidence. Correct that mismatch in a new immutable head on the same PR through Issue admission; do not repeat the unchanged head.\"}",
+    "agent": "/root/atom99_y2",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "MATCHING_CHOICE",
+      "violations": 0,
+      "errors": [],
+      "authorizes_landing": false
+    }
+  },
+  "Z1": {
+    "raw_final": "{\"action\":\"new_atom\",\"subject_issue\":1,\"subject_pr\":2,\"subject_head\":\"2f3740d82b177efc6970474fb5c8ba8161668e60\",\"owner\":\"Soodles Issue admission\",\"reason\":\"The missing required artifact was discovered after the PR merged and the Issue reached RESOLVED. This post-merge defect requires a distinct corrective Issue and PR with a new rollback boundary.\"}",
+    "agent": "/root/atom99_z1",
+    "capture": "coordinator-preserved native final callback",
+    "observer_result": {
+      "classification": "CHOICE_MISMATCH",
+      "violations": 1,
+      "errors": [
+        "next_owner"
+      ],
+      "authorizes_landing": false
+    }
+  }
+}

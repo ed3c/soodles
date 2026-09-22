@@ -1,0 +1,28 @@
+{
+  "scope": "legal one-PR delivery and post-merge corrective-boundary non-case",
+  "fixture": {
+    "historical_identities_isolated": true,
+    "original_fixture_unchanged": true,
+    "target_cases_passed": 4,
+    "live_controls_passed": 2,
+    "observer_exit": 0
+  },
+  "delivery": {
+    "issues": [200],
+    "pull_requests": [201],
+    "attempts": [
+      {"head": "candidate-a", "failed": true, "rerun_same_head": false},
+      {"head": "candidate-b", "failed": false, "rerun_same_head": false}
+    ],
+    "all_required_evidence_present": true,
+    "exact_bytes_verified": true,
+    "terminal_runtime_green": true
+  },
+  "post_merge_correction": {
+    "issue": 202,
+    "pull_request": 203,
+    "legal": true,
+    "reason": "the prior PR already merged, so the rollback boundary changed"
+  },
+  "authorizes_landing": false
+}

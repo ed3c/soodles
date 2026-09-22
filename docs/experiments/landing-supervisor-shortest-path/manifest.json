@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 122
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "4fa2d45e722029731489b9d9be6110dfa754c0e23af5a1c092efaf6eba2e7b45",
+      "treatment_sha256": "1e681105b46acf8e349e256d718e22bee692e6bfcb4eb6bd97b72ff42280f075"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "landing_supervisor.py",
+      "role": "implementation",
+      "sha256": "efcacb2bff54c5c965192bf39a571c37f3beb55f00806b5fd0dd901cfd01d38e"
+    },
+    {
+      "path": "landing-supervisor",
+      "role": "cli",
+      "sha256": "28fd8ac0e3b58a643697fad7c8730eb58ae8d9f080833c5fbc48029802673219"
+    },
+    {
+      "path": "tests/test_landing_supervisor.py",
+      "role": "hard_controls",
+      "sha256": "b8fe419bc3d5147d10e677af82b86f7e04305d40b75f8727e4f3bff09acd5116"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "role": "stable_contract",
+      "sha256": "c80b46562cd1fd34e34f042768ba0a763f2c4f8438205145894a8272fcc977e7"
+    },
+    {
+      "path": "docs/experiments/landing-supervisor-shortest-path/task.md",
+      "role": "bounded_task",
+      "sha256": "335035ea23c938dd466bd13ed80f7b1350fc3121858d87c534d2c54c832bbd4b"
+    },
+    {
+      "path": "docs/experiments/landing-supervisor-shortest-path/observer.py",
+      "role": "observer",
+      "sha256": "e25c3e5a200da97da1d80a2984a51a65814c0deb41ea4c4106a549ba3625dafa"
+    },
+    {
+      "path": "docs/experiments/landing-supervisor-shortest-path/results.md",
+      "role": "result",
+      "sha256": "ae43c001869035a0e90240d7fee31c6c223efbd76fe8bd74f85c294c2b7a3f65"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#122"
+  },
+  "authorizes_landing": false
+}

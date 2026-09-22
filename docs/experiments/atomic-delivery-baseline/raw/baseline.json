@@ -1,0 +1,26 @@
+{
+  "scope": "historical #91/#92/#94/#95/#96 delivery and #92 runtime artifact",
+  "fixture": {
+    "artifact_sha256": "04585341f1611492d9a7f46a64f2be4edc75e6767504f0ab9f8f814904a59ebd",
+    "observer_sha256": "b0029229f2794b283d8ab30faba8a621e0cd7035d83edcc6001a1a994229662b",
+    "historical_identities_isolated": false,
+    "original_fixture_unchanged": true,
+    "target_cases_passed": 0,
+    "live_controls_passed": 2,
+    "observer_exit": 1,
+    "masked_invalid": "session \"schedule-20260916-160639-a6316d\" process or process group is present"
+  },
+  "delivery": {
+    "issues": [91, 93, 95],
+    "pull_requests": [92, 94, 96],
+    "attempts": [
+      {"head": "5203c15b36d8e21437b4fbb2e8e12496c2d92946", "failed": true, "rerun_same_head": false},
+      {"head": "f9f12a0", "failed": false, "rerun_same_head": false},
+      {"head": "dbac635", "failed": true, "rerun_same_head": false}
+    ],
+    "all_required_evidence_present": false,
+    "exact_bytes_verified": true,
+    "terminal_runtime_green": false
+  },
+  "authorizes_landing": false
+}

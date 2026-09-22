@@ -1,0 +1,5 @@
+# Landing order-handoff results
+
+The frozen observer digest is `144b28e40c280505c2fa4f897d0528bee3850e5aa99df042cc78dc00f202ba96`. Post-#106 main exited 1 because it could not prove a projected-away original order. The candidate exited 0 and observed `A → cleanup → B` with the pinned Noodle v0.1.19 binary. A had one completed typed outcome, an exited process, paired projection/ack effects, and Noodle-owned cleanup. B was admitted only after cleanup through `issue.automatic`, then produced its own completed typed outcome. A planted wrong `next.argv` operation exited 1.
+
+The current-next fixture executed the owner-emitted argv and produced `dispatch → merge → readback` while persisting one merge offer. It reuses #106's shortest path instead of adding another CLI command. Provider objects were local fixtures; Sessions, processes, worktrees, Noodle effects, cleanup, and residue checks were physical. This is local L-class evidence with `authorizes_landing: false`; provider merge and Issue closure require their existing owner.
