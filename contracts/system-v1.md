@@ -263,6 +263,17 @@ route, while its own live merge/closure still uses the pre-existing landing
 authority. The first live R-class Issue creation by this new entry must be a
 subsequent atom.
 
+### Issue-read argument recovery — ed3c/soodles#137
+
+The documented `./soodles github issue OWNER/REPOSITORY NUMBER` entry consumes
+externally selected repository and Issue identity. Malformed read argv refuses
+before transport with exit 2, caller-owned `valid_read_arguments` recovery and
+the real reader help argv; it does not request an execution envelope.
+Credential and supported-repository identity gaps remain supervisor inputs;
+quota waits and provider refusals retain their existing GitHub ownership and
+guards. This boundary changes neither reader transport nor admission or landing
+authority.
+
 ### Complete admitted child contract — ed3c/soodles#135
 
 Soodles Issue admission validates the structured Issue contract.
