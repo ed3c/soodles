@@ -3,6 +3,7 @@
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 
 
@@ -19,6 +20,12 @@ def instruction_documents(requests):
     documents = {}
     for request in requests:
         for path, observation in request.get("files_before", {}).items():
+            if not isinstance(observation, dict) or "snapshot_error" in observation:
+                continue
+            size, digest = observation.get("bytes"), observation.get("sha256")
+            if (type(size) is not int or size < 0 or not isinstance(digest, str)
+                    or re.fullmatch(r"[0-9a-fA-F]{64}", digest) is None):
+                continue
             normalized = path.replace("\\", "/")
             if Path(path).name == "AGENTS.md" or "/.agents/skills/" in normalized:
                 documents[path] = observation

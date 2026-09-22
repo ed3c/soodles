@@ -41,6 +41,11 @@ def cli_argv(operation, *arguments):
             "landing", *([operation] if operation else []), *map(str, arguments)]
 
 
+def provider_cli_argv(checkpoint):
+    return [sys.executable, "-B", str(Path(__file__).resolve().parent / "provider-execute"),
+            str(Path(checkpoint).resolve())]
+
+
 def input_next(operation, required, checkpoint=None):
     return {"kind": "input", "owner": "supervisor", "operation": operation, "required": required,
             "known": {"checkpoint": str(Path(checkpoint).resolve())} if checkpoint else {},
@@ -58,6 +63,18 @@ def provider_next(claim, operation, checkpoint):
     return {**input_next(operation, ["readback"], checkpoint), "kind": "provider_readback", "owner": "GitHub",
             "requests": requests,
             "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."}
+
+
+def delivery_request(claim, action):
+    if action == "merge":
+        return {"action": "merge", "repository_full_name": claim["repository"],
+                "pr_number": claim["pr"], "expected_head_sha": claim["head"],
+                "merge_method": "merge"}
+    if action == "close":
+        return {"action": "close", "repository_full_name": claim["repository"],
+                "issue_number": claim["issue"], "state": "closed",
+                "state_reason": "completed"}
+    raise LandingRefusal("delivery.action", action)
 
 
 def response(operation, state, action, next_action, **details):
@@ -88,9 +105,10 @@ def verifier_digest():
     # A supervisor selects this implementation outside the candidate under evaluation.
     root = Path(__file__).resolve().parent
     return fingerprint({name: hashlib.sha256((root / name).read_bytes()).hexdigest()
-                        for name in ("landing.py", "soodles.py", "issue_admission.py",
-                                     "repository_binding.py", "dependency_binding.py",
-                                     "issue_execution.py", "policy/runtime.lock.json")})
+                        for name in ("landing.py", "provider-execute", "provider_transport.py",
+                                     "soodles.py", "issue_admission.py", "repository_binding.py",
+                                     "dependency_binding.py", "issue_execution.py",
+                                     "policy/runtime.lock.json")})
 
 
 def read(path):
@@ -130,18 +148,29 @@ def save(path, state):
 def validate_claim(claim, *, verify_verifier=True):
     local_fields = COMMON_CLAIM_FIELDS | {"control_root"}
     dependency_local_fields = DEPENDENCY_CLAIM_FIELDS | {"control_root"}
-    require(isinstance(claim, dict) and set(claim) in
+    require(isinstance(claim, dict) and (set(claim) - {"publication_branch"}) in
             (COMMON_CLAIM_FIELDS, DEPENDENCY_CLAIM_FIELDS,
              local_fields, dependency_local_fields,
              local_fields | {"execution_envelope"},
-             dependency_local_fields | {"execution_envelope"}),
+             dependency_local_fields | {"execution_envelope"},
+             local_fields | {"bootstrap_custody"},
+             dependency_local_fields | {"bootstrap_custody"}),
             "claim.fields", list(claim))
+    if "publication_branch" in claim:
+        require(claim["publication_branch"] == f"soodles/issue-{claim['issue']}-{claim['head'][:12]}",
+                "claim.publication_branch", claim["publication_branch"])
     if "execution_envelope" in claim:
         ref = claim["execution_envelope"]
         require(isinstance(ref, dict) and set(ref) == {"path", "sha256"}, "claim.execution_envelope", ref)
         require(isinstance(ref["path"], str) and Path(ref["path"]).is_absolute(), "claim.envelope.path", ref["path"])
         require(isinstance(ref["sha256"], str) and re.fullmatch("[0-9a-f]{64}", ref["sha256"]),
                 "claim.envelope.sha256", ref["sha256"])
+    if "bootstrap_custody" in claim:
+        ref = claim["bootstrap_custody"]
+        require(isinstance(ref, dict) and set(ref) == {"path", "sha256"}, "claim.bootstrap_custody", ref)
+        require(isinstance(ref["path"], str) and Path(ref["path"]).is_absolute(), "claim.custody.path", ref["path"])
+        require(isinstance(ref["sha256"], str) and re.fullmatch("[0-9a-f]{64}", ref["sha256"]),
+                "claim.custody.sha256", ref["sha256"])
     require(profile(claim["repository"]) is not None, "claim.repository", claim["repository"])
     for key in ("issue", "pr", "run_id", "run_attempt"):
         require(type(claim[key]) is int and claim[key] > 0, "claim." + key, claim[key])
@@ -211,6 +240,12 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
         require(ref is None, "claim.execution_envelope", "cloud execution cannot bind a local envelope")
         return None
     if ref is None:
+        if "bootstrap_custody" in claim:
+            # Reconciliation holds this same Noodle lock until cleanup ends.
+            guard = contextlib.nullcontext() if operation == "reconcile" else bootstrap_guard(claim)
+            with guard:
+                bootstrap_binding(claim, issue, allow_removed=operation == "reconcile")
+            return None
         require(issue is None or "soodles:execution-v1" not in (issue.get("body") or ""),
                 "claim.execution_envelope", "required for an execution contract")
         return None
@@ -232,7 +267,123 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
                              {**input_next(operation, error.next["required"], checkpoint), **error.next,
                               "reason": "Preserve the original claim/checkpoint. Supervisor corrections use "
                                         "invalidate/readmit only for unoffered work; unknown offered writes "
-                                        "remain readback-only. This refusal does not renew authority."}) from error
+                              "remain readback-only. This refusal does not renew authority."}) from error
+
+
+@contextlib.contextmanager
+def bootstrap_guard(claim):
+    """Hold Noodle's existing instance lock; never create a second lifecycle lock."""
+    if "bootstrap_custody" not in claim:
+        yield
+        return
+    path = Path(claim["control_root"]).resolve() / ".noodle/noodle.lock"
+    try:
+        stream = path.open("rb")
+    except OSError as error:
+        raise LandingRefusal("bootstrap.noodle_lock", type(error).__name__) from error
+    with stream:
+        try:
+            fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as error:
+            raise LandingRefusal("bootstrap.live_owner", type(error).__name__) from error
+        try:
+            yield
+        finally:
+            fcntl.flock(stream, fcntl.LOCK_UN)
+
+
+def bootstrap_binding(claim, issue=None, *, allow_removed=False):
+    """Explicit external adoption of a worktree, never proof of an execution."""
+    from issue_admission import (AdmissionRefusal, body_digest, parse_contract,
+                                 validate_delivery_paths, git_bytes)
+    from issue_execution import executable_identity, read_owner, quiescent_order, _absent_process
+    import platform
+    root = Path(claim["control_root"]).resolve()
+    ref = claim["bootstrap_custody"]
+    source = Path(ref["path"]).resolve()
+    require(not source.is_relative_to(root), "bootstrap.path", "must be external")
+    data = source.read_bytes()
+    require(hashlib.sha256(data).hexdigest() == ref["sha256"],
+            "bootstrap.sha256", ref["sha256"])
+    binding = json.loads(data)
+    require(isinstance(binding, dict)
+            and set(binding) == {"schema", "owner", "kind", "claim", "platform", "noodle", "issue_body"}
+            and binding["schema"] == 1 and binding["owner"] == "external-supervisor"
+            and binding["kind"] == "worktree-only-bootstrap", "bootstrap.binding", "invalid shape")
+    require(isinstance(binding["issue_body"], str), "bootstrap.issue_body", "expected text")
+    expected = {key: value for key, value in claim.items()
+                if key not in {"bootstrap_custody", "verifier_sha256"}}
+    require(binding["claim"] == expected, "bootstrap.claim", binding["claim"])
+    host = platform.system().lower() + "_" + platform.machine().lower()
+    require(binding["platform"] == host, "bootstrap.platform", binding["platform"])
+    if issue is not None:
+        require(isinstance(issue.get("body"), str)
+                and body_digest(issue["body"]) == body_digest(binding["issue_body"]),
+                "bootstrap.issue_body", "changed")
+    worktree = root / ".worktrees" / claim["worktree"]
+    require(worktree.exists() or allow_removed, "bootstrap.worktree", "missing")
+    require(checked(["git", "remote", "get-url", "origin"], root) in git_origins(claim["repository"]),
+            "bootstrap.origin", "foreign repository")
+    if worktree.exists():
+        require(source_identity(worktree) == {"head": claim["head"], "tree": claim["tree"]},
+                "bootstrap.worktree.identity", str(worktree))
+        require(checked(["git", "symbolic-ref", "--short", "HEAD"], worktree) == claim["worktree"],
+                "bootstrap.worktree.branch", claim["worktree"])
+        common = [checked(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"], p)
+                  for p in (root, worktree)]
+        require(common[0] == common[1], "bootstrap.worktree.registration", common)
+    try:
+        executable_identity(binding["noodle"], "bootstrap.noodle")
+        contract = parse_contract(binding["issue_body"])
+        delivery = {"repository": claim["repository"], "issue": claim["issue"],
+                    "base_head": claim["base_head"], "write_paths": contract["write_paths"],
+                    "contract": contract}
+        if contract.get("schema") == 3:
+            require(contract["base_head"] == claim["base_head"], "bootstrap.base", contract["base_head"])
+        subject = worktree if worktree.exists() else root
+        validate_delivery_paths(subject, claim["base_head"], claim["head"], delivery)
+        for pin in contract.get("frozen_paths", []):
+            revision = claim["base_head"] if pin["revision"] == "base" else claim["head"]
+            require(hashlib.sha256(git_bytes(subject, revision, pin["path"])).hexdigest() == pin["sha256"],
+                    "bootstrap.frozen_path", pin["path"])
+        context = {"execution": {"control_root": str(root)}}
+        state = read_owner(context)
+        require(not (root / ".noodle/orders-next.json").exists(), "bootstrap.proposal", "pending proposal")
+        # Any original subject/order/worktree history selects the execution
+        # contract instead. Absence is necessary, never itself authorization.
+        history = json.dumps(state, sort_keys=True)
+        for identity in (f"soodles-{claim['issue']}", f"{claim['repository']}#{claim['issue']}", claim["worktree"]):
+            require(identity not in history, "bootstrap.original_history", identity)
+        for order_id in state["state"]["orders"]:
+            quiescent_order({"execution": {"control_root": str(root), "order_id": order_id}}, state)
+        for process in (root / ".noodle/sessions").glob("*/process.json"):
+            directory = process.parent
+            spawn = directory / "spawn.json"
+            if spawn.exists():
+                recorded = read(spawn)
+                require(recorded.get("worktree_path") != str(worktree),
+                        "bootstrap.session_history", directory.name)
+            _absent_process(directory, directory.name)
+        require(read_owner(context) == state, "bootstrap.owner_changed", "fresh readback required")
+    except AdmissionRefusal as error:
+        raise LandingRefusal(error.invalid["field"], error.invalid["value"], error.next) from error
+    return binding
+
+
+def reconcile_next(claim, checkpoint):
+    envelope = execution_binding(claim, operation="reconcile", checkpoint=checkpoint)
+    if envelope is None:
+        return input_next("reconcile", ["binary"], checkpoint)
+    from issue_execution import validate_carrier
+    try:
+        identity = validate_carrier(envelope)
+    except Refusal as error:
+        raise LandingRefusal("reconcile.carrier", str(error)) from error
+    binary = identity["noodle"]
+    return {"kind": "executable", "owner": "landing.reconcile",
+            "operation": "reconcile",
+            "known": {"checkpoint": str(Path(checkpoint).resolve()), "binary": binary},
+            "argv": cli_argv("reconcile", checkpoint, binary)}
 
 
 def validate_snapshot(claim, snapshot, *, operation, checkpoint):
@@ -254,7 +405,8 @@ def validate_snapshot(claim, snapshot, *, operation, checkpoint):
     require(pr["head"]["repo"]["full_name"] == repository, "pr.head.repository", pr["head"]["repo"]["full_name"])
     require(pr["base"]["repo"]["full_name"] == repository and pr["base"]["ref"] == base_ref, "pr.base", pr["base"])
     require(pr["head"]["sha"] == claim["head"], "pr.head.sha", pr["head"]["sha"])
-    require(pr["head"]["ref"] == claim["worktree"], "pr.head.ref", pr["head"]["ref"])
+    require(pr["head"]["ref"] == claim.get("publication_branch", claim["worktree"]),
+            "pr.head.ref", pr["head"]["ref"])
     require(commit.get("sha") == claim["head"] and commit["tree"]["sha"] == claim["tree"], "commit.identity", commit.get("sha"))
     require(run.get("id") == claim["run_id"] and run.get("run_attempt") == claim["run_attempt"], "run.identity", run.get("id"))
     require(run["repository"]["full_name"] == repository and run["head_repository"]["full_name"] == repository,
@@ -327,8 +479,11 @@ def delivery_state(path):
             # Old advance could already have emitted the request. Absence is never proof of non-delivery.
             state["delivery"] = {"action": action, "status": "offered"}
         delivery = state.get("delivery")
-        require(isinstance(delivery, dict) and set(delivery) == {"action", "status"}
-                and delivery["action"] == action and delivery["status"] in {"prepared", "offered"},
+        require(isinstance(delivery, dict)
+                and {"action", "status"} <= set(delivery)
+                and set(delivery) <= {"action", "status", "request"}
+                and delivery["action"] == action and delivery["status"] in {"prepared", "offered"}
+                and (delivery["status"] == "offered" or "request" not in delivery),
                 "checkpoint.delivery", delivery)
         expected = [] if action == "merge" else ["merge"]
         if delivery["status"] == "offered":
@@ -508,7 +663,7 @@ def advance(checkpoint, snapshot):
         if prepared:
             return response("advance", state, "dispatch", provider_next(claim, "dispatch", path))
         if state["phase"] in {"awaiting_reconcile", "reconciling"}:
-            return response("advance", state, "reconcile", input_next("reconcile", ["binary"], path))
+            return response("advance", state, "reconcile", reconcile_next(claim, path))
         return response("advance", state, "readback", provider_next(claim, "advance", path))
 
 
@@ -531,17 +686,21 @@ def dispatch(checkpoint, snapshot):
         if delivery["action"] == "merge":
             require(not snapshot["pr"].get("merged") and snapshot["pr"].get("mergeable") is True,
                     "dispatch.pr", "merge no longer eligible", provider_next(claim, "advance", path))
-            request = {"action": "merge", "repository_full_name": claim["repository"], "pr_number": claim["pr"],
-                       "expected_head_sha": claim["head"], "merge_method": "merge"}
         else:
             require(snapshot["pr"].get("merged") and snapshot["issue"]["state"] == "open",
                     "dispatch.issue", "closure no longer eligible", provider_next(claim, "advance", path))
-            request = {"action": "close", "repository_full_name": claim["repository"], "issue_number": claim["issue"],
-                       "state": "closed", "state_reason": "completed"}
+        request = delivery_request(claim, delivery["action"])
+        delivery["request"] = request
         delivery["status"] = "offered"
         state["writes_offered"].append(delivery["action"])
         save(path, state)  # Must precede request emission; an interrupted offer remains unknown.
-        return response("dispatch", state, request["action"], provider_next(claim, "advance", path), request=request)
+        next_action = provider_next(claim, "advance", path)
+        if claim_route(claim) == "local":
+            next_action = {"kind": "executable", "owner": "local-provider",
+                           "operation": "execute",
+                           "known": {"checkpoint": str(path)},
+                           "argv": provider_cli_argv(path)}
+        return response("dispatch", state, request["action"], next_action, request=request)
 
 
 def resume(checkpoint, claim):
@@ -582,7 +741,7 @@ def resume(checkpoint, claim):
         state["scope"] = f"supervised single-Issue {new_route} landing"
         save(path, state)
         next_action = (provider_next(claim, "advance", path) if new_route == "cloud"
-                       else input_next("reconcile", ["binary"], path))
+                       else reconcile_next(claim, path))
         return response("resume", state, "readback" if new_route == "cloud" else "reconcile",
                         next_action, provider_requests=[])
 
@@ -599,11 +758,12 @@ def fetch_main(root):
 
 
 def reconcile(checkpoint, binary):
-    with locked(checkpoint) as path:
+    with locked(checkpoint) as path, contextlib.ExitStack() as custody:
         state = read(path)
         require(state.get("schema") in (1, 2), "checkpoint.schema", state.get("schema"))
         claim = state["claim"]
         validate_claim(claim)
+        custody.enter_context(bootstrap_guard(claim))
         require(claim_route(claim) == "local", "reconcile.route", claim_route(claim))
         require(state["phase"] in {"awaiting_reconcile", "reconciling", "resolved"}, "checkpoint.phase", state["phase"])
         root = Path(claim["control_root"]).resolve()
@@ -615,7 +775,12 @@ def reconcile(checkpoint, binary):
         require(checked(["git", "branch", "--show-current"], root) == base_ref, "local.branch", "expected " + base_ref)
         before = source_identity(root)
         envelope = execution_binding(claim, operation="reconcile", checkpoint=path)
-        if envelope is None:
+        if "bootstrap_custody" in claim:
+            binding = bootstrap_binding(claim, allow_removed=state["phase"] in {"reconciling", "resolved"})
+            require(str(Path(binary).resolve()) == str(Path(binding["noodle"]["path"]).resolve()),
+                    "reconcile.binary", binary)
+            runtime = {"observed_binary_sha256": binding["noodle"]["sha256"]}
+        elif envelope is None:
             runtime = runtime_check(Path(__file__).resolve().parent, binary)
         else:
             from issue_execution import validate_carrier
@@ -740,3 +905,4 @@ def reconcile(checkpoint, binary):
         state["phase"], state["classification"] = "resolved", "RESOLVED"
         save(path, state)
         return {**state, **response("reconcile", state, "stop", None)}
+

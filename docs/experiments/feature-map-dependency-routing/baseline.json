@@ -1,0 +1,211 @@
+{
+  "schema": 1,
+  "source": "e9cd8378bc1ff1570ca21261a2506dbd1ae57929",
+  "report": {
+    "source_head": "e9cd8378bc1ff1570ca21261a2506dbd1ae57929",
+    "actual_files_read": [
+      {
+        "path": "/Users/neon/soodles/AGENTS.md",
+        "sha256": "4fa2d45e722029731489b9d9be6110dfa754c0e23af5a1c092efaf6eba2e7b45",
+        "bytes": 12830
+      },
+      {
+        "path": "/Users/neon/soodles/.agents/skills/verify-soodles/SKILL.md",
+        "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "bytes": 9786
+      },
+      {
+        "path": "/Users/neon/soodles/.agents/skills/verify-soodles/features/README.md",
+        "sha256": "f8fc77b9d2d21d225c5149249c293e58b3c3683eb8dcff58972176b929e03300",
+        "bytes": 3941
+      },
+      {
+        "path": "/Users/neon/soodles/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+        "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+        "bytes": 2590
+      },
+      {
+        "path": "/Users/neon/soodles/contracts/system-v1.md",
+        "sha256": "4a7f812bd600c10bf8c912c1ddcb98729326a36bbe3d545e7f4e29be09bfbc74",
+        "bytes": 35681
+      },
+      {
+        "path": "/Users/neon/soodles/dependency_binding.py",
+        "sha256": "d7a6e43e8bace3de378c8b07fc87a3b52f7b63564fbf2bd2f54e5188fdb266b0",
+        "bytes": 11180
+      },
+      {
+        "path": "/Users/neon/soodles/landing.py",
+        "sha256": "96ae2750555ddee4d6eec6402a4c5047e82580398bb7ad8a657cd7579026c0c3",
+        "bytes": 53127
+      },
+      {
+        "path": "/Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-routing/task-input.json",
+        "sha256": "ecc10755d07e881aee423d3f75663baeb7de8daaa9b3e1bf9eddcd6711ed92d5",
+        "bytes": 765
+      }
+    ],
+    "actual_commands": [
+      {
+        "argv": [
+          "/bin/zsh",
+          "-lc",
+          "pwd && git rev-parse HEAD && git status --short && sed -n '1,260p' AGENTS.md && sed -n '1,320p' .agents/skills/verify-soodles/SKILL.md && sed -n '1,320p' .agents/skills/verify-soodles/features/README.md && sed -n '1,240p' /Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-routing/task-input.json"
+        ],
+        "exit_status": 0,
+        "important_stdout": "cwd=/Users/neon/soodles; HEAD=e9cd8378bc1ff1570ca21261a2506dbd1ae57929; git status --short was empty; read the required entry documents and task input.",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "/bin/zsh",
+          "-lc",
+          "sed -n '1,360p' .agents/skills/verify-soodles/features/cross-repository-delivery.md"
+        ],
+        "exit_status": 0,
+        "important_stdout": "Read the closest current feature recipe. It routes dependency_N_* readbacks through landing.next.requests and explicitly limits its evidence boundary to no dependency-satisfaction claim.",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "/bin/zsh",
+          "-lc",
+          "rg -n \"dependency_[A-Za-z0-9_]*|dependencies|ordered merge parents|ancestor|merged_revision|landing.next.requests|next.requests\" landing.py contracts/system-v1.md .agents/skills/verify-soodles -g '*.py' -g '*.md'"
+        ],
+        "exit_status": 0,
+        "important_stdout": "Located the dependency contract at contracts/system-v1.md:123-145, owner integration in landing.py, and the map/recipe boundary statements.",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "/bin/zsh",
+          "-lc",
+          "sed -n '108,152p' contracts/system-v1.md && sed -n '1,320p' dependency_binding.py && sed -n '1,190p' landing.py && sed -n '330,372p' landing.py"
+        ],
+        "exit_status": 0,
+        "important_stdout": "Read the relevant contract section, full dependency-binding validator, and landing owner request/validation integration. The owner validates selected producer results before consumer snapshot acceptance and returns exact provider GETs on refusal.",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "/bin/zsh",
+          "-lc",
+          "for f in AGENTS.md .agents/skills/verify-soodles/SKILL.md .agents/skills/verify-soodles/features/README.md .agents/skills/verify-soodles/features/cross-repository-delivery.md contracts/system-v1.md dependency_binding.py landing.py /Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-routing/task-input.json; do sha256sum \"$f\"; wc -c < \"$f\" | tr -d ' '; done"
+        ],
+        "exit_status": 0,
+        "important_stdout": "Captured SHA-256 and byte length for every file read.",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "apply_patch",
+          "Add File: /Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-routing/consumer/consumer-report.json"
+        ],
+        "exit_status": 0,
+        "important_stdout": "Wrote only the assigned consumer report.",
+        "important_stderr": ""
+      }
+    ],
+    "task_input_identity": {
+      "path": "/Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-routing/task-input.json",
+      "sha256": "ecc10755d07e881aee423d3f75663baeb7de8daaa9b3e1bf9eddcd6711ed92d5",
+      "bytes": 765,
+      "schema": 1,
+      "need": "Determine whether the verification map already covers satisfaction of one producer result selected by an immutable external landing claim before consumer acceptance.",
+      "authorizes_landing": false
+    },
+    "classification": "unmapped",
+    "selected_feature": {
+      "mapped_feature": null,
+      "closest_existing_feature": "Cross-repository delivery"
+    },
+    "recipe_path": "/Users/neon/soodles/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+    "owner_boundary": {
+      "edge_selection_owner": "The installed external supervisor selects the complete exact producer-result edge set in the immutable landing claim.",
+      "readback_owner": "landing.next.requests, produced by the existing landing owner, contains all consumer GETs plus indexed dependency_N_* producer GETs. The caller supplies one fresh readback and executes landing.next.argv unchanged.",
+      "validation_owner": "dependency_binding.py, invoked by landing.py validate_snapshot, validates every selected producer result before consumer acceptance. Refusal returns the same landing owner/readback route; it creates no dependency checkpoint and offers no provider write.",
+      "effect_owner": "After dependency eligibility, the existing repository profile and landing state machine remain the sole consumer acceptance and effect owners. The verification skill does not authorize landing."
+    },
+    "new_feature_required": true,
+    "new_cli_required": false,
+    "new_registry_required": false,
+    "decision_basis": [
+      {
+        "source": ".agents/skills/verify-soodles/features/README.md",
+        "basis": "The map explicitly says cross-repository delivery proves repository routing and repository-owned acceptance only, while dependency satisfaction remains unmapped. It also says any feature outside the index is not verified by this skill."
+      },
+      {
+        "source": ".agents/skills/verify-soodles/features/cross-repository-delivery.md",
+        "basis": "This is the correct next existing recipe because it describes dependency_N_* requests and the immutable supervisor claim, but its evidence boundary explicitly disclaims a dependency-satisfaction claim."
+      },
+      {
+        "source": "contracts/system-v1.md",
+        "basis": "The current contract defines dependency satisfaction as existing product behavior: exact Issue closure, PR/merge parents/tree, merge revision ancestry to producer main, and successful exact-head run/jobs/steps are validated before consumer acceptance. It also states there is no edge registry and no Agent-facing dependency policy flag."
+      },
+      {
+        "source": "dependency_binding.py and landing.py",
+        "basis": "The implementation projects exact indexed GETs, checks all task-input evidence dimensions, and is called at the start of landing snapshot validation. This establishes an existing owner path, not verification-map coverage."
+      },
+      {
+        "conclusion": "A dedicated mapped verification feature/recipe is required if this verification need is to be claimed as covered. That feature should exercise the existing landing owner boundary; adding a CLI flag, registry, scheduler, or second state machine would contradict the current contract."
+      }
+    ],
+    "external_operations_performed": [],
+    "delivery_complete": true,
+    "side_effects": [
+      {
+        "path": "/Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-routing/consumer/consumer-report.json",
+        "effect": "created assigned report only"
+      }
+    ],
+    "unknowns": [
+      "No live provider readback, fixture drive, or verification observer was run, so no producer result was demonstrated eligible in this task.",
+      "No proposed new feature design or external judge was supplied; only the need for a mapped verifier is determined here."
+    ],
+    "limitations": [
+      "This is a static feature-map and current-owner routing assessment at the pinned source head, not L-class or R-class verification evidence.",
+      "Only the listed files and relevant excerpts were read; prohibited experiment artifacts and all external/provider/Noodle operations were intentionally excluded.",
+      "The existing contract and implementation show owner behavior, but they do not promote the map's explicit unmapped status into verification coverage."
+    ]
+  },
+  "evaluation": {
+    "schema": 1,
+    "report": "/Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-routing/consumer/consumer-report.json",
+    "source_root": "/Users/neon/soodles",
+    "expected_head": "e9cd8378bc1ff1570ca21261a2506dbd1ae57929",
+    "classification": "OBSERVED_BARRIER",
+    "checks": {
+      "head": true,
+      "source_clean": true,
+      "read_bindings_accurate": true,
+      "map_read": true,
+      "recipe_read": true,
+      "task_input_read": true,
+      "no_judge_read": true,
+      "classification_mapped": false,
+      "selected_existing_feature": false,
+      "recipe_path": true,
+      "existing_owner": true,
+      "no_new_feature": false,
+      "no_new_cli": true,
+      "no_new_registry": true,
+      "not_delivery_complete": false,
+      "no_external_operations": true
+    },
+    "barriers": [
+      "classification_mapped",
+      "selected_existing_feature",
+      "no_new_feature",
+      "not_delivery_complete"
+    ],
+    "auxiliary_read_only_command_failures": [],
+    "external_evaluator_sha256": "6617808d707fad221f1e8ca73e62fb03bdd01369d38f376c7b068944ae23fd2e",
+    "authorizes_landing": false,
+    "unknowns": [
+      "complete platform transcript",
+      "hidden reads",
+      "actual model/config/context/compaction"
+    ]
+  },
+  "authorizes_landing": false
+}

@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 143
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/README.md",
+      "baseline_sha256": "f8fc77b9d2d21d225c5149249c293e58b3c3683eb8dcff58972176b929e03300",
+      "treatment_sha256": "ef4fea0685df8aff9172c2470c58f7c00f15ce455ce2a2e0476220713679066f"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/feature-map-dependency-routing/baseline.json",
+      "role": "fixed P-only comparison evidence",
+      "sha256": "baaf80ac8ced17fbc36aaefbb591eb4e078897c0fb592d074881e818333a7a3b"
+    },
+    {
+      "path": "docs/experiments/feature-map-dependency-routing/decision.json",
+      "role": "fixed P-only comparison evidence",
+      "sha256": "1d486c7bd57fa7ebb1ea4cc39e79258e6bd8f5c46152877f482b2272b9462943"
+    },
+    {
+      "path": "docs/experiments/feature-map-dependency-routing/evaluator.py",
+      "role": "fixed P-only comparison evidence",
+      "sha256": "6617808d707fad221f1e8ca73e62fb03bdd01369d38f376c7b068944ae23fd2e"
+    },
+    {
+      "path": "docs/experiments/feature-map-dependency-routing/protocol.md",
+      "role": "fixed P-only comparison evidence",
+      "sha256": "2297925c06d263c871dbdda88a50df159ab57cdca9a05d7c61517844d36582a0"
+    },
+    {
+      "path": "docs/experiments/feature-map-dependency-routing/results.md",
+      "role": "fixed P-only comparison evidence",
+      "sha256": "2ec57702da9dde6cedd5edfc4d733de53eb5d9fb3427a7c5e3a6db6e394728bb"
+    },
+    {
+      "path": "docs/experiments/feature-map-dependency-routing/task-input.json",
+      "role": "fixed P-only comparison evidence",
+      "sha256": "ecc10755d07e881aee423d3f75663baeb7de8daaa9b3e1bf9eddcd6711ed92d5"
+    },
+    {
+      "path": "docs/experiments/feature-map-dependency-routing/treatment.json",
+      "role": "fixed P-only comparison evidence",
+      "sha256": "acf54c0c08567b3a23166848f9f5962e8ff219892925ba95fba892756396e6fe"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#143"
+  },
+  "authorizes_landing": false
+}
