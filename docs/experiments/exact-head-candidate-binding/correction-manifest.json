@@ -1,0 +1,27 @@
+{
+  "artifacts": [
+    {
+      "path": "docs/experiments/exact-head-candidate-binding/manifest.json",
+      "role": "corrected_issue_91_manifest",
+      "sha256": "87fd2b25b36c784bd0fa1a5749edf8a9ea16438c5ff57d33d910a9bab45c3d27"
+    }
+  ],
+  "authorizes_landing": false,
+  "instructions": [
+    {
+      "baseline_sha256": "e5b49ad1317022007167c3fd764a3052e3f5a555ae8076cea6cf8cce1018c6c2",
+      "path": "docs/experiments/exact-head-candidate-binding/results.md",
+      "treatment_sha256": "052e39d68dbccf684250dacb425a4324d795124d4bdd143926ac24b3d284ee7b"
+    }
+  ],
+  "issue": {
+    "number": 95,
+    "repository": "ed3c/soodles"
+  },
+  "owner": {
+    "authorization": "ed3c/soodles#95",
+    "name": "Soodles evidence correction",
+    "tool": "issue_admission.validate_delivery_paths"
+  },
+  "schema": 1
+}
