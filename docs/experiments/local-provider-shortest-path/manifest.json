@@ -38,9 +38,14 @@
       "sha256": "f6c380c45a2d96cf9cb413fccc3f4250cac04a9342d1792560a23e6d9d3f0d2e"
     },
     {
+      "path": "issue_atom.py",
+      "role": "external_publisher_bundle_adapter",
+      "sha256": "d087ee340a70871c4db4d3e990408d361da364fc3aff8d5234f03cd52bab77f7"
+    },
+    {
       "path": "landing.py",
       "role": "transition_owner",
-      "sha256": "978c8641d61cc464a3675e815e9d1136e7d31e1fb94b8648f80ab47c16fc6d9e"
+      "sha256": "540759bc210b9979bfa11d212e72286284c986723c86b4ccbc486ce956d60b87"
     },
     {
       "path": "provider_transport.py",
@@ -51,6 +56,11 @@
       "path": "provider-execute",
       "role": "cli",
       "sha256": "502adb46f93ae2e5d499dd18900e87e61e2d17691c8dc7a997325b5193048e8a"
+    },
+    {
+      "path": "tests/test_landing_supervisor.py",
+      "role": "publisher_bundle_integration_control",
+      "sha256": "3c8f61d51ee7a8bdd992e6ad3779c4383029f49162ff469021138c74d7b4192c"
     },
     {
       "path": "tests/test_landing.py",

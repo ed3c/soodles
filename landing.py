@@ -105,8 +105,8 @@ def verifier_digest():
     # A supervisor selects this implementation outside the candidate under evaluation.
     root = Path(__file__).resolve().parent
     return fingerprint({name: hashlib.sha256((root / name).read_bytes()).hexdigest()
-                        for name in ("landing.py", "provider_transport.py", "soodles.py",
-                                     "issue_admission.py", "repository_binding.py",
+                        for name in ("landing.py", "provider-execute", "provider_transport.py",
+                                     "soodles.py", "issue_admission.py", "repository_binding.py",
                                      "dependency_binding.py", "issue_execution.py",
                                      "policy/runtime.lock.json")})
 

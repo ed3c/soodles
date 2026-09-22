@@ -34,8 +34,9 @@ AUTH_FIELDS = {
     "schema_version", "owner", "repository", "control_root", "base_head",
     "task", "issue", "noodle", "carrier", "workflow", "host_config_sha256",
 }
-OWNER_FILES = ("landing.py", "soodles.py", "issue_admission.py", "repository_binding.py",
-               "dependency_binding.py", "issue_execution.py", "policy/runtime.lock.json")
+OWNER_FILES = ("landing.py", "provider-execute", "provider_transport.py", "soodles.py",
+               "issue_admission.py", "repository_binding.py", "dependency_binding.py",
+               "issue_execution.py", "policy/runtime.lock.json")
 MARKER_PREFIX = "<!-- soodles:local-atom-v1:"
 
 
