@@ -80,7 +80,9 @@ class IssueExecutionTests(unittest.TestCase):
         order = proposal["orders"][0]
         stage = order["stages"][0]
         self.snapshot["state"]["orders"][order["id"]] = {
-            "stages": [{**stage, "status": "dispatching",
+            "stages": [{"stage_index": 0, "skill": stage["do"], "provider": stage["with"],
+                        "model": stage["model"], "runtime": stage["runtime"], "prompt": stage["prompt"],
+                        "status": "dispatching",
                         "attempts": [{"status": "launching", "session_id": ""}]}]}
         self.snapshot["order_revision"] = "b" * 32
         self.snapshot["effect_ledger"] = [{"effect_id": "owner-fixture-receipt", "status": "done",
@@ -184,6 +186,47 @@ class IssueExecutionTests(unittest.TestCase):
         self.save_owner()
         self.assertEqual(self.admit("automatic")["action"], "previously_admitted")
         self.assertFalse((self.runtime / "orders-next.json").exists())
+
+    def test_issue_atom_can_observe_exact_live_owner_without_takeover_or_effects(self):
+        self.admit("supervised")
+        self.promote_fixture()
+        before = (self.runtime / "state.snapshot.json").read_bytes()
+        result = execution.supervised(self.path, self.pin, self.root, reader=self.reader, observe_live=True)
+        self.assertEqual(result["action"], "running")
+        self.assertFalse(result["published"])
+        self.assertEqual(result["next"]["owner"], "Noodle")
+        self.assertEqual((self.runtime / "state.snapshot.json").read_bytes(), before)
+        self.assertFalse((self.runtime / "orders-next.json").exists())
+        self.assertFalse(self.effect.exists())
+        with self.assertRaisesRegex(admission.AdmissionRefusal, "takeover.prior_writer"):
+            self.admit("supervised")
+
+    def test_live_observer_does_not_mistake_proposal_fields_for_canonical_state(self):
+        self.admit("supervised")
+        self.promote_fixture()
+        stage = self.snapshot["state"]["orders"]["soodles-18"]["stages"][0]
+        stage["do"] = stage.pop("skill")
+        stage["with"] = stage.pop("provider")
+        self.save_owner()
+        with self.assertRaisesRegex(admission.AdmissionRefusal, "observe.stage"):
+            execution.supervised(self.path, self.pin, self.root, reader=self.reader, observe_live=True)
+
+    def test_live_observation_rejects_foreign_binding_and_parallel_attempts(self):
+        self.admit("supervised")
+        self.promote_fixture()
+        stage = self.snapshot["state"]["orders"]["soodles-18"]["stages"][0]
+        original = copy.deepcopy(stage)
+        for change in ({"prompt": "{}"}, {"model": "foreign"},
+                       {"attempts": original["attempts"] * 2}):
+            stage.clear()
+            stage.update(copy.deepcopy(original))
+            stage.update(change)
+            self.save_owner()
+            before = (self.runtime / "state.snapshot.json").read_bytes()
+            with self.subTest(change=change), self.assertRaises(admission.AdmissionRefusal):
+                execution.supervised(self.path, self.pin, self.root, reader=self.reader, observe_live=True)
+            self.assertEqual((self.runtime / "state.snapshot.json").read_bytes(), before)
+            self.assertFalse((self.runtime / "orders-next.json").exists())
 
     def test_live_writer_refuses_supervised_takeover_without_resetting_history(self):
         self.admit("automatic")

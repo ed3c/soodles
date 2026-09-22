@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 133
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "ebdbf0246c4bc6e77638bfc139eb9bc89151ffda3e0a224c1b12661720ec88aa",
+      "treatment_sha256": "2a611669f6cccbcd351c966d39047901b1ef612f95678388643b76e079652d3d"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/local-atom-host-bootstrap/observer.py",
+      "role": "bounded atom source or raw evidence; non-authorizing",
+      "sha256": "ac3c7fc1af648bb9ac1c5e8964e549911e07326afa53bf687b0e046675835e35"
+    },
+    {
+      "path": "docs/experiments/local-atom-host-bootstrap/protocol.md",
+      "role": "bounded atom source or raw evidence; non-authorizing",
+      "sha256": "6802e2888278a5fed2c7904104699639df0b35cb49b7dcf02203e93675ca9a4e"
+    },
+    {
+      "path": "docs/experiments/local-atom-host-bootstrap/raw.json",
+      "role": "bounded atom source or raw evidence; non-authorizing",
+      "sha256": "f3c94aca8f9d2808e17d9c582cf3786e6f911ed2083569c5e12d1bbd558f3827"
+    },
+    {
+      "path": "docs/experiments/local-atom-host-bootstrap/results.md",
+      "role": "bounded atom source or raw evidence; non-authorizing",
+      "sha256": "b8043d4dd53e00b05bfe30686d6443a63ccc54d88fc0631b76306db2e84218d9"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "bounded atom source or raw evidence; non-authorizing",
+      "sha256": "24165300af6d49a7912a8a63e276c89abe1dfa6367f05bbee1df8229001dabf4"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "bounded atom source or raw evidence; non-authorizing",
+      "sha256": "77348302e96298de9952f1550644530aafcabe6be2f80dc7d392e2810fc66410"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#133"
+  },
+  "authorizes_landing": false
+}

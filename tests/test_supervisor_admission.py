@@ -33,7 +33,7 @@ class SupervisorFixture:
         self._git("init", "-b", "main")
         (self.root / ".gitignore").write_text(".noodle/\n.worktrees/\n")
         (self.root / "allowed.py").write_text("print('fixture')\n")
-        for path in BUNDLE_PATHS:
+        for path in BUNDLE_PATHS + (".agents/skills/execute/SKILL.md", ".agents/skills/schedule/SKILL.md"):
             target = self.root / path
             target.parent.mkdir(parents=True, exist_ok=True)
             if path == "github_reader.py":
@@ -150,12 +150,12 @@ class SupervisorFixture:
             ["git", *args], cwd=self.root, text=True, stderr=subprocess.PIPE
         ).strip()
 
-    def prepare(self, name="bundle", environ=None):
+    def prepare(self, name="bundle", environ=None, **kwargs):
         output = self.external / name
         if environ is None:
             environ = {TOKEN_COMMAND_ENV: self.token_command}
         result = supervisor_admission.prepare(
-            self.issue, self.carrier, self.root, output, environ=environ)
+            self.issue, self.carrier, self.root, output, environ=environ, **kwargs)
         return output, result
 
     def baseline(self):
@@ -347,6 +347,47 @@ def observe_sensitivity():
 
 
 class SupervisorAdmissionTests(unittest.TestCase):
+    def test_host_bundle_binds_task_worker_and_single_issue_backlog(self):
+        import tomllib
+        fixture = SupervisorFixture()
+        self.addCleanup(fixture.close)
+        fixture.carrier["codex"]["argv"] = ["exec", "--skip-git-repo-check", "--json",
+                                              "--model", "fixture-model", "-c", "approval_policy=never"]
+        output, prepared = fixture.prepare(task="One exact supplied task.", wire_host=True)
+        binding = json.loads((output / "envelope.json").read_text())
+        self.assertEqual(binding["execution"]["task"], "One exact supplied task.")
+        config = tomllib.loads((output / "noodle.toml").read_text())
+        self.assertEqual(config["mode"], "supervised")
+        self.assertEqual(config["agents"]["codex"]["path"], str(output / "provider"))
+        self.assertEqual(config["agents"]["codex"]["args"], ["-c", "approval_policy=never"])
+        self.assertFalse((fixture.root / ".noodle.toml").exists())
+        env = {**os.environ, "FIXTURE_ISSUE_READBACK": str(fixture.issue_path)}
+        sync = subprocess.run([str(output / "backlog"), "sync"], env=env,
+                              capture_output=True, text=True)
+        self.assertEqual(sync.returncode, 0, sync.stderr)
+        self.assertEqual(json.loads(sync.stdout)["id"], "soodles-118")
+        self.assertEqual(json.loads(sync.stdout)["plan"], "One exact supplied task.")
+        for argv in (["add", "foreign"], ["done", "soodles-119"], ["done", "soodles-118"]):
+            result = subprocess.run([str(output / "backlog"), *argv], env=env, capture_output=True)
+            self.assertNotEqual(result.returncode, 0)
+        # Generated worker reaches the existing identity guard, not the sentinel.
+        worker = subprocess.run([str(output / "provider/codex"), *fixture.carrier["codex"]["argv"]],
+                                cwd=fixture.root, env=env, capture_output=True, text=True)
+        self.assertNotEqual(worker.returncode, 0)
+        self.assertEqual(json.loads(worker.stdout)["invalid"]["field"], "worker.session_id")
+        self.assertFalse(fixture.child_marker.exists())
+        (output / "runtime/issue_execution.py").write_text("raise RuntimeError('must not import')")
+        changed = subprocess.run([str(output / "backlog"), "sync"], env=env, capture_output=True, text=True)
+        self.assertNotEqual(changed.returncode, 0)
+        self.assertIn("changed admission bytes", changed.stderr)
+
+    def test_unknown_worker_argv_refuses_before_host_bundle_creation(self):
+        fixture = SupervisorFixture()
+        self.addCleanup(fixture.close)
+        with self.assertRaisesRegex(AdmissionRefusal, "supervisor.worker.argv"):
+            fixture.prepare(wire_host=True)
+        self.assertFalse((fixture.external / "bundle").exists())
+
     def test_bootstrap_injects_provider_identity_then_uses_exact_launcher(self):
         observed = observe_baseline_and_treatment()
         baseline = observed["baseline"]
