@@ -300,7 +300,8 @@ def completed_original_order(binding, state):
 def projection(binding, envelope_digest, route):
     return {"repository": binding["repository"], "issue": binding["issue"],
             "body_sha256": binding["body_sha256"], "body_updated_at": binding["body_updated_at"],
-            "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"]}
+            "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"],
+            "contract": binding["contract"]}
 
 
 def publish_once(path, proposal):

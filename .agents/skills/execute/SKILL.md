@@ -8,12 +8,14 @@ schedule: Only the exact Issue/order admitted by the installed Soodles consumer.
 
 The installed provider entry revalidates the current provider Issue, external
 envelope, canonical order, session and worktree before launching this Agent.
-The stage prompt carries the binding and the supervisor's bounded `task`.
-Execute that task within the Issue's boundary; report unfinished delivery as
-unfinished. The prompt is not permission to invent a new
-Issue, route, worktree or envelope. Read the current Issue contract and honor
-its exact file boundary. A body amendment requires the supervisor's fresh
-envelope before further work.
+The stage prompt carries the exact binding, the supervisor's bounded `task`
+and the complete validated structured Issue `contract`. Consume that contract
+and honor its exact file boundary; no duplicate GitHub read is required from
+the implementation child. If the contract is missing, stop affected work and
+return to the existing admission owner. A body amendment requires the
+supervisor's fresh envelope before further work.
+Execute the task within that boundary; report unfinished delivery as unfinished.
+The prompt is not permission to invent a new Issue, route, worktree or envelope.
 
 For an admitted task that verifies Noodle CLI identity/skill resolution, stopped
 initial-proposal recovery or a genuine order/session handoff, use
