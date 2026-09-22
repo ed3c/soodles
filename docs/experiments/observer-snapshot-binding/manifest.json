@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 139
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "baseline_sha256": "55c600b7b2bc5627f3d46897bdffff7793fe0ae95ca44304f002d0a16a0a2a05",
+      "treatment_sha256": "0faf5d3e426f9d9801643eef09f26195525f7a4b4a213796dc327d099d81969f"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/scripts/observe_pclass.py",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "65b46a7a79fb7fc1f9d09a012bff1d6b8cef57d0e2ae2e4051ae078f40c89214"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/scripts/record_context.py",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "9410a0fbe7b697ffcbfcf3aa3584af1904357d030b270d3ff0e2f8081edfc9cb"
+    },
+    {
+      "path": "docs/experiments/observer-snapshot-binding/observer.py",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "495a600fd6553ae39f4138c4f239dc0fd313b1b7a8846cee8ec464e3d6d1096c"
+    },
+    {
+      "path": "docs/experiments/observer-snapshot-binding/owner-input.json",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "f5af703de652df6ae40644e7e430ea64cf50964dbe6db84af9d0f1e1ee2ca9ac"
+    },
+    {
+      "path": "docs/experiments/observer-snapshot-binding/protocol.md",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "3d3a4ff16969dffee2b97c33bffa7f584cf7a9393573e47bfc0398c9dee82ad2"
+    },
+    {
+      "path": "docs/experiments/observer-snapshot-binding/raw.json",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "175c8b1ff383ef1de6fa9d54bc110fabbfec73001ea6184e6e7d9be0a26237d0"
+    },
+    {
+      "path": "docs/experiments/observer-snapshot-binding/results.md",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "d4e46783f63acd676681a7348d3668469cfdded7a94d6efe5de8c4721f28ff0e"
+    },
+    {
+      "path": "tests/test_context_recording.py",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "f556cea360928248f22b87c5a4ab9e595fcd8ae8da119bf007cdf22f69fadaa5"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#139"
+  },
+  "authorizes_landing": false
+}
