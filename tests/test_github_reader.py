@@ -2,6 +2,10 @@
 import io
 import json
 import os
+import re
+import shlex
+import sys
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 import subprocess
 import tempfile
@@ -15,6 +19,7 @@ from unittest.mock import patch
 
 import github_reader as reader
 import issue_execution
+import soodles
 from issue_admission import AdmissionRefusal
 
 URL = 'https://api.github.com/repos/ed3c/soodles/issues/44'
@@ -35,6 +40,73 @@ class GithubReaderTests(unittest.TestCase):
         self.environment = patch.dict(os.environ, {'GH_TOKEN': TOKEN, 'XDG_CACHE_HOME': self.temp.name})
         self.environment.start()
         self.addCleanup(self.environment.stop)
+
+    def cli(self, argv):
+        stdout, stderr = io.StringIO(), io.StringIO()
+        with patch.object(sys, 'argv', argv), redirect_stdout(stdout), redirect_stderr(stderr):
+            try:
+                code = soodles.main()
+            except SystemExit as error:
+                code = error.code
+        return code, stdout.getvalue(), stderr.getvalue()
+
+    def test_recipe_command_reads_externally_selected_issue(self):
+        root = Path(reader.__file__).resolve().parent
+        recipe = (root / '.agents/skills/verify-soodles/features/github-read.md').read_text()
+        template = re.search(r'`(\./soodles github issue [^`]+)`', recipe).group(1)
+        for repository, number in [('ed3c/soodles', 44), ('ed3c/ops-reconciliation-copilot', 21)]:
+            with self.subTest(repository=repository):
+                argv = shlex.split(template.replace('OWNER/REPOSITORY', repository).replace('NUMBER', str(number)))
+                url = f'https://api.github.com/repos/{repository}/issues/{number}'
+                value = {'url': url, 'number': number, 'body': 'unchanged'}
+                received = response(value=value)
+                received.url = url
+                with patch.object(reader, '_request', return_value=received) as transport:
+                    code, stdout, stderr = self.cli(argv)
+                self.assertEqual(code, 0, stdout + stderr)
+                receipt = json.loads(stdout)
+                self.assertEqual(receipt['status'], 'read')
+                self.assertEqual(receipt['issue'], value)
+                transport.assert_called_once()
+                self.assertEqual(transport.call_args.args[0].full_url, url)
+                self.assertEqual(transport.call_args.args[0].get_header('Authorization'), 'Bearer ' + TOKEN)
+
+    def test_malformed_read_arguments_stay_caller_owned_before_transport(self):
+        cases = [[], ['44'], ['ed3c/soodles'], ['ed3c/soodles', 'invalid'],
+                 ['ed3c/soodles', '44', '--unknown']]
+        root = Path(reader.__file__).resolve().parent
+        for arguments in cases:
+            with self.subTest(arguments=arguments), patch.object(reader, '_request') as transport:
+                code, stdout, stderr = self.cli(['./soodles', 'github', 'issue', *arguments])
+                self.assertEqual(code, 2, stdout + stderr)
+                transport.assert_not_called()
+                receipt = json.loads(stdout)
+                self.assertEqual(receipt['status'], 'refused')
+                self.assertEqual(receipt['invalid']['field'], 'arguments')
+                self.assertEqual(receipt['next']['owner'], 'caller')
+                self.assertEqual(receipt['next']['required'], ['valid_read_arguments'])
+                self.assertNotIn('execution_envelope', stdout + stderr)
+                self.assertEqual(receipt['next']['help_argv'],
+                                 [str(root / 'soodles'), 'github', 'issue', '--help'])
+        code, stdout, stderr = self.cli(receipt['next']['help_argv'])
+        self.assertEqual(code, 0, stdout + stderr)
+        self.assertIn('repository', stdout)
+        self.assertIn('number', stdout)
+
+    def test_read_input_non_cases_keep_supervisor_owner(self):
+        cases = [('ed3c/soodles', '', 'github.credential',
+                  'repository_scoped_installation_token_in_GH_TOKEN'),
+                 ('ed3c/unregistered', TOKEN, 'issue.repository',
+                  'supported_repository_identity')]
+        for repository, token, field, required in cases:
+            with self.subTest(field=field), patch.dict(os.environ, {'GH_TOKEN': token}), patch.object(reader, '_request') as transport:
+                code, stdout, stderr = self.cli(['./soodles', 'github', 'issue', repository, '44'])
+                self.assertEqual(code, 1, stdout + stderr)
+                transport.assert_not_called()
+                receipt = json.loads(stdout)
+                self.assertEqual(receipt['invalid']['field'], field)
+                self.assertEqual(receipt['next']['owner'], 'supervisor')
+                self.assertEqual(receipt['next']['required'], [required])
 
     def test_no_anonymous_request_without_credentials(self):
         # This exact assertion also runs against the old production fetch_issue.
@@ -86,9 +158,11 @@ class GithubReaderTests(unittest.TestCase):
     def test_provider_failure_never_returns_stale_cache(self):
         with patch.object(reader, '_request', side_effect=[response(headers={'ETag': '"one"'}), response(500)]) as transport:
             reader.issue('ed3c/soodles', 44)
-            with self.assertRaises(AdmissionRefusal):
+            with self.assertRaises(AdmissionRefusal) as caught:
                 reader.issue('ed3c/soodles', 44)
         self.assertEqual(transport.call_count, 2)
+        self.assertEqual(caught.exception.next['owner'], 'GitHub')
+        self.assertEqual(caught.exception.next['required'], ['fresh_issue_readback'])
 
     def test_quota_wait_has_no_retry_and_blocks_next_call(self):
         until = int(time.time()) + 600
@@ -121,6 +195,8 @@ class GithubReaderTests(unittest.TestCase):
                 reader.issue('ed3c/soodles', 44)
         self.assertEqual(transport.call_count, 1)
         self.assertNotIn(TOKEN, json.dumps(reader.refusal_output(caught.exception)))
+        self.assertEqual(caught.exception.next['owner'], 'supervisor')
+        self.assertEqual(caught.exception.next['required'], ['repository_scoped_installation_token_in_GH_TOKEN'])
 
     def test_wrong_issue_identity_refused(self):
         with patch.object(reader, '_request', return_value=response(value={'url': URL, 'number': 45})):
@@ -162,6 +238,9 @@ class GithubReaderTests(unittest.TestCase):
         self.assertEqual(receipt['status'], 'wait')
         self.assertFalse(receipt['invalid']['value']['request_sent'])
         self.assertEqual(receipt['next']['kind'], 'wait')
+        self.assertEqual(receipt['next']['owner'], 'GitHub')
+        self.assertEqual(receipt['next']['required'], ['fresh_issue_readback'])
+        self.assertGreater(receipt['next']['not_before'], time.time())
 
     def test_header_control_characters_refused_before_transport(self):
         with patch.dict(os.environ, {'GH_TOKEN': 'fixture\r\nInjected: value'}), patch.object(reader, '_request') as transport:

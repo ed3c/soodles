@@ -1,0 +1,71 @@
+{
+  "repository": "ed3c/soodles",
+  "issue": 118,
+  "pr": 119,
+  "baseline_commit": "29c82b71560ec312728953f9fe30f607c2735453",
+  "provider_base": "d6315be0d3005746077b52995d4126b0615c8f77",
+  "previous_pr_head": "64638f5549c678f9797f0ebddcd8445a60caf4d0",
+  "candidate_commit": null,
+  "candidate_state": "uncommitted isolated worktree; not published",
+  "candidate_content_sha256": "5a872a5a1308b44d792aa5a6a5cf1812f6cc62f3f8aeba58de8b7c799e72dd7e",
+  "baseline_files": {
+    "issue_atom.py": "c12bbaabc9d25938bf24931fc73a6006cd632ee21197bddeb02d1845fcb9f73e",
+    "provider_credential.py": null,
+    "supervisor_admission.py": "6a7f0e8bdaa418ae9c14486e30947fb9f20380e620bcea551d880347d04819bc",
+    "tests/test_issue_atom.py": "8d9ed9660591d61f81b505db5143b4847725686991a23e011e9415f18ff64705",
+    "tests/test_provider_credential.py": null,
+    ".agents/skills/issue-atom/SKILL.md": "3b127b7e829b09421e6414975b0e0e4ba706dd8d3d481c63084c694247c5ae17",
+    ".agents/skills/verify-soodles/features/local-supervisor-admission.md": "650936511f8cff90354cfd4848b2adb174e8ac1bf9e1194f0e7d81533e9c7500",
+    "contracts/system-v1.md": "8d34502902aab7d4d8cb106e0ec2deabbb29b2af4db0cf779e16a552beb70066"
+  },
+  "candidate_files": {
+    "issue_atom.py": "e6fda5eb6c62a6b8088fd90d0a47ee681197c040587027e99b4ca26cb15138bf",
+    "provider_credential.py": "06f923abe2caf164eae0912e20a04b76d583dae63eacd6bb085b81985d0df4cd",
+    "supervisor_admission.py": "3938349a3b9017fb8784f57ef6b9153559ca21e379010e6967c95c22de87c6a4",
+    "tests/test_issue_atom.py": "9fb74e8185df06a35921420b0eec4cf0bf808dbe807b471d3af3e0676dfdbfe5",
+    "tests/test_provider_credential.py": "070860763640cb87c9caf952ec3404fd777af139a4a015bd188b84bccdcf5695",
+    ".agents/skills/issue-atom/SKILL.md": "ebdbf0246c4bc6e77638bfc139eb9bc89151ffda3e0a224c1b12661720ec88aa",
+    ".agents/skills/verify-soodles/features/local-supervisor-admission.md": "e279ba3afa4d5bd78450de0eb2966874dcec32c07b2700f29fe0ba73f58dd806",
+    "contracts/system-v1.md": "2a2c443dea38e3d02b919d29e5b4e0fcf27a37415af925b4a780728a87fdeb18"
+  },
+  "full_suite_failures": {
+    "baseline-suite": [
+      "test_admitted_version_is_observed_not_inferred_from_filename (test_admission.AdmissionTests.test_admitted_version_is_observed_not_inferred_from_filename)",
+      "test_records_real_nonzero_and_file_change_without_inventing_success (test_context_recording.ContextRecordingTests.test_records_real_nonzero_and_file_change_without_inventing_success)",
+      "test_missing_binary_does_not_fall_back_to_path (test_admission.AdmissionTests.test_missing_binary_does_not_fall_back_to_path)",
+      "test_wrong_digest_refuses_before_executable_sentinel (test_admission.AdmissionTests.test_wrong_digest_refuses_before_executable_sentinel)",
+      "test_wrong_observed_version_refuses_worktree_execution (test_admission.AdmissionTests.test_wrong_observed_version_refuses_worktree_execution)",
+      "test_creates_exact_branch_and_pr (test_candidate_publication.CandidatePublicationTests.test_creates_exact_branch_and_pr)",
+      "test_failed_push_is_adopted_only_after_exact_readback (test_candidate_publication.CandidatePublicationTests.test_failed_push_is_adopted_only_after_exact_readback)",
+      "test_lost_create_response_adopts_only_fresh_exact_readback (test_candidate_publication.CandidatePublicationTests.test_lost_create_response_adopts_only_fresh_exact_readback)",
+      "test_unknown_create_without_effect_refuses_without_retry (test_candidate_publication.CandidatePublicationTests.test_unknown_create_without_effect_refuses_without_retry)",
+      "test_current_argv_is_executable_without_weakening_readback_guards (test_landing_continuation.LandingContinuationTests.test_current_argv_is_executable_without_weakening_readback_guards)",
+      "test_exact_same_head_allowed_but_output_inside_subject_refused (test_quality.QualityTests.test_exact_same_head_allowed_but_output_inside_subject_refused)"
+    ],
+    "candidate-suite": [
+      "test_admitted_version_is_observed_not_inferred_from_filename (test_admission.AdmissionTests.test_admitted_version_is_observed_not_inferred_from_filename)",
+      "test_records_real_nonzero_and_file_change_without_inventing_success (test_context_recording.ContextRecordingTests.test_records_real_nonzero_and_file_change_without_inventing_success)",
+      "test_missing_binary_does_not_fall_back_to_path (test_admission.AdmissionTests.test_missing_binary_does_not_fall_back_to_path)",
+      "test_wrong_digest_refuses_before_executable_sentinel (test_admission.AdmissionTests.test_wrong_digest_refuses_before_executable_sentinel)",
+      "test_wrong_observed_version_refuses_worktree_execution (test_admission.AdmissionTests.test_wrong_observed_version_refuses_worktree_execution)",
+      "test_creates_exact_branch_and_pr (test_candidate_publication.CandidatePublicationTests.test_creates_exact_branch_and_pr)",
+      "test_failed_push_is_adopted_only_after_exact_readback (test_candidate_publication.CandidatePublicationTests.test_failed_push_is_adopted_only_after_exact_readback)",
+      "test_lost_create_response_adopts_only_fresh_exact_readback (test_candidate_publication.CandidatePublicationTests.test_lost_create_response_adopts_only_fresh_exact_readback)",
+      "test_unknown_create_without_effect_refuses_without_retry (test_candidate_publication.CandidatePublicationTests.test_unknown_create_without_effect_refuses_without_retry)",
+      "test_current_argv_is_executable_without_weakening_readback_guards (test_landing_continuation.LandingContinuationTests.test_current_argv_is_executable_without_weakening_readback_guards)",
+      "test_exact_same_head_allowed_but_output_inside_subject_refused (test_quality.QualityTests.test_exact_same_head_allowed_but_output_inside_subject_refused)"
+    ]
+  },
+  "same_failure_names": true,
+  "fresh_comparison": {
+    "classification": "INCONCLUSIVE",
+    "baseline": "NOT_RUN",
+    "treatment": "NOT_RUN",
+    "consumer_reads": null,
+    "consumer_tool_calls": null,
+    "reason": "No admitted fresh consumer launcher; current Noodle admission readback is no_proposal. Worktree exec is not an admitted order/session launch."
+  },
+  "allowed_effects": "local disposable fixture state, Noodle-owned worktrees, evidence; existing Issue contract amendment",
+  "provider_effects": "existing Issue 118 title/body amended; no issue-create/push/PR mutation/merge/close",
+  "authorizes_landing": false
+}

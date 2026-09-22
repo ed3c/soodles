@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 141
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/order-handoff.md",
+      "baseline_sha256": "1c594a4ba162ef0d7c62611b61d847feace174712adb3e5f2f9fec3008bca3f5",
+      "treatment_sha256": "2e413e753a9af388ea7b2f54ef737ec29194ef52d1f55c6767af760559f95c7b"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/handoff-failure-teardown/observer.py",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "144006e812eba6c7c63f370bba77ba9fb1a675a1725ce1a861fec2e2cf14da1b"
+    },
+    {
+      "path": "docs/experiments/handoff-failure-teardown/protocol.md",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "b44e290d290d150395ce16c2c9e1a2639e831f31dc25e9c924cd5ee0c702acc9"
+    },
+    {
+      "path": "docs/experiments/handoff-failure-teardown/raw.json",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "ef0f8818413e4e12f46b136c4d447be59593256a8ebfa6992bf968e69def7b39"
+    },
+    {
+      "path": "docs/experiments/handoff-failure-teardown/results.md",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "fe297cecf2caa7153860640c81ca4f5a2d5da3eac329ba43a5b3fa36425db63c"
+    },
+    {
+      "path": "handoff_oracle.py",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "07823abd99bfcfacc89a14779fc2762e98a4ea1d8de338c98785ace3507dac89"
+    },
+    {
+      "path": "tests/test_handoff_cleanup.py",
+      "role": "same-atom correction or frozen non-authorizing evidence",
+      "sha256": "ce45167741f548b87af95976cfb5d12c903c55eba7b6efd02002ef9f0d2bdc4d"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#141"
+  },
+  "authorizes_landing": false
+}

@@ -1,0 +1,19 @@
+{
+  "exit_code": 1,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 11.827096584020182,
+  "files_after": {
+    "/Users/neon/.codex/packages/standalone/releases/0.153.4-aarch64-apple-darwin/bin/codex": {
+      "bytes": 220584000,
+      "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3",
+      "observed_from": [
+        "argv"
+      ]
+    }
+  },
+  "stdout_sha256": "6c1ff990892b26b4362baa0c2607fbf8bc93e5d6cc43327fa4c7b2fc0e083928",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

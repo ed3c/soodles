@@ -75,3 +75,4 @@ For fault/refusal controls, use [delivery recovery](delivery-recovery.md). Never
 On the local route the delivery owner invokes Noodle reconciliation; the skill must not remove the task worktree itself. On the cloud route no local cleanup is applicable and the owner must not invoke shell Git/Noodle. Continue terminal observation from the selected owner, preserving evidence outside disposable state. A supervisor may correct or delete erroneous implementation, tests or guidance through the admitted owner/boundary, with fresh acceptance as required; this recipe cannot approve its own repair. Unknown offered writes retain their readback obligation.
 
 Sources: `landing.py` owns output and durable transitions; `soodles.py` owns CLI parsing/rendering; their nearest behavioral oracle is `delivery_oracle.py`. These pointers locate behavior, not a second authority. #18 remains outside this feature.
+

@@ -8,19 +8,19 @@
     {
       "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
       "baseline_sha256": "65c4b13931528af1f47b470245bd8736e626ee6b22acad6f43573c32dc5c788d",
-      "treatment_sha256": "cf340470a6955d63418700e0350a40f3c72706d92a74eab1825bd131f2826b8f"
+      "treatment_sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76"
     }
   ],
   "artifacts": [
     {
       "path": ".agents/skills/verify-soodles/features/README.md",
       "role": "verification_map",
-      "sha256": "80095caf6683f22f854dc0687461881dea03c9f6a0a2d8d54df89cd3d801ce11"
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705"
     },
     {
       "path": "contracts/system-v1.md",
       "role": "stable_contract",
-      "sha256": "3229c7e1a0bbfde9aa8fe8a921806ff95d1c21d2d769848fded898ecdbb42448"
+      "sha256": "d135c49bb393892e1e73ae7708390bc2d554050d00fba9bb2c93da3829de5ee1"
     },
     {
       "path": "docs/experiments/local-provider-shortest-path/observer.py",
@@ -40,7 +40,7 @@
     {
       "path": "landing.py",
       "role": "transition_owner",
-      "sha256": "9507622e90da814e1306811d754a1a01140954c5288f41fc620e1e10ece2d2b7"
+      "sha256": "978c8641d61cc464a3675e815e9d1136e7d31e1fb94b8648f80ab47c16fc6d9e"
     },
     {
       "path": "provider_transport.py",
@@ -55,7 +55,7 @@
     {
       "path": "tests/test_landing.py",
       "role": "existing_owner_projection_control",
-      "sha256": "29eefec138e819d3a9a55d9c5bb383202d5b207912b78862eb984ac6392deb1e"
+      "sha256": "c244d79fc4748a4cd7facd08d9f51319c7eeebf2cc40f32de2d41fb587cd011f"
     },
     {
       "path": "tests/test_local_provider_transport.py",

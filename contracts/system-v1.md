@@ -26,6 +26,12 @@ Owner: ed3c/soodles#4. `landing.py` and `tests/test_landing.py` own this boundar
 
 `landing start` rejects mismatched provider identity before admission. `landing advance` prepares an expected-head merge or exact-Issue closure intent in the checkpoint. `landing dispatch` revalidates the provider snapshot and durably consumes that intent before emitting the request once. Landing itself still performs no provider write. Cloud claims use the GitHub connector transport; local claims may project the repository's narrow `provider-execute` continuation, which can execute only the exact persisted offered request with the supervisor-injected credential and returns fresh provider readback. Existing GitHub rules apply; no bypass or permission mutation is offered. Raw snapshots are trusted only as provider readbacks transported by that supervisor, never as candidate-supplied evidence.
 
+### Terminal candidate owner activation — ed3c/soodles#122
+
+An exact-head GREEN candidate does not select its own landing authority. The installed supervisor supplies one immutable external publisher descriptor and one Cloud/Local route descriptor. The repository `landing-supervisor` entry verifies the publisher through its existing `landing identity`, derives repository/Issue/PR/head/tree/base/run/worktree only from one fresh provider snapshot, creates a new external claim/checkpoint package, and invokes that selected publisher's existing `landing start` exactly once. It performs no provider mutation and never resolves publisher authority from latest/default branch or Git history.
+
+Cloud route carries no local execution identity. Local route requires supervisor-supplied `control_root` and exact `execution_envelope` reference; the entry neither discovers nor repairs them. Wrong/stale runtime identity, publisher digest mismatch, route-shape mismatch, candidate self-selection, or existing output refuses before checkpoint creation. The returned owner `next` remains a projection of the existing landing state machine; downstream connector/local-provider transport and reconciliation retain their current owners.
+
 Merged state must agree with the expected parent pair and candidate tree before closure can be offered. For a cloud claim, completed Issue and provider-main readback permits `landing advance` to write RESOLVED: main must equal the merge commit or a complete provider comparison must prove the merge is its ancestor. No control root, shell Git, binary or Noodle call is legal on this route. For a local claim, completed Issue readback instead permits `landing reconcile`: validate local origin/clean source/exact candidate, fast-forward main, ask Noodle to remove the worktree, then read back main and worktree/branch absence. Interrupted local reconciliation can resume from its persisted intent; dirty or divergent local state refuses before cleanup. Retained other worktrees belong to their own admitted Issues.
 
 There is at most one merge request and one closure request per checkpoint, no automatic retries, and no polling loop. Pending unknown outcomes remain pending for owner-specific readback. No production generation closure, autonomous scheduling, crash-safe remote transaction, or independent default-branch verification is claimed. The supervisor must not delete/recreate a checkpoint to repeat an unknown write.
@@ -146,3 +152,150 @@ external supervisor/admission owner must supply the complete set. Route
 migration preserves the list exactly. Provider fixtures are L-class
 discrimination only; exact provider Issue/PR/run and final delivery readbacks
 retain their own R-class scope.
+
+### Local accepted-candidate publication — ed3c/soodles#128
+
+Noodle owns the local order, terminal typed outcome and linked-worktree
+custody. Its schema-1 publication claim binds the exact order/stage/attempt,
+session evidence, repository remote, branch, base, candidate HEAD and tree;
+it authorizes no provider write. Native publication readiness binds the same
+clean candidate HEAD/tree, subject, actual host platform, selected executable
+digest and successful native routing controls. It is non-authorizing and is
+not Linux runtime-lock acceptance. Legacy canonical receipts remain accepted.
+The native controls are explicitly enumerated by
+`candidate_publication.NATIVE_TESTS`; they do not claim full canonical coverage.
+Linux exact-head canonical acceptance runs after PR publication and is required
+before landing. Its runtime lock and workflow remain unchanged.
+
+`candidate-publish` consumes only those two current receipts. It rechecks their
+evidence bytes and clean Git identity, reads the current provider repository,
+Issue contract and base, then derives `soodles/issue-N-HEAD12` and the exact
+one-line `Refs OWNER/REPOSITORY#N` body. An absent branch is pushed with an
+absent-ref lease and read back; an equal branch is reused; every other ref is
+refused. One exact open PR is created or adopted and read back.
+
+A lost or failed push/create response is never replay authority. The owner
+performs fresh branch/PR readback once and adopts only the exact intended
+effect; otherwise it returns the provider readback prerequisite and stops.
+The receipt terminates at PR identity with `authorizes_landing=false`; merge,
+Issue closure, landing checkpoints and Noodle cleanup remain with their
+existing owners.
+
+The publisher-derived `publication_branch` is distinct from the Noodle local
+`worktree` identity. When present, landing accepts only the exact
+`soodles/issue-N-HEAD12` derivation, validates provider head/ref against it and
+retains the original local worktree for envelope validation and cleanup.
+
+### Local Issue atom shortest path — ed3c/soodles#131
+
+The explicitly authorized #118 worktree-only bootstrap may instead bind an
+external `bootstrap_custody` file by exact bytes. It fixes the complete local
+claim, Issue body, native platform and Noodle executable. This is resource
+adoption, not a completed execution: it is mutually exclusive with an execution
+envelope and refuses original subject/order/session history, pending proposals,
+live processes or a held Noodle instance lock. The owner rechecks exact clean
+Git custody, Issue write/frozen paths and provider evidence. Reconciliation
+holds that existing Noodle lock through its existing cleanup transition and
+retains unknown-cleanup protections. Neither absent history nor native custody
+waives Linux exact-head acceptance or selects the candidate's own verifier.
+
+An external supervisor authorization fixes the repository, base, exact Issue
+contract, control root, task, Noodle and worker identities, and exact-head
+workflow evidence. Schema 2 also pins an external `landing_owner` by absolute
+`soodles.py` path, entry digest and existing landing verifier digest. Its files
+must be outside the control root and candidate; identity is checked before
+effects and on every owner invocation. External denotes an authority boundary,
+not a remote host: an authorized local Session may perform this selection on
+the same macOS host. It requires neither a cloud Session nor a new supervisor
+service; Linux exact-head Actions remains the separate acceptance runner.
+Legacy authorization without that pin
+refuses; it is not silently migrated or used to select the candidate judge.
+The same authorization pins `host_config_sha256` (null means absent), never
+discovers or repairs host identity. An optional `issue.number` selects exact
+existing-Issue adoption: title/body/number/repository must match fresh readback,
+and mismatch cannot fall through to creation.
+Its digest is supplied outside candidate prose. The one
+local entry is `issue-atom run AUTHORIZATION`; every nonterminal result returns
+the same argv. The Agent never selects an Issue admission, publication or
+landing verb.
+
+The lifecycle checkpoint is stored beside the external authorization and is
+fsync'd before a provider mutation. Issue creation uses a digest marker and
+adopts only one exact fresh readback. Noodle admission is always supervised.
+The existing supervisor admission producer emits one envelope and pinned
+worker/backlog/config bundle from the control root's committed bytes, using the
+authorized task. The entry serializes this authorization's effects, preserves
+the original host config and checks Noodle's own instance lock and quiescence
+before installing exact config and invoking the producer's returned start argv.
+Start intent precedes the effect. A running exact owner is adopted; stopped or
+unknown prior starts cannot be reoffered. This is not a second scheduler or
+permission to recover old failed orders.
+The owner then consumes Noodle's publication claim, native readiness, the
+existing exact PR publisher, exact-head CI and the existing landing
+checkpoint. Merge, Issue closure and local reconciliation remain decisions of
+the landing owner; this entry only consumes its exact transition.
+
+The foreground command observes normal owner/provider waits for at most five
+minutes, then returns the same continuation. Refusals propagate immediately;
+this loop cannot restart a failed owner, reoffer an unknown write or waive a
+failed check. Queued/in-progress Actions may have no jobs or steps yet; completed
+runs still require the exact successful job and acceptance step.
+
+The host-selected `NOODLES_TOKEN_COMMAND` is the local credential source, not
+a token carried in a handoff. After authorization validation, the entry requests
+only that repository with contents/issues/pull_requests write and actions read.
+It never falls back to an inherited provider token. Supplier failure precedes
+new checkpoint creation; secrets and supplier output are not refusal evidence.
+The existing supervisor admission wrapper uses this same consumer for its
+issues-read token. App configuration remains with the host, not in repository
+configuration. The cloud connector path has no local supplier prerequisite.
+The authorization is still external; checkpoint, envelope and launcher are
+derived execution state, not additional inputs an Agent must prepare.
+Write credentials and host supplier/App configuration are removed from
+Issue-atom Noodle/candidate children; the existing start wrapper supplies only
+its independently scoped issues-read credential. After the landing owner
+confirms closure and fast-forwards main, the entry may append one exact merge
+approval for the original order to Noodle's existing control mailbox and read
+its acknowledgement. Noodle still validates review/completion and owns history.
+Only the entry's own measured loop may receive shutdown; config restoration
+requires its absence, the existing instance lock and unchanged installed bytes.
+Missing or ambiguous mutation responses
+never authorize repetition. Unchanged failed candidate heads, foreign markers,
+drifted identities and non-exact checks refuse.
+
+This is a bootstrap atom: #131 itself was opened by the pre-existing cloud
+supervisor. Frozen P-class and executable provider fixtures prove the new
+route, while its own live merge/closure still uses the pre-existing landing
+authority. The first live R-class Issue creation by this new entry must be a
+subsequent atom.
+
+### Issue-read argument recovery — ed3c/soodles#137
+
+The documented `./soodles github issue OWNER/REPOSITORY NUMBER` entry consumes
+externally selected repository and Issue identity. Malformed read argv refuses
+before transport with exit 2, caller-owned `valid_read_arguments` recovery and
+the real reader help argv; it does not request an execution envelope.
+Credential and supported-repository identity gaps remain supervisor inputs;
+quota waits and provider refusals retain their existing GitHub ownership and
+guards. This boundary changes neither reader transport nor admission or landing
+authority.
+
+### Complete admitted child contract — ed3c/soodles#135
+
+Soodles Issue admission validates the structured Issue contract.
+`issue_execution.projection` delivers that complete `binding['contract']`
+alongside the existing exact identity and bounded task in both automatic and
+supervised stage prompts. The implementation child consumes it without a
+mandatory duplicate GitHub read. Missing contract returns to the existing
+admission owner; an amended body requires the supervisor's fresh envelope.
+
+Installed-entry provider freshness and exact worker/owner prompt comparisons
+remain enforced: an omitted or altered contract refuses before worker execution.
+`tests/test_issue_execution.py` checks full delivery, prompt tampering, stale
+provider refusal and legal unchanged execution using local provider/owner fixtures.
+Those controls do not prove child behavior; the externally prepared bounded
+comparison supplies only its observed scope, with missing behavior evidence
+remaining INCONCLUSIVE. Publication readiness, exact-head Linux acceptance,
+landing readbacks and reconciliation retain their existing owners and authority.
+
+
