@@ -18,11 +18,19 @@ class Refusal(Exception):
 
 
 class Parser(argparse.ArgumentParser):
+    def parse_known_args(self, args=None, namespace=None):
+        parsed, unknown = super().parse_known_args(args, namespace)
+        # Keep unknown read flags at the reader's error boundary instead of the root parser.
+        if self.prog.startswith("./soodles github") and unknown:
+            self.error("unrecognized arguments: " + " ".join(unknown))
+        return parsed, unknown
+
     def error(self, message):
         if self.prog.startswith("./soodles github"):
             from issue_admission import AdmissionRefusal
             from github_reader import refusal_output
-            print(json.dumps(refusal_output(AdmissionRefusal("arguments", message)), indent=2))
+            print(json.dumps(refusal_output(AdmissionRefusal(
+                "arguments", message, "caller", "valid_read_arguments")), indent=2))
             self.exit(2)
         if self.prog.startswith("./soodles issue"):
             from issue_admission import AdmissionRefusal
