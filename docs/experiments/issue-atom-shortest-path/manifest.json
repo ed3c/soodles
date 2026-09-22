@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 131
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "5ace165da7301ce7eaf48d28eb73ef595dca7bb0d70c54e51d734eb1e71a7045",
+      "treatment_sha256": "d779f7a0d5ed2ddfb0595109894805f1c723dceda91616d2a3ec0d97af65208e"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "baseline_sha256": "62dc05d7efcdcf2bad05641809861f9748981a3fa587a3c1564c74a67df18700",
+      "treatment_sha256": "8d34502902aab7d4d8cb106e0ec2deabbb29b2af4db0cf779e16a552beb70066"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "role": "pclass_shortest_path",
+      "sha256": "3b127b7e829b09421e6414975b0e0e4ba706dd8d3d481c63084c694247c5ae17"
+    },
+    {
+      "path": "issue-atom",
+      "role": "executable_entry",
+      "sha256": "2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "lifecycle_owner",
+      "sha256": "c12bbaabc9d25938bf24931fc73a6006cd632ee21197bddeb02d1845fcb9f73e"
+    },
+    {
+      "path": "soodles.py",
+      "role": "cli_route",
+      "sha256": "e066ff043a7f22526a29194412bbcbed456ba16810b9e6111df91385d1852def"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "behavior_controls",
+      "sha256": "8d9ed9660591d61f81b505db5143b4847725686991a23e011e9415f18ff64705"
+    },
+    {
+      "path": "docs/experiments/issue-atom-shortest-path/task.md",
+      "role": "experiment_task",
+      "sha256": "5d9abeeffebea186edd27bae68dfa5abced133117a32af00ad5464f2fc41ac41"
+    },
+    {
+      "path": "docs/experiments/issue-atom-shortest-path/observer.py",
+      "role": "frozen_observer",
+      "sha256": "ea1cf276c3f065646989d859c12d7174eb574896d33ef4ae4c33e42f709f5d05"
+    },
+    {
+      "path": "docs/experiments/issue-atom-shortest-path/raw/baseline.json",
+      "role": "baseline_raw_receipt",
+      "sha256": "525926231594311d6c5429c1a0826b92b0335af5c5a6a1c846bfc57e7e685ba9"
+    },
+    {
+      "path": "docs/experiments/issue-atom-shortest-path/raw/treatment.json",
+      "role": "treatment_raw_receipt",
+      "sha256": "0e7f66b0699648c74e1bc1f618bdefa5d12f3da03e308482c850ef3a1178bd5a"
+    },
+    {
+      "path": "docs/experiments/issue-atom-shortest-path/results.md",
+      "role": "results",
+      "sha256": "10769902ea1383066ee899fa64c7914ae793d3d052aaaea40718f9e7a270d406"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#131"
+  },
+  "authorizes_landing": false
+}

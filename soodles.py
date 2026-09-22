@@ -56,9 +56,9 @@ def clean_env():
     return {key: os.environ[key] for key in ("PATH", "LANG", "LC_ALL", "TMPDIR") if key in os.environ}
 
 
-def run(argv, cwd):
+def run(argv, cwd, timeout=30):
     return subprocess.run([str(v) for v in argv], cwd=cwd, env=clean_env(),
-                          stdin=subprocess.DEVNULL, text=True, capture_output=True, timeout=30)
+                          stdin=subprocess.DEVNULL, text=True, capture_output=True, timeout=timeout)
 
 
 def checked(argv, cwd):
@@ -162,7 +162,8 @@ def worktree_probe(binary):
 def acceptance_verify(root, binary):
     before = source_identity(root)
     runtime = runtime_check(root, binary)
-    result = run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-v"], root)
+    result = run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-v"], root,
+                 timeout=120)
     print(result.stderr, file=sys.stderr, end="")
     if result.returncode or not re.search(r"Ran [1-9][0-9]* tests?", result.stderr) or "skipped=" in result.stderr:
         raise Refusal("acceptance verify: test discovery failed, empty, or skipped; supported help: ./soodles acceptance verify --help")
@@ -224,6 +225,20 @@ def parser():
     candidate_verify.add_argument("issue_readback")
     candidate_verify.add_argument("base_head")
     candidate_verify.add_argument("candidate_head")
+    candidate_publish = candidate_verbs.add_parser(
+        "publish", description="Publish one accepted Noodle-owned local candidate to one exact provider PR.")
+    candidate_publish.add_argument("acceptance_receipt")
+    candidate_publish.add_argument("noodle_claim")
+    atom = groups.add_parser(
+        "atom",
+        description=("Run one local Issue lifecycle from an external authorization file. "
+                     "Re-enter the same command after material state changes; "
+                     "the Agent never selects phase-specific Issue or landing verbs."))
+    atom_verbs = atom.add_subparsers(dest="verb", required=True)
+    atom_run = atom_verbs.add_parser(
+        "run",
+        description="Advance one authorized local atom through its exact next owner transition.")
+    atom_run.add_argument("authorization")
     issue = groups.add_parser("issue", description="Consume one externally pinned Issue envelope before Noodle effects.",
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
@@ -314,10 +329,18 @@ def main():
             import github_reader
             result = github_reader.issue(args.repository, args.number)
         elif args.group == "candidate":
-            import issue_admission
-            readback = json.loads(Path(args.issue_readback).read_text())
-            result = issue_admission.verify_candidate(
-                ROOT, args.base_head, args.candidate_head, readback)
+            if args.verb == "verify":
+                import issue_admission
+                readback = json.loads(Path(args.issue_readback).read_text())
+                result = issue_admission.verify_candidate(
+                    ROOT, args.base_head, args.candidate_head, readback)
+            else:
+                import candidate_publication
+                result = candidate_publication.run(
+                    ROOT, args.acceptance_receipt, args.noodle_claim)
+        elif args.group == "atom":
+            import issue_atom
+            result = issue_atom.run(args.authorization)
         elif args.group == "issue":
             import issue_execution
             if args.verb == "inspect":
@@ -390,6 +413,15 @@ def main():
             print(issue_execution.refusal_text(result), file=sys.stderr)
             return getattr(error, "exit_code", 1)
         if args.group == "candidate":
+            import candidate_publication
+            if isinstance(exc, candidate_publication.PublicationRefusal):
+                result = candidate_publication.refusal_output(exc)
+                print(json.dumps(result, indent=2))
+                print(
+                    f"REFUSED: candidate publish: invalid {exc.invalid['field']}={exc.invalid['value']!r}; "
+                    "supported help: ./soodles candidate publish --help",
+                    file=sys.stderr)
+                return 1
             invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
             result = {
                 "owner": "candidate.verify",
@@ -406,6 +438,19 @@ def main():
                 "supported help: ./soodles candidate verify --help",
                 file=sys.stderr)
             return getattr(exc, "exit_code", 1)
+        if args.group == "atom":
+            import issue_atom
+            if isinstance(exc, issue_atom.AtomRefusal):
+                result = issue_atom.refusal_output(exc, args.authorization)
+                print(json.dumps(result, indent=2))
+                print(
+                    f"REFUSED: issue atom: invalid {exc.invalid['field']}={exc.invalid['value']!r}; "
+                    "supported help: ./issue-atom --help",
+                    file=sys.stderr)
+                return 1
+            print(f"REFUSED: issue atom: {exc}; supported help: ./issue-atom --help",
+                  file=sys.stderr)
+            return 1
         elif args.group == "landing":
             invalid = getattr(exc, "invalid", {"field": "input", "value": str(exc)})
             result = landing.refusal_output(landing.LandingRefusal(invalid["field"], invalid["value"]), args.verb)

@@ -146,3 +146,53 @@ external supervisor/admission owner must supply the complete set. Route
 migration preserves the list exactly. Provider fixtures are L-class
 discrimination only; exact provider Issue/PR/run and final delivery readbacks
 retain their own R-class scope.
+
+### Local accepted-candidate publication — ed3c/soodles#128
+
+Noodle owns the local order, terminal typed outcome and linked-worktree
+custody. Its schema-1 publication claim binds the exact order/stage/attempt,
+session evidence, repository remote, branch, base, candidate HEAD and tree;
+it authorizes no provider write. Canonical Soodles acceptance independently
+binds the same candidate HEAD/tree and remains non-authorizing.
+
+`candidate-publish` consumes only those two current receipts. It rechecks their
+evidence bytes and clean Git identity, reads the current provider repository,
+Issue contract and base, then derives `soodles/issue-N-HEAD12` and the exact
+one-line `Refs OWNER/REPOSITORY#N` body. An absent branch is pushed with an
+absent-ref lease and read back; an equal branch is reused; every other ref is
+refused. One exact open PR is created or adopted and read back.
+
+A lost or failed push/create response is never replay authority. The owner
+performs fresh branch/PR readback once and adopts only the exact intended
+effect; otherwise it returns the provider readback prerequisite and stops.
+The receipt terminates at PR identity with `authorizes_landing=false`; merge,
+Issue closure, landing checkpoints and Noodle cleanup remain with their
+existing owners.
+
+### Local Issue atom shortest path — ed3c/soodles#131
+
+An external supervisor authorization fixes the repository, base, exact Issue
+contract, control root, task, Noodle and worker identities, and exact-head
+workflow evidence. Its digest is supplied outside candidate prose. The one
+local entry is `issue-atom run AUTHORIZATION`; every nonterminal result returns
+the same argv. The Agent never selects an Issue admission, publication or
+landing verb.
+
+The lifecycle checkpoint is stored beside the external authorization and is
+fsync'd before a provider mutation. Issue creation uses a digest marker and
+adopts only one exact fresh readback. Noodle admission is always supervised.
+The owner then consumes Noodle's publication claim, canonical acceptance, the
+existing exact PR publisher, exact-head CI and the existing landing
+checkpoint. Merge, Issue closure and local reconciliation remain decisions of
+the landing owner; this entry only consumes its exact transition.
+
+Provider credentials are explicit supervisor environment input and are
+removed from Noodle/candidate children. Missing or ambiguous mutation responses
+never authorize repetition. Unchanged failed candidate heads, foreign markers,
+drifted identities and non-exact checks refuse.
+
+This is a bootstrap atom: #131 itself was opened by the pre-existing cloud
+supervisor. Frozen P-class and executable provider fixtures prove the new
+route, while its own live merge/closure still uses the pre-existing landing
+authority. The first live R-class Issue creation by this new entry must be a
+subsequent atom.
