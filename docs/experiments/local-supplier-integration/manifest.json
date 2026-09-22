@@ -1,0 +1,267 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 118
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "3b127b7e829b09421e6414975b0e0e4ba706dd8d3d481c63084c694247c5ae17",
+      "treatment_sha256": "ebdbf0246c4bc6e77638bfc139eb9bc89151ffda3e0a224c1b12661720ec88aa"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/features/README.md",
+      "role": "required_candidate_evidence",
+      "sha256": "f8fc77b9d2d21d225c5149249c293e58b3c3683eb8dcff58972176b929e03300"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "role": "required_candidate_evidence",
+      "sha256": "e279ba3afa4d5bd78450de0eb2966874dcec32c07b2700f29fe0ba73f58dd806"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "role": "required_candidate_evidence",
+      "sha256": "2a2c443dea38e3d02b919d29e5b4e0fcf27a37415af925b4a780728a87fdeb18"
+    },
+    {
+      "path": "docs/experiments/local-supervisor-admission/manifest.json",
+      "role": "required_candidate_evidence",
+      "sha256": "7d16af19ac16a3b24c7ebb5ff8a77cda6b231b2bbf1d317c1bfddea94632c92e"
+    },
+    {
+      "path": "docs/experiments/local-supervisor-admission/observer.py",
+      "role": "required_candidate_evidence",
+      "sha256": "89043b6f7d122d15959a3d1a7040fee38e44ddec0fb765cef9407062354b6ec8"
+    },
+    {
+      "path": "docs/experiments/local-supervisor-admission/results.md",
+      "role": "required_candidate_evidence",
+      "sha256": "e7eee7e55c0305f08d77118d1057142db5ebce2df9730514e07a537c3a9f9d37"
+    },
+    {
+      "path": "docs/experiments/local-supervisor-admission/task.md",
+      "role": "required_candidate_evidence",
+      "sha256": "e848588d96c6a29d5ade362ae7196df9e8c295a961cc43d5984d07f4dd851d4b"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/issue_atom_fixture.py",
+      "role": "required_candidate_evidence",
+      "sha256": "8d9ed9660591d61f81b505db5143b4847725686991a23e011e9415f18ff64705"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/observer.py",
+      "role": "required_candidate_evidence",
+      "sha256": "1ff8036bf08543d9cf22c71140f5571be85639931ca1009aa256b78e0d36d6ff"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/protocol.md",
+      "role": "required_candidate_evidence",
+      "sha256": "1630bae5ed21b5b1512f6e0a42282dd6479ddc0fa54ceaa0645ab9128851ebad"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/baseline-control/request.json",
+      "role": "required_candidate_evidence",
+      "sha256": "df3f9a414fb8b263f7e3e876d115d09622e9652eea965bc159afba1d70a27696"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/baseline-control/result.json",
+      "role": "required_candidate_evidence",
+      "sha256": "81e1cf499115280a25bec1462c52229bf304906ea36ff6819ee21105738cc1f4"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/baseline-control/stderr.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "dfad3059724cef1f135db1b12534df9471cc21724300fe0315a70fc3d7c2fafa"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/baseline-control/stdout.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "fb37a423788f5c59e4f7cd34aadaaaff808f631e42e1ae43f1527c40413380d1"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/baseline-suite/request.json",
+      "role": "required_candidate_evidence",
+      "sha256": "03f62423eb2c3f09a28f05256e8d0b3176e9f7b7df22ca56d778cd666e39c717"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/baseline-suite/result.json",
+      "role": "required_candidate_evidence",
+      "sha256": "b5f46e46656ed8d9f41c6edb9d68ca27d68a347996048acc28fa9f9205ec6272"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/baseline-suite/stderr.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "82dfbea70a2a726cb0f126d0db0f4481d1f599170f4b9e4a6efbaf94c5c1496d"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/baseline-suite/stdout.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/candidate-suite/request.json",
+      "role": "required_candidate_evidence",
+      "sha256": "1d104cf0adf8337773f9cb6704579b9d3ad9aed94294b46dd24af64a11712e80"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/candidate-suite/result.json",
+      "role": "required_candidate_evidence",
+      "sha256": "783381f7ff8ce338b5b82a6162c76fdec60e67ea10b6da8d2f63854217d3a54a"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/candidate-suite/stderr.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "0c15086e513f93246e28585d211012004cb5abe55897f233ecbe6b9b8dfefa45"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/candidate-suite/stdout.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/candidate.diff",
+      "role": "required_candidate_evidence",
+      "sha256": "4df3099763571eaa469d435b9a77de67f17c9d841aa0e223d5dd9bac0c637903"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/current-admission/request.json",
+      "role": "required_candidate_evidence",
+      "sha256": "27468c9eb91540f5fda2683cde7ba321d3b3b0536067724da7159f3378ae84cc"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/current-admission/result.json",
+      "role": "required_candidate_evidence",
+      "sha256": "e166f400ef0ec82de751cfaa5a6a8f40f40850962dbc7910a75b27dc0af37c78"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/current-admission/stderr.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/current-admission/stdout.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "219b880c87cddcdc0895b6e3a744d21fbc194309aae272a093853dbe5b59d936"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/doctor/request.json",
+      "role": "required_candidate_evidence",
+      "sha256": "140d634f9c2f1be860959441abce9963c7ac59bd98c31b1cfbcf6117c09f7919"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/doctor/result.json",
+      "role": "required_candidate_evidence",
+      "sha256": "5aa66a3d501b878f7e2745f4c6acb7840653f3370f424124f66755cfcc99d8aa"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/doctor/stderr.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/doctor/stdout.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "6c1ff990892b26b4362baa0c2607fbf8bc93e5d6cc43327fa4c7b2fc0e083928"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/identity.json",
+      "role": "required_candidate_evidence",
+      "sha256": "23cd2e458e11f65decb17350d5cfde5b48163a2e110d3f59a37458aedf827339"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/sensitivity-control/request.json",
+      "role": "required_candidate_evidence",
+      "sha256": "79f48f7af57d17342932ced307cb06dfc75f08759fce201911caefed84193f0f"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/sensitivity-control/result.json",
+      "role": "required_candidate_evidence",
+      "sha256": "6c3371e231762d7e79aeb8d0d8c792fa7207ead6f6948234167080ba1d37061b"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/sensitivity-control/stderr.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "2980e3dab3034d0cdd418bcb841193905ea5da7dacb49ddff0ce929b32a3bcbe"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/sensitivity-control/stdout.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "61811bed81c9874d383e7081268243708e4358064e8e7447d9791ff6111dd629"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/sensitivity.py",
+      "role": "required_candidate_evidence",
+      "sha256": "e39fd5c47ea90f98221433ccc5da42acb541b7a92f22366bd8d2dd87ecdb9e64"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/treatment-control/request.json",
+      "role": "required_candidate_evidence",
+      "sha256": "19adb8d98a0a3ba101f3dc7b5362e7efb92387d99e82e04e5a4614a00cfdd6c9"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/treatment-control/result.json",
+      "role": "required_candidate_evidence",
+      "sha256": "7cc3570478aa927f2b567aecdf7c497e9b41425552338ef3bd2cdc66386b3198"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/treatment-control/stderr.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "11829875905307da68e9ce259c6ee8d36312ae1e3c04921582cea78f4fc48326"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/raw/treatment-control/stdout.bin",
+      "role": "required_candidate_evidence",
+      "sha256": "e4765ab419126fa3590cd93e7e1546417c90fdfd5c16611e191eb17c262dfe99"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/results.md",
+      "role": "required_candidate_evidence",
+      "sha256": "d49ffb00df66845968410af1c08572aaf9c2c7c45c0f9c3fcc54d8d9ac53daaa"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "required_candidate_evidence",
+      "sha256": "e6fda5eb6c62a6b8088fd90d0a47ee681197c040587027e99b4ca26cb15138bf"
+    },
+    {
+      "path": "provider_credential.py",
+      "role": "required_candidate_evidence",
+      "sha256": "06f923abe2caf164eae0912e20a04b76d583dae63eacd6bb085b81985d0df4cd"
+    },
+    {
+      "path": "supervisor-admission",
+      "role": "required_candidate_evidence",
+      "sha256": "c3b962697a0a89b312e52f18101803a785fa630e8bdd89b252f55d1ff4e66ced"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "required_candidate_evidence",
+      "sha256": "3938349a3b9017fb8784f57ef6b9153559ca21e379010e6967c95c22de87c6a4"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "required_candidate_evidence",
+      "sha256": "9fb74e8185df06a35921420b0eec4cf0bf808dbe807b471d3af3e0676dfdbfe5"
+    },
+    {
+      "path": "tests/test_provider_credential.py",
+      "role": "required_candidate_evidence",
+      "sha256": "070860763640cb87c9caf952ec3404fd777af139a4a015bd188b84bccdcf5695"
+    },
+    {
+      "path": "tests/test_supervisor_admission.py",
+      "role": "required_candidate_evidence",
+      "sha256": "1f572cc5f2c105119d2373453e86be3bf6276333dfe2e3364c29a6e1f9432a4c"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#118"
+  },
+  "authorizes_landing": false
+}
