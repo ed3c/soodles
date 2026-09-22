@@ -1,6 +1,8 @@
 # Authenticated GitHub Issue readback
 
-Session uses `./soodles github issue NUMBER` for one `ed3c/soodles` Issue.
+Session uses `./soodles github issue OWNER/REPOSITORY NUMBER` for one Issue.
+Use the externally selected repository and Issue number; do not infer identity
+from the current checkout.
 The same reader supplies automatic, supervised and worker admission. Consume
 `issue` and the response `observation`; this read does not select an envelope,
 change Noodle state, authorize delivery or resume a paused comparison.
@@ -30,7 +32,12 @@ URL under `XDG_CACHE_HOME/soodles/github` (default `~/.cache/soodles/github`).
 No separate rate-limit poll is needed. No stale-success fallback is available.
 
 On `status: refused`, consume `invalid` and `next.owner/required/help_argv`.
-The supervisor supplies missing/expired credentials; GitHub supplies exact
+Malformed read arguments exit 2 before transport and name the caller with
+`required: ["valid_read_arguments"]`. Use the returned reader help, correct
+the argv using the already selected identity, and re-enter the reader; no
+execution envelope is required for this argument recovery.
+Missing or unsupported repository identity and missing/expired credentials
+remain supervisor inputs; GitHub supplies exact
 provider readback. On `status: wait`, exit code is 75 and `next.not_before` is the
 provider-derived Unix time. The caller may re-enter this same boundary after
 that time; the reader does not sleep, retry, refresh credentials or start work.

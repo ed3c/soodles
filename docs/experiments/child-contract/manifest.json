@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 135
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/execute/SKILL.md",
+      "baseline_sha256": "c459b2dd84ec3037d86df11ce28576b0f7a93eab3b94a11436557daaa0b81162",
+      "treatment_sha256": "c01aa871e9de8bcceaa5648506064a21fb903475a8a2ec91041e6cdf35218592"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/features/issue-execution.md",
+      "role": "bounded causal correction or frozen non-authorizing evidence",
+      "sha256": "ff1de0b791aeb4d133ffc684167203851333abb3a6dcabf088b699f8e51ae53a"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "role": "bounded causal correction or frozen non-authorizing evidence",
+      "sha256": "809f7daed44825ac7cd91316a190aa6948fe819b9915bbb3963af753ba3a14ce"
+    },
+    {
+      "path": "docs/experiments/child-contract/observer.py",
+      "role": "bounded causal correction or frozen non-authorizing evidence",
+      "sha256": "4a82a1c11f9d31087da0915cc56b97c12c460df8c75e26eaf96632e15da96f93"
+    },
+    {
+      "path": "docs/experiments/child-contract/protocol.md",
+      "role": "bounded causal correction or frozen non-authorizing evidence",
+      "sha256": "23ed4b70828755155a2f25d1521801e1d2b8ad1337b39bd8ea5770b378d41919"
+    },
+    {
+      "path": "docs/experiments/child-contract/raw.json",
+      "role": "bounded causal correction or frozen non-authorizing evidence",
+      "sha256": "50405aab4139b499a7065a3fd69046f9779040a3d1de448c6ffdd6f26602c677"
+    },
+    {
+      "path": "docs/experiments/child-contract/results.md",
+      "role": "bounded causal correction or frozen non-authorizing evidence",
+      "sha256": "72c2b2181984703e834a62f1c84a95e778c4d423f96333eaffe3b609657fa88a"
+    },
+    {
+      "path": "issue_execution.py",
+      "role": "bounded causal correction or frozen non-authorizing evidence",
+      "sha256": "e1ba5eb642f7cc2aa66b6a46ee86112795a776bbb430e2293fec2f79a37abbdf"
+    },
+    {
+      "path": "tests/test_issue_execution.py",
+      "role": "bounded causal correction or frozen non-authorizing evidence",
+      "sha256": "c22c4fcacb2422a501c320c1b5518ab3b1604a5d7c0c29ae74ce757332edabb8"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#135"
+  },
+  "authorizes_landing": false
+}
