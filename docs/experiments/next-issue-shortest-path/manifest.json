@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 124
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/SKILL.md",
+      "baseline_sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+      "treatment_sha256": "a75f3f5d8bb48cc31086468b04936583224acfd7a704e7eb14462cc710843209"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "next_issue.py",
+      "role": "implementation",
+      "sha256": "9266c1065ec765dab03baf6f1ef972cd144008e97528e389b2ea483885e0d51f"
+    },
+    {
+      "path": "next-issue",
+      "role": "cli",
+      "sha256": "d2d4eef9134811f9ff2b62ecc508dfd96327f7d39e2b679de2b92a8b49895393"
+    },
+    {
+      "path": "tests/test_next_issue.py",
+      "role": "hard_controls",
+      "sha256": "2246b599166e4a9214ea0e4884cc2cda6ee81fb2989412ba2a8a7032d2cd9e0a"
+    },
+    {
+      "path": ".agents/skills/next-issue/SKILL.md",
+      "role": "pclass_skill",
+      "sha256": "534f7e9a4b0418832ad8412b95e8ed1ab16909e02e073b2f104c7879861d8a29"
+    },
+    {
+      "path": "contracts/next-issue-v1.md",
+      "role": "stable_contract",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94"
+    },
+    {
+      "path": "docs/experiments/next-issue-shortest-path/task.md",
+      "role": "bounded_task",
+      "sha256": "810fba708dc8bfd08d0026d3bac40a2236ef5028d8f909a0fd471f55cba259e6"
+    },
+    {
+      "path": "docs/experiments/next-issue-shortest-path/observer.py",
+      "role": "observer",
+      "sha256": "6bb6058a0dd1d27a42ed392a693c4991c5c7626c98b1119bf5a75cd9f65cddb3"
+    },
+    {
+      "path": "docs/experiments/next-issue-shortest-path/results.md",
+      "role": "result",
+      "sha256": "437479edec999406e050e0588f14f2b1392710caa74927c3a095a78623ece3b7"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#124"
+  },
+  "authorizes_landing": false
+}
