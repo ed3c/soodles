@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "source": "a6b48138e7b129fa9ff49180df1594085a0ac8bf",
+  "report": {
+    "source_head": "a6b48138e7b129fa9ff49180df1594085a0ac8bf",
+    "actual_files_read": [
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/AGENTS.md",
+        "sha256": "4fa2d45e722029731489b9d9be6110dfa754c0e23af5a1c092efaf6eba2e7b45",
+        "bytes": 12830,
+        "read_extent": "full"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/.agents/skills/verify-soodles/SKILL.md",
+        "sha256": "0e9dda57271d6c80d671b7420ae91077ea3427461edce54722120ca3c36d80c5",
+        "bytes": 9786,
+        "read_extent": "full"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/.agents/skills/verify-soodles/features/README.md",
+        "sha256": "ef4fea0685df8aff9172c2470c58f7c00f15ce455ce2a2e0476220713679066f",
+        "bytes": 4320,
+        "read_extent": "full"
+      },
+      {
+        "path": "/Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-routing/task-input.json",
+        "sha256": "ecc10755d07e881aee423d3f75663baeb7de8daaa9b3e1bf9eddcd6711ed92d5",
+        "bytes": 765,
+        "read_extent": "full"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+        "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+        "bytes": 2590,
+        "read_extent": "full"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/contracts/system-v1.md",
+        "sha256": "4a7f812bd600c10bf8c912c1ddcb98729326a36bbe3d545e7f4e29be09bfbc74",
+        "bytes": 35681,
+        "read_extent": "relevant excerpts including Cross-repository dependency satisfaction"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/dependency_binding.py",
+        "sha256": "d7a6e43e8bace3de378c8b07fc87a3b52f7b63564fbf2bd2f54e5188fdb266b0",
+        "bytes": 11180,
+        "read_extent": "full"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/landing.py",
+        "sha256": "96ae2750555ddee4d6eec6402a4c5047e82580398bb7ad8a657cd7579026c0c3",
+        "bytes": 53127,
+        "read_extent": "relevant excerpts: imports, provider_next, claim dependency validation, validate_snapshot, start"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/contracts/agent-context-design.md",
+        "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+        "bytes": 12720,
+        "read_extent": "one rg match only; not used for the decision"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/tests/test_issue_admission.py",
+        "sha256": "27ccc4dd2ceb87c68965dd57612307b8a520a408544b7fe3f7f074343381665c",
+        "bytes": 12795,
+        "read_extent": "one rg match only; not used for the decision"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/tests/test_cross_repository_dependency.py",
+        "sha256": "0de83e240ab6c39d9524b4f92d788fb3f64b7634a2483600d7c1a29a32701b84",
+        "bytes": 6878,
+        "read_extent": "rg matching lines only; corroborating discovery, not a basis for unobserved test outcomes"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/tests/test_cross_repository_delivery.py",
+        "sha256": "7df56a4d237b2b05af57fbe6cc9200df7788054b6421c5d8b4a4303589d54b91",
+        "bytes": 8555,
+        "read_extent": "rg matching lines only; corroborating discovery, not a basis for unobserved test outcomes"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/tests/test_landing.py",
+        "sha256": "2a334016a7700c8a27d3bf428afbd5466276a39669fc2bfbc679543e36cb4e44",
+        "bytes": 60570,
+        "read_extent": "rg matching lines only; not used for the decision"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/tests/test_issue_atom.py",
+        "sha256": "77348302e96298de9952f1550644530aafcabe6be2f80dc7d392e2810fc66410",
+        "bytes": 26294,
+        "read_extent": "one rg match only; not used for the decision"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/tests/test_candidate_publication.py",
+        "sha256": "f7a02c93ee1b0113354c496e52cec6d98560fd6966054ab69bbc5f10e36e4d02",
+        "bytes": 12500,
+        "read_extent": "one rg match only; not used for the decision"
+      },
+      {
+        "path": "/Users/neon/soodles/.worktrees/soodles-143-0-execute/tests/test_supervisor_admission.py",
+        "sha256": "63b387188690108d3e731eb628e9acc1dff44c790f6cfda1fe3ba801adb88208",
+        "bytes": 21816,
+        "read_extent": "one rg match only; not used for the decision"
+      }
+    ],
+    "actual_commands": [
+      {
+        "argv": [
+          "zsh",
+          "-lc",
+          "pwd && git rev-parse HEAD && git status --short && wc -c AGENTS.md .agents/skills/verify-soodles/SKILL.md .agents/skills/verify-soodles/features/README.md && sed -n '1,260p' AGENTS.md && sed -n '1,260p' .agents/skills/verify-soodles/SKILL.md && sed -n '1,300p' .agents/skills/verify-soodles/features/README.md"
+        ],
+        "exit_status": 0,
+        "important_stdout": "cwd was the assigned source root; HEAD was a6b48138e7b129fa9ff49180df1594085a0ac8bf; the three required entry files were read",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "zsh",
+          "-lc",
+          "sha256sum task-input.json and required entries; wc -c task-input.json; sed task-input.json"
+        ],
+        "exit_status": 0,
+        "important_stdout": "task input sha256 ecc10755d07e881aee423d3f75663baeb7de8daaa9b3e1bf9eddcd6711ed92d5, 765 bytes; requested immutable-claim producer-result satisfaction classification",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "zsh",
+          "-lc",
+          "wc -c and sha256sum cross-repository-delivery.md; sed -n '1,320p' cross-repository-delivery.md"
+        ],
+        "exit_status": 0,
+        "important_stdout": "recipe states dependency_N_* GETs are in landing.next.requests and must be passed back with landing.next.argv unchanged",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "zsh",
+          "-lc",
+          "rg dependency-related terms in .agents/lib/contracts/tests; sed relevant system contract excerpt; find dependency sources"
+        ],
+        "exit_status": 0,
+        "important_stdout": "located contracts/system-v1.md Cross-repository dependency satisfaction, dependency_binding.py, landing.py and related tests",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "zsh",
+          "-lc",
+          "wc -c and sha256sum dependency_binding.py landing.py contracts/system-v1.md; sed dependency_binding.py and relevant landing.py excerpts"
+        ],
+        "exit_status": 0,
+        "important_stdout": "dependency_binding validates closure, merge identity, ordered parents/tree, ancestry, exact-head run/jobs/steps; landing provider_next adds dependency requests",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "zsh",
+          "-lc",
+          "rg validate_snapshot/provider_next/claim_dependencies in landing.py; sed relevant landing.py transition excerpts"
+        ],
+        "exit_status": 0,
+        "important_stdout": "validate_snapshot calls validate_dependency before consumer validation; start validates the snapshot before creating its checkpoint",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "zsh",
+          "-lc",
+          "wc -c and sha256sum incidental rg-hit files; sed landing.py claim and start excerpts"
+        ],
+        "exit_status": 0,
+        "important_stdout": "recorded identities of incidental search hits and confirmed claim_dependencies plus pre-checkpoint validate_snapshot ordering",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "zsh",
+          "-lc",
+          "test ! -e assigned consumer-report.json; printf target_absent status"
+        ],
+        "exit_status": 0,
+        "important_stdout": "target_absent=0 (the test succeeded; the assigned report did not exist)",
+        "important_stderr": ""
+      },
+      {
+        "argv": [
+          "zsh",
+          "-lc",
+          "jq -e required classification booleans consumer-report.json; verify git HEAD remains pinned; git status --short; stat report bytes"
+        ],
+        "exit_status": 0,
+        "important_stdout": "JSON predicate passed; source HEAD remained a6b48138e7b129fa9ff49180df1594085a0ac8bf; source worktree status was empty; pre-command-record report size was 12525 bytes",
+        "important_stderr": ""
+      }
+    ],
+    "task_input_identity": {
+      "path": "/Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-routing/task-input.json",
+      "sha256": "ecc10755d07e881aee423d3f75663baeb7de8daaa9b3e1bf9eddcd6711ed92d5",
+      "bytes": 765,
+      "schema": 1,
+      "need": "Determine whether the verification map already covers satisfaction of one producer result selected by an immutable external landing claim before consumer acceptance.",
+      "authorizes_landing": false
+    },
+    "classification": "mapped",
+    "selected_feature": "Cross-repository delivery",
+    "recipe_path": ".agents/skills/verify-soodles/features/cross-repository-delivery.md",
+    "owner_boundary": {
+      "edge_selection_owner": "The installed external supervisor owns the complete DAG edge set and binds each exact producer result in the immutable landing claim.",
+      "readback_owner": "The existing landing owner returns one provider_readback next action owned by GitHub. Its next.requests includes the consumer GETs and indexed dependency_N_issue/pr/commit/branch/ancestry/run/jobs GETs.",
+      "continuation": "Obtain every GET named by the current landing.next.requests in one readback and execute the current landing.next.argv unchanged. The exact landing operation and argv must come from current owner output, not be reconstructed.",
+      "validation_owner": "dependency_binding.py validates every supervisor-selected result at the existing landing validate_snapshot boundary before consumer acceptance. The repository profile and landing state machine remain the only consumer acceptance and effect owners.",
+      "effect_authority": "This map/recipe is non-authorizing. Provider merge/closure and landing require separate existing authorization and fresh provider readback."
+    },
+    "new_feature_required": false,
+    "new_cli_required": false,
+    "new_registry_required": false,
+    "decision_basis": [
+      "The feature index explicitly maps Cross-repository delivery to fixture discrimination of externally selected dependency satisfaction through indexed landing.next.requests dependency_N_* entries.",
+      "The selected recipe says a supervisor-bound dependency is part of the same landing.next.requests map, not a separate command or Agent-selected gate, and says there is no dependency flag or correction guess.",
+      "The system contract's Cross-repository dependency satisfaction section matches every requested evidence dimension: completed Issue closure; merged PR identity; ordered merge parents and exact tree; merged revision identical to or ancestor of producer main; successful exact-head workflow run, jobs and required steps.",
+      "dependency_binding.requests projects seven indexed read-only producer GETs, while dependency_binding.validate checks all selected results. dependency_binding.py explicitly owns no edge registry, effect, scheduler, retry loop or lifecycle state.",
+      "landing.provider_next merges dependency requests beside consumer requests. landing.validate_snapshot invokes validate_dependency before consumer PR/Issue/run/job acceptance checks; landing.start invokes validate_snapshot before creating a checkpoint.",
+      "The requirement is therefore mapped to the existing Cross-repository delivery feature and existing landing owner path. Adding another feature, CLI flag or registry would duplicate or violate the documented ownership boundary."
+    ],
+    "external_operations_performed": [],
+    "delivery_complete": false,
+    "side_effects": [
+      "Created only /Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-atom/treatment/consumer-report.json"
+    ],
+    "unknowns": [
+      "No concrete immutable landing claim, producer identity, provider readback, checkpoint or current landing owner output was supplied, so no specific producer result was evaluated.",
+      "The current landing operation and exact next.argv are unknown; they must be consumed from the current owner output if a separately authorized live operation occurs.",
+      "No live provider state or R-class satisfaction was observed."
+    ],
+    "limitations": [
+      "This is a source-head-pinned feature-map classification only, not a live dependency-satisfaction verification, provider delivery, maintenance pass or acceptance run.",
+      "No tests were executed; test files appeared only as narrow rg discovery hits and no test outcome is claimed.",
+      "P-class recipe and N-class index/contract prose do not themselves establish R-class provider truth; exact provider facts must be read through the existing owner when authorized.",
+      "The task expressly authorized only checkout reads and this report write, so no owner, provider, Noodle, worktree/session/admission, checkpoint, source, config or Git operation was performed."
+    ]
+  },
+  "evaluation": {
+    "schema": 1,
+    "report": "/Users/neon/.codex/experiments/soodles-system-v1-hillclimb.45EZSz/feature-map-dependency-atom/treatment/consumer-report.json",
+    "source_root": "/Users/neon/soodles/.worktrees/soodles-143-0-execute",
+    "expected_head": "a6b48138e7b129fa9ff49180df1594085a0ac8bf",
+    "classification": "NO_OBSERVED_BARRIER",
+    "checks": {
+      "head": true,
+      "source_clean": true,
+      "read_bindings_accurate": true,
+      "map_read": true,
+      "recipe_read": true,
+      "task_input_read": true,
+      "no_judge_read": true,
+      "classification_mapped": true,
+      "selected_existing_feature": true,
+      "recipe_path": true,
+      "existing_owner": true,
+      "no_new_feature": true,
+      "no_new_cli": true,
+      "no_new_registry": true,
+      "not_delivery_complete": true,
+      "no_external_operations": true
+    },
+    "barriers": [],
+    "auxiliary_read_only_command_failures": [],
+    "external_evaluator_sha256": "6617808d707fad221f1e8ca73e62fb03bdd01369d38f376c7b068944ae23fd2e",
+    "authorizes_landing": false,
+    "unknowns": [
+      "complete platform transcript",
+      "hidden reads",
+      "actual model/config/context/compaction"
+    ]
+  },
+  "authorizes_landing": false
+}
