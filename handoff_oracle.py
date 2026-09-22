@@ -43,14 +43,39 @@ def _start(noodle, root):
 
 
 def _stop(process):
-    if process.poll() is None:
-        os.killpg(process.pid, signal.SIGINT)
-    stdout, stderr = process.communicate(timeout=15)
+    try:
+        if process.poll() is None:
+            os.killpg(process.pid, signal.SIGINT)
+        stdout, stderr = process.communicate(timeout=15)
+    except BaseException as error:
+        # Even a failed graceful stop must reap this probe's owned process.
+        # Forced termination never supplies a successful exit receipt.
+        try:
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass  # The group exited between the failed wait and signal.
+            process.communicate(timeout=15)
+        except BaseException as cleanup_error:
+            raise error from cleanup_error
+        raise
     if process.returncode != 0:
         raise RuntimeError(f"Noodle exited {process.returncode}: {stderr}")
     return {"pid": process.pid, "returncode": process.returncode,
             "waited": True, "stdout_sha256": hashlib.sha256(stdout.encode()).hexdigest(),
             "stderr_sha256": hashlib.sha256(stderr.encode()).hexdigest()}
+
+
+def _projection_and_stop(process, root, order_id, label):
+    try:
+        state = _wait(lambda: _projected(root, order_id), label)
+    except BaseException as error:
+        try:
+            _stop(process)
+        except BaseException as cleanup_error:
+            raise error from cleanup_error
+        raise
+    return state, _stop(process)
 
 
 def _effect(state, order_id, kind):
@@ -267,8 +292,7 @@ enabled = false
         os.environ["FIXTURE_NOODLE"] = noodle
         try:
             first = _start(noodle, root)
-            a_state = _wait(lambda: _projected(root, "soodles-105"), "A projection")
-            a_exit = _stop(first)
+            a_state, a_exit = _projection_and_stop(first, root, "soodles-105", "A projection")
             a_directory, a_spawn, _, a_event = _session(root, "soodles-105")
             a_envelope, a_path, a_digest, _ = _envelope(root, outside, noodle, codex, 105)
             a_completion = issue_execution.completed_original_order(a_envelope, a_state)
@@ -311,8 +335,7 @@ enabled = false
             if not admitted.get("published"):
                 raise RuntimeError("B was not admitted through the Soodles mailbox owner")
             second = _start(noodle, root)
-            b_state = _wait(lambda: _projected(root, "soodles-106"), "B projection")
-            b_exit = _stop(second)
+            b_state, b_exit = _projection_and_stop(second, root, "soodles-106", "B projection")
             b_directory, b_spawn, _, b_event = _session(root, "soodles-106")
             b_started_at = (b_directory / "spawn.json").stat().st_mtime_ns
             if b_started_at <= cleanup_at:
