@@ -146,3 +146,25 @@ external supervisor/admission owner must supply the complete set. Route
 migration preserves the list exactly. Provider fixtures are L-class
 discrimination only; exact provider Issue/PR/run and final delivery readbacks
 retain their own R-class scope.
+
+### Local accepted-candidate publication — ed3c/soodles#128
+
+Noodle owns the local order, terminal typed outcome and linked-worktree
+custody. Its schema-1 publication claim binds the exact order/stage/attempt,
+session evidence, repository remote, branch, base, candidate HEAD and tree;
+it authorizes no provider write. Canonical Soodles acceptance independently
+binds the same candidate HEAD/tree and remains non-authorizing.
+
+`candidate-publish` consumes only those two current receipts. It rechecks their
+evidence bytes and clean Git identity, reads the current provider repository,
+Issue contract and base, then derives `soodles/issue-N-HEAD12` and the exact
+one-line `Refs OWNER/REPOSITORY#N` body. An absent branch is pushed with an
+absent-ref lease and read back; an equal branch is reused; every other ref is
+refused. One exact open PR is created or adopted and read back.
+
+A lost or failed push/create response is never replay authority. The owner
+performs fresh branch/PR readback once and adopts only the exact intended
+effect; otherwise it returns the provider readback prerequisite and stops.
+The receipt terminates at PR identity with `authorizes_landing=false`; merge,
+Issue closure, landing checkpoints and Noodle cleanup remain with their
+existing owners.
