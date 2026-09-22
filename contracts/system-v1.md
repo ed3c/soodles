@@ -24,7 +24,7 @@ A candidate cannot approve itself. Initial installation is the owner-requested s
 
 Owner: ed3c/soodles#4. `landing.py` and `tests/test_landing.py` own this boundary. The supervisor selects a verifier implementation outside the candidate and pins its SHA-256 in an exact single-Issue claim. Every claim binds repository, Issue, PR, head ref, head, tree, base head and successful runtime run/attempt. A local claim additionally binds `control_root`; a cloud claim omits it. Claim shape carries the Session-selected route without another mutable flag. A digest binds bytes; the supervising session supplies initial trust. It is not a signature or an independent correctness oracle.
 
-`landing start` rejects mismatched provider identity before admission. `landing advance` prepares an expected-head merge or exact-Issue closure intent in the checkpoint. `landing dispatch` revalidates the provider snapshot and durably consumes that intent before emitting the request once. Neither command performs provider writes. The GitHub connector is the transport in the supervised fallback. Existing GitHub rules apply; no bypass or permission mutation is offered. Raw snapshots are trusted only as provider readbacks transported by that supervisor, never as candidate-supplied evidence.
+`landing start` rejects mismatched provider identity before admission. `landing advance` prepares an expected-head merge or exact-Issue closure intent in the checkpoint. `landing dispatch` revalidates the provider snapshot and durably consumes that intent before emitting the request once. Landing itself still performs no provider write. Cloud claims use the GitHub connector transport; local claims may project the repository's narrow `provider-execute` continuation, which can execute only the exact persisted offered request with the supervisor-injected credential and returns fresh provider readback. Existing GitHub rules apply; no bypass or permission mutation is offered. Raw snapshots are trusted only as provider readbacks transported by that supervisor, never as candidate-supplied evidence.
 
 ### Terminal candidate owner activation — ed3c/soodles#122
 
@@ -297,4 +297,5 @@ Those controls do not prove child behavior; the externally prepared bounded
 comparison supplies only its observed scope, with missing behavior evidence
 remaining INCONCLUSIVE. Publication readiness, exact-head Linux acceptance,
 landing readbacks and reconciliation retain their existing owners and authority.
+
 

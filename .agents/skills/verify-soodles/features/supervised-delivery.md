@@ -20,9 +20,10 @@ This is an output contract, not a phase-to-command table:
 
 | Observed output | Consumer responsibility |
 | --- | --- |
+| `next.kind: executable` | Execute the current `next.argv` exactly once as an argument array, then consume its typed result. Do not reconstruct a provider mutation, token source, repository/PR/Issue identity, merge method or Noodle binary from prose or the sibling `request`. |
 | `next.kind: input` | Obtain the named `required` inputs from `next.owner`; retain `known` confirmed paths. Use the returned `operation` and `help_argv` to invoke its supported entry. A help command does not perform the transition. |
 | `next.kind: provider_readback` | Perform the explicit GET operations and subjects in `requests` through GitHub. Preserve each response under its emitted request key in the readback object. Comparison requests already contain their confirmed endpoint SHAs; do not reconstruct them from an invalid-field prefix or remembered state. For dependent merge-commit readback, first confirm the actual merge SHA from the returned PR. Supply raw results to the named operation; never fabricate a local readback command or missing SHA. |
-| `request` | Transport that newly emitted request exactly once through its named connector action. Preserve expected head and subject. Re-enter the owner with fresh provider readback after success or unknown outcome; never resend from trace. |
+| `request` | On a cloud route, transport a newly emitted request exactly once through its named connector action when no executable local continuation is supplied. On a local route the request is evidence of owner authority; execute `next.argv` instead. After success or unknown outcome re-enter only from fresh provider readback; never resend from trace. |
 | `invalid` / nonzero exit | Preserve exact field/value and owning action. Text and JSON must agree. Follow explicit missing-input/readback guidance or supported help; help alone may not identify a recovery action. Do not infer one from field prefixes. |
 | `next: null` | No next operation is offered. Inspect the receipt's scope/classification; identity or a fixture is not Issue resolution. |
 
@@ -32,8 +33,19 @@ First satisfy the emitted provider GETs and replace the raw snapshot at
 `next.known.readback`; then execute the current `next.argv` as an argument array.
 Keep the selected publisher and every argument unchanged. This removes command
 assembly from the consumer; it does not certify freshness or grant authority.
-An emitted `request` still goes through the existing transport once before its
-fresh readback. A historical argv is trace evidence, never a retry capability.
+For a local claim, an emitted merge/close `request` is durably bound in the
+landing checkpoint and the owner projects the repository's narrow local provider
+transport as `next.kind=executable`. Execute only that argv. The transport uses
+the supervisor-injected provider credential, performs no automatic mutation
+retry, preserves fresh readback, and returns the exact `landing advance` argv.
+For a cloud claim, the request still goes through the existing connector once.
+A historical argv or request is trace evidence, never a retry capability.
+
+When local provider closure reaches reconciliation and the admitted claim already
+carries a valid `execution_envelope`, the landing owner derives the measured
+Noodle binary from that envelope and returns exact `landing reconcile` argv.
+Only a local claim without that executable identity remains an input-required
+binary non-case. The consumer never searches PATH/history for a substitute.
 
 When those paths or other required inputs are unknown, no argv is supplied.
 Use the named owner and existing help route; do not infer a command from phase,
@@ -63,3 +75,4 @@ For fault/refusal controls, use [delivery recovery](delivery-recovery.md). Never
 On the local route the delivery owner invokes Noodle reconciliation; the skill must not remove the task worktree itself. On the cloud route no local cleanup is applicable and the owner must not invoke shell Git/Noodle. Continue terminal observation from the selected owner, preserving evidence outside disposable state. A supervisor may correct or delete erroneous implementation, tests or guidance through the admitted owner/boundary, with fresh acceptance as required; this recipe cannot approve its own repair. Unknown offered writes retain their readback obligation.
 
 Sources: `landing.py` owns output and durable transitions; `soodles.py` owns CLI parsing/rendering; their nearest behavioral oracle is `delivery_oracle.py`. These pointers locate behavior, not a second authority. #18 remains outside this feature.
+

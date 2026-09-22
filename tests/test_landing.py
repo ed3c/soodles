@@ -827,7 +827,9 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(prepared['next']['operation'], 'dispatch')
         request = landing.dispatch(self.checkpoint, self.snapshot)
         self.assertEqual(request['request']['expected_head_sha'], self.claim['head'])
-        self.assertEqual(request['next']['operation'], 'advance')
+        self.assertEqual(request['next']['kind'], 'executable')
+        self.assertEqual(request['next']['operation'], 'execute')
+        self.assertEqual(request['next']['argv'], landing.provider_cli_argv(self.checkpoint))
         self.assertNotIn('next', landing.read(self.checkpoint))
         with self.assertRaises(landing.LandingRefusal) as refused:
             landing.dispatch(self.checkpoint, self.snapshot)
@@ -1031,3 +1033,4 @@ class BoundLandingTests(unittest.TestCase):
         self.assertEqual(len(requests), 1)
         self.assertFalse(c.worktree.exists())
         self.assertEqual(result["noodle_reconciliation"]["order_id"], "soodles-18")
+
