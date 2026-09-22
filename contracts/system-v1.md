@@ -26,6 +26,12 @@ Owner: ed3c/soodles#4. `landing.py` and `tests/test_landing.py` own this boundar
 
 `landing start` rejects mismatched provider identity before admission. `landing advance` prepares an expected-head merge or exact-Issue closure intent in the checkpoint. `landing dispatch` revalidates the provider snapshot and durably consumes that intent before emitting the request once. Neither command performs provider writes. The GitHub connector is the transport in the supervised fallback. Existing GitHub rules apply; no bypass or permission mutation is offered. Raw snapshots are trusted only as provider readbacks transported by that supervisor, never as candidate-supplied evidence.
 
+### Terminal candidate owner activation — ed3c/soodles#122
+
+An exact-head GREEN candidate does not select its own landing authority. The installed supervisor supplies one immutable external publisher descriptor and one Cloud/Local route descriptor. The repository `landing-supervisor` entry verifies the publisher through its existing `landing identity`, derives repository/Issue/PR/head/tree/base/run/worktree only from one fresh provider snapshot, creates a new external claim/checkpoint package, and invokes that selected publisher's existing `landing start` exactly once. It performs no provider mutation and never resolves publisher authority from latest/default branch or Git history.
+
+Cloud route carries no local execution identity. Local route requires supervisor-supplied `control_root` and exact `execution_envelope` reference; the entry neither discovers nor repairs them. Wrong/stale runtime identity, publisher digest mismatch, route-shape mismatch, candidate self-selection, or existing output refuses before checkpoint creation. The returned owner `next` remains a projection of the existing landing state machine; downstream connector/local-provider transport and reconciliation retain their current owners.
+
 Merged state must agree with the expected parent pair and candidate tree before closure can be offered. For a cloud claim, completed Issue and provider-main readback permits `landing advance` to write RESOLVED: main must equal the merge commit or a complete provider comparison must prove the merge is its ancestor. No control root, shell Git, binary or Noodle call is legal on this route. For a local claim, completed Issue readback instead permits `landing reconcile`: validate local origin/clean source/exact candidate, fast-forward main, ask Noodle to remove the worktree, then read back main and worktree/branch absence. Interrupted local reconciliation can resume from its persisted intent; dirty or divergent local state refuses before cleanup. Retained other worktrees belong to their own admitted Issues.
 
 There is at most one merge request and one closure request per checkpoint, no automatic retries, and no polling loop. Pending unknown outcomes remain pending for owner-specific readback. No production generation closure, autonomous scheduling, crash-safe remote transaction, or independent default-branch verification is claimed. The supervisor must not delete/recreate a checkpoint to repeat an unknown write.
@@ -291,3 +297,4 @@ Those controls do not prove child behavior; the externally prepared bounded
 comparison supplies only its observed scope, with missing behavior evidence
 remaining INCONCLUSIVE. Publication readiness, exact-head Linux acceptance,
 landing readbacks and reconciliation retain their existing owners and authority.
+

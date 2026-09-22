@@ -1,0 +1,4 @@
+#!/usr/bin/env python3
+from landing_supervisor import main
+
+raise SystemExit(main())
