@@ -13,6 +13,8 @@ import provider_readback
 ROOT = Path(__file__).resolve().parents[1]
 PUBLISHER_FILES = (
     "landing.py",
+    "provider-execute",
+    "provider_transport.py",
     "soodles.py",
     "issue_admission.py",
     "issue_execution.py",
