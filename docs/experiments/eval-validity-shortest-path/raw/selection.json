@@ -1,0 +1,158 @@
+{
+  "authorizes_landing": false,
+  "baseline_freeze": {
+    "fresh_context": "fork_turns:none",
+    "observed_model": null,
+    "observed_native_config": null,
+    "origin_issue": 146,
+    "packet_sha256": "55341fdabf53f2552b82db3d24ad4dccdf0983b0fd7c9de096f21a86acf5e930",
+    "requested_model": "gpt-6-astra",
+    "requested_reasoning": "high",
+    "subject_head": "8e051f162fb5c782de0868a99730c8a982bd946e",
+    "task_sha256": "df1dd5c2974774ede2eb5404f4dee63d9db89e99f5e0c180ea3a2db605f27947"
+  },
+  "candidate_ready": {
+    "authorizes_landing": false,
+    "base_head": "cac1146fbacf746e0df2cad4387f14c536bee79c",
+    "changed_paths": [
+      ".agents/skills/verify-soodles/features/pclass-context.md",
+      "contracts/system-v1.md",
+      "report_evaluation.py",
+      "soodles.py",
+      "tests/test_report_evaluation.py"
+    ],
+    "clean": true,
+    "cli_sha256": "faeb7c1febae8bd1d3840ab4d8a3000a46af61e62bf5a90bf796201e6aa9da22",
+    "digests": {
+      ".agents/skills/verify-soodles/features/pclass-context.md": "bcbb2aab0fc095d90a9280bca5bbd0ed3ed99f553809a7473322cee0c9a43d74",
+      "contracts/system-v1.md": "af7bd58e19e006f77febf4e7eb89c99de2ad7d60d4789688474c43d98f2e9485",
+      "report_evaluation.py": "b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9",
+      "soodles.py": "faeb7c1febae8bd1d3840ab4d8a3000a46af61e62bf5a90bf796201e6aa9da22",
+      "tests/test_report_evaluation.py": "c0d089e0f685badf3e3406cbb1214fb14d24e7b007cd94d380f778f312e06a47"
+    },
+    "evaluator_sha256": "b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9",
+    "evidence_deadline_epoch": 1790132090.905518,
+    "head": "85f34beed1b507fabf01520dd3e883633b5303a5",
+    "instruction_sha256": "bcbb2aab0fc095d90a9280bca5bbd0ed3ed99f553809a7473322cee0c9a43d74",
+    "issue": 146,
+    "limitations": [
+      "External oracle and fresh treatment belong to supervisor; evidence patch pending.",
+      "One oracle integration test awaits supervisor manifest.",
+      "Initial full test process was terminated (143); preserved interruption and reran with isolated process session.",
+      "Native implementation completion does not establish Linux acceptance or delivery resolution."
+    ],
+    "owner": "soodles-146.execute",
+    "ready_at_epoch": 1790129690.905517,
+    "repository": "ed3c/soodles",
+    "schema": 1,
+    "tests": {
+      "compile": "PASS",
+      "diff_check": "PASS",
+      "focused": {
+        "exit": 0,
+        "log": "/Users/neon/.codex/experiments/eval-validity-shortest-path-fc6ja50e/implementation-focused.log",
+        "skipped": 1,
+        "tests": 12
+      },
+      "full": {
+        "NOODLE_identity_removed_in_test_child": true,
+        "TMPDIR": "/private/tmp",
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "elapsed_seconds": 60.91485654201824,
+        "exit": 0,
+        "log": "/Users/neon/.codex/experiments/eval-validity-shortest-path-fc6ja50e/implementation-full-2.log",
+        "start_new_session": true
+      },
+      "skill_validation": "PASS"
+    },
+    "tree": "fb7712331ef79a8cc4c8c08427bc3cfc35dc906c",
+    "worktree": "/Users/neon/soodles/.worktrees/soodles-146-0-execute"
+  },
+  "external_authorization_sha256": "7d59dd222c01d306cd0be19b34f5c1fa602d6f587645766f2251fb6f2ede9dbf",
+  "origin_issue": 146,
+  "source_review": {
+    "authorizes_landing": false,
+    "candidate_head": "85f34beed1b507fabf01520dd3e883633b5303a5",
+    "external_oracle_result": "6/6 GREEN",
+    "frozen_historical_packet_unchanged": true,
+    "pending_final_acceptance": [
+      "evidence-backed oracle integration must execute with zero skips",
+      "native publication readiness",
+      "exact-head Linux Actions",
+      "external landing and local reconciliation"
+    ],
+    "preimport_sentinel_test": "PASS from implementation-focused.log",
+    "review_scope": "Source diff, report evaluator, CLI adapter, unit controls, and frozen oracle outputs",
+    "reviewed_paths": [
+      ".agents/skills/verify-soodles/features/pclass-context.md",
+      "contracts/system-v1.md",
+      "report_evaluation.py",
+      "soodles.py",
+      "tests/test_report_evaluation.py"
+    ]
+  },
+  "source_selection": {
+    "archive_sha256": "9d022dbe7ff59f551d05426c487db4de5b78b4fa7e82b410e1bcbdcffe50d13b",
+    "authorizes_landing": false,
+    "claim": "independently pinned source and landing owner before candidate writes",
+    "source_ref": "cac1146fbacf746e0df2cad4387f14c536bee79c"
+  },
+  "start": {
+    "authorizes_landing": false,
+    "claim": "Pre-treatment fixed inputs; not a result or landing authorization",
+    "experiment_id": "eval-validity-shortest-path-v1",
+    "files": {
+      "authorization.json": "7d59dd222c01d306cd0be19b34f5c1fa602d6f587645766f2251fb6f2ede9dbf",
+      "baseline-input.json": "55341fdabf53f2552b82db3d24ad4dccdf0983b0fd7c9de096f21a86acf5e930",
+      "fresh-input-freeze.json": "2250d35793f3d076ddc7e9945c1794cea05c4f6d9c787e2d040a3f652ae71c82",
+      "issue-readback.json": "838658646d48523265343a3c8d16a893b2d3ea427c0d0071db58fc274e4ed6f3",
+      "neutral-task.txt": "df1dd5c2974774ede2eb5404f4dee63d9db89e99f5e0c180ea3a2db605f27947",
+      "oracle.py": "2a9f0853f1f067ea74fe826be94842204dae7eec35476d4796df976a7af2c815",
+      "protocol.md": "c0a3b4da851819eb6c07fd99d3b926e4af36681db83a0c0d242d7eefb830c12b"
+    },
+    "fresh_baseline_agent": {
+      "fork_turns": "none",
+      "native_transcript_completeness": "unavailable",
+      "observed_model": null,
+      "requested_model": "gpt-6-astra",
+      "requested_reasoning": "high",
+      "task_name": "/root/report_consumer_baseline"
+    },
+    "origin_issue": 146,
+    "schema": 1,
+    "writer": {
+      "owner": "Noodle",
+      "session": "soodles-146-0-execute-20260923-020708-bf601b",
+      "worktree": "/Users/neon/soodles/.worktrees/soodles-146-0-execute"
+    }
+  },
+  "treatment_freeze": {
+    "archive_sha256": "75b5d881c0aaf68c1c9a9f8ba75ea7710fee66fe463f1ad0fe37e160205d1a4e",
+    "fresh_context": "fork_turns:none",
+    "head": "85f34beed1b507fabf01520dd3e883633b5303a5",
+    "observed_model": null,
+    "observed_native_config": null,
+    "packet_sha256": "e84feca1ea26420dd0adda0ef5d8b0d1a2e9c7c0e0d680230423a23508a1c9d5",
+    "provider_effects_allowed": false,
+    "requested_model": "gpt-6-astra",
+    "requested_reasoning": "high",
+    "source_digests": {
+      ".agents/skills/verify-soodles/features/pclass-context.md": "bcbb2aab0fc095d90a9280bca5bbd0ed3ed99f553809a7473322cee0c9a43d74",
+      "contracts/system-v1.md": "af7bd58e19e006f77febf4e7eb89c99de2ad7d60d4789688474c43d98f2e9485",
+      "report_evaluation.py": "b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9",
+      "soodles.py": "faeb7c1febae8bd1d3840ab4d8a3000a46af61e62bf5a90bf796201e6aa9da22",
+      "tests/test_report_evaluation.py": "c0d089e0f685badf3e3406cbb1214fb14d24e7b007cd94d380f778f312e06a47"
+    },
+    "task_sha256": "df1dd5c2974774ede2eb5404f4dee63d9db89e99f5e0c180ea3a2db605f27947",
+    "tree": "fb7712331ef79a8cc4c8c08427bc3cfc35dc906c"
+  }
+}
