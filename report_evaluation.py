@@ -23,7 +23,8 @@ def refusal(field, reason, validity="INVALID"):
             "observation_scope": "consumer_report", "evidence_validity": validity,
             "behavior": None, "problem": problem,
             "next": {"owner": "supervisor", "operation": "supply_report_evidence",
-                     "missing_input": problem}}
+                     "missing_input": problem,
+                     "help_argv": ["./soodles", "eval", "report", "--help"]}}
 
 
 def required(obj, key, prefix):
@@ -118,7 +119,7 @@ def evaluate_validated(selection):
     if type(selection["schema"]) is not int or selection["schema"] != 1:
         raise EvidenceError("selection.schema", "only schema 1 is supported")
     if selection["kind"] != "feature_map_routing_report_v2":
-        raise EvidenceError("selection.kind", "unsupported report family")
+        raise EvidenceError("selection.kind", "only feature_map_routing_report_v2 is supported")
     if selection["experiment_id"] != EXPERIMENT:
         raise EvidenceError("selection.experiment_id", "experiment identifier mismatch")
     for name, fields in (("source", {"root", "head"}), ("instruction", {"path", "sha256"}), ("report", {"path", "sha256"})):

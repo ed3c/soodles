@@ -72,6 +72,9 @@ class ReportEvaluationTests(unittest.TestCase):
         self.assertEqual(result["evidence_validity"], validity, result)
         self.assertIsNone(result["behavior"])
         self.assertEqual(result["next"]["owner"], "supervisor")
+        self.assertEqual(result["next"]["operation"], "supply_report_evidence")
+        self.assertEqual(result["next"]["missing_input"], result["problem"])
+        self.assertEqual(result["next"]["help_argv"], ["./soodles", "eval", "report", "--help"])
         self.assertIn(field, result["problem"]["field"])
         self.assertFalse(result["authorizes_landing"])
 
@@ -215,6 +218,53 @@ class ReportEvaluationTests(unittest.TestCase):
         proc = subprocess.run([sys.executable, "-B", str(oracle), str(ROOT), "candidate", str(output)], env=self.env, capture_output=True, text=True, timeout=60)
         self.assertEqual(proc.returncode, 0, proc.stderr)
         self.assertEqual(json.loads(proc.stdout)["classification"], "GREEN", proc.stdout)
+
+    def test_cli_refusal_help_is_executable_without_replacing_missing_input(self):
+        cases = [(["eval", "report"], "INVALID", "arguments"),
+                 (["eval", "report", str(self.selected), "0" * 64], "INVALID", "selection.sha256")]
+        self.report.pop("external_operations_performed")
+        digest = self.bind()
+        cases.append((["eval", "report", str(self.selected), digest],
+                      "INCONCLUSIVE", "report.external_operations_performed"))
+        before = {path: path.read_bytes() for path in (self.selected, self.report_path)}
+        for argv, validity, field in cases:
+            with self.subTest(field=field):
+                proc = subprocess.run(["./soodles", *argv], cwd=ROOT, env=self.env,
+                                      capture_output=True, text=True, timeout=60)
+                self.assertEqual(proc.returncode, 2, proc.stderr)
+                result = json.loads(proc.stdout)
+                self.assert_unusable(result, validity, field)
+                help_result = subprocess.run(result["next"]["help_argv"], cwd=ROOT, env=self.env,
+                                             capture_output=True, text=True, timeout=60)
+                self.assertEqual(help_result.returncode, 0, help_result.stderr)
+                self.assertIn("feature_map_routing_report_v2", help_result.stdout)
+                self.assertEqual({path: path.read_bytes() for path in before}, before)
+
+    def test_unsupported_family_names_the_supported_contract(self):
+        self.selection["kind"] = "other"
+        result = self.evaluate()
+        self.assert_unusable(result, "INVALID", "selection.kind")
+        self.assertIn("feature_map_routing_report_v2", result["problem"]["reason"])
+
+    def test_fixed_method_route_oracle_and_planted_control(self):
+        evidence = ROOT / "docs/experiments/eval-method-route"
+        for name, digest in {
+            "oracle.py": "f64c8064e97d54db8e4f965b69ac183c787f5c13f0a76323b187beaddd0bebcc",
+            "fixture.py": "9052df3cea1318c5b460ebadd11a6af6c296b4f4573df7f50d3b6138b2d6666d",
+        }.items():
+            self.assertEqual(sha((evidence / name).read_bytes()), digest, name)
+        output = self.base / "method-route-oracle"
+        proc = subprocess.run([sys.executable, "-B", str(evidence / "oracle.py"), str(ROOT), str(output)],
+                              env=self.env, capture_output=True, text=True, timeout=60)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        result = json.loads(proc.stdout)
+        self.assertEqual(result["classification"], "GREEN", result)
+        self.assertEqual(len(result["checks"]), 11)
+        self.assertTrue(all(value is True for value in result["checks"].values()), result)
+        self.assertTrue(result["planted_missing_help_rejected"])
+        self.assertTrue(result["fixture_removed"])
+        self.assertFalse(result["authorizes_landing"])
+        self.assertEqual(json.loads((output / "controls.json").read_text())["checks"], result["checks"])
 
 
 if __name__ == "__main__":

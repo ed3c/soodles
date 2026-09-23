@@ -65,7 +65,8 @@ def report_refusal(field, reason, validity="INVALID"):
             "observation_scope": "consumer_report", "evidence_validity": validity,
             "behavior": None, "problem": problem,
             "next": {"owner": "supervisor", "operation": "supply_report_evidence",
-                     "missing_input": problem}}
+                     "missing_input": problem,
+                     "help_argv": ["./soodles", "eval", "report", "--help"]}}
 
 
 def eval_report(selection_path, expected_sha256):
@@ -257,11 +258,26 @@ def parser():
     p = Parser(prog="./soodles", description="Noodle runtime evidence and supervised landing checkpoints.",
                                 epilog="Examples: ./soodles runtime --help; ./soodles acceptance --help; ./soodles landing --help")
     groups = p.add_subparsers(dest="group", required=True)
-    evaluation = groups.add_parser("eval", description="Pinned consumer-report evaluation; no landing authority.")
+    evaluation = groups.add_parser(
+        "eval", description="Externally selected feature_map_routing_report_v2 verification only; "
+        "not general behavior-eval authoring. Read evidence_validity before behavior. No landing authority.",
+        epilog="Discover the report contract: ./soodles eval report --help")
     eval_verbs = evaluation.add_subparsers(dest="verb", required=True)
-    report = eval_verbs.add_parser("report", description="Use the complete supervisor-supplied invocation and external selector digest.")
-    report.add_argument("selection")
-    report.add_argument("expected_sha256")
+    report = eval_verbs.add_parser(
+        "report", description="Verify only feature_map_routing_report_v2 using the complete "
+        "external supervisor-supplied invocation. This is not general behavior-eval authoring.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""Example (both placeholders must be supplied by the external supervisor):
+  ./soodles eval report <EXTERNAL_SELECTION.json> <EXPECTED_SHA256>
+Do not fabricate a selector, digest or evaluator to proceed.
+
+Read evidence_validity before behavior:
+  VALID permits the reported PASS (exit 0) or FAIL (exit 1).
+  INVALID or INCONCLUSIVE has null behavior (exit 2); return next.missing_input
+  to its supervisor owner. next.help_argv is read-only discovery, not evidence.
+Every result has authorizes_landing=false; no delivery or landing authority.""")
+    report.add_argument("selection", help="Supervisor-supplied selector JSON outside candidate source")
+    report.add_argument("expected_sha256", help="Supervisor-supplied SHA-256 of the exact selector bytes")
     packet = groups.add_parser("packet", description="Portable admission-recovery evidence; no executable continuation.")
     packet_verbs = packet.add_subparsers(dest="verb", required=True)
     create = packet_verbs.add_parser("create", description="Package only the fixed evidence allowlist, validate, and write deterministic tar.")

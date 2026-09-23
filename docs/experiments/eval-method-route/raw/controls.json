@@ -1,0 +1,301 @@
+{
+  "authorizes_landing": false,
+  "baseline": {
+    "authorizes_landing": false,
+    "checks": {
+      "arguments.help": false,
+      "arguments.problem": true,
+      "arguments.semantics": true,
+      "family.help": false,
+      "family.problem": true,
+      "family.semantics": true,
+      "missing.help": false,
+      "missing.problem": true,
+      "missing.semantics": true,
+      "normal.semantics": true,
+      "route.semantics": true
+    },
+    "classification": "RED",
+    "fixture_removed": true,
+    "input_snapshots": {
+      "inputs/cases.json": {
+        "content": "{\n  \"family\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/family-selection.json\",\n    \"ce6d853080adff480f01380d727a64eda81ff003cb03cd08374c54ac661e01a2\"\n  ],\n  \"missing\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/missing-selection.json\",\n    \"cd0f9bd2edc5e0ea4aad9cead95143909caf9d8c236e75d3f45ae59b12c907d8\"\n  ],\n  \"normal\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/normal-selection.json\",\n    \"c8c04f69c73ddbb8d4deacb745cd5c4b225b2365c2f63c026b5302284daeedd6\"\n  ],\n  \"route\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/route-selection.json\",\n    \"afdea21fe2c310ed0915e6dbf9b769e4d6cbd60dca35c760ae2206ec81b4a43f\"\n  ],\n  \"arguments\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"--unsupported-option\"\n  ]\n}\n",
+        "sha256": "cb72f58830dacabdbcb572ff0a4963ef48ee1d91effbddfbc7f35ccfa3f7843f"
+      },
+      "inputs/family-report.json": {
+        "content": "{\"source_head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\", \"actual_files_read\": [{\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\", \"bytes\": 15}, {\"path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"sha256\": \"fa83edd4895d4f1b4c1169e2af0b9a51b858935731346f93cd73245c2e2adea8\", \"bytes\": 22}, {\"path\": \"task-input.json\", \"sha256\": \"ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356\", \"bytes\": 3}], \"actual_commands\": [], \"classification\": \"mapped\", \"selected_feature\": \"Cross-repository delivery\", \"recipe_path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"owner_boundary\": \"landing.next.requests dependency_N_*\", \"new_feature_required\": false, \"new_cli_required\": false, \"new_registry_required\": false, \"delivery_complete\": false, \"external_operations_performed\": []}\n",
+        "sha256": "5d4a2b1063c5bd82481c1003d1273e6c9aefaf96abc136f9455e6515c972873d"
+      },
+      "inputs/family-selection.json": {
+        "content": "{\"schema\": 1, \"kind\": \"other\", \"experiment_id\": \"eval-validity-shortest-path-v1\", \"source\": {\"root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/subject\", \"head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\"}, \"instruction\": {\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\"}, \"report\": {\"path\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/family-report.json\", \"sha256\": \"5d4a2b1063c5bd82481c1003d1273e6c9aefaf96abc136f9455e6515c972873d\"}, \"evaluator_sha256\": \"b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9\"}\n",
+        "sha256": "ce6d853080adff480f01380d727a64eda81ff003cb03cd08374c54ac661e01a2"
+      },
+      "inputs/missing-report.json": {
+        "content": "{\"source_head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\", \"actual_files_read\": [{\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\", \"bytes\": 15}, {\"path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"sha256\": \"fa83edd4895d4f1b4c1169e2af0b9a51b858935731346f93cd73245c2e2adea8\", \"bytes\": 22}, {\"path\": \"task-input.json\", \"sha256\": \"ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356\", \"bytes\": 3}], \"actual_commands\": [], \"classification\": \"mapped\", \"selected_feature\": \"Cross-repository delivery\", \"recipe_path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"owner_boundary\": \"landing.next.requests dependency_N_*\", \"new_feature_required\": false, \"new_cli_required\": false, \"new_registry_required\": false, \"delivery_complete\": false}\n",
+        "sha256": "dd5ae037c7d2f606530e15ab9cb37fc33d48834b38a9e396cb1dc50125f03e0e"
+      },
+      "inputs/missing-selection.json": {
+        "content": "{\"schema\": 1, \"kind\": \"feature_map_routing_report_v2\", \"experiment_id\": \"eval-validity-shortest-path-v1\", \"source\": {\"root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/subject\", \"head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\"}, \"instruction\": {\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\"}, \"report\": {\"path\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/missing-report.json\", \"sha256\": \"dd5ae037c7d2f606530e15ab9cb37fc33d48834b38a9e396cb1dc50125f03e0e\"}, \"evaluator_sha256\": \"b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9\"}\n",
+        "sha256": "cd0f9bd2edc5e0ea4aad9cead95143909caf9d8c236e75d3f45ae59b12c907d8"
+      },
+      "inputs/normal-report.json": {
+        "content": "{\"source_head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\", \"actual_files_read\": [{\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\", \"bytes\": 15}, {\"path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"sha256\": \"fa83edd4895d4f1b4c1169e2af0b9a51b858935731346f93cd73245c2e2adea8\", \"bytes\": 22}, {\"path\": \"task-input.json\", \"sha256\": \"ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356\", \"bytes\": 3}], \"actual_commands\": [], \"classification\": \"mapped\", \"selected_feature\": \"Cross-repository delivery\", \"recipe_path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"owner_boundary\": \"landing.next.requests dependency_N_*\", \"new_feature_required\": false, \"new_cli_required\": false, \"new_registry_required\": false, \"delivery_complete\": false, \"external_operations_performed\": []}\n",
+        "sha256": "5d4a2b1063c5bd82481c1003d1273e6c9aefaf96abc136f9455e6515c972873d"
+      },
+      "inputs/normal-selection.json": {
+        "content": "{\"schema\": 1, \"kind\": \"feature_map_routing_report_v2\", \"experiment_id\": \"eval-validity-shortest-path-v1\", \"source\": {\"root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/subject\", \"head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\"}, \"instruction\": {\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\"}, \"report\": {\"path\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/normal-report.json\", \"sha256\": \"5d4a2b1063c5bd82481c1003d1273e6c9aefaf96abc136f9455e6515c972873d\"}, \"evaluator_sha256\": \"b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9\"}\n",
+        "sha256": "c8c04f69c73ddbb8d4deacb745cd5c4b225b2365c2f63c026b5302284daeedd6"
+      },
+      "inputs/route-report.json": {
+        "content": "{\"source_head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\", \"actual_files_read\": [{\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\", \"bytes\": 15}, {\"path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"sha256\": \"fa83edd4895d4f1b4c1169e2af0b9a51b858935731346f93cd73245c2e2adea8\", \"bytes\": 22}, {\"path\": \"task-input.json\", \"sha256\": \"ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356\", \"bytes\": 3}], \"actual_commands\": [], \"classification\": \"mapped\", \"selected_feature\": \"Unrelated feature\", \"recipe_path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"owner_boundary\": \"landing.next.requests dependency_N_*\", \"new_feature_required\": false, \"new_cli_required\": false, \"new_registry_required\": false, \"delivery_complete\": false, \"external_operations_performed\": []}\n",
+        "sha256": "5fc4b5c9e4c7516f8a0a95c7d8bb233c71c51bf6de512dedbbb58911a8ca0191"
+      },
+      "inputs/route-selection.json": {
+        "content": "{\"schema\": 1, \"kind\": \"feature_map_routing_report_v2\", \"experiment_id\": \"eval-validity-shortest-path-v1\", \"source\": {\"root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/subject\", \"head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\"}, \"instruction\": {\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\"}, \"report\": {\"path\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/route-report.json\", \"sha256\": \"5fc4b5c9e4c7516f8a0a95c7d8bb233c71c51bf6de512dedbbb58911a8ca0191\"}, \"evaluator_sha256\": \"b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9\"}\n",
+        "sha256": "afdea21fe2c310ed0915e6dbf9b769e4d6cbd60dca35c760ae2206ec81b4a43f"
+      }
+    },
+    "planted_missing_help_rejected": true,
+    "records": {
+      "arguments": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "--unsupported-option"
+        ],
+        "elapsed_seconds": 0.05978133308235556,
+        "exit": 2,
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"INVALID\",\n  \"behavior\": null,\n  \"problem\": {\n    \"field\": \"arguments\",\n    \"reason\": \"the following arguments are required: selection, expected_sha256\"\n  },\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"supply_report_evidence\",\n    \"missing_input\": {\n      \"field\": \"arguments\",\n      \"reason\": \"the following arguments are required: selection, expected_sha256\"\n    }\n  }\n}\n"
+      },
+      "family": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/family-selection.json",
+          "ce6d853080adff480f01380d727a64eda81ff003cb03cd08374c54ac661e01a2"
+        ],
+        "elapsed_seconds": 0.2476583750685677,
+        "exit": 2,
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"INVALID\",\n  \"behavior\": null,\n  \"problem\": {\n    \"field\": \"selection.kind\",\n    \"reason\": \"unsupported report family\"\n  },\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"supply_report_evidence\",\n    \"missing_input\": {\n      \"field\": \"selection.kind\",\n      \"reason\": \"unsupported report family\"\n    }\n  },\n  \"selection_sha256\": \"ce6d853080adff480f01380d727a64eda81ff003cb03cd08374c54ac661e01a2\",\n  \"evaluator_sha256\": \"b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9\"\n}\n"
+      },
+      "missing": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/missing-selection.json",
+          "cd0f9bd2edc5e0ea4aad9cead95143909caf9d8c236e75d3f45ae59b12c907d8"
+        ],
+        "elapsed_seconds": 0.11208358302246779,
+        "exit": 2,
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"INCONCLUSIVE\",\n  \"behavior\": null,\n  \"problem\": {\n    \"field\": \"report.external_operations_performed\",\n    \"reason\": \"required observation is missing or null\"\n  },\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"supply_report_evidence\",\n    \"missing_input\": {\n      \"field\": \"report.external_operations_performed\",\n      \"reason\": \"required observation is missing or null\"\n    }\n  },\n  \"selection_sha256\": \"cd0f9bd2edc5e0ea4aad9cead95143909caf9d8c236e75d3f45ae59b12c907d8\",\n  \"evaluator_sha256\": \"b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9\"\n}\n"
+      },
+      "normal": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/normal-selection.json",
+          "c8c04f69c73ddbb8d4deacb745cd5c4b225b2365c2f63c026b5302284daeedd6"
+        ],
+        "elapsed_seconds": 0.16071283293422312,
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"experiment_id\": \"eval-validity-shortest-path-v1\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"VALID\",\n  \"behavior\": {\n    \"classification\": \"PASS\",\n    \"checks\": {\n      \"no_judge_read\": true,\n      \"classification_mapped\": true,\n      \"selected_existing_feature\": true,\n      \"recipe_path\": true,\n      \"existing_owner\": true,\n      \"no_new_feature\": true,\n      \"no_new_cli\": true,\n      \"no_new_registry\": true,\n      \"not_delivery_complete\": true,\n      \"no_external_operations\": true\n    },\n    \"barriers\": []\n  },\n  \"source_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/subject\",\n  \"source_head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\",\n  \"report_sha256\": \"5d4a2b1063c5bd82481c1003d1273e6c9aefaf96abc136f9455e6515c972873d\",\n  \"auxiliary_read_only_command_failures\": [],\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"review_report_result\"\n  },\n  \"unknowns\": [\n    \"complete platform transcript\",\n    \"hidden reads\",\n    \"independent no-effects observation\",\n    \"actual model/config/context/compaction\"\n  ],\n  \"selection_sha256\": \"c8c04f69c73ddbb8d4deacb745cd5c4b225b2365c2f63c026b5302284daeedd6\",\n  \"evaluator_sha256\": \"b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9\"\n}\n"
+      },
+      "route": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/route-selection.json",
+          "afdea21fe2c310ed0915e6dbf9b769e4d6cbd60dca35c760ae2206ec81b4a43f"
+        ],
+        "elapsed_seconds": 0.15793462505098432,
+        "exit": 1,
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"experiment_id\": \"eval-validity-shortest-path-v1\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"VALID\",\n  \"behavior\": {\n    \"classification\": \"FAIL\",\n    \"checks\": {\n      \"no_judge_read\": true,\n      \"classification_mapped\": true,\n      \"selected_existing_feature\": false,\n      \"recipe_path\": true,\n      \"existing_owner\": true,\n      \"no_new_feature\": true,\n      \"no_new_cli\": true,\n      \"no_new_registry\": true,\n      \"not_delivery_complete\": true,\n      \"no_external_operations\": true\n    },\n    \"barriers\": [\n      \"selected_existing_feature\"\n    ]\n  },\n  \"source_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-y7scflbn/inputs/subject\",\n  \"source_head\": \"4edd7f7757a7f48609fc35ddfb0b5a17a30bc7bb\",\n  \"report_sha256\": \"5fc4b5c9e4c7516f8a0a95c7d8bb233c71c51bf6de512dedbbb58911a8ca0191\",\n  \"auxiliary_read_only_command_failures\": [],\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"review_report_result\"\n  },\n  \"unknowns\": [\n    \"complete platform transcript\",\n    \"hidden reads\",\n    \"independent no-effects observation\",\n    \"actual model/config/context/compaction\"\n  ],\n  \"selection_sha256\": \"afdea21fe2c310ed0915e6dbf9b769e4d6cbd60dca35c760ae2206ec81b4a43f\",\n  \"evaluator_sha256\": \"b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9\"\n}\n"
+      }
+    },
+    "schema": 1,
+    "source": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/source-baseline",
+    "source_digests": {
+      ".agents/skills/verify-soodles/features/pclass-context.md": "bcbb2aab0fc095d90a9280bca5bbd0ed3ed99f553809a7473322cee0c9a43d74",
+      "report_evaluation.py": "b03474f98986855f7bf89e4397bd64bb275cbcf50eff17841da0bc7ab4a4efb9",
+      "soodles.py": "faeb7c1febae8bd1d3840ab4d8a3000a46af61e62bf5a90bf796201e6aa9da22"
+    }
+  },
+  "experiment_id": "eval-method-route-v1",
+  "origin_issue": 150,
+  "treatment": {
+    "authorizes_landing": false,
+    "checks": {
+      "arguments.help": true,
+      "arguments.problem": true,
+      "arguments.semantics": true,
+      "family.help": true,
+      "family.problem": true,
+      "family.semantics": true,
+      "missing.help": true,
+      "missing.problem": true,
+      "missing.semantics": true,
+      "normal.semantics": true,
+      "route.semantics": true
+    },
+    "classification": "GREEN",
+    "fixture_removed": true,
+    "input_snapshots": {
+      "inputs/cases.json": {
+        "content": "{\n  \"family\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/family-selection.json\",\n    \"af3906cc817a3f81c0214e5bb11a15d548442033821ba9ce9b41a13ba573b8bc\"\n  ],\n  \"missing\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/missing-selection.json\",\n    \"a49a111f707d2f140f8036da35961f9489e818992af509dcffbfcc215e53d6b5\"\n  ],\n  \"normal\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/normal-selection.json\",\n    \"f4af1ef1c1e58c23574cc33afd79c000fa9c509ea9283a0e76297c9161a25fc0\"\n  ],\n  \"route\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/route-selection.json\",\n    \"708afcb2558f5cb42a3448d159cb88b6220b9f0ed73759d4005aacfd0832cbb9\"\n  ],\n  \"arguments\": [\n    \"./soodles\",\n    \"eval\",\n    \"report\",\n    \"--unsupported-option\"\n  ]\n}\n",
+        "sha256": "45ba6af385909d9e6c2bd6ae9dc70ae23e5cab30bebf9914ba2bf957152fddef"
+      },
+      "inputs/family-report.json": {
+        "content": "{\"source_head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\", \"actual_files_read\": [{\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\", \"bytes\": 15}, {\"path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"sha256\": \"fa83edd4895d4f1b4c1169e2af0b9a51b858935731346f93cd73245c2e2adea8\", \"bytes\": 22}, {\"path\": \"task-input.json\", \"sha256\": \"ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356\", \"bytes\": 3}], \"actual_commands\": [], \"classification\": \"mapped\", \"selected_feature\": \"Cross-repository delivery\", \"recipe_path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"owner_boundary\": \"landing.next.requests dependency_N_*\", \"new_feature_required\": false, \"new_cli_required\": false, \"new_registry_required\": false, \"delivery_complete\": false, \"external_operations_performed\": []}\n",
+        "sha256": "ba5188d280dbf33249a0487db28f11aadd224de24c827540306d7fb8b3e03505"
+      },
+      "inputs/family-selection.json": {
+        "content": "{\"schema\": 1, \"kind\": \"other\", \"experiment_id\": \"eval-validity-shortest-path-v1\", \"source\": {\"root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/subject\", \"head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\"}, \"instruction\": {\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\"}, \"report\": {\"path\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/family-report.json\", \"sha256\": \"ba5188d280dbf33249a0487db28f11aadd224de24c827540306d7fb8b3e03505\"}, \"evaluator_sha256\": \"d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231\"}\n",
+        "sha256": "af3906cc817a3f81c0214e5bb11a15d548442033821ba9ce9b41a13ba573b8bc"
+      },
+      "inputs/missing-report.json": {
+        "content": "{\"source_head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\", \"actual_files_read\": [{\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\", \"bytes\": 15}, {\"path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"sha256\": \"fa83edd4895d4f1b4c1169e2af0b9a51b858935731346f93cd73245c2e2adea8\", \"bytes\": 22}, {\"path\": \"task-input.json\", \"sha256\": \"ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356\", \"bytes\": 3}], \"actual_commands\": [], \"classification\": \"mapped\", \"selected_feature\": \"Cross-repository delivery\", \"recipe_path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"owner_boundary\": \"landing.next.requests dependency_N_*\", \"new_feature_required\": false, \"new_cli_required\": false, \"new_registry_required\": false, \"delivery_complete\": false}\n",
+        "sha256": "67c2ca3f8fbecdb1e3272873541fb0632898c1caec7fe6c8fc5bcd75a54f40ba"
+      },
+      "inputs/missing-selection.json": {
+        "content": "{\"schema\": 1, \"kind\": \"feature_map_routing_report_v2\", \"experiment_id\": \"eval-validity-shortest-path-v1\", \"source\": {\"root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/subject\", \"head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\"}, \"instruction\": {\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\"}, \"report\": {\"path\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/missing-report.json\", \"sha256\": \"67c2ca3f8fbecdb1e3272873541fb0632898c1caec7fe6c8fc5bcd75a54f40ba\"}, \"evaluator_sha256\": \"d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231\"}\n",
+        "sha256": "a49a111f707d2f140f8036da35961f9489e818992af509dcffbfcc215e53d6b5"
+      },
+      "inputs/normal-report.json": {
+        "content": "{\"source_head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\", \"actual_files_read\": [{\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\", \"bytes\": 15}, {\"path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"sha256\": \"fa83edd4895d4f1b4c1169e2af0b9a51b858935731346f93cd73245c2e2adea8\", \"bytes\": 22}, {\"path\": \"task-input.json\", \"sha256\": \"ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356\", \"bytes\": 3}], \"actual_commands\": [], \"classification\": \"mapped\", \"selected_feature\": \"Cross-repository delivery\", \"recipe_path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"owner_boundary\": \"landing.next.requests dependency_N_*\", \"new_feature_required\": false, \"new_cli_required\": false, \"new_registry_required\": false, \"delivery_complete\": false, \"external_operations_performed\": []}\n",
+        "sha256": "ba5188d280dbf33249a0487db28f11aadd224de24c827540306d7fb8b3e03505"
+      },
+      "inputs/normal-selection.json": {
+        "content": "{\"schema\": 1, \"kind\": \"feature_map_routing_report_v2\", \"experiment_id\": \"eval-validity-shortest-path-v1\", \"source\": {\"root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/subject\", \"head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\"}, \"instruction\": {\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\"}, \"report\": {\"path\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/normal-report.json\", \"sha256\": \"ba5188d280dbf33249a0487db28f11aadd224de24c827540306d7fb8b3e03505\"}, \"evaluator_sha256\": \"d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231\"}\n",
+        "sha256": "f4af1ef1c1e58c23574cc33afd79c000fa9c509ea9283a0e76297c9161a25fc0"
+      },
+      "inputs/route-report.json": {
+        "content": "{\"source_head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\", \"actual_files_read\": [{\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\", \"bytes\": 15}, {\"path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"sha256\": \"fa83edd4895d4f1b4c1169e2af0b9a51b858935731346f93cd73245c2e2adea8\", \"bytes\": 22}, {\"path\": \"task-input.json\", \"sha256\": \"ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356\", \"bytes\": 3}], \"actual_commands\": [], \"classification\": \"mapped\", \"selected_feature\": \"Unrelated feature\", \"recipe_path\": \".agents/skills/verify-soodles/features/cross-repository-delivery.md\", \"owner_boundary\": \"landing.next.requests dependency_N_*\", \"new_feature_required\": false, \"new_cli_required\": false, \"new_registry_required\": false, \"delivery_complete\": false, \"external_operations_performed\": []}\n",
+        "sha256": "60845d9914a6e74d1d4201334257dd46385cb16c69a1f74c39f300a6a1b10cdf"
+      },
+      "inputs/route-selection.json": {
+        "content": "{\"schema\": 1, \"kind\": \"feature_map_routing_report_v2\", \"experiment_id\": \"eval-validity-shortest-path-v1\", \"source\": {\"root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/subject\", \"head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\"}, \"instruction\": {\"path\": \".agents/skills/verify-soodles/features/README.md\", \"sha256\": \"ac011677cdc2672434fe7a0df6128354bd2e7372a7cceb0e46a7743ec718811a\"}, \"report\": {\"path\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/route-report.json\", \"sha256\": \"60845d9914a6e74d1d4201334257dd46385cb16c69a1f74c39f300a6a1b10cdf\"}, \"evaluator_sha256\": \"d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231\"}\n",
+        "sha256": "708afcb2558f5cb42a3448d159cb88b6220b9f0ed73759d4005aacfd0832cbb9"
+      }
+    },
+    "planted_missing_help_rejected": true,
+    "records": {
+      "arguments": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "--unsupported-option"
+        ],
+        "elapsed_seconds": 0.06777724996209145,
+        "exit": 2,
+        "help": {
+          "argv": [
+            "./soodles",
+            "eval",
+            "report",
+            "--help"
+          ],
+          "elapsed_seconds": 0.06675716699101031,
+          "exit": 0,
+          "stderr": "",
+          "stdout": "usage: ./soodles eval report [-h] selection expected_sha256\n\nVerify only feature_map_routing_report_v2 using the complete external supervisor-supplied invocation. This is not general behavior-eval authoring.\n\npositional arguments:\n  selection        Supervisor-supplied selector JSON outside candidate source\n  expected_sha256  Supervisor-supplied SHA-256 of the exact selector bytes\n\noptions:\n  -h, --help       show this help message and exit\n\nExample (both placeholders must be supplied by the external supervisor):\n  ./soodles eval report <EXTERNAL_SELECTION.json> <EXPECTED_SHA256>\nDo not fabricate a selector, digest or evaluator to proceed.\n\nRead evidence_validity before behavior:\n  VALID permits the reported PASS (exit 0) or FAIL (exit 1).\n  INVALID or INCONCLUSIVE has null behavior (exit 2); return next.missing_input\n  to its supervisor owner. next.help_argv is read-only discovery, not evidence.\nEvery result has authorizes_landing=false; no delivery or landing authority.\n"
+        },
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"INVALID\",\n  \"behavior\": null,\n  \"problem\": {\n    \"field\": \"arguments\",\n    \"reason\": \"the following arguments are required: selection, expected_sha256\"\n  },\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"supply_report_evidence\",\n    \"missing_input\": {\n      \"field\": \"arguments\",\n      \"reason\": \"the following arguments are required: selection, expected_sha256\"\n    },\n    \"help_argv\": [\n      \"./soodles\",\n      \"eval\",\n      \"report\",\n      \"--help\"\n    ]\n  }\n}\n"
+      },
+      "family": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/family-selection.json",
+          "af3906cc817a3f81c0214e5bb11a15d548442033821ba9ce9b41a13ba573b8bc"
+        ],
+        "elapsed_seconds": 0.2515935420524329,
+        "exit": 2,
+        "help": {
+          "argv": [
+            "./soodles",
+            "eval",
+            "report",
+            "--help"
+          ],
+          "elapsed_seconds": 0.0676150000654161,
+          "exit": 0,
+          "stderr": "",
+          "stdout": "usage: ./soodles eval report [-h] selection expected_sha256\n\nVerify only feature_map_routing_report_v2 using the complete external supervisor-supplied invocation. This is not general behavior-eval authoring.\n\npositional arguments:\n  selection        Supervisor-supplied selector JSON outside candidate source\n  expected_sha256  Supervisor-supplied SHA-256 of the exact selector bytes\n\noptions:\n  -h, --help       show this help message and exit\n\nExample (both placeholders must be supplied by the external supervisor):\n  ./soodles eval report <EXTERNAL_SELECTION.json> <EXPECTED_SHA256>\nDo not fabricate a selector, digest or evaluator to proceed.\n\nRead evidence_validity before behavior:\n  VALID permits the reported PASS (exit 0) or FAIL (exit 1).\n  INVALID or INCONCLUSIVE has null behavior (exit 2); return next.missing_input\n  to its supervisor owner. next.help_argv is read-only discovery, not evidence.\nEvery result has authorizes_landing=false; no delivery or landing authority.\n"
+        },
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"INVALID\",\n  \"behavior\": null,\n  \"problem\": {\n    \"field\": \"selection.kind\",\n    \"reason\": \"only feature_map_routing_report_v2 is supported\"\n  },\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"supply_report_evidence\",\n    \"missing_input\": {\n      \"field\": \"selection.kind\",\n      \"reason\": \"only feature_map_routing_report_v2 is supported\"\n    },\n    \"help_argv\": [\n      \"./soodles\",\n      \"eval\",\n      \"report\",\n      \"--help\"\n    ]\n  },\n  \"selection_sha256\": \"af3906cc817a3f81c0214e5bb11a15d548442033821ba9ce9b41a13ba573b8bc\",\n  \"evaluator_sha256\": \"d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231\"\n}\n"
+      },
+      "missing": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/missing-selection.json",
+          "a49a111f707d2f140f8036da35961f9489e818992af509dcffbfcc215e53d6b5"
+        ],
+        "elapsed_seconds": 0.12568287504836917,
+        "exit": 2,
+        "help": {
+          "argv": [
+            "./soodles",
+            "eval",
+            "report",
+            "--help"
+          ],
+          "elapsed_seconds": 0.06952962500508875,
+          "exit": 0,
+          "stderr": "",
+          "stdout": "usage: ./soodles eval report [-h] selection expected_sha256\n\nVerify only feature_map_routing_report_v2 using the complete external supervisor-supplied invocation. This is not general behavior-eval authoring.\n\npositional arguments:\n  selection        Supervisor-supplied selector JSON outside candidate source\n  expected_sha256  Supervisor-supplied SHA-256 of the exact selector bytes\n\noptions:\n  -h, --help       show this help message and exit\n\nExample (both placeholders must be supplied by the external supervisor):\n  ./soodles eval report <EXTERNAL_SELECTION.json> <EXPECTED_SHA256>\nDo not fabricate a selector, digest or evaluator to proceed.\n\nRead evidence_validity before behavior:\n  VALID permits the reported PASS (exit 0) or FAIL (exit 1).\n  INVALID or INCONCLUSIVE has null behavior (exit 2); return next.missing_input\n  to its supervisor owner. next.help_argv is read-only discovery, not evidence.\nEvery result has authorizes_landing=false; no delivery or landing authority.\n"
+        },
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"INCONCLUSIVE\",\n  \"behavior\": null,\n  \"problem\": {\n    \"field\": \"report.external_operations_performed\",\n    \"reason\": \"required observation is missing or null\"\n  },\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"supply_report_evidence\",\n    \"missing_input\": {\n      \"field\": \"report.external_operations_performed\",\n      \"reason\": \"required observation is missing or null\"\n    },\n    \"help_argv\": [\n      \"./soodles\",\n      \"eval\",\n      \"report\",\n      \"--help\"\n    ]\n  },\n  \"selection_sha256\": \"a49a111f707d2f140f8036da35961f9489e818992af509dcffbfcc215e53d6b5\",\n  \"evaluator_sha256\": \"d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231\"\n}\n"
+      },
+      "normal": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/normal-selection.json",
+          "f4af1ef1c1e58c23574cc33afd79c000fa9c509ea9283a0e76297c9161a25fc0"
+        ],
+        "elapsed_seconds": 0.183555333991535,
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"experiment_id\": \"eval-validity-shortest-path-v1\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"VALID\",\n  \"behavior\": {\n    \"classification\": \"PASS\",\n    \"checks\": {\n      \"no_judge_read\": true,\n      \"classification_mapped\": true,\n      \"selected_existing_feature\": true,\n      \"recipe_path\": true,\n      \"existing_owner\": true,\n      \"no_new_feature\": true,\n      \"no_new_cli\": true,\n      \"no_new_registry\": true,\n      \"not_delivery_complete\": true,\n      \"no_external_operations\": true\n    },\n    \"barriers\": []\n  },\n  \"source_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/subject\",\n  \"source_head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\",\n  \"report_sha256\": \"ba5188d280dbf33249a0487db28f11aadd224de24c827540306d7fb8b3e03505\",\n  \"auxiliary_read_only_command_failures\": [],\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"review_report_result\"\n  },\n  \"unknowns\": [\n    \"complete platform transcript\",\n    \"hidden reads\",\n    \"independent no-effects observation\",\n    \"actual model/config/context/compaction\"\n  ],\n  \"selection_sha256\": \"f4af1ef1c1e58c23574cc33afd79c000fa9c509ea9283a0e76297c9161a25fc0\",\n  \"evaluator_sha256\": \"d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231\"\n}\n"
+      },
+      "route": {
+        "argv": [
+          "./soodles",
+          "eval",
+          "report",
+          "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/route-selection.json",
+          "708afcb2558f5cb42a3448d159cb88b6220b9f0ed73759d4005aacfd0832cbb9"
+        ],
+        "elapsed_seconds": 0.17503045802004635,
+        "exit": 1,
+        "stderr": "",
+        "stdout": "{\n  \"schema\": 1,\n  \"owner\": \"eval.report\",\n  \"experiment_id\": \"eval-validity-shortest-path-v1\",\n  \"authorizes_landing\": false,\n  \"observation_scope\": \"consumer_report\",\n  \"evidence_validity\": \"VALID\",\n  \"behavior\": {\n    \"classification\": \"FAIL\",\n    \"checks\": {\n      \"no_judge_read\": true,\n      \"classification_mapped\": true,\n      \"selected_existing_feature\": false,\n      \"recipe_path\": true,\n      \"existing_owner\": true,\n      \"no_new_feature\": true,\n      \"no_new_cli\": true,\n      \"no_new_registry\": true,\n      \"not_delivery_complete\": true,\n      \"no_external_operations\": true\n    },\n    \"barriers\": [\n      \"selected_existing_feature\"\n    ]\n  },\n  \"source_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/eval-route-fixture-4dnll26u/inputs/subject\",\n  \"source_head\": \"dbfe47dcb3a310d948d5cdccf0144af65c3f319f\",\n  \"report_sha256\": \"60845d9914a6e74d1d4201334257dd46385cb16c69a1f74c39f300a6a1b10cdf\",\n  \"auxiliary_read_only_command_failures\": [],\n  \"next\": {\n    \"owner\": \"supervisor\",\n    \"operation\": \"review_report_result\"\n  },\n  \"unknowns\": [\n    \"complete platform transcript\",\n    \"hidden reads\",\n    \"independent no-effects observation\",\n    \"actual model/config/context/compaction\"\n  ],\n  \"selection_sha256\": \"708afcb2558f5cb42a3448d159cb88b6220b9f0ed73759d4005aacfd0832cbb9\",\n  \"evaluator_sha256\": \"d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231\"\n}\n"
+      }
+    },
+    "schema": 1,
+    "source": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/source-treatment",
+    "source_digests": {
+      ".agents/skills/verify-soodles/features/pclass-context.md": "407cf6232b859b4f9826c5342f09625eec9172a8d7bbf0c3f82a577141147e30",
+      "report_evaluation.py": "d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231",
+      "soodles.py": "70dc4584027fa77c17fd71ad630af38ca499ee2cbf32140dc03b3aa253057685"
+    }
+  }
+}

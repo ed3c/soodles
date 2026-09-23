@@ -1,0 +1,858 @@
+{
+  "authorizes_landing": false,
+  "base": "2b45c82a8e60372ded1cde628b7f82df4575dfba",
+  "candidate_ready": {
+    "authorizes_landing": false,
+    "clean": true,
+    "created_at": "2026-09-23T03:33:29.044553+00:00",
+    "created_epoch": 1790134409.0447402,
+    "digests": {
+      ".agents/skills/verify-soodles/SKILL.md": "a75f3f5d8bb48cc31086468b04936583224acfd7a704e7eb14462cc710843209",
+      ".agents/skills/verify-soodles/features/pclass-context.md": "407cf6232b859b4f9826c5342f09625eec9172a8d7bbf0c3f82a577141147e30",
+      "docs/experiments/eval-method-route/fixture.py": "9052df3cea1318c5b460ebadd11a6af6c296b4f4573df7f50d3b6138b2d6666d",
+      "docs/experiments/eval-method-route/observe.py": "0ca83a650071307fe70a34dce327d74e78c9f10b271db4880ddc91d825135e8a",
+      "docs/experiments/eval-method-route/oracle.py": "f64c8064e97d54db8e4f965b69ac183c787f5c13f0a76323b187beaddd0bebcc",
+      "docs/experiments/eval-method-route/protocol.md": "0beedcf1cf1949037a85fa4a1cf2b2d45689024d3889090ff47765f39c3e242a",
+      "docs/experiments/eval-method-route/task.md": "c896cd9c9d2c41c54c4e9f1269c6e038d9ef4808fcd2cc326d8e8759d6515d4c",
+      "report_evaluation.py": "d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231",
+      "soodles.py": "70dc4584027fa77c17fd71ad630af38ca499ee2cbf32140dc03b3aa253057685",
+      "tests/test_report_evaluation.py": "14f0c5294d9dd9480fd5752dc12843bd77d326a4c4cce20fdd0406b43a0dcc00"
+    },
+    "doctor": {
+      "cwd": "/Users/neon/soodles/.worktrees/soodles-150-0-execute",
+      "failure": "TERM=dumb in noninteractive carrier; repository checks passed",
+      "overall_status": "fail",
+      "repo_detected": true,
+      "repo_root": "/Users/neon/soodles/.worktrees/soodles-150-0-execute"
+    },
+    "frozen": true,
+    "head": "3ef06af6f5b9ea84fa241f220ec8285dad983827",
+    "issue": 150,
+    "noodle": {
+      "NOODLE_ORDER_ID": "soodles-150",
+      "NOODLE_SESSION_ID": "soodles-150-0-execute-20260923-032632-cf6a95",
+      "NOODLE_STAGE_INDEX": "0"
+    },
+    "repository": "ed3c/soodles",
+    "schema": 1,
+    "test_evidence": {
+      "compile": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-compile.json",
+      "execution": "Every test module in its own subprocess start_new_session=True; TMPDIR=/private/tmp; NOODLE_* removed only from test child env",
+      "focused": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-focused-tests.json",
+      "full": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-full-isolated-tests.json",
+      "initial_interruption": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-full-tests.json",
+      "module_count": 33,
+      "self_review": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-self-review.json",
+      "skips": 0,
+      "test_count": 351
+    },
+    "tree": "2f3e50a599397d73e3c4a9f8dab6d1a5ce419de4",
+    "worktree": "/Users/neon/soodles/.worktrees/soodles-150-0-execute"
+  },
+  "external_authorization_sha256": "0c3773a2fd848e68db5341ccac6a7c3161c1b564e487de2ea47d383b3633e4de",
+  "initial_interrupted_test_log": "test_admitted_version_is_observed_not_inferred_from_filename (test_admission.AdmissionTests.test_admitted_version_is_observed_not_inferred_from_filename) ... ok\ntest_all_command_help_routes_are_noninteractive (test_admission.AdmissionTests.test_all_command_help_routes_are_noninteractive) ... ok\ntest_dirty_candidate_rejects_before_binary_and_tests (test_admission.AdmissionTests.test_dirty_candidate_rejects_before_binary_and_tests) ... ok\ntest_fixture_environment_drops_provider_and_live_noodle_identity (test_admission.AdmissionTests.test_fixture_environment_drops_provider_and_live_noodle_identity) ... ok\ntest_missing_binary_does_not_fall_back_to_path (test_admission.AdmissionTests.test_missing_binary_does_not_fall_back_to_path) ... ok\ntest_missing_required_binary_is_actionable (test_admission.AdmissionTests.test_missing_required_binary_is_actionable) ... ok\ntest_unsupported_host_refuses_before_execution (test_admission.AdmissionTests.test_unsupported_host_refuses_before_execution) ... ok\ntest_wrong_digest_refuses_before_executable_sentinel (test_admission.AdmissionTests.test_wrong_digest_refuses_before_executable_sentinel) ... ok\ntest_wrong_observed_version_refuses_worktree_execution (test_admission.AdmissionTests.test_wrong_observed_version_refuses_worktree_execution) ... ok\ntest_wrong_repository_and_unknown_policy_fields_refuse (test_admission.AdmissionTests.test_wrong_repository_and_unknown_policy_fields_refuse) ... ok\ntest_all_barriers_are_ordered_and_separate_from_hard_gates (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_all_barriers_are_ordered_and_separate_from_hard_gates) ... ok\ntest_all_planted_controls_discriminate_from_green_fixture (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_all_planted_controls_discriminate_from_green_fixture) ... ok\ntest_analyzer_and_manifest_preflight_precedes_import (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_analyzer_and_manifest_preflight_precedes_import) ... ok\ntest_binding_mutations_fail_at_public_entry (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_binding_mutations_fail_at_public_entry) ... ok\ntest_caller_gates_cannot_supply_pass_or_counts (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_caller_gates_cannot_supply_pass_or_counts) ... ok\ntest_complete_zero_is_no_qualified_barrier (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_complete_zero_is_no_qualified_barrier) ... ok\ntest_duplicate_mutation_cannot_be_an_optimization_barrier (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_duplicate_mutation_cannot_be_an_optimization_barrier) ... ok\ntest_failed_process_and_failed_cleanup_are_not_success (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_failed_process_and_failed_cleanup_are_not_success) ... ok\ntest_fixed_append_only_supplement_completes_same_packet (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_fixed_append_only_supplement_completes_same_packet) ... ok\ntest_membership_cannot_be_redeclared_as_two_or_treatment (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_membership_cannot_be_redeclared_as_two_or_treatment) ... ok\ntest_missing_and_changed_streams_fail_closed (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_missing_and_changed_streams_fail_closed) ... ok\ntest_missing_confirmation_is_unknown_not_zero (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_missing_confirmation_is_unknown_not_zero) ... ok\ntest_normalizer_identity_is_the_actual_entry (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_normalizer_identity_is_the_actual_entry) ... ok\ntest_positive_legal_barrier_selects_first_without_confirmation (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_positive_legal_barrier_selects_first_without_confirmation) ... ok\ntest_preflight_aborts_have_no_score (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_preflight_aborts_have_no_score) ... ok\ntest_raw_exploration_preserves_cleanup_disagreement (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_raw_exploration_preserves_cleanup_disagreement) ... ok\ntest_required_control_and_carrier_cannot_be_redefined (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_required_control_and_carrier_cannot_be_redefined) ... ok\ntest_supplement_cannot_hide_scope_or_process_failures (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_supplement_cannot_hide_scope_or_process_failures) ... ok\ntest_supplement_omission_and_rebinding_are_red (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_supplement_omission_and_rebinding_are_red) ... ok\ntest_unchanged_reinspection_after_completion_is_a_legal_barrier (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_unchanged_reinspection_after_completion_is_a_legal_barrier) ... ok\ntest_actual_admission_still_requires_its_envelope (test_candidate_guidance.CandidateGuidanceTests.test_actual_admission_still_requires_its_envelope) ... ok\ntest_followup_raw_binding_and_frozen_replay (test_candidate_guidance.CandidateGuidanceTests.test_followup_raw_binding_and_frozen_replay) ... ok\ntest_only_digest_recovery_guidance_changes (test_candidate_guidance.CandidateGuidanceTests.test_only_digest_recovery_guidance_changes) ... ok\ntest_creates_exact_branch_and_pr (test_candidate_publication.CandidatePublicationTests.test_creates_exact_branch_and_pr) ... ok\ntest_dirty_or_stale_candidate_refuses_before_provider_read (test_candidate_publication.CandidatePublicationTests.test_dirty_or_stale_candidate_refuses_before_provider_read) ... ok\ntest_drifted_competing_pr_refuses_without_create (test_candidate_publication.CandidatePublicationTests.test_drifted_competing_pr_refuses_without_create) ... ok\ntest_failed_push_is_adopted_only_after_exact_readback (test_candidate_publication.CandidatePublicationTests.test_failed_push_is_adopted_only_after_exact_readback) ... ok\ntest_lost_create_response_adopts_only_fresh_exact_readback (test_candidate_publication.CandidatePublicationTests.test_lost_create_response_adopts_only_fresh_exact_readback) ... ok\ntest_native_producer_records_actual_results_and_rechecks_identity (test_candidate_publication.CandidatePublicationTests.test_native_producer_records_actual_results_and_rechecks_identity) ... ok\ntest_native_readiness_can_publish_but_never_authorizes_landing (test_candidate_publication.CandidatePublicationTests.test_native_readiness_can_publish_but_never_authorizes_landing) ... ok\ntest_native_wrong_platform_missing_checks_and_failure_refuse (test_candidate_publication.CandidatePublicationTests.test_native_wrong_platform_missing_checks_and_failure_refuse) ... ok\ntest_reuses_exact_branch_and_pr_without_writes (test_candidate_publication.CandidatePublicationTests.test_reuses_exact_branch_and_pr_without_writes) ... ok\ntest_unknown_create_without_effect_refuses_without_retry (test_candidate_publication.CandidatePublicationTests.test_unknown_create_without_effect_refuses_without_retry) ... ok\ntest_baseline_preserves_the_two_preexisting_admissions (test_candidate_verification.CandidateVerificationTests.test_baseline_preserves_the_two_preexisting_admissions) ... ok\ntest_frozen_exact_head_observer_replays_treatment (test_candidate_verification.CandidateVerificationTests.test_frozen_exact_head_observer_replays_treatment) ... ok\ntest_pr_90_committed_evidence_preserves_historical_baseline_mismatch (test_candidate_verification.CandidateVerificationTests.test_pr_90_committed_evidence_preserves_historical_baseline_mismatch) ... ok\ntest_duplicate_label_refuses_before_effect (test_context_recording.ContextRecordingTests.test_duplicate_label_refuses_before_effect) ... ok\ntest_instruction_bindings_require_valid_metadata (test_context_recording.ContextRecordingTests.test_instruction_bindings_require_valid_metadata) ... ok\ntest_long_non_path_argument_does_not_lose_command_receipt (test_context_recording.ContextRecordingTests.test_long_non_path_argument_does_not_lose_command_receipt) ... ok\ntest_missing_executable_is_not_zero (test_context_recording.ContextRecordingTests.test_missing_executable_is_not_zero) ... ok\ntest_records_real_nonzero_and_file_change_without_inventing_success (test_context_recording.ContextRecordingTests.test_records_real_nonzero_and_file_change_without_inventing_success) ... ok\ntest_shell_wrapped_instruction_read_and_parse_failure_are_recorded (test_context_recording.ContextRecordingTests.test_shell_wrapped_instruction_read_and_parse_failure_are_recorded) ... ok\ntest_snapshot_error_after_effect_preserves_result (test_context_recording.ContextRecordingTests.test_snapshot_error_after_effect_preserves_result) ... ok\ntest_snapshot_errors_before_and_after_remain_in_raw_requests (test_context_recording.ContextRecordingTests.test_snapshot_errors_before_and_after_remain_in_raw_requests) ... ok\ntest_three_owner_baselines_and_planted_controls (test_context_recording.ContextRecordingTests.test_three_owner_baselines_and_planted_controls) ... ok\ntest_timeout_retains_output_and_waits_for_killed_child (test_context_recording.ContextRecordingTests.test_timeout_retains_output_and_waits_for_killed_child) ... ok\ntest_only_legacy_schema_two_has_a_soodles_compatibility_binding (test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_only_legacy_schema_two_has_a_soodles_compatibility_binding) ... ok\ntest_ops_acceptance_produces_only_ops_readbacks_and_request (test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_ops_acceptance_produces_only_ops_readbacks_and_request) ... ok\ntest_real_current_draft_and_incomplete_acceptance_refuse_without_state (test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_real_current_draft_and_incomplete_acceptance_refuse_without_state) ... ok\ntest_unsupported_repository_refuses_before_reader_transport_or_checkpoint (test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_unsupported_repository_refuses_before_reader_transport_or_checkpoint) ... ok\ntest_claim_selects_edges_without_a_source_consumer_registry (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_claim_selects_edges_without_a_source_consumer_registry) ... ok\ntest_complete_result_reaches_existing_consumer_acceptance (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_complete_result_reaches_existing_consumer_acceptance) ... ok\ntest_consumer_acceptance_still_controls_after_dependency (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_consumer_acceptance_still_controls_after_dependency) ... ok\ntest_every_selected_edge_gets_stable_requests_and_must_be_present (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_every_selected_edge_gets_stable_requests_and_must_be_present) ... ok\ntest_foreign_repository_and_wrong_revision_refuse (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_foreign_repository_and_wrong_revision_refuse) ... ok\ntest_forward_main_keeps_exact_artifact_eligible (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_forward_main_keeps_exact_artifact_eligible) ... ok\ntest_issue_closure_alone_is_not_satisfaction (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_issue_closure_alone_is_not_satisfaction) ... ok\ntest_malformed_or_duplicate_claim_dependency_refuses_before_state (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_malformed_or_duplicate_claim_dependency_refuses_before_state) ... ok\ntest_stale_or_incomplete_producer_receipt_refuses (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_stale_or_incomplete_producer_receipt_refuses) ... ok\ntest_actual_runtime_parser_accepts_publisher_spelling_and_legacy_short (test_delivery_refs.DeliveryRefsTests.test_actual_runtime_parser_accepts_publisher_spelling_and_legacy_short) ... ok\ntest_real_publisher_refusal_is_preserved_before_any_request (test_delivery_refs.DeliveryRefsTests.test_real_publisher_refusal_is_preserved_before_any_request) ... ok\ntest_archived_baseline_replay_and_read_binding (test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_archived_baseline_replay_and_read_binding) ... ok\ntest_context_is_exact_selected_source (test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_context_is_exact_selected_source) ... ok\ntest_observer_controls (test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_observer_controls) ... ok\ntest_304_revalidates_same_identity_and_bytes (test_github_reader.GithubReaderTests.test_304_revalidates_same_identity_and_bytes) ... ok\ntest_authenticated_non_case (test_github_reader.GithubReaderTests.test_authenticated_non_case) ... ok\ntest_changed_identity_never_reuses_cache (test_github_reader.GithubReaderTests.test_changed_identity_never_reuses_cache) ... ok\ntest_cli_missing_credential_names_owner_and_help (test_github_reader.GithubReaderTests.test_cli_missing_credential_names_owner_and_help) ... ok\ntest_cli_quota_wait_reports_exit_75_without_network (test_github_reader.GithubReaderTests.test_cli_quota_wait_reports_exit_75_without_network) ... ok\ntest_corrupt_cache_requires_fresh_bytes (test_github_reader.GithubReaderTests.test_corrupt_cache_requires_fresh_bytes) ... ok\ntest_credential_not_forwarded_on_redirect (test_github_reader.GithubReaderTests.test_credential_not_forwarded_on_redirect) ... ok\ntest_expired_wait_allows_authenticated_non_case (test_github_reader.GithubReaderTests.test_expired_wait_allows_authenticated_non_case) ... ok\ntest_header_control_characters_refused_before_transport (test_github_reader.GithubReaderTests.test_header_control_characters_refused_before_transport) ... ok\ntest_invalid_credential_no_fallback_or_secret_output (test_github_reader.GithubReaderTests.test_invalid_credential_no_fallback_or_secret_output) ... ok\ntest_malformed_read_arguments_stay_caller_owned_before_transport (test_github_reader.GithubReaderTests.test_malformed_read_arguments_stay_caller_owned_before_transport) ... ok\ntest_no_anonymous_request_without_credentials (test_github_reader.GithubReaderTests.test_no_anonymous_request_without_credentials) ... ok\ntest_opaque_provider_credential_is_a_legal_non_case (test_github_reader.GithubReaderTests.test_opaque_provider_credential_is_a_legal_non_case) ... ok\ntest_provider_failure_never_returns_stale_cache (test_github_reader.GithubReaderTests.test_provider_failure_never_returns_stale_cache) ... ok\ntest_quota_wait_has_no_retry_and_blocks_next_call (test_github_reader.GithubReaderTests.test_quota_wait_has_no_retry_and_blocks_next_call) ... ok\ntest_read_input_non_cases_keep_supervisor_owner (test_github_reader.GithubReaderTests.test_read_input_non_cases_keep_supervisor_owner) ... ok\ntest_recipe_command_reads_externally_selected_issue (test_github_reader.GithubReaderTests.test_recipe_command_reads_externally_selected_issue) ... ok\ntest_retry_after_wait_and_no_missing_deadline_inference (test_github_reader.GithubReaderTests.test_retry_after_wait_and_no_missing_deadline_inference) ... ok\ntest_wrong_issue_identity_refused (test_github_reader.GithubReaderTests.test_wrong_issue_identity_refused) ... ok\ntest_cleanup_error_preserves_projection_error_and_restores_environment (test_handoff_cleanup.HandoffCleanupTests.test_cleanup_error_preserves_projection_error_and_restores_environment) ... ok\ntest_first_projection_failure_reaps_before_fixture_deletion (test_handoff_cleanup.HandoffCleanupTests.test_first_projection_failure_reaps_before_fixture_deletion) ... ok\ntest_forced_reap_failure_remains_visible_beneath_timeout (test_handoff_cleanup.HandoffCleanupTests.test_forced_reap_failure_remains_visible_beneath_timeout) ... ok\ntest_nonzero_exit_cannot_supply_success_receipt (test_handoff_cleanup.HandoffCleanupTests.test_nonzero_exit_cannot_supply_success_receipt) ... ok\ntest_normal_sequence_and_exit_evidence_are_unchanged (test_handoff_cleanup.HandoffCleanupTests.test_normal_sequence_and_exit_evidence_are_unchanged) ... ok\ntest_second_projection_failure_does_not_stop_first_twice (test_handoff_cleanup.HandoffCleanupTests.test_second_projection_failure_does_not_stop_first_twice) ... ok\ntest_successful_stop_signals_only_a_running_process (test_handoff_cleanup.HandoffCleanupTests.test_successful_stop_signals_only_a_running_process) ... ok\ntest_timeout_kills_owned_group_reaps_and_still_raises (test_handoff_cleanup.HandoffCleanupTests.test_timeout_kills_owned_group_reaps_and_still_raises) ... ok\ntest_actual_git_rename_and_delete_check_both_endpoints (test_issue_admission.IssueAdmissionTests.test_actual_git_rename_and_delete_check_both_endpoints) ... ok\ntest_candidate_local_or_changed_envelope_cannot_replace_fixed_external_bytes (test_issue_admission.IssueAdmissionTests.test_candidate_local_or_changed_envelope_cannot_replace_fixed_external_bytes) ... ok\ntest_current_body_digest_cannot_grant_missing_or_wider_authority (test_issue_admission.IssueAdmissionTests.test_current_body_digest_cannot_grant_missing_or_wider_authority) ... ok\ntest_current_provider_binding_is_normalized_but_non_authorizing (test_issue_admission.IssueAdmissionTests.test_current_provider_binding_is_normalized_but_non_authorizing) ... ok\ntest_frozen_observer_replays_treatment_and_preserves_baseline_red (test_issue_admission.IssueAdmissionTests.test_frozen_observer_replays_treatment_and_preserves_baseline_red) ... ",
+  "method_and_criteria_freeze": {
+    "authorizes_landing": false,
+    "fixed": {
+      "fixture.py": "9052df3cea1318c5b460ebadd11a6af6c296b4f4573df7f50d3b6138b2d6666d",
+      "observe.py": "0ca83a650071307fe70a34dce327d74e78c9f10b271db4880ddc91d825135e8a",
+      "oracle.py": "f64c8064e97d54db8e4f965b69ac183c787f5c13f0a76323b187beaddd0bebcc",
+      "protocol.md": "0beedcf1cf1949037a85fa4a1cf2b2d45689024d3889090ff47765f39c3e242a",
+      "task.md": "c896cd9c9d2c41c54c4e9f1269c6e038d9ef4808fcd2cc326d8e8759d6515d4c"
+    },
+    "methods": {
+      "methods/cli-for-agents/SKILL.md": "62e3330a6ce526a32012eec7f8ab303624924d5122ab4d026b768a38003ba46e",
+      "methods/control-cli/SKILL.md": "8f3a1dabd765fbff1371d6afa44b4a80356cf9d8d7c9f6c14a61c018c6fb2c87",
+      "methods/error-discovery/SKILL.md": "e125c9b764b7aa658ea8c9104fb2856b67b40c0604e73d5bfe142e0dd5d10149",
+      "methods/error-discovery/agents/openai.yaml": "c81cd1d86a317fcefbf0cba9efa20a7bf993c66fbd6ca1f70e3d48ac5777fd56",
+      "methods/error-discovery/review-loop.md": "4c500d0fc6fbeba9bbd8d4858e7e14c848b8ea8cd2a6bdef5c854b668943286a",
+      "methods/eval-audit/SKILL.md": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "methods/eval-audit/agents/openai.yaml": "cfcb2a19fa1f5e655fe650c2e8f600d9dbff0d82ab7b8fcc3660f4a7c042406b",
+      "methods/evals-start/SKILL.md": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "methods/evals-start/agents/openai.yaml": "e4007d2872b5b9c7b905a462e303f19528cc561b41a9662cd0a5349e68afad7c",
+      "methods/generate-synthetic-data/SKILL.md": "37b8e12ceb020f0fdf7c9c8bf7f3d3fce3dd506f1dfecdc64c25f80c10130da2",
+      "methods/generate-synthetic-data/agents/openai.yaml": "17f1a09186ff5c3adfc8233eedbd36a7ac3745cd4c13250efe0efce51a46be68",
+      "methods/validate-evaluator/SKILL.md": "a183fe16e695b8959abd902b0e0cd87e3e050d61e66ae134c74f4a347071e67b",
+      "methods/validate-evaluator/agents/openai.yaml": "5e3e1b5b7c466f6982d25bea5814fd2fbda0eb1a01ee0a4bc9f41f380a617bbf",
+      "methods/verify-this/SKILL.md": "ddaee9eca0c23f4e7cbf168a11cb5f1f4e3c7aedba5c44b50325dd2fa0652693",
+      "methods/write-judge-prompt/SKILL.md": "aa28d26c731e2a16c357d6a8eacb4e3dc8f007a0f73fbb0f5fd8fa7cb8fcf4dd",
+      "methods/write-judge-prompt/agents/openai.yaml": "211afc8bcf8034c8c54b73099fad4331eaec1096dbaffd8898bd621924fcf4a2"
+    }
+  },
+  "origin_issue": 150,
+  "source_review": {
+    "authorizes_landing": false,
+    "base": "2b45c82a8e60372ded1cde628b7f82df4575dfba",
+    "diff_sha256": "1b73f1a3975febd0e120546968747c7404e6eb4c55275f99e7d4bea74972c3de",
+    "eval_method_audit": {
+      "error_analysis": "Historical routing traces and current refusal baseline retained; no natural model failure inferred from interface omission.",
+      "evaluator_design": "Objective code predicates plus explicit manual trace review; no LLM judge or subjective score.",
+      "human_review": "Supervising Agent review, no independent human labels; not claimed as judge calibration.",
+      "hygiene": "Pinned method, source, observer and input bytes; fresh separate consumers; limits explicit.",
+      "judge_validation": "Not applicable to an LLM judge; fixed planted-negative and valid noncases test deterministic sensitivity.",
+      "labeled_data": "One fixed pair; sufficient only for bounded smoke comparison, not population efficacy estimate.",
+      "method": "ai-evals-course/evals-skills eval-audit",
+      "scope": "existing bounded consumer-report pipeline only"
+    },
+    "findings": [],
+    "limitations": [
+      "Initial monolithic full suite terminated with SIGTERM; cause unproven; isolated all-module suite passed.",
+      "Read-only help argv is relative to the current selected repository root, consistent with the supplied invocation.",
+      "No claim that equal successful arms reduce model decision errors."
+    ],
+    "observations": [
+      "Both existing refusal producers add the same exact read-only help argv; no new state owner or command.",
+      "Existing validity/null behavior/missing-input and supervisor ownership remain intact.",
+      "Help is specific to feature_map_routing_report_v2 and documents externally supplied selector/digest and exit interpretation.",
+      "P recipe adds conditional pinned method routes, not a mandatory all-method pipeline.",
+      "Real subprocess controls execute the owner-provided help and retain positive/negative report behavior.",
+      "Source/P/test bytes were frozen before fresh treatment; final evidence must preserve them."
+    ],
+    "reviewer": "external supervising session",
+    "source_head": "3ef06af6f5b9ea84fa241f220ec8285dad983827",
+    "tests": {
+      "compile": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-compile.json",
+      "execution": "Every test module in its own subprocess start_new_session=True; TMPDIR=/private/tmp; NOODLE_* removed only from test child env",
+      "focused": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-focused-tests.json",
+      "full": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-full-isolated-tests.json",
+      "initial_interruption": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-full-tests.json",
+      "module_count": 33,
+      "self_review": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-self-review.json",
+      "skips": 0,
+      "test_count": 351
+    }
+  },
+  "test_observations": {
+    "candidate-compile.json": {
+      "files": [
+        "soodles.py",
+        "report_evaluation.py",
+        "tests/test_report_evaluation.py",
+        "docs/experiments/eval-method-route/fixture.py",
+        "docs/experiments/eval-method-route/observe.py",
+        "docs/experiments/eval-method-route/oracle.py"
+      ],
+      "result": "PASS"
+    },
+    "candidate-focused-tests.json": {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_report_evaluation.py",
+        "-v"
+      ],
+      "elapsed_seconds": 8.343173041939735,
+      "exit": 0,
+      "stderr": "test_cli_exit_codes_and_argument_refusal (test_report_evaluation.ReportEvaluationTests.test_cli_exit_codes_and_argument_refusal) ... ok\ntest_cli_refusal_help_is_executable_without_replacing_missing_input (test_report_evaluation.ReportEvaluationTests.test_cli_refusal_help_is_executable_without_replacing_missing_input) ... ok\ntest_complete_and_wrong_route_have_distinct_behavior (test_report_evaluation.ReportEvaluationTests.test_complete_and_wrong_route_have_distinct_behavior) ... ok\ntest_dirty_source_wrong_head_and_report_digest (test_report_evaluation.ReportEvaluationTests.test_dirty_source_wrong_head_and_report_digest) ... ok\ntest_each_required_read_is_observed (test_report_evaluation.ReportEvaluationTests.test_each_required_read_is_observed) ... ok\ntest_fixed_method_route_oracle_and_planted_control (test_report_evaluation.ReportEvaluationTests.test_fixed_method_route_oracle_and_planted_control) ... ok\ntest_frozen_oracle_when_supervisor_evidence_is_present (test_report_evaluation.ReportEvaluationTests.test_frozen_oracle_when_supervisor_evidence_is_present) ... ok\ntest_legal_feature_object_absolute_reads_and_empty_file (test_report_evaluation.ReportEvaluationTests.test_legal_feature_object_absolute_reads_and_empty_file) ... ok\ntest_malformed_read_bindings_and_escape_are_invalid (test_report_evaluation.ReportEvaluationTests.test_malformed_read_bindings_and_escape_are_invalid) ... ok\ntest_missing_and_null_required_observations_are_not_behavior (test_report_evaluation.ReportEvaluationTests.test_missing_and_null_required_observations_are_not_behavior) ... ok\ntest_operation_types_and_observed_forbidden_operation (test_report_evaluation.ReportEvaluationTests.test_operation_types_and_observed_forbidden_operation) ... ok\ntest_preimport_selector_and_evaluator_binding (test_report_evaluation.ReportEvaluationTests.test_preimport_selector_and_evaluator_binding) ... ok\ntest_selector_shape_types_and_identity (test_report_evaluation.ReportEvaluationTests.test_selector_shape_types_and_identity) ... ok\ntest_source_and_instruction_mismatch_are_invalid (test_report_evaluation.ReportEvaluationTests.test_source_and_instruction_mismatch_are_invalid) ... ok\ntest_unsupported_family_names_the_supported_contract (test_report_evaluation.ReportEvaluationTests.test_unsupported_family_names_the_supported_contract) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 8.227s\n\nOK\n",
+      "stdout": ""
+    },
+    "candidate-full-isolated-tests.json": [
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_admission.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.9744095000205562,
+        "exit": 0,
+        "module": "tests/test_admission.py",
+        "stderr": "test_admitted_version_is_observed_not_inferred_from_filename (test_admission.AdmissionTests.test_admitted_version_is_observed_not_inferred_from_filename) ... ok\ntest_all_command_help_routes_are_noninteractive (test_admission.AdmissionTests.test_all_command_help_routes_are_noninteractive) ... ok\ntest_dirty_candidate_rejects_before_binary_and_tests (test_admission.AdmissionTests.test_dirty_candidate_rejects_before_binary_and_tests) ... ok\ntest_fixture_environment_drops_provider_and_live_noodle_identity (test_admission.AdmissionTests.test_fixture_environment_drops_provider_and_live_noodle_identity) ... ok\ntest_missing_binary_does_not_fall_back_to_path (test_admission.AdmissionTests.test_missing_binary_does_not_fall_back_to_path) ... ok\ntest_missing_required_binary_is_actionable (test_admission.AdmissionTests.test_missing_required_binary_is_actionable) ... ok\ntest_unsupported_host_refuses_before_execution (test_admission.AdmissionTests.test_unsupported_host_refuses_before_execution) ... ok\ntest_wrong_digest_refuses_before_executable_sentinel (test_admission.AdmissionTests.test_wrong_digest_refuses_before_executable_sentinel) ... ok\ntest_wrong_observed_version_refuses_worktree_execution (test_admission.AdmissionTests.test_wrong_observed_version_refuses_worktree_execution) ... ok\ntest_wrong_repository_and_unknown_policy_fields_refuse (test_admission.AdmissionTests.test_wrong_repository_and_unknown_policy_fields_refuse) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.877s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_admission_recovery_pclass_replay.py",
+          "-v"
+        ],
+        "elapsed_seconds": 4.5616197501076385,
+        "exit": 0,
+        "module": "tests/test_admission_recovery_pclass_replay.py",
+        "stderr": "test_all_barriers_are_ordered_and_separate_from_hard_gates (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_all_barriers_are_ordered_and_separate_from_hard_gates) ... ok\ntest_all_planted_controls_discriminate_from_green_fixture (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_all_planted_controls_discriminate_from_green_fixture) ... ok\ntest_analyzer_and_manifest_preflight_precedes_import (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_analyzer_and_manifest_preflight_precedes_import) ... ok\ntest_binding_mutations_fail_at_public_entry (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_binding_mutations_fail_at_public_entry) ... ok\ntest_caller_gates_cannot_supply_pass_or_counts (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_caller_gates_cannot_supply_pass_or_counts) ... ok\ntest_complete_zero_is_no_qualified_barrier (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_complete_zero_is_no_qualified_barrier) ... ok\ntest_duplicate_mutation_cannot_be_an_optimization_barrier (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_duplicate_mutation_cannot_be_an_optimization_barrier) ... ok\ntest_failed_process_and_failed_cleanup_are_not_success (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_failed_process_and_failed_cleanup_are_not_success) ... ok\ntest_fixed_append_only_supplement_completes_same_packet (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_fixed_append_only_supplement_completes_same_packet) ... ok\ntest_membership_cannot_be_redeclared_as_two_or_treatment (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_membership_cannot_be_redeclared_as_two_or_treatment) ... ok\ntest_missing_and_changed_streams_fail_closed (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_missing_and_changed_streams_fail_closed) ... ok\ntest_missing_confirmation_is_unknown_not_zero (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_missing_confirmation_is_unknown_not_zero) ... ok\ntest_normalizer_identity_is_the_actual_entry (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_normalizer_identity_is_the_actual_entry) ... ok\ntest_positive_legal_barrier_selects_first_without_confirmation (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_positive_legal_barrier_selects_first_without_confirmation) ... ok\ntest_preflight_aborts_have_no_score (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_preflight_aborts_have_no_score) ... ok\ntest_raw_exploration_preserves_cleanup_disagreement (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_raw_exploration_preserves_cleanup_disagreement) ... ok\ntest_required_control_and_carrier_cannot_be_redefined (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_required_control_and_carrier_cannot_be_redefined) ... ok\ntest_supplement_cannot_hide_scope_or_process_failures (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_supplement_cannot_hide_scope_or_process_failures) ... ok\ntest_supplement_omission_and_rebinding_are_red (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_supplement_omission_and_rebinding_are_red) ... ok\ntest_unchanged_reinspection_after_completion_is_a_legal_barrier (test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_unchanged_reinspection_after_completion_is_a_legal_barrier) ... ok\n\n----------------------------------------------------------------------\nRan 20 tests in 4.491s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_candidate_guidance.py",
+          "-v"
+        ],
+        "elapsed_seconds": 1.9763593749376014,
+        "exit": 0,
+        "module": "tests/test_candidate_guidance.py",
+        "stderr": "test_actual_admission_still_requires_its_envelope (test_candidate_guidance.CandidateGuidanceTests.test_actual_admission_still_requires_its_envelope) ... ok\ntest_followup_raw_binding_and_frozen_replay (test_candidate_guidance.CandidateGuidanceTests.test_followup_raw_binding_and_frozen_replay) ... ok\ntest_only_digest_recovery_guidance_changes (test_candidate_guidance.CandidateGuidanceTests.test_only_digest_recovery_guidance_changes) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 1.917s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_candidate_publication.py",
+          "-v"
+        ],
+        "elapsed_seconds": 4.562845416017808,
+        "exit": 0,
+        "module": "tests/test_candidate_publication.py",
+        "stderr": "test_creates_exact_branch_and_pr (test_candidate_publication.CandidatePublicationTests.test_creates_exact_branch_and_pr) ... ok\ntest_dirty_or_stale_candidate_refuses_before_provider_read (test_candidate_publication.CandidatePublicationTests.test_dirty_or_stale_candidate_refuses_before_provider_read) ... ok\ntest_drifted_competing_pr_refuses_without_create (test_candidate_publication.CandidatePublicationTests.test_drifted_competing_pr_refuses_without_create) ... ok\ntest_failed_push_is_adopted_only_after_exact_readback (test_candidate_publication.CandidatePublicationTests.test_failed_push_is_adopted_only_after_exact_readback) ... ok\ntest_lost_create_response_adopts_only_fresh_exact_readback (test_candidate_publication.CandidatePublicationTests.test_lost_create_response_adopts_only_fresh_exact_readback) ... ok\ntest_native_producer_records_actual_results_and_rechecks_identity (test_candidate_publication.CandidatePublicationTests.test_native_producer_records_actual_results_and_rechecks_identity) ... ok\ntest_native_readiness_can_publish_but_never_authorizes_landing (test_candidate_publication.CandidatePublicationTests.test_native_readiness_can_publish_but_never_authorizes_landing) ... ok\ntest_native_wrong_platform_missing_checks_and_failure_refuse (test_candidate_publication.CandidatePublicationTests.test_native_wrong_platform_missing_checks_and_failure_refuse) ... ok\ntest_reuses_exact_branch_and_pr_without_writes (test_candidate_publication.CandidatePublicationTests.test_reuses_exact_branch_and_pr_without_writes) ... ok\ntest_unknown_create_without_effect_refuses_without_retry (test_candidate_publication.CandidatePublicationTests.test_unknown_create_without_effect_refuses_without_retry) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 4.458s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_candidate_verification.py",
+          "-v"
+        ],
+        "elapsed_seconds": 1.3945255839498714,
+        "exit": 0,
+        "module": "tests/test_candidate_verification.py",
+        "stderr": "test_baseline_preserves_the_two_preexisting_admissions (test_candidate_verification.CandidateVerificationTests.test_baseline_preserves_the_two_preexisting_admissions) ... ok\ntest_frozen_exact_head_observer_replays_treatment (test_candidate_verification.CandidateVerificationTests.test_frozen_exact_head_observer_replays_treatment) ... ok\ntest_pr_90_committed_evidence_preserves_historical_baseline_mismatch (test_candidate_verification.CandidateVerificationTests.test_pr_90_committed_evidence_preserves_historical_baseline_mismatch) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 1.324s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_context_recording.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.5423330418998376,
+        "exit": 0,
+        "module": "tests/test_context_recording.py",
+        "stderr": "test_duplicate_label_refuses_before_effect (test_context_recording.ContextRecordingTests.test_duplicate_label_refuses_before_effect) ... ok\ntest_instruction_bindings_require_valid_metadata (test_context_recording.ContextRecordingTests.test_instruction_bindings_require_valid_metadata) ... ok\ntest_long_non_path_argument_does_not_lose_command_receipt (test_context_recording.ContextRecordingTests.test_long_non_path_argument_does_not_lose_command_receipt) ... ok\ntest_missing_executable_is_not_zero (test_context_recording.ContextRecordingTests.test_missing_executable_is_not_zero) ... ok\ntest_records_real_nonzero_and_file_change_without_inventing_success (test_context_recording.ContextRecordingTests.test_records_real_nonzero_and_file_change_without_inventing_success) ... ok\ntest_shell_wrapped_instruction_read_and_parse_failure_are_recorded (test_context_recording.ContextRecordingTests.test_shell_wrapped_instruction_read_and_parse_failure_are_recorded) ... ok\ntest_snapshot_error_after_effect_preserves_result (test_context_recording.ContextRecordingTests.test_snapshot_error_after_effect_preserves_result) ... ok\ntest_snapshot_errors_before_and_after_remain_in_raw_requests (test_context_recording.ContextRecordingTests.test_snapshot_errors_before_and_after_remain_in_raw_requests) ... ok\ntest_three_owner_baselines_and_planted_controls (test_context_recording.ContextRecordingTests.test_three_owner_baselines_and_planted_controls) ... ok\ntest_timeout_retains_output_and_waits_for_killed_child (test_context_recording.ContextRecordingTests.test_timeout_retains_output_and_waits_for_killed_child) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.456s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_cross_repository_delivery.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.12356674997135997,
+        "exit": 0,
+        "module": "tests/test_cross_repository_delivery.py",
+        "stderr": "test_only_legacy_schema_two_has_a_soodles_compatibility_binding (test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_only_legacy_schema_two_has_a_soodles_compatibility_binding) ... ok\ntest_ops_acceptance_produces_only_ops_readbacks_and_request (test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_ops_acceptance_produces_only_ops_readbacks_and_request) ... ok\ntest_real_current_draft_and_incomplete_acceptance_refuse_without_state (test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_real_current_draft_and_incomplete_acceptance_refuse_without_state) ... ok\ntest_unsupported_repository_refuses_before_reader_transport_or_checkpoint (test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_unsupported_repository_refuses_before_reader_transport_or_checkpoint) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.008s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_cross_repository_dependency.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.13013433304149657,
+        "exit": 0,
+        "module": "tests/test_cross_repository_dependency.py",
+        "stderr": "test_claim_selects_edges_without_a_source_consumer_registry (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_claim_selects_edges_without_a_source_consumer_registry) ... ok\ntest_complete_result_reaches_existing_consumer_acceptance (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_complete_result_reaches_existing_consumer_acceptance) ... ok\ntest_consumer_acceptance_still_controls_after_dependency (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_consumer_acceptance_still_controls_after_dependency) ... ok\ntest_every_selected_edge_gets_stable_requests_and_must_be_present (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_every_selected_edge_gets_stable_requests_and_must_be_present) ... ok\ntest_foreign_repository_and_wrong_revision_refuse (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_foreign_repository_and_wrong_revision_refuse) ... ok\ntest_forward_main_keeps_exact_artifact_eligible (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_forward_main_keeps_exact_artifact_eligible) ... ok\ntest_issue_closure_alone_is_not_satisfaction (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_issue_closure_alone_is_not_satisfaction) ... ok\ntest_malformed_or_duplicate_claim_dependency_refuses_before_state (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_malformed_or_duplicate_claim_dependency_refuses_before_state) ... ok\ntest_stale_or_incomplete_producer_receipt_refuses (test_cross_repository_dependency.CrossRepositoryDependencyTests.test_stale_or_incomplete_producer_receipt_refuses) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.014s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_delivery_refs.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.26273520791437477,
+        "exit": 0,
+        "module": "tests/test_delivery_refs.py",
+        "stderr": "test_actual_runtime_parser_accepts_publisher_spelling_and_legacy_short (test_delivery_refs.DeliveryRefsTests.test_actual_runtime_parser_accepts_publisher_spelling_and_legacy_short) ... ok\ntest_real_publisher_refusal_is_preserved_before_any_request (test_delivery_refs.DeliveryRefsTests.test_real_publisher_refusal_is_preserved_before_any_request) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.202s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_fresh_delivery_decisions.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.13918012497015297,
+        "exit": 0,
+        "module": "tests/test_fresh_delivery_decisions.py",
+        "stderr": "test_archived_baseline_replay_and_read_binding (test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_archived_baseline_replay_and_read_binding) ... ok\ntest_context_is_exact_selected_source (test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_context_is_exact_selected_source) ... ok\ntest_observer_controls (test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_observer_controls) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.078s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_github_reader.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.8951672499533743,
+        "exit": 0,
+        "module": "tests/test_github_reader.py",
+        "stderr": "test_304_revalidates_same_identity_and_bytes (test_github_reader.GithubReaderTests.test_304_revalidates_same_identity_and_bytes) ... ok\ntest_authenticated_non_case (test_github_reader.GithubReaderTests.test_authenticated_non_case) ... ok\ntest_changed_identity_never_reuses_cache (test_github_reader.GithubReaderTests.test_changed_identity_never_reuses_cache) ... ok\ntest_cli_missing_credential_names_owner_and_help (test_github_reader.GithubReaderTests.test_cli_missing_credential_names_owner_and_help) ... ok\ntest_cli_quota_wait_reports_exit_75_without_network (test_github_reader.GithubReaderTests.test_cli_quota_wait_reports_exit_75_without_network) ... ok\ntest_corrupt_cache_requires_fresh_bytes (test_github_reader.GithubReaderTests.test_corrupt_cache_requires_fresh_bytes) ... ok\ntest_credential_not_forwarded_on_redirect (test_github_reader.GithubReaderTests.test_credential_not_forwarded_on_redirect) ... ok\ntest_expired_wait_allows_authenticated_non_case (test_github_reader.GithubReaderTests.test_expired_wait_allows_authenticated_non_case) ... ok\ntest_header_control_characters_refused_before_transport (test_github_reader.GithubReaderTests.test_header_control_characters_refused_before_transport) ... ok\ntest_invalid_credential_no_fallback_or_secret_output (test_github_reader.GithubReaderTests.test_invalid_credential_no_fallback_or_secret_output) ... ok\ntest_malformed_read_arguments_stay_caller_owned_before_transport (test_github_reader.GithubReaderTests.test_malformed_read_arguments_stay_caller_owned_before_transport) ... ok\ntest_no_anonymous_request_without_credentials (test_github_reader.GithubReaderTests.test_no_anonymous_request_without_credentials) ... ok\ntest_opaque_provider_credential_is_a_legal_non_case (test_github_reader.GithubReaderTests.test_opaque_provider_credential_is_a_legal_non_case) ... ok\ntest_provider_failure_never_returns_stale_cache (test_github_reader.GithubReaderTests.test_provider_failure_never_returns_stale_cache) ... ok\ntest_quota_wait_has_no_retry_and_blocks_next_call (test_github_reader.GithubReaderTests.test_quota_wait_has_no_retry_and_blocks_next_call) ... ok\ntest_read_input_non_cases_keep_supervisor_owner (test_github_reader.GithubReaderTests.test_read_input_non_cases_keep_supervisor_owner) ... ok\ntest_recipe_command_reads_externally_selected_issue (test_github_reader.GithubReaderTests.test_recipe_command_reads_externally_selected_issue) ... ok\ntest_retry_after_wait_and_no_missing_deadline_inference (test_github_reader.GithubReaderTests.test_retry_after_wait_and_no_missing_deadline_inference) ... ok\ntest_wrong_issue_identity_refused (test_github_reader.GithubReaderTests.test_wrong_issue_identity_refused) ... ok\n\n----------------------------------------------------------------------\nRan 19 tests in 0.782s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_handoff_cleanup.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.13102370803244412,
+        "exit": 0,
+        "module": "tests/test_handoff_cleanup.py",
+        "stderr": "test_cleanup_error_preserves_projection_error_and_restores_environment (test_handoff_cleanup.HandoffCleanupTests.test_cleanup_error_preserves_projection_error_and_restores_environment) ... ok\ntest_first_projection_failure_reaps_before_fixture_deletion (test_handoff_cleanup.HandoffCleanupTests.test_first_projection_failure_reaps_before_fixture_deletion) ... ok\ntest_forced_reap_failure_remains_visible_beneath_timeout (test_handoff_cleanup.HandoffCleanupTests.test_forced_reap_failure_remains_visible_beneath_timeout) ... ok\ntest_nonzero_exit_cannot_supply_success_receipt (test_handoff_cleanup.HandoffCleanupTests.test_nonzero_exit_cannot_supply_success_receipt) ... ok\ntest_normal_sequence_and_exit_evidence_are_unchanged (test_handoff_cleanup.HandoffCleanupTests.test_normal_sequence_and_exit_evidence_are_unchanged) ... ok\ntest_second_projection_failure_does_not_stop_first_twice (test_handoff_cleanup.HandoffCleanupTests.test_second_projection_failure_does_not_stop_first_twice) ... ok\ntest_successful_stop_signals_only_a_running_process (test_handoff_cleanup.HandoffCleanupTests.test_successful_stop_signals_only_a_running_process) ... ok\ntest_timeout_kills_owned_group_reaps_and_still_raises (test_handoff_cleanup.HandoffCleanupTests.test_timeout_kills_owned_group_reaps_and_still_raises) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.022s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_issue_admission.py",
+          "-v"
+        ],
+        "elapsed_seconds": 1.1013572920346633,
+        "exit": 0,
+        "module": "tests/test_issue_admission.py",
+        "stderr": "test_actual_git_rename_and_delete_check_both_endpoints (test_issue_admission.IssueAdmissionTests.test_actual_git_rename_and_delete_check_both_endpoints) ... ok\ntest_candidate_local_or_changed_envelope_cannot_replace_fixed_external_bytes (test_issue_admission.IssueAdmissionTests.test_candidate_local_or_changed_envelope_cannot_replace_fixed_external_bytes) ... ok\ntest_current_body_digest_cannot_grant_missing_or_wider_authority (test_issue_admission.IssueAdmissionTests.test_current_body_digest_cannot_grant_missing_or_wider_authority) ... ok\ntest_current_provider_binding_is_normalized_but_non_authorizing (test_issue_admission.IssueAdmissionTests.test_current_provider_binding_is_normalized_but_non_authorizing) ... ok\ntest_frozen_observer_replays_treatment_and_preserves_baseline_red (test_issue_admission.IssueAdmissionTests.test_frozen_observer_replays_treatment_and_preserves_baseline_red) ... ok\ntest_human_template_and_machine_contract_have_the_same_fields (test_issue_admission.IssueAdmissionTests.test_human_template_and_machine_contract_have_the_same_fields) ... ok\ntest_identity_is_derived_from_provider_fields_not_title_or_prose (test_issue_admission.IssueAdmissionTests.test_identity_is_derived_from_provider_fields_not_title_or_prose) ... ok\ntest_invalid_paths_and_duplicate_paths_refuse (test_issue_admission.IssueAdmissionTests.test_invalid_paths_and_duplicate_paths_refuse) ... ok\ntest_one_active_contract_is_required (test_issue_admission.IssueAdmissionTests.test_one_active_contract_is_required) ... ok\ntest_schema_three_binds_base_and_external_frozen_paths (test_issue_admission.IssueAdmissionTests.test_schema_three_binds_base_and_external_frozen_paths) ... ok\ntest_schema_two_requires_manifest_and_evidence_inside_write_boundary (test_issue_admission.IssueAdmissionTests.test_schema_two_requires_manifest_and_evidence_inside_write_boundary) ... ok\ntest_whole_body_and_revision_changes_require_fresh_envelope (test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 1.030s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_issue_atom.py",
+          "-v"
+        ],
+        "elapsed_seconds": 8.417433832888491,
+        "exit": 0,
+        "module": "tests/test_issue_atom.py",
+        "stderr": "test_authorization_must_be_external_exact_and_clean (test_issue_atom.IssueAtomTests.test_authorization_must_be_external_exact_and_clean) ... ok\ntest_candidate_cannot_select_itself_as_landing_owner (test_issue_atom.IssueAtomTests.test_candidate_cannot_select_itself_as_landing_owner) ... ok\ntest_changed_host_configuration_refuses_before_provider_write (test_issue_atom.IssueAtomTests.test_changed_host_configuration_refuses_before_provider_write) ... ok\ntest_completion_ack_required_before_shutdown (test_issue_atom.IssueAtomTests.test_completion_ack_required_before_shutdown) ... ok\ntest_completion_cannot_precede_provider_closure_or_select_another_order (test_issue_atom.IssueAtomTests.test_completion_cannot_precede_provider_closure_or_select_another_order) ... ok\ntest_completion_uses_noodle_mailbox_once_and_preserves_error_ack (test_issue_atom.IssueAtomTests.test_completion_uses_noodle_mailbox_once_and_preserves_error_ack) ... ok\ntest_configuration_and_owner_drift_refuse_before_start (test_issue_atom.IssueAtomTests.test_configuration_and_owner_drift_refuse_before_start) ... ok\ntest_dirty_control_root_still_refuses_before_supplier_or_provider (test_issue_atom.IssueAtomTests.test_dirty_control_root_still_refuses_before_supplier_or_provider) ... ok\ntest_exact_existing_issue_adoption_never_creates_or_rewrites (test_issue_atom.IssueAtomTests.test_exact_existing_issue_adoption_never_creates_or_rewrites) ... ok\ntest_existing_noodle_lock_adopts_only_exact_config_without_spawn (test_issue_atom.IssueAtomTests.test_existing_noodle_lock_adopts_only_exact_config_without_spawn) ... ok\ntest_external_landing_process_identity (test_issue_atom.IssueAtomTests.test_external_landing_process_identity) ... ok\ntest_finish_host_refuses_recycled_pid_without_signalling (test_issue_atom.IssueAtomTests.test_finish_host_refuses_recycled_pid_without_signalling) ... ok\ntest_finish_host_restores_only_own_unchanged_configuration (test_issue_atom.IssueAtomTests.test_finish_host_restores_only_own_unchanged_configuration) ... ok\ntest_foreign_origin_suffix_refuses_before_provider_write (test_issue_atom.IssueAtomTests.test_foreign_origin_suffix_refuses_before_provider_write) ... ok\ntest_help_exposes_only_same_lifecycle_command (test_issue_atom.IssueAtomTests.test_help_exposes_only_same_lifecycle_command) ... ok\ntest_host_supplier_replaces_stale_parent_token (test_issue_atom.IssueAtomTests.test_host_supplier_replaces_stale_parent_token) ... ok\ntest_invalid_authorization_precedes_profile_resolution (test_issue_atom.IssueAtomTests.test_invalid_authorization_precedes_profile_resolution) ... ok\ntest_live_owner_wait_does_not_ask_for_claim_or_take_over (test_issue_atom.IssueAtomTests.test_live_owner_wait_does_not_ask_for_claim_or_take_over) ... ok\ntest_lost_issue_create_adopts_exact_readback_and_never_recreates (test_issue_atom.IssueAtomTests.test_lost_issue_create_adopts_exact_readback_and_never_recreates) ... ok\ntest_lost_start_response_cannot_spawn_again (test_issue_atom.IssueAtomTests.test_lost_start_response_cannot_spawn_again) ... ok\ntest_missing_supplier_leaves_no_new_checkpoint (test_issue_atom.IssueAtomTests.test_missing_supplier_leaves_no_new_checkpoint) ... ok\ntest_one_entry_routes_publication_landing_and_resolution (test_issue_atom.IssueAtomTests.test_one_entry_routes_publication_landing_and_resolution) ... ok\ntest_owner_drift_refuses_before_provider_write_or_checkpoint (test_issue_atom.IssueAtomTests.test_owner_drift_refuses_before_provider_write_or_checkpoint) ... ok\ntest_provider_credentials_are_removed_from_child_environment (test_issue_atom.IssueAtomTests.test_provider_credentials_are_removed_from_child_environment) ... ok\ntest_registered_missing_input_then_same_entry_reaches_admission (test_issue_atom.IssueAtomTests.test_registered_missing_input_then_same_entry_reaches_admission) ... ok\ntest_start_persists_intent_and_does_not_repeat_unknown_start (test_issue_atom.IssueAtomTests.test_start_persists_intent_and_does_not_repeat_unknown_start) ... ok\ntest_unknown_issue_create_without_effect_refuses_without_retry (test_issue_atom.IssueAtomTests.test_unknown_issue_create_without_effect_refuses_without_retry) ... ok\n\n----------------------------------------------------------------------\nRan 27 tests in 8.294s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_issue_execution.py",
+          "-v"
+        ],
+        "elapsed_seconds": 5.614561708993278,
+        "exit": 0,
+        "module": "tests/test_issue_execution.py",
+        "stderr": "test_both_real_entry_functions_consume_same_normalized_binding (test_issue_execution.IssueExecutionTests.test_both_real_entry_functions_consume_same_normalized_binding) ... ok\ntest_both_routes_deliver_complete_validated_contract_for_every_schema (test_issue_execution.IssueExecutionTests.test_both_routes_deliver_complete_validated_contract_for_every_schema) ... ok\ntest_clean_descendant_is_not_the_selected_starting_head (test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head) ... ok\ntest_cli_missing_supervisor_input_is_structured_and_has_no_effect (test_issue_execution.IssueExecutionTests.test_cli_missing_supervisor_input_is_structured_and_has_no_effect) ... ok\ntest_completed_label_cannot_hide_a_live_process_group (test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group) ... ok\ntest_illegal_binding_refuses_both_routes_before_mailbox_effects (test_issue_execution.IssueExecutionTests.test_illegal_binding_refuses_both_routes_before_mailbox_effects) ... ok\ntest_issue_atom_can_observe_exact_live_owner_without_takeover_or_effects (test_issue_execution.IssueExecutionTests.test_issue_atom_can_observe_exact_live_owner_without_takeover_or_effects) ... ok\ntest_live_observation_rejects_foreign_binding_and_parallel_attempts (test_issue_execution.IssueExecutionTests.test_live_observation_rejects_foreign_binding_and_parallel_attempts) ... ok\ntest_live_observer_does_not_mistake_proposal_fields_for_canonical_state (test_issue_execution.IssueExecutionTests.test_live_observer_does_not_mistake_proposal_fields_for_canonical_state) ... ok\ntest_live_writer_refuses_supervised_takeover_without_resetting_history (test_issue_execution.IssueExecutionTests.test_live_writer_refuses_supervised_takeover_without_resetting_history) ... ok\ntest_lock_selected_noodle_proposal_does_not_invent_revision_protocol (test_issue_execution.IssueExecutionTests.test_lock_selected_noodle_proposal_does_not_invent_revision_protocol) ... ok\ntest_missing_or_tampered_contract_refuses_before_worker_and_live_observation (test_issue_execution.IssueExecutionTests.test_missing_or_tampered_contract_refuses_before_worker_and_live_observation) ... ok\ntest_network_failure_names_provider_readback_without_mailbox_effects (test_issue_execution.IssueExecutionTests.test_network_failure_names_provider_readback_without_mailbox_effects) ... ok\ntest_projected_away_blocked_outcome_cannot_authorize_cleanup (test_issue_execution.IssueExecutionTests.test_projected_away_blocked_outcome_cannot_authorize_cleanup) ... ok\ntest_projected_away_original_order_requires_exact_completed_session (test_issue_execution.IssueExecutionTests.test_projected_away_original_order_requires_exact_completed_session) ... ok\ntest_real_scheduler_provider_entry_also_revalidates_before_launch (test_issue_execution.IssueExecutionTests.test_real_scheduler_provider_entry_also_revalidates_before_launch) ... ok\ntest_repeated_publication_preserves_one_mailbox_and_prior_admission (test_issue_execution.IssueExecutionTests.test_repeated_publication_preserves_one_mailbox_and_prior_admission) ... ok\ntest_shared_default_reader_admits_then_reuses_without_duplicate_mailbox (test_issue_execution.IssueExecutionTests.test_shared_default_reader_admits_then_reuses_without_duplicate_mailbox) ... ok\ntest_shared_default_reader_quota_preserves_mailbox_and_worker (test_issue_execution.IssueExecutionTests.test_shared_default_reader_quota_preserves_mailbox_and_worker) ... ok\ntest_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding (test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding) ... ok\ntest_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer (test_issue_execution.IssueExecutionTests.test_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer) ... ok\ntest_worker_rejects_foreign_dispatch_and_changed_executable (test_issue_execution.IssueExecutionTests.test_worker_rejects_foreign_dispatch_and_changed_executable) ... ok\ntest_worker_revalidates_live_body_before_executable_effect (test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect) ... ok\n\n----------------------------------------------------------------------\nRan 23 tests in 5.528s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_issue_resume.py",
+          "-v"
+        ],
+        "elapsed_seconds": 1.9580763329286128,
+        "exit": 0,
+        "module": "tests/test_issue_resume.py",
+        "stderr": "test_cleanup_path_symlink_and_branch_residue_refuse (test_issue_resume.IssueResumeTests.test_cleanup_path_symlink_and_branch_residue_refuse) ... ok\ntest_conflicting_mailbox_and_stale_provider_preserve_effects (test_issue_resume.IssueResumeTests.test_conflicting_mailbox_and_stale_provider_preserve_effects) ... ok\ntest_current_owner_and_malformed_checkpoint_preserve_effects (test_issue_resume.IssueResumeTests.test_current_owner_and_malformed_checkpoint_preserve_effects) ... ok\ntest_missing_original_completion_and_same_successor_refuse (test_issue_resume.IssueResumeTests.test_missing_original_completion_and_same_successor_refuse) ... ok\ntest_pending_and_retained_owner_readback_do_not_republish (test_issue_resume.IssueResumeTests.test_pending_and_retained_owner_readback_do_not_republish) ... ok\ntest_registration_residue_refuses_even_without_path_or_branch (test_issue_resume.IssueResumeTests.test_registration_residue_refuses_even_without_path_or_branch) ... ok\ntest_unresolved_and_foreign_predecessor_refuse_before_publication (test_issue_resume.IssueResumeTests.test_unresolved_and_foreign_predecessor_refuse_before_publication) ... ok\ntest_frozen_evidence_discriminates_and_preserves_claim_scope (test_issue_resume.ResumeEvidenceTests.test_frozen_evidence_discriminates_and_preserves_claim_scope) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 1.875s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_landing.py",
+          "-v"
+        ],
+        "elapsed_seconds": 5.619727540994063,
+        "exit": 0,
+        "module": "tests/test_landing.py",
+        "stderr": "test_body_amendment_refuses_prepared_dispatch_without_offer (test_landing.BoundLandingTests.test_body_amendment_refuses_prepared_dispatch_without_offer) ... ok\ntest_closure_metadata_is_legal_but_body_change_still_refuses (test_landing.BoundLandingTests.test_closure_metadata_is_legal_but_body_change_still_refuses) ... ok\ntest_completed_bound_order_can_reconcile_and_clean_fixture_worktree (test_landing.BoundLandingTests.test_completed_bound_order_can_reconcile_and_clean_fixture_worktree) ... ok\ntest_missing_binding_refuses_marked_contract_before_checkpoint (test_landing.BoundLandingTests.test_missing_binding_refuses_marked_contract_before_checkpoint) ... ok\ntest_outside_delivery_paths_refuse_and_current_paths_pass (test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass) ... ok\ntest_provider_closure_cannot_resolve_before_original_noodle_order (test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order) ... ok\ntest_amendment_allows_forward_base_but_preserves_ancestry_controls (test_landing.LandingTests.test_amendment_allows_forward_base_but_preserves_ancestry_controls) ... ok\ntest_amendment_record_cannot_launder_corrupt_identity_or_unknown_writes (test_landing.LandingTests.test_amendment_record_cannot_launder_corrupt_identity_or_unknown_writes) ... ok\ntest_base_advances_again_requires_ancestry_from_observed_recovery_base (test_landing.LandingTests.test_base_advances_again_requires_ancestry_from_observed_recovery_base) ... ok\ntest_checkpoint_cannot_be_overwritten_or_head_retargeted (test_landing.LandingTests.test_checkpoint_cannot_be_overwritten_or_head_retargeted) ... ok\ntest_cli_help_and_malformed_input_refuse_before_checkpoint (test_landing.LandingTests.test_cli_help_and_malformed_input_refuse_before_checkpoint) ... ok\ntest_cloud_claim_refuses_local_reconcile_and_local_claim_keeps_binary_boundary (test_landing.LandingTests.test_cloud_claim_refuses_local_reconcile_and_local_claim_keeps_binary_boundary) ... ok\ntest_cloud_claim_resolves_from_provider_readback_without_local_tools (test_landing.LandingTests.test_cloud_claim_resolves_from_provider_readback_without_local_tools) ... ok\ntest_cloud_marked_contract_requires_exact_candidate_gate_not_local_envelope (test_landing.LandingTests.test_cloud_marked_contract_requires_exact_candidate_gate_not_local_envelope) ... ok\ntest_cloud_only_absence_is_persisted_as_noop_cleanup (test_landing.LandingTests.test_cloud_only_absence_is_persisted_as_noop_cleanup) ... ok\ntest_cloud_only_noop_refuses_branch_or_registration_before_checkpoint_change (test_landing.LandingTests.test_cloud_only_noop_refuses_branch_or_registration_before_checkpoint_change) ... ok\ntest_cloud_provider_main_advance_requires_complete_comparison (test_landing.LandingTests.test_cloud_provider_main_advance_requires_complete_comparison) ... ok\ntest_cloud_route_migration_refuses_local_obligations_and_identity_changes (test_landing.LandingTests.test_cloud_route_migration_refuses_local_obligations_and_identity_changes) ... ok\ntest_comparison_guidance_preserves_fresh_claim_and_rejects_unconfirmed_endpoint (test_landing.LandingTests.test_comparison_guidance_preserves_fresh_claim_and_rejects_unconfirmed_endpoint) ... ok\ntest_completed_legacy_checkpoint_can_migrate_local_to_cloud_route (test_landing.LandingTests.test_completed_legacy_checkpoint_can_migrate_local_to_cloud_route) ... ok\ntest_corrected_verifier_can_resume_completed_awaiting_reconcile (test_landing.LandingTests.test_corrected_verifier_can_resume_completed_awaiting_reconcile) ... ok\ntest_corrected_verifier_resume_preserves_identity_and_cannot_repeat_provider_writes (test_landing.LandingTests.test_corrected_verifier_resume_preserves_identity_and_cannot_repeat_provider_writes) ... ok\ntest_crash_after_merge_and_close_resumes_by_readback_without_duplicate_write (test_landing.LandingTests.test_crash_after_merge_and_close_resumes_by_readback_without_duplicate_write) ... ok\ntest_dirty_root_and_wrong_origin_refuse_before_runtime_or_cleanup (test_landing.LandingTests.test_dirty_root_and_wrong_origin_refuse_before_runtime_or_cleanup) ... ok\ntest_dispatch_base_drift_invalidates_without_emitting_or_reusing_old_acceptance (test_landing.LandingTests.test_dispatch_base_drift_invalidates_without_emitting_or_reusing_old_acceptance) ... ok\ntest_foreign_merge_parent_or_tree_cannot_close_issue (test_landing.LandingTests.test_foreign_merge_parent_or_tree_cannot_close_issue) ... ok\ntest_foreign_repository_tree_base_and_skipped_step_refuse (test_landing.LandingTests.test_foreign_repository_tree_base_and_skipped_step_refuse) ... ok\ntest_fresh_admission_rejects_identity_changes_stale_acceptance_and_bad_ancestry (test_landing.LandingTests.test_fresh_admission_rejects_identity_changes_stale_acceptance_and_bad_ancestry) ... ok\ntest_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry (test_landing.LandingTests.test_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry) ... ok\ntest_invalidation_retains_legacy_empty_admission_and_base_recovery (test_landing.LandingTests.test_invalidation_retains_legacy_empty_admission_and_base_recovery) ... ok\ntest_legacy_admitted_can_recover_but_legacy_pending_remains_unknown (test_landing.LandingTests.test_legacy_admitted_can_recover_but_legacy_pending_remains_unknown) ... ok\ntest_legacy_unknown_preserves_identity_and_cleanup_evidence (test_landing.LandingTests.test_legacy_unknown_preserves_identity_and_cleanup_evidence) ... ok\ntest_malformed_comparison_refuses_exact_field_without_traceback_or_checkpoint_change (test_landing.LandingTests.test_malformed_comparison_refuses_exact_field_without_traceback_or_checkpoint_change) ... ok\ntest_merged_readback_readmit_retains_fresh_claim_without_adopting_provider_effect (test_landing.LandingTests.test_merged_readback_readmit_retains_fresh_claim_without_adopting_provider_effect) ... ok\ntest_merged_readback_start_keeps_confirmed_claim_without_creating_checkpoint (test_landing.LandingTests.test_merged_readback_start_keeps_confirmed_claim_without_creating_checkpoint) ... ok\ntest_missing_or_inconsistent_delivery_evidence_cannot_dispatch (test_landing.LandingTests.test_missing_or_inconsistent_delivery_evidence_cannot_dispatch) ... ok\ntest_network_child_keeps_proxy_route_without_provider_or_git_injection (test_landing.LandingTests.test_network_child_keeps_proxy_route_without_provider_or_git_injection) ... ok\ntest_owner_projection_names_missing_input_without_executable_placeholder (test_landing.LandingTests.test_owner_projection_names_missing_input_without_executable_placeholder) ... ok\ntest_parser_and_refusal_help_are_bound_to_invoked_action (test_landing.LandingTests.test_parser_and_refusal_help_are_bound_to_invoked_action) ... ok\ntest_prepared_but_unoffered_provider_effect_cannot_be_adopted (test_landing.LandingTests.test_prepared_but_unoffered_provider_effect_cannot_be_adopted) ... ok\ntest_prepared_intent_is_not_an_offer_and_requires_fresh_identity (test_landing.LandingTests.test_prepared_intent_is_not_an_offer_and_requires_fresh_identity) ... ok\ntest_reconciliation_cannot_start_before_provider_closure (test_landing.LandingTests.test_reconciliation_cannot_start_before_provider_closure) ... ok\ntest_recovery_requires_forward_complete_comparison_and_original_subject (test_landing.LandingTests.test_recovery_requires_forward_complete_comparison_and_original_subject) ... ok\ntest_supervisor_withdraws_green_without_new_ci_or_provider_write (test_landing.LandingTests.test_supervisor_withdraws_green_without_new_ci_or_provider_write) ... ok\ntest_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary (test_landing.LandingTests.test_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary) ... ok\ntest_unoffered_external_merge_or_closure_cannot_resolve_this_checkpoint (test_landing.LandingTests.test_unoffered_external_merge_or_closure_cannot_resolve_this_checkpoint) ... ok\ntest_wrong_claim_fields_identity_and_verifier_cannot_admit (test_landing.LandingTests.test_wrong_claim_fields_identity_and_verifier_cannot_admit) ... ok\ntest_wrong_closure_reason_and_closed_unmerged_do_not_resolve (test_landing.LandingTests.test_wrong_closure_reason_and_closed_unmerged_do_not_resolve) ... ok\ntest_wrong_provider_identities_fail_before_checkpoint (test_landing.LandingTests.test_wrong_provider_identities_fail_before_checkpoint) ... ok\n\n----------------------------------------------------------------------\nRan 49 tests in 5.512s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_landing_bootstrap.py",
+          "-v"
+        ],
+        "elapsed_seconds": 8.936081583960913,
+        "exit": 0,
+        "module": "tests/test_landing_bootstrap.py",
+        "stderr": "test_bootstrap_reconciliation_retains_native_custody_and_lock (test_landing_bootstrap.BootstrapCustodyTests.test_bootstrap_reconciliation_retains_native_custody_and_lock) ... ok\ntest_changed_pin_and_identity_refuse (test_landing_bootstrap.BootstrapCustodyTests.test_changed_pin_and_identity_refuse) ... ok\ntest_changed_subject_and_foreign_platform_refuse (test_landing_bootstrap.BootstrapCustodyTests.test_changed_subject_and_foreign_platform_refuse) ... ok\ntest_dirty_worktree_refuses (test_landing_bootstrap.BootstrapCustodyTests.test_dirty_worktree_refuses) ... ok\ntest_exact_explicit_custody_admits_without_fabricated_execution (test_landing_bootstrap.BootstrapCustodyTests.test_exact_explicit_custody_admits_without_fabricated_execution) ... ok\ntest_execution_cannot_be_downgraded_to_bootstrap (test_landing_bootstrap.BootstrapCustodyTests.test_execution_cannot_be_downgraded_to_bootstrap) ... ok\ntest_malformed_custody_and_issue_body_refuse_before_checkpoint (test_landing_bootstrap.BootstrapCustodyTests.test_malformed_custody_and_issue_body_refuse_before_checkpoint) ... ok\ntest_missing_history_alone_is_not_admission (test_landing_bootstrap.BootstrapCustodyTests.test_missing_history_alone_is_not_admission) ... ok\ntest_original_order_history_requires_execution_route (test_landing_bootstrap.BootstrapCustodyTests.test_original_order_history_requires_execution_route) ... ok\ntest_orphan_live_process_is_not_ignored (test_landing_bootstrap.BootstrapCustodyTests.test_orphan_live_process_is_not_ignored) ... ok\ntest_pending_proposal_is_preserved (test_landing_bootstrap.BootstrapCustodyTests.test_pending_proposal_is_preserved) ... ok\ntest_running_noodle_owner_refuses (test_landing_bootstrap.BootstrapCustodyTests.test_running_noodle_owner_refuses) ... ok\ntest_unknown_cleanup_is_not_reoffered (test_landing_bootstrap.BootstrapCustodyTests.test_unknown_cleanup_is_not_reoffered) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 8.814s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_landing_continuation.py",
+          "-v"
+        ],
+        "elapsed_seconds": 1.4401126670418307,
+        "exit": 0,
+        "module": "tests/test_landing_continuation.py",
+        "stderr": "test_current_argv_is_executable_without_weakening_readback_guards (test_landing_continuation.LandingContinuationTests.test_current_argv_is_executable_without_weakening_readback_guards) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 1.385s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_landing_supervisor.py",
+          "-v"
+        ],
+        "elapsed_seconds": 1.30832233291585,
+        "exit": 0,
+        "module": "tests/test_landing_supervisor.py",
+        "stderr": "test_candidate_cannot_select_itself_as_publisher (test_landing_supervisor.LandingSupervisorTests.test_candidate_cannot_select_itself_as_publisher) ... ok\ntest_cloud_terminal_candidate_activates_current_landing_owner (test_landing_supervisor.LandingSupervisorTests.test_cloud_terminal_candidate_activates_current_landing_owner) ... ok\ntest_local_terminal_candidate_binds_supplied_execution_identity (test_landing_supervisor.LandingSupervisorTests.test_local_terminal_candidate_binds_supplied_execution_identity) ... ok\ntest_pclass_terminal_entry_points_only_to_landing_supervisor (test_landing_supervisor.LandingSupervisorTests.test_pclass_terminal_entry_points_only_to_landing_supervisor) ... ok\ntest_stale_green_wrong_publisher_and_existing_output_refuse_before_checkpoint (test_landing_supervisor.LandingSupervisorTests.test_stale_green_wrong_publisher_and_existing_output_refuse_before_checkpoint) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 1.226s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_local_continuation.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.1296040409943089,
+        "exit": 0,
+        "module": "tests/test_local_continuation.py",
+        "stderr": "test_exact_green_result (test_local_continuation.LocalContinuationTests.test_exact_green_result) ... ok\ntest_failed_ci_refuses (test_local_continuation.LocalContinuationTests.test_failed_ci_refuses) ... ok\ntest_in_progress_without_steps_is_wait (test_local_continuation.LocalContinuationTests.test_in_progress_without_steps_is_wait) ... ok\ntest_incomplete_job_cannot_authorize_completed_run (test_local_continuation.LocalContinuationTests.test_incomplete_job_cannot_authorize_completed_run) ... ok\ntest_missing_jobs_at_completed_run_refuses (test_local_continuation.LocalContinuationTests.test_missing_jobs_at_completed_run_refuses) ... ok\ntest_native_receipt_is_the_prepublication_boundary (test_local_continuation.LocalContinuationTests.test_native_receipt_is_the_prepublication_boundary) ... ok\ntest_other_head_is_not_adopted (test_local_continuation.LocalContinuationTests.test_other_head_is_not_adopted) ... ok\ntest_publication_branch_does_not_replace_local_cleanup_identity (test_local_continuation.LocalContinuationTests.test_publication_branch_does_not_replace_local_cleanup_identity) ... ok\ntest_queued_without_jobs_is_wait (test_local_continuation.LocalContinuationTests.test_queued_without_jobs_is_wait) ... ok\ntest_refusal_is_never_retried (test_local_continuation.LocalContinuationTests.test_refusal_is_never_retried) ... ok\ntest_unrelated_publication_branch_cannot_be_selected (test_local_continuation.LocalContinuationTests.test_unrelated_publication_branch_cannot_be_selected) ... ok\ntest_wait_continues_same_entry (test_local_continuation.LocalContinuationTests.test_wait_continues_same_entry) ... ok\ntest_wait_exhaustion_retains_pending_identity (test_local_continuation.LocalContinuationTests.test_wait_exhaustion_retains_pending_identity) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 0.014s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_local_provider_transport.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.20612512505613267,
+        "exit": 0,
+        "module": "tests/test_local_provider_transport.py",
+        "stderr": "test_cloud_route_keeps_connector_request_and_no_local_executable (test_local_provider_transport.LocalProviderTransportTests.test_cloud_route_keeps_connector_request_and_no_local_executable) ... ok\ntest_envelope_bound_reconcile_projects_measured_noodle_binary (test_local_provider_transport.LocalProviderTransportTests.test_envelope_bound_reconcile_projects_measured_noodle_binary) ... ok\ntest_local_merge_close_are_exact_executable_continuations (test_local_provider_transport.LocalProviderTransportTests.test_local_merge_close_are_exact_executable_continuations) ... ok\ntest_missing_token_request_drift_and_cloud_checkpoint_refuse_before_mutation (test_local_provider_transport.LocalProviderTransportTests.test_missing_token_request_drift_and_cloud_checkpoint_refuse_before_mutation) ... ok\ntest_unknown_merge_outcome_reads_back_without_second_mutation (test_local_provider_transport.LocalProviderTransportTests.test_unknown_merge_outcome_reads_back_without_second_mutation) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.105s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_next_issue.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.08947583299595863,
+        "exit": 0,
+        "module": "tests/test_next_issue.py",
+        "stderr": "test_dependency_and_write_boundary_are_mechanical_gates (test_next_issue.NextIssueTests.test_dependency_and_write_boundary_are_mechanical_gates) ... ok\ntest_local_create_uses_only_persisted_intent_and_stops_at_issue_identity (test_next_issue.NextIssueTests.test_local_create_uses_only_persisted_intent_and_stops_at_issue_identity) ... ok\ntest_pclass_contains_one_entry_and_no_manual_decisions (test_next_issue.NextIssueTests.test_pclass_contains_one_entry_and_no_manual_decisions) ... ok\ntest_unique_candidate_materializes_exact_cloud_intent (test_next_issue.NextIssueTests.test_unique_candidate_materializes_exact_cloud_intent) ... ok\ntest_unknown_create_never_retries_and_readback_adopts_exactly_one (test_next_issue.NextIssueTests.test_unknown_create_never_retries_and_readback_adopts_exactly_one) ... ok\ntest_unresolved_predecessor_and_incomplete_frontier_refuse (test_next_issue.NextIssueTests.test_unresolved_predecessor_and_incomplete_frontier_refuse) ... ok\ntest_zero_and_multiple_eligible_never_invent_priority (test_next_issue.NextIssueTests.test_zero_and_multiple_eligible_never_invent_priority) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.006s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_pclass_decision.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.08739916700869799,
+        "exit": 0,
+        "module": "tests/test_pclass_decision.py",
+        "stderr": "test_arm_case_and_evidence_bindings_reject (test_pclass_decision.PclassDecisionTests.test_arm_case_and_evidence_bindings_reject) ... ok\ntest_behavior_failure_rejects_despite_better_telemetry (test_pclass_decision.PclassDecisionTests.test_behavior_failure_rejects_despite_better_telemetry) ... ok\ntest_complete_equal_arms_admit_only_nonregression (test_pclass_decision.PclassDecisionTests.test_complete_equal_arms_admit_only_nonregression) ... ok\ntest_complete_strictly_lower_barrier_admits_improvement (test_pclass_decision.PclassDecisionTests.test_complete_strictly_lower_barrier_admits_improvement) ... ok\ntest_controls_must_exactly_match_manifest (test_pclass_decision.PclassDecisionTests.test_controls_must_exactly_match_manifest) ... ok\ntest_direct_candidate_comparison_entry_is_disabled (test_pclass_decision.PclassDecisionTests.test_direct_candidate_comparison_entry_is_disabled) ... ok\ntest_duplicate_or_extra_run_rejects (test_pclass_decision.PclassDecisionTests.test_duplicate_or_extra_run_rejects) ... ok\ntest_invalid_counts_reject (test_pclass_decision.PclassDecisionTests.test_invalid_counts_reject) ... ok\ntest_manifest_binding_rejects (test_pclass_decision.PclassDecisionTests.test_manifest_binding_rejects) ... ok\ntest_missing_audit_delta_or_barrier_rejects (test_pclass_decision.PclassDecisionTests.test_missing_audit_delta_or_barrier_rejects) ... ok\ntest_three_against_one_is_incomplete_not_improvement (test_pclass_decision.PclassDecisionTests.test_three_against_one_is_incomplete_not_improvement) ... ok\ntest_unbalanced_manifest_cannot_define_its_own_exposure (test_pclass_decision.PclassDecisionTests.test_unbalanced_manifest_cannot_define_its_own_exposure) ... ok\ntest_unknown_controls_cannot_self_validate (test_pclass_decision.PclassDecisionTests.test_unknown_controls_cannot_self_validate) ... ok\ntest_worse_telemetry_cannot_turn_nonregression_red (test_pclass_decision.PclassDecisionTests.test_worse_telemetry_cannot_turn_nonregression_red) ... ok\n\n----------------------------------------------------------------------\nRan 14 tests in 0.030s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_pclass_replay.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.09122475003823638,
+        "exit": 0,
+        "module": "tests/test_pclass_replay.py",
+        "stderr": "test_analyzer_digest_mismatch_is_red (test_pclass_replay.PclassReplayTests.test_analyzer_digest_mismatch_is_red) ... ok\ntest_digest_failure_happens_before_analyzer_import (test_pclass_replay.PclassReplayTests.test_digest_failure_happens_before_analyzer_import) ... ok\ntest_issue_73_replays_three_to_zero (test_pclass_replay.PclassReplayTests.test_issue_73_replays_three_to_zero) ... ok\ntest_raw_evidence_tampering_is_red (test_pclass_replay.PclassReplayTests.test_raw_evidence_tampering_is_red) ... ok\ntest_treatment_operation_after_completion_is_red (test_pclass_replay.PclassReplayTests.test_treatment_operation_after_completion_is_red) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.036s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_portable_packet.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.636556708952412,
+        "exit": 0,
+        "module": "tests/test_portable_packet.py",
+        "stderr": "test_actions_builds_the_tracked_ui_before_the_embedded_binary (test_portable_packet.PacketTests.test_actions_builds_the_tracked_ui_before_the_embedded_binary) ... ok\ntest_changed_missing_symlink_evidence (test_portable_packet.PacketTests.test_changed_missing_symlink_evidence) ... ok\ntest_cli_create_and_verify (test_portable_packet.PacketTests.test_cli_create_and_verify) ... ok\ntest_deterministic_tar_relocates_and_excludes_ambient_secrets (test_portable_packet.PacketTests.test_deterministic_tar_relocates_and_excludes_ambient_secrets) ... ok\ntest_exact_observers_and_input_digests (test_portable_packet.PacketTests.test_exact_observers_and_input_digests) ... ok\ntest_linux_schema_noncase_uses_its_own_build_carrier (test_portable_packet.PacketTests.test_linux_schema_noncase_uses_its_own_build_carrier) ... ok\ntest_manifest_planted_defects (test_portable_packet.PacketTests.test_manifest_planted_defects) ... ok\ntest_real_nonzero_wait_and_streams_survive_packet (test_portable_packet.PacketTests.test_real_nonzero_wait_and_streams_survive_packet) ... ok\ntest_recorder_drops_credentials_and_live_owner_identity (test_portable_packet.PacketTests.test_recorder_drops_credentials_and_live_owner_identity) ... ok\ntest_recovery_scratch_isolates_captured_process_identity (test_portable_packet.PacketTests.test_recovery_scratch_isolates_captured_process_identity) ... ok\ntest_refusal_scratch_isolates_only_captured_process_identity (test_portable_packet.PacketTests.test_refusal_scratch_isolates_only_captured_process_identity) ... ok\ntest_rehashed_false_process_and_cleanup_are_rejected (test_portable_packet.PacketTests.test_rehashed_false_process_and_cleanup_are_rejected) ... ok\ntest_source_measurement_keeps_only_the_explicit_toolchain_selector (test_portable_packet.PacketTests.test_source_measurement_keeps_only_the_explicit_toolchain_selector) ... ok\ntest_tar_refuses_traversal_symlink_and_duplicate_without_extraction (test_portable_packet.PacketTests.test_tar_refuses_traversal_symlink_and_duplicate_without_extraction) ... ok\ntest_timeout_is_waited_and_not_zero (test_portable_packet.PacketTests.test_timeout_is_waited_and_not_zero) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.554s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_provider_credential.py",
+          "-v"
+        ],
+        "elapsed_seconds": 6.59542362508364,
+        "exit": 0,
+        "module": "tests/test_provider_credential.py",
+        "stderr": "test_frozen_inputs_and_real_cli_oracle (test_provider_credential.FrozenHostRouteControlsTests.test_frozen_inputs_and_real_cli_oracle) ... ok\ntest_bad_profile_shapes_and_fields_are_redacted (test_provider_credential.HostRegistrationTests.test_bad_profile_shapes_and_fields_are_redacted) ... ok\ntest_child_context_refuses_each_identity_even_empty (test_provider_credential.HostRegistrationTests.test_child_context_refuses_each_identity_even_empty) ... ok\ntest_explicit_legacy_is_opaque_and_bypasses_profile_and_context (test_provider_credential.HostRegistrationTests.test_explicit_legacy_is_opaque_and_bypasses_profile_and_context) ... ok\ntest_generic_supplier_never_autoloads (test_provider_credential.HostRegistrationTests.test_generic_supplier_never_autoloads) ... ok\ntest_home_fallback_blank_command_and_no_ambient_fallback (test_provider_credential.HostRegistrationTests.test_home_fallback_blank_command_and_no_ambient_fallback) ... ok\ntest_invalid_locator_boundaries (test_provider_credential.HostRegistrationTests.test_invalid_locator_boundaries) ... ok\ntest_profile_and_supplier_cannot_cross_candidate_boundary_via_symlink (test_provider_credential.HostRegistrationTests.test_profile_and_supplier_cannot_cross_candidate_boundary_via_symlink) ... ok\ntest_registered_scope_quoting_stripping_and_no_private_key_read (test_provider_credential.HostRegistrationTests.test_registered_scope_quoting_stripping_and_no_private_key_read) ... ok\ntest_bad_output_and_failure_are_redacted (test_provider_credential.ProviderCredentialTests.test_bad_output_and_failure_are_redacted) ... ok\ntest_clean_child_keeps_normal_environment_not_host_capability (test_provider_credential.ProviderCredentialTests.test_clean_child_keeps_normal_environment_not_host_capability) ... ok\ntest_missing_supplier_does_not_fall_back_to_parent_token (test_provider_credential.ProviderCredentialTests.test_missing_supplier_does_not_fall_back_to_parent_token) ... ok\ntest_real_supplier_gets_exact_scope_and_no_inherited_token (test_provider_credential.ProviderCredentialTests.test_real_supplier_gets_exact_scope_and_no_inherited_token) ... ok\ntest_timeout_exception_does_not_expose_output_or_command (test_provider_credential.ProviderCredentialTests.test_timeout_exception_does_not_expose_output_or_command) ... ok\n\n----------------------------------------------------------------------\nRan 14 tests in 6.512s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_provider_readback.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.8673743329709396,
+        "exit": 0,
+        "module": "tests/test_provider_readback.py",
+        "stderr": "test_landing_preserves_keys_and_returns_exact_reentry (test_provider_readback.ProviderReadbackTests.test_landing_preserves_keys_and_returns_exact_reentry) ... ok\ntest_merged_pr_adds_exactly_one_confirmed_merge_commit_get (test_provider_readback.ProviderReadbackTests.test_merged_pr_adds_exactly_one_confirmed_merge_commit_get) ... ok\ntest_next_issue_paginates_filters_prs_and_returns_reconcile_argv (test_provider_readback.ProviderReadbackTests.test_next_issue_paginates_filters_prs_and_returns_reconcile_argv) ... ok\ntest_pclass_routes_provider_readback_without_manual_get_assembly (test_provider_readback.ProviderReadbackTests.test_pclass_routes_provider_readback_without_manual_get_assembly) ... ok\ntest_wrong_method_host_missing_token_and_output_overwrite_refuse (test_provider_readback.ProviderReadbackTests.test_wrong_method_host_missing_token_and_output_overwrite_refuse) ... ok\ntest_wrong_publisher_and_redirect_are_hard_refusals (test_provider_readback.ProviderReadbackTests.test_wrong_publisher_and_redirect_are_hard_refusals) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.785s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_quality.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.2972814579261467,
+        "exit": 0,
+        "module": "tests/test_quality.py",
+        "stderr": "test_analyzer_failure_cannot_be_interpreted_as_no_findings (test_quality.QualityTests.test_analyzer_failure_cannot_be_interpreted_as_no_findings) ... ok\ntest_exact_same_head_allowed_but_output_inside_subject_refused (test_quality.QualityTests.test_exact_same_head_allowed_but_output_inside_subject_refused) ... ok\ntest_invalid_subject_refused_before_output_or_dependency_import (test_quality.QualityTests.test_invalid_subject_refused_before_output_or_dependency_import) ... ok\ntest_new_source_is_visible_in_unclassified_scope (test_quality.QualityTests.test_new_source_is_visible_in_unclassified_scope) ... ok\ntest_pending_time_is_not_zero_and_steps_are_not_summed_into_job_time (test_quality.QualityTests.test_pending_time_is_not_zero_and_steps_are_not_summed_into_job_time) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.194s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_report_evaluation.py",
+          "-v"
+        ],
+        "elapsed_seconds": 7.76599083293695,
+        "exit": 0,
+        "module": "tests/test_report_evaluation.py",
+        "stderr": "test_cli_exit_codes_and_argument_refusal (test_report_evaluation.ReportEvaluationTests.test_cli_exit_codes_and_argument_refusal) ... ok\ntest_cli_refusal_help_is_executable_without_replacing_missing_input (test_report_evaluation.ReportEvaluationTests.test_cli_refusal_help_is_executable_without_replacing_missing_input) ... ok\ntest_complete_and_wrong_route_have_distinct_behavior (test_report_evaluation.ReportEvaluationTests.test_complete_and_wrong_route_have_distinct_behavior) ... ok\ntest_dirty_source_wrong_head_and_report_digest (test_report_evaluation.ReportEvaluationTests.test_dirty_source_wrong_head_and_report_digest) ... ok\ntest_each_required_read_is_observed (test_report_evaluation.ReportEvaluationTests.test_each_required_read_is_observed) ... ok\ntest_fixed_method_route_oracle_and_planted_control (test_report_evaluation.ReportEvaluationTests.test_fixed_method_route_oracle_and_planted_control) ... ok\ntest_frozen_oracle_when_supervisor_evidence_is_present (test_report_evaluation.ReportEvaluationTests.test_frozen_oracle_when_supervisor_evidence_is_present) ... ok\ntest_legal_feature_object_absolute_reads_and_empty_file (test_report_evaluation.ReportEvaluationTests.test_legal_feature_object_absolute_reads_and_empty_file) ... ok\ntest_malformed_read_bindings_and_escape_are_invalid (test_report_evaluation.ReportEvaluationTests.test_malformed_read_bindings_and_escape_are_invalid) ... ok\ntest_missing_and_null_required_observations_are_not_behavior (test_report_evaluation.ReportEvaluationTests.test_missing_and_null_required_observations_are_not_behavior) ... ok\ntest_operation_types_and_observed_forbidden_operation (test_report_evaluation.ReportEvaluationTests.test_operation_types_and_observed_forbidden_operation) ... ok\ntest_preimport_selector_and_evaluator_binding (test_report_evaluation.ReportEvaluationTests.test_preimport_selector_and_evaluator_binding) ... ok\ntest_selector_shape_types_and_identity (test_report_evaluation.ReportEvaluationTests.test_selector_shape_types_and_identity) ... ok\ntest_source_and_instruction_mismatch_are_invalid (test_report_evaluation.ReportEvaluationTests.test_source_and_instruction_mismatch_are_invalid) ... ok\ntest_unsupported_family_names_the_supported_contract (test_report_evaluation.ReportEvaluationTests.test_unsupported_family_names_the_supported_contract) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 7.675s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_schedule_role.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.16737725003622472,
+        "exit": 0,
+        "module": "tests/test_schedule_role.py",
+        "stderr": "test_actual_cli_projects_exact_argv_without_executing_launcher (test_schedule_role.ScheduleRoleBoundaryTests.test_actual_cli_projects_exact_argv_without_executing_launcher) ... ok\ntest_generic_session_has_no_launcher_prerequisite (test_schedule_role.ScheduleRoleBoundaryTests.test_generic_session_has_no_launcher_prerequisite) ... ok\ntest_mismatched_role_refuses_before_missing_launcher (test_schedule_role.ScheduleRoleBoundaryTests.test_mismatched_role_refuses_before_missing_launcher) ... ok\ntest_missing_malformed_or_foreign_dispatch_inputs (test_schedule_role.ScheduleRoleBoundaryTests.test_missing_malformed_or_foreign_dispatch_inputs) ... ok\ntest_preserved_scheduler_requires_supervisor_launcher (test_schedule_role.ScheduleRoleBoundaryTests.test_preserved_scheduler_requires_supervisor_launcher) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.090s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_supervisor_admission.py",
+          "-v"
+        ],
+        "elapsed_seconds": 5.7053997500333935,
+        "exit": 0,
+        "module": "tests/test_supervisor_admission.py",
+        "stderr": "test_bootstrap_injects_provider_identity_then_uses_exact_launcher (test_supervisor_admission.SupervisorAdmissionTests.test_bootstrap_injects_provider_identity_then_uses_exact_launcher) ... ok\ntest_host_bundle_binds_task_worker_and_single_issue_backlog (test_supervisor_admission.SupervisorAdmissionTests.test_host_bundle_binds_task_worker_and_single_issue_backlog) ... ok\ntest_supplier_integrity_and_overwrite_controls_refuse_before_effects (test_supervisor_admission.SupervisorAdmissionTests.test_supplier_integrity_and_overwrite_controls_refuse_before_effects) ... ok\ntest_unknown_worker_argv_refuses_before_host_bundle_creation (test_supervisor_admission.SupervisorAdmissionTests.test_unknown_worker_argv_refuses_before_host_bundle_creation) ... ok\ntest_wrong_origin_and_carrier_digest_refuse_before_output (test_supervisor_admission.SupervisorAdmissionTests.test_wrong_origin_and_carrier_digest_refuse_before_output) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 5.624s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_verify_skill.py",
+          "-v"
+        ],
+        "elapsed_seconds": 0.06519829109311104,
+        "exit": 0,
+        "module": "tests/test_verify_skill.py",
+        "stderr": "test_counts_separate_control_refusal_from_failure_and_keep_guard_repeats (test_verify_skill.VerificationSkillTests.test_counts_separate_control_refusal_from_failure_and_keep_guard_repeats) ... ok\ntest_output_refusal_precedes_directory_creation (test_verify_skill.VerificationSkillTests.test_output_refusal_precedes_directory_creation) ... ok\ntest_resolution_requires_exact_local_skill (test_verify_skill.VerificationSkillTests.test_resolution_requires_exact_local_skill) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "zero_skips": true
+      }
+    ],
+    "candidate-full-tests.json": {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "elapsed_seconds": 15.94469425000716,
+      "exit": -15,
+      "log": "/Users/neon/.codex/experiments/eval-method-route-t84bjtnl/candidate-full-tests.log",
+      "zero_skips": true
+    }
+  },
+  "treatment_freeze": {
+    "authorizes_landing": false,
+    "fixed_observer": {
+      "fixture.py": "9052df3cea1318c5b460ebadd11a6af6c296b4f4573df7f50d3b6138b2d6666d",
+      "observe.py": "0ca83a650071307fe70a34dce327d74e78c9f10b271db4880ddc91d825135e8a",
+      "oracle.py": "f64c8064e97d54db8e4f965b69ac183c787f5c13f0a76323b187beaddd0bebcc",
+      "protocol.md": "0beedcf1cf1949037a85fa4a1cf2b2d45689024d3889090ff47765f39c3e242a",
+      "task.md": "c896cd9c9d2c41c54c4e9f1269c6e038d9ef4808fcd2cc326d8e8759d6515d4c"
+    },
+    "head": "3ef06af6f5b9ea84fa241f220ec8285dad983827",
+    "source_digests": {
+      ".agents/skills/verify-soodles/SKILL.md": "a75f3f5d8bb48cc31086468b04936583224acfd7a704e7eb14462cc710843209",
+      ".agents/skills/verify-soodles/features/pclass-context.md": "407cf6232b859b4f9826c5342f09625eec9172a8d7bbf0c3f82a577141147e30",
+      "docs/experiments/eval-method-route/fixture.py": "9052df3cea1318c5b460ebadd11a6af6c296b4f4573df7f50d3b6138b2d6666d",
+      "docs/experiments/eval-method-route/observe.py": "0ca83a650071307fe70a34dce327d74e78c9f10b271db4880ddc91d825135e8a",
+      "docs/experiments/eval-method-route/oracle.py": "f64c8064e97d54db8e4f965b69ac183c787f5c13f0a76323b187beaddd0bebcc",
+      "docs/experiments/eval-method-route/protocol.md": "0beedcf1cf1949037a85fa4a1cf2b2d45689024d3889090ff47765f39c3e242a",
+      "docs/experiments/eval-method-route/task.md": "c896cd9c9d2c41c54c4e9f1269c6e038d9ef4808fcd2cc326d8e8759d6515d4c",
+      "report_evaluation.py": "d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231",
+      "soodles.py": "70dc4584027fa77c17fd71ad630af38ca499ee2cbf32140dc03b3aa253057685",
+      "tests/test_report_evaluation.py": "14f0c5294d9dd9480fd5752dc12843bd77d326a4c4cce20fdd0406b43a0dcc00"
+    },
+    "tree": "2f3e50a599397d73e3c4a9f8dab6d1a5ce419de4"
+  }
+}

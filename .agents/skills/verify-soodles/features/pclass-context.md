@@ -2,6 +2,31 @@
 
 Use this feature to compare a scoped instruction change or maintain this verification capability. The originating issue owns intent, cross-file migration and delivery; this recipe owns the bounded experiment procedure. Maintenance checks source/live correspondence, not automatic model improvement. N observations, P guidance, tested L refusals and actual R provider readbacks retain separate claims.
 
+## Select the applicable method
+
+Choose only the method needed for the current decision; these are conditional
+routes, not a mandatory pipeline. For CLI contract design/review, use pstack's
+[cli-for-agents](https://github.com/ed3c/plugins/tree/68836ddaf5697224520f1847d90cdb90ca8babaa/cli-for-agent/skills/cli-for-agents).
+For actual CLI reproduction, use
+[control-cli](https://github.com/ed3c/plugins/tree/68836ddaf5697224520f1847d90cdb90ca8babaa/cursor-team-kit/skills/control-cli)
+with the existing repository subprocess harness for noninteractive commands;
+use a PTY only when terminal behavior requires it. For a matched before/after
+evidence claim, use
+[verify-this](https://github.com/ed3c/plugins/tree/68836ddaf5697224520f1847d90cdb90ca8babaa/cursor-team-kit/skills/verify-this)
+under the experiment's fixed criteria.
+
+For behavior-eval methodology, load the applicable installed
+[ai-evals-course/evals-skills](https://github.com/ai-evals-course/evals-skills/tree/2edbc5b1b0dc91f74fcfa8fd8f7eaeb302e052ab)
+entry directly: `eval-audit` for trust in an existing pipeline,
+`error-discovery` for unclassified traces, and `evals-start` only when no specific
+route is known. Check objective command, identity and effect criteria with code;
+use a subjective judge only when the criterion needs interpretation. Method
+selection does not require reinstalling skills or a full feature-map audit.
+
+`./soodles eval report` verifies only an externally selected
+`feature_map_routing_report_v2` report; it does not author general behavior evals.
+Its selector, digest and invocation remain external supervisor inputs.
+
 ## Inputs and launch
 
 Require a supplied task, assigned instruction refs/digests, minimum raw inputs, permitted effects, externally fixed decision criteria and evidence destination. Keep the originating experiment/Issue separate from the executed subject: a fixture's Issue/PR does not identify the experiment owner. Carry the supplied origin through the receipt/handoff; if absent, leave it unknown. Identify the actual execution owner and available carrier. Native cloud subagents can run these bounded consumers without Codex CLI; local Noodle/Codex children follow their admitted launcher. A branch/worktree does not create a fresh model context. Missing prerequisites block only the dependent operation; do not invent a local doctor to obtain cloud evidence.
@@ -24,6 +49,9 @@ The coordinator may launch independent consumers when the current task authorize
    Do not construct the selector, digest, evaluator or a substitute command.
    Read `evidence_validity` before `behavior`: INVALID or INCONCLUSIVE has null
    behavior; return the exact `next.missing_input` to its supervisor owner.
+   The current `next.help_argv` may be executed for read-only discovery; it does
+   not supply missing evidence or authorize a retry. Never fabricate a selector
+   or digest to make progress.
    VALID permits only the reported PASS/FAIL and barriers. An explicit empty
    operation report has `observation_scope: consumer_report`; it does not prove
    independent absence of effects. Consume the current typed `next`, never infer
