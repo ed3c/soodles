@@ -86,7 +86,8 @@ def refusal_output(error, operation):
     # The invoked action supplies ownership; field spelling never selects a route.
     next_action = error.next_action or input_next(operation, ["corrected_input"])
     return {"owner": "landing." + operation if operation else "landing", "status": "refused",
-            "invalid": error.invalid, "next": next_action}
+            "invalid": error.invalid, "next": next_action, "authorizes_landing": False,
+            **({"comparison": error.comparison} if getattr(error, "comparison", None) is not None else {})}
 
 
 def refusal_text(result):
@@ -238,6 +239,16 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
         # Cloud claims are bound by the exact-head candidate-evidence workflow
         # step checked in validate_snapshot; they cannot carry a local envelope.
         require(ref is None, "claim.execution_envelope", "cloud execution cannot bind a local envelope")
+        if issue is not None and "soodles:execution-v1" in (issue.get("body") or ""):
+            from issue_admission import parse_contract
+            from issue_admission import ComparisonRefusal
+            try:
+                contract = parse_contract(issue["body"])
+                if contract["schema"] == 4:
+                    raise ComparisonRefusal("comparison.delivery_route", "cloud",
+                                            "supported_local_comparison_delivery")
+            except AdmissionRefusal as error:
+                raise LandingRefusal(error.invalid["field"], error.invalid["value"], error.next) from error
         return None
     if ref is None:
         if "bootstrap_custody" in claim:
@@ -258,16 +269,22 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
         require(envelope["issue"] == claim["issue"], "claim.envelope.issue", envelope["issue"])
         for key in ("control_root", "worktree"):
             require(envelope["execution"][key] == claim[key], "claim.envelope." + key, envelope["execution"][key])
+        binding = envelope
+        if issue is None and operation != "reconcile":
+            from issue_admission import ComparisonRefusal
+            raise ComparisonRefusal("comparison.issue.readback", None, "fresh_issue_readback")
         if issue is not None:
-            validate_issue(issue, envelope, completed=issue.get("state") == "closed")
-        validate_delivery_paths(subject if subject.exists() else root, claim["base_head"], claim["head"], envelope)
+            binding = validate_issue(issue, envelope, completed=issue.get("state") == "closed")
+        validate_delivery_paths(subject if subject.exists() else root, claim["base_head"], claim["head"], binding)
         return envelope
     except AdmissionRefusal as error:
-        raise LandingRefusal(error.invalid["field"], error.invalid["value"],
+        refusal = LandingRefusal(error.invalid["field"], error.invalid["value"],
                              {**input_next(operation, error.next["required"], checkpoint), **error.next,
                               "reason": "Preserve the original claim/checkpoint. Supervisor corrections use "
                                         "invalidate/readmit only for unoffered work; unknown offered writes "
-                              "remain readback-only. This refusal does not renew authority."}) from error
+                              "remain readback-only. This refusal does not renew authority."})
+        refusal.comparison = getattr(error, "comparison", None)
+        raise refusal from error
 
 
 @contextlib.contextmanager
@@ -338,7 +355,7 @@ def bootstrap_binding(claim, issue=None, *, allow_removed=False):
         delivery = {"repository": claim["repository"], "issue": claim["issue"],
                     "base_head": claim["base_head"], "write_paths": contract["write_paths"],
                     "contract": contract}
-        if contract.get("schema") == 3:
+        if contract.get("schema", 0) >= 3:
             require(contract["base_head"] == claim["base_head"], "bootstrap.base", contract["base_head"])
         subject = worktree if worktree.exists() else root
         validate_delivery_paths(subject, claim["base_head"], claim["head"], delivery)

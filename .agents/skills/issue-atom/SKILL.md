@@ -40,6 +40,12 @@ is the same command. Never use `./noodles issue handoff`. Do not choose issue au
 Do not choose landing dispatch, construct a phase-specific command, or retry
 an ambiguous provider write.
 
+If the external Issue selects a schema-4 comparison, consume the same owner's
+current `next` for missing supervisor inputs. Do not construct replay commands,
+substitute comparison evidence or remove the requirement. Candidate verification
+and matching comparison receipts remain non-authorizing; this lifecycle entry
+still owns continuation.
+
 The owner persists its checkpoint before mutation, creates or adopts only the
 Issue bearing the authorization marker (or the explicitly selected existing
 Issue), always uses supervised Noodle

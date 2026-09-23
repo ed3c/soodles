@@ -303,7 +303,7 @@ Every result has authorizes_landing=false; no delivery or landing authority.""")
         epilog="Example: ./soodles candidate verify /tmp/issue.json BASE_SHA HEAD_SHA")
     candidate_verbs = candidate.add_subparsers(dest="verb", required=True)
     candidate_verify = candidate_verbs.add_parser(
-        "verify", description="Verify the checked-out candidate and its required evidence; no provider write or landing authority.")
+        "verify", description="Verify the checked-out candidate and its required evidence, including an externally selected schema-4 comparison. Consume current next on refusal; the supervisor supplies missing comparison inputs. No provider write or landing authority.", epilog="Example: ./soodles candidate verify /tmp/issue.json BASE_SHA HEAD_SHA")
     candidate_verify.add_argument("issue_readback")
     candidate_verify.add_argument("base_head")
     candidate_verify.add_argument("candidate_head")
@@ -520,6 +520,8 @@ def main():
                     "required": ["valid_candidate_evidence"]}),
                 "authorizes_landing": False,
             }
+            if getattr(exc, "comparison", None) is not None:
+                result["comparison"] = exc.comparison
             print(json.dumps(bind_landing_continuation(result, args), indent=2))
             print(
                 f"REFUSED: candidate verify: invalid {invalid['field']}={invalid['value']!r}; "

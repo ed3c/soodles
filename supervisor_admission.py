@@ -354,10 +354,10 @@ def prepare(issue_readback, carrier, control_root, output, *,
     body = issue_readback.get("body")
     contract = parse_contract(body)
     head = _git(root, "rev-parse", "HEAD")
-    if contract.get("schema") == 3:
+    if contract.get("schema", 0) >= 3:
         require(head == contract["base_head"], "supervisor.control_root.head", head,
                 owner="supervisor", required="fresh_issue_base_checkout")
-    base_head = contract["base_head"] if contract.get("schema") == 3 else head
+    base_head = contract["base_head"] if contract.get("schema", 0) >= 3 else head
     origin = _git(root, "remote", "get-url", "origin")
     require(origin in git_origins(REPOSITORY), "supervisor.control_root.origin", origin,
             owner="Git", required="admitted_repository_identity")

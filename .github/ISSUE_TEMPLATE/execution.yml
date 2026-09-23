@@ -10,7 +10,7 @@ body:
     id: contract
     attributes:
       label: Execution contract
-      description: Keep one marked JSON block. File paths are exact repository-relative names.
+      description: Keep one marked JSON block. File paths are exact repository-relative names. Schema 3 remains the ordinary route; schema 4 adds an externally selected comparison as described in contracts/system-v1.md. The supervisor supplies its pins.
       value: |
         <!-- soodles:execution-v1 -->
         ```json
