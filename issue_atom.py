@@ -125,6 +125,17 @@ def clean_child_env():
 
 
 def validate_authorization(path, expected_digest, *, allow_advanced=False):
+    value, actual = _validate_authorization(path, expected_digest, allow_advanced=allow_advanced)
+    require_clean_control_root(value)
+    return value, actual
+
+
+def require_clean_control_root(authorization):
+    require(_git(authorization["control_root"], "status", "--porcelain", "--untracked-files=all") == "",
+            "git.status", "dirty", "clean_exact_control_root")
+
+
+def _validate_authorization(path, expected_digest, *, allow_advanced=False):
     source = Path(path)
     require(source.is_absolute(), "authorization.path", str(source), "absolute_external_authorization")
     value = read_json(source, "authorization")
@@ -157,8 +168,6 @@ def validate_authorization(path, expected_digest, *, allow_advanced=False):
     else:
         require(current_head == value["base_head"],
                 "git.head", current_head, "exact_authorized_base")
-    require(_git(root, "status", "--porcelain", "--untracked-files=all") == "",
-            "git.status", "dirty", "clean_exact_control_root")
     origins = {_git(root, "remote", "get-url", "origin")}
     require(origins.issubset(set(git_origins(repository))),
             "git.origin", sorted(origins))
@@ -687,9 +696,18 @@ def run(authorization_path, *, environ=None, provider=None):
 def _run(authorization_path, *, environ=None, provider=None):
     environ = os.environ if environ is None else environ
     paths = artifact_paths(authorization_path)
-    authorization, authorization_digest = validate_authorization(
+    authorization, authorization_digest = _validate_authorization(
         authorization_path, environ.get("SOODLES_AUTHORIZATION_SHA256"),
         allow_advanced=paths["state"].exists())
+    if provider is None:
+        try:
+            environ = provider_credential.resolve_host_environment(
+                authorization["control_root"], environ=environ)
+        except provider_credential.CredentialRefusal as error:
+            raise AtomRefusal(error.field, error.value, error.required) from None
+    # A profile placed inside the candidate names that boundary first. A valid
+    # registration still cannot reach a supplier with a dirty control root.
+    require_clean_control_root(authorization)
     landing_owner = LandingOwner(authorization, paths["directory"])
     state_path = paths["state"]
     if state_path.exists():

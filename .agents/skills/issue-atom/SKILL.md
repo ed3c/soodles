@@ -12,9 +12,12 @@ authorization and independently pinned landing owner on the same Mac. No cloud
 Session, token handoff or separate supervisor daemon is required.
 It pins an external landing implementation; never select the
 candidate's own verifier. The supervisor also supplies its SHA-256 in
-`SOODLES_AUTHORIZATION_SHA256`. The host's existing `NOODLES_TOKEN_COMMAND`
-is the single credential source; the entry requests an installation token
-scoped to the authorized repository. Do not ask a person or another session
+`SOODLES_AUTHORIZATION_SHA256`. The host entry uses an explicit nonblank
+`NOODLES_TOKEN_COMMAND` unchanged; otherwise it consumes the host owner's fixed
+registration at `$XDG_CONFIG_HOME/soodles/provider.json` or
+`$HOME/.config/soodles/provider.json`. Registration supplies capability, not
+Issue authorization. The entry requests an installation token scoped to the
+authorized repository. Do not ask a person or another session
 to carry a `GH_TOKEN`, discover App keys, or prepare a checkpoint, envelope
 or phase launcher. The entry materializes that execution state itself. The
 authorization fixes the repository, exact base, Issue contract, control root,
@@ -57,6 +60,11 @@ runs after publication in the existing exact-head Actions workflow. A native
 receipt cannot authorize merge or replace that gate. CI supplies evidence; the
 landing owner, not the CI runner, emits merge and closure requests.
 
+A `provider_credential_profile.*` refusal names the exact registered prerequisite
+for the host credential owner to correct. Consume the returned `next` and use
+the same invocation after correction; do not assemble App environment, search
+for keys/tokens, register a candidate-selected capability or select another route.
+Profile autoload is host-only and refuses Noodle child context.
 A missing or failing supplier is a host credential owner's refusal, before a
 new lifecycle checkpoint or provider write. An inherited `GH_TOKEN` is not a
 fallback. External authorization still selects identity and capabilities;
