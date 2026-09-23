@@ -19,6 +19,16 @@ The coordinator may launch independent consumers when the current task authorize
 
    For an admission comparison, use the single executable entry `scripts/replay_pclass.py RAW.json GATES.json MANIFEST.json EXPECTED_MANIFEST_SHA256 OBSERVER.py DECIDER.py`. The external manifest fixes equal arm exposure, raw run identities, analyzer bytes and planted-control predicates; the gates file contains only the fixed causal-delta, independent-audit and report-only telemetry inputs. The entry verifies all digests before importing an analyzer, derives run receipts and controls from raw evidence, then invokes the internal decision evaluator. `decide_pclass.py` does not accept a candidate-supplied comparison at its command line. A receipt cannot authorize landing.
 
+   For a supplied feature-map consumer report, use the supervisor's complete
+   `./soodles eval report SELECTION.json EXPECTED_SHA256` invocation unchanged.
+   Do not construct the selector, digest, evaluator or a substitute command.
+   Read `evidence_validity` before `behavior`: INVALID or INCONCLUSIVE has null
+   behavior; return the exact `next.missing_input` to its supervisor owner.
+   VALID permits only the reported PASS/FAIL and barriers. An explicit empty
+   operation report has `observation_scope: consumer_report`; it does not prove
+   independent absence of effects. Consume the current typed `next`, never infer
+   an operation or delivery completion. Every result is non-authorizing.
+
    A bounded recovery packet may also carry an externally selected completion projection and its exact digest. Once the real owner emits that projection, stop before invoking its `next.operation` or creating its request when provider transport is not authorized. The projection bounds this observation only; it is not provider truth and grants no transport or landing authority.
 5. Return goal/scope, subject and instruction identities, actual evidence locators, supported result, unknowns and next owner readback. A distinct consumer must read that handoff and refresh current owner state when transfer is part of the claim. The coordinator reports feature coverage and existing landing status separately.
 
