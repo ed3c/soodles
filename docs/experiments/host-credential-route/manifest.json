@@ -1,0 +1,92 @@
+{
+  "artifacts": [
+    {
+      "path": "provider_credential.py",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "9ad545cfeb7368c400c937e9a66b7607e9815b7751900e298c72cc4ac82a33bb"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "c2faeb6fea538a0ef0aa9f4c75baab030173f29f9d3f2bed97c8e47cf06be4d2"
+    },
+    {
+      "path": "tests/test_provider_credential.py",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "53bc4c7db8b2926c942336780f15ef0533889d407bd5958f2401a39990a050ff"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "b03bc3b3f66d8c52c5dd5151f6674543b280fa1b8d26daeabf306a90549abefa"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "7857980451b26db8fc0b4bca9449dbbf930e3bf636d83f127a6bde65cee322dc"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/protocol.md",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "c5726114a6392d656462ba00a647b69442cd629b15c04c060b23471afd3cbe64"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/oracle.py",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "2af7c4402aa8a77b7a8ba4c0f316e1454fbe6eb1c6db907bb2b32b18178f5216"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/consumer-drive.py",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "bb23cba4878c2248232e683cf26cc4c319cfe05a1d8237e39afd94f912c60eeb"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/fixture.py",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "813ef574ec739ddd99467c69bd57ed0f65fb52b739591edc05882a419860be80"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/task.md",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "65299eefddaa5832f599d0201cec7b676c1aaf6161ee6370d059502a619a1d04"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/raw/controls.json",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "d2c8e7bbe8b74b4813455ac2e51dc9bd6b7838f12eaec5e30f662b17e53b7696"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/raw/consumer-runs.json",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "cfd7709e46fa4f20e2db111a9c7c731f521a4745caea52f70e1bb3fe989e2f27"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/raw/selection.json",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "c0a0274f563d041ed07ccb40d50868e6d71739b16fca4041b9396314988b1b7f"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/results.md",
+      "role": "Bound combined correction source or experiment evidence",
+      "sha256": "fca62dcc9f6e133e7525477a94c1dea9a1defc7e4c380fef83323ecca42fea73"
+    }
+  ],
+  "authorizes_landing": false,
+  "instructions": [
+    {
+      "baseline_sha256": "2a611669f6cccbcd351c966d39047901b1ef612f95678388643b76e079652d3d",
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "treatment_sha256": "49fdc3a1131787c36561359ce723ec3d4ac2f8df31b0ce448d7318c97a74e5a1"
+    }
+  ],
+  "issue": {
+    "number": 148,
+    "repository": "ed3c/soodles"
+  },
+  "owner": {
+    "authorization": "ed3c/soodles#148",
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths"
+  },
+  "schema": 1
+}

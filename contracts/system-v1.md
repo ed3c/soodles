@@ -249,8 +249,14 @@ this loop cannot restart a failed owner, reoffer an unknown write or waive a
 failed check. Queued/in-progress Actions may have no jobs or steps yet; completed
 runs still require the exact successful job and acceptance step.
 
-The host-selected `NOODLES_TOKEN_COMMAND` is the local credential source, not
-a token carried in a handoff. After authorization validation, the entry requests
+The host-selected `NOODLES_TOKEN_COMMAND` remains opaque and takes precedence.
+When absent/blank, only the atom host entry resolves the fixed XDG/HOME
+`soodles/provider.json` registration after authorization validation. The profile
+and digest-bound supplier must be outside the authorized control root; Noodle
+child context cannot autoload it. Exact redacted `provider_credential_profile.*`
+refusals precede supplier/provider/checkpoint effects. The host owns App identity
+and the readable key locator; registration grants no Issue or landing authority.
+The entry requests
 only that repository with contents/issues/pull_requests write and actions read.
 It never falls back to an inherited provider token. Supplier failure precedes
 new checkpoint creation; secrets and supplier output are not refusal evidence.

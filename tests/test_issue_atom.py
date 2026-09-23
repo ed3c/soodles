@@ -343,8 +343,61 @@ class IssueAtomTests(unittest.TestCase):
         self.env.pop("NOODLES_TOKEN_COMMAND")
         with self.assertRaises(atom.AtomRefusal) as caught:
             atom.run(self.path, environ=self.env)
-        self.assertEqual(caught.exception.required, "NOODLES_TOKEN_COMMAND")
+        self.assertEqual(caught.exception.required, "provider_credential_profile.path")
         self.assertFalse(atom.artifact_paths(self.path)["state"].exists())
+
+    def test_registered_missing_input_then_same_entry_reaches_admission(self):
+        from test_provider_credential import HostRegistrationTests
+        fixture = HostRegistrationTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        self.env.pop("NOODLES_TOKEN_COMMAND")
+        self.env.update(fixture.env)
+        fixture.spec["app"].pop("installation_id")
+        fixture.write_profile()
+        with patch.object(atom, "GitHubProvider") as factory, \
+                patch.object(atom.provider_credential, "supply_token") as supplier:
+            with self.assertRaises(atom.AtomRefusal) as caught:
+                atom.run(self.path, environ=self.env)
+            receipt = atom.refusal_output(caught.exception, self.path)
+            self.assertEqual(receipt["invalid"]["field"], "provider_credential_profile.app.installation_id")
+            self.assertEqual(receipt["next"]["argv"], atom.same_command(self.path))
+            factory.assert_not_called()
+            supplier.assert_not_called()
+        self.assertFalse(atom.artifact_paths(self.path)["state"].exists())
+        fixture.spec["app"]["installation_id"] = "123"
+        fixture.write_profile()
+        provider = Provider()
+        self.ready_issue(provider)
+        first, second = self.pending_patches()
+        # Scope of the real supplier is exercised independently by the fixed CLI oracle.
+        with first, second, patch.object(atom, "GitHubProvider", return_value=provider), \
+                patch.object(atom.provider_credential, "supply_token", return_value="fixture-token") as supplier:
+            result = atom.run(self.path, environ=self.env)
+        resolved = supplier.call_args.kwargs["environ"]
+        self.assertEqual(resolved["NOODLES_APP_INSTALLATION_ID"], "123")
+        self.assertEqual(result["next"]["argv"], receipt["next"]["argv"])
+        self.assertEqual(provider.create_calls, 0)
+        public = json.dumps(result) + atom.artifact_paths(self.path)["state"].read_text()
+        for secret in (str(fixture.supplier), str(fixture.key), "fixture-client", "fixture-token"):
+            self.assertNotIn(secret, public)
+
+    def test_dirty_control_root_still_refuses_before_supplier_or_provider(self):
+        (self.root / "dirty").write_text("uncommitted")
+        with patch.object(atom.provider_credential, "supply_token") as supplier, \
+                patch.object(atom, "GitHubProvider") as provider:
+            with self.assertRaisesRegex(atom.AtomRefusal, "git.status"):
+                atom.run(self.path, environ=self.env)
+            supplier.assert_not_called()
+            provider.assert_not_called()
+        self.assertFalse(atom.artifact_paths(self.path)["state"].exists())
+
+    def test_invalid_authorization_precedes_profile_resolution(self):
+        self.env["SOODLES_AUTHORIZATION_SHA256"] = "0" * 64
+        with patch.object(atom.provider_credential, "resolve_host_environment") as resolver:
+            with self.assertRaises(atom.AtomRefusal):
+                atom.run(self.path, environ=self.env)
+            resolver.assert_not_called()
 
     def test_lost_issue_create_adopts_exact_readback_and_never_recreates(self):
         provider = Provider()

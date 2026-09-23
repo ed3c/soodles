@@ -1,0 +1,120 @@
+{
+  "authorizes_landing": false,
+  "candidate_ready": {
+    "authorizes_landing": false,
+    "changed_paths": [
+      ".agents/skills/issue-atom/SKILL.md",
+      "contracts/system-v1.md",
+      "docs/experiments/host-credential-route/consumer-drive.py",
+      "docs/experiments/host-credential-route/fixture.py",
+      "docs/experiments/host-credential-route/oracle.py",
+      "docs/experiments/host-credential-route/protocol.md",
+      "issue_atom.py",
+      "provider_credential.py",
+      "tests/test_issue_atom.py",
+      "tests/test_provider_credential.py"
+    ],
+    "digests": {
+      ".agents/skills/issue-atom/SKILL.md": "49fdc3a1131787c36561359ce723ec3d4ac2f8df31b0ce448d7318c97a74e5a1",
+      "contracts/system-v1.md": "7857980451b26db8fc0b4bca9449dbbf930e3bf636d83f127a6bde65cee322dc",
+      "docs/experiments/host-credential-route/consumer-drive.py": "bb23cba4878c2248232e683cf26cc4c319cfe05a1d8237e39afd94f912c60eeb",
+      "docs/experiments/host-credential-route/fixture.py": "813ef574ec739ddd99467c69bd57ed0f65fb52b739591edc05882a419860be80",
+      "docs/experiments/host-credential-route/oracle.py": "2af7c4402aa8a77b7a8ba4c0f316e1454fbe6eb1c6db907bb2b32b18178f5216",
+      "docs/experiments/host-credential-route/protocol.md": "c5726114a6392d656462ba00a647b69442cd629b15c04c060b23471afd3cbe64",
+      "issue_atom.py": "c2faeb6fea538a0ef0aa9f4c75baab030173f29f9d3f2bed97c8e47cf06be4d2",
+      "provider_credential.py": "9ad545cfeb7368c400c937e9a66b7607e9815b7751900e298c72cc4ac82a33bb",
+      "tests/test_issue_atom.py": "b03bc3b3f66d8c52c5dd5151f6674543b280fa1b8d26daeabf306a90549abefa",
+      "tests/test_provider_credential.py": "53bc4c7db8b2926c942336780f15ef0533889d407bd5958f2401a39990a050ff"
+    },
+    "evidence_deadline_epoch": 1790135259.581567,
+    "head": "8ab969f3c4cc79d3a351ea7ad7f68233ed740126",
+    "issue": "ed3c/soodles#148",
+    "limitations": [
+      "Implementation readiness only; external fixed comparison evidence pending.",
+      "No Linux acceptance, publication, merge, Issue closure or host registration performed.",
+      "Doctor repository/cwd/root checks pass; TERM=dumb check fails.",
+      "Prior oracle subprocess and first full run received SIGTERM; cause unknown; raw logs retained. Subsequent focused/full runs passed without skips."
+    ],
+    "schema": 1,
+    "tests": {
+      "compile": "PASS",
+      "diff_review": "PASS",
+      "focused_atom": {
+        "log": "/Users/neon/.codex/experiments/host-credential-route-qpvwqdzv/implementation-atom.log",
+        "note": "before additional dirty-root control; that control passed in full suite",
+        "passed": 26,
+        "skipped": 0
+      },
+      "focused_credential": {
+        "log": "/Users/neon/.codex/experiments/host-credential-route-qpvwqdzv/implementation-focused-attempt2.log",
+        "passed": 14,
+        "skipped": 0
+      },
+      "frozen_cli_oracle": "GREEN, 13 controls",
+      "full": {
+        "HOME_XDG": "isolated",
+        "TMPDIR": "/private/tmp",
+        "log": "/Users/neon/.codex/experiments/host-credential-route-qpvwqdzv/implementation-full-attempt2.log",
+        "noodle_identity_removed_from_test_child_only": true,
+        "passed": 348,
+        "seconds": 66.868,
+        "skipped": 0,
+        "start_new_session": true
+      },
+      "skill_validation": "PASS"
+    },
+    "tree": "fd491a1b162b3d69fc4971dd6fdd3e715915eb75",
+    "worktree": "/Users/neon/soodles/.worktrees/soodles-148-0-execute"
+  },
+  "external_authorization_sha256": "548ff95f8d326e318f4aad6cb78fadd87dd13a8a9432b5860800921e43646168",
+  "origin_issue": 148,
+  "source_review": {
+    "authorization_identity_precedes_profile_validation": true,
+    "authorizes_landing": false,
+    "candidate_head": "8ab969f3c4cc79d3a351ea7ad7f68233ed740126",
+    "clean_root_precedes_supplier_provider_checkpoint": true,
+    "frozen_source_matches": true,
+    "full_tests": {
+      "passed": 348,
+      "skipped": 0
+    },
+    "generic_supply_token_does_not_discover_profile": true,
+    "legacy_supplier_opaque_and_preserved": true,
+    "private_key_locator_only_no_key_bytes_read": true,
+    "public_validate_authorization_retains_clean_root_check": true,
+    "source_and_P_review": "PASS"
+  },
+  "start": {
+    "baseline_packet_sha256": "47d73b888636262c49fa3827f124da95c929954b6f719d280c75d1b3be68cf79",
+    "fresh_context": "fork_turns:none",
+    "frozen_inputs": {
+      "consumer-drive.py": "bb23cba4878c2248232e683cf26cc4c319cfe05a1d8237e39afd94f912c60eeb",
+      "fixture.py": "813ef574ec739ddd99467c69bd57ed0f65fb52b739591edc05882a419860be80",
+      "oracle.py": "2af7c4402aa8a77b7a8ba4c0f316e1454fbe6eb1c6db907bb2b32b18178f5216",
+      "protocol.md": "c5726114a6392d656462ba00a647b69442cd629b15c04c060b23471afd3cbe64"
+    },
+    "neutral_task_sha256": "681c01f2ee42d76b4fc451ef1747e35c9942bd7ead0dd2b646723311a5194275",
+    "observed_model": null,
+    "observed_native_config": null,
+    "origin_issue": 148,
+    "requested_model": "gpt-6-astra",
+    "requested_reasoning": "high"
+  },
+  "treatment_freeze": {
+    "archive_sha256": "1ea369f17fac71686e5c1e09040c0bb0dfeee3cb15e7446f803d0a4b3525b335",
+    "fork_turns": "none",
+    "head": "8ab969f3c4cc79d3a351ea7ad7f68233ed740126",
+    "observed_native_model": null,
+    "packet_sha256": "8f3348509d69557b3b87e9514ac0f48a5151196483e1ab85aa023f8de09a7a44",
+    "requested_model": "gpt-6-astra",
+    "requested_reasoning": "high",
+    "source_digests": {
+      ".agents/skills/issue-atom/SKILL.md": "49fdc3a1131787c36561359ce723ec3d4ac2f8df31b0ce448d7318c97a74e5a1",
+      "contracts/system-v1.md": "7857980451b26db8fc0b4bca9449dbbf930e3bf636d83f127a6bde65cee322dc",
+      "issue_atom.py": "c2faeb6fea538a0ef0aa9f4c75baab030173f29f9d3f2bed97c8e47cf06be4d2",
+      "provider_credential.py": "9ad545cfeb7368c400c937e9a66b7607e9815b7751900e298c72cc4ac82a33bb",
+      "tests/test_issue_atom.py": "b03bc3b3f66d8c52c5dd5151f6674543b280fa1b8d26daeabf306a90549abefa",
+      "tests/test_provider_credential.py": "53bc4c7db8b2926c942336780f15ef0533889d407bd5958f2401a39990a050ff"
+    }
+  }
+}
