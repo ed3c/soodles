@@ -1,0 +1,218 @@
+{
+  "schema": 1,
+  "origin": {
+    "repository": "ed3c/soodles",
+    "issue": 152,
+    "authorization_sha256": "e5a38665a1ccda117f3b480175634475f403a3165e9c3aa1bb1b925eb23805e9",
+    "baseline": "f4e80d6c55514201f7a66db5e2d75bbcf442ba74",
+    "carrier": "native collaboration subagent fork_turns:none",
+    "requested_model": "inherited current model; no override",
+    "observed_model": null,
+    "observed_internal_configuration": null,
+    "full_native_transcript": null
+  },
+  "frozen_protocol": {
+    "authorization_sha256": "e5a38665a1ccda117f3b480175634475f403a3165e9c3aa1bb1b925eb23805e9",
+    "files": {
+      "protocol.md": "8a14ea9cf62e40460e3d796d9d79a249312c335b62c506f9321a2fb389eee9e7",
+      "fixture.py": "58f54b71b67c5fc229d8ca50a25f72cf428696af7d5f931d352e71afeadbcb24",
+      "oracle.py": "64ade25a8e8046c4247acb6bb4f9712dbba56b8e7b875ba8b8b9dac771be0b40",
+      "task.md": "819a7c462070c15a136b69ef257cb48944e667cd6ef5672f47fd3c2d2b0853bd"
+    },
+    "base": "f4e80d6c55514201f7a66db5e2d75bbcf442ba74",
+    "authorizes_landing": false
+  },
+  "baseline_source": {
+    "repository": "ed3c/soodles",
+    "origin_head": "f4e80d6c55514201f7a66db5e2d75bbcf442ba74",
+    "snapshot_head": "4173925a9d5bddab196960a2ee17e367487968b2",
+    "file_count": 567,
+    "source_bytes_sha256": "c24631ec281912697446cddd17b4eea2dcb929475e6bfb9cd01a9d94dad5c9a1",
+    "instruction": {
+      "AGENTS.md": "1e681105b46acf8e349e256d718e22bee692e6bfcb4eb6bd97b72ff42280f075",
+      ".agents/skills/verify-soodles/features/pclass-context.md": "407cf6232b859b4f9826c5342f09625eec9172a8d7bbf0c3f82a577141147e30",
+      ".agents/skills/verify-soodles/scripts/record_context.py": "9410a0fbe7b697ffcbfcf3aa3584af1904357d030b270d3ff0e2f8081edfc9cb"
+    },
+    "all_origin_git_file_bytes_match_snapshot": true,
+    "authorizes_landing": false
+  },
+  "treatment_source": {
+    "source_head": "e99b3737b52fb112aef09aed49f28f69a6e9f27f",
+    "source_tree": "0909bff3bccc33139fd5eca080e00fc70d516402",
+    "ready_sha256": "d3fa9e088b8a53692b05b41ff8364c1a2a7f03e3b87ac1555a7bc56fa93aa5ed",
+    "input_sha256": "50a8417b21d8b8643d59d543de7fd1a10cca943621e0a1f63f4b019ca557b356",
+    "recorder_sha256": "9410a0fbe7b697ffcbfcf3aa3584af1904357d030b270d3ff0e2f8081edfc9cb",
+    "freeze_time_ns": 1790137124804797000,
+    "source_snapshot_dirty": false,
+    "authorizes_landing": false
+  },
+  "candidate_ready": {
+    "schema": 1,
+    "classification": "CANDIDATE_READY",
+    "repository": "ed3c/soodles",
+    "issue": 152,
+    "base_head": "f4e80d6c55514201f7a66db5e2d75bbcf442ba74",
+    "worktree": "/Users/neon/soodles/.worktrees/soodles-152-0-execute",
+    "head": "e99b3737b52fb112aef09aed49f28f69a6e9f27f",
+    "tree": "0909bff3bccc33139fd5eca080e00fc70d516402",
+    "created_at": "2026-09-23T04:18:16.185875+00:00",
+    "frozen_files": {
+      ".agents/skills/issue-atom/SKILL.md": "05da217c3a65e5a2b40d25ba3d66489d95aa2de93b06368918899ac7dd99e265",
+      ".agents/skills/verify-soodles/features/pclass-context.md": "7cbbcbd8a8e00c725afa709a380c77f680bd500928fca91ffbf3050a6dcc8eeb",
+      ".github/ISSUE_TEMPLATE/execution.yml": "e0626eb4f8a4da42d5fbeee1c5b33900ddfcf73b244a4f72bc50bff494f05520",
+      "candidate_publication.py": "4bad07e45f213cea3df96f62778b292311fbefd95d7e799dab6f58ba32f181e3",
+      "contracts/system-v1.md": "74f3dec51ff326c39f82369e3601ceb83cda9e2fc20697b4aed714d68327cc12",
+      "issue_admission.py": "7e0d5bcf87d2fcf49cf67d6e3787d84dde07da446fef79727ef2d6e90c1a1817",
+      "landing.py": "2906a3e28b321fd43050ee6de5fe8418fc427960a4cd2fb9ac868596a3a44a8d",
+      "soodles.py": "f2a8dc7934119350b56481706eee5a9d861d5f6e69d0cc50bd9ad604376f1298",
+      "supervisor_admission.py": "59782b2476429f954cfaa2cdfdf98a3fe4b4ba0448afb38d3a7dde10f0ef9f5b",
+      "tests/test_comparison_gate.py": "6a5e2babd07cd63dcd4b3d32869b407beb180ed8d0e3156f59500892c26fd2f6",
+      "tests/test_landing.py": "c0f3a0473e0a3d92a7ac72725ce20b825bc1d0b7f273d7067ab49110a498c14e"
+    },
+    "changed_code_digests": {
+      "candidate_publication.py": "4bad07e45f213cea3df96f62778b292311fbefd95d7e799dab6f58ba32f181e3",
+      "issue_admission.py": "7e0d5bcf87d2fcf49cf67d6e3787d84dde07da446fef79727ef2d6e90c1a1817",
+      "landing.py": "2906a3e28b321fd43050ee6de5fe8418fc427960a4cd2fb9ac868596a3a44a8d",
+      "soodles.py": "f2a8dc7934119350b56481706eee5a9d861d5f6e69d0cc50bd9ad604376f1298",
+      "supervisor_admission.py": "59782b2476429f954cfaa2cdfdf98a3fe4b4ba0448afb38d3a7dde10f0ef9f5b"
+    },
+    "changed_p_digests": {
+      ".agents/skills/issue-atom/SKILL.md": "05da217c3a65e5a2b40d25ba3d66489d95aa2de93b06368918899ac7dd99e265",
+      ".agents/skills/verify-soodles/features/pclass-context.md": "7cbbcbd8a8e00c725afa709a380c77f680bd500928fca91ffbf3050a6dcc8eeb",
+      ".github/ISSUE_TEMPLATE/execution.yml": "e0626eb4f8a4da42d5fbeee1c5b33900ddfcf73b244a4f72bc50bff494f05520",
+      "contracts/system-v1.md": "74f3dec51ff326c39f82369e3601ceb83cda9e2fc20697b4aed714d68327cc12"
+    },
+    "changed_test_digests": {
+      "tests/test_comparison_gate.py": "6a5e2babd07cd63dcd4b3d32869b407beb180ed8d0e3156f59500892c26fd2f6",
+      "tests/test_landing.py": "c0f3a0473e0a3d92a7ac72725ce20b825bc1d0b7f273d7067ab49110a498c14e"
+    },
+    "frozen_oracle_files": {
+      "docs/experiments/comparison-delivery-gate/fixture.py": "58f54b71b67c5fc229d8ca50a25f72cf428696af7d5f931d352e71afeadbcb24",
+      "docs/experiments/comparison-delivery-gate/oracle.py": "64ade25a8e8046c4247acb6bb4f9712dbba56b8e7b875ba8b8b9dac771be0b40",
+      "docs/experiments/comparison-delivery-gate/protocol.md": "8a14ea9cf62e40460e3d796d9d79a249312c335b62c506f9321a2fb389eee9e7",
+      "docs/experiments/comparison-delivery-gate/task.md": "819a7c462070c15a136b69ef257cb48944e667cd6ef5672f47fd3c2d2b0853bd"
+    },
+    "tests": [
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "unittest",
+          "-v",
+          "test_comparison_gate",
+          "test_landing_supervisor",
+          "test_provider_readback",
+          "test_candidate_publication",
+          "test_issue_admission",
+          "test_landing",
+          "test_supervisor_admission",
+          "test_issue_execution",
+          "test_issue_atom"
+        ],
+        "exit": 0,
+        "elapsed_seconds": 61.637284665950574,
+        "log": "/private/tmp/soodles-152-focused-owner.log",
+        "start_new_session": true,
+        "TMPDIR": "/private/tmp",
+        "NOODLE_removed_from_child": true,
+        "tests_run": 146,
+        "skipped": 0,
+        "log_sha256": "ed6038f93526669ed90549c3613c4df1c6ebc84a5631943b0017023d154250e2"
+      },
+      {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "exit": 0,
+        "elapsed_seconds": 104.42005333409179,
+        "log": "/private/tmp/soodles-152-full-owner.log",
+        "start_new_session": true,
+        "TMPDIR": "/private/tmp",
+        "NOODLE_removed_from_child": true,
+        "tests_run": 361,
+        "skipped": 0,
+        "log_sha256": "927b9c1a280e5d8dd280993facee330decb0e9997dab726a4bd575ef46f97fae"
+      }
+    ],
+    "checks": {
+      "compile": "PASS",
+      "diff_review": "PASS",
+      "diff_check": "PASS",
+      "skill_validation": "PASS",
+      "worktree_identity": "PASS",
+      "codex_doctor_repo_cwd": "PASS",
+      "codex_doctor_overall": "fail: TERM=dumb noninteractive terminal"
+    },
+    "implementation_note": "Shared discriminator is in issue_admission.py; no new runtime module imports, so existing admission bundle and both publisher identity maps already hash its bytes. No active external owner changed.",
+    "prior_failures": [
+      {
+        "log": "/private/tmp/soodles-152-focused-1.log",
+        "reason": "Test used next instead of LandingRefusal.next_action; corrected test.",
+        "log_sha256": "8ba35d52c1a8397c60a4cc67dbb934655365ff12ccdb8780d74faaa0c69cb7bf"
+      },
+      {
+        "log": "/private/tmp/soodles-152-focused-2.log",
+        "reason": "Ordinary cloud fixture had only incomplete marker; replaced with valid schema-3 contract, preserving its positive and negative controls.",
+        "log_sha256": "6a776b5febbc7ac430401ae115f654d6696616c2006b2884601dae1483c6804d"
+      },
+      {
+        "log": "/private/tmp/soodles-152-full-1.log",
+        "reason": "SIGTERM interruption, exit -15; source unknown, not reproduced in completed diagnostic or final full runs.",
+        "log_sha256": "e19e9b26a49068a8167f6738afc5b4d5295952ebecff9057c75a12838f8fc796"
+      },
+      {
+        "log": "/private/tmp/soodles-152-full-diagnostic.log",
+        "reason": "11 fixture failures from new module omitted in legacy publisher bundles; removed dependency by retaining discriminator in existing admission owner.",
+        "log_sha256": "9032b40347be9f89368a46bdaba98aba86192e959d3360a1d244034c3dac9062"
+      }
+    ],
+    "authorizes_landing": false,
+    "next": {
+      "owner": "external-supervisor",
+      "required": [
+        "evidence-ready.json",
+        "digest-verified evidence.patch restricted to admitted evidence paths"
+      ]
+    }
+  },
+  "opaque_case_map": {
+    "a": "baseline",
+    "b": "treatment",
+    "cases": {
+      "a17": "ordinary",
+      "b42": "admitted",
+      "c08": "rejected",
+      "d31": "missing",
+      "e65": "foreign_subject"
+    }
+  },
+  "sample_design": {
+    "native_consumers_per_arm": 1,
+    "cases_per_arm": 5,
+    "requested_model": "inherited current model, no override in either arm",
+    "observed_model": null,
+    "neutral_task_identical": true,
+    "recorder_identical": true,
+    "maximum_process_calls": 20,
+    "maximum_minutes": 10,
+    "intervention": "combined contract + CLI + P-class recipe",
+    "complete_platform_transcript": null,
+    "token_window_compaction": null
+  },
+  "bootstrap": {
+    "live_contract_schema": 3,
+    "independent_external_landing_owner": {
+      "path": "/Users/neon/.codex/experiments/comparison-delivery-gate-kdatzfb9/live/landing-owner/soodles.py",
+      "sha256": "faeb7c1febae8bd1d3840ab4d8a3000a46af61e62bf5a90bf796201e6aa9da22",
+      "verifier_sha256": "26d40320faab76f7a847ffad84d2245b1ee84a05227e9bff5ee9492f738ff16d"
+    },
+    "new_schema4_live_R_claim": false
+  },
+  "authorizes_landing": false
+}

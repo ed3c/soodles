@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 152
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "baseline_sha256": "407cf6232b859b4f9826c5342f09625eec9172a8d7bbf0c3f82a577141147e30",
+      "treatment_sha256": "7cbbcbd8a8e00c725afa709a380c77f680bd500928fca91ffbf3050a6dcc8eeb"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/comparison-delivery-gate/protocol.md",
+      "role": "bounded_comparison_evidence",
+      "sha256": "8a14ea9cf62e40460e3d796d9d79a249312c335b62c506f9321a2fb389eee9e7"
+    },
+    {
+      "path": "docs/experiments/comparison-delivery-gate/fixture.py",
+      "role": "bounded_comparison_evidence",
+      "sha256": "58f54b71b67c5fc229d8ca50a25f72cf428696af7d5f931d352e71afeadbcb24"
+    },
+    {
+      "path": "docs/experiments/comparison-delivery-gate/oracle.py",
+      "role": "bounded_comparison_evidence",
+      "sha256": "64ade25a8e8046c4247acb6bb4f9712dbba56b8e7b875ba8b8b9dac771be0b40"
+    },
+    {
+      "path": "docs/experiments/comparison-delivery-gate/task.md",
+      "role": "bounded_comparison_evidence",
+      "sha256": "819a7c462070c15a136b69ef257cb48944e667cd6ef5672f47fd3c2d2b0853bd"
+    },
+    {
+      "path": "docs/experiments/comparison-delivery-gate/raw/controls.json",
+      "role": "bounded_comparison_evidence",
+      "sha256": "1ae4a7df7d1fd0778bf6c3b4f39e177f377fde32918f6d6395814fc7fdb1d1e0"
+    },
+    {
+      "path": "docs/experiments/comparison-delivery-gate/raw/consumer-runs.json",
+      "role": "bounded_comparison_evidence",
+      "sha256": "9f33dbe128c9d4680a060680f42700fcdae3269bca7e7e2547b510451846a07e"
+    },
+    {
+      "path": "docs/experiments/comparison-delivery-gate/raw/selection.json",
+      "role": "bounded_comparison_evidence",
+      "sha256": "c7d3931643dfb9a680748ef9870ad2111b761d8be2ba74e69bfcb1ca6f6f6885"
+    },
+    {
+      "path": "docs/experiments/comparison-delivery-gate/raw/baseline-qualification.json",
+      "role": "bounded_comparison_evidence",
+      "sha256": "ce0bfe3bc0c8650b4ee1ebfef38dc47f3967bb641c5a8f3068c9ff4f3ca23ad3"
+    },
+    {
+      "path": "docs/experiments/comparison-delivery-gate/results.md",
+      "role": "bounded_comparison_evidence",
+      "sha256": "a1fadf28f3561f6c92e6d279e945396779bc50d5a7f92e8b78e012d3424cd540"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#152"
+  },
+  "authorizes_landing": false
+}
