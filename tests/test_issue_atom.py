@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -156,6 +157,117 @@ class IssueAtomTests(unittest.TestCase):
         state = {"phase": "execution", "authorization_sha256": self.digest, "envelope_sha256": digest,
                  "admission_sha256": atom.digest_file(paths["envelope"].parent / "prepared.json")}
         return paths, state
+
+    def test_fixed_external_shared_owner_controls(self):
+        source = Path(atom.__file__).resolve().parent
+        oracle = source / "docs/experiments/shared-owner-handoff/oracle.py"
+        self.assertEqual(atom.digest_file(oracle),
+                         "4691bc4dd03245ed667925de604b0c9637c333170f96bfc2b408db6fbe67021b")
+        home = self.outer / "isolated-home"
+        home.mkdir()
+        env = {k: v for k, v in os.environ.items() if not k.startswith("NOODLE_")}
+        env.update(HOME=str(home), XDG_CONFIG_HOME=str(home / "config"), TMPDIR="/private/tmp")
+        output = self.outer / "fixed-controls"
+        result = subprocess.run([sys.executable, "-B", str(oracle), str(source), str(output)],
+                                env=env, capture_output=True, text=True,
+                                start_new_session=True, timeout=120)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        receipt = json.loads((output / "result.json").read_text())
+        self.assertEqual(receipt["classification"], "GREEN", result.stdout + result.stderr)
+
+    def test_invalid_authorization_precedes_shared_owner_entry(self):
+        import fcntl
+        runtime = self.root / ".noodle"
+        runtime.mkdir()
+        with (runtime / "issue-atom.lock").open("a+b") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            with self.assertRaisesRegex(atom.AtomRefusal, "authorization.digest"):
+                atom.run(self.path, environ={**self.env, "SOODLES_AUTHORIZATION_SHA256": "0" * 64})
+        self.assertFalse(atom.artifact_paths(self.path)["state"].exists())
+
+    def test_matching_config_does_not_adopt_foreign_order(self):
+        import fcntl
+        paths, state = self.startup_fixture()
+        state.update(schema_version=1, issue={"number": 131}, writes={})
+        atom.save_json(paths["state"], state)
+        (self.root / ".noodle.toml").write_bytes((paths["envelope"].parent / "noodle.toml").read_bytes())
+        snapshot = self.root / ".noodle/state.snapshot.json"
+        atom.save_json(snapshot, {"state": {"orders": {"soodles-130": {
+            "stages": [{"status": "running", "attempts": []}]}}}, "effect_ledger": []})
+        before = snapshot.read_bytes(), paths["state"].read_bytes()
+        with (self.root / ".noodle/noodle.lock").open("a+b") as lock, \
+                patch.object(atom.provider_credential, "supply_token") as supplier:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            with self.assertRaises(atom.AtomRefusal) as caught:
+                atom.run(self.path, environ=self.env)
+        result = atom.refusal_output(caught.exception, self.path)
+        self.assertEqual(result["next"]["owner"], "Noodle")
+        self.assertEqual(result["next"]["known"]["blocking_order_ids"], ["soodles-130"])
+        self.assertEqual(result["next"]["argv"], atom.same_command(self.path))
+        self.assertEqual(before, (snapshot.read_bytes(), paths["state"].read_bytes()))
+        supplier.assert_not_called()
+
+    def test_retired_resolved_checkpoint_is_historical_readback(self):
+        paths = atom.artifact_paths(self.path)
+        runtime = self.root / ".noodle"
+        runtime.mkdir()
+        (runtime / "state.snapshot.json").write_text("retired owner no longer available")
+        state = {"phase": "resolved", "noodle_start": {"restored": True}}
+        atom.require_available_owner(self.authorization, paths, state)
+        state["noodle_start"]["restored"] = False
+        with self.assertRaises(atom.AtomRefusal) as caught:
+            atom.require_available_owner(self.authorization, paths, state)
+        self.assertEqual(caught.exception.owner, "Noodle")
+
+    def test_exact_projection_with_malformed_stage_refuses_before_supplier(self):
+        import fcntl
+        paths, state = self.startup_fixture()
+        state.update(schema_version=1, issue={"number": 131}, writes={})
+        atom.save_json(paths["state"], state)
+        (self.root / ".noodle.toml").write_bytes((paths["envelope"].parent / "noodle.toml").read_bytes())
+        binding = atom.read_json(paths["envelope"], "envelope")
+        binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
+        stage = {"status": "running", "skill": "execute", "provider": "codex", "model": "fixture-model",
+                 "prompt": json.dumps(atom.issue_execution.projection(binding, state["envelope_sha256"], "supervised")),
+                 "attempts": [{"status": "running", "session_id": "fixture-existing"}]}
+        with (self.root / ".noodle/noodle.lock").open("a+b") as lock, \
+                patch.object(atom.provider_credential, "supply_token") as supplier:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            for change in ({"attempts": None}, {"attempts": []}, {"status": "unknown"}, {"model": "foreign"}):
+                with self.subTest(change=change):
+                    atom.save_json(self.root / ".noodle/state.snapshot.json", {
+                        "state": {"orders": {"soodles-131": {"stages": [{**stage, **change}]}}},
+                        "effect_ledger": []})
+                    with self.assertRaises(atom.AtomRefusal) as caught:
+                        atom.run(self.path, environ=self.env)
+                    self.assertEqual(caught.exception.owner, "Noodle")
+        supplier.assert_not_called()
+
+    def test_projected_completed_order_can_continue_original_cleanup(self):
+        import fcntl
+        from test_issue_execution import IssueExecutionTests
+        fixture = IssueExecutionTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        session = fixture.archived_completion()
+        config = b"fixture installed config\n"
+        (fixture.root / ".noodle.toml").write_bytes(config)
+        (fixture.path.parent / "noodle.toml").write_bytes(config)
+        authorization = {"control_root": str(fixture.root), "repository": "ed3c/soodles",
+                         "base_head": fixture.envelope["base_head"], "issue": {"body": fixture.issue["body"]}}
+        state = {"phase": "landing", "issue": {"number": 18},
+                 "envelope_sha256": fixture.pin, "noodle_completion": {"order_id": "soodles-18"}}
+        with (fixture.runtime / "noodle.lock").open("a+b") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
+            events = session / "events.ndjson"
+            bad = json.loads(events.read_text())
+            bad["payload"].update(outcome="blocked", blocking=True)
+            events.write_text(json.dumps(bad) + "\n")
+            with self.assertRaises(atom.AtomRefusal) as caught:
+                atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
+        self.assertEqual(caught.exception.invalid["field"], "completion.typed_outcome")
+        self.assertEqual(caught.exception.owner, "Noodle")
 
     def test_exact_existing_issue_adoption_never_creates_or_rewrites(self):
         provider = Provider()

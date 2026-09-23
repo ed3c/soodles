@@ -1,0 +1,305 @@
+{
+  "authorizes_landing": false,
+  "candidate_ready": {
+    "authorizes_landing": false,
+    "base_head": "0a28e7f279987e07c6fa548d43838026b8bb5d2d",
+    "checks": {
+      "compile": "PASS",
+      "diff_self_review": "completed",
+      "frozen_inputs": "five exact external byte copies",
+      "skill_validation": "PASS"
+    },
+    "doctor": {
+      "cwd": "/HOST_HOME/soodles/.worktrees/soodles-154-0-execute",
+      "failure": "TERM=dumb",
+      "overall_status": "fail",
+      "repo_detected": true,
+      "repo_root": "/HOST_HOME/soodles/.worktrees/soodles-154-0-execute",
+      "warning": "historical rollout scan error"
+    },
+    "evidence_deadline": "2026-09-23T05:30:25.983836+00:00",
+    "head": "0692ac5cb2a141a1ab7e856433ab4bbcad87cddb",
+    "issue": 154,
+    "limitations": [
+      "Native macOS tests only; Linux exact-head acceptance remains supervisor-owned.",
+      "Synthetic provider controls do not claim actual parallel delivery or production duplicate writes.",
+      "Fresh treatment consumer and evidence-only packet remain supervisor inputs.",
+      "Fixed fixture.py retains its frozen extra blank line at EOF; no external bytes changed.",
+      "First focused process received SIGTERM; later completed runs are retained alongside the failed receipt."
+    ],
+    "ready_at": "2026-09-23T04:50:25.983836+00:00",
+    "repository": "ed3c/soodles",
+    "schema_version": 1,
+    "source_digests": {
+      ".agents/skills/issue-atom/SKILL.md": "f689d1a6a35b00f3e4bca93debb466c8885fcc003633e36d5b62f0d9eebd98d7",
+      "contracts/system-v1.md": "ffd0ca8efbc404ebf48a52546c1aa42bc392b263aac32bc00ba317a907e81d83",
+      "docs/experiments/shared-owner-handoff/consumer-drive.py": "fe1ac7f69903b6cb2136e39f5330f183c918988a60445a3c208ffef1bb04bd47",
+      "docs/experiments/shared-owner-handoff/fixture.py": "496457409f2562f4e0b80455bd02ac52c5e055c03663eb8fc4ba77dfbc869154",
+      "docs/experiments/shared-owner-handoff/oracle.py": "4691bc4dd03245ed667925de604b0c9637c333170f96bfc2b408db6fbe67021b",
+      "docs/experiments/shared-owner-handoff/protocol.md": "e4c845d48463150580aa2efd1d904a1cb40ce5140a24145fc8a39704354872d6",
+      "docs/experiments/shared-owner-handoff/race-drive.py": "73b53df1b0883afdee42cd02f5cc6426df0dbd798a902744a81fd0b1421ae778",
+      "issue_atom.py": "6ba7e651bbca6fa17cf877f80ac84162dc9d164ae93c6d989e629c0d5af0256b",
+      "tests/test_issue_atom.py": "3a8a4466fc080559583abec9818182d8a7891b56123d126574585f867269e47f"
+    },
+    "status": "candidate-ready",
+    "tests": [
+      {
+        "path": "/HOST_HOME/.codex/experiments/shared-owner-handoff-j8fkoxjc/focused-source-complete.json",
+        "returncode": 0,
+        "sha256": "4f15621c94997da10f3987b0fd640855381efab1f711feed28c8b69e49cdf198",
+        "skips": 0,
+        "tests": 33
+      },
+      {
+        "path": "/HOST_HOME/.codex/experiments/shared-owner-handoff-j8fkoxjc/full-source-complete.json",
+        "returncode": 0,
+        "sha256": "1e40752c47ba40dd10825bcf5d15cd0e55d32653d8744b421aa7de19f234ce28",
+        "skips": 0,
+        "tests": 367
+      }
+    ],
+    "tree": "43f53dc2045c8254b73307a62ad924d09cac72a4",
+    "worktree": "/HOST_HOME/soodles/.worktrees/soodles-154-0-execute"
+  },
+  "origin_issue": 154,
+  "selection": {
+    "authorization_sha256": "f1409ff67f0c766e2afae24c7ac4cc8e80697411454e0fdbf7a419a2982c134d",
+    "authorizes_landing": false,
+    "base": "0a28e7f279987e07c6fa548d43838026b8bb5d2d",
+    "carrier": {
+      "codex": {
+        "argv": [
+          "exec",
+          "--skip-git-repo-check",
+          "--json",
+          "--model",
+          "gpt-6-astra",
+          "--ignore-user-config",
+          "--sandbox",
+          "danger-full-access",
+          "-c",
+          "approval_policy=\"never\"",
+          "-c",
+          "model_reasoning_effort=\"high\"",
+          "-c",
+          "shell_environment_policy.inherit=\"all\""
+        ],
+        "model": "gpt-6-astra",
+        "path": "/HOST_HOME/.local/bin/codex",
+        "sha256": "b973d440acac501fd2594a43e7ca9ce41e0a65b9dfb28d0d7a7837c99e1261e3"
+      },
+      "platform": "darwin_arm64"
+    },
+    "fixed_inputs": {
+      "consumer-drive.py": "fe1ac7f69903b6cb2136e39f5330f183c918988a60445a3c208ffef1bb04bd47",
+      "fixture.py": "496457409f2562f4e0b80455bd02ac52c5e055c03663eb8fc4ba77dfbc869154",
+      "oracle.py": "4691bc4dd03245ed667925de604b0c9637c333170f96bfc2b408db6fbe67021b",
+      "protocol.md": "e4c845d48463150580aa2efd1d904a1cb40ce5140a24145fc8a39704354872d6",
+      "race-drive.py": "73b53df1b0883afdee42cd02f5cc6426df0dbd798a902744a81fd0b1421ae778"
+    },
+    "landing_owner": {
+      "path": "/HOST_HOME/.codex/experiments/shared-owner-handoff-j8fkoxjc/landing-owner/soodles.py",
+      "sha256": "f2a8dc7934119350b56481706eee5a9d861d5f6e69d0cc50bd9ad604376f1298",
+      "verifier_sha256": "ea8b793d6048e9c63dbbbc3b9ee6403f39650d755dd42aa6427ccc74dfb1bb05"
+    }
+  },
+  "source_review": {
+    "authorizes_landing": false,
+    "changed_product_paths": [
+      "issue_atom.py",
+      "tests/test_issue_atom.py",
+      ".agents/skills/issue-atom/SKILL.md",
+      "contracts/system-v1.md"
+    ],
+    "consumer_carrier": {
+      "authorizes_landing": false,
+      "baseline": {
+        "actual_native_model": "unknown",
+        "fork_turns": "none",
+        "full_native_transcript": "unknown",
+        "model_override": null,
+        "reasoning_override": null,
+        "requested_configuration": "inherited parent defaults",
+        "task_name": "/root/handoff_baseline"
+      },
+      "carrier": "native collaboration.spawn_agent",
+      "experiment_id": "shared-owner-handoff-v1",
+      "origin_issue": 154,
+      "planned_treatment": {
+        "fork_turns": "none",
+        "model_override": null,
+        "reasoning_override": null,
+        "requested_configuration": "inherited parent defaults"
+      },
+      "shared_filesystem_is_not_security_isolation": true
+    },
+    "findings": [],
+    "head": "0692ac5cb2a141a1ab7e856433ab4bbcad87cddb",
+    "limitations": [
+      "Only cooperating atom entry contention is serialized; direct out-of-band Noodle changes and general parallel delivery are not certified.",
+      "Native noninteractive doctor identified the exact worktree but overall status failed on TERM=dumb, with historical rollout warning; no model session was started for doctor.",
+      "Frozen fixture.py has a pre-existing extra EOF blank line; exact bytes retained."
+    ],
+    "observations": [
+      "Authorization validation precedes root mutex path selection.",
+      "Root mutex serializes each invocation; lifetime and current owner still belong to Noodle.",
+      "Canonical readback and exact checkpoint/envelope/projection identity precede supplier/provider/new lifecycle checkpoint and proposal.",
+      "Wrong current dispatch and incomplete readback refuse with typed owner input.",
+      "Existing original cleanup and historical resolved readback remain bounded by their existing owners.",
+      "No new scheduler/queue/lease/command flag or Noodle source changes.",
+      "P addition is eight lines of operational routing; contract addition records owner boundary."
+    ],
+    "origin_issue": 154,
+    "retained_attempts": {
+      "focused-1.json": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_issue_atom.py",
+          "-v"
+        ],
+        "elapsed_seconds": 1.0850950829917565,
+        "returncode": -15,
+        "stderr": "test_authorization_must_be_external_exact_and_clean (test_issue_atom.IssueAtomTests.test_authorization_must_be_external_exact_and_clean) ... ok\ntest_candidate_cannot_select_itself_as_landing_owner (test_issue_atom.IssueAtomTests.test_candidate_cannot_select_itself_as_landing_owner) ... ok\ntest_changed_host_configuration_refuses_before_provider_write (test_issue_atom.IssueAtomTests.test_changed_host_configuration_refuses_before_provider_write) ... ",
+        "stdout": ""
+      },
+      "focused-2.json": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_issue_atom.py",
+          "-v"
+        ],
+        "elapsed_seconds": 15.558429333032109,
+        "note": "Foreground tool wait; prior invocation received SIGTERM without a test assertion failure.",
+        "returncode": 1,
+        "stderr": "test_authorization_must_be_external_exact_and_clean (test_issue_atom.IssueAtomTests.test_authorization_must_be_external_exact_and_clean) ... ok\ntest_candidate_cannot_select_itself_as_landing_owner (test_issue_atom.IssueAtomTests.test_candidate_cannot_select_itself_as_landing_owner) ... ok\ntest_changed_host_configuration_refuses_before_provider_write (test_issue_atom.IssueAtomTests.test_changed_host_configuration_refuses_before_provider_write) ... ok\ntest_completion_ack_required_before_shutdown (test_issue_atom.IssueAtomTests.test_completion_ack_required_before_shutdown) ... ok\ntest_completion_cannot_precede_provider_closure_or_select_another_order (test_issue_atom.IssueAtomTests.test_completion_cannot_precede_provider_closure_or_select_another_order) ... ok\ntest_completion_uses_noodle_mailbox_once_and_preserves_error_ack (test_issue_atom.IssueAtomTests.test_completion_uses_noodle_mailbox_once_and_preserves_error_ack) ... ok\ntest_configuration_and_owner_drift_refuse_before_start (test_issue_atom.IssueAtomTests.test_configuration_and_owner_drift_refuse_before_start) ... ok\ntest_dirty_control_root_still_refuses_before_supplier_or_provider (test_issue_atom.IssueAtomTests.test_dirty_control_root_still_refuses_before_supplier_or_provider) ... ok\ntest_exact_existing_issue_adoption_never_creates_or_rewrites (test_issue_atom.IssueAtomTests.test_exact_existing_issue_adoption_never_creates_or_rewrites) ... ok\ntest_existing_noodle_lock_adopts_only_exact_config_without_spawn (test_issue_atom.IssueAtomTests.test_existing_noodle_lock_adopts_only_exact_config_without_spawn) ... ok\ntest_external_landing_process_identity (test_issue_atom.IssueAtomTests.test_external_landing_process_identity) ... ok\ntest_finish_host_refuses_recycled_pid_without_signalling (test_issue_atom.IssueAtomTests.test_finish_host_refuses_recycled_pid_without_signalling) ... ok\ntest_finish_host_restores_only_own_unchanged_configuration (test_issue_atom.IssueAtomTests.test_finish_host_restores_only_own_unchanged_configuration) ... ok\ntest_fixed_external_shared_owner_controls (test_issue_atom.IssueAtomTests.test_fixed_external_shared_owner_controls) ... ok\ntest_foreign_origin_suffix_refuses_before_provider_write (test_issue_atom.IssueAtomTests.test_foreign_origin_suffix_refuses_before_provider_write) ... ok\ntest_help_exposes_only_same_lifecycle_command (test_issue_atom.IssueAtomTests.test_help_exposes_only_same_lifecycle_command) ... ok\ntest_host_supplier_replaces_stale_parent_token (test_issue_atom.IssueAtomTests.test_host_supplier_replaces_stale_parent_token) ... ok\ntest_invalid_authorization_precedes_profile_resolution (test_issue_atom.IssueAtomTests.test_invalid_authorization_precedes_profile_resolution) ... ok\ntest_invalid_authorization_precedes_shared_owner_entry (test_issue_atom.IssueAtomTests.test_invalid_authorization_precedes_shared_owner_entry) ... FAIL\ntest_live_owner_wait_does_not_ask_for_claim_or_take_over (test_issue_atom.IssueAtomTests.test_live_owner_wait_does_not_ask_for_claim_or_take_over) ... ok\ntest_lost_issue_create_adopts_exact_readback_and_never_recreates (test_issue_atom.IssueAtomTests.test_lost_issue_create_adopts_exact_readback_and_never_recreates) ... ok\ntest_lost_start_response_cannot_spawn_again (test_issue_atom.IssueAtomTests.test_lost_start_response_cannot_spawn_again) ... ok\ntest_matching_config_does_not_adopt_foreign_order (test_issue_atom.IssueAtomTests.test_matching_config_does_not_adopt_foreign_order) ... ok\ntest_missing_supplier_leaves_no_new_checkpoint (test_issue_atom.IssueAtomTests.test_missing_supplier_leaves_no_new_checkpoint) ... ok\ntest_one_entry_routes_publication_landing_and_resolution (test_issue_atom.IssueAtomTests.test_one_entry_routes_publication_landing_and_resolution) ... ok\ntest_owner_drift_refuses_before_provider_write_or_checkpoint (test_issue_atom.IssueAtomTests.test_owner_drift_refuses_before_provider_write_or_checkpoint) ... ok\ntest_provider_credentials_are_removed_from_child_environment (test_issue_atom.IssueAtomTests.test_provider_credentials_are_removed_from_child_environment) ... ok\ntest_registered_missing_input_then_same_entry_reaches_admission (test_issue_atom.IssueAtomTests.test_registered_missing_input_then_same_entry_reaches_admission) ... ok\ntest_retired_resolved_checkpoint_is_historical_readback (test_issue_atom.IssueAtomTests.test_retired_resolved_checkpoint_is_historical_readback) ... ok\ntest_start_persists_intent_and_does_not_repeat_unknown_start (test_issue_atom.IssueAtomTests.test_start_persists_intent_and_does_not_repeat_unknown_start) ... ok\ntest_unknown_issue_create_without_effect_refuses_without_retry (test_issue_atom.IssueAtomTests.test_unknown_issue_create_without_effect_refuses_without_retry) ... ok\n\n======================================================================\nFAIL: test_invalid_authorization_precedes_shared_owner_entry (test_issue_atom.IssueAtomTests.test_invalid_authorization_precedes_shared_owner_entry)\n----------------------------------------------------------------------\nissue_atom.AtomRefusal: issue atom: invalid authorization.digest='9700d39d2d5b0252cdfe0927e8fae56ae6ede25e03348a2494f6b6d196fd78be'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/HOST_HOME/soodles/.worktrees/soodles-154-0-execute/tests/test_issue_atom.py\", line 184, in test_invalid_authorization_precedes_shared_owner_entry\n    with self.assertRaisesRegex(atom.AtomRefusal, \"authorization.sha256\"):\n         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: \"authorization.sha256\" does not match \"issue atom: invalid authorization.digest='9700d39d2d5b0252cdfe0927e8fae56ae6ede25e03348a2494f6b6d196fd78be'\"\n\n----------------------------------------------------------------------\nRan 31 tests in 15.383s\n\nFAILED (failures=1)\n",
+        "stdout": ""
+      },
+      "focused-3.json": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_issue_atom.py"
+        ],
+        "elapsed_seconds": 14.829583041020669,
+        "returncode": 0,
+        "stderr": "...............................\n----------------------------------------------------------------------\nRan 31 tests in 14.651s\n\nOK\n",
+        "stdout": ""
+      },
+      "focused-final.json": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_issue_atom.py"
+        ],
+        "elapsed_seconds": 15.126510833040811,
+        "returncode": 0,
+        "stderr": "................................\n----------------------------------------------------------------------\nRan 32 tests in 14.939s\n\nOK\n",
+        "stdout": ""
+      },
+      "focused-source-complete.json": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_issue_atom.py"
+        ],
+        "elapsed_seconds": 14.856435083085671,
+        "returncode": 0,
+        "stderr": ".................................\n----------------------------------------------------------------------\nRan 33 tests in 14.695s\n\nOK\n",
+        "stdout": ""
+      }
+    },
+    "reviewer": "external supervising session",
+    "scope": "Read admitted source/test/P diff and fixed controls; no code writes by supervisor.",
+    "test_receipts": [
+      {
+        "content": {
+          "argv": [
+            "python3",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests",
+            "-p",
+            "test_issue_atom.py"
+          ],
+          "elapsed_seconds": 14.856435083085671,
+          "returncode": 0,
+          "stderr": ".................................\n----------------------------------------------------------------------\nRan 33 tests in 14.695s\n\nOK\n",
+          "stdout": ""
+        },
+        "path": "/HOST_HOME/.codex/experiments/shared-owner-handoff-j8fkoxjc/focused-source-complete.json",
+        "returncode": 0,
+        "sha256": "4f15621c94997da10f3987b0fd640855381efab1f711feed28c8b69e49cdf198",
+        "skips": 0,
+        "tests": 33
+      },
+      {
+        "content": {
+          "argv": [
+            "python3",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests"
+          ],
+          "elapsed_seconds": 105.07463899999857,
+          "returncode": 0,
+          "stderr": "...............................................................................................................................................................................................................................................................................................................................................................................\n----------------------------------------------------------------------\nRan 367 tests in 104.793s\n\nOK\n",
+          "stdout": ""
+        },
+        "path": "/HOST_HOME/.codex/experiments/shared-owner-handoff-j8fkoxjc/full-source-complete.json",
+        "returncode": 0,
+        "sha256": "1e40752c47ba40dd10825bcf5d15cd0e55d32653d8744b421aa7de19f234ce28",
+        "skips": 0,
+        "tests": 367
+      }
+    ]
+  },
+  "treatment_freeze": {
+    "archive_sha256": "adc1809b619a9e91286cb46b060148219c5be1cf5643e84d83e4d4360b128251",
+    "authorizes_landing": false,
+    "head": "0692ac5cb2a141a1ab7e856433ab4bbcad87cddb",
+    "source_digests": {
+      ".agents/skills/issue-atom/SKILL.md": "f689d1a6a35b00f3e4bca93debb466c8885fcc003633e36d5b62f0d9eebd98d7",
+      "contracts/system-v1.md": "ffd0ca8efbc404ebf48a52546c1aa42bc392b263aac32bc00ba317a907e81d83",
+      "issue_atom.py": "6ba7e651bbca6fa17cf877f80ac84162dc9d164ae93c6d989e629c0d5af0256b",
+      "tests/test_issue_atom.py": "3a8a4466fc080559583abec9818182d8a7891b56123d126574585f867269e47f"
+    }
+  }
+}

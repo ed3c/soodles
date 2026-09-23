@@ -1,0 +1,92 @@
+{
+  "artifacts": [
+    {
+      "path": "issue_atom.py",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "6ba7e651bbca6fa17cf877f80ac84162dc9d164ae93c6d989e629c0d5af0256b"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "3a8a4466fc080559583abec9818182d8a7891b56123d126574585f867269e47f"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "ffd0ca8efbc404ebf48a52546c1aa42bc392b263aac32bc00ba317a907e81d83"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/protocol.md",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "e4c845d48463150580aa2efd1d904a1cb40ce5140a24145fc8a39704354872d6"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/fixture.py",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "496457409f2562f4e0b80455bd02ac52c5e055c03663eb8fc4ba77dfbc869154"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/consumer-drive.py",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "fe1ac7f69903b6cb2136e39f5330f183c918988a60445a3c208ffef1bb04bd47"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/race-drive.py",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "73b53df1b0883afdee42cd02f5cc6426df0dbd798a902744a81fd0b1421ae778"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/oracle.py",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "4691bc4dd03245ed667925de604b0c9637c333170f96bfc2b408db6fbe67021b"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/task.md",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "fd899d90cc80b4bdfc62133bcf959a2874ddab02ddbab7613f7bbe628f36ef73"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/raw/qualification.json",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "36241a150153678151240efbf88aadcfabcec4a954e926917107c4d623845778"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/raw/controls.json",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "40cf1777904462e12410774062cbc39b11959b3e48f6041e4aab3b83ad94133d"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/raw/consumer-runs.json",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "ab613eacb6e0b853d31398595c015c76d5b4cff3132065d69f555657ab66e379"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/raw/selection.json",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "229d49f3d89b4485c7aeae841a6301b8ade7405595943a5e0162f422545b1e2e"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/results.md",
+      "role": "Bound combined owner correction or experiment evidence",
+      "sha256": "69ccf35737cd7b2113ded227772e413e02ac1b586a7667ad2f5adac644cceb49"
+    }
+  ],
+  "authorizes_landing": false,
+  "instructions": [
+    {
+      "baseline_sha256": "05da217c3a65e5a2b40d25ba3d66489d95aa2de93b06368918899ac7dd99e265",
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "treatment_sha256": "f689d1a6a35b00f3e4bca93debb466c8885fcc003633e36d5b62f0d9eebd98d7"
+    }
+  ],
+  "issue": {
+    "number": 154,
+    "repository": "ed3c/soodles"
+  },
+  "owner": {
+    "authorization": "ed3c/soodles#154",
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths"
+  },
+  "schema": 1
+}

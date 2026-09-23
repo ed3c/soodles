@@ -40,6 +40,14 @@ is the same command. Never use `./noodles issue handoff`. Do not choose issue au
 Do not choose landing dispatch, construct a phase-specific command, or retry
 an ambiguous provider write.
 
+A shared control root may be blocked by its current Noodle owner or another
+atom entry. Consume the returned `next.owner`, exact required readback and
+confirmed blocking order IDs; missing identity remains unknown. Re-enter only
+the same `next.argv` after that material owner input changes. Elapsed time,
+deleting a lock file or matching config does not grant ownership. Do not stop
+another owner or construct its continuation. A verified exact owner may still
+be observed through this entry.
+
 If the external Issue selects a schema-4 comparison, consume the same owner's
 current `next` for missing supervisor inputs. Do not construct replay commands,
 substitute comparison evidence or remove the requirement. Candidate verification

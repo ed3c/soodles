@@ -255,7 +255,16 @@ fsync'd before a provider mutation. Issue creation uses a digest marker and
 adopts only one exact fresh readback. Noodle admission is always supervised.
 The existing supervisor admission producer emits one envelope and pinned
 worker/backlog/config bundle from the control root's committed bytes, using the
-authorized task. The entry serializes this authorization's effects, preserves
+authorized task. After authorization validation, the entry serializes both
+this authorization and its control root with a nonblocking process mutex at
+`.noodle/issue-atom.lock`. Before supplier/provider, new checkpoint or proposal
+effects, canonical Noodle owner/process readback must establish availability
+or an exact admitted continuation; matching config alone cannot adopt an order.
+Foreign live or stopped nonterminal work and unknown canonical state refuse
+with Noodle-owned material input; simultaneous entry refuses with
+`soodles.issue-atom`-owned input. Both return the same atom argv and confirmed
+blocking identity where known. This mutex is not a persistent lease or queue.
+The entry preserves
 the original host config and checks Noodle's own instance lock and quiescence
 before installing exact config and invoking the producer's returned start argv.
 Start intent precedes the effect. A running exact owner is adopted; stopped or
