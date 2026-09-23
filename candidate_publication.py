@@ -17,7 +17,7 @@ import urllib.parse
 import urllib.request
 
 from issue_admission import parse_contract
-from repository_binding import git_origins, profile, valid_name
+from repository_binding import git_origins, issue_urls, profile, valid_name
 
 
 SHA40 = re.compile(r"[0-9a-f]{40}")
@@ -316,6 +316,28 @@ def _read_exact_pull(provider, branch, head, base, body):
     return competing[0] if competing else None
 
 
+def _comparison_before_effect(root, claim, issue, number, expected_body=None):
+    _require(issue.get("number") == number and issue.get("state") == "open"
+             and "pull_request" not in issue, "github.issue", issue, "current_open_issue")
+    if expected_body is not None and issue.get("body") != expected_body:
+        from issue_admission import ComparisonRefusal
+        raise ComparisonRefusal("comparison.issue.body", "changed", "fresh_issue_contract")
+    contract = parse_contract(issue.get("body"))
+    _require(contract["base_head"] == claim["base_head"], "github.issue.base_head", contract["base_head"])
+    if contract["schema"] == 4:
+        from issue_admission import verify_candidate
+        from issue_admission import comparison_require
+        api, html = issue_urls(claim["repository"], number)
+        comparison_require(issue.get("url") == api and issue.get("html_url") == html,
+                           "comparison.issue.identity", [issue.get("url"), issue.get("html_url")],
+                           "fresh_exact_issue_readback")
+        # Schema 4 requires provider URL identity in the fresh readback.
+        receipt = verify_candidate(root, claim["base_head"], claim["head"], issue)
+        _require(receipt["issue"] == number and receipt["tree"] == claim["tree"],
+                 "comparison.candidate", receipt)
+    return contract
+
+
 def publish(root, acceptance, claim, provider, push=None):
     root, number = validate_inputs(root, acceptance, claim)
     repository = provider.repository_info()
@@ -326,8 +348,7 @@ def publish(root, acceptance, claim, provider, push=None):
     _require(issue.get("number") == number and issue.get("state") == "open"
              and "pull_request" not in issue and isinstance(issue.get("title"), str),
              "github.issue", issue, "current_open_issue")
-    contract = parse_contract(issue.get("body"))
-    _require(contract["base_head"] == claim["base_head"], "github.issue.base_head", contract["base_head"])
+    _comparison_before_effect(root, claim, issue, number)
     _require(provider.base_head(claim["base_branch"]) == claim["base_head"],
              "github.base_head", claim["base_head"], "fresh_provider_base")
 
@@ -337,6 +358,7 @@ def publish(root, acceptance, claim, provider, push=None):
         _require(remote.get("object", {}).get("sha") == claim["head"],
                  "github.branch.head", remote.get("object", {}).get("sha"), "exact_provider_branch")
     else:
+        _comparison_before_effect(root, claim, provider.issue(number), number, issue["body"])
         push = push or _git
         result = push(root, "push", "--porcelain",
                       "--force-with-lease=refs/heads/" + branch + ":",
@@ -353,6 +375,7 @@ def publish(root, acceptance, claim, provider, push=None):
     pull = _read_exact_pull(provider, branch, claim["head"], claim["base_branch"], body)
     created = False
     if pull is None:
+        _comparison_before_effect(root, claim, provider.issue(number), number, issue["body"])
         try:
             provider.create_pull(issue["title"], branch, claim["base_branch"], body)
         except ProviderMutationUnknown:

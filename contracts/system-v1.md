@@ -64,6 +64,29 @@ One causal Issue atom carries its P-class correction and required N-class task, 
 
 This rule changes no evaluator authority. Frozen external observers judge candidate behavior, the candidate verifier checks committed byte bindings, and provider checks/readback establish only their own R-class claims. One PR may contain P-class source and N-class evidence, but neither class authorizes its own landing.
 
+Schema 4 extends schema 3 with one externally selected `comparison` requirement;
+schemas 1/2/3 keep their existing meaning. The bounded `pclass_replay_v2`
+schema-2 recovery family binds repository/Issue/base, experiment/required target,
+instruction bytes and raw/gates/manifest digests in the Issue contract. Evidence
+and instruction paths belong to required paths; only the three fixed analyzer
+paths at the base revision are supported. The shared candidate discriminator
+checks exact Git bytes and actual raw instruction observations before running
+the pinned replayer in a bounded, credential-free disposable process. It retains
+the raw result and binds admission through the candidate receipt to final
+head/tree; committed evidence need not name its own future commit. Nonregression
+cannot meet an improvement requirement.
+
+Local publication rechecks the fresh Issue before push and PR creation. Local
+landing preserves the validated Issue contract through start/advance/dispatch,
+including fresh effect readbacks. Unsupported gated cloud delivery refuses with
+supervisor-owned `supported_local_comparison_delivery`; a workflow success cannot
+substitute for local comparison custody. Comparison refusals offer no provider
+request and name the missing supervisor input with current candidate-verify help.
+These receipts never authorize landing. Issue #152 exercises this gate with
+frozen synthetic controls and one external fresh comparison; its own schema-3
+delivery retains the preselected older external landing owner, with no live
+schema-4 R-class claim.
+
 `eval.report` owns the versioned feature-map consumer-report boundary: the
 supervisor pins the external selector and fixed evaluator bytes before import.
 Only complete identity-matched evidence receives behavior PASS/FAIL; missing
@@ -311,5 +334,4 @@ Those controls do not prove child behavior; the externally prepared bounded
 comparison supplies only its observed scope, with missing behavior evidence
 remaining INCONCLUSIVE. Publication readiness, exact-head Linux acceptance,
 landing readbacks and reconciliation retain their existing owners and authority.
-
 

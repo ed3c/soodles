@@ -9,6 +9,8 @@ import json
 from pathlib import Path, PurePosixPath
 import re
 import subprocess
+import sys
+import tempfile
 
 from soodles import Refusal
 from repository_binding import issue_urls, profile, valid_name
@@ -21,6 +23,7 @@ CONTRACT_V1_FIELDS = {
 }
 CONTRACT_V2_FIELDS = CONTRACT_V1_FIELDS | {"required_paths", "evidence_manifest"}
 CONTRACT_FIELDS = CONTRACT_V2_FIELDS | {"base_head", "frozen_paths"}
+CONTRACT_V4_FIELDS = CONTRACT_FIELDS | {"comparison"}
 ENVELOPE_FIELDS = {
     "schema", "repository", "issue", "body_sha256", "body_updated_at",
     "owner", "write_paths", "base_head", "execution",
@@ -83,12 +86,15 @@ def parse_contract(body):
         raise AdmissionRefusal("issue.contract.json", str(error), **source) from error
     require(isinstance(contract, dict), "issue.contract.fields", contract, **source)
     schema = contract.get("schema")
-    require(type(schema) is int and schema in (1, 2, 3),
+    require(type(schema) is int and schema in (1, 2, 3, 4),
             "issue.contract.schema", schema, **source)
     fields = (CONTRACT_V1_FIELDS if schema == 1 else
-              CONTRACT_V2_FIELDS if schema == 2 else CONTRACT_FIELDS)
-    exact_object(contract, fields,
-                 "issue.contract.fields", **source)
+              CONTRACT_V2_FIELDS if schema == 2 else
+              CONTRACT_V4_FIELDS if schema == 4 else CONTRACT_FIELDS)
+    if schema == 4:
+        comparison_exact(contract, fields, "comparison.contract.fields")
+    else:
+        exact_object(contract, fields, "issue.contract.fields", **source)
     for field in ("trigger", "source", "owner", "acceptance", "delivery", "reconciliation", "feature_scope"):
         require(nonempty(contract[field]), "issue.contract." + field, contract[field], **source)
     for field in ("changes", "behavior", "defect_controls", "non_cases"):
@@ -108,7 +114,7 @@ def parse_contract(body):
                 "issue.contract.required_paths",
                 sorted(set(contract["required_paths"]) - set(contract["write_paths"])),
                 **source)
-    if schema == 3:
+    if schema >= 3:
         base_head = contract["base_head"]
         require(isinstance(base_head, str) and re.fullmatch(r"[0-9a-f]{40}", base_head),
                 "issue.contract.base_head", base_head, **source)
@@ -131,6 +137,8 @@ def parse_contract(body):
             require(identity not in identities,
                     "issue.contract.frozen_paths", list(identity), **source)
             identities.append(identity)
+    if schema == 4:
+        validate_comparison_requirement(contract)
     dependencies = contract["dependencies"]
     require(isinstance(dependencies, list), "issue.contract.dependencies", dependencies, **source)
     for dependency in dependencies:
@@ -204,6 +212,9 @@ def validate_issue(readback, envelope, *, completed=False):
     # or grants permission to execute; only the landing owner uses this readback.
     require(completed or readback.get("updated_at") == envelope["body_updated_at"],
             "issue.updated_at", readback.get("updated_at"), **amendment)
+    if contract.get("schema", 0) >= 3:
+        require(contract["base_head"] == envelope["base_head"],
+                "envelope.base_head", envelope["base_head"])
     require(contract["owner"] == envelope["owner"], "envelope.owner", envelope["owner"])
     require(contract["write_paths"] == envelope["write_paths"], "envelope.write_paths", envelope["write_paths"])
     return {
@@ -277,7 +288,7 @@ def candidate_repository(binding):
 def validate_candidate_evidence(root, base, head, binding, paths):
     contract = binding.get("contract", {})
     evidence = contract.get("candidate_evidence")
-    if evidence is None and contract.get("schema") in (2, 3):
+    if evidence is None and contract.get("schema") in (2, 3, 4):
         evidence = {
             "manifest_path": contract.get("evidence_manifest"),
             "required_paths": contract.get("required_paths"),
@@ -384,12 +395,17 @@ def validate_candidate_evidence(root, base, head, binding, paths):
 
 def validate_delivery_paths(root, base, head, binding):
     require(base == binding["base_head"], "candidate.base", base)
+    contract = binding.get("contract", {})
+    if contract.get("schema", 0) >= 3:
+        require(base == contract["base_head"], "candidate.base", base)
     paths = changed_paths(root, base, head)
     outside = sorted(set(paths) - set(binding["write_paths"]))
     require(not outside, "candidate.outside_write_paths", outside)
+    comparison = verify_comparison(root, base, head, binding)
     manifest_sha256 = validate_candidate_evidence(
         root, base, head, binding, paths)
     return {"head": head, "base_head": base, "changed_paths": paths,
+            **({"comparison": comparison} if comparison is not None else {}),
             "evidence_manifest_sha256": manifest_sha256,
             "authorizes_landing": False}
 
@@ -431,8 +447,8 @@ def verify_candidate(root, base, head, readback):
     contract = parse_contract(body)
     require(contract["schema"] >= 2, "candidate.issue.contract.schema",
             contract["schema"], owner="Soodles candidate verification",
-            required="schema_2_or_3_evidence_contract")
-    if contract["schema"] == 3:
+            required="schema_2_3_or_4_evidence_contract")
+    if contract["schema"] >= 3:
         require(base == contract["base_head"], "candidate.base", base)
     checkout = subprocess.run(
         ["git", "rev-parse", "HEAD"], cwd=root, capture_output=True,
@@ -474,3 +490,200 @@ def verify_candidate(root, base, head, readback):
         "classification": "VERIFIED",
         "authorizes_landing": False,
     }
+
+
+# The comparison discriminator lives with the existing admission owner so frozen
+# ordinary publisher bundles retain their dependency closure.
+COMPARISON_PREFIX = ".agents/skills/verify-soodles/scripts/"
+COMPARISON_ANALYZERS = {name: COMPARISON_PREFIX + file for name, file in (
+    ("replayer", "replay_pclass.py"), ("observer", "observe_pclass.py"),
+    ("decider", "decide_pclass.py"))}
+COMPARISON_HELP = ["./soodles", "candidate", "verify", "--help"]
+
+
+class ComparisonRefusal(AdmissionRefusal):
+    def __init__(self, field, value, required=None, replay=None):
+        super().__init__(field, value, "supervisor", required or field)
+        self.next["help_argv"] = COMPARISON_HELP.copy()
+        self.comparison = replay
+
+
+def comparison_require(condition, field, value, required=None):
+    if not condition:
+        raise ComparisonRefusal(field, value, required)
+
+
+def comparison_exact(value, keys, field):
+    comparison_require(isinstance(value, dict) and set(value) == set(keys), field, value)
+
+
+def comparison_digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def comparison_fingerprint(value):
+    return comparison_digest(json.dumps(value, sort_keys=True, separators=(",", ":")).encode())
+
+
+def comparison_sha(value, field, length=64):
+    comparison_require(isinstance(value, str) and re.fullmatch(r"[0-9a-f]{%d}" % length, value),
+            field, value)
+
+
+def comparison_path(value, field, required):
+    try:
+        git_path(value, field)
+    except AdmissionRefusal as error:
+        raise ComparisonRefusal(field, value) from error
+    comparison_require(value in required, field, value, "comparison_required_paths")
+
+
+def validate_comparison_requirement(contract):
+    comparison = contract.get("comparison")
+    comparison_exact(comparison, ("kind", "experiment_id", "admission_target", "subject",
+                       "instructions", "raw", "gates", "manifest", "analyzers"),
+          "comparison.fields")
+    comparison_require(comparison["kind"] == "pclass_replay_v2", "comparison.kind", comparison["kind"])
+    comparison_require(isinstance(comparison["experiment_id"], str) and comparison["experiment_id"].strip(),
+            "comparison.experiment_id", comparison["experiment_id"])
+    comparison_require(comparison["admission_target"] in ("improvement", "nonregression"),
+            "comparison.admission_target", comparison["admission_target"])
+    subject = comparison["subject"]
+    comparison_exact(subject, ("repository", "issue", "base_head"), "comparison.subject")
+    comparison_require(isinstance(subject["repository"], str)
+            and re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", subject["repository"]),
+            "comparison.subject.repository", subject["repository"])
+    comparison_require(type(subject["issue"]) is int and subject["issue"] > 0,
+            "comparison.subject.issue", subject["issue"])
+    comparison_sha(subject["base_head"], "comparison.subject.base_head", 40)
+    comparison_require(subject["base_head"] == contract["base_head"],
+            "comparison.subject.base_head", subject["base_head"])
+    instructions = comparison["instructions"]
+    comparison_require(isinstance(instructions, list) and bool(instructions),
+            "comparison.instructions", instructions)
+    paths = []
+    for instruction in instructions:
+        comparison_exact(instruction, ("path", "baseline_sha256", "treatment_sha256"), "comparison.instruction")
+        comparison_path(instruction["path"], "comparison.instruction.path", contract["required_paths"])
+        paths.append(instruction["path"])
+        for arm in ("baseline", "treatment"):
+            comparison_sha(instruction[arm + "_sha256"], "comparison.instruction." + arm)
+    for label in ("raw", "gates", "manifest"):
+        pin = comparison[label]
+        comparison_exact(pin, ("path", "sha256"), "comparison." + label)
+        comparison_path(pin["path"], "comparison." + label + ".path", contract["required_paths"])
+        comparison_sha(pin["sha256"], "comparison." + label + ".sha256")
+        paths.append(pin["path"])
+    comparison_require(len(paths) == len(set(paths)), "comparison.paths", paths)
+    comparison_exact(comparison["analyzers"], COMPARISON_ANALYZERS, "comparison.analyzers")
+    for name, expected in COMPARISON_ANALYZERS.items():
+        pin = comparison["analyzers"][name]
+        comparison_exact(pin, ("path", "revision", "sha256"), "comparison.analyzers." + name)
+        comparison_require(pin["path"] == expected and pin["revision"] == "base",
+                "comparison.analyzers." + name, pin)
+        comparison_sha(pin["sha256"], "comparison.analyzers." + name + ".sha256")
+    return comparison
+
+
+def checked_bytes(root, revision, pin, field):
+    try:
+        data = git_bytes(root, revision, pin["path"])
+    except AdmissionRefusal as error:
+        raise ComparisonRefusal(field + ".path", pin["path"]) from error
+    comparison_require(comparison_digest(data) == pin["sha256"], field + ".sha256", pin["path"])
+    return data
+
+
+def verify_comparison(root, base, head, binding):
+    contract = binding.get("contract", {})
+    if contract.get("schema") != 4:
+        return None
+    comparison = validate_comparison_requirement(contract)
+    comparison_require(comparison["subject"] == {"repository": binding.get("repository"),
+            "issue": binding.get("issue"), "base_head": base},
+            "comparison.subject", comparison["subject"])
+    data = {label: checked_bytes(root, head, comparison[label], "comparison." + label)
+            for label in ("raw", "gates", "manifest")}
+    analyzers = {name: checked_bytes(root, base, pin, "comparison.analyzers." + name)
+                 for name, pin in comparison["analyzers"].items()}
+    try:
+        raw, gates, manifest = (json.loads(data[label]) for label in ("raw", "gates", "manifest"))
+    except (ValueError, UnicodeError) as error:
+        raise ComparisonRefusal("comparison.json", str(error)) from error
+    comparison_require(isinstance(manifest, dict) and type(manifest.get("schema")) is int
+            and manifest["schema"] == 2 and "feature" not in manifest,
+            "comparison.manifest.family", manifest)
+    for key in ("experiment_id", "admission_target"):
+        comparison_require(manifest.get(key) == comparison[key], "comparison.manifest." + key, manifest.get(key))
+    comparison_require(isinstance(gates, dict) and gates.get("experiment_id") == comparison["experiment_id"],
+            "comparison.gates.experiment_id", gates)
+    for name, label in (("replayer", "normalizer"), ("observer", "observer"), ("decider", "decider")):
+        comparison_require(manifest.get(label + "_sha256") == comparison["analyzers"][name]["sha256"],
+                "comparison.manifest." + label, manifest.get(label + "_sha256"))
+    instructions = {}
+    for pin in comparison["instructions"]:
+        for arm, revision in (("baseline", base), ("treatment", head)):
+            content = checked_bytes(root, revision, {"path": pin["path"], "sha256": pin[arm + "_sha256"]},
+                                    "comparison.instruction." + arm)
+            instructions[arm, pin["path"]] = (pin[arm + "_sha256"], len(content))
+    runs = raw.get("runs") if isinstance(raw, dict) else None
+    comparison_require(isinstance(runs, list) and bool(runs), "comparison.raw.runs", runs)
+    observed = set()
+    for run in runs:
+        comparison_require(isinstance(run, dict), "comparison.raw.run", run)
+        packet = run.get("packet")
+        comparison_require(isinstance(packet, dict) and packet.get("case") == "recovery",
+                "comparison.raw.family", packet)
+        instruction = packet.get("instruction")
+        comparison_exact(instruction, ("path", "sha256"), "comparison.raw.instruction")
+        key = (run.get("arm"), instruction["path"])
+        comparison_require(all(isinstance(v, str) for v in key) and key in instructions,
+                "comparison.raw.instruction", instruction)
+        expected, size = instructions[key]
+        comparison_require(instruction["sha256"] == expected, "comparison.raw.instruction.sha256", instruction)
+        observations = run.get("instruction_observations")
+        comparison_require(isinstance(observations, list) and bool(observations),
+                "comparison.raw.instruction_observations", observations)
+        comparison_require(all(isinstance(item, dict) and item.get("path") == key[1]
+                    and item.get("sha256") == expected and type(item.get("bytes")) is int
+                    and item["bytes"] == size and "snapshot_error" not in item
+                    for item in observations), "comparison.raw.instruction_observations", observations)
+        observed.add(key)
+    comparison_require(observed == set(instructions), "comparison.raw.instruction_coverage", sorted(observed))
+    # All external pins and subject/instruction bindings precede any analyzer code.
+    with tempfile.TemporaryDirectory(prefix="soodles-comparison-") as folder:
+        work = Path(folder)
+        for name, content in {**data, **analyzers}.items():
+            (work / (name + ".py" if name in COMPARISON_ANALYZERS else name)).write_bytes(content)
+        argv = [sys.executable, "-I", "-B", str(work / "replayer.py"),
+                *(str(work / label) for label in ("raw", "gates", "manifest")),
+                comparison_fingerprint(manifest), str(work / "observer.py"), str(work / "decider.py")]
+        # No inherited provider credentials, Python paths, user HOME or Noodle identity.
+        try:
+            process = subprocess.run(argv, cwd=work, env={"HOME": folder, "TMPDIR": folder},
+                                     capture_output=True, text=True, timeout=30, start_new_session=True)
+        except subprocess.TimeoutExpired as error:
+            def text(value):
+                return value.decode("utf-8", errors="replace") if isinstance(value, bytes) else value
+            record = {"exit_status": None, "timed_out": True,
+                      "stdout": text(error.stdout), "stderr": text(error.stderr)}
+            raise ComparisonRefusal("comparison.replay.process", "TimeoutExpired", replay=record) from error
+        except OSError as error:
+            raise ComparisonRefusal("comparison.replay.process", type(error).__name__) from error
+        record = {"exit_status": process.returncode, "stdout": process.stdout, "stderr": process.stderr}
+        try:
+            replay = json.loads(process.stdout)
+        except ValueError as error:
+            raise ComparisonRefusal("comparison.replay.json", str(error), replay=record) from error
+        expected = "ADMIT_" + comparison["admission_target"].upper()
+        valid = (isinstance(replay, dict) and replay.get("classification") == "PASS"
+                 and replay.get("schema") == 2 and replay.get("authorizes_landing") is False
+                 and isinstance(replay.get("decision"), dict)
+                 and replay["decision"].get("decision") == expected)
+        if process.returncode != 0 or not valid:
+            raise ComparisonRefusal("comparison.replay.decision", replay,
+                                    "comparison_matching_admission", replay=record)
+    return {"decision": expected, "experiment_id": comparison["experiment_id"],
+            "subject": comparison["subject"], "head": head,
+            "requirement_sha256": comparison_fingerprint(comparison), "process": record,
+            "authorizes_landing": False}

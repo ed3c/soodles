@@ -871,7 +871,17 @@ class LandingTests(unittest.TestCase):
 
     def test_cloud_marked_contract_requires_exact_candidate_gate_not_local_envelope(self):
         self.claim.pop("control_root")
-        self.snapshot["issue"]["body"] = "<!-- soodles:execution-v1 -->\n"
+        from test_issue_admission import issue_fixture
+        from issue_admission import parse_contract
+        ordinary, _ = issue_fixture()
+        contract = parse_contract(ordinary["body"])
+        contract.update(schema=3, base_head=self.claim["base_head"],
+                        required_paths=["evidence.json"], evidence_manifest="evidence.json",
+                        write_paths=["evidence.json"],
+                        frozen_paths=[{"path": "evidence.json", "revision": "head", "sha256": "f" * 64}])
+        self.snapshot["issue"]["body"] = ("<!-- soodles:execution-v1 -->\n```json\n"
+                                           + json.dumps(contract)
+                                           + "\n```\n<!-- /soodles:execution-v1 -->\n")
         with self.assertRaises(landing.LandingRefusal) as caught:
             self.start()
         self.assertEqual(caught.exception.invalid["field"], "job.candidate_evidence")

@@ -27,6 +27,14 @@ selection does not require reinstalling skills or a full feature-map audit.
 `feature_map_routing_report_v2` report; it does not author general behavior evals.
 Its selector, digest and invocation remain external supervisor inputs.
 
+When the external Issue contract selects a schema-4 comparison, the existing
+candidate verification/publication and local landing owners replay its pinned
+recovery evidence before effects. Consume their current `next`: comparison
+refusals name supervisor inputs and read-only candidate help. Do not assemble
+replay argv, replace pins or downgrade the contract. A matching comparison is
+non-authorizing; gated cloud delivery requires the named supported local
+capability. Ordinary contracts retain their existing route.
+
 ## Inputs and launch
 
 Require a supplied task, assigned instruction refs/digests, minimum raw inputs, permitted effects, externally fixed decision criteria and evidence destination. Keep the originating experiment/Issue separate from the executed subject: a fixture's Issue/PR does not identify the experiment owner. Carry the supplied origin through the receipt/handoff; if absent, leave it unknown. Identify the actual execution owner and available carrier. Native cloud subagents can run these bounded consumers without Codex CLI; local Noodle/Codex children follow their admitted launcher. A branch/worktree does not create a fresh model context. Missing prerequisites block only the dependent operation; do not invent a local doctor to obtain cloud evidence.
