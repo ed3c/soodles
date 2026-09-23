@@ -64,6 +64,14 @@ One causal Issue atom carries its P-class correction and required N-class task, 
 
 This rule changes no evaluator authority. Frozen external observers judge candidate behavior, the candidate verifier checks committed byte bindings, and provider checks/readback establish only their own R-class claims. One PR may contain P-class source and N-class evidence, but neither class authorizes its own landing.
 
+`eval.report` owns the versioned feature-map consumer-report boundary: the
+supervisor pins the external selector and fixed evaluator bytes before import.
+Only complete identity-matched evidence receives behavior PASS/FAIL; missing
+observations are INCONCLUSIVE and invalid bindings are INVALID, both with null
+behavior and a supervisor-owned missing input. Explicit empty operation reports
+retain consumer-report scope. This read-only receipt never authorizes landing;
+archived evaluators and existing recovery replay retain their own scope.
+
 ### Interrupted delivery preparation — ed3c/soodles#10
 
 The same landing owner contains the intent producer, CLI dispatch consumer and schema migration. Schema 2 distinguishes `delivery.status=prepared` from `offered`. Preparing produces no provider request and does not append `writes_offered`. A restarted supervisor can consume that original prepared intent through `landing dispatch`; its checkpoint lock serializes concurrent consumers. Fresh repository/head/base/run readback must still agree before consumption. After the durable offered state, another dispatch refuses and only provider readback can advance. Merge/closure readbacks without this checkpoint's matching offered write cannot be adopted.

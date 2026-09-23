@@ -9,6 +9,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import types
 
 ROOT = Path(__file__).resolve().parent
 
@@ -21,11 +22,14 @@ class Parser(argparse.ArgumentParser):
     def parse_known_args(self, args=None, namespace=None):
         parsed, unknown = super().parse_known_args(args, namespace)
         # Keep unknown read flags at the reader's error boundary instead of the root parser.
-        if self.prog.startswith("./soodles github") and unknown:
+        if self.prog.startswith(("./soodles github", "./soodles eval")) and unknown:
             self.error("unrecognized arguments: " + " ".join(unknown))
         return parsed, unknown
 
     def error(self, message):
+        if self.prog.startswith("./soodles eval"):
+            print(json.dumps(report_refusal("arguments", message), indent=2))
+            self.exit(2)
         if self.prog.startswith("./soodles github"):
             from issue_admission import AdmissionRefusal
             from github_reader import refusal_output
@@ -53,6 +57,55 @@ def refuse(action, field, value):
     error = Refusal(f"{action}: invalid {field}={value!r}; supported help: ./soodles {action} --help")
     error.invalid = {"field": field, "value": value}
     raise error
+
+
+def report_refusal(field, reason, validity="INVALID"):
+    problem = {"field": field, "reason": reason}
+    return {"schema": 1, "owner": "eval.report", "authorizes_landing": False,
+            "observation_scope": "consumer_report", "evidence_validity": validity,
+            "behavior": None, "problem": problem,
+            "next": {"owner": "supervisor", "operation": "supply_report_evidence",
+                     "missing_input": problem}}
+
+
+def eval_report(selection_path, expected_sha256):
+    # This adapter must not import the evaluator before both byte bindings pass.
+    field = "selection.path"
+    try:
+        selected = Path(selection_path).resolve()
+        if selected.is_relative_to(ROOT):
+            return report_refusal(field, "selection must be outside candidate source")
+        raw = selected.read_bytes()
+        field = "selection.sha256"
+        if (re.fullmatch(r"[0-9a-f]{64}", expected_sha256) is None
+                or hashlib.sha256(raw).hexdigest() != expected_sha256):
+            return report_refusal(field, "externally supplied raw-byte digest mismatch")
+        field = "selection"
+        selection = json.loads(raw)
+        if not isinstance(selection, dict):
+            return report_refusal(field, "expected object")
+        field = "selection.evaluator_sha256"
+        expected = selection.get("evaluator_sha256")
+        if expected is None:
+            return report_refusal(field, "required digest is missing or null", "INCONCLUSIVE")
+        if not isinstance(expected, str) or re.fullmatch(r"[0-9a-f]{64}", expected) is None:
+            return report_refusal(field, "expected SHA-256 digest")
+        evaluator_path = ROOT / "report_evaluation.py"
+        code = evaluator_path.read_bytes()
+        if hashlib.sha256(code).hexdigest() != expected:
+            return report_refusal(field, "fixed evaluator raw-byte digest mismatch")
+        # Execute the verified bytes, avoiding a second read or stale bytecode.
+        evaluator = types.ModuleType("report_evaluation")
+        evaluator.__file__ = str(evaluator_path)
+        exec(compile(code, str(evaluator_path), "exec"), evaluator.__dict__)
+        result = evaluator.evaluate(selection)
+        result["selection_sha256"] = expected_sha256
+        result["evaluator_sha256"] = expected
+        return result
+    except FileNotFoundError as exc:
+        return report_refusal(field, str(exc), "INCONCLUSIVE")
+    except (OSError, ValueError, RuntimeError) as exc:
+        return report_refusal(field, str(exc))
 
 
 def digest(path):
@@ -204,6 +257,11 @@ def parser():
     p = Parser(prog="./soodles", description="Noodle runtime evidence and supervised landing checkpoints.",
                                 epilog="Examples: ./soodles runtime --help; ./soodles acceptance --help; ./soodles landing --help")
     groups = p.add_subparsers(dest="group", required=True)
+    evaluation = groups.add_parser("eval", description="Pinned consumer-report evaluation; no landing authority.")
+    eval_verbs = evaluation.add_subparsers(dest="verb", required=True)
+    report = eval_verbs.add_parser("report", description="Use the complete supervisor-supplied invocation and external selector digest.")
+    report.add_argument("selection")
+    report.add_argument("expected_sha256")
     packet = groups.add_parser("packet", description="Portable admission-recovery evidence; no executable continuation.")
     packet_verbs = packet.add_subparsers(dest="verb", required=True)
     create = packet_verbs.add_parser("create", description="Package only the fixed evidence allowlist, validate, and write deterministic tar.")
@@ -323,6 +381,12 @@ def bind_landing_continuation(result, args):
 
 def main():
     args = parser().parse_args()
+    if args.group == "eval":
+        result = eval_report(args.selection, args.expected_sha256)
+        print(json.dumps(result, indent=2))
+        if result["evidence_validity"] != "VALID":
+            return 2
+        return 0 if result["behavior"]["classification"] == "PASS" else 1
     import landing
     try:
         if args.group == "packet":
