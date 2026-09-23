@@ -41,10 +41,13 @@ MARKER_PREFIX = "<!-- soodles:local-atom-v1:"
 
 
 class AtomRefusal(ValueError):
-    def __init__(self, field, value, required="corrected_external_authorization"):
+    def __init__(self, field, value, required="corrected_external_authorization", *,
+                 owner="external-supervisor", known=None):
         super().__init__(f"issue atom: invalid {field}={value!r}")
         self.invalid = {"field": field, "value": value}
         self.required = required
+        self.owner = owner
+        self.known = known
 
 
 class MutationUnknown(Exception):
@@ -683,14 +686,111 @@ def provider_snapshot(provider, claim, run, jobs):
 
 def run(authorization_path, *, environ=None, provider=None):
     # Serialize the one authorization's existing checkpoint/intent transitions.
-    # The Noodle instance lock still decides runtime ownership.
+    # The validated control root is also serialized across authorizations.
     with Path(authorization_path).open("rb") as lock:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             raise AtomRefusal("authorization.busy", str(authorization_path),
-                              "current_same_entry_owner_readback") from None
+                              "current_same_entry_owner_readback", owner="soodles.issue-atom") from None
         return _run(authorization_path, environ=environ, provider=provider)
+
+
+def require_available_owner(authorization, paths, state):
+    """Read Noodle custody before credentials, checkpoints or provider effects."""
+    root = Path(authorization["control_root"])
+    runtime = root / ".noodle"
+    known = {"control_root": str(root)}
+    if state.get("phase") == "resolved" and (
+            not state.get("noodle_start") or state["noodle_start"].get("restored") is True):
+        return  # Historical readback still goes through the existing landing owner.
+
+    def refuse(field, value, required="current_noodle_owner_readback"):
+        raise AtomRefusal(field, value, required, owner="Noodle", known=dict(known))
+
+    # A fresh root has no canonical owner yet. An incomplete existing runtime
+    # is unknown, not an idle owner.
+    if not (runtime / "state.snapshot.json").exists():
+        if any(p.name != "issue-atom.lock" for p in runtime.iterdir()):
+            refuse("noodle.snapshot", "missing", "canonical_checkpoint_readback")
+        return
+    try:
+        owner = issue_execution.read_owner({"execution": {"control_root": str(root)}})
+        orders = owner["state"]["orders"]
+        blocking = []
+        for order_id, order in orders.items():
+            if (not isinstance(order, dict) or not isinstance(order.get("stages"), list)
+                    or not order["stages"] or any(not isinstance(s, dict) for s in order["stages"])):
+                refuse("noodle.order", order_id, "canonical_order_readback")
+            if any(s.get("status") not in ("completed", "failed", "cancelled")
+                   for s in order["stages"]):
+                blocking.append(order_id)
+        known["blocking_order_ids"] = blocking
+        binding = None
+        if state.get("envelope_sha256"):
+            binding = issue_admission.load_external_envelope(
+                paths["envelope"], state["envelope_sha256"], root)
+            if (binding["repository"] != authorization["repository"]
+                    or binding["issue"] != (state.get("issue") or {}).get("number")
+                    or Path(binding["execution"]["control_root"]).resolve() != root.resolve()
+                    or binding["base_head"] != authorization["base_head"]):
+                refuse("noodle.binding", "mismatch", "admitted_order_readback")
+            binding["contract"] = issue_admission.parse_contract(authorization["issue"]["body"])
+        own_id = binding["execution"]["order_id"] if binding else None
+        if any(order_id != own_id for order_id in blocking):
+            refuse("noodle.orders", "foreign_nonterminal", "quiescent_noodle_owner")
+        exact_order = False
+        if own_id in orders:
+            stages = orders[own_id]["stages"]
+            try:
+                subject = json.loads(stages[0].get("prompt", ""))
+            except (ValueError, TypeError):
+                subject = None
+            exact_order = (len(stages) == 1 and isinstance(subject, dict)
+                           and subject.get("route") in ("automatic", "supervised")
+                           and subject == issue_execution.projection(
+                               binding, state["envelope_sha256"], subject["route"]))
+            if not exact_order:
+                refuse("noodle.order.binding", own_id, "admitted_order_readback")
+            stage = stages[0]
+            attempts = stage.get("attempts")
+            if (stage.get("skill") != "execute" or stage.get("provider") != "codex"
+                    or stage.get("model") != binding["execution"]["carrier"]["codex"]["model"]
+                    or not isinstance(attempts, list) or not attempts
+                    or any(not isinstance(a, dict) for a in attempts)):
+                refuse("noodle.order.stage", own_id, "current_dispatch_identity")
+            live = [a for a in attempts if a.get("status") in ("launching", "running")]
+            if live:
+                if len(live) != 1 or stage.get("status") not in ("dispatching", "running"):
+                    refuse("noodle.order.attempt", own_id, "current_dispatch_identity")
+            else:
+                issue_execution.quiescent_order(binding, owner)
+        elif binding and state.get("phase") == "landing" and state.get("noodle_completion"):
+            # Noodle may already have projected away the completed order while
+            # this atom still needs its original shutdown/config cleanup.
+            issue_execution.completed_original_order(binding, owner)
+            exact_order = True
+        with (runtime / "noodle.lock").open("a+b") as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                if not exact_order:
+                    refuse("noodle.runtime", "foreign_or_unknown")
+                generated = paths["envelope"].parent / "noodle.toml"
+                if not generated.is_file() or host_config_identity(root) != digest_file(generated):
+                    refuse("noodle.running.config", "foreign")
+                return
+            for order_id in orders:
+                issue_execution.quiescent_order(
+                    {"execution": {"control_root": str(root), "order_id": order_id}}, owner)
+            for process in sorted((runtime / "sessions").glob("*/process.json")):
+                issue_execution._absent_process(process.parent, process.parent.name)
+    except issue_admission.AdmissionRefusal as error:
+        refuse(error.invalid["field"], error.invalid["value"], error.next["required"][0])
+    except (OSError, ValueError) as error:
+        if isinstance(error, AtomRefusal):
+            raise
+        refuse("noodle.readback", str(error), "canonical_checkpoint_readback")
 
 
 def _run(authorization_path, *, environ=None, provider=None):
@@ -699,6 +799,28 @@ def _run(authorization_path, *, environ=None, provider=None):
     authorization, authorization_digest = _validate_authorization(
         authorization_path, environ.get("SOODLES_AUTHORIZATION_SHA256"),
         allow_advanced=paths["state"].exists())
+    runtime = Path(authorization["control_root"]) / ".noodle"
+    runtime.mkdir(exist_ok=True)
+    with (runtime / "issue-atom.lock").open("a+b") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise AtomRefusal("noodle.atom_entry", "busy", "current_same_entry_owner_readback",
+                              owner="soodles.issue-atom",
+                              known={"control_root": str(runtime.parent)}) from None
+        return _run_owned(authorization_path, authorization, authorization_digest, paths,
+                          environ=environ, provider=provider)
+
+
+def _run_owned(authorization_path, authorization, authorization_digest, paths, *, environ, provider):
+    state_path = paths["state"]
+    state = read_json(state_path, "state") if state_path.exists() else {
+        "schema_version": 1, "authorization_sha256": authorization_digest,
+        "phase": "issue", "writes": {}, "issue": None, "publication": None}
+    require(isinstance(state, dict) and state.get("schema_version") == 1
+            and state.get("authorization_sha256") == authorization_digest,
+            "state.authorization", "mismatch", "matching_lifecycle_checkpoint")
+    require_available_owner(authorization, paths, state)
     if provider is None:
         try:
             environ = provider_credential.resolve_host_environment(
@@ -709,15 +831,7 @@ def _run(authorization_path, *, environ=None, provider=None):
     # registration still cannot reach a supplier with a dirty control root.
     require_clean_control_root(authorization)
     landing_owner = LandingOwner(authorization, paths["directory"])
-    state_path = paths["state"]
-    if state_path.exists():
-        state = read_json(state_path, "state")
-        require(state.get("schema_version") == 1
-                and state.get("authorization_sha256") == authorization_digest,
-                "state.authorization", state.get("authorization_sha256"), "matching_lifecycle_checkpoint")
-    else:
-        state = {"schema_version": 1, "authorization_sha256": authorization_digest,
-                 "phase": "issue", "writes": {}, "issue": None, "publication": None}
+    if not state_path.exists():
         require(host_config_identity(authorization["control_root"]) == authorization["host_config_sha256"],
                 "noodle.config.digest", "changed", "unchanged_host_configuration")
 
@@ -875,8 +989,9 @@ def refusal_output(error, authorization_path):
         "owner": "soodles.issue-atom", "status": "refused",
         "invalid": error.invalid,
         "next": {
-            "kind": "input", "owner": "external-supervisor",
+            "kind": "input", "owner": error.owner,
             "required": [error.required],
+            **({"known": error.known} if error.known is not None else {}),
             "argv": same_command(authorization_path),
             "reason": "Correct the named external input or material owner state; never choose a phase-specific route.",
         },
