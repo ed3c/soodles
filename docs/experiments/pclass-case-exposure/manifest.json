@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 157
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "baseline_sha256": "7cbbcbd8a8e00c725afa709a380c77f680bd500928fca91ffbf3050a6dcc8eeb",
+      "treatment_sha256": "88a0388e8d7df0b2017b3031b16302aba5b0e4046b14de7c678254f8e28c1a9e"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/scripts/decide_pclass.py",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "22ef5b9d2769ee92b979b95c6e9f1a64743078f3288783051f3a870dfc21b6a9"
+    },
+    {
+      "path": "tests/test_pclass_case_exposure.py",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "70a4e6f7dfc0f9bc6603aa2b31c7b90024cf1342e86c1acb48b66ce0cb57139e"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/probe.py",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "ebae7abe11fa4ccf009de1e75537fa0148e8b0945febd2c77b6d26eacf069581"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/protocol.md",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "c1be4db05186f9eeba829c15f016c1847332bce34e389cdbd15835f9583bf107"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/baseline.json",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "9df89e179297842b18925ea3d34e9cf2a8d1276032a69ad9ca9377bec6a0658f"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/treatment.json",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "534a876e83bdbdad7c99451500d08e00e74be5cec298dd8f062dd6355c1d5d43"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/consumer-comparison.json",
+      "role": "blocked_fresh_consumer_comparison",
+      "sha256": "35fe05d404141de46ea87d6ce076ac62c92c4d9a9751d2be795c7a55e04f1396"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/results.md",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "8408b9739f06db14337939f8e78ad83c4d6dc9a4794d23b0d4e8bd98fd6d5184"
+    }
+  ],
+  "owner": {
+    "name": "Soodles cloud P-class replay/decision comparison boundary",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#157"
+  },
+  "authorizes_landing": false
+}
