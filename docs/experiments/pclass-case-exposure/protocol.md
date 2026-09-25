@@ -72,3 +72,28 @@ CI success is not landing authority. Read back merge, closure, runtime and
 provider-main through the cloud connector. No local reconciliation is claimed.
 The schema-3 artifact manifest binds bytes, not the truth of behavior claims;
 a BLOCKED consumer artifact must not be treated as a passed comparison.
+
+## Typed refusal follow-up before the first fresh consumer
+
+The user requested this refinement on the same #157 / PR #158. It supersedes
+the proposed treatment at 467454d3c3086c7298cf460ab3e6e1d15d25cb49 before any
+fresh consumer run. The original baseline, nine-case probe, six-run budget,
+primary outcome and no-provider-effects constraints remain unchanged.
+
+The decider adds an input-only `next` when case exposure is unmatched:
+`{"kind":"input","owner":"supervisor","required":["matched_case_exposure"]}`.
+The unchanged public replay nests this under `decision.next`. Other admissions
+and unrelated failures retain their old output. All coexisting errors survive;
+this input request is not a complete repair plan, executable argv, retry grant
+or landing permission. P forwards the current descriptor and stops; it does
+not infer a new owner from strings. Absence of this descriptor never means PASS.
+
+Proposed treatment identities before fresh-consumer setup:
+- decider SHA-256: c6276e43fc43db4ba2d06b71903aef942fc48873772a8e47a66cdce6f7d027cf
+- P recipe SHA-256: 79204d7a1bad1a5e521d02a422edd891ffd52e4126044fd86a0ab2819b2f86a8
+
+New assertions are candidate unit controls, not an independent external judge.
+The same assertions are run before and after the source correction. Preserve
+their raw outputs in treatment.json. The public replay assertion must also pass
+on the exact-head Actions runner. No platform carrier is introduced. The fresh
+comparison still needs its externally fixed observer and supported carrier.

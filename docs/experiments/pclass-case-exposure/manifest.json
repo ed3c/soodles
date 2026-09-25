@@ -8,19 +8,19 @@
     {
       "path": ".agents/skills/verify-soodles/features/pclass-context.md",
       "baseline_sha256": "7cbbcbd8a8e00c725afa709a380c77f680bd500928fca91ffbf3050a6dcc8eeb",
-      "treatment_sha256": "88a0388e8d7df0b2017b3031b16302aba5b0e4046b14de7c678254f8e28c1a9e"
+      "treatment_sha256": "79204d7a1bad1a5e521d02a422edd891ffd52e4126044fd86a0ab2819b2f86a8"
     }
   ],
   "artifacts": [
     {
       "path": ".agents/skills/verify-soodles/scripts/decide_pclass.py",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "22ef5b9d2769ee92b979b95c6e9f1a64743078f3288783051f3a870dfc21b6a9"
+      "sha256": "c6276e43fc43db4ba2d06b71903aef942fc48873772a8e47a66cdce6f7d027cf"
     },
     {
       "path": "tests/test_pclass_case_exposure.py",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "70a4e6f7dfc0f9bc6603aa2b31c7b90024cf1342e86c1acb48b66ce0cb57139e"
+      "sha256": "dc32c10e8d787ae832aebf54f3fabd0f36fcce2892fae82c4a7c0397e990d4fa"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/probe.py",
@@ -30,7 +30,7 @@
     {
       "path": "docs/experiments/pclass-case-exposure/protocol.md",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "c1be4db05186f9eeba829c15f016c1847332bce34e389cdbd15835f9583bf107"
+      "sha256": "44826f3d749e6270542ec5bf2c941f1446bd8405a23509625120c6dc816dbb34"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/baseline.json",
@@ -40,7 +40,7 @@
     {
       "path": "docs/experiments/pclass-case-exposure/treatment.json",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "534a876e83bdbdad7c99451500d08e00e74be5cec298dd8f062dd6355c1d5d43"
+      "sha256": "946d820553fa04d1a3c9bc7230de81eb471e3534b7339822fd70f7ce1fbe2c8f"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/consumer-comparison.json",
@@ -50,7 +50,7 @@
     {
       "path": "docs/experiments/pclass-case-exposure/results.md",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "8408b9739f06db14337939f8e78ad83c4d6dc9a4794d23b0d4e8bd98fd6d5184"
+      "sha256": "644842eb4bcd5c00c8010bcf3d0c787869d459d4c4331eebc4021a90cf37d177"
     }
   ],
   "owner": {

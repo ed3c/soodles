@@ -1,4 +1,5 @@
 """Case-exposure controls. Fixture traces are not fresh Agent observations."""
+import copy
 import hashlib
 import importlib.util
 import json
@@ -81,6 +82,61 @@ def replay_fixture(baseline_cases, treatment_cases):
     return {"runs": runs}, gates, manifest
 
 
+INPUT_NEXT = {"kind": "input", "owner": "supervisor",
+              "required": ["matched_case_exposure"]}
+
+
+class TypedNextTests(unittest.TestCase):
+    def test_refusal_next_is_scoped_and_non_executable(self):
+        result = probe.run(DECIDER)
+        for row in result["cases"]:
+            receipt = row["receipt"]
+            with self.subTest(case=row["case"]):
+                if "manifest_case_exposure_mismatch" in receipt["hard_gate_errors"]:
+                    self.assertEqual(receipt["decision"], "REJECT")
+                    self.assertEqual(receipt.get("next"), INPUT_NEXT)
+                else:
+                    # Preserve the existing output for admissions and unrelated failures.
+                    self.assertNotIn("next", receipt)
+                self.assertEqual(receipt["schema"], 2)
+                self.assertFalse(receipt["authorizes_landing"])
+                self.assertNotIn("request", receipt)
+
+    def test_mixed_failures_and_inputs_are_preserved(self):
+        specification, packet = probe.inputs(
+            "different_case_counts", ["pending", "recovery", "recovery"],
+            ["pending", "pending", "recovery"], "improvement")
+        packet["treatment"][0]["barriers"] = {}
+        packet["next"] = {"kind": "command", "owner": "caller", "argv": ["ignored"]}
+        before = copy.deepcopy((specification, packet))
+        module_spec = importlib.util.spec_from_file_location("typed_next_subject", DECIDER)
+        subject = importlib.util.module_from_spec(module_spec)
+        module_spec.loader.exec_module(subject)
+        result = subject.evaluate(packet, specification, probe.fingerprint(specification))
+        self.assertEqual(result["decision"], "REJECT")
+        self.assertEqual(result.get("next"), INPUT_NEXT)
+        self.assertIn("manifest_case_exposure_mismatch", result["hard_gate_errors"])
+        self.assertIn("missing_treatment_0_primary_barrier", result["hard_gate_errors"])
+        self.assertEqual((specification, packet), before)
+        self.assertFalse(result["authorizes_landing"])
+        self.assertNotIn("argv", result["next"])
+        self.assertNotIn("request", result)
+
+    def test_mutating_a_receipt_cannot_change_the_next_refusal(self):
+        specification, packet = probe.inputs(
+            "different_case_sets", ["recovery"] * 3, ["pending"] * 3, "improvement")
+        module_spec = importlib.util.spec_from_file_location("typed_next_repeat", DECIDER)
+        subject = importlib.util.module_from_spec(module_spec)
+        module_spec.loader.exec_module(subject)
+        result = subject.evaluate(packet, specification, probe.fingerprint(specification))
+        self.assertEqual(result.get("next"), INPUT_NEXT)
+        result["next"]["required"].append("caller_mutation")
+        # Pure synthetic invocations, not authorization to retry a production comparison.
+        repeated = subject.evaluate(packet, specification, probe.fingerprint(specification))
+        self.assertEqual(repeated["next"], INPUT_NEXT)
+        self.assertEqual(repeated["decision"], "REJECT")
+
+
 class CaseExposureTests(unittest.TestCase):
     def test_frozen_nine_case_probe(self):
         result = probe.run(DECIDER)
@@ -109,6 +165,12 @@ class CaseExposureTests(unittest.TestCase):
                 self.assertEqual(receipt["decision"]["decision"], expected, receipt)
                 self.assertEqual(process.returncode, 0 if expected.startswith("ADMIT_") else 1)
                 self.assertFalse(receipt["authorizes_landing"])
+                # The existing replay envelope carries the decider result unchanged.
+                self.assertNotIn("next", receipt)
+                if expected == "REJECT":
+                    self.assertEqual(receipt["decision"].get("next"), INPUT_NEXT)
+                else:
+                    self.assertNotIn("next", receipt["decision"])
                 # Both cases must first pass the existing trace-level discriminator.
                 self.assertTrue(all(r["hard_gate"] == "PASS"
                                     for arm in ("baseline", "treatment") for r in receipt[arm]))

@@ -258,6 +258,9 @@ def evaluate(packet, manifest, expected_manifest_sha256):
         "telemetry_authority": "report_only",
         "input_sha256": fingerprint(packet),
         "authorizes_landing": False,
+        **({"next": {"kind": "input", "owner": "supervisor",
+                     "required": ["matched_case_exposure"]}}
+           if "manifest_case_exposure_mismatch" in errors else {}),
     }
 
 
