@@ -1,0 +1,99 @@
+{
+  "authorizes_landing": false,
+  "capture_sha256": "813ebfc18589f9ae06a8d0d232781366838f840e6d915de05e363b04218e0de0",
+  "carrier": "Local Codex CLI JSONL",
+  "classification": "VALID/BOUNDED_IMPROVEMENT",
+  "handoff_sha256": "d47a2472ea9ca8dbf3f1dec738784d23b7c34a320711010990538b246dce1ec6",
+  "issue": 170,
+  "observer_report_sha256": "3c8252a94542c7b3d96281b29c2f184f04dc3355af50b5010f41af92eac4c3af",
+  "observer_sha256": "11db7ca52ce189293c31191c875f0bd5855fb95d107d9dcddc6673ee43e70b46",
+  "pairs": [
+    {
+      "baseline_burden": 43,
+      "case": "case_a",
+      "treatment_burden": 0,
+      "treatment_ready": true
+    },
+    {
+      "baseline_burden": 31,
+      "case": "case_b",
+      "treatment_burden": 0,
+      "treatment_ready": true
+    },
+    {
+      "baseline_burden": 22,
+      "case": "case_c",
+      "treatment_burden": 0,
+      "treatment_ready": true
+    }
+  ],
+  "pr": 171,
+  "raw_archive": {
+    "path": "docs/experiments/issue-readiness/comparison-evidence.tar.gz",
+    "sha256": "c85c58831a785ced0ed7d19106eadc781ebcf0366256fb8923f081a90f841974"
+  },
+  "runs": [
+    {
+      "command_count": 42,
+      "packet_count": 0,
+      "ready": false,
+      "reconstruction_burden": 43,
+      "run_id": "case_a--baseline",
+      "thread_id": "01a0de64-f99f-7650-8ef0-b8d2f7c5906a",
+      "valid": true
+    },
+    {
+      "command_count": 2,
+      "packet_count": 6,
+      "ready": true,
+      "reconstruction_burden": 0,
+      "run_id": "case_a--treatment",
+      "thread_id": "01a0de66-9b3d-7ba1-a2e4-90ae7eb515d6",
+      "valid": true
+    },
+    {
+      "command_count": 30,
+      "packet_count": 0,
+      "ready": false,
+      "reconstruction_burden": 31,
+      "run_id": "case_b--baseline",
+      "thread_id": "01a0de67-1db9-7082-b504-3df7e57a3995",
+      "valid": true
+    },
+    {
+      "command_count": 2,
+      "packet_count": 6,
+      "ready": true,
+      "reconstruction_burden": 0,
+      "run_id": "case_b--treatment",
+      "thread_id": "01a0de68-660c-7893-878f-eacba8261c6d",
+      "valid": true
+    },
+    {
+      "command_count": 21,
+      "packet_count": 0,
+      "ready": false,
+      "reconstruction_burden": 22,
+      "run_id": "case_c--baseline",
+      "thread_id": "01a0de68-b50c-7bf3-9c34-4a56b8cdb733",
+      "valid": true
+    },
+    {
+      "command_count": 2,
+      "packet_count": 6,
+      "ready": true,
+      "reconstruction_burden": 0,
+      "run_id": "case_c--treatment",
+      "thread_id": "01a0de6a-1ab6-74d1-aa9f-237ce39fcc8f",
+      "valid": true
+    }
+  ],
+  "schema": 1,
+  "scope": "six fresh local pre-run-1 consumers only; no ChatGPT native cloud claim",
+  "selection_sha256": "6ed0f46a505a38c2921b8cc4741c11946788e99636102ced966bdd1d2ff1be27",
+  "source": {
+    "baseline": "429eb5b5b814099bb7a631ad76e7c80fdffede2d",
+    "treatment": "36e28da3fef5998fb5817aadd53e9b7f28ad5ac8"
+  },
+  "valid": true
+}
