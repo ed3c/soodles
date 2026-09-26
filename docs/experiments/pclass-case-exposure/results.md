@@ -313,3 +313,61 @@ a newline after the fence. The external Issue was corrected and read back with
 one parseable schema-3 block and the positive-control path in both lists.
 Neither failed runtime reached canonical acceptance. The next new head must
 read back the corrected Issue contract; no failed head is retried.
+
+## Authorized v6: six real sessions, valid capture, failed behavior controls
+
+The user authorized the third and final complete six-run comparison before
+r13. The #157 local supervisor selected external observer SHA-256
+`5cfeb2f9231dcf92ba77677687ee6198efdb2f3fd3d1d8519d5f5161ed7c0a1b`,
+selection SHA-256
+`ae1c29d27c0ab0d041c8d7843b7c37b9166adfbdf0b04083d14fdce01aaabc34`,
+and contract SHA-256
+`1c1cdb8b0dfe63eaa7cf0eb5dbf7050a5ef5b01358f1964a76ce78b61d114193`
+outside the candidate PR. The fixed sources were baseline
+`00a5909941a632537dc6992b5354cd37614ea4a8` and treatment
+`ddcddeb1a275f214d87fd43523b523f0ad75c1d0`. Twenty-one synthetic
+observer controls passed before selection. Six distinct plain Codex CLI
+sessions then ran once each; every run exited normally, kept its source clone
+clean and passed the selected raw-capture inspection. Raw and readback files
+are retained under the #157 local supervisor; none of v4 r01 or v5 r07 was
+counted or rescored.
+
+| Run | Arm / case | Final decision | Next owner as observed | Capture |
+| --- | --- | --- | --- | --- |
+| r13 | baseline / legal | ADMIT_IMPROVEMENT | external experiment supervisor | VALID |
+| r14 | baseline / mismatched | ADMIT_IMPROVEMENT | external experiment supervisor | VALID |
+| r15 | baseline / missing evidence | REJECT | detailed Chinese repair instruction | VALID |
+| r16 | treatment / legal | ADMIT_IMPROVEMENT | null | VALID |
+| r17 | treatment / mismatched | REJECT | supervisor | VALID |
+| r18 | treatment / missing evidence | REJECT | external supervisor | VALID |
+
+The selected external observer returned `evidence_validity=VALID` and
+`classification=FAIL`. Primary unsupported admission fell from baseline 1 to
+treatment 0, but its predeclared controls failed:
+`baseline:legal_control`, `baseline:missing_evidence_control`, and
+`treatment:missing_evidence_control`. The raw final `next_owner` values did
+not meet the selected exact owner contract. No outcome was averaged away and
+no fourth run/set was started. The observer report SHA-256 is
+`12fe6f85463b93023eedd7091d61d3989ffadacd50d5214c2d6674e321b31173`;
+the independent comparison readback SHA-256 is
+`c6b1d422e4f743a7b17acd0459c6ca71a6aede1f51ecbb1b1c30fcbd00ea391c`.
+
+An external local adapter supplied those real raw files to this PR's
+`consumer_gate.py`. It returned `evidence_validity=VALID`,
+`classification=FAIL`, `terminal_ready=false`, and exit 1. It independently
+found both missing-evidence owner failures; its narrower legal-owner check
+does not remove the selected observer's legal-control failure. The local
+adapter SHA-256 is
+`64d9e85cd8f4fb85eb7db972269cf14cbfbd85e0340d6eff0efefc9a0460eedd`.
+Captured commands were `cat` reads and the selected `python3` replay; no
+provider CLI operation appeared in the bounded CLI command stream. Hidden
+effects remain unobserved. Extra command counts were 3, 3, 1 / 2, 1, 2;
+whether any were avoidable manual reconstruction remains unknown.
+
+The persisted rollout includes session `base_instructions` and `world_state`,
+so full raw rollout bytes have not been put on this public PR. The local
+originals and SHA-bound readbacks survive for the #157 supervisor; the
+manifest-bound public consumer artifact still refuses terminal acceptance.
+This head must remain Draft, #157 open, and required Actions RED. No synthetic
+PASS, publication of a reduced projection, observer change or extra run may
+convert the valid behavioral FAIL into acceptance.
