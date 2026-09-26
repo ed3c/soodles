@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 159
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "1e681105b46acf8e349e256d718e22bee692e6bfcb4eb6bd97b72ff42280f075",
+      "treatment_sha256": "79835027451dbe2d47421da9cafa1ccf14e8aa8ca4a652faed570aad192e19a6"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/session-activation/host-bootstrap.md",
+      "role": "uninstalled_host_bootstrap",
+      "sha256": "098351fde3054f41afe877de5b096c1118ad3c4e4206bf8f64d4ea1ab0d4fc73"
+    },
+    {
+      "path": "docs/experiments/session-activation/protocol.md",
+      "role": "prequalification_status_and_protocol",
+      "sha256": "b24d06c84de801eb00c5b12ce7f349ac71f32b13cff84de926631994b1f81b97"
+    },
+    {
+      "path": "docs/experiments/session-activation/status.json",
+      "role": "prequalification_status_and_protocol",
+      "sha256": "07afab5a989cfb6a9bc1e71102ae4c0805c529a956f33efd924a015e3af6827f"
+    }
+  ],
+  "owner": {
+    "name": "Soodles root Session-entry P-only preparation",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#159"
+  },
+  "authorizes_landing": false
+}
