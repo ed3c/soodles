@@ -158,8 +158,13 @@ def validate_claim(claim, *, verify_verifier=True):
              dependency_local_fields | {"bootstrap_custody"}),
             "claim.fields", list(claim))
     if "publication_branch" in claim:
-        require(claim["publication_branch"] == f"soodles/issue-{claim['issue']}-{claim['head'][:12]}",
-                "claim.publication_branch", claim["publication_branch"])
+        branch = claim["publication_branch"]
+        if "control_root" in claim:
+            require(branch == f"soodles/issue-{claim['issue']}-{claim['head'][:12]}",
+                    "claim.publication_branch", branch)
+        else:
+            require(isinstance(branch, str) and branch and len(branch) <= 255,
+                    "claim.publication_branch", branch)
     if "execution_envelope" in claim:
         ref = claim["execution_envelope"]
         require(isinstance(ref, dict) and set(ref) == {"path", "sha256"}, "claim.execution_envelope", ref)

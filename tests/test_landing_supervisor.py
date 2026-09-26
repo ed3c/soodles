@@ -10,6 +10,7 @@ import tempfile
 import unittest
 
 import issue_admission
+import landing
 import landing_supervisor
 
 
@@ -236,6 +237,40 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(claim["run_id"], 55)
         self.assertTrue((output / "checkpoint.json").is_file())
         self.assertFalse(result["authorizes_landing"])
+
+    def test_slash_named_cloud_branch_keeps_provider_identity_separate(self):
+        snapshot = json.loads(json.dumps(self.f.snapshot))
+        snapshot["pr"]["head"]["ref"] = "cloud/157-pclass-case-exposure"
+        output, result = self.f.prepare("slash-cloud", snapshot=snapshot)
+        claim = json.loads((output / "claim.json").read_text())
+        self.assertEqual(claim["worktree"], "cloud-122")
+        self.assertEqual(claim["publication_branch"],
+                         snapshot["pr"]["head"]["ref"])
+        self.assertNotIn("control_root", claim)
+        self.assertEqual(result["landing_owner"]["owner"], "landing.start")
+        self.assertEqual(result["landing_owner"]["next"]["kind"],
+                         "provider_readback")
+
+        foreign = json.loads(json.dumps(snapshot))
+        foreign["pr"]["head"]["ref"] = "cloud/foreign"
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            landing.validate_snapshot(claim, foreign, operation="start",
+                                      checkpoint=output / "checkpoint.json")
+        self.assertEqual(caught.exception.invalid["field"], "pr.head.ref")
+
+        unsafe = dict(claim, worktree="../foreign")
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            landing.validate_claim(unsafe)
+        self.assertEqual(caught.exception.invalid["field"], "claim.worktree")
+
+    def test_empty_cloud_branch_refuses_before_checkpoint(self):
+        snapshot = json.loads(json.dumps(self.f.snapshot))
+        snapshot["pr"]["head"]["ref"] = ""
+        with self.assertRaises(landing_supervisor.SupervisorRefusal) as caught:
+            self.f.prepare("empty-ref", snapshot=snapshot)
+        self.assertEqual(caught.exception.invalid["field"],
+                         "snapshot.pr.head.ref")
+        self.assertFalse((self.f.external / "empty-ref").exists())
 
     def test_local_terminal_candidate_binds_supplied_execution_identity(self):
         snapshot, route = self.f.local_case()

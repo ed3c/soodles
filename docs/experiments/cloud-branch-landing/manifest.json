@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 177
+  },
+  "instructions": [
+    {
+      "path": "contracts/system-v1.md",
+      "baseline_sha256": "7cd2563a03f745e3f7e95e6fded36a0decd4edd010f297a0f45e3bb40f0ec9bf",
+      "treatment_sha256": "31511b7cfe84738edb93fa7474da8c87ac64b6a51b48a7aa30991cdb9aef3c70"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "landing.py",
+      "role": "cloud_claim_consumer",
+      "sha256": "d87fe791cf2ceea03e7889c274423a52db703d20eb87deefdba8df41131e347c"
+    },
+    {
+      "path": "landing_supervisor.py",
+      "role": "cloud_claim_producer",
+      "sha256": "c4ea20f778222f000dafbaec75147ae9a41568b9bb2a07eb0bb224f8fe5257cb"
+    },
+    {
+      "path": "tests/test_landing_supervisor.py",
+      "role": "hard_controls",
+      "sha256": "4eb8652066c5fb7938e9606d77f248be8374d5162db4ebc13b8c36d6133e8c8c"
+    },
+    {
+      "path": "docs/experiments/cloud-branch-landing/raw/baseline.json",
+      "role": "actual_refusal",
+      "sha256": "299d9131d807b2259ceaa133aed27f03ce8fc96cef8ba37ba4fc55d881bf9611"
+    },
+    {
+      "path": "docs/experiments/cloud-branch-landing/raw/candidate.json",
+      "role": "candidate_fixture",
+      "sha256": "d533ea00ced32402bfd3dbc3419f9538d165a7f08b1bd5badaf46ab6af1a31f0"
+    },
+    {
+      "path": "docs/experiments/cloud-branch-landing/raw/tests.txt",
+      "role": "local_test_readback",
+      "sha256": "dfe807d8bdd6d075122ef52d7e44f61c5138cbf9733122d73afe5bd54612c99e"
+    },
+    {
+      "path": "docs/experiments/cloud-branch-landing/results.md",
+      "role": "bounded_result",
+      "sha256": "6092bb81e2ba811b89a96c93e4ac15da3af603942b2564437ed80aaf5cbc976f"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#177"
+  },
+  "authorizes_landing": false
+}
