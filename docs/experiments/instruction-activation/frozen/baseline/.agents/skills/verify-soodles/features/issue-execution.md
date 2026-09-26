@@ -88,16 +88,3 @@ as completion.
 Sources: `issue_admission.py` owns the shared binding, `issue_execution.py` owns
 consumer/worker/takeover gates, and `tests/test_issue_execution.py` contains local
 provider/owner fixture controls. Those fixtures are not live runtime evidence.
-
-## Selected instruction activation
-
-For schema-3 local atom authorization, the supervisor supplies nonempty
-`instruction_pins` at its exact admitted base. The existing owner materializes
-a schema-2 envelope with `execution.instruction_context`: `source_head` plus
-`files` entries containing `path`, `sha256`, and exact UTF-8 `content`. The stage
-prompt carries that context unchanged. Consume the supplied contents; do not
-choose a second recipe or fetch a newer revision. Missing or altered context is
-a pre-launch refusal through the same admission owner. Legacy schema-1 envelopes
-remain valid without a selected-context guarantee. Record the projection and
-process refusal separately from fresh-consumer behavior: supplied bytes do not
-establish reading, adherence, model memory or a global hill-climb result.

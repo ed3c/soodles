@@ -1,0 +1,103 @@
+{
+  "base_head": "00a5909941a632537dc6992b5354cd37614ea4a8",
+  "instructions": [
+    {
+      "path": ".agents/skills/execute/SKILL.md",
+      "baseline_sha256": "c01aa871e9de8bcceaa5648506064a21fb903475a8a2ec91041e6cdf35218592",
+      "treatment_sha256": "1c815d5024a63f44ad8c0531bade1872a5e485f3f43ad581e0c5b0b9a899e149"
+    },
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "f689d1a6a35b00f3e4bca93debb466c8885fcc003633e36d5b62f0d9eebd98d7",
+      "treatment_sha256": "ca1083088bdc4d24f8d9b8ddcc769d15a24fe527fb61af63206e8f6205d24d71"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/issue-execution.md",
+      "baseline_sha256": "ff1de0b791aeb4d133ffc684167203851333abb3a6dcabf088b699f8e51ae53a",
+      "treatment_sha256": "a7414971e64640d6fd6ff948ed6331093d9dc741b705d3b274aba4c8bacf6a4f"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "baseline_sha256": "ffd0ca8efbc404ebf48a52546c1aa42bc392b263aac32bc00ba317a907e81d83",
+      "treatment_sha256": "cf482e5e1fc1a57a6942883bf19a474d3c303303ec7d146b0a261dd1d1013ccd"
+    }
+  ],
+  "files": [
+    {
+      "path": "baseline/.agents/skills/execute/SKILL.md",
+      "sha256": "c01aa871e9de8bcceaa5648506064a21fb903475a8a2ec91041e6cdf35218592"
+    },
+    {
+      "path": "baseline/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "f689d1a6a35b00f3e4bca93debb466c8885fcc003633e36d5b62f0d9eebd98d7"
+    },
+    {
+      "path": "baseline/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "ff1de0b791aeb4d133ffc684167203851333abb3a6dcabf088b699f8e51ae53a"
+    },
+    {
+      "path": "baseline/contracts/system-v1.md",
+      "sha256": "ffd0ca8efbc404ebf48a52546c1aa42bc392b263aac32bc00ba317a907e81d83"
+    },
+    {
+      "path": "consumer-input.py",
+      "sha256": "8a79a008938eeb76996ce1ef19c3a2b301db4c9c6449236ab85afb9f38eab7c8"
+    },
+    {
+      "path": "consumer-observer.py",
+      "sha256": "b822d18e0078c0c3dcff213ec97181b9b7e66e38148d98f55597bd3215622447"
+    },
+    {
+      "path": "fixtures/test_issue_admission.py",
+      "sha256": "27ccc4dd2ceb87c68965dd57612307b8a520a408544b7fe3f7f074343381665c"
+    },
+    {
+      "path": "fixtures/test_issue_atom.py",
+      "sha256": "3a8a4466fc080559583abec9818182d8a7891b56123d126574585f867269e47f"
+    },
+    {
+      "path": "fixtures/test_issue_execution.py",
+      "sha256": "c22c4fcacb2422a501c320c1b5518ab3b1604a5d7c0c29ae74ce757332edabb8"
+    },
+    {
+      "path": "fixtures/test_supervisor_admission.py",
+      "sha256": "63b387188690108d3e731eb628e9acc1dff44c790f6cfda1fe3ba801adb88208"
+    },
+    {
+      "path": "oracle.py",
+      "sha256": "da96f6dd1fb32de7cd0234caceceef5154d675569e1b54170d315f6e3acd32f3"
+    },
+    {
+      "path": "protocol.md",
+      "sha256": "b4c13b4cdcedcfd340611d7a24d11e88ce1e8a4bad16ae5d8200609402ef06d8"
+    },
+    {
+      "path": "qualification.json",
+      "sha256": "db1d6b65a2d2f1c932a1c818dcf3457d49e17a47245baf39df722f7f27292338"
+    },
+    {
+      "path": "read.py",
+      "sha256": "5a4f2a3f87ab4fc26a31d6ecc45d21b679a08686c8af1cc4f9110673861fb5d8"
+    },
+    {
+      "path": "selected-recipe.md",
+      "sha256": "7cbbcbd8a8e00c725afa709a380c77f680bd500928fca91ffbf3050a6dcc8eeb"
+    },
+    {
+      "path": "treatment/.agents/skills/execute/SKILL.md",
+      "sha256": "1c815d5024a63f44ad8c0531bade1872a5e485f3f43ad581e0c5b0b9a899e149"
+    },
+    {
+      "path": "treatment/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "ca1083088bdc4d24f8d9b8ddcc769d15a24fe527fb61af63206e8f6205d24d71"
+    },
+    {
+      "path": "treatment/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "a7414971e64640d6fd6ff948ed6331093d9dc741b705d3b274aba4c8bacf6a4f"
+    },
+    {
+      "path": "treatment/contracts/system-v1.md",
+      "sha256": "cf482e5e1fc1a57a6942883bf19a474d3c303303ec7d146b0a261dd1d1013ccd"
+    }
+  ]
+}

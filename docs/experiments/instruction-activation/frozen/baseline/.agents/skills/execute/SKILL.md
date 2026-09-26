@@ -33,11 +33,3 @@ and `NOODLE_STAGE_INDEX`. Obtain the event command/schema from the actual
 binary's help; do not copy a historical command or let the parent fill the
 outcome. A successful stage does not mean RESOLVED. Report blocked work
 truthfully and leave existing identity/history available to its owner.
-
-When the stage prompt includes `instruction_context`, consume its exact selected
-file contents at `source_head` for this task. The owner has checked their paths
-and SHA-256 values; do not rediscover another recipe or substitute current tips
-for these supplied bytes. This establishes supplied context, not proof that a
-model followed it. Legacy prompts without this field retain their admitted task
-and contract; they make no selected-instruction activation claim. A missing or
-inconsistent required context returns to the existing admission owner.

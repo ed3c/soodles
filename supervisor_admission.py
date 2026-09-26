@@ -19,7 +19,8 @@ import subprocess
 import sys
 import tempfile
 
-from issue_admission import AdmissionRefusal, body_digest, parse_contract, require, scoped_order_id, validate_issue
+from issue_admission import (AdmissionRefusal, body_digest, parse_contract, require,
+                             scoped_order_id, validate_issue, resolve_instruction_context)
 from issue_execution import validate_carrier
 from repository_binding import git_origins, issue_urls
 
@@ -316,7 +317,7 @@ def _config_bytes(output, carrier, *, bootstrap=False):
 
 
 def prepare(issue_readback, carrier, control_root, output, *,
-            interpreter=None, environ=None, task=None, wire_host=False):
+            interpreter=None, environ=None, task=None, wire_host=False, instruction_pins=None):
     """Create one immutable external bundle and return the only start continuation."""
     environ = os.environ if environ is None else environ
     root = Path(control_root)
@@ -390,6 +391,9 @@ def prepare(issue_readback, carrier, control_root, output, *,
             "source_head": head,
         },
     }
+    if instruction_pins is not None:
+        envelope["schema"] = 2
+        envelope["execution"]["instruction_context"] = resolve_instruction_context(root, head, instruction_pins)
     validate_issue(issue_readback, envelope)
     require(isinstance(envelope["execution"]["task"], str)
             and bool(envelope["execution"]["task"].strip()),

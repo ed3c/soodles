@@ -5,7 +5,7 @@ description: Advance one externally authorized local Soodles plus Noodle Issue t
 
 # Local Issue atom
 
-Use only with the immutable schema-2 authorization file selected by the external
+Use only with the immutable schema-2 or schema-3 authorization file selected by the external
 supervisor. Here, external means outside the candidate's authority, not a
 cloud service: the authorized local Session may select the host capabilities,
 authorization and independently pinned landing owner on the same Mac. No cloud
@@ -62,19 +62,8 @@ readiness once per immutable head, delegates PR publication to its existing
 owner, requires exact-head CI, then delegates merge/closure/reconciliation to
 the externally pinned landing owner. The existing admission producer binds the
 task, worker, backlog and native config; the entry preserves the original host
-config and starts the long-running Noodle loop once. A pristine root without a canonical
-Noodle snapshot first receives one pinned Noodle `start --once` through this
-same entry, with the producer-emitted bootstrap config that has no Issue backlog
-adapter. Only its recorded zero exit and empty owner readback permit admission;
-the full Issue backlog config belongs to the later admitted Noodle start.
-An unknown exit or partial runtime refuses without replay. An existing matching owner is
+config and starts the supplied Noodle once. An existing matching owner is
 observed, not restarted. Lost start results require owner readback.
-For a fresh control root re-entering the same Issue, admission derives a stable
-root-scoped Noodle order and worktree name. Retain earlier unmerged Noodle
-worktrees; do not rename or clean them to make the new writer fit. A native
-idle `schedule` order can coexist with the admitted order in the running loop;
-the owner recognizes only its exact pending shape. An active scheduler or any
-other foreign order still requires Noodle readback.
 Write credentials and host App/supplier configuration never enter Noodle or
 candidate children. The existing start wrapper obtains only an Issue-read token
 from the host supplier for those children; no person or session carries it.
