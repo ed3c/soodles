@@ -31,3 +31,10 @@ These are local L-class controls only. They do not establish exact-head Linux
 acceptance, provider PR identity, merge or Issue closure. This correction is
 bound to ed3c/soodles#161 and its own PR. #156 remains open and requires a new
 exact-base authorization after this correction lands.
+
+The first PR head `d08e4842a05635ad3e65f3491331067f1af5eba1` failed
+[runtime run 36218223442](https://github.com/ed3c/soodles/actions/runs/36218223442)
+before Issue readback because the PR body used `Issue: #161`, while the
+workflow requires exactly one standalone `Refs #161` line. The body was
+corrected. That failed run supplies no candidate or canonical acceptance;
+this report is carried on a new head for fresh exact-head validation.
