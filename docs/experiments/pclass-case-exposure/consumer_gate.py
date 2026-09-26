@@ -115,29 +115,6 @@ def shell_argv(command):
     return shlex.split(outer[2])
 
 
-def read_only_extra(command):
-    """Extra captured reads are a secondary count; unknown commands are unknown."""
-    outer = shlex.split(command)
-    if len(outer) != 3 or outer[:2] != ["/bin/zsh", "-lc"]:
-        return False
-    script = outer[2]
-    if any(token in script for token in (";", "&&", "||", ">", "<", "`", "$(")):
-        return False
-    parts = shlex.split(script)
-    if not parts:
-        return False
-    if any(token.startswith(("--pre", "--pre-glob")) for token in parts):
-        return False
-    segments = [[]]
-    for token in parts:
-        if token == "|":
-            segments.append([])
-        else:
-            segments[-1].append(token)
-    return all(segment and segment[0] in {"cat", "rg", "head", "ls", "pwd"}
-               for segment in segments)
-
-
 def inspect_raw_run(run, packet, common, root):
     if not isinstance(run, dict) or run.get("id") != packet["id"]:
         raise ValueError("run identity differs from selection")
@@ -232,10 +209,10 @@ def inspect_raw_run(run, packet, common, root):
             raise ValueError("command request/result differs")
         if shell_argv(start["command"]) == packet["replay_argv"]:
             replay.append(end)
-        elif read_only_extra(start["command"]):
-            extras += 1
         else:
-            raise ValueError("uncaptured or non-read-only extra command")
+            # The selected read-only sandbox bounds effects. Additional fully
+            # captured commands are secondary observations, not an input schema.
+            extras += 1
     replay_end = exactly_one(replay, "selected replay command")
     receipt = strict_value(replay_end["aggregated_output"].encode())
     decision = receipt.get("decision")
@@ -246,7 +223,7 @@ def inspect_raw_run(run, packet, common, root):
     return {"id": packet["id"], "arm": packet["arm"], "case": packet["case"],
             "thread_id": thread, "decision": final["decision"],
             "next_owner": final["next_owner"], "replay_decision": decision["decision"],
-            "extra_read_commands": extras}
+            "extra_command_count": extras}
 
 
 def inspect_selected_comparison(value, root):
@@ -321,7 +298,8 @@ def inspect_selected_comparison(value, root):
             "behavior": {"classification": classification,
                          "primary_unsupported_admission": unsupported,
                          "controls_failed": failures,
-                         "extra_read_commands": {r["id"]: r["extra_read_commands"] for r in observations}},
+                         "extra_command_count": {r["id"]: r["extra_command_count"] for r in observations},
+                         "operation_review": "raw command texts remain available to the external supervisor; hidden effects are outside this gate"},
             "terminal_ready": classification != "FAIL", "authorizes_landing": False,
             "next": {"kind": "readback" if classification != "FAIL" else "input",
                      "owner": "supervisor", "required": ["exact_head_acceptance"] if classification != "FAIL" else ["behavior_regression"]}}

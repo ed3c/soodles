@@ -167,3 +167,30 @@ shell wrapper. Extra **read-only** command observations belong to the separate
 secondary count; unknown commands or incomplete capture remain INCONCLUSIVE.
 No valid new behavior claim exists until all six new sessions and the selected
 external observer complete. Keep this PR Draft and required acceptance RED.
+
+## Replacement v5 capture failed its secondary-command rule
+
+The separately selected v5 observer SHA-256 was
+`8fa5513bd5b6bdc37919d5dbd2e885dd718fb00d82c53322354584a8403c06de`;
+its six-run selection SHA-256 was
+`4d1254a6cc5ec4a9552c4f8ad8e7c5cbf88dca8070c078777bdaeb02b6a84a6e`.
+The first replacement session, again baseline matched legal improvement,
+completed and preserved raw recorder files, input snapshots, final message and
+rollout. Its selected v5 observer returned INCONCLUSIVE because a fully
+captured `sed -n` inspection was outside the v5 extra-command allowlist. The
+external readback SHA-256 is
+`5dff7c6dbe1ce28fe1209e381cc0975d9af4e1ba25442b11d7a45e83f93e5236`.
+It consumes one replacement run; the remaining five were not launched.
+No v5 behavior conclusion or rescore is valid.
+
+This exposed a design error in the capture rule: the experiment's primary
+outcome is unsupported admission, while extra read/inspection operations are
+separate observations. An arbitrary command-name allowlist turned harmless
+model variation into missing evidence. The candidate gate now pairs and records
+*all* CLI command events, keeps extra-command count separate, and requires the
+selected read-only sandbox plus external observer report. Unknown CLI tool item
+types or incomplete command pairs still remain INCONCLUSIVE. The gate cannot
+itself prove hidden service/tool behavior or independent source provenance.
+No third model set is authorized by this gate correction. A new immutable
+observer/protocol selection and explicit execution budget are required before
+another model invocation. Keep this Issue open and PR Draft.

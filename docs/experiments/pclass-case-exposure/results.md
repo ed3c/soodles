@@ -261,3 +261,33 @@ manifest-bound `consumer-comparison.json` remains BLOCKED, so the required
 acceptance test intentionally remains RED until complete external evidence is
 safe to publish and accepted by the selected observer. No test waiver, skip or
 self-labelled PASS was introduced.
+
+## Replacement v5 run and secondary-command diagnosis
+
+The v5 preselected observer SHA-256 was
+`8fa5513bd5b6bdc37919d5dbd2e885dd718fb00d82c53322354584a8403c06de`;
+selection SHA-256 was
+`4d1254a6cc5ec4a9552c4f8ad8e7c5cbf88dca8070c078777bdaeb02b6a84a6e`.
+Only its first selected run executed. CLI exited 0, did not time out, and the
+source clone remained clean. Raw stdout SHA-256 is
+`572507f076682376f4a0b763c74ae502d3f7b6dc9aa099afd73a01ed972af912`;
+rollout SHA-256 is
+`470c2366f26e6c25fcaf34616368dbd513e72b194b739d93de839657cbda2a73`;
+thread is `01a0dd31-f64f-7f21-835d-37d2e9978e67`.
+The selected observer returned INCONCLUSIVE on a captured `sed -n` read that
+its allowlist had omitted. Its external readback SHA-256 is
+`5dff7c6dbe1ce28fe1209e381cc0975d9af4e1ba25442b11d7a45e83f93e5236`.
+No other replacement runs were started. Applying a draft v6 parser to those
+raw bytes shows format compatibility, but that check cannot rescore the v5
+run or make a valid six-run set.
+
+The local `codex sandbox -P :read-only` command probe, which starts no model,
+returned `PermissionError: Operation not permitted` for both an outbound
+socket to 1.1.1.1:443 and a file write in the #157 control root. This checks
+the local built-in read-only profile, not every hidden property of a particular
+model session. The persisted v5 rollout reported sandbox `read-only` and
+approval `never`. External raw command review and source/evidence readback
+remain necessary. No raw rollout was published to the PR because it may contain
+private session instructions or secrets. The candidate gate's synthetic
+control now includes a captured `sed -n` command as a secondary count; 11/11
+related controls pass. The required real consumer artifact remains BLOCKED.

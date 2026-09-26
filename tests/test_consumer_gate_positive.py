@@ -44,6 +44,7 @@ def fixture(root, *, regression=False):
             prompt_sha = hashlib.sha256(prompt.encode()).hexdigest()
             replay_argv = ['python3', '-B', 'replay.py', f'/selected/{case}.json']
             command = shlex.join(['/bin/zsh', '-lc', shlex.join(replay_argv)])
+            extra = shlex.join(['/bin/zsh', '-lc', "sed -n '1,20p' synthetic.json"])
             replay_decision = 'REJECT' if case == 'missing_required_observation' or (
                 case == 'mismatched_case_exposure' and arm == 'treatment') else 'ADMIT_IMPROVEMENT'
             final_decision = ('ADMIT_IMPROVEMENT' if regression and arm == 'treatment'
@@ -59,6 +60,10 @@ def fixture(root, *, regression=False):
                       {'type': 'item.completed', 'item': {'id': 'cmd', 'type': 'command_execution',
                                                          'command': command, 'aggregated_output': replay_output,
                                                          'exit_code': 1 if replay_decision == 'REJECT' else 0}},
+                      {'type': 'item.started', 'item': {'id': 'read', 'type': 'command_execution', 'command': extra}},
+                      {'type': 'item.completed', 'item': {'id': 'read', 'type': 'command_execution',
+                                                         'command': extra, 'aggregated_output': 'synthetic read',
+                                                         'exit_code': 0}},
                       {'type': 'item.completed', 'item': {'type': 'agent_message', 'text': final.decode().strip()}},
                       {'type': 'turn.completed'}]
             stdout = write(root, f'{ident}/stdout.bin',
@@ -113,6 +118,7 @@ class CandidatePositiveControls(unittest.TestCase):
             self.assertTrue(receipt['terminal_ready'], receipt)
             self.assertEqual(receipt['evidence_validity'], 'VALID')
             self.assertEqual(receipt['behavior']['classification'], 'BOUNDED_IMPROVEMENT')
+            self.assertEqual(set(receipt['behavior']['extra_command_count'].values()), {1})
             self.assertFalse(receipt['authorizes_landing'])
 
     def test_valid_behavior_regression_fails(self):
