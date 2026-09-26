@@ -7,8 +7,8 @@
   "instructions": [
     {
       "path": ".agents/skills/issue-atom/SKILL.md",
-      "baseline_sha256": "9a513868aa9061170660c2facc593a2f6780465df0d35fd5a510c39e5f46f73f",
-      "treatment_sha256": "89728270dddffd97983f934de5a038f3ec3874367b3cbcd4be09e3af98ce1d73"
+      "baseline_sha256": "ef65a607eb5d4db46e1de2c234b7a644c7e976491d1a6c0973bf0264c415752b",
+      "treatment_sha256": "6d1610249b5a05f18dd5536a95b161f1dadf2a627718538612b97e75f4fe6489"
     }
   ],
   "artifacts": [
@@ -20,7 +20,7 @@
     {
       "path": "issue_atom.py",
       "role": "implementation",
-      "sha256": "9f29141c4e8cb0f4539e2dc4ca5571337348fcac9a76e9081d2a00f2b0ed0480"
+      "sha256": "81d993c137d046c89570ad9d078e5a3a27537154709dfe243780692b46e49413"
     },
     {
       "path": "tests/test_landing_supervisor.py",
@@ -33,9 +33,14 @@
       "sha256": "8850d4a3415a14b2da70ddc2de27daa6febcd167582fccf700a13a018edb9417"
     },
     {
+      "path": "tests/test_instruction_activation_evidence.py",
+      "role": "hard_controls",
+      "sha256": "fe6ef545edcc95af6e8c0b0a0bda0847c0dd180edf643c94a88bd8041f6fd231"
+    },
+    {
       "path": "docs/experiments/local-landing-readmission/results.md",
       "role": "result",
-      "sha256": "d2d5b81954357b4bea1c30da415c39e821ca50dbd9e68f7c7e674ba5c58aa21a"
+      "sha256": "c24291e9838f1fe279753dd7cbf51596550b74d20dc889d982272939b4ccc4e0"
     },
     {
       "path": "docs/experiments/local-landing-readmission/raw/baseline.json",
@@ -45,12 +50,12 @@
     {
       "path": "docs/experiments/local-landing-readmission/raw/positive.json",
       "role": "candidate",
-      "sha256": "63492f1ed9767b00ed48765941dec75afb6004193bc8783382aeba208ea9eea8"
+      "sha256": "f5ed799411b63e63136465d81504415e30834c03498fda0ec55493e9474b14e2"
     },
     {
       "path": "docs/experiments/local-landing-readmission/raw/tests.txt",
       "role": "tests",
-      "sha256": "0a53edcf5518da8a399d0a7d7b709025227bf1d5583b6a37e0d3c11339265842"
+      "sha256": "4b970bdfecf408f525e59b7ff83365aad178559b94421407e2f031f1030cb620"
     }
   ],
   "owner": {

@@ -10,10 +10,25 @@
     "command": "TMPDIR=/private/tmp PYTHONPATH=.:tests python3 -m unittest discover -s tests",
     "result": "OK",
     "summary": [
-      "Ran 379 tests in 121.356s",
+      "Ran 390 tests in 112.745s",
       "",
       "OK"
     ]
   },
-  "scope": "local fixture controls only; live #156 activation and terminal landing are subsequent owner steps"
+  "historical_evidence_control": "Immutable #156 hashes checked at delivered head 60fa3a84350c5f701f37976a511ac114a5a9cfc4; current executable replay remains a separate assertion.",
+  "live_156": {
+    "activation_manifest_sha256": "a79b1bae5758f09eb4c297fb4e5cc375514bac0faad4d1b5d031afcf4fc45088",
+    "checkpoint_observed_sha256": "4c5a18d31ee4734bde431924154850f413ac91545cee24ff153e0a59dfc22788",
+    "classification": null,
+    "issue_closed_at": "2026-09-26T06:59:39Z",
+    "merge_sha": "40d6c0a6d5963d54fa924d3694b8becf9c359fda",
+    "phase": "awaiting_reconcile",
+    "reconcile_refusal_sha256": "ab536534c830e873298dd9616321baff23c0d3d97b560d4ad21a00952ee02c7d",
+    "remaining_owner": "ed3c/soodles#175",
+    "writes_offered": [
+      "merge",
+      "close"
+    ]
+  },
+  "scope": "Local controls plus observed #156 activation and provider merge/closure; detached-root reconciliation remains pending in #175."
 }
