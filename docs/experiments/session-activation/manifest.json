@@ -1,5 +1,5 @@
 {
-  "schema": 2,
+  "schema": 1,
   "issue": {
     "repository": "ed3c/soodles",
     "number": 159
@@ -33,21 +33,5 @@
     "tool": "GitHub connector/provider readback",
     "authorization": "ed3c/soodles#159"
   },
-  "claim_scope": {
-    "includes": [
-      "selected-route preservation",
-      "session-local capability scoping",
-      "fresh-session capability refresh",
-      "run-level cloud/local independence"
-    ],
-    "excludes": [
-      "matched causal behavior improvement",
-      "complete independent child event transcript",
-      "universal native availability",
-      "repository CLI enforcement of ChatGPT Host",
-      "ed3c/soodles#170 local comparison evidence"
-    ]
-  },
-  "terminal_candidate_ready": true,
   "authorizes_landing": false
 }
