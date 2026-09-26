@@ -1,0 +1,18 @@
+{
+  "scope": "pre-freeze harness qualification",
+  "failures": [
+    {
+      "step": "oracle and consumer-input fixture source resolution",
+      "cause": "copied SupervisorFixture ROOT pointed at frozen directory instead of selected subject",
+      "correction": "explicitly set snapshot fixture ROOT to subject root; retain first oracle raw"
+    },
+    {
+      "step": "consumer-input canonical proposal read",
+      "cause": "snapshot fixture stores root, not a runtime attribute",
+      "correction": "use root/.noodle/orders-next.json"
+    }
+  ],
+  "subsequent_input_producer": "PASS",
+  "baseline_oracle": "capability gap; new keyword/schema unsupported, legacy sentinel PASS",
+  "no_candidate_edits_before_freeze": true
+}

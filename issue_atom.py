@@ -138,6 +138,22 @@ def require_clean_control_root(authorization):
             "git.status", "dirty", "clean_exact_control_root")
 
 
+def selected_instruction_pins(authorization):
+    """Keep admission diagnostics on the atom's same-command refusal surface."""
+    schema = authorization.get("schema_version")
+    require(type(schema) is int and schema in (2, 3), "authorization.schema_version", schema)
+    if schema == 2:
+        require("instruction_pins" not in authorization, "authorization.instruction_pins", "legacy schema")
+        return None
+    pins = authorization.get("instruction_pins")
+    try:
+        issue_admission.resolve_instruction_context(
+            authorization["control_root"], authorization["base_head"], pins)
+    except issue_admission.AdmissionRefusal as error:
+        raise AtomRefusal(error.invalid["field"], error.invalid["value"]) from error
+    return pins
+
+
 def _validate_authorization(path, expected_digest, *, allow_advanced=False):
     source = Path(path)
     require(source.is_absolute(), "authorization.path", str(source), "absolute_external_authorization")
@@ -146,9 +162,11 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
     require(isinstance(expected_digest, str) and SHA64.fullmatch(expected_digest),
             "authorization.digest", expected_digest, "SOODLES_AUTHORIZATION_SHA256")
     require(actual == expected_digest, "authorization.digest", actual, "matching_external_digest")
-    require(set(value) == AUTH_FIELDS | {"landing_owner"}, "authorization.fields", sorted(value),
+    schema = value.get("schema_version")
+    require(type(schema) is int and schema in (2, 3), "authorization.schema_version", schema)
+    require(set(value) == AUTH_FIELDS | {"landing_owner"} | ({"instruction_pins"} if schema == 3 else set()), "authorization.fields", sorted(value),
             "external_authorization_with_pinned_host_and_landing_owner")
-    require(value["schema_version"] == 2 and value["owner"] == "external-supervisor",
+    require(value["owner"] == "external-supervisor",
             "authorization.owner", [value["schema_version"], value["owner"]])
     repository = value["repository"]
     require(isinstance(repository, str) and REPOSITORY.fullmatch(repository)
@@ -161,6 +179,7 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
             "authorization_outside_control_root")
     require(isinstance(value["base_head"], str) and SHA40.fullmatch(value["base_head"]),
             "authorization.base_head", value["base_head"])
+    selected_instruction_pins(value)
     current_head = _git(root, "rev-parse", "HEAD")
     if allow_advanced:
         ancestor = subprocess.run(
@@ -398,10 +417,12 @@ def response(state, authorization_path, *, status="pending", waiting_on=None, de
 def create_envelope(authorization, issue, body, path, *, environ=None):
     root = Path(authorization["control_root"]).resolve()
     require(issue["body"] == body, "envelope.issue_body", "changed")
+    pins = selected_instruction_pins(authorization)
     path.parent.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     result = supervisor_admission.prepare(
         issue, {**authorization["carrier"], "noodle": authorization["noodle"]},
-        root, path.parent, environ=environ, task=authorization["task"], wire_host=True)
+        root, path.parent, environ=environ, task=authorization["task"], wire_host=True,
+        instruction_pins=pins)
     save_json(path.parent / "prepared.json", result, fresh=True)
     return read_json(path, "envelope"), result["envelope_sha256"]
 
