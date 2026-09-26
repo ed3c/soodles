@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 145
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/order-handoff.md",
+      "baseline_sha256": "2e413e753a9af388ea7b2f54ef737ec29194ef52d1f55c6767af760559f95c7b",
+      "treatment_sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "resume_oracle.py",
+      "role": "order_handoff_helper_binding_evidence",
+      "sha256": "71ff3977e3c888aafd59d498b7a45feba08555043c784e242be3c1d91109bc03"
+    },
+    {
+      "path": "tests/test_issue_resume.py",
+      "role": "order_handoff_helper_binding_evidence",
+      "sha256": "e37dfdb560bf0cf22a972dec84dacd525bf26c3fd419d3954ab3388abc7d5a80"
+    },
+    {
+      "path": "docs/experiments/order-handoff-helper-binding/comparison-protocol.md",
+      "role": "order_handoff_helper_binding_evidence",
+      "sha256": "bed7c4e511019cc825a6e32a210cee7ea1127f33071b85d4d22cc46005086a71"
+    },
+    {
+      "path": "docs/experiments/order-handoff-helper-binding/comparator.py",
+      "role": "order_handoff_helper_binding_evidence",
+      "sha256": "4443f411750871806b17edfcfe764d7cd24eb96e7c8f8a7570e5f7ce96e13eba"
+    },
+    {
+      "path": "docs/experiments/order-handoff-helper-binding/baseline.json",
+      "role": "order_handoff_helper_binding_evidence",
+      "sha256": "b69a148412d62a02e70babc4793aff0d7e0bbf7dc4c7f41068e82e18984e97fe"
+    },
+    {
+      "path": "docs/experiments/order-handoff-helper-binding/treatment.json",
+      "role": "order_handoff_helper_binding_evidence",
+      "sha256": "1b521d98ae098cdd777e9c0db82c769d8b25908ff9ffff9e82e3981caec36334"
+    },
+    {
+      "path": "docs/experiments/order-handoff-helper-binding/decision.json",
+      "role": "order_handoff_helper_binding_evidence",
+      "sha256": "8666a0be293091313b295dc091ecf1dc7f45f61671fb8ac50d9d4b5a2167d10e"
+    },
+    {
+      "path": "docs/experiments/order-handoff-helper-binding/results.md",
+      "role": "order_handoff_helper_binding_evidence",
+      "sha256": "a7609b28cec0d4902d4d418126600ef8c4be0f003fbe2314891506c823041c06"
+    },
+    {
+      "path": "docs/experiments/order-handoff-helper-binding/captures.tar.gz",
+      "role": "order_handoff_helper_binding_evidence",
+      "sha256": "b254b1dae87c334ad32258389bacc70e9de1d535f587464e007a19524fad808c"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#145"
+  },
+  "authorizes_landing": false
+}

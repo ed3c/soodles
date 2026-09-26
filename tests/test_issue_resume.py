@@ -4,6 +4,9 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
 
 import issue_admission
@@ -125,6 +128,61 @@ class IssueResumeTests(unittest.TestCase):
         self.assertFalse(self.mailbox.exists())
         self.checkpoint.write_text('not json')
         self.refused('resume.checkpoint')
+
+
+class ResumeHelperBindingTests(unittest.TestCase):
+    def probe(self, candidate_matches=False, cached=False, missing_sibling=False):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            external = root / 'external'
+            candidate = root / 'candidate'
+            external.mkdir()
+            candidate.mkdir()
+            oracle = Path(__file__).resolve().parents[1] / 'resume_oracle.py'
+            (external / oracle.name).write_bytes(oracle.read_bytes())
+            helper = '''def _session(*args): pass
+def handoff_probe(binary, source):
+    import issue_execution
+    assert issue_execution.candidate_production
+    raise RuntimeError('pinned sibling reached lifecycle')
+'''
+            if not missing_sibling:
+                (external / 'handoff_oracle.py').write_text(helper)
+            marker = root / 'candidate-helper-executed'
+            planted = f"from pathlib import Path\nPath({str(marker)!r}).touch()\n"
+            (candidate / 'handoff_oracle.py').write_text(helper if candidate_matches else planted)
+            (candidate / 'issue_execution.py').write_text(
+                'candidate_production = True\ndef automatic(*args): pass\n')
+            runner = '''import importlib.util, sys, types
+from pathlib import Path
+external, candidate, cached = sys.argv[1:]
+if cached == 'True':
+    for name in ('handoff_oracle', '_resume_handoff_oracle'):
+        sys.modules[name] = types.ModuleType(name)
+spec = importlib.util.spec_from_file_location('external_resume', Path(external) / 'resume_oracle.py')
+oracle = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(oracle)
+oracle.resume_probe('unused-noodle', candidate)
+'''
+            result = subprocess.run([sys.executable, '-B', '-c', runner,
+                                     str(external), str(candidate), str(cached)],
+                                    cwd=root, capture_output=True, text=True, timeout=10)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertFalse(marker.exists(), result.stderr)
+            return result.stderr
+
+    def test_matching_pair_reaches_lifecycle_with_candidate_production(self):
+        self.assertIn('RuntimeError: pinned sibling reached lifecycle',
+                      self.probe(candidate_matches=True))
+
+    def test_candidate_helper_and_cached_modules_cannot_replace_sibling(self):
+        for cached in (False, True):
+            with self.subTest(cached=cached):
+                self.assertIn('RuntimeError: pinned sibling reached lifecycle',
+                              self.probe(cached=cached))
+
+    def test_missing_sibling_fails_without_candidate_fallback(self):
+        self.assertIn('FileNotFoundError:', self.probe(missing_sibling=True))
 
 
 class ResumeEvidenceTests(unittest.TestCase):

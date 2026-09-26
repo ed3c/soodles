@@ -1,0 +1,76 @@
+{
+  "authorizes_landing": false,
+  "barrier": null,
+  "checks": {
+    "matching_ok": true,
+    "mismatch_executed": false,
+    "mismatch_safe": true,
+    "source_stable": true
+  },
+  "classification": "NO_OBSERVED_BARRIER",
+  "cleanup": {
+    "disposable_run_retained": true,
+    "source_unchanged": true
+  },
+  "external_operations": [],
+  "inputs": {
+    "handoff_oracle_sha256": "07823abd99bfcfacc89a14779fc2762e98a4ea1d8de338c98785ace3507dac89",
+    "planted_helper_sha256": "a21c869859839904485c7aa23cd5c4c70dd37afb07a3a82e0f05350e221707df",
+    "resume_oracle_sha256": "71ff3977e3c888aafd59d498b7a45feba08555043c784e242be3c1d91109bc03"
+  },
+  "matching": {
+    "argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/external/resume_oracle.py",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/absent-noodle",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/matching-source"
+    ],
+    "cwd": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment",
+    "elapsed_seconds": 0.09654679102823138,
+    "exit_status": 1,
+    "marker_bytes": null,
+    "marker_present": false,
+    "stderr": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/matching.stderr.bin",
+    "stderr_sha256": "d6bf794019d4e73279c6ed7e97129a63f05b62bca93fdc2b54974bbe9b3d43df",
+    "stderr_text": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/external/resume_oracle.py\", line 148, in <module>\n    print(json.dumps(resume_probe(sys.argv[1], sys.argv[2]), indent=2))\n                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/external/resume_oracle.py\", line 25, in resume_probe\n    import issue_execution\nModuleNotFoundError: No module named 'issue_execution'\n",
+    "stdout": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/matching.stdout.bin",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "planted_negative": {
+    "argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/external/resume_oracle.py",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/absent-noodle",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/mismatched-source"
+    ],
+    "cwd": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment",
+    "elapsed_seconds": 0.08015475003048778,
+    "exit_status": 1,
+    "marker_bytes": null,
+    "marker_present": false,
+    "stderr": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/mismatched.stderr.bin",
+    "stderr_sha256": "d6bf794019d4e73279c6ed7e97129a63f05b62bca93fdc2b54974bbe9b3d43df",
+    "stderr_text": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/external/resume_oracle.py\", line 148, in <module>\n    print(json.dumps(resume_probe(sys.argv[1], sys.argv[2]), indent=2))\n                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/external/resume_oracle.py\", line 25, in resume_probe\n    import issue_execution\nModuleNotFoundError: No module named 'issue_execution'\n",
+    "stdout": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/treatment/mismatched.stdout.bin",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "sample_count": {
+    "matching": 1,
+    "planted_negative": 1
+  },
+  "schema": 1,
+  "source": {
+    "head": "a2da2e4eba431fb2547049f883e96378db99dbe4",
+    "root": "/Users/neon/.codex/experiments/soodles-145-supervisor/sources/candidate",
+    "status_after": "",
+    "status_before": "",
+    "tree": "5439a74865a4754a99356bcd7650b11d090c2bab"
+  },
+  "unknowns": [
+    "canonical Linux behavior",
+    "fresh model behavior",
+    "provider behavior"
+  ]
+}

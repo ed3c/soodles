@@ -1,0 +1,76 @@
+{
+  "authorizes_landing": false,
+  "barrier": "candidate transitive helper executed before external identity binding",
+  "checks": {
+    "matching_ok": true,
+    "mismatch_executed": true,
+    "mismatch_safe": false,
+    "source_stable": true
+  },
+  "classification": "OBSERVED_BARRIER",
+  "cleanup": {
+    "disposable_run_retained": true,
+    "source_unchanged": true
+  },
+  "external_operations": [],
+  "inputs": {
+    "handoff_oracle_sha256": "07823abd99bfcfacc89a14779fc2762e98a4ea1d8de338c98785ace3507dac89",
+    "planted_helper_sha256": "a21c869859839904485c7aa23cd5c4c70dd37afb07a3a82e0f05350e221707df",
+    "resume_oracle_sha256": "9bb812f17f68b31ea10b2b7233000fd8a9c4e93592ac02b86661cbf3d854a662"
+  },
+  "matching": {
+    "argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/external/resume_oracle.py",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/absent-noodle",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/matching-source"
+    ],
+    "cwd": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline",
+    "elapsed_seconds": 0.1220065001398325,
+    "exit_status": 1,
+    "marker_bytes": null,
+    "marker_present": false,
+    "stderr": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/matching.stderr.bin",
+    "stderr_sha256": "0778583ced809239fa95444a6f33c6e7b7832163e751433552b7092a774ec73a",
+    "stderr_text": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/external/resume_oracle.py\", line 144, in <module>\n    print(json.dumps(resume_probe(sys.argv[1], sys.argv[2]), indent=2))\n                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/external/resume_oracle.py\", line 21, in resume_probe\n    import issue_execution\nModuleNotFoundError: No module named 'issue_execution'\n",
+    "stdout": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/matching.stdout.bin",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "planted_negative": {
+    "argv": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/external/resume_oracle.py",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/absent-noodle",
+      "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/mismatched-source"
+    ],
+    "cwd": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline",
+    "elapsed_seconds": 0.06835475005209446,
+    "exit_status": 1,
+    "marker_bytes": "candidate helper executed\n",
+    "marker_present": true,
+    "stderr": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/mismatched.stderr.bin",
+    "stderr_sha256": "c5b48abcbbfcde9274b914286c126529f93243e78acda83548429fdd63f314f5",
+    "stderr_text": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/external/resume_oracle.py\", line 144, in <module>\n    print(json.dumps(resume_probe(sys.argv[1], sys.argv[2]), indent=2))\n                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/external/resume_oracle.py\", line 20, in resume_probe\n    import handoff_oracle as lifecycle\n  File \"/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/mismatched-source/handoff_oracle.py\", line 5, in <module>\n    raise RuntimeError(\"candidate helper executed\")\nRuntimeError: candidate helper executed\n",
+    "stdout": "/Users/neon/.codex/experiments/soodles-145-supervisor/evidence/baseline/mismatched.stdout.bin",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "sample_count": {
+    "matching": 1,
+    "planted_negative": 1
+  },
+  "schema": 1,
+  "source": {
+    "head": "820a579e3a9e6f6724f6defbcda2d0dc3422a87f",
+    "root": "/Users/neon/.codex/experiments/soodles-145-supervisor/sources/baseline",
+    "status_after": "",
+    "status_before": "",
+    "tree": "8c52228a0a416143ebfb721e86104436457c3df2"
+  },
+  "unknowns": [
+    "canonical Linux behavior",
+    "fresh model behavior",
+    "provider behavior"
+  ]
+}
