@@ -267,11 +267,6 @@ blocking identity where known. This mutex is not a persistent lease or queue.
 The entry preserves
 the original host config and checks Noodle's own instance lock and quiescence
 before installing exact config and invoking the producer's returned start argv.
-For a pristine control root without a canonical snapshot, it first uses the
-producer's pinned one-cycle Noodle start to let Noodle write that snapshot.
-Only a recorded zero exit, empty owner readback and restored host config permit
-the ordinary supervised admission; an unknown exit or partial runtime refuses
-without replaying the start.
 Start intent precedes the effect. A running exact owner is adopted; stopped or
 unknown prior starts cannot be reoffered. This is not a second scheduler or
 permission to recover old failed orders.
@@ -348,6 +343,7 @@ Those controls do not prove child behavior; the externally prepared bounded
 comparison supplies only its observed scope, with missing behavior evidence
 remaining INCONCLUSIVE. Publication readiness, exact-head Linux acceptance,
 landing readbacks and reconciliation retain their existing owners and authority.
+
 
 ## Local selected-instruction activation
 

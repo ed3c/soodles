@@ -1,0 +1,161 @@
+{
+  "oracle_sha256": "da96f6dd1fb32de7cd0234caceceef5154d675569e1b54170d315f6e3acd32f3",
+  "subject_root": "/Users/neon/soodles",
+  "subject_head": "00a5909941a632537dc6992b5354cd37614ea4a8",
+  "cases": [
+    {
+      "case": "producer_valid",
+      "verdict": "FAIL",
+      "error": "TypeError",
+      "detail": "prepare() got an unexpected keyword argument 'instruction_pins'",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 93, in <lambda>\n    for m in ['valid','wrong_digest','missing_file','duplicate','traversal','empty']:case('producer_'+m,lambda m=m:producer(m))\n                                                                                                                   ~~~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 37, in producer\n    output,prepared=f.prepare('selected',instruction_pins=pins)\n                    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/fixtures/test_supervisor_admission.py\", line 157, in prepare\n    result = supervisor_admission.prepare(\n        self.issue, self.carrier, self.root, output, environ=environ, **kwargs)\nTypeError: prepare() got an unexpected keyword argument 'instruction_pins'\n"
+    },
+    {
+      "case": "producer_wrong_digest",
+      "verdict": "FAIL",
+      "error": "TypeError",
+      "detail": "prepare() got an unexpected keyword argument 'instruction_pins'",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 93, in <lambda>\n    for m in ['valid','wrong_digest','missing_file','duplicate','traversal','empty']:case('producer_'+m,lambda m=m:producer(m))\n                                                                                                                   ~~~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in producer\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                             ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 18, in refuse\n    try: fn()\n         ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in <lambda>\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                                           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/fixtures/test_supervisor_admission.py\", line 157, in prepare\n    result = supervisor_admission.prepare(\n        self.issue, self.carrier, self.root, output, environ=environ, **kwargs)\nTypeError: prepare() got an unexpected keyword argument 'instruction_pins'\n"
+    },
+    {
+      "case": "producer_missing_file",
+      "verdict": "FAIL",
+      "error": "TypeError",
+      "detail": "prepare() got an unexpected keyword argument 'instruction_pins'",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 93, in <lambda>\n    for m in ['valid','wrong_digest','missing_file','duplicate','traversal','empty']:case('producer_'+m,lambda m=m:producer(m))\n                                                                                                                   ~~~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in producer\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                             ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 18, in refuse\n    try: fn()\n         ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in <lambda>\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                                           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/fixtures/test_supervisor_admission.py\", line 157, in prepare\n    result = supervisor_admission.prepare(\n        self.issue, self.carrier, self.root, output, environ=environ, **kwargs)\nTypeError: prepare() got an unexpected keyword argument 'instruction_pins'\n"
+    },
+    {
+      "case": "producer_duplicate",
+      "verdict": "FAIL",
+      "error": "TypeError",
+      "detail": "prepare() got an unexpected keyword argument 'instruction_pins'",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 93, in <lambda>\n    for m in ['valid','wrong_digest','missing_file','duplicate','traversal','empty']:case('producer_'+m,lambda m=m:producer(m))\n                                                                                                                   ~~~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in producer\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                             ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 18, in refuse\n    try: fn()\n         ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in <lambda>\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                                           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/fixtures/test_supervisor_admission.py\", line 157, in prepare\n    result = supervisor_admission.prepare(\n        self.issue, self.carrier, self.root, output, environ=environ, **kwargs)\nTypeError: prepare() got an unexpected keyword argument 'instruction_pins'\n"
+    },
+    {
+      "case": "producer_traversal",
+      "verdict": "FAIL",
+      "error": "TypeError",
+      "detail": "prepare() got an unexpected keyword argument 'instruction_pins'",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 93, in <lambda>\n    for m in ['valid','wrong_digest','missing_file','duplicate','traversal','empty']:case('producer_'+m,lambda m=m:producer(m))\n                                                                                                                   ~~~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in producer\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                             ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 18, in refuse\n    try: fn()\n         ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in <lambda>\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                                           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/fixtures/test_supervisor_admission.py\", line 157, in prepare\n    result = supervisor_admission.prepare(\n        self.issue, self.carrier, self.root, output, environ=environ, **kwargs)\nTypeError: prepare() got an unexpected keyword argument 'instruction_pins'\n"
+    },
+    {
+      "case": "producer_empty",
+      "verdict": "FAIL",
+      "error": "TypeError",
+      "detail": "prepare() got an unexpected keyword argument 'instruction_pins'",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 93, in <lambda>\n    for m in ['valid','wrong_digest','missing_file','duplicate','traversal','empty']:case('producer_'+m,lambda m=m:producer(m))\n                                                                                                                   ~~~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in producer\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                             ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 18, in refuse\n    try: fn()\n         ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 34, in <lambda>\n    if mode!='valid': return refuse(lambda:f.prepare('selected',instruction_pins=pins),output.exists)\n                                           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/fixtures/test_supervisor_admission.py\", line 157, in prepare\n    result = supervisor_admission.prepare(\n        self.issue, self.carrier, self.root, output, environ=environ, **kwargs)\nTypeError: prepare() got an unexpected keyword argument 'instruction_pins'\n"
+    },
+    {
+      "case": "worker_valid",
+      "verdict": "FAIL",
+      "error": "AdmissionRefusal",
+      "detail": "Issue admission: invalid envelope.schema=2; owner: supervisor; required: execution_envelope",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 94, in <lambda>\n    for m in ['valid','legacy','bad_content','wrong_source','missing_context','dropped_prompt','changed_prompt']:case('worker_'+m,lambda m=m:worker(m))\n                                                                                                                                             ~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 66, in worker\n    f.admit('supervised'); f.promote_fixture()\n    ~~~~~~~^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/fixtures/test_issue_execution.py\", line 75, in admit\n    return getattr(execution, route)(self.path, self.pin, self.root, reader=self.reader)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/soodles/issue_execution.py\", line 414, in supervised\n    return _admit(envelope_path, envelope_digest, root, reader, \"supervised\", observe_live=observe_live)\n  File \"/Users/neon/soodles/issue_execution.py\", line 340, in _admit\n    binding = context(envelope_path, envelope_digest, root, reader)\n  File \"/Users/neon/soodles/issue_execution.py\", line 122, in context\n    envelope = load_external_envelope(envelope_path, envelope_digest, root)\n  File \"/Users/neon/soodles/issue_admission.py\", line 235, in load_external_envelope\n    return validate_envelope(json.loads(data))\n  File \"/Users/neon/soodles/issue_admission.py\", line 158, in validate_envelope\n    require(type(envelope[\"schema\"]) is int and envelope[\"schema\"] == 1, \"envelope.schema\", envelope[\"schema\"])\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/soodles/issue_admission.py\", line 42, in require\n    raise AdmissionRefusal(field, value, **source)\nissue_admission.AdmissionRefusal: Issue admission: invalid envelope.schema=2; owner: supervisor; required: execution_envelope\n"
+    },
+    {
+      "case": "worker_legacy",
+      "verdict": "PASS",
+      "observation": {
+        "child_sentinel": "observed",
+        "context_present": false,
+        "session_id": "soodles-18-0-execute-session",
+        "scope": "actual sentinel process; fixture Noodle state"
+      }
+    },
+    {
+      "case": "worker_bad_content",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "envelope.schema",
+          "value": 2
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "worker_wrong_source",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "envelope.schema",
+          "value": 2
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "worker_missing_context",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "envelope.schema",
+          "value": 2
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "worker_dropped_prompt",
+      "verdict": "FAIL",
+      "error": "AdmissionRefusal",
+      "detail": "Issue admission: invalid envelope.schema=2; owner: supervisor; required: execution_envelope",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 94, in <lambda>\n    for m in ['valid','legacy','bad_content','wrong_source','missing_context','dropped_prompt','changed_prompt']:case('worker_'+m,lambda m=m:worker(m))\n                                                                                                                                             ~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 66, in worker\n    f.admit('supervised'); f.promote_fixture()\n    ~~~~~~~^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/fixtures/test_issue_execution.py\", line 75, in admit\n    return getattr(execution, route)(self.path, self.pin, self.root, reader=self.reader)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/soodles/issue_execution.py\", line 414, in supervised\n    return _admit(envelope_path, envelope_digest, root, reader, \"supervised\", observe_live=observe_live)\n  File \"/Users/neon/soodles/issue_execution.py\", line 340, in _admit\n    binding = context(envelope_path, envelope_digest, root, reader)\n  File \"/Users/neon/soodles/issue_execution.py\", line 122, in context\n    envelope = load_external_envelope(envelope_path, envelope_digest, root)\n  File \"/Users/neon/soodles/issue_admission.py\", line 235, in load_external_envelope\n    return validate_envelope(json.loads(data))\n  File \"/Users/neon/soodles/issue_admission.py\", line 158, in validate_envelope\n    require(type(envelope[\"schema\"]) is int and envelope[\"schema\"] == 1, \"envelope.schema\", envelope[\"schema\"])\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/soodles/issue_admission.py\", line 42, in require\n    raise AdmissionRefusal(field, value, **source)\nissue_admission.AdmissionRefusal: Issue admission: invalid envelope.schema=2; owner: supervisor; required: execution_envelope\n"
+    },
+    {
+      "case": "worker_changed_prompt",
+      "verdict": "FAIL",
+      "error": "AdmissionRefusal",
+      "detail": "Issue admission: invalid envelope.schema=2; owner: supervisor; required: execution_envelope",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 94, in <lambda>\n    for m in ['valid','legacy','bad_content','wrong_source','missing_context','dropped_prompt','changed_prompt']:case('worker_'+m,lambda m=m:worker(m))\n                                                                                                                                             ~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 66, in worker\n    f.admit('supervised'); f.promote_fixture()\n    ~~~~~~~^^^^^^^^^^^^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/fixtures/test_issue_execution.py\", line 75, in admit\n    return getattr(execution, route)(self.path, self.pin, self.root, reader=self.reader)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/soodles/issue_execution.py\", line 414, in supervised\n    return _admit(envelope_path, envelope_digest, root, reader, \"supervised\", observe_live=observe_live)\n  File \"/Users/neon/soodles/issue_execution.py\", line 340, in _admit\n    binding = context(envelope_path, envelope_digest, root, reader)\n  File \"/Users/neon/soodles/issue_execution.py\", line 122, in context\n    envelope = load_external_envelope(envelope_path, envelope_digest, root)\n  File \"/Users/neon/soodles/issue_admission.py\", line 235, in load_external_envelope\n    return validate_envelope(json.loads(data))\n  File \"/Users/neon/soodles/issue_admission.py\", line 158, in validate_envelope\n    require(type(envelope[\"schema\"]) is int and envelope[\"schema\"] == 1, \"envelope.schema\", envelope[\"schema\"])\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/soodles/issue_admission.py\", line 42, in require\n    raise AdmissionRefusal(field, value, **source)\nissue_admission.AdmissionRefusal: Issue admission: invalid envelope.schema=2; owner: supervisor; required: execution_envelope\n"
+    },
+    {
+      "case": "authorization_valid",
+      "verdict": "FAIL",
+      "error": "AtomRefusal",
+      "detail": "issue atom: invalid authorization.fields=['base_head', 'carrier', 'control_root', 'host_config_sha256', 'instruction_pins', 'issue', 'landing_owner', 'noodle', 'owner', 'repository', 'schema_version', 'task', 'workflow']",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 15, in case\n    try: data=fn(); results.append({'case':name,'verdict':'PASS','observation':data})\n              ~~^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 95, in <lambda>\n    for m in ['valid','wrong_digest','missing']:case('authorization_'+m,lambda m=m:authorization(m))\n                                                                                   ~~~~~~~~~~~~~^^^\n  File \"/Users/neon/.codex/experiments/instruction-activation-az86ajr2/frozen/oracle.py\", line 86, in authorization\n    a,_=atom.validate_authorization(f.path,digest)\n        ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^\n  File \"/Users/neon/soodles/issue_atom.py\", line 131, in validate_authorization\n    value, actual = _validate_authorization(path, expected_digest, allow_advanced=allow_advanced)\n                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/soodles/issue_atom.py\", line 149, in _validate_authorization\n    require(set(value) == AUTH_FIELDS | {\"landing_owner\"}, \"authorization.fields\", sorted(value),\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n            \"external_authorization_with_pinned_host_and_landing_owner\")\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/neon/soodles/issue_atom.py\", line 59, in require\n    raise AtomRefusal(field, value, required)\nissue_atom.AtomRefusal: issue atom: invalid authorization.fields=['base_head', 'carrier', 'control_root', 'host_config_sha256', 'instruction_pins', 'issue', 'landing_owner', 'noodle', 'owner', 'repository', 'schema_version', 'task', 'workflow']\n"
+    },
+    {
+      "case": "authorization_wrong_digest",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "authorization.fields",
+          "value": [
+            "base_head",
+            "carrier",
+            "control_root",
+            "host_config_sha256",
+            "instruction_pins",
+            "issue",
+            "landing_owner",
+            "noodle",
+            "owner",
+            "repository",
+            "schema_version",
+            "task",
+            "workflow"
+          ]
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "authorization_missing",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "authorization.owner",
+          "value": [
+            3,
+            "external-supervisor"
+          ]
+        },
+        "effect": false
+      }
+    }
+  ],
+  "authorizes_landing": false,
+  "network": "fixture-only; no provider transport"
+}

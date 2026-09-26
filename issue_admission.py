@@ -28,6 +28,9 @@ ENVELOPE_FIELDS = {
     "schema", "repository", "issue", "body_sha256", "body_updated_at",
     "owner", "write_paths", "base_head", "execution",
 }
+INSTRUCTION_MAX_FILES = 32
+INSTRUCTION_MAX_FILE_BYTES = 256 * 1024
+INSTRUCTION_MAX_TOTAL_BYTES = 1024 * 1024
 
 
 class AdmissionRefusal(Refusal):
@@ -159,9 +162,75 @@ def parse_contract(body):
     return contract
 
 
+def validate_instruction_files(files, *, content=False):
+    field = "instruction_context.files" if content else "instruction_pins"
+    require(isinstance(files, list) and 0 < len(files) <= INSTRUCTION_MAX_FILES,
+            field + ".count", f"expected 1..{INSTRUCTION_MAX_FILES} files")
+    seen, total = set(), 0
+    for item in files:
+        exact_object(item, {"path", "sha256", "content"} if content else {"path", "sha256"}, field)
+        path = git_path(item["path"], field + ".path")
+        require(path not in seen, field + ".duplicate", path)
+        seen.add(path)
+        require(isinstance(item["sha256"], str) and re.fullmatch(r"[0-9a-f]{64}", item["sha256"]),
+                field + ".sha256", path)
+        if content:
+            require(isinstance(item["content"], str), field + ".content", path)
+            try:
+                data = item["content"].encode("utf-8")
+            except UnicodeError as error:
+                raise AdmissionRefusal(field + ".utf8", path) from error
+            total += len(data)
+            require(len(data) <= INSTRUCTION_MAX_FILE_BYTES, field + ".file_bytes",
+                    f"{path}: limit {INSTRUCTION_MAX_FILE_BYTES}")
+            require(total <= INSTRUCTION_MAX_TOTAL_BYTES, field + ".total_bytes",
+                    f"limit {INSTRUCTION_MAX_TOTAL_BYTES}")
+            require(hashlib.sha256(data).hexdigest() == item["sha256"], field + ".sha256", path)
+
+
+def resolve_instruction_context(root, source_head, pins):
+    """Resolve explicit selection from Git objects, never checkout contents."""
+    require(isinstance(source_head, str) and re.fullmatch(r"[0-9a-f]{40}", source_head),
+            "instruction_context.source_head", source_head)
+    validate_instruction_files(pins)
+    files, total = [], 0
+    for pin in pins:
+        path = pin["path"]
+        entry = subprocess.run(["git", "ls-tree", "-z", source_head, "--", ":(literal)" + path],
+                               cwd=root, capture_output=True, timeout=30)
+        records = entry.stdout.split(b"\0")
+        require(entry.returncode == 0 and len(records) == 2 and records[-1] == b""
+                and records[0].split(b"\t", 1)[0].split(b" ")[:2]
+                in ([b"100644", b"blob"], [b"100755", b"blob"]),
+                "instruction_pins.regular_file", path)
+        size = subprocess.run(["git", "cat-file", "-s", f"{source_head}:{path}"],
+                              cwd=root, capture_output=True, timeout=30)
+        require(size.returncode == 0 and size.stdout.strip().isdigit(), "instruction_pins.size", path)
+        count = int(size.stdout)
+        total += count
+        require(count <= INSTRUCTION_MAX_FILE_BYTES, "instruction_pins.file_bytes",
+                f"{path}: limit {INSTRUCTION_MAX_FILE_BYTES}")
+        require(total <= INSTRUCTION_MAX_TOTAL_BYTES, "instruction_pins.total_bytes",
+                f"limit {INSTRUCTION_MAX_TOTAL_BYTES}")
+        data = git_bytes(root, source_head, path)
+        try:
+            text = data.decode("utf-8")
+        except UnicodeError as error:
+            raise AdmissionRefusal("instruction_pins.utf8", path) from error
+        files.append({**pin, "content": text})
+    validate_instruction_files(files, content=True)
+    return {"source_head": source_head, "files": files}
+
+
+def validate_instruction_context(context, source_head):
+    exact_object(context, {"source_head", "files"}, "instruction_context")
+    require(context["source_head"] == source_head, "instruction_context.source_head", context["source_head"])
+    validate_instruction_files(context["files"], content=True)
+
+
 def validate_envelope(envelope):
     exact_object(envelope, ENVELOPE_FIELDS, "envelope.fields")
-    require(type(envelope["schema"]) is int and envelope["schema"] == 1, "envelope.schema", envelope["schema"])
+    require(type(envelope["schema"]) is int and envelope["schema"] in (1, 2), "envelope.schema", envelope["schema"])
     require(valid_name(envelope["repository"]) and profile(envelope["repository"]) is not None,
             "envelope.repository", envelope["repository"],
             owner="supervisor", required="supported_repository_envelope")
@@ -173,10 +242,13 @@ def validate_envelope(envelope):
     require(nonempty(envelope["owner"]), "envelope.owner", envelope["owner"])
     paths = path_set(envelope["write_paths"], "envelope.write_paths")
     execution = envelope["execution"]
-    exact_object(execution, {"control_root", "worktree", "order_id", "stage_index", "carrier", "task", "source_head"},
+    context_fields = {"instruction_context"} if envelope["schema"] == 2 else set()
+    exact_object(execution, {"control_root", "worktree", "order_id", "stage_index", "carrier", "task", "source_head"} | context_fields,
                  "envelope.execution.fields")
     require(isinstance(execution["source_head"], str) and re.fullmatch(r"[0-9a-f]{40}", execution["source_head"]),
             "envelope.execution.source_head", execution["source_head"])
+    if envelope["schema"] == 2:
+        validate_instruction_context(execution["instruction_context"], execution["source_head"])
     require(nonempty(execution["task"]), "envelope.execution.task", execution["task"])
     require(isinstance(execution["control_root"], str) and Path(execution["control_root"]).is_absolute(),
             "envelope.execution.control_root", execution["control_root"])

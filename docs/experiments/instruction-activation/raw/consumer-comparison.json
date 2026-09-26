@@ -1,0 +1,71 @@
+{
+  "results": {
+    "sample-a": {
+      "behavior_pass": true,
+      "reader_events": [
+        {
+          "selection": "input",
+          "sha256": "e8350324fe527ac6838ce5c25ab5cbe49eef42cedcfa453d8193c0f9223a7da2",
+          "bytes": 4184,
+          "pid": 621,
+          "time_ns": 1790152185342327000,
+          "argv": [
+            "/Users/neon/.codex/experiments/instruction-activation-az86ajr2/consumers/sample-a/read.py",
+            "input"
+          ]
+        },
+        {
+          "selection": "recipe",
+          "sha256": "7cbbcbd8a8e00c725afa709a380c77f680bd500928fca91ffbf3050a6dcc8eeb",
+          "bytes": 12866,
+          "pid": 646,
+          "time_ns": 1790152189059179000,
+          "argv": [
+            "/Users/neon/.codex/experiments/instruction-activation-az86ajr2/consumers/sample-a/read.py",
+            "recipe"
+          ]
+        }
+      ],
+      "recipe_reads": 1,
+      "result": {
+        "owner": "external-supervisor",
+        "required": [
+          "raw_results"
+        ],
+        "behavior": null,
+        "authorizes_landing": false
+      }
+    },
+    "sample-b": {
+      "behavior_pass": true,
+      "reader_events": [
+        {
+          "selection": "input",
+          "sha256": "afc873a236feba89deefd0eb0ea330fdbce94cc8a2bf24effaa184184f00f18d",
+          "bytes": 18045,
+          "pid": 6154,
+          "time_ns": 1790152944254342000,
+          "argv": [
+            "/Users/neon/.codex/experiments/instruction-activation-az86ajr2/consumers/sample-b/read.py",
+            "input"
+          ]
+        }
+      ],
+      "recipe_reads": 0,
+      "result": {
+        "owner": "external-supervisor",
+        "required": [
+          "raw_results"
+        ],
+        "behavior": null,
+        "authorizes_landing": false
+      }
+    }
+  },
+  "behavior": "PASS",
+  "context_acquisition_delta": -1,
+  "supported_claim": "scoped reduced recipe acquisition",
+  "planted_bad_result": "rejected",
+  "observation_scope": "independent reader process events plus consumer result; other platform operations unknown",
+  "authorizes_landing": false
+}
