@@ -25,7 +25,7 @@ def json_file(root, relative, value):
     return write(root, relative, (json.dumps(value, sort_keys=True) + '\n').encode())
 
 
-def fixture(root, *, regression=False):
+def fixture(root, *, regression=False, legal_regression=False, free_owner=False):
     common = {'launch_options': ['--ignore-user-config', '-m', 'synthetic-model', '-s', 'read-only'],
               'output_schema_path': '/selected/output-schema.json',
               'output_schema_sha256': 'a' * 64,
@@ -33,7 +33,7 @@ def fixture(root, *, regression=False):
               'model': 'synthetic-model', 'reasoning': 'high',
               'approval': 'never', 'sandbox': 'read-only',
               'baseline_ref': 'b'*40, 'treatment_ref': 'c'*40}
-    packets, runs = [], []
+    packets, runs, decisions = [], [], {}
     for arm in gate.ARMS:
         for case in gate.CASES:
             ident = f'{arm}-{case}'
@@ -46,10 +46,13 @@ def fixture(root, *, regression=False):
             command = shlex.join(['/bin/zsh', '-lc', shlex.join(replay_argv)])
             extra = shlex.join(['/bin/zsh', '-lc', "sed -n '1,20p' synthetic.json"])
             replay_decision = 'REJECT' if case == 'missing_required_observation' or (
-                case == 'mismatched_case_exposure' and arm == 'treatment') else 'ADMIT_IMPROVEMENT'
+                case == 'mismatched_case_exposure' and arm == 'treatment') or (
+                legal_regression and case == 'matched_legal_improvement' and arm == 'treatment') else 'ADMIT_IMPROVEMENT'
             final_decision = ('ADMIT_IMPROVEMENT' if regression and arm == 'treatment'
                               and case == 'mismatched_case_exposure' else replay_decision)
-            owner = 'supervisor' if final_decision == 'REJECT' else 'originating Issue owner'
+            decisions[ident] = {'decision': final_decision, 'replay_decision': replay_decision}
+            owner = ('外部 supervisor：需要補齊來源' if free_owner else
+                     'supervisor' if final_decision == 'REJECT' else 'originating Issue owner')
             final = (json.dumps({'decision': final_decision, 'next_owner': owner}, sort_keys=True) + '\n').encode()
             final_desc = write(root, f'{ident}/final.raw', final)
             replay_output = json.dumps({'decision': {'decision': replay_decision},
@@ -100,7 +103,8 @@ def fixture(root, *, regression=False):
         'observer_sha256': 'f'*64, 'authorizes_landing': False,
         'evidence_validity': 'VALID',
         'classification': 'FAIL' if regression else 'BOUNDED_IMPROVEMENT',
-        'primary_unsupported_admission': observed_primary})
+        'primary_unsupported_admission': observed_primary,
+        'controls_failed': [], 'decisions': decisions})
     comparison = {'schema': 2, 'issue': {'repository': 'ed3c/soodles', 'number': 157},
                   'status': 'COMPLETED', 'authorizes_landing': False,
                   'selection': selection, 'observer_report': observer_report,
@@ -130,6 +134,21 @@ class CandidatePositiveControls(unittest.TestCase):
             self.assertEqual(receipt['evidence_validity'], 'VALID')
             self.assertEqual(receipt['behavior']['classification'], 'FAIL')
 
+    def test_free_text_owner_is_not_a_hidden_score(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            _, descriptor = fixture(root, free_owner=True)
+            receipt = gate.inspect_file(root / descriptor['path'], descriptor['sha256'])
+            self.assertTrue(receipt['terminal_ready'], receipt)
+
+    def test_positive_report_cannot_hide_legal_decision_regression(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            _, descriptor = fixture(root, legal_regression=True)
+            receipt = gate.inspect_file(root / descriptor['path'], descriptor['sha256'])
+            self.assertEqual(receipt['evidence_validity'], 'INCONCLUSIVE')
+            self.assertEqual(receipt['problem']['field'], 'observer_report')
+
     def test_missing_raw_capture_is_inconclusive(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
@@ -153,6 +172,34 @@ class CandidatePositiveControls(unittest.TestCase):
             self.assertFalse(receipt['terminal_ready'])
             self.assertEqual(receipt['evidence_validity'], 'INCONCLUSIVE')
             self.assertEqual(receipt['problem']['field'], 'observer_report')
+
+    def test_observer_decisions_are_bound_to_raw_capture(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            comparison, _ = fixture(root)
+            report = root / comparison['observer_report']['path']
+            value = json.loads(report.read_text())
+            value['decisions']['baseline-matched_legal_improvement']['decision'] = 'REJECT'
+            comparison['observer_report'] = json_file(root, 'observer-report-mutated.json', value)
+            descriptor = json_file(root, 'comparison-mutated.json', comparison)
+            receipt = gate.inspect_file(root / descriptor['path'], descriptor['sha256'])
+            self.assertEqual(receipt['evidence_validity'], 'INCONCLUSIVE')
+            self.assertEqual(receipt['problem']['field'], 'observer_report')
+
+    def test_selected_observer_control_failure_is_preserved(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            comparison, _ = fixture(root)
+            report = root / comparison['observer_report']['path']
+            value = json.loads(report.read_text())
+            value['classification'] = 'FAIL'
+            value['controls_failed'] = ['baseline:legal_control']
+            comparison['observer_report'] = json_file(root, 'observer-report-control-fail.json', value)
+            descriptor = json_file(root, 'comparison-control-fail.json', comparison)
+            receipt = gate.inspect_file(root / descriptor['path'], descriptor['sha256'])
+            self.assertEqual(receipt['evidence_validity'], 'VALID')
+            self.assertFalse(receipt['terminal_ready'])
+            self.assertEqual(receipt['behavior']['controls_failed'], ['baseline:legal_control'])
 
 
 if __name__ == '__main__':

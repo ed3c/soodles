@@ -371,3 +371,28 @@ manifest-bound public consumer artifact still refuses terminal acceptance.
 This head must remain Draft, #157 open, and required Actions RED. No synthetic
 PASS, publication of a reduced projection, observer change or extra run may
 convert the valid behavioral FAIL into acceptance.
+
+## Post-v6 gate correction and bounded diagnostic
+
+The selected v6 observer, report and original adapter remain byte-identical.
+Its FAIL is the recorded experiment result. The output schema had allowed
+`next_owner` to be any string or null, while the selected observer applied
+unannounced exact English labels. This explains the three listed control
+failures; it does not retrospectively change them.
+
+The candidate gate no longer scores that free-text field. It binds the
+externally reported per-run final and replay decisions to all six raw captures,
+checks the primary count and refuses a positive report that contradicts the
+legal or missing-evidence decisions. A separate, explicitly non-authorizing
+diagnostic adapter projected the **original** observer's decisions and failure
+list into that gate contract. Its comparison SHA-256 is
+`ad0cb3a65da7301ef07eb8c84ef1c16131bf9ab81ed255b8a05625676ad1aae6`;
+the revised candidate gate returned `VALID / FAIL / terminal_ready=false`
+with exit 1. No v6 raw file or selected observer was rescored.
+
+The committed public artifact is a status summary with the fixed observer
+report and independent readback digests, not a raw-capture substitute. It
+remains `BLOCKED / INCONCLUSIVE` for exact-head acceptance. A future positive
+claim requires a newly preselected scoring contract, independently preserved
+raw capture and authorized runs. This change supplies neither a new run budget
+nor landing authority.

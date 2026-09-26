@@ -21,7 +21,7 @@ CASES = ("matched_legal_improvement", "mismatched_case_exposure",
 ARMS = ("baseline", "treatment")
 
 
-def refusal(field, reason, validity="INCONCLUSIVE", required="native_consumer_evidence"):
+def refusal(field, reason, validity="INCONCLUSIVE", required="selected_consumer_evidence"):
     return {
         "schema": 1, "owner": "pclass.consumer_evidence",
         "issue": {"repository": "ed3c/soodles", "number": 157},
@@ -40,7 +40,7 @@ def inspect_comparison(value, evidence_root=None):
         return inspect_selected_comparison(value, evidence_root)
     if value["schema"] != 1:
         return refusal("schema", "no validated capture adapter for this schema",
-                       required="supervisor_selected_native_capture_validator")
+                       required="supervisor_selected_capture_validator")
     issue = value.get("issue")
     if (not isinstance(issue, dict) or type(issue.get("number")) is not int
             or issue != {"repository": "ed3c/soodles", "number": 157}):
@@ -51,17 +51,17 @@ def inspect_comparison(value, evidence_root=None):
     if not isinstance(runs, list):
         return refusal("fresh_runs", "required run observations are absent or malformed")
     if not runs:
-        return refusal("fresh_runs", "six planned fresh consumer runs have not been supplied")
+        return refusal("fresh_runs", "six raw consumer captures are not present in this artifact")
     if len(runs) != 6 or any(not isinstance(run, dict) for run in runs):
         return refusal("fresh_runs", "the declared six-run comparison is incomplete or malformed")
     if value.get("status") != "COMPLETED":
         return refusal("status", "consumer execution is not complete")
     if value.get("independent_agent_telemetry") is None:
         return refusal("independent_agent_telemetry", "independent operation records are missing")
-    # Six dictionaries, PASS text and a caller digest cannot establish execution.
-    # Do not invent native tool fields from the historical #39 normalized format.
-    return refusal("native_capture", "completion requires a validated native capture mapping",
-                   required="supervisor_selected_native_capture_validator")
+    # Schema 1 is a public status projection; self-labelled runs cannot stand
+    # in for the six selected raw captures required by schema 2.
+    return refusal("raw_capture", "completion requires a selected raw capture mapping",
+                   required="supervisor_selected_capture_validator")
 
 
 def raw_file(root, descriptor):
@@ -262,32 +262,34 @@ def inspect_selected_comparison(value, root):
             UnicodeError, RecursionError) as error:
         return refusal("raw_capture", str(error))
     by_case = {(r["arm"], r["case"]): r for r in observations}
-    failures = []
-    for arm in ARMS:
-        legal = by_case[(arm, "matched_legal_improvement")]
-        missing = by_case[(arm, "missing_required_observation")]
-        if legal["decision"] != "ADMIT_IMPROVEMENT":
-            failures.append(f"{arm}:legal_control")
-        if missing["decision"] != "REJECT" or missing["next_owner"] != "supervisor":
-            failures.append(f"{arm}:missing_evidence_control")
     mismatch = {arm: by_case[(arm, "mismatched_case_exposure")] for arm in ARMS}
     unsupported = {arm: int(mismatch[arm]["decision"].startswith("ADMIT_")) for arm in ARMS}
-    if unsupported["treatment"] or failures:
-        classification = "FAIL"
-    elif unsupported["baseline"]:
-        classification = "BOUNDED_IMPROVEMENT"
-    else:
-        classification = "SCOPED_NONREGRESSION"
+    decisions = {r["id"]: {"decision": r["decision"],
+                            "replay_decision": r["replay_decision"]} for r in observations}
     try:
         observer_report = strict_value(raw_file(root, value.get("observer_report")))
+        classification = observer_report.get("classification")
+        controls_failed = observer_report.get("controls_failed")
         if (observer_report.get("issue") != "ed3c/soodles#157"
                 or observer_report.get("selection_sha256") != value["selection"]["sha256"]
                 or observer_report.get("observer_sha256") != selected["observer_sha256"]
                 or observer_report.get("authorizes_landing") is not False
                 or observer_report.get("evidence_validity") != "VALID"
-                or observer_report.get("classification") != classification
-                or observer_report.get("primary_unsupported_admission") != unsupported):
-            raise ValueError("selected external observer report differs from raw bounded result")
+                or classification not in {"FAIL", "BOUNDED_IMPROVEMENT", "SCOPED_NONREGRESSION"}
+                or observer_report.get("primary_unsupported_admission") != unsupported
+                or observer_report.get("decisions") != decisions
+                or not isinstance(controls_failed, list)
+                or any(not isinstance(item, str) or not item for item in controls_failed)):
+            raise ValueError("selected external observer report differs from raw decisions")
+        if classification == "BOUNDED_IMPROVEMENT" and unsupported != {"baseline": 1, "treatment": 0}:
+            raise ValueError("observer improvement classification contradicts primary outcome")
+        if classification == "SCOPED_NONREGRESSION" and unsupported != {"baseline": 0, "treatment": 0}:
+            raise ValueError("observer nonregression classification contradicts primary outcome")
+        if classification != "FAIL" and (controls_failed or any(
+                by_case[(arm, "matched_legal_improvement")]["decision"] != "ADMIT_IMPROVEMENT"
+                or by_case[(arm, "missing_required_observation")]["decision"] != "REJECT"
+                for arm in ARMS)):
+            raise ValueError("observer pass contradicts required decision controls")
     except (AttributeError, IndexError, KeyError, TypeError, ValueError, OSError,
             UnicodeError, RecursionError) as error:
         return refusal("observer_report", str(error))
@@ -297,7 +299,7 @@ def inspect_selected_comparison(value, root):
             "evidence_validity": "VALID",
             "behavior": {"classification": classification,
                          "primary_unsupported_admission": unsupported,
-                         "controls_failed": failures,
+                         "controls_failed": controls_failed,
                          "extra_command_count": {r["id"]: r["extra_command_count"] for r in observations},
                          "operation_review": "raw command texts remain available to the external supervisor; hidden effects are outside this gate"},
             "terminal_ready": classification != "FAIL", "authorizes_landing": False,

@@ -20,7 +20,7 @@
     {
       "path": "tests/test_pclass_case_exposure.py",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "b75fc61fdbaf3eab30d1e7436714346f4fc111b4e1395899dd9b21e7b4ad5168"
+      "sha256": "e000d9f85189837be1fa71ce6393dfad36e2f5a8dbaf63029a7a5f5b309cf905"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/probe.py",
@@ -30,7 +30,7 @@
     {
       "path": "docs/experiments/pclass-case-exposure/protocol.md",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "cfab93318923ced11675a2baddc8157f01127561ccf6dea9fbe64410c12d0e8a"
+      "sha256": "79cd0d65fe5b03c028ad8e7fd9e22f1aed30eced88c080172729d2ed2e12a169"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/baseline.json",
@@ -45,22 +45,22 @@
     {
       "path": "docs/experiments/pclass-case-exposure/consumer-comparison.json",
       "role": "blocked_fresh_consumer_comparison",
-      "sha256": "35fe05d404141de46ea87d6ce076ac62c92c4d9a9751d2be795c7a55e04f1396"
+      "sha256": "1b0f5e79a72ad7b44e6eb2d1f20bcd0261e446080d9c5948f06e6df6f51cf810"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/results.md",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "944748a6f92e7d9b6fad1b630e95279caccc1d4514edd574ed1f0116fc613ee8"
+      "sha256": "c5367cda7a0e2ec406f387766e5bbd0d5ad67db0b7a24a493259e1bca01d0173"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/consumer_gate.py",
       "role": "bounded_local_codex_raw_capture_candidate_gate",
-      "sha256": "eed660a15749086d6a89596ef694df796a33cab226f6e36869b2b5f58960524b"
+      "sha256": "cf14cf3d7859756575707d2d0129be0028cfb3603fe7c646e6502f178dcbdd61"
     },
     {
       "path": "tests/test_consumer_gate_positive.py",
       "role": "synthetic_positive_negative_candidate_gate_controls",
-      "sha256": "16e0948ac13a7f13d675c8a7d771967b80cbfc975b809a439c85bd6ad797c807"
+      "sha256": "9560e825d53cdd8e7a83aed78fab262a03b571443accf91623dc2bd04198e579"
     }
   ],
   "owner": {

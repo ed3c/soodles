@@ -33,7 +33,7 @@ P guidance consumes the refusal and returns to the supervisor. It does not
 implement counting, repair pins or retry unchanged input. A candidate verifier
 source edit does not promote that candidate into its own acceptance authority.
 
-## Fresh behavior comparison: required and currently BLOCKED
+## Original fresh behavior comparison requirement (superseded carrier)
 
 Do not launch without a platform-supported fresh isolated consumer and an
 independent operation recorder. Freeze the two instruction/decider identities,
@@ -59,7 +59,7 @@ captured operations support these claims; missing records are unknown, not zero.
 A zero baseline cannot prove improvement. Equal valid arms support only scoped
 nonregression. Per-case failures may not be averaged away.
 
-Current absence of this carrier is represented by `consumer-comparison.json`
+The original carrier absence was represented by `consumer-comparison.json`
 with empty fresh runs, null counts and INCONCLUSIVE, not by synthetic PASS data.
 No full P-class hill-climb, fresh consumer success or architecture closure is
 claimed from the deterministic controls. Keep the Issue open and PR Draft.
@@ -232,3 +232,38 @@ readback; only verified evidence bytes cross that boundary. Neither side
 inherits the other's Session, clone, credential or landing authority. The
 selected external landing owner still controls merge/closure. This amendment
 alone supplies no behavior result; keep required acceptance RED and PR Draft.
+
+## Post-v6 evaluator correction — diagnostic only
+
+The v6 six-run capture is valid, but the selected observer returned FAIL. Its
+exact `next_owner` string checks were narrower than the output schema, which
+allowed any string or null, and narrower than the neutral task. The three
+case decisions themselves met the primary, legal and missing-evidence
+expectations. This is a scoring-contract defect, not a basis to rewrite the
+preselected v6 observer or turn its FAIL into PASS. The old report and all raw
+files remain immutable with the local supervisor.
+
+For a future *separately authorized and preselected* comparison, score the
+three cases from the final decision and the replay's typed `decision.next`
+where an owner is a required machine output. Free-text `next_owner` is retained
+as an observation, never compared to a hidden English string list. Preserve
+the same baseline, three cases, primary outcome and nonregression controls;
+select the exact revised observer, input/output contract and run budget before
+launch. This amendment grants no additional model run.
+
+The candidate gate checks six raw captures, identity/config equality, command
+pairs, and that an externally supplied observer report binds each raw final
+and replay decision. It does not reproduce the observer's free-text rubric.
+It rejects a positive report that contradicts the primary or required case
+decisions. An external supervisor readback must still establish that the
+selected observer produced the report; a candidate-supplied report hash alone
+does not establish provenance. Synthetic positive controls verify the gate
+implementation only.
+
+The public `consumer-comparison.json` now records the local v6 outcome and
+external report/readback digests as a non-authorizing summary. Its `fresh_runs`
+remain empty because the raw rollout contains session instructions and world
+state and is retained outside this public PR. The required acceptance test
+therefore remains RED. The minimum future handoff is one frozen selection,
+six capture descriptors and one observer report with provider readback; prior
+v4/v5/v6 records are historical evidence, not new selection layers.

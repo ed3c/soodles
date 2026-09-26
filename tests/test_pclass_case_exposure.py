@@ -191,7 +191,7 @@ def load_consumer_gate():
 
 
 class ConsumerReadinessControls(unittest.TestCase):
-    """These passing controls demonstrate a veto, never native consumer success."""
+    """These passing controls demonstrate a veto, never consumer success."""
     def setUp(self):
         self.gate = load_consumer_gate()
         self.blocked = json.loads((EXPERIMENT / "consumer-comparison.json").read_text())
@@ -213,7 +213,7 @@ class ConsumerReadinessControls(unittest.TestCase):
         self.assertEqual(receipt["problem"]["field"], "fresh_runs")
         self.assertEqual(self.blocked, before)
 
-    def test_self_labelled_completion_cannot_manufacture_native_evidence(self):
+    def test_self_labelled_completion_cannot_manufacture_raw_evidence(self):
         for runs in ([], [{}] * 5, [{}] * 6):
             value = {**self.blocked, "status": "COMPLETED", "classification": "PASS",
                      "fresh_runs": runs, "baseline_barrier": 1, "treatment_barrier": 0,
@@ -223,7 +223,7 @@ class ConsumerReadinessControls(unittest.TestCase):
                 self.assert_veto(receipt)
                 self.assertEqual(receipt["evidence_validity"], "INCONCLUSIVE")
         self.assertEqual(receipt["next"]["required"],
-                         ["supervisor_selected_native_capture_validator"])
+                         ["supervisor_selected_capture_validator"])
 
     def test_invalid_identity_schema_and_authority_are_rejected(self):
         for patch in ({"issue": {"repository": "other/repo", "number": 157}},
@@ -281,13 +281,13 @@ class ConsumerReadinessControls(unittest.TestCase):
         first = self.gate.inspect_comparison(self.blocked)
         first["next"]["required"].append("caller_mutation")
         second = self.gate.inspect_comparison(self.blocked)
-        self.assertEqual(second["next"]["required"], ["native_consumer_evidence"])
+        self.assertEqual(second["next"]["required"], ["selected_consumer_evidence"])
 
 
 class RequiredConsumerEvidenceTests(unittest.TestCase):
     def test_required_fresh_consumer_evidence_is_ready(self):
         # A real acceptance requirement, NOT a planted-negative control.
-        # No skip/expectedFailure: current missing native evidence must keep CI RED.
+        # No skip/expectedFailure: the public projection cannot replace selected raw evidence.
         manifest = json.loads((EXPERIMENT / "manifest.json").read_text())
         relative = "docs/experiments/pclass-case-exposure/consumer-comparison.json"
         entries = [a for a in manifest["artifacts"] if a["path"] == relative]

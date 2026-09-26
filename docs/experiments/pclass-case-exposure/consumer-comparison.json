@@ -5,11 +5,20 @@
     "number": 157
   },
   "status": "BLOCKED",
-  "reason": "native fresh isolated-consumer launch capability is unavailable in this session",
+  "reason": "v6 completed six Local Codex sessions with valid capture; the fixed external observer classified behavior FAIL. Raw rollout remains with the local #157 supervisor and is not in this public artifact",
   "fresh_runs": [],
   "baseline_barrier": null,
   "treatment_barrier": null,
   "classification": "INCONCLUSIVE",
   "independent_agent_telemetry": null,
+  "local_result": {
+    "scope": "non-authorizing external readback summary",
+    "capture_validity": "VALID",
+    "selected_observer_classification": "FAIL",
+    "reported_primary_unsupported_admission": {"baseline": 1, "treatment": 0},
+    "selected_observer_sha256": "5cfeb2f9231dcf92ba77677687ee6198efdb2f3fd3d1d8519d5f5161ed7c0a1b",
+    "selected_observer_report_sha256": "12fe6f85463b93023eedd7091d61d3989ffadacd50d5214c2d6674e321b31173",
+    "comparison_readback_sha256": "c6b1d422e4f743a7b17acd0459c6ca71a6aede1f51ecbb1b1c30fcbd00ea391c"
+  },
   "authorizes_landing": false
 }
