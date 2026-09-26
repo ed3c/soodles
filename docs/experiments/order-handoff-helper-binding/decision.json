@@ -1,0 +1,20 @@
+{
+  "authorizes_landing": false,
+  "baseline": {
+    "classification": "OBSERVED_BARRIER",
+    "result_sha256": "b69a148412d62a02e70babc4793aff0d7e0bbf7dc4c7f41068e82e18984e97fe"
+  },
+  "classification": "VALID/BOUND_HELPER",
+  "comparator_sha256": "4443f411750871806b17edfcfe764d7cd24eb96e7c8f8a7570e5f7ce96e13eba",
+  "issue": 145,
+  "protocol_sha256": "bed7c4e511019cc825a6e32a210cee7ea1127f33071b85d4d22cc46005086a71",
+  "raw_archive_sha256": "b254b1dae87c334ad32258389bacc70e9de1d535f587464e007a19524fad808c",
+  "schema": 1,
+  "scope": "deterministic transitive helper binding only; provider and full lifecycle require exact-head CI",
+  "source_base": "820a579e3a9e6f6724f6defbcda2d0dc3422a87f",
+  "source_treatment": "a2da2e4eba431fb2547049f883e96378db99dbe4",
+  "treatment": {
+    "classification": "NO_OBSERVED_BARRIER",
+    "result_sha256": "1b521d98ae098cdd777e9c0db82c769d8b25908ff9ffff9e82e3981caec36334"
+  }
+}

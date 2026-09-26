@@ -54,8 +54,13 @@ externally waited SIGKILL exits (before admission and after publication before
 response), a fresh CLI readback preserving the pending mailbox identity/bytes,
 a retained-owner readback without publication, one original B session in the
 real Noodle lifecycle, and zero residue. Preserve the supervisor-pinned
-`resume_oracle.py` and task bytes, baseline missing-entry and planted duplicate
-controls. Provider data remains a fixture; this is sequential local recovery,
+`resume_oracle.py` and `handoff_oracle.py` together in the same external directory,
+recording each file's SHA-256 before execution against baseline and candidate.
+The resume observer loads that sibling helper under a private module identity;
+candidate source and existing module-cache entries cannot select either judge.
+Candidate source still supplies production modules such as `issue_execution`.
+Preserve task bytes, baseline missing-entry and planted duplicate controls.
+Provider data remains a fixture; this is sequential local recovery,
 not cross-host recovery or authority to merge. P-class comparisons use the
 [bounded context recipe](pclass-context.md) and report equal legal arms as
 nonregression.

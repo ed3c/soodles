@@ -4,6 +4,7 @@ Reuse the frozen original-order lifecycle. Only its B admission call is replaced
 with separate CLI consumer processes. No production fault-injection flag exists.
 """
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -16,8 +17,11 @@ from unittest.mock import patch
 
 def resume_probe(binary, source):
     source = Path(source).resolve()
+    helper = Path(__file__).resolve().with_name('handoff_oracle.py')
+    spec = importlib.util.spec_from_file_location('_resume_handoff_oracle', helper)
+    lifecycle = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(lifecycle)
     sys.path.insert(0, str(source))
-    import handoff_oracle as lifecycle
     import issue_execution
 
     events = []
