@@ -95,7 +95,7 @@ def _derive_claim(snapshot, route, verifier_sha256):
     repository = _repository(snapshot)
     require(set(route) in (
         {"kind"},
-        {"kind", "control_root", "execution_envelope"},
+        {"kind", "control_root", "execution_envelope", "publication_claim"},
     ), "route.fields", sorted(route))
     kind = route.get("kind")
     require(kind in {"cloud", "local"}, "route.kind", kind, "cloud_or_local_route")
@@ -146,6 +146,7 @@ def _derive_claim(snapshot, route, verifier_sha256):
     if kind == "local":
         control_root = route["control_root"]
         ref = route["execution_envelope"]
+        native_ref = route["publication_claim"]
         require(isinstance(control_root, str) and Path(control_root).is_absolute(),
                 "route.control_root", control_root, "absolute_control_root")
         require(isinstance(ref, dict) and set(ref) == {"path", "sha256"},
@@ -156,6 +157,46 @@ def _derive_claim(snapshot, route, verifier_sha256):
                 and re.fullmatch(r"[0-9a-f]{64}", ref["sha256"]),
                 "route.execution_envelope.sha256", ref["sha256"],
                 "pinned_execution_envelope")
+        require(isinstance(native_ref, dict) and set(native_ref) == {"path", "sha256"},
+                "route.publication_claim", native_ref, "exact_native_publication_claim")
+        require(isinstance(native_ref["path"], str)
+                and Path(native_ref["path"]).is_absolute()
+                and isinstance(native_ref["sha256"], str)
+                and re.fullmatch(r"[0-9a-f]{64}", native_ref["sha256"]),
+                "route.publication_claim", native_ref, "pinned_native_publication_claim")
+        native_path = Path(native_ref["path"]).resolve()
+        try:
+            native_bytes = native_path.read_bytes()
+        except OSError as error:
+            raise SupervisorRefusal("route.publication_claim.path", str(native_path),
+                                    "existing_native_publication_claim") from error
+        require(hashlib.sha256(native_bytes).hexdigest() == native_ref["sha256"],
+                "route.publication_claim.sha256", native_ref["sha256"],
+                "unchanged_native_publication_claim")
+        try:
+            native = json.loads(native_bytes)
+        except ValueError as error:
+            raise SupervisorRefusal("route.publication_claim.json", str(native_path),
+                                    "valid_native_publication_claim") from error
+        require(isinstance(native, dict) and native.get("owner") == "Noodle"
+                and native.get("repository") == repository
+                and native.get("subject") == f"{repository}#{claim['issue']}"
+                and native.get("head") == claim["head"]
+                and native.get("tree") == claim["tree"]
+                and native.get("base_head") == claim["base_head"]
+                and native.get("authorizes_landing") is False,
+                "route.publication_claim.identity", native, "matching_native_candidate")
+        worktree = native.get("worktree_name")
+        require(isinstance(worktree, str)
+                and re.fullmatch(r"[a-z0-9][a-z0-9-]{0,99}", worktree),
+                "route.publication_claim.worktree", worktree, "native_noodle_worktree")
+        require(native.get("worktree_path") == str(Path(control_root).resolve() / ".worktrees" / worktree),
+                "route.publication_claim.worktree_path", native.get("worktree_path"),
+                "native_noodle_worktree_path")
+        require(native.get("branch") == worktree,
+                "route.publication_claim.branch", native.get("branch"), "native_noodle_branch")
+        claim["worktree"] = worktree
+        claim["publication_branch"] = pr["head"]["ref"]
         claim["control_root"] = str(Path(control_root).resolve())
         claim["execution_envelope"] = {
             "path": str(Path(ref["path"]).resolve()),
@@ -171,6 +212,25 @@ def _write(path, data):
         os.fsync(handle)
     finally:
         os.close(handle)
+
+
+def _rebase_next(next_action, temporary, output):
+    """Preserve the owner continuation while moving its two local inputs."""
+    require(isinstance(next_action, dict)
+            and next_action.get("kind") == "provider_readback",
+            "landing.start.next", next_action, "current_provider_readback")
+    known = next_action.get("known")
+    argv = next_action.get("argv")
+    old = [str(temporary / name) for name in ("checkpoint.json", "readback.json")]
+    require(isinstance(known, dict)
+            and [known.get("checkpoint"), known.get("readback")] == old,
+            "landing.start.next.known", known, "temporary_owner_inputs")
+    require(isinstance(argv, list) and len(argv) >= 2 and argv[-2:] == old,
+            "landing.start.next.argv", argv, "temporary_owner_argv")
+    new = [str(output / name) for name in ("checkpoint.json", "readback.json")]
+    return {**next_action,
+            "known": {**known, "checkpoint": new[0], "readback": new[1]},
+            "argv": [*argv[:-2], *new]}
 
 
 def prepare(snapshot, publisher, route, output):
@@ -235,11 +295,10 @@ def prepare(snapshot, publisher, route, output):
         raise
 
     rebased = json.loads((output / "claim.json").read_text())
-    next_action = owner.get("next")
-    if isinstance(next_action, dict):
-        known = dict(next_action.get("known") or {})
-        known["checkpoint"] = str(output / "checkpoint.json")
-        next_action = {**next_action, "known": known}
+    require(owner.get("checkpoint") == str(temporary / "checkpoint.json"),
+            "landing.start.checkpoint", owner.get("checkpoint"),
+            "temporary_owner_checkpoint")
+    next_action = _rebase_next(owner.get("next"), temporary, output)
     return {
         "owner": "landing-supervisor",
         "action": "activated",
@@ -250,7 +309,8 @@ def prepare(snapshot, publisher, route, output):
         },
         "claim": rebased,
         "checkpoint": str(output / "checkpoint.json"),
-        "landing_owner": {**owner, "next": next_action},
+        "landing_owner": {**owner, "checkpoint": str(output / "checkpoint.json"),
+                          "next": next_action},
         "authorizes_landing": False,
     }
 

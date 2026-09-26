@@ -62,8 +62,19 @@ readiness once per immutable head, delegates PR publication to its existing
 owner, requires exact-head CI, then delegates merge/closure/reconciliation to
 the externally pinned landing owner. The existing admission producer binds the
 task, worker, backlog and native config; the entry preserves the original host
-config and starts the supplied Noodle once. An existing matching owner is
+config and starts the long-running Noodle loop once. A pristine root without a canonical
+Noodle snapshot first receives one pinned Noodle `start --once` through this
+same entry, with the producer-emitted bootstrap config that has no Issue backlog
+adapter. Only its recorded zero exit and empty owner readback permit admission;
+the full Issue backlog config belongs to the later admitted Noodle start.
+An unknown exit or partial runtime refuses without replay. An existing matching owner is
 observed, not restarted. Lost start results require owner readback.
+For a fresh control root re-entering the same Issue, admission derives a stable
+root-scoped Noodle order and worktree name. Retain earlier unmerged Noodle
+worktrees; do not rename or clean them to make the new writer fit. A native
+idle `schedule` order can coexist with the admitted order in the running loop;
+the owner recognizes only its exact pending shape. An active scheduler or any
+other foreign order still requires Noodle readback.
 Write credentials and host App/supplier configuration never enter Noodle or
 candidate children. The existing start wrapper obtains only an Issue-read token
 from the host supplier for those children; no person or session carries it.
@@ -90,6 +101,36 @@ An unchanged failed candidate head is terminal evidence, not retry authority.
 An unknown Issue-create, branch, PR, merge, or closure outcome permits only
 fresh exact readback. A competing marker or identity is a refusal.
 
+If the pinned landing owner refuses a terminal local candidate before creating
+its checkpoint or offering a provider write, retain the original authorization
+and refusal receipt. The external supervisor may select compatible immutable
+publisher bytes and use `landing-supervisor` with fresh provider readback, the
+exact Noodle publication claim and execution envelope to create one pre-write
+local activation outside the candidate. The route must pin the native claim's
+path and SHA-256; PR head ref is the publication branch, not the Noodle
+worktree. To adopt that activation, the supervisor supplies
+`SOODLES_LANDING_ACTIVATION` as its absolute `manifest.json` path and
+`SOODLES_LANDING_ACTIVATION_SHA256` as its exact digest, then runs the same
+`./issue-atom run /absolute/authorization.json`. The entry binds the selected
+publisher, candidate, order, PR, runtime and checkpoint before persisting the
+continuation. Later re-entry needs only the original command; a changed
+activation, offered write or unknown write refuses. Do not change the original
+authorization or construct a landing claim or checkpoint in the Agent.
+
+After confirmed merge and closure, a local reconciliation refusal may require
+a corrected external publisher. The supervisor selects independently accepted
+publisher bytes in an external descriptor with exact `path`, `sha256` and
+`verifier_sha256`, then supplies its absolute path through
+`SOODLES_LANDING_RESUME_OWNER` and its file digest through
+`SOODLES_LANDING_RESUME_OWNER_SHA256`. Re-enter the same original command.
+The entry permits this only for the original activation's confirmed post-write
+checkpoint, persists the resume intent before invoking `landing resume`, and
+changes only the verifier identity. An unknown result requires checkpoint
+readback; never replay that resume, merge or closure from a prior trace.
+For a Codex-managed detached control root, the corrected publisher must prove
+its exact Git worktree registration, clean source and admitted ancestry before
+ff-only synchronization. It does not switch the shared main checkout's branch.
+
 `status=resolved` is legal only after the landing owner reports
 `classification=RESOLVED` and local reconciliation has completed. Earlier
 receipts retain `authorizes_landing=false`.
@@ -103,3 +144,13 @@ external cloud supervisor. Its frozen P-class comparison and provider fixtures
 prove the new local route; its own delivery still uses the pre-existing
 external landing authority. The first live R-class use of this new Issue-create
 entry belongs to the next atom and must not be backfilled into this receipt.
+
+For a task requiring pinned instruction activation, the external supervisor uses
+schema-3 authorization with a nonempty `instruction_pins` list of exact
+`{path, sha256}` entries at the authorized `base_head`. Use the same `issue-atom
+run` command. The owner validates those committed UTF-8 regular-file bytes before
+Issue mutation and seals their contents into the admission envelope and Noodle
+stage prompt. Missing files, mismatched digests or invalid selection require a
+corrected external authorization; never fill them from a guessed recipe or tip.
+Schema 2 remains supported without this activation claim. Selecting the right
+recipes and observing model behavior remain supervisor responsibilities.

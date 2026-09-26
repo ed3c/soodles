@@ -356,21 +356,34 @@ class SupervisorAdmissionTests(unittest.TestCase):
         output, prepared = fixture.prepare(task="One exact supplied task.", wire_host=True)
         binding = json.loads((output / "envelope.json").read_text())
         self.assertEqual(binding["execution"]["task"], "One exact supplied task.")
+        self.assertEqual(binding["execution"]["order_id"],
+                         supervisor_admission.scoped_order_id(118, fixture.root))
+        self.assertEqual(binding["execution"]["worktree"],
+                         binding["execution"]["order_id"] + "-0-execute")
         config = tomllib.loads((output / "noodle.toml").read_text())
         self.assertEqual(config["mode"], "supervised")
         self.assertEqual(config["agents"]["codex"]["path"], str(output / "provider"))
         self.assertEqual(config["agents"]["codex"]["args"], ["-c", "approval_policy=never"])
+        bootstrap = tomllib.loads((output / "bootstrap-noodle.toml").read_text())
+        self.assertNotIn("adapters", bootstrap)
+        self.assertIn("backlog", config["adapters"])
+        self.assertEqual(prepared["bootstrap"]["config"], str(output / "bootstrap-noodle.toml"))
+        self.assertEqual(prepared["bootstrap"]["config_sha256"],
+                         _sha((output / "bootstrap-noodle.toml").read_bytes()))
         self.assertFalse((fixture.root / ".noodle.toml").exists())
         env = {**os.environ, "FIXTURE_ISSUE_READBACK": str(fixture.issue_path)}
         sync = subprocess.run([str(output / "backlog"), "sync"], env=env,
                               capture_output=True, text=True)
         self.assertEqual(sync.returncode, 0, sync.stderr)
-        self.assertEqual(json.loads(sync.stdout)["id"], "soodles-118")
+        self.assertEqual(json.loads(sync.stdout)["id"], binding["execution"]["order_id"])
         self.assertEqual(json.loads(sync.stdout)["plan"], "One exact supplied task.")
-        for argv in (["add", "foreign"], ["done", "soodles-119"], ["done", "soodles-118"]):
+        for argv in (["add", "foreign"], ["done", "soodles-119"],
+                     ["done", binding["execution"]["order_id"]]):
             result = subprocess.run([str(output / "backlog"), *argv], env=env, capture_output=True)
             self.assertNotEqual(result.returncode, 0)
         # Generated worker reaches the existing identity guard, not the sentinel.
+        # This control supplies no session, even when run inside a Noodle child.
+        env.pop("NOODLE_SESSION_ID", None)
         worker = subprocess.run([str(output / "provider/codex"), *fixture.carrier["codex"]["argv"]],
                                 cwd=fixture.root, env=env, capture_output=True, text=True)
         self.assertNotEqual(worker.returncode, 0)
@@ -419,6 +432,44 @@ class SupervisorAdmissionTests(unittest.TestCase):
         self.assertTrue(treatment["bundle_uses_committed_soodles"])
         self.assertTrue(treatment["dirty_sentinel_excluded"])
         self.assertFalse(treatment["authorizes_landing"])
+
+    def test_pinned_once_entry_accepts_only_exact_bootstrap_argv(self):
+        fixture = SupervisorFixture()
+        self.addCleanup(fixture.close)
+        output, prepared = fixture.prepare("once-entry")
+        self.assertEqual(prepared["bootstrap"]["argv"], [prepared["start"], "--once"])
+        env = {**os.environ, TOKEN_COMMAND_ENV: fixture.token_command,
+               "FIXTURE_CHILD_STARTED": str(fixture.child_marker)}
+        accepted = subprocess.run(prepared["bootstrap"]["argv"], cwd=fixture.root,
+                                  env=env, capture_output=True, text=True, timeout=30)
+        self.assertEqual(accepted.returncode, 0, accepted.stderr)
+        self.assertTrue(fixture.child_marker.exists())
+        fixture.child_marker.unlink()
+        rejected = subprocess.run([str(output / "start-noodle"), "--once", "--repeat"],
+                                  cwd=fixture.root, env=env,
+                                  capture_output=True, text=True, timeout=30)
+        self.assertEqual(rejected.returncode, 64)
+        self.assertFalse(fixture.child_marker.exists())
+
+    def test_host_once_refuses_full_backlog_config_before_noodle_effect(self):
+        fixture = SupervisorFixture()
+        self.addCleanup(fixture.close)
+        fixture.carrier["codex"]["argv"] = ["exec", "--skip-git-repo-check", "--json",
+                                            "--model", "fixture-model"]
+        output, prepared = fixture.prepare("host-once", wire_host=True)
+        env = {**os.environ, TOKEN_COMMAND_ENV: fixture.token_command,
+               "FIXTURE_CHILD_STARTED": str(fixture.child_marker)}
+        (fixture.root / ".noodle.toml").write_bytes((output / "noodle.toml").read_bytes())
+        refused = subprocess.run(prepared["bootstrap"]["argv"], cwd=fixture.root,
+                                 env=env, capture_output=True, text=True, timeout=30)
+        self.assertEqual(refused.returncode, 64)
+        self.assertEqual(json.loads(refused.stdout)["invalid"]["field"], "start.host_config")
+        self.assertFalse(fixture.child_marker.exists())
+        (fixture.root / ".noodle.toml").write_bytes((output / "bootstrap-noodle.toml").read_bytes())
+        accepted = subprocess.run(prepared["bootstrap"]["argv"], cwd=fixture.root,
+                                  env=env, capture_output=True, text=True, timeout=30)
+        self.assertEqual(accepted.returncode, 0, accepted.stderr)
+        self.assertTrue(fixture.child_marker.exists())
 
     def test_supplier_integrity_and_overwrite_controls_refuse_before_effects(self):
         observed = observe_sensitivity()

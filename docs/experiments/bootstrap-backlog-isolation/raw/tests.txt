@@ -1,0 +1,9 @@
+Focused command: PYTHONPATH=tests:. python3 -B -m unittest test_supervisor_admission test_issue_atom
+Exit: 0
+Ran 44 tests in 24.927s
+OK
+
+Full command: TMPDIR=/private/tmp python3 -B -m unittest discover -s tests
+Exit: 0
+Ran 374 tests in 112.994s
+OK

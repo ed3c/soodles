@@ -1,9 +1,11 @@
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
+import tarfile
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -168,7 +170,15 @@ class IssueAtomTests(unittest.TestCase):
         env = {k: v for k, v in os.environ.items() if not k.startswith("NOODLE_")}
         env.update(HOME=str(home), XDG_CONFIG_HOME=str(home / "config"), TMPDIR="/private/tmp")
         output = self.outer / "fixed-controls"
-        result = subprocess.run([sys.executable, "-B", str(oracle), str(source), str(output)],
+        # The frozen consumer encodes the historical static order ID. Replay it
+        # against its exact prior source; current scoped-ID behavior has live controls.
+        historical = self.outer / "historical-source"
+        historical.mkdir()
+        archive = subprocess.check_output(["git", "archive",
+            "95e8a3abddda8328d32f0ccf8011b463603d15b2"], cwd=source)
+        with tarfile.open(fileobj=io.BytesIO(archive)) as files:
+            files.extractall(historical, filter="data")
+        result = subprocess.run([sys.executable, "-B", str(oracle), str(historical), str(output)],
                                 env=env, capture_output=True, text=True,
                                 start_new_session=True, timeout=120)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -236,12 +246,42 @@ class IssueAtomTests(unittest.TestCase):
             for change in ({"attempts": None}, {"attempts": []}, {"status": "unknown"}, {"model": "foreign"}):
                 with self.subTest(change=change):
                     atom.save_json(self.root / ".noodle/state.snapshot.json", {
-                        "state": {"orders": {"soodles-131": {"stages": [{**stage, **change}]}}},
+                        "state": {"orders": {binding["execution"]["order_id"]: {"stages": [{**stage, **change}]}}},
                         "effect_ledger": []})
                     with self.assertRaises(atom.AtomRefusal) as caught:
                         atom.run(self.path, environ=self.env)
                     self.assertEqual(caught.exception.owner, "Noodle")
         supplier.assert_not_called()
+
+    def test_idle_native_schedule_is_observed_but_foreign_scheduler_refuses(self):
+        import fcntl
+        paths, state = self.startup_fixture()
+        state.update(issue={"number": 131}, noodle_start={"status": "started"})
+        (self.root / ".noodle.toml").write_bytes((paths["envelope"].parent / "noodle.toml").read_bytes())
+        binding = atom.read_json(paths["envelope"], "envelope")
+        binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
+        order_id = binding["execution"]["order_id"]
+        stage = {"status": "running", "skill": "execute", "provider": "codex",
+                 "model": "fixture-model", "prompt": json.dumps(atom.issue_execution.projection(
+                     binding, state["envelope_sha256"], "supervised")),
+                 "attempts": [{"status": "running", "session_id": "fixture-existing"}]}
+        schedule = {"order_id": "schedule", "status": "active", "stages": [{
+            "stage_index": 0, "task_key": "schedule", "skill": "schedule",
+            "provider": "codex", "model": "fixture-model", "runtime": "process",
+            "prompt": "", "status": "pending", "attempts": None}]}
+        snapshot = self.root / ".noodle/state.snapshot.json"
+        with (self.root / ".noodle/noodle.lock").open("a+b") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            atom.save_json(snapshot, {"state": {"orders": {
+                order_id: {"stages": [stage]}, "schedule": schedule}}, "effect_ledger": []})
+            atom.require_available_owner(self.authorization, paths, state)
+            for changed in ({"provider": "foreign"}, {"status": "running"}):
+                schedule["stages"][0].update(changed)
+                atom.save_json(snapshot, {"state": {"orders": {
+                    order_id: {"stages": [stage]}, "schedule": schedule}}, "effect_ledger": []})
+                with self.assertRaisesRegex(atom.AtomRefusal, "noodle.orders"):
+                    atom.require_available_owner(self.authorization, paths, state)
+                schedule["stages"][0] = {**schedule["stages"][0], **{"provider": "codex", "status": "pending"}}
 
     def test_projected_completed_order_can_continue_original_cleanup(self):
         import fcntl
@@ -304,6 +344,97 @@ class IssueAtomTests(unittest.TestCase):
                 atom.ensure_noodle(self.authorization, paths, state, {"action": "proposal_pending"}, self.env)
         self.assertEqual(start.call_count, 1)
 
+    def test_fresh_root_bootstraps_with_pinned_noodle_before_admission(self):
+        from unittest.mock import Mock
+        provider = Provider()
+        self.ready_issue(provider)
+        real_run = subprocess.run
+        real_popen = subprocess.Popen
+        bootstrap_calls = []
+
+        def run(argv, **kwargs):
+            if isinstance(argv, list) and argv[-1:] == ["--once"]:
+                bootstrap_calls.append(argv)
+                state = atom.read_json(atom.artifact_paths(self.path)["state"], "state")
+                self.assertEqual(state["noodle_bootstrap"]["status"], "offered")
+                self.assertEqual(kwargs["cwd"], self.root)
+                self.assertEqual((self.root / ".noodle.toml").read_bytes(),
+                                 (atom.artifact_paths(self.path)["envelope"].parent
+                                  / "bootstrap-noodle.toml").read_bytes())
+                atom.save_json(self.root / ".noodle/state.snapshot.json",
+                               {"state": {"orders": {}}, "effect_ledger": []})
+                return Result(0)
+            return real_run(argv, **kwargs)
+
+        def popen(argv, *args, **kwargs):
+            if isinstance(argv, list) and len(argv) == 1 and Path(argv[0]).name == "start-noodle":
+                return Mock(pid=987654)
+            return real_popen(argv, *args, **kwargs)
+
+        with patch.object(atom.subprocess, "run", side_effect=run), \
+                patch.object(atom.subprocess, "Popen", side_effect=popen):
+            result = atom.run(self.path, environ=self.env, provider=provider)
+        self.assertEqual(result["waiting_on"], "Noodle")
+        self.assertEqual(len(bootstrap_calls), 1)
+        self.assertEqual(bootstrap_calls[0][-1], "--once")
+        self.assertEqual(provider.create_calls, 0)
+        state = atom.read_json(atom.artifact_paths(self.path)["state"], "state")
+        self.assertEqual(state["noodle_bootstrap"]["status"], "complete")
+        self.assertEqual(state["noodle_start"]["status"], "started")
+
+    def test_unknown_bootstrap_never_replays_and_preserves_owner_input(self):
+        provider = Provider()
+        self.ready_issue(provider)
+        paths, state = self.startup_fixture()
+        (self.root / ".noodle/state.snapshot.json").unlink()
+        (self.root / ".noodle/issue-atom.lock").touch()
+        calls = []
+        real_run = subprocess.run
+
+        def run(argv, **kwargs):
+            if isinstance(argv, list) and argv[-1:] == ["--once"]:
+                calls.append(argv)
+                atom.save_json(self.root / ".noodle/state.snapshot.json",
+                               {"state": {"orders": {}}, "effect_ledger": []})
+                raise subprocess.TimeoutExpired(argv, 120)
+            return real_run(argv, **kwargs)
+
+        with patch.object(atom.subprocess, "run", side_effect=run):
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.bootstrap.outcome"):
+                atom.bootstrap_noodle(self.authorization, paths, state, self.env)
+            saved = atom.read_json(paths["state"], "state")
+            self.assertEqual(saved["noodle_bootstrap"]["status"], "offered")
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.bootstrap.outcome"):
+                atom.bootstrap_noodle(self.authorization, paths, saved, self.env)
+        self.assertEqual(len(calls), 1)
+        self.assertTrue((self.root / ".noodle/state.snapshot.json").exists())
+
+    def test_partial_runtime_refuses_bootstrap_before_noodle_start(self):
+        paths, state = self.startup_fixture()
+        (self.root / ".noodle/state.snapshot.json").unlink()
+        (self.root / ".noodle/issue-atom.lock").touch()
+        (self.root / ".noodle/foreign-owner").touch()
+        with patch.object(atom.subprocess, "run") as run:
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.bootstrap.runtime"):
+                atom.bootstrap_noodle(self.authorization, paths, state, self.env)
+        run.assert_not_called()
+
+    def test_completed_bootstrap_config_restore_is_idempotent(self):
+        paths, state = self.startup_fixture()
+        prepared = atom.read_json(paths["envelope"].parent / "prepared.json", "prepared")
+        (self.root / ".noodle/noodle.lock").touch()
+        state["noodle_bootstrap"] = {
+            "status": "exited_zero", "argv": prepared["bootstrap"]["argv"],
+            "config_sha256": atom.digest_file(paths["envelope"].parent / "bootstrap-noodle.toml"),
+            "original_config": None, "returncode": 0,
+        }
+        atom.save_json(paths["state"], state)
+        with patch.object(atom.subprocess, "run") as run:
+            atom.bootstrap_noodle(self.authorization, paths, state, self.env)
+        self.assertEqual(state["noodle_bootstrap"]["status"], "complete")
+        self.assertFalse((self.root / ".noodle.toml").exists())
+        run.assert_not_called()
+
     def test_lost_start_response_cannot_spawn_again(self):
         paths, state = self.startup_fixture()
         from unittest.mock import Mock
@@ -358,7 +489,8 @@ class IssueAtomTests(unittest.TestCase):
 
     def test_completion_ack_required_before_shutdown(self):
         paths, state = self.startup_fixture()
-        state["noodle_completion"] = {"id": "exact", "action": "merge", "order_id": "soodles-131"}
+        order_id = atom.read_json(paths["envelope"], "envelope")["execution"]["order_id"]
+        state["noodle_completion"] = {"id": "exact", "action": "merge", "order_id": order_id}
         (self.root / ".noodle/control-ack.ndjson").write_text(json.dumps(
             {"id": "exact", "action": "merge", "status": "error"}) + "\n")
         with patch.object(atom.os, "kill") as kill:
@@ -368,10 +500,11 @@ class IssueAtomTests(unittest.TestCase):
 
     def test_completion_uses_noodle_mailbox_once_and_preserves_error_ack(self):
         paths, state = self.startup_fixture()
+        order_id = atom.read_json(paths["envelope"], "envelope")["execution"]["order_id"]
         atom.save_json(paths["landing"], {"phase": "reconciling", "writes_offered": ["merge", "close"],
                                          "claim": {"head": self.base}, "merge_sha": self.base})
-        transition = {"next": {"owner": "Noodle", "known": {"order_id": "soodles-131"}}}
-        owner = {"state": {"orders": {"soodles-131": {"stages": [{"status": "review"}]}}}}
+        transition = {"next": {"owner": "Noodle", "known": {"order_id": order_id}}}
+        owner = {"state": {"orders": {order_id: {"stages": [{"status": "review"}]}}}}
         with patch.object(atom.issue_execution, "read_owner", return_value=owner), \
                 patch.object(atom.issue_execution, "quiescent_order"):
             atom.complete_noodle(self.authorization, paths, state, transition)
@@ -380,7 +513,7 @@ class IssueAtomTests(unittest.TestCase):
             self.assertEqual(len(lines), 1)
             command = json.loads(lines[0])
             self.assertEqual(command["action"], "merge")
-            self.assertEqual(command["order_id"], "soodles-131")
+            self.assertEqual(command["order_id"], order_id)
             ack = {"id": command["id"], "action": "merge", "status": "error", "message": "fixture refusal"}
             (self.root / ".noodle/control-ack.ndjson").write_text(json.dumps(ack) + "\n")
             with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.ack"):
@@ -389,13 +522,14 @@ class IssueAtomTests(unittest.TestCase):
 
     def test_completion_cannot_precede_provider_closure_or_select_another_order(self):
         paths, state = self.startup_fixture()
+        order_id = atom.read_json(paths["envelope"], "envelope")["execution"]["order_id"]
         with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.owner"):
             atom.complete_noodle(self.authorization, paths, state,
                                  {"next": {"owner": "Noodle", "known": {"order_id": "foreign"}}})
         atom.save_json(paths["landing"], {"phase": "merged", "writes_offered": ["merge"]})
         with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.phase"):
             atom.complete_noodle(self.authorization, paths, state,
-                                 {"next": {"owner": "Noodle", "known": {"order_id": "soodles-131"}}})
+                                 {"next": {"owner": "Noodle", "known": {"order_id": order_id}}})
         self.assertFalse((self.root / ".noodle/control.ndjson").exists())
 
     def test_finish_host_restores_only_own_unchanged_configuration(self):
@@ -558,11 +692,13 @@ class IssueAtomTests(unittest.TestCase):
         self.ready_issue(provider)
         paths = atom.artifact_paths(self.path)
         claim = {
-            "worktree_path": str(self.root), "worktree_name": "soodles-131-0-execute",
+            "worktree_path": str(self.root),
+            "worktree_name": atom.issue_admission.scoped_order_id(131, self.root) + "-0-execute",
             "head": "b" * 40, "tree": "c" * 40, "base_head": self.base,
         }
 
-        def claim_ready(_authorization, _subject, output):
+        def claim_ready(_authorization, _subject, output, order_id):
+            self.assertEqual(order_id, atom.issue_admission.scoped_order_id(131, self.root))
             atom.save_json(output, claim, fresh=True)
             return Result(0)
 
@@ -640,6 +776,206 @@ class IssueAtomTests(unittest.TestCase):
         result = atom.LandingOwner(self.authorization, self.outer / "evidence").call("identity")
         self.assertEqual(result["verifier_sha256"], self.owner_spec["verifier_sha256"])
         self.assertEqual(len(list((self.outer / "evidence").glob("landing-identity-*.json"))), 1)
+
+    def test_prewrite_external_activation_preserves_old_authorization(self):
+        paths = atom.artifact_paths(self.path)
+        paths["directory"].mkdir()
+        atom.save_json(paths["directory"] / "landing-start-refused.json", {
+            "argv": [sys.executable, "-B", self.owner_spec["path"], "landing", "start",
+                     str(paths["directory"] / "landing-claim.json"),
+                     str(paths["directory"] / "readback.json"), str(paths["landing"])],
+            "exit_status": 1,
+            "stdout": json.dumps({"owner": "landing.start", "status": "refused",
+                                  "invalid": {"field": "envelope.execution.order_id"}}),
+            "stderr": ""}, fresh=True)
+        paths["envelope"].parent.mkdir()
+        paths["envelope"].write_text("{}\n")
+        original = self.path.read_bytes()
+        native = {"head": "b" * 40, "tree": "c" * 40,
+                  "base_head": self.base, "worktree_name": "soodles-131-local"}
+        publication = {"pr": {"number": 132},
+                       "branch": "soodles/issue-131-" + native["head"][:12]}
+        run = {"id": 7, "run_attempt": 1}
+        state = {"schema_version": 1, "authorization_sha256": self.digest,
+                 "phase": "ci", "issue": {"number": 131},
+                 "envelope_sha256": atom.digest_file(paths["envelope"])}
+        atom.save_json(paths["state"], state, fresh=True)
+        external = self.outer / "activation"
+        external.mkdir()
+        claim = {"repository": "ed3c/soodles", "issue": 131, "pr": 132,
+                 "head": native["head"], "tree": native["tree"],
+                 "base_head": self.base, "run_id": 7, "run_attempt": 1,
+                 "worktree": native["worktree_name"],
+                 "publication_branch": publication["branch"],
+                 "control_root": str(self.root),
+                 "verifier_sha256": self.owner_spec["verifier_sha256"],
+                 "execution_envelope": {"path": str(paths["envelope"]),
+                                        "sha256": state["envelope_sha256"]}}
+        atom.save_json(external / "claim.json", claim, fresh=True)
+        atom.save_json(external / "readback.json", {"fixture": True}, fresh=True)
+        atom.save_json(external / "checkpoint.json", {
+            "schema": 2, "claim": claim, "phase": "admitted",
+            "writes_offered": [], "classification": None}, fresh=True)
+        manifest = {"schema": 1, "publisher_root": str(self.owner_root),
+                    "publisher_verifier_sha256": self.owner_spec["verifier_sha256"],
+                    "route": "local", "claim_sha256": atom.digest_file(external / "claim.json"),
+                    "readback_sha256": atom.digest_file(external / "readback.json"),
+                    "authorizes_landing": False}
+        atom.save_json(external / "manifest.json", manifest, fresh=True)
+        selected = {"SOODLES_LANDING_ACTIVATION": str(external / "manifest.json"),
+                    "SOODLES_LANDING_ACTIVATION_SHA256": atom.digest_file(external / "manifest.json")}
+        owner = atom.external_landing_activation(
+            self.authorization, state, paths, selected, native, publication, run)
+        self.assertEqual(owner["landing_owner"], self.owner_spec)
+        self.assertEqual(state["phase"], "landing")
+        self.assertEqual(paths["landing"], external / "checkpoint.json")
+        self.assertEqual(self.path.read_bytes(), original)
+        self.assertEqual(atom.read_json(paths["state"], "state")["landing_activation"],
+                         state["landing_activation"])
+        atom.external_landing_activation(
+            self.authorization, state, paths, {}, native, publication, run)
+
+    def test_external_activation_rejects_offered_write(self):
+        paths = atom.artifact_paths(self.path)
+        paths["directory"].mkdir()
+        atom.save_json(paths["directory"] / "landing-start-refused.json", {
+            "argv": [sys.executable, "-B", self.owner_spec["path"], "landing", "start",
+                     str(paths["directory"] / "landing-claim.json"),
+                     str(paths["directory"] / "readback.json"), str(paths["landing"])],
+            "exit_status": 1,
+            "stdout": json.dumps({"owner": "landing.start", "status": "refused",
+                                  "invalid": {"field": "envelope.execution.order_id"}}),
+            "stderr": ""}, fresh=True)
+        paths["envelope"].parent.mkdir()
+        paths["envelope"].write_text("{}\n")
+        state = {"phase": "ci", "issue": {"number": 131},
+                 "envelope_sha256": atom.digest_file(paths["envelope"])}
+        publication = {"pr": {"number": 132}, "branch": "soodles/issue-131-" + "b" * 12}
+        native = {"head": "b" * 40, "tree": "c" * 40,
+                  "base_head": self.base, "worktree_name": "soodles-131-local"}
+        run = {"id": 7, "run_attempt": 1}
+        external = self.outer / "activation"
+        external.mkdir()
+        claim = {"repository": "ed3c/soodles", "issue": 131, "pr": 132,
+                 "head": native["head"], "tree": native["tree"],
+                 "base_head": self.base, "run_id": 7, "run_attempt": 1,
+                 "worktree": native["worktree_name"], "publication_branch": publication["branch"],
+                 "control_root": str(self.root),
+                 "verifier_sha256": self.owner_spec["verifier_sha256"],
+                 "execution_envelope": {"path": str(paths["envelope"]),
+                                        "sha256": state["envelope_sha256"]}}
+        atom.save_json(external / "claim.json", claim, fresh=True)
+        atom.save_json(external / "readback.json", {}, fresh=True)
+        atom.save_json(external / "checkpoint.json", {"schema": 2, "claim": claim,
+            "phase": "merge_pending", "writes_offered": ["merge"]}, fresh=True)
+        atom.save_json(external / "manifest.json", {
+            "schema": 1, "publisher_root": str(self.owner_root),
+            "publisher_verifier_sha256": self.owner_spec["verifier_sha256"],
+            "route": "local", "claim_sha256": atom.digest_file(external / "claim.json"),
+            "readback_sha256": atom.digest_file(external / "readback.json"),
+            "authorizes_landing": False}, fresh=True)
+        selected = {"SOODLES_LANDING_ACTIVATION": str(external / "manifest.json"),
+                    "SOODLES_LANDING_ACTIVATION_SHA256": atom.digest_file(external / "manifest.json")}
+        with self.assertRaisesRegex(atom.AtomRefusal, "landing_activation.prewrite"):
+            atom.external_landing_activation(
+                self.authorization, state, paths, selected, native, publication, run)
+        self.assertEqual(state["phase"], "ci")
+
+    def postwrite_resume_fixture(self):
+        paths = atom.artifact_paths(self.path)
+        paths["directory"].mkdir()
+        external = self.outer / "postwrite"
+        external.mkdir()
+        original = {"repository": "ed3c/soodles", "issue": 131, "pr": 132,
+                    "head": "b" * 40, "tree": "c" * 40,
+                    "base_head": self.base, "run_id": 7, "run_attempt": 1,
+                    "worktree": "soodles-131-local",
+                    "control_root": str(self.root),
+                    "verifier_sha256": self.owner_spec["verifier_sha256"]}
+        atom.save_json(external / "claim.json", original, fresh=True)
+        checkpoint = external / "checkpoint.json"
+        atom.save_json(checkpoint, {"schema": 2, "claim": original,
+                       "phase": "awaiting_reconcile", "classification": None,
+                       "writes_offered": ["merge", "close"],
+                       "merge_sha": "d" * 40, "issue_closed_at": "now"}, fresh=True)
+        paths["landing"] = checkpoint
+        state = {"phase": "landing", "landing_activation": {"manifest": "pinned"}}
+        atom.save_json(paths["state"], state, fresh=True)
+        corrected_root = self.outer / "corrected-owner"
+        hashes = {}
+        for name in atom.OWNER_FILES:
+            target = corrected_root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes((self.owner_root / name).read_bytes())
+            if name == "landing.py":
+                target.write_text(target.read_text() + "\n# corrected detached owner\n")
+            hashes[name] = atom.digest_file(target)
+        spec = {"path": str(corrected_root / "soodles.py"),
+                "sha256": hashes["soodles.py"],
+                "verifier_sha256": atom.digest_bytes(json.dumps(
+                    hashes, sort_keys=True, separators=(",", ":")).encode())}
+        descriptor = self.outer / "resume-owner.json"
+        atom.save_json(descriptor, spec, fresh=True)
+        selected = {"SOODLES_LANDING_RESUME_OWNER": str(descriptor),
+                    "SOODLES_LANDING_RESUME_OWNER_SHA256": atom.digest_file(descriptor)}
+        return state, paths, original, spec, selected
+
+    def test_postwrite_resume_adopts_only_corrected_verifier(self):
+        state, paths, original, spec, selected = self.postwrite_resume_fixture()
+        authorization_before = self.path.read_bytes()
+        calls = []
+        def resume(_owner, checkpoint, claim_path):
+            calls.append(str(checkpoint))
+            claim = atom.read_json(claim_path, "claim")
+            self.assertEqual(claim, {**original,
+                                    "verifier_sha256": spec["verifier_sha256"]})
+            saved = atom.read_json(checkpoint, "checkpoint")
+            saved["claim"] = claim
+            saved["prior_verifiers"] = [original["verifier_sha256"]]
+            atom.save_json(checkpoint, saved)
+            return {"owner": "landing.resume", "action": "reconcile"}
+        with patch("issue_atom.LandingOwner.resume", autospec=True, side_effect=resume):
+            corrected = atom.external_landing_resume(
+                self.authorization, state, paths, selected)
+        self.assertEqual(corrected["landing_owner"], spec)
+        self.assertEqual(state["landing_resume"]["status"], "adopted")
+        self.assertEqual(calls, [str(paths["landing"])])
+        self.assertEqual(self.path.read_bytes(), authorization_before)
+        with patch("issue_atom.LandingOwner.resume", side_effect=AssertionError("replayed")):
+            atom.external_landing_resume(self.authorization, state, paths, {})
+
+    def test_unknown_postwrite_resume_requires_readback_without_retry(self):
+        state, paths, _, _, selected = self.postwrite_resume_fixture()
+        with patch("issue_atom.LandingOwner.resume",
+                   side_effect=atom.AtomRefusal("landing.owner", "lost response")):
+            with self.assertRaisesRegex(atom.AtomRefusal, "landing.owner"):
+                atom.external_landing_resume(self.authorization, state, paths, selected)
+        self.assertEqual(state["landing_resume"]["status"], "offered")
+        with patch("issue_atom.LandingOwner.resume", side_effect=AssertionError("replayed")):
+            with self.assertRaisesRegex(atom.AtomRefusal, "landing_resume.outcome"):
+                atom.external_landing_resume(self.authorization, state, paths, {})
+        self.assertEqual(atom.read_json(paths["landing"], "checkpoint")["claim"]["verifier_sha256"],
+                         self.owner_spec["verifier_sha256"])
+
+    def test_changed_corrected_publisher_refuses_before_resume(self):
+        state, paths, _, spec, selected = self.postwrite_resume_fixture()
+        (Path(spec["path"]).parent / "landing.py").write_text("# drift\n")
+        before = paths["landing"].read_bytes()
+        with patch("issue_atom.LandingOwner.resume", side_effect=AssertionError("called")):
+            with self.assertRaisesRegex(atom.AtomRefusal, "landing_owner.verifier_sha256"):
+                atom.external_landing_resume(self.authorization, state, paths, selected)
+        self.assertEqual(paths["landing"].read_bytes(), before)
+        self.assertNotIn("landing_resume", state)
+
+    def test_timed_out_postwrite_resume_is_unknown(self):
+        state, paths, _, _, selected = self.postwrite_resume_fixture()
+        with patch("issue_atom.LandingOwner.resume",
+                   side_effect=subprocess.TimeoutExpired(["landing", "resume"], 180)):
+            with self.assertRaisesRegex(atom.AtomRefusal, "landing_resume.outcome"):
+                atom.external_landing_resume(self.authorization, state, paths, selected)
+        self.assertEqual(state["landing_resume"]["status"], "offered")
+        self.assertEqual(atom.read_json(paths["landing"], "checkpoint")["phase"],
+                         "awaiting_reconcile")
 
 
 if __name__ == "__main__":

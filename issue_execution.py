@@ -298,10 +298,13 @@ def completed_original_order(binding, state):
 
 
 def projection(binding, envelope_digest, route):
-    return {"repository": binding["repository"], "issue": binding["issue"],
+    subject = {"repository": binding["repository"], "issue": binding["issue"],
             "body_sha256": binding["body_sha256"], "body_updated_at": binding["body_updated_at"],
             "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"],
             "contract": binding["contract"]}
+    if "instruction_context" in binding["execution"]:
+        subject["instruction_context"] = binding["execution"]["instruction_context"]
+    return subject
 
 
 def publish_once(path, proposal):

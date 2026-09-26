@@ -1,0 +1,310 @@
+{
+  "oracle_sha256": "da96f6dd1fb32de7cd0234caceceef5154d675569e1b54170d315f6e3acd32f3",
+  "subject_root": "/Users/neon/soodles/.worktrees/soodles-156-0-execute",
+  "subject_head": "fa3667645e38326a68f551a33a3b98c53d794840",
+  "cases": [
+    {
+      "case": "producer_valid",
+      "verdict": "PASS",
+      "observation": {
+        "envelope_schema": 2,
+        "context": {
+          "source_head": "7d75e22b9fc7aa0a209d4efa26f0d6e74f224f7d",
+          "files": [
+            {
+              "path": ".agents/skills/execute/SKILL.md",
+              "sha256": "1c815d5024a63f44ad8c0531bade1872a5e485f3f43ad581e0c5b0b9a899e149",
+              "content": "---\nname: execute\ndescription: Execute one admitted Soodles Issue in its Noodle-owned worktree.\nschedule: Only the exact Issue/order admitted by the installed Soodles consumer.\n---\n\n# Execute the admitted Issue\n\nThe installed provider entry revalidates the current provider Issue, external\nenvelope, canonical order, session and worktree before launching this Agent.\nThe stage prompt carries the exact binding, the supervisor's bounded `task`\nand the complete validated structured Issue `contract`. Consume that contract\nand honor its exact file boundary; no duplicate GitHub read is required from\nthe implementation child. If the contract is missing, stop affected work and\nreturn to the existing admission owner. A body amendment requires the\nsupervisor's fresh envelope before further work.\nExecute the task within that boundary; report unfinished delivery as unfinished.\nThe prompt is not permission to invent a new Issue, route, worktree or envelope.\n\nFor an admitted task that verifies Noodle CLI identity/skill resolution, stopped\ninitial-proposal recovery or a genuine order/session handoff, use\n[verify-noodle](../verify-noodle/SKILL.md) and only its relevant feature recipe.\nIts observations do not replace Soodles acceptance or delivery.\n\nUse existing repository controls. Commit only the same causal correction;\ncanonical acceptance, provider delivery and local reconciliation remain\ndistinct. Do not merge, close Issues, alter provider policy, or select a new\ntrusted verifier from the candidate.\n\nAt the end of this stage, use the admitted Noodle event tool to emit your own\ntyped outcome, bound to the actual `NOODLE_SESSION_ID`, `NOODLE_ORDER_ID`\nand `NOODLE_STAGE_INDEX`. Obtain the event command/schema from the actual\nbinary's help; do not copy a historical command or let the parent fill the\noutcome. A successful stage does not mean RESOLVED. Report blocked work\ntruthfully and leave existing identity/history available to its owner.\n\nWhen the stage prompt includes `instruction_context`, consume its exact selected\nfile contents at `source_head` for this task. The owner has checked their paths\nand SHA-256 values; do not rediscover another recipe or substitute current tips\nfor these supplied bytes. This establishes supplied context, not proof that a\nmodel followed it. Legacy prompts without this field retain their admitted task\nand contract; they make no selected-instruction activation claim. A missing or\ninconsistent required context returns to the existing admission owner.\n"
+            }
+          ]
+        },
+        "proposal_context_equal": true,
+        "process_exit": 0,
+        "child_started": false,
+        "provider_transport_events": [],
+        "scope": "real CLI with provider/owner fixtures"
+      }
+    },
+    {
+      "case": "producer_wrong_digest",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "instruction_context.files.sha256",
+          "value": ".agents/skills/execute/SKILL.md"
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "producer_missing_file",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "instruction_pins.regular_file",
+          "value": "missing.md"
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "producer_duplicate",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "instruction_pins.duplicate",
+          "value": ".agents/skills/execute/SKILL.md"
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "producer_traversal",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "instruction_pins.path",
+          "value": "../escape.md"
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "producer_empty",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "instruction_pins.count",
+          "value": "expected 1..32 files"
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "worker_valid",
+      "verdict": "PASS",
+      "observation": {
+        "child_sentinel": "observed",
+        "context_present": true,
+        "session_id": "soodles-18-0-execute-session",
+        "scope": "actual sentinel process; fixture Noodle state"
+      }
+    },
+    {
+      "case": "worker_legacy",
+      "verdict": "PASS",
+      "observation": {
+        "child_sentinel": "observed",
+        "context_present": false,
+        "session_id": "soodles-18-0-execute-session",
+        "scope": "actual sentinel process; fixture Noodle state"
+      }
+    },
+    {
+      "case": "worker_bad_content",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "instruction_context.files.sha256",
+          "value": "allowed.py"
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "worker_wrong_source",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "instruction_context.source_head",
+          "value": "0000000000000000000000000000000000000000"
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "worker_missing_context",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "envelope.execution.fields",
+          "value": [
+            "carrier",
+            "control_root",
+            "order_id",
+            "source_head",
+            "stage_index",
+            "task",
+            "worktree"
+          ]
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "worker_dropped_prompt",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "worker.stage.binding",
+          "value": {
+            "body_sha256": "6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd",
+            "body_updated_at": "2026-09-16T15:00:00Z",
+            "contract": {
+              "acceptance": "Canonical acceptance on the final clean head.",
+              "behavior": [
+                "Reject obsolete body before effects."
+              ],
+              "changes": [
+                "Bind the real consumers before effects."
+              ],
+              "defect_controls": [
+                "Remove body binding: the same control must fail."
+              ],
+              "delivery": "Use the existing landing next/request.",
+              "dependencies": [
+                {
+                  "evidence": "An exact, externally supplied delivery receipt.",
+                  "issue": 82,
+                  "owner": "Noodle",
+                  "repository": "ed3c/noodle"
+                }
+              ],
+              "feature_scope": "No general scheduler or filesystem confinement claim.",
+              "non_cases": [
+                "Current supervised runtime-only work remains legal."
+              ],
+              "owner": "Soodles Issue admission",
+              "reconciliation": "Noodle cleanup and provider readback.",
+              "schema": 1,
+              "source": "provider Issue 18",
+              "trigger": "An old body could reach execution.",
+              "write_paths": [
+                "allowed.py",
+                "renamed.py",
+                "\u8cc7\u6599[1].txt"
+              ]
+            },
+            "envelope_sha256": "607b877d5a660833b50b68adc562bb32133c5b367a58d827129e89dd640c18d6",
+            "issue": 18,
+            "repository": "ed3c/soodles",
+            "route": "supervised",
+            "task": "Execute the admitted bounded fixture task."
+          }
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "worker_changed_prompt",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "worker.stage.binding",
+          "value": {
+            "body_sha256": "6e0d9a30500bb12db1293b64cbe9209d97dfd4dc259b29b6598f036a78d3efdd",
+            "body_updated_at": "2026-09-16T15:00:00Z",
+            "contract": {
+              "acceptance": "Canonical acceptance on the final clean head.",
+              "behavior": [
+                "Reject obsolete body before effects."
+              ],
+              "changes": [
+                "Bind the real consumers before effects."
+              ],
+              "defect_controls": [
+                "Remove body binding: the same control must fail."
+              ],
+              "delivery": "Use the existing landing next/request.",
+              "dependencies": [
+                {
+                  "evidence": "An exact, externally supplied delivery receipt.",
+                  "issue": 82,
+                  "owner": "Noodle",
+                  "repository": "ed3c/noodle"
+                }
+              ],
+              "feature_scope": "No general scheduler or filesystem confinement claim.",
+              "non_cases": [
+                "Current supervised runtime-only work remains legal."
+              ],
+              "owner": "Soodles Issue admission",
+              "reconciliation": "Noodle cleanup and provider readback.",
+              "schema": 1,
+              "source": "provider Issue 18",
+              "trigger": "An old body could reach execution.",
+              "write_paths": [
+                "allowed.py",
+                "renamed.py",
+                "\u8cc7\u6599[1].txt"
+              ]
+            },
+            "envelope_sha256": "b6219c177db98f745d3e247676e7a48a244a992a382b8c220dfc1170324b4af4",
+            "instruction_context": {
+              "files": [
+                {
+                  "content": "print('fixture')\naltered",
+                  "path": "allowed.py",
+                  "sha256": "b4d390126af96556abed81ca184c65fc40637fabc2f37b14857671e5c1616207"
+                }
+              ],
+              "source_head": "5bb90bbceab49122acf0d4de82bdaa2d6d0ab99c"
+            },
+            "issue": 18,
+            "repository": "ed3c/soodles",
+            "route": "supervised",
+            "task": "Execute the admitted bounded fixture task."
+          }
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "authorization_valid",
+      "verdict": "PASS",
+      "observation": {
+        "auth_schema": 3,
+        "envelope_schema": 2,
+        "owner_passthrough": true,
+        "envelope_sha256": "3064ed37a1fc9f90a03f7ead2db333a92bd9cafe15269f4e779902153e940093"
+      }
+    },
+    {
+      "case": "authorization_wrong_digest",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "instruction_context.files.sha256",
+          "value": ".agents/skills/execute/SKILL.md"
+        },
+        "effect": false
+      }
+    },
+    {
+      "case": "authorization_missing",
+      "verdict": "PASS",
+      "observation": {
+        "invalid": {
+          "field": "authorization.fields",
+          "value": [
+            "base_head",
+            "carrier",
+            "control_root",
+            "host_config_sha256",
+            "issue",
+            "landing_owner",
+            "noodle",
+            "owner",
+            "repository",
+            "schema_version",
+            "task",
+            "workflow"
+          ]
+        },
+        "effect": false
+      }
+    }
+  ],
+  "authorizes_landing": false,
+  "network": "fixture-only; no provider transport"
+}

@@ -1,0 +1,63 @@
+{
+  "authorization_sha256": "4756f79f6aca6558bfec64dec7beeb98f1a11b1f3638cc86667dacf5f349b421",
+  "authorizes_landing": false,
+  "checkpoint": {
+    "classification": null,
+    "issue_closed_at": "2026-09-26T06:59:39Z",
+    "merge_sha": "40d6c0a6d5963d54fa924d3694b8becf9c359fda",
+    "phase": "awaiting_reconcile",
+    "writes_offered": [
+      "merge",
+      "close"
+    ]
+  },
+  "checkpoint_sha256": "4c5a18d31ee4734bde431924154850f413ac91545cee24ff153e0a59dfc22788",
+  "control_root": {
+    "branch": "",
+    "head": "3d8f6490994cefa7d092d427c5f73be12824b3fe",
+    "linked_git_file": true,
+    "path": "/Users/neon/.codex/worktrees/soodles-156-after-168/soodles",
+    "status": ""
+  },
+  "native_worktree_present": true,
+  "observed_at_utc": "2026-09-26T07:25:21.352233+00:00",
+  "provider": {
+    "issue": 156,
+    "merge_sha": "40d6c0a6d5963d54fa924d3694b8becf9c359fda",
+    "merged": true,
+    "pr": 172,
+    "state": "closed",
+    "state_reason": "completed"
+  },
+  "reconcile_refusal": {
+    "exit_status": 1,
+    "receipt_sha256": "ab536534c830e873298dd9616321baff23c0d3d97b560d4ad21a00952ee02c7d",
+    "result": {
+      "authorizes_landing": false,
+      "invalid": {
+        "field": "local.branch",
+        "value": "expected main"
+      },
+      "next": {
+        "help_argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/worktrees/reentry-order-namespace/soodles/soodles.py",
+          "landing",
+          "reconcile",
+          "--help"
+        ],
+        "kind": "input",
+        "known": {},
+        "operation": "reconcile",
+        "owner": "supervisor",
+        "required": [
+          "corrected_input"
+        ]
+      },
+      "owner": "landing.reconcile",
+      "status": "refused"
+    }
+  },
+  "subject": "ed3c/soodles#156 / PR #172"
+}

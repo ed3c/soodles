@@ -36,11 +36,13 @@ Merged state must agree with the expected parent pair and candidate tree before 
 
 There is at most one merge request and one closure request per checkpoint, no automatic retries, and no polling loop. Pending unknown outcomes remain pending for owner-specific readback. No production generation closure, autonomous scheduling, crash-safe remote transaction, or independent default-branch verification is claimed. The supervisor must not delete/recreate a checkpoint to repeat an unknown write.
 
-After provider closure, a corrected verifier can resume an `awaiting_reconcile` or interrupted `reconciling` checkpoint through `landing resume`. Same-route recovery changes only the verifier digest. An externally selected local-to-cloud correction may additionally remove `control_root` while every common identity remains fixed, only when there is no execution envelope and any persisted cleanup intent is absent or the exact no-op observation. It records the prior route and returns a fresh provider-readback operation; cloud-to-local migration is forbidden. Both writes must already have matching offered/readback evidence. No migration emits a provider write or itself resolves the checkpoint.
+After provider closure, a corrected verifier can resume an `awaiting_reconcile` or interrupted `reconciling` checkpoint through `landing resume`. Same-route recovery changes only the verifier digest. The local Issue-atom continuation consumes an externally pinned corrected owner only after its original checkpoint has both confirmed write offers and provider closure; it persists the resume intent before invoking the owner, and an unknown outcome permits checkpoint readback only. An externally selected local-to-cloud correction may additionally remove `control_root` while every common identity remains fixed, only when there is no execution envelope and any persisted cleanup intent is absent or the exact no-op observation. It records the prior route and returns a fresh provider-readback operation; cloud-to-local migration is forbidden. Both writes must already have matching offered/readback evidence. No migration emits a provider write or itself resolves the checkpoint.
 
 ### Interrupted cleanup — ed3c/soodles#6
 
 A reconciling checkpoint may retain its exact admitted branch after Noodle has removed the worktree directory. Before another cleanup request, require that branch to remain at the admitted head and have no checkout at another path. Noodle's existing missing-directory cleanup owns the remaining deletion. A moved branch or foreign checkout refuses before deletion. A resolved checkpoint cannot authorize deletion of a newly appearing branch.
+
+A local control root may itself be a clean, registered detached Git worktree when its exact execution envelope binds the root and the initial HEAD equals the admitted base. During interrupted reconciliation, its HEAD must remain a descendant of that base and an ancestor of provider main. The landing owner fast-forwards that detached HEAD without switching the shared main checkout or inventing another worktree. Foreign, dirty or unregistered detached roots refuse before synchronization or Noodle cleanup.
 
 Persist `cleanup_intent` before calling Noodle. It binds observed path presence, branch/main heads, Git executable path/digest, Noodle digest and verifier digest. The same observation cannot issue another cleanup request; changed owner readback or executable capability is required. Existing reconciling checkpoints without this field are read as the prior schema, with all identity checks still required. Path/branch/registration absence and clean main remain prerequisites for RESOLVED.
 
@@ -267,6 +269,11 @@ blocking identity where known. This mutex is not a persistent lease or queue.
 The entry preserves
 the original host config and checks Noodle's own instance lock and quiescence
 before installing exact config and invoking the producer's returned start argv.
+For a pristine control root without a canonical snapshot, it first uses the
+producer's pinned one-cycle Noodle start to let Noodle write that snapshot.
+Only a recorded zero exit, empty owner readback and restored host config permit
+the ordinary supervised admission; an unknown exit or partial runtime refuses
+without replaying the start.
 Start intent precedes the effect. A running exact owner is adopted; stopped or
 unknown prior starts cannot be reoffered. This is not a second scheduler or
 permission to recover old failed orders.
@@ -344,3 +351,20 @@ comparison supplies only its observed scope, with missing behavior evidence
 remaining INCONCLUSIVE. Publication readiness, exact-head Linux acceptance,
 landing readbacks and reconciliation retain their existing owners and authority.
 
+## Local selected-instruction activation
+
+The external supervisor may require exact task instructions through schema-3
+Issue-atom authorization. Its nonempty `instruction_pins` list selects only
+`{path, sha256}` regular UTF-8 files from the authorized `base_head`. Soodles
+validates the selection before creating the Issue and resolves committed bytes
+again when producing admission. Schema-2 execution envelopes carry
+`execution.instruction_context = {source_head, files}`; each file carries
+`path`, `sha256`, and `content`, and source_head equals execution.source_head.
+The complete context is projected unchanged into the canonical stage prompt and
+checked before worker launch. Missing, duplicate, traversing, wrong-version or
+tampered selected input fails before its dependent effects, with the existing
+owning continuation. Schema-2 authorization and schema-1 envelopes remain legal
+without claiming selected-instruction activation. No new scheduler, policy flag
+or provider route is introduced. This L boundary proves exact context supply
+and refusal; P-class adherence needs a separate fresh-consumer observation. It
+does not infer all P-class changes or promote instructions into landing authority.

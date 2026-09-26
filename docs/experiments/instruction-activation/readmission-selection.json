@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "repository": "ed3c/soodles",
+  "issue": 156,
+  "base_head": "3d8f6490994cefa7d092d427c5f73be12824b3fe",
+  "historical_selection_sha256": "e827c0cc4a429c2c1749364461a82bf1d30fece1c21ed7698bd07fbb0c64d88c",
+  "instructions": [
+    {
+      "path": ".agents/skills/execute/SKILL.md",
+      "baseline_sha256": "c01aa871e9de8bcceaa5648506064a21fb903475a8a2ec91041e6cdf35218592",
+      "treatment_sha256": "1c815d5024a63f44ad8c0531bade1872a5e485f3f43ad581e0c5b0b9a899e149"
+    },
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "9a513868aa9061170660c2facc593a2f6780465df0d35fd5a510c39e5f46f73f",
+      "treatment_sha256": "ef65a607eb5d4db46e1de2c234b7a644c7e976491d1a6c0973bf0264c415752b"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/issue-execution.md",
+      "baseline_sha256": "ff1de0b791aeb4d133ffc684167203851333abb3a6dcabf088b699f8e51ae53a",
+      "treatment_sha256": "a7414971e64640d6fd6ff948ed6331093d9dc741b705d3b274aba4c8bacf6a4f"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "baseline_sha256": "70ca6fe7ab3e2e02aa628a355b6cec19988950aba4e9f893fdf440b8691a4626",
+      "treatment_sha256": "217fa1505a7ea5f2a42c6aaf1240f13b114142988f69f8439225e747f52a4988"
+    }
+  ],
+  "scope": "Readmission overlay preserves #161, #166 and #168 local owner guidance while retaining the historical execute consumer comparison and frozen oracle.",
+  "authorizes_landing": false
+}
