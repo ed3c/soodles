@@ -97,3 +97,41 @@ The same assertions are run before and after the source correction. Preserve
 their raw outputs in treatment.json. The public replay assertion must also pass
 on the exact-head Actions runner. No platform carrier is introduced. The fresh
 comparison still needs its externally fixed observer and supported carrier.
+
+## Experiment carrier amendment — 2026-09-26 (before fresh runs)
+
+The #157 Issue now permits the still-unrun six-consumer comparison on Local
+Codex CLI fresh sessions. This supersedes the native ChatGPT cloud carrier
+requirement in the earlier section, not the original baseline, three cases,
+frozen nine-case probe, primary outcome, nonregression controls, or one-PR
+unit. The resulting claim, if supported, is **bounded Local Codex CLI + P
+combined behavior**. It does not establish ChatGPT native cloud behavior.
+
+Run one new `codex exec` session for each case and arm; never `resume` or
+`fork`. Parallelism is optional. Keep effective model, reasoning setting,
+CLI version, config, MCP/tool exposure, sandbox, authorization and task inputs
+matched across arms. Only the pinned CLI+P treatment bytes and required digest
+bindings may differ. Pin the actual loaded AGENTS/skill bytes and each case
+packet. Do not send expected outcomes, diagnosis or another arm's result to a
+consumer. `--ephemeral` merely suppresses persisted rollout files and is not
+freshness evidence.
+
+Before run one, the external supervisor selects the observer bytes and SHA-256,
+the Codex JSONL event mapping, six immutable input packets, a #157-specific
+control root, and an evidence directory outside disposable state. The first
+real invocation consumes one of the six planned runs; no extra model trial or
+resampling is admitted. Preserve raw JSONL, CLI process stdout/stderr/exit,
+thread identity, final message, command results and the effective input/config
+observations outside the consumer. Unobservable fields stay unknown. A
+candidate-authored PASS field or synthetic trace cannot stand in for these
+records. A capture-schema mismatch is INCONCLUSIVE, not permission to change
+scoring after seeing results.
+
+The local experiment owner owns session/resource cleanup and evidence survival;
+#156's launcher, order, worktree and authorization are out of scope. The cloud
+connector and Actions continue to own PR/exact-head delivery. The same
+`consumer_gate.py` must eventually validate supported real evidence and
+classify valid regression as FAIL. Until external observer selection and a
+verified capture mapping exist, the current required-artifact test remains RED
+and the PR remains Draft. No refusal-only rule, waiver or test removal may
+turn it green.

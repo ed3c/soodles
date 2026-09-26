@@ -182,3 +182,20 @@ is deliberately preserved separately from passing unit controls.
   }
 }
 ```
+
+## Local carrier qualification and amendment — 2026-09-26
+
+The Issue contract now permits a separately supervised Local Codex CLI
+comparison while cloud PR delivery stays on this same atom. This entry is a
+qualification record, not one of the six consumer runs. On the local host,
+`codex-cli 0.156.1` exposes plain `codex exec`, distinct `resume` and
+`fork`, `--json` JSONL and final-message output. `codex login status`
+reported ChatGPT login. The visible config requests `gpt-6-sol` at high
+reasoning effort with approval_policy=never; an effective child model/tool
+receipt has not been observed. Existing persisted rollout shapes are from
+other sessions, not #157 `codex exec --json` captures. No extra model trial
+was run. The local worktree inventory did not identify a #157 owner/root; #156
+resources are excluded. The external supervisor must still select observer
+bytes, exact inputs, capture mapping, evidence destination and local resource
+owner before run one. The existing gate has no successful exit and the actual
+required-evidence test remains RED. No behavior improvement is claimed.
