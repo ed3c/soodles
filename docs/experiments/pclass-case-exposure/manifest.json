@@ -20,7 +20,7 @@
     {
       "path": "tests/test_pclass_case_exposure.py",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "dc32c10e8d787ae832aebf54f3fabd0f36fcce2892fae82c4a7c0397e990d4fa"
+      "sha256": "b75fc61fdbaf3eab30d1e7436714346f4fc111b4e1395899dd9b21e7b4ad5168"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/probe.py",
@@ -50,7 +50,12 @@
     {
       "path": "docs/experiments/pclass-case-exposure/results.md",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "644842eb4bcd5c00c8010bcf3d0c787869d459d4c4331eebc4021a90cf37d177"
+      "sha256": "00f19f754dd7baf6d607ed2d4b49cfda0d779b4c873aa0fd1ded8aa663afc666"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/consumer_gate.py",
+      "role": "readiness_veto_only_not_native_execution_validator",
+      "sha256": "a70af335f97b439ba60c4e54a4cfacdfb479cea0d730d53bddd78c6eb4f32efc"
     }
   ],
   "owner": {

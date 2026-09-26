@@ -179,5 +179,122 @@ class CaseExposureTests(unittest.TestCase):
                                   receipt["decision"]["hard_gate_errors"])
 
 
+EXPERIMENT = ROOT / "docs/experiments/pclass-case-exposure"
+CONSUMER_GATE = EXPERIMENT / "consumer_gate.py"
+
+
+def load_consumer_gate():
+    gate_spec = importlib.util.spec_from_file_location("consumer_readiness_gate", CONSUMER_GATE)
+    gate = importlib.util.module_from_spec(gate_spec)
+    gate_spec.loader.exec_module(gate)
+    return gate
+
+
+class ConsumerReadinessControls(unittest.TestCase):
+    """These passing controls demonstrate a veto, never native consumer success."""
+    def setUp(self):
+        self.gate = load_consumer_gate()
+        self.blocked = json.loads((EXPERIMENT / "consumer-comparison.json").read_text())
+
+    def assert_veto(self, receipt):
+        self.assertIs(receipt["terminal_ready"], False)
+        self.assertIsNone(receipt["behavior"])
+        self.assertIs(receipt["authorizes_landing"], False)
+        self.assertEqual(receipt["next"]["kind"], "input")
+        self.assertEqual(receipt["next"]["owner"], "supervisor")
+        self.assertNotIn("argv", receipt["next"])
+        self.assertNotIn("request", receipt)
+
+    def test_real_blocked_artifact_is_not_zero_or_success(self):
+        before = copy.deepcopy(self.blocked)
+        receipt = self.gate.inspect_comparison(self.blocked)
+        self.assert_veto(receipt)
+        self.assertEqual(receipt["evidence_validity"], "INCONCLUSIVE")
+        self.assertEqual(receipt["problem"]["field"], "fresh_runs")
+        self.assertEqual(self.blocked, before)
+
+    def test_self_labelled_completion_cannot_manufacture_native_evidence(self):
+        for runs in ([], [{}] * 5, [{}] * 6):
+            value = {**self.blocked, "status": "COMPLETED", "classification": "PASS",
+                     "fresh_runs": runs, "baseline_barrier": 1, "treatment_barrier": 0,
+                     "independent_agent_telemetry": {"fresh_context": True, "pass": True}}
+            with self.subTest(runs=len(runs)):
+                receipt = self.gate.inspect_comparison(value)
+                self.assert_veto(receipt)
+                self.assertEqual(receipt["evidence_validity"], "INCONCLUSIVE")
+        self.assertEqual(receipt["next"]["required"],
+                         ["supervisor_selected_native_capture_validator"])
+
+    def test_invalid_identity_schema_and_authority_are_rejected(self):
+        for patch in ({"issue": {"repository": "other/repo", "number": 157}},
+                      {"issue": {"repository": "ed3c/soodles", "number": True}},
+                      {"schema": True}, {"authorizes_landing": True}):
+            receipt = self.gate.inspect_comparison({**self.blocked, **patch})
+            self.assert_veto(receipt)
+            self.assertEqual(receipt["evidence_validity"], "INVALID")
+        for value in (None, [], "PASS", {"schema": 99}):
+            self.assert_veto(self.gate.inspect_comparison(value))
+
+    def test_missing_null_and_partial_runs_do_not_become_zero(self):
+        for runs in (None, {}, 0, [None] * 6, [{}]):
+            with self.subTest(runs=runs):
+                self.assert_veto(self.gate.inspect_comparison({**self.blocked, "fresh_runs": runs}))
+        value = {**self.blocked, "fresh_runs": [{}] * 6, "status": "COMPLETED"}
+        result = self.gate.inspect_comparison(value)
+        self.assertEqual(result["problem"]["field"], "independent_agent_telemetry")
+
+    def test_file_binding_json_and_paths_fail_closed_without_writes(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "comparison.json"
+            data = json.dumps(self.blocked).encode()
+            digest = hashlib.sha256(data).hexdigest()
+            self.assert_veto(self.gate.inspect_file(path, digest))
+            path.write_bytes(data)
+            self.assert_veto(self.gate.inspect_file(path, digest))
+            self.assertEqual(self.gate.inspect_file(path, "f" * 64)["problem"]["field"], "sha256")
+            self.assertEqual(path.read_bytes(), data)
+            link = Path(folder) / "link"
+            link.symlink_to(path)
+            self.assertEqual(self.gate.inspect_file(link, digest)["evidence_validity"], "INVALID")
+            self.assertEqual(self.gate.inspect_file(Path(folder), digest)["evidence_validity"], "INVALID")
+            for invalid in (b'{"schema":1,"schema":1}', b'{', b'\xff', b'{"x":NaN}',
+                            b'x' * (self.gate.MAX_BYTES + 1)):
+                path.write_bytes(invalid)
+                receipt = self.gate.inspect_file(path, hashlib.sha256(invalid).hexdigest())
+                self.assert_veto(receipt)
+                self.assertEqual(receipt["evidence_validity"], "INVALID")
+
+    def test_readonly_cli_returns_typed_block_without_traceback(self):
+        artifact = EXPERIMENT / "consumer-comparison.json"
+        original = artifact.read_bytes()
+        digest = hashlib.sha256(original).hexdigest()
+        for args, code in (([str(artifact), digest], 1), ([], 2),
+                           ([str(artifact), "not-a-digest"], 2)):
+            process = subprocess.run([sys.executable, "-B", str(CONSUMER_GATE), *args],
+                                     capture_output=True, text=True, timeout=10, check=False)
+            self.assertEqual(process.returncode, code, process.stderr)
+            self.assertEqual(process.stderr, "")
+            self.assert_veto(json.loads(process.stdout))
+        self.assertEqual(artifact.read_bytes(), original)
+
+    def test_returned_descriptors_are_independent(self):
+        first = self.gate.inspect_comparison(self.blocked)
+        first["next"]["required"].append("caller_mutation")
+        second = self.gate.inspect_comparison(self.blocked)
+        self.assertEqual(second["next"]["required"], ["native_consumer_evidence"])
+
+
+class RequiredConsumerEvidenceTests(unittest.TestCase):
+    def test_required_fresh_consumer_evidence_is_ready(self):
+        # A real acceptance requirement, NOT a planted-negative control.
+        # No skip/expectedFailure: current missing native evidence must keep CI RED.
+        manifest = json.loads((EXPERIMENT / "manifest.json").read_text())
+        relative = "docs/experiments/pclass-case-exposure/consumer-comparison.json"
+        entries = [a for a in manifest["artifacts"] if a["path"] == relative]
+        self.assertEqual(len(entries), 1, "required consumer artifact binding is ambiguous")
+        receipt = load_consumer_gate().inspect_file(ROOT / relative, entries[0]["sha256"])
+        self.assertTrue(receipt["terminal_ready"], json.dumps(receipt, sort_keys=True))
+
+
 if __name__ == "__main__":
     unittest.main()
