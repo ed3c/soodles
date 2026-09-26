@@ -318,6 +318,9 @@ class IssueAtomTests(unittest.TestCase):
                 state = atom.read_json(atom.artifact_paths(self.path)["state"], "state")
                 self.assertEqual(state["noodle_bootstrap"]["status"], "offered")
                 self.assertEqual(kwargs["cwd"], self.root)
+                self.assertEqual((self.root / ".noodle.toml").read_bytes(),
+                                 (atom.artifact_paths(self.path)["envelope"].parent
+                                  / "bootstrap-noodle.toml").read_bytes())
                 atom.save_json(self.root / ".noodle/state.snapshot.json",
                                {"state": {"orders": {}}, "effect_ledger": []})
                 return Result(0)
@@ -382,7 +385,7 @@ class IssueAtomTests(unittest.TestCase):
         (self.root / ".noodle/noodle.lock").touch()
         state["noodle_bootstrap"] = {
             "status": "exited_zero", "argv": prepared["bootstrap"]["argv"],
-            "config_sha256": atom.digest_file(paths["envelope"].parent / "noodle.toml"),
+            "config_sha256": atom.digest_file(paths["envelope"].parent / "bootstrap-noodle.toml"),
             "original_config": None, "returncode": 0,
         }
         atom.save_json(paths["state"], state)

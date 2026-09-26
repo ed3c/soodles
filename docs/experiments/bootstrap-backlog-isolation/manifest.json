@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 166
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "e929d94eb3ba9a9118f21a0961a7f850faacfb39af26cd3ca0e8fa49bf25b41c",
+      "treatment_sha256": "883f93d244bc0dd2b7987c817d256fc40ee1864fba18c80d09a02b75d2a2cfc1"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "issue_atom.py",
+      "role": "implementation",
+      "sha256": "e673a3be36c4a68c7a1f2050c40259de864071aa36ae32347457dad09a059807"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "implementation",
+      "sha256": "f7ab6ea158ebec8e5efc3d3ad1e068c377b7828623cc899c5d672f5a6d09b3b8"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "hard_controls",
+      "sha256": "0146bdc055967fe64cb4dbdae51afe0db1eee1c951ad4408b9338ee24302b679"
+    },
+    {
+      "path": "tests/test_supervisor_admission.py",
+      "role": "hard_controls",
+      "sha256": "0bc7167dfc85b3f30e74b2d4ab179ced20bb09d0118f54157f264843c46c9776"
+    },
+    {
+      "path": "docs/experiments/bootstrap-backlog-isolation/results.md",
+      "role": "evidence",
+      "sha256": "149836ae40a3c07b9ec2f0222a67eaf9c88f51b898995209ffc898c183310d9a"
+    },
+    {
+      "path": "docs/experiments/bootstrap-backlog-isolation/raw/baseline.json",
+      "role": "evidence",
+      "sha256": "3af663c9c2168f12607ee910fe875e0f562f1ed8fd1fb125b5829ea8fc735ba5"
+    },
+    {
+      "path": "docs/experiments/bootstrap-backlog-isolation/raw/positive.json",
+      "role": "evidence",
+      "sha256": "29605ee4bc02aa9dd75586c50f91da58a6afd6afb0c10b786a4833563910bc09"
+    },
+    {
+      "path": "docs/experiments/bootstrap-backlog-isolation/raw/tests.txt",
+      "role": "evidence",
+      "sha256": "07fa25b2f9fc44081383ba9f519242e4c7ef515609b9a46949062a662ea0ca26"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#166"
+  },
+  "authorizes_landing": false
+}

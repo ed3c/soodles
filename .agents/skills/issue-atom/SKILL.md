@@ -64,7 +64,9 @@ the externally pinned landing owner. The existing admission producer binds the
 task, worker, backlog and native config; the entry preserves the original host
 config and starts the long-running Noodle loop once. A pristine root without a canonical
 Noodle snapshot first receives one pinned Noodle `start --once` through this
-same entry; only its recorded zero exit and empty owner readback permit admission.
+same entry, with the producer-emitted bootstrap config that has no Issue backlog
+adapter. Only its recorded zero exit and empty owner readback permit admission;
+the full Issue backlog config belongs to the later admitted Noodle start.
 An unknown exit or partial runtime refuses without replay. An existing matching owner is
 observed, not restarted. Lost start results require owner readback.
 Write credentials and host App/supplier configuration never enter Noodle or

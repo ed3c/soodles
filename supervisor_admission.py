@@ -146,7 +146,8 @@ if __name__ == "__main__":
 
 
 def _start_text(control_root, launcher_sha256, manifest_sha256,
-                noodle_path, noodle_sha256, interpreter, config_sha256=None):
+                noodle_path, noodle_sha256, interpreter, config_sha256=None,
+                bootstrap_config_sha256=None):
     template = """#!{interpreter}
 import hashlib
 import json
@@ -162,6 +163,7 @@ MANIFEST_SHA256 = {manifest_sha256!r}
 NOODLE_PATH = {noodle_path!r}
 NOODLE_SHA256 = {noodle_sha256!r}
 CONFIG_SHA256 = {config_sha256!r}
+BOOTSTRAP_CONFIG_SHA256 = {bootstrap_config_sha256!r}
 TOKEN_COMMAND_ENV = {token_command_env!r}
 
 
@@ -200,7 +202,8 @@ def main():
         if observed_noodle != NOODLE_SHA256:
             return refuse("start.noodle_sha256", observed_noodle,
                           "measured_local_carrier")
-        if CONFIG_SHA256 is not None and digest((Path(CONTROL_ROOT) / ".noodle.toml").read_bytes()) != CONFIG_SHA256:
+        expected_config = BOOTSTRAP_CONFIG_SHA256 if sys.argv[1:] == ["--once"] else CONFIG_SHA256
+        if expected_config is not None and digest((Path(CONTROL_ROOT) / ".noodle.toml").read_bytes()) != expected_config:
             return refuse("start.host_config", "changed", "unchanged_installed_configuration")
     except OSError as error:
         return refuse("start.bundle", type(error).__name__,
@@ -243,6 +246,7 @@ if __name__ == "__main__":
         noodle_path=noodle_path,
         noodle_sha256=noodle_sha256,
         config_sha256=config_sha256,
+        bootstrap_config_sha256=bootstrap_config_sha256,
         token_command_env=TOKEN_COMMAND_ENV,
     )
 
@@ -291,7 +295,7 @@ except AdmissionRefusal as error:
 '''
 
 
-def _config_bytes(output, carrier):
+def _config_bytes(output, carrier, *, bootstrap=False):
     codex = carrier["codex"]
     prefix = ["exec", "--skip-git-repo-check", "--json", "--model", codex["model"]]
     require(codex["argv"][:len(prefix)] == prefix, "supervisor.worker.argv", codex["argv"],
@@ -300,15 +304,15 @@ def _config_bytes(output, carrier):
     # belong only to the existing adapter contract, with exact quoted paths.
     quote = json.dumps
     backlog = shlex.quote(str(output / "backlog"))
-    return (f'mode = "supervised"\n[server]\nenabled = false\n'
+    base = (f'mode = "supervised"\n[server]\nenabled = false\n'
             f'[concurrency]\nmax_concurrency = 1\n[routing.defaults]\n'
             f'provider = "codex"\nmodel = {quote(codex["model"])}\n'
             f'[skills]\npaths = [{quote(str(output / "runtime/.agents/skills"))}]\n'
             f'[agents.codex]\npath = {quote(str(output / "provider"))}\n'
-            f'args = {quote(codex["argv"][len(prefix):])}\nrequire_typed_outcome = true\n'
-            f'[adapters.backlog.scripts]\n'
+            f'args = {quote(codex["argv"][len(prefix):])}\nrequire_typed_outcome = true\n')
+    return (base + ('' if bootstrap else f'[adapters.backlog.scripts]\n'
             + ''.join(f'{verb} = {quote(backlog + " " + verb)}\n'
-                      for verb in ("sync", "add", "edit", "done"))).encode()
+                      for verb in ("sync", "add", "edit", "done")))).encode()
 
 
 def prepare(issue_readback, carrier, control_root, output, *,
@@ -414,6 +418,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
             "provider/codex": _entry_text(root, envelope_digest, pins, interpreter, "worker").encode(),
             "backlog": _entry_text(root, envelope_digest, pins, interpreter, "backlog").encode(),
             "noodle.toml": _config_bytes(output, carrier),
+            "bootstrap-noodle.toml": _config_bytes(output, carrier, bootstrap=True),
         }
         runtime.extend({"path": path, "sha256": _sha256(data)} for path, data in host_files.items())
 
@@ -435,7 +440,8 @@ def prepare(issue_readback, carrier, control_root, output, *,
     start_bytes = _start_text(
         root, launcher_digest, manifest_digest,
         carrier["noodle"]["path"], carrier["noodle"]["sha256"],
-        interpreter, _sha256(host_files["noodle.toml"]) if wire_host else None).encode()
+        interpreter, _sha256(host_files["noodle.toml"]) if wire_host else None,
+        _sha256(host_files["bootstrap-noodle.toml"]) if wire_host else None).encode()
 
     temporary = Path(tempfile.mkdtemp(prefix="." + output.name + "-", dir=output.parent))
     try:
@@ -446,7 +452,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
             target = temporary / path
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
-            target.chmod(0o600 if path == "noodle.toml" else 0o755)
+            target.chmod(0o600 if path.endswith("noodle.toml") else 0o755)
         for path, data in runtime_bytes.items():
             target = runtime_dir / path
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -477,7 +483,9 @@ def prepare(issue_readback, carrier, control_root, output, *,
         "launcher_sha256": _sha256(launcher.read_bytes()),
         "start": str(start),
         "start_sha256": _sha256(start.read_bytes()),
-        "bootstrap": {"argv": [str(start), "--once"], "owner": "supervisor"},
+        "bootstrap": {"argv": [str(start), "--once"], "owner": "supervisor",
+                      "config": str(output / "bootstrap-noodle.toml") if wire_host else None,
+                      "config_sha256": _sha256(host_files["bootstrap-noodle.toml"]) if wire_host else None},
         "provider_identity": {
             "owner": "supervisor",
             "supplier": TOKEN_COMMAND_ENV,
