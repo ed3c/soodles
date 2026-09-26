@@ -180,8 +180,11 @@ class IssueReadinessTests(unittest.TestCase):
             self.f.authorization_owner_call.args,
             (self.f.authorization, sha(self.f.authorization)))
         for row in result["runs"]:
-            packet = json.loads(Path(row["packet"]).read_text())
+            packet_path = Path(row["packet"])
+            packet = json.loads(packet_path.read_text())
+            self.assertEqual(sha(packet_path), row["packet_sha256"])
             self.assertEqual(packet["replay_argv"], row["argv"])
+            self.assertEqual(packet["carrier"], json.loads(self.f.authorization.read_text())["carrier"])
             self.assertEqual(packet["permitted_effects"], [])
             self.assertFalse(packet["authorizes_landing"])
             self.assertTrue(Path(packet["evidence_dir"]).is_relative_to(self.f.evidence))
@@ -246,6 +249,17 @@ class IssueReadinessTests(unittest.TestCase):
             self.assertFalse(f.output.exists())
         finally:
             f.close()
+
+    def test_stale_run_evidence_destination_refuses_before_materialization(self):
+        stale = self.f.evidence / "matched_legal--baseline"
+        stale.mkdir()
+        with self.assertRaises(issue_execution.AdmissionRefusal) as caught:
+            self.f.run()
+        self.assertEqual(caught.exception.invalid["field"],
+                         "readiness.evidence_dir.matched_legal--baseline")
+        self.assertEqual(caught.exception.next["required"],
+                         ["fresh_run_evidence_destinations"])
+        self.assertFalse(self.f.output.exists())
 
     def test_output_and_evidence_must_stay_outside_workdirs(self):
         local = json.loads(self.f.local.read_text())

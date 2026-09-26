@@ -347,6 +347,16 @@ def readiness(handoff_path, handoff_digest, local_path, local_digest):
                     owner="supervisor", required="external_experiment_state")
 
     authorization = _readiness_authorization(local["authorization"], repository, origin_issue)
+    authorization_path = Path(authorization["path"]).resolve()
+    authorization_root = Path(authorization["control_root"]).resolve()
+    for root in resolved.values():
+        require(not authorization_path.is_relative_to(root),
+                "local.authorization.path", str(authorization_path),
+                owner="supervisor", required="external_local_authorization")
+        require(not authorization_root.is_relative_to(root)
+                and not root.is_relative_to(authorization_root),
+                "local.authorization.control_root", str(authorization_root),
+                owner="supervisor", required="separate_experiment_control_root")
     python = _readiness_executable(local["python"], "local.python")
     selected = {name: _readiness_artifact(input_root, selection[name],
                                            "handoff.selection." + name)
@@ -382,6 +392,10 @@ def readiness(handoff_path, handoff_digest, local_path, local_digest):
             argv = [python, "-B", replay["script"]["path"], inp["raw"]["path"],
                     inp["gates"]["path"], inp["manifest"]["path"], inp["manifest"]["sha256"],
                     replay["observer"]["path"], replay["decider"]["path"]]
+            evidence_dir = (evidence_root / run_id).resolve()
+            require(evidence_dir.parent == evidence_root and not evidence_dir.exists(),
+                    "readiness.evidence_dir." + run_id, str(evidence_dir),
+                    owner="supervisor", required="fresh_run_evidence_destinations")
             packets.append({
                 "schema": 1,
                 "origin": {"repository": repository, "issue": origin_issue, "pr": origin_pr},
@@ -390,9 +404,10 @@ def readiness(handoff_path, handoff_digest, local_path, local_digest):
                 "task": task,
                 "instruction": arm_artifacts[arm]["instruction"],
                 "external_selection": selected,
+                "carrier": authorization["carrier"],
                 "inputs": inp,
                 "replay_argv": argv,
-                "evidence_dir": str((evidence_root / run_id).resolve()),
+                "evidence_dir": str(evidence_dir),
                 "primary_outcome": handoff["primary_outcome"],
                 "permitted_effects": [],
                 "authorizes_landing": False,
@@ -410,7 +425,9 @@ def readiness(handoff_path, handoff_digest, local_path, local_digest):
             fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
             with os.fdopen(fd, "wb") as stream:
                 stream.write(data)
-            records.append({"run_id": packet["run_id"], "packet": str(output_root / path.name),
+            records.append({"run_id": packet["run_id"],
+                            "packet": str(output_root / path.name),
+                            "packet_sha256": hashlib.sha256(data).hexdigest(),
                             "argv": packet["replay_argv"]})
         os.replace(temporary, output_root)
     except Exception:
