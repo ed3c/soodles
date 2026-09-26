@@ -8,10 +8,11 @@ external envelope path/digest and this implementation before executing it.
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import platform
 import re
 import subprocess
+import shutil
 import sys
 import tempfile
 import time
@@ -93,6 +94,337 @@ def validate_carrier(binding, worker=False):
         require(isinstance(codex.get("model"), str) and bool(codex["model"]),
                 "carrier.codex.model", codex.get("model"))
     return result
+
+
+READINESS_HANDOFF_FIELDS = {
+    "schema", "kind", "repository", "origin_issue", "origin_pr", "selection",
+    "task", "arms", "cases", "primary_outcome", "permitted_effects",
+}
+READINESS_LOCAL_FIELDS = {
+    "schema", "owner", "origin_issue", "carrier", "input_root",
+    "evidence_root", "output_root", "workdirs", "python",
+}
+READINESS_ARTIFACT_FIELDS = {"path", "sha256"}
+READINESS_ARM_FIELDS = {"ref", "instruction", "replay"}
+READINESS_REPLAY_FIELDS = {"script", "observer", "decider"}
+READINESS_CASE_FIELDS = {"id", "inputs"}
+READINESS_CASE_INPUTS = {"raw", "gates", "manifest"}
+
+
+def _readiness_exact(value, fields, field, required="portable_experiment_handoff"):
+    require(isinstance(value, dict) and set(value) == fields, field,
+            sorted(value) if isinstance(value, dict) else value,
+            owner="supervisor", required=required)
+
+
+def _readiness_sha(value, length, field, required):
+    require(isinstance(value, str) and re.fullmatch(r"[0-9a-f]{" + str(length) + "}", value),
+            field, value, owner="supervisor", required=required)
+    return value
+
+
+def _readiness_portable_path(value, field):
+    valid = (isinstance(value, str) and bool(value) and not value.startswith("/")
+             and "\\" not in value and not any(ord(c) < 32 or ord(c) == 127 for c in value))
+    if valid:
+        parts = value.split("/")
+        valid = (all(p and p not in (".", "..") and p.lower() != ".git" for p in parts)
+                 and str(PurePosixPath(value)) == value)
+    require(valid, field, value, owner="supervisor", required="corrected_experiment_handoff")
+    return value
+
+
+def _readiness_unique(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate JSON key")
+        result[key] = value
+    return result
+
+
+def _readiness_bound_json(path, expected_sha256, field, required):
+    path = Path(path)
+    require(path.is_absolute(), field + ".path", str(path), owner="supervisor", required=required)
+    _readiness_sha(expected_sha256, 64, field + ".sha256", required)
+    require(path.is_file() and not path.is_symlink(), field + ".path", str(path),
+            owner="supervisor", required=required)
+    raw = path.read_bytes()
+    actual = hashlib.sha256(raw).hexdigest()
+    require(actual == expected_sha256, field + ".sha256", actual,
+            owner="supervisor", required=required)
+    try:
+        value = json.loads(raw.decode("utf-8"), object_pairs_hook=_readiness_unique,
+                           parse_constant=lambda token: (_ for _ in ()).throw(ValueError(token)))
+    except (UnicodeError, ValueError, RecursionError) as error:
+        raise AdmissionRefusal(field, type(error).__name__, "supervisor", required) from None
+    require(isinstance(value, dict), field, type(value).__name__,
+            owner="supervisor", required=required)
+    return value, actual, path.resolve()
+
+
+def _readiness_artifact(root, spec, field):
+    _readiness_exact(spec, READINESS_ARTIFACT_FIELDS, field, "selected_experiment_inputs")
+    rel = _readiness_portable_path(spec["path"], field + ".path")
+    _readiness_sha(spec["sha256"], 64, field + ".sha256", "selected_experiment_inputs")
+    path = (root / rel).resolve()
+    require(path.is_relative_to(root) and path.is_file() and not path.is_symlink(),
+            field + ".path", str(path), owner="supervisor", required="selected_experiment_inputs")
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    require(actual == spec["sha256"], field + ".sha256", actual,
+            owner="supervisor", required="selected_experiment_inputs")
+    return {"path": str(path), "sha256": actual}
+
+
+def _readiness_git(root, *args):
+    result = subprocess.run(["git", *args], cwd=root, stdin=subprocess.DEVNULL,
+                            capture_output=True, text=True, timeout=30)
+    require(result.returncode == 0, "readiness.git." + ".".join(args[:2]),
+            result.stderr.strip(), owner="supervisor", required="exact_local_workdirs")
+    return result.stdout.strip()
+
+
+def _readiness_workdir(path, expected_ref, repository, arm):
+    path = Path(path)
+    require(path.is_absolute() and path.is_dir() and not path.is_symlink(),
+            "local.workdirs." + arm, str(path),
+            owner="supervisor", required="exact_local_workdirs")
+    path = path.resolve()
+    head = _readiness_git(path, "rev-parse", "HEAD")
+    require(head == expected_ref, "local.workdirs." + arm + ".head", head,
+            owner="supervisor", required="exact_local_workdirs")
+    status = _readiness_git(path, "status", "--porcelain", "--untracked-files=all")
+    require(status == "", "local.workdirs." + arm + ".status", status,
+            owner="supervisor", required="clean_exact_local_workdirs")
+    origin = _readiness_git(path, "remote", "get-url", "origin")
+    require(origin in git_origins(repository), "local.workdirs." + arm + ".origin", origin,
+            owner="supervisor", required="exact_local_workdirs")
+    return path
+
+
+def _readiness_executable(spec, field):
+    _readiness_exact(spec, READINESS_ARTIFACT_FIELDS, field, "exact_local_executable")
+    path = Path(spec["path"])
+    require(path.is_absolute() and path.is_file() and os.access(path, os.X_OK)
+            and not path.is_symlink(), field + ".path", str(path),
+            owner="supervisor", required="exact_local_executable")
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    require(actual == spec["sha256"], field + ".sha256", actual,
+            owner="supervisor", required="exact_local_executable")
+    return str(path.resolve())
+
+
+def readiness(handoff_path, handoff_digest, local_path, local_digest):
+    """Materialize six selected experiment runs without launching a consumer."""
+    handoff, handoff_sha, handoff_source = _readiness_bound_json(
+        handoff_path, handoff_digest, "handoff", "portable_experiment_handoff")
+    local, local_sha, local_source = _readiness_bound_json(
+        local_path, local_digest, "local", "host_local_execution_binding")
+    _readiness_exact(handoff, READINESS_HANDOFF_FIELDS, "handoff")
+    _readiness_exact(local, READINESS_LOCAL_FIELDS, "local",
+                     "host_local_execution_binding")
+    require(handoff["schema"] == 1 and handoff["kind"] == "pclass-local-experiment",
+            "handoff.identity", [handoff.get("schema"), handoff.get("kind")],
+            owner="supervisor", required="portable_experiment_handoff")
+    repository = handoff["repository"]
+    require(repository == "ed3c/soodles", "handoff.repository", repository,
+            owner="supervisor", required="supported_repository_handoff")
+    origin_issue, origin_pr = handoff["origin_issue"], handoff["origin_pr"]
+    require(type(origin_issue) is int and origin_issue > 0 and type(origin_pr) is int and origin_pr > 0,
+            "handoff.origin", [origin_issue, origin_pr], owner="supervisor",
+            required="portable_experiment_handoff")
+    require(local["schema"] == 1 and local["owner"] == "external-supervisor"
+            and local["origin_issue"] == origin_issue,
+            "local.identity", [local.get("schema"), local.get("owner"), local.get("origin_issue")],
+            owner="supervisor", required="host_local_execution_binding")
+    require(handoff["permitted_effects"] == [], "handoff.permitted_effects",
+            handoff["permitted_effects"], owner="supervisor",
+            required="read_only_experiment_handoff")
+    require(isinstance(handoff["primary_outcome"], str) and handoff["primary_outcome"].strip(),
+            "handoff.primary_outcome", handoff["primary_outcome"], owner="supervisor",
+            required="portable_experiment_handoff")
+
+    selection = handoff["selection"]
+    _readiness_exact(selection, {"observer_capture", "observer", "capture_plan"},
+                     "handoff.selection")
+    task_spec = handoff["task"]
+    _readiness_exact(task_spec, READINESS_ARTIFACT_FIELDS, "handoff.task")
+    arms = handoff["arms"]
+    require(isinstance(arms, dict) and set(arms) == {"baseline", "treatment"},
+            "handoff.arms", sorted(arms) if isinstance(arms, dict) else arms,
+            owner="supervisor", required="baseline_treatment_handoff")
+    for arm, spec in arms.items():
+        _readiness_exact(spec, READINESS_ARM_FIELDS, "handoff.arms." + arm)
+        _readiness_sha(spec["ref"], 40, "handoff.arms." + arm + ".ref",
+                       "baseline_treatment_handoff")
+        _readiness_exact(spec["instruction"], READINESS_ARTIFACT_FIELDS,
+                         "handoff.arms." + arm + ".instruction")
+        _readiness_exact(spec["replay"], READINESS_REPLAY_FIELDS,
+                         "handoff.arms." + arm + ".replay")
+        for name in READINESS_REPLAY_FIELDS:
+            _readiness_exact(spec["replay"][name], READINESS_ARTIFACT_FIELDS,
+                             "handoff.arms." + arm + ".replay." + name)
+
+    cases = handoff["cases"]
+    require(isinstance(cases, list) and len(cases) == 3,
+            "handoff.cases", cases, owner="supervisor", required="three_case_experiment_handoff")
+    case_ids = []
+    for index, case in enumerate(cases):
+        field = "handoff.cases." + str(index)
+        _readiness_exact(case, READINESS_CASE_FIELDS, field)
+        case_id = case["id"]
+        require(isinstance(case_id, str) and re.fullmatch(r"[a-z0-9][a-z0-9_-]*", case_id),
+                field + ".id", case_id, owner="supervisor",
+                required="three_case_experiment_handoff")
+        case_ids.append(case_id)
+        _readiness_exact(case["inputs"], READINESS_CASE_INPUTS, field + ".inputs")
+        for name in READINESS_CASE_INPUTS:
+            _readiness_exact(case["inputs"][name], READINESS_ARTIFACT_FIELDS,
+                             field + ".inputs." + name)
+    require(len(set(case_ids)) == 3, "handoff.cases.ids", case_ids,
+            owner="supervisor", required="three_unique_cases")
+
+    input_root = Path(local["input_root"])
+    evidence_root = Path(local["evidence_root"])
+    output_root = Path(local["output_root"])
+    for field, path, required in (
+        ("local.input_root", input_root, "selected_experiment_inputs"),
+        ("local.evidence_root", evidence_root, "external_evidence_root"),
+    ):
+        require(path.is_absolute() and path.is_dir() and not path.is_symlink(),
+                field, str(path), owner="supervisor", required=required)
+    input_root, evidence_root = input_root.resolve(), evidence_root.resolve()
+    require(output_root.is_absolute(), "local.output_root", str(output_root),
+            owner="supervisor", required="fresh_materialization_root")
+    output_root = output_root.resolve()
+    require(not output_root.exists() and output_root.parent.is_dir()
+            and output_root.is_relative_to(evidence_root),
+            "local.output_root", str(output_root), owner="supervisor",
+            required="fresh_materialization_root")
+
+    workdirs = local["workdirs"]
+    require(isinstance(workdirs, dict) and set(workdirs) == {"baseline", "treatment"},
+            "local.workdirs", workdirs, owner="supervisor", required="exact_local_workdirs")
+    resolved = {
+        arm: _readiness_workdir(workdirs[arm], arms[arm]["ref"], repository, arm)
+        for arm in ("baseline", "treatment")
+    }
+    require(resolved["baseline"] != resolved["treatment"], "local.workdirs",
+            [str(resolved["baseline"]), str(resolved["treatment"])],
+            owner="supervisor", required="distinct_exact_local_workdirs")
+    for root in resolved.values():
+        for field, path in (("handoff.path", handoff_source), ("local.path", local_source),
+                            ("input_root", input_root), ("evidence_root", evidence_root),
+                            ("output_root", output_root)):
+            require(not path.is_relative_to(root), "local." + field, str(path),
+                    owner="supervisor", required="external_experiment_state")
+
+    carrier = local["carrier"]
+    _readiness_exact(carrier, {"platform", "codex"}, "local.carrier",
+                     "selected_experiment_carrier")
+    host = platform.system().lower() + "_" + platform.machine().lower()
+    require(carrier["platform"] == host, "local.carrier.platform",
+            carrier["platform"], owner="supervisor",
+                     required="selected_experiment_carrier")
+    codex = carrier["codex"]
+    _readiness_exact(codex, {"path", "sha256", "model", "argv"},
+                     "local.carrier.codex", "selected_experiment_carrier")
+    _readiness_executable({"path": codex["path"], "sha256": codex["sha256"]},
+                          "local.carrier.codex")
+    require(isinstance(codex["model"], str) and codex["model"].strip()
+            and isinstance(codex["argv"], list) and codex["argv"]
+            and all(isinstance(arg, str) and arg and "\0" not in arg
+                    for arg in codex["argv"]),
+            "local.carrier.codex", codex, owner="supervisor",
+            required="selected_experiment_carrier")
+    python = _readiness_executable(local["python"], "local.python")
+    selected = {name: _readiness_artifact(input_root, selection[name],
+                                           "handoff.selection." + name)
+                for name in ("observer_capture", "observer", "capture_plan")}
+    task = _readiness_artifact(input_root, task_spec, "handoff.task")
+
+    arm_artifacts = {}
+    for arm in ("baseline", "treatment"):
+        root, spec = resolved[arm], arms[arm]
+        arm_artifacts[arm] = {
+            "instruction": _readiness_artifact(root, spec["instruction"],
+                                                "handoff.arms." + arm + ".instruction"),
+            "replay": {name: _readiness_artifact(
+                root, spec["replay"][name],
+                "handoff.arms." + arm + ".replay." + name)
+                for name in ("script", "observer", "decider")},
+        }
+
+    case_artifacts = {}
+    for case in cases:
+        case_artifacts[case["id"]] = {
+            name: _readiness_artifact(input_root, case["inputs"][name],
+                                      "handoff.cases." + case["id"] + ".inputs." + name)
+            for name in ("raw", "gates", "manifest")
+        }
+
+    packets = []
+    for arm in ("baseline", "treatment"):
+        for case in cases:
+            case_id = case["id"]
+            run_id = case_id + "--" + arm
+            inp, replay = case_artifacts[case_id], arm_artifacts[arm]["replay"]
+            argv = [python, "-B", replay["script"]["path"], inp["raw"]["path"],
+                    inp["gates"]["path"], inp["manifest"]["path"], inp["manifest"]["sha256"],
+                    replay["observer"]["path"], replay["decider"]["path"]]
+            evidence_dir = (evidence_root / run_id).resolve()
+            require(evidence_dir.parent == evidence_root and not evidence_dir.exists(),
+                    "readiness.evidence_dir." + run_id, str(evidence_dir),
+                    owner="supervisor", required="fresh_run_evidence_destinations")
+            packets.append({
+                "schema": 1,
+                "origin": {"repository": repository, "issue": origin_issue, "pr": origin_pr},
+                "run_id": run_id, "arm": arm, "case": case_id,
+                "workspace": {"path": str(resolved[arm]), "ref": arms[arm]["ref"]},
+                "task": task,
+                "instruction": arm_artifacts[arm]["instruction"],
+                "external_selection": selected,
+                "carrier": carrier,
+                "inputs": inp,
+                "replay_argv": argv,
+                "evidence_dir": str(evidence_dir),
+                "primary_outcome": handoff["primary_outcome"],
+                "permitted_effects": [],
+                "authorizes_landing": False,
+            })
+    require(len(packets) == 6 and len({p["run_id"] for p in packets}) == 6,
+            "readiness.runs", [p["run_id"] for p in packets],
+            owner="supervisor", required="six_unique_run_packets")
+
+    temporary = Path(tempfile.mkdtemp(prefix=".issue-readiness-", dir=output_root.parent))
+    try:
+        records = []
+        for packet in packets:
+            path = temporary / (packet["run_id"] + ".json")
+            data = (json.dumps(packet, indent=2, sort_keys=True) + "\n").encode()
+            fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+            with os.fdopen(fd, "wb") as stream:
+                stream.write(data)
+            records.append({"run_id": packet["run_id"],
+                            "packet": str(output_root / path.name),
+                            "packet_sha256": hashlib.sha256(data).hexdigest(),
+                            "argv": packet["replay_argv"]})
+        os.replace(temporary, output_root)
+    except Exception:
+        shutil.rmtree(temporary, ignore_errors=True)
+        raise
+
+    first = records[0]
+    return {
+        "schema": 1, "owner": "issue.readiness", "status": "READY",
+        "origin": {"repository": repository, "issue": origin_issue, "pr": origin_pr},
+        "handoff_sha256": handoff_sha, "local_binding_sha256": local_sha,
+        "carrier": carrier, "materialized_root": str(output_root),
+        "runs": records, "authorizes_landing": False,
+        "next": {"kind": "input", "owner": "supervisor",
+                 "required": ["fresh_consumer_launch"],
+                 "known": {"run_id": first["run_id"], "packet": first["packet"]}},
+    }
 
 
 def read_owner(binding):
