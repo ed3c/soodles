@@ -1,0 +1,7 @@
+# Detached control-root reconciliation — Issue #175
+
+The original #156 landing checkpoint records both provider writes and confirmed merge/closure, but remains `awaiting_reconcile`, `classification: null`. The independently pinned owner refused `local.branch: expected main` before Git or Noodle cleanup because the admitted control root is a clean, registered Codex worktree with detached HEAD. `raw/baseline.json` pins the refusal, checkpoint, authorization, Git and native-worktree observations. The original merge/close requests are immutable history and are not replayed.
+
+The corrected landing owner accepts that detached root only with the original execution envelope, matching Git worktree registration, clean source and exact admitted base. It fast-forwards the detached HEAD to provider main and retains Noodle's worktree/order cleanup boundary; other detached roots refuse. The existing `issue-atom run` entry now accepts a supervisor-pinned corrected owner after confirmed post-write closure, persists intent before `landing resume`, changes only the verifier digest and adopts a changed checkpoint after an unknown result without issuing a second resume. The original authorization stays unchanged.
+
+`raw/positive.json` and `raw/tests.txt` record physical positive and planted-negative controls; all 396 repository tests pass on the candidate. These are non-authorizing. Exact-head Linux Actions, external owner selection after this Issue lands, and #156's final Git/Noodle/provider readbacks remain required before #156 can be called RESOLVED.

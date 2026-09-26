@@ -774,6 +774,28 @@ def fetch_main(root):
     require(result.returncode == 0, "git.fetch.exit", result.returncode)
 
 
+def require_control_checkout(root, claim, state, before, envelope, base_ref):
+    """Accept the admitted main checkout or one registered detached Noodle root."""
+    branch = checked(["git", "branch", "--show-current"], root)
+    if branch == base_ref:
+        return
+    require(branch == "" and envelope is not None and (root / ".git").is_file(),
+            "local.branch", "expected " + base_ref + " or bound detached worktree")
+    entries = checked(["git", "worktree", "list", "--porcelain"], root).split("\n\n")
+    matches = [set(entry.splitlines()) for entry in entries
+               if "worktree " + str(root) in entry.splitlines()]
+    require(len(matches) == 1
+            and "HEAD " + before["head"] in matches[0]
+            and "detached" in matches[0]
+            and not any(line.startswith("branch ") for line in matches[0]),
+            "local.detached_registration", str(root))
+    if state["phase"] == "awaiting_reconcile":
+        require(before["head"] == claim["base_head"],
+                "local.detached_head", before["head"])
+    else:
+        checked(["git", "merge-base", "--is-ancestor", claim["base_head"], before["head"]], root)
+
+
 def reconcile(checkpoint, binary):
     with locked(checkpoint) as path, contextlib.ExitStack() as custody:
         state = read(path)
@@ -789,9 +811,9 @@ def reconcile(checkpoint, binary):
         base_ref = acceptance["base_ref"]
         origins = git_origins(claim["repository"])
         require(checked(["git", "remote", "get-url", "origin"], root) in origins, "origin", "unexpected; no automatic correction")
-        require(checked(["git", "branch", "--show-current"], root) == base_ref, "local.branch", "expected " + base_ref)
         before = source_identity(root)
         envelope = execution_binding(claim, operation="reconcile", checkpoint=path)
+        require_control_checkout(root, claim, state, before, envelope, base_ref)
         if "bootstrap_custody" in claim:
             binding = bootstrap_binding(claim, allow_removed=state["phase"] in {"reconciling", "resolved"})
             require(str(Path(binary).resolve()) == str(Path(binding["noodle"]["path"]).resolve()),
@@ -922,4 +944,3 @@ def reconcile(checkpoint, binary):
         state["phase"], state["classification"] = "resolved", "RESOLVED"
         save(path, state)
         return {**state, **response("reconcile", state, "stop", None)}
-

@@ -881,6 +881,102 @@ class IssueAtomTests(unittest.TestCase):
                 self.authorization, state, paths, selected, native, publication, run)
         self.assertEqual(state["phase"], "ci")
 
+    def postwrite_resume_fixture(self):
+        paths = atom.artifact_paths(self.path)
+        paths["directory"].mkdir()
+        external = self.outer / "postwrite"
+        external.mkdir()
+        original = {"repository": "ed3c/soodles", "issue": 131, "pr": 132,
+                    "head": "b" * 40, "tree": "c" * 40,
+                    "base_head": self.base, "run_id": 7, "run_attempt": 1,
+                    "worktree": "soodles-131-local",
+                    "control_root": str(self.root),
+                    "verifier_sha256": self.owner_spec["verifier_sha256"]}
+        atom.save_json(external / "claim.json", original, fresh=True)
+        checkpoint = external / "checkpoint.json"
+        atom.save_json(checkpoint, {"schema": 2, "claim": original,
+                       "phase": "awaiting_reconcile", "classification": None,
+                       "writes_offered": ["merge", "close"],
+                       "merge_sha": "d" * 40, "issue_closed_at": "now"}, fresh=True)
+        paths["landing"] = checkpoint
+        state = {"phase": "landing", "landing_activation": {"manifest": "pinned"}}
+        atom.save_json(paths["state"], state, fresh=True)
+        corrected_root = self.outer / "corrected-owner"
+        hashes = {}
+        for name in atom.OWNER_FILES:
+            target = corrected_root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes((self.owner_root / name).read_bytes())
+            if name == "landing.py":
+                target.write_text(target.read_text() + "\n# corrected detached owner\n")
+            hashes[name] = atom.digest_file(target)
+        spec = {"path": str(corrected_root / "soodles.py"),
+                "sha256": hashes["soodles.py"],
+                "verifier_sha256": atom.digest_bytes(json.dumps(
+                    hashes, sort_keys=True, separators=(",", ":")).encode())}
+        descriptor = self.outer / "resume-owner.json"
+        atom.save_json(descriptor, spec, fresh=True)
+        selected = {"SOODLES_LANDING_RESUME_OWNER": str(descriptor),
+                    "SOODLES_LANDING_RESUME_OWNER_SHA256": atom.digest_file(descriptor)}
+        return state, paths, original, spec, selected
+
+    def test_postwrite_resume_adopts_only_corrected_verifier(self):
+        state, paths, original, spec, selected = self.postwrite_resume_fixture()
+        authorization_before = self.path.read_bytes()
+        calls = []
+        def resume(_owner, checkpoint, claim_path):
+            calls.append(str(checkpoint))
+            claim = atom.read_json(claim_path, "claim")
+            self.assertEqual(claim, {**original,
+                                    "verifier_sha256": spec["verifier_sha256"]})
+            saved = atom.read_json(checkpoint, "checkpoint")
+            saved["claim"] = claim
+            saved["prior_verifiers"] = [original["verifier_sha256"]]
+            atom.save_json(checkpoint, saved)
+            return {"owner": "landing.resume", "action": "reconcile"}
+        with patch("issue_atom.LandingOwner.resume", autospec=True, side_effect=resume):
+            corrected = atom.external_landing_resume(
+                self.authorization, state, paths, selected)
+        self.assertEqual(corrected["landing_owner"], spec)
+        self.assertEqual(state["landing_resume"]["status"], "adopted")
+        self.assertEqual(calls, [str(paths["landing"])])
+        self.assertEqual(self.path.read_bytes(), authorization_before)
+        with patch("issue_atom.LandingOwner.resume", side_effect=AssertionError("replayed")):
+            atom.external_landing_resume(self.authorization, state, paths, {})
+
+    def test_unknown_postwrite_resume_requires_readback_without_retry(self):
+        state, paths, _, _, selected = self.postwrite_resume_fixture()
+        with patch("issue_atom.LandingOwner.resume",
+                   side_effect=atom.AtomRefusal("landing.owner", "lost response")):
+            with self.assertRaisesRegex(atom.AtomRefusal, "landing.owner"):
+                atom.external_landing_resume(self.authorization, state, paths, selected)
+        self.assertEqual(state["landing_resume"]["status"], "offered")
+        with patch("issue_atom.LandingOwner.resume", side_effect=AssertionError("replayed")):
+            with self.assertRaisesRegex(atom.AtomRefusal, "landing_resume.outcome"):
+                atom.external_landing_resume(self.authorization, state, paths, {})
+        self.assertEqual(atom.read_json(paths["landing"], "checkpoint")["claim"]["verifier_sha256"],
+                         self.owner_spec["verifier_sha256"])
+
+    def test_changed_corrected_publisher_refuses_before_resume(self):
+        state, paths, _, spec, selected = self.postwrite_resume_fixture()
+        (Path(spec["path"]).parent / "landing.py").write_text("# drift\n")
+        before = paths["landing"].read_bytes()
+        with patch("issue_atom.LandingOwner.resume", side_effect=AssertionError("called")):
+            with self.assertRaisesRegex(atom.AtomRefusal, "landing_owner.verifier_sha256"):
+                atom.external_landing_resume(self.authorization, state, paths, selected)
+        self.assertEqual(paths["landing"].read_bytes(), before)
+        self.assertNotIn("landing_resume", state)
+
+    def test_timed_out_postwrite_resume_is_unknown(self):
+        state, paths, _, _, selected = self.postwrite_resume_fixture()
+        with patch("issue_atom.LandingOwner.resume",
+                   side_effect=subprocess.TimeoutExpired(["landing", "resume"], 180)):
+            with self.assertRaisesRegex(atom.AtomRefusal, "landing_resume.outcome"):
+                atom.external_landing_resume(self.authorization, state, paths, selected)
+        self.assertEqual(state["landing_resume"]["status"], "offered")
+        self.assertEqual(atom.read_json(paths["landing"], "checkpoint")["phase"],
+                         "awaiting_reconcile")
+
 
 if __name__ == "__main__":
     unittest.main()
