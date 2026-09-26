@@ -69,6 +69,12 @@ adapter. Only its recorded zero exit and empty owner readback permit admission;
 the full Issue backlog config belongs to the later admitted Noodle start.
 An unknown exit or partial runtime refuses without replay. An existing matching owner is
 observed, not restarted. Lost start results require owner readback.
+For a fresh control root re-entering the same Issue, admission derives a stable
+root-scoped Noodle order and worktree name. Retain earlier unmerged Noodle
+worktrees; do not rename or clean them to make the new writer fit. A native
+idle `schedule` order can coexist with the admitted order in the running loop;
+the owner recognizes only its exact pending shape. An active scheduler or any
+other foreign order still requires Noodle readback.
 Write credentials and host App/supplier configuration never enter Noodle or
 candidate children. The existing start wrapper obtains only an Issue-read token
 from the host supplier for those children; no person or session carries it.

@@ -356,6 +356,10 @@ class SupervisorAdmissionTests(unittest.TestCase):
         output, prepared = fixture.prepare(task="One exact supplied task.", wire_host=True)
         binding = json.loads((output / "envelope.json").read_text())
         self.assertEqual(binding["execution"]["task"], "One exact supplied task.")
+        self.assertEqual(binding["execution"]["order_id"],
+                         supervisor_admission.scoped_order_id(118, fixture.root))
+        self.assertEqual(binding["execution"]["worktree"],
+                         binding["execution"]["order_id"] + "-0-execute")
         config = tomllib.loads((output / "noodle.toml").read_text())
         self.assertEqual(config["mode"], "supervised")
         self.assertEqual(config["agents"]["codex"]["path"], str(output / "provider"))
@@ -371,9 +375,10 @@ class SupervisorAdmissionTests(unittest.TestCase):
         sync = subprocess.run([str(output / "backlog"), "sync"], env=env,
                               capture_output=True, text=True)
         self.assertEqual(sync.returncode, 0, sync.stderr)
-        self.assertEqual(json.loads(sync.stdout)["id"], "soodles-118")
+        self.assertEqual(json.loads(sync.stdout)["id"], binding["execution"]["order_id"])
         self.assertEqual(json.loads(sync.stdout)["plan"], "One exact supplied task.")
-        for argv in (["add", "foreign"], ["done", "soodles-119"], ["done", "soodles-118"]):
+        for argv in (["add", "foreign"], ["done", "soodles-119"],
+                     ["done", binding["execution"]["order_id"]]):
             result = subprocess.run([str(output / "backlog"), *argv], env=env, capture_output=True)
             self.assertNotEqual(result.returncode, 0)
         # Generated worker reaches the existing identity guard, not the sentinel.
