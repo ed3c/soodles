@@ -412,6 +412,107 @@ def host_config_identity(root):
     return digest_file(path) if path.exists() else None
 
 
+def bootstrap_noodle(authorization, paths, state, environ):
+    """Let the pinned Noodle owner create the first canonical checkpoint once."""
+    root = Path(authorization["control_root"])
+    runtime = root / ".noodle"
+    snapshot = runtime / "state.snapshot.json"
+    prior = state.get("noodle_bootstrap")
+    if prior:
+        if prior.get("status") != "exited_zero":
+            raise AtomRefusal("noodle.bootstrap.outcome", prior.get("status"),
+                              "current_noodle_owner_readback_without_restart", owner="Noodle")
+    else:
+        if snapshot.exists() or {p.name for p in runtime.iterdir()} != {"issue-atom.lock"}:
+            raise AtomRefusal("noodle.bootstrap.runtime", str(runtime),
+                              "pristine_noodle_owner", owner="Noodle")
+        require(host_config_identity(root) == authorization["host_config_sha256"],
+                "noodle.config.digest", host_config_identity(root), "unchanged_host_configuration")
+        ignored = subprocess.run(["git", "check-ignore", "-q", ".noodle.toml"], cwd=root)
+        require(ignored.returncode == 0, "noodle.config.tracked", ".noodle.toml",
+                "host_owned_ignored_noodle_configuration")
+        prepared_path = paths["envelope"].parent / "prepared.json"
+        prepared = read_json(prepared_path, "admission.prepared")
+        require(digest_file(prepared_path) == state.get("admission_sha256"),
+                "admission.prepared.digest", "changed", "unchanged_supervisor_start")
+        argv = prepared.get("bootstrap", {}).get("argv")
+        require(argv == [prepared["start"], "--once"]
+                and digest_file(prepared["start"]) == prepared["start_sha256"],
+                "noodle.bootstrap.identity", argv, "unchanged_supervisor_start")
+        generated = (paths["envelope"].parent / "noodle.toml").read_bytes()
+        config = root / ".noodle.toml"
+        original = config.read_bytes() if config.exists() else None
+        try:
+            lock = (runtime / "noodle.lock").open("xb")
+        except FileExistsError:
+            raise AtomRefusal("noodle.bootstrap.lock", "present",
+                              "current_noodle_owner_readback", owner="Noodle") from None
+        with lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                raise AtomRefusal("noodle.bootstrap.lock", "running",
+                                  "quiescent_noodle_owner", owner="Noodle") from None
+            state["noodle_bootstrap"] = {
+                "status": "offered", "argv": argv,
+                "config_sha256": digest_bytes(generated),
+                "original_config": None if original is None else base64.b64encode(original).decode(),
+            }
+            save_json(paths["state"], state)
+            config.write_bytes(generated)
+        with (paths["directory"] / "bootstrap.stdout").open("xb") as stdout, \
+                (paths["directory"] / "bootstrap.stderr").open("xb") as stderr:
+            try:
+                result = subprocess.run(argv, cwd=root, env=dict(environ), stdin=subprocess.DEVNULL,
+                                        stdout=stdout, stderr=stderr, start_new_session=True, timeout=120)
+            except (OSError, subprocess.TimeoutExpired) as error:
+                raise AtomRefusal("noodle.bootstrap.outcome", type(error).__name__,
+                                  "current_noodle_owner_readback_without_restart", owner="Noodle") from error
+        state["noodle_bootstrap"]["status"] = "exited_zero" if result.returncode == 0 else "failed"
+        state["noodle_bootstrap"]["returncode"] = result.returncode
+        save_json(paths["state"], state)
+        if result.returncode != 0:
+            raise AtomRefusal("noodle.bootstrap.exit", result.returncode,
+                              "current_noodle_owner_readback_without_restart", owner="Noodle")
+
+    # A lost exit response is never inferred from a snapshot alone. Only a
+    # recorded zero exit may complete the bootstrap without rerunning Noodle.
+    if not snapshot.is_file() or snapshot.is_symlink():
+        raise AtomRefusal("noodle.bootstrap.snapshot", str(snapshot),
+                          "canonical_checkpoint_readback", owner="Noodle")
+    try:
+        owner = issue_execution.read_owner({"execution": {"control_root": str(root)}})
+    except issue_admission.AdmissionRefusal as error:
+        raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                          "canonical_checkpoint_readback", owner="Noodle") from error
+    if owner["state"]["orders"] != {} or owner["effect_ledger"] != []:
+        raise AtomRefusal("noodle.bootstrap.owner", "nonempty",
+                          "pristine_noodle_owner", owner="Noodle")
+    with (runtime / "noodle.lock").open("r+b") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise AtomRefusal("noodle.bootstrap.lock", "running",
+                              "quiescent_noodle_owner", owner="Noodle") from None
+        config = root / ".noodle.toml"
+        original = state["noodle_bootstrap"]["original_config"]
+        original_bytes = None if original is None else base64.b64decode(original)
+        original_digest = None if original_bytes is None else digest_bytes(original_bytes)
+        require(original_digest == authorization["host_config_sha256"],
+                "noodle.bootstrap.original_config", "changed", "unchanged_host_configuration")
+        installed = host_config_identity(root)
+        if installed == state["noodle_bootstrap"]["config_sha256"]:
+            if original_bytes is None:
+                config.unlink()
+            else:
+                config.write_bytes(original_bytes)
+        else:
+            require(installed == original_digest, "noodle.bootstrap.config", "changed",
+                    "unchanged_installed_configuration")
+        state["noodle_bootstrap"]["status"] = "complete"
+        save_json(paths["state"], state)
+
+
 def ensure_noodle(authorization, paths, state, admission, environ):
     """Consume the producer's start once; Noodle's lock remains process authority."""
     root = Path(authorization["control_root"])
@@ -877,9 +978,20 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
             envelope_digest = digest_file(paths["envelope"])
             require(envelope_digest == state.get("envelope_sha256"),
                     "envelope.digest", envelope_digest, "unchanged_execution_envelope")
-        admission = issue_execution.supervised(
-            paths["envelope"], envelope_digest, Path(authorization["control_root"]),
-            reader=lambda repository, number: provider.issue(number), observe_live=True)
+        if state.get("noodle_bootstrap", {}).get("status") == "exited_zero":
+            bootstrap_noodle(authorization, paths, state, environ)
+        try:
+            admission = issue_execution.supervised(
+                paths["envelope"], envelope_digest, Path(authorization["control_root"]),
+                reader=lambda repository, number: provider.issue(number), observe_live=True)
+        except issue_admission.AdmissionRefusal as error:
+            if error.invalid["field"] != "noodle.snapshot" or \
+                    (Path(authorization["control_root"]) / ".noodle/state.snapshot.json").exists():
+                raise
+            bootstrap_noodle(authorization, paths, state, environ)
+            admission = issue_execution.supervised(
+                paths["envelope"], envelope_digest, Path(authorization["control_root"]),
+                reader=lambda repository, number: provider.issue(number), observe_live=True)
         if admission.get("action") == "running":
             return response(state, authorization_path, waiting_on="Noodle",
                             details={"execution": admission})

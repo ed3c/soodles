@@ -182,8 +182,8 @@ def refuse(field, value, required):
 
 
 def main():
-    if sys.argv[1:]:
-        return refuse("start.argv", sys.argv[1:], "exact_start_no_args")
+    if sys.argv[1:] not in ([], ["--once"]):
+        return refuse("start.argv", sys.argv[1:], "exact_start_or_once")
     try:
         manifest = ROOT / "manifest.json"
         observed_manifest = digest(manifest.read_bytes())
@@ -227,7 +227,7 @@ def main():
     env.pop(TOKEN_COMMAND_ENV, None)
     os.execve(
         NOODLE_PATH,
-        [NOODLE_PATH, "--project-dir", CONTROL_ROOT, "start"],
+        [NOODLE_PATH, "--project-dir", CONTROL_ROOT, "start", *sys.argv[1:]],
         env,
     )
 
@@ -477,6 +477,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
         "launcher_sha256": _sha256(launcher.read_bytes()),
         "start": str(start),
         "start_sha256": _sha256(start.read_bytes()),
+        "bootstrap": {"argv": [str(start), "--once"], "owner": "supervisor"},
         "provider_identity": {
             "owner": "supervisor",
             "supplier": TOKEN_COMMAND_ENV,

@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 161
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "f689d1a6a35b00f3e4bca93debb466c8885fcc003633e36d5b62f0d9eebd98d7",
+      "treatment_sha256": "e929d94eb3ba9a9118f21a0961a7f850faacfb39af26cd3ca0e8fa49bf25b41c"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "issue_atom.py",
+      "role": "implementation",
+      "sha256": "93125e99375925e15c0a1439354040d673aa80b0d0850134d6040c5822ad794f"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "implementation",
+      "sha256": "827e7c12289de03e5893e5c9d5a51c1f92aa577fc46e6d56406a7c0b781ba401"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "implementation",
+      "sha256": "3f3462444d06ffdd8f3f59a71eedca3e219deb67914d3eb7d6f6a70b68b174de"
+    },
+    {
+      "path": "tests/test_supervisor_admission.py",
+      "role": "implementation",
+      "sha256": "a72381b2d5e1b36b8b09b3d39d270c639fb9f6343c923940916963595176158a"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "role": "implementation",
+      "sha256": "70ca6fe7ab3e2e02aa628a355b6cec19988950aba4e9f893fdf440b8691a4626"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/observer.py",
+      "role": "bounded_evidence",
+      "sha256": "7d9130ba426f904801eb38ebb200799c26ec9b9ce6e3e45f26407fa74fd7f475"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/results.md",
+      "role": "bounded_evidence",
+      "sha256": "7b5632d730e5d74851194e070178e50306bc1931ebbf1d815030cce28366fb73"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/baseline-156.process.json",
+      "role": "bounded_evidence",
+      "sha256": "693f5b2862de812d831df2f5d75a70932440f5b097f73d3010ee8d84751bc422"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/baseline-156.stderr.txt",
+      "role": "bounded_evidence",
+      "sha256": "5f5c81ce2b3d4c80860f3d576ab19f6ce35aae932537f250d3beabf8d87a695e"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/baseline-156.stdout.txt",
+      "role": "bounded_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/request.json",
+      "role": "bounded_evidence",
+      "sha256": "0d971353adfb175b63f397a4dc7e20b3b3ff423df54f2d1da2a35c903194f2d5"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/result.json",
+      "role": "bounded_evidence",
+      "sha256": "18ebde5bd14d557a82d2e5ff11c9c2764d06e43f0a9b0ed40af9f5a1ed97e0fe"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/state.snapshot.json",
+      "role": "bounded_evidence",
+      "sha256": "8d4651d33aee6a43cbb6888f5356c6b266471fe4ec4118fe43264d53f81c49e3"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/stderr.txt",
+      "role": "bounded_evidence",
+      "sha256": "633e3704d858e09a977d523153db07173a87eb743fb0da16e4c99447b9a2ea2d"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/stdout.txt",
+      "role": "bounded_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/tests-focused.process.json",
+      "role": "bounded_evidence",
+      "sha256": "88d899a9b2a7962681abc81c5a962ad5a4da68674e4d6461931de788e9fc4889"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/tests-focused.stderr.txt",
+      "role": "bounded_evidence",
+      "sha256": "91959c12a06f19b41b4118ae98fd5efe305c10b71ccac4fe372d9e74d0333191"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/tests-focused.stdout.txt",
+      "role": "bounded_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/tests.process.json",
+      "role": "bounded_evidence",
+      "sha256": "625c340fb4afc6fe726b438370f09e6512c9220d625e193e4b7587f43027f77a"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/tests.stderr.txt",
+      "role": "bounded_evidence",
+      "sha256": "7339b2824d4b0bf403d15c6cc0f68b10aeb700e8b5082f5d1a2f74a99d5a9a2c"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/raw/tests.stdout.txt",
+      "role": "bounded_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "owner": {
+    "name": "supervisor-selected fresh-root bootstrap Issue boundary",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#161"
+  },
+  "authorizes_landing": false
+}
