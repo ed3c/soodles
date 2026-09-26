@@ -291,3 +291,15 @@ remain necessary. No raw rollout was published to the PR because it may contain
 private session instructions or secrets. The candidate gate's synthetic
 control now includes a captured `sed -n` command as a secondary count; 11/11
 related controls pass. The required real consumer artifact remains BLOCKED.
+
+## Candidate path admission readback at `1f0722d`
+
+Exact-head runtime [36235393987](https://github.com/ed3c/soodles/actions/runs/36235393987)
+completed failure before canonical acceptance. The Issue contract had not yet
+listed `tests/test_consumer_gate_positive.py` in its write paths, so fresh
+candidate verification refused `outside_write_paths`. This was a contract
+admission error for the already published positive controls, not a behavior
+result. The same #157 Issue was amended to include that file in both write and
+required paths while preserving the six-run requirement. A new candidate head
+is needed for exact-head Actions readback; do not rerun the unchanged failed
+head. The real comparison remains absent and required acceptance remains RED.
