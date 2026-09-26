@@ -303,3 +303,13 @@ result. The same #157 Issue was amended to include that file in both write and
 required paths while preserving the six-run requirement. A new candidate head
 is needed for exact-head Actions readback; do not rerun the unchanged failed
 head. The real comparison remains absent and required acceptance remains RED.
+
+The next exact-head runtime
+[36235620271](https://github.com/ed3c/soodles/actions/runs/36235620271)
+also stopped at fresh Issue verification, this time with
+`issue.contract.count=0`. The Issue body update had accidentally joined the
+opening JSON code fence and `{` on one line. The local contract parser requires
+a newline after the fence. The external Issue was corrected and read back with
+one parseable schema-3 block and the positive-control path in both lists.
+Neither failed runtime reached canonical acceptance. The next new head must
+read back the corrected Issue contract; no failed head is retried.
