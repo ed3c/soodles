@@ -1,0 +1,5 @@
+Focused: PYTHONPATH=tests:. python3 -B -m unittest test_issue_admission test_landing_supervisor test_comparison_gate test_supervisor_admission test_issue_atom
+Exit: 0; Ran 74 tests in 54.750s; OK
+
+Final full: TMPDIR=/private/tmp python3 -B -m unittest discover -s tests
+Exit: 0; Ran 376 tests in 118.645s; OK

@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 168
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "883f93d244bc0dd2b7987c817d256fc40ee1864fba18c80d09a02b75d2a2cfc1",
+      "treatment_sha256": "9a513868aa9061170660c2facc593a2f6780465df0d35fd5a510c39e5f46f73f"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "issue_admission.py",
+      "role": "implementation",
+      "sha256": "b32c73e0ab611b362e17a8b358c046c20306d08609488ca49a4ce031b040824e"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "implementation",
+      "sha256": "d029626149b7df84c7bc5dfacf989998344175f9b173d66f9a6ba5022be131dd"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "implementation",
+      "sha256": "52af25adc0c90a3b74395648f27140eb861c81d2e5b159fd28ba0667c38b2c96"
+    },
+    {
+      "path": "tests/test_issue_admission.py",
+      "role": "hard_controls",
+      "sha256": "55b750c2a87f9c9eaf41a207266e2b798192e762f63dcbfb6f20d977bbec0285"
+    },
+    {
+      "path": "tests/test_supervisor_admission.py",
+      "role": "hard_controls",
+      "sha256": "cc4842b96ebc27d479b07c397ad5b1300d52ca2615e6fef06cc4b96ded167099"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "hard_controls",
+      "sha256": "4406170fa71ee327a7c8b6b5ccef53240f39fd5ab0111778bbfd6fa87bd2b23f"
+    },
+    {
+      "path": "docs/experiments/reentry-order-namespace/results.md",
+      "role": "evidence",
+      "sha256": "913ad13aaaf6a411d6b0768b3a06305e225ba17807b73dc9d837f6730ea97499"
+    },
+    {
+      "path": "docs/experiments/reentry-order-namespace/raw/baseline.json",
+      "role": "evidence",
+      "sha256": "47f48886a0fed630341bcd54a992ceceef1d9b6d6cdc6319ddaf352651ccb217"
+    },
+    {
+      "path": "docs/experiments/reentry-order-namespace/raw/positive.json",
+      "role": "evidence",
+      "sha256": "88ef69895879dca97cd99db25a13f0f1aa10b5547c19ed8aa473f87dd17aeac6"
+    },
+    {
+      "path": "docs/experiments/reentry-order-namespace/raw/tests.txt",
+      "role": "evidence",
+      "sha256": "41b8353fefee263053c9b12aa90ac3e9239f25acfe7f5f527c036879f045f0d1"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#168"
+  },
+  "authorizes_landing": false
+}
