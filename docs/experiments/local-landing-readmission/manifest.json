@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 173
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "9a513868aa9061170660c2facc593a2f6780465df0d35fd5a510c39e5f46f73f",
+      "treatment_sha256": "89728270dddffd97983f934de5a038f3ec3874367b3cbcd4be09e3af98ce1d73"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "landing_supervisor.py",
+      "role": "implementation",
+      "sha256": "be54c25d172442f185b8c19e779663e24b4e3d79bb18c2f17e0803ff5d6b96eb"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "implementation",
+      "sha256": "9f29141c4e8cb0f4539e2dc4ca5571337348fcac9a76e9081d2a00f2b0ed0480"
+    },
+    {
+      "path": "tests/test_landing_supervisor.py",
+      "role": "hard_controls",
+      "sha256": "1e38f43ea5d6d48ffec74169f1e370818d934d75ea920d9afa7455b555a637f4"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "hard_controls",
+      "sha256": "8850d4a3415a14b2da70ddc2de27daa6febcd167582fccf700a13a018edb9417"
+    },
+    {
+      "path": "docs/experiments/local-landing-readmission/results.md",
+      "role": "result",
+      "sha256": "d2d5b81954357b4bea1c30da415c39e821ca50dbd9e68f7c7e674ba5c58aa21a"
+    },
+    {
+      "path": "docs/experiments/local-landing-readmission/raw/baseline.json",
+      "role": "baseline",
+      "sha256": "7b41d279c1ea32c0a36613c516ff52eefb865b8f5de15a22c36e56915ff13f1c"
+    },
+    {
+      "path": "docs/experiments/local-landing-readmission/raw/positive.json",
+      "role": "candidate",
+      "sha256": "63492f1ed9767b00ed48765941dec75afb6004193bc8783382aeba208ea9eea8"
+    },
+    {
+      "path": "docs/experiments/local-landing-readmission/raw/tests.txt",
+      "role": "tests",
+      "sha256": "0a53edcf5518da8a399d0a7d7b709025227bf1d5583b6a37e0d3c11339265842"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#173"
+  },
+  "authorizes_landing": false
+}

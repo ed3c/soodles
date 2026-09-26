@@ -777,6 +777,110 @@ class IssueAtomTests(unittest.TestCase):
         self.assertEqual(result["verifier_sha256"], self.owner_spec["verifier_sha256"])
         self.assertEqual(len(list((self.outer / "evidence").glob("landing-identity-*.json"))), 1)
 
+    def test_prewrite_external_activation_preserves_old_authorization(self):
+        paths = atom.artifact_paths(self.path)
+        paths["directory"].mkdir()
+        atom.save_json(paths["directory"] / "landing-start-refused.json", {
+            "argv": [sys.executable, "-B", self.owner_spec["path"], "landing", "start",
+                     str(paths["directory"] / "landing-claim.json"),
+                     str(paths["directory"] / "readback.json"), str(paths["landing"])],
+            "exit_status": 1,
+            "stdout": json.dumps({"owner": "landing.start", "status": "refused",
+                                  "invalid": {"field": "envelope.execution.order_id"}}),
+            "stderr": ""}, fresh=True)
+        paths["envelope"].parent.mkdir()
+        paths["envelope"].write_text("{}\n")
+        original = self.path.read_bytes()
+        native = {"head": "b" * 40, "tree": "c" * 40,
+                  "base_head": self.base, "worktree_name": "soodles-131-local"}
+        publication = {"pr": {"number": 132},
+                       "branch": "soodles/issue-131-" + native["head"][:12]}
+        run = {"id": 7, "run_attempt": 1}
+        state = {"schema_version": 1, "authorization_sha256": self.digest,
+                 "phase": "ci", "issue": {"number": 131},
+                 "envelope_sha256": atom.digest_file(paths["envelope"])}
+        atom.save_json(paths["state"], state, fresh=True)
+        external = self.outer / "activation"
+        external.mkdir()
+        claim = {"repository": "ed3c/soodles", "issue": 131, "pr": 132,
+                 "head": native["head"], "tree": native["tree"],
+                 "base_head": self.base, "run_id": 7, "run_attempt": 1,
+                 "worktree": native["worktree_name"],
+                 "publication_branch": publication["branch"],
+                 "control_root": str(self.root),
+                 "verifier_sha256": self.owner_spec["verifier_sha256"],
+                 "execution_envelope": {"path": str(paths["envelope"]),
+                                        "sha256": state["envelope_sha256"]}}
+        atom.save_json(external / "claim.json", claim, fresh=True)
+        atom.save_json(external / "readback.json", {"fixture": True}, fresh=True)
+        atom.save_json(external / "checkpoint.json", {
+            "schema": 2, "claim": claim, "phase": "admitted",
+            "writes_offered": [], "classification": None}, fresh=True)
+        manifest = {"schema": 1, "publisher_root": str(self.owner_root),
+                    "publisher_verifier_sha256": self.owner_spec["verifier_sha256"],
+                    "route": "local", "claim_sha256": atom.digest_file(external / "claim.json"),
+                    "readback_sha256": atom.digest_file(external / "readback.json"),
+                    "authorizes_landing": False}
+        atom.save_json(external / "manifest.json", manifest, fresh=True)
+        selected = {"SOODLES_LANDING_ACTIVATION": str(external / "manifest.json"),
+                    "SOODLES_LANDING_ACTIVATION_SHA256": atom.digest_file(external / "manifest.json")}
+        owner = atom.external_landing_activation(
+            self.authorization, state, paths, selected, native, publication, run)
+        self.assertEqual(owner["landing_owner"], self.owner_spec)
+        self.assertEqual(state["phase"], "landing")
+        self.assertEqual(paths["landing"], external / "checkpoint.json")
+        self.assertEqual(self.path.read_bytes(), original)
+        self.assertEqual(atom.read_json(paths["state"], "state")["landing_activation"],
+                         state["landing_activation"])
+        atom.external_landing_activation(
+            self.authorization, state, paths, {}, native, publication, run)
+
+    def test_external_activation_rejects_offered_write(self):
+        paths = atom.artifact_paths(self.path)
+        paths["directory"].mkdir()
+        atom.save_json(paths["directory"] / "landing-start-refused.json", {
+            "argv": [sys.executable, "-B", self.owner_spec["path"], "landing", "start",
+                     str(paths["directory"] / "landing-claim.json"),
+                     str(paths["directory"] / "readback.json"), str(paths["landing"])],
+            "exit_status": 1,
+            "stdout": json.dumps({"owner": "landing.start", "status": "refused",
+                                  "invalid": {"field": "envelope.execution.order_id"}}),
+            "stderr": ""}, fresh=True)
+        paths["envelope"].parent.mkdir()
+        paths["envelope"].write_text("{}\n")
+        state = {"phase": "ci", "issue": {"number": 131},
+                 "envelope_sha256": atom.digest_file(paths["envelope"])}
+        publication = {"pr": {"number": 132}, "branch": "soodles/issue-131-" + "b" * 12}
+        native = {"head": "b" * 40, "tree": "c" * 40,
+                  "base_head": self.base, "worktree_name": "soodles-131-local"}
+        run = {"id": 7, "run_attempt": 1}
+        external = self.outer / "activation"
+        external.mkdir()
+        claim = {"repository": "ed3c/soodles", "issue": 131, "pr": 132,
+                 "head": native["head"], "tree": native["tree"],
+                 "base_head": self.base, "run_id": 7, "run_attempt": 1,
+                 "worktree": native["worktree_name"], "publication_branch": publication["branch"],
+                 "control_root": str(self.root),
+                 "verifier_sha256": self.owner_spec["verifier_sha256"],
+                 "execution_envelope": {"path": str(paths["envelope"]),
+                                        "sha256": state["envelope_sha256"]}}
+        atom.save_json(external / "claim.json", claim, fresh=True)
+        atom.save_json(external / "readback.json", {}, fresh=True)
+        atom.save_json(external / "checkpoint.json", {"schema": 2, "claim": claim,
+            "phase": "merge_pending", "writes_offered": ["merge"]}, fresh=True)
+        atom.save_json(external / "manifest.json", {
+            "schema": 1, "publisher_root": str(self.owner_root),
+            "publisher_verifier_sha256": self.owner_spec["verifier_sha256"],
+            "route": "local", "claim_sha256": atom.digest_file(external / "claim.json"),
+            "readback_sha256": atom.digest_file(external / "readback.json"),
+            "authorizes_landing": False}, fresh=True)
+        selected = {"SOODLES_LANDING_ACTIVATION": str(external / "manifest.json"),
+                    "SOODLES_LANDING_ACTIVATION_SHA256": atom.digest_file(external / "manifest.json")}
+        with self.assertRaisesRegex(atom.AtomRefusal, "landing_activation.prewrite"):
+            atom.external_landing_activation(
+                self.authorization, state, paths, selected, native, publication, run)
+        self.assertEqual(state["phase"], "ci")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,19 @@
+{
+  "controls": [
+    "distinct Noodle worktree and PR publication branch activate the external owner",
+    "missing or changed native publication claim refuses",
+    "pre-write prior pinned-owner refusal and same candidate are required",
+    "an offered merge rejects activation",
+    "original authorization bytes remain unchanged"
+  ],
+  "full_suite": {
+    "command": "TMPDIR=/private/tmp PYTHONPATH=.:tests python3 -m unittest discover -s tests",
+    "result": "OK",
+    "summary": [
+      "Ran 379 tests in 121.356s",
+      "",
+      "OK"
+    ]
+  },
+  "scope": "local fixture controls only; live #156 activation and terminal landing are subsequent owner steps"
+}

@@ -101,6 +101,22 @@ An unchanged failed candidate head is terminal evidence, not retry authority.
 An unknown Issue-create, branch, PR, merge, or closure outcome permits only
 fresh exact readback. A competing marker or identity is a refusal.
 
+If the pinned landing owner refuses a terminal local candidate before creating
+its checkpoint or offering a provider write, retain the original authorization
+and refusal receipt. The external supervisor may select compatible immutable
+publisher bytes and use `landing-supervisor` with fresh provider readback, the
+exact Noodle publication claim and execution envelope to create one pre-write
+local activation outside the candidate. The route must pin the native claim's
+path and SHA-256; PR head ref is the publication branch, not the Noodle
+worktree. To adopt that activation, the supervisor supplies
+`SOODLES_LANDING_ACTIVATION` as its absolute `manifest.json` path and
+`SOODLES_LANDING_ACTIVATION_SHA256` as its exact digest, then runs the same
+`./issue-atom run /absolute/authorization.json`. The entry binds the selected
+publisher, candidate, order, PR, runtime and checkpoint before persisting the
+continuation. Later re-entry needs only the original command; a changed
+activation, offered write or unknown write refuses. Do not change the original
+authorization or construct a landing claim or checkpoint in the Agent.
+
 `status=resolved` is legal only after the landing owner reports
 `classification=RESOLVED` and local reconciliation has completed. Earlier
 receipts retain `authorizes_landing=false`.
