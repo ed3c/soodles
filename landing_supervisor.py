@@ -143,6 +143,15 @@ def _derive_claim(snapshot, route, verifier_sha256):
     require(jobs.get("total_count") == len(jobs.get("jobs", [])) and jobs.get("total_count", 0) > 0,
             "snapshot.jobs", jobs.get("total_count"), "complete_runtime_jobs")
 
+    if kind == "cloud":
+        publication_branch = pr["head"]["ref"]
+        require(isinstance(publication_branch, str) and publication_branch
+                and len(publication_branch) <= 255,
+                "snapshot.pr.head.ref", publication_branch, "provider_publication_branch")
+        if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,99}", publication_branch):
+            claim["worktree"] = f"cloud-{claim['issue']}"
+            claim["publication_branch"] = publication_branch
+
     if kind == "local":
         control_root = route["control_root"]
         ref = route["execution_envelope"]

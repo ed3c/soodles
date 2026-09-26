@@ -1,0 +1,17 @@
+................................................................F.........
+======================================================================
+FAIL: test_current_argv_is_executable_without_weakening_readback_guards (test_landing_continuation.LandingContinuationTests.test_current_argv_is_executable_without_weakening_readback_guards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/controls/soodles-177/test-clone/tests/test_landing_continuation.py", line 17, in test_current_argv_is_executable_without_weakening_readback_guards
+    self.assertEqual(report['evaluation']['safety'], 'PASS', report['evaluation'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'FAIL' != 'PASS'
+- FAIL
++ PASS
+ : {'safety': 'FAIL', 'safety_failures': ['start:checkpoint_binding', 'prepare:checkpoint_binding', 'merge_offer:checkpoint_binding', 'unknown_merge:checkpoint_binding', 'stale_dispatch:checkpoint_binding', 'missing_merge_commit:checkpoint_binding', 'repair_merge_commit:checkpoint_binding', 'close_offer:checkpoint_binding', 'unknown_close:checkpoint_binding'], 'projection': 'RED', 'projection_failures': ['start:readback_binding', 'start:argv', 'prepare:readback_binding', 'prepare:argv', 'merge_offer:readback_binding', 'merge_offer:argv', 'unknown_merge:readback_binding', 'unknown_merge:argv', 'stale_dispatch:readback_binding', 'stale_dispatch:argv', 'missing_merge_commit:readback_binding', 'missing_merge_commit:argv', 'repair_merge_commit:readback_binding', 'repair_merge_commit:argv', 'close_offer:readback_binding', 'close_offer:argv', 'unknown_close:readback_binding', 'unknown_close:argv'], 'bound_continuation_available': False}
+
+----------------------------------------------------------------------
+Ran 74 tests in 22.401s
+
+FAILED (failures=1)
