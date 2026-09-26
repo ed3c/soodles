@@ -20,7 +20,7 @@
     {
       "path": "tests/test_pclass_case_exposure.py",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "c6cd086c1547a8b90f9cb8484a169bc3f2577b943577eeeded551b98ab21c995"
+      "sha256": "dc06f1854791e2dd6a511be0ff09888fae9667544327d01199df8a75de3cfc13"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/probe.py",
@@ -30,7 +30,7 @@
     {
       "path": "docs/experiments/pclass-case-exposure/protocol.md",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "79cd0d65fe5b03c028ad8e7fd9e22f1aed30eced88c080172729d2ed2e12a169"
+      "sha256": "132818a281115f5d6721274435783b81c226dd25f94188489de34564e17a63a1"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/baseline.json",
@@ -44,23 +44,23 @@
     },
     {
       "path": "docs/experiments/pclass-case-exposure/consumer-comparison.json",
-      "role": "blocked_fresh_consumer_comparison",
-      "sha256": "1b0f5e79a72ad7b44e6eb2d1f20bcd0261e446080d9c5948f06e6df6f51cf810"
+      "role": "bounded_local_codex_public_capture_projection",
+      "sha256": "97a0d80a010bb67b31f377d3854435bd71a325b12f7547b19ff36d738af5f673"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/results.md",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "c5367cda7a0e2ec406f387766e5bbd0d5ad67db0b7a24a493259e1bca01d0173"
+      "sha256": "c8d31d0deb0d61814b1a6fa732293fdd7b60c5120315f6ac1b62c08974872f71"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/consumer_gate.py",
       "role": "bounded_local_codex_raw_capture_candidate_gate",
-      "sha256": "e8d75ccd32864da11dad110d461d9fd9c08bf039046aeb3d23ef49655f7b4d96"
+      "sha256": "2ff780fd6a8276ed3524bda703143a0fa78f0ab26de945de75632c1049d99fc4"
     },
     {
       "path": "tests/test_consumer_gate_positive.py",
       "role": "synthetic_positive_negative_candidate_gate_controls",
-      "sha256": "9560e825d53cdd8e7a83aed78fab262a03b571443accf91623dc2bd04198e579"
+      "sha256": "8ee67ad466a8924c930f00bdc756b727b2dda4f99662c2d96744fc72506ed971"
     }
   ],
   "owner": {

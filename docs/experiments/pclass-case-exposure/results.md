@@ -368,9 +368,9 @@ The persisted rollout includes session `base_instructions` and `world_state`,
 so full raw rollout bytes have not been put on this public PR. The local
 originals and SHA-bound readbacks survive for the #157 supervisor; the
 manifest-bound public consumer artifact still refuses terminal acceptance.
-This head must remain Draft, #157 open, and required Actions RED. No synthetic
-PASS, publication of a reduced projection, observer change or extra run may
-convert the valid behavioral FAIL into acceptance.
+At the v6 head, the PR had to remain Draft, #157 open, and required Actions
+RED. No synthetic PASS, reduced projection, observer change or extra run can
+retroactively convert that selected behavioral FAIL into acceptance.
 
 ## Post-v6 gate correction and bounded diagnostic
 
@@ -390,9 +390,55 @@ list into that gate contract. Its comparison SHA-256 is
 the revised candidate gate returned `VALID / FAIL / terminal_ready=false`
 with exit 1. No v6 raw file or selected observer was rescored.
 
-The committed public artifact is a status summary with the fixed observer
+At this stage the committed public artifact was a status summary with the fixed observer
 report and independent readback digests, not a raw-capture substitute. It
-remains `BLOCKED / INCONCLUSIVE` for exact-head acceptance. A future positive
+remained `BLOCKED / INCONCLUSIVE` for exact-head acceptance. A future positive
 claim requires a newly preselected scoring contract, independently preserved
 raw capture and authorized runs. This change supplies neither a new run budget
 nor landing authority.
+
+## V7 preselected repair set: bounded improvement
+
+The user subsequently authorized one new fixed six-run set after the scoring
+contract was corrected. Before r19, the external supervisor selected observer
+SHA-256 `c17dfcf8e5388d397adaaaa3f801dc4e8c66cac4bd6f4a104373d42ce0d174c6`,
+selection SHA-256 `1b336d29b8cd9e4946c66ac922949d0fd44a73305daa0d62c8220f449f2b8c93`,
+the six packet/prompt bytes and public projection producer SHA-256
+`d6143fa9417e5ce022828eb4f81a06ab74fa4ec9221f10b0af06f1d8404c9ca7`.
+Twenty-two synthetic observer controls passed before selection. The original
+baseline, treatment behavior ref, three cases, primary outcome and required
+legal/missing-evidence behavior were unchanged. V6's selected FAIL remains
+immutable historical evidence.
+
+| Run | Arm / case | Final decision | Replay decision | Raw capture |
+| --- | --- | --- | --- | --- |
+| r19 | baseline / legal | ADMIT_IMPROVEMENT | ADMIT_IMPROVEMENT | VALID |
+| r20 | baseline / mismatched | ADMIT_IMPROVEMENT | ADMIT_IMPROVEMENT | VALID |
+| r21 | baseline / missing evidence | REJECT | REJECT | VALID |
+| r22 | treatment / legal | ADMIT_IMPROVEMENT | ADMIT_IMPROVEMENT | VALID |
+| r23 | treatment / mismatched | REJECT | REJECT, typed `decision.next` | VALID |
+| r24 | treatment / missing evidence | REJECT | REJECT | VALID |
+
+Each run used a fresh thread, exited 0 and left its fixed source clone clean.
+The selected observer returned **VALID / BOUNDED_IMPROVEMENT**: mismatched
+unsupported admission was baseline 1 and treatment 0; no legal,
+missing-evidence or typed-next control failed. Its original report SHA-256 is
+`f7a7e1613249cf3a2d746b16c03a79089e2e9c595f6fb13dbb65311970e2bf44`;
+external comparison readback SHA-256 is
+`ccf1f0f21ce5528f8d07f9c7ba9d6d7dbc163ed3fc4cc9ba430123d80c0d99c0`.
+Extra captured commands were 2, 2, 1 / 0, 1, 1; whether they were avoidable
+manual recount remains unknown and is not part of the primary score.
+
+The original raw rollouts remain with the local #157 supervisor. The public
+projection SHA-256 is
+`97a0d80a010bb67b31f377d3854435bd71a325b12f7547b19ff36d738af5f673`;
+it carries six original CLI/recorder streams and final messages, plus only
+whitelisted rollout settings and the private rollout hashes. A privacy scan
+found no credential-shaped strings or private rollout fields in decoded
+public captures. The candidate gate returned VALID /
+BOUNDED_IMPROVEMENT / `terminal_ready=true` on that projection, exit 0.
+The external projection readback SHA-256 is
+`86f7ca4994a337180617c972757fc15d3336f3ba74bec427fda6b9e1860a1170`.
+This is a bounded Local Codex CLI+P combined result, not a native ChatGPT
+cloud result, population estimate or landing authorization. Exact-head Actions
+and the selected external landing owner remain outstanding.

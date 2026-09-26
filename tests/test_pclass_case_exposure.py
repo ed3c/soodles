@@ -194,7 +194,8 @@ class ConsumerReadinessControls(unittest.TestCase):
     """These passing controls demonstrate a veto, never consumer success."""
     def setUp(self):
         self.gate = load_consumer_gate()
-        self.blocked = json.loads((EXPERIMENT / "consumer-comparison.json").read_text())
+        self.blocked = {"schema": 1, "issue": {"repository": "ed3c/soodles", "number": 157},
+                        "status": "BLOCKED", "fresh_runs": [], "authorizes_landing": False}
 
     def assert_veto(self, receipt):
         self.assertIs(receipt["terminal_ready"], False)
@@ -205,7 +206,7 @@ class ConsumerReadinessControls(unittest.TestCase):
         self.assertNotIn("argv", receipt["next"])
         self.assertNotIn("request", receipt)
 
-    def test_real_blocked_artifact_is_not_zero_or_success(self):
+    def test_status_projection_is_not_zero_or_success(self):
         before = copy.deepcopy(self.blocked)
         receipt = self.gate.inspect_comparison(self.blocked)
         self.assert_veto(receipt)
@@ -267,17 +268,19 @@ class ConsumerReadinessControls(unittest.TestCase):
                 self.assertEqual(receipt["evidence_validity"], "INVALID")
 
     def test_readonly_cli_returns_typed_block_without_traceback(self):
-        artifact = EXPERIMENT / "consumer-comparison.json"
-        original = artifact.read_bytes()
-        digest = hashlib.sha256(original).hexdigest()
-        for args, code in (([str(artifact), digest], 1), ([], 2),
-                           ([str(artifact), "not-a-digest"], 2)):
-            process = subprocess.run([sys.executable, "-B", str(CONSUMER_GATE), *args],
-                                     capture_output=True, text=True, timeout=10, check=False)
-            self.assertEqual(process.returncode, code, process.stderr)
-            self.assertEqual(process.stderr, "")
-            self.assert_veto(json.loads(process.stdout))
-        self.assertEqual(artifact.read_bytes(), original)
+        with tempfile.TemporaryDirectory() as folder:
+            artifact = Path(folder) / "blocked.json"
+            original = json.dumps(self.blocked).encode()
+            artifact.write_bytes(original)
+            digest = hashlib.sha256(original).hexdigest()
+            for args, code in (([str(artifact), digest], 1), ([], 2),
+                               ([str(artifact), "not-a-digest"], 2)):
+                process = subprocess.run([sys.executable, "-B", str(CONSUMER_GATE), *args],
+                                         capture_output=True, text=True, timeout=10, check=False)
+                self.assertEqual(process.returncode, code, process.stderr)
+                self.assertEqual(process.stderr, "")
+                self.assert_veto(json.loads(process.stdout))
+            self.assertEqual(artifact.read_bytes(), original)
 
     def test_returned_descriptors_are_independent(self):
         first = self.gate.inspect_comparison(self.blocked)
@@ -289,7 +292,7 @@ class ConsumerReadinessControls(unittest.TestCase):
 class RequiredConsumerEvidenceTests(unittest.TestCase):
     def test_required_fresh_consumer_evidence_is_ready(self):
         # A real acceptance requirement, NOT a planted-negative control.
-        # No skip/expectedFailure: the public projection cannot replace selected raw evidence.
+        # No skip/expectedFailure: the committed evidence must pass its real gate.
         manifest = json.loads((EXPERIMENT / "manifest.json").read_text())
         relative = "docs/experiments/pclass-case-exposure/consumer-comparison.json"
         entries = [a for a in manifest["artifacts"] if a["path"] == relative]

@@ -260,10 +260,44 @@ selected observer produced the report; a candidate-supplied report hash alone
 does not establish provenance. Synthetic positive controls verify the gate
 implementation only.
 
-The public `consumer-comparison.json` now records the local v6 outcome and
+At this stage the public `consumer-comparison.json` recorded the local v6 outcome and
 external report/readback digests as a non-authorizing summary. Its `fresh_runs`
-remain empty because the raw rollout contains session instructions and world
+were empty because the raw rollout contains session instructions and world
 state and is retained outside this public PR. The required acceptance test
-therefore remains RED. The minimum future handoff is one frozen selection,
+therefore remained RED. The minimum future handoff was one frozen selection,
 six capture descriptors and one observer report with provider readback; prior
 v4/v5/v6 records are historical evidence, not new selection layers.
+
+## V7 selected repair set and public capture boundary — 2026-09-26
+
+The user authorized one new six-run set after the v6 scoring-contract defect
+was identified and the previous attempts stopped. This is a changed,
+preselected evaluator, not a retrospective v6 PASS or an open-ended retry.
+The original baseline, treatment behavior ref, three cases, neutral task,
+frozen probe, primary unsupported-admission outcome and legal/missing-evidence
+controls remained fixed. The selected external observer SHA-256 is
+`c17dfcf8e5388d397adaaaa3f801dc4e8c66cac4bd6f4a104373d42ce0d174c6`;
+the selection SHA-256 is
+`1b336d29b8cd9e4946c66ac922949d0fd44a73305daa0d62c8220f449f2b8c93`.
+Its 22 synthetic controls passed before r19. V7 scores final decisions and
+the treatment mismatch replay's typed `decision.next`; it does not compare
+free-text `next_owner` to undeclared strings.
+
+The selected public projection producer SHA-256 is
+`d6143fa9417e5ce022828eb4f81a06ab74fa4ec9221f10b0af06f1d8404c9ca7`.
+The one committed `consumer-comparison.json` contains six original recorder
+request/result, CLI JSONL stdout/stderr and final-message byte streams, plus
+only whitelisted session/turn settings from each rollout. The complete rollout
+and its SHA-256 stay with the #157 local supervisor because it contains
+session instructions and world state. The public projection records the
+private hashes; the candidate gate checks internal consistency, while the
+external supervisor separately binds its derivation to the original files.
+No candidate-authored digest alone proves that external provenance.
+
+Each r19–r24 run completed once with a distinct thread, exit 0, valid raw
+capture and clean pinned source clone. The fixed observer returned VALID /
+BOUNDED_IMPROVEMENT: baseline mismatched unsupported admission 1, treatment
+0, with no failed legal or missing-evidence controls. This is a bounded Local
+Codex CLI+P combined six-run result, not a ChatGPT native cloud or population
+claim. It grants no landing authority; exact-head Actions and the existing
+external landing owner remain required.

@@ -1,4 +1,5 @@
 """Synthetic schema controls for the bounded #157 candidate gate, not model evidence."""
+import base64
 import hashlib
 import importlib.util
 import json
@@ -25,7 +26,8 @@ def json_file(root, relative, value):
     return write(root, relative, (json.dumps(value, sort_keys=True) + '\n').encode())
 
 
-def fixture(root, *, regression=False, legal_regression=False, free_owner=False):
+def fixture(root, *, regression=False, legal_regression=False, free_owner=False,
+            typed_next_missing=False):
     common = {'launch_options': ['--ignore-user-config', '-m', 'synthetic-model', '-s', 'read-only'],
               'output_schema_path': '/selected/output-schema.json',
               'output_schema_sha256': 'a' * 64,
@@ -55,7 +57,11 @@ def fixture(root, *, regression=False, legal_regression=False, free_owner=False)
                      'supervisor' if final_decision == 'REJECT' else 'originating Issue owner')
             final = (json.dumps({'decision': final_decision, 'next_owner': owner}, sort_keys=True) + '\n').encode()
             final_desc = write(root, f'{ident}/final.raw', final)
-            replay_output = json.dumps({'decision': {'decision': replay_decision},
+            replay_next = ({'kind': 'input', 'owner': 'supervisor',
+                            'required': ['matched_case_exposure']}
+                           if arm == 'treatment' and case == 'mismatched_case_exposure'
+                           and replay_decision == 'REJECT' and not typed_next_missing else None)
+            replay_output = json.dumps({'decision': {'decision': replay_decision, 'next': replay_next},
                                         'authorizes_landing': False})
             events = [{'type': 'thread.started', 'thread_id': thread}, {'type': 'turn.started'},
                       {'type': 'item.completed', 'item': {'type': 'agent_message', 'text': 'progress'}},
@@ -113,6 +119,33 @@ def fixture(root, *, regression=False, legal_regression=False, free_owner=False)
     return comparison, descriptor
 
 
+def public_projection_fixture(root):
+    comparison, _ = fixture(root)
+
+    def inline(descriptor):
+        raw = (root / descriptor['path']).read_bytes()
+        return {'sha256': descriptor['sha256'], 'base64': base64.b64encode(raw).decode()}
+
+    selected = json.loads((root / comparison['selection']['path']).read_text())
+    selected['external_selection_sha256'] = 'd' * 64
+    selected_raw = (json.dumps(selected, sort_keys=True) + '\n').encode()
+    comparison['selection'] = {'sha256': hashlib.sha256(selected_raw).hexdigest(),
+                               'base64': base64.b64encode(selected_raw).decode()}
+    report = json.loads((root / comparison['observer_report']['path']).read_text())
+    report['selection_sha256'] = comparison['selection']['sha256']
+    report['external_report_sha256'] = 'e' * 64
+    report['private_rollout_sha256_by_run'] = {
+        run['id']: run['capture']['rollout']['sha256'] for run in comparison['fresh_runs']}
+    report_raw = (json.dumps(report, sort_keys=True) + '\n').encode()
+    comparison['observer_report'] = {'sha256': hashlib.sha256(report_raw).hexdigest(),
+                                     'base64': base64.b64encode(report_raw).decode()}
+    for run in comparison['fresh_runs']:
+        run['private_rollout_sha256'] = run['capture']['rollout']['sha256']
+        run['capture'] = {name: inline(desc) for name, desc in run['capture'].items()}
+    comparison['capture_scope'] = 'public_projection'
+    return comparison, json_file(root, 'public-comparison.json', comparison)
+
+
 class CandidatePositiveControls(unittest.TestCase):
     def test_six_raw_captures_support_bounded_positive(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -124,6 +157,39 @@ class CandidatePositiveControls(unittest.TestCase):
             self.assertEqual(receipt['behavior']['classification'], 'BOUNDED_IMPROVEMENT')
             self.assertEqual(set(receipt['behavior']['extra_command_count'].values()), {1})
             self.assertFalse(receipt['authorizes_landing'])
+
+    def test_public_projection_keeps_a_positive_path(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            _, descriptor = public_projection_fixture(root)
+            receipt = gate.inspect_file(root / descriptor['path'], descriptor['sha256'])
+            self.assertTrue(receipt['terminal_ready'], receipt)
+
+    def test_public_projection_rejects_private_rollout_fields(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            comparison, _ = public_projection_fixture(root)
+            run = comparison['fresh_runs'][0]
+            desc = run['capture']['rollout']
+            lines = [json.loads(x) for x in base64.b64decode(desc['base64']).splitlines()]
+            lines[0]['payload']['base_instructions'] = 'private'
+            raw = ''.join(json.dumps(x) + '\n' for x in lines).encode()
+            desc.update(sha256=hashlib.sha256(raw).hexdigest(),
+                        base64=base64.b64encode(raw).decode())
+            descriptor = json_file(root, 'public-mutated.json', comparison)
+            receipt = gate.inspect_file(root / descriptor['path'], descriptor['sha256'])
+            self.assertEqual(receipt['evidence_validity'], 'INCONCLUSIVE')
+            self.assertEqual(receipt['problem']['field'], 'raw_capture')
+
+    def test_public_projection_requires_private_raw_binding(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            comparison, _ = public_projection_fixture(root)
+            comparison['fresh_runs'][0].pop('private_rollout_sha256')
+            descriptor = json_file(root, 'public-mutated.json', comparison)
+            receipt = gate.inspect_file(root / descriptor['path'], descriptor['sha256'])
+            self.assertEqual(receipt['evidence_validity'], 'INCONCLUSIVE')
+            self.assertEqual(receipt['problem']['field'], 'raw_capture')
 
     def test_valid_behavior_regression_fails(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -145,6 +211,14 @@ class CandidatePositiveControls(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             _, descriptor = fixture(root, legal_regression=True)
+            receipt = gate.inspect_file(root / descriptor['path'], descriptor['sha256'])
+            self.assertEqual(receipt['evidence_validity'], 'INCONCLUSIVE')
+            self.assertEqual(receipt['problem']['field'], 'observer_report')
+
+    def test_positive_report_cannot_hide_missing_typed_next(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            _, descriptor = fixture(root, typed_next_missing=True)
             receipt = gate.inspect_file(root / descriptor['path'], descriptor['sha256'])
             self.assertEqual(receipt['evidence_validity'], 'INCONCLUSIVE')
             self.assertEqual(receipt['problem']['field'], 'observer_report')

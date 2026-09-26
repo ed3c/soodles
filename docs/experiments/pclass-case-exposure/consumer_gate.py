@@ -1,10 +1,12 @@
-"""Validate one bounded #157 Local Codex comparison from raw recorded files.
+"""Validate one bounded #157 Local Codex comparison from captured bytes.
 
 The selected external observer remains the independent experiment judge. This
 candidate gate only checks a narrow, portable capture contract for exact-head
 acceptance. It never launches an agent, imports supplied code, repairs evidence,
 or grants landing authority.
 """
+import base64
+import binascii
 import hashlib
 import json
 import os
@@ -59,22 +61,32 @@ def inspect_comparison(value, evidence_root=None):
 
 
 def raw_file(root, descriptor):
-    if not isinstance(descriptor, dict) or set(descriptor) != {"path", "sha256"}:
-        raise ValueError("raw file descriptor is missing")
-    relative = Path(descriptor["path"])
-    if relative.is_absolute() or not relative.parts or ".." in relative.parts:
-        raise ValueError("raw file path escapes the evidence root")
-    path = root / relative
-    if not path.resolve().is_relative_to(root.resolve()):
-        raise ValueError("raw file path resolves outside the evidence root")
+    if not isinstance(descriptor, dict) or set(descriptor) not in (
+            {"path", "sha256"}, {"base64", "sha256"}):
+        raise ValueError("capture descriptor is missing")
     expected = descriptor["sha256"]
     if not isinstance(expected, str) or re.fullmatch(r"[0-9a-f]{64}", expected) is None:
-        raise ValueError("raw file digest absent")
-    fd = os.open(path, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW)
-    with os.fdopen(fd, "rb") as stream:
-        if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
-            raise ValueError("raw evidence is not a regular file")
-        data = stream.read(RAW_MAX_BYTES + 1)
+        raise ValueError("capture digest absent")
+    if "base64" in descriptor:
+        encoded = descriptor["base64"]
+        if not isinstance(encoded, str) or len(encoded) > (RAW_MAX_BYTES * 4 // 3 + 4):
+            raise ValueError("inline capture exceeds bound")
+        try:
+            data = base64.b64decode(encoded, validate=True)
+        except (binascii.Error, ValueError) as error:
+            raise ValueError("inline capture is not base64") from error
+    else:
+        relative = Path(descriptor["path"])
+        if relative.is_absolute() or not relative.parts or ".." in relative.parts:
+            raise ValueError("raw file path escapes the evidence root")
+        path = root / relative
+        if not path.resolve().is_relative_to(root.resolve()):
+            raise ValueError("raw file path resolves outside the evidence root")
+        fd = os.open(path, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW)
+        with os.fdopen(fd, "rb") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                raise ValueError("raw evidence is not a regular file")
+            data = stream.read(RAW_MAX_BYTES + 1)
     if len(data) > RAW_MAX_BYTES or hashlib.sha256(data).hexdigest() != expected:
         raise ValueError("raw file length or digest differs")
     return data
@@ -109,13 +121,20 @@ def shell_argv(command):
     return shlex.split(outer[2])
 
 
-def inspect_raw_run(run, packet, common, root):
+def inspect_raw_run(run, packet, common, root, capture_scope):
     if not isinstance(run, dict) or run.get("id") != packet["id"]:
         raise ValueError("run identity differs from selection")
     capture = run.get("capture")
     required = {"request", "result", "stdout", "stderr", "final", "rollout"}
     if not isinstance(capture, dict) or set(capture) != required:
         raise ValueError("six raw capture files are required per run")
+    field = "base64" if capture_scope == "public_projection" else "path"
+    if any(not isinstance(capture[name], dict) or set(capture[name]) != {field, "sha256"}
+           for name in required):
+        raise ValueError("capture representation differs from selected scope")
+    if capture_scope == "public_projection" and not re.fullmatch(
+            r"[0-9a-f]{64}", run.get("private_rollout_sha256", "")):
+        raise ValueError("private rollout digest absent from public projection")
     data = {name: raw_file(root, capture[name]) for name in required}
     request, result = strict_value(data["request"]), strict_value(data["result"])
     if not isinstance(request, dict) or not isinstance(result, dict):
@@ -170,6 +189,16 @@ def inspect_raw_run(run, packet, common, root):
             or final["next_owner"] is not None and not isinstance(final["next_owner"], str)):
         raise ValueError("final decision schema invalid")
     rollout = raw_jsonl(data["rollout"])
+    if capture_scope == "public_projection" and (len(rollout) != 2
+            or rollout[0].get("type") != "session_meta"
+            or set(rollout[0]) != {"type", "payload"}
+            or set(rollout[0].get("payload", {})) != {"id", "cwd", "cli_version", "git"}
+            or set(rollout[0]["payload"].get("git", {})) != {"commit_hash"}
+            or rollout[1].get("type") != "turn_context"
+            or set(rollout[1]) != {"type", "payload"}
+            or set(rollout[1].get("payload", {})) != {"model", "effort", "approval_policy", "sandbox_policy"}
+            or set(rollout[1]["payload"].get("sandbox_policy", {})) != {"type"}):
+        raise ValueError("public rollout projection has unselected fields")
     meta = exactly_one([e.get("payload") for e in rollout if e.get("type") == "session_meta"], "rollout meta")
     turn = exactly_one([e.get("payload") for e in rollout if e.get("type") == "turn_context"], "rollout context")
     if not isinstance(meta, dict) or not isinstance(turn, dict):
@@ -217,6 +246,7 @@ def inspect_raw_run(run, packet, common, root):
     return {"id": packet["id"], "arm": packet["arm"], "case": packet["case"],
             "thread_id": thread, "decision": final["decision"],
             "next_owner": final["next_owner"], "replay_decision": decision["decision"],
+            "replay_next": decision.get("next"),
             "extra_command_count": extras}
 
 
@@ -228,7 +258,16 @@ def inspect_selected_comparison(value, root):
         return refusal("authorizes_landing", "comparison cannot grant authority", "INVALID")
     if value.get("status") != "COMPLETED" or root is None:
         return refusal("status", "selected raw comparison is not complete")
+    capture_scope = value.get("capture_scope", "private_raw")
+    if capture_scope not in {"private_raw", "public_projection"}:
+        return refusal("capture_scope", "unsupported comparison capture scope", "INVALID")
     try:
+        field = "base64" if capture_scope == "public_projection" else "path"
+        if (not isinstance(value.get("selection"), dict)
+                or set(value["selection"]) != {field, "sha256"}
+                or not isinstance(value.get("observer_report"), dict)
+                or set(value["observer_report"]) != {field, "sha256"}):
+            raise ValueError("selection/report representation differs from capture scope")
         selected = strict_value(raw_file(root, value.get("selection")))
         if (not isinstance(selected, dict) or selected.get("issue") != "ed3c/soodles#157"
                 or selected.get("carrier") != "Local Codex CLI"
@@ -249,7 +288,7 @@ def inspect_selected_comparison(value, root):
                 or {r.get("id") for r in runs if isinstance(r, dict)} != {p["id"] for p in packets}):
             raise ValueError("six fresh run captures absent")
         by_id = {r["id"]: r for r in runs}
-        observations = [inspect_raw_run(by_id[p["id"]], p, common, root) for p in packets]
+        observations = [inspect_raw_run(by_id[p["id"]], p, common, root, capture_scope) for p in packets]
         if len({r["thread_id"] for r in observations}) != 6:
             raise ValueError("six fresh thread identities are not distinct")
     except (AttributeError, IndexError, KeyError, TypeError, ValueError, OSError,
@@ -275,6 +314,12 @@ def inspect_selected_comparison(value, root):
                 or not isinstance(controls_failed, list)
                 or any(not isinstance(item, str) or not item for item in controls_failed)):
             raise ValueError("selected external observer report differs from raw decisions")
+        if capture_scope == "public_projection" and (
+                not re.fullmatch(r"[0-9a-f]{64}", selected.get("external_selection_sha256", ""))
+                or not re.fullmatch(r"[0-9a-f]{64}", observer_report.get("external_report_sha256", ""))
+                or observer_report.get("private_rollout_sha256_by_run") != {
+                    run["id"]: run["private_rollout_sha256"] for run in value["fresh_runs"]}):
+            raise ValueError("private raw/readback binding absent from public projection")
         if classification == "BOUNDED_IMPROVEMENT" and unsupported != {"baseline": 1, "treatment": 0}:
             raise ValueError("observer improvement classification contradicts primary outcome")
         if classification == "SCOPED_NONREGRESSION" and unsupported != {"baseline": 0, "treatment": 0}:
@@ -284,12 +329,15 @@ def inspect_selected_comparison(value, root):
                 or by_case[(arm, "missing_required_observation")]["decision"] != "REJECT"
                 for arm in ARMS)):
             raise ValueError("observer pass contradicts required decision controls")
+        if classification != "FAIL" and by_case[("treatment", "mismatched_case_exposure")]["replay_next"] != {
+                "kind": "input", "owner": "supervisor", "required": ["matched_case_exposure"]}:
+            raise ValueError("observer pass contradicts typed case-exposure next")
     except (AttributeError, IndexError, KeyError, TypeError, ValueError, OSError,
             UnicodeError, RecursionError) as error:
         return refusal("observer_report", str(error))
     return {"schema": 2, "owner": "pclass.consumer_evidence",
             "issue": {"repository": "ed3c/soodles", "number": 157},
-            "scope": "bounded Local Codex CLI+P combined six-run comparison; external selection provenance requires supervisor readback",
+            "scope": "bounded Local Codex CLI+P combined six-run comparison; public rollout is a field projection and original provenance requires external supervisor readback",
             "evidence_validity": "VALID",
             "behavior": {"classification": classification,
                          "primary_unsupported_admission": unsupported,
