@@ -46,6 +46,12 @@ def body_digest(body):
     return hashlib.sha256(body.encode("utf-8")).hexdigest()
 
 
+def scoped_order_id(issue, control_root):
+    """Keep a retained Noodle worktree from blocking a fresh Issue control root."""
+    root = str(Path(control_root).resolve())
+    return f"soodles-{issue}-{hashlib.sha256(root.encode()).hexdigest()[:12]}"
+
+
 def exact_object(value, fields, field, **source):
     require(isinstance(value, dict) and set(value) == fields, field,
             sorted(value) if isinstance(value, dict) else value, **source)
@@ -176,8 +182,12 @@ def validate_envelope(envelope):
             "envelope.execution.control_root", execution["control_root"])
     require(isinstance(execution["worktree"], str) and re.fullmatch(r"[a-z0-9][a-z0-9-]{0,99}", execution["worktree"]),
             "envelope.execution.worktree", execution["worktree"])
-    require(execution["order_id"] == f"soodles-{envelope['issue']}",
+    require(execution["order_id"] in (f"soodles-{envelope['issue']}",
+                                      scoped_order_id(envelope["issue"], execution["control_root"])),
             "envelope.execution.order_id", execution["order_id"])
+    if execution["order_id"] != f"soodles-{envelope['issue']}":
+        require(execution["worktree"] == execution["order_id"] + "-0-execute",
+                "envelope.execution.worktree", execution["worktree"])
     require(type(execution["stage_index"]) is int and execution["stage_index"] == 0,
             "envelope.execution.stage_index", execution["stage_index"])
     require(isinstance(execution["carrier"], dict) and bool(execution["carrier"]),

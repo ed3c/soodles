@@ -694,9 +694,9 @@ def finish_host(authorization, paths, state):
     return True
 
 
-def _run_claim(authorization, subject, output):
+def _run_claim(authorization, subject, output, order_id):
     argv = [authorization["noodle"]["path"], "--project-dir", authorization["control_root"],
-            "publication", "claim", f"soodles-{subject.rsplit('#', 1)[1]}", subject]
+            "publication", "claim", order_id, subject]
     result = subprocess.run(argv, stdin=subprocess.DEVNULL, capture_output=True, text=True,
                             timeout=30, env=clean_child_env())
     save_json(Path(output).with_name(f"claim-process-{time.time_ns()}.json"),
@@ -803,6 +803,21 @@ def run(authorization_path, *, environ=None, provider=None):
         return _run(authorization_path, environ=environ, provider=provider)
 
 
+def native_idle_schedule(order, model):
+    """Recognize Noodle's idle scheduler, never an active or foreign writer."""
+    if not isinstance(order, dict) or order.get("order_id") != "schedule":
+        return False
+    stages = order.get("stages")
+    if order.get("status") != "active" or not isinstance(stages, list) or len(stages) != 1:
+        return False
+    stage = stages[0]
+    return (isinstance(stage, dict) and stage.get("stage_index") == 0
+            and stage.get("task_key") == "schedule" and stage.get("skill") == "schedule"
+            and stage.get("provider") == "codex" and stage.get("model") == model
+            and stage.get("runtime") == "process" and stage.get("prompt") == ""
+            and stage.get("status") == "pending" and stage.get("attempts") in (None, []))
+
+
 def require_available_owner(authorization, paths, state):
     """Read Noodle custody before credentials, checkpoints or provider effects."""
     root = Path(authorization["control_root"])
@@ -844,7 +859,11 @@ def require_available_owner(authorization, paths, state):
                 refuse("noodle.binding", "mismatch", "admitted_order_readback")
             binding["contract"] = issue_admission.parse_contract(authorization["issue"]["body"])
         own_id = binding["execution"]["order_id"] if binding else None
-        if any(order_id != own_id for order_id in blocking):
+        model = (binding["execution"]["carrier"]["codex"]["model"]
+                 if binding else None)
+        if any(order_id != own_id and not (
+                order_id == "schedule" and state.get("noodle_start")
+                and native_idle_schedule(orders[order_id], model)) for order_id in blocking):
             refuse("noodle.orders", "foreign_nonterminal", "quiescent_noodle_owner")
         exact_order = False
         if own_id in orders:
@@ -1006,7 +1025,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
             return response(state, authorization_path, waiting_on="Noodle", details={"execution": execution})
         subject = authorization["repository"] + "#" + str(issue["number"])
         if not paths["claim"].exists() or state.get("failed_candidate_head"):
-            claim_result = _run_claim(authorization, subject, paths["claim"])
+            order_id = read_json(paths["envelope"], "envelope")["execution"]["order_id"]
+            claim_result = _run_claim(authorization, subject, paths["claim"], order_id)
             if claim_result.returncode:
                 return response(state, authorization_path, waiting_on="Noodle",
                                 details={"diagnostic": claim_result.stderr.strip()[-1000:]})

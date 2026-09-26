@@ -62,6 +62,20 @@ class IssueAdmissionTests(unittest.TestCase):
         # The shared gate does not demand nested-Agent capability for every route.
         self.assertNotIn("codex", binding["execution"]["carrier"])
 
+    def test_scoped_order_preserves_legacy_and_refuses_forged_worktree(self):
+        scoped = copy.deepcopy(self.envelope)
+        order_id = admission.scoped_order_id(18, scoped["execution"]["control_root"])
+        scoped["execution"].update(order_id=order_id, worktree=order_id + "-0-execute")
+        self.assertEqual(admission.validate_issue(self.issue, scoped)["execution"]["order_id"], order_id)
+        self.assertEqual(order_id, admission.scoped_order_id(18, "/supervisor/control"))
+        self.assertNotEqual(order_id, admission.scoped_order_id(18, "/supervisor/other"))
+        forged = copy.deepcopy(scoped)
+        forged["execution"]["order_id"] = admission.scoped_order_id(18, "/supervisor/other")
+        self.refused("envelope.execution.order_id", envelope=forged)
+        forged = copy.deepcopy(scoped)
+        forged["execution"]["worktree"] = "foreign-0-execute"
+        self.refused("envelope.execution.worktree", envelope=forged)
+
     def test_current_body_digest_cannot_grant_missing_or_wider_authority(self):
         self.refused("envelope.fields", envelope={})
         altered = copy.deepcopy(self.envelope)

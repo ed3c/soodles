@@ -1,9 +1,11 @@
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
+import tarfile
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -168,7 +170,15 @@ class IssueAtomTests(unittest.TestCase):
         env = {k: v for k, v in os.environ.items() if not k.startswith("NOODLE_")}
         env.update(HOME=str(home), XDG_CONFIG_HOME=str(home / "config"), TMPDIR="/private/tmp")
         output = self.outer / "fixed-controls"
-        result = subprocess.run([sys.executable, "-B", str(oracle), str(source), str(output)],
+        # The frozen consumer encodes the historical static order ID. Replay it
+        # against its exact prior source; current scoped-ID behavior has live controls.
+        historical = self.outer / "historical-source"
+        historical.mkdir()
+        archive = subprocess.check_output(["git", "archive",
+            "95e8a3abddda8328d32f0ccf8011b463603d15b2"], cwd=source)
+        with tarfile.open(fileobj=io.BytesIO(archive)) as files:
+            files.extractall(historical, filter="data")
+        result = subprocess.run([sys.executable, "-B", str(oracle), str(historical), str(output)],
                                 env=env, capture_output=True, text=True,
                                 start_new_session=True, timeout=120)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -236,12 +246,42 @@ class IssueAtomTests(unittest.TestCase):
             for change in ({"attempts": None}, {"attempts": []}, {"status": "unknown"}, {"model": "foreign"}):
                 with self.subTest(change=change):
                     atom.save_json(self.root / ".noodle/state.snapshot.json", {
-                        "state": {"orders": {"soodles-131": {"stages": [{**stage, **change}]}}},
+                        "state": {"orders": {binding["execution"]["order_id"]: {"stages": [{**stage, **change}]}}},
                         "effect_ledger": []})
                     with self.assertRaises(atom.AtomRefusal) as caught:
                         atom.run(self.path, environ=self.env)
                     self.assertEqual(caught.exception.owner, "Noodle")
         supplier.assert_not_called()
+
+    def test_idle_native_schedule_is_observed_but_foreign_scheduler_refuses(self):
+        import fcntl
+        paths, state = self.startup_fixture()
+        state.update(issue={"number": 131}, noodle_start={"status": "started"})
+        (self.root / ".noodle.toml").write_bytes((paths["envelope"].parent / "noodle.toml").read_bytes())
+        binding = atom.read_json(paths["envelope"], "envelope")
+        binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
+        order_id = binding["execution"]["order_id"]
+        stage = {"status": "running", "skill": "execute", "provider": "codex",
+                 "model": "fixture-model", "prompt": json.dumps(atom.issue_execution.projection(
+                     binding, state["envelope_sha256"], "supervised")),
+                 "attempts": [{"status": "running", "session_id": "fixture-existing"}]}
+        schedule = {"order_id": "schedule", "status": "active", "stages": [{
+            "stage_index": 0, "task_key": "schedule", "skill": "schedule",
+            "provider": "codex", "model": "fixture-model", "runtime": "process",
+            "prompt": "", "status": "pending", "attempts": None}]}
+        snapshot = self.root / ".noodle/state.snapshot.json"
+        with (self.root / ".noodle/noodle.lock").open("a+b") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            atom.save_json(snapshot, {"state": {"orders": {
+                order_id: {"stages": [stage]}, "schedule": schedule}}, "effect_ledger": []})
+            atom.require_available_owner(self.authorization, paths, state)
+            for changed in ({"provider": "foreign"}, {"status": "running"}):
+                schedule["stages"][0].update(changed)
+                atom.save_json(snapshot, {"state": {"orders": {
+                    order_id: {"stages": [stage]}, "schedule": schedule}}, "effect_ledger": []})
+                with self.assertRaisesRegex(atom.AtomRefusal, "noodle.orders"):
+                    atom.require_available_owner(self.authorization, paths, state)
+                schedule["stages"][0] = {**schedule["stages"][0], **{"provider": "codex", "status": "pending"}}
 
     def test_projected_completed_order_can_continue_original_cleanup(self):
         import fcntl
@@ -449,7 +489,8 @@ class IssueAtomTests(unittest.TestCase):
 
     def test_completion_ack_required_before_shutdown(self):
         paths, state = self.startup_fixture()
-        state["noodle_completion"] = {"id": "exact", "action": "merge", "order_id": "soodles-131"}
+        order_id = atom.read_json(paths["envelope"], "envelope")["execution"]["order_id"]
+        state["noodle_completion"] = {"id": "exact", "action": "merge", "order_id": order_id}
         (self.root / ".noodle/control-ack.ndjson").write_text(json.dumps(
             {"id": "exact", "action": "merge", "status": "error"}) + "\n")
         with patch.object(atom.os, "kill") as kill:
@@ -459,10 +500,11 @@ class IssueAtomTests(unittest.TestCase):
 
     def test_completion_uses_noodle_mailbox_once_and_preserves_error_ack(self):
         paths, state = self.startup_fixture()
+        order_id = atom.read_json(paths["envelope"], "envelope")["execution"]["order_id"]
         atom.save_json(paths["landing"], {"phase": "reconciling", "writes_offered": ["merge", "close"],
                                          "claim": {"head": self.base}, "merge_sha": self.base})
-        transition = {"next": {"owner": "Noodle", "known": {"order_id": "soodles-131"}}}
-        owner = {"state": {"orders": {"soodles-131": {"stages": [{"status": "review"}]}}}}
+        transition = {"next": {"owner": "Noodle", "known": {"order_id": order_id}}}
+        owner = {"state": {"orders": {order_id: {"stages": [{"status": "review"}]}}}}
         with patch.object(atom.issue_execution, "read_owner", return_value=owner), \
                 patch.object(atom.issue_execution, "quiescent_order"):
             atom.complete_noodle(self.authorization, paths, state, transition)
@@ -471,7 +513,7 @@ class IssueAtomTests(unittest.TestCase):
             self.assertEqual(len(lines), 1)
             command = json.loads(lines[0])
             self.assertEqual(command["action"], "merge")
-            self.assertEqual(command["order_id"], "soodles-131")
+            self.assertEqual(command["order_id"], order_id)
             ack = {"id": command["id"], "action": "merge", "status": "error", "message": "fixture refusal"}
             (self.root / ".noodle/control-ack.ndjson").write_text(json.dumps(ack) + "\n")
             with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.ack"):
@@ -480,13 +522,14 @@ class IssueAtomTests(unittest.TestCase):
 
     def test_completion_cannot_precede_provider_closure_or_select_another_order(self):
         paths, state = self.startup_fixture()
+        order_id = atom.read_json(paths["envelope"], "envelope")["execution"]["order_id"]
         with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.owner"):
             atom.complete_noodle(self.authorization, paths, state,
                                  {"next": {"owner": "Noodle", "known": {"order_id": "foreign"}}})
         atom.save_json(paths["landing"], {"phase": "merged", "writes_offered": ["merge"]})
         with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.phase"):
             atom.complete_noodle(self.authorization, paths, state,
-                                 {"next": {"owner": "Noodle", "known": {"order_id": "soodles-131"}}})
+                                 {"next": {"owner": "Noodle", "known": {"order_id": order_id}}})
         self.assertFalse((self.root / ".noodle/control.ndjson").exists())
 
     def test_finish_host_restores_only_own_unchanged_configuration(self):
@@ -649,11 +692,13 @@ class IssueAtomTests(unittest.TestCase):
         self.ready_issue(provider)
         paths = atom.artifact_paths(self.path)
         claim = {
-            "worktree_path": str(self.root), "worktree_name": "soodles-131-0-execute",
+            "worktree_path": str(self.root),
+            "worktree_name": atom.issue_admission.scoped_order_id(131, self.root) + "-0-execute",
             "head": "b" * 40, "tree": "c" * 40, "base_head": self.base,
         }
 
-        def claim_ready(_authorization, _subject, output):
+        def claim_ready(_authorization, _subject, output, order_id):
+            self.assertEqual(order_id, atom.issue_admission.scoped_order_id(131, self.root))
             atom.save_json(output, claim, fresh=True)
             return Result(0)
 

@@ -19,7 +19,7 @@ import subprocess
 import sys
 import tempfile
 
-from issue_admission import AdmissionRefusal, body_digest, parse_contract, require, validate_issue
+from issue_admission import AdmissionRefusal, body_digest, parse_contract, require, scoped_order_id, validate_issue
 from issue_execution import validate_carrier
 from repository_binding import git_origins, issue_urls
 
@@ -370,6 +370,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
             owner="supervisor", required="measured_local_carrier")
     validate_carrier({"execution": {"carrier": carrier}}, worker=True)
 
+    order_id = scoped_order_id(number, root)
     envelope = {
         "schema": 1,
         "repository": REPOSITORY,
@@ -381,8 +382,8 @@ def prepare(issue_readback, carrier, control_root, output, *,
         "base_head": base_head,
         "execution": {
             "control_root": str(root),
-            "worktree": f"soodles-{number}-0-execute",
-            "order_id": f"soodles-{number}",
+            "worktree": order_id + "-0-execute",
+            "order_id": order_id,
             "stage_index": 0,
             "carrier": carrier,
             "task": task if task is not None else f"Execute externally admitted {REPOSITORY}#{number}.",

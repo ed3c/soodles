@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "issue": 156,
+  "base_head": "95e8a3abddda8328d32f0ccf8011b463603d15b2",
+  "failed_control_root": "/Users/neon/.codex/worktrees/soodles-156-after-166/soodles",
+  "old_worktree": "/Users/neon/soodles/.worktrees/soodles-156-0-execute",
+  "old_worktree_head": "fa3667645e38326a68f551a33a3b98c53d794840",
+  "old_branch": "soodles-156-0-execute",
+  "failed_order_ids": [
+    "schedule",
+    "soodles-156"
+  ],
+  "noodle_stderr": [
+    "2026-09-26T13:45:43.057464+08:00 INFO api: startup injected schedule order",
+    "  \u2502 create worktree soodles-156-0-execute: failed to create worktree: exit status 255: Preparing worktree (new branch 'soodles-156-0-execute')",
+    "  \u2502 fatal: a branch named 'soodles-156-0-execute' already exists",
+    "cycle spawn cooks failed at cycle.spawn: create worktree soodles-156-0-execute: failed to create worktree: exit status 255: Preparing worktree (new branch 'soodles-156-0-execute')",
+    "fatal: a branch named 'soodles-156-0-execute' already exists"
+  ],
+  "authorizes_landing": false
+}
