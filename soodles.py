@@ -325,6 +325,13 @@ Every result has authorizes_landing=false; no delivery or landing authority.""")
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
     issue_verbs.add_parser("inspect", description="Read current Noodle schedule identity and launcher capability without effects.")
+    readiness = issue_verbs.add_parser(
+        "readiness",
+        description="Validate externally selected experiment handoff/local binding and materialize six run packets without launching a consumer.")
+    readiness.add_argument("handoff")
+    readiness.add_argument("handoff_digest")
+    readiness.add_argument("local_binding")
+    readiness.add_argument("local_binding_digest")
     for name in ("automatic", "supervised", "worker", "resume"):
         example = ("/external/A-checkpoint.json " if name == "resume" else "") + "/external/envelope.json SHA256"
         command = issue_verbs.add_parser(name, epilog=f"Examples: ./soodles issue {name} {example}")
@@ -433,6 +440,10 @@ def main():
             import issue_execution
             if args.verb == "inspect":
                 result = issue_execution.inspect_schedule(Path.cwd())
+            elif args.verb == "readiness":
+                result = issue_execution.readiness(
+                    args.handoff, args.handoff_digest,
+                    args.local_binding, args.local_binding_digest)
             else:
                 operation = getattr(issue_execution, args.verb)
                 if args.verb == "worker":

@@ -34,6 +34,28 @@ read its acknowledgement. Do not create another scheduler, order ledger or
 worktree. Missing launcher/envelope/carrier comes from the supervisor; missing
 order/session state comes from Noodle; provider readback comes from GitHub.
 
+
+## Experiment readiness handoff
+
+For a supervisor-selected local behavior experiment, consume the complete
+`./soodles issue readiness HANDOFF.json HANDOFF_SHA256 LOCAL.json LOCAL_SHA256`
+invocation. This operation stays inside the existing issue-execution owner: it
+does not launch Codex, create a worktree, choose an observer/ref/model, score the
+experiment, retry, or grant landing authority.
+
+The portable handoff fixes experiment identity, three cases, baseline/treatment
+refs, task/input bytes and observer/capture identities. The host-local binding
+fixes Issue-scoped authorization, exact clean workdirs, executable identity and
+external evidence/materialization roots. A refusal names the exact missing input
+and owner. Do not search history, borrow another Issue's authorization/resources,
+select refs, create workdirs, construct packets or reconstruct argv.
+
+`READY` means exactly six immutable run packets and replay argv were materialized
+and the next consumer needs no operational inference before its assigned run.
+The supervisor launches the fresh consumer using the supplied packet; the Agent
+must not alter run membership, refs, observer, inputs, argv or evidence
+destination. Deterministic readiness is not behavior improvement evidence.
+
 ## Drive and observe
 
 - The installed schedule Skill calls the supervisor-provided launcher with
