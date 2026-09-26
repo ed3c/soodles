@@ -194,3 +194,41 @@ itself prove hidden service/tool behavior or independent source provenance.
 No third model set is authorized by this gate correction. A new immutable
 observer/protocol selection and explicit execution budget are required before
 another model invocation. Keep this Issue open and PR Draft.
+
+## Third and final six-run amendment — user authorized 2026-09-26
+
+This section supersedes the prior no-third-set status. The user explicitly
+authorized a **new complete six-run set** after v4 r01
+and v5 r07 failed their independently selected capture mappings. Those raw
+runs remain INCONCLUSIVE and cannot be rescored or counted in this set. This
+is the third attempt under the project stop discipline; any new capture
+failure ends this attempt without a fourth set or post-hoc scoring change.
+
+Pin baseline source `00a5909941a632537dc6992b5354cd37614ea4a8` and
+treatment source `ddcddeb1a275f214d87fd43523b523f0ad75c1d0`. Later
+protocol/evidence-only PR commits do not change the consumer treatment code.
+The two #157 supervisor-owned clones must stay clean, detached, and without
+remotes. The six fresh session/storage identities are r13–r18 in fixed order:
+baseline legal, baseline mismatched, baseline missing; treatment legal,
+treatment mismatched, treatment missing. No resume, fork, ephemeral session,
+model trial or replacement run is permitted. The original three cases,
+neutral task, raw case inputs, P/decider identities, primary outcome, legal
+and missing-evidence controls, and combined Local Codex CLI+P claim remain.
+
+Before r13, freeze the external observer at SHA-256
+`5cfeb2f9231dcf92ba77677687ee6198efdb2f3fd3d1d8519d5f5161ed7c0a1b`,
+the six packet/prompt bytes, actual JSONL/rollout mapping, recorder, source
+owner receipt and raw storage. The v6 observer requires every CLI command
+start/end pair. The exact selected replay drives the primary outcome; every
+other complete command is a separate count, with its raw text retained for
+supervisor effect review. Command names are not a capture-validity allowlist.
+Unknown tool types, incomplete pairs, changed source/config/inputs or missing
+raw files remain INCONCLUSIVE. The read-only sandbox and no observed provider
+effects are bounded observations, not a claim about hidden service internals.
+
+The local #157 supervisor owns sessions, raw capture, privacy review, evidence
+survival and cleanup. The cloud path owns the PR and exact-head Actions
+readback; only verified evidence bytes cross that boundary. Neither side
+inherits the other's Session, clone, credential or landing authority. The
+selected external landing owner still controls merge/closure. This amendment
+alone supplies no behavior result; keep required acceptance RED and PR Draft.
