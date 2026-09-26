@@ -50,18 +50,12 @@ def inspect_comparison(value, evidence_root=None):
     runs = value.get("fresh_runs")
     if not isinstance(runs, list):
         return refusal("fresh_runs", "required run observations are absent or malformed")
-    if not runs:
-        return refusal("fresh_runs", "six raw consumer captures are not present in this artifact")
-    if len(runs) != 6 or any(not isinstance(run, dict) for run in runs):
-        return refusal("fresh_runs", "the declared six-run comparison is incomplete or malformed")
-    if value.get("status") != "COMPLETED":
-        return refusal("status", "consumer execution is not complete")
-    if value.get("independent_agent_telemetry") is None:
-        return refusal("independent_agent_telemetry", "independent operation records are missing")
-    # Schema 1 is a public status projection; self-labelled runs cannot stand
-    # in for the six selected raw captures required by schema 2.
-    return refusal("raw_capture", "completion requires a selected raw capture mapping",
-                   required="supervisor_selected_capture_validator")
+    # Schema 1 is only a public status projection. Its self-labelled run and
+    # telemetry fields never acquire the raw-capture meaning of schema 2.
+    if runs:
+        return refusal("schema", "status projection cannot carry raw captures", "INVALID",
+                       required="supervisor_selected_capture_validator")
+    return refusal("fresh_runs", "six raw consumer captures are not present in this artifact")
 
 
 def raw_file(root, descriptor):

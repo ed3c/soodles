@@ -221,7 +221,8 @@ class ConsumerReadinessControls(unittest.TestCase):
             with self.subTest(runs=len(runs)):
                 receipt = self.gate.inspect_comparison(value)
                 self.assert_veto(receipt)
-                self.assertEqual(receipt["evidence_validity"], "INCONCLUSIVE")
+                self.assertEqual(receipt["evidence_validity"],
+                                 "INCONCLUSIVE" if not runs else "INVALID")
         self.assertEqual(receipt["next"]["required"],
                          ["supervisor_selected_capture_validator"])
 
@@ -241,7 +242,8 @@ class ConsumerReadinessControls(unittest.TestCase):
                 self.assert_veto(self.gate.inspect_comparison({**self.blocked, "fresh_runs": runs}))
         value = {**self.blocked, "fresh_runs": [{}] * 6, "status": "COMPLETED"}
         result = self.gate.inspect_comparison(value)
-        self.assertEqual(result["problem"]["field"], "independent_agent_telemetry")
+        self.assertEqual(result["problem"]["field"], "schema")
+        self.assertEqual(result["evidence_validity"], "INVALID")
 
     def test_file_binding_json_and_paths_fail_closed_without_writes(self):
         with tempfile.TemporaryDirectory() as folder:
