@@ -254,6 +254,9 @@ def prepare(snapshot, publisher, route, output):
         raise
 
     rebased = json.loads((output / "claim.json").read_text())
+    require(owner.get("checkpoint") == str(temporary / "checkpoint.json"),
+            "landing.start.checkpoint", owner.get("checkpoint"),
+            "temporary_owner_checkpoint")
     next_action = _rebase_next(owner.get("next"), temporary, output)
     return {
         "owner": "landing-supervisor",
@@ -265,7 +268,8 @@ def prepare(snapshot, publisher, route, output):
         },
         "claim": rebased,
         "checkpoint": str(output / "checkpoint.json"),
-        "landing_owner": {**owner, "next": next_action},
+        "landing_owner": {**owner, "checkpoint": str(output / "checkpoint.json"),
+                          "next": next_action},
         "authorizes_landing": False,
     }
 

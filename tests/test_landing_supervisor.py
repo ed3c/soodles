@@ -206,6 +206,8 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(result["action"], "activated")
         self.assertEqual(result["route"], "cloud")
         self.assertEqual(result["landing_owner"]["owner"], "landing.start")
+        self.assertEqual(result["landing_owner"]["checkpoint"],
+                         str(output / "checkpoint.json"))
         self.assertEqual(result["landing_owner"]["action"], "readback")
         self.assertEqual(result["landing_owner"]["next"]["kind"], "provider_readback")
         self.assertEqual(
@@ -235,6 +237,8 @@ class LandingSupervisorTests(unittest.TestCase):
             claim["execution_envelope"]["sha256"],
             route["execution_envelope"]["sha256"])
         self.assertEqual(result["landing_owner"]["owner"], "landing.start")
+        self.assertEqual(result["landing_owner"]["checkpoint"],
+                         str(output / "checkpoint.json"))
         self.assertEqual(result["landing_owner"]["next"]["kind"], "provider_readback")
         self.assertEqual(result["landing_owner"]["next"]["argv"][-2:],
                          [str(output / "checkpoint.json"), str(output / "readback.json")])
