@@ -44,9 +44,10 @@ does not launch Codex, create a worktree, choose an observer/ref/model, score th
 experiment, retry, or grant landing authority.
 
 The portable handoff fixes experiment identity, three cases, baseline/treatment
-refs, task/input bytes and observer/capture identities. The byte-bound host-local
-binding fixes the selected carrier, exact clean workdirs, executable identity and
-external evidence/materialization roots. Readiness only projects packets; the
+refs, task/input bytes and capture identity. The scoring observer stays with the
+external supervisor and is not included in the consumer-visible handoff. The
+byte-bound host-local binding fixes the selected carrier, exact clean workdirs,
+executable identity and external evidence/materialization roots. Readiness only projects packets; the
 supervisor separately owns any consumer launch authorization. A refusal names the
 exact missing input and owner. Do not search history, borrow another Issue's resources,
 select refs, create workdirs, construct packets or reconstruct argv.
@@ -54,7 +55,7 @@ select refs, create workdirs, construct packets or reconstruct argv.
 `READY` means exactly six immutable run packets and replay argv were materialized
 and the next consumer needs no operational inference before its assigned run.
 The supervisor launches the fresh consumer using the supplied packet; the Agent
-must not alter run membership, refs, observer, inputs, argv or evidence
+must not alter run membership, refs, inputs, argv or evidence
 destination. Deterministic readiness is not behavior improvement evidence.
 
 ## Drive and observe

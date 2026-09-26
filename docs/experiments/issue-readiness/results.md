@@ -24,6 +24,13 @@ instruction bytes have SHA-256
 The manifest now binds that actual base; the failed head is preserved and must
 not be rerun.
 
+The first baseline pilot at candidate `28bfccb7e517771cc52b6695507a4a44a4c5e167`
+exposed the scoring observer and selection file to the consumer through the
+handoff input directory. Its raw capture remains outside the repository, but
+it is excluded from the comparison. Readiness now excludes the scoring
+observer from consumer-visible handoff and packets. A new six-session selection
+will be fixed before the behavior comparison begins.
+
 The P-class claim remains pending until fresh baseline and treatment consumers
 reach the boundary before run 1 with actual command/read/clarification capture.
 The fixed observer must report `avoidable_dependency_reconstruction`; missing

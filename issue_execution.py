@@ -245,7 +245,7 @@ def readiness(handoff_path, handoff_digest, local_path, local_digest):
             required="portable_experiment_handoff")
 
     selection = handoff["selection"]
-    _readiness_exact(selection, {"observer_capture", "observer", "capture_plan"},
+    _readiness_exact(selection, {"observer_capture", "capture_plan"},
                      "handoff.selection")
     task_spec = handoff["task"]
     _readiness_exact(task_spec, READINESS_ARTIFACT_FIELDS, "handoff.task")
@@ -340,7 +340,7 @@ def readiness(handoff_path, handoff_digest, local_path, local_digest):
     python = _readiness_executable(local["python"], "local.python")
     selected = {name: _readiness_artifact(input_root, selection[name],
                                            "handoff.selection." + name)
-                for name in ("observer_capture", "observer", "capture_plan")}
+                for name in ("observer_capture", "capture_plan")}
     task = _readiness_artifact(input_root, task_spec, "handoff.task")
 
     arm_artifacts = {}

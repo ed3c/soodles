@@ -31,7 +31,6 @@ class ReadinessFixture:
         self.issue = 157
         self.pr = 158
         self.write(self.input / "observer-capture-selection-v2.json", "{}\n")
-        self.write(self.input / "observer.py", "# external observer\n")
         self.write(self.input / "capture-plan.md", "capture plan\n")
         self.write(self.input / "task.md", "Assess the supplied comparison and report the supported result.\n")
         self.cases = []
@@ -120,7 +119,7 @@ class ReadinessFixture:
             "repository": "ed3c/soodles", "origin_issue": self.issue, "origin_pr": self.pr,
             "selection": {
                 "observer_capture": external("observer-capture-selection-v2.json"),
-                "observer": external("observer.py"), "capture_plan": external("capture-plan.md")},
+                "capture_plan": external("capture-plan.md")},
             "task": external("task.md"),
             "arms": {"baseline": self.arm(self.baseline), "treatment": self.arm(self.treatment)},
             "cases": self.cases, "primary_outcome": "unsupported_admission",
@@ -164,6 +163,7 @@ class IssueReadinessTests(unittest.TestCase):
             self.assertEqual(sha(packet_path), row["packet_sha256"])
             self.assertEqual(packet["replay_argv"], row["argv"])
             self.assertEqual(packet["carrier"], self.f.carrier)
+            self.assertNotIn("observer", packet["external_selection"])
             self.assertEqual(packet["permitted_effects"], [])
             self.assertFalse(packet["authorizes_landing"])
             self.assertTrue(Path(packet["evidence_dir"]).is_relative_to(self.f.evidence.resolve()))
@@ -179,6 +179,15 @@ class IssueReadinessTests(unittest.TestCase):
         self.assertEqual(receipt["status"], "READY")
         self.assertEqual(len(receipt["runs"]), 6)
         self.assertFalse(receipt["authorizes_landing"])
+
+    def test_scoring_observer_cannot_be_added_to_consumer_handoff(self):
+        handoff = json.loads(self.f.handoff.read_text())
+        handoff["selection"]["observer"] = {"path": "observer.py", "sha256": "0" * 64}
+        self.f.save(self.f.handoff, handoff)
+        with self.assertRaises(issue_execution.AdmissionRefusal) as caught:
+            self.f.run()
+        self.assertEqual(caught.exception.invalid["field"], "handoff.selection")
+        self.assertFalse(self.f.output.exists())
 
     def test_foreign_local_binding_refuses_before_materialization(self):
         self.f.issue = 156

@@ -8,14 +8,14 @@
     {
       "path": ".agents/skills/verify-soodles/features/issue-execution.md",
       "baseline_sha256": "a7414971e64640d6fd6ff948ed6331093d9dc741b705d3b274aba4c8bacf6a4f",
-      "treatment_sha256": "d41c5301a99bd503678892aacc44393d7549300fea2e6ef33fa3e8cc5d9cd9f7"
+      "treatment_sha256": "57e8bd737a63c5e4b237ff1681eb4d1c616a27a83d73e712ef79fe72c69facaa"
     }
   ],
   "artifacts": [
     {
       "path": "issue_execution.py",
       "role": "experiment_readiness_evidence",
-      "sha256": "77616a1bcaf66cd1cb18e38a7f076160b56012cade5c513b29b4fcde3f961784"
+      "sha256": "12c6ad386a1c18b1f8fe75fac407ab1bbdc068ad78f8c38fba3e1d1b3a664097"
     },
     {
       "path": "soodles.py",
@@ -25,17 +25,17 @@
     {
       "path": "tests/test_issue_readiness.py",
       "role": "experiment_readiness_evidence",
-      "sha256": "8ce3d94a8bcc0fbdee907291c4285d874fbe5c12d551cf589a27763fd65c6dd8"
+      "sha256": "38497394c0c4d75f69477be6401e377224fa174cd4fdd560b1918cf9a3fce356"
     },
     {
       "path": "docs/experiments/issue-readiness/protocol.md",
       "role": "experiment_readiness_evidence",
-      "sha256": "aa5498e1e545122604ff96747c6b87d325047b85e3c9d92cfc70490863ec32c6"
+      "sha256": "d36ad232afd5cac7293c8738c72740ee4f7fee3de73e67d74d691813810e2885"
     },
     {
       "path": "docs/experiments/issue-readiness/results.md",
       "role": "experiment_readiness_evidence",
-      "sha256": "c25ed1a89321f1f178289d6e5834831145409ff307eecd0ba7e29478dccc0a74"
+      "sha256": "a63bd794bc471f5bd6319d2faa7c2f7c8273c9eba064227b45a53bc6380da5a8"
     }
   ],
   "owner": {

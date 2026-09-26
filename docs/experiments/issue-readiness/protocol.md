@@ -7,9 +7,10 @@ a portable experiment handoff and one host-local binding.
 
 The existing `issue_execution` owner exposes `./soodles issue readiness`.
 It validates byte bindings, the selected carrier, exact clean baseline and
-treatment workdirs, selected observer/capture/task/case inputs, executable
+treatment workdirs, selected capture/task/case inputs, executable
 identity and external evidence/output roots. It performs no network/model call
-and creates no worktree.
+and creates no worktree. The scoring observer and its pass rule remain outside
+the consumer-visible handoff and packets.
 
 A complete input materializes exactly three cases x two arms = six packet files.
 Each packet contains an exact replay argv and immutable input/workspace bindings.
