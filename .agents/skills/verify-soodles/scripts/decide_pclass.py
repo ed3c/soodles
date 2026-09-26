@@ -78,6 +78,7 @@ def validate_manifest(manifest, expected_sha256, errors):
     declarations = required(manifest, "runs", list, errors, "manifest_") or []
     declared = {}
     arm_counts = {arm: 0 for arm in ARMS}
+    case_counts = {arm: {} for arm in ARMS}
     for index, item in enumerate(declarations):
         prefix = f"manifest_run_{index}_"
         if not isinstance(item, dict):
@@ -97,6 +98,8 @@ def validate_manifest(manifest, expected_sha256, errors):
             errors.append(f"invalid_{prefix}arm")
         else:
             arm_counts[arm] += 1
+            if isinstance(case, str) and case:
+                case_counts[arm][case] = case_counts[arm].get(case, 0) + 1
         if case == "":
             errors.append(f"invalid_{prefix}case")
         if not valid_digest(evidence):
@@ -104,6 +107,8 @@ def validate_manifest(manifest, expected_sha256, errors):
     for arm, count in arm_counts.items():
         if count != runs_per_arm:
             errors.append(f"manifest_{arm}_exposure_mismatch")
+    if case_counts["baseline"] != case_counts["treatment"]:
+        errors.append("manifest_case_exposure_mismatch")
     return manifest, declared, control_set
 
 
@@ -253,6 +258,9 @@ def evaluate(packet, manifest, expected_manifest_sha256):
         "telemetry_authority": "report_only",
         "input_sha256": fingerprint(packet),
         "authorizes_landing": False,
+        **({"next": {"kind": "input", "owner": "supervisor",
+                     "required": ["matched_case_exposure"]}}
+           if "manifest_case_exposure_mismatch" in errors else {}),
     }
 
 
