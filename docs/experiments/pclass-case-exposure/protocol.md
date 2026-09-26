@@ -1,0 +1,303 @@
+# P-class case-exposure eligibility: one cloud correction
+
+Origin: ed3c/soodles#157. Baseline: 00a5909941a632537dc6992b5354cd37614ea4a8.
+Independent of local #156 and #145. No changes to their owners, artifacts or contracts.
+
+## Deterministic control fixed before correction
+
+The frozen `probe.py` has SHA-256
+`ebae7abe11fa4ccf009de1e75537fa0148e8b0945febd2c77b6d26eacf069581`.
+It executes the selected real decider against nine synthetic regression fixtures.
+The baseline source was verified against Git blob
+`4e35e0bdd0cdb0d93c6c6dcc5afdda5177fb0245` and SHA-256
+`fc433aad9342d82988a06f9dbde3ac26cc52c8905d1b997c1756f604bf3103a4`.
+Run `python3 -B docs/experiments/pclass-case-exposure/probe.py PATH_TO_DECIDER`.
+This process writes JSON to stdout, performs no provider transport and does not
+run a model. Fixture PASS gates are data, not independent-audit attestations.
+Compact committed receipts preserve observed outcomes; exact input packets are
+reconstructible from the fixed probe. Complete captured stdout is supplementary.
+
+Expected: different case sets/counts, unmatched nonregression, missing case,
+failed hard gate, missing observation and zero-to-zero improvement reject.
+Matched improvement and matched nonregression retain their distinct decisions.
+Case order is irrelevant; unequal frequencies between cases are legal when both
+arms contain the same counts. The existing public replay entry must propagate
+this refusal. Its synthetic raw trace controls are explicitly not real owners
+or fresh consumer traces. Existing archived experiments/judges are not rewritten.
+
+## Minimal production change
+
+The existing decider owns per-case count equality. No new CLI, policy flag,
+schema, registry, scheduler, sampling controller or provider effect is added.
+P guidance consumes the refusal and returns to the supervisor. It does not
+implement counting, repair pins or retry unchanged input. A candidate verifier
+source edit does not promote that candidate into its own acceptance authority.
+
+## Original fresh behavior comparison requirement (superseded carrier)
+
+Do not launch without a platform-supported fresh isolated consumer and an
+independent operation recorder. Freeze the two instruction/decider identities,
+neutral task, identical raw evidence, carrier/model/config, tools and observer
+before the first consumer. No diagnosis, expected answer or other-arm result is
+exposed. Only CLI+P changes, plus the corresponding mandatory digest bindings.
+The committed manifest pins the baseline and proposed treatment instruction bytes.
+This is a combined intervention, never a P-wording-only causal claim.
+
+Use three bounded cases (matched legal improvement, mismatched case exposure,
+missing required observation), one fresh consumer per arm per case: six runs.
+Neutral task: use the supplied complete invocation to assess this bounded
+comparison, report the supported result and responsible next owner; do not alter
+inputs or execute provider operations. Fixed sample size is a scoped smoke
+comparison, not a statistical population estimate. Do not add runs until green.
+
+Primary outcome: unsupported admission of the mismatched comparison. Record
+avoidable manual recount or manifest reconstruction separately from the primary
+outcome; do not combine them into a weighted score. Required controls preserve
+matched legal admission, refusal on missing evidence, input integrity and no
+provider effects. Necessary observations are never counted as waste. Independent
+captured operations support these claims; missing records are unknown, not zero.
+A zero baseline cannot prove improvement. Equal valid arms support only scoped
+nonregression. Per-case failures may not be averaged away.
+
+The original carrier absence was represented by `consumer-comparison.json`
+with empty fresh runs, null counts and INCONCLUSIVE, not by synthetic PASS data.
+No full P-class hill-climb, fresh consumer success or architecture closure is
+claimed from the deterministic controls. Keep the Issue open and PR Draft.
+
+## Delivery
+
+One terminal PR carries code, controls, P and evidence. Existing exact-head
+Actions acceptance and externally selected supervised landing remain required;
+CI success is not landing authority. Read back merge, closure, runtime and
+provider-main through the cloud connector. No local reconciliation is claimed.
+The schema-3 artifact manifest binds bytes, not the truth of behavior claims;
+a BLOCKED consumer artifact must not be treated as a passed comparison.
+
+## Typed refusal follow-up before the first fresh consumer
+
+The user requested this refinement on the same #157 / PR #158. It supersedes
+the proposed treatment at 467454d3c3086c7298cf460ab3e6e1d15d25cb49 before any
+fresh consumer run. The original baseline, nine-case probe, six-run budget,
+primary outcome and no-provider-effects constraints remain unchanged.
+
+The decider adds an input-only `next` when case exposure is unmatched:
+`{"kind":"input","owner":"supervisor","required":["matched_case_exposure"]}`.
+The unchanged public replay nests this under `decision.next`. Other admissions
+and unrelated failures retain their old output. All coexisting errors survive;
+this input request is not a complete repair plan, executable argv, retry grant
+or landing permission. P forwards the current descriptor and stops; it does
+not infer a new owner from strings. Absence of this descriptor never means PASS.
+
+Proposed treatment identities before fresh-consumer setup:
+- decider SHA-256: c6276e43fc43db4ba2d06b71903aef942fc48873772a8e47a66cdce6f7d027cf
+- P recipe SHA-256: 79204d7a1bad1a5e521d02a422edd891ffd52e4126044fd86a0ab2819b2f86a8
+
+New assertions are candidate unit controls, not an independent external judge.
+The same assertions are run before and after the source correction. Preserve
+their raw outputs in treatment.json. The public replay assertion must also pass
+on the exact-head Actions runner. No platform carrier is introduced. The fresh
+comparison still needs its externally fixed observer and supported carrier.
+
+## Experiment carrier amendment — 2026-09-26 (before fresh runs)
+
+The #157 Issue now permits the still-unrun six-consumer comparison on Local
+Codex CLI fresh sessions. This supersedes the native ChatGPT cloud carrier
+requirement in the earlier section, not the original baseline, three cases,
+frozen nine-case probe, primary outcome, nonregression controls, or one-PR
+unit. The resulting claim, if supported, is **bounded Local Codex CLI + P
+combined behavior**. It does not establish ChatGPT native cloud behavior.
+
+Run one new `codex exec` session for each case and arm; never `resume` or
+`fork`. Parallelism is optional. Keep effective model, reasoning setting,
+CLI version, config, MCP/tool exposure, sandbox, authorization and task inputs
+matched across arms. Only the pinned CLI+P treatment bytes and required digest
+bindings may differ. Pin the actual loaded AGENTS/skill bytes and each case
+packet. Do not send expected outcomes, diagnosis or another arm's result to a
+consumer. `--ephemeral` merely suppresses persisted rollout files and is not
+freshness evidence.
+
+Before run one, the external supervisor selects the observer bytes and SHA-256,
+the Codex JSONL event mapping, six immutable input packets, a #157-specific
+control root, and an evidence directory outside disposable state. The first
+real invocation consumes one of the six planned runs; no extra model trial or
+resampling is admitted. Preserve raw JSONL, CLI process stdout/stderr/exit,
+thread identity, final message, command results and the effective input/config
+observations outside the consumer. Unobservable fields stay unknown. A
+candidate-authored PASS field or synthetic trace cannot stand in for these
+records. A capture-schema mismatch is INCONCLUSIVE, not permission to change
+scoring after seeing results.
+
+The local experiment owner owns session/resource cleanup and evidence survival;
+#156's launcher, order, worktree and authorization are out of scope. The cloud
+connector and Actions continue to own PR/exact-head delivery. The same
+`consumer_gate.py` must eventually validate supported real evidence and
+classify valid regression as FAIL. Until external observer selection and a
+verified capture mapping exist, the current required-artifact test remains RED
+and the PR remains Draft. No refusal-only rule, waiver or test removal may
+turn it green.
+
+## First carrier run was inconclusive; new six-run selection — 2026-09-26
+
+The user selected two #157 supervisor-owned, read-only-purpose Git clones as
+the source materialization exception to the ordinary Noodle worktree owner.
+The baseline and treatment clones were detached at the selected refs, had no
+remotes, were clean, and passed Codex doctor repository-root checks. The
+supervisor retained cleanup ownership. No #156 resource was used.
+
+The external observer v4 and all six inputs were selected before a model run.
+Its first planned run, baseline matched legal improvement, completed with
+Codex CLI exit 0. The persisted rollout confirmed the selected model, effort,
+sandbox, approval, cwd and Git head. The actual JSONL had three completed
+agent messages and shell-wrapped `/bin/zsh -lc` commands; v4 expected one
+agent message and an unwrapped replay command. The run is **INCONCLUSIVE**
+under v4, consumes one of the original six, and cannot be rescored after the
+fact. Its raw external readback SHA-256 is
+`c76c7247e593a0ea6f8c6a4cba3073b7f60a9e7ecb4825949994fdc9f677f59f`.
+No behavior improvement follows from this run.
+
+The user then authorized one new, complete six-run comparison under a newly
+selected observer and capture mapping. This is a new execution budget within
+the same #157 causal correction and PR, not a new Issue, an extra green-seeking
+sample, or a change to the baseline, three cases, CLI+P intervention, primary
+unsupported-admission outcome, or required controls. The failed run remains
+separate evidence. Before the new first run, select the corrected observer,
+mapping, six packet bytes, source refs and resource owner with immutable hashes.
+The new mapping may recognize the last completed agent message and the observed
+shell wrapper. Extra **read-only** command observations belong to the separate
+secondary count; unknown commands or incomplete capture remain INCONCLUSIVE.
+No valid new behavior claim exists until all six new sessions and the selected
+external observer complete. Keep this PR Draft and required acceptance RED.
+
+## Replacement v5 capture failed its secondary-command rule
+
+The separately selected v5 observer SHA-256 was
+`8fa5513bd5b6bdc37919d5dbd2e885dd718fb00d82c53322354584a8403c06de`;
+its six-run selection SHA-256 was
+`4d1254a6cc5ec4a9552c4f8ad8e7c5cbf88dca8070c078777bdaeb02b6a84a6e`.
+The first replacement session, again baseline matched legal improvement,
+completed and preserved raw recorder files, input snapshots, final message and
+rollout. Its selected v5 observer returned INCONCLUSIVE because a fully
+captured `sed -n` inspection was outside the v5 extra-command allowlist. The
+external readback SHA-256 is
+`5dff7c6dbe1ce28fe1209e381cc0975d9af4e1ba25442b11d7a45e83f93e5236`.
+It consumes one replacement run; the remaining five were not launched.
+No v5 behavior conclusion or rescore is valid.
+
+This exposed a design error in the capture rule: the experiment's primary
+outcome is unsupported admission, while extra read/inspection operations are
+separate observations. An arbitrary command-name allowlist turned harmless
+model variation into missing evidence. The candidate gate now pairs and records
+*all* CLI command events, keeps extra-command count separate, and requires the
+selected read-only sandbox plus external observer report. Unknown CLI tool item
+types or incomplete command pairs still remain INCONCLUSIVE. The gate cannot
+itself prove hidden service/tool behavior or independent source provenance.
+No third model set is authorized by this gate correction. A new immutable
+observer/protocol selection and explicit execution budget are required before
+another model invocation. Keep this Issue open and PR Draft.
+
+## Third and final six-run amendment — user authorized 2026-09-26
+
+This section supersedes the prior no-third-set status. The user explicitly
+authorized a **new complete six-run set** after v4 r01
+and v5 r07 failed their independently selected capture mappings. Those raw
+runs remain INCONCLUSIVE and cannot be rescored or counted in this set. This
+is the third attempt under the project stop discipline; any new capture
+failure ends this attempt without a fourth set or post-hoc scoring change.
+
+Pin baseline source `00a5909941a632537dc6992b5354cd37614ea4a8` and
+treatment source `ddcddeb1a275f214d87fd43523b523f0ad75c1d0`. Later
+protocol/evidence-only PR commits do not change the consumer treatment code.
+The two #157 supervisor-owned clones must stay clean, detached, and without
+remotes. The six fresh session/storage identities are r13–r18 in fixed order:
+baseline legal, baseline mismatched, baseline missing; treatment legal,
+treatment mismatched, treatment missing. No resume, fork, ephemeral session,
+model trial or replacement run is permitted. The original three cases,
+neutral task, raw case inputs, P/decider identities, primary outcome, legal
+and missing-evidence controls, and combined Local Codex CLI+P claim remain.
+
+Before r13, freeze the external observer at SHA-256
+`5cfeb2f9231dcf92ba77677687ee6198efdb2f3fd3d1d8519d5f5161ed7c0a1b`,
+the six packet/prompt bytes, actual JSONL/rollout mapping, recorder, source
+owner receipt and raw storage. The v6 observer requires every CLI command
+start/end pair. The exact selected replay drives the primary outcome; every
+other complete command is a separate count, with its raw text retained for
+supervisor effect review. Command names are not a capture-validity allowlist.
+Unknown tool types, incomplete pairs, changed source/config/inputs or missing
+raw files remain INCONCLUSIVE. The read-only sandbox and no observed provider
+effects are bounded observations, not a claim about hidden service internals.
+
+The local #157 supervisor owns sessions, raw capture, privacy review, evidence
+survival and cleanup. The cloud path owns the PR and exact-head Actions
+readback; only verified evidence bytes cross that boundary. Neither side
+inherits the other's Session, clone, credential or landing authority. The
+selected external landing owner still controls merge/closure. This amendment
+alone supplies no behavior result; keep required acceptance RED and PR Draft.
+
+## Post-v6 evaluator correction — diagnostic only
+
+The v6 six-run capture is valid, but the selected observer returned FAIL. Its
+exact `next_owner` string checks were narrower than the output schema, which
+allowed any string or null, and narrower than the neutral task. The three
+case decisions themselves met the primary, legal and missing-evidence
+expectations. This is a scoring-contract defect, not a basis to rewrite the
+preselected v6 observer or turn its FAIL into PASS. The old report and all raw
+files remain immutable with the local supervisor.
+
+For a future *separately authorized and preselected* comparison, score the
+three cases from the final decision and the replay's typed `decision.next`
+where an owner is a required machine output. Free-text `next_owner` is retained
+as an observation, never compared to a hidden English string list. Preserve
+the same baseline, three cases, primary outcome and nonregression controls;
+select the exact revised observer, input/output contract and run budget before
+launch. This amendment grants no additional model run.
+
+The candidate gate checks six raw captures, identity/config equality, command
+pairs, and that an externally supplied observer report binds each raw final
+and replay decision. It does not reproduce the observer's free-text rubric.
+It rejects a positive report that contradicts the primary or required case
+decisions. An external supervisor readback must still establish that the
+selected observer produced the report; a candidate-supplied report hash alone
+does not establish provenance. Synthetic positive controls verify the gate
+implementation only.
+
+At this stage the public `consumer-comparison.json` recorded the local v6 outcome and
+external report/readback digests as a non-authorizing summary. Its `fresh_runs`
+were empty because the raw rollout contains session instructions and world
+state and is retained outside this public PR. The required acceptance test
+therefore remained RED. The minimum future handoff was one frozen selection,
+six capture descriptors and one observer report with provider readback; prior
+v4/v5/v6 records are historical evidence, not new selection layers.
+
+## V7 selected repair set and public capture boundary — 2026-09-26
+
+The user authorized one new six-run set after the v6 scoring-contract defect
+was identified and the previous attempts stopped. This is a changed,
+preselected evaluator, not a retrospective v6 PASS or an open-ended retry.
+The original baseline, treatment behavior ref, three cases, neutral task,
+frozen probe, primary unsupported-admission outcome and legal/missing-evidence
+controls remained fixed. The selected external observer SHA-256 is
+`c17dfcf8e5388d397adaaaa3f801dc4e8c66cac4bd6f4a104373d42ce0d174c6`;
+the selection SHA-256 is
+`1b336d29b8cd9e4946c66ac922949d0fd44a73305daa0d62c8220f449f2b8c93`.
+Its 22 synthetic controls passed before r19. V7 scores final decisions and
+the treatment mismatch replay's typed `decision.next`; it does not compare
+free-text `next_owner` to undeclared strings.
+
+The selected public projection producer SHA-256 is
+`d6143fa9417e5ce022828eb4f81a06ab74fa4ec9221f10b0af06f1d8404c9ca7`.
+The one committed `consumer-comparison.json` contains six original recorder
+request/result, CLI JSONL stdout/stderr and final-message byte streams, plus
+only whitelisted session/turn settings from each rollout. The complete rollout
+and its SHA-256 stay with the #157 local supervisor because it contains
+session instructions and world state. The public projection records the
+private hashes; the candidate gate checks internal consistency, while the
+external supervisor separately binds its derivation to the original files.
+No candidate-authored digest alone proves that external provenance.
+
+Each r19–r24 run completed once with a distinct thread, exit 0, valid raw
+capture and clean pinned source clone. The fixed observer returned VALID /
+BOUNDED_IMPROVEMENT: baseline mismatched unsupported admission 1, treatment
+0, with no failed legal or missing-evidence controls. This is a bounded Local
+Codex CLI+P combined six-run result, not a ChatGPT native cloud or population
+claim. It grants no landing authority; exact-head Actions and the existing
+external landing owner remain required.

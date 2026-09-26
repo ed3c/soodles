@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 157
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "baseline_sha256": "7cbbcbd8a8e00c725afa709a380c77f680bd500928fca91ffbf3050a6dcc8eeb",
+      "treatment_sha256": "79204d7a1bad1a5e521d02a422edd891ffd52e4126044fd86a0ab2819b2f86a8"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/scripts/decide_pclass.py",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "c6276e43fc43db4ba2d06b71903aef942fc48873772a8e47a66cdce6f7d027cf"
+    },
+    {
+      "path": "tests/test_pclass_case_exposure.py",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "dc06f1854791e2dd6a511be0ff09888fae9667544327d01199df8a75de3cfc13"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/probe.py",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "ebae7abe11fa4ccf009de1e75537fa0148e8b0945febd2c77b6d26eacf069581"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/protocol.md",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "132818a281115f5d6721274435783b81c226dd25f94188489de34564e17a63a1"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/baseline.json",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "9df89e179297842b18925ea3d34e9cf2a8d1276032a69ad9ca9377bec6a0658f"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/treatment.json",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "946d820553fa04d1a3c9bc7230de81eb471e3534b7339822fd70f7ce1fbe2c8f"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/consumer-comparison.json",
+      "role": "bounded_local_codex_public_capture_projection",
+      "sha256": "97a0d80a010bb67b31f377d3854435bd71a325b12f7547b19ff36d738af5f673"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/results.md",
+      "role": "bounded_case_exposure_evidence",
+      "sha256": "c8d31d0deb0d61814b1a6fa732293fdd7b60c5120315f6ac1b62c08974872f71"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/consumer_gate.py",
+      "role": "bounded_local_codex_raw_capture_candidate_gate",
+      "sha256": "2ff780fd6a8276ed3524bda703143a0fa78f0ab26de945de75632c1049d99fc4"
+    },
+    {
+      "path": "tests/test_consumer_gate_positive.py",
+      "role": "synthetic_positive_negative_candidate_gate_controls",
+      "sha256": "8ee67ad466a8924c930f00bdc756b727b2dda4f99662c2d96744fc72506ed971"
+    }
+  ],
+  "owner": {
+    "name": "Soodles cloud P-class replay/decision comparison boundary",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#157"
+  },
+  "authorizes_landing": false
+}

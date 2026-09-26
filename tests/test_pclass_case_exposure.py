@@ -1,0 +1,305 @@
+"""Case-exposure controls. Fixture traces are not fresh Agent observations."""
+import copy
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import unittest
+
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS = ROOT / ".agents/skills/verify-soodles/scripts"
+DECIDER = SCRIPTS / "decide_pclass.py"
+REPLAYER = SCRIPTS / "replay_pclass.py"
+OBSERVER = SCRIPTS / "observe_pclass.py"
+PROBE = ROOT / "docs/experiments/pclass-case-exposure/probe.py"
+spec = importlib.util.spec_from_file_location("case_exposure_probe", PROBE)
+probe = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(probe)
+
+
+def fixture_run(arm, index, case):
+    """Synthetic state projections for the real replayer and observer controls."""
+    run_id = f"{arm}-{index}"
+    initial = {"next": {"operation": "advance"}}
+    if case == "recovery":
+        events = [{"owner": "landing.advance", "status": "refused",
+                   "invalid": {"field": "merge_commit"},
+                   "next": {"operation": "advance"}}]
+        completion = {"owner": "landing.advance", "phase": "close_pending",
+                      "action": "dispatch", "next": {"operation": "dispatch"}}
+    else:
+        events = []
+        completion = {"owner": "landing.advance", "action": "readback",
+                      "next": {"operation": "dispatch"}}
+    events.append(completion)
+    instruction = {"path": "/fixture/AGENTS.md", "bytes": 0,
+                   "sha256": hashlib.sha256(b"").hexdigest()}
+    packet = {"run_id": run_id, "case": case, "instruction": instruction,
+              "initial_owner_projection": initial,
+              "expected_owner_projection_sha256": probe.fingerprint(initial),
+              "connector_transport_authorized": False, "transport_events": []}
+    if arm == "baseline":
+        events.append({"owner": "landing.dispatch", "next": None,
+                       "request": {"fixture": "not executed"}})
+    else:
+        packet.update(completion_owner_projection=completion,
+                      expected_completion_owner_projection_sha256=probe.fingerprint(completion),
+                      stop_when_completion_projection_observed=True)
+    return {"run_id": run_id, "arm": arm, "packet": packet,
+            "precondition": {"run_id": run_id, "case": case,
+                "initial_owner_projection": initial,
+                "initial_owner_projection_sha256": probe.fingerprint(initial),
+                "completion_owner_projection": completion,
+                "completion_owner_projection_sha256": probe.fingerprint(completion),
+                "provider_transport_observed": False, "transport_events": []},
+            "owner_events": events, "instruction_observations": [instruction],
+            "consumer": {"run_id": run_id, "authorizes_landing": False},
+            "remaining_disposable_paths": []}
+
+
+def replay_fixture(baseline_cases, treatment_cases):
+    runs = [fixture_run(arm, i, case)
+            for arm, cases in (("baseline", baseline_cases), ("treatment", treatment_cases))
+            for i, case in enumerate(cases)]
+    gates = {"schema": 1, "experiment_id": "case-exposure-cli-fixture",
+             "causal_delta": {"classification": "PASS"},
+             "independent_audit": {"classification": "PASS"},
+             "telemetry": {"scope": "synthetic_fixture_not_agent_evidence"}}
+    manifest = {"schema": 2, "experiment_id": gates["experiment_id"],
+        "admission_target": "improvement", "primary_barrier": "post_completion_owner_request",
+        "runs_per_arm": len(baseline_cases), "gates_sha256": probe.fingerprint(gates),
+        "required_controls": ["legal_completion"],
+        "control_specs": [{"name": "legal_completion", "source_run_id": "treatment-0",
+            "mutation": "none", "expected_hard_gate": "PASS", "expected_errors": [],
+            "expected_barrier": 0}],
+        "runs": [{"run_id": r["run_id"], "arm": r["arm"], "case": r["packet"]["case"],
+                  "evidence_sha256": probe.fingerprint(r)} for r in runs]}
+    for name, path in (("observer", OBSERVER), ("normalizer", REPLAYER), ("decider", DECIDER)):
+        manifest[name + "_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return {"runs": runs}, gates, manifest
+
+
+INPUT_NEXT = {"kind": "input", "owner": "supervisor",
+              "required": ["matched_case_exposure"]}
+
+
+class TypedNextTests(unittest.TestCase):
+    def test_refusal_next_is_scoped_and_non_executable(self):
+        result = probe.run(DECIDER)
+        for row in result["cases"]:
+            receipt = row["receipt"]
+            with self.subTest(case=row["case"]):
+                if "manifest_case_exposure_mismatch" in receipt["hard_gate_errors"]:
+                    self.assertEqual(receipt["decision"], "REJECT")
+                    self.assertEqual(receipt.get("next"), INPUT_NEXT)
+                else:
+                    # Preserve the existing output for admissions and unrelated failures.
+                    self.assertNotIn("next", receipt)
+                self.assertEqual(receipt["schema"], 2)
+                self.assertFalse(receipt["authorizes_landing"])
+                self.assertNotIn("request", receipt)
+
+    def test_mixed_failures_and_inputs_are_preserved(self):
+        specification, packet = probe.inputs(
+            "different_case_counts", ["pending", "recovery", "recovery"],
+            ["pending", "pending", "recovery"], "improvement")
+        packet["treatment"][0]["barriers"] = {}
+        packet["next"] = {"kind": "command", "owner": "caller", "argv": ["ignored"]}
+        before = copy.deepcopy((specification, packet))
+        module_spec = importlib.util.spec_from_file_location("typed_next_subject", DECIDER)
+        subject = importlib.util.module_from_spec(module_spec)
+        module_spec.loader.exec_module(subject)
+        result = subject.evaluate(packet, specification, probe.fingerprint(specification))
+        self.assertEqual(result["decision"], "REJECT")
+        self.assertEqual(result.get("next"), INPUT_NEXT)
+        self.assertIn("manifest_case_exposure_mismatch", result["hard_gate_errors"])
+        self.assertIn("missing_treatment_0_primary_barrier", result["hard_gate_errors"])
+        self.assertEqual((specification, packet), before)
+        self.assertFalse(result["authorizes_landing"])
+        self.assertNotIn("argv", result["next"])
+        self.assertNotIn("request", result)
+
+    def test_mutating_a_receipt_cannot_change_the_next_refusal(self):
+        specification, packet = probe.inputs(
+            "different_case_sets", ["recovery"] * 3, ["pending"] * 3, "improvement")
+        module_spec = importlib.util.spec_from_file_location("typed_next_repeat", DECIDER)
+        subject = importlib.util.module_from_spec(module_spec)
+        module_spec.loader.exec_module(subject)
+        result = subject.evaluate(packet, specification, probe.fingerprint(specification))
+        self.assertEqual(result.get("next"), INPUT_NEXT)
+        result["next"]["required"].append("caller_mutation")
+        # Pure synthetic invocations, not authorization to retry a production comparison.
+        repeated = subject.evaluate(packet, specification, probe.fingerprint(specification))
+        self.assertEqual(repeated["next"], INPUT_NEXT)
+        self.assertEqual(repeated["decision"], "REJECT")
+
+
+class CaseExposureTests(unittest.TestCase):
+    def test_frozen_nine_case_probe(self):
+        result = probe.run(DECIDER)
+        self.assertEqual(result["probe_sha256"],
+                         "ebae7abe11fa4ccf009de1e75537fa0148e8b0945febd2c77b6d26eacf069581")
+        self.assertEqual(result["passed"], result["total"],
+                         [(r["case"], r["observed"]) for r in result["cases"] if not r["pass"]])
+        for row in result["cases"]:
+            if row["case"] in {"different_case_sets", "different_case_counts", "unmatched_nonregression"}:
+                self.assertIn("manifest_case_exposure_mismatch", row["receipt"]["hard_gate_errors"])
+
+    def test_real_public_replay_entry(self):
+        baseline = ["pending", "recovery", "recovery"]
+        for treatment, expected in ((["recovery", "pending", "recovery"], "ADMIT_IMPROVEMENT"),
+                                    (["pending", "pending", "recovery"], "REJECT")):
+            with self.subTest(treatment=treatment), tempfile.TemporaryDirectory() as directory:
+                raw, gates, manifest = replay_fixture(baseline, treatment)
+                paths = [Path(directory) / name for name in ("raw.json", "gates.json", "manifest.json")]
+                for path, value in zip(paths, (raw, gates, manifest)):
+                    path.write_text(json.dumps(value))
+                process = subprocess.run(
+                    [sys.executable, "-B", str(REPLAYER), *map(str, paths),
+                     probe.fingerprint(manifest), str(OBSERVER), str(DECIDER)],
+                    capture_output=True, text=True, timeout=30, check=False)
+                receipt = json.loads(process.stdout)
+                self.assertEqual(receipt["decision"]["decision"], expected, receipt)
+                self.assertEqual(process.returncode, 0 if expected.startswith("ADMIT_") else 1)
+                self.assertFalse(receipt["authorizes_landing"])
+                # The existing replay envelope carries the decider result unchanged.
+                self.assertNotIn("next", receipt)
+                if expected == "REJECT":
+                    self.assertEqual(receipt["decision"].get("next"), INPUT_NEXT)
+                else:
+                    self.assertNotIn("next", receipt["decision"])
+                # Both cases must first pass the existing trace-level discriminator.
+                self.assertTrue(all(r["hard_gate"] == "PASS"
+                                    for arm in ("baseline", "treatment") for r in receipt[arm]))
+                if expected == "REJECT":
+                    self.assertIn("manifest_case_exposure_mismatch",
+                                  receipt["decision"]["hard_gate_errors"])
+
+
+EXPERIMENT = ROOT / "docs/experiments/pclass-case-exposure"
+CONSUMER_GATE = EXPERIMENT / "consumer_gate.py"
+
+
+def load_consumer_gate():
+    gate_spec = importlib.util.spec_from_file_location("consumer_readiness_gate", CONSUMER_GATE)
+    gate = importlib.util.module_from_spec(gate_spec)
+    gate_spec.loader.exec_module(gate)
+    return gate
+
+
+class ConsumerReadinessControls(unittest.TestCase):
+    """These passing controls demonstrate a veto, never consumer success."""
+    def setUp(self):
+        self.gate = load_consumer_gate()
+        self.blocked = {"schema": 1, "issue": {"repository": "ed3c/soodles", "number": 157},
+                        "status": "BLOCKED", "fresh_runs": [], "authorizes_landing": False}
+
+    def assert_veto(self, receipt):
+        self.assertIs(receipt["terminal_ready"], False)
+        self.assertIsNone(receipt["behavior"])
+        self.assertIs(receipt["authorizes_landing"], False)
+        self.assertEqual(receipt["next"]["kind"], "input")
+        self.assertEqual(receipt["next"]["owner"], "supervisor")
+        self.assertNotIn("argv", receipt["next"])
+        self.assertNotIn("request", receipt)
+
+    def test_status_projection_is_not_zero_or_success(self):
+        before = copy.deepcopy(self.blocked)
+        receipt = self.gate.inspect_comparison(self.blocked)
+        self.assert_veto(receipt)
+        self.assertEqual(receipt["evidence_validity"], "INCONCLUSIVE")
+        self.assertEqual(receipt["problem"]["field"], "fresh_runs")
+        self.assertEqual(self.blocked, before)
+
+    def test_self_labelled_completion_cannot_manufacture_raw_evidence(self):
+        for runs in ([], [{}] * 5, [{}] * 6):
+            value = {**self.blocked, "status": "COMPLETED", "classification": "PASS",
+                     "fresh_runs": runs, "baseline_barrier": 1, "treatment_barrier": 0,
+                     "independent_agent_telemetry": {"fresh_context": True, "pass": True}}
+            with self.subTest(runs=len(runs)):
+                receipt = self.gate.inspect_comparison(value)
+                self.assert_veto(receipt)
+                self.assertEqual(receipt["evidence_validity"],
+                                 "INCONCLUSIVE" if not runs else "INVALID")
+        self.assertEqual(receipt["next"]["required"],
+                         ["supervisor_selected_capture_validator"])
+
+    def test_invalid_identity_schema_and_authority_are_rejected(self):
+        for patch in ({"issue": {"repository": "other/repo", "number": 157}},
+                      {"issue": {"repository": "ed3c/soodles", "number": True}},
+                      {"schema": True}, {"authorizes_landing": True}):
+            receipt = self.gate.inspect_comparison({**self.blocked, **patch})
+            self.assert_veto(receipt)
+            self.assertEqual(receipt["evidence_validity"], "INVALID")
+        for value in (None, [], "PASS", {"schema": 99}):
+            self.assert_veto(self.gate.inspect_comparison(value))
+
+    def test_missing_null_and_partial_runs_do_not_become_zero(self):
+        for runs in (None, {}, 0, [None] * 6, [{}]):
+            with self.subTest(runs=runs):
+                self.assert_veto(self.gate.inspect_comparison({**self.blocked, "fresh_runs": runs}))
+        value = {**self.blocked, "fresh_runs": [{}] * 6, "status": "COMPLETED"}
+        result = self.gate.inspect_comparison(value)
+        self.assertEqual(result["problem"]["field"], "schema")
+        self.assertEqual(result["evidence_validity"], "INVALID")
+
+    def test_file_binding_json_and_paths_fail_closed_without_writes(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "comparison.json"
+            data = json.dumps(self.blocked).encode()
+            digest = hashlib.sha256(data).hexdigest()
+            self.assert_veto(self.gate.inspect_file(path, digest))
+            path.write_bytes(data)
+            self.assert_veto(self.gate.inspect_file(path, digest))
+            self.assertEqual(self.gate.inspect_file(path, "f" * 64)["problem"]["field"], "sha256")
+            self.assertEqual(path.read_bytes(), data)
+            link = Path(folder) / "link"
+            link.symlink_to(path)
+            self.assertEqual(self.gate.inspect_file(link, digest)["evidence_validity"], "INVALID")
+            self.assertEqual(self.gate.inspect_file(Path(folder), digest)["evidence_validity"], "INVALID")
+            for invalid in (b'{"schema":1,"schema":1}', b'{', b'\xff', b'{"x":NaN}',
+                            b'x' * (self.gate.MAX_BYTES + 1)):
+                path.write_bytes(invalid)
+                receipt = self.gate.inspect_file(path, hashlib.sha256(invalid).hexdigest())
+                self.assert_veto(receipt)
+                self.assertEqual(receipt["evidence_validity"], "INVALID")
+
+    def test_readonly_cli_returns_typed_block_without_traceback(self):
+        with tempfile.TemporaryDirectory() as folder:
+            artifact = Path(folder) / "blocked.json"
+            original = json.dumps(self.blocked).encode()
+            artifact.write_bytes(original)
+            digest = hashlib.sha256(original).hexdigest()
+            for args, code in (([str(artifact), digest], 1), ([], 2),
+                               ([str(artifact), "not-a-digest"], 2)):
+                process = subprocess.run([sys.executable, "-B", str(CONSUMER_GATE), *args],
+                                         capture_output=True, text=True, timeout=10, check=False)
+                self.assertEqual(process.returncode, code, process.stderr)
+                self.assertEqual(process.stderr, "")
+                self.assert_veto(json.loads(process.stdout))
+            self.assertEqual(artifact.read_bytes(), original)
+
+    def test_returned_descriptors_are_independent(self):
+        first = self.gate.inspect_comparison(self.blocked)
+        first["next"]["required"].append("caller_mutation")
+        second = self.gate.inspect_comparison(self.blocked)
+        self.assertEqual(second["next"]["required"], ["selected_consumer_evidence"])
+
+
+class RequiredConsumerEvidenceTests(unittest.TestCase):
+    def test_required_fresh_consumer_evidence_is_ready(self):
+        # A real acceptance requirement, NOT a planted-negative control.
+        # No skip/expectedFailure: the committed evidence must pass its real gate.
+        manifest = json.loads((EXPERIMENT / "manifest.json").read_text())
+        relative = "docs/experiments/pclass-case-exposure/consumer-comparison.json"
+        entries = [a for a in manifest["artifacts"] if a["path"] == relative]
+        self.assertEqual(len(entries), 1, "required consumer artifact binding is ambiguous")
+        receipt = load_consumer_gate().inspect_file(ROOT / relative, entries[0]["sha256"])
+        self.assertTrue(receipt["terminal_ready"], json.dumps(receipt, sort_keys=True))
+
+
+if __name__ == "__main__":
+    unittest.main()
