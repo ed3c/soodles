@@ -420,6 +420,24 @@ class SupervisorAdmissionTests(unittest.TestCase):
         self.assertTrue(treatment["dirty_sentinel_excluded"])
         self.assertFalse(treatment["authorizes_landing"])
 
+    def test_pinned_once_entry_accepts_only_exact_bootstrap_argv(self):
+        fixture = SupervisorFixture()
+        self.addCleanup(fixture.close)
+        output, prepared = fixture.prepare("once-entry")
+        self.assertEqual(prepared["bootstrap"]["argv"], [prepared["start"], "--once"])
+        env = {**os.environ, TOKEN_COMMAND_ENV: fixture.token_command,
+               "FIXTURE_CHILD_STARTED": str(fixture.child_marker)}
+        accepted = subprocess.run(prepared["bootstrap"]["argv"], cwd=fixture.root,
+                                  env=env, capture_output=True, text=True, timeout=30)
+        self.assertEqual(accepted.returncode, 0, accepted.stderr)
+        self.assertTrue(fixture.child_marker.exists())
+        fixture.child_marker.unlink()
+        rejected = subprocess.run([str(output / "start-noodle"), "--once", "--repeat"],
+                                  cwd=fixture.root, env=env,
+                                  capture_output=True, text=True, timeout=30)
+        self.assertEqual(rejected.returncode, 64)
+        self.assertFalse(fixture.child_marker.exists())
+
     def test_supplier_integrity_and_overwrite_controls_refuse_before_effects(self):
         observed = observe_sensitivity()
         self.assertEqual(

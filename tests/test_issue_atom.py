@@ -304,6 +304,94 @@ class IssueAtomTests(unittest.TestCase):
                 atom.ensure_noodle(self.authorization, paths, state, {"action": "proposal_pending"}, self.env)
         self.assertEqual(start.call_count, 1)
 
+    def test_fresh_root_bootstraps_with_pinned_noodle_before_admission(self):
+        from unittest.mock import Mock
+        provider = Provider()
+        self.ready_issue(provider)
+        real_run = subprocess.run
+        real_popen = subprocess.Popen
+        bootstrap_calls = []
+
+        def run(argv, **kwargs):
+            if isinstance(argv, list) and argv[-1:] == ["--once"]:
+                bootstrap_calls.append(argv)
+                state = atom.read_json(atom.artifact_paths(self.path)["state"], "state")
+                self.assertEqual(state["noodle_bootstrap"]["status"], "offered")
+                self.assertEqual(kwargs["cwd"], self.root)
+                atom.save_json(self.root / ".noodle/state.snapshot.json",
+                               {"state": {"orders": {}}, "effect_ledger": []})
+                return Result(0)
+            return real_run(argv, **kwargs)
+
+        def popen(argv, *args, **kwargs):
+            if isinstance(argv, list) and len(argv) == 1 and Path(argv[0]).name == "start-noodle":
+                return Mock(pid=987654)
+            return real_popen(argv, *args, **kwargs)
+
+        with patch.object(atom.subprocess, "run", side_effect=run), \
+                patch.object(atom.subprocess, "Popen", side_effect=popen):
+            result = atom.run(self.path, environ=self.env, provider=provider)
+        self.assertEqual(result["waiting_on"], "Noodle")
+        self.assertEqual(len(bootstrap_calls), 1)
+        self.assertEqual(bootstrap_calls[0][-1], "--once")
+        self.assertEqual(provider.create_calls, 0)
+        state = atom.read_json(atom.artifact_paths(self.path)["state"], "state")
+        self.assertEqual(state["noodle_bootstrap"]["status"], "complete")
+        self.assertEqual(state["noodle_start"]["status"], "started")
+
+    def test_unknown_bootstrap_never_replays_and_preserves_owner_input(self):
+        provider = Provider()
+        self.ready_issue(provider)
+        paths, state = self.startup_fixture()
+        (self.root / ".noodle/state.snapshot.json").unlink()
+        (self.root / ".noodle/issue-atom.lock").touch()
+        calls = []
+        real_run = subprocess.run
+
+        def run(argv, **kwargs):
+            if isinstance(argv, list) and argv[-1:] == ["--once"]:
+                calls.append(argv)
+                atom.save_json(self.root / ".noodle/state.snapshot.json",
+                               {"state": {"orders": {}}, "effect_ledger": []})
+                raise subprocess.TimeoutExpired(argv, 120)
+            return real_run(argv, **kwargs)
+
+        with patch.object(atom.subprocess, "run", side_effect=run):
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.bootstrap.outcome"):
+                atom.bootstrap_noodle(self.authorization, paths, state, self.env)
+            saved = atom.read_json(paths["state"], "state")
+            self.assertEqual(saved["noodle_bootstrap"]["status"], "offered")
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.bootstrap.outcome"):
+                atom.bootstrap_noodle(self.authorization, paths, saved, self.env)
+        self.assertEqual(len(calls), 1)
+        self.assertTrue((self.root / ".noodle/state.snapshot.json").exists())
+
+    def test_partial_runtime_refuses_bootstrap_before_noodle_start(self):
+        paths, state = self.startup_fixture()
+        (self.root / ".noodle/state.snapshot.json").unlink()
+        (self.root / ".noodle/issue-atom.lock").touch()
+        (self.root / ".noodle/foreign-owner").touch()
+        with patch.object(atom.subprocess, "run") as run:
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.bootstrap.runtime"):
+                atom.bootstrap_noodle(self.authorization, paths, state, self.env)
+        run.assert_not_called()
+
+    def test_completed_bootstrap_config_restore_is_idempotent(self):
+        paths, state = self.startup_fixture()
+        prepared = atom.read_json(paths["envelope"].parent / "prepared.json", "prepared")
+        (self.root / ".noodle/noodle.lock").touch()
+        state["noodle_bootstrap"] = {
+            "status": "exited_zero", "argv": prepared["bootstrap"]["argv"],
+            "config_sha256": atom.digest_file(paths["envelope"].parent / "noodle.toml"),
+            "original_config": None, "returncode": 0,
+        }
+        atom.save_json(paths["state"], state)
+        with patch.object(atom.subprocess, "run") as run:
+            atom.bootstrap_noodle(self.authorization, paths, state, self.env)
+        self.assertEqual(state["noodle_bootstrap"]["status"], "complete")
+        self.assertFalse((self.root / ".noodle.toml").exists())
+        run.assert_not_called()
+
     def test_lost_start_response_cannot_spawn_again(self):
         paths, state = self.startup_fixture()
         from unittest.mock import Mock
