@@ -16,6 +16,14 @@ changed selected input, missing case, stale evidence destination and unsafe
 output root refuse before materialization. Focused local controls passed 10/10
 on macOS. These are deterministic L-class results, not behavioral improvement.
 
+The first published integration head `bccc36e43d2dc29aa1771d1b86d15b3827916baa`
+failed runtime candidate verification before acceptance: the manifest still
+pinned the instruction baseline SHA-256 from the old base. The current main
+instruction bytes have SHA-256
+`a7414971e64640d6fd6ff948ed6331093d9dc741b705d3b274aba4c8bacf6a4f`.
+The manifest now binds that actual base; the failed head is preserved and must
+not be rerun.
+
 The P-class claim remains pending until fresh baseline and treatment consumers
 reach the boundary before run 1 with actual command/read/clarification capture.
 The fixed observer must report `avoidable_dependency_reconstruction`; missing
