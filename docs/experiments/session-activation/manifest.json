@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 159
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "1e681105b46acf8e349e256d718e22bee692e6bfcb4eb6bd97b72ff42280f075",
+      "treatment_sha256": "79835027451dbe2d47421da9cafa1ccf14e8aa8ca4a652faed570aad192e19a6"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/session-activation/host-bootstrap.md",
+      "role": "observed_project_host_bootstrap",
+      "sha256": "be8a5a3d936930788dc7bde4ca01005472aaf78db8bbd6ab56dabe65e3059d2f"
+    },
+    {
+      "path": "docs/experiments/session-activation/protocol.md",
+      "role": "revised_scoped_host_acceptance",
+      "sha256": "242c20058717218a666d1fa5b200b27356af040cf05317f99a55c98546dfe5ba"
+    },
+    {
+      "path": "docs/experiments/session-activation/status.json",
+      "role": "scoped_host_acceptance_status",
+      "sha256": "4e1932d671bcd2a99fb3a50066df063a0434ce90115bcd4bad66fa7dce99f9e9"
+    }
+  ],
+  "owner": {
+    "name": "Soodles cloud Session-entry scoped acceptance",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#159"
+  },
+  "authorizes_landing": false
+}

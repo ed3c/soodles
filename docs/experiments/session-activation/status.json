@@ -1,0 +1,41 @@
+{
+  "schema": 2,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 159
+  },
+  "stage": "SCOPED_HOST_ACCEPTED_PENDING_PROVIDER_DELIVERY",
+  "host_bootstrap": "OBSERVED_INSTALLED_IN_SOODLES_PROJECT",
+  "qualified_host_entry": "ChatGPT Soodles Project Instructions",
+  "cli_integration": "OUT_OF_SCOPE_REVISED_CLAIM_NO_EXISTING_HOST_CALLER",
+  "baseline_ref": "00a5909941a632537dc6992b5354cd37614ea4a8",
+  "fresh_baseline": "NOT_CLAIMED",
+  "fresh_treatment": "NOT_CLAIMED",
+  "fresh_runs": [
+    {
+      "kind": "new_session_provider_state_smoke",
+      "counted": false,
+      "result": "route_scope_preserved"
+    },
+    {
+      "kind": "bidirectional_carrier_routing_smoke",
+      "counted": false,
+      "result": "ready_route_not_blocked_by_other_route"
+    },
+    {
+      "kind": "native_work_child_pilot",
+      "counted": false,
+      "result": "spawn_completed_raw_child_events_unavailable"
+    }
+  ],
+  "behavior": {
+    "classification": "SCOPED_NONCAUSAL_OBSERVATION",
+    "claim": "selected carrier preserved; capability gaps stay operation-local; new Sessions refresh capability facts"
+  },
+  "independent_telemetry": "RAW_CHILD_EVENT_STREAM_UNAVAILABLE_NOT_REQUIRED_BY_REVISED_CLAIM",
+  "current_session_native_subagent": "NOT_EXPOSED_SESSION_LOCAL",
+  "new_session_activation": "OBSERVED_NONCAUSAL",
+  "terminal_candidate_ready": true,
+  "authorizes_landing": false,
+  "next_required_observation": "Exact-head GitHub Actions acceptance, then provider merge/Issue closure/main readback."
+}
