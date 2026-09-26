@@ -439,7 +439,13 @@ def bootstrap_noodle(authorization, paths, state, environ):
         require(argv == [prepared["start"], "--once"]
                 and digest_file(prepared["start"]) == prepared["start_sha256"],
                 "noodle.bootstrap.identity", argv, "unchanged_supervisor_start")
-        generated = (paths["envelope"].parent / "noodle.toml").read_bytes()
+        bootstrap_config = paths["envelope"].parent / "bootstrap-noodle.toml"
+        descriptor = prepared["bootstrap"]
+        require(descriptor.get("config") == str(bootstrap_config)
+                and descriptor.get("config_sha256") == digest_file(bootstrap_config),
+                "noodle.bootstrap.config", descriptor.get("config"),
+                "pinned_supervisor_bootstrap_config")
+        generated = bootstrap_config.read_bytes()
         config = root / ".noodle.toml"
         original = config.read_bytes() if config.exists() else None
         try:

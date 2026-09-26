@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "source": "Actual rejected #156 readmission on main b6d4aac3e8c40cdc0b809fd3ce832460f0b7ee4c",
+  "refusal": {
+    "field": "noodle.bootstrap.owner",
+    "value": "nonempty",
+    "owner": "Noodle"
+  },
+  "bootstrap": {
+    "status": "exited_zero",
+    "returncode": 0
+  },
+  "canonical": {
+    "orders": [
+      "schedule"
+    ],
+    "effect_ledger_count": 1,
+    "schedule_session": "schedule-20260926-052500-ae3c07"
+  },
+  "raw_sha256": {
+    "state.snapshot.json": "3e18189cd98c58b93494c089a955837c6c98f3687d3b5d47bf921dd7c74e9312",
+    "bootstrap.stderr": "e5627f1f6dd2710d0f4ed8865e47b0b03b7be749bd90f3d3ef0ce2d09627eefc"
+  },
+  "authorizes_landing": false
+}
