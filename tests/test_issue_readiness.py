@@ -6,10 +6,12 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import issue_execution
+import issue_atom
 
 
 def sha(path):
@@ -49,7 +51,9 @@ class ReadinessFixture:
         self.authorization = self.root / "authorization.json"
         self.save(self.authorization, {
             "owner": "external-supervisor", "repository": "ed3c/soodles",
-            "issue": {"number": self.issue}})
+            "issue": {"number": self.issue},
+            "control_root": str(self.root / "control"),
+            "carrier": {"platform": "fixture", "codex": {"model": "fixture"}}})
         self.handoff = self.root / "handoff.json"
         self.local = self.root / "local.json"
         self.output = self.evidence / "readiness"
@@ -137,8 +141,23 @@ class ReadinessFixture:
         })
 
     def run(self):
-        return issue_execution.readiness(
-            str(self.handoff), sha(self.handoff), str(self.local), sha(self.local))
+        def validate(path, expected_digest):
+            path = Path(path)
+            if not path.is_file():
+                raise issue_atom.AtomRefusal(
+                    "authorization.path", "FileNotFoundError",
+                    "local_execution_authorization")
+            actual = sha(path)
+            if actual != expected_digest:
+                raise issue_atom.AtomRefusal(
+                    "authorization.digest", actual, "matching_external_digest")
+            return json.loads(path.read_text()), actual
+
+        with patch("issue_atom.validate_authorization", side_effect=validate) as owner:
+            result = issue_execution.readiness(
+                str(self.handoff), sha(self.handoff), str(self.local), sha(self.local))
+        self.authorization_owner_call = owner.call_args
+        return result
 
 
 class IssueReadinessTests(unittest.TestCase):
@@ -157,6 +176,9 @@ class IssueReadinessTests(unittest.TestCase):
         self.assertEqual(len({row["run_id"] for row in result["runs"]}), 6)
         self.assertEqual(result["next"]["owner"], "supervisor")
         self.assertEqual(result["next"]["required"], ["fresh_consumer_launch"])
+        self.assertEqual(
+            self.f.authorization_owner_call.args,
+            (self.f.authorization, sha(self.f.authorization)))
         for row in result["runs"]:
             packet = json.loads(Path(row["packet"]).read_text())
             self.assertEqual(packet["replay_argv"], row["argv"])
@@ -179,8 +201,9 @@ class IssueReadinessTests(unittest.TestCase):
         self.f.authorization.unlink()
         with self.assertRaises(issue_execution.AdmissionRefusal) as caught:
             self.f.run()
-        self.assertEqual(caught.exception.next["owner"], "supervisor")
+        self.assertEqual(caught.exception.next["owner"], "external-supervisor")
         self.assertEqual(caught.exception.next["required"], ["local_execution_authorization"])
+        self.assertEqual(caught.exception.invalid["field"], "local.authorization.path")
         self.assertFalse(self.f.output.exists())
 
     def test_wrong_head_and_dirty_workdir_refuse(self):

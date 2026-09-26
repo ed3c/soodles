@@ -203,32 +203,30 @@ def _readiness_workdir(path, expected_ref, repository, arm):
 
 
 def _readiness_authorization(spec, repository, issue_number):
+    """Delegate authorization validity to the existing issue-atom owner."""
     _readiness_exact(spec, READINESS_ARTIFACT_FIELDS, "local.authorization",
                      "local_execution_authorization")
     path = Path(spec["path"])
-    require(path.is_absolute() and path.is_file() and not path.is_symlink(),
-            "local.authorization.path", str(path), owner="supervisor",
-            required="local_execution_authorization")
+    require(path.is_absolute(), "local.authorization.path", str(path),
+            owner="supervisor", required="local_execution_authorization")
     _readiness_sha(spec["sha256"], 64, "local.authorization.sha256",
                    "local_execution_authorization")
-    raw = path.read_bytes()
-    actual = hashlib.sha256(raw).hexdigest()
-    require(actual == spec["sha256"], "local.authorization.sha256", actual,
-            owner="supervisor", required="local_execution_authorization")
+    # Lazy import avoids creating a second authorization implementation here.
+    import issue_atom
     try:
-        value = json.loads(raw.decode("utf-8"), object_pairs_hook=_readiness_unique)
-    except (UnicodeError, ValueError, RecursionError) as error:
-        raise AdmissionRefusal("local.authorization", type(error).__name__,
-                               "supervisor", "local_execution_authorization") from None
-    require(isinstance(value, dict), "local.authorization", type(value).__name__,
-            owner="supervisor", required="local_execution_authorization")
+        value, actual = issue_atom.validate_authorization(path, spec["sha256"])
+    except issue_atom.AtomRefusal as error:
+        field = error.invalid["field"]
+        field = "local." + field if field.startswith("authorization.") else "local.authorization." + field
+        raise AdmissionRefusal(field, error.invalid["value"], error.owner, error.required) from None
     number = value.get("issue", {}).get("number") if isinstance(value.get("issue"), dict) else None
     require(value.get("owner") == "external-supervisor"
             and value.get("repository") == repository and number == issue_number,
             "local.authorization.identity",
             {"owner": value.get("owner"), "repository": value.get("repository"), "issue": number},
             owner="supervisor", required="issue_scoped_local_execution_authorization")
-    return {"path": str(path.resolve()), "sha256": actual}
+    return {"path": str(path.resolve()), "sha256": actual,
+            "control_root": value["control_root"], "carrier": value["carrier"]}
 
 
 def _readiness_executable(spec, field):
