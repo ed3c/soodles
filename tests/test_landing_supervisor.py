@@ -151,6 +151,7 @@ class SupervisorFixture:
                 + "\n```\n<!-- /soodles:execution-v1 -->\n")
         updated = "2026-09-21T00:00:00Z"
         worktree = "issue-122-local"
+        publication_branch = "soodles/issue-122-" + head[:12]
         envelope = {
             "schema": 1,
             "repository": self.repository,
@@ -174,7 +175,7 @@ class SupervisorFixture:
         envelope_path.write_text(json.dumps(envelope, sort_keys=True) + "\n")
         snapshot = json.loads(json.dumps(self.snapshot))
         snapshot["pr"]["head"]["sha"] = head
-        snapshot["pr"]["head"]["ref"] = worktree
+        snapshot["pr"]["head"]["ref"] = publication_branch
         snapshot["pr"]["base"]["sha"] = head
         snapshot["issue"]["url"] = (
             f"https://api.github.com/repos/{self.repository}/issues/{self.issue_number}")
@@ -184,6 +185,14 @@ class SupervisorFixture:
         snapshot["run"]["head_sha"] = head
         snapshot["jobs"]["jobs"][0]["head_sha"] = head
         snapshot["branch"]["commit"]["sha"] = head
+        native_path = self.external / "native-claim.json"
+        native_path.write_text(json.dumps({
+            "owner": "Noodle", "repository": self.repository,
+            "subject": f"{self.repository}#{self.issue_number}",
+            "head": head, "tree": tree, "base_head": head,
+            "worktree_name": worktree, "worktree_path": str(root / ".worktrees" / worktree),
+            "branch": worktree, "authorizes_landing": False,
+        }, sort_keys=True) + "\n")
         route = {
             "kind": "local",
             "control_root": str(root),
@@ -191,6 +200,7 @@ class SupervisorFixture:
                 "path": str(envelope_path),
                 "sha256": _sha(envelope_path),
             },
+            "publication_claim": {"path": str(native_path), "sha256": _sha(native_path)},
         }
         return snapshot, route
 
@@ -233,6 +243,8 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(result["route"], "local")
         claim = json.loads((output / "claim.json").read_text())
         self.assertEqual(claim["control_root"], route["control_root"])
+        self.assertEqual(claim["worktree"], "issue-122-local")
+        self.assertEqual(claim["publication_branch"], snapshot["pr"]["head"]["ref"])
         self.assertEqual(
             claim["execution_envelope"]["sha256"],
             route["execution_envelope"]["sha256"])
@@ -242,6 +254,20 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(result["landing_owner"]["next"]["kind"], "provider_readback")
         self.assertEqual(result["landing_owner"]["next"]["argv"][-2:],
                          [str(output / "checkpoint.json"), str(output / "readback.json")])
+
+    def test_local_route_rejects_missing_or_changed_native_claim(self):
+        snapshot, route = self.f.local_case()
+        bad = json.loads(json.dumps(route))
+        bad.pop("publication_claim")
+        with self.assertRaises(landing_supervisor.SupervisorRefusal):
+            self.f.prepare("no-native", snapshot=snapshot, route=bad)
+        self.assertFalse((self.f.external / "no-native").exists())
+        bad = json.loads(json.dumps(route))
+        bad["publication_claim"]["sha256"] = "f" * 64
+        with self.assertRaises(landing_supervisor.SupervisorRefusal) as caught:
+            self.f.prepare("changed-native", snapshot=snapshot, route=bad)
+        self.assertEqual(caught.exception.invalid["field"],
+                         "route.publication_claim.sha256")
 
     def test_inconsistent_owner_continuation_refuses(self):
         temporary = self.f.external / ".temporary"

@@ -12,6 +12,7 @@ import unittest
 
 ROOT = Path(os.environ.get("SOODLES_TEST_SUBJECT_ROOT", Path(__file__).resolve().parents[1])).resolve()
 EVIDENCE = ROOT / "docs/experiments/instruction-activation"
+DELIVERED_HEAD = "60fa3a84350c5f701f37976a511ac114a5a9cfc4"
 
 
 # Source-byte comparison retained separately from the closed delivery manifest schema.
@@ -42,6 +43,11 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def digest_at_ref(ref, path):
+    content = subprocess.check_output(["git", "show", ref + ":" + path], cwd=ROOT)
+    return hashlib.sha256(content).hexdigest()
+
+
 class InstructionActivationEvidenceTests(unittest.TestCase):
     def test_complete_exact_manifest_and_selected_instructions(self):
         manifest = json.loads((EVIDENCE / "manifest.json").read_text())
@@ -58,10 +64,10 @@ class InstructionActivationEvidenceTests(unittest.TestCase):
         self.assertEqual(overlay["base_head"], "3d8f6490994cefa7d092d427c5f73be12824b3fe")
         self.assertEqual(manifest["instructions"], overlay["instructions"])
         for entry in overlay["instructions"]:
-            self.assertEqual(digest(ROOT / entry["path"]), entry["treatment_sha256"])
-            baseline = subprocess.check_output(
-                ["git", "show", overlay["base_head"] + ":" + entry["path"]], cwd=ROOT)
-            self.assertEqual(hashlib.sha256(baseline).hexdigest(), entry["baseline_sha256"])
+            self.assertEqual(digest_at_ref(DELIVERED_HEAD, entry["path"]),
+                             entry["treatment_sha256"])
+            self.assertEqual(digest_at_ref(overlay["base_head"], entry["path"]),
+                             entry["baseline_sha256"])
         self.assertFalse(manifest["authorizes_landing"])
         self.assertEqual(manifest["owner"]["tool"], "issue_admission.validate_delivery_paths")
         for entry in selection["files"]:
@@ -88,7 +94,8 @@ class InstructionActivationEvidenceTests(unittest.TestCase):
                          {"issue_admission.py", "issue_atom.py", "issue_execution.py",
                           "supervisor_admission.py"})
         for entry in readmission["files"]:
-            self.assertEqual(digest(ROOT / entry["path"]), entry["candidate_sha256"])
+            self.assertEqual(digest_at_ref(DELIVERED_HEAD, entry["path"]),
+                             entry["candidate_sha256"])
             self.assertEqual(entry["unchanged"],
                              entry["historical_sha256"] == entry["candidate_sha256"])
         oracle = EVIDENCE / "frozen/oracle.py"

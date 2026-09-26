@@ -1,0 +1,55 @@
+{
+  "authorization_sha256": "4756f79f6aca6558bfec64dec7beeb98f1a11b1f3638cc86667dacf5f349b421",
+  "candidate_head": "60fa3a84350c5f701f37976a511ac114a5a9cfc4",
+  "local_activation_refusal": {
+    "cause": "historical landing-supervisor derived PR head ref as Noodle worktree; read-only prior attempt made no checkpoint",
+    "field": "claim.worktree"
+  },
+  "native_claim_sha256": "56511a0c0af50543e9000fc4daa5b64d89ae3efdf673e4371bbd7dc261f1991b",
+  "native_worktree": "soodles-156-a64ce2926c4d-0-execute",
+  "observed_at_utc": "2026-09-26T06:50:07.471249+00:00",
+  "old_landing_checkpoint_exists": false,
+  "old_owner_refusal": {
+    "exit_status": 1,
+    "receipt_sha256": "3427d0bc0da15bb509feadde3054520600582f463baafcf599d7c297fa6caa83",
+    "result": {
+      "invalid": {
+        "field": "envelope.execution.order_id",
+        "value": "soodles-156-a64ce2926c4d"
+      },
+      "next": {
+        "help_argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/comparison-delivery-gate-kdatzfb9/live/landing-owner/soodles.py",
+          "landing",
+          "start",
+          "--help"
+        ],
+        "kind": "input",
+        "known": {
+          "checkpoint": "/Users/neon/.codex/experiments/instruction-activation-az86ajr2/live/readmission-156-after-168/authorization.json.d/landing.json"
+        },
+        "operation": "start",
+        "owner": "supervisor",
+        "reason": "Preserve the original claim/checkpoint. Supervisor corrections use invalidate/readmit only for unoffered work; unknown offered writes remain readback-only. This refusal does not renew authority.",
+        "required": [
+          "execution_envelope"
+        ]
+      },
+      "owner": "landing.start",
+      "status": "refused"
+    }
+  },
+  "provider_readback": {
+    "base_head": "3d8f6490994cefa7d092d427c5f73be12824b3fe",
+    "head": "60fa3a84350c5f701f37976a511ac114a5a9cfc4",
+    "merged": false,
+    "pr": 172,
+    "state": "open"
+  },
+  "publication_branch": "soodles/issue-156-60fa3a84350c",
+  "state_phase": "ci",
+  "state_sha256": "2b231824f0713ccec74f790ebec44215ea81c878a9aa4f2b83660d2387dc0995",
+  "subject": "ed3c/soodles#156 / PR #172"
+}

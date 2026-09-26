@@ -307,6 +307,110 @@ class LandingOwner:
         return self.call("reconcile", checkpoint, binary)
 
 
+def external_landing_activation(authorization, state, paths, environ,
+                                claim, publication, run_value):
+    """Adopt one supervisor-pinned, pre-write activation without changing authorization."""
+    selected = state.get("landing_activation")
+    if selected is None:
+        manifest_path = environ.get("SOODLES_LANDING_ACTIVATION")
+        expected = environ.get("SOODLES_LANDING_ACTIVATION_SHA256")
+        if manifest_path is None and expected is None:
+            return None
+        require(isinstance(manifest_path, str) and Path(manifest_path).is_absolute()
+                and isinstance(expected, str) and SHA64.fullmatch(expected),
+                "landing_activation.input", [manifest_path, expected],
+                "pinned_external_activation")
+        refusals = sorted(paths["directory"].glob("landing-start-*.json"))
+        require(len(refusals) == 1, "landing_activation.prior_refusal", len(refusals),
+                "one_recorded_prewrite_owner_refusal")
+        selected = {"manifest": str(Path(manifest_path).resolve()), "sha256": expected,
+                    "refusal_sha256": digest_file(refusals[0])}
+    else:
+        require(environ.get("SOODLES_LANDING_ACTIVATION") in
+                (None, selected["manifest"])
+                and environ.get("SOODLES_LANDING_ACTIVATION_SHA256") in
+                (None, selected["sha256"]),
+                "landing_activation.reselection", "changed", "original_activation")
+    manifest_path = Path(selected["manifest"])
+    refusals = sorted(paths["directory"].glob("landing-start-*.json"))
+    require(len(refusals) == 1 and digest_file(refusals[0]) == selected["refusal_sha256"],
+            "landing_activation.prior_refusal", len(refusals),
+            "unchanged_prewrite_owner_refusal")
+    refusal = read_json(refusals[0], "landing_activation.prior_refusal")
+    try:
+        rejected = json.loads(refusal["stdout"])
+    except (KeyError, TypeError, ValueError) as error:
+        raise AtomRefusal("landing_activation.prior_refusal", type(error).__name__,
+                          "typed_owner_refusal") from error
+    require(refusal.get("exit_status") != 0
+            and isinstance(refusal.get("argv"), list)
+            and len(refusal["argv"]) >= 7
+            and refusal["argv"][2] == authorization["landing_owner"]["path"]
+            and refusal["argv"][3:5] == ["landing", "start"]
+            and refusal["argv"][-1] == str(paths["directory"] / "landing.json")
+            and rejected.get("owner") == "landing.start"
+            and rejected.get("status") == "refused"
+            and isinstance(rejected.get("invalid"), dict)
+            and "request" not in rejected,
+            "landing_activation.prior_refusal", rejected, "prewrite_pinned_owner_refusal")
+    root = Path(authorization["control_root"]).resolve()
+    require(not manifest_path.is_relative_to(root)
+            and not manifest_path.is_relative_to(Path(__file__).resolve().parent),
+            "landing_activation.path", str(manifest_path), "external_supervisor_package")
+    require(digest_file(manifest_path) == selected["sha256"],
+            "landing_activation.sha256", selected["sha256"], "unchanged_activation_manifest")
+    manifest = read_json(manifest_path, "landing_activation.manifest")
+    require(set(manifest) == {"schema", "publisher_root", "publisher_verifier_sha256",
+                              "route", "claim_sha256", "readback_sha256", "authorizes_landing"}
+            and manifest["schema"] == 1 and manifest["route"] == "local"
+            and manifest["authorizes_landing"] is False,
+            "landing_activation.manifest", manifest, "terminal_local_activation")
+    directory = manifest_path.parent
+    claim_path, checkpoint = directory / "claim.json", directory / "checkpoint.json"
+    require(digest_file(claim_path) == manifest["claim_sha256"]
+            and digest_file(directory / "readback.json") == manifest["readback_sha256"],
+            "landing_activation.package", str(directory), "unchanged_activation_inputs")
+    external_claim = read_json(claim_path, "landing_activation.claim")
+    expected_claim = {
+        "repository": authorization["repository"], "issue": state["issue"]["number"],
+        "pr": publication["pr"]["number"], "head": claim["head"],
+        "tree": claim["tree"], "base_head": claim["base_head"],
+        "run_id": run_value["id"], "run_attempt": run_value["run_attempt"],
+        "worktree": claim["worktree_name"], "publication_branch": publication["branch"],
+        "control_root": str(root),
+        "verifier_sha256": manifest["publisher_verifier_sha256"],
+        "execution_envelope": {"path": str(paths["envelope"]),
+                               "sha256": state["envelope_sha256"]},
+    }
+    require(external_claim == expected_claim,
+            "landing_activation.claim", external_claim, "same_terminal_candidate_and_order")
+    publisher_root = Path(manifest["publisher_root"]).resolve()
+    publisher_cli = publisher_root / "soodles.py"
+    publisher = {**authorization, "landing_owner": {
+        "path": str(publisher_cli), "sha256": digest_file(publisher_cli),
+        "verifier_sha256": manifest["publisher_verifier_sha256"],
+    }}
+    validate_landing_owner(publisher)
+    require(checkpoint.is_file(), "landing_activation.checkpoint", str(checkpoint),
+            "prewrite_landing_checkpoint")
+    checkpoint_state = read_json(checkpoint, "landing_activation.checkpoint")
+    require(checkpoint_state.get("claim") == external_claim,
+            "landing_activation.checkpoint.claim", "mismatch", "matching_activation_claim")
+    if state.get("landing_activation") is None:
+        require(state["phase"] == "ci" and not paths["landing"].exists()
+                and checkpoint_state.get("schema") == 2
+                and checkpoint_state.get("phase") == "admitted"
+                and checkpoint_state.get("writes_offered") == []
+                and checkpoint_state.get("classification") is None,
+                "landing_activation.prewrite", checkpoint_state.get("phase"),
+                "prewrite_activation_only")
+        state["landing_activation"] = selected
+        state["phase"] = "landing"
+        save_json(paths["state"], state)
+    paths["landing"] = checkpoint
+    return publisher
+
+
 class GitHubProvider(candidate_publication.GitHubProvider):
     def issues(self):
         return self.request("GET", "/issues?state=all&sort=created&direction=desc&per_page=100")
@@ -1077,6 +1181,12 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
     run_value, jobs = select_run(provider, authorization, claim["head"])
     if run_value is None or run_value.get("status") != "completed":
         return response(state, authorization_path, waiting_on="GitHub Actions")
+    if state["phase"] in {"ci", "landing", "resolved"}:
+        selected_owner = external_landing_activation(
+            authorization, state, paths, environ,
+            claim, publication, run_value)
+        if selected_owner is not None:
+            landing_owner = LandingOwner(selected_owner, paths["directory"])
     if state["phase"] == "ci":
         landing_claim = {
             "repository": authorization["repository"], "issue": issue["number"],
