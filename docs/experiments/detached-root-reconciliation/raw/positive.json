@@ -1,0 +1,22 @@
+{
+  "authorizes_landing": false,
+  "controls": [
+    "registered clean detached root at admitted base is accepted only with execution binding",
+    "real detached Git worktree fast-forwards to a provider-shaped merged commit without branch switch",
+    "missing binding and wrong detached base refuse",
+    "post-write owner resume changes only verifier and is adopted once",
+    "unknown resume outcome requires checkpoint readback without replay",
+    "changed corrected publisher bytes refuse before resume",
+    "timed-out external resume is classified unknown with no retry"
+  ],
+  "full_suite": {
+    "command": "TMPDIR=/private/tmp PYTHONPATH=.:tests python3 -m unittest discover -s tests",
+    "result": "OK",
+    "summary": [
+      "Ran 396 tests in 105.597s",
+      "",
+      "OK"
+    ]
+  },
+  "scope": "local physical controls only; #156 live post-write resume and terminal reconciliation remain external-owner gates"
+}

@@ -117,6 +117,20 @@ continuation. Later re-entry needs only the original command; a changed
 activation, offered write or unknown write refuses. Do not change the original
 authorization or construct a landing claim or checkpoint in the Agent.
 
+After confirmed merge and closure, a local reconciliation refusal may require
+a corrected external publisher. The supervisor selects independently accepted
+publisher bytes in an external descriptor with exact `path`, `sha256` and
+`verifier_sha256`, then supplies its absolute path through
+`SOODLES_LANDING_RESUME_OWNER` and its file digest through
+`SOODLES_LANDING_RESUME_OWNER_SHA256`. Re-enter the same original command.
+The entry permits this only for the original activation's confirmed post-write
+checkpoint, persists the resume intent before invoking `landing resume`, and
+changes only the verifier identity. An unknown result requires checkpoint
+readback; never replay that resume, merge or closure from a prior trace.
+For a Codex-managed detached control root, the corrected publisher must prove
+its exact Git worktree registration, clean source and admitted ancestry before
+ff-only synchronization. It does not switch the shared main checkout's branch.
+
 `status=resolved` is legal only after the landing owner reports
 `classification=RESOLVED` and local reconciliation has completed. Earlier
 receipts retain `authorizes_landing=false`.

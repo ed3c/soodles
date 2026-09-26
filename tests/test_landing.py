@@ -68,6 +68,54 @@ class LandingTests(unittest.TestCase):
         snapshot["branch"]["commit"]["sha"] = head
         return root, claim, snapshot, head
 
+    def test_registered_detached_control_root_requires_exact_admitted_head(self):
+        primary, claim, _, head = self.cloud_control("detached-primary")
+        detached = Path(self.temp.name).resolve() / "detached-control"
+        soodles.checked(["git", "worktree", "add", "--detach", str(detached), head], primary)
+        claim.update(control_root=str(detached), base_head=head)
+        before = soodles.source_identity(detached)
+        state = {"phase": "awaiting_reconcile"}
+        landing.require_control_checkout(detached, claim, state, before,
+                                         {"execution": {"control_root": str(detached)}}, "main")
+        with self.assertRaisesRegex(landing.LandingRefusal, "local.branch"):
+            landing.require_control_checkout(detached, claim, state, before, None, "main")
+        with self.assertRaisesRegex(landing.LandingRefusal, "local.detached_head"):
+            landing.require_control_checkout(detached, {**claim, "base_head": "f" * 40},
+                                             state, before,
+                                             {"execution": {"control_root": str(detached)}}, "main")
+
+    def test_postwrite_detached_control_fast_forwards_without_branch_switch(self):
+        primary, claim, _, base = self.cloud_control("detached-reconcile-primary")
+        detached = Path(self.temp.name).resolve() / "detached-reconcile-control"
+        soodles.checked(["git", "worktree", "add", "--detach", str(detached), base], primary)
+        (primary / "merged").write_text("provider merge\n")
+        soodles.checked(["git", "add", "merged"], primary)
+        soodles.checked(["git", "-c", "user.name=Fixture", "-c",
+                         "user.email=fixture@example.invalid", "commit", "-m", "merged"], primary)
+        merged = soodles.checked(["git", "rev-parse", "HEAD"], primary)
+        soodles.checked(["git", "update-ref", "refs/remotes/origin/main", merged], primary)
+        claim.update(control_root=str(detached), base_head=base,
+                     execution_envelope={"path": str(Path(self.temp.name) / "envelope.json"),
+                                         "sha256": "f" * 64})
+        landing.save(self.checkpoint, {"schema": 2, "claim": claim,
+                     "phase": "awaiting_reconcile", "classification": None,
+                     "writes_offered": ["merge", "close"], "merge_sha": merged,
+                     "issue_closed_at": "now"})
+        binary = str(Path("/bin/true").resolve())
+        envelope = {"execution": {"carrier": {"noodle": {"sha256": "f" * 64}},
+                                  "order_id": "fixture-order"}}
+        with patch("landing.execution_binding", return_value=envelope), \
+                patch("landing.fetch_main"), \
+                patch("issue_execution.validate_carrier", return_value={"noodle": binary}), \
+                patch("issue_execution.read_owner", return_value={"fixture": True}), \
+                patch("issue_execution.completed_original_order",
+                      return_value={"order_id": "fixture-order"}):
+            result = landing.reconcile(self.checkpoint, binary)
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertEqual(soodles.checked(["git", "rev-parse", "HEAD"], detached), merged)
+        self.assertEqual(soodles.checked(["git", "branch", "--show-current"], detached), "")
+        self.assertEqual(result["writes_offered"], ["merge", "close"])
+
     def test_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry(self):
         self.start()
         request = self.offer()
@@ -1043,4 +1091,3 @@ class BoundLandingTests(unittest.TestCase):
         self.assertEqual(len(requests), 1)
         self.assertFalse(c.worktree.exists())
         self.assertEqual(result["noodle_reconciliation"]["order_id"], "soodles-18")
-

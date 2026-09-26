@@ -306,6 +306,9 @@ class LandingOwner:
     def reconcile(self, checkpoint, binary):
         return self.call("reconcile", checkpoint, binary)
 
+    def resume(self, checkpoint, claim_path):
+        return self.call("resume", checkpoint, claim_path)
+
 
 def external_landing_activation(authorization, state, paths, environ,
                                 claim, publication, run_value):
@@ -394,7 +397,11 @@ def external_landing_activation(authorization, state, paths, environ,
     require(checkpoint.is_file(), "landing_activation.checkpoint", str(checkpoint),
             "prewrite_landing_checkpoint")
     checkpoint_state = read_json(checkpoint, "landing_activation.checkpoint")
-    require(checkpoint_state.get("claim") == external_claim,
+    allowed_claims = [external_claim]
+    if state.get("landing_resume"):
+        allowed_claims.append({**external_claim,
+                               "verifier_sha256": state["landing_resume"]["verifier_sha256"]})
+    require(checkpoint_state.get("claim") in allowed_claims,
             "landing_activation.checkpoint.claim", "mismatch", "matching_activation_claim")
     if state.get("landing_activation") is None:
         require(state["phase"] == "ci" and not paths["landing"].exists()
@@ -409,6 +416,86 @@ def external_landing_activation(authorization, state, paths, environ,
         save_json(paths["state"], state)
     paths["landing"] = checkpoint
     return publisher
+
+
+def external_landing_resume(authorization, state, paths, environ):
+    """Bind a corrected external publisher after both provider writes were confirmed."""
+    selected = state.get("landing_resume")
+    if selected is None:
+        descriptor = environ.get("SOODLES_LANDING_RESUME_OWNER")
+        expected = environ.get("SOODLES_LANDING_RESUME_OWNER_SHA256")
+        if descriptor is None and expected is None:
+            return None
+        require(isinstance(descriptor, str) and Path(descriptor).is_absolute()
+                and isinstance(expected, str) and SHA64.fullmatch(expected),
+                "landing_resume.input", [descriptor, expected],
+                "pinned_external_postwrite_owner")
+        selected = {"descriptor": str(Path(descriptor).resolve()), "sha256": expected,
+                    "status": "new"}
+    else:
+        require(environ.get("SOODLES_LANDING_RESUME_OWNER") in
+                (None, selected["descriptor"])
+                and environ.get("SOODLES_LANDING_RESUME_OWNER_SHA256") in
+                (None, selected["sha256"]),
+                "landing_resume.reselection", "changed", "original_postwrite_owner")
+    source = Path(selected["descriptor"])
+    root = Path(authorization["control_root"]).resolve()
+    require(not source.is_relative_to(root)
+            and not source.is_relative_to(Path(__file__).resolve().parent),
+            "landing_resume.path", str(source), "external_supervisor_selection")
+    require(digest_file(source) == selected["sha256"],
+            "landing_resume.sha256", selected["sha256"], "unchanged_postwrite_selection")
+    spec = read_json(source, "landing_resume.descriptor")
+    corrected = {**authorization, "landing_owner": spec}
+    validate_landing_owner(corrected)
+    require(state.get("landing_activation") is not None and state["phase"] in {"landing", "resolved"},
+            "landing_resume.phase", state["phase"], "original_landing_checkpoint")
+    checkpoint = read_json(paths["landing"], "landing.checkpoint")
+    original = read_json(paths["landing"].parent / "claim.json", "landing.original_claim")
+    require(isinstance(checkpoint.get("claim"), dict)
+            and {key: value for key, value in checkpoint["claim"].items()
+                 if key != "verifier_sha256"}
+                == {key: value for key, value in original.items()
+                    if key != "verifier_sha256"}
+            and checkpoint.get("writes_offered") == ["merge", "close"]
+            and checkpoint.get("merge_sha") and checkpoint.get("issue_closed_at")
+            and checkpoint.get("classification") in {None, "RESOLVED"},
+            "landing_resume.checkpoint", checkpoint.get("phase"),
+            "confirmed_postwrite_original_claim")
+    target = spec["verifier_sha256"]
+    require(target != original["verifier_sha256"],
+            "landing_resume.verifier", target, "corrected_external_verifier")
+    if selected["status"] == "new":
+        require(checkpoint["claim"] == original
+                and checkpoint.get("phase") == "awaiting_reconcile"
+                and "cleanup_intent" not in checkpoint,
+                "landing_resume.prewrite", checkpoint.get("phase"),
+                "unreconciled_confirmed_provider_closure")
+        selected["verifier_sha256"] = target
+        selected["status"] = "offered"
+        state["landing_resume"] = selected
+        save_json(paths["state"], state)
+        claim_path = paths["directory"] / "landing-resume-claim.json"
+        save_json(claim_path, {**original, "verifier_sha256": target}, fresh=True)
+        try:
+            LandingOwner(corrected, paths["directory"]).resume(paths["landing"], claim_path)
+        except subprocess.TimeoutExpired as error:
+            raise AtomRefusal("landing_resume.outcome", "unknown",
+                              "current_checkpoint_readback_without_retry") from error
+        checkpoint = read_json(paths["landing"], "landing.checkpoint")
+    expected_claim = {**original, "verifier_sha256": target}
+    if checkpoint["claim"] != expected_claim:
+        raise AtomRefusal("landing_resume.outcome", "unknown",
+                          "current_checkpoint_readback_without_retry")
+    require(original["verifier_sha256"] in checkpoint.get("prior_verifiers", [])
+            and checkpoint.get("phase") in {"awaiting_reconcile", "reconciling", "resolved"},
+            "landing_resume.adoption", checkpoint.get("phase"),
+            "same_postwrite_resumption")
+    if selected["status"] != "adopted":
+        selected["status"] = "adopted"
+        state["landing_resume"] = selected
+        save_json(paths["state"], state)
+    return corrected
 
 
 class GitHubProvider(candidate_publication.GitHubProvider):
@@ -1187,6 +1274,10 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
             claim, publication, run_value)
         if selected_owner is not None:
             landing_owner = LandingOwner(selected_owner, paths["directory"])
+    if state["phase"] in {"landing", "resolved"}:
+        corrected_owner = external_landing_resume(authorization, state, paths, environ)
+        if corrected_owner is not None:
+            landing_owner = LandingOwner(corrected_owner, paths["directory"])
     if state["phase"] == "ci":
         landing_claim = {
             "repository": authorization["repository"], "issue": issue["number"],

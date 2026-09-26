@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 175
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "6d1610249b5a05f18dd5536a95b161f1dadf2a627718538612b97e75f4fe6489",
+      "treatment_sha256": "2fff7e7b309c13f19bdfd670d94f50c4fc169a7d2604c39909acfd07b7b5749d"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "baseline_sha256": "217fa1505a7ea5f2a42c6aaf1240f13b114142988f69f8439225e747f52a4988",
+      "treatment_sha256": "7cd2563a03f745e3f7e95e6fded36a0decd4edd010f297a0f45e3bb40f0ec9bf"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "landing.py",
+      "role": "implementation",
+      "sha256": "7141c43656e8ffebf7042502ce87f4933942fc4be2c418c4ede9fad87676a6de"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "implementation",
+      "sha256": "9536e53278a4a40492b9b35521afa56da9cd8871e8217b6227a3af847d7bbe8d"
+    },
+    {
+      "path": "tests/test_landing.py",
+      "role": "hard_controls",
+      "sha256": "ee90f40797c2ebde839e04b97385ba15224f92f03171b6b52c270df4c444a2d6"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "hard_controls",
+      "sha256": "fa1b936f7700b401762276caa7950d2d87ded3960a3fbb9f5c943bdfbb071c90"
+    },
+    {
+      "path": "docs/experiments/detached-root-reconciliation/results.md",
+      "role": "result",
+      "sha256": "246d643470a5b8f87fcdd6861dbba54898dd53076a15b1238e95a8eb425c7e08"
+    },
+    {
+      "path": "docs/experiments/detached-root-reconciliation/raw/baseline.json",
+      "role": "baseline",
+      "sha256": "06ea7c21e4e9fba469e79b330228aefff2c26d0b8a86367882f4e98f0de7e7bf"
+    },
+    {
+      "path": "docs/experiments/detached-root-reconciliation/raw/positive.json",
+      "role": "candidate",
+      "sha256": "07aa44ff25cfd23bc7fb52da885db313a5e1088aac394c2cf6f151ec2debad51"
+    },
+    {
+      "path": "docs/experiments/detached-root-reconciliation/raw/tests.txt",
+      "role": "tests",
+      "sha256": "4daef54715c1ee634315c6778133605ac3187537bd2128bf5d5d57183c9b0295"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#175"
+  },
+  "authorizes_landing": false
+}
