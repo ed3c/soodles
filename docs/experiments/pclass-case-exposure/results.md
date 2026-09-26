@@ -237,3 +237,27 @@ bytes used **synthetic before/after input timestamps** and is solely an
 adapter check, not a valid run or a model outcome. No new six-run session had
 started when this record was prepared. The required comparison remains BLOCKED,
 so #157 stays open and PR #158 stays Draft.
+
+## Candidate gate success/failure paths, still without real comparison
+
+The same PR now adds a candidate `consumer_gate.py` schema-2 path that opens
+bounded regular raw capture files by path and digest, checks recorder process
+completion and exact argv, matches persisted thread/model/config/source head,
+reads the last CLI agent message, pairs command start/end events, parses the
+actual replay output, requires six distinct threads, and computes the
+mismatched unsupported-admission primary outcome. It returns a bounded success
+only when a separately supplied selected-observer report agrees with that raw
+outcome; valid treatment regression or failed controls returns FAIL, and absent
+or malformed capture returns INCONCLUSIVE. It does not launch a model, import
+supplied code or authorize landing. External selection provenance still requires
+supervisor readback; JSON files and hashes alone cannot prove that a process
+ran. Unknown hidden tool/service behavior remains outside this bounded gate.
+
+Synthetic controls on the staging source passed 11/11: seven prior veto
+controls plus positive six-capture, valid regression, missing raw capture and
+observer-report disagreement. The frozen nine-case product probe passed 9/9.
+These are synthetic/local code checks, not #157 replacement model runs. The
+manifest-bound `consumer-comparison.json` remains BLOCKED, so the required
+acceptance test intentionally remains RED until complete external evidence is
+safe to publish and accepted by the selected observer. No test waiver, skip or
+self-labelled PASS was introduced.

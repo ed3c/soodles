@@ -50,12 +50,17 @@
     {
       "path": "docs/experiments/pclass-case-exposure/results.md",
       "role": "bounded_case_exposure_evidence",
-      "sha256": "55d8b1596ff9d87f89b9e39936372554302a8f9c8ba681302fe8226d5cc566bb"
+      "sha256": "2a5e359b0721e22a7901dee0820563ee04e868147e21e388193c2b06bf2b396e"
     },
     {
       "path": "docs/experiments/pclass-case-exposure/consumer_gate.py",
-      "role": "readiness_veto_only_not_native_execution_validator",
-      "sha256": "a70af335f97b439ba60c4e54a4cfacdfb479cea0d730d53bddd78c6eb4f32efc"
+      "role": "bounded_local_codex_raw_capture_candidate_gate",
+      "sha256": "6166bafd2ea7a2873bfd067e53ca066692bc963f33c9612d4491ac47a25cd421"
+    },
+    {
+      "path": "tests/test_consumer_gate_positive.py",
+      "role": "synthetic_positive_negative_candidate_gate_controls",
+      "sha256": "cc33a1ea3b450529fa382daaf1f65b7f01d0c7830690e7c8fe4e70a877e01bc8"
     }
   ],
   "owner": {
