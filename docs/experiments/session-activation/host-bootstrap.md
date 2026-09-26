@@ -1,12 +1,12 @@
-# Proposed Soodles host bootstrap
+# Soodles host bootstrap
 
-Status: UNINSTALLED. This repository artifact is not a live Project setting,
-plugin installation or proof of instruction injection. A Host owner must first
-select a real entry, install the selected text under existing authorization and
-retain a readback. Repository guidance remains authoritative for its procedure;
-this template only gets the Session to that guidance.
+Status: OBSERVED_INSTALLED_IN_SOODLES_PROJECT on 2026-09-27.
 
-## Proposed Host instruction text
+This repository artifact records the bootstrap that was saved and read back in
+the ChatGPT Soodles Project Instructions. It is not itself the live setting and
+does not claim universal delivery to every ChatGPT Session.
+
+## Observed Project instruction text
 
 For work on ed3c/soodles, read AGENTS.md through GitHub at the task-selected
 instruction ref before selecting an execution route. Obtain the selected ref
@@ -15,10 +15,23 @@ historical head. Use an assigned recipe directly and follow the current owning
 entry. Repository instructions define procedures within user/platform authority;
 this bootstrap grants no permission and does not require loading the full map.
 
-## Deployment boundary
+The saved Project setting also records the run-level carrier boundary used by
+#159: ChatGPT cloud Host/native runs and Local Codex/Noodle runs do not wait for
+one another unless the current Issue contract names a dependency. A missing
+capability, missing evidence or failed run blocks only its dependent operation
+and claim; each route retains its own selected ref, owner and evidence.
 
-No Host setting was changed in #159's first candidate. Keep deployment evidence
-outside consumer inputs. Do not claim all Sessions are covered: qualify one real
-Host entry. New-session instruction delivery, observed loading and subsequent
-behavior are separate observations. A native child is not automatically a proxy
-for a top-level Session's bootstrap.
+## Acceptance boundary
+
+Saved-setting readback proves persistence for this Project setting only.
+Fresh Project conversations provide scoped behavioral observations, not causal
+proof that Project instructions alone caused the answers. A native Work child
+pilot established that `collaboration.spawn_agent` was exposed in that Work task
+with `fork_turns: "none"`; the platform did not expose an independent raw child
+tool transcript or complete child input identity to the parent. That missing
+telemetry is preserved as a limitation, not converted into a failed Host claim.
+
+The revised #159 terminal claim is limited to Session-entry route preservation,
+capability scoping and fresh-Session observation. It does not claim universal
+native availability, a matched baseline/treatment hill climb, independent child
+event capture, or repository CLI enforcement of ChatGPT Host behavior.
