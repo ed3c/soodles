@@ -135,3 +135,35 @@ classify valid regression as FAIL. Until external observer selection and a
 verified capture mapping exist, the current required-artifact test remains RED
 and the PR remains Draft. No refusal-only rule, waiver or test removal may
 turn it green.
+
+## First carrier run was inconclusive; new six-run selection — 2026-09-26
+
+The user selected two #157 supervisor-owned, read-only-purpose Git clones as
+the source materialization exception to the ordinary Noodle worktree owner.
+The baseline and treatment clones were detached at the selected refs, had no
+remotes, were clean, and passed Codex doctor repository-root checks. The
+supervisor retained cleanup ownership. No #156 resource was used.
+
+The external observer v4 and all six inputs were selected before a model run.
+Its first planned run, baseline matched legal improvement, completed with
+Codex CLI exit 0. The persisted rollout confirmed the selected model, effort,
+sandbox, approval, cwd and Git head. The actual JSONL had three completed
+agent messages and shell-wrapped `/bin/zsh -lc` commands; v4 expected one
+agent message and an unwrapped replay command. The run is **INCONCLUSIVE**
+under v4, consumes one of the original six, and cannot be rescored after the
+fact. Its raw external readback SHA-256 is
+`c76c7247e593a0ea6f8c6a4cba3073b7f60a9e7ecb4825949994fdc9f677f59f`.
+No behavior improvement follows from this run.
+
+The user then authorized one new, complete six-run comparison under a newly
+selected observer and capture mapping. This is a new execution budget within
+the same #157 causal correction and PR, not a new Issue, an extra green-seeking
+sample, or a change to the baseline, three cases, CLI+P intervention, primary
+unsupported-admission outcome, or required controls. The failed run remains
+separate evidence. Before the new first run, select the corrected observer,
+mapping, six packet bytes, source refs and resource owner with immutable hashes.
+The new mapping may recognize the last completed agent message and the observed
+shell wrapper. Extra **read-only** command observations belong to the separate
+secondary count; unknown commands or incomplete capture remain INCONCLUSIVE.
+No valid new behavior claim exists until all six new sessions and the selected
+external observer complete. Keep this PR Draft and required acceptance RED.

@@ -199,3 +199,41 @@ resources are excluded. The external supervisor must still select observer
 bytes, exact inputs, capture mapping, evidence destination and local resource
 owner before run one. The existing gate has no successful exit and the actual
 required-evidence test remains RED. No behavior improvement is claimed.
+
+## First selected Local Codex run and mapping failure — 2026-09-26
+
+The user authorized #157 supervisor-owned exact-ref source clones. Baseline
+`00a5909941a632537dc6992b5354cd37614ea4a8` and then-current treatment
+`7764df9f9b9e17b498ac58b31bc9df205ba6323f` were clean detached clones
+without remotes; `codex -C PATH doctor --json` identified each clone's cwd and
+repo root. The selected v4 observer SHA-256 was
+`4a3d34206e8889141e341bd5e9e9c5c0bb233f3151b656eb9a8266eb4db9c5bf`;
+the immutable execution selection SHA-256 was
+`ebfefc5e1f1fc4fc3d72370488141ae6e1dee8060e39258f30145cd81ea5d480`.
+Twenty-one synthetic controls passed; those controls were not model evidence.
+
+One planned baseline legal-case Codex session ran with the selected recorder.
+The process exited 0 without timeout, yielding 27,309 bytes of raw JSONL,
+a final response and a persisted rollout. The session thread was
+`01a0dd19-dcb2-76b0-962b-60a8132c7588`. The external readback SHA-256 is
+`c76c7247e593a0ea6f8c6a4cba3073b7f60a9e7ecb4825949994fdc9f677f59f`;
+raw stdout SHA-256 is `22bc66e574718fb3bde764f99ec68c48473aa0f09ae3c903da4ffd5f3164826b`;
+rollout SHA-256 is `f28b3213e7ff51f5abe1579dff3d294d82cf7146e43c7d`.
+The source clone remained clean. The rollout's selected model, effort, CLI,
+cwd, Git head, sandbox and approval fields matched the request. The CLI emitted
+three completed agent messages and five shell-wrapped commands; v4's pinned
+mapping expected exactly one message and an unwrapped replay command.
+Therefore the run is INCONCLUSIVE under v4. The observed final text and replay
+receipt cannot be rescored into a valid v4 result. It used one original run;
+the remaining five were not launched because they could not complete a valid
+six-run comparison under that mapping.
+
+The user authorized a separate new set of six sessions after an explicit
+protocol and observer amendment. A v5 observer draft recognizes the observed
+CLI wrapper and last completed agent message, reads commands directly from
+raw JSONL, and keeps extra read-only commands as a secondary count. Twenty-one
+synthetic controls pass. A parser check against the failed run's real raw
+bytes used **synthetic before/after input timestamps** and is solely an
+adapter check, not a valid run or a model outcome. No new six-run session had
+started when this record was prepared. The required comparison remains BLOCKED,
+so #157 stays open and PR #158 stays Draft.
