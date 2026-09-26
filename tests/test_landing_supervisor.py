@@ -211,6 +211,12 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(
             result["landing_owner"]["next"]["known"]["checkpoint"],
             str(output / "checkpoint.json"))
+        self.assertEqual(
+            result["landing_owner"]["next"]["known"]["readback"],
+            str(output / "readback.json"))
+        self.assertEqual(
+            result["landing_owner"]["next"]["argv"][-2:],
+            [str(output / "checkpoint.json"), str(output / "readback.json")])
         claim = json.loads((output / "claim.json").read_text())
         self.assertNotIn("control_root", claim)
         self.assertEqual(claim["head"], self.f.head)
@@ -230,6 +236,26 @@ class LandingSupervisorTests(unittest.TestCase):
             route["execution_envelope"]["sha256"])
         self.assertEqual(result["landing_owner"]["owner"], "landing.start")
         self.assertEqual(result["landing_owner"]["next"]["kind"], "provider_readback")
+        self.assertEqual(result["landing_owner"]["next"]["argv"][-2:],
+                         [str(output / "checkpoint.json"), str(output / "readback.json")])
+
+    def test_inconsistent_owner_continuation_refuses(self):
+        temporary = self.f.external / ".temporary"
+        output = self.f.external / "final"
+        next_action = {
+            "kind": "provider_readback",
+            "known": {
+                "checkpoint": str(temporary / "checkpoint.json"),
+                "readback": str(temporary / "readback.json"),
+            },
+            "argv": ["python", "landing", "advance", "wrong-checkpoint",
+                     str(temporary / "readback.json")],
+        }
+        with self.assertRaises(landing_supervisor.SupervisorRefusal) as caught:
+            landing_supervisor._rebase_next(next_action, temporary, output)
+        self.assertEqual(caught.exception.invalid["field"],
+                         "landing.start.next.argv")
+        self.assertEqual(next_action["argv"][-2], "wrong-checkpoint")
 
     def test_stale_green_wrong_publisher_and_existing_output_refuse_before_checkpoint(self):
         stale = json.loads(json.dumps(self.f.snapshot))

@@ -173,6 +173,25 @@ def _write(path, data):
         os.close(handle)
 
 
+def _rebase_next(next_action, temporary, output):
+    """Preserve the owner continuation while moving its two local inputs."""
+    require(isinstance(next_action, dict)
+            and next_action.get("kind") == "provider_readback",
+            "landing.start.next", next_action, "current_provider_readback")
+    known = next_action.get("known")
+    argv = next_action.get("argv")
+    old = [str(temporary / name) for name in ("checkpoint.json", "readback.json")]
+    require(isinstance(known, dict)
+            and [known.get("checkpoint"), known.get("readback")] == old,
+            "landing.start.next.known", known, "temporary_owner_inputs")
+    require(isinstance(argv, list) and len(argv) >= 2 and argv[-2:] == old,
+            "landing.start.next.argv", argv, "temporary_owner_argv")
+    new = [str(output / name) for name in ("checkpoint.json", "readback.json")]
+    return {**next_action,
+            "known": {**known, "checkpoint": new[0], "readback": new[1]},
+            "argv": [*argv[:-2], *new]}
+
+
 def prepare(snapshot, publisher, route, output):
     """Create one external landing activation and return the selected owner's current result."""
     publisher_root, publisher_cli, verifier = _publisher_identity(publisher)
@@ -235,11 +254,7 @@ def prepare(snapshot, publisher, route, output):
         raise
 
     rebased = json.loads((output / "claim.json").read_text())
-    next_action = owner.get("next")
-    if isinstance(next_action, dict):
-        known = dict(next_action.get("known") or {})
-        known["checkpoint"] = str(output / "checkpoint.json")
-        next_action = {**next_action, "known": known}
+    next_action = _rebase_next(owner.get("next"), temporary, output)
     return {
         "owner": "landing-supervisor",
         "action": "activated",

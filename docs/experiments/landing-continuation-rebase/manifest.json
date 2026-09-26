@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 164
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "1e681105b46acf8e349e256d718e22bee692e6bfcb4eb6bd97b72ff42280f075",
+      "treatment_sha256": "6733c6016ec3d6da67f2b7b72126929636623d3237688a972af2822cfdf2bf04"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "landing_supervisor.py",
+      "role": "implementation",
+      "sha256": "2e51cc4d21d3d9636568c2536602636d57ba15daec44f0559f72d451cd7f68d1"
+    },
+    {
+      "path": "tests/test_landing_supervisor.py",
+      "role": "hard_controls",
+      "sha256": "907240d7b2c160c6054bb9b5df17aa3abbb02c2f060e9c409dce9d0f152675f3"
+    },
+    {
+      "path": "docs/experiments/landing-continuation-rebase/observer.py",
+      "role": "frozen_observer",
+      "sha256": "1b21abded7ce123e719bd4a8130c4c7ba03ac17edf482251e66806183a751a18"
+    },
+    {
+      "path": "docs/experiments/landing-continuation-rebase/results.md",
+      "role": "result",
+      "sha256": "e130c06c2ece388ea2e2c2ae2e1e898e13ab365343b6e27fcb719727eb56d629"
+    },
+    {
+      "path": "docs/experiments/landing-continuation-rebase/raw/baseline.json",
+      "role": "baseline",
+      "sha256": "7632485eacfbc8f5d0123c6572e7cc083c785288a1bb091bba78b390365ce864"
+    },
+    {
+      "path": "docs/experiments/landing-continuation-rebase/raw/candidate.json",
+      "role": "candidate",
+      "sha256": "a10031b4a7f31a51bf8a5cab00b95f0a06617dfe209035461f8f9bfefba757f7"
+    },
+    {
+      "path": "docs/experiments/landing-continuation-rebase/raw/tests.txt",
+      "role": "tests",
+      "sha256": "647e2acb476044658015615f5c98bdcb770897471708aa6f8b0a716fa491344d"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#164"
+  },
+  "authorizes_landing": false
+}
