@@ -1,0 +1,11 @@
+Command: TMPDIR=/private/tmp python3 -B -m unittest discover -s tests
+Exit: 0
+----------------------------------------------------------------------
+Ran 368 tests in 173.477s
+
+OK
+
+Focused: python3 -B -m unittest tests.test_landing_supervisor
+Exit: 0
+Ran 6 tests in 2.982s
+OK
