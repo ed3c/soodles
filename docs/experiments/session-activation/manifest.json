@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "issue": {
     "repository": "ed3c/soodles",
     "number": 159
@@ -14,24 +14,40 @@
   "artifacts": [
     {
       "path": "docs/experiments/session-activation/host-bootstrap.md",
-      "role": "uninstalled_host_bootstrap",
-      "sha256": "098351fde3054f41afe877de5b096c1118ad3c4e4206bf8f64d4ea1ab0d4fc73"
+      "role": "observed_project_host_bootstrap",
+      "sha256": "be8a5a3d936930788dc7bde4ca01005472aaf78db8bbd6ab56dabe65e3059d2f"
     },
     {
       "path": "docs/experiments/session-activation/protocol.md",
-      "role": "prequalification_status_and_protocol",
-      "sha256": "b24d06c84de801eb00c5b12ce7f349ac71f32b13cff84de926631994b1f81b97"
+      "role": "revised_scoped_host_acceptance",
+      "sha256": "242c20058717218a666d1fa5b200b27356af040cf05317f99a55c98546dfe5ba"
     },
     {
       "path": "docs/experiments/session-activation/status.json",
-      "role": "prequalification_status_and_protocol",
-      "sha256": "07afab5a989cfb6a9bc1e71102ae4c0805c529a956f33efd924a015e3af6827f"
+      "role": "scoped_host_acceptance_status",
+      "sha256": "4e1932d671bcd2a99fb3a50066df063a0434ce90115bcd4bad66fa7dce99f9e9"
     }
   ],
   "owner": {
-    "name": "Soodles root Session-entry P-only preparation",
-    "tool": "issue_admission.validate_delivery_paths",
+    "name": "Soodles cloud Session-entry scoped acceptance",
+    "tool": "GitHub connector/provider readback",
     "authorization": "ed3c/soodles#159"
   },
+  "claim_scope": {
+    "includes": [
+      "selected-route preservation",
+      "session-local capability scoping",
+      "fresh-session capability refresh",
+      "run-level cloud/local independence"
+    ],
+    "excludes": [
+      "matched causal behavior improvement",
+      "complete independent child event transcript",
+      "universal native availability",
+      "repository CLI enforcement of ChatGPT Host",
+      "ed3c/soodles#170 local comparison evidence"
+    ]
+  },
+  "terminal_candidate_ready": true,
   "authorizes_landing": false
 }
