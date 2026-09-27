@@ -1,0 +1,22 @@
+{
+  "owner": "soodles.issue-atom",
+  "status": "refused",
+  "invalid": {
+    "field": "authorization.path",
+    "value": "FileNotFoundError"
+  },
+  "next": {
+    "kind": "input",
+    "owner": "external-supervisor",
+    "required": [
+      "readable_external_authorization"
+    ],
+    "argv": [
+      "/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/implementation-fixture/issue-atom",
+      "run",
+      "/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/authorization.json"
+    ],
+    "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+  },
+  "authorizes_landing": false
+}

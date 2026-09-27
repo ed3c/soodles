@@ -1,0 +1,26 @@
+{
+  "origin": "ed3c/soodles#181",
+  "case": "receiving local Session cannot open the authorization locator",
+  "basis": "User-authorized shortest-continuation requirement; controlled CLI input, not a historical incident or fresh-model measurement",
+  "input": "/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/authorization.json",
+  "required": [
+    "Nonzero exit with JSON refusal on stdout",
+    "Exact unreadable authorization input and supplying owner are named",
+    "Same issue-atom invocation is retained as continuation after the input is supplied",
+    "No provider, Noodle, checkpoint or authorization creation"
+  ],
+  "before": {
+    "authorization_exists": false,
+    "state_exists": false,
+    "bundle_exists": false
+  },
+  "source": {
+    "head": "e4b73508dacd149a31c05ba1168818031bff84dd",
+    "files": {
+      "issue_atom.py": "9536e53278a4a40492b9b35521afa56da9cd8871e8217b6227a3af847d7bbe8d",
+      "soodles.py": "f2a8dc7934119350b56481706eee5a9d861d5f6e69d0cc50bd9ad604376f1298",
+      "issue-atom": "2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c"
+    }
+  },
+  "authorizes_landing": false
+}

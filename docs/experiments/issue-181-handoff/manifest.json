@@ -1,0 +1,432 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 181
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "2fff7e7b309c13f19bdfd670d94f50c4fc169a7d2604c39909acfd07b7b5749d",
+      "treatment_sha256": "81ee938d4fec1b698b0e710fe0293882234ce5eb882f76ea96d4ad8e7890cb9d"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/issue-181-handoff/README.md",
+      "role": "source_or_frozen_evidence",
+      "sha256": "596d34fa440fd317793acdec3726c8d306d70b48e960002c7718e89999dcd3d5"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/authorization-handoff-v2.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "812940989d153e038b654b941d48e2c69760e547ca9582d4d7e875d70e101d06"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/detached-process/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "61a578d6b31caa4dafcf17e36f231dea6851de050ffbc33a09b937d241c99204"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/detached-process/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "25573700a28179a96a9024a9ac434ad05a2f3be4d46d468df3b8c57393ebf72c"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/detached-process/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/detached-process/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "c875de57c8fccd9364737b35cfed2db84628de3f6eefa54c69862587e9a551ad"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/identity.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "c7b7829b700217b069b97a077e6734bfd383b17ff0fdcc37c9f99da7bdccf23b"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/main-process/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "c9f48bef5a427a5838bd2dd0e9692611c060f1fe13e83f78d513e7901adf128e"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/main-process/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "790e652f7e84ad5a7535707c7365d3686cd7f34c0653a5b3826f4ac5c6bddc17"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/main-process/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/main-process/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "ab9af98268f2518196f267c211bd8f58fbf8211eed56c70afb4af7de8ad4e521"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/probe-selection.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "db76f91675761b2ede091cba9c34afcfed99b31d4285392352f622e4c1f53186"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/carrier/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "2467411e2454256455021a53c5c4c433e443551bf3652131b189a7803c5903b9"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/authorization-fix-controls-with-history/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e4a4b4ec64e09813c10832ffef5682c7f028eac217739daf87c193c6dd6743c7"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/authorization-fix-controls-with-history/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "835048acba38037f0615e482c7f43e4156e012e751f5bf6c815fe55a657ddcd0"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/authorization-fix-controls-with-history/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "9da2bac1427a39dcf316cc890009ab526c0acc7340619d0fdf0b3fb095fe6449"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/authorization-fix-controls-with-history/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/criteria.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "5961cd5170f92e7823dcc26cdfff00f61c00c7031b02c9a1129852829d615591"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/unavailable-authorization-baseline/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "6d069d682d3fa73060c606053a354996b3a111dc81719111051bec7269e18c12"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/unavailable-authorization-baseline/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "954bc68bfacf0e77e6b8b555521013d60c0d3fa0258f3b9977cd890a0fde2d0f"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/unavailable-authorization-baseline/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "7bd4bbfd2496d308b1943717bddcf2d09c59b044172124ba15aaa63f54b27c2b"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/unavailable-authorization-baseline/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/unavailable-authorization-treatment/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "891eaaf2e70b4be815c7eac461dd6578a8d21221923542897b26d11d3bae80ad"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/unavailable-authorization-treatment/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "571eda0302d6522fba0b840bb421b0c7ecb65211286dc574161c323b18c2f61a"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/unavailable-authorization-treatment/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "7cfdaa6c4cd2660bc7685849335e52214a86a8bc40edac89bd4b4edd830de6b9"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cli/unavailable-authorization-treatment/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "612d221f48fb3660aa78bba9e271485b29848e7dab3665942ca5109e10a2bf9f"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cloud-handoff-01.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "c93ebe450d383901d89d0821c29eed213500d59bae2a34785d4148d007c86850"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cloud-readback-01.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "a9ca7490993ca08d8493bd35070c521bd834a0f4745b3d2a6aa534df1ec6b377"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/cloud-readback-complete.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "28a50385637a4b22f634dc07cc5a36e115b591a494482a2c5e519f16aefcbf2f"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/freeze.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "ec8145e5c84b03c9c33dabdf09b2514af5eb7d4f661c638fc5b2f11fb0e8e193"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/local-control-selection.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "112b3be4baf95fdc0221dc8e113048310fba1c97eaf49881db7a9ca0b9818955"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observe-v2.py",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e0a3821aacd8f122e04dc3659b2120f2907c1764266e265d66233b11b9c49a05"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observe.py",
+      "role": "source_or_frozen_evidence",
+      "sha256": "fc13915e046b3b3bf3463ae28382cf5c1e6b1164c15241f0382c59e2764227f7"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observer-v1-A.stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observer-v1-A.stdout.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "df97b5abc05ade39a6967489e0fe7b0c504fbcc9b8f39d3aa77c34f60918824c"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observer-v1-B.stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observer-v1-B.stdout.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "481f44b5bf51e6906c87a2634ec8b6378b22530ade96d5f395ddc83a68dffd30"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observer-v2-A.stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observer-v2-A.stdout.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "71b1b156cf553dc4b98e3681c9d76d79929f0e0e9f523481e4eb976963b798ec"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observer-v2-B.stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observer-v2-B.stdout.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "481f44b5bf51e6906c87a2634ec8b6378b22530ade96d5f395ddc83a68dffd30"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/observer-v2-selection.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "997627443a337e32d5db4b9caaa40cde1aa4aacd06d88e6e2aea7f019a8c6a02"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/protocol.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "d9acd5ee4c1ec8f7242de02a6259a4fd4dbb0ea306687418af979550c16351a5"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/authorization-boundary/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "8cd7650a531138a2ee494b72e20464761f9dfecbd105510f711f71e4a0d9522f"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/authorization-boundary/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "9222ab0b67582b97540ea3e62eae951a1188116ee32008509876145999eb3a94"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/authorization-boundary/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/authorization-boundary/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/initial-skill/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "c64a723dfcbd4f2a2fb36ddc615ed7e51d80f3715708c65c342579eca3e2dcca"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/initial-skill/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "4d46cc03ac290e0ff60a1f9e16a47bfef2911d8d3e8957822caad45ef132b939"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/initial-skill/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/initial-skill/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "2fff7e7b309c13f19bdfd670d94f50c4fc169a7d2604c39909acfd07b7b5749d"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/receiver-entry/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "6ad186de06e62a2dbe74334c29514ffa33c0ea85d08eface39c68ba0682c5b56"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/receiver-entry/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "594c89587c22682f55d88f548052c7df07379463cd54ae45e7036ed2e8fb2e30"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/receiver-entry/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "7bd4bbfd2496d308b1943717bddcf2d09c59b044172124ba15aaa63f54b27c2b"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/receiver-entry/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/report.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "729e43605f49514770ebcb4ec52774c04df6a9dc69e009825e90b7fcf9adc3bd"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/save-report/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "6ed2d293acdeaa9aac5d5fda6ff0aaf8f528f0c21b76b7f96c1ee01a7ccede64"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/save-report/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "376cfa6e1ab6f8c2c46d97270fef7699ea7742ffca9b642d22b8baac76b14450"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/save-report/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "43091a774547e9dd84298fe344e805290fb6d01e1ba292d83291fc41a674de27"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/save-report/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/save-report-corrected/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "484c84ecc82828639da84271b2b43527a92c4034c43f7b990006e72a7c064de6"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/save-report-corrected/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "3c7bec3e0a4329b2921b83d69e08f9d6611fb41930b56c51beccb6e3a690f594"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/save-report-corrected/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/A/save-report-corrected/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "6bac4d0a0b64c8ef1e2fe4d0318ba2da1c675c77c6cffd4579ea3d081dc1b50f"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/entry/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "2199e7c7fe1daa56997838a70cd39b605213adb29e80fcbbcf71e884662c6d3e"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/entry/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "716d6a80d01da6be2a1e7c0defbf2ed4f541afb73538f1cd991cb6b2f9037893"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/entry/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "7cfdaa6c4cd2660bc7685849335e52214a86a8bc40edac89bd4b4edd830de6b9"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/entry/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "612d221f48fb3660aa78bba9e271485b29848e7dab3665942ca5109e10a2bf9f"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/initial-skill/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "6909db4aa4fdef903f92beb386731e2d89b5f2532f1b7a3b3d35dce1aa287483"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/initial-skill/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "b119f5051a221e4fc665d8a54475d3e2af30c727cf222dd73b41349e7f8ca213"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/initial-skill/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/initial-skill/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "81ee938d4fec1b698b0e710fe0293882234ce5eb882f76ea96d4ad8e7890cb9d"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/report/request.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "f3776f19da9a2e350d2ffcc5e249f1bda168d5b65e115bf12f53c50fb210055d"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/report/result.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "9d90b985239b5e00f42d31552fdb291928e99a8e9bc3242eb52b5ee02ad2e184"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/report/stderr.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/report/stdout.bin",
+      "role": "source_or_frozen_evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/raw/B/report.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "5bc28c88e29b1e8d49072b3574a116a1255ac31921d8e8a074cc2cd906879441"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/replay.py",
+      "role": "source_or_frozen_evidence",
+      "sha256": "0ce8f30f4ab411df9a1196ae1659e2fd5725f776cb6dc330f9eb8ad6208700fa"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/results.json",
+      "role": "source_or_frozen_evidence",
+      "sha256": "a66470496930f5faef501b49e8264521c61698a7fa5939073242fb42eb9fc071"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "source_or_frozen_evidence",
+      "sha256": "a0c22a183d47cde0c052fa9e72fe4587c322827130ce9efb4809718d7a2e55a6"
+    },
+    {
+      "path": "tests/test_issue181_handoff_evidence.py",
+      "role": "source_or_frozen_evidence",
+      "sha256": "eb86ce403ab3cffb8cc16170955c88becb34feaaf52702c926efe72e59d9dd00"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "source_or_frozen_evidence",
+      "sha256": "0b2abed6703631ad9ce7d27cb5e687d2e94cfe77298d07c5869a8e5e86b86e23"
+    }
+  ],
+  "owner": {
+    "name": "external #181 supervisor",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#181"
+  },
+  "authorizes_landing": false
+}

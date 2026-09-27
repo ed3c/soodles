@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "origin": "ed3c/soodles#181",
+  "scope": "pre-admission controlled CLI evidence; not lifecycle or P-class improvement",
+  "source_ref": "b13d9dbc18143bda736c9281cf6e2deb84c397c6",
+  "local_main_ref": "e4b73508dacd149a31c05ba1168818031bff84dd",
+  "task": "Receive the controlled CLI handoff evidence, refresh provider Issue state, and return the next required owner input without starting any writer.",
+  "cases": {
+    "unavailable-authorization-baseline": {
+      "request.json": {
+        "text": "{\n  \"argv\": [\n    \"./issue-atom\",\n    \"run\",\n    \"/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/authorization.json\"\n  ],\n  \"cwd\": \"/Users/neon/soodles\",\n  \"time_ns\": 1790497889092541000,\n  \"files_before\": {\n    \"/Users/neon/soodles/issue-atom\": {\n      \"bytes\": 51,\n      \"sha256\": \"2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c\",\n      \"observed_from\": [\n        \"argv\"\n      ]\n    }\n  },\n  \"timeout_seconds\": 60\n}\n",
+        "bytes": 450,
+        "sha256": "6d069d682d3fa73060c606053a354996b3a111dc81719111051bec7269e18c12"
+      },
+      "result.json": {
+        "text": "{\n  \"exit_code\": 1,\n  \"timed_out\": false,\n  \"error\": null,\n  \"authorizes_landing\": false,\n  \"scope\": \"one_subprocess\",\n  \"elapsed_seconds\": 0.16192991682328284,\n  \"files_after\": {\n    \"/Users/neon/soodles/issue-atom\": {\n      \"bytes\": 51,\n      \"sha256\": \"2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c\",\n      \"observed_from\": [\n        \"argv\"\n      ]\n    }\n  },\n  \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\n  \"stderr_sha256\": \"7bd4bbfd2496d308b1943717bddcf2d09c59b044172124ba15aaa63f54b27c2b\"\n}\n",
+        "bytes": 557,
+        "sha256": "954bc68bfacf0e77e6b8b555521013d60c0d3fa0258f3b9977cd890a0fde2d0f"
+      },
+      "stdout.bin": {
+        "text": "",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr.bin": {
+        "text": "REFUSED: issue atom: [Errno 2] No such file or directory: '/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/authorization.json'; supported help: ./issue-atom --help\n",
+        "bytes": 177,
+        "sha256": "7bd4bbfd2496d308b1943717bddcf2d09c59b044172124ba15aaa63f54b27c2b"
+      }
+    },
+    "unavailable-authorization-treatment": {
+      "request.json": {
+        "text": "{\n  \"argv\": [\n    \"./issue-atom\",\n    \"run\",\n    \"/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/authorization.json\"\n  ],\n  \"cwd\": \"/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/implementation-fixture\",\n  \"time_ns\": 1790498120769579000,\n  \"files_before\": {\n    \"/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/implementation-fixture/issue-atom\": {\n      \"bytes\": 51,\n      \"sha256\": \"2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c\",\n      \"observed_from\": [\n        \"argv\"\n      ]\n    }\n  },\n  \"timeout_seconds\": 60\n}\n",
+        "bytes": 578,
+        "sha256": "891eaaf2e70b4be815c7eac461dd6578a8d21221923542897b26d11d3bae80ad"
+      },
+      "result.json": {
+        "text": "{\n  \"exit_code\": 1,\n  \"timed_out\": false,\n  \"error\": null,\n  \"authorizes_landing\": false,\n  \"scope\": \"one_subprocess\",\n  \"elapsed_seconds\": 1.1408276660367846,\n  \"files_after\": {\n    \"/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/implementation-fixture/issue-atom\": {\n      \"bytes\": 51,\n      \"sha256\": \"2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c\",\n      \"observed_from\": [\n        \"argv\"\n      ]\n    }\n  },\n  \"stdout_sha256\": \"612d221f48fb3660aa78bba9e271485b29848e7dab3665942ca5109e10a2bf9f\",\n  \"stderr_sha256\": \"7cfdaa6c4cd2660bc7685849335e52214a86a8bc40edac89bd4b4edd830de6b9\"\n}\n",
+        "bytes": 620,
+        "sha256": "571eda0302d6522fba0b840bb421b0c7ecb65211286dc574161c323b18c2f61a"
+      },
+      "stdout.bin": {
+        "text": "{\n  \"owner\": \"soodles.issue-atom\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"authorization.path\",\n    \"value\": \"FileNotFoundError\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"external-supervisor\",\n    \"required\": [\n      \"readable_external_authorization\"\n    ],\n    \"argv\": [\n      \"/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/implementation-fixture/issue-atom\",\n      \"run\",\n      \"/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/authorization.json\"\n    ],\n    \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"\n  },\n  \"authorizes_landing\": false\n}\n",
+        "bytes": 654,
+        "sha256": "612d221f48fb3660aa78bba9e271485b29848e7dab3665942ca5109e10a2bf9f"
+      },
+      "stderr.bin": {
+        "text": "REFUSED: issue atom: invalid authorization.path='FileNotFoundError'; supported help: ./issue-atom --help\n",
+        "bytes": 105,
+        "sha256": "7cfdaa6c4cd2660bc7685849335e52214a86a8bc40edac89bd4b4edd830de6b9"
+      }
+    }
+  },
+  "authorizes_landing": false,
+  "patch": {
+    "scope": "draft patch in disposable fixture; not admitted candidate",
+    "base": "b13d9dbc18143bda736c9281cf6e2deb84c397c6",
+    "files": [
+      {
+        "path": "issue_atom.py",
+        "baseline_sha256": "9536e53278a4a40492b9b35521afa56da9cd8871e8217b6227a3af847d7bbe8d",
+        "treatment_sha256": "a0c22a183d47cde0c052fa9e72fe4587c322827130ce9efb4809718d7a2e55a6"
+      },
+      {
+        "path": ".agents/skills/issue-atom/SKILL.md",
+        "baseline_sha256": "2fff7e7b309c13f19bdfd670d94f50c4fc169a7d2604c39909acfd07b7b5749d",
+        "treatment_sha256": "81ee938d4fec1b698b0e710fe0293882234ce5eb882f76ea96d4ad8e7890cb9d"
+      },
+      {
+        "path": "tests/test_issue_atom.py",
+        "baseline_sha256": "fa1b936f7700b401762276caa7950d2d87ded3960a3fbb9f5c943bdfbb071c90",
+        "treatment_sha256": "0b2abed6703631ad9ce7d27cb5e687d2e94cfe77298d07c5869a8e5e86b86e23"
+      }
+    ],
+    "patch_sha256": "981295bb40c8b0dd0bb30f300cf132daafddd5949d56f46ababb169480e77814",
+    "P_class_comparison": "NOT_RUN",
+    "CLI_tests": "46 passed on identical issue_atom.py and test_issue_atom.py bytes; P text amended afterward",
+    "authorizes_landing": false
+  }
+}

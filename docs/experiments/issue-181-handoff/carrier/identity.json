@@ -1,0 +1,62 @@
+{
+  "binary": "/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle",
+  "sha256": "965cfd6f985e207551d0664e728ae9fae10ae0cc8cd2885a816415823d9d103d",
+  "source": "/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/noodle-reference-3732a02",
+  "commands": {
+    "help": {
+      "argv": [
+        "/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle",
+        "--help"
+      ],
+      "cwd": "/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/noodle-reference-3732a02",
+      "exit": 0,
+      "stdout_sha256": "f2a9d8b1292487bbadde31a562832a6f2bd4462c0e98a650075c58de8856ceac",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "version": {
+      "argv": [
+        "/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle",
+        "version"
+      ],
+      "cwd": "/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/noodle-reference-3732a02",
+      "exit": 0,
+      "stdout_sha256": "04eb5fda20141b438721e93518b02135bcc15518630727a79a021c81c9b6a760",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build": {
+      "argv": [
+        "go",
+        "version",
+        "-m",
+        "/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle"
+      ],
+      "cwd": "/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/noodle-reference-3732a02",
+      "exit": 0,
+      "stdout_sha256": "d2029edd8e676c9a1680803ee7d4c24f9d53d6ba545ddc16efd0916c5a6bc7da",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source_head": {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/noodle-reference-3732a02",
+      "exit": 0,
+      "stdout_sha256": "5659d196b7017a244943797e8e807d893e9d214aec238043b7dbe111620bdd44",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source_status": {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "cwd": "/Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/noodle-reference-3732a02",
+      "exit": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "authorizes_landing": false
+}

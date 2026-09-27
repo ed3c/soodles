@@ -1006,7 +1006,12 @@ def provider_snapshot(provider, claim, run, jobs):
 def run(authorization_path, *, environ=None, provider=None):
     # Serialize the one authorization's existing checkpoint/intent transitions.
     # The validated control root is also serialized across authorizations.
-    with Path(authorization_path).open("rb") as lock:
+    try:
+        lock = Path(authorization_path).open("rb")
+    except OSError as error:
+        raise AtomRefusal("authorization.path", type(error).__name__,
+                          "readable_external_authorization") from None
+    with lock:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:

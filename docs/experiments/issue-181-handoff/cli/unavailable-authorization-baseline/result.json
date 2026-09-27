@@ -1,0 +1,19 @@
+{
+  "exit_code": 1,
+  "timed_out": false,
+  "error": null,
+  "authorizes_landing": false,
+  "scope": "one_subprocess",
+  "elapsed_seconds": 0.16192991682328284,
+  "files_after": {
+    "/Users/neon/soodles/issue-atom": {
+      "bytes": 51,
+      "sha256": "2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c",
+      "observed_from": [
+        "argv"
+      ]
+    }
+  },
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "7bd4bbfd2496d308b1943717bddcf2d09c59b044172124ba15aaa63f54b27c2b"
+}
