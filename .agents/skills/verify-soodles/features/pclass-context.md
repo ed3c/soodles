@@ -52,6 +52,13 @@ The coordinator may launch independent consumers when the current task authorize
 
    For an admission comparison, use the single executable entry `scripts/replay_pclass.py RAW.json GATES.json MANIFEST.json EXPECTED_MANIFEST_SHA256 OBSERVER.py DECIDER.py`. The external manifest fixes equal per-case arm exposure, raw run identities, analyzer bytes and planted-control predicates; the gates file contains only the fixed causal-delta, independent-audit and report-only telemetry inputs. The entry verifies all digests before importing an analyzer, derives run receipts and controls from raw evidence, then invokes the internal decision evaluator. `decide_pclass.py` does not accept a candidate-supplied comparison at its command line. A receipt cannot authorize landing.
 
+   The bounded schema-2 recovery replay supports only
+   `primary_barrier: post_completion_owner_request`: the count of owner events
+   containing a request after the observed completion projection. Missing,
+   malformed or unsupported labels return structured `FAIL` naming
+   `primary_barrier` before analyzer import. This restriction does not change
+   the separate `admission_recovery` exploration route.
+
    On refusal, forward the replay receipt's `decision.next` unchanged when supplied and stop that comparison. It requests supervisor input, not an executable command or permission to retry or land. Keep all reported errors; absent `decision.next` never implies admission. Do not parse errors into another route, recount or reweight cases, edit pins, invent runs or resample. Re-entry needs fresh supervisor-selected evidence.
 
    For a supplied feature-map consumer report, use the supervisor's complete
