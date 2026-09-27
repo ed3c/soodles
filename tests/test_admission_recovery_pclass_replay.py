@@ -85,7 +85,22 @@ class AdmissionRecoveryReplayTests(unittest.TestCase):
     def setUp(self):
         self.raw = json.loads((DATA / 'raw-runs.json').read_text())
         self.manifest = json.loads((DATA / 'manifest.json').read_text())
+        # Explicit current-source unit qualification; archived evidence stays pinned.
+        self.historical_manifest = copy.deepcopy(self.manifest)
+        self.manifest['normalizer_sha256'] = replay.file_sha256(SCRIPT)
         self.gates = json.loads((DATA / 'gates.json').read_text())
+
+    def test_historical_normalizer_pin_rejects_current_source_before_import(self):
+        from unittest.mock import patch
+
+        self.assertNotEqual(self.historical_manifest['normalizer_sha256'],
+                            replay.file_sha256(SCRIPT))
+        with patch.object(replay, 'load_module') as loader:
+            result = self.evaluate(manifest=self.historical_manifest)
+        loader.assert_not_called()
+        self.assertEqual(result['classification'], 'FAIL')
+        self.assertIn('normalizer_digest_mismatch', result['errors'])
+        self.assertFalse(result['authorizes_landing'])
 
     def evaluate(self, raw=None, manifest=None, gates=None):
         manifest = manifest if manifest is not None else self.manifest

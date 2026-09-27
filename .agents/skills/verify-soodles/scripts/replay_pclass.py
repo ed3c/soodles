@@ -360,6 +360,9 @@ def replay(raw_bundle, gates, manifest, expected_manifest_sha256, observer_path,
     if not isinstance(manifest, dict) or manifest.get("schema") != 2:
         errors.append("invalid_manifest")
         manifest = {}
+    # normalize_run measures only requests after the completion projection.
+    if manifest.get("primary_barrier") != "post_completion_owner_request":
+        errors.append("unsupported_primary_barrier")
     for label, path in (("observer", observer_path), ("normalizer", normalizer_path),
                         ("decider", decider_path)):
         try:
