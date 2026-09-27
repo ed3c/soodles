@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 183
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "baseline_sha256": "79204d7a1bad1a5e521d02a422edd891ffd52e4126044fd86a0ab2819b2f86a8",
+      "treatment_sha256": "a058038a17f3d09e62e1ab7f4d455be43e0b56fb6aa193ffd4e5a56daff203ec"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/scripts/replay_pclass.py",
+      "role": "bounded metric correction and evidence",
+      "sha256": "3962c74f9030e0bc1b9b4d4fdcacc28276e6483dd3b27907b69e4a8634833c08"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/frozen/fixture.json",
+      "role": "bounded metric correction and evidence",
+      "sha256": "1eb228481c65ecd612480601e73f4579f0ca6c232673afa7d31acf128652495d"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/frozen/migration.md",
+      "role": "bounded metric correction and evidence",
+      "sha256": "abbe18c9ebfdcc3d757103d8ac2119c66a4b84cb08eadad3ed79e5eebcdd2695"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/frozen/oracle.py",
+      "role": "bounded metric correction and evidence",
+      "sha256": "ad13c139690ea2f9d8cca66410fd7068fe1b0a6658a09c0ef5209e7f717429b0"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/frozen/protocol.md",
+      "role": "bounded metric correction and evidence",
+      "sha256": "1da73282b974cd793a232f5c77ae89801ce659ae8c948575ad24a9981c6186f1"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/raw/baseline-oracle.json",
+      "role": "bounded metric correction and evidence",
+      "sha256": "67305fc3c437ada938f60ae448dad4c37d8279b6b88367ab7e4dec3a6b7abdb4"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/raw/first-attempt.json",
+      "role": "bounded metric correction and evidence",
+      "sha256": "541f0062a9db1fc0091429f7ddc22a30b8a10f978cf50ced49f0e3d48cea88c2"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/raw/fresh-consumers.json",
+      "role": "bounded metric correction and evidence",
+      "sha256": "eab4a384d2e1000d6c7274e5769fe827cfe2ceab987c8828fa9b5f38140a2f42"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/raw/treatment-oracle.json",
+      "role": "bounded metric correction and evidence",
+      "sha256": "0bff6943aa2094b608f7452f14e27fb5b3cb364626855100a79293fc278e135f"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/results.md",
+      "role": "bounded metric correction and evidence",
+      "sha256": "0e4940d56f506356f8a3c3ff6140739b40461eaaa27efc3fdf6a8962762b44c8"
+    },
+    {
+      "path": "tests/test_admission_recovery_pclass_replay.py",
+      "role": "bounded metric correction and evidence",
+      "sha256": "08919b3c7bfe70127a480dd8226f311a68a19179b613d60c2c4f9a6e0cc9eb7b"
+    },
+    {
+      "path": "tests/test_pclass_metric_binding.py",
+      "role": "bounded metric correction and evidence",
+      "sha256": "ab3ea0a8c84fdd8f8fec962d81ccc8bfe71a56a7068091b8063de53926a8379f"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#183"
+  },
+  "authorizes_landing": false
+}
