@@ -1,0 +1,36 @@
+{
+  "status": "blocked",
+  "owner": "external supervisor",
+  "missing_inputs": [
+    "Externally selected immutable authorization file is missing: /Users/neon/.codex/soodles-session-handoff-20260927-0kry1pt5/authorization.json"
+  ],
+  "continuation_argv": null,
+  "can_execute_now": false,
+  "delivery_complete": false,
+  "user_questions": [],
+  "questions_delivered_to_user": false,
+  "provenance": {
+    "model": "unknown",
+    "agent": "/root/receiver_pair_a",
+    "tools": [
+      "functions.exec",
+      "tools.exec_command"
+    ],
+    "recorder": "/Users/neon/.codex/worktrees/issue-181-auth-readback-control/soodles/.agents/skills/verify-soodles/scripts/record_context.py",
+    "selected_source_ref": "b13d9dbc18143bda736c9281cf6e2deb84c397c6",
+    "selected_source_ref_independently_verified": false
+  },
+  "notes": [
+    "Read selected issue-atom Skill with the recorder, then executed the supplied absolute entry argv once.",
+    "Entry exited 1 with REFUSED: issue atom: [Errno 2] No such file or directory for the supplied authorization path. No JSON next or owner was returned.",
+    "Owner is the Skill-assigned external supervisor responsible for immutable authorization; it is not a returned lifecycle owner.",
+    "No unchanged-input retry, authorization creation or modification, or provider or Noodle mutation was requested.",
+    "Bounded rg of issue-atom launcher returned no matches. No additional source navigation was needed.",
+    "Next material prerequisite is external supervisor provision or correction of the exact admitted authorization input. Consumer cannot fabricate it or substitute a route.",
+    "No question was handed to the user: this is an identified supervisor prerequisite, not a new route choice.",
+    "Continuation is null because no next was returned and the required authorization input is missing.",
+    "Only consumer-observed evidence is claimed; complete platform transcript and model identity are unknown.",
+    "Initial report write failed with NameError because Python received null instead of None. Corrected the reporting code only; no lifecycle retry occurred.",
+    "Five captured subprocesses were used, including this corrected report write."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "main": {
+    "result": {
+      "branch": "main",
+      "error": "-----",
+      "exit": 0,
+      "main_head": "2bea1decfed6234e27d672b053eb9b8021da93df",
+      "mode": "main",
+      "tracked_residue": "",
+      "worktree_present": false
+    },
+    "remaining_temp_paths": []
+  },
+  "detached": {
+    "result": {
+      "branch": "",
+      "error": "not on main branch (on ''). Run: git checkout main",
+      "exit": 1,
+      "main_head": "a193c0fb69a7f279cf6aac68f49a84031b541e7d",
+      "mode": "detached",
+      "tracked_residue": "",
+      "worktree_present": true
+    },
+    "remaining_temp_paths": []
+  },
+  "source_main_status": "",
+  "control_root_status": "",
+  "control_root_ref": "b13d9dbc18143bda736c9281cf6e2deb84c397c6",
+  "owner_snapshot_sha256": "2e91f614787760488c791e99fd2e4a4446d386a523e63d64815ab4ec36e05b69",
+  "authorizes_landing": false
+}

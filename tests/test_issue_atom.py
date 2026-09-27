@@ -679,6 +679,38 @@ class IssueAtomTests(unittest.TestCase):
         with self.assertRaisesRegex(atom.AtomRefusal, "git.status"):
             atom.validate_authorization(self.path, self.digest)
 
+    def test_unavailable_authorization_keeps_structured_same_entry_refusal(self):
+        for source in (self.outer / "missing-authorization.json", self.outer):
+            with self.subTest(source=source):
+                with patch.object(atom, "_run") as lifecycle:
+                    with self.assertRaises(atom.AtomRefusal) as caught:
+                        atom.run(source, environ=self.env)
+                    lifecycle.assert_not_called()
+                self.assertEqual(caught.exception.invalid["field"], "authorization.path")
+                command = [str(Path(atom.__file__).with_name("issue-atom")), "run", str(source)]
+                result = subprocess.run(command, capture_output=True, text=True, timeout=10)
+                self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+                receipt = json.loads(result.stdout)
+                self.assertEqual(receipt["status"], "refused")
+                self.assertEqual(receipt["invalid"]["field"], "authorization.path")
+                self.assertEqual(receipt["next"]["owner"], "external-supervisor")
+                self.assertEqual(receipt["next"]["required"], ["readable_external_authorization"])
+                self.assertEqual(receipt["next"]["argv"], command)
+                self.assertFalse(receipt["authorizes_landing"])
+                paths = atom.artifact_paths(source)
+                self.assertFalse(paths["state"].exists())
+                self.assertFalse(paths["directory"].exists())
+
+    def test_unreadable_authorization_does_not_enter_lifecycle(self):
+        with patch.object(Path, "open", side_effect=PermissionError), \
+                patch.object(atom, "_run") as lifecycle:
+            with self.assertRaises(atom.AtomRefusal) as caught:
+                atom.run(self.path, environ=self.env)
+        lifecycle.assert_not_called()
+        self.assertEqual(caught.exception.invalid,
+                         {"field": "authorization.path", "value": "PermissionError"})
+        self.assertEqual(caught.exception.required, "readable_external_authorization")
+
     def test_provider_credentials_are_removed_from_child_environment(self):
         with patch.dict(os.environ, {"GH_TOKEN": "secret", "GITHUB_TOKEN": "other",
                                      "SAFE_VALUE": "kept"}, clear=True):

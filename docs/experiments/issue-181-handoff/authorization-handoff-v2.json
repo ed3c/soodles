@@ -1,0 +1,25 @@
+{
+  "scope": "draft patch in disposable fixture; not admitted candidate",
+  "base": "b13d9dbc18143bda736c9281cf6e2deb84c397c6",
+  "files": [
+    {
+      "path": "issue_atom.py",
+      "baseline_sha256": "9536e53278a4a40492b9b35521afa56da9cd8871e8217b6227a3af847d7bbe8d",
+      "treatment_sha256": "a0c22a183d47cde0c052fa9e72fe4587c322827130ce9efb4809718d7a2e55a6"
+    },
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "2fff7e7b309c13f19bdfd670d94f50c4fc169a7d2604c39909acfd07b7b5749d",
+      "treatment_sha256": "81ee938d4fec1b698b0e710fe0293882234ce5eb882f76ea96d4ad8e7890cb9d"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "baseline_sha256": "fa1b936f7700b401762276caa7950d2d87ded3960a3fbb9f5c943bdfbb071c90",
+      "treatment_sha256": "0b2abed6703631ad9ce7d27cb5e687d2e94cfe77298d07c5869a8e5e86b86e23"
+    }
+  ],
+  "patch_sha256": "981295bb40c8b0dd0bb30f300cf132daafddd5949d56f46ababb169480e77814",
+  "P_class_comparison": "NOT_RUN",
+  "CLI_tests": "46 passed on identical issue_atom.py and test_issue_atom.py bytes; P text amended afterward",
+  "authorizes_landing": false
+}

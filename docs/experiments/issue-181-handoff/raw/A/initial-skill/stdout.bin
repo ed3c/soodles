@@ -10,12 +10,6 @@ supervisor. Here, external means outside the candidate's authority, not a
 cloud service: the authorized local Session may select the host capabilities,
 authorization and independently pinned landing owner on the same Mac. No cloud
 Session, token handoff or separate supervisor daemon is required.
-Before an authorization has been selected, that authorized local supervisor
-prepares the available inputs and pins the authorization; an unprepared file is
-not by itself a reason to ask the user to prepare it. After selection, preserve
-its identity on handoff and resume: recover the selected bytes or report the
-exact missing input to its owner. This preparation role does not belong to the
-candidate writer and does not permit it to select its own verifier.
 It pins an external landing implementation; never select the
 candidate's own verifier. The supervisor also supplies its SHA-256 in
 `SOODLES_AUTHORIZATION_SHA256`. The host entry uses an explicit nonblank
@@ -37,11 +31,6 @@ Run only:
 ```bash
 ./issue-atom run /absolute/authorization.json
 ```
-
-If the selected authorization cannot be opened on this host, consume the
-`authorization.path` refusal and its same-command continuation. The external
-supervisor makes that exact selected file readable; do not reconstruct an
-authorization from Issue prose, substitute another atom or transfer credentials.
 
 The foreground entry observes normal waits for up to five minutes. A refusal
 stops immediately; it is not retried. Consume the JSON result. If bounded waiting
