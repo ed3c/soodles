@@ -1,0 +1,169 @@
+{
+  "source": "prior resolved #183; historical evidence not current authorization",
+  "records": {
+    "entry-2.stdout": "{\n  \"owner\": \"soodles.issue-atom\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"noodle.orders\",\n    \"value\": \"foreign_nonterminal\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"quiescent_noodle_owner\"\n    ],\n    \"known\": {\n      \"control_root\": \"/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/control\",\n      \"blocking_order_ids\": [\n        \"schedule\",\n        \"soodles-183-526d6f6f7209\"\n      ]\n    },\n    \"argv\": [\n      \"/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/control/issue-atom\",\n      \"run\",\n      \"/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/corrected-authorization.json\"\n    ],\n    \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"\n  },\n  \"authorizes_landing\": false\n}\n",
+    "entry-4.stdout": "{\n  \"owner\": \"soodles.issue-atom\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"noodle.orders\",\n    \"value\": \"foreign_nonterminal\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"quiescent_noodle_owner\"\n    ],\n    \"known\": {\n      \"control_root\": \"/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/control-corrected\",\n      \"blocking_order_ids\": [\n        \"schedule\",\n        \"soodles-183-dba0ad1250b2\"\n      ]\n    },\n    \"argv\": [\n      \"/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/control-corrected/issue-atom\",\n      \"run\",\n      \"/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/migration-authorization.json\"\n    ],\n    \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"\n  },\n  \"authorizes_landing\": false\n}\n",
+    "entry-5.request.json": "{\n  \"argv\": [\n    \"/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/control-corrected/issue-atom\",\n    \"run\",\n    \"/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/migration-authorization.json\"\n  ],\n  \"started\": 1790514683.787387,\n  \"material_change\": \"schedule pending; exact admitted writer running\"\n}",
+    "closure.json": "{\n  \"schema\": 1,\n  \"origin\": \"ed3c/soodles#183\",\n  \"pr\": \"https://github.com/ed3c/soodles/pull/184\",\n  \"candidate_head\": \"50bd0aab4a39d7f7ed856ab54b8142111a62e6ba\",\n  \"merge_head\": \"12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd\",\n  \"runtime_run\": 36322193131,\n  \"runtime_attempt\": 1,\n  \"classification\": \"RESOLVED\",\n  \"next\": null,\n  \"provider_issue_state\": \"closed\",\n  \"provider_main\": \"12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd\",\n  \"local_reconciliation\": {\n    \"head\": \"12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd\",\n    \"tree\": \"4479b54471415babee8e76254292e288969a133b\",\n    \"removed_worktree\": \"soodles-183-dba0ad1250b2-0-execute\",\n    \"worktree_owner\": \"Noodle\",\n    \"cleanup_mode\": \"noodle\"\n  },\n  \"order_status\": \"completed\",\n  \"loop_process_present\": false,\n  \"evidence\": {\n    \"entry-6.stdout\": \"bfc800394026a68d1762886be099bf6e32e4577bb2c33f1e5d6fb57e9e4dd759\",\n    \"migration-authorization.json.d/landing.json\": \"b5a561f50ba7a12b12d64d8b1bffc62b4a46ea6e5f69d4057707eb483b40cd09\",\n    \"migration-authorization.json.d/readback.json\": \"e9501e66606cc1cbf460eb775127581d0302eaa004b4ff4856cb78094bb3c06f\",\n    \"corrected-native-full-1.json\": \"c03694a7d63a302a4fa7cfccae884ba0ef8fbc528741758b96521374fd82d0e3\",\n    \"fresh-consumers.json\": \"eab4a384d2e1000d6c7274e5769fe827cfe2ceab987c8828fa9b5f38140a2f42\",\n    \"source-audit.json\": \"c540f2c0a797bca844448b5edcca8f8ebcf92dd1b6252c358870534b400b00d4\"\n  },\n  \"authorizes_landing\": false\n}\n"
+  },
+  "review": {
+    "schema_version": 1,
+    "classification": "SCOPED_SOURCE_REVIEW",
+    "authorizes_landing": false,
+    "source": {
+      "root": "/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/control-corrected",
+      "head": "12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd",
+      "files": {
+        "AGENTS.md": "a64c8ee74332bae7d5b5c6585180163c8d87205cf8d284cc409c60eb9aa74773",
+        ".agents/skills/verify-soodles/SKILL.md": "a75f3f5d8bb48cc31086468b04936583224acfd7a704e7eb14462cc710843209",
+        ".agents/skills/verify-soodles/features/pclass-context.md": "a058038a17f3d09e62e1ab7f4d455be43e0b56fb6aa193ffd4e5a56daff203ec",
+        "issue_atom.py": "a0c22a183d47cde0c052fa9e72fe4587c322827130ce9efb4809718d7a2e55a6",
+        "issue_execution.py": "12c6ad386a1c18b1f8fe75fac407ab1bbdc068ad78f8c38fba3e1d1b3a664097",
+        "tests/test_issue_atom.py": "0b2abed6703631ad9ce7d27cb5e687d2e94cfe77298d07c5869a8e5e86b86e23",
+        "tests/test_local_continuation.py": "4e16070ea746535e3fa47307df3698530ebae1cae048adfc864e5083ab596b36",
+        "contracts/system-v1.md": "31511b7cfe84738edb93fa7474da8c87ac64b6a51b48a7aa30991cdb9aef3c70"
+      }
+    },
+    "scope": "唯讀分析 owner continuation；未修改 source、未啟動 runtime、未讀 credential 檔案、未作 provider effects。唯一輸出是本檔。",
+    "method": {
+      "recipe": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "cli_method": "https://raw.githubusercontent.com/ed3c/plugins/68836ddaf5697224520f1847d90cdb90ca8babaa/cli-for-agent/skills/cli-for-agents/SKILL.md",
+      "classification": "product regression/design gap, not recipe-only drift"
+    },
+    "observed": [
+      {
+        "path": "/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/entry-2.stdout",
+        "sha256": "ba2ea6fb2bb3aa6b6067a4c1aed6d44e9c3cde3400d43f912d6e1c6066e5ee86",
+        "result": "refused noodle.orders=foreign_nonterminal; blocking schedule and soodles-183-526d6f6f7209; same entry returned"
+      },
+      {
+        "path": "/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/entry-4.stdout",
+        "sha256": "7102fc39744422d99d0da888a13e85eac61f56f36426c47db24d4a6344f7106e",
+        "result": "refused noodle.orders=foreign_nonterminal; blocking schedule and soodles-183-dba0ad1250b2; same entry returned"
+      },
+      {
+        "path": "/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/entry-5.stdout",
+        "result": "later pending execution/running on same migration authorization; authorizes_landing=false"
+      },
+      {
+        "result": "現存 snapshot 已前進，control 的 schedule 是 pending/no attempts，control-corrected 的 schedule 是 failed、execute 是 completed。這些可描述現存保留資料，不能代替 entry-2/4 當時 canonical snapshot。"
+      }
+    ],
+    "findings": [
+      {
+        "id": "F1",
+        "locations": [
+          "issue_atom.py:1023",
+          "issue_atom.py:1081"
+        ],
+        "finding": "native_idle_schedule 僅接受 pending 且 attempts=None/[]。foreign 判定在 exact own order、lock、config 驗證之前，故 genuine startup active scheduler 必然與 foreign 混為一談。不要 catch foreign_nonterminal 後一律等待。"
+      },
+      {
+        "id": "F2",
+        "locations": [
+          "issue_atom.py:1097",
+          "issue_execution.py:688",
+          "issue_execution.py:715"
+        ],
+        "finding": "own execute pending 尚無 attempt 時，require_available_owner 拒絕非空 attempts；單改 scheduler 仍漏這個交界。即使放過 preflight，supervised observe_live 在沒有 live attempt 時走 quiescent_order，同樣拒絕 pending。因此必須在 preflight 判為 wait 並在 _run_owned 短路，或共享既有 consumer 分類，不能只改 idle predicate。"
+      },
+      {
+        "id": "F3",
+        "locations": [
+          "issue_atom.py:1105",
+          "issue_atom.py:1117",
+          "issue_execution.py:696"
+        ],
+        "finding": "現有 own running 通路檢查 projection/stage/model/一個 live attempt，但不驗 session_id、spawn/process 身分；新增 scheduler waiting 的安全性不可繼承成僅檢 status 的寬鬆分支。matching config 或 noodle_start truthiness 均不足。"
+      },
+      {
+        "id": "F4",
+        "locations": [
+          "issue_atom.py:1166",
+          "issue_atom.py:1333",
+          "tests/test_local_continuation.py:52"
+        ],
+        "finding": "drive 已有 300 秒 bounded foreground loop，只輪詢 pending，拒絕直接傳出。真正最小修正在 custody 分類與 _run_owned early return；通常無需新 loop 或 drive 例外攔截。"
+      }
+    ],
+    "minimal_causal_boundary": {
+      "owner": "existing issue_atom require_available_owner -> _run_owned -> response -> drive",
+      "recommended_steps": [
+        "保留 authorization/checkpoint/envelope exact pin 與 root/repository/issue/base/projection 驗證；任何額外 nonterminal order 都先拒絕。",
+        "將新分支限定 phase=execution、原始已記錄 started 的 own loop、未 stop/restored，核對 pinned prepared/start identity、config digest 和 native running lock；offered/unknown/missing start 不因 snapshot 出現就推定已完成。",
+        "精確區分 own execute pending/無 attempt、dispatching/launching、running/一個 live attempt；其餘 malformed 或矛盾組合拒絕。只允許已識別的 native scheduler 同時活動。",
+        "待 own execute 尚未投影進 canonical orders 時，若沒有能與 exact outstanding proposal/initial admission 綁定的證據，維持原拒絕；不可從 active schedule 自行推定 own admission。若將此前界纳入同一 correction，必須以現有 canonical proposal/effect 證據明確綁定並新增控制。",
+        "preflight 回傳有型別的 local observation；_run_owned 在 resolve_host_environment/supply_token、LandingOwner、exact_issue、supervised、claim/accept/publish 之前回傳 response pending waiting_on=Noodle，帶 same_command 和 observed order/session identity。",
+        "read-only wait 不改 lifecycle checkpoint、proposal、control mailbox、config 或 process。drive 到 deadline 回 wait_exhausted；每輪重新判 owner，失去 lock/identity、foreign 插入或拒絕立即停止。ready 時才走原有 owner 路徑與全部 gate。"
+      ],
+      "files": "issue_atom.py + tests/test_issue_atom.py + tests/test_local_continuation.py；只在實際共享 discriminator 需要時改 issue_execution.py。相關 recipe/contract 僅寫已證明範圍。外部固定 oracle/manifest/raw/results 屬同一 causal atom，不另立 scheduler。"
+    },
+    "identity_evidence": {
+      "available": [
+        "state.noodle_start 有 started/pid/argv/config_sha256；ensure_noodle 在 Popen 前記 offered，Popen 後才記 pid/started。",
+        "Noodle instance lock 是活躍 owner 的必要依據；matching installed/generated config 是另一必要但非充分依據。",
+        "canonical order/attempt 指向 session；spawn.json 可核對 session_id, skill, provider, runtime, model, worktree_path；process.json 有 session_id,pid,started_at；meta.json 有 session/status/alive。",
+        "歷史保留 scheduler session schedule-20260927-131025-9aab64 的 spawn 指向 control-corrected，process PID 86720，現存 meta exited/alive=false；不能當作當時 live 證明。",
+        "finish_host 既有 ps command 比對 expected absolute noodle + --project-dir root + start；quiescent_order/_absent_process 用 PID 與 process group presence 拒絕 quiescence。"
+      ],
+      "limits": [
+        "kill(pid,0) 只證明 PID 存在；不能證明 executable 身分，也不能排除 recycled PID。必須與 process start identity/command/root 等 owner evidence 綁定。",
+        "現有 noodle_start 未記 OS process birth identity，finish_host 只核對 command string。相同 argv 的 recycled process 不會被它辨識；不可宣稱具 generation-proof identity。若新 wait 的 invariant 要求這個強度，需要既有 start checkpoint 的 additive identity capture，legacy 缺值保持明確拒絕，不能悄悄 backfill 成 trusted。",
+        "flock 被占用本身不指出是哪個 PID 持有；它與 recorded pid/config/canonical session 是組合證據，不能把 lock existence 當 lock-held，更不能把 lock-held 當 exact PID proof。",
+        "launching 過程可能尚無 spawn/process metadata。缺失證據不得變成 ready；僅在其他證據已確定 own startup 的窄狀態回有界 metadata-readback wait，矛盾/foreign metadata 必須拒絕；此分支必須單獨負例。",
+        "採讀取後重新比對 relevant canonical owner/session readback，避免跨 snapshot generation 拼湊證據；發現矛盾不執行效果。"
+      ]
+    },
+    "controls": {
+      "positive": [
+        "own started loop + held lock + exact config/envelope/projection + genuine active schedule + own pending(empty attempts) => pending wait without supplier/provider/checkpoint/proposal effects",
+        "same case through dispatching/launching then running with exact canonical session => same-command wait; transition to legal idle/terminal => existing path only",
+        "timeout returns pending, unchanged identity, wait_exhausted; fresh canonical state is read each iteration",
+        "existing idle native schedule + own running and completed-original cleanup remain legal; no forced migration of resolved historical checkpoint"
+      ],
+      "negative": [
+        "foreign nonterminal order even beside a genuine own scheduler",
+        "same order ID with foreign envelope/projection/body/model/provider/runtime/skill/stage index/task key",
+        "foreign scheduler provider/model/prompt/worktree/session, multiple live scheduler attempts, malformed stage/attempt or impossible status pairing",
+        "foreign installed config; generated config/start/prepared pin mismatch; no exact own start; offered/lost Popen response; stopped/restored start",
+        "missing/lost lock despite running snapshot, recycled PID with wrong process identity, unreadable process evidence, mismatched spawn/process session and PID",
+        "own pending with attempts that contradict pending; own running with empty/malformed/multiple live attempts; metadata race must not become effect permission",
+        "foreign/identity drift on second loop iteration => refusal immediately, no retry; unknown provider mutation/start stays original refusal",
+        "spy all credential/provider/start/claim/publication/control writes; local wait makes zero calls and preserves exact checkpoint/mailbox/config bytes"
+      ],
+      "existing_patterns": [
+        "tests/test_issue_atom.py test_matching_config_does_not_adopt_foreign_order",
+        "test_exact_projection_with_malformed_stage_refuses_before_supplier",
+        "test_idle_native_schedule_is_observed_but_foreign_scheduler_refuses (running without sufficient owner evidence must remain a negative; add a distinct proven-own active positive)",
+        "test_lost_start_response_cannot_spawn_again / test_start_persists_intent_and_does_not_repeat_unknown_start",
+        "test_finish_host_refuses_recycled_pid_without_signalling",
+        "tests/test_local_continuation.py test_wait_continues_same_entry / test_wait_exhaustion_retains_pending_identity / test_refusal_is_never_retried"
+      ]
+    },
+    "dangerous_relaxations": [
+      "ignore any order called schedule or permit every running schedule",
+      "same config, same model, own order ID, or any noodle_start object alone grants custody",
+      "turn all AtomRefusal/current_noodle_owner_readback into pending and retry until timeout",
+      "pass pending through existing supervised admission and inadvertently write proposal or invoke claim",
+      "restart unknown/stopped loop; repair foreign config; rewrite canonical state/session to fit expected identity",
+      "declare CLI wait exit-zero as completion, foreign-safety proof, or landing permission"
+    ],
+    "limitations": [
+      "本報告是靜態 source review，未執行 tests/runtime，也未證明修正後行为。",
+      "entry-2/4 的 stdout 不包含當時 scheduler attempt/process 完整快照；exact historical state 是未觀測資訊，非可由現存已變更 snapshot 反推。",
+      "source review 支持 product correction 與 control 設計，不能單獨宣稱 Agent 決策成本降低；需外部固定前後比較與 planted negative controls。"
+    ],
+    "review_failures": [
+      {
+        "operation": "initial rg tools/issue_atom.py",
+        "result": "path absent",
+        "resolution": "resolved repository-root issue_atom.py; no source mutation"
+      }
+    ]
+  },
+  "preparation_errors": {
+    "attempt": 1,
+    "error": "Oracle preparation used nonexistent ensure_noodle_started patch; no oracle result produced, no candidate, no provider effect."
+  },
+  "authorizes_landing": false
+}
