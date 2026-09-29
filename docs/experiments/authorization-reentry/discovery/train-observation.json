@@ -1,0 +1,95 @@
+{
+  "scope": "unscored qualification; not formal baseline",
+  "capture_validated": true,
+  "commands": 11,
+  "incomplete_commands": 0,
+  "usage": [
+    {
+      "line": 29,
+      "usage": {
+        "input_tokens": 307757,
+        "cached_input_tokens": 283264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2094,
+        "reasoning_output_tokens": 58
+      }
+    }
+  ],
+  "elapsed_seconds": 92.51246554101817,
+  "owner_result": {
+    "owner": "supervisor.authorization",
+    "status": "refused",
+    "invalid": {
+      "field": "authorization.output",
+      "value": "/private/tmp/soodles-local-utvm7crq/run/output/workspace/handoff/prepared"
+    },
+    "next": {
+      "kind": "input",
+      "owner": "supervisor",
+      "required": [
+        "new_external_output_with_existing_parent"
+      ]
+    },
+    "authorizes_landing": false
+  },
+  "handoff_matches": true,
+  "handoff_errors": [],
+  "authorization_unchanged": true,
+  "new_authorization_count": 1,
+  "prepared_receipt_exists": false,
+  "typed_outcome": {
+    "payload": {
+      "blocking": true,
+      "message": "Blocked: supervisor.authorization refused authorization.output for the existing supplied prepared directory (exit 1), requiring supervisor input new_external_output_with_existing_parent. Original authorization preserved; changing output or authorization is outside task scope. Exact CLI stdout and unchanged next saved to work-output/raw-cli-receipt.json and handoff.json; report at /private/tmp/soodles-local-utvm7crq/run/output/report.md. No lifecycle or provider transport started.",
+      "order_id": "soodles-106",
+      "outcome": "blocked",
+      "stage_index": 0
+    },
+    "session_id": "soodles-106-0-execute-20260929-160414-7c08e4",
+    "timestamp": "2026-09-29T16:05:45.345293Z",
+    "type": "stage_message"
+  },
+  "runtime_cleanup": {
+    "credential_bytes_archived": false,
+    "owned_processes_observed_absent": true,
+    "temporary_runtime_removed": true
+  },
+  "evidence": {
+    "binding": {
+      "path": "/private/tmp/soodles-local-utvm7crq/run/binding.json",
+      "sha256": "38aad9c66e1e2799d94fb6a46b76e2076800b98aca90baf540d81cf7f46987ea"
+    },
+    "launch": {
+      "path": "/private/tmp/soodles-local-utvm7crq/run/raw/launch.json",
+      "sha256": "57fe588a6a6c4a05335bfa0a49687e95566382d0db338110f75d136443b193d8"
+    },
+    "exit": {
+      "path": "/private/tmp/soodles-local-utvm7crq/run/raw/exit.json",
+      "sha256": "a3c3856ea53640f0ffdc850ebe37252aee89871b3a6c588a742777a0f8e0fbf0"
+    },
+    "stdout": {
+      "path": "/private/tmp/soodles-local-utvm7crq/run/raw/stdout.bin",
+      "sha256": "119a26a44ab5a3c3ac8fbaf56aefdd2c16e6adc3683dfe5020d5ccb795b24081"
+    },
+    "stderr": {
+      "path": "/private/tmp/soodles-local-utvm7crq/run/raw/stderr.bin",
+      "sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401"
+    },
+    "task_boundary": {
+      "path": "/private/tmp/soodles-local-utvm7crq/run/raw/task-boundary.json",
+      "sha256": "837210fb96ec00cfe189233da3af5b17fc42d4b9a6b53966ceec5e961cf4d846"
+    },
+    "isolation": {
+      "path": "/private/tmp/soodles-local-utvm7crq/run/raw/isolation-probe.json",
+      "sha256": "69bc0954bcc887ad8469a8726baf49880bd097bcd51e6d19e46682ec9b2caae2"
+    },
+    "profile": {
+      "path": "/private/tmp/soodles-local-utvm7crq/run/raw/consumer.sb",
+      "sha256": "3fc8e81174ca7acead82cffb1044f5abedf4c88a9e70ba2a37f03fd812e37656"
+    }
+  },
+  "limitations": [
+    "same-profile file-read probe only; not full tool/IPC isolation",
+    "complete subprocess/effect capture is not proved by Codex stdout"
+  ]
+}

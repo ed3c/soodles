@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "source_head": "51821b935424a4697e2534a9f15b068620510025",
+  "pins": {
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/evaluator/capture_decoder.py": "701ada7eb3f22b4a7639df423573f1fb298c12620e8ff8ec1f8f56b04d38f8fd",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/evaluator/check.py": "83b9acd6f9e8d1eee62779665f95ba233b369e91cfe95f8e29a08c312b9a57bf",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/evaluator/test_check.py": "c45b6caaa54f0c9f406342097afdfef9dab2667eb66c74e1fb022bbc78f65417",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/assess_one.py": "7b2643871c108d677ea12beaa4dbab7af1760a1e0e40abefbecef4d5b45108c1",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/contexts/train.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/launch_one.py": "d3baa7785d9ce2e5b450e6d029999afb55da542f1a72228a0cf966c90493d1a7",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/launch_optimizer.py": "5eab503f57e8b2225a67a3ecf2c23fc934eb3ec089dcdbf92ed4c2f6352983d4",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/local-task.md": "d71972c3765cce337b42b64de76a40b7a8a656595a0273d9ce6448505ed567cf",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/prepare_public.py": "5efec7df42d0912f2130cc71d15e0f89e78cc76a87c17dc9fc9d94a3a3016c74",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/methods/architect/SKILL.md": "691cd39f52c7b613866e6baf9ea0b05451ffa21a6a9b4102f166418b89178fde",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/methods/eval-audit/SKILL.md": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/methods/evals-start/SKILL.md": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/methods/how/SKILL.md": "d31805589c7f6a63a6db6c9fadebbd79fb9660682cf1654e9b2e5e1e7cd30bc0",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/methods/how/references/explainer-prompt.md": "ddb89cebefc24e2b54517a331aedfe045b6971e101f45c71b8cef4cccff45bff",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/methods/pins.json": "6f1e3a998842d5a10bcac6fc910ff2fafd811de45541a976a86e3f73d10f9ecc",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/methods/poteto-mode/playbooks/hillclimb.md": "41980da135de2579bb38570e4b3373e015029148734ab5dc7d6103417b499af6",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/private/cases.json": "e4090a7d7dcf7a0418928db36370eb04715ee874f4b591b03e8c4354166c2957",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/private/fault.py": "1c3d1045434a24a1499c6a7d13e4031347eaeb981f7e9efcb02d90ab75ff40bd",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/private/workspace.py": "bee6fc0cfdc3696792bacebe25bcb8754e2b0e868a3bcf99bb62f8558b10fe85",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/protocol.md": "758e151d0e87abe445336b7a9a6d5de243d25dc9e3ae67fbb4e10eecead80604",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/fixture-public/drive.py": "4409c019f45476d651b76cd8f4c12cf65813f58ddb5b8a09da5a474f54402cce",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/fixture-public/workspace.py": "85b272bfba2929a3eab386774ba07760fc341c09fd258242aed60dbd6d954e5c",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/carrier/capture_adapter.py": "a504dff1545cea3208bd3286dbadd1b96a29f9748f3d875de77bcb746d7fd3d8",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/carrier/proposed-network.sb": "668cd34b32a1e74cbc2d1574663008a3c5a691ac67ed690cfe9060d6050a681f",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/carrier/run_case.py": "58d5cdcebcb6e062a726cd73870d97d8ccb3c4fac4cb9a06be866e7b037ddfdd",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/smoke-preparation/case-r04.json": "5f880e62f2f70ebb71e3243762e7347953f892609a37435ff237bfa5a65a4561"
+  },
+  "groups": "private/cases.json",
+  "arms": {
+    "baseline": [
+      "s-a",
+      "s-a",
+      "s-a",
+      "s-b",
+      "s-c"
+    ],
+    "each_candidate": [
+      "s-a",
+      "s-a",
+      "s-a",
+      "s-b",
+      "s-c"
+    ],
+    "confirmation_baseline_and_winner": [
+      "c-a",
+      "c-a",
+      "c-a",
+      "c-b",
+      "c-c"
+    ],
+    "confirmation_cost_comparator_when_needed": [
+      "c-a",
+      "c-a",
+      "c-a"
+    ]
+  },
+  "controls": {
+    "count": 16,
+    "result": "PASS",
+    "stderr_sha256": "64dd2638a3db3312c9cae62209ef54d6acbdfa6ef3c9b12164bc635341ed7e0f"
+  },
+  "candidate_selected": false
+}

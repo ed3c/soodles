@@ -1,0 +1,30 @@
+Exact instruction diff
+
+--- subject/AGENTS.md
++++ candidate/AGENTS.md
+@@ -9,17 +9,19 @@
+ | Observed execution path | Shortest supported action |
+ | --- | --- |
+ | ChatGPT Session using GitHub connector / Actions | Read the exact Issue/PR/head and `.github/workflows/runtime.yml`; consume the matching runtime run, job steps and artifact evidence through GitHub. Authorized PR creation/update triggers the existing workflow. For an unchanged head, reuse its result or observe its in-flight run; do not launch Codex CLI or install a scratch Noodle. |
+-| Local Session explicitly authorized to execute an Issue atom | Use the [issue-atom skill](.agents/skills/issue-atom/SKILL.md) and the local entry forms below, according to the current authorization state. |
++| Local Session explicitly authorized to execute an Issue atom | For supplied preparation inputs or preparation readback, use `supervisor-admission authorize` below. For already admitted authorization, use the [issue-atom skill](.agents/skills/issue-atom/SKILL.md) and its exact continuation. |
+ | Local Soodles → Noodle → Codex child | Use the supplied local control root, admitted launcher/envelope and Noodle owner; load only the [bounded execution recipe](.agents/skills/verify-soodles/features/issue-execution.md). Confirm the actual child's Codex CLI capability there, then observe its session/order/stage outcome. Do not reconstruct launcher argv. |
+ 
+ For that explicitly authorized Local Session, the existing entry forms are:
+ 
+ ```text
+-[PYTHON, "-B", SUPERVISOR_ADMISSION, "authorize", SELECTION_JSON, SELECTION_SHA256, NEW_EXTERNAL_OUTPUT]
++[PYTHON, "-B", SUPERVISOR_ADMISSION, "authorize", SELECTION_JSON, SELECTION_SHA256, ORIGINAL_EXTERNAL_OUTPUT]
+ [ISSUE_ATOM, "run", AUTHORIZATION_JSON]
+ ```
+ 
+-These are argv templates: use the current supplied absolute Python interpreter and entry paths, exact selected file bytes/digests, and a new absolute output directory outside the control root. `supervisor-admission` is Python; `issue-atom` is a shell executable invoked directly, never through Python.
++These are argv templates: use the current supplied absolute Python interpreter and entry paths, exact selected file bytes/digests, and the original absolute output directory outside the control root (new for initial preparation). `supervisor-admission` is Python; `issue-atom` is a shell executable invoked directly, never through Python.
++
++When the supervisor supplies the selection path/SHA and original external output for preparation or preparation readback, invoke `authorize` with those current inputs directly. They take precedence over historical invocation/stdout. The executable classifies preparation or committed readback and emits the exact continuation or refusal; do not inspect implementation details or interpret bundle contents to choose a branch, recompute selected digests, choose replacement output/identity, repair a bundle or call a lifecycle effect to diagnose preparation. Preserve a refusal and its artifacts for the named owner. A prepared receipt proves preparation only: consume its exact `next.argv` and `next.environment` within the task's stopping point, and let issue-atom check current readiness before effects.
+ 
+ Before initial authorization selection, the authorized Session may act as supervisor: prepare the explicit selection and its SHA-256 using the [authorization recipe](.agents/skills/verify-soodles/features/local-supervisor-admission.md), then use `authorize`. The producer derives the authorization path/digest and validated continuation; do not ask the user to create those files or hashes. Its lower-level `prepare` verb belongs to the lifecycle. On `status=prepared`, preserve the receipt and use its `next.argv` and `next.environment` unchanged for authorized lifecycle execution; the latter binds `SOODLES_AUTHORIZATION_SHA256`. Respect the task's stopping point: if it requests preparation or the first non-help receipt only, save that receipt and hand off `next` without executing it.
+ 
+
+Snapshot checks passed: identical path set, all file/directory modes preserved, all non-AGENTS file bytes and symlink targets unchanged. Source snapshot unchanged.
+Review: local entry only; cloud route, admitted issue-atom routing, missing-authorization recovery, current readiness, stopping points, owner boundaries and unknown-write readback retained. No product/tests/recipes/contracts/carrier edits. No product tests or consumers run.

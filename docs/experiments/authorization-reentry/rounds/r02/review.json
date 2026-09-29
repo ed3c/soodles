@@ -1,0 +1,25 @@
+{
+  "scope": "r02 whole four-file candidate from original baseline; no adopted r01 stack",
+  "review": [
+    "Committed-component filesystem/JSON errors now name authorization.bundle.<component> and preserve bytes.",
+    "Recipe consumes currently supplied selection path/SHA at original output, not historical invocation args.",
+    "No atomic publication, schema, lifecycle or landing transition changes relative to the proposed r01 mechanism.",
+    "Actual CLI tests preserve inode/mode/size/mtime/ctime and bytes; atime is correctly excluded from no-mutation assertions.",
+    "The original full source and historical Git objects are retained by the supervisor regression fixture."
+  ],
+  "focused_controls": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/verification/r02-focused-history/receipt.json",
+    "exit": 0,
+    "tests": 74
+  },
+  "external_controls": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/verification/r02-external/results.json",
+    "cases": 13,
+    "pass": true
+  },
+  "limitations": [
+    "Native Darwin execution; Linux remains unproved until exact-head acceptance.",
+    "No behavior adoption or cost improvement yet.",
+    "Input refusal is a stop at the owning boundary, not automated recovery of absent authority."
+  ]
+}

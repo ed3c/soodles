@@ -1,0 +1,17 @@
+{
+  "status": "ENDED_WITH_MEASUREMENT_DEFECT",
+  "reason": "Legal retained receipt read using recorder /bin/cat was classified as another owner transition. B/C may still fail actual required current refusal; false read-only barrier cannot be counted.",
+  "trigger_run": "baseline-c1",
+  "all_runs": [
+    "baseline-a1",
+    "baseline-a2",
+    "baseline-a3",
+    "baseline-b1",
+    "baseline-c1"
+  ],
+  "pending_handle_at_detection": null,
+  "candidate_existed": false,
+  "no_scores_reused": true,
+  "fresh_baseline_required": true,
+  "all_consumers_terminal_and_cleaned": true
+}

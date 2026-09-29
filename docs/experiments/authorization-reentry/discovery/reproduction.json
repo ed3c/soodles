@@ -1,0 +1,364 @@
+{
+  "cases": [
+    {
+      "after_crash": {
+        "authorization.json": {
+          "bytes": 2347,
+          "sha256": "ee8d990ef8d3f00a159edaeab10baf475e6ce3d445d25427144f894d8b119c61"
+        },
+        "prepared.json": {
+          "bytes": 754,
+          "sha256": "082ec25744037f0e7482156ca8e772e336e18a6d210a1c5130fab73a35002956"
+        }
+      },
+      "after_readback": {
+        "authorization.json": {
+          "bytes": 2347,
+          "sha256": "ee8d990ef8d3f00a159edaeab10baf475e6ce3d445d25427144f894d8b119c61"
+        },
+        "prepared.json": {
+          "bytes": 754,
+          "sha256": "082ec25744037f0e7482156ca8e772e336e18a6d210a1c5130fab73a35002956"
+        }
+      },
+      "before": {},
+      "first": {
+        "argv": [
+          "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/workspace/control/supervisor-admission",
+          "authorize",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/workspace/inputs/selection.json",
+          "27066df909efb9c34f26ab81687ea237d68143791535182f0e94042a3656bf37",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/workspace/handoff/prepared"
+        ],
+        "elapsed_seconds": 0.5928646249230951,
+        "returncode": 0,
+        "stderr": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/first.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/first.stdout",
+          "sha256": "90bc8f665911badfd868ceaa4ac75de9851fcb3979b2a3219cadbcc1d5781642"
+        }
+      },
+      "git_clean": true,
+      "identity_unchanged_by_readback": true,
+      "no_lifecycle_checkpoint": true,
+      "no_noodle_state": true,
+      "point": "clean",
+      "provider_scope": "No lifecycle invocation; no provider capability in fixture; preparation has no transport",
+      "readback_attempt": {
+        "argv": [
+          "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/workspace/control/supervisor-admission",
+          "authorize",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/workspace/inputs/selection.json",
+          "27066df909efb9c34f26ab81687ea237d68143791535182f0e94042a3656bf37",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/workspace/handoff/prepared"
+        ],
+        "elapsed_seconds": 0.13394675008021295,
+        "returncode": 1,
+        "stderr": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/readback-attempt.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/readback-attempt.stdout",
+          "sha256": "d3543b028bd5f641195781d24de6ced5f670fe5dd4413929a2fec127ba8e56fc"
+        }
+      },
+      "refusal": {
+        "authorizes_landing": false,
+        "invalid": {
+          "field": "authorization.output",
+          "value": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/clean/workspace/handoff/prepared"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "required": [
+            "new_external_output_with_existing_parent"
+          ]
+        },
+        "owner": "supervisor.authorization",
+        "status": "refused"
+      }
+    },
+    {
+      "after_crash": {
+        "authorization.json": {
+          "bytes": 2411,
+          "sha256": "9461e52389855e8baad6d61f19d88afc69fcc672684509dea9c45054c7d9ba6f"
+        }
+      },
+      "after_readback": {
+        "authorization.json": {
+          "bytes": 2411,
+          "sha256": "9461e52389855e8baad6d61f19d88afc69fcc672684509dea9c45054c7d9ba6f"
+        }
+      },
+      "before": {},
+      "first": {
+        "argv": [
+          "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/reproduce.py",
+          "--child",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/workspace/control",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/workspace/inputs/selection.json",
+          "4e52be347b00df80d62e0e0f4309b17ef174637c741aa0d7633c56ba0b0179c7",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/workspace/handoff/prepared",
+          "authorization_written"
+        ],
+        "elapsed_seconds": 0.30604154197499156,
+        "returncode": -9,
+        "stderr": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/first.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/first.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "git_clean": true,
+      "identity_unchanged_by_readback": true,
+      "no_lifecycle_checkpoint": true,
+      "no_noodle_state": true,
+      "point": "authorization_written",
+      "provider_scope": "No lifecycle invocation; no provider capability in fixture; preparation has no transport",
+      "readback_attempt": {
+        "argv": [
+          "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/workspace/control/supervisor-admission",
+          "authorize",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/workspace/inputs/selection.json",
+          "4e52be347b00df80d62e0e0f4309b17ef174637c741aa0d7633c56ba0b0179c7",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/workspace/handoff/prepared"
+        ],
+        "elapsed_seconds": 0.1273964170832187,
+        "returncode": 1,
+        "stderr": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/readback-attempt.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/readback-attempt.stdout",
+          "sha256": "9d05c8b3257fbb7ff6bf5a0f04d2e52959282d1d625106aab14292e8c0934edc"
+        }
+      },
+      "refusal": {
+        "authorizes_landing": false,
+        "invalid": {
+          "field": "authorization.output",
+          "value": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/authorization_written/workspace/handoff/prepared"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "required": [
+            "new_external_output_with_existing_parent"
+          ]
+        },
+        "owner": "supervisor.authorization",
+        "status": "refused"
+      }
+    },
+    {
+      "after_crash": {
+        ".prepared.json": {
+          "bytes": 802,
+          "sha256": "4169ef49b29c810d7439c3f937fd42f6ad12709085ead2fd2215ec6bebbb9252"
+        },
+        "authorization.json": {
+          "bytes": 2411,
+          "sha256": "157654cb4044b5e70dd9afa6006724e968d6506b2dda85bf0120209d0567716b"
+        }
+      },
+      "after_readback": {
+        ".prepared.json": {
+          "bytes": 802,
+          "sha256": "4169ef49b29c810d7439c3f937fd42f6ad12709085ead2fd2215ec6bebbb9252"
+        },
+        "authorization.json": {
+          "bytes": 2411,
+          "sha256": "157654cb4044b5e70dd9afa6006724e968d6506b2dda85bf0120209d0567716b"
+        }
+      },
+      "before": {},
+      "first": {
+        "argv": [
+          "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/reproduce.py",
+          "--child",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/workspace/control",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/workspace/inputs/selection.json",
+          "2e2d2d80a17c65071311acc9e8e35c274df183bdc8973ade5900b4b00bb7f04b",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/workspace/handoff/prepared",
+          "prepared_temp_written"
+        ],
+        "elapsed_seconds": 0.3274486670270562,
+        "returncode": -9,
+        "stderr": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/first.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/first.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "git_clean": true,
+      "identity_unchanged_by_readback": true,
+      "no_lifecycle_checkpoint": true,
+      "no_noodle_state": true,
+      "point": "prepared_temp_written",
+      "provider_scope": "No lifecycle invocation; no provider capability in fixture; preparation has no transport",
+      "readback_attempt": {
+        "argv": [
+          "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/workspace/control/supervisor-admission",
+          "authorize",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/workspace/inputs/selection.json",
+          "2e2d2d80a17c65071311acc9e8e35c274df183bdc8973ade5900b4b00bb7f04b",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/workspace/handoff/prepared"
+        ],
+        "elapsed_seconds": 0.13374341605231166,
+        "returncode": 1,
+        "stderr": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/readback-attempt.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/readback-attempt.stdout",
+          "sha256": "1d22101e0912cb38c2225c97fd3a77d357796e7f6990c0db00d8a2db754ac949"
+        }
+      },
+      "refusal": {
+        "authorizes_landing": false,
+        "invalid": {
+          "field": "authorization.output",
+          "value": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/prepared_temp_written/workspace/handoff/prepared"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "required": [
+            "new_external_output_with_existing_parent"
+          ]
+        },
+        "owner": "supervisor.authorization",
+        "status": "refused"
+      }
+    },
+    {
+      "after_crash": {
+        "authorization.json": {
+          "bytes": 2395,
+          "sha256": "11374cf5247a921b667143f6110989a389b8d2d5e4c296341266acc59c210efb"
+        },
+        "prepared.json": {
+          "bytes": 790,
+          "sha256": "61ce0427bce82efd048dea87a29fb499598310a4b92d358c64a824a0abeb9ba0"
+        }
+      },
+      "after_readback": {
+        "authorization.json": {
+          "bytes": 2395,
+          "sha256": "11374cf5247a921b667143f6110989a389b8d2d5e4c296341266acc59c210efb"
+        },
+        "prepared.json": {
+          "bytes": 790,
+          "sha256": "61ce0427bce82efd048dea87a29fb499598310a4b92d358c64a824a0abeb9ba0"
+        }
+      },
+      "before": {},
+      "first": {
+        "argv": [
+          "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/reproduce.py",
+          "--child",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/workspace/control",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/workspace/inputs/selection.json",
+          "b8913772d4ff4d739baa73d77aa8cddc7061703015b489c33411c4c5fca3b7d4",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/workspace/handoff/prepared",
+          "receipt_published"
+        ],
+        "elapsed_seconds": 0.30541954189538956,
+        "returncode": -9,
+        "stderr": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/first.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/first.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "git_clean": true,
+      "identity_unchanged_by_readback": true,
+      "no_lifecycle_checkpoint": true,
+      "no_noodle_state": true,
+      "point": "receipt_published",
+      "provider_scope": "No lifecycle invocation; no provider capability in fixture; preparation has no transport",
+      "readback_attempt": {
+        "argv": [
+          "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/workspace/control/supervisor-admission",
+          "authorize",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/workspace/inputs/selection.json",
+          "b8913772d4ff4d739baa73d77aa8cddc7061703015b489c33411c4c5fca3b7d4",
+          "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/workspace/handoff/prepared"
+        ],
+        "elapsed_seconds": 0.14195820805616677,
+        "returncode": 1,
+        "stderr": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/readback-attempt.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/readback-attempt.stdout",
+          "sha256": "711bb3f54ad75a92f6e821eeca4273c4611b5621bc21afb208eacba722e39295"
+        }
+      },
+      "refusal": {
+        "authorizes_landing": false,
+        "invalid": {
+          "field": "authorization.output",
+          "value": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/faults/receipt_published/workspace/handoff/prepared"
+        },
+        "next": {
+          "kind": "input",
+          "owner": "supervisor",
+          "required": [
+            "new_external_output_with_existing_parent"
+          ]
+        },
+        "owner": "supervisor.authorization",
+        "status": "refused"
+      }
+    }
+  ],
+  "factory": {
+    "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/fixture-public/workspace.py",
+    "sha256": "85b272bfba2929a3eab386774ba07760fc341c09fd258242aed60dbd6d954e5c"
+  },
+  "instrumentation": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/discovery/reproduce.py",
+    "scope": "SIGKILL after successful actual filesystem operation, before CLI stdout; owner source unchanged",
+    "sha256": "d2c5aa94d3e48bc251f88c1a1f398004435b9774ff3989a08e46b8fd5f57ca2c"
+  },
+  "source": {
+    "head": "51821b935424a4697e2534a9f15b068620510025",
+    "owner_sha256": "4c192ab55b68795aa6689c407476bb501f658dbb4e93e9d8ace03c29f6fbe155",
+    "path": "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02"
+  }
+}

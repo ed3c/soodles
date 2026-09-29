@@ -1,0 +1,24 @@
+{
+  "slot": "confirm-winner-a2",
+  "preflight_only_attempt": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/runs/confirm-winner-a2",
+  "first_model_execution_label": "confirm-winner-a2-first-model",
+  "material_capability_readback": {
+    "path": "/private/tmp/soodles-local-muy4oxcy/run/raw/doctor.json",
+    "sha256": "cc5a7dfcbdad6f8521fc1cc0209ed6df1bbf3c5d8dd5e28ea2ee434402dea06d"
+  },
+  "previous_refusal": {
+    "path": "/private/tmp/soodles-local-bnlw5_v2/run/raw/doctor.json",
+    "sha256": "c0e7a8106d4cae16ae524b46f23279a483efed902f7d06b91161fc4c492a5159"
+  },
+  "reason": "Provider endpoint reachability succeeded in a later real same-profile doctor. Prior slot never launched a model, so this is its first behavior execution, not resampling.",
+  "unchanged": [
+    "winner r02 bytes",
+    "case c-a",
+    "neutral task",
+    "evaluator",
+    "carrier",
+    "stopping rule"
+  ],
+  "max_preflight_attempts_for_this_slot": 2,
+  "authorizes_landing": false
+}

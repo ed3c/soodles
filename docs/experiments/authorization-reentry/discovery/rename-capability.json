@@ -1,0 +1,51 @@
+{
+  "scope": "host capability probe only, not product implementation or Linux proof",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "primitive": "renamex_np(RENAME_EXCL=0x00000004)",
+  "sdk_header": {
+    "path": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/stdio.h",
+    "sha256": "a8078ae1cba1a46a66d0de6fe7f13bbc969cdb7e78fc2d4b9a5c5cdaaf16126b"
+  },
+  "linux_reference": "https://man7.org/linux/man-pages/man2/rename.2.html",
+  "cases": [
+    {
+      "case": "absent",
+      "return": 0,
+      "errno": 0,
+      "source_exists": false,
+      "destination_names": [
+        "proof.txt"
+      ],
+      "prior_inode_preserved": true
+    },
+    {
+      "case": "foreign-empty",
+      "return": -1,
+      "errno": 17,
+      "source_exists": true,
+      "destination_names": [],
+      "prior_inode_preserved": true
+    },
+    {
+      "case": "foreign-nonempty",
+      "return": -1,
+      "errno": 17,
+      "source_exists": true,
+      "destination_names": [
+        "foreign.txt"
+      ],
+      "prior_inode_preserved": true
+    },
+    {
+      "case": "foreign-symlink",
+      "return": -1,
+      "errno": 17,
+      "source_exists": true,
+      "destination_names": [
+        "foreign.txt"
+      ],
+      "prior_inode_preserved": true
+    }
+  ],
+  "cleanup": true
+}

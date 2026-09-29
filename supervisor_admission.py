@@ -9,6 +9,9 @@ NOODLES_TOKEN_COMMAND is consumed only by the generated start wrapper, which
 injects its result into the Noodle child environment and never persists it.
 """
 import argparse
+import ctypes
+import errno
+import stat
 import hashlib
 import json
 import os
@@ -526,6 +529,125 @@ def _unique_object(pairs):
     return value
 
 
+def _publish_directory(staging, target):
+    """The sole identity commit: an atomic, exclusive directory publication."""
+    libc = ctypes.CDLL(None, use_errno=True)
+    if sys.platform == "darwin":
+        name, arguments = "renamex_np", [os.fsencode(staging), os.fsencode(target), 4]
+        types = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_uint]
+    elif sys.platform.startswith("linux"):
+        name = "renameat2"
+        # Absolute paths make the directory descriptors irrelevant.
+        arguments = [-100, os.fsencode(staging), -100, os.fsencode(target), 1]
+        types = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int,
+                 ctypes.c_char_p, ctypes.c_uint]
+    else:
+        raise AdmissionRefusal("authorization.publication", sys.platform,
+                               "supervisor", "supported_exclusive_directory_publication")
+    function = getattr(libc, name, None)
+    require(function is not None, "authorization.publication", name,
+            owner="supervisor", required="supported_exclusive_directory_publication")
+    function.argtypes = types
+    function.restype = ctypes.c_int
+    if function(*arguments) != 0:
+        error = ctypes.get_errno()
+        if error in (errno.EEXIST, errno.ENOTEMPTY):
+            raise FileExistsError(error, os.strerror(error), str(target))
+        raise AdmissionRefusal("authorization.publication", os.strerror(error),
+                               "supervisor", "supported_exclusive_directory_publication")
+
+
+def _sync_directory(path):
+    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def _write_durable(path, data):
+    with path.open("wb") as stream:
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
+def _prepared_receipt(root, target, digest):
+    final = target / "authorization.json"
+    return {
+        "owner": "supervisor.authorization", "status": "prepared",
+        "authorizes_landing": False,
+        "authorization": {"path": str(final), "sha256": digest},
+        "next": {
+            "kind": "executable", "owner": "soodles.issue-atom",
+            "argv": [str(root / "issue-atom"), "run", str(final)],
+            "environment": {"SOODLES_AUTHORIZATION_SHA256": digest},
+        },
+    }
+
+
+def _committed_preparation(target, selection, selection_digest, root):
+    """Check stored provenance only; issue-atom owns all live readiness checks."""
+    import issue_atom
+    require(stat.S_ISDIR(target.lstat().st_mode), "authorization.output", str(target))
+    objects, hashes = {}, {}
+    for name in ("authorization", "prepared", "selection-binding"):
+        path = target / (name + ".json")
+        field = "authorization.bundle." + name
+        try:
+            require(stat.S_ISREG(path.lstat().st_mode), field, str(path),
+                    required="exact_committed_bundle_component")
+            fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+            with os.fdopen(fd, "rb") as stream:
+                require(stat.S_ISREG(os.fstat(stream.fileno()).st_mode), field, str(path),
+                        required="exact_committed_bundle_component")
+                raw = stream.read()
+            objects[name] = json.loads(raw, object_pairs_hook=_unique_object)
+        except (OSError, ValueError, AdmissionRefusal) as error:
+            # Readback never repairs committed bytes or substitutes an identity.
+            raise AdmissionRefusal(field, str(path), "supervisor",
+                                   "exact_committed_bundle_component") from error
+        hashes[name] = _sha256(raw)
+    binding = objects["selection-binding"]
+    expected = {"schema": 1, "selection_sha256": selection_digest,
+                "authorization_sha256": hashes["authorization"],
+                "prepared_sha256": hashes["prepared"], "output": str(target)}
+    require(isinstance(binding, dict) and type(binding.get("schema")) is int
+            and binding == expected, "authorization.selection_binding", binding)
+    auth = objects["authorization"]
+    pins = selection["instruction_paths"]
+    require(isinstance(pins, list), "selection.instruction_paths", pins)
+    schema = 3 if pins else 2
+    fields = issue_atom.AUTH_FIELDS | {"landing_owner"} | ({"instruction_pins"} if pins else set())
+    require(isinstance(auth, dict) and set(auth) == fields
+            and type(auth.get("schema_version")) is int and auth["schema_version"] == schema,
+            "authorization.bundle.schema", auth)
+    selected = {"owner": "external-supervisor", "control_root": str(root),
+                "repository": selection["repository"], "issue": selection["issue"],
+                "task": selection["task"], "landing_owner": selection["landing_owner"],
+                "noodle": selection["carrier"]["noodle"],
+                "carrier": {k: selection["carrier"][k] for k in ("platform", "codex")},
+                "workflow": CANONICAL_WORKFLOW}
+    require(all(auth[k] == v for k, v in selected.items()),
+            "authorization.bundle.selection", str(target))
+    require(isinstance(auth["base_head"], str) and issue_atom.SHA40.fullmatch(auth["base_head"])
+            and parse_contract(auth["issue"]["body"]).get("base_head") == auth["base_head"],
+            "authorization.bundle.base", auth["base_head"])
+    config = auth["host_config_sha256"]
+    require(config is None or isinstance(config, str) and issue_atom.SHA64.fullmatch(config),
+            "authorization.bundle.config", config)
+    if pins:
+        from issue_admission import validate_instruction_files
+        validate_instruction_files(auth["instruction_pins"])
+        require([pin["path"] for pin in auth["instruction_pins"]] == pins,
+                "authorization.bundle.instructions", pins)
+    receipt = objects["prepared"]
+    require(receipt == _prepared_receipt(root, target, hashes["authorization"])
+            and receipt.get("authorizes_landing") is False,
+            "authorization.bundle.prepared", receipt)
+    return receipt
+
+
 def authorize(selection_path, expected_sha256, output):
     """Materialize selected authority; never select it or run its continuation."""
     # Local import preserves the existing issue_atom -> prepare dependency.
@@ -551,6 +673,14 @@ def authorize(selection_path, expected_sha256, output):
     require(isinstance(root_value, str) and Path(root_value).is_absolute(),
             "selection.control_root", root_value)
     root = Path(root_value).resolve()
+    target = Path(output)
+    require(target.is_absolute(), "authorization.output", str(target))
+    target = target.parent.resolve() / target.name
+    require(not target.is_relative_to(root) and target.parent.is_dir(),
+            "authorization.output", str(target), owner="supervisor",
+            required="external_output_with_existing_parent")
+    if os.path.lexists(target):
+        return _committed_preparation(target, selection, expected_sha256, root)
     require(root.is_dir(), "selection.control_root", str(root))
     require(Path(_git(root, "rev-parse", "--show-toplevel")).resolve() == root,
             "selection.control_root", str(root), owner="supervisor",
@@ -559,12 +689,6 @@ def authorize(selection_path, expected_sha256, output):
     require(entry.is_file() and not entry.is_symlink() and os.access(entry, os.X_OK),
             "authorization.next.entry", str(entry), owner="supervisor",
             required="executable_issue_atom_entry")
-    target = Path(output)
-    require(target.is_absolute(), "authorization.output", str(target))
-    target = target.parent.resolve() / target.name
-    require(not target.is_relative_to(root) and not target.exists() and not target.is_symlink()
-            and target.parent.is_dir(), "authorization.output", str(target),
-            owner="supervisor", required="new_external_output_with_existing_parent")
     head = _git(root, "rev-parse", "HEAD")
     carrier = selection["carrier"]
     require(isinstance(carrier, dict) and set(carrier) == {"platform", "noodle", "codex"},
@@ -600,34 +724,31 @@ def authorize(selection_path, expected_sha256, output):
         authorization["instruction_pins"] = pins
     data = _canonical(authorization)
     digest = _sha256(data)
-    with tempfile.TemporaryDirectory(prefix=".authorization-", dir=target.parent) as staging:
-        staged = Path(staging) / "authorization.json"
-        staged.write_bytes(data)
-        issue_atom.validate_authorization(staged, digest)
-    final = target / "authorization.json"
-    receipt = {
-        "owner": "supervisor.authorization", "status": "prepared",
-        "authorizes_landing": False,
-        "authorization": {"path": str(final), "sha256": digest},
-        "next": {
-            "kind": "executable", "owner": "soodles.issue-atom",
-            "argv": [str(root / "issue-atom"), "run", str(final)],
-            "environment": {"SOODLES_AUTHORIZATION_SHA256": digest},
-        },
-    }
-    # Exclusive reservation: never replace a directory created by another owner.
-    target.mkdir(mode=0o700)
+    receipt = _prepared_receipt(root, target, digest)
+    receipt_data = _canonical(receipt)
+    binding = {"schema": 1, "selection_sha256": expected_sha256,
+               "authorization_sha256": digest, "prepared_sha256": _sha256(receipt_data),
+               "output": str(target)}
+    staging = Path(tempfile.mkdtemp(prefix=".authorization-", dir=target.parent))
     try:
-        final.write_bytes(data)
-        prepared = target / ".prepared.json"
-        prepared.write_bytes(_canonical(receipt))
-        os.replace(prepared, target / "prepared.json")
-    except BaseException:
-        for name in ("authorization.json", ".prepared.json", "prepared.json"):
-            (target / name).unlink(missing_ok=True)
-        target.rmdir()
-        raise
-    return receipt
+        staged = staging / "authorization.json"
+        _write_durable(staged, data)
+        issue_atom.validate_authorization(staged, digest)
+        _write_durable(staging / "prepared.json", receipt_data)
+        _write_durable(staging / "selection-binding.json", _canonical(binding))
+        _sync_directory(staging)
+        try:
+            _publish_directory(staging, target)
+        except FileExistsError:
+            return _committed_preparation(target, selection, expected_sha256, root)
+        # Publication has committed. No subsequent error may remove target.
+        _sync_directory(target.parent)
+        return receipt
+    finally:
+        # Only this invocation's private, uncommitted staging is ours to remove.
+        # SIGKILL can leave it behind, but it is never an offered continuation.
+        if staging.exists():
+            shutil.rmtree(staging)
 
 
 def parser():

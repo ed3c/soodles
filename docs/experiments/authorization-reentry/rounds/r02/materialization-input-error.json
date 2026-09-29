@@ -1,0 +1,8 @@
+{
+  "operation": "materialize_product_fixture",
+  "attempted_expected_sha256": "8b0d5",
+  "result": "Rejected before creating destination: candidate descriptor changed",
+  "cause": "Supervisor invocation supplied an incorrect abbreviated digest. Actual descriptor bytes were unchanged.",
+  "correction": "Use exact observed descriptor SHA e3c5fe9c7056f12e856cf44b9e51ec66f60056861c7159f0cff6bc0096d5f8cd.",
+  "product_or_judge_changed": false
+}

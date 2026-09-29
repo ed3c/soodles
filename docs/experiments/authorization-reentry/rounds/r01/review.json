@@ -1,0 +1,49 @@
+{
+  "scope": "r01 four-file overlay; deterministic gate only, no behavior adoption",
+  "review": [
+    "Existing authorize argv preserved; no issue_atom/landing/schema changes.",
+    "Atomic no-replace directory publication is the sole preparation commit; postcommit errors retain final output.",
+    "Same-command readback validates stored selection/hashes/projection and defers live readiness to issue-atom.",
+    "Precommit scratch and legacy partial artifacts are not silently adopted.",
+    "No transport/lifecycle effect added.",
+    "Only four audited files overlaid; incomplete worker copies do not delete existing fixtures."
+  ],
+  "focused_controls": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/verification/r01-focused-history/receipt.json",
+    "exit": 0,
+    "tests": 74
+  },
+  "external_controls": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/verification/r01-external/results.json",
+    "cases": 13,
+    "pass": true
+  },
+  "source_bindings": [
+    {
+      "source": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/verification/r01-product-source",
+      "head": "38c4549f3b5eeb6ba808654cea1ff4974552f135",
+      "files": {
+        ".agents/skills/verify-soodles/features/local-supervisor-admission.md": "b882f5b3a78c9c7c6c752dc508787ace9258f51c947330705f46c104936570b0",
+        "contracts/system-v1.md": "9bf485811da870ed7c1a7f77d8f9a316b5c1cc9b8039926f5bd47636537f6da0",
+        "supervisor_admission.py": "4b637a19bbeb67e3782a244d2abf1c65202e79b88c108c34c3679ed9ea861342",
+        "tests/test_supervisor_authorization.py": "c4dd12e6c388c36714781c87fd13766e89e3a93a8e54706651b1dcc27801a5c7"
+      }
+    },
+    {
+      "source": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/verification/r01-product-history",
+      "head": "2bd2fb422078ab6cb673237d310fd7fecd8955e5",
+      "files": {
+        ".agents/skills/verify-soodles/features/local-supervisor-admission.md": "b882f5b3a78c9c7c6c752dc508787ace9258f51c947330705f46c104936570b0",
+        "contracts/system-v1.md": "9bf485811da870ed7c1a7f77d8f9a316b5c1cc9b8039926f5bd47636537f6da0",
+        "supervisor_admission.py": "4b637a19bbeb67e3782a244d2abf1c65202e79b88c108c34c3679ed9ea861342",
+        "tests/test_supervisor_authorization.py": "c4dd12e6c388c36714781c87fd13766e89e3a93a8e54706651b1dcc27801a5c7"
+      }
+    }
+  ],
+  "limitations": [
+    "Native Darwin actual execution only; Linux remains required at final exact-head acceptance.",
+    "Process SIGKILL and local file controls do not establish power-loss durability or full hostile concurrent-filesystem isolation.",
+    "Behavior gates and efficiency remain unproved."
+  ],
+  "next": "Fixed fresh A3/B1/C1 comparison"
+}

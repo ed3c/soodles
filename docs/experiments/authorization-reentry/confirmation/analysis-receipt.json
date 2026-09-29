@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-B",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/evaluator/analysis.py",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/confirmation/comparison.json",
+    "75d22af74d2e881d0ea208b82ff75441b0a80e40f03cd861299f88e864fbf320"
+  ],
+  "exit": 0,
+  "stdout": "{\n  \"authorizes_landing\": false,\n  \"baseline_target_failures\": 3,\n  \"candidate_all_gates\": true,\n  \"cost_improvement\": null,\n  \"adopt\": true,\n  \"verdict\": \"keep_correctness\",\n  \"reason\": \"recovery completion improved; cost remains unproved\",\n  \"efficiency_target_achieved\": false\n}\n",
+  "stderr": ""
+}

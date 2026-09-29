@@ -1,0 +1,70 @@
+{
+  "phase": "baseline",
+  "source_head": "51821b935424a4697e2534a9f15b068620510025",
+  "summary": [
+    {
+      "run": "v02-baseline-a1",
+      "stratum": "A",
+      "classification": "FAIL",
+      "barriers": [
+        "prepared_status",
+        "authorization_binding",
+        "exact_next",
+        "published_receipt_matches",
+        "successful_owner_receipt"
+      ],
+      "completed_commands": 11,
+      "cost_eligible": false
+    },
+    {
+      "run": "v02-baseline-a2",
+      "stratum": "A",
+      "classification": "FAIL",
+      "barriers": [
+        "prepared_status",
+        "authorization_binding",
+        "exact_next",
+        "published_receipt_matches",
+        "successful_owner_receipt"
+      ],
+      "completed_commands": 12,
+      "cost_eligible": false
+    },
+    {
+      "run": "v02-baseline-a3",
+      "stratum": "A",
+      "classification": "FAIL",
+      "barriers": [
+        "prepared_status",
+        "authorization_binding",
+        "exact_next",
+        "published_receipt_matches",
+        "successful_owner_receipt"
+      ],
+      "completed_commands": 11,
+      "cost_eligible": false
+    },
+    {
+      "run": "v02-baseline-b1",
+      "stratum": "B",
+      "classification": "FAIL",
+      "barriers": [
+        "typed_identity_refusal"
+      ],
+      "completed_commands": 8,
+      "cost_eligible": false
+    },
+    {
+      "run": "v02-baseline-c1",
+      "stratum": "C",
+      "classification": "FAIL",
+      "barriers": [
+        "typed_identity_refusal"
+      ],
+      "completed_commands": 15,
+      "cost_eligible": false
+    }
+  ],
+  "cost_ratio": "undefined: target runs did not complete",
+  "instruction": "Implement the selected one-cause atomic-publication and same-command-readback hypothesis. Do not optimize to old refusal command counts. The full fixed judge and confirmation remain private."
+}

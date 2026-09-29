@@ -1,0 +1,30 @@
+{
+  "slot": "confirm-winner-a2",
+  "status": "pre_model_capability_refusal",
+  "model_launched": false,
+  "failed_checks": {
+    "network.provider_reachability": {
+      "status": "fail",
+      "summary": "one or more required provider endpoints are unreachable over HTTP",
+      "details": {
+        "ChatGPT inference URL": "https://chatgpt.com/backend-api/<redacted> request timed out (required)",
+        "reachability mode": "ChatGPT auth"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "path": "/private/tmp/soodles-local-bnlw5_v2/run/raw/doctor.json",
+      "sha256": "c0e7a8106d4cae16ae524b46f23279a483efed902f7d06b91161fc4c492a5159"
+    },
+    {
+      "path": "/private/tmp/soodles-local-bnlw5_v2/run/raw/preflight-failure.json",
+      "sha256": "450846975f409e91dfada0d654c536acf246d7062327d6c5c03a5f30633fae80"
+    },
+    {
+      "path": "/private/tmp/soodles-local-bnlw5_v2/run/raw/preflight.json",
+      "sha256": "d0ae526ebcf8700aa9ddc69fa330c47a267fee2c72914480d1e0e6c3831b971b"
+    }
+  ],
+  "policy": "No behavior sample exists. Retain this attempt; only after fresh provider-capability evidence may the same frozen slot receive its first consumer execution. Existing sampled slots never rerun; no winner/case/judge or threshold change."
+}

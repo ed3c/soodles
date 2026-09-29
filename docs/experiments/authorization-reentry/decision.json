@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "adopt_correctness_candidate": true,
+  "winner": "r02",
+  "selection": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/decision.json",
+    "sha256": "fe85fe91276f466d7d1d0215eca1add686f4b1e0caa95ff1f1c7285849781ba9"
+  },
+  "confirmation": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/confirmation/decision.json",
+    "sha256": "fe85fe91276f466d7d1d0215eca1add686f4b1e0caa95ff1f1c7285849781ba9"
+  },
+  "rounds": 3,
+  "efficiency_target_achieved": false,
+  "net_cost_savings_proved": false,
+  "fresh_supervisor": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/verification/fresh-supervisor/report.json",
+    "sha256": "4e1b62b279854bed9ae02a8a3684947618dd5c57408cbb4f932492a40167237b"
+  },
+  "fresh_downstream": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/runs/downstream-r02/downstream-result.json",
+    "sha256": "0d904a4d50ceb4f92b39f574b7f7219aee8386593ad10cb12e2b8e8dcaadbf03"
+  },
+  "delivery": "pending",
+  "whole_goal_complete": false,
+  "scope": "Local atomic preparation/readback correctness on fixed fault groups. R03 P optimization reverted on required provenance gate. No original unnecessary-human-authorization complaint or universal nonregression claim.",
+  "authorizes_landing": false
+}

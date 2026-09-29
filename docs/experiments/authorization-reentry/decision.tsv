@@ -1,0 +1,4 @@
+id	hypothesis	change	before	after	delta	tests	verdict	note
+r01	atomic complete publication and same-entry readback	four-file candidate	A complete 0/3	A complete 3/3; B and C gates failed	no qualified cost ratio	74 focused and 13 external product controls pass	reverted	Missing bundle file has generic input refusal; consumer used historical selection SHA
+r02	typed bundle refusal and current selected invocation	four-file corrected candidate	A complete 0/3	A/B/C all pass 5/5	A commands 11,10,9; median 10	74 focused and 13 external controls pass	keep_correctness	First qualified comparator; efficiency not yet demonstrated
+r03	AGENTS direct preparation owner route	AGENTS only	qualified median 10	A commands 8,8,7 but A3 provenance FAIL	cost not used	R02 product bytes unchanged; A/B/C 4 of 5 gates pass	reverted	Three-round cap; required evidence failure blocks efficiency adoption

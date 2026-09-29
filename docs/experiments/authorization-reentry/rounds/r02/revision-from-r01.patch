@@ -1,0 +1,159 @@
+diff --git a/.agents/skills/verify-soodles/features/local-supervisor-admission.md b/.agents/skills/verify-soodles/features/local-supervisor-admission.md
+index 4fad159..fe3da07 100644
+--- a/.agents/skills/verify-soodles/features/local-supervisor-admission.md
++++ b/.agents/skills/verify-soodles/features/local-supervisor-admission.md
+@@ -37,7 +37,14 @@ Catchable precommit failure removes only the invocation's staging. SIGKILL may
+ leave private staging residue, which is never a continuation. Postcommit failure
+ or lost response must preserve the entire final bundle.
+ 
+-Re-enter the exact original authorize argv for readback. Strict regular-file,
++For preparation readback, use the existing authorize entry with the currently
++supplied selection path and SHA and the same original output directory. Prior
++invocation/stdout is evidence, not a current input selector. The executable
++compares that selection with the immutable committed binding and refuses changes.
++Do not recompute a digest, create a replacement selection, pick a new output or
++bypass a refusal. Missing, unreadable or malformed committed components return
++an `authorization.*` input refusal naming the damaged component and its path;
++preserve all artifacts for the named owner. Strict regular-file,
+ schema, raw digest, selection, final path and expected continuation validation
+ must succeed; no current host config, base, instruction, carrier or clean-head
+ checks are readback prerequisites. Missing authorization, receipt or binding,
+diff --git a/contracts/system-v1.md b/contracts/system-v1.md
+index e391a3d..42c06b3 100644
+--- a/contracts/system-v1.md
++++ b/contracts/system-v1.md
+@@ -244,9 +244,15 @@ using original final paths throughout. After syncing staging, exclusive atomic
+ directory publication is the sole identity commit; the parent is then synced.
+ Darwin renamex_np(RENAME_EXCL) and Linux renameat2(RENAME_NOREPLACE) are required;
+ unsupported publication refuses without an overwrite fallback. Catchable failure
+-cleans only the exact uncommitted staging, never committed output. The same
+-`authorize` invocation reads a complete matching bundle without rederiving pins
+-or checking current readiness. Binding fixes selection and raw authorization and
++cleans only the exact uncommitted staging, never committed output. Preparation readback uses the existing
++`authorize` entry with the currently supplied selection path/SHA and the same
++original output. Prior invocation/stdout is evidence, not a current input selector.
++The executable compares the supplied selection to the immutable committed binding
++and refuses changes; do not recompute a digest, replace selection, choose new
++output or bypass refusal. It reads a complete matching bundle without rederiving
++pins or checking current readiness. Missing, unreadable or malformed committed
++components return precise `authorization.*` input refusals naming the component
++and path, preserving every artifact and never replacing committed identity. Binding fixes selection and raw authorization and
+ prepared hashes plus canonical output; strict regular-file/schema/path/projection
+ validation refuses foreign, corrupt, missing, partial, symlink, changed-selection
+ and legacy unbound output without repair, including empty-directory collisions.
+diff --git a/supervisor_admission.py b/supervisor_admission.py
+index 94d5fd2..4597c2e 100644
+--- a/supervisor_admission.py
++++ b/supervisor_admission.py
+@@ -593,13 +593,20 @@ def _committed_preparation(target, selection, selection_digest, root):
+     objects, hashes = {}, {}
+     for name in ("authorization", "prepared", "selection-binding"):
+         path = target / (name + ".json")
+-        require(stat.S_ISREG(path.lstat().st_mode), "authorization.bundle.file", str(path))
+-        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+-        with os.fdopen(fd, "rb") as stream:
+-            require(stat.S_ISREG(os.fstat(stream.fileno()).st_mode),
+-                    "authorization.bundle.file", str(path))
+-            raw = stream.read()
+-        objects[name] = json.loads(raw, object_pairs_hook=_unique_object)
++        field = "authorization.bundle." + name
++        try:
++            require(stat.S_ISREG(path.lstat().st_mode), field, str(path),
++                    required="exact_committed_bundle_component")
++            fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
++            with os.fdopen(fd, "rb") as stream:
++                require(stat.S_ISREG(os.fstat(stream.fileno()).st_mode), field, str(path),
++                        required="exact_committed_bundle_component")
++                raw = stream.read()
++            objects[name] = json.loads(raw, object_pairs_hook=_unique_object)
++        except (OSError, ValueError, AdmissionRefusal) as error:
++            # Readback never repairs committed bytes or substitutes an identity.
++            raise AdmissionRefusal(field, str(path), "supervisor",
++                                   "exact_committed_bundle_component") from error
+         hashes[name] = _sha256(raw)
+     binding = objects["selection-binding"]
+     expected = {"schema": 1, "selection_sha256": selection_digest,
+diff --git a/tests/test_supervisor_authorization.py b/tests/test_supervisor_authorization.py
+index e8837aa..bc17ef0 100644
+--- a/tests/test_supervisor_authorization.py
++++ b/tests/test_supervisor_authorization.py
+@@ -123,7 +123,7 @@ class AuthorizationTests(unittest.TestCase):
+ 
+     def test_committed_damage_and_legacy_bundle_are_never_repaired(self):
+         for name in ('authorization', 'prepared', 'selection-binding'):
+-            for damage in ('missing', 'corrupt', 'symlink', 'directory'):
++            for damage in ('missing', 'corrupt', 'unreadable', 'duplicate', 'encoding', 'symlink', 'directory'):
+                 with self.subTest(name=name, damage=damage):
+                     self.output = self.fixture.outer / f'{name}-{damage}'
+                     self.run_authorize()
+@@ -132,6 +132,14 @@ class AuthorizationTests(unittest.TestCase):
+                     path.unlink()
+                     if damage == 'corrupt':
+                         path.write_bytes(data + b'x')
++                    elif damage == 'unreadable':
++                        path.write_bytes(data)
++                        path.chmod(0)
++                        self.addCleanup(path.chmod, 0o644)
++                    elif damage == 'duplicate':
++                        path.write_bytes(b'{"schema":1,"schema":1}')
++                    elif damage == 'encoding':
++                        path.write_bytes(b'\xff')
+                     elif damage == 'symlink':
+                         other = self.fixture.outer / f'{name}-original'
+                         other.write_bytes(data)
+@@ -139,17 +147,51 @@ class AuthorizationTests(unittest.TestCase):
+                     elif damage == 'directory':
+                         path.mkdir()
+                     before = {p.name: p.lstat().st_ino for p in self.output.iterdir()}
+-                    with self.assertRaises((admission.AdmissionRefusal, OSError, ValueError)):
+-                        self.run_authorize()
++                    saved = {p.name: (p.read_bytes(), p.stat().st_mtime_ns)
++                             for p in self.output.iterdir()
++                             if p.is_file() and p != path}
++                    damaged_stat = path.lstat() if damage != 'missing' else None
++                    result = subprocess.run(self.cli(), capture_output=True, text=True)
++                    self.assertNotEqual(result.returncode, 0)
++                    self.assertEqual(result.stderr, '')
++                    receipt = json.loads(result.stdout)
++                    self.assertEqual(receipt['owner'], 'supervisor.authorization')
++                    self.assertEqual(receipt['status'], 'refused')
++                    self.assertEqual(receipt['invalid'], {
++                        'field': 'authorization.bundle.' + name, 'value': str(path)})
++                    self.assertEqual(receipt['next'], {
++                        'kind': 'input', 'owner': 'supervisor',
++                        'required': ['exact_committed_bundle_component']})
++                    self.assertFalse(receipt['authorizes_landing'])
+                     self.assertEqual(before, {p.name: p.lstat().st_ino for p in self.output.iterdir()})
++                    self.assertEqual(saved, {p.name: (p.read_bytes(), p.stat().st_mtime_ns)
++                                            for p in self.output.iterdir()
++                                            if p.is_file() and p != path})
++                    if damaged_stat is not None:
++                        # Readback may update access time, but cannot mutate identity.
++                        after = path.lstat()
++                        for field in ('st_ino', 'st_mode', 'st_size', 'st_mtime_ns', 'st_ctime_ns'):
++                            self.assertEqual(getattr(after, field), getattr(damaged_stat, field))
++                    if damage == 'unreadable':
++                        path.chmod(0o644)
++                    if damage in ('corrupt', 'unreadable', 'duplicate', 'encoding'):
++                        expected = {'corrupt': data + b'x', 'unreadable': data,
++                                    'duplicate': b'{"schema":1,"schema":1}', 'encoding': b'\xff'}
++                        self.assertEqual(path.read_bytes(), expected[damage])
+ 
+     def test_changed_selection_even_with_updated_digest_refuses(self):
+         self.run_authorize()
+         self.selection['task'] += ' changed'
+         self.path.write_text(json.dumps(self.selection))
+         self.digest = issue_atom.digest_file(self.path)
+-        with self.assertRaises(admission.AdmissionRefusal):
+-            self.run_authorize()
++        saved = {p.name: p.read_bytes() for p in self.output.iterdir()}
++        result = subprocess.run(self.cli(), capture_output=True, text=True)
++        self.assertNotEqual(result.returncode, 0)
++        receipt = json.loads(result.stdout)
++        self.assertEqual(receipt['owner'], 'supervisor.authorization')
++        self.assertEqual(receipt['status'], 'refused')
++        self.assertEqual(receipt['invalid']['field'], 'authorization.selection_binding')
++        self.assertEqual(saved, {p.name: p.read_bytes() for p in self.output.iterdir()})
+ 
+     def test_rehashed_arbitrary_continuation_or_authorization_refuses(self):
+         for name in ('prepared', 'authorization'):

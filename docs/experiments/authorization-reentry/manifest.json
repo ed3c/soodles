@@ -1,0 +1,762 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 193
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "baseline_sha256": "206a24d7084bafd760ef1a7316dcc9004778cb0641f995eb5d68af532731414b",
+      "treatment_sha256": "3c4d068ffcdebc6a01c128a3a6bf5a70fdf9f56fc9b1c89ddcc56d7afacc90f7"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "contracts/system-v1.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-baseline-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5cb0b1313da5080473b0e8129d4157ea4452bb3727160c661c743e3fb461e107"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-baseline-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4bb42f5fcd771d0088ea351818cf0046fe180bb3c26e6db3ed89a34d26edc9f6"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-baseline-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e1e00c03b2af913ee49f8a745d9e56d78969595da8842f2b79f6b11a9500cc8b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-baseline-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5b84ff28e3a2f7a94c03b3427c7f05109c5a88b363b2df9d49b4c836a52d799b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-baseline-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bbd91c0b91ed5201b16f9fa7a37f33bf510e17917bd2ce4aa2b0a66d29975180"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-winner-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "49e9d69258990edfd35d7fd93740b9a0a0e39cf36cab27e035413a89126b81e7"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-winner-a2-first-model.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "443d2e18a5adcfa8c6022f4f5bf196406dfeea35318f2be7f08b68dbf6f3c03d"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-winner-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3bb0480f7d2e176c591562601fa0719cb0b5cbd18b7a1e5a852fe5746cdf0f2b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-winner-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9f81f26273a7f4e6f21a2266d04450beec4318a38c3e25ab92b4226741c78160"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/confirm-winner-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7a632e58ff8a59308297e939adea53a8791976e278f9382fefd99184744698fc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/continuity-r02-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a3ce9e847891b8e850eb2f370046c02694afa6c04444f610be99b24363b025c2"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r01-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "67d73b192feeb900efc541b4548acccb035ac8e1d36c76664aacec1467ca841b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r01-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f903569dc0e8e3c8c7aa996df07991aba27a7962f3b52127bfe9c64448d3fadb"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r01-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a1fa7e7c3aa2317b7ee7be9a90548ed195c9d1823b60aaa8c69f19046a26840f"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r01-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "27311b32849684298be1bd8dca238eb7f46b8da627f0df2e01fe4c5f087763d4"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r01-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "73f9b89864483613d304eb367413bec4b36e81e5576a9470f27bcc2e956bcb18"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r02-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4dfd32c5a50782a20361c6b7942aa564ee7efb4bf00b982a182d53857004dcd3"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r02-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "002c69cf72983ba4a0b7e8085a0d0897870d9b3433d5b78d04c0bbccf881e7f2"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r02-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c1e7f47c4dccf974d8ebaea0c860c46345c00dad531a9d4349b776d469a5ce4f"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r02-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5da2fd0e032a9314b7165b9452a9acab61a6279926ea109f7b99eb2a6dd71d68"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r02-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ca9eb0b03e367ed2d483e53aad185804115e4f4623b339aeed491e50f2441fa9"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r03-ready-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "066123bf2d9df97037e6d07051c774e526a6d045c5086b21522bd32ebb302a07"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r03-ready-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "eac2ad2eb56564859bd4760d5f6609f2860f32858fbcb2348866fce274b520ca"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r03-ready-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f8a3f3bc369b4ef1cec309a5ec36e5354f17ad617c3dcce3d036188675ee4540"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r03-ready-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "89143fe3320a6fe5254a35ace8852b0239e121682410d182789ec6e6b5c1d803"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/r03-ready-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "541df7750e3ee736270efacf4cdb6ab78ec1ef5e30108daf6cc80fcbdc1fa065"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/supplemental-capture.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1b958c0bf3bab7ce88fefaf34ce4e2401188d8effd004d024c54217f233562b4"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/v02-baseline-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b2916706160eade238a36d1cb3c1c23a09d7a7805b5a478384fb647834712b3a"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/v02-baseline-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0be3bf281d9ffef30ab3d08b12bc0f41e4857f2c00cc113075de3b420f5533f6"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/v02-baseline-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "010e2e5d42a5bbb8d87cd6d059ba741d96f61e7c63c118d0c7e0d9a44b48af1f"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/v02-baseline-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "94efaf3c1097948b4491335c1ca8694a812483e37a40e1f5f765fae4c2f0bf41"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/archives/v02-baseline-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fd67790e4ea353b9f7cd21dfd45eef76bc8bdadb54a59bc39e4189d9a096e0cc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/boundaries/v01/closure.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "486654c6bec5860ced1b6da120aafb3d014801085a63bf7294b4cbeb680e1c81"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/boundaries/v01/evaluator/capture_decoder.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "701ada7eb3f22b4a7639df423573f1fb298c12620e8ff8ec1f8f56b04d38f8fd"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/boundaries/v01/evaluator/check.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "83b9acd6f9e8d1eee62779665f95ba233b369e91cfe95f8e29a08c312b9a57bf"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/boundaries/v01/evaluator/controls.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "64dd2638a3db3312c9cae62209ef54d6acbdfa6ef3c9b12164bc635341ed7e0f"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/boundaries/v01/evaluator/controls.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5c19791eea3ff6e0e3e24d87779aba51a1aada11e00c02f8591f7de9c54b28cc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/boundaries/v01/evaluator/test_check.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c45b6caaa54f0c9f406342097afdfef9dab2667eb66c74e1fb022bbc78f65417"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/boundaries/v01/freeze.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "458511804c57a2bd0cdb56cf88a97b0427cb5c92d9cb709b423febfb7008bed0"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/boundaries/v01/host/assess_one.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7b2643871c108d677ea12beaa4dbab7af1760a1e0e40abefbecef4d5b45108c1"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/boundaries/v01/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "758e151d0e87abe445336b7a9a6d5de243d25dc9e3ae67fbb4e10eecead80604"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/cases/cases.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e4090a7d7dcf7a0418928db36370eb04715ee874f4b591b03e8c4354166c2957"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/cases/fault.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1c3d1045434a24a1499c6a7d13e4031347eaeb981f7e9efcb02d90ab75ff40bd"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/cases/workspace.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bee6fc0cfdc3696792bacebe25bcb8754e2b0e868a3bcf99bb62f8558b10fe85"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/confirmation/actual-membership.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "736da7141c9e6f00235f91e374731650643c323cbd691931098c5a63801d563d"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/confirmation/analysis-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c400e54994cf20d8f2e51ac57d4c5311ac1bc188dcf1a8feaea2ea558aabdd99"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/confirmation/capability-continuation.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3df6c861f56f4496e86bb7b48d13ac4a67353cd634edeccea8d877ef313133a"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/confirmation/comparison.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "75d22af74d2e881d0ea208b82ff75441b0a80e40f03cd861299f88e864fbf320"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/confirmation/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fe85fe91276f466d7d1d0215eca1add686f4b1e0caa95ff1f1c7285849781ba9"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/confirmation/preflight-refusal.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b1949eb5d5987cd1d04b6f005abdb3999ecf79f793b27ad02a8d42b5442bb486"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/confirmation/winner.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "807f1344d7a36555401cc68e5ad43f1365bc48b11268a26552cc5f0486aca1ee"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3e8c583415d10b0de9faa0b72d09533029bcb4ff3216cb11eb4860b7db028634"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/decision.tsv",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e8a2107cab162f41ce1c709f058c0f351aaacda39aba6e3e7afbd69dc31f6c35"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/discovery/eval-audit.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "42ff3c9a720ae2fc53504d4925c1acf3af682d614101591b1d477db6ace4e183"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/discovery/how.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4b4ea89e4ebabaaaa3a9321196609d575c62d1d66a8916c87fe0b91c5e0fd3c9"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/discovery/rename-capability.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c333434bcb4575302742bbb8100c934bb81d7165abf316d5703c7912b825dbe9"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/discovery/reproduce.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d2c5aa94d3e48bc251f88c1a1f398004435b9774ff3989a08e46b8fd5f57ca2c"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/discovery/reproduction.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7943b19f3306e23b636ed3ed5e4ae7c9b77c31eb4b869e32dce1c486549d1fcf"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/discovery/train-observation.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ccb102b1e31394df8df6b2d4117555534dd3120bada0937dcd8678fd18657a15"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evaluator/analysis-selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b5654fa52fa2ea00949fb1fbb6ae1093e9c6b81219faba0d4e54b7f4246bd95c"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evaluator/analysis.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f4b824366c608c88354bee018d0c95d3dfb71ffa097ad7dfdfbcb9517e37fb73"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evaluator/capture_decoder.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "701ada7eb3f22b4a7639df423573f1fb298c12620e8ff8ec1f8f56b04d38f8fd"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evaluator/check.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c371b70d81f2cfe3593c1de076a9d15fa65c6c7bb70762c39706580d9794e1d7"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evaluator/downstream.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "dafe6484d0545bbd8f01b65ca537cb23c18f684dd93f4b5153533b9989ab7234"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evaluator/product-control-selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6f2bf94768ec4810ed719d9a6d9b5b0ede6dacbe27a39608b6c333025e8b4d8b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evaluator/product_controls.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "167d532530e4e8e3a48137b215716e90c8d3e825efe4e16d69d7e8e6d4fb37ac"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evaluator/test_analysis.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5c6a0359b850adc89949f5fa530f53855e8af76dc3299e9f5b87855895598f9b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evaluator/test_check.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "38a5e5abce8352ea62ad1a64548b27c1c44e96f8fd39f51fa584bfc4707a2945"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/evidence-index.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "34be905a9f4e17e39a1f49f4cccba816d377f26eecf3bc677f7a1c68c896a4be"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/freeze.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9e73a4e12f441d9fed79f6d53502fd663187b8b37e5ee14e5dd586f9be84c06c"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/methods/architect/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "691cd39f52c7b613866e6baf9ea0b05451ffa21a6a9b4102f166418b89178fde"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/methods/eval-audit/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/methods/evals-start/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/methods/how/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d31805589c7f6a63a6db6c9fadebbd79fb9660682cf1654e9b2e5e1e7cd30bc0"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/methods/how/references/explainer-prompt.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ddb89cebefc24e2b54517a331aedfe045b6971e101f45c71b8cef4cccff45bff"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/methods/maintain-verification-skill/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "515c0eaa054b3f6be1b1fb06f2c2f173c80fddb58bbcac57576f89c479bc68e8"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/methods/maintenance-scope.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bbb69cc9fe0698d870f186c7c2f56f2ff669f06da4c202f1f3968417cb945973"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/methods/pins.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6f1e3a998842d5a10bcac6fc910ff2fafd811de45541a976a86e3f73d10f9ecc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/methods/poteto-mode/playbooks/hillclimb.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "41980da135de2579bb38570e4b3373e015029148734ab5dc7d6103417b499af6"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/objective-revised.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3a2d7b16a1872d1332a9f76067d5680994cee1a0442f894fe5cbe06deb873a5a"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5ac08b2307fea8d61f5bccad5fe129a06eb0f2a9ef2ca633e226daf52237a8f5"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/requirements.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "220b1e36cabf578b26a64b6f8d3bd0b1875c234a32904cd644f0db511587b1c8"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/results.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d242b5f98f24208b5e8d62451a1974581eb1642767eadd1dba18cce5ab7743c1"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/analysis-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2a715f9b606e41a426a284b4883bd97e19293a066d6c0b8cbbd50c85e4a572a9"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/change.absolute-paths.patch",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d7fb91cf97df99819bc163ad00b4835b9b4d6a255a72cabeea9d204165d25057"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/change.patch",
+      "role": "fixed source or experimental evidence",
+      "sha256": "79335310f41875a4ae13d010998d6b8deeb6c472d1d6fc6027de8e7d07883449"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/comparison.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "cb808621c5a75d6741f3fa4142e28adabcd6e33ad27627666634684c1fcda196"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5bc7571258e3ad30df54664ce5d3cdc5ec253b3ea5e9992690517d92da3383fc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/input-correction.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "59180314dcf106c32ac6904a83316f3c196c4f79f0fcba70d3884fac0698ee33"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/overlay-audit.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "35d757e94ec5619b79ee04604c38373fe509c06531e9f93941d316cbd4448919"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/product-candidate.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "60d2de04c456c88bda9974f2c21afa0a784796c4265ee6ebc1862ea2af395d6f"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/review.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4c237a2a12e80dfe9ce94181af9f563f9eb22ca4a28eb7d501cba633514b7f24"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/selection-summary.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e22498d5598a66d0f5d9645efe6a6a4cae68ad3195596a07fcc847de735f7222"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/source-packet-reassessment.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2b0ad5402d899511fc6dd2161c642e287054901010b051c690ac21763027d271"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/task.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "aa6522632d0e30f75030b0f2a481c2f3458dda49b8b9df1c8f28c7b73492afd3"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r01/treatment.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "da0772da8f10af6ea9462d0156d2598790c3e55a96dfa4e2846e043fdf078958"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/analysis-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "dbd43318484bda3bee2c773c16178f76a8b97e9319970ae7e213e79be0552842"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/change.patch",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8f2dd8d8c940fa13b05c542c7c40f5c3e7cd87b714b633f115dfaff541e2d0a5"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/comparison.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3b59075ac97d75de371a59eb33155b7264a49aa95b538bbccb04ea55d0ef7ce0"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fe85fe91276f466d7d1d0215eca1add686f4b1e0caa95ff1f1c7285849781ba9"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/input-boundary.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d75677ccd674a46e867bca1843384408d3433429e38cb028a627384aba94eadb"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/materialization-input-error.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5eb4b2b8493aa2e52c80285baf9c2eba997dc937b6c4ec7a5440e04b94493284"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/overlay-audit.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "50095a9e9001ec70aca04a7b0c335096d52ac918b1fbba3b8389b3bcd319937b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/product-candidate.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3c5fe9c7056f12e856cf44b9e51ec66f60056861c7159f0cff6bc0096d5f8cd"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/review.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fa7bdab00208d4652dc7ab1c2875224a504e34779b86dcb5e8a8cb57128a0d87"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/revision-from-r01.patch",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9acf4a4fb787bb8e92ee2a8d1c473949b8c0e7c6b08f643d5543f030451d84bc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/selection-summary.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f4bd48c357c6a4b7e4664e8bef95a4e4ba0489f33ad24efacba0d36cfc5a5bd2"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/task.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5bdafc13cdb2d7531fe7abdbacd09b27b5cb372911e5e9f16292df137f0d4fd8"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r02/treatment.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b3effebd680cbd1c71d675c314e5d98a09c4d2987d1f28cf22526c3c70d789a7"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/analysis-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f127532a906beb527a56da0592ef7b8343bf9bd56e5096e6719bc69f6a76245c"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/change.patch",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c47f4ccc97e251591ef802e83b95034557ab7c6ba81feb85371b153adfb5fb82"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/changed-files.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "dbbedef5a0bba49304bc7cdde763ab367a81c5bd9d8c343f8b80ae3a5b060b92"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/comparison.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8672528cacfcdaa928240a56d5a80da32876402c53a1828e084d60458fa5692d"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5bc7571258e3ad30df54664ce5d3cdc5ec253b3ea5e9992690517d92da3383fc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/failure-review.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d47ac1c3fed6ccb975f0d921665696b2adcceebec03173e7e13670d3f82aba81"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/hypothesis.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c8c16b2e3e1d415343520af3cb7b1a244f7f16016901282529b87584f715f9e4"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/preflight-failure.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e96eb54de6cee5eb9f1195724325737f05a3d1488c9f7c81279d280be5a6b76c"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/product-candidate.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a52b6a003976d39e0a1b28707bd2354c51ba096240b40d6d19295b251dea96bb"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/report.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ceb5f061ef6fca9ae2b950f35b3a74e3113a2b35b6cb44c59838cad8dc90abb1"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/review.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "238f764f7a2dc3cc438d087be7b0482c8a4f3f5a9f36e0a5956feb8f779e47b5"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/review.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6efea51fde509ddcb02da72b5fca5c6abd5af1e8d02df40d55e0f92dfd47f12f"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/revision-from-r02.patch",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a593e9abbb82167950a4a89c6fcbab6be1f631590e966f0cda9604fe656f5f09"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/selection-summary.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e4d820d48090cf113a2c8f2e253f768bc074e0044a5f8fddf1058fa390b95f5c"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/task.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "20d5cc9ab5a6fe1afc808b9a8245f76b051df5877a9578faf3d8bc269570f0c9"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/rounds/r03/treatment.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "cba58f3037fcaba963c7f71351e354e32adc73a927f8ad62651486951637f9bc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/supplemental-index.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "47f5424eac0023c5d2ac0474b4b88ea4635fa5bb094231ee065cb0dd6697a9aa"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/synthesis.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d1124dbe6f87513d2450096ecaf75318591447517d10c9b21d98bcfbe6877545"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/archive_case.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "da3287c77f10c92c3800f30aede69e9148636050a8f83a2c4ce3cfe41ff863ac"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/assess_one.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7b2643871c108d677ea12beaa4dbab7af1760a1e0e40abefbecef4d5b45108c1"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/downstream-task.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9c2eb626a5c4aef1852deb76b51840261489c566193715689e7cea7226702ded"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/downstream_workspace.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "94d818c6d8a7bbdee6421def60da8ba98d8c78dc95d3900ca4027910b5a8ea5c"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/launch_downstream.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "740e4945b8713f566f2104409abf7cce0c52ed7a5a0922873bbf715f7b2907b7"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/launch_one.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d3baa7785d9ce2e5b450e6d029999afb55da542f1a72228a0cf966c90493d1a7"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/launch_optimizer_r03.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5d1573ae29ae323a00a9fdd770dd9317797007c1bde458d7ef82b36839b1c728"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/prepare_public.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5efec7df42d0912f2130cc71d15e0f89e78cc76a87c17dc9fc9d94a3a3016c74"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/replay_archive.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d6fd7f87781f92be00821beef48968fec7b6234976be65f0dd927d84a13cc25f"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/tools/report_costs.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "59f9e380d3fbf4576155d82738d0405b14ad2a26a0cf64ff525d307f96c95bc2"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/verification/controls-and-handoff.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b2bf3021bd38ce3c0db1dc3af451fa8764035321fbdf9aedfe221b99b09b7bf0"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/verification/costs-confirmed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2a815ad747c06b337643bfc99ed50cc925a2c1b9a7d32910addf9a9d2c72d148"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/verification/evidence-index.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "51c8e3a4e017bdf43a1ad73b420b478fe3030cf40f9610ada86fdd4b5c1238ff"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/verification/packaging-fix.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "751a8d8c5e520775719177b62f98ebe27bf64890de1e82bd4051e80e7457506e"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/verification/packet-replay/receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a9df6feb2130edbea670dcdffcc3ab6773879a5e44d880fce2963c460f75ec3b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/verification/packet-replay/stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "968267236ebef08821f51a510b36e633eda8788d6d9c7640cf9c091e15a9c6dc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/verification/packet-replay/stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "09e2d21018f636f43019e854508299dae7a03c830f0894d62bc2a0e22c826d07"
+    },
+    {
+      "path": "tests/test_preparation_reentry_evidence.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "be7e117bf131df57349d35c4ce90a1bc5d9f11bec4e109cdc43232b0aad004ae"
+    },
+    {
+      "path": "tests/test_supervisor_authorization.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3ba00d2b116e4674192b2313bb79ed18488b2bbf3cb65e61d2efce76a9e54cff"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#193"
+  },
+  "authorizes_landing": false
+}

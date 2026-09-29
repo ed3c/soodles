@@ -237,11 +237,30 @@ waives Linux exact-head acceptance or selects the candidate's own verifier.
 Before initial authorization selection, an authorized local Session may act
 as the external supervisor. `supervisor-admission authorize` materializes its
 explicit selection through the existing Issue-atom validator. It derives the
-committed base/instruction and host-config identities, preserves selected
-carrier/publisher pins, and emits `authorization.json` plus a final prepared
-receipt carrying exact `next.argv` and `next.environment`. It performs no
-lifecycle/provider effects and grants no landing authority. An existing output
-or an unavailable already-selected authorization cannot be silently replaced.
+committed base/instruction and host-config identities and preserves selected
+carrier/publisher pins. It writes and fsyncs `authorization.json`, `prepared.json`
+and immutable schema-1 `selection-binding.json` in one private staging directory,
+using original final paths throughout. After syncing staging, exclusive atomic
+directory publication is the sole identity commit; the parent is then synced.
+Darwin renamex_np(RENAME_EXCL) and Linux renameat2(RENAME_NOREPLACE) are required;
+unsupported publication refuses without an overwrite fallback. Catchable failure
+cleans only the exact uncommitted staging, never committed output. Preparation readback uses the existing
+`authorize` entry with the currently supplied selection path/SHA and the same
+original output. Prior invocation/stdout is evidence, not a current input selector.
+The executable compares the supplied selection to the immutable committed binding
+and refuses changes; do not recompute a digest, replace selection, choose new
+output or bypass refusal. It reads a complete matching bundle without rederiving
+pins or checking current readiness. Missing, unreadable or malformed committed
+components return precise `authorization.*` input refusals naming the component
+and path, preserving every artifact and never replacing committed identity. Binding fixes selection and raw authorization and
+prepared hashes plus canonical output; strict regular-file/schema/path/projection
+validation refuses foreign, corrupt, missing, partial, symlink, changed-selection
+and legacy unbound output without repair, including empty-directory collisions.
+Concurrent same-selection publication may read only a validated winner. Stored
+`next.argv` and `next.environment` go unchanged to Issue-atom, which owns current
+head/config/capability/checkpoint checks before effects. Legacy complete prepared
+receipts keep their original trusted handoff; no historical binding is invented.
+Preparation performs no lifecycle/provider effects and grants no landing authority.
 Candidate writers cannot use this preparation role to choose their own judge.
 
 An external supervisor authorization fixes the repository, base, exact Issue
