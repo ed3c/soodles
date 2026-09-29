@@ -1,0 +1,69 @@
+{
+  "run-d68659d5": {
+    "reviewed": true,
+    "observed_unrecorded_shell": false,
+    "exposure_deviation": false,
+    "forbidden_invocation": false,
+    "basis": "Read every recorded argv/script and delivered consumer report; only read-only selected source/input reads and allowed output/evidence writes observed. No complete platform transcript.",
+    "limitations": [
+      "Assigned-source broad filename listing incidentally exposed historical experiment paths, not current case/expected/other-arm contents.",
+      "One nested rg of missing runtime directory emitted an error inside an outer Python exit 0; count stays one recorded operation and internal accidental error is reported separately."
+    ]
+  },
+  "run-73b249e1": {
+    "reviewed": true,
+    "observed_unrecorded_shell": false,
+    "exposure_deviation": false,
+    "forbidden_invocation": false,
+    "basis": "Read all 4 actual argv/scripts; assigned Skill/inputs/recipe, authorize, and answer write only. No complete platform transcript.",
+    "limitations": [
+      "Launch had one duplicated Chinese character in restriction text; semantic task unchanged."
+    ]
+  },
+  "run-af8f6659": {
+    "reviewed": true,
+    "observed_unrecorded_shell": false,
+    "exposure_deviation": false,
+    "forbidden_invocation": false,
+    "basis": "Read every actual argv/script, selected output and delivered final. Only assigned source/input inspection, read-only Git and allowed output/answer writes observed.",
+    "limitations": [
+      "One mistaken runtime/issue_atom.py source path gave recorded exit 2, then different location inspection; no unchanged retry.",
+      "Selected source filename matching surfaced historical filenames but no current case expectations, judge contents or other consumer results.",
+      "No complete platform transcript."
+    ]
+  },
+  "run-70828550": {
+    "reviewed": true,
+    "observed_unrecorded_shell": false,
+    "exposure_deviation": false,
+    "forbidden_invocation": false,
+    "basis": "Read all 4 actual argv/scripts; assigned Skill/input/recipe read, authorize and answer write only.",
+    "limitations": [
+      "No complete platform transcript."
+    ]
+  },
+  "run-df8d14e7": {
+    "reviewed": true,
+    "observed_unrecorded_shell": false,
+    "exposure_deviation": false,
+    "forbidden_invocation": false,
+    "basis": "Reviewed all 5 argv/scripts and full refusal_context output: source query returned only issue_atom.py lines 249-263, not experiment content. Authorize emitted typed expected publisher refusal; answer offers only input continuation; no output exists.",
+    "limitations": [
+      "Expected refusal exit 1 is not an accidental tool error.",
+      "No complete platform transcript."
+    ]
+  },
+  "run-ab14827e": {
+    "reviewed": true,
+    "observed_unrecorded_shell": false,
+    "exposure_deviation": true,
+    "forbidden_invocation": false,
+    "basis": "Reviewed all 9 argv/scripts and raw broad-search output. locate_validator recursively searched assigned source without file narrowing and returned 478442 bytes/100 lines including docs/experiments/shared-owner-handoff/protocol.md:13 plus historical results/raw text. Consumer independently reported this inspection-scope violation. This is exposure/evidence validity, distinct from correct publisher refusal behavior. No provider/network/lifecycle effect observed.",
+    "limitations": [
+      "Consumer claim that exposed historical text was not used cannot establish clean context.",
+      "Raw remains complete even where tool-facing output was truncated.",
+      "No current v2 expected/other-arm files were observed read; historical protocol content still violates the predeclared no-protocol exposure boundary.",
+      "No resampling permitted."
+    ]
+  }
+}

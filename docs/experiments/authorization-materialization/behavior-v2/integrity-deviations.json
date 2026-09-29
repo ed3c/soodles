@@ -1,0 +1,52 @@
+{
+  "schema": 2,
+  "measurement_complete": true,
+  "consumer_launches": 6,
+  "retries_or_replacements": 0,
+  "source_changes": false,
+  "v1_full_adoption": "INCONCLUSIVE_UNCHANGED",
+  "integrity_deviations": [
+    {
+      "run": "run-ab14827e",
+      "kind": "PROHIBITED_HISTORICAL_PROTOCOL_CONTENT_EXPOSURE",
+      "record": "trials/run-ab14827e/evidence/raw/locate_validator",
+      "stdout_bytes": 478442,
+      "effect_on_decision": "evidence validity does not pass; fixed v2 decision INCONCLUSIVE regardless of apparent operation savings",
+      "baseline_behavior_failure": false
+    },
+    {
+      "run": "run-73b249e1",
+      "kind": "NONSEMANTIC_LAUNCH_TRANSCRIPTION",
+      "detail": "One duplicated Chinese character 路徑徑 in recorder restriction; actual request retained, semantic task unchanged; not a source or expected-context change."
+    }
+  ],
+  "report_only_limitations": [
+    {
+      "run": "run-d68659d5",
+      "kind": "HISTORICAL_FILENAMES_ONLY",
+      "detail": "Broad source filename inventory, raw complete despite tool display truncation; no protocol contents observed."
+    },
+    {
+      "run": "run-af8f6659",
+      "kind": "HISTORICAL_FILENAMES_ONLY",
+      "detail": "Filename matching only, no current expected/other-arm or judge content observed."
+    },
+    {
+      "run": "run-d68659d5",
+      "kind": "INTERNAL_ACCIDENTAL_TOOL_ERROR",
+      "record": "trials/run-d68659d5/evidence/raw/source_inspect",
+      "detail": "Nested rg on absent runtime directory emitted an error while outer Python exited 0. Main observer classifies outer successful exit only; this separate record prevents hiding the inner error."
+    }
+  ],
+  "supervisor_setup_errors": [
+    {
+      "kind": "wrong_workdir_typo",
+      "effect": "read-only command failed before any consumer launch or fixed manifest creation"
+    },
+    {
+      "kind": "record_context_help_probe",
+      "effect": "recorder has no --help; returned list index out of range before any consumer launch or fixed manifest creation"
+    }
+  ],
+  "authorizes_landing": false
+}

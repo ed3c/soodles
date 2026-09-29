@@ -1,0 +1,53 @@
+{
+  "decision": "INCONCLUSIVE",
+  "adoption": "DO_NOT_ADOPT",
+  "evidence_valid": false,
+  "reason": "Projection mode freeze defect before launch; both launched evidence source_bytes_and_modes_unchanged=false; four consumers not launched after discovery.",
+  "consumers_launched": 2,
+  "consumers_not_launched": 4,
+  "captured_operations": 18,
+  "reported_pair_counts": "10/8 captured, invalid and not eligible for improvement comparison; remaining zeros in observer are missing records, not measured outcomes.",
+  "scope_preflight": "PASS before faulty later freeze; work staging scope repaired but final input mode freeze invalidated measurement.",
+  "source_product_changed": false,
+  "judges_or_old_verdicts_changed": false,
+  "deviations": "integrity-deviations.json",
+  "artifacts": {
+    "protocol.md": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/protocol.md",
+      "sha256": "d3bec568e681e9b0680fdaf340a658c6a39ed56bc0059b8b6665456559cd80e9"
+    },
+    "observer.py": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/observer.py",
+      "sha256": "522041269f62dff3f1a7aa52ee259783ff959b3dee30028f74786a12e5859a98"
+    },
+    "manifest.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/manifest.json",
+      "sha256": "82bc98beffea84e6cefb899c39ec6687672e7dc265a6efd09422b39b29e7ea5a"
+    },
+    "decision.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/decision.json",
+      "sha256": "c426fdf42402565ee6adf34e68bb2e46e4711280d3115eea6c47eb52e8301e9e"
+    },
+    "observed.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/observed.json",
+      "sha256": "26ef73c42bfae6c4813d9f449610e1f0cf9765cfcb4b6bd49a01702413d50551"
+    },
+    "trace-review.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/trace-review.json",
+      "sha256": "b68ca1138dc11ccf0c1d185de51302c8bf735dc1966d028da5fa02194cfdf6c5"
+    },
+    "integrity-deviations.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/integrity-deviations.json",
+      "sha256": "cb88ac646bdcb295d4e7b34ac07f99a9cf792b8f92a861006bbf7dc9b9565eed"
+    },
+    "raw-manifest.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/raw-manifest.json",
+      "sha256": "f4e9e4ed25ac9ab1d7877708b3b8a80ab79b3d5ce37f551ffcbdf6d1ae12276c"
+    },
+    "preflight/result.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/preflight/result.json",
+      "sha256": "6d8a5c7f504fb3c320ea2edc07a8e46a7a2c83882a3e4c9f12084bb0f7d5f801"
+    }
+  },
+  "authorizes_landing": false
+}

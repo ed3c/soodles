@@ -1,0 +1,10 @@
+{
+  "status": "INVALID_LAUNCH_ABORTED",
+  "agents": [
+    "/root/prepare_h",
+    "/root/prepare_i"
+  ],
+  "reason": "The supplied fixture directory names exposed publisher_changed. Consumers were interrupted; any partial outputs are retained, never scored as confirmation.",
+  "correction": "New neutral directories and new fresh consumers, identical fixed winner and criteria; no source adjustment.",
+  "authorizes_landing": false
+}

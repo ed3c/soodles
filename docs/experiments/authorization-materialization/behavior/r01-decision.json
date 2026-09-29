@@ -1,0 +1,8 @@
+{
+  "decision": "REJECT",
+  "candidate": "a42b01ac8e59469317b9309842564383c3181fea",
+  "reason": "Fresh consumer hit PermissionError because selected P-class recipe invoked a non-executable existing entry without Python. This creates a new avoidable failed command.",
+  "raw": "schema2-treatment/raw/03-authorize",
+  "remaining_r01_runs": "not executed after defect; do not impute success",
+  "authorizes_landing": false
+}

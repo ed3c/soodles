@@ -234,6 +234,16 @@ holds that existing Noodle lock through its existing cleanup transition and
 retains unknown-cleanup protections. Neither absent history nor native custody
 waives Linux exact-head acceptance or selects the candidate's own verifier.
 
+Before initial authorization selection, an authorized local Session may act
+as the external supervisor. `supervisor-admission authorize` materializes its
+explicit selection through the existing Issue-atom validator. It derives the
+committed base/instruction and host-config identities, preserves selected
+carrier/publisher pins, and emits `authorization.json` plus a final prepared
+receipt carrying exact `next.argv` and `next.environment`. It performs no
+lifecycle/provider effects and grants no landing authority. An existing output
+or an unavailable already-selected authorization cannot be silently replaced.
+Candidate writers cannot use this preparation role to choose their own judge.
+
 An external supervisor authorization fixes the repository, base, exact Issue
 contract, control root, task, Noodle and worker identities, and exact-head
 workflow evidence. Schema 2 also pins an external `landing_owner` by absolute

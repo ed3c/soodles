@@ -5,17 +5,35 @@ description: Advance one externally authorized local Soodles plus Noodle Issue t
 
 # Local Issue atom
 
-Use only with the immutable schema-2 authorization file selected by the external
+Use the immutable schema-2 or schema-3 authorization selected by the external
 supervisor. Here, external means outside the candidate's authority, not a
 cloud service: the authorized local Session may select the host capabilities,
 authorization and independently pinned landing owner on the same Mac. No cloud
 Session, token handoff or separate supervisor daemon is required.
-Before an authorization has been selected, that authorized local supervisor
-prepares the available inputs and pins the authorization; an unprepared file is
-not by itself a reason to ask the user to prepare it. After selection, preserve
-its identity on handoff and resume: recover the selected bytes or report the
-exact missing input to its owner. This preparation role does not belong to the
-candidate writer and does not permit it to select its own verifier.
+Before an authorization has been selected, the authorized local Session acts
+as supervisor. Select the exact Issue/task, control root, measured carrier and
+independent external landing owner within the user's scope. Put those explicit
+inputs in the selection described by the
+[authorization recipe](../verify-soodles/features/local-supervisor-admission.md),
+then run:
+
+```sh
+python3 -B ./supervisor-admission authorize /absolute/selection.json SELECTED_SHA256 /absolute/new-output
+```
+
+On `status=prepared`, hand off the receipt's `authorization` and `next`
+unchanged; its digest and executable argv/environment are the validated result.
+Do not reconstruct a second continuation or guess internal authorization fields.
+For lifecycle execution, consume `next.argv` and `next.environment` unchanged.
+The CLI derives the committed base, instruction pins and host config identity,
+validates them through the existing authorization owner, and returns the one
+`issue-atom run` continuation. Do not hand-assemble derived authorization fields
+or ask the user to calculate hashes/create an unprepared authorization file.
+Missing selected identity/capability is still a typed refusal to its owner;
+the command never discovers another identity or selects a judge for a writer.
+After selection, preserve that authorization on handoff/resume: recover its
+exact bytes instead of using `authorize` to replace a missing selected file.
+This preparation role does not belong to the candidate writer.
 It pins an external landing implementation; never select the
 candidate's own verifier. The supervisor also supplies its SHA-256 in
 `SOODLES_AUTHORIZATION_SHA256`. The host entry uses an explicit nonblank
@@ -32,7 +50,7 @@ It also pins the original host `.noodle.toml` digest (or explicit absence).
 An existing Issue is adopted only when its exact number, title and body are
 authorized; it is never replaced with a newly created Issue on mismatch.
 
-Run only:
+After authorization preparation, the lifecycle uses only:
 
 ```bash
 ./issue-atom run /absolute/authorization.json

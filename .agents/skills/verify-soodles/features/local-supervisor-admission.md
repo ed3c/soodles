@@ -1,10 +1,54 @@
 # Local supervisor admission
 
-For an externally authorized Issue atom, the Agent uses only the
-[issue-atom entry](../../issue-atom/SKILL.md). It does not run `prepare` or ask
-for its generated envelope/checkpoint/launcher. The lower-level producer below
-is retained for the supervisor's existing admitted execution, not a second
-Agent-facing lifecycle route.
+The authorized local Session may act as supervisor before initial authorization
+selection. Use the existing `supervisor-admission authorize` producer to
+materialize explicit selected inputs; after preparation use only the
+[issue-atom entry](../../issue-atom/SKILL.md). The candidate writer cannot select
+its judge. An already selected but missing authorization must be recovered by
+its owner, not replaced through initial preparation.
+
+## Initial authorization preparation
+
+The supervisor supplies an absolute regular UTF-8 JSON file with these exact
+schema-1 fields: `schema`, `repository`, `control_root`, `issue`, `task`,
+`carrier`, `landing_owner`, `instruction_paths`. `issue` has `title`, `body`,
+and an optional exact existing `number`. `carrier` is the measured
+`platform`/`noodle`/`codex` descriptor already consumed by this producer;
+`landing_owner` is the independently selected external
+`path`/`sha256`/`verifier_sha256` descriptor. Keep those selected pins unchanged.
+`instruction_paths` explicitly selects committed repository paths; an empty
+list preserves schema-2 authorization, a nonempty list produces schema 3.
+This file contains no credentials or alternative workflow selector.
+
+```sh
+python3 -B ./supervisor-admission authorize /absolute/selection.json SELECTED_SHA256 /absolute/new-output
+```
+
+The command validates the selection digest, exact clean Git toplevel/origin and executable continuation entry, Issue
+base, executable carrier and external publisher through existing validators.
+It derives committed instruction digests and host configuration identity. The
+canonical runtime workflow remains fixed. It publishes `authorization.json`
+and `prepared.json` outside the control root, with the receipt published last.
+Existing output is never overwritten. `prepared.next` contains both the exact
+lifecycle argv and `SOODLES_AUTHORIZATION_SHA256` environment binding; consume
+both unchanged. Preparation creates no Issue, Noodle session or provider effect.
+Do not ask the user to prepare files that the authorized Session can derive.
+Unknown repository identity, unavailable capability or changed selected pins
+requires the named owner input; it is not an automatic fallback.
+
+Verify the commitment chain: explicit supervisor selection → existing
+validator → saved authorization digest → exact lifecycle continuation.
+Controls must cover schema 2/3, nearest legal numbered Issue/config cases,
+changed pins, dirty/wrong root, invalid instructions, output collision and
+publication failure. Observe raw argv, exit/stdout/stderr and filesystem
+residue independently. A deterministic pass does not prove model improvement;
+use the bounded P-class recipe for fresh behavior comparisons.
+
+## Existing admitted execution producer
+
+The lower-level `prepare` producer below remains owned by the lifecycle;
+Agents do not run it as an alternative path or request its generated
+envelope/checkpoint/launcher from the user.
 
 Use this recipe only for the local Soodles → Noodle carrier after the supervisor
 has selected a fresh Issue readback, measured carrier and control root. Cloud

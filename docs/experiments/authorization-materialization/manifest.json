@@ -1,0 +1,1212 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 187
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+      "treatment_sha256": "1484665efd269b4867806a1694b1f9c49c0a36756854da6315c38ab068692e87"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "baseline_sha256": "e279ba3afa4d5bd78450de0eb2966874dcec32c07b2700f29fe0ba73f58dd806",
+      "treatment_sha256": "206a24d7084bafd760ef1a7316dcc9004778cb0641f995eb5d68af532731414b"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "contracts/system-v1.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5c1d038bf594f8989d23bee2128b681bac7bf6a73b950e608e371e1dd4cc640f"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/analysis-results.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "79b973072cf7187a2704578b68a3f55218be554f8d94dfab35a36d2f99d4dfb8"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/analysis.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0cf3943fae68e8a89aacdc9607ab65ff27c7ff750d4567e851e84a483a541d8e"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/analysis_v1.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "24452da4d2a5fc50b918b15555283c9af7396f5f3518250d7ab71ebe05e6f2e2"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3e3a7ef43ee0beeb80bfa4fc6e5ac5755696397bc5c2641d70a82b6f712752b0"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bd098d802bce2973eaea232c1a958a87a9be28a18bb43b327766ef627296c8c8"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/final-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "14d59458b12789ae4a32019cb33e4903e3a6aaff87a978b97cd2e9fff2887b75"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/integrity-deviations.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fde0d04159008b2000750a8eb9fa937f33722606a85c54c44c3d903b4d84c9e9"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b5c22add6040bbf002be808482ff09b531113664ce05c857b29c55f3c3ba9d88"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/observed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "811fc2e8acda3d097fb7a1949471d355e3570e4290db22ddb95d080b0dc953c5"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/observer.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6ed9ad0bd289b4ba986a62420ce12a1bc65a6ae78d71908ae390640fb780a532"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9855f2e62849d1d779b6bb01e14caa498cdad0e034ebf4714e0e0d252be3ee86"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/raw-manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b8aaf89a9be89db2247f211815a4ad2959b9d813124d9682650ab03f01cf58b1"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/raw/run-70828550.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c0d4dd028465aae1224e4633d89687b24312604866d1ef8b8afb5d971a53e841"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/raw/run-73b249e1.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3b7cd038c11b2505fd0470f3da97ecc0bbc44280417f7827695200c2eca32afb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/raw/run-ab14827e.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "94f1551a889e22f5d92804f3da077fb05afd169d70d37b4c74fdb4b0468041f8"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/raw/run-af8f6659.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ce1a992e32f9b7b6e550ac494bb8f7c9cc77b9c11ace54b4f4567765692dac8a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/raw/run-d68659d5.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ae986470b04ef736cac108c874e73f9688d790bb5651c6c70daffa4ce4be0b85"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/raw/run-df8d14e7.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4aca7f5f099175f8ecd24bcec07b12a8d169e8703e8c14c0f6afeceefe84766f"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/source-inventory.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "103215d14470b808b9af8ddb3e84dbfaa10c324612324b09bdda988dddbe2656"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v2/trace-review.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "66860b51243568993c104c6bbbf1ecb5ebaad51c36a3caecf1d0ac4b7535ba3a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/completions/run-5a12e690.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d6e7dc28dff2b7a83a61d63659c35621d6e30b13e380b15d4b5b603c25d631fb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/completions/run-7cbd63d7.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b7bc731263277698b7b0e5790823915217a76ba6f725e65305c100571baf882c"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/completions/run-8162eea2.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "eeec583dd5c6a1d9872f02da1d443eb5322d2f8b50affd17aa11cb68d1f95cfb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/completions/run-e9cf2c62.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d7d21141ab543453be4ffed8ff9b0404c40338c2fa2475b50ce69803bbb5efd5"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/completions/run-f17dc7b1.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3056d157e7ccb1fde8205891333f25c8a394a5b80af417140df34e02773b6ecc"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/completions/run-f2778ddc.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e193874ca27d8bfedec0de7eab10864d500e2089a11b7eeb184aea3cb62af9bf"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fcc0618d2f9d79cd9a4b5e68ecda429333830713471d781a150d859e98a2e60f"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/final-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "aedf1e442e3a9b639a52f28db1d7342be9a067656779431a1c27b0d48191fb84"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/initial-inventories/run-5a12e690.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "56194d07c7df1ab4c7aaf66bd900f4e8a21eddc2824638e79b530b42860d5b28"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/initial-inventories/run-7cbd63d7.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c4ba6cf9bda0a9a96e0de7369e8461ac528945f17c7915d0aa08f27ae357d05a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/initial-inventories/run-8162eea2.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5d89c688bae9073c712fd92810a7ceb988031675b162e1a9ccc39cbfca396a9b"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/initial-inventories/run-e9cf2c62.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "55a011954862207369da1140db23ec042feaf2c582b7b4fdc63401b6692a77b5"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/initial-inventories/run-f17dc7b1.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "67cac4e5eb9d8e7cb4e7381fe8dcc1ece46449e8223bf9d6fe8f36f6a96345c5"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/initial-inventories/run-f2778ddc.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0edd21cceb22f554157c005b496c84cdcc69fb83a9e3b53cfd0bdf73448bde0a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/integrity-deviations.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6c0084c1877bc99bf7a96392b22eae7d639dedda03171ea912cc0905806d635d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/launches/run-5a12e690.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5c26cc7e7feddc9c9971d571af42b4b5cd675ce2a740b49e418406c654f07857"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/launches/run-7cbd63d7.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "72b6f187cad564739edaa7560b46a80b667342148eea5f88e84a39859226e16f"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/launches/run-8162eea2.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "eaf5e18606d5990e53c5e3c99c32b0522b4f5d41337d19fb8a0da6a72522c0ab"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/launches/run-e9cf2c62.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ad1bc8c63bff82465f8113076965b47bf8a59734df396b1bab330cef925195cf"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/launches/run-f17dc7b1.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fdbb33cfa36d681099d939c658838c79d5efee68bbcc9abb30f049afdbeb570a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/launches/run-f2778ddc.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3f8637e9d4bdb1a694fb58f20411bac98ac9f38e0e55a9ca4f5b90b1f5434634"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "912d12d918a0923f10003ad5d92d269ae11597bc8eedbd2c1943dc493837de08"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/observed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4281084deadc87cdf42e259bf0e5150f7a0a9a945478033ac3d61f127f3783b9"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/observer.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d591ae0a25a2b6358bd09cc19b141b9bff5a427ea7308f9458132c847be53871"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/projection-checks.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6b95a59531ce753fbcf993f05153d433154a19a7bf40cfbfeff98f26a7c86fca"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/prompts/run-5a12e690.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "539d7b8c4810e6a2711beafe0fb162137093ed4174ea69af6c7c77651495a6cb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/prompts/run-7cbd63d7.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7bef57592909391ae691ef0d1ad7ee716849ec2f35a383d27f0264ec684c3eef"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/prompts/run-8162eea2.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "28ad6cd79c834b5a86e55b240d5f8fda009fa4f4dc95d71a00d5b30a4e30f64b"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/prompts/run-e9cf2c62.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "83a3528f55c782b5c0055d42236d553dc6fb907b6a99bca27f23c058f15fcd86"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/prompts/run-f17dc7b1.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6f0ce5133bd0739e4b7a59a5d1952d8d61268eb73c2b4f72cc2d90b85a66fef1"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/prompts/run-f2778ddc.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2ec287f1083f7bb5ccc844c5ecad847774e82d1d5fac3aa55c1be0de0329f740"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b46b72603d7566df7a971c35d34dc55220589c0858a27e530fadf4bab129c7f2"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/raw-manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3c8cb955ccd3309ec3057e512b68b8c9c2c0276cf629e602c75e8af581fe60f1"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/raw/run-5a12e690.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d589c33df12caed82709ea95f8fb72b7204d79e480404f6d8e509cc98b36e1ee"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/raw/run-7cbd63d7.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2931b422caf06ecda79149bb9644d8c5cb65cf9f1317b3e85c3bdef25c332538"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/raw/run-8162eea2.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "056756aae7c15217ea37c889cd0bc9c5766a959ebe585c6f709aeeb654a7777e"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/raw/run-e9cf2c62.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "222ac28672c4b4acb2f3242adfac7da3b72f6d2419153dc49e5da14b3be37ee5"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/raw/run-f17dc7b1.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c8db8ebde36eb52cf6496954a721b59d5975d20f08cd043bdbf221eac4e2d9ea"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/raw/run-f2778ddc.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6629d46e4321473970021d4bbf2ac018d77813a087d527f2ba14a0e016db8291"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/source-inventory.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "dc94c19a8cf1bb417646dc0c39090db40c617d256eacc7fd871f07b161bc02ee"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/source-projections.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e555f670c81fa31c64337fcd4600db958c807d3ee5e86da2e311782819ed51af"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/supervisor-stop/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "dab05e5dfc88ede3fc99f1c62b581341f256839fc0b39af253bf4a1f6dc4f963"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/supervisor-stop/provenance.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "399cd519a42eef403e2d8f1630ba0d76b63499197d0473b1173ff57b88abbc70"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/supervisor-stop/results.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "dbe6df28289addedf1edb51ce44713c79ef6a79fcce7efaa65e96a5df7b5d508"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/trace-review.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3b27cdbc4668d7ce0170635a7bbe3688631ea7947358376f789bd502a9025a1d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c426fdf42402565ee6adf34e68bb2e46e4711280d3115eea6c47eb52e8301e9e"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/final-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ae1425b69863d00dc0e4b622b933032402edc8349296799836a13c83826d0a4d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/initial-inventories/run-306d846c.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "96e78903850ea1d302b86c32fbe0783bd4cb7ce2a841ea85990477263898cf2c"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/initial-inventories/run-61a94024.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "66191b17084a834ee33c06f412cfd57f8546b93b72712ab3229165e016a70cda"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/initial-inventories/run-966aada2.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "35095b78ca00c83f5fb97c6ff03ec00f0cd5b32e1fd2eb4501399e7b1512b595"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/initial-inventories/run-bfebca66.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3397c3a1d14dd437852c76f8098c2de92575baec751b500298259c923f749f88"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/initial-inventories/run-ccb2beba.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "939d33b50557e00488bf1c2c571a4b05f90e7342686f232aff89ed4784ada7cd"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/initial-inventories/run-ff636a88.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d2d1676378b331758396bd94de36c7e1579e478199fc28a776e948004da17689"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/integrity-deviations.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "cb88ac646bdcb295d4e7b34ac07f99a9cf792b8f92a861006bbf7dc9b9565eed"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "82bc98beffea84e6cefb899c39ec6687672e7dc265a6efd09422b39b29e7ea5a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/observed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "26ef73c42bfae6c4813d9f449610e1f0cf9765cfcb4b6bd49a01702413d50551"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/observer.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "522041269f62dff3f1a7aa52ee259783ff959b3dee30028f74786a12e5859a98"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/preflight-packed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ed76ef87620f65f17f342775c7549d536346e6cea6dee6567be8cde3d059b780"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/preflight/result.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6d8a5c7f504fb3c320ea2edc07a8e46a7a2c83882a3e4c9f12084bb0f7d5f801"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/prompts/run-306d846c.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b4dcb305d435febf17519e5ee86a8ca0d577c17f44ffda9bf24362d5708579b4"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/prompts/run-61a94024.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "91520a5e70210707773bfb538aa200010fd161ebd36cd251ca45c6910494f3c5"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/prompts/run-966aada2.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3900938fac95a9f77eb0f07ef73723592f44dc05c887335d4f50ba90795c81c5"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/prompts/run-bfebca66.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d44778d99dfb1bcc27eb565161a9eadcb0086deed09b1e4e4afc02fbe2fbe25f"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/prompts/run-ccb2beba.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7e3fb292eb9179736c0ca2c8211ad80d2004a269b84547678ca24c72c26228f7"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/prompts/run-ff636a88.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b08d822441fbbc7c19cb0b624b9e3e4ed94f7bd76d7a5442ebcf8fe4ae1734d4"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d3bec568e681e9b0680fdaf340a658c6a39ed56bc0059b8b6665456559cd80e9"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/raw-manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f4e9e4ed25ac9ab1d7877708b3b8a80ab79b3d5ce37f551ffcbdf6d1ae12276c"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/raw/run-306d846c.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4e3ae8aa49f1dadd6aa7336a3f1d1081334e63d65a3a95de788fbf8c8a5216dd"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/raw/run-61a94024.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "cdad6113d4d94c54b29ed4329de4ccc203c4a114ed4e6f2a4f62103c315fb9bb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/raw/run-966aada2.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b5b9c683edb4aad08c09502faa3ad1ddfc565ef5baa7a6009fa65dc33acc0817"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/raw/run-bfebca66.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "af461b6195f8503cfcc0058c7c54adf4dd79dd76fc245829172a96860e9e49dc"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/raw/run-ccb2beba.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "941d11bb89a3e4e2e98aced4446ef90c605939910aac111b0f15e6abbf02b2eb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/raw/run-ff636a88.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b9f40493354b5a57b28b681d73f34f84f997491cd56bd93b264c2733a0311e85"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/source-projections.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ed16746eabbb8ee04ec8aa63349e152c7627cd8b547d80168a18b745886305f2"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v4/trace-review.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b68ca1138dc11ccf0c1d185de51302c8bf735dc1966d028da5fa02194cfdf6c5"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/completions/run-014bcf11.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d9a4175db6d39f4f994d2993d0006f24eb64680fd79ffdaf60899a5343390157"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/completions/run-2e96b94f.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "82a7b4128dbe38a36728e1540654973078a32f96541a5ed0fe1c98edfbdc1158"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/completions/run-309b806c.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "449349e7f7b9ff5c2ec4f1bc634604172907a4f372128e8127f4e0d8faa63280"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/completions/run-4c9ae3a8.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0bf029d7526c01c9747d8e64bfb15da3e77f1d997e1e0ce8f92f60913c6a70f6"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/completions/run-91cf62fd.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "dfeb9c157000ed79be122911c144581045d624ee3bbd55f9f169468974c3514e"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/completions/run-ca56dbc5.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "04238420e1a8eae6e35f3b9d3de920a7b243de70b3f10d54b956afe75d0ff814"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9627bf23d5e79cf01ae5523abe3c186593ed191d71923cb910ff109aa07bbbec"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/final-binding-check.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "37ca81ae6140e1f0e8aa20834c8a70dd6b75812d45fd19cd853b6c0665ad4a2c"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/final-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1888dd301ab5c8bd329953748eed68eb41bf85a29f5d861149838139360eeb3b"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/freeze-check.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "03ec3f32e27c19de0ac3554d20fa8c6bf2d2e4a6b6856ba54703d605f1d93584"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/initial-inventories/run-014bcf11.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "492dd133e63019662ebb41c606ba1d1fdd4da4dc30549f40e7a5781781d018a9"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/initial-inventories/run-2e96b94f.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "efa5b869f14a7f0bfd1c14b3b3d833290b23b1a7afd05b8e0e51f88e47ba37ed"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/initial-inventories/run-309b806c.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9331151ef0e227bc6f1fefdf7d434f11829a6f3415f24ce3fced65c4245e2c77"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/initial-inventories/run-4c9ae3a8.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "eea2bc93ac642a9c77b38d4a5712fee1578cee3bc21133f54b882af5617fd4b1"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/initial-inventories/run-91cf62fd.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "54fce228a9d473fe2713e079dcee2ed5df630a5f94c531882e03029fbc1b2436"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/initial-inventories/run-ca56dbc5.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a1626b5fde61c55ad9e6c252e613a1edb36f6cdf9420894d690c7f5b27eff142"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/integrity-deviations.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6fcf42e82a66288f27e0c65237d69a39c4b62afdd5f0628d6bcd4b665b944fec"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/launches/run-014bcf11.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "899e2168421f59501446feb97aac97e7d5714dbb1c0f3e0337bf6eac84d83b9b"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/launches/run-2e96b94f.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f374de48816db1334f5cb0db1c8cf587e780b663fcdcf88be73163b9c0052588"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/launches/run-309b806c.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fda5e7913bb0e10764bc4338a835c81a1af2d5408036753494e3c8c6cfa2fd44"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/launches/run-4c9ae3a8.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f76df2b1825649f3ff2d09a8a2d4116936bcfbf0b2b2a5b34e19e4355529fff8"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/launches/run-91cf62fd.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a23c0577338ca37fdf447a1055b1b15ddfd7ccb272d6a16e8599bcbe375a1c3d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/launches/run-ca56dbc5.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fa1ffa693dd1e7a35e96fd1f0c178b804eee602fd175db88aa62fb2a534524fa"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d882853aff15cfc832dd66bba44a9b43d941c624425c298c442a28526f974155"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/observed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "426f55d7622abad41d479fbb8928da86ee2127e4882b0d0931c576cf6112152e"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/observer.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a9830be521d4076d80da84b7388e0ee6b71b55712dc7c2c63a8dfda998444acc"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/post-observation-binding-check.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1245935491c4ae15f565e135f626ffc10c19b261913264a83bdcb159e3edd7bb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/post-preflight-binding-check.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "03ec3f32e27c19de0ac3554d20fa8c6bf2d2e4a6b6856ba54703d605f1d93584"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/preflight-packed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5ace9ef3c7a595f810950bfcf93cbab15a84c67f8596a20f6d8c156336d0b185"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/preflight/audit_runner.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "35f370d4b19b197f422e0f2ae32ac2df4ecbfc7efa0544532ccbdb084d1ee509"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/preflight/result.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "eb7241012a7dffde3d5c326c1dc95dde121c0e425e0a1b954d4c1c7a7ded9982"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/prompts/run-014bcf11.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8b5c489df176723e2ad850b30d600dc6c3d53f0a8cc565cdd8f9c5cca4f33b27"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/prompts/run-2e96b94f.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "306d469f3063b4d3a2670f79ee39f221c0767e31341198a7e99306d475bf5f6b"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/prompts/run-309b806c.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1270cb9ec09676fe11ee9d3142e2958b12c6e546857011cf041e2f8d4e6d2170"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/prompts/run-4c9ae3a8.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "39fc3db5558b8e95e326962820130915fc6c30c5a0f5f3b965e71b8add369e84"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/prompts/run-91cf62fd.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a80d69dd7de3de8e144b4d4ba9c8d772600fd02115d682ee3a3f4e18bbdbbf6a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/prompts/run-ca56dbc5.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8c02f6eaa3b553cfe614e1e736c7464080c2b8db67c9177c0980073c814c50af"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "167f79f8cfd85e80c0a3ebb7bfd2de9ea74b747e5231321f5087bb2f00e9e1ec"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/raw-manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0502621645c78d055b7f9cb0b19ef33e10b381207c25a2667ea8fefc33066f0c"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/raw/run-014bcf11.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "04f0756ea19c71f897309437b2a49f522ce2090d6d3ae6bea3c0c89266b0b232"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/raw/run-2e96b94f.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "633a1276b5b5c3dbff2e62fbefb09f30047e8ca742b811d310517e63da9464f6"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/raw/run-309b806c.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0be1f9442040c4f6fb99cc8596e42349f595b21684bb3c00e7c44361152ce3f8"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/raw/run-4c9ae3a8.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "47b4d8440df9d10d428fa834781d022760cc3e516afc8e9954ac1afaaeb09ae4"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/raw/run-91cf62fd.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "50feb0042aaff488ac65c21ee249c6ec7d04d2beb09349bf19a51e7649c79adc"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/raw/run-ca56dbc5.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bc192d15be54a3e6b3dbac7fe2a360fd306924adf5cf2973348cc20c12f21ecd"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/source-inventory.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0a2b9ae1d8b2a38898d8e63a16fe13c8626fca07158152dcada9536f46451ba5"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/source-projections.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "77fdce553bc2900f1e339644d20c8709585a2dbf59bbd60074f555aff600e44a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/trace-review.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "43fca8cfa3542ccbd626598c235826fba1a0e151a7120b20cd67e77210ff3289"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/validate-bindings.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "703371c720ec575cd39e5fd0dae218d4a1296a0783df82a5e5e3474127402994"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v5/validation-bindings.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8472a9d7c84167ed1ce7fa5a3ac81e98aaa6db983d1c188c1dc03f38d0610230"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/confirmation-exposure-deviation.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "242a1820b12c9da05fefa50fb5ee3b99a30b220a5a79f2ecbd9155d53059fcfc"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/confirmation-observed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ea951717cddf6def457828304e946c6b63e1ba0d24b7569fa37f1294557a4d45"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/confirmation-selection-exposure-invalid.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f4a8e66312e1416e37ef3b2b599a508363e01291e2d4d92a48826d2535725e6b"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/confirmation-selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2d602f8e1024f3f413c41335459940af4378a46fa18a1300389a7932cda85d1d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/launches.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0c4d97ac0c6107840922c21e5143142685bd2bb6b8116c4e69c7653b9932f18b"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/observe_behavior.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5bd77808c7eeff5a8e30fe6cdec2decd8e4c40dcee1311e24a9fb739f9b0a806"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3e3a7ef43ee0beeb80bfa4fc6e5ac5755696397bc5c2641d70a82b6f712752b0"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/r01-decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "021226429700b2bc9ef901711689746a84f287fca0421f6226e25f812d554a63"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/r01-observed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b37cfc9431f503f20f64c59e71baa7a7a69b1597bc8fa414606fea6a04e61114"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/r02-decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "cc426b63d02eded659bddf6c658b90cff700a23f9bd857f4dc3fce036f40dfb8"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/r02-observed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "95988ef2ac7167c7d358acc4e9d97b26337c3588f3bf9760809c145e94d6ad3a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/r02-protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7ae815922d5c4c4ce08d41708fd947e77ad138eabdf8a1772b8e782f15c52e12"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/r02-selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ea77a6e0a2ede1ac03afc83ad8c2f0e27dd1509419815c00257de2d09a18b08a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/r03-observed.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a8cc00304479b98a80ea6f8cfdecdb16b93d4fe9eb478592e55d5b5bc48452c4"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/r03-protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "22ded2367735c25e60514769de4b2858dd0847c48a27786f4ff0aaa3e1ed1103"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/r03-selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "727ae3f612d6ce2d93a8b9cdd14b63339bb0c0203721b6b5450fb9877642ed57"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/confirmation-a.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "24b2f725323f92e5b4592ca80f1d46a986f943792a937c925f84993fc2eca50f"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/confirmation-b.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b44083758648a073ff1b35fcee1205237d0def5dbb554d69d705988e35cbfec8"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/publisher_changed-baseline.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ddd2ddad5cdad85d7b74e3e4475286268803f1213d3acc1a394f20892605d02d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/publisher_changed-treatment.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "19dc67502565dc619664be9e87f501057213f4e1a25a769a5326fcc0e4fab894"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/schema2-baseline.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bc4139a519c33b4762f0f5b3958074f0d92e3b64d7c54a90e068c672e50d2922"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/schema2-treatment-r02.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "eeea66348dec35beef8c612236fed4272016c347dfd8621a60590a1c46e2658f"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/schema2-treatment-r03.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8835ceb4c55d25a0150bb6c38aa621d458075d043c70cb882ee74cb8e207aa7d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/schema2-treatment.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "45f9a61631244dbeb40b2fc5a5dcc971402e4ee2542a0de89103c3eeca6c1fc1"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/schema3-baseline.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "cd262d53b886f6b7e017fb234565592ddeddd3003377019324156e17bb9caf58"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/schema3-treatment-r02.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e447d69221d924f52fbddf4b59bfe51c7e72f1493492244dec2f39d794a5f72d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/raw/schema3-treatment-r03.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c88d9501d8991cfb2a56ec97cfba18b0422bcfb8e7139ff332f39d853afddb84"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5bf091fa7b14e3bd01c8f6fe812473f3a1d5c18fb1002b2d6cc0f320ff444d4a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior/winner.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "28460836c89cc64aad500dab8fdda4f4c34d1d1e9dae38cfd6d7b400982a91d3"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/closure-audit.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1d192d8c63c1047776639ef6a5f22983a8856c8f3a040a4c96a85b286d6eb8d2"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1c5a630683c028599a3f4fe36ce8c4887f7ec52f05849c81966c49024d80d28d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/delivery/references.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "693f9bb196506094aebf54341d12a12735e7ba49bc59f0fff191314d00032543"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/.github/workflows/runtime.yml",
+      "role": "fixed source or experimental evidence",
+      "sha256": "69fcef94d9cad169a10d057c8d9262b6d5a9e29c13376fbe6e2a6be688dfd53c"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/base_recovery_oracle.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fb59735cbdb679d7a6056d1f698f8b8c532fb6388b9d5e1f332d26f78ace5369"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/candidate_publication.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4bad07e45f213cea3df96f62778b292311fbefd95d7e799dab6f58ba32f181e3"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/cleanup_lock_oracle.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "da40093a1d3f180920dccdc9d562d95e64e2c2ece53a3490bd75c45e99c4f7ff"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/cleanup_oracle.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8e7b9502301668c1268fdeb5f0d8ae6f9b6bc5f45c6974dd7b1ed524cb6ed640"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/delivery_oracle.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f05fc652085e58f4106947eb111b7b7da7f19f5895aef8dddf5a74263a455b38"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/dependency_binding.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d7a6e43e8bace3de378c8b07fc87a3b52f7b63564fbf2bd2f54e5188fdb266b0"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/github_reader.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fe77af00f49e249a61265e850aff1c22b857018dec1d5cbd28e8d3fd2fabf6aa"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/handoff_oracle.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "07823abd99bfcfacc89a14779fc2762e98a4ea1d8de338c98785ace3507dac89"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/issue-atom",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/issue_admission.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6bb652a9c1b41f9ad68b83fbf589bcf2a668b80eca6944752497c152798889fa"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/issue_atom.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6f86667d00e6ba56aa25dc028e322169d2d34c9f4c8dd8087cfe980fed20a889"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/issue_execution.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "12c6ad386a1c18b1f8fe75fac407ab1bbdc068ad78f8c38fba3e1d1b3a664097"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/landing.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d87fe791cf2ceea03e7889c274423a52db703d20eb87deefdba8df41131e347c"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/landing_supervisor.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c4ea20f778222f000dafbaec75147ae9a41568b9bb2a07eb0bb224f8fe5257cb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/next_issue.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9266c1065ec765dab03baf6f1ef972cd144008e97528e389b2ea483885e0d51f"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/policy/runtime.lock.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/portable_packet.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4a6f0147f00700aed228251880f54e8f14e5cdeb0df84849640ce8e163222691"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/provider_credential.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9ad545cfeb7368c400c937e9a66b7607e9815b7751900e298c72cc4ac82a33bb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/provider_readback.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "abe12628d75295b7508164ff3135e661ac5285722d385d55e60291022bc6b41d"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/provider_transport.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8b9112eb6f5ab51d54ed20cf671ac3ec6ed9113e4d3118d3e7b4998c6581fb79"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/report_evaluation.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/repository_binding.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9259641b37b7e313037e1bc8bd078db6337c19e9405fcead20df0b8349557af1"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/resume_oracle.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "71ff3977e3c888aafd59d498b7a45feba08555043c784e242be3c1d91109bc03"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/soodles.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "eeefbfae198f0619be448dcfedbdbc412ce7ae4adc30dd22e52628c05a176112"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/supervisor-admission",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c3b962697a0a89b312e52f18101803a785fa630e8bdd89b252f55d1ff4e66ced"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/frozen/supervisor_admission.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4b28dae7e49af10eced199441c274dff2825a9bb1819dd9dd347d763b03b559a"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/guard/sitecustomize.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b51b88dbda2e87bd92214484d89644cd72cfaa934e9f4dee483e40cc14b7c2bd"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "78867edb4b02eb786996a6f5242c836e15eeae1e122e59b9e59d8e708c8c0c6c"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/oracle.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f9b5e71a60b43c6402247c0f0277f7737871102f4602a303601d1b1fd2dd6786"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/evaluator/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "964e6518b62a93157a3435aa66d2dbc0fedf1568ea407724acfee6a9fafaacbb"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/results.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0108456fcb3a93329486e467c680d07df1276707e5badfa548c396c3be795ee3"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/supplemental-evaluator/discriminator.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "764630217164d11289feabee324327d310712de78dd627da6d1885b6c9398570"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/supplemental-evaluator/manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "25ae7e2f5478d14be4a7e18fd2da93de6d045a948004bb3473bdce928a7e4b48"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/supplemental-evaluator/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "94f5ea6aa16ca2fb7172d808e33a73d2443b34032a9ec5537d579cbbd01976ea"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/v1-analysis.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "91bd1316eaa6eca22ae7a9a2818254051171e0f11d2ec78b86e1cdbbaabcf3d8"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/baseline.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8fb595f44d95b4581bfea855be91e4c7a4de4822a8934e88035fe4a313de8998"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/carrier-selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0091c59941bce7539bdea5f70df3dd936cc2a1f8c177212fe64120123f7c57d8"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/delivery-stop.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "76d4dae671e4002823defb235cdac00df79772b3206b9a88504dae7f1af87a0b"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/final-focused.stderr.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ff31107691848aac87fe00e1a1b15ba9b03840ce6b5d408b3d629da98cabe256"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/final-focused.stdout.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/independent-source-review.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c792c0c3f6affd5066d20a3c55ed7b737c2f5250691bb7084eb83f191d1e4d92"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/local-preflight-evidence.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "93a957874f00afcb892b6677ffb6f42e7fabde58432f18e6f4cce3326426c7c9"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/measurement-continuation-note.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ac9ee2fab0174bdf1d0fc974a6549de3dc17fe21ed03e473a2f87b83c64e1b49"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/packaging-deviation.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2bad58f96688dffc9dd85607cdfd2afa8881635a75ed408a1b92cffb4ad0e99e"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/packaging-test.stderr.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c4ceae898c9dc76f93fb01b5b5695af0bd2e6a91958eadfab44a0d76aa260ce0"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/packaging-test.stdout.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/prototype-identity.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "aed10cd3930dece8c7918751184e4c589558fcb2c318983984adc02fa4692ebd"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/publisher-selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f8c88ef6459825eb460387bc1d320990d404413d7bfb537cb4921beb82f86e81"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/r03.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "69e376d25ae445ed96deef1eebdb568e6858b09299ab7bd5f8f21d4d6715e174"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/review-packaging-deviation.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "85e92fb7fcef837d553f3daabf863332a4ad75ba630b5f3d1187dbd230650dd1"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/root-entry-r02.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ef599a2204f81c965852161fbb342e888a1cd6e2c66d30510f049953ed223e33"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/root-entry-r03.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5f98f318b52a9d9ff4cad274020f9e6953a8d5d8fa7766247aa30fee0f1d4b9b"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/source-binding.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "83ee1afd15d70684ca75764467581766b8b91fc4c816f1d11fc7e53bb0e90c22"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/summary.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b8fb7ca7f591e9362743b7247dd25e486ec325dc98194ca5fcb0ff19a6bc25d4"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/verification/treatment.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2fb01d922343e9c2159392d99f3adbca7d108334ed7c637787eb16264937d849"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4c192ab55b68795aa6689c407476bb501f658dbb4e93e9d8ace03c29f6fbe155"
+    },
+    {
+      "path": "tests/test_authorization_materialization_evidence.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8f9b3bdf2b87a9b8b79b722fbf0a15fba4372c9906ff148349333f850836a98b"
+    },
+    {
+      "path": "tests/test_supervisor_authorization.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bb4e3ac97ef3887c9f305de5bea012e393c90d25350aed66046e696618b4c6da"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#187"
+  },
+  "authorizes_landing": false
+}

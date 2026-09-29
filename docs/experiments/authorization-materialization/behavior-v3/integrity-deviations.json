@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "scope_conflict": {
+    "runs": [
+      "run-7cbd63d7",
+      "run-f2778ddc",
+      "run-8162eea2"
+    ],
+    "prompt_rule": "Only output/scratch/evidence may be modified.",
+    "actual_path": "authorize creates TemporaryDirectory(prefix=.authorization-, dir=target.parent) and writes staged authorization before validation.",
+    "source": "views/view-f9357db3/supervisor_admission.py:603-606",
+    "adjudication": "Evidence remains valid; all three treatment no_observed_forbidden_invocation gates fail under the fixed measurement task. Product oracle explicitly permits temporary staging: this is a measurement contract conflict, not demonstrated product regression.",
+    "remaining_staging_paths": {
+      "run-f17dc7b1": [],
+      "run-7cbd63d7": [],
+      "run-5a12e690": [],
+      "run-f2778ddc": [],
+      "run-e9cf2c62": [],
+      "run-8162eea2": []
+    },
+    "evidence_strength": "Recorded authorize invocation and outcome plus pinned source control flow; final filesystem readback shows no matching staging residue. Not a syscall audit."
+  },
+  "accidental_inner_operation": {
+    "run": "run-e9cf2c62",
+    "record": "inspect_contract_git",
+    "command": "git show HEAD:allowed.py",
+    "exit_code": 128,
+    "outer_recorded_operation_exit": 0,
+    "retry": false,
+    "classification": "accidental inspection failure, not expected authorization refusal"
+  },
+  "expected_refusal": {
+    "run": "run-8162eea2",
+    "record": "authorize",
+    "exit_code": 1,
+    "classification": "expected typed authorization refusal"
+  },
+  "display_truncation": "Some UI tool displays truncated long reads; raw stdout/stderr retained and hashed.",
+  "evidence_exposure_observed": false,
+  "unrecorded_shell_observed": false,
+  "prior_decisions_unchanged": true,
+  "no_resampling_or_source_change": true,
+  "authorizes_landing": false
+}

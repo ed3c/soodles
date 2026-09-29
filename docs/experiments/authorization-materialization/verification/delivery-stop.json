@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/packet/prepare_delivery.py"
+  ],
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/packet/prepare_delivery.py\", line 29, in <module>\n    assert json.loads((PACKET / (PREFIX+'decision.json')).read_text()).get('adoption') == 'ADOPT', 'behavior adoption gate not met; do not materialize delivery authorization'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: behavior adoption gate not met; do not materialize delivery authorization\n",
+  "authorization_directory_created": false,
+  "expected": "refuse before authorization materialization",
+  "authorizes_landing": false
+}

@@ -1,0 +1,127 @@
+{
+  "rounds": [
+    {
+      "version": "v2",
+      "decision": "INCONCLUSIVE",
+      "adoption": null,
+      "counts": [
+        {
+          "case": "pair-1",
+          "kind": "valid",
+          "baseline": 10,
+          "treatment": 4
+        },
+        {
+          "case": "pair-2",
+          "kind": "valid",
+          "baseline": 10,
+          "treatment": 4
+        },
+        {
+          "case": "pair-3",
+          "kind": "publisher_mismatch",
+          "baseline": 9,
+          "treatment": 5
+        }
+      ],
+      "within_round_totals": {
+        "baseline": 29,
+        "treatment": 13
+      },
+      "receipt_sha256": "14d59458b12789ae4a32019cb33e4903e3a6aaff87a978b97cd2e9fff2887b75"
+    },
+    {
+      "version": "v3",
+      "decision": "NOT_VERIFIED",
+      "adoption": "DO_NOT_ADOPT",
+      "counts": [
+        {
+          "case": "pair-1",
+          "kind": "valid",
+          "baseline": 10,
+          "treatment": 5
+        },
+        {
+          "case": "pair-2",
+          "kind": "valid",
+          "baseline": 9,
+          "treatment": 5
+        },
+        {
+          "case": "pair-3",
+          "kind": "publisher_mismatch",
+          "baseline": 7,
+          "treatment": 7
+        }
+      ],
+      "within_round_totals": {
+        "baseline": 26,
+        "treatment": 17
+      },
+      "receipt_sha256": "aedf1e442e3a9b639a52f28db1d7342be9a067656779431a1c27b0d48191fb84"
+    },
+    {
+      "version": "v4",
+      "decision": "INCONCLUSIVE",
+      "adoption": "DO_NOT_ADOPT",
+      "counts": [
+        {
+          "case": "pair-1",
+          "kind": "valid",
+          "baseline": 10,
+          "treatment": 8
+        },
+        {
+          "case": "pair-2",
+          "kind": "valid",
+          "baseline": 0,
+          "treatment": 0
+        },
+        {
+          "case": "pair-3",
+          "kind": "publisher_mismatch",
+          "baseline": 0,
+          "treatment": 0
+        }
+      ],
+      "within_round_totals": {
+        "baseline": 10,
+        "treatment": 8
+      },
+      "receipt_sha256": "ae1425b69863d00dc0e4b622b933032402edc8349296799836a13c83826d0a4d"
+    },
+    {
+      "version": "v5",
+      "decision": "VERIFIED_BOUNDED_OBSERVED_IMPROVEMENT",
+      "adoption": "ADOPT_BOUNDED_BEHAVIOR_CLAIM",
+      "counts": [
+        {
+          "case": "pair-1",
+          "kind": "valid",
+          "baseline": 11,
+          "treatment": 7
+        },
+        {
+          "case": "pair-2",
+          "kind": "valid",
+          "baseline": 10,
+          "treatment": 6
+        },
+        {
+          "case": "pair-3",
+          "kind": "publisher_mismatch",
+          "baseline": 9,
+          "treatment": 8
+        }
+      ],
+      "within_round_totals": {
+        "baseline": 30,
+        "treatment": 21
+      },
+      "receipt_sha256": "1888dd301ab5c8bd329953748eed68eb41bf85a29f5d861149838139360eeb3b"
+    }
+  ],
+  "v1": "INCONCLUSIVE_UNCHANGED",
+  "scope": "Captured operations only; never compare scores across changed measurement setups.",
+  "authorizes_landing": false
+}

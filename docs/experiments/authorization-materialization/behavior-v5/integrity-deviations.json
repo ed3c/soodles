@@ -1,0 +1,18 @@
+{
+  "observed_exposure_deviation": false,
+  "observed_unrecorded_shell": false,
+  "selected_input_or_source_mutation": false,
+  "consumer_reported_integrity_deviations": [],
+  "expected_refusal_exits": [
+    {
+      "run": "run-ca56dbc5",
+      "label": "authorize",
+      "exit_code": 1
+    }
+  ],
+  "accidental_recorded_errors": [],
+  "display_limit": "Some consumer tool displays truncated source reads; recorder stdout bytes and hashes remain available.",
+  "completion_provenance": "Launch files reproduce exact supplied native prompts; completion files are faithful saved summaries of native delivered final messages. Consumer answer files and request/result/stdout/stderr are original recorded artifacts. No full native platform transcript is claimed.",
+  "measurement_repairs": "v5 fixes v4 setup chmod mistake while retaining v4 work scope repair. v1/v2/v4 remain INCONCLUSIVE, v3 remains NOT_VERIFIED. Changed classification from repairing measurement is not product improvement.",
+  "authorizes_landing": false
+}

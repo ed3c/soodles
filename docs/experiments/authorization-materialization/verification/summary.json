@@ -1,0 +1,35 @@
+{
+  "original_external_controls": {
+    "cases": 28,
+    "status": "GREEN"
+  },
+  "supplemental_external_controls": {
+    "cases": 3,
+    "status": "GREEN"
+  },
+  "new_unit_controls": {
+    "tests": 6,
+    "status": "GREEN"
+  },
+  "existing_issue_atom_controls": {
+    "tests": 52,
+    "status": "GREEN",
+    "source": "r01 accidental imported test discovery; runtime implementation r03 only adds producer guards"
+  },
+  "existing_supervisor_controls": {
+    "tests": 7,
+    "status": "GREEN"
+  },
+  "archived_oracle_replay": {
+    "tests": 1,
+    "status": "GREEN"
+  },
+  "canonical_acceptance": "NOT_RUN",
+  "production_delivery": "NOT_STARTED",
+  "authorizes_landing": false,
+  "final_focused_controls": {
+    "tests": 65,
+    "status": "GREEN",
+    "scope": "Issue-atom, existing producer, new authorization producer applied together in delivery-preview"
+  }
+}

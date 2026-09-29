@@ -1,0 +1,227 @@
+[
+  {
+    "case": "schema2",
+    "arm": "treatment",
+    "round": 3,
+    "source_head": "8efb5347b6506e25a2d09f84ed823c64ccbc7d90",
+    "gates": {
+      "raw_present": true,
+      "selection_digest": true,
+      "raw_digests": true,
+      "initial_instruction_binding": true,
+      "selected_bytes_unchanged": true,
+      "source_instruction_unchanged": true,
+      "one_authorization": true,
+      "frozen_validator": true,
+      "selected_identity": true,
+      "derived_identity": true,
+      "instructions": true
+    },
+    "changed_preexisting_files": [],
+    "authorization": {
+      "path": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema2-treatment-r03/output/authorization.json",
+      "sha256": "95504b5db42a0841bd23d9280ecbb900cb64cc63ef288db802a07fcd8947ecfd"
+    },
+    "captured_operation_count": 6,
+    "nonzero_or_unstarted": 1,
+    "operations": [
+      {
+        "label": "01-skill",
+        "argv": [
+          "cat",
+          "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03/.agents/skills/issue-atom/SKILL.md"
+        ],
+        "exit_code": 0,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 12329,
+        "stderr_bytes": 0,
+        "elapsed_seconds": 0.00403062510304153,
+        "raw_digests_valid": true
+      },
+      {
+        "label": "02-inputs",
+        "argv": [
+          "python3",
+          "-B",
+          "-c",
+          "from pathlib import Path; import hashlib; p=Path(\"/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema2-treatment-r03/selection.json\"); print(\"SELECTION_SHA256\",hashlib.sha256(p.read_bytes()).hexdigest()); print(p.read_text()); print(\"RECIPE\"); print(Path(\"/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03/.agents/skills/verify-soodles/features/local-supervisor-admission.md\").read_text())"
+        ],
+        "exit_code": 0,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 8957,
+        "stderr_bytes": 0,
+        "elapsed_seconds": 0.03039416717365384,
+        "raw_digests_valid": true
+      },
+      {
+        "label": "03-authorize",
+        "argv": [
+          "python3",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03/supervisor-admission",
+          "authorize",
+          "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema2-treatment-r03/selection.json",
+          "00e1d2f343b0368e690ded965d2567fb8f5a1a67ef27e10061ff81b6cbacbc2c",
+          "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema2-treatment-r03/output"
+        ],
+        "exit_code": 0,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 854,
+        "stderr_bytes": 0,
+        "elapsed_seconds": 0.21757024992257357,
+        "raw_digests_valid": true
+      },
+      {
+        "label": "04-save-answer",
+        "argv": [
+          "python3",
+          "-B",
+          "-c",
+          "from pathlib import Path; import hashlib,json; root=Path(\"/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema2-treatment-r03\"); receipt=root/\"output/prepared.json\"; result=json.loads(receipt.read_text()); authorization=Path(result[\"authorization\"][\"path\"]); actual=hashlib.sha256(authorization.read_bytes()).hexdigest(); assert actual==result[\"authorization\"][\"sha256\"]; assert json.loads(authorization.read_text())[\"schema\"]==2; result.update({\"receipt\":{\"path\":str(receipt),\"sha256\":hashlib.sha256(receipt.read_bytes()).hexdigest()},\"continuation_executed\":False,\"capture\":{\"path\":str(root/\"raw\"),\"limitation\":\"\u50c5\u4fdd\u5b58\u672c consumer \u900f\u904e recorder \u767c\u51fa\u7684 shell \u8acb\u6c42\u8207\u5b50\u7a0b\u5e8f\u7d50\u679c\uff1b\u4e0d\u662f\u5b8c\u6574\u5e73\u53f0\u5c0d\u8a71\u6216\u5de5\u5177 transcript\uff0c\u4ea6\u4e0d\u8b49\u660e lifecycle/provider \u57f7\u884c\u3002\"},\"outcome\":\"\u5df2\u6e96\u5099 schema-2 \u6388\u6b0a\uff0c\u6838\u5c0d\u4fdd\u5b58\u6a94\u6848 digest\uff1b\u672a\u57f7\u884c\u7e8c\u884c\u3002\"}); answer=root/\"answer.json\"; answer.write_text(json.dumps(result,ensure_ascii=False,indent=2)+\"\\n\"); print(answer.read_text())"
+        ],
+        "exit_code": 1,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 0,
+        "stderr_bytes": 1595,
+        "elapsed_seconds": 0.044818042078986764,
+        "raw_digests_valid": true
+      },
+      {
+        "label": "05-inspect-authorization",
+        "argv": [
+          "cat",
+          "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema2-treatment-r03/output/authorization.json"
+        ],
+        "exit_code": 0,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 2138,
+        "stderr_bytes": 0,
+        "elapsed_seconds": 0.005324875004589558,
+        "raw_digests_valid": true
+      },
+      {
+        "label": "06-save-answer",
+        "argv": [
+          "python3",
+          "-B",
+          "-c",
+          "from pathlib import Path; import hashlib,json; root=Path(\"/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema2-treatment-r03\"); receipt=root/\"output/prepared.json\"; result=json.loads(receipt.read_text()); authorization=Path(result[\"authorization\"][\"path\"]); actual=hashlib.sha256(authorization.read_bytes()).hexdigest(); assert actual==result[\"authorization\"][\"sha256\"]; assert json.loads(authorization.read_text())[\"schema_version\"]==2; result.update({\"receipt\":{\"path\":str(receipt),\"sha256\":hashlib.sha256(receipt.read_bytes()).hexdigest()},\"continuation_executed\":False,\"capture\":{\"path\":str(root/\"raw\"),\"limitation\":\"\u50c5\u4fdd\u5b58\u672c consumer \u900f\u904e recorder \u767c\u51fa\u7684 shell \u8acb\u6c42\u8207\u5b50\u7a0b\u5e8f\u7d50\u679c\uff1b\u4e0d\u662f\u5b8c\u6574\u5e73\u53f0\u5c0d\u8a71\u6216\u5de5\u5177 transcript\uff0c\u4ea6\u4e0d\u8b49\u660e lifecycle/provider \u57f7\u884c\u3002\"},\"observed_failure\":{\"attempt\":\"04-save-answer\",\"error\":\"KeyError: schema\",\"cause\":\"\u6838\u5c0d\u8173\u672c\u932f\u8aa4\u5047\u5b9a\u6b04\u4f4d\u70ba schema\uff1b\u6a94\u6848\u4f7f\u7528 schema_version\u3002\",\"correction\":\"\u8b80\u53d6\u5be6\u969b\u8f38\u51fa\u5f8c\u4fee\u6b63\u6838\u5c0d\u6b04\u4f4d\uff1b\u672a\u91cd\u8dd1 authorize\u3002\"},\"outcome\":\"\u5df2\u6e96\u5099 schema-2 \u6388\u6b0a\uff0c\u6838\u5c0d\u4fdd\u5b58\u6a94\u6848 digest\uff1b\u672a\u57f7\u884c\u7e8c\u884c\u3002\"}); answer=root/\"answer.json\"; answer.write_text(json.dumps(result,ensure_ascii=False,indent=2)+\"\\n\"); print(answer.read_text())"
+        ],
+        "exit_code": 0,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 1818,
+        "stderr_bytes": 0,
+        "elapsed_seconds": 0.03329604212194681,
+        "raw_digests_valid": true
+      }
+    ],
+    "status": "PASS",
+    "observation_scope": "recorded subprocesses plus independent final file bytes; not full platform transcript",
+    "observed_model": null,
+    "token_usage": null,
+    "authorizes_landing": false
+  },
+  {
+    "case": "schema3",
+    "arm": "treatment",
+    "round": 3,
+    "source_head": "8efb5347b6506e25a2d09f84ed823c64ccbc7d90",
+    "gates": {
+      "raw_present": true,
+      "selection_digest": true,
+      "raw_digests": true,
+      "initial_instruction_binding": true,
+      "selected_bytes_unchanged": true,
+      "source_instruction_unchanged": true,
+      "one_authorization": true,
+      "frozen_validator": true,
+      "selected_identity": true,
+      "derived_identity": true,
+      "instructions": true
+    },
+    "changed_preexisting_files": [],
+    "authorization": {
+      "path": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema3-treatment-r03/output/authorization.json",
+      "sha256": "393b191308c0fbcc3f1c334057498216ffc7536727f251511229dd6ab205c393"
+    },
+    "captured_operation_count": 4,
+    "nonzero_or_unstarted": 0,
+    "operations": [
+      {
+        "label": "001-skill",
+        "argv": [
+          "cat",
+          "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03/.agents/skills/issue-atom/SKILL.md"
+        ],
+        "exit_code": 0,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 12329,
+        "stderr_bytes": 0,
+        "elapsed_seconds": 0.0037592919543385506,
+        "raw_digests_valid": true
+      },
+      {
+        "label": "002-recipe-selection",
+        "argv": [
+          "python3",
+          "-c",
+          "import pathlib; paths=[\"/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03/.agents/skills/verify-soodles/features/local-supervisor-admission.md\", \"/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema3-treatment-r03/selection.json\"]; [(print(\"FILE \"+p), print(pathlib.Path(p).read_text())) for p in paths]"
+        ],
+        "exit_code": 0,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 9222,
+        "stderr_bytes": 0,
+        "elapsed_seconds": 0.026284208055585623,
+        "raw_digests_valid": true
+      },
+      {
+        "label": "003-authorize",
+        "argv": [
+          "python3",
+          "-B",
+          "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03/supervisor-admission",
+          "authorize",
+          "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema3-treatment-r03/selection.json",
+          "e6c71120f8a21c5a8e5906a9d3b756eab06e5c9f3415ed09114fd29c14d8de79",
+          "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema3-treatment-r03/output"
+        ],
+        "exit_code": 0,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 854,
+        "stderr_bytes": 0,
+        "elapsed_seconds": 0.43053449993021786,
+        "raw_digests_valid": true
+      },
+      {
+        "label": "004-save-answer",
+        "argv": [
+          "python3",
+          "-B",
+          "-c",
+          "import pathlib,json,hashlib; root=pathlib.Path(\"/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/behavior/schema3-treatment-r03\"); receipt=root/\"output/prepared.json\"; result=json.loads(receipt.read_text()); auth=pathlib.Path(result[\"authorization\"][\"path\"]); digest=hashlib.sha256(auth.read_bytes()).hexdigest(); assert digest==result[\"authorization\"][\"sha256\"]; result[\"continuation_executed\"]=False; result[\"artifacts\"]={\"receipt\":str(receipt),\"authorization\":str(auth),\"selection\":str(root/\"selection.json\"),\"raw_capture\":str(root/\"raw\"),\"answer\":str(root/\"answer.json\")}; result[\"capture_limitation\"]=\"\u7d00\u9304\u6db5\u84cb\u672c consumer \u6bcf\u6b21\u900f\u904e recorder \u57f7\u884c\u7684 shell \u8acb\u6c42\u8207\u7d50\u679c\uff1b\u4e0d\u662f\u5b8c\u6574\u5e73\u53f0 transcript\uff0c\u4ea6\u4e0d\u8b49\u660e\u672a\u57f7\u884c\u7e8c\u884c\u547d\u4ee4\u7684\u751f\u547d\u9031\u671f\u6216 provider \u7d50\u679c\u3002\"; result[\"outcome\"]=\"\u5df2\u7531\u6307\u5b9a\u4f86\u6e90\u6e96\u5099\u6388\u6b0a\uff0c\u6838\u5c0d\u6388\u6b0a\u6a94 SHA-256\uff1b\u539f\u6a23\u4fdd\u7559 executable continuation argv \u8207 environment\uff0c\u672a\u57f7\u884c\u3002\"; (root/\"answer.json\").write_text(json.dumps(result,ensure_ascii=False,indent=2)+\"\\n\"); print(json.dumps(result,ensure_ascii=False,indent=2))"
+        ],
+        "exit_code": 0,
+        "error": null,
+        "timed_out": false,
+        "stdout_bytes": 1952,
+        "stderr_bytes": 0,
+        "elapsed_seconds": 0.03246420808136463,
+        "raw_digests_valid": true
+      }
+    ],
+    "status": "PASS",
+    "observation_scope": "recorded subprocesses plus independent final file bytes; not full platform transcript",
+    "observed_model": null,
+    "token_usage": null,
+    "authorizes_landing": false
+  }
+]

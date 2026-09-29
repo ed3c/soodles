@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "measurement": "v5 fresh independent matched native observations after measurement setup repairs; unchanged product source",
+  "decision": "VERIFIED_BOUNDED_OBSERVED_IMPROVEMENT",
+  "adoption": "ADOPT_BOUNDED_BEHAVIOR_CLAIM",
+  "adoption_scope": "Only the bounded claim supported by this protocol. Does not grant landing or provider authority.",
+  "evidence_valid": true,
+  "treatment_safety_pass": true,
+  "matched_counts_no_increase": true,
+  "strict_valid_case_reduction": true,
+  "pairs": [
+    {
+      "case": "pair-1",
+      "kind": "valid",
+      "baseline": 11,
+      "treatment": 7,
+      "baseline_behavior": "PASS",
+      "treatment_behavior": "PASS"
+    },
+    {
+      "case": "pair-2",
+      "kind": "valid",
+      "baseline": 10,
+      "treatment": 6,
+      "baseline_behavior": "PASS",
+      "treatment_behavior": "PASS"
+    },
+    {
+      "case": "pair-3",
+      "kind": "publisher_mismatch",
+      "baseline": 9,
+      "treatment": 8,
+      "baseline_behavior": "PASS",
+      "treatment_behavior": "PASS"
+    }
+  ],
+  "captured_operation_count": 51,
+  "raw_file_count": 204,
+  "consumers": 6,
+  "launch_parameters": {
+    "fork_turns": "none",
+    "model_override": null,
+    "reasoning_override": null,
+    "max_concurrent_consumers": 2
+  },
+  "refs": {
+    "baseline": "7e602dbe3fd4db670b15ef0267025e6c1dfffd4d",
+    "treatment": "8efb5347b6506e25a2d09f84ed823c64ccbc7d90"
+  },
+  "bounded_statement": "Under the fixed common read-only projection and writable work condition, recorded operations decreased 11→7 and 10→6 for valid preparation, and 9→8 for publisher mismatch refusal. Four authorizations pass the original frozen validator and exact identity checks; both mismatch arms refuse without authorization/output/staging residue. Every treatment behavior/safety gate passes, with no observed exposure or forbidden effect.",
+  "measurement_change_not_product_change": "The fix to scope/freeze and resulting verdict classification is not itself product improvement. Only this fresh within-v5 comparison supports the bounded observed reduction.",
+  "prior_decisions": {
+    "v1": "INCONCLUSIVE_UNCHANGED",
+    "v2": "INCONCLUSIVE_UNCHANGED",
+    "v3": "NOT_VERIFIED_UNCHANGED",
+    "v4": "INCONCLUSIVE_UNCHANGED"
+  },
+  "limitations": [
+    "Same parent Session has supervisor and implementation roles; this separate measurement context is not authority/security isolation.",
+    "Read-only projections are not an OS sandbox; consumers share storage.",
+    "No complete platform transcript, exact native model identity, tokens or context budget.",
+    "One matched pair per case; grouped shell/Python operations hide internal work; no statistical or universal guarantee.",
+    "v1/v2/v4 remain INCONCLUSIVE; v3 remains NOT_VERIFIED. New common writable work condition is not product improvement.",
+    "One fixed v5 sample per case/arm; preserve any new failure without criterion changes.",
+    "Observer is independent in task context, not a security boundary; all agents share filesystem.",
+    "Recorded operation count groups internal commands and is not total computational work or a guaranteed shortest path.",
+    "Native completion summaries are saved separately; the original shell evidence is not a complete native transcript."
+  ],
+  "artifacts": {
+    "protocol.md": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/protocol.md",
+      "sha256": "167f79f8cfd85e80c0a3ebb7bfd2de9ea74b747e5231321f5087bb2f00e9e1ec"
+    },
+    "observer.py": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/observer.py",
+      "sha256": "a9830be521d4076d80da84b7388e0ee6b71b55712dc7c2c63a8dfda998444acc"
+    },
+    "manifest.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/manifest.json",
+      "sha256": "d882853aff15cfc832dd66bba44a9b43d941c624425c298c442a28526f974155"
+    },
+    "validate-bindings.py": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/validate-bindings.py",
+      "sha256": "703371c720ec575cd39e5fd0dae218d4a1296a0783df82a5e5e3474127402994"
+    },
+    "validation-bindings.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/validation-bindings.json",
+      "sha256": "8472a9d7c84167ed1ce7fa5a3ac81e98aaa6db983d1c188c1dc03f38d0610230"
+    },
+    "freeze-check.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/freeze-check.json",
+      "sha256": "03ec3f32e27c19de0ac3554d20fa8c6bf2d2e4a6b6856ba54703d605f1d93584"
+    },
+    "post-preflight-binding-check.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/post-preflight-binding-check.json",
+      "sha256": "03ec3f32e27c19de0ac3554d20fa8c6bf2d2e4a6b6856ba54703d605f1d93584"
+    },
+    "final-binding-check.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/final-binding-check.json",
+      "sha256": "37ca81ae6140e1f0e8aa20834c8a70dd6b75812d45fd19cd853b6c0665ad4a2c"
+    },
+    "post-observation-binding-check.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/post-observation-binding-check.json",
+      "sha256": "1245935491c4ae15f565e135f626ffc10c19b261913264a83bdcb159e3edd7bb"
+    },
+    "preflight/result.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/preflight/result.json",
+      "sha256": "eb7241012a7dffde3d5c326c1dc95dde121c0e425e0a1b954d4c1c7a7ded9982"
+    },
+    "preflight/audit_runner.py": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/preflight/audit_runner.py",
+      "sha256": "35f370d4b19b197f422e0f2ae32ac2df4ecbfc7efa0544532ccbdb084d1ee509"
+    },
+    "source-inventory.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/source-inventory.json",
+      "sha256": "0a2b9ae1d8b2a38898d8e63a16fe13c8626fca07158152dcada9536f46451ba5"
+    },
+    "decision.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/decision.json",
+      "sha256": "9627bf23d5e79cf01ae5523abe3c186593ed191d71923cb910ff109aa07bbbec"
+    },
+    "observed.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/observed.json",
+      "sha256": "426f55d7622abad41d479fbb8928da86ee2127e4882b0d0931c576cf6112152e"
+    },
+    "trace-review.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/trace-review.json",
+      "sha256": "43fca8cfa3542ccbd626598c235826fba1a0e151a7120b20cd67e77210ff3289"
+    },
+    "integrity-deviations.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/integrity-deviations.json",
+      "sha256": "6fcf42e82a66288f27e0c65237d69a39c4b62afdd5f0628d6bcd4b665b944fec"
+    },
+    "raw-manifest.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/raw-manifest.json",
+      "sha256": "0502621645c78d055b7f9cb0b19ef33e10b381207c25a2667ea8fefc33066f0c"
+    },
+    "launches/run-014bcf11.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/launches/run-014bcf11.json",
+      "sha256": "899e2168421f59501446feb97aac97e7d5714dbb1c0f3e0337bf6eac84d83b9b"
+    },
+    "launches/run-2e96b94f.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/launches/run-2e96b94f.json",
+      "sha256": "f374de48816db1334f5cb0db1c8cf587e780b663fcdcf88be73163b9c0052588"
+    },
+    "launches/run-309b806c.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/launches/run-309b806c.json",
+      "sha256": "fda5e7913bb0e10764bc4338a835c81a1af2d5408036753494e3c8c6cfa2fd44"
+    },
+    "launches/run-4c9ae3a8.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/launches/run-4c9ae3a8.json",
+      "sha256": "f76df2b1825649f3ff2d09a8a2d4116936bcfbf0b2b2a5b34e19e4355529fff8"
+    },
+    "launches/run-91cf62fd.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/launches/run-91cf62fd.json",
+      "sha256": "a23c0577338ca37fdf447a1055b1b15ddfd7ccb272d6a16e8599bcbe375a1c3d"
+    },
+    "launches/run-ca56dbc5.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/launches/run-ca56dbc5.json",
+      "sha256": "fa1ffa693dd1e7a35e96fd1f0c178b804eee602fd175db88aa62fb2a534524fa"
+    },
+    "completions/run-014bcf11.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/completions/run-014bcf11.json",
+      "sha256": "d9a4175db6d39f4f994d2993d0006f24eb64680fd79ffdaf60899a5343390157"
+    },
+    "completions/run-2e96b94f.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/completions/run-2e96b94f.json",
+      "sha256": "82a7b4128dbe38a36728e1540654973078a32f96541a5ed0fe1c98edfbdc1158"
+    },
+    "completions/run-309b806c.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/completions/run-309b806c.json",
+      "sha256": "449349e7f7b9ff5c2ec4f1bc634604172907a4f372128e8127f4e0d8faa63280"
+    },
+    "completions/run-4c9ae3a8.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/completions/run-4c9ae3a8.json",
+      "sha256": "0bf029d7526c01c9747d8e64bfb15da3e77f1d997e1e0ce8f92f60913c6a70f6"
+    },
+    "completions/run-91cf62fd.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/completions/run-91cf62fd.json",
+      "sha256": "dfeb9c157000ed79be122911c144581045d624ee3bbd55f9f169468974c3514e"
+    },
+    "completions/run-ca56dbc5.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/completions/run-ca56dbc5.json",
+      "sha256": "04238420e1a8eae6e35f3b9d3de920a7b243de70b3f10d54b956afe75d0ff814"
+    },
+    "views/view-93a64daa/projection.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/views/view-93a64daa/projection.json",
+      "sha256": "3017699ac44761924637bbf1f6debca37f93e6e480713abc0cb11f75947fa50d"
+    },
+    "views/view-cdc3ea8b/projection.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v5-9npa7b0t/views/view-cdc3ea8b/projection.json",
+      "sha256": "54e917e325432fb3bbf4f26c2928acb2a3d35740666833677949a1b706db1c9e"
+    }
+  },
+  "authorizes_landing": false
+}

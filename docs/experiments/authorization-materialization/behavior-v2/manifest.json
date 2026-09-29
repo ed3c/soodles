@@ -1,0 +1,130 @@
+{
+  "authorizes_landing": false,
+  "cases": [
+    "pair-1",
+    "pair-2",
+    "pair-3"
+  ],
+  "fixed_files": {
+    "initial-inventories/run-70828550.json": "608b6de6445cfd806ed9596d632b995baa7c2af8d4cb971d9d759ffc4a6b31ec",
+    "initial-inventories/run-73b249e1.json": "9f3c180f3b44ebba442e114433134401ff81170a0a2c59f5b02c08412f62b640",
+    "initial-inventories/run-ab14827e.json": "5089ea464688270264bdf28682818fee8fc8f258dd057c3e027c08c410b7c207",
+    "initial-inventories/run-af8f6659.json": "71ac97166d74014b9376dbb454c08e4a9b4591c0c50e434a21966f9ae8bfa0b5",
+    "initial-inventories/run-d68659d5.json": "151785792a69ce745dfe1d8cae21f6e1f576ebf15f5e12807b13d8d6912539dc",
+    "initial-inventories/run-df8d14e7.json": "4fce0a34671477a385a336f8bc406776af14ad2f9ab27b43b465b1493353b502",
+    "observer.py": "6ed9ad0bd289b4ba986a62420ce12a1bc65a6ae78d71908ae390640fb780a532",
+    "prompts/run-70828550.txt": "09990624b24b6770aa1fe07b5a94f7a2ce223e924d896d4ebb91b78eac6c81ae",
+    "prompts/run-73b249e1.txt": "665528996369bde88bc68782baaa8a944da2dc2857ecf24439fc102336001cdc",
+    "prompts/run-ab14827e.txt": "cd08e0aff4c2c42124f70f3aa2f537b1f205c8f87323a9c2c25324668af7a008",
+    "prompts/run-af8f6659.txt": "4490f1d54f352c52654703b600c5135fdd6e3e2e9f4a03a20ccfcbbaf7753da4",
+    "prompts/run-d68659d5.txt": "8c2314133e87e738ccd09214f2cff188c8600c525a88c89625484b71b6e68b35",
+    "prompts/run-df8d14e7.txt": "3858308825857eaab702e6648dc06d666aad566ac71620a92879508c030c1e91",
+    "protocol.md": "9855f2e62849d1d779b6bb01e14caa498cdad0e034ebf4714e0e0d252be3ee86",
+    "source-inventory.json": "103215d14470b808b9af8ddb3e84dbfaa10c324612324b09bdda988dddbe2656"
+  },
+  "limitations": [
+    "Same parent Session has supervisor and implementation roles; independent measurement consumer contexts are not authority or security isolation.",
+    "Shared filesystem; no complete platform transcript; unrecorded activity cannot be proved absent.",
+    "Native model identity/tokens/context budget unavailable; same inherited configuration requested without override.",
+    "One observation per case/arm; grouped commands hide suboperations; no statistical or universal guarantee.",
+    "v1 full adoption remains INCONCLUSIVE; this fresh measurement does not retrospectively change it.",
+    "A protocol classification change alone is not product improvement."
+  ],
+  "recorder": {
+    "path": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control/.agents/skills/verify-soodles/scripts/record_context.py",
+    "sha256": "9410a0fbe7b697ffcbfcf3aa3584af1904357d030b270d3ff0e2f8081edfc9cb"
+  },
+  "runs": [
+    {
+      "arm": "baseline",
+      "case": "pair-1",
+      "directory": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-d68659d5",
+      "id": "run-d68659d5",
+      "initial_inventory": "initial-inventories/run-d68659d5.json",
+      "kind": "valid",
+      "prompt": "prompts/run-d68659d5.txt",
+      "schema": 2,
+      "selection_sha256": "c58015819bd87eafbfaf8d24ed80659d0f613c1e43741fb615c2ab4cf537ebc2",
+      "skill": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control/.agents/skills/issue-atom/SKILL.md",
+      "skill_sha256": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+      "source": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control",
+      "source_head": "7e602dbe3fd4db670b15ef0267025e6c1dfffd4d"
+    },
+    {
+      "arm": "treatment",
+      "case": "pair-1",
+      "directory": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-73b249e1",
+      "id": "run-73b249e1",
+      "initial_inventory": "initial-inventories/run-73b249e1.json",
+      "kind": "valid",
+      "prompt": "prompts/run-73b249e1.txt",
+      "schema": 2,
+      "selection_sha256": "af4cc9ea7a0928dcfadfaf3180791b3314a2f15444d0620839a43a9e2b608c63",
+      "skill": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03/.agents/skills/issue-atom/SKILL.md",
+      "skill_sha256": "1484665efd269b4867806a1694b1f9c49c0a36756854da6315c38ab068692e87",
+      "source": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03",
+      "source_head": "8efb5347b6506e25a2d09f84ed823c64ccbc7d90"
+    },
+    {
+      "arm": "baseline",
+      "case": "pair-2",
+      "directory": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-af8f6659",
+      "id": "run-af8f6659",
+      "initial_inventory": "initial-inventories/run-af8f6659.json",
+      "kind": "valid",
+      "prompt": "prompts/run-af8f6659.txt",
+      "schema": 3,
+      "selection_sha256": "fe0676421a0d0fb1488a7a64f08d83ccf6a89eaadf92c05ed9f5d268bf589c77",
+      "skill": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control/.agents/skills/issue-atom/SKILL.md",
+      "skill_sha256": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+      "source": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control",
+      "source_head": "7e602dbe3fd4db670b15ef0267025e6c1dfffd4d"
+    },
+    {
+      "arm": "treatment",
+      "case": "pair-2",
+      "directory": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-70828550",
+      "id": "run-70828550",
+      "initial_inventory": "initial-inventories/run-70828550.json",
+      "kind": "valid",
+      "prompt": "prompts/run-70828550.txt",
+      "schema": 3,
+      "selection_sha256": "000d5172d99c219d9c2a26a1a776f1d01e06c36a9055496456e2e251429cb72a",
+      "skill": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03/.agents/skills/issue-atom/SKILL.md",
+      "skill_sha256": "1484665efd269b4867806a1694b1f9c49c0a36756854da6315c38ab068692e87",
+      "source": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03",
+      "source_head": "8efb5347b6506e25a2d09f84ed823c64ccbc7d90"
+    },
+    {
+      "arm": "baseline",
+      "case": "pair-3",
+      "directory": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-ab14827e",
+      "id": "run-ab14827e",
+      "initial_inventory": "initial-inventories/run-ab14827e.json",
+      "kind": "publisher_mismatch",
+      "prompt": "prompts/run-ab14827e.txt",
+      "schema": 2,
+      "selection_sha256": "980ff4f3502844adb572f08927d27b4becd164856040e3fa325183b5bc884c20",
+      "skill": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control/.agents/skills/issue-atom/SKILL.md",
+      "skill_sha256": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+      "source": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control",
+      "source_head": "7e602dbe3fd4db670b15ef0267025e6c1dfffd4d"
+    },
+    {
+      "arm": "treatment",
+      "case": "pair-3",
+      "directory": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-df8d14e7",
+      "id": "run-df8d14e7",
+      "initial_inventory": "initial-inventories/run-df8d14e7.json",
+      "kind": "publisher_mismatch",
+      "prompt": "prompts/run-df8d14e7.txt",
+      "schema": 2,
+      "selection_sha256": "add8b067c777da3642e95e5f07255ba4529552a38527d3eaeab6847993dad192",
+      "skill": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03/.agents/skills/issue-atom/SKILL.md",
+      "skill_sha256": "1484665efd269b4867806a1694b1f9c49c0a36756854da6315c38ab068692e87",
+      "source": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/candidate-r03",
+      "source_head": "8efb5347b6506e25a2d09f84ed823c64ccbc7d90"
+    }
+  ],
+  "schema": 2
+}

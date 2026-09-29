@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "scope": "deterministic measurement harness verification only",
+  "checks": [
+    {
+      "case": "scope-a",
+      "pass_scope": true,
+      "stages": [
+        "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/preflight/scope-a/work/.authorization-pdvv08fz"
+      ],
+      "staged_writes": [
+        "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/preflight/scope-a/work/.authorization-pdvv08fz/authorization.json"
+      ],
+      "cleanup": true,
+      "exit_code": 0,
+      "inputs_unchanged": true
+    },
+    {
+      "case": "scope-b",
+      "pass_scope": true,
+      "stages": [
+        "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/preflight/scope-b/work/.authorization-5nf352ts"
+      ],
+      "staged_writes": [
+        "/Users/neon/.codex/experiments/authorization-measurement-v4-eodxe5fi/preflight/scope-b/work/.authorization-5nf352ts/authorization.json"
+      ],
+      "cleanup": true,
+      "exit_code": 1,
+      "inputs_unchanged": true
+    }
+  ],
+  "authorizes_landing": false
+}
