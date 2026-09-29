@@ -297,7 +297,10 @@ the landing owner; this entry only consumes its exact transition.
 The foreground command observes normal owner/provider waits for at most five
 minutes, then returns the same continuation. Refusals propagate immediately;
 this loop cannot restart a failed owner, reoffer an unknown write or waive a
-failed check. Queued/in-progress Actions may have no jobs or steps yet; completed
+failed check. A nonzero Noodle publication-claim exit preserves its process
+evidence and returns a Noodle-owned input refusal with exact root/order/subject;
+it cannot enter this wait loop or reach readiness/publication. Material owner
+readback permits re-entry through the same authorization and command. Queued/in-progress Actions may have no jobs or steps yet; completed
 runs still require the exact successful job and acceptance step.
 
 The host-selected `NOODLES_TOKEN_COMMAND` remains opaque and takes precedence.

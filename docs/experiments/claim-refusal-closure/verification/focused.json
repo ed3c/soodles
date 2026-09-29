@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "test_claim_refusal_evidence",
+    "test_issue_atom",
+    "test_issue_execution"
+  ],
+  "environment": {
+    "PYTHONPATH": "tests"
+  },
+  "exit": 0,
+  "tests": 77,
+  "raw": {
+    "stdout": "focused.stdout",
+    "stderr": "focused.stderr"
+  },
+  "source_bindings": "candidate-r01.json",
+  "authorizes_landing": false
+}

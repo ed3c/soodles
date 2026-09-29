@@ -1,0 +1,19 @@
+{
+  "action": "wait_for_change",
+  "waiting_on": "GitHub Actions",
+  "required": [
+    "material_owner_or_provider_state_change"
+  ],
+  "proposed_argv": null,
+  "authorization_sha256": "43ba1bd0cbbc063bbbbea1c1e5da68551fbf4776dd6af1ca10351cde1130edc6",
+  "reentry_argv": [
+    "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/subjects/z8/issue-atom",
+    "run",
+    "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/sessions/z8/tmp0cxvt0on/authorization.json"
+  ],
+  "resolved": false,
+  "executed_lifecycle_argv": [],
+  "prior_handoff_read": true,
+  "observation_scope": "consumer_report",
+  "reason": "目前 owner 已由舊交接的 claim refusal 推進到 ci pending，等待 GitHub Actions 且 wait_exhausted=true；原 fresh_noodle_claim 缺項已不再是当前續接條件。owner 結果之後仍無實質變更，應等待 exact-head owner/provider 狀態改變，再按同一 argv 續接，不能現在重跑或宣告 resolved。"
+}

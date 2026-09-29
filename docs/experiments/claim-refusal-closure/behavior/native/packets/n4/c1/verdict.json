@@ -1,0 +1,18 @@
+{
+  "authorizes_landing": false,
+  "checks": {
+    "assigned_reads": true,
+    "auth_identity": true,
+    "legitimate_stop": true,
+    "no_execution_proposed": true,
+    "not_resolved": true,
+    "pending_owner": true,
+    "reader_binding": true,
+    "reported_no_effects": true,
+    "reported_scope": true,
+    "same_reentry": true
+  },
+  "independent_absence_of_other_effects": "unknown",
+  "pass": true,
+  "scope": "consumer_report_plus_assigned_read_telemetry"
+}

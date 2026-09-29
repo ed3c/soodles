@@ -1,0 +1,239 @@
+{
+  "authorizes_landing": false,
+  "decision": "FAIL",
+  "processes": [
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/baseline-r03/refusal-state",
+        "refusal",
+        "--timeout",
+        "3"
+      ],
+      "elapsed_seconds": 1.0545346250291914,
+      "exit": 0,
+      "label": "refusal"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/baseline-r03/refusal75-state",
+        "refusal75",
+        "--timeout",
+        "3"
+      ],
+      "elapsed_seconds": 1.0161319579929113,
+      "exit": 0,
+      "label": "refusal75"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/baseline-r03/running-state",
+        "running",
+        "--timeout",
+        "3"
+      ],
+      "elapsed_seconds": 0.7495669170748442,
+      "exit": 0,
+      "label": "running"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/baseline-r03/success-state",
+        "success",
+        "--timeout",
+        "0"
+      ],
+      "elapsed_seconds": 0.7027476669754833,
+      "exit": 0,
+      "label": "success"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/baseline-r03/resume-state",
+        "refusal",
+        "--timeout",
+        "3"
+      ],
+      "elapsed_seconds": 0.9825897498521954,
+      "exit": 0,
+      "label": "resume_initial"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/baseline-r03/resume-state",
+        "running",
+        "--timeout",
+        "0"
+      ],
+      "elapsed_seconds": 0.17829429102130234,
+      "exit": 0,
+      "label": "resume_running"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/baseline-r03/resume-state",
+        "success",
+        "--timeout",
+        "0"
+      ],
+      "elapsed_seconds": 0.21041270904242992,
+      "exit": 0,
+      "label": "resume_success"
+    }
+  ],
+  "reassessment": "Same captured raw only, using final pre-candidate fixed evaluator; no baseline rerun.",
+  "scope": "external local deterministic discriminator; fixture provider; not Linux acceptance or production runtime",
+  "sensitivity": {
+    "claim_while_running_rejected": true,
+    "duplicate_publish_rejected": true
+  },
+  "source": "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02",
+  "source_issue_atom_sha256": "6f86667d00e6ba56aa25dc028e322169d2d34c9f4c8dd8087cfe980fed20a889",
+  "verdicts": {
+    "refusal": {
+      "checks": {
+        "execution_preserved": true,
+        "known_identity": false,
+        "named_owner": false,
+        "named_prerequisite": false,
+        "no_accept": true,
+        "no_acceptance_artifact": true,
+        "no_claim_artifact": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "no_sleep": false,
+        "non_authorizing": true,
+        "nonzero_observed": true,
+        "same_entry": true,
+        "single_claim": false,
+        "structured_refusal": false
+      },
+      "pass": false
+    },
+    "refusal75": {
+      "checks": {
+        "execution_preserved": true,
+        "known_identity": false,
+        "named_owner": false,
+        "named_prerequisite": false,
+        "no_accept": true,
+        "no_acceptance_artifact": true,
+        "no_claim_artifact": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "no_sleep": false,
+        "non_authorizing": true,
+        "nonzero_observed": true,
+        "same_entry": true,
+        "single_claim": false,
+        "structured_refusal": false
+      },
+      "pass": false
+    },
+    "resume_identity": {
+      "checks": {
+        "envelope_identity": true,
+        "same_authorization": true,
+        "same_reentry": true,
+        "state_readback": true
+      },
+      "pass": true
+    },
+    "resume_initial": {
+      "checks": {
+        "execution_preserved": true,
+        "known_identity": false,
+        "named_owner": false,
+        "named_prerequisite": false,
+        "no_accept": true,
+        "no_acceptance_artifact": true,
+        "no_claim_artifact": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "no_sleep": false,
+        "non_authorizing": true,
+        "nonzero_observed": true,
+        "same_entry": true,
+        "single_claim": false,
+        "structured_refusal": false
+      },
+      "pass": false
+    },
+    "resume_running": {
+      "checks": {
+        "execution_preserved": true,
+        "legal_pending": true,
+        "no_accept": true,
+        "no_claim": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "non_authorizing": true,
+        "same_entry": true
+      },
+      "pass": true
+    },
+    "resume_success": {
+      "checks": {
+        "accepted_once": true,
+        "ci_boundary": true,
+        "ci_state": true,
+        "claim_identity": true,
+        "no_provider_writes": true,
+        "non_authorizing": true,
+        "published_once": true,
+        "same_entry": true,
+        "single_claim": true,
+        "zero_exit": true
+      },
+      "pass": true
+    },
+    "running": {
+      "checks": {
+        "execution_preserved": true,
+        "legal_pending": true,
+        "no_accept": true,
+        "no_claim": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "non_authorizing": true,
+        "same_entry": true
+      },
+      "pass": true
+    },
+    "success": {
+      "checks": {
+        "accepted_once": true,
+        "ci_boundary": true,
+        "ci_state": true,
+        "claim_identity": true,
+        "no_provider_writes": true,
+        "non_authorizing": true,
+        "published_once": true,
+        "same_entry": true,
+        "single_claim": true,
+        "zero_exit": true
+      },
+      "pass": true
+    }
+  }
+}

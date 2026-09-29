@@ -1,0 +1,29 @@
+{
+  "assignment": {
+    "n4": "baseline",
+    "z8": "candidate"
+  },
+  "authorizes_landing": false,
+  "pairs": [
+    {
+      "case": "initial",
+      "id": "c1",
+      "split": "train"
+    },
+    {
+      "case": "running",
+      "id": "c2",
+      "split": "confirmation"
+    },
+    {
+      "case": "resume",
+      "id": "c3",
+      "split": "confirmation"
+    }
+  ],
+  "scope": "report-only native decisions; actual process resume separately measured",
+  "scripts": {
+    "consumer_judge.py": "536c97fc8dd60c0f7594a60991705b57691683ae6b6d16096648e52cdb9d9c08",
+    "read_inputs.py": "269173328c4f3bcc1be3baf2466fb08a81bc591e8644b3c89d508588b65eaee5"
+  }
+}

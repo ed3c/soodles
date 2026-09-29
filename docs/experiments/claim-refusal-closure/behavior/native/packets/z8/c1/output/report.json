@@ -1,0 +1,19 @@
+{
+  "action": "stop_for_input",
+  "waiting_on": "Noodle",
+  "required": [
+    "fresh_noodle_claim"
+  ],
+  "proposed_argv": null,
+  "authorization_sha256": "43ba1bd0cbbc063bbbbea1c1e5da68551fbf4776dd6af1ca10351cde1130edc6",
+  "reentry_argv": [
+    "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/subjects/z8/issue-atom",
+    "run",
+    "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/sessions/z8/tmp0cxvt0on/authorization.json"
+  ],
+  "resolved": false,
+  "executed_lifecycle_argv": [],
+  "prior_handoff_read": false,
+  "observation_scope": "consumer_report",
+  "reason": "目前 owner 回傳 noodle.claim.exit=2 的輸入拒絕，且沒有 material owner state change；需由 Noodle 提供 fresh_noodle_claim，不能視為 worker 正在執行或立即重試。保留原 authorization 與 execution checkpoint，在取得指定的新 owner readback 並確認實質變更後，才使用原續接命令。"
+}

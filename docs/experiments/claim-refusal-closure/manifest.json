@@ -1,0 +1,672 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 189
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "1484665efd269b4867806a1694b1f9c49c0a36756854da6315c38ab068692e87",
+      "treatment_sha256": "af033cd3e19ce9c9b57d813fdb036c3a103b1a461c8b0adbce85167ae4389662"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/issue-execution.md",
+      "baseline_sha256": "bb807b50e17f131e43bee03ec7c9b54c80ce24888539655a476483c9c1f2a139",
+      "treatment_sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "contracts/system-v1.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c09fdc84b851cd538346deb6bde9702a12850852c1fc5dc57ad02f714bcc0672"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/analysis.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d1703961ede9652cef9a50f72bd1a4c275c77c48e485deb25884312ac3a249b5"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/analysis.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "adc14541b4a9a5bcfda60d4e7311cc7919cbd0a310ebf13d443e36f22fe09230"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/behavior-archive-index.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6572cc4d4335d7ac8c81e5fcbe5c7e6d386d8c7e4ce6c43ed05fb0a54e4a7624"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/consumer_judge.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "536c97fc8dd60c0f7594a60991705b57691683ae6b6d16096648e52cdb9d9c08"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7e94b675a2dfe3370ba6fcd54a3f26a0c5fe26354f6a1dd15b646fe46b875d64"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/comparison-freeze.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "adbe62b06e9ddbadb1b8a6546650ce4e533a180cec3ef821790f3ab60c89a5bd"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/consumer-task-template.txt",
+      "role": "fixed source or experimental evidence",
+      "sha256": "045963629af6862594830dd7a9e6f8f36520ca0b647dc96924687daf30b57bd9"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/n4-source-binding.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "dc3c6bc14bdf6f07054ce70c08d5f2716c209e509f4fea2d29b5f77edda90033"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c1/current.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bdcb2ee73f97613ebece4b6232ff7ff769689d27229b14d2ccfee6252775a2ab"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c1/identity.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4a1c65893e9dad9e8ff57cf0b67aa2abfe9ab7505a34159f6d57849773905adb"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c1/inputs.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "433bb7cc762074b693acfa2c610f34007103b10c823f3a11c43a459a2a6703dc"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c1/output/handoff.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b260c218e9c66acd3118420c42f781e3fe940a14008e19369ae58b8363e481dc"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c1/output/read-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "230c01c8cd813c0fafac1566b40d2c434716317c48e7af52e6468169d461e2e5"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c1/output/report.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e919516d1a3f1f3fa7dca40247e7d5c1d6b030f558293f4bdb9f2363e7c0ecb0"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c1/verdict.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ef2660d97d5942ebe1a703d17c169fca316650c758fa1d00b46f4dc4bc1bc530"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c2/current.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "314907d442165362e8b9d9428a43871173abaf6f5e3fda4b750a54493dc51edc"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c2/identity.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "44658925f632ef29effc18034b2afda2797e2e4e7dff199134276c449f9e5dc5"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c2/inputs.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7dfe8a106b0e7d7c2f1a7be98b662572b4dc31d8499e0710408045a7698f3c29"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c2/output/handoff.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fe8b1d4f35a71fa2ba0637f0609c5731290ced9e32a9cdda0450584a2015e4f0"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c2/output/read-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bd021770ef5e9bc19436dc129cf6f496f0a8fa49e727d83713960decdd2929f0"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c2/output/report.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e22bd936fd0b8c734e8c9881fe3ca40430cc99ae7cbe9cc59ffafa649485cc5a"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c2/verdict.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a0d0bf2dfa8bff4e0f5cd262ece7ba7f863082c3bd5b6e0f63bfe1e9d53875ba"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c3/current.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6deba12c877831930e5a04f87b911393ae9d04b6c970a36cab92fcb7eff6d278"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c3/identity.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "63f47b5f84f9707524759fb0345289fd31d6a2a3eb8b681d5cc81d14b1705681"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c3/inputs.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "85f135e542531b118dace690fe046e7fffbe00ea4f8aab17f3b2f4eec8f44e0a"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c3/output/handoff.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b54a3c10ad747b7b079b6b8eecee86f4f0a81c56023a34140c01f11718331575"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c3/output/read-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5cfb6c044f153b6cc1fc2a3a75e51b27ad762e4a89601f9fb97e6c4283d7ea2a"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c3/output/report.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "cb7ac8cacf1cadaa36cbce626b2cacb29bad680f7b55857cce58e9f0a309d467"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/n4/c3/verdict.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9f14871dc8e8e6767eee982666212d77a0507b44bc63e5f1f8f98773d631fbe9"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c1/current.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "864d63df32475e3d722ee1ff11678cbe018fa4fa5d1c61ba2d0e1e7a17ed04c3"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c1/identity.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0144154fe3a0c839df83ea10bfb37d541005d1d56ee0c1dcb2d44bd491f5a9c0"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c1/inputs.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8800f8b2735b7ffa0e8ad9952e75937d862183c0c8ee365e96c4aef07f747ef3"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c1/output/handoff.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6feb2d605bdf1961a948f9716a18f63ce6b5543900425c4302e7364e5679c282"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c1/output/read-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d236ac9eb2b1759f281ce303d4394c700125c0e35f5862f6278ef96df9f93fb9"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c1/output/report.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d78db9f0dce742a31979eee2bc11e4f10d959494d6bd80f1842a063b98237250"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c1/verdict.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9ac420a5dbdb50b05d7a39f0ad0930ec407f5b64f167c69af19a72bd2a8f27bc"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c2/current.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7ad6248cf0e4ce809c474c9b52ee4f6f690f646fe20af3718fc8b32287aa36bf"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c2/identity.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "66dcf9a0ef2e04ddd3712ab33875d8675fa02bf22fc8cc17cd6a3e2a078c0e92"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c2/inputs.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fc51e2990bec7ccf5ab08c9edb61b00d7dba5fde2ef0b132f8d5036eaddb2f92"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c2/output/handoff.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "cec62d9359cbfadbce493abe55cd6c403a8b5b25c66557240ee887727ee38459"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c2/output/read-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "436809c19b1bd8db3f05fa9d8ba7b774d9704caec02f86ff1c39c6431a86c7d2"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c2/output/report.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ff73ff4ac73f171a3bb462c72aa5f4f36fde0869e779b1ba250cccaa260260f8"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c2/verdict.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a0d0bf2dfa8bff4e0f5cd262ece7ba7f863082c3bd5b6e0f63bfe1e9d53875ba"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c3/current.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9078757c239f9a13b17c5cbb0be7894044f5165ec6d0afdaf05c0aea81fdca1d"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c3/identity.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "58f68b4b3a9eb6424d64d353aab7d9517c03c3d709684354c894496c5f75bbfa"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c3/inputs.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "95f3fa5576a97b1c0adf8eec641879996f6960f5fc7741f850a506f0d7e6a483"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c3/output/handoff.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "581d2409600988edb367d102b997e5e2ef099502f7bc25424a66e2ae2a5f1aaf"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c3/output/read-receipt.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "86164e329a2a0c69ab2a9e183a5d9b97f01598ca25aa3f708d6bfab9c2265213"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c3/output/report.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "36e781a190ab6daff57aee4473bab42b7d4a691b1be684cbe43f50c43d4bac0a"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/packets/z8/c3/verdict.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9f14871dc8e8e6767eee982666212d77a0507b44bc63e5f1f8f98773d631fbe9"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/provenance.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2c0916485ede5b99e557b68c73f4a71dab7082c7cc00edd4c56cf951531f0566"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/n4/c1-launch.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6dabd560b1a71586a560a546d410e10e649e60fbe05f85ef90f6fa13a9a29c6b"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/n4/c1-process.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "212bb921baeb25786337fa295e5e73a771fe2e9dbe5121ec3a5e93b2207a6713"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/n4/c2-launch.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f2cad7b9454638ef4dc78e8d59b40ff2e47c8c4adb1ff3ff7d527ed02e9be567"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/n4/c2-process.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c54024003f15841e569ae3df14322d02eba14b93996694cb4ec48a4658f8743f"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/n4/c3-before-change-process.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "86725d096e31c0172c9a22c7698e974a84dbf8b8ba41049129d2c20d13480c41"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/n4/c3-current-process.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5e69426c6782cd17682a3b11c0a76a8dc5baaad6a9fad1edaa9d5880c4d064fd"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/n4/c3-launch.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "81f9b1f238f0300bdb7c53851e038e8884d992d86a12f80c2277fa503f4482ec"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/z8/c1-launch.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8048458cda7d6bec6d73d22bdbbdfb9e6534a1dcf89c8fcc4ad5c13b7eed6766"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/z8/c1-process.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9b66b06846bbc0f43e6bb7d6796523ebb7ff4eac065d0b609b250aa99564efd5"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/z8/c2-launch.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "82bd4c92806ffa8aaf374c31008ddf3a8cb9488bcfa62f0e58dc4b94ed70cc85"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/z8/c2-process.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a3260a655cacbb379278c1f5437eb8c2def039fdfbeedd0961e43cb502663128"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/z8/c3-before-change-process.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "26649c7f263955ea0bf1e051a53479a42ebd6a258cec8674081fb515a0669810"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/z8/c3-current-process.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e75eaff25e5c1af1eeadf2439cecfa7c8c8c27eec7a03c8caa447e15c2ae4e4c"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/raw/z8/c3-launch.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "119135ad4e80fa7d87423b3078d23fd9ad3e6fbd99b38cd2ebe2ed545721c77a"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/subjects/n4/.agents/skills/issue-atom/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1484665efd269b4867806a1694b1f9c49c0a36756854da6315c38ab068692e87"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/subjects/n4/.agents/skills/verify-soodles/features/issue-execution.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bb807b50e17f131e43bee03ec7c9b54c80ce24888539655a476483c9c1f2a139"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/subjects/n4/AGENTS.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a64c8ee74332bae7d5b5c6585180163c8d87205cf8d284cc409c60eb9aa74773"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/subjects/z8/.agents/skills/issue-atom/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "af033cd3e19ce9c9b57d813fdb036c3a103b1a461c8b0adbce85167ae4389662"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/subjects/z8/.agents/skills/verify-soodles/features/issue-execution.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/subjects/z8/AGENTS.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a64c8ee74332bae7d5b5c6585180163c8d87205cf8d284cc409c60eb9aa74773"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/native/z8-source-binding.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "193d291c42590d38d52f05953d2f6227a01133062238c26da8bbc348bae522c0"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/behavior/read_inputs.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "269173328c4f3bcc1be3baf2466fb08a81bc591e8644b3c89d508588b65eaee5"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/change.patch",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3c56ce3d6a96115787702664db52a0a2b7cf6b5d76a6b0f45163aa387b989ae1"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "098b51dde24836e904275f2a7e590baf0f5cd5428c7951218b22cf8abca01025"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/delivery/references.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0698286f85bae8936142efa1d342fc87810c9f8ac8f86262327e7bb7303a6844"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/evaluator/evaluate.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "84832c2f760383cc338c0a32c2a8e31e0c2249ea375ce50a50c779a78e43e203"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/evaluator/frozen/test_issue_atom.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "41fdc1ed59c4f966abe947c7acc368e904f3faef1a836e79eb4e7c1fecd9b23c"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/evaluator/manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "22f3b5cd7fb458a29f21c0281f52211974cda769f0e9f2ca8e1d4f5c39bf0ba7"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/evaluator/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4b29b31199674c612447ec36c45ed368df326f499efb89b75386c8b5c429eceb"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/evaluator/worker.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1e81d2842a0ac6cf0a4100d2c2d89139b099817588cb8b866cd0266aaf1592fd"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/hypothesis.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8ae8a4154e8848f9a318e8534b2d0db44b5a38e77b19ef96cb022d395c450f6d"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "334fecad577428083f172da4aefe5a29b3c24bf8e7441238680f298e80525be5"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/results.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b1edca4dfe62c02a01dea7f36d215da6ded7d38a1c2e6c1299dec06ebfdcc986"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r01/refusal.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f7fa0eeb8aa9a54e4159ac4202ad8d80c2ca7a8ab57773cd21e337ed42a0169a"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r01/refusal.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r02/refusal.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4029d0f6508fb7cbffb18b31e4d24b8969de617a037f98dac2ed60d798758709"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r02/refusal.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/final-assessment.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "62cb27452d2d8c2d37369f2cf4874e3f051a07fbe6b24d833d1f48d5fa95569b"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/refusal.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/refusal.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "657f0a58e74f9832807d2c0d368b7646478fcefddaf306ef8e56f07ebee3ad20"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/refusal75.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/refusal75.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "79850cdfbe1d0bc0c8b34c75b9cd55be4cfb521b16ff310c79acdff5f2e2342d"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/resume_initial.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/resume_initial.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "26cbaac61b50439fa20a1f65eed9396b8e13e8c5e9144a860a874a98f97bbc9a"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/resume_running.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/resume_running.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e4e636f41355154d2aaf32f313f5f89c3ce23ff0282b603760363ac2a8e05616"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/resume_success.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/resume_success.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7dc052c63bcd826331db4cea2b852179e54833d3baff6501cd384d24e43bc09d"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/running.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/running.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f6cc2ad8bac2bcd33b8dfa36ddae23f28de5a89b1b67961acdfc334dac013136"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/success.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/success.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "07212017ca884f399fc155b88ab7a711cabca6776530c69fcf26a60eb78a6237"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/baseline-r03/summary.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9df864948868e4575ea1d8e61bf65c3de121554281be1c921cc1dd123f96f54a"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/candidate-r01.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "658fc58f21ce4d15bd5a893cd50b77ce4cd278431a0735f51a9e7f84fa0d097b"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/focused.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "04c92e634bf6ae013628a7f1c2dca15632f5295ec9ac5788ef5ddd790911f445"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/focused.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "3a54a13ae3f22d70aae22f5616f22c3526453e425b36e6b710014725a1370b13"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/focused.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/local-preflight.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0a3bdcdb91e2279c49fd7bb65c4d8f51b7df30fb95a49c7d3e75b3783c1fb7f2"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/oracle-selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d686713a4839105528f39af7bc7b24150e42bf1433e8a38a9ae6d62bdb719d88"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/refusal.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/refusal.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "830f810ca50f297ed0341c75a3945bfcacda07bdef337b447147cb3f529f6ed0"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/refusal75.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/refusal75.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0e98b7e7d62da2726ae4d7ebd63553550dc55711c76e779f1d33105af5be7124"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/resume_initial.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/resume_initial.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "556e9d462c4e1a2181ec81aad1afc5dc762a935c1db22362fa9f3d28903b77de"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/resume_running.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/resume_running.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "c9e409ec80e8e4d18c4364d1d500030e6d7405f5d495364df5a879b25f1ab8ee"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/resume_success.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/resume_success.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "37d1b014be5f8a029547f7355395943618754045083257f804295579014f145a"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/running.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/running.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "37bce5268b79b40e01413a80d06b0c54392c49cfeb5e0356e4000ac7ebf0f10c"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/success.stderr",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/success.stdout",
+      "role": "fixed source or experimental evidence",
+      "sha256": "98fba5fdcccf942a56d63ae8abf76a5c12eeb1a96d919a2810201758104339cb"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/verification/treatment-r01/summary.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a90b2f71dfccb3b3d2e0b37c0f4649b11ca6735ba526517e0ec1e454453f199d"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "6cb0830e2ced9d8c2e59fd65ad6e9c6910b93d682cde6c900a33eab2a6879012"
+    },
+    {
+      "path": "tests/test_claim_refusal_evidence.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "00d33c17d479d864039290da43efcc363869cf52c4f3b607fb4d01801112ae4f"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b0af63c797817de61266bea95be573f555a1227bd0d04e176a08e2c0904bab68"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#189"
+  },
+  "authorizes_landing": false
+}

@@ -124,20 +124,6 @@ Sources: `issue_admission.py` owns the shared binding, `issue_execution.py` owns
 consumer/worker/takeover gates, and `tests/test_issue_execution.py` contains local
 provider/owner fixture controls. Those fixtures are not live runtime evidence.
 
-## Publication-claim handoff
-
-After a parked worker, a nonzero Noodle publication-claim exit is a typed
-Noodle-owned input refusal, never evidence of a running worker. Drive the real
-Issue-atom boundary with a failed claim process: require one claim attempt,
-no wait, no readiness/publication effect, preserved execution checkpoint and
-same-command continuation naming the exact control root/order/subject.
-Contrast a genuinely running owner (pending, no claim) and a successful claim
-(existing readiness/publication path). Across fresh processes, retain the same
-authorization and refresh material owner state before re-entry. Fixture effects
-prove this transition only; actual delivery still requires its terminal receipt.
-For a model behavior claim, use the P-class recipe with fresh consumers and
-external process observations; a code-level retry reduction is not token cost.
-
 ## Selected instruction activation
 
 For schema-3 local atom authorization, the supervisor supplies nonempty

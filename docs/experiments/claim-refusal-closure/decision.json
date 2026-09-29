@@ -1,0 +1,24 @@
+{
+  "adoption": "ADOPT_BOUNDED_TRANSITION_FIX",
+  "runtime_gates_pass": true,
+  "consumer_nonregression_pass": true,
+  "runtime_improvement": "4 to 1 claim subprocesses and 3 to 0 fake sleeps in fixed nonzero drives",
+  "model_claim": "bounded report-only nonregression; no Agent effort or token improvement established",
+  "source_bindings": "verification/candidate-r01.json",
+  "independent_decision": {
+    "path": "behavior/decision.json",
+    "sha256": "7e94b675a2dfe3370ba6fcd54a3f26a0c5fe26354f6a1dd15b646fe46b875d64"
+  },
+  "limitations": [
+    "initial native action gate permits either stop_for_input or wait_for_change; active judge was not changed after launch. Actual candidate chose stop_for_input and baseline chose wait_for_change.",
+    "Native reports and assigned-reader subprocess receipts do not constitute a complete platform transcript or independent proof of absence of all effects.",
+    "Model, reasoning provenance, hidden reads, input tokens, context window, compaction and full model timing are unavailable; actual compaction was NOT_RUN.",
+    "Read-only assigned task constrains effects for both arms; this is not a test of autonomous provider or lifecycle execution.",
+    "Consumer receives paired source instructions and corresponding actual owner output; observed decision differences cannot isolate prose-only from runtime-output effects.",
+    "Three case pairs do not establish statistical or universal improvement; confirmation was not used to tune source, instructions or judge.",
+    "Drive telemetry excludes fixture setup. Provider/admission/acceptance/publication are disposable fixtures; this does not replace Linux canonical acceptance or provider landing truth.",
+    "Archived input manifests preserve actual absolute paths; replay elsewhere requires explicit path relocation outside the active frozen judge."
+  ],
+  "delivery": "pending existing exact-head acceptance and landing owner",
+  "authorizes_landing": false
+}

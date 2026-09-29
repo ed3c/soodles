@@ -1,0 +1,238 @@
+{
+  "authorizes_landing": false,
+  "decision": "PASS",
+  "processes": [
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/prototype",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/treatment-r01/refusal-state",
+        "refusal",
+        "--timeout",
+        "3"
+      ],
+      "elapsed_seconds": 0.859953791834414,
+      "exit": 0,
+      "label": "refusal"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/prototype",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/treatment-r01/refusal75-state",
+        "refusal75",
+        "--timeout",
+        "3"
+      ],
+      "elapsed_seconds": 0.9616091251373291,
+      "exit": 0,
+      "label": "refusal75"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/prototype",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/treatment-r01/running-state",
+        "running",
+        "--timeout",
+        "3"
+      ],
+      "elapsed_seconds": 0.807087125023827,
+      "exit": 0,
+      "label": "running"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/prototype",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/treatment-r01/success-state",
+        "success",
+        "--timeout",
+        "0"
+      ],
+      "elapsed_seconds": 0.727306833025068,
+      "exit": 0,
+      "label": "success"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/prototype",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/treatment-r01/resume-state",
+        "refusal",
+        "--timeout",
+        "3"
+      ],
+      "elapsed_seconds": 0.8020152500830591,
+      "exit": 0,
+      "label": "resume_initial"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/prototype",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/treatment-r01/resume-state",
+        "running",
+        "--timeout",
+        "0"
+      ],
+      "elapsed_seconds": 0.230662708170712,
+      "exit": 0,
+      "label": "resume_running"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/prototype",
+        "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/treatment-r01/resume-state",
+        "success",
+        "--timeout",
+        "0"
+      ],
+      "elapsed_seconds": 0.2529744999483228,
+      "exit": 0,
+      "label": "resume_success"
+    }
+  ],
+  "scope": "external local deterministic discriminator; fixture provider; not Linux acceptance or production runtime",
+  "sensitivity": {
+    "claim_while_running_rejected": true,
+    "duplicate_publish_rejected": true
+  },
+  "source": "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/prototype",
+  "source_issue_atom_sha256": "6cb0830e2ced9d8c2e59fd65ad6e9c6910b93d682cde6c900a33eab2a6879012",
+  "verdicts": {
+    "refusal": {
+      "checks": {
+        "execution_preserved": true,
+        "known_identity": true,
+        "named_owner": true,
+        "named_prerequisite": true,
+        "no_accept": true,
+        "no_acceptance_artifact": true,
+        "no_claim_artifact": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "no_sleep": true,
+        "non_authorizing": true,
+        "nonzero_observed": true,
+        "same_entry": true,
+        "single_claim": true,
+        "structured_refusal": true
+      },
+      "pass": true
+    },
+    "refusal75": {
+      "checks": {
+        "execution_preserved": true,
+        "known_identity": true,
+        "named_owner": true,
+        "named_prerequisite": true,
+        "no_accept": true,
+        "no_acceptance_artifact": true,
+        "no_claim_artifact": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "no_sleep": true,
+        "non_authorizing": true,
+        "nonzero_observed": true,
+        "same_entry": true,
+        "single_claim": true,
+        "structured_refusal": true
+      },
+      "pass": true
+    },
+    "resume_identity": {
+      "checks": {
+        "envelope_identity": true,
+        "same_authorization": true,
+        "same_reentry": true,
+        "state_readback": true
+      },
+      "pass": true
+    },
+    "resume_initial": {
+      "checks": {
+        "execution_preserved": true,
+        "known_identity": true,
+        "named_owner": true,
+        "named_prerequisite": true,
+        "no_accept": true,
+        "no_acceptance_artifact": true,
+        "no_claim_artifact": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "no_sleep": true,
+        "non_authorizing": true,
+        "nonzero_observed": true,
+        "same_entry": true,
+        "single_claim": true,
+        "structured_refusal": true
+      },
+      "pass": true
+    },
+    "resume_running": {
+      "checks": {
+        "execution_preserved": true,
+        "legal_pending": true,
+        "no_accept": true,
+        "no_claim": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "non_authorizing": true,
+        "same_entry": true
+      },
+      "pass": true
+    },
+    "resume_success": {
+      "checks": {
+        "accepted_once": true,
+        "ci_boundary": true,
+        "ci_state": true,
+        "claim_identity": true,
+        "no_provider_writes": true,
+        "non_authorizing": true,
+        "published_once": true,
+        "same_entry": true,
+        "single_claim": true,
+        "zero_exit": true
+      },
+      "pass": true
+    },
+    "running": {
+      "checks": {
+        "execution_preserved": true,
+        "legal_pending": true,
+        "no_accept": true,
+        "no_claim": true,
+        "no_provider_writes": true,
+        "no_publish": true,
+        "non_authorizing": true,
+        "same_entry": true
+      },
+      "pass": true
+    },
+    "success": {
+      "checks": {
+        "accepted_once": true,
+        "ci_boundary": true,
+        "ci_state": true,
+        "claim_identity": true,
+        "no_provider_writes": true,
+        "non_authorizing": true,
+        "published_once": true,
+        "same_entry": true,
+        "single_claim": true,
+        "zero_exit": true
+      },
+      "pass": true
+    }
+  }
+}

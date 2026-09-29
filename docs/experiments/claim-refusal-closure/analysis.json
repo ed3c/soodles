@@ -1,0 +1,330 @@
+{
+  "runtime": [
+    {
+      "case": "refusal",
+      "baseline": {
+        "status": "pending",
+        "claim_processes": 4,
+        "fake_sleeps": 3,
+        "checks": {
+          "pass": false,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "named_owner": false,
+            "named_prerequisite": false,
+            "known_identity": false,
+            "structured_refusal": false,
+            "single_claim": false,
+            "no_sleep": false,
+            "no_accept": true,
+            "no_publish": true,
+            "no_claim_artifact": true,
+            "no_acceptance_artifact": true,
+            "execution_preserved": true,
+            "nonzero_observed": true
+          }
+        }
+      },
+      "treatment": {
+        "status": "refused",
+        "claim_processes": 1,
+        "fake_sleeps": 0,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "named_owner": true,
+            "named_prerequisite": true,
+            "known_identity": true,
+            "structured_refusal": true,
+            "single_claim": true,
+            "no_sleep": true,
+            "no_accept": true,
+            "no_publish": true,
+            "no_claim_artifact": true,
+            "no_acceptance_artifact": true,
+            "execution_preserved": true,
+            "nonzero_observed": true
+          }
+        }
+      }
+    },
+    {
+      "case": "refusal75",
+      "baseline": {
+        "status": "pending",
+        "claim_processes": 4,
+        "fake_sleeps": 3,
+        "checks": {
+          "pass": false,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "named_owner": false,
+            "named_prerequisite": false,
+            "known_identity": false,
+            "structured_refusal": false,
+            "single_claim": false,
+            "no_sleep": false,
+            "no_accept": true,
+            "no_publish": true,
+            "no_claim_artifact": true,
+            "no_acceptance_artifact": true,
+            "execution_preserved": true,
+            "nonzero_observed": true
+          }
+        }
+      },
+      "treatment": {
+        "status": "refused",
+        "claim_processes": 1,
+        "fake_sleeps": 0,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "named_owner": true,
+            "named_prerequisite": true,
+            "known_identity": true,
+            "structured_refusal": true,
+            "single_claim": true,
+            "no_sleep": true,
+            "no_accept": true,
+            "no_publish": true,
+            "no_claim_artifact": true,
+            "no_acceptance_artifact": true,
+            "execution_preserved": true,
+            "nonzero_observed": true
+          }
+        }
+      }
+    },
+    {
+      "case": "running",
+      "baseline": {
+        "status": "pending",
+        "claim_processes": 0,
+        "fake_sleeps": 3,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "legal_pending": true,
+            "no_claim": true,
+            "no_accept": true,
+            "no_publish": true,
+            "execution_preserved": true
+          }
+        }
+      },
+      "treatment": {
+        "status": "pending",
+        "claim_processes": 0,
+        "fake_sleeps": 3,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "legal_pending": true,
+            "no_claim": true,
+            "no_accept": true,
+            "no_publish": true,
+            "execution_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "case": "success",
+      "baseline": {
+        "status": "pending",
+        "claim_processes": 1,
+        "fake_sleeps": 0,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "ci_boundary": true,
+            "single_claim": true,
+            "zero_exit": true,
+            "accepted_once": true,
+            "published_once": true,
+            "ci_state": true,
+            "claim_identity": true
+          }
+        }
+      },
+      "treatment": {
+        "status": "pending",
+        "claim_processes": 1,
+        "fake_sleeps": 0,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "ci_boundary": true,
+            "single_claim": true,
+            "zero_exit": true,
+            "accepted_once": true,
+            "published_once": true,
+            "ci_state": true,
+            "claim_identity": true
+          }
+        }
+      }
+    },
+    {
+      "case": "resume_initial",
+      "baseline": {
+        "status": "pending",
+        "claim_processes": 4,
+        "fake_sleeps": 3,
+        "checks": {
+          "pass": false,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "named_owner": false,
+            "named_prerequisite": false,
+            "known_identity": false,
+            "structured_refusal": false,
+            "single_claim": false,
+            "no_sleep": false,
+            "no_accept": true,
+            "no_publish": true,
+            "no_claim_artifact": true,
+            "no_acceptance_artifact": true,
+            "execution_preserved": true,
+            "nonzero_observed": true
+          }
+        }
+      },
+      "treatment": {
+        "status": "refused",
+        "claim_processes": 1,
+        "fake_sleeps": 0,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "named_owner": true,
+            "named_prerequisite": true,
+            "known_identity": true,
+            "structured_refusal": true,
+            "single_claim": true,
+            "no_sleep": true,
+            "no_accept": true,
+            "no_publish": true,
+            "no_claim_artifact": true,
+            "no_acceptance_artifact": true,
+            "execution_preserved": true,
+            "nonzero_observed": true
+          }
+        }
+      }
+    },
+    {
+      "case": "resume_running",
+      "baseline": {
+        "status": "pending",
+        "claim_processes": 0,
+        "fake_sleeps": 0,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "legal_pending": true,
+            "no_claim": true,
+            "no_accept": true,
+            "no_publish": true,
+            "execution_preserved": true
+          }
+        }
+      },
+      "treatment": {
+        "status": "pending",
+        "claim_processes": 0,
+        "fake_sleeps": 0,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "legal_pending": true,
+            "no_claim": true,
+            "no_accept": true,
+            "no_publish": true,
+            "execution_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "case": "resume_success",
+      "baseline": {
+        "status": "pending",
+        "claim_processes": 1,
+        "fake_sleeps": 0,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "ci_boundary": true,
+            "single_claim": true,
+            "zero_exit": true,
+            "accepted_once": true,
+            "published_once": true,
+            "ci_state": true,
+            "claim_identity": true
+          }
+        }
+      },
+      "treatment": {
+        "status": "pending",
+        "claim_processes": 1,
+        "fake_sleeps": 0,
+        "checks": {
+          "pass": true,
+          "checks": {
+            "non_authorizing": true,
+            "same_entry": true,
+            "no_provider_writes": true,
+            "ci_boundary": true,
+            "single_claim": true,
+            "zero_exit": true,
+            "accepted_once": true,
+            "published_once": true,
+            "ci_state": true,
+            "claim_identity": true
+          }
+        }
+      }
+    }
+  ],
+  "all_treatment_cases_pass": true,
+  "agent_decisions": "See independently frozen behavior decision; runtime metrics do not measure Agent effort.",
+  "authorizes_landing": false
+}

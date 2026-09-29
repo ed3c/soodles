@@ -1,0 +1,177 @@
+{
+  "authorizes_landing": false,
+  "candidate_manifest_sha256": "658fc58f21ce4d15bd5a893cd50b77ce4cd278431a0735f51a9e7f84fa0d097b",
+  "claims": [
+    "Nonzero claim real subprocess retries decrease 4 to 1, fake sleeps decrease 3 to 0 in the fixed bounded refusal drives.",
+    "Nearest legal running and successful acceptance/publication fixture boundaries pass.",
+    "Three matched fresh native report-only pairs pass with original authorization and current owner readback. Both arms are correct; this is nonregression, not demonstrated Agent effort reduction.",
+    "Fresh Python processes reenter the same authorization after material fixture change; native consumers only read and decide, they do not execute reentry."
+  ],
+  "comparison_freeze_sha256": "adbe62b06e9ddbadb1b8a6546650ce4e533a180cec3ef821790f3ab60c89a5bd",
+  "decision": "PASS",
+  "limitations": [
+    "initial native action gate permits either stop_for_input or wait_for_change; active judge was not changed after launch. Actual candidate chose stop_for_input and baseline chose wait_for_change.",
+    "Native reports and assigned-reader subprocess receipts do not constitute a complete platform transcript or independent proof of absence of all effects.",
+    "Model, reasoning provenance, hidden reads, input tokens, context window, compaction and full model timing are unavailable; actual compaction was NOT_RUN.",
+    "Read-only assigned task constrains effects for both arms; this is not a test of autonomous provider or lifecycle execution.",
+    "Consumer receives paired source instructions and corresponding actual owner output; observed decision differences cannot isolate prose-only from runtime-output effects.",
+    "Three case pairs do not establish statistical or universal improvement; confirmation was not used to tune source, instructions or judge.",
+    "Drive telemetry excludes fixture setup. Provider/admission/acceptance/publication are disposable fixtures; this does not replace Linux canonical acceptance or provider landing truth.",
+    "Archived input manifests preserve actual absolute paths; replay elsewhere requires explicit path relocation outside the active frozen judge."
+  ],
+  "model_comparison": "bounded_nonregression",
+  "model_pairs": [
+    {
+      "arms": {
+        "baseline": {
+          "action": "wait_for_change",
+          "pass": true,
+          "proposed_immediate_invocation": null,
+          "reader_observed_bytes": 36638,
+          "report": "native/packets/n4/c1/output/report.json",
+          "reported_lifecycle_invocations": 0,
+          "required": [
+            "material_owner_or_provider_state_change"
+          ],
+          "verdict": "native/packets/n4/c1/verdict.json",
+          "waiting_on": "Noodle"
+        },
+        "candidate": {
+          "action": "stop_for_input",
+          "pass": true,
+          "proposed_immediate_invocation": null,
+          "reader_observed_bytes": 37898,
+          "report": "native/packets/z8/c1/output/report.json",
+          "reported_lifecycle_invocations": 0,
+          "required": [
+            "fresh_noodle_claim"
+          ],
+          "verdict": "native/packets/z8/c1/verdict.json",
+          "waiting_on": "Noodle"
+        }
+      },
+      "case": "c1",
+      "split": "train"
+    },
+    {
+      "arms": {
+        "baseline": {
+          "action": "wait_for_change",
+          "pass": true,
+          "proposed_immediate_invocation": null,
+          "reader_observed_bytes": 36629,
+          "report": "native/packets/n4/c2/output/report.json",
+          "reported_lifecycle_invocations": 0,
+          "required": [
+            "material_owner_or_provider_state_change"
+          ],
+          "verdict": "native/packets/n4/c2/verdict.json",
+          "waiting_on": "Noodle"
+        },
+        "candidate": {
+          "action": "wait_for_change",
+          "pass": true,
+          "proposed_immediate_invocation": null,
+          "reader_observed_bytes": 37867,
+          "report": "native/packets/z8/c2/output/report.json",
+          "reported_lifecycle_invocations": 0,
+          "required": [
+            "material_owner_or_provider_state_change"
+          ],
+          "verdict": "native/packets/z8/c2/verdict.json",
+          "waiting_on": "Noodle"
+        }
+      },
+      "case": "c2",
+      "split": "confirmation"
+    },
+    {
+      "arms": {
+        "baseline": {
+          "action": "wait_for_change",
+          "pass": true,
+          "proposed_immediate_invocation": null,
+          "reader_observed_bytes": 38553,
+          "report": "native/packets/n4/c3/output/report.json",
+          "reported_lifecycle_invocations": 0,
+          "required": [
+            "material_owner_or_provider_state_change"
+          ],
+          "verdict": "native/packets/n4/c3/verdict.json",
+          "waiting_on": "GitHub Actions"
+        },
+        "candidate": {
+          "action": "wait_for_change",
+          "pass": true,
+          "proposed_immediate_invocation": null,
+          "reader_observed_bytes": 39795,
+          "report": "native/packets/z8/c3/output/report.json",
+          "reported_lifecycle_invocations": 0,
+          "required": [
+            "material_owner_or_provider_state_change"
+          ],
+          "verdict": "native/packets/z8/c3/verdict.json",
+          "waiting_on": "GitHub Actions"
+        }
+      },
+      "case": "c3",
+      "split": "confirmation"
+    }
+  ],
+  "native_consumers": 6,
+  "oracle_manifest_sha256": "22f3b5cd7fb458a29f21c0281f52211974cda769f0e9f2ca8e1d4f5c39bf0ba7",
+  "process_observations": [
+    {
+      "baseline_claim_subprocesses": 4,
+      "baseline_fake_sleeps": 3,
+      "candidate_claim_subprocesses": 1,
+      "candidate_fake_sleeps": 0,
+      "case": "refusal"
+    },
+    {
+      "baseline_claim_subprocesses": 4,
+      "baseline_fake_sleeps": 3,
+      "candidate_claim_subprocesses": 1,
+      "candidate_fake_sleeps": 0,
+      "case": "refusal75"
+    },
+    {
+      "baseline_claim_subprocesses": 4,
+      "baseline_fake_sleeps": 3,
+      "candidate_claim_subprocesses": 1,
+      "candidate_fake_sleeps": 0,
+      "case": "resume_initial"
+    },
+    {
+      "baseline_claim_subprocesses": 0,
+      "baseline_fake_sleeps": 3,
+      "candidate_claim_subprocesses": 0,
+      "candidate_fake_sleeps": 3,
+      "case": "running"
+    },
+    {
+      "baseline_claim_subprocesses": 1,
+      "baseline_fake_sleeps": 0,
+      "candidate_claim_subprocesses": 1,
+      "candidate_fake_sleeps": 0,
+      "case": "success"
+    },
+    {
+      "baseline_claim_subprocesses": 0,
+      "baseline_fake_sleeps": 0,
+      "candidate_claim_subprocesses": 0,
+      "candidate_fake_sleeps": 0,
+      "case": "resume_running"
+    },
+    {
+      "baseline_claim_subprocesses": 1,
+      "baseline_fake_sleeps": 0,
+      "candidate_claim_subprocesses": 1,
+      "candidate_fake_sleeps": 0,
+      "case": "resume_success"
+    }
+  ],
+  "product_oracle": "PASS",
+  "schema_version": 1,
+  "source_and_instruction_changes_after_train": false
+}

@@ -1,0 +1,130 @@
+diff --git a/.agents/skills/issue-atom/SKILL.md b/.agents/skills/issue-atom/SKILL.md
+index 538f665..3a217c9 100644
+--- a/.agents/skills/issue-atom/SKILL.md
++++ b/.agents/skills/issue-atom/SKILL.md
+@@ -62,7 +62,12 @@ supervisor makes that exact selected file readable; do not reconstruct an
+ authorization from Issue prose, substitute another atom or transfer credentials.
+ 
+ The foreground entry observes normal waits for up to five minutes. A refusal
+-stops immediately; it is not retried. Consume the JSON result. If bounded waiting
++stops immediately; it is not retried. A nonzero publication-claim exit returns
++`next.kind=input`, owned by Noodle, with the exact control root/order/subject.
++Preserve that receipt across handoff. Obtain the named fresh owner readback
++before re-entering the returned same command; elapsed time alone is no change.
++Do not infer retryability from stderr or treat claim failure as a running worker.
++Consume the JSON result. If bounded waiting
+ ends with `next` non-null, wait for the named material
+ owner/provider state change and execute only its returned `next.argv`, which
+ is the same command. Never use `./noodles issue handoff`. Do not choose issue automatic.
+diff --git a/.agents/skills/verify-soodles/features/issue-execution.md b/.agents/skills/verify-soodles/features/issue-execution.md
+index d4af574..b0a3539 100644
+--- a/.agents/skills/verify-soodles/features/issue-execution.md
++++ b/.agents/skills/verify-soodles/features/issue-execution.md
+@@ -124,6 +124,20 @@ Sources: `issue_admission.py` owns the shared binding, `issue_execution.py` owns
+ consumer/worker/takeover gates, and `tests/test_issue_execution.py` contains local
+ provider/owner fixture controls. Those fixtures are not live runtime evidence.
+ 
++## Publication-claim handoff
++
++After a parked worker, a nonzero Noodle publication-claim exit is a typed
++Noodle-owned input refusal, never evidence of a running worker. Drive the real
++Issue-atom boundary with a failed claim process: require one claim attempt,
++no wait, no readiness/publication effect, preserved execution checkpoint and
++same-command continuation naming the exact control root/order/subject.
++Contrast a genuinely running owner (pending, no claim) and a successful claim
++(existing readiness/publication path). Across fresh processes, retain the same
++authorization and refresh material owner state before re-entry. Fixture effects
++prove this transition only; actual delivery still requires its terminal receipt.
++For a model behavior claim, use the P-class recipe with fresh consumers and
++external process observations; a code-level retry reduction is not token cost.
++
+ ## Selected instruction activation
+ 
+ For schema-3 local atom authorization, the supervisor supplies nonempty
+diff --git a/contracts/system-v1.md b/contracts/system-v1.md
+index 8913166..52f19ad 100644
+--- a/contracts/system-v1.md
++++ b/contracts/system-v1.md
+@@ -297,7 +297,10 @@ the landing owner; this entry only consumes its exact transition.
+ The foreground command observes normal owner/provider waits for at most five
+ minutes, then returns the same continuation. Refusals propagate immediately;
+ this loop cannot restart a failed owner, reoffer an unknown write or waive a
+-failed check. Queued/in-progress Actions may have no jobs or steps yet; completed
++failed check. A nonzero Noodle publication-claim exit preserves its process
++evidence and returns a Noodle-owned input refusal with exact root/order/subject;
++it cannot enter this wait loop or reach readiness/publication. Material owner
++readback permits re-entry through the same authorization and command. Queued/in-progress Actions may have no jobs or steps yet; completed
+ runs still require the exact successful job and acceptance step.
+ 
+ The host-selected `NOODLES_TOKEN_COMMAND` remains opaque and takes precedence.
+diff --git a/issue_atom.py b/issue_atom.py
+index d60362a..44c4c48 100644
+--- a/issue_atom.py
++++ b/issue_atom.py
+@@ -1400,8 +1400,13 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
+             order_id = read_json(paths["envelope"], "envelope")["execution"]["order_id"]
+             claim_result = _run_claim(authorization, subject, paths["claim"], order_id)
+             if claim_result.returncode:
+-                return response(state, authorization_path, waiting_on="Noodle",
+-                                details={"diagnostic": claim_result.stderr.strip()[-1000:]})
++                raise AtomRefusal(
++                    "noodle.claim.exit",
++                    {"exit_status": claim_result.returncode,
++                     "diagnostic": claim_result.stderr.strip()[-1000:]},
++                    "fresh_noodle_claim", owner="Noodle",
++                    known={"control_root": authorization["control_root"],
++                           "order_id": order_id, "subject": subject})
+         claim = read_json(paths["claim"], "publication_claim")
+         if state.get("failed_candidate_head"):
+             require(claim.get("head") != state["failed_candidate_head"],
+diff --git a/tests/test_issue_atom.py b/tests/test_issue_atom.py
+index 30a544c..f571e19 100644
+--- a/tests/test_issue_atom.py
++++ b/tests/test_issue_atom.py
+@@ -143,8 +143,8 @@ class IssueAtomTests(unittest.TestCase):
+ 
+     def pending_patches(self):
+         return (
+-            patch("issue_atom.issue_execution.supervised", return_value={"published": True}),
+-            patch("issue_atom._run_claim", return_value=Result(1, "order is not ready")),
++            patch("issue_atom.issue_execution.supervised", return_value={"action": "running"}),
++            patch("issue_atom._run_claim", side_effect=AssertionError("running owner must not request a claim")),
+         )
+ 
+     def startup_fixture(self):
+@@ -776,6 +776,35 @@ class IssueAtomTests(unittest.TestCase):
+         claim.assert_not_called()
+         self.assertEqual(provider.create_calls, 0)
+ 
++    def test_failed_claim_stops_drive_before_wait_or_publication(self):
++        provider = Provider()
++        self.ready_issue(provider)
++        with patch.object(atom.issue_execution, "supervised", return_value={"published": True}), \
++                patch.object(atom, "_run_claim", return_value=Result(2, "terminal subject refusal")) as claim, \
++                patch.object(atom, "_accept") as accept, \
++                patch.object(atom.candidate_publication, "publish") as publish, \
++                patch.object(atom.time, "sleep") as sleep:
++            with self.assertRaises(atom.AtomRefusal) as caught:
++                atom.drive(self.path, timeout=2, sleep=sleep,
++                           clock=iter((0, 0, 1, 2)).__next__,
++                           environ=self.env, provider=provider)
++        receipt = atom.refusal_output(caught.exception, self.path)
++        self.assertEqual(receipt["status"], "refused")
++        self.assertEqual(receipt["invalid"]["field"], "noodle.claim.exit")
++        self.assertEqual(receipt["invalid"]["value"]["exit_status"], 2)
++        self.assertEqual(receipt["next"]["kind"], "input")
++        self.assertEqual(receipt["next"]["owner"], "Noodle")
++        self.assertEqual(receipt["next"]["required"], ["fresh_noodle_claim"])
++        self.assertEqual(receipt["next"]["argv"], atom.same_command(self.path))
++        self.assertEqual(receipt["next"]["known"]["order_id"],
++                         atom.issue_admission.scoped_order_id(131, self.root))
++        claim.assert_called_once()
++        sleep.assert_not_called()
++        accept.assert_not_called()
++        publish.assert_not_called()
++        self.assertEqual(provider.create_calls, 0)
++        self.assertEqual(provider.merge_calls, 0)
++
+     def test_help_exposes_only_same_lifecycle_command(self):
+         result = subprocess.run([str(Path(atom.__file__).parent / "issue-atom"), "--help"],
+                                 cwd=Path(atom.__file__).parent, capture_output=True, text=True)

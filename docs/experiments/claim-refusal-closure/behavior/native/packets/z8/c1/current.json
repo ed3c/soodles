@@ -1,0 +1,30 @@
+{
+  "authorizes_landing": false,
+  "invalid": {
+    "field": "noodle.claim.exit",
+    "value": {
+      "diagnostic": "fixture claim refuses canonical readiness",
+      "exit_status": 2
+    }
+  },
+  "next": {
+    "argv": [
+      "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/subjects/z8/issue-atom",
+      "run",
+      "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/sessions/z8/tmp0cxvt0on/authorization.json"
+    ],
+    "kind": "input",
+    "known": {
+      "control_root": "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/sessions/z8/tmp0cxvt0on/project",
+      "order_id": "soodles-131-f7aa373db404",
+      "subject": "ed3c/soodles#131"
+    },
+    "owner": "Noodle",
+    "reason": "Correct the named external input or material owner state; never choose a phase-specific route.",
+    "required": [
+      "fresh_noodle_claim"
+    ]
+  },
+  "owner": "soodles.issue-atom",
+  "status": "refused"
+}

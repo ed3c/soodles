@@ -1,0 +1,30 @@
+{
+  "authorizes_landing": false,
+  "execution": {
+    "action": "running"
+  },
+  "issue": {
+    "body_sha256": "6bd97e82b8f96e3fc6aa2948a10fc876e5ffce97f18f767c405d9bca74ce23c1",
+    "number": 131,
+    "url": "https://github.com/ed3c/soodles/issues/131"
+  },
+  "next": {
+    "argv": [
+      "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/subjects/n4/issue-atom",
+      "run",
+      "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/sessions/n4-c2/tmpl6ud2dur/authorization.json"
+    ],
+    "kind": "executable",
+    "owner": "soodles.issue-atom",
+    "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb.",
+    "required": [
+      "material_owner_or_provider_state_change"
+    ]
+  },
+  "owner": "soodles.issue-atom",
+  "phase": "execution",
+  "publication": null,
+  "status": "pending",
+  "wait_exhausted": true,
+  "waiting_on": "Noodle"
+}
