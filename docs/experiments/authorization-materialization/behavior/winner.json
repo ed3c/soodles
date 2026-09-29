@@ -1,0 +1,7 @@
+{
+  "winner": "8efb5347b6506e25a2d09f84ed823c64ccbc7d90",
+  "stage": "fixed_before_confirmation",
+  "reason": "Both valid cases pass independent final-byte/validator readback with lower captured operation counts; original 28 and supplemental 3 deterministic controls pass.",
+  "known_residual": "One consumer still guessed the optional internal schema field while checking its report; no authorization corruption or lifecycle effect.",
+  "authorizes_landing": false
+}

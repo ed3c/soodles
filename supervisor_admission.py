@@ -507,6 +507,129 @@ def prepare(issue_readback, carrier, control_root, output, *,
     }
 
 
+AUTHORIZATION_SELECTION_FIELDS = {
+    "schema", "repository", "control_root", "issue", "task", "carrier",
+    "landing_owner", "instruction_paths",
+}
+CANONICAL_WORKFLOW = {
+    "path": ".github/workflows/runtime.yml",
+    "job": "runtime-evidence",
+    "step": "Canonical acceptance on the exact candidate head",
+}
+
+
+def _unique_object(pairs):
+    value = {}
+    for key, item in pairs:
+        require(key not in value, "selection.duplicate_key", key)
+        value[key] = item
+    return value
+
+
+def authorize(selection_path, expected_sha256, output):
+    """Materialize selected authority; never select it or run its continuation."""
+    # Local import preserves the existing issue_atom -> prepare dependency.
+    import issue_atom
+    from issue_admission import validate_instruction_files
+
+    source = Path(selection_path)
+    require(source.is_absolute() and source.is_file() and not source.is_symlink(),
+            "selection.path", str(source), owner="supervisor",
+            required="absolute_selected_regular_file")
+    raw = source.read_bytes()
+    require(isinstance(expected_sha256, str)
+            and issue_atom.SHA64.fullmatch(expected_sha256)
+            and _sha256(raw) == expected_sha256,
+            "selection.sha256", _sha256(raw), owner="supervisor",
+            required="unchanged_selected_bytes")
+    selection = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object)
+    require(isinstance(selection, dict) and set(selection) == AUTHORIZATION_SELECTION_FIELDS,
+            "selection.fields", sorted(selection) if isinstance(selection, dict) else type(selection).__name__)
+    require(type(selection["schema"]) is int and selection["schema"] == 1,
+            "selection.schema", selection["schema"])
+    root_value = selection["control_root"]
+    require(isinstance(root_value, str) and Path(root_value).is_absolute(),
+            "selection.control_root", root_value)
+    root = Path(root_value).resolve()
+    require(root.is_dir(), "selection.control_root", str(root))
+    require(Path(_git(root, "rev-parse", "--show-toplevel")).resolve() == root,
+            "selection.control_root", str(root), owner="supervisor",
+            required="exact_git_control_root")
+    entry = root / "issue-atom"
+    require(entry.is_file() and not entry.is_symlink() and os.access(entry, os.X_OK),
+            "authorization.next.entry", str(entry), owner="supervisor",
+            required="executable_issue_atom_entry")
+    target = Path(output)
+    require(target.is_absolute(), "authorization.output", str(target))
+    target = target.parent.resolve() / target.name
+    require(not target.is_relative_to(root) and not target.exists() and not target.is_symlink()
+            and target.parent.is_dir(), "authorization.output", str(target),
+            owner="supervisor", required="new_external_output_with_existing_parent")
+    head = _git(root, "rev-parse", "HEAD")
+    carrier = selection["carrier"]
+    require(isinstance(carrier, dict) and set(carrier) == {"platform", "noodle", "codex"},
+            "selection.carrier", carrier)
+    validate_carrier({"execution": {"carrier": carrier}}, worker=True)
+    workflow = dict(CANONICAL_WORKFLOW)
+    workflow_bytes = _git_bytes(root, head, workflow["path"]).decode("utf-8")
+    require(all(workflow[key] in workflow_bytes for key in ("job", "step")),
+            "authorization.workflow", workflow, owner="supervisor",
+            required="committed_canonical_workflow")
+    paths = selection["instruction_paths"]
+    require(isinstance(paths, list), "selection.instruction_paths", paths)
+    pins = []
+    if paths:
+        pins = [{"path": path, "sha256": "0" * 64} for path in paths]
+        validate_instruction_files(pins)
+        for pin in pins:
+            pin["sha256"] = _sha256(_git_bytes(root, head, pin["path"]))
+        resolve_instruction_context(root, head, pins)
+    authorization = {
+        "schema_version": 3 if pins else 2,
+        "owner": "external-supervisor",
+        "repository": selection["repository"],
+        "control_root": str(root), "base_head": head,
+        "issue": selection["issue"], "task": selection["task"],
+        "noodle": carrier["noodle"],
+        "carrier": {"platform": carrier["platform"], "codex": carrier["codex"]},
+        "workflow": workflow,
+        "host_config_sha256": issue_atom.host_config_identity(root),
+        "landing_owner": selection["landing_owner"],
+    }
+    if pins:
+        authorization["instruction_pins"] = pins
+    data = _canonical(authorization)
+    digest = _sha256(data)
+    with tempfile.TemporaryDirectory(prefix=".authorization-", dir=target.parent) as staging:
+        staged = Path(staging) / "authorization.json"
+        staged.write_bytes(data)
+        issue_atom.validate_authorization(staged, digest)
+    final = target / "authorization.json"
+    receipt = {
+        "owner": "supervisor.authorization", "status": "prepared",
+        "authorizes_landing": False,
+        "authorization": {"path": str(final), "sha256": digest},
+        "next": {
+            "kind": "executable", "owner": "soodles.issue-atom",
+            "argv": [str(root / "issue-atom"), "run", str(final)],
+            "environment": {"SOODLES_AUTHORIZATION_SHA256": digest},
+        },
+    }
+    # Exclusive reservation: never replace a directory created by another owner.
+    target.mkdir(mode=0o700)
+    try:
+        final.write_bytes(data)
+        prepared = target / ".prepared.json"
+        prepared.write_bytes(_canonical(receipt))
+        os.replace(prepared, target / "prepared.json")
+    except BaseException:
+        for name in ("authorization.json", ".prepared.json", "prepared.json"):
+            (target / name).unlink(missing_ok=True)
+        target.rmdir()
+        raise
+    return receipt
+
+
 def parser():
     value = argparse.ArgumentParser(
         description="Materialize one externally selected local Soodles admission bundle.")
@@ -516,25 +639,32 @@ def parser():
     prepare_parser.add_argument("carrier")
     prepare_parser.add_argument("control_root")
     prepare_parser.add_argument("output")
+    authorize_parser = sub.add_parser("authorize")
+    authorize_parser.add_argument("selection")
+    authorize_parser.add_argument("expected_sha256")
+    authorize_parser.add_argument("output")
     return value
 
 
 def main():
     args = parser().parse_args()
     try:
-        result = prepare(
-            _read_json(args.issue_readback, "supervisor.issue_readback"),
-            _read_json(args.carrier, "supervisor.carrier"),
-            args.control_root,
-            args.output,
-        )
-    except (AdmissionRefusal, OSError, ValueError, subprocess.TimeoutExpired) as error:
+        if args.verb == "authorize":
+            result = authorize(args.selection, args.expected_sha256, args.output)
+        else:
+            result = prepare(
+                _read_json(args.issue_readback, "supervisor.issue_readback"),
+                _read_json(args.carrier, "supervisor.carrier"),
+                args.control_root,
+                args.output,
+            )
+    except (AdmissionRefusal, OSError, ValueError, TypeError, KeyError, subprocess.TimeoutExpired) as error:
         invalid = getattr(error, "invalid", {"field": "input", "value": str(error)})
         next_action = getattr(error, "next", {
-            "kind": "input", "owner": "supervisor",
-            "required": ["valid_supervisor_input"]})
+            "kind": "input", "owner": getattr(error, "owner", "supervisor"),
+            "required": [getattr(error, "required", "valid_supervisor_input")]})
         print(json.dumps({
-            "owner": "supervisor.admission",
+            "owner": "supervisor.authorization" if args.verb == "authorize" else "supervisor.admission",
             "status": "refused",
             "invalid": invalid,
             "next": next_action,

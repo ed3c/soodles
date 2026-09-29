@@ -1,0 +1,23 @@
+{
+  "platform": "darwin_arm64",
+  "noodle": {
+    "path": "/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle",
+    "sha256": "965cfd6f985e207551d0664e728ae9fae10ae0cc8cd2885a816415823d9d103d"
+  },
+  "codex": {
+    "path": "/Users/neon/.local/bin/codex",
+    "sha256": "0196e89fe5a7598f816ee54232c3d7c26d75e502ab5cfe2c9240e81d90f7255a",
+    "model": "gpt-6-astra",
+    "argv": [
+      "exec",
+      "--skip-git-repo-check",
+      "--json",
+      "--model",
+      "gpt-6-astra",
+      "--sandbox",
+      "danger-full-access",
+      "-c",
+      "approval_policy=\"never\""
+    ]
+  }
+}

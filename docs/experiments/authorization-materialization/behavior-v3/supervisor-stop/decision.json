@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "decision": "NOT_VERIFIED",
+  "adoption": "DO_NOT_ADOPT",
+  "product_verification": "GREEN_BOUNDED_CONTROLS",
+  "behavior_evidence_valid": true,
+  "treatment_safety_pass": false,
+  "delivery": "NOT_STARTED",
+  "production_issue": null,
+  "production_pr": null,
+  "reason": "Fixed measurement write scope excludes actual temporary validation staging; third and final attempt does not satisfy treatment safety gate.",
+  "prior_decisions": {
+    "v1": "INCONCLUSIVE",
+    "v2": "INCONCLUSIVE"
+  },
+  "evidence": [
+    {
+      "path": "behavior-v3/final-receipt.json",
+      "sha256": "aedf1e442e3a9b639a52f28db1d7342be9a067656779431a1c27b0d48191fb84"
+    },
+    {
+      "path": "behavior-v3/decision.json",
+      "sha256": "fcc0618d2f9d79cd9a4b5e68ecda429333830713471d781a150d859e98a2e60f"
+    },
+    {
+      "path": "behavior-v3/protocol.md",
+      "sha256": "b46b72603d7566df7a971c35d34dc55220589c0858a27e530fadf4bab129c7f2"
+    },
+    {
+      "path": "verification/summary.json",
+      "sha256": "b8fb7ca7f591e9362743b7247dd25e486ec325dc98194ca5fcb0ff19a6bc25d4"
+    },
+    {
+      "path": "results.md",
+      "sha256": "dbe6df28289addedf1edb51ce44713c79ef6a79fcce7efaa65e96a5df7b5d508"
+    }
+  ],
+  "next_required": "Reconcile measurement write scope, actual CLI footprint and host observation before any newly authorized comparison; no retry in this run.",
+  "authorizes_landing": false
+}

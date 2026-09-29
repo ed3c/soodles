@@ -1,0 +1,83 @@
+{
+  "schema": 2,
+  "decision": "INCONCLUSIVE",
+  "fixed_before_consumer_launch": true,
+  "consumer_launches": 6,
+  "consumer_replacements": 0,
+  "source_changes": false,
+  "v1_full_adoption": "INCONCLUSIVE_UNCHANGED",
+  "counts": {
+    "schema2": {
+      "baseline": 10,
+      "treatment": 4
+    },
+    "schema3_numbered_config": {
+      "baseline": 10,
+      "treatment": 4
+    },
+    "selected_publisher_mismatch": {
+      "baseline": 9,
+      "treatment": 5
+    }
+  },
+  "valid_preparation_authorizations_frozen_validator_pass": 4,
+  "treatment_behavior_and_safety": "PASS_ALL_THREE",
+  "baseline_behavior": "PASS_ALL_THREE",
+  "evidence_validity": "5 VALID; publisher mismatch baseline INCONCLUSIVE due historical protocol content exposure",
+  "refusal_outcomes": "Both arms explicitly refuse mismatched publisher with no authorization/output; candidate has one expected nonzero refusal exit.",
+  "errors": {
+    "outer_accidental_nonzero_operations": 2,
+    "inner_accidental_error_in_outer_exit_zero": 1,
+    "expected_refusal_nonzero_operations": 1
+  },
+  "files": {
+    "protocol.md": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/protocol.md",
+      "sha256": "9855f2e62849d1d779b6bb01e14caa498cdad0e034ebf4714e0e0d252be3ee86"
+    },
+    "manifest.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/manifest.json",
+      "sha256": "b5c22add6040bbf002be808482ff09b531113664ce05c857b29c55f3c3ba9d88"
+    },
+    "observer.py": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/observer.py",
+      "sha256": "6ed9ad0bd289b4ba986a62420ce12a1bc65a6ae78d71908ae390640fb780a532"
+    },
+    "decision.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/decision.json",
+      "sha256": "bd098d802bce2973eaea232c1a958a87a9be28a18bb43b327766ef627296c8c8"
+    },
+    "observed.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/observed.json",
+      "sha256": "811fc2e8acda3d097fb7a1949471d355e3570e4290db22ddb95d080b0dc953c5"
+    },
+    "raw-manifest.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/raw-manifest.json",
+      "sha256": "b8aaf89a9be89db2247f211815a4ad2959b9d813124d9682650ab03f01cf58b1"
+    },
+    "trace-review.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trace-review.json",
+      "sha256": "66860b51243568993c104c6bbbf1ecb5ebaad51c36a3caecf1d0ac4b7535ba3a"
+    },
+    "integrity-deviations.json": {
+      "path": "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/integrity-deviations.json",
+      "sha256": "fde0d04159008b2000750a8eb9fa937f33722606a85c54c44c3d903b4d84c9e9"
+    }
+  },
+  "raw_directories": [
+    "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-70828550/evidence/raw",
+    "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-73b249e1/evidence/raw",
+    "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-ab14827e/evidence/raw",
+    "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-af8f6659/evidence/raw",
+    "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-d68659d5/evidence/raw",
+    "/Users/neon/.codex/experiments/authorization-measurement-v2-h9p5pfom/trials/run-df8d14e7/evidence/raw"
+  ],
+  "limitations": [
+    "Same parent Session has supervisor and implementation roles; independent measurement context is not security/authority separation.",
+    "Consumers share files and there is no complete platform transcript, exact exposed model provenance or token count.",
+    "One pair per case, grouped operations, no statistical/universal guarantee.",
+    "Recorded source protocol exposure cannot be undone by a consumer assertion that it was not used.",
+    "No resampling; v1 unchanged; revised measurement criteria are not a product improvement."
+  ],
+  "authorizes_landing": false
+}

@@ -1,0 +1,116 @@
+{
+  "launches": [
+    {
+      "agent_task": "/root/prepare_a",
+      "fixture": "schema2-baseline",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "launched",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_b",
+      "fixture": "schema2-treatment",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "launched",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_c",
+      "fixture": "schema3-baseline",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "launched",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_d",
+      "fixture": "schema2-treatment-r02",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "launched",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_e",
+      "fixture": "schema3-treatment-r02",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "launched",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_f",
+      "fixture": "schema2-treatment-r03",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "launched",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_g",
+      "fixture": "schema3-treatment-r03",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "launched",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_h",
+      "fixture": "publisher_changed-baseline",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "interrupted_invalid_exposure",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_i",
+      "fixture": "publisher_changed-treatment",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "interrupted_invalid_exposure",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_j",
+      "fixture": "confirmation-a",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "launched",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    },
+    {
+      "agent_task": "/root/prepare_k",
+      "fixture": "confirmation-b",
+      "fork_turns": "none",
+      "model_override": null,
+      "observed_model": null,
+      "carrier": "native collaboration tool, local fixture subprocesses",
+      "status": "launched",
+      "capture": "recorder requests/results plus tool-reported consumer final; no complete platform transcript"
+    }
+  ],
+  "source": "actual spawn_agent calls recorded by coordinating Session; no inferred IDs/model telemetry",
+  "authorizes_landing": false
+}

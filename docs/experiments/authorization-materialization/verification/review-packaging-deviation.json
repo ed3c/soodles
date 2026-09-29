@@ -1,0 +1,8 @@
+{
+  "attempt": 1,
+  "operation": "copy finalized evidence to disposable review tree",
+  "error": "PermissionError overwriting already-identical read-only evaluator/manifest.json",
+  "resolution": "Compare identical bytes first and preserve existing read-only frozen files; do not chmod or modify judge bytes",
+  "product_and_behavior_unchanged": true,
+  "authorizes_landing": false
+}

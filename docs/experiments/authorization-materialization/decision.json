@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "decision": "VERIFIED_BOUNDED_OBSERVED_IMPROVEMENT",
+  "adoption": "ADOPT",
+  "adoption_scope": "bounded observed combined P+CLI behavior claim only; no landing authority",
+  "product_verification": "GREEN_BOUNDED_CONTROLS",
+  "behavior_evidence_valid": true,
+  "treatment_safety_pass": true,
+  "delivery": "PENDING_EXISTING_OWNER",
+  "production_issue": null,
+  "production_pr": null,
+  "reason": "v5 satisfies the fixed independent evidence, safety and paired operation-count criteria. Product/P unchanged after r03; previous failed decisions preserved.",
+  "prior_decisions": {
+    "v1": "INCONCLUSIVE",
+    "v2": "INCONCLUSIVE",
+    "v3": "NOT_VERIFIED",
+    "v4": "INCONCLUSIVE"
+  },
+  "evidence": [
+    {
+      "path": "behavior-v5/final-receipt.json",
+      "sha256": "1888dd301ab5c8bd329953748eed68eb41bf85a29f5d861149838139360eeb3b"
+    },
+    {
+      "path": "behavior-v5/decision.json",
+      "sha256": "9627bf23d5e79cf01ae5523abe3c186593ed191d71923cb910ff109aa07bbbec"
+    },
+    {
+      "path": "behavior-v5/protocol.md",
+      "sha256": "167f79f8cfd85e80c0a3ebb7bfd2de9ea74b747e5231321f5087bb2f00e9e1ec"
+    },
+    {
+      "path": "verification/summary.json",
+      "sha256": "b8fb7ca7f591e9362743b7247dd25e486ec325dc98194ca5fcb0ff19a6bc25d4"
+    },
+    {
+      "path": "results.md",
+      "sha256": "0108456fcb3a93329486e467c680d07df1276707e5badfa548c396c3be795ee3"
+    }
+  ],
+  "authorizes_landing": false
+}

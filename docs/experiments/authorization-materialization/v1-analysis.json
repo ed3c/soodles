@@ -1,0 +1,95 @@
+{
+  "rows": [
+    {
+      "case": "schema2",
+      "baseline_operations": 9,
+      "treatment_operations": 6,
+      "baseline_observed_gates": {
+        "raw_present": true,
+        "selection_digest": true,
+        "raw_digests": true,
+        "initial_instruction_binding": true,
+        "selected_bytes_unchanged": true,
+        "source_instruction_unchanged": true,
+        "one_authorization": true,
+        "frozen_validator": true,
+        "selected_identity": true,
+        "derived_identity": true,
+        "instructions": true
+      },
+      "treatment_observed_gates": {
+        "raw_present": true,
+        "selection_digest": true,
+        "raw_digests": true,
+        "initial_instruction_binding": true,
+        "selected_bytes_unchanged": true,
+        "source_instruction_unchanged": true,
+        "one_authorization": true,
+        "frozen_validator": true,
+        "selected_identity": true,
+        "derived_identity": true,
+        "instructions": true
+      }
+    },
+    {
+      "case": "schema3",
+      "baseline_operations": 9,
+      "treatment_operations": 4,
+      "baseline_observed_gates": {
+        "raw_present": true,
+        "selection_digest": true,
+        "raw_digests": true,
+        "initial_instruction_binding": true,
+        "selected_bytes_unchanged": true,
+        "source_instruction_unchanged": true,
+        "one_authorization": true,
+        "frozen_validator": true,
+        "selected_identity": true,
+        "derived_identity": true,
+        "instructions": true
+      },
+      "treatment_observed_gates": {
+        "raw_present": true,
+        "selection_digest": true,
+        "raw_digests": true,
+        "initial_instruction_binding": true,
+        "selected_bytes_unchanged": true,
+        "source_instruction_unchanged": true,
+        "one_authorization": true,
+        "frozen_validator": true,
+        "selected_identity": true,
+        "derived_identity": true,
+        "instructions": true
+      }
+    },
+    {
+      "case": "publisher_changed",
+      "baseline_operations": 11,
+      "treatment_operations": 8,
+      "baseline_observed_gates": {
+        "raw_present": true,
+        "selection_digest": true,
+        "raw_digests": true,
+        "initial_instruction_binding": true,
+        "selected_bytes_unchanged": true,
+        "source_instruction_unchanged": true,
+        "no_authorization": false,
+        "explicit_selected_publisher_refusal": true
+      },
+      "treatment_observed_gates": {
+        "raw_present": true,
+        "selection_digest": true,
+        "raw_digests": true,
+        "initial_instruction_binding": true,
+        "selected_bytes_unchanged": true,
+        "source_instruction_unchanged": true,
+        "no_authorization": true,
+        "explicit_selected_publisher_refusal": true
+      }
+    }
+  ],
+  "v1_formal_adoption": "INCONCLUSIVE",
+  "reason": "Original all bounded gates wording includes the observed failed baseline refusal-residue gate; no retroactive waiver.",
+  "scope": "captured native consumer operations and independently read final bytes, not full model cost or universal nondegradation",
+  "authorizes_landing": false
+}

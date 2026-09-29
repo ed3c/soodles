@@ -1,0 +1,8 @@
+{
+  "first_result": "FAIL",
+  "observed_failure": "3 valid oracle cases differed from expected authorization; 25 refusal cases passed.",
+  "cause": "macOS temporary directory /var alias resolves to /private/var. Candidate correctly canonicalizes root, while fixed oracle expected its original fixture path.",
+  "correction": "Resolve the temporary output root in the portable unittest adapter before invoking unchanged oracle. No product or frozen oracle change.",
+  "capture": "summary from actual unittest output; complete initial subprocess output was not archived",
+  "authorizes_landing": false
+}

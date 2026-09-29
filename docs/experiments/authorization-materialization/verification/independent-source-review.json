@@ -1,0 +1,11 @@
+{
+  "reviewer": "/root/authorization_oracle",
+  "source_head": "8efb5347b6506e25a2d09f84ed823c64ccbc7d90",
+  "finding": "r02 accepted Git subdirectory or unavailable continuation entry",
+  "final_review": "Root equals Git toplevel; entry is a non-symlink executable file; checks precede output creation. No new authority or continuation blocker found in r02-to-r03 diff.",
+  "limits": [
+    "Entry availability is not full lifecycle success",
+    "Bounded crash/race and workflow string checks remain"
+  ],
+  "authorizes_landing": false
+}

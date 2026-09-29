@@ -1,0 +1,11 @@
+{
+  "snapshot_phase": "before production admission",
+  "status": "PENDING_EXISTING_OWNER",
+  "owner_entry": "issue-atom run",
+  "issue": null,
+  "pull_request": null,
+  "canonical_acceptance": null,
+  "terminal_receipt": null,
+  "rule": "Consume the existing external owner receipts; this archived experiment snapshot does not fabricate future delivery identity.",
+  "authorizes_landing": false
+}

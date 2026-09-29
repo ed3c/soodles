@@ -1,0 +1,28 @@
+[
+  {
+    "argv": [
+      "python3",
+      "-B",
+      "-c",
+      "import sys; sys.path.insert(0,sys.argv[1]); import issue_atom, supervisor_admission, provider_transport; print(\"imports_available\")",
+      "/Users/neon/.codex/experiments/authorization-measurement-v3-gvzx83vd/views/view-fc0bb8b9"
+    ],
+    "exit_code": 0,
+    "stdout": "imports_available\n",
+    "stderr": "",
+    "projection": "/Users/neon/.codex/experiments/authorization-measurement-v3-gvzx83vd/views/view-fc0bb8b9"
+  },
+  {
+    "argv": [
+      "python3",
+      "-B",
+      "-c",
+      "import sys; sys.path.insert(0,sys.argv[1]); import issue_atom, supervisor_admission, provider_transport; print(\"imports_available\")",
+      "/Users/neon/.codex/experiments/authorization-measurement-v3-gvzx83vd/views/view-f9357db3"
+    ],
+    "exit_code": 0,
+    "stdout": "imports_available\n",
+    "stderr": "",
+    "projection": "/Users/neon/.codex/experiments/authorization-measurement-v3-gvzx83vd/views/view-f9357db3"
+  }
+]
