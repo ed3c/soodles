@@ -1,0 +1,35 @@
+{
+  "A": {
+    "context": {
+      "instruction_paths": [],
+      "issue_number": 106,
+      "profile_home_fallback": false,
+      "retain_prepared_receipt": false
+    },
+    "group": "supplied-issue-schema2",
+    "repeats": 3,
+    "work_id": "soodles-work-1"
+  },
+  "B": {
+    "context": {
+      "instruction_paths": [],
+      "issue_number": null,
+      "profile_home_fallback": false,
+      "retain_prepared_receipt": false
+    },
+    "group": "handoff-only-auth-missing",
+    "repeats": 1,
+    "work_id": "soodles-work-2"
+  },
+  "C": {
+    "context": {
+      "instruction_paths": [],
+      "issue_number": null,
+      "profile_home_fallback": false,
+      "retain_prepared_receipt": false
+    },
+    "group": "xdg-profile-missing",
+    "repeats": 1,
+    "work_id": "soodles-work-3"
+  }
+}

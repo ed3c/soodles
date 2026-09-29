@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "pins": {
+    "protocol": {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/protocol.md",
+      "sha256": "b9d15793829a3938ac58f3441ddee9062dccc53dd3859f545d5266a5d83a7fb9"
+    },
+    "oracle": {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/oracle-r02.py",
+      "sha256": "701ada7eb3f22b4a7639df423573f1fb298c12620e8ff8ec1f8f56b04d38f8fd"
+    },
+    "harness": {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/freeze.json",
+      "sha256": "4cb52f7fff193077543dd9b763c34ac881bb742ef41c1f3e844005521b70d0ff"
+    }
+  },
+  "runs": [
+    {
+      "split": "selection",
+      "group": "supplied-issue-schema2",
+      "stratum": "A",
+      "arm": "baseline",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-baseline-a1/result.json",
+        "sha256": "28a0e18f44ebc2cad0845cd3147949695645e00c6e0382fc46d977d14e461149"
+      }
+    },
+    {
+      "split": "selection",
+      "group": "supplied-issue-schema2",
+      "stratum": "A",
+      "arm": "baseline",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-baseline-a2/result.json",
+        "sha256": "cd817ddf9d234f1c602f21e4fa68a22387a5b77e7aeea1b083caf9333d4d368d"
+      }
+    },
+    {
+      "split": "selection",
+      "group": "supplied-issue-schema2",
+      "stratum": "A",
+      "arm": "baseline",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-baseline-a3/result.json",
+        "sha256": "4bb7040b1744869205b41f052862d385af64be6744bd05341b82cf24f00ee040"
+      }
+    },
+    {
+      "split": "selection",
+      "group": "handoff-only-auth-missing",
+      "stratum": "B",
+      "arm": "baseline",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-baseline-b1/result.json",
+        "sha256": "ac18e8631d3bd19c0377cc2d0286ab900aa3ad400b20aa4e11e7146bd0ca1222"
+      }
+    },
+    {
+      "split": "selection",
+      "group": "xdg-profile-missing",
+      "stratum": "C",
+      "arm": "baseline",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-baseline-c1/result.json",
+        "sha256": "634eb742e5d5ca352612fcb3439c55f8cde19f99f9f9903cfe0188d1aba18835"
+      }
+    },
+    {
+      "split": "selection",
+      "group": "supplied-issue-schema2",
+      "stratum": "A",
+      "arm": "candidate",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-r01-a1/result.json",
+        "sha256": "6802d3507637cf1066bcf8d60efe36cb174df971c45adae618c61c9d6e98a9b8"
+      }
+    },
+    {
+      "split": "selection",
+      "group": "supplied-issue-schema2",
+      "stratum": "A",
+      "arm": "candidate",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-r01-a2/result.json",
+        "sha256": "7ea1a26aca89b28f2fa44eebe1c3676093f1b9810ae0a9dda1d43c6758aa4ab4"
+      }
+    },
+    {
+      "split": "selection",
+      "group": "supplied-issue-schema2",
+      "stratum": "A",
+      "arm": "candidate",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-r01-a3/result.json",
+        "sha256": "9ef9ceff21d11797dc678e367cea2e497179ea873c78274fc90cf706e63e9398"
+      }
+    },
+    {
+      "split": "selection",
+      "group": "handoff-only-auth-missing",
+      "stratum": "B",
+      "arm": "candidate",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-r01-b1/result.json",
+        "sha256": "511e0f612ab651a83f647175985696e028562d92426f78db4d2f37e920841c2d"
+      }
+    },
+    {
+      "split": "selection",
+      "group": "xdg-profile-missing",
+      "stratum": "C",
+      "arm": "candidate",
+      "result": {
+        "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/v02-r01-c1/result.json",
+        "sha256": "3bca5517de199eb3cec3901785351f95f0abbb7ae6efa69ea756e289327202dd"
+      }
+    }
+  ]
+}

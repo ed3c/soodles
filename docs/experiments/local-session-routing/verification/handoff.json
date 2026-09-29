@@ -1,0 +1,37 @@
+{
+  "scope": "fresh consumer reads actual retained producer handoff then refreshes current owner; bounded fixture, not live provider completion",
+  "case": "v02-confirm-winner-b1",
+  "prepared_receipt_read_events": [
+    {
+      "line": 11,
+      "item_id": "item_4",
+      "command": "/bin/zsh -lc 'cat /private/tmp/soodles-local-jo3yss8w/run/output/workspace/control/AGENTS.md; cat /private/tmp/soodles-local-jo3yss8w/run/output/workspace/handoff/prepared/prepared.json; cat /private/tmp/soodles-local-jo3yss8w/run/output/workspace/handoff/prepared/authorization.json'",
+      "exit_code": 1
+    }
+  ],
+  "producer_receipt_sha256": "6ac1b2633f86b055c124782862597196283fed1a91efaefaa0ffac981eb95915",
+  "current_owner_receipt": {
+    "owner": "soodles.issue-atom",
+    "status": "refused",
+    "invalid": {
+      "field": "authorization.path",
+      "value": "FileNotFoundError"
+    },
+    "next": {
+      "kind": "input",
+      "owner": "external-supervisor",
+      "required": [
+        "readable_external_authorization"
+      ],
+      "argv": [
+        "/private/tmp/soodles-local-jo3yss8w/run/output/workspace/control/issue-atom",
+        "run",
+        "/private/tmp/soodles-local-jo3yss8w/run/output/workspace/handoff/prepared/authorization.json"
+      ],
+      "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+    },
+    "authorizes_landing": false
+  },
+  "result_sha256": "88b156b5de5f0fce4aa70f71ce40c0aa3580f8780abb92b5200ad425253223b1",
+  "authorizes_landing": false
+}

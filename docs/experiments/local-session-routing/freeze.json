@@ -1,0 +1,34 @@
+{
+  "authorizes_landing": false,
+  "boundary": "v02",
+  "calibration_runs": [
+    "train-a"
+  ],
+  "frozen_at": "2026-09-29T15:08:38.699138+00:00",
+  "pins": {
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/analysis-r02.py": "a60e38f920d6b5d9181219826f8f63fb4a05db689cd8311de1c447ffa4e1c664",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/controls-r02.json": "cbda180a152ead0e086c0c8e0761925e4028adfc3c079fc18e7d485c16cf6ea1",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/oracle-r02.py": "701ada7eb3f22b4a7639df423573f1fb298c12620e8ff8ec1f8f56b04d38f8fd",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/test_oracle_r02.py": "f15e29465777ab5a7d9815e5d645c735fe51977ff4a3bdda7fd96eb1a45b6ddd",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/fixture-public/drive.py": "4409c019f45476d651b76cd8f4c12cf65813f58ddb5b8a09da5a474f54402cce",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/fixture-public/workspace.py": "85b272bfba2929a3eab386774ba07760fc341c09fd258242aed60dbd6d954e5c",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/assess_one.py": "de72c9b4f80d3d34e4572fe6c90173b9c1ccc7ddfac2390d8599593692f1f10f",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/carrier/capture_adapter.py": "a504dff1545cea3208bd3286dbadd1b96a29f9748f3d875de77bcb746d7fd3d8",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/carrier/proposed-network.sb": "668cd34b32a1e74cbc2d1574663008a3c5a691ac67ed690cfe9060d6050a681f",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/carrier/run_case.py": "58d5cdcebcb6e062a726cd73870d97d8ccb3c4fac4cb9a06be866e7b037ddfdd",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/launch_one.py": "28ffcc81716aa1f318965cdce9eeb6774d8cd92ac7acef04ae878edb5ba667c4",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/local-task.md": "90b47654eac113e559d860f0fe9d30230499f942e3849fb5d05d09893054832b",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/prepare_public.py": "160a6737f8141cc6e20ab58e352ff32e9fe1fe9ca391b1a9ba4110fbb14507a3",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/private/confirmation-cases.json": "082792ac06a78ebe3cdb002a31624ce701c82b759d55c7cdf6181e40003d40dd",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/private/selection-cases.json": "f258fbcb7acd5128e43f96d3b815ed6b090917bc4baf5c5da0eb05480fd5fee8",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/protocol.md": "b9d15793829a3938ac58f3441ddee9062dccc53dd3859f545d5266a5d83a7fb9",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/scope.md": "bcaff5e7aefab600e037663160f15c126618ff275c0a163c8eac2412d2f38fb3",
+    "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/test_analysis_r02.py": "579ebe04c4476afee30663065450453948b5aa5e1fad31e69578f93dfdc75343"
+  },
+  "requested_model": "gpt-6-astra",
+  "resolved_model_snapshot": "unknown",
+  "scored_runs_before_freeze": 0,
+  "source_head": "28de69b12b49fa24777adac5121953be0416b7e0",
+  "supersedes": "v01 ended with measurement defects; no v01 scores reused",
+  "user_stop_rule_accepted": true
+}

@@ -1,0 +1,377 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 191
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "a64c8ee74332bae7d5b5c6585180163c8d87205cf8d284cc409c60eb9aa74773",
+      "treatment_sha256": "688da1092dda8d486bea2ec9674b44dc03cb04fb9b41f384784f79ba50aa5963"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "baseline_sha256": "a058038a17f3d09e62e1ab7f4d455be43e0b56fb6aa193ffd4e5a56daff203ec",
+      "treatment_sha256": "c4e908b820720e8e7343838e17257a44e1c271c9e2061fe2c60bee6e51a612ea"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-baseline-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "335ffa55567536e61285a05622177ef244bf4122fdda0f49223c79bc67a0d358"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-baseline-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "92e8a884d554a1c020edd2c99fc9bb5c7c4874cb08ed01442233052a3bcde9f9"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-baseline-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a52b2785921e663883ecd2abd57d9ceab30700065d231a5f3f4366cc9a91dfe3"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-baseline-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "32dbd927e042ad6cd5a5e7b782b7bf32e5dd2ad9524035caa493de8b4e81cc29"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-baseline-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "8c057f21cee7711c4346c1bc60ee96a953dcd644af85b9686986e9a16728d9ee"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-baseline-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b37f18f61ec9fd09bb9dd8421d726be3b159493bdc6424bf6c4f633db42d1fd1"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-baseline-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ec5909606a50d3853e78e4b3a10deb7d9564512104e5014a9df0d30fae36040d"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-baseline-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4107e440647ba28b796db8c4d79b02f624a74b32e605713670f0e40a6dd3380a"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-baseline-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a81fd04109214c3eeed51f1e9ad076298502da7069ff094ebb3085b30bf43db7"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-baseline-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "286573b0832e1ac00b956bd305be61f4dbbb20fe6c3a8c778bf26be7a63b2ff8"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-winner-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "095ee680ec2cf901544870e99344487cd5d51e5f3e2f7829dfaff74a73c8e1fb"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-winner-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9ebaca3422916f14587cc4dc701d2182fb60cc3ca429128a958fc31403a52716"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-winner-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "ed2411960aee6db894e7af25fed7a84f5c06ced8c45f083635e05c4f651f1e3c"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-winner-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "21d8fa172b70fd10c34889fe57598b76f82d24e3153fb1f8c5e77a333f562c17"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-confirm-winner-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "fa4b786baf450daf8dc53d58e358e99c593917070e64a8ff38e501f477effb31"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r01-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "259bbd3878dd395145b7fef17a8ff940303dd24ab59bf60eab0a4df0ed98b92c"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r01-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "17c82d8eff58f1b0fbb71bcb1b719346683bd95ba002b2d8992cdaf3b20f47d0"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r01-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d6fccbb23e85b8685026a9085a1579142bf21349f402ca0b84507306d1103e5e"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r01-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d5ba0d2286d0cda3ba98fcc86aa8d29d58034bd1067798608d1480dc66a0a85d"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r01-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4192adf9f4dae2fdad9b6975e8cc7b4bb4a3e0ce4eda57a0cae25a870fbba958"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r02-a1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b3c4bf209c96e8c254f15f36d9bd0c815f1aebca4d685a0c4a701d7324a28e70"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r02-a2.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "e4ada5755229a4acc32b71951543ca4e7e9f814478ccea9807b241dffc800ae6"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r02-a3.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5383bb2ba6dd6a7162d4d9b03a0ba00bdd1c1d57f3f627d47057f6728730d9ab"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r02-b1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9f116c07bda4b28b79acdab8546222f8a87d99bfa0f0b67c28c80a7f30e48779"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/archives/v02-r02-c1.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bf36ea2cbaa2408e81499c51b3430031360f879e6e21f06c9e7f10d9b5df7672"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/cases/confirmation.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "082792ac06a78ebe3cdb002a31624ce701c82b759d55c7cdf6181e40003d40dd"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/cases/selection.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f258fbcb7acd5128e43f96d3b815ed6b090917bc4baf5c5da0eb05480fd5fee8"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/comparison.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bad5037953a411050cdc429ffe4a6de7410199bc9f4786a00a3ca1b570bc0a20"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/confirmation/manifest.original.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d493409c978b7eb02ef0b143931365a3c71208e2c027a25e984337b3c5ddef20"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/confirmation/winner.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "5ecf9b548a16b93b3ff7d384b36d87a5a7c12bf586d64ff9944a54341c73840a"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d5083ff42878f9763852759373f3f9caa22b0880d1eb13898be413d5208b0a45"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/decision.tsv",
+      "role": "fixed source or experimental evidence",
+      "sha256": "657c0634495964978e0b87e6e70af365938b1662d9d9c81de54cfda5c901e1fb"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/discovery/audit-v02.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9832db35b7fd395f6c2c6add28b30c0f25a39bfdf4586e47926816806e517d30"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/discovery/owner-boundary-review.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "78b6d071d2742f430289f90cc380e1857dea706da51d316b7e7dfd5eff4ff752"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/evaluator/controls-r02.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "cbda180a152ead0e086c0c8e0761925e4028adfc3c079fc18e7d485c16cf6ea1"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/evaluator/test_oracle.original.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a5d9fcd1baf3cf1ab6891e89bbf039f25612fff222865b9f20c50f34ea23f471"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/evaluator/test_oracle_r02.original.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f15e29465777ab5a7d9815e5d645c735fe51977ff4a3bdda7fd96eb1a45b6ddd"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/evidence-index.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7a23ad487c08568278e36f6082b58cba224b33748cade618b780272f4f935b6b"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/freeze.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "4cb52f7fff193077543dd9b763c34ac881bb742ef41c1f3e844005521b70d0ff"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/history/ended-v01.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "202d5509d2e9b4aeb879899179db2745546ed0d46372179b039e23c02825d9e1"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/history/optimizer-capture.tar.gz",
+      "role": "fixed source or experimental evidence",
+      "sha256": "98a1f20416ac7d699e59709fdde6d8786a9929b19bc91e438d299af15bc938b3"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/methods/architect/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "691cd39f52c7b613866e6baf9ea0b05451ffa21a6a9b4102f166418b89178fde"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/methods/how/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d31805589c7f6a63a6db6c9fadebbd79fb9660682cf1654e9b2e5e1e7cd30bc0"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/methods/installed-evals.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "52000ceeaca0b5e586863780ab4bef880025ab01b11779dedd88c06feaa3be19"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/methods/maintain-verification-skill/SKILL.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "515c0eaa054b3f6be1b1fb06f2c2f173c80fddb58bbcac57576f89c479bc68e8"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/methods/poteto-mode/playbooks/hillclimb.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "41980da135de2579bb38570e4b3373e015029148734ab5dc7d6103417b499af6"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/methods/pstack-pins.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d4e233b103d8f6a2ec70edeea7affdf40c4604c723c71a4f6b6407731fd36710"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/protocol.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "b9d15793829a3938ac58f3441ddee9062dccc53dd3859f545d5266a5d83a7fb9"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/requirements.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f4fda82027cb4d0204efccfdfae1e92acd950e6d0723316ab62e72695eca47e3"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/results.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "f8028b8f9d97a9ab5df8fe9a1fba7807c3d49d044f7f5e0cef8acae9cc81b074"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r01/AGENTS.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1ef85c7f0c875eff668010b5fcc3c9b8222055f887a9f78d904eeacfc096abeb"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r01/candidate.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "9ce02cb520c023a062e4473dbd43ad802a872fea08440d8df22248bfc6f34f3d"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r01/change.patch",
+      "role": "fixed source or experimental evidence",
+      "sha256": "624221cd5f8f592a6b4975f488020c52c86c715ab96d32fb4a6ada7cef0045ec"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r01/hypothesis.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "48527c02fd06f0c6e6025ee64c1cc8824da38578a78d32cdc5edbd623d356c52"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r01/selection-decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1a307dea1cfb61b22962756731d7f044dd22ae4182624447552c1ef50c25b708"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r01/selection-manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "2df523c5e5294e21407235a876d3c21633d0d2adbedaa1e279e995a4a4dd3010"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r02/AGENTS.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "688da1092dda8d486bea2ec9674b44dc03cb04fb9b41f384784f79ba50aa5963"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r02/candidate.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "03c481bede7adafa57e02dab5955192108855ec7a798ef8f707b9f9bc72ec6c4"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r02/change.patch",
+      "role": "fixed source or experimental evidence",
+      "sha256": "7a42833980d706cec8f08d7092d9e8f4fa47fcc25ac5acacc53c6332afc5dc38"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r02/hypothesis.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d857eaa3c4205c1d245cadb84317cfbfa5a2e20828502f2a5998c219713d513d"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r02/selection-decision.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "0645d3699792dc7d52c0e1448be7b2a4bc02787518b80cbbf4927b413cc27199"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/rounds/r02/selection-manifest.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a0e824d1f58554f61523998bde511a6059d663b4235bfe329f950bf735bff035"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/scope.md",
+      "role": "fixed source or experimental evidence",
+      "sha256": "bcaff5e7aefab600e037663160f15c126618ff275c0a163c8eac2412d2f38fb3"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/tools/analysis-r02.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "a60e38f920d6b5d9181219826f8f63fb4a05db689cd8311de1c447ffa4e1c664"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/tools/archive_case.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "73d03c242c7a0b907e8dec022cf471f25a77f145396d9e2f49f43d3de589690d"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/tools/oracle-r02.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "701ada7eb3f22b4a7639df423573f1fb298c12620e8ff8ec1f8f56b04d38f8fd"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/tools/replay_archive.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "eacf0ed4ba769165598a7d0ce09d511769c605d62ae295afb57f1884590e7051"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/tools/test_analysis_r02.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "579ebe04c4476afee30663065450453948b5aa5e1fad31e69578f93dfdc75343"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/verification/handoff.json",
+      "role": "fixed source or experimental evidence",
+      "sha256": "d89b45fa84508c8aab75ed1c3954d2470605e4f963d5eb9c9b0dfcff6ec9fbd8"
+    },
+    {
+      "path": "tests/test_local_routing_evidence.py",
+      "role": "fixed source or experimental evidence",
+      "sha256": "1879654dc0b93092a5179cc9e38cf4c5d3310f0e0aec675ee90881581d086719"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#191"
+  },
+  "authorizes_landing": false
+}

@@ -1,0 +1,10 @@
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -9,6 +9,7 @@
+ | Observed execution path | Shortest supported action |
+ | --- | --- |
+ | ChatGPT Session using GitHub connector / Actions | Read the exact Issue/PR/head and `.github/workflows/runtime.yml`; consume the matching runtime run, job steps and artifact evidence through GitHub. Authorized PR creation/update triggers the existing workflow. For an unchanged head, reuse its result or observe its in-flight run; do not launch Codex CLI or install a scratch Noodle. |
++| Local Session explicitly authorized to execute an Issue atom | Read the [issue-atom skill](.agents/skills/issue-atom/SKILL.md) directly. Before initial authorization selection, this Session may act as supervisor: use its linked authorization recipe and existing `supervisor-admission authorize` entry to prepare the explicit selected inputs and derive the authorization path/digest; do not ask the user to prepare those files or hashes. Preserve the prepared receipt and consume its `next.argv` and `next.environment` unchanged within the task’s scope. An already selected but missing authorization requires recovery of its exact bytes by its owner, never replacement preparation. Missing selected identity, capability or credentials requires the named owner input; this role does not let a candidate writer select its judge. |
+ | Local Soodles → Noodle → Codex child | Use the supplied local control root, admitted launcher/envelope and Noodle owner; load only the [bounded execution recipe](.agents/skills/verify-soodles/features/issue-execution.md). Confirm the actual child's Codex CLI capability there, then observe its session/order/stage outcome. Do not reconstruct launcher argv. |
+ 
+ After a local child is parked with a completed typed outcome, the supervisor
