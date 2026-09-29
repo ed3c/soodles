@@ -22,6 +22,19 @@ entry directly: `eval-audit` for trust in an existing pipeline,
 route is known. Check objective command, identity and effect criteria with code;
 use a subjective judge only when the criterion needs interpretation. Method
 selection does not require reinstalling skills or a full feature-map audit.
+Record the actual method bytes/version and any carrier adaptation in the protocol.
+Use `generate-synthetic-data` only for a demonstrated input gap, with actual
+realism review and execution before calling inputs traces. For a semantic
+failure use `write-judge-prompt` then `validate-evaluator`; missing human labels
+or held-out judge evidence remain prerequisites, never model-created ground
+truth. Objective code-oracle work marks that judge calibration not applicable.
+
+Use pinned [pstack](https://github.com/cursor/plugins/tree/adf3218ca2f5b9971eedc07a76bef22df7701539)
+How/Architect to map the demonstrated promise through its
+state owner, real entry/fault, executable oracle, raw evidence and nearest legal
+different case. Use its Hillclimb discipline only after measurement is credible:
+one causal hypothesis/patch, fresh measurement, then keep or revert. These are
+external methods, not another Soodles execution or authority owner.
 
 `./soodles eval report` verifies only an externally selected
 `feature_map_routing_report_v2` report; it does not author general behavior evals.
@@ -76,6 +89,41 @@ The coordinator may launch independent consumers when the current task authorize
 
    A bounded recovery packet may also carry an externally selected completion projection and its exact digest. Once the real owner emits that projection, stop before invoking its `next.operation` or creating its request when provider transport is not authorized. The projection bounds this observation only; it is not provider truth and grants no transport or landing authority.
 5. Return goal/scope, subject and instruction identities, actual evidence locators, supported result, unknowns and next owner readback. A distinct consumer must read that handoff and refresh current owner state when transfer is part of the claim. The coordinator reports feature coverage and existing landing status separately.
+
+## Bounded multi-round comparison
+
+The external supervisor fixes protocol, oracle/controls, grouped inputs, common
+carrier/tools, metric, regression gates and stop rule before scored baseline.
+Keep optimizer train/selection/confirmation separate from a semantic judge's
+train/dev/test. Group by originating trace/event and its derivatives, not case
+names. Keep expected outcomes and confirmation outside both optimizer and
+consumer access; verify actual private-file denial plus legal reads under the
+real host profile. Fresh context and separate directories alone are insufficient.
+
+Check evidence validity, then behavior per required stratum, then cost. Missing
+capture is inconclusive; complete capture with missing required output is a
+behavior failure. Never count either as zero cost. Preserve actual actions,
+receipts, identity/state/effects and available usage; distinguish whole Agent
+commands, fixed carrier work and CLI-internal work. Unknown telemetry stays
+unknown. A shorter document does not itself prove lower decision cost.
+
+Run fresh baseline and bounded single-hypothesis rounds using the frozen
+harness. Preserve rejected patches and raw failures. Freeze the exact winner
+before the independently held confirmation; do not change cases or select a
+new winner after seeing it. An oracle/harness defect ends the old comparison:
+retain its records, fix and validate under a new supervisor boundary, then
+remeasure baseline. Never credit a changed judge as product improvement.
+
+Archive only the parts used by this atom: protocol/method pins, manifest and
+objective evaluator/controls; product verification and fresh behavior raw/results;
+round hypotheses/patches, confirmation, derived analysis/decision and references
+to existing delivery receipts. The final archive layout is not runtime access
+permission. Preserve source/instruction/input/run identities and evidence bytes
+through cleanup. The decision reports product, behavior and delivery separately
+and cannot authorize landing. Return stable counterexamples to controls and
+map their owner/oracle here so the next Session can rerun them without chat
+history. A changed recipe gets an affected drive, not an automatic full-map
+maintenance or global nonregression claim.
 
 ## Bounded working context
 

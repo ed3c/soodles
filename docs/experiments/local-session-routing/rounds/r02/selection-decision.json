@@ -1,0 +1,35 @@
+{
+  "adopt": false,
+  "authorizes_landing": false,
+  "behavior": {
+    "baseline_A": "PASS",
+    "baseline_B_C": "PASS",
+    "candidate_all_strata": "PASS",
+    "comparison_gate": "PASS",
+    "historical_failures": []
+  },
+  "confirmation_pending": true,
+  "cost": {
+    "selection": {
+      "baseline_A_completed_commands": [
+        11,
+        12,
+        13
+      ],
+      "baseline_median": 12,
+      "candidate_A_completed_commands": [
+        9,
+        9,
+        10
+      ],
+      "candidate_B_C_behavior_gates": "PASS",
+      "candidate_median": 9,
+      "candidate_runs_below_baseline_median": 3,
+      "median_reduction_percent": 25.0,
+      "meets_adoption_cost": true
+    }
+  },
+  "evidence_validity": "VALID",
+  "keep_candidate": true,
+  "problems": []
+}

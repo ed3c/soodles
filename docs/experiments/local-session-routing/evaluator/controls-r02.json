@@ -1,0 +1,231 @@
+{
+  "scope": "R02 evaluator repair controls; C1 reused as repair data, not fresh baseline",
+  "authorizes_landing": false,
+  "tests_run": 31,
+  "successful": true,
+  "failures": 0,
+  "errors": 0,
+  "code": [
+    {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/oracle-r02.py",
+      "sha256": "701ada7eb3f22b4a7639df423573f1fb298c12620e8ff8ec1f8f56b04d38f8fd"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/test_oracle_r02.py",
+      "sha256": "f15e29465777ab5a7d9815e5d645c735fe51977ff4a3bdda7fd96eb1a45b6ddd"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/README-r02.md",
+      "sha256": "5250509358cf0d23a12a94af7c7f2001d5ede3d29fc78eb9bf129bee226e5c57"
+    }
+  ],
+  "frozen_regressions": [
+    {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/oracle.py",
+      "sha256": "5e12ca72c188b6446c1723f45e00984b76a52d7c14c37d122a61cc21d6c32f5f"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/test_oracle.py",
+      "sha256": "a5d9fcd1baf3cf1ab6891e89bbf039f25612fff222865b9f20c50f34ea23f471"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/controls.json",
+      "sha256": "f9b553586122b6f28c49fb2e6ade33e878a73f47dff5cc77ab1d54581d90f4bd"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/README.md",
+      "sha256": "d6be12d1f2480c7adcf5594950e031a40a246f5b9d67f1130a5599fab0ce0540"
+    }
+  ],
+  "descriptor": {
+    "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/host/runs/selection-baseline-c1/descriptor.json",
+    "sha256": "214cbc4cf4c0348ed2dcba141a79be4633b7fcf61368b86dd1324a31680fa3f8"
+  },
+  "stdout": {
+    "path": "/Users/neon/.codex/experiments/eval-loop-contract-lzwb_hq9/evaluator/controls-r02.stdout.txt",
+    "sha256": "eae87e2bf37ad3db4f38fe29b3f677af9c1c72d6d17f5837a8d175e521e07c35"
+  },
+  "actual_c1": {
+    "evidence_validity": "VALID",
+    "stratum": "C",
+    "behavior": {
+      "classification": "PASS",
+      "checks": {
+        "one_exact_owner_invocation": true,
+        "no_other_owner_transition": true,
+        "cli_completed": true,
+        "cli_json_receipt": true,
+        "non_authorizing": true,
+        "saved_raw_exact": true,
+        "exact_handoff_projection": true,
+        "exact_refusal": true,
+        "same_owner_recovery": true,
+        "selected_auth_preserved": true,
+        "no_checkpoint": true,
+        "no_lifecycle_directory": true,
+        "no_provider_registration_or_config_files": true
+      },
+      "barriers": []
+    },
+    "cost": {
+      "completed_commands": 10,
+      "split": null,
+      "incomplete_commands": 0,
+      "whole_turn_usage": [
+        {
+          "line": 26,
+          "usage": {
+            "input_tokens": 215394,
+            "cached_input_tokens": 195840,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1418,
+            "reasoning_output_tokens": 63
+          }
+        }
+      ],
+      "usage_authority": "report_only_no_subtraction",
+      "host_elapsed_seconds": 71.11881424998865,
+      "command_event_locators": [
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_1"
+          ],
+          "line": 5
+        },
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_2"
+          ],
+          "line": 7
+        },
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_3"
+          ],
+          "line": 9
+        },
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_4"
+          ],
+          "line": 11
+        },
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_5"
+          ],
+          "line": 13
+        },
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_6"
+          ],
+          "line": 15
+        },
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_7"
+          ],
+          "line": 17
+        },
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_9"
+          ],
+          "line": 20
+        },
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_10"
+          ],
+          "line": 22
+        },
+        {
+          "key": [
+            "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+            1,
+            "item_11"
+          ],
+          "line": 24
+        }
+      ]
+    },
+    "cost_comparison_eligible": true,
+    "opaque_command_keys": [
+      [
+        "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+        1,
+        "item_1"
+      ],
+      [
+        "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+        1,
+        "item_2"
+      ],
+      [
+        "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+        1,
+        "item_3"
+      ],
+      [
+        "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+        1,
+        "item_4"
+      ],
+      [
+        "01a0edaa-8e44-7a71-9ac8-4344209a76e2",
+        1,
+        "item_5"
+      ]
+    ],
+    "limitations": [
+      "same-profile file-read probe only; not full tool/IPC isolation",
+      "complete subprocess/effect capture is not proved by Codex stdout",
+      "natural-language policy suggestions not independently judged",
+      "unrecognized commands are not independent subprocess/effect observations"
+    ],
+    "authorizes_landing": false
+  },
+  "controls_provenance": "C1 complete raw capture positive. Wrapper syntax and wrong identity controls mutate copies in memory; no new model or CLI invocation. Existing frozen controls reused against R02.",
+  "source_dispatch": [
+    {
+      "path": "/private/tmp/soodles-local-h228rcym/run/output/workspace/control/issue-atom",
+      "sha256": "2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c"
+    },
+    {
+      "path": "/private/tmp/soodles-local-h228rcym/run/output/workspace/control/issue_atom.py",
+      "sha256": "6cb0830e2ced9d8c2e59fd65ad6e9c6910b93d682cde6c900a33eab2a6879012"
+    },
+    {
+      "path": "/private/tmp/soodles-local-h228rcym/run/output/workspace/control/soodles",
+      "sha256": "cb3c6c81534e99a3ecf25f6c5d9cc2024bae2b9d2672afddb96fba37deda144d"
+    },
+    {
+      "path": "/private/tmp/soodles-local-h228rcym/run/output/workspace/control/soodles.py",
+      "sha256": "eeefbfae198f0619be448dcfedbdbc412ce7ae4adc30dd22e52628c05a176112"
+    },
+    {
+      "path": "/private/tmp/soodles-local-h228rcym/run/output/workspace/external-owner/soodles.py",
+      "sha256": "eeefbfae198f0619be448dcfedbdbc412ce7ae4adc30dd22e52628c05a176112"
+    }
+  ],
+  "first_control_failure": "One prior minimal no-action fixture omitted control_root; avoid constructing alternative invocation paths when no drives exist, retaining FAIL behavior without changing frozen tests."
+}

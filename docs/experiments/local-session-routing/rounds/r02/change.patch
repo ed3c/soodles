@@ -1,0 +1,24 @@
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -9,7 +9,21 @@
+ | Observed execution path | Shortest supported action |
+ | --- | --- |
+ | ChatGPT Session using GitHub connector / Actions | Read the exact Issue/PR/head and `.github/workflows/runtime.yml`; consume the matching runtime run, job steps and artifact evidence through GitHub. Authorized PR creation/update triggers the existing workflow. For an unchanged head, reuse its result or observe its in-flight run; do not launch Codex CLI or install a scratch Noodle. |
++| Local Session explicitly authorized to execute an Issue atom | Use the [issue-atom skill](.agents/skills/issue-atom/SKILL.md) and the local entry forms below, according to the current authorization state. |
+ | Local Soodles → Noodle → Codex child | Use the supplied local control root, admitted launcher/envelope and Noodle owner; load only the [bounded execution recipe](.agents/skills/verify-soodles/features/issue-execution.md). Confirm the actual child's Codex CLI capability there, then observe its session/order/stage outcome. Do not reconstruct launcher argv. |
++
++For that explicitly authorized Local Session, the existing entry forms are:
++
++```text
++[PYTHON, "-B", SUPERVISOR_ADMISSION, "authorize", SELECTION_JSON, SELECTION_SHA256, NEW_EXTERNAL_OUTPUT]
++[ISSUE_ATOM, "run", AUTHORIZATION_JSON]
++```
++
++These are argv templates: use the current supplied absolute Python interpreter and entry paths, exact selected file bytes/digests, and a new absolute output directory outside the control root. `supervisor-admission` is Python; `issue-atom` is a shell executable invoked directly, never through Python.
++
++Before initial authorization selection, the authorized Session may act as supervisor: prepare the explicit selection and its SHA-256 using the [authorization recipe](.agents/skills/verify-soodles/features/local-supervisor-admission.md), then use `authorize`. The producer derives the authorization path/digest and validated continuation; do not ask the user to create those files or hashes. Its lower-level `prepare` verb belongs to the lifecycle. On `status=prepared`, preserve the receipt and use its `next.argv` and `next.environment` unchanged for authorized lifecycle execution; the latter binds `SOODLES_AUTHORIZATION_SHA256`. Respect the task's stopping point: if it requests preparation or the first non-help receipt only, save that receipt and hand off `next` without executing it.
++
++Once authorization is selected, preserve that exact identity and the existing `issue-atom run` continuation. A missing selected file requires its owner's recovery of the exact bytes, never another `authorize`. Missing selected identity/capability or credentials requires the named owner input; retain the refusal and unchanged continuation, and re-enter only after the required material change. Do not guess credentials, select replacement authority or let a candidate writer select its judge. These forms remove entry ambiguity; they do not replace required validation, receipts or owner readback.
+ 
+ After a local child is parked with a completed typed outcome, the supervisor
+ uses Noodle's exact publication claim and the native publication-readiness

@@ -1,0 +1,37 @@
+{
+  "A": {
+    "context": {
+      "instruction_paths": [
+        "AGENTS.md"
+      ],
+      "issue_number": null,
+      "profile_home_fallback": false,
+      "retain_prepared_receipt": false
+    },
+    "group": "instruction-pinned-schema3",
+    "repeats": 3,
+    "work_id": "soodles-work-1"
+  },
+  "B": {
+    "context": {
+      "instruction_paths": [],
+      "issue_number": null,
+      "profile_home_fallback": false,
+      "retain_prepared_receipt": true
+    },
+    "group": "retained-prepared-receipt-auth-missing",
+    "repeats": 1,
+    "work_id": "soodles-work-2"
+  },
+  "C": {
+    "context": {
+      "instruction_paths": [],
+      "issue_number": null,
+      "profile_home_fallback": true,
+      "retain_prepared_receipt": false
+    },
+    "group": "home-fallback-profile-missing",
+    "repeats": 1,
+    "work_id": "soodles-work-3"
+  }
+}
