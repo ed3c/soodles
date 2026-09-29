@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py", line 57, in <module>
+    try: result=atom.drive(case.path,timeout=a.timeout,interval=1,sleep=sleep,clock=lambda:now[0],environ=case.env,provider=provider)
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/issue_atom.py", line 1498, in drive
+    result = run(authorization_path, environ=environ, provider=provider)
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/issue_atom.py", line 1020, in run
+    return _run(authorization_path, environ=environ, provider=provider)
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/issue_atom.py", line 1294, in _run
+    authorization, authorization_digest = _validate_authorization(
+                                          ~~~~~~~~~~~~~~~~~~~~~~~^
+        authorization_path, environ.get("SOODLES_AUTHORIZATION_SHA256"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        allow_advanced=paths["state"].exists())
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/issue_atom.py", line 185, in _validate_authorization
+    ancestor = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", value["base_head"], current_head],
+        cwd=root, stdin=subprocess.DEVNULL, capture_output=True, timeout=30)
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py", line 19, in guarded_run
+    if not git_args or git_args[0] not in allowed_git: raise RuntimeError('forbidden git operation: '+repr(argv))
+                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: forbidden git operation: ['git', 'merge-base', '--is-ancestor', 'acb950da254ef81c7dcd15de15622001a36a7fb7', 'acb950da254ef81c7dcd15de15622001a36a7fb7']

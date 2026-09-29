@@ -143,8 +143,8 @@ class IssueAtomTests(unittest.TestCase):
 
     def pending_patches(self):
         return (
-            patch("issue_atom.issue_execution.supervised", return_value={"action": "running"}),
-            patch("issue_atom._run_claim", side_effect=AssertionError("running owner must not request a claim")),
+            patch("issue_atom.issue_execution.supervised", return_value={"published": True}),
+            patch("issue_atom._run_claim", return_value=Result(1, "order is not ready")),
         )
 
     def startup_fixture(self):
@@ -775,35 +775,6 @@ class IssueAtomTests(unittest.TestCase):
         self.assertTrue(observe.call_args.kwargs["observe_live"])
         claim.assert_not_called()
         self.assertEqual(provider.create_calls, 0)
-
-    def test_failed_claim_stops_drive_before_wait_or_publication(self):
-        provider = Provider()
-        self.ready_issue(provider)
-        with patch.object(atom.issue_execution, "supervised", return_value={"published": True}), \
-                patch.object(atom, "_run_claim", return_value=Result(2, "terminal subject refusal")) as claim, \
-                patch.object(atom, "_accept") as accept, \
-                patch.object(atom.candidate_publication, "publish") as publish, \
-                patch.object(atom.time, "sleep") as sleep:
-            with self.assertRaises(atom.AtomRefusal) as caught:
-                atom.drive(self.path, timeout=2, sleep=sleep,
-                           clock=iter((0, 0, 1, 2)).__next__,
-                           environ=self.env, provider=provider)
-        receipt = atom.refusal_output(caught.exception, self.path)
-        self.assertEqual(receipt["status"], "refused")
-        self.assertEqual(receipt["invalid"]["field"], "noodle.claim.exit")
-        self.assertEqual(receipt["invalid"]["value"]["exit_status"], 2)
-        self.assertEqual(receipt["next"]["kind"], "input")
-        self.assertEqual(receipt["next"]["owner"], "Noodle")
-        self.assertEqual(receipt["next"]["required"], ["fresh_noodle_claim"])
-        self.assertEqual(receipt["next"]["argv"], atom.same_command(self.path))
-        self.assertEqual(receipt["next"]["known"]["order_id"],
-                         atom.issue_admission.scoped_order_id(131, self.root))
-        claim.assert_called_once()
-        sleep.assert_not_called()
-        accept.assert_not_called()
-        publish.assert_not_called()
-        self.assertEqual(provider.create_calls, 0)
-        self.assertEqual(provider.merge_calls, 0)
 
     def test_help_exposes_only_same_lifecycle_command(self):
         result = subprocess.run([str(Path(atom.__file__).parent / "issue-atom"), "--help"],

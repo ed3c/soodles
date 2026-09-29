@@ -62,12 +62,7 @@ supervisor makes that exact selected file readable; do not reconstruct an
 authorization from Issue prose, substitute another atom or transfer credentials.
 
 The foreground entry observes normal waits for up to five minutes. A refusal
-stops immediately; it is not retried. A nonzero publication-claim exit returns
-`next.kind=input`, owned by Noodle, with the exact control root/order/subject.
-Preserve that receipt across handoff. Obtain the named fresh owner readback
-before re-entering the returned same command; elapsed time alone is no change.
-Do not infer retryability from stderr or treat claim failure as a running worker.
-Consume the JSON result. If bounded waiting
+stops immediately; it is not retried. Consume the JSON result. If bounded waiting
 ends with `next` non-null, wait for the named material
 owner/provider state change and execute only its returned `next.argv`, which
 is the same command. Never use `./noodles issue handoff`. Do not choose issue automatic.

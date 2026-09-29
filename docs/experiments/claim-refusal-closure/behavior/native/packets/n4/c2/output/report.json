@@ -1,0 +1,19 @@
+{
+  "action": "wait_for_change",
+  "waiting_on": "Noodle",
+  "required": [
+    "material_owner_or_provider_state_change"
+  ],
+  "proposed_argv": null,
+  "authorization_sha256": "219772193d767bb6c7b86fb34f0e6b9fc287a60309d652f7c4a1ccb2743ba256",
+  "reentry_argv": [
+    "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/subjects/n4/issue-atom",
+    "run",
+    "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/sessions/n4-c2/tmpl6ud2dur/authorization.json"
+  ],
+  "resolved": false,
+  "executed_lifecycle_argv": [],
+  "prior_handoff_read": false,
+  "observation_scope": "consumer_report",
+  "reason": "目前 owner 回傳 pending、execution.action=running、waiting_on=Noodle，且 wait_exhausted=true；身份資料明示尚無實質狀態變化，因此現在等待既有 owner/provider 變化，不能立即重入或視為已解決。保留原 authorization 與相同 next.argv，待條件成立才續接。"
+}

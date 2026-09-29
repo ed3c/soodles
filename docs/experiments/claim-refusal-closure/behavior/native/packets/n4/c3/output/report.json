@@ -1,0 +1,19 @@
+{
+  "action": "wait_for_change",
+  "waiting_on": "GitHub Actions",
+  "required": [
+    "material_owner_or_provider_state_change"
+  ],
+  "proposed_argv": null,
+  "authorization_sha256": "ef2bd882ca1d316de889ab9de602547544728c4b6e73b45570eb039c6d7d486a",
+  "reentry_argv": [
+    "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/subjects/n4/issue-atom",
+    "run",
+    "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/native/sessions/n4/tmp1cc_hz35/authorization.json"
+  ],
+  "resolved": false,
+  "executed_lifecycle_argv": [],
+  "prior_handoff_read": true,
+  "observation_scope": "consumer_report",
+  "reason": "已讀取先前 handoff；當前 owner 已從 execution 推進至 ci，等待 GitHub Actions，但最新 owner result 後並無材料變更。應保留原 authorization 及同一續接 argv，等待材料變更後才重入；已發布 PR 不代表已完成或獲准 landing。"
+}

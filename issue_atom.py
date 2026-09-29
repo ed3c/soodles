@@ -1400,8 +1400,13 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
             order_id = read_json(paths["envelope"], "envelope")["execution"]["order_id"]
             claim_result = _run_claim(authorization, subject, paths["claim"], order_id)
             if claim_result.returncode:
-                return response(state, authorization_path, waiting_on="Noodle",
-                                details={"diagnostic": claim_result.stderr.strip()[-1000:]})
+                raise AtomRefusal(
+                    "noodle.claim.exit",
+                    {"exit_status": claim_result.returncode,
+                     "diagnostic": claim_result.stderr.strip()[-1000:]},
+                    "fresh_noodle_claim", owner="Noodle",
+                    known={"control_root": authorization["control_root"],
+                           "order_id": order_id, "subject": subject})
         claim = read_json(paths["claim"], "publication_claim")
         if state.get("failed_candidate_head"):
             require(claim.get("head") != state["failed_candidate_head"],

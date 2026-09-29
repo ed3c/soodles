@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py", line 56, in <module>
+    try: result=atom.drive(case.path,timeout=a.timeout,interval=1,sleep=sleep,clock=lambda:now[0],environ=case.env,provider=provider)
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/issue_atom.py", line 1498, in drive
+    result = run(authorization_path, environ=environ, provider=provider)
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/issue_atom.py", line 1020, in run
+    return _run(authorization_path, environ=environ, provider=provider)
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/issue_atom.py", line 1306, in _run
+    return _run_owned(authorization_path, authorization, authorization_digest, paths,
+                      environ=environ, provider=provider)
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/issue_atom.py", line 1370, in _run_owned
+    envelope, envelope_digest = create_envelope(authorization, issue, body, paths["envelope"], environ=environ)
+                                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/issue_atom.py", line 613, in create_envelope
+    result = supervisor_admission.prepare(
+        issue, {**authorization["carrier"], "noodle": authorization["noodle"]},
+        root, path.parent, environ=environ, task=authorization["task"], wire_host=True,
+        instruction_pins=pins)
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/supervisor_admission.py", line 409, in prepare
+    data = _git_bytes(root, head, path)
+  File "/Users/neon/.codex/experiments/authorization-materialization-9jdphvpo/control-r02/supervisor_admission.py", line 62, in _git_bytes
+    result = subprocess.run(
+        ["git", "--no-pager", "show", f"{revision}:{path}"],
+        cwd=root, capture_output=True, timeout=30)
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/oracle/worker.py", line 18, in guarded_run
+    if len(argv)<2 or argv[1] not in allowed_git: raise RuntimeError('forbidden git operation: '+repr(argv))
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: forbidden git operation: ['git', '--no-pager', 'show', 'f5f9eaae72f2f1e75d5be6cb39ae7a92219a867a:soodles.py']
