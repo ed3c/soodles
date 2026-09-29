@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 185
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "81ee938d4fec1b698b0e710fe0293882234ce5eb882f76ea96d4ad8e7890cb9d",
+      "treatment_sha256": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/issue-execution.md",
+      "baseline_sha256": "57e8bd737a63c5e4b237ff1681eb4d1c616a27a83d73e712ef79fe72c69facaa",
+      "treatment_sha256": "bb807b50e17f131e43bee03ec7c9b54c80ce24888539655a476483c9c1f2a139"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/pclass-owner-continuation/frozen/driver.py",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "1831f8af62beba5efaddec1a85418862d796cfb82251b0c284ee5e9b0aa593f2"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/frozen/fixture.py",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "0b2abed6703631ad9ce7d27cb5e687d2e94cfe77298d07c5869a8e5e86b86e23"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/frozen/migration.md",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "b0534aec69db1c1ff718de4fd338736d2b3ad2e446b59d8c6ecb244bcf17f1f8"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/frozen/oracle.py",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "60f4aa7f96d0e642a1a0b3d071480769fbd521d4fe351ec908b955f9c9d8f7c4"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/frozen/protocol.md",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "1f0ecff6fbc71993d08fd9de54e74c67fce8b153a7b053310e0bd6511015b9b1"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/raw/baseline-oracle.json",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "87ffc33ed971a406b9b58071e5d2bc70a11db2f6d8e04254c8083675e1796b5c"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/raw/first-attempt.json",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "993b93867d45be72e39942475f2e74a81763fb2472b346eed3f41c0b4b11a2a1"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/raw/fresh-consumers.json",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "02f804476c89298a0e7a9286d0317791a2e5b8f613fbcda29c0fa82726fdecac"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/raw/observed-history.json",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "7e2c6b40fc49c2d4ac054408d405ede71053537ac96aa3f60f29bd39e07caa84"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/raw/treatment-oracle.json",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "ec375674617a5bc98ecbdffbf2d79f007b127b62a73939069fc510d8085a4407"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/results.md",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "815a04ff844212a85308dd0181cbc91736d03af3d816646ab8029f04fc517025"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "6f86667d00e6ba56aa25dc028e322169d2d34c9f4c8dd8087cfe980fed20a889"
+    },
+    {
+      "path": "tests/test_issue181_handoff_evidence.py",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "a16dcdea44e70cb2d56e747c580705f8d21954a15c5a43680756171a82bd0f6a"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "41fdc1ed59c4f966abe947c7acc368e904f3faef1a836e79eb4e7c1fecd9b23c"
+    },
+    {
+      "path": "tests/test_local_continuation.py",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "ec327f76080822b3a2cb75dfa00c65089698d048135336157b54c016eacfcdb2"
+    },
+    {
+      "path": "tests/test_owner_continuation.py",
+      "role": "source_control_or_frozen_evidence",
+      "sha256": "baba50d36bc13f6ae40df05eeb44acc2ec8fe5505cf4ce7eea8fe8eba0b5077a"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#185"
+  },
+  "authorizes_landing": false
+}

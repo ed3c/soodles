@@ -1,0 +1,1071 @@
+{
+  "schema": 1,
+  "classification": "PASS",
+  "source": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+  "pins": {
+    "oracle.py": "60f4aa7f96d0e642a1a0b3d071480769fbd521d4fe351ec908b955f9c9d8f7c4",
+    "fixture.py": "0b2abed6703631ad9ce7d27cb5e687d2e94cfe77298d07c5869a8e5e86b86e23",
+    "driver.py": "1831f8af62beba5efaddec1a85418862d796cfb82251b0c284ee5e9b0aa593f2"
+  },
+  "cases": [
+    {
+      "case": "own_pending",
+      "passed": true,
+      "expected": "bounded_pending",
+      "raw": {
+        "case": "own_pending",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "pending",
+          "phase": "execution",
+          "issue": {
+            "number": 131
+          },
+          "publication": null,
+          "next": {
+            "kind": "executable",
+            "owner": "soodles.issue-atom",
+            "required": [
+              "material_owner_or_provider_state_change"
+            ],
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpeeg__30b/authorization.json"
+            ],
+            "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+          },
+          "authorizes_landing": false,
+          "waiting_on": "Noodle",
+          "execution": {
+            "action": "own_start_wait",
+            "order_id": "soodles-131-2428eac72bba",
+            "sessions": {
+              "schedule": "fixture-scheduler"
+            },
+            "execute_status": "pending"
+          },
+          "wait_exhausted": true
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "own_pending",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/own_pending.json"
+      ],
+      "exit": 0,
+      "stdout": "{\"case\": \"own_pending\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"pending\", \"phase\": \"execution\", \"issue\": {\"number\": 131}, \"publication\": null, \"next\": {\"kind\": \"executable\", \"owner\": \"soodles.issue-atom\", \"required\": [\"material_owner_or_provider_state_change\"], \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpeeg__30b/authorization.json\"], \"reason\": \"Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb.\"}, \"authorizes_landing\": false, \"waiting_on\": \"Noodle\", \"execution\": {\"action\": \"own_start_wait\", \"order_id\": \"soodles-131-2428eac72bba\", \"sessions\": {\"schedule\": \"fixture-scheduler\"}, \"execute_status\": \"pending\"}, \"wait_exhausted\": true}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "own_running",
+      "passed": true,
+      "expected": "bounded_pending",
+      "raw": {
+        "case": "own_running",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "pending",
+          "phase": "execution",
+          "issue": {
+            "number": 131
+          },
+          "publication": null,
+          "next": {
+            "kind": "executable",
+            "owner": "soodles.issue-atom",
+            "required": [
+              "material_owner_or_provider_state_change"
+            ],
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpr479tr41/authorization.json"
+            ],
+            "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+          },
+          "authorizes_landing": false,
+          "waiting_on": "Noodle",
+          "execution": {
+            "action": "own_start_wait",
+            "order_id": "soodles-131-d9ee95e32c26",
+            "sessions": {
+              "schedule": "fixture-scheduler",
+              "execute": "fixture-writer"
+            },
+            "execute_status": "running"
+          },
+          "wait_exhausted": true
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "own_running",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/own_running.json"
+      ],
+      "exit": 0,
+      "stdout": "{\"case\": \"own_running\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"pending\", \"phase\": \"execution\", \"issue\": {\"number\": 131}, \"publication\": null, \"next\": {\"kind\": \"executable\", \"owner\": \"soodles.issue-atom\", \"required\": [\"material_owner_or_provider_state_change\"], \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpr479tr41/authorization.json\"], \"reason\": \"Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb.\"}, \"authorizes_landing\": false, \"waiting_on\": \"Noodle\", \"execution\": {\"action\": \"own_start_wait\", \"order_id\": \"soodles-131-d9ee95e32c26\", \"sessions\": {\"schedule\": \"fixture-scheduler\", \"execute\": \"fixture-writer\"}, \"execute_status\": \"running\"}, \"wait_exhausted\": true}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "foreign_order",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "foreign_order",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.orders",
+            "value": "foreign_nonterminal"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "quiescent_noodle_owner"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpaz8gr_s7/project",
+              "blocking_order_ids": [
+                "foreign-22",
+                "schedule",
+                "soodles-131-54a4b8e1bda4"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpaz8gr_s7/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "foreign_order",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/foreign_order.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"foreign_order\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.orders\", \"value\": \"foreign_nonterminal\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"quiescent_noodle_owner\"], \"known\": {\"control_root\": \"/private/tmp/tmpaz8gr_s7/project\", \"blocking_order_ids\": [\"foreign-22\", \"schedule\", \"soodles-131-54a4b8e1bda4\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpaz8gr_s7/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "foreign_config",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "foreign_config",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.config",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpa3bc9vqf/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-13e6067e5075"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpa3bc9vqf/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "foreign_config",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/foreign_config.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"foreign_config\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.config\", \"value\": \"mismatch\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmpa3bc9vqf/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-13e6067e5075\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpa3bc9vqf/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "foreign_loop",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "foreign_loop",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.process",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpcn8vkuo4/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-b909ad4ac0f7"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpcn8vkuo4/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "foreign_loop",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/foreign_loop.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"foreign_loop\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.process\", \"value\": \"mismatch\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmpcn8vkuo4/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-b909ad4ac0f7\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpcn8vkuo4/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "unknown_start",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "unknown_start",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.start",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmp2eondk74/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-e9f72f0e6ace"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmp2eondk74/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "unknown_start",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/unknown_start.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"unknown_start\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.start\", \"value\": \"mismatch\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmp2eondk74/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-e9f72f0e6ace\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmp2eondk74/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "missing_pid",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "missing_pid",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.pid",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpyq0lsfxr/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-386512df0967"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpyq0lsfxr/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "missing_pid",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/missing_pid.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"missing_pid\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.pid\", \"value\": \"mismatch\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmpyq0lsfxr/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-386512df0967\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpyq0lsfxr/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "wrong_scheduler_model",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "wrong_scheduler_model",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.stage",
+            "value": "schedule"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmp_zfrdxfy/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-22c79d6901bf"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmp_zfrdxfy/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "wrong_scheduler_model",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/wrong_scheduler_model.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"wrong_scheduler_model\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.stage\", \"value\": \"schedule\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmp_zfrdxfy/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-22c79d6901bf\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmp_zfrdxfy/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "malformed_scheduler_attempt",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "malformed_scheduler_attempt",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.session",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpnz_cjoru/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-6ad5b5b3ef96"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpnz_cjoru/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "malformed_scheduler_attempt",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/malformed_scheduler_attempt.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"malformed_scheduler_attempt\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.session\", \"value\": \"mismatch\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmpnz_cjoru/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-6ad5b5b3ef96\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpnz_cjoru/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "wrong_order_projection",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "wrong_order_projection",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.projection",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpaulpnu1x/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-704955242bc7"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpaulpnu1x/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "wrong_order_projection",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/wrong_order_projection.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"wrong_order_projection\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.projection\", \"value\": \"mismatch\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmpaulpnu1x/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-704955242bc7\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpaulpnu1x/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "unlocked_runtime",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "unlocked_runtime",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.lock",
+            "value": "not_held"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmp1vqr3y6j/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-b48449e8c4cc"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmp1vqr3y6j/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "unlocked_runtime",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/unlocked_runtime.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"unlocked_runtime\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.lock\", \"value\": \"not_held\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmp1vqr3y6j/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-b48449e8c4cc\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmp1vqr3y6j/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "missing_scheduler_process",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "missing_scheduler_process",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.readback",
+            "value": "[Errno 2] No such file or directory: '/private/tmp/tmpam8hf405/project/.noodle/sessions/fixture-scheduler/process.json'"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "canonical_checkpoint_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpam8hf405/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-c76b325985b4"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpam8hf405/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "missing_scheduler_process",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/missing_scheduler_process.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"missing_scheduler_process\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.readback\", \"value\": \"[Errno 2] No such file or directory: '/private/tmp/tmpam8hf405/project/.noodle/sessions/fixture-scheduler/process.json'\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"canonical_checkpoint_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmpam8hf405/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-c76b325985b4\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpam8hf405/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "wrong_scheduler_session",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "wrong_scheduler_session",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.session_binding",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmp8wn9a4z2/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-cb9e16232e28"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmp8wn9a4z2/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "wrong_scheduler_session",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/wrong_scheduler_session.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"wrong_scheduler_session\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.session_binding\", \"value\": \"mismatch\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmp8wn9a4z2/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-cb9e16232e28\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmp8wn9a4z2/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "multiple_scheduler_attempts",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "multiple_scheduler_attempts",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.live_attempt",
+            "value": "schedule"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpx9bti_6d/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-4de1fc1a1df2"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpx9bti_6d/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "multiple_scheduler_attempts",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/multiple_scheduler_attempts.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"multiple_scheduler_attempts\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.live_attempt\", \"value\": \"schedule\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmpx9bti_6d/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-4de1fc1a1df2\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpx9bti_6d/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "unknown_execute_status",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "unknown_execute_status",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.attempts",
+            "value": "soodles-131-1397a2cd823d"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmp32ycr8rj/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-1397a2cd823d"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmp32ycr8rj/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "unknown_execute_status",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/unknown_execute_status.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"unknown_execute_status\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.attempts\", \"value\": \"soodles-131-1397a2cd823d\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmp32ycr8rj/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-1397a2cd823d\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmp32ycr8rj/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "missing_admitted_order",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "missing_admitted_order",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.order",
+            "value": "soodles-131-b1124c1e3184"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpfe2c152_/project",
+              "blocking_order_ids": [
+                "schedule"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpfe2c152_/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "missing_admitted_order",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/missing_admitted_order.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"missing_admitted_order\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.order\", \"value\": \"soodles-131-b1124c1e3184\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmpfe2c152_/project\", \"blocking_order_ids\": [\"schedule\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpfe2c152_/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "stopped_loop",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "stopped_loop",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.start",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmp7un6te11/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-6f938640bf54"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmp7un6te11/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "stopped_loop",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/stopped_loop.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"stopped_loop\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.start\", \"value\": \"mismatch\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmp7un6te11/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-6f938640bf54\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmp7un6te11/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    },
+    {
+      "case": "foreign_spawn",
+      "passed": true,
+      "expected": "refused",
+      "raw": {
+        "case": "foreign_spawn",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.spawn",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/tmp/tmpyn40nu2m/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-09cc88141bd0"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom",
+              "run",
+              "/private/tmp/tmpyn40nu2m/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      },
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+        "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute",
+        "foreign_spawn",
+        "/private/tmp/owner-wait-oracle-zcvj8qcg/foreign_spawn.json"
+      ],
+      "exit": 1,
+      "stdout": "{\"case\": \"foreign_spawn\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.wait.spawn\", \"value\": \"mismatch\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_noodle_owner_readback\"], \"known\": {\"control_root\": \"/private/tmp/tmpyn40nu2m/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-09cc88141bd0\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/.worktrees/soodles-185-aa89b37b557a-0-execute/issue-atom\", \"run\", \"/private/tmp/tmpyn40nu2m/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "Existing drive/run entry with external frozen disposable fixtures; process reads are mocked, no live provider or Noodle claim.",
+  "authorizes_landing": false
+}
