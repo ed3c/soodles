@@ -73,6 +73,36 @@ class LocalContinuationTests(unittest.TestCase):
         self.assertIs(caught.exception, error)
         run.assert_called_once()
 
+    def test_own_wait_refreshes_identity_before_legal_continuation(self):
+        from test_issue_atom import IssueAtomTests
+        fixture = IssueAtomTests(); fixture.setUp(); self.addCleanup(fixture.doCleanups)
+        paths, state, snapshot = fixture.own_wait_fixture(running=True)
+        def become_idle(_):
+            snapshot["state"]["orders"]["schedule"]["stages"][0].update(status="pending", attempts=None)
+            atom.save_json(fixture.root / ".noodle/state.snapshot.json", snapshot)
+        # Reaching the existing credential gate proves normal continuation resumed.
+        with fixture.own_wait_processes(), patch.object(atom.provider_credential,
+                "resolve_host_environment", side_effect=RuntimeError("normal credential gate")) as gate:
+            with self.assertRaisesRegex(RuntimeError, "normal credential gate"):
+                atom.drive(fixture.path, interval=0, sleep=become_idle, environ=fixture.env)
+        gate.assert_called_once()
+
+    def test_own_wait_identity_drift_refuses_without_retry(self):
+        from test_issue_atom import IssueAtomTests
+        fixture = IssueAtomTests(); fixture.setUp(); self.addCleanup(fixture.doCleanups)
+        paths, state, snapshot = fixture.own_wait_fixture()
+        def drift(_):
+            snapshot["state"]["orders"]["foreign"] = {
+                "stages": [{"status": "running", "attempts": []}]}
+            atom.save_json(fixture.root / ".noodle/state.snapshot.json", snapshot)
+        sleeper = Mock(side_effect=drift)
+        with fixture.own_wait_processes(), patch.object(atom.provider_credential, "supply_token") as supplier:
+            with self.assertRaisesRegex(atom.AtomRefusal, "foreign_nonterminal"):
+                atom.drive(fixture.path, interval=0, sleep=sleeper, environ=fixture.env)
+        sleeper.assert_called_once()
+        supplier.assert_not_called()
+        self.assertEqual(atom.read_json(paths["state"], "state"), state)
+
     def test_native_receipt_is_the_prepublication_boundary(self):
         receipt = {"scope": "native publication readiness", "authorizes_landing": False}
         with patch.object(atom.candidate_publication, "native_readiness", return_value=receipt) as native, \

@@ -60,6 +60,17 @@ destination. Deterministic readiness is not behavior improvement evidence.
 
 ## Drive and observe
 
+For the existing local `issue-atom run` entry, a proven own active scheduler with
+an exact pending/running admitted execute stage returns read-only
+`execution.action=own_start_wait`, `waiting_on=Noodle` and the same `next.argv`.
+Its existing bounded foreground drive refreshes identity each observation;
+at its deadline, retain `wait_exhausted` and wait for material owner change.
+It does not reach credentials, provider/start/claim or checkpoint writes.
+An idle scheduler resumes the normal gates; identity drift or missing metadata
+refuses immediately. Do not reinterpret a refusal as waiting or repair another
+owner. The loop/lock/config/session evidence supports this bounded wait only,
+not generation-proof process identity or delivery authority.
+
 - The installed schedule Skill calls the supervisor-provided launcher with
   `automatic`. Preserve its actual tool trace and normalized binding. Noodle
   consumes the conditional first-admission proposal; a fixture promotion is not

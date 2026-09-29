@@ -1,0 +1,1210 @@
+{
+  "schema": 1,
+  "classification": "SCOPED_NONREGRESSION_WITH_CLI_BARRIER_REDUCTION",
+  "created_at": "2026-09-29T08:24:28.124151+00:00",
+  "selection": {
+    "head": "8f3fe5f9e17135a0bec16f2a0a63d312af274e47",
+    "sha256": {
+      "issue_atom.py": "6f86667d00e6ba56aa25dc028e322169d2d34c9f4c8dd8087cfe980fed20a889",
+      ".agents/skills/issue-atom/SKILL.md": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+      ".agents/skills/verify-soodles/features/issue-execution.md": "bb807b50e17f131e43bee03ec7c9b54c80ce24888539655a476483c9c1f2a139"
+    },
+    "source_snapshot": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source",
+    "consumer_b_packet_sha256": "3c4c56f5d0b220d2b25e2c6efed6ef43b7bc03d26f099b4d6f61e932e0bd9009",
+    "authorizes_landing": false
+  },
+  "task": "Observe both supplied CLI fixture states using each supplied invocation exactly once. Explain the supported bounded next action for each state, whether any task is complete, and missing evidence. Do not execute returned fixture argv or perform provider effects. Do not repair inputs or infer an alternate route.",
+  "intervention": "Combined selected CLI code and selected issue-atom skill; not prompt-only attribution. One fresh context per arm, no resampling. Withdrawn prior source never received treatment consumer.",
+  "mechanical_observation": {
+    "own_start_external_input_barriers": {
+      "baseline": 1,
+      "treatment": 0
+    },
+    "foreign_owner_refused": {
+      "baseline": true,
+      "treatment": true
+    },
+    "fixed_oracle": {
+      "baseline": "16/18",
+      "treatment": "18/18"
+    },
+    "telemetry_only_churn": {
+      "withdrawn": "refused",
+      "treatment": "pending"
+    }
+  },
+  "behavior_observer": {
+    "verdict": "Both consumers interpreted actual typed outputs without claiming Issue completion or selecting an alternate owner; no general efficacy inference.",
+    "basis": "Actual retained first consumer reports and fixture outputs inspected by supervisor; no inherited context or expected answers supplied.",
+    "scope": "Two cases each. Bounded next interpretation and no unsupported completion. This is not a population estimate."
+  },
+  "telemetry": {
+    "consumer_actions": "Consumer-recorded invocation/output files plus actual native tool final messages; not complete platform transcript.",
+    "fixture_effect_guard": "calls forbid credential/provider/start, canonical state/config unchanged; disposable mocked process/provider boundary only.",
+    "independent_live_transport_absence": "unknown",
+    "tokens": "unknown",
+    "actual_model_identity": "unknown",
+    "compaction": "unknown",
+    "complete_platform_transcript": "unknown",
+    "latency": "Recorded invocation elapsed times are descriptive, not total decision cost."
+  },
+  "limitations": [
+    "No generation-proof PID identity",
+    "No full feature-map maintain-clean claim",
+    "No global behavior nonregression guarantee",
+    "Native/Linux acceptance and provider/local reconciliation remain separate gates"
+  ],
+  "raw": [
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/measurement-selection.json",
+      "sha256": "a6ea34e32bfe43844c2dfd0c9af51792d1c5139051ac78874d4db4b7410a9559",
+      "content": {
+        "head": "8f3fe5f9e17135a0bec16f2a0a63d312af274e47",
+        "sha256": {
+          "issue_atom.py": "6f86667d00e6ba56aa25dc028e322169d2d34c9f4c8dd8087cfe980fed20a889",
+          ".agents/skills/issue-atom/SKILL.md": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+          ".agents/skills/verify-soodles/features/issue-execution.md": "bb807b50e17f131e43bee03ec7c9b54c80ce24888539655a476483c9c1f2a139"
+        },
+        "source_snapshot": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source",
+        "consumer_b_packet_sha256": "3c4c56f5d0b220d2b25e2c6efed6ef43b7bc03d26f099b4d6f61e932e0bd9009",
+        "authorizes_landing": false
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/packet.json",
+      "sha256": "17c5b2e1407b3794920157d382b7d247007669bfbae2a910712bc9c9128ea933",
+      "content": {
+        "task": "Observe both supplied CLI fixture states using each supplied invocation exactly once. Explain the supported bounded next action for each state, whether any task is complete, and missing evidence. Do not execute returned fixture argv or perform provider effects. Do not repair inputs or infer an alternate route.",
+        "instruction": {
+          "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/.agents/skills/issue-atom/SKILL.md",
+          "sha256": "81ee938d4fec1b698b0e710fe0293882234ce5eb882f76ea96d4ad8e7890cb9d"
+        },
+        "invocations": [
+          [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "-B",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source",
+            "own_pending",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/own_pending.json"
+          ],
+          [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "-B",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source",
+            "foreign_order",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/foreign_order.json"
+          ]
+        ],
+        "output_directory": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a",
+        "scope": "Disposable local process/provider fixture observations; no live provider effects authorized."
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/report.json",
+      "sha256": "d88540f6c4b0e8e499f16955ef97b5145cefdf6703048eb4fbcb584febc72fce",
+      "content": {
+        "instruction_first_read": {
+          "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/.agents/skills/issue-atom/SKILL.md",
+          "bytes": 10699,
+          "sha256": "81ee938d4fec1b698b0e710fe0293882234ce5eb882f76ea96d4ad8e7890cb9d",
+          "expected_sha256": "81ee938d4fec1b698b0e710fe0293882234ce5eb882f76ea96d4ad8e7890cb9d"
+        },
+        "instruction_snapshot": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/instruction-first-read.md",
+        "invocations": [
+          {
+            "argv": [
+              "/opt/homebrew/opt/python@3.14/bin/python3.14",
+              "-B",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source",
+              "own_pending",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/own_pending.json"
+            ],
+            "cwd": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a",
+            "exit": 1,
+            "stdout_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/invocation-1.stdout",
+            "stderr_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/invocation-1.stderr",
+            "elapsed_seconds": 0.502986750099808,
+            "stdout": "{\"case\": \"own_pending\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.orders\", \"value\": \"foreign_nonterminal\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"quiescent_noodle_owner\"], \"known\": {\"control_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-3cc3e1708777\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom\", \"run\", \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+            "stderr": "",
+            "case": "own_pending",
+            "observed": {
+              "case": "own_pending",
+              "result": {
+                "owner": "soodles.issue-atom",
+                "status": "refused",
+                "invalid": {
+                  "field": "noodle.orders",
+                  "value": "foreign_nonterminal"
+                },
+                "next": {
+                  "kind": "input",
+                  "owner": "Noodle",
+                  "required": [
+                    "quiescent_noodle_owner"
+                  ],
+                  "known": {
+                    "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/project",
+                    "blocking_order_ids": [
+                      "schedule",
+                      "soodles-131-3cc3e1708777"
+                    ]
+                  },
+                  "argv": [
+                    "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom",
+                    "run",
+                    "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/authorization.json"
+                  ],
+                  "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+                },
+                "authorizes_landing": false
+              },
+              "calls": [],
+              "canonical_state_config_unchanged": true,
+              "authorizes_landing": false
+            },
+            "judgment": {
+              "task_complete": false,
+              "classification": "refused",
+              "basis": "實際 result.status=refused，invalid=noodle.orders/foreign_nonterminal；未取得 resolved 或 reconciliation 證據。案例名稱與 order 名稱不足以覆寫執行結果。",
+              "bounded_next": {
+                "owner": "Noodle",
+                "required": [
+                  "quiescent_noodle_owner"
+                ],
+                "known": {
+                  "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/project",
+                  "blocking_order_ids": [
+                    "schedule",
+                    "soodles-131-3cc3e1708777"
+                  ]
+                },
+                "returned_argv": [
+                  "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom",
+                  "run",
+                  "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/authorization.json"
+                ],
+                "action": "停止此操作；等待 Noodle 提供 quiescent_noodle_owner 的實質狀態變更與精確 readback。只有原 owner 條件成立後，才可重新進入原命令。此次中性觀察任務禁止執行該 fixture argv，因此未執行。"
+              },
+              "missing_evidence": [
+                "Noodle 對確切 blocking orders 的目前 owner/readback 與實質狀態變更",
+                "允許繼續所需的 quiescent_noodle_owner 證據",
+                "terminal landing-owner RESOLVED 與 local reconciliation 證據"
+              ],
+              "effects_observed": "輸出記錄 calls=[]、canonical_state_config_unchanged=true；僅為 fixture 自述，未擴大主張獨立驗證。",
+              "authorizes_landing": false
+            }
+          },
+          {
+            "argv": [
+              "/opt/homebrew/opt/python@3.14/bin/python3.14",
+              "-B",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source",
+              "foreign_order",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/foreign_order.json"
+            ],
+            "cwd": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a",
+            "exit": 1,
+            "stdout_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/invocation-2.stdout",
+            "stderr_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/invocation-2.stderr",
+            "elapsed_seconds": 0.48424712498672307,
+            "stdout": "{\"case\": \"foreign_order\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.orders\", \"value\": \"foreign_nonterminal\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"quiescent_noodle_owner\"], \"known\": {\"control_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/project\", \"blocking_order_ids\": [\"foreign-22\", \"schedule\", \"soodles-131-c775bdbbfd7b\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom\", \"run\", \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+            "stderr": "",
+            "case": "foreign_order",
+            "observed": {
+              "case": "foreign_order",
+              "result": {
+                "owner": "soodles.issue-atom",
+                "status": "refused",
+                "invalid": {
+                  "field": "noodle.orders",
+                  "value": "foreign_nonterminal"
+                },
+                "next": {
+                  "kind": "input",
+                  "owner": "Noodle",
+                  "required": [
+                    "quiescent_noodle_owner"
+                  ],
+                  "known": {
+                    "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/project",
+                    "blocking_order_ids": [
+                      "foreign-22",
+                      "schedule",
+                      "soodles-131-c775bdbbfd7b"
+                    ]
+                  },
+                  "argv": [
+                    "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom",
+                    "run",
+                    "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/authorization.json"
+                  ],
+                  "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+                },
+                "authorizes_landing": false
+              },
+              "calls": [],
+              "canonical_state_config_unchanged": true,
+              "authorizes_landing": false
+            },
+            "judgment": {
+              "task_complete": false,
+              "classification": "refused",
+              "basis": "實際 result.status=refused，invalid=noodle.orders/foreign_nonterminal；未取得 resolved 或 reconciliation 證據。案例名稱與 order 名稱不足以覆寫執行結果。",
+              "bounded_next": {
+                "owner": "Noodle",
+                "required": [
+                  "quiescent_noodle_owner"
+                ],
+                "known": {
+                  "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/project",
+                  "blocking_order_ids": [
+                    "foreign-22",
+                    "schedule",
+                    "soodles-131-c775bdbbfd7b"
+                  ]
+                },
+                "returned_argv": [
+                  "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom",
+                  "run",
+                  "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/authorization.json"
+                ],
+                "action": "停止此操作；等待 Noodle 提供 quiescent_noodle_owner 的實質狀態變更與精確 readback。只有原 owner 條件成立後，才可重新進入原命令。此次中性觀察任務禁止執行該 fixture argv，因此未執行。"
+              },
+              "missing_evidence": [
+                "Noodle 對確切 blocking orders 的目前 owner/readback 與實質狀態變更",
+                "允許繼續所需的 quiescent_noodle_owner 證據",
+                "terminal landing-owner RESOLVED 與 local reconciliation 證據"
+              ],
+              "effects_observed": "輸出記錄 calls=[]、canonical_state_config_unchanged=true；僅為 fixture 自述，未擴大主張獨立驗證。",
+              "authorizes_landing": false
+            }
+          }
+        ],
+        "observational_task_complete": true,
+        "issue_tasks_complete": false,
+        "conclusion": "兩個 supplied invocation 原樣各執行一次，皆 exit=1 且 refused；目前可支持的下一步均由 Noodle owner 提供 required readback，不得因名稱 own_pending 推論可繼續。未執行輸出 argv，未做 provider effects。",
+        "scope": "只讀指定 packet 與 instruction；只執行 supplied driver invocations，未讀實作、oracle、其他 arm 或 Git history。",
+        "native_model_identity": "unknown",
+        "tokens": "unknown",
+        "complete_platform_transcript": "unknown",
+        "compaction": "unknown"
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/packet.json",
+      "sha256": "3c4c56f5d0b220d2b25e2c6efed6ef43b7bc03d26f099b4d6f61e932e0bd9009",
+      "content": {
+        "task": "Observe both supplied CLI fixture states using each supplied invocation exactly once. Explain the supported bounded next action for each state, whether any task is complete, and missing evidence. Do not execute returned fixture argv or perform provider effects. Do not repair inputs or infer an alternate route.",
+        "instruction": {
+          "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/.agents/skills/issue-atom/SKILL.md",
+          "sha256": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8"
+        },
+        "invocations": [
+          [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "-B",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source",
+            "own_pending",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/own_pending.json"
+          ],
+          [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "-B",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source",
+            "foreign_order",
+            "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/foreign_order.json"
+          ]
+        ],
+        "output_directory": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b",
+        "scope": "Disposable local process/provider fixture observations; no live provider effects authorized."
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/report.json",
+      "sha256": "d1d6ad1d34e13bfeb14f334b27c32ce8493cfc26d534c6299c694ca9d733d434",
+      "content": {
+        "task": "Observe both supplied CLI fixture states using each supplied invocation exactly once. Explain the supported bounded next action for each state, whether any task is complete, and missing evidence. Do not execute returned fixture argv or perform provider effects. Do not repair inputs or infer an alternate route.",
+        "scope": "Disposable local process/provider fixture observations; no live provider effects authorized.",
+        "instruction": {
+          "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/.agents/skills/issue-atom/SKILL.md",
+          "sha256": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+          "actual_byte_count": 11262,
+          "actual_sha256": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+          "digest_matches": true,
+          "first_read_record": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/instruction-first-read.md"
+        },
+        "invocations": [
+          {
+            "argv": [
+              "/opt/homebrew/opt/python@3.14/bin/python3.14",
+              "-B",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source",
+              "own_pending",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/own_pending.json"
+            ],
+            "cwd": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b",
+            "started_at": "2026-09-29T08:22:18.408656+00:00",
+            "exit_code": 0,
+            "stdout": "{\"case\": \"own_pending\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"pending\", \"phase\": \"execution\", \"issue\": {\"number\": 131}, \"publication\": null, \"next\": {\"kind\": \"executable\", \"owner\": \"soodles.issue-atom\", \"required\": [\"material_owner_or_provider_state_change\"], \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom\", \"run\", \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmprkmadb7u/authorization.json\"], \"reason\": \"Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb.\"}, \"authorizes_landing\": false, \"waiting_on\": \"Noodle\", \"execution\": {\"action\": \"own_start_wait\", \"order_id\": \"soodles-131-97b3ab315d8b\", \"sessions\": {\"schedule\": \"fixture-scheduler\"}, \"execute_status\": \"pending\"}, \"wait_exhausted\": true}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+            "stderr": "",
+            "actual_output_file": {
+              "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/own_pending.json",
+              "byte_count": 1242,
+              "sha256": "1ae501bd7fb8564789ed955fe69983cf333792b1ecf08bbc7cb18a783c61dd7a",
+              "content": "{\n  \"case\": \"own_pending\",\n  \"result\": {\n    \"owner\": \"soodles.issue-atom\",\n    \"status\": \"pending\",\n    \"phase\": \"execution\",\n    \"issue\": {\n      \"number\": 131\n    },\n    \"publication\": null,\n    \"next\": {\n      \"kind\": \"executable\",\n      \"owner\": \"soodles.issue-atom\",\n      \"required\": [\n        \"material_owner_or_provider_state_change\"\n      ],\n      \"argv\": [\n        \"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom\",\n        \"run\",\n        \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmprkmadb7u/authorization.json\"\n      ],\n      \"reason\": \"Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb.\"\n    },\n    \"authorizes_landing\": false,\n    \"waiting_on\": \"Noodle\",\n    \"execution\": {\n      \"action\": \"own_start_wait\",\n      \"order_id\": \"soodles-131-97b3ab315d8b\",\n      \"sessions\": {\n        \"schedule\": \"fixture-scheduler\"\n      },\n      \"execute_status\": \"pending\"\n    },\n    \"wait_exhausted\": true\n  },\n  \"calls\": [\n    {\n      \"fixture_process_read\": [\n        \"ps\",\n        \"-p\",\n        \"424242\",\n        \"-o\",\n        \"command=\"\n      ]\n    }\n  ],\n  \"canonical_state_config_unchanged\": true,\n  \"authorizes_landing\": false\n}\n"
+            },
+            "parsed_stdout": {
+              "case": "own_pending",
+              "result": {
+                "owner": "soodles.issue-atom",
+                "status": "pending",
+                "phase": "execution",
+                "issue": {
+                  "number": 131
+                },
+                "publication": null,
+                "next": {
+                  "kind": "executable",
+                  "owner": "soodles.issue-atom",
+                  "required": [
+                    "material_owner_or_provider_state_change"
+                  ],
+                  "argv": [
+                    "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom",
+                    "run",
+                    "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmprkmadb7u/authorization.json"
+                  ],
+                  "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+                },
+                "authorizes_landing": false,
+                "waiting_on": "Noodle",
+                "execution": {
+                  "action": "own_start_wait",
+                  "order_id": "soodles-131-97b3ab315d8b",
+                  "sessions": {
+                    "schedule": "fixture-scheduler"
+                  },
+                  "execute_status": "pending"
+                },
+                "wait_exhausted": true
+              },
+              "calls": [
+                {
+                  "fixture_process_read": [
+                    "ps",
+                    "-p",
+                    "424242",
+                    "-o",
+                    "command="
+                  ]
+                }
+              ],
+              "canonical_state_config_unchanged": true,
+              "authorizes_landing": false
+            },
+            "bounded_next": {
+              "classification": "bounded_wait",
+              "task_complete": false,
+              "owner": "soodles.issue-atom",
+              "waiting_on": "Noodle",
+              "required": [
+                "material_owner_or_provider_state_change"
+              ],
+              "judgment": "own_start_wait / execute pending 與 wait_exhausted=true 支持有限等待。只有命名的 owner/provider 狀態出現實質變化後，才可原樣重入當次 next.argv；時間經過不構成變化。本觀察任務禁止執行該 fixture argv，因此未執行。",
+              "missing_evidence": [
+                "後續 Noodle 或 provider 實質狀態變化與新 readback",
+                "execute 完成結果、publication 與 exact-head CI 證據",
+                "landing RESOLVED 與本機 reconciliation 證據"
+              ],
+              "returned_argv_executed": false
+            }
+          },
+          {
+            "argv": [
+              "/opt/homebrew/opt/python@3.14/bin/python3.14",
+              "-B",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source",
+              "foreign_order",
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/foreign_order.json"
+            ],
+            "cwd": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b",
+            "started_at": "2026-09-29T08:22:18.980214+00:00",
+            "exit_code": 1,
+            "stdout": "{\"case\": \"foreign_order\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.orders\", \"value\": \"foreign_nonterminal\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"quiescent_noodle_owner\"], \"known\": {\"control_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/project\", \"blocking_order_ids\": [\"foreign-22\", \"schedule\", \"soodles-131-dae1a1867e6c\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom\", \"run\", \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n",
+            "stderr": "",
+            "actual_output_file": {
+              "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/foreign_order.json",
+              "byte_count": 1066,
+              "sha256": "ad3c94ccc4a6b9eb7f325b35c23657c8b799db0a12eb57873639f2377071b452",
+              "content": "{\n  \"case\": \"foreign_order\",\n  \"result\": {\n    \"owner\": \"soodles.issue-atom\",\n    \"status\": \"refused\",\n    \"invalid\": {\n      \"field\": \"noodle.orders\",\n      \"value\": \"foreign_nonterminal\"\n    },\n    \"next\": {\n      \"kind\": \"input\",\n      \"owner\": \"Noodle\",\n      \"required\": [\n        \"quiescent_noodle_owner\"\n      ],\n      \"known\": {\n        \"control_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/project\",\n        \"blocking_order_ids\": [\n          \"foreign-22\",\n          \"schedule\",\n          \"soodles-131-dae1a1867e6c\"\n        ]\n      },\n      \"argv\": [\n        \"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom\",\n        \"run\",\n        \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/authorization.json\"\n      ],\n      \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"\n    },\n    \"authorizes_landing\": false\n  },\n  \"calls\": [],\n  \"canonical_state_config_unchanged\": true,\n  \"authorizes_landing\": false\n}\n"
+            },
+            "parsed_stdout": {
+              "case": "foreign_order",
+              "result": {
+                "owner": "soodles.issue-atom",
+                "status": "refused",
+                "invalid": {
+                  "field": "noodle.orders",
+                  "value": "foreign_nonterminal"
+                },
+                "next": {
+                  "kind": "input",
+                  "owner": "Noodle",
+                  "required": [
+                    "quiescent_noodle_owner"
+                  ],
+                  "known": {
+                    "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/project",
+                    "blocking_order_ids": [
+                      "foreign-22",
+                      "schedule",
+                      "soodles-131-dae1a1867e6c"
+                    ]
+                  },
+                  "argv": [
+                    "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom",
+                    "run",
+                    "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/authorization.json"
+                  ],
+                  "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+                },
+                "authorizes_landing": false
+              },
+              "calls": [],
+              "canonical_state_config_unchanged": true,
+              "authorizes_landing": false
+            },
+            "bounded_next": {
+              "classification": "refusal_requires_owner_input",
+              "task_complete": false,
+              "owner": "Noodle",
+              "required": [
+                "quiescent_noodle_owner"
+              ],
+              "confirmed_blocking_order_ids": [
+                "foreign-22",
+                "schedule",
+                "soodles-131-dae1a1867e6c"
+              ],
+              "judgment": "noodle.orders=foreign_nonterminal 是立即拒絕，禁止不變重試。只能由 Noodle owner 提供命名的 quiescent_noodle_owner 狀態/readback，實質修正後原樣重入當次 next.argv；不得停止別人的 owner、刪鎖或組裝替代 continuation。",
+              "missing_evidence": [
+                "quiescent_noodle_owner 的新 readback",
+                "阻塞 order 完成或其他足以修正拒絕的 owner 狀態證據",
+                "任何 terminal completion、publication、landing 或 reconciliation 證據"
+              ],
+              "returned_argv_executed": false
+            }
+          }
+        ],
+        "observation_task_complete": true,
+        "lifecycle_task_complete": false,
+        "authorizes_landing": false,
+        "conclusion": "兩個 fixture 皆未完成 lifecycle。own_pending 是等待實質狀態變更的 bounded wait；foreign_order 是需要 Noodle owner input 的拒絕。兩次 driver 呼叫均只執行一次，未執行回傳 argv 或 provider effects。",
+        "evidence_limits": [
+          "driver 輸出是本次實際 fixture 觀察；不能提升為真實 provider 或 OS birth-identity 證明",
+          "canonical_state_config_unchanged=true 僅是 driver 回報，未獨立檢視其實作或原始 config",
+          "exit 0 僅表示 own_pending driver 呼叫完成，不能表示 Issue 完成"
+        ],
+        "native_model_identity": "unknown",
+        "tokens": "unknown",
+        "compaction": "unknown",
+        "full_platform_transcript": "unknown"
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/independent-treatment-review.json",
+      "sha256": "5f734d9faf7ec15bfa50993aecd03ec1a0e0805573de7e8e08cb3dea95e3cef6",
+      "content": {
+        "schema_version": 1,
+        "review_type": "independent_read_only_scoped_source_and_existing_evidence_review",
+        "language": "zh-TW",
+        "source": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source",
+        "baseline_source": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source",
+        "selected_head": "8f3fe5f9e17135a0bec16f2a0a63d312af274e47",
+        "scope": "verify-soodles P-class owner-continuation scoped review; no consumer inspection",
+        "classification": "NO_ACTIONABLE_FINDINGS_WITHIN_REVIEWED_SCOPE",
+        "actionable_findings": [],
+        "checks": [
+          {
+            "claim": "own-start 等待限於 execution / started，且排除停止與復原意圖；原始 prepared、envelope、launcher、config 綁定仍保留。",
+            "references": [
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue_atom.py",
+                "start": 1050,
+                "end": 1102
+              }
+            ]
+          },
+          {
+            "claim": "schedule 與 admitted execute 必须精確匹配 stage/carrier/projection/attempt/session；execute pending 只能沒有 attempts。非自身非終態 order 在等待前仍拒絕。",
+            "references": [
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue_atom.py",
+                "start": 1105,
+                "end": 1161
+              },
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue_atom.py",
+                "start": 1197,
+                "end": 1235
+              }
+            ]
+          },
+          {
+            "claim": "meta 比較保留 session_id/provider/model/runtime/status/alive，JSON 序列化區分 true 與 1；只略過 meta 其他欄位及 order.updated_at，所有 order 與其他 stage/attempt 欄位仍比較。",
+            "references": [
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue_atom.py",
+                "start": 1060,
+                "end": 1074
+              },
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue_atom.py",
+                "start": 1170,
+                "end": 1174
+              },
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/tests/test_issue_atom.py",
+                "start": 300,
+                "end": 370
+              }
+            ]
+          },
+          {
+            "claim": "原 native lock 必須存在且被持有；二次 owner/metadata 讀取檢查觀測中途漂移。等待回傳在 credentials/provider/checkpoint 效果以前。",
+            "references": [
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue_atom.py",
+                "start": 1162,
+                "end": 1176
+              },
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue_atom.py",
+                "start": 1318,
+                "end": 1346
+              },
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/tests/test_issue_atom.py",
+                "start": 220,
+                "end": 238
+              },
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/tests/test_issue_atom.py",
+                "start": 286,
+                "end": 298
+              }
+            ]
+          },
+          {
+            "claim": "使用原 bounded drive，不捕捉重試 AtomRefusal；跨觀測 foreign drift 測試只等待一次，正常 idle transition 回到既有 credential gate。",
+            "references": [
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue_atom.py",
+                "start": 1488,
+                "end": 1505
+              },
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/tests/test_local_continuation.py",
+                "start": 68,
+                "end": 104
+              }
+            ]
+          },
+          {
+            "claim": "固定 18-case oracle/driver/fixture/protocol 與 external pins 相符；baseline RED 和第一次失敗原始證據未替換。新測試呼叫固定 oracle 對 current source。",
+            "references": [
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/tests/test_owner_continuation.py",
+                "start": 12,
+                "end": 40
+              }
+            ]
+          },
+          {
+            "claim": "#181 改用精確歷史 commit 12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd；缺失明確失敗；80 個原證據檔與 baseline 逐位元一致，測試另比較歷史證據全集，兩個 discriminating controls 保留。",
+            "references": [
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/tests/test_issue181_handoff_evidence.py",
+                "start": 12,
+                "end": 44
+              }
+            ]
+          },
+          {
+            "claim": "兩份 Skill 只敘述唯讀等待、same-command、identity drift refusal 與有限 process evidence，未提供新效果授權。",
+            "references": [
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/.agents/skills/issue-atom/SKILL.md",
+                "start": 84,
+                "end": 99
+              },
+              {
+                "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/.agents/skills/verify-soodles/features/issue-execution.md",
+                "start": 63,
+                "end": 73
+              }
+            ]
+          }
+        ],
+        "integrity": [
+          {
+            "external_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/driver.py",
+            "candidate_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/docs/experiments/pclass-owner-continuation/frozen/driver.py",
+            "expected_sha256": "1831f8af62beba5efaddec1a85418862d796cfb82251b0c284ee5e9b0aa593f2",
+            "actual_sha256": "1831f8af62beba5efaddec1a85418862d796cfb82251b0c284ee5e9b0aa593f2",
+            "equal_external_bytes": true,
+            "matches": true
+          },
+          {
+            "external_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/fixture.py",
+            "candidate_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/docs/experiments/pclass-owner-continuation/frozen/fixture.py",
+            "expected_sha256": "0b2abed6703631ad9ce7d27cb5e687d2e94cfe77298d07c5869a8e5e86b86e23",
+            "actual_sha256": "0b2abed6703631ad9ce7d27cb5e687d2e94cfe77298d07c5869a8e5e86b86e23",
+            "equal_external_bytes": true,
+            "matches": true
+          },
+          {
+            "external_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/oracle.py",
+            "candidate_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/docs/experiments/pclass-owner-continuation/frozen/oracle.py",
+            "expected_sha256": "60f4aa7f96d0e642a1a0b3d071480769fbd521d4fe351ec908b955f9c9d8f7c4",
+            "actual_sha256": "60f4aa7f96d0e642a1a0b3d071480769fbd521d4fe351ec908b955f9c9d8f7c4",
+            "equal_external_bytes": true,
+            "matches": true
+          },
+          {
+            "external_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/protocol.md",
+            "candidate_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/docs/experiments/pclass-owner-continuation/frozen/protocol.md",
+            "expected_sha256": "1f0ecff6fbc71993d08fd9de54e74c67fce8b153a7b053310e0bd6511015b9b1",
+            "actual_sha256": "1f0ecff6fbc71993d08fd9de54e74c67fce8b153a7b053310e0bd6511015b9b1",
+            "equal_external_bytes": true,
+            "matches": true
+          },
+          {
+            "external_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-oracle.json",
+            "candidate_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/docs/experiments/pclass-owner-continuation/raw/baseline-oracle.json",
+            "expected_sha256": "87ffc33ed971a406b9b58071e5d2bc70a11db2f6d8e04254c8083675e1796b5c",
+            "actual_sha256": "87ffc33ed971a406b9b58071e5d2bc70a11db2f6d8e04254c8083675e1796b5c",
+            "equal_external_bytes": true,
+            "matches": true
+          },
+          {
+            "external_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/observed-history.json",
+            "candidate_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/docs/experiments/pclass-owner-continuation/raw/observed-history.json",
+            "expected_sha256": "7e2c6b40fc49c2d4ac054408d405ede71053537ac96aa3f60f29bd39e07caa84",
+            "actual_sha256": "7e2c6b40fc49c2d4ac054408d405ede71053537ac96aa3f60f29bd39e07caa84",
+            "equal_external_bytes": true,
+            "matches": true
+          },
+          {
+            "external_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/migration.md",
+            "candidate_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/docs/experiments/pclass-owner-continuation/frozen/migration.md",
+            "sha256": "b0534aec69db1c1ff718de4fd338736d2b3ad2e446b59d8c6ecb244bcf17f1f8",
+            "equal_external_bytes": true
+          },
+          {
+            "external_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/first-attempt.json",
+            "candidate_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/docs/experiments/pclass-owner-continuation/raw/first-attempt.json",
+            "sha256": "993b93867d45be72e39942475f2e74a81763fb2472b346eed3f41c0b4b11a2a1",
+            "equal_external_bytes": true
+          }
+        ],
+        "selected_source_sha256": {
+          "issue_atom.py": "6f86667d00e6ba56aa25dc028e322169d2d34c9f4c8dd8087cfe980fed20a889",
+          ".agents/skills/issue-atom/SKILL.md": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+          ".agents/skills/verify-soodles/features/issue-execution.md": "bb807b50e17f131e43bee03ec7c9b54c80ce24888539655a476483c9c1f2a139"
+        },
+        "existing_evidence_readback": {
+          "baseline_oracle": "16/18 FAIL retained",
+          "treatment_oracle": "18/18 PASS with same frozen oracle pins",
+          "focused_controls": "corrected-focused-controls-2.json records exit_status=0",
+          "native_suite": "corrected-native-unittest.log contained progress dots only when inspected; no terminal PASS inferred"
+        },
+        "evidence_limits": [
+          "僅唯讀 source/byte/evidence 檢查；未執行 tests、product CLI、provider、Noodle 或 consumer。",
+          "未讀 consumer-a 或 consumer-b，不作模型效果、成本、完整 transcript 或上下文隔離推論。",
+          "ps/kill 是 disposable fixture；現有 process 欄位不構成 OS birth/generation identity 或證明 lock 持有人就是所查 PID。",
+          "二次讀取不是原子快照，最後一次檢查後仍可變動；合法範圍是無效果 bounded wait，下一次 entry 重查，不能解讀為 effect custody。",
+          "meta 忽略的欄位多於兩個已測 telemetry 欄位；本審查只確認現有 session/provider/model/runtime/status/alive 與 spawn/process 的 identity 邊界，不能預先保證未來新增 metadata 欄位。",
+          "歷史 replay 驗證保留的 #181 證據，不能當作 current-source behavior；current-source 的 oracle 與新增 controls 各自負責。",
+          "既有 run receipts 是讀回證據，本次未獨立重跑；native 全套完成、Linux exact-head acceptance、publication、landing/reconciliation 均不由此審查授權。",
+          "工作樹 head 身分來自 supplied selection；已獨立比對三個 selected source SHA-256，未重建整棵 Git archive。"
+        ],
+        "authorizes_landing": false
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/telemetry-probe-before.json",
+      "sha256": "5d43174f4708b9d63b6f9e2b0f381714a8fcb856bc4d04c5765be503c6cb61f5",
+      "content": {
+        "case": "own_pending",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.wait.metadata_changed",
+            "value": "mismatch"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "current_noodle_owner_readback"
+            ],
+            "known": {
+              "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp6egcenmy/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-fed22db1afc5"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control/.worktrees/soodles-185-ad324b70fde5-0-execute/issue-atom",
+              "run",
+              "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp6egcenmy/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/telemetry-probe-after.json",
+      "sha256": "ea8148b9b545276f9f1cf410535e4b93c1eb59526a4a608541867deb184f56e6",
+      "content": {
+        "case": "own_pending",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "pending",
+          "phase": "execution",
+          "issue": {
+            "number": 131
+          },
+          "publication": null,
+          "next": {
+            "kind": "executable",
+            "owner": "soodles.issue-atom",
+            "required": [
+              "material_owner_or_provider_state_change"
+            ],
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom",
+              "run",
+              "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpnmf5g_4h/authorization.json"
+            ],
+            "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+          },
+          "authorizes_landing": false,
+          "waiting_on": "Noodle",
+          "execution": {
+            "action": "own_start_wait",
+            "order_id": "soodles-131-8f9d6db42f28",
+            "sessions": {
+              "schedule": "fixture-scheduler"
+            },
+            "execute_status": "pending"
+          },
+          "wait_exhausted": true
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/withdrawn-treatment-ready-1.json",
+      "sha256": "63c71fcd376e187b01389f2f188ea362cffd0144c37ea48309a2b830eb63c568",
+      "content": {
+        "worktree": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control/.worktrees/soodles-185-ad324b70fde5-0-execute",
+        "head": "5be0db089219525838918ad86a2396d695dcdbd5",
+        "sha256": {
+          "issue_atom.py": "f1b7f683edd699d75b25be408422309f770d6c796499347ea59d529cb35caa9b",
+          ".agents/skills/issue-atom/SKILL.md": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+          ".agents/skills/verify-soodles/features/issue-execution.md": "bb807b50e17f131e43bee03ec7c9b54c80ce24888539655a476483c9c1f2a139"
+        },
+        "created_at": "2026-09-29T08:05:28.533875+00:00",
+        "authorizes_landing": false
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/pre-measurement-review-2.json",
+      "sha256": "2193381d68c0711a61156a975a487fe9a99ffdcb41bf16cf783518b6aaf2e355",
+      "content": {
+        "schema": 1,
+        "origin": "ed3c/soodles#185",
+        "classification": "BLOCKED_BEFORE_TREATMENT_MEASUREMENT",
+        "authorizes_landing": false,
+        "consumer_treatment_launched": false,
+        "withdrawn_selection": {
+          "worktree": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control/.worktrees/soodles-185-ad324b70fde5-0-execute",
+          "head": "5be0db089219525838918ad86a2396d695dcdbd5",
+          "sha256": {
+            "issue_atom.py": "f1b7f683edd699d75b25be408422309f770d6c796499347ea59d529cb35caa9b",
+            ".agents/skills/issue-atom/SKILL.md": "c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8",
+            ".agents/skills/verify-soodles/features/issue-execution.md": "bb807b50e17f131e43bee03ec7c9b54c80ce24888539655a476483c9c1f2a139"
+          },
+          "created_at": "2026-09-29T08:05:28.533875+00:00",
+          "authorizes_landing": false
+        },
+        "blocking_review": {
+          "case": "ordinary telemetry-only meta update during owner read",
+          "probe_path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/telemetry-probe.py",
+          "raw": {
+            "case": "own_pending",
+            "result": {
+              "owner": "soodles.issue-atom",
+              "status": "refused",
+              "invalid": {
+                "field": "noodle.wait.metadata_changed",
+                "value": "mismatch"
+              },
+              "next": {
+                "kind": "input",
+                "owner": "Noodle",
+                "required": [
+                  "current_noodle_owner_readback"
+                ],
+                "known": {
+                  "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp6egcenmy/project",
+                  "blocking_order_ids": [
+                    "schedule",
+                    "soodles-131-fed22db1afc5"
+                  ]
+                },
+                "argv": [
+                  "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control/.worktrees/soodles-185-ad324b70fde5-0-execute/issue-atom",
+                  "run",
+                  "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp6egcenmy/authorization.json"
+                ],
+                "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+              },
+              "authorizes_landing": false
+            },
+            "calls": [
+              {
+                "fixture_process_read": [
+                  "ps",
+                  "-p",
+                  "424242",
+                  "-o",
+                  "command="
+                ]
+              }
+            ],
+            "canonical_state_config_unchanged": true,
+            "authorizes_landing": false
+          },
+          "reason": "Actual pre-measurement probe updates only total_cost_usd and updated_at between metadata reads. Candidate refuses noodle.wait.metadata_changed despite unchanged required owner identity/status; this is the same continuation-barrier causal defect."
+        },
+        "supervisor_correction": "This is a supervisor review handoff, NOT a completed fresh-consumer receipt. Do not copy it as passing evidence or finish the candidate. The supervisor explicitly withdraws 5be0db0 from treatment selection BEFORE any treatment consumer launched. Within the SAME admitted code/tests boundary, fix semantic identity/state reread so benign volatile telemetry does not cause a refusal; retain immutable bytes, full required identity/status validation, fixed oracle and foreign/drift refusals. Add benign-churn and true-drift discriminating unit controls. Do not mutate historical oracle/driver/fixture/protocol. Commit the correction after focused controls, rerun fixed oracle, and write a NEW treatment-ready.json and treatment-oracle.json. Parent will observe the new head, preserve this review packet, and supply final fresh-consumers.json only after one actual treatment run. This is a source correction before measurement, not resampling. Native tests already in flight retain their receipt as old-head evidence. Do not launch a model or another worker; do not emit final completed/blocked just because this review arrived. If this requires outside admitted paths, then emit exact blocked prerequisite. Parent remains active.",
+        "test_execution_note": "Wait for the already running native suite to finish before editing measured source, or explicitly mark its receipt as mixed-source and unusable for clean-head acceptance. Never attribute an in-flight test across changed bytes to a stable head. After correction, required current-source checks remain necessary."
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/entry-3.request.json",
+      "sha256": "74202f1464cdab6b7aec7bb7e9b6a2c59e7619d1c96e8129393959c9139d9916",
+      "content": {
+        "argv": [
+          "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/issue-atom",
+          "run",
+          "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/corrected-authorization.json"
+        ],
+        "started": 1790669690.133034,
+        "previous_entry": null
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/entry-3.result.json",
+      "sha256": "387b55381a380c88baca74a60de14b7042f9dc153aa79eea5ec42c80d016fd8e",
+      "content": {
+        "exit": 1,
+        "finished": 1790669701.33007
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/entry-3.stdout",
+      "sha256": "f0334607aab2a280423a0c48b67dc8e03d26547d74b033573d8a8f525bc4fd92",
+      "content": "{\n  \"owner\": \"soodles.issue-atom\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"noodle.orders\",\n    \"value\": \"foreign_nonterminal\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"Noodle\",\n    \"required\": [\n      \"quiescent_noodle_owner\"\n    ],\n    \"known\": {\n      \"control_root\": \"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected\",\n      \"blocking_order_ids\": [\n        \"schedule\",\n        \"soodles-185-aa89b37b557a\"\n      ]\n    },\n    \"argv\": [\n      \"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/issue-atom\",\n      \"run\",\n      \"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/corrected-authorization.json\"\n    ],\n    \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"\n  },\n  \"authorizes_landing\": false\n}\n"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/entry-4.request.json",
+      "sha256": "0ee16d648c36ed027d8fdf562ef373830279e5fddd205c1c01be287218e5770d",
+      "content": {
+        "argv": [
+          "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/issue-atom",
+          "run",
+          "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/corrected-authorization.json"
+        ],
+        "started": 1790669756.733928,
+        "previous_entry": 3
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/entry-4.result.json",
+      "sha256": "cb0a7d34b7bd77116849220795ef8361d10044e558a7ac6e312f43fb13613d1e",
+      "content": {
+        "exit": 0,
+        "finished": 1790670059.644727
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/entry-4.stdout",
+      "sha256": "912a3e7df5d346b772e87d6fcb26a70c96193941608bcb5266d6c81be20ceb7c",
+      "content": "{\n  \"owner\": \"soodles.issue-atom\",\n  \"status\": \"pending\",\n  \"phase\": \"execution\",\n  \"issue\": {\n    \"body_sha256\": \"0c1da66c3dd41a2e4b7abae2bb6d9fb3046ce36917814f2688c9dd0daea0af9e\",\n    \"number\": 185,\n    \"url\": \"https://github.com/ed3c/soodles/issues/185\"\n  },\n  \"publication\": null,\n  \"next\": {\n    \"kind\": \"executable\",\n    \"owner\": \"soodles.issue-atom\",\n    \"required\": [\n      \"material_owner_or_provider_state_change\"\n    ],\n    \"argv\": [\n      \"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/issue-atom\",\n      \"run\",\n      \"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/corrected-authorization.json\"\n    ],\n    \"reason\": \"Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb.\"\n  },\n  \"authorizes_landing\": false,\n  \"waiting_on\": \"Noodle\",\n  \"execution\": {\n    \"owner\": \"Noodle\",\n    \"action\": \"running\",\n    \"binding\": {\n      \"repository\": \"ed3c/soodles\",\n      \"issue\": 185,\n      \"body_sha256\": \"0c1da66c3dd41a2e4b7abae2bb6d9fb3046ce36917814f2688c9dd0daea0af9e\",\n      \"body_updated_at\": \"2026-09-29T08:11:36Z\",\n      \"owner\": \"Soodles issue_atom custody preflight and read-only same-command continuation; Noodle retains lifecycle ownership.\",\n      \"write_paths\": [\n        \".agents/skills/issue-atom/SKILL.md\",\n        \".agents/skills/verify-soodles/features/issue-execution.md\",\n        \"docs/experiments/pclass-owner-continuation/frozen/driver.py\",\n        \"docs/experiments/pclass-owner-continuation/frozen/fixture.py\",\n        \"docs/experiments/pclass-owner-continuation/frozen/migration.md\",\n        \"docs/experiments/pclass-owner-continuation/frozen/oracle.py\",\n        \"docs/experiments/pclass-owner-continuation/frozen/protocol.md\",\n        \"docs/experiments/pclass-owner-continuation/manifest.json\",\n        \"docs/experiments/pclass-owner-continuation/raw/baseline-oracle.json\",\n        \"docs/experiments/pclass-owner-continuation/raw/first-attempt.json\",\n        \"docs/experiments/pclass-owner-continuation/raw/fresh-consumers.json\",\n        \"docs/experiments/pclass-owner-continuation/raw/observed-history.json\",\n        \"docs/experiments/pclass-owner-continuation/raw/treatment-oracle.json\",\n        \"docs/experiments/pclass-owner-continuation/results.md\",\n        \"issue_atom.py\",\n        \"tests/test_issue181_handoff_evidence.py\",\n        \"tests/test_issue_atom.py\",\n        \"tests/test_local_continuation.py\",\n        \"tests/test_owner_continuation.py\"\n      ],\n      \"base_head\": \"12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd\",\n      \"execution\": {\n        \"carrier\": {\n          \"codex\": {\n            \"argv\": [\n              \"exec\",\n              \"--skip-git-repo-check\",\n              \"--json\",\n              \"--model\",\n              \"gpt-6-astra\",\n              \"-c\",\n              \"model_reasoning_effort=\\\"high\\\"\",\n              \"--sandbox\",\n              \"danger-full-access\",\n              \"-c\",\n              \"approval_policy=\\\"never\\\"\"\n            ],\n            \"model\": \"gpt-6-astra\",\n            \"path\": \"/Users/neon/.local/bin/codex\",\n            \"sha256\": \"0196e89fe5a7598f816ee54232c3d7c26d75e502ab5cfe2c9240e81d90f7255a\"\n          },\n          \"noodle\": {\n            \"path\": \"/Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/native/noodle\",\n            \"sha256\": \"965cfd6f985e207551d0664e728ae9fae10ae0cc8cd2885a816415823d9d103d\"\n          },\n          \"platform\": \"darwin_arm64\"\n        },\n        \"control_root\": \"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected\",\n        \"instruction_context\": {\n          \"files\": [\n            {\n              \"content\": \"---\\nname: execute\\ndescription: Execute one admitted Soodles Issue in its Noodle-owned worktree.\\nschedule: Only the exact Issue/order admitted by the installed Soodles consumer.\\n---\\n\\n# Execute the admitted Issue\\n\\nThe installed provider entry revalidates the current provider Issue, external\\nenvelope, canonical order, session and worktree before launching this Agent.\\nThe stage prompt carries the exact binding, the supervisor's bounded `task`\\nand the complete validated structured Issue `contract`. Consume that contract\\nand honor its exact file boundary; no duplicate GitHub read is required from\\nthe implementation child. If the contract is missing, stop affected work and\\nreturn to the existing admission owner. A body amendment requires the\\nsupervisor's fresh envelope before further work.\\nExecute the task within that boundary; report unfinished delivery as unfinished.\\nThe prompt is not permission to invent a new Issue, route, worktree or envelope.\\n\\nFor an admitted task that verifies Noodle CLI identity/skill resolution, stopped\\ninitial-proposal recovery or a genuine order/session handoff, use\\n[verify-noodle](../verify-noodle/SKILL.md) and only its relevant feature recipe.\\nIts observations do not replace Soodles acceptance or delivery.\\n\\nUse existing repository controls. Commit only the same causal correction;\\ncanonical acceptance, provider delivery and local reconciliation remain\\ndistinct. Do not merge, close Issues, alter provider policy, or select a new\\ntrusted verifier from the candidate.\\n\\nAt the end of this stage, use the admitted Noodle event tool to emit your own\\ntyped outcome, bound to the actual `NOODLE_SESSION_ID`, `NOODLE_ORDER_ID`\\nand `NOODLE_STAGE_INDEX`. Obtain the event command/schema from the actual\\nbinary's help; do not copy a historical command or let the parent fill the\\noutcome. A successful stage does not mean RESOLVED. Report blocked work\\ntruthfully and leave existing identity/history available to its owner.\\n\\nWhen the stage prompt includes `instruction_context`, consume its exact selected\\nfile contents at `source_head` for this task. The owner has checked their paths\\nand SHA-256 values; do not rediscover another recipe or substitute current tips\\nfor these supplied bytes. This establishes supplied context, not proof that a\\nmodel followed it. Legacy prompts without this field retain their admitted task\\nand contract; they make no selected-instruction activation claim. A missing or\\ninconsistent required context returns to the existing admission owner.\\n\",\n              \"path\": \".agents/skills/execute/SKILL.md\",\n              \"sha256\": \"1c815d5024a63f44ad8c0531bade1872a5e485f3f43ad581e0c5b0b9a899e149\"\n            },\n            {\n              \"content\": \"---\\nname: verify-soodles\\ndescription: Verify Soodles runtime, bounded execution, delivery, recovery or bounded P-class behavior/context using the active cloud Actions or local owner.\\n---\\n\\n# Verify Soodles\\n\\nSoodles has a runtime CLI and an external supervised publisher. Retain the path selected by [root AGENTS](../../../AGENTS.md#session-entry--select-once-then-act); if entering through this skill, read that short entry first. Do not reclassify an established cloud Session as local merely because a recipe contains shell commands.\\n\\nFor feature-specific execution or investigation, read the relevant recipe directly: [authenticated Issue readback](features/github-read.md), [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). After an exact landing RESOLVED receipt, use the dedicated [next-Issue Skill](../../next-issue/SKILL.md) for bounded candidate qualification and provider Issue creation; it is not a scheduler or product-priority owner. Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS \\u2192 this skill \\u2192 the feature, with no mandatory index hop.\\n\\nFor P-class behavior/context work, read its recipe before any runtime doctor: use the supplied carrier and operation-specific prerequisites. Native cloud consumers require neither Codex CLI nor the Linux runtime binary. The coordinator captures observations; independent consumers receive only their assigned task/instructions/inputs. A scoped feature check does not claim a full maintenance pass.\\n\\n## Cloud Actions verification\\n\\nFor cloud candidate verification, use the current Session's GitHub connector to read the exact PR/head and existing `runtime.yml` run. It already performs pinned Noodle setup and canonical acceptance on the runner. Read run/attempt/head, acceptance job/step outcome and artifact identity/content when accessible; distinguish metadata readback from receipt inspection. Reuse a completed matching run, or observe the current run. A prior head is historical evidence. No scratch checkout, binary doctor, `noodle skills list`, Codex CLI or API key is a prerequisite for this branch.\\n\\nOn failure, inspect the owning failed step and report its actual input/capability gap; do not retry an unchanged write or invent a workflow dispatch. On success, return the requested evidence or continue the already-authorized delivery through its existing owner. CI success grants no landing authority. A targeted feature not covered by an existing workflow remains a named gap; do not pretend that the general runtime run exercised it. This cloud branch does not require reading the local Launch/Doctor/Drive sections.\\n\\n## Local launch\\n\\nRuntime admission and delivery-recovery fixtures run from a clean committed Soodles checkout with the absolute binary admitted by `policy/runtime.lock.json`. These CLI drives are short-lived and noninteractive; do not start `noodle start` for them. Bounded Issue execution instead uses the supervisor's separately measured carrier and existing Noodle lifecycle, as its recipe specifies. Neither route substitutes its binary or platform evidence for the other.\\n\\n## Local doctor\\n\\nFor the lock-bound recipes, start each fresh driving session with `./soodles runtime check` on the supplied binary. Its receipt must match the lock before Noodle is used. The runtime driver's doctor doubles as its positive feature drive. For bounded Issue execution, use that recipe's carrier/envelope and canonical-state preflight instead; the Linux lock does not certify a native macOS executable. Recheck after an unexpected failed drive or changed environment before continuing; preserve the failure first. Doctor is not permission to retry unchanged input. A refusal names the invalid field and supported help; a missing prerequisite remains blocked until its owner supplies it.\\n\\n## Local drive and shared owner outputs\\n\\nUse the shipped executable from the repository root:\\n\\n```sh\\n.agents/skills/verify-soodles/scripts/verify_runtime.py /absolute/path/to/noodle /tmp/fresh-soodles-verification\\n```\\n\\nBoth arguments are supplied by the current execution environment: the already-admitted binary and a fresh evidence destination. This runtime driver checks source identity, performs doctor/positive admission, resolves this skill through `noodle skills list`, and drives a wrong-digest executable sentinel through the same CLI. It then checks cleanup and unchanged source identity. It never sends provider writes or runs full acceptance. Other recipes reuse existing owner entries and recovery oracles; do not route them through a new scheduler or copy their transition logic into a skill helper.\\n\\nFor landing, consume the invoked owner's current `owner`, `action`, `next`, `invalid` and, when emitted, `request`. Missing input and provider readback are not executable commands. Follow the returned operation/help using confirmed inputs; never derive an operation by splitting a field name. A historical next action is trace evidence only. The owning action rechecks the current claim, head, checkpoint, provider state and write eligibility before an effect.\\n\\nNoodle resolves `.agents/skills` by default. Resolution must name this checkout's exact `verify-soodles` directory; requesting a name is not proof of loading it. The captured digest map identifies the actual skill files. Noodle may emit missing-backlog-adapter diagnostics: they disclose that production scheduling is unavailable, not a request to repair unrelated adapters during verification.\\n\\n## Evidence\\n\\nFor a local runtime-admission drive, require the driver's `receipt.json` with `classification: VERIFIED`, exact candidate head/tree, observed runtime identity, local skill resolution, rejected sentinel and successful cleanup. Other recipes specify their own receipts. Preserve actual argv/provider operations, subjects, output, exit codes and elapsed time where observed. Record skill resolution path/digests, unexpected command failures, expected control refusals, repeated readbacks and verification invocations; label top-level versus child-command scope. Missing measurements are unknown, not zero. These records do not establish a matched baseline/treatment experiment or reduced Agent decision cost.\\n\\nLocal feature receipts have `authorizes_landing: false`; `VERIFIED` is not Issue closure. Only the externally selected delivery owner can produce the admitted Issue's `RESOLVED` receipt. Cloud claims require exact merge/closure/runtime/provider-main readback through GitHub; local claims additionally require Git/Noodle reconciliation. `next: null` alone is not resolution (identity also returns it). Canonical acceptance still runs once for each final candidate through its existing owner; do not repeat it just because this skill was used. A pre-change receipt does not verify a changed candidate. Shorter instructions, lower structural scores or fewer commands do not establish reduced Agent decision cost.\\n\\n## Cleanup\\n\\nFor cloud Actions, preserve the run and artifact references; the workflow owns runner fixtures. A cloud landing continues through connector readback and never invokes local reconcile merely because a scratch checkout exists. Do not manufacture a scratch worktree for cloud cleanup. The following local cleanup rules apply only to resources actually created by that local drive.\\n\\nThe runtime driver owns its temporary sentinel directory; recovery oracles own disposable fixtures and wait for their child processes. Preserve evidence outside those directories through teardown, including on failure. Noodle owns the task worktree; only the existing delivery reconciliation may remove it. If that removal is expected, verify the reported merged identity in the surviving control root instead of invoking a deleted candidate path. A failed receipt is evidence, not permission for an unchanged retry.\\n\\n## Maintenance\\n\\nP-class comparisons are one mapped feature, not a mandatory preflight for other features. Maintain reviews the recipe and its recording helper against source and drives it through the supplied experiment packet. Report feature behavior, measured context/cost, map coverage and delivery independently. A full pass still needs all mapped features; unavailable prerequisites remain blocked. The originating issue owns cross-file migration and landing; maintain edits only this skill directory. Never change an active experiment's judge while evaluating its candidate.\\n\\nThis existing skill was created using pstack at `ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa`. Use its `maintain-verification-skill` for a map audit or observed recipe drift; do not repeat create. A full pass audits the index, runs one read-only source review per feature concurrently, reconciles source/churn drift, and has the coordinator live-drive every mapped feature with doctor, receipts and teardown. Outcome is clean, changed or blocked; clean/blocked passes do not manufacture a PR. Only demonstrated skill corrections belong in a changed maintenance PR. Ordinary feature use does not invoke either authoring method.\\n\\nThis guidance is P-class; the index, counts and prose are N-class. Executable local discriminators provide L-class evidence; actual provider-enforced identity and merge/closure readback provide R-class evidence. None is interchangeable. Product regressions retain their failing evidence and follow the admitted Issue's owner/write boundary; changing a recipe must not hide them. Supervisor correction remains available through the existing owning action before an unoffered admission is reused. Preserve unknown writes for owner readback. Neither maintenance nor a candidate-edited test selects its effective external judge.\\n\\n\",\n              \"path\": \".agents/skills/verify-soodles/SKILL.md\",\n              \"sha256\": \"a75f3f5d8bb48cc31086468b04936583224acfd7a704e7eb14462cc710843209\"\n            },\n            {\n              \"content\": \"# P-class behavior and context\\n\\nUse this feature to compare a scoped instruction change or maintain this verification capability. The originating issue owns intent, cross-file migration and delivery; this recipe owns the bounded experiment procedure. Maintenance checks source/live correspondence, not automatic model improvement. N observations, P guidance, tested L refusals and actual R provider readbacks retain separate claims.\\n\\n## Select the applicable method\\n\\nChoose only the method needed for the current decision; these are conditional\\nroutes, not a mandatory pipeline. For CLI contract design/review, use pstack's\\n[cli-for-agents](https://github.com/ed3c/plugins/tree/68836ddaf5697224520f1847d90cdb90ca8babaa/cli-for-agent/skills/cli-for-agents).\\nFor actual CLI reproduction, use\\n[control-cli](https://github.com/ed3c/plugins/tree/68836ddaf5697224520f1847d90cdb90ca8babaa/cursor-team-kit/skills/control-cli)\\nwith the existing repository subprocess harness for noninteractive commands;\\nuse a PTY only when terminal behavior requires it. For a matched before/after\\nevidence claim, use\\n[verify-this](https://github.com/ed3c/plugins/tree/68836ddaf5697224520f1847d90cdb90ca8babaa/cursor-team-kit/skills/verify-this)\\nunder the experiment's fixed criteria.\\n\\nFor behavior-eval methodology, load the applicable installed\\n[ai-evals-course/evals-skills](https://github.com/ai-evals-course/evals-skills/tree/2edbc5b1b0dc91f74fcfa8fd8f7eaeb302e052ab)\\nentry directly: `eval-audit` for trust in an existing pipeline,\\n`error-discovery` for unclassified traces, and `evals-start` only when no specific\\nroute is known. Check objective command, identity and effect criteria with code;\\nuse a subjective judge only when the criterion needs interpretation. Method\\nselection does not require reinstalling skills or a full feature-map audit.\\n\\n`./soodles eval report` verifies only an externally selected\\n`feature_map_routing_report_v2` report; it does not author general behavior evals.\\nIts selector, digest and invocation remain external supervisor inputs.\\n\\nWhen the external Issue contract selects a schema-4 comparison, the existing\\ncandidate verification/publication and local landing owners replay its pinned\\nrecovery evidence before effects. Consume their current `next`: comparison\\nrefusals name supervisor inputs and read-only candidate help. Do not assemble\\nreplay argv, replace pins or downgrade the contract. A matching comparison is\\nnon-authorizing; gated cloud delivery requires the named supported local\\ncapability. Ordinary contracts retain their existing route.\\n\\n## Inputs and launch\\n\\nRequire a supplied task, assigned instruction refs/digests, minimum raw inputs, permitted effects, externally fixed decision criteria and evidence destination. Keep the originating experiment/Issue separate from the executed subject: a fixture's Issue/PR does not identify the experiment owner. Carry the supplied origin through the receipt/handoff; if absent, leave it unknown. Identify the actual execution owner and available carrier. Native cloud subagents can run these bounded consumers without Codex CLI; local Noodle/Codex children follow their admitted launcher. A branch/worktree does not create a fresh model context. Missing prerequisites block only the dependent operation; do not invent a local doctor to obtain cloud evidence.\\n\\nThe coordinator may launch independent consumers when the current task authorizes this experiment. Use fresh instruction context (`fork_turns: none` on the native carrier), separate evidence directories, identical neutral tasks and common runtime, with only the declared treatment changed. Supply task/instructions/raw inputs, not expected answers, author diagnosis, experiment reports or another arm's result. Shared storage is not security isolation. If freshness or recording is unavailable, preserve that limitation and stop the affected comparison.\\n\\n## Drive one decision barrier\\n\\n1. Pin baseline, candidate, owner/runtime and external observer before driving. Record exposed carrier/model/config; requested model and observed model are different fields. Keep unavailable native transcript, model provenance, token/window and compaction values unknown. This feature does not replace an existing experiment's stricter gate.\\n2. Capture the initial instruction read and subsequent selected operations, including actual argv, stdout/stderr, exit, elapsed time and relevant file byte counts/digests before/after. Preserve raw checkpoint/input contents separately when the claim needs them. The supplied harness may use `scripts/record_context.py EVIDENCE LABEL COMMAND [ARG ...]`; use an absolute evidence directory outside the checkout and a fresh label. It snapshots regular top-level arguments and literal file tokens inside a direct shell `-c` command; this binds the recorded command to named file bytes, not a successful actual read, hidden reads or kernel-level access. Preserve raw command stdout/stderr and exit status to assess the command outcome. Shell parse and snapshot errors remain explicit in raw evidence. An instruction binding requires a snapshot dict with no snapshot_error, a nonnegative integer byte count (not bool) and a 64-hex SHA-256; zero-byte files are valid. Invalid snapshots cannot satisfy the entry gate or replace a separate valid observation. Do not claim full trace completeness from this helper.\\n\\n   For the three bounded landing cases, pass raw recorder requests, the complete initial owner projection, its externally selected SHA-256, subsequent owner outputs and separately captured connector events to `scripts/observe_pclass.py PACKET.json`. Select the projection and digest from the real owner invocation before the consumer acts; a digest detects replacement but does not create trust in caller-supplied bytes. An owner-produced `request` is `owner_request_created`, never provider transport. Omitting `transport_events` leaves transport and identity safety unknown; an explicit empty list records no observed transport within the bounded fixture. Foreign-identity safety requires the refusal, no request from the refused trace and explicit absence of transport. Route, identity safety and transport remain separate results. The normalized receipt remains non-authorizing.\\n3. Drive the real existing owner on the supplied subject. Disposable provider fixtures must be labelled and must never reach live GitHub. Follow current owner output, preserve unknown writes and refresh mutable state after handoff. Historical commands are evidence, not authority.\\n4. Compare the target behavior and nearest legal different case. Retain failures. A planted bad result tests observer sensitivity, not a historical defect. Equal successful arms support nonregression; improvement requires the declared observable barrier to decrease without violating behavior. Missing evidence is inconclusive, never zero or success.\\n\\n   For an admission comparison, use the single executable entry `scripts/replay_pclass.py RAW.json GATES.json MANIFEST.json EXPECTED_MANIFEST_SHA256 OBSERVER.py DECIDER.py`. The external manifest fixes equal per-case arm exposure, raw run identities, analyzer bytes and planted-control predicates; the gates file contains only the fixed causal-delta, independent-audit and report-only telemetry inputs. The entry verifies all digests before importing an analyzer, derives run receipts and controls from raw evidence, then invokes the internal decision evaluator. `decide_pclass.py` does not accept a candidate-supplied comparison at its command line. A receipt cannot authorize landing.\\n\\n   The bounded schema-2 recovery replay supports only\\n   `primary_barrier: post_completion_owner_request`: the count of owner events\\n   containing a request after the observed completion projection. Missing,\\n   malformed or unsupported labels return structured `FAIL` naming\\n   `primary_barrier` before analyzer import. This restriction does not change\\n   the separate `admission_recovery` exploration route.\\n\\n   On refusal, forward the replay receipt's `decision.next` unchanged when supplied and stop that comparison. It requests supervisor input, not an executable command or permission to retry or land. Keep all reported errors; absent `decision.next` never implies admission. Do not parse errors into another route, recount or reweight cases, edit pins, invent runs or resample. Re-entry needs fresh supervisor-selected evidence.\\n\\n   For a supplied feature-map consumer report, use the supervisor's complete\\n   `./soodles eval report SELECTION.json EXPECTED_SHA256` invocation unchanged.\\n   Do not construct the selector, digest, evaluator or a substitute command.\\n   Read `evidence_validity` before `behavior`: INVALID or INCONCLUSIVE has null\\n   behavior; return the exact `next.missing_input` to its supervisor owner.\\n   The current `next.help_argv` may be executed for read-only discovery; it does\\n   not supply missing evidence or authorize a retry. Never fabricate a selector\\n   or digest to make progress.\\n   VALID permits only the reported PASS/FAIL and barriers. An explicit empty\\n   operation report has `observation_scope: consumer_report`; it does not prove\\n   independent absence of effects. Consume the current typed `next`, never infer\\n   an operation or delivery completion. Every result is non-authorizing.\\n\\n   A bounded recovery packet may also carry an externally selected completion projection and its exact digest. Once the real owner emits that projection, stop before invoking its `next.operation` or creating its request when provider transport is not authorized. The projection bounds this observation only; it is not provider truth and grants no transport or landing authority.\\n5. Return goal/scope, subject and instruction identities, actual evidence locators, supported result, unknowns and next owner readback. A distinct consumer must read that handoff and refresh current owner state when transfer is part of the claim. The coordinator reports feature coverage and existing landing status separately.\\n\\n## Bounded working context\\n\\nKeep only the current goal, relevant invariant, assigned recipe, owner state and evidence needed for the next decision in the consumer context. The feature map is for discovery; do not load it after a direct route already identifies this recipe. Read only relevant system-v1 sections. Full historical traces stay outside the prompt with exact locators; expand them only to resolve a concrete ambiguity.\\n\\nRecord document bytes/digests separately from actual input tokens, tool output and compaction. Known context capacity needs room for the next bounded tool result and completion; unknown capacity supplies no numerical budget. Three document nodes is a routing convention, not a window guarantee. Shortening a file does not evict earlier reads from an existing Session. Compare fresh Sessions; actual compaction requires its own observed continuation case.\\n\\nObservable barriers include wrong route, rejected guessed command, unnecessary repeated read, avoidable confirmation and replayed side effect. Counts describe captured events, not hidden reasoning. Do not reduce context by dropping a required invariant, known uncertainty or necessary evidence.\\n\\n## Maintain, migrate and stop\\n\\nFor a P-class correction, declare the instruction and its task, observer, raw\\nreceipts, manifest and results in the originating Issue's write boundary before\\nthe experiment. Freeze baseline and treatment instruction bytes separately.\\nAfter the comparison, deliver the minimal instruction correction and complete\\nevidence through one candidate. Its manifest binds both instruction digests and\\nevery required evidence artifact. The delivery-path owner refuses a missing\\nrequired path or a candidate instruction that differs from the treatment\\ndigest. Exact-head verification replays the deterministic validator and reads\\nthe provider result before merge. A failed required runtime keeps that Issue\\nopen; a correctly refused planted control is passing evidence. Equal legal\\narms remain nonregression and cannot become a hill-climb claim.\\n\\nUse pstack maintain's source review, live drive, evidence survival, teardown and drift triage for this feature. Preserve its full-map requirement for a full pass; a single feature can be verified while overall maintenance remains blocked. The coordinator owns launch and collection; isolated consumers act only on their assigned tasks. Source reviewers do not drive or edit.\\n\\nClassify changes as recipe drift, recording gap or product regression. Correct recipe/helper drift within the skill; preserve product failures for the issue's owner. A changed helper must be re-driven. The candidate cannot replace its active judge. Correct a defective observer under a separately pinned supervisor boundary before a new comparison; do not recursively require another maintenance layer.\\n\\nAfter supported behavior, keep reusable operation steps here or in the owning feature. AGENTS retains routing, system-v1 retains cross-boundary ownership/invariants, and experiment documents retain observations. Inspect consumers before removing duplicate prose. Do not migrate a procedure solely because it is long.\\n\\nKeep evidence outside disposable state and verify it survives cleanup. Stop processes/resources created by the drive through their owner; retain pending delivery worktrees for Noodle reconciliation. Every feature receipt has `authorizes_landing: false`. Canonical acceptance and supervised delivery remain with their existing owners.\\n\\nSources: `landing.py` and the selected owner define effects; `scripts/record_context.py` records bounded subprocess observations. The experiment's pinned external criteria judge its limited claim, not global correctness.\\n\",\n              \"path\": \".agents/skills/verify-soodles/features/pclass-context.md\",\n              \"sha256\": \"a058038a17f3d09e62e1ab7f4d455be43e0b56fb6aa193ffd4e5a56daff203ec\"\n            }\n          ],\n          \"source_head\": \"12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd\"\n        },\n        \"order_id\": \"soodles-185-aa89b37b557a\",\n        \"source_head\": \"12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd\",\n        \"stage_index\": 0,\n        \"task\": \"SUPERVISOR SAME-ISSUE CORRECTION: previous #185 writer ended typed blocked and its loop/process group is absent. Keep its original worktree/evidence untouched. In your new Noodle worktree apply the externally retained /Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/prior-candidate.patch, which contains the prior admitted partial candidate. Read /Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/migration.md and the pre-measurement review. Add the exact historical #181 test adapter with positive/planted-negative preservation. Copy frozen/migration.md and first-attempt.json into their newly admitted paths unchanged. Fix telemetry-only churn before selecting measurement. The original external 18-case oracle/driver/fixture/protocol and baseline remain fixed. Existing fresh-consumers review handoff is archived; no treatment consumer launched, so a new clean source may be selected. Preserve old raw test outputs: use corrected-* filenames for new focused/full runs. Parent will write the final fresh-consumers.json after your NEW treatment-ready.json (head must differ from withdrawn 5be0db0). Do not mistake old ready/oracle files for new measurement. No source/instruction edits AFTER new measurement unless parent explicitly withdraws it; communicate any newly discovered problem through the expected supervisor handoff and your own typed outcome. The supervisor task below otherwise applies unchanged.\\n\\n\\u7528\\u4e2d\\u6587\\u3002\\u4f60\\u662f Noodle \\u6d3e\\u51fa\\u7684 #185 target writer\\uff0c\\u53ea\\u5728\\u672c\\u6b21 contract write_paths \\u5167\\u4fee\\u6b63\\u3002\\u9019\\u662f user \\u6388\\u6b0a\\u5ef6\\u7e8c #183 \\u5be6\\u8b49\\u7684\\u4e0b\\u4e00\\u500b causal atom\\u3002\\u5148\\u8b80\\u4f9b\\u61c9\\u7684 execute/verify-soodles/P-class instruction context\\uff0c\\u4e26\\u4f7f\\u7528\\u5df2\\u5b89\\u88dd evals-start -> eval-audit\\u3002\\u5916\\u90e8\\u8b49\\u64da\\u6839 /Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i\\uff1bsource-review.json \\u662f\\u7368\\u7acb\\u552f\\u8b80\\u5be9\\u67e5\\uff0cfrozen/protocol.md \\u662f\\u56fa\\u5b9a\\u9a57\\u6536\\u908a\\u754c\\u3002\\u5148\\u8b80 2-3 \\u500b\\u65e2\\u6709\\u76f8\\u4f3c\\u5be6\\u4f5c\\uff0f\\u6e2c\\u8a66\\uff08require_available_owner\\u3001finish_host \\u7684 process identity\\u3001tests/test_local_continuation.py\\uff09\\uff1b\\u6cbf\\u7528\\u65e2\\u6709 entry/response/drive\\u3002\\n\\n\\u5df2\\u77e5\\u56e0\\u679c\\u554f\\u984c\\uff1a\\u81ea\\u8eab active scheduler \\u4e00\\u5f8b\\u88ab\\u7576 foreign\\uff1bown execute pending \\u6c92\\u6709 attempts \\u4ea6\\u88ab\\u62d2\\u7d55\\u3002\\u4fee\\u6b63\\u662f read-only typed wait\\uff0c\\u5728 credentials/provider/start/claim \\u524d\\u77ed\\u8def\\uff0c\\u4e0d\\u662f pass-through admission \\u6216 catch AtomRefusal retry\\u3002\\u6b63\\u9762\\u8b49\\u660e exact own started loop\\u3001held native lock\\u3001pinned envelope/config\\u3001matching own order projection\\u3001canonical scheduler session/process \\u8eab\\u5206\\uff0c\\u4e14\\u53ea\\u6db5\\u84cb fixed scope\\u3002unknown/offered/stopped loop\\u3001extra foreign order\\u3001missing/foreign/contradictory metadata\\u3001absent own order \\u5fc5\\u9808\\u4ecd\\u62d2\\u7d55\\u3002\\u65e2\\u6709 malformed-running negative \\u4e0d\\u53ef\\u6539\\u6210 wait\\u3002PID/command/context \\u7d44\\u5408\\u53ea\\u652f\\u6301 bounded wait\\uff0c\\u7121 OS generation-proof identity claim\\u3002\\u5225\\u65b0\\u589e\\u65d7\\u6a19/verb/scheduler/retry engine\\uff1b\\u4e0d\\u8981\\u6539 Noodle \\u4e0a\\u6e38\\u3002\\n\\n\\u5c07\\u5916\\u90e8 frozen \\u56db\\u500b\\u6a94\\u6848\\u539f\\u6a23\\u8907\\u88fd\\u5230 docs/experiments/pclass-owner-continuation/frozen\\uff1bbaseline-oracle.json\\u3001observed-history.json \\u539f\\u6a23\\u8907\\u88fd\\u5230 raw\\u3002\\u56fa\\u5b9a oracle\\uff1apython3 -B /Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/frozen/oracle.py YOUR_WORKTREE OUTPUT.json\\u3002baseline 16/18\\uff0ccandidate \\u5fc5\\u980818/18\\uff1boracle \\u4f7f\\u7528\\u660e\\u78ba\\u6a19\\u8a18\\u7684 process/provider fixtures\\uff0c\\u4e0d\\u662f live attestation\\u3002\\u4e0d\\u53ef\\u6539 oracle/driver/fixture/protocol \\u6216 historic RED\\u3002\\u984d\\u5916\\u6b63\\u8ca0\\u63a7\\u5236\\u5305\\u542b\\uff1aown pending/running\\u7b49\\u5f85\\u3001\\u7b49\\u5f85->\\u5408\\u6cd5continuation\\u3001\\u7b2c\\u4e8c\\u8f2a\\u8eab\\u5206\\u6f02\\u79fb->\\u7acb\\u5373\\u62d2\\u7d55\\u3001deadline\\u3001\\u7121 supplier/provider/restart/checkpoint effects\\u3002\\u4fdd\\u7559\\u65e2\\u6709discriminating tests\\uff1btests/test_owner_continuation.py \\u9a57\\u8b49 frozen hashes \\u8207 current-source oracle\\u3002\\u53ea\\u66f4\\u65b0 issue-atom Skill \\u548c issue-execution recipe \\u7684\\u5df2\\u8b49\\u660e\\u6700\\u77ed\\u8def\\u5f91\\u3002\\n\\n\\u4f7f\\u7528 test-only env \\u79fb\\u9664 inherited NOODLE_*\\uff0cTMPDIR=/private/tmp\\uff0c\\u4e0d\\u80fd\\u505c\\u7528\\u6e2c\\u8a66\\uff0fskip\\uff0fno-verify\\u3002\\u7a69\\u5b9a source/instruction \\u8207 focused controls\\u901a\\u904e\\u5f8c\\u5148commit\\uff08\\u8a0a\\u606f\\u8aaa\\u660ewhy\\uff09\\uff0c\\u4fdd\\u6301clean\\uff0c\\u8dd1external oracle\\u5b58 /Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-oracle.json\\uff0c\\u5beb /Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-ready.json \\u5305\\u542b worktree/head \\u548c issue_atom.py\\u3001\\u5169\\u500b\\u6539\\u52d5instruction\\u6a94\\u7684sha256\\u3002\\u6b64\\u70ba\\u91cf\\u6e2c\\u5b9a\\u4f4d\\u975elifecyclecheckpoint\\u3002Parent\\u6703\\u4ee5immutable\\u9078\\u5b9asource\\u8207skill\\u8dd1fresh consumers\\uff0c\\u8f38\\u51fa /Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/fresh-consumers.json\\uff1b\\u4e0d\\u81ea\\u884c\\u555f\\u52d5\\u6a21\\u578b\\u6216\\u7d22\\u53d6\\u4f7f\\u7528\\u8005\\u3002\\u7b49\\u5f85\\u9019\\u500b\\u78ba\\u5207\\u6a94\\u6848\\u6700\\u591a15\\u5206\\u9418\\uff0c\\u671f\\u9593\\u505a\\u6709\\u7528\\u7684\\u76f8\\u9130\\u6aa2\\u67e5\\uff1b\\u7f3a\\u5931\\u624dtyped blocked\\u3002\\u7a0b\\u5f0f/instruction\\u9078\\u5b9a\\u5f8c\\u4e0d\\u5f97\\u6539\\uff0c\\u82e5\\u767c\\u73fe\\u7f3a\\u9677\\u5148\\u56de\\u5831parent\\uff0c\\u4e0d\\u80fd\\u5077\\u5077\\u91cd\\u63a1\\u6a23\\u3002\\n\\n\\u6700\\u5f8c\\u628atreatment-oracle\\u3001fresh-consumers\\u539f\\u6a23\\u7d0d\\u5165raw\\uff0c\\u64b0results\\u660e\\u78ba\\u5340\\u5206CLI mechanically reduced intervention\\u3001consumer legal nonregression\\u3001\\u672a\\u77e5tokens/model/compaction/\\u5b8c\\u6574transcript/\\u7368\\u7acbtransport absence\\u3002\\u63d0\\u4f9bP-class\\u5c40\\u90e8\\u8207\\u4e0b\\u6e38\\u9589\\u74b0\\u9069\\u7528\\u7bc4\\u570d\\uff1b\\u4e0d\\u5ba3\\u7a31\\u5168feature maintain clean\\u3001\\u5168\\u57df\\u4e0d\\u9000\\u5316\\u6216\\u4eba\\u53e3\\u7d1acost\\u6539\\u5584\\u3002schema1 evidence manifest\\u4f9dissue_admission.validate_candidate_evidence\\uff0cinstructions\\u540c\\u6642\\u5217\\u5169\\u500b\\u6539\\u52d5recipe\\u7684base/treatment digests\\uff0c\\u5176\\u9918required nonmanifest paths\\u4f5cartifacts\\uff1bowner name Soodles Issue admission/tool issue_admission.validate_delivery_paths/authorization ed3c/soodles#185\\u3002\\u5b8c\\u6574 native unittest \\u4e00\\u6b21\\uff0cfinal evidence-only commit\\u4fdd\\u6301measured bytes\\u4e0d\\u8b8a\\uff0cself-review diff\\u548cdelivery path\\u9a57\\u8b49\\u3002\\n\\n\\u4e0d\\u8981provider writes\\uff0f\\u5ba3\\u7a31RESOLVED\\u3002\\u7528\\u5be6\\u969bnative event schema\\u767c\\u81ea\\u5df1\\u7684typed outcome\\u5f8c\\u4ea4parent issue-atom\\u3002\\u5df2\\u9078native binary /Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/native/noodle\\uff0cexact source /Users/neon/.codex/experiments/pclass-metric-binding-lejuxcmz/native-source\\uff1b\\u5148\\u770b\\u5176event --help\\uff0fsource schema\\uff0c\\u4e0d\\u7528PATH noodle\\u6216\\u91cd\\u9020\\u4e8b\\u4ef6\\u3002\\u82e5\\u9700\\u8d85\\u904ewrite boundary\\u4fdd\\u7559evidence\\u4e26typed blocked\\uff0c\\u4e0d\\u81ea\\u884c\\u52a0\\u8def\\u5f91\\u3002\\u7236supervisor\\u8ca0\\u8cacpublication/CI/landing/reconciliation\\uff0c\\u4e0d\\u9700\\u518d\\u6b21\\u8a62\\u554fpermission\\u3002\",\n        \"worktree\": \"soodles-185-aa89b37b557a-0-execute\"\n      },\n      \"contract\": {\n        \"schema\": 3,\n        \"trigger\": \"Actual #183 startup twice refused its own active scheduler as foreign_nonterminal, requiring external interpretation and later same-command re-entry.\",\n        \"source\": \"User-authorized continuation from resolved #183; external fixed 18-case oracle on provider main 12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd reproduces 2 own-start refusals and 16 preserved negative controls.\",\n        \"owner\": \"Soodles issue_atom custody preflight and read-only same-command continuation; Noodle retains lifecycle ownership.\",\n        \"changes\": [\n          \"Recognize proven own-start scheduler activity and exact pending/running execute state as bounded read-only wait before credentials or effects.\",\n          \"Preserve foreign/unknown/malformed owner refusal and existing bounded drive; test downstream transitions and retain raw evidence.\",\n          \"Update only the demonstrated issue-atom/issue-execution guidance; compare fresh consumers without inflated improvement claims.\",\n          \"Migrate the directly affected #181 historical replay test to exact historical source while preserving original frozen evidence and current-source qualification.\"\n        ],\n        \"write_paths\": [\n          \".agents/skills/issue-atom/SKILL.md\",\n          \".agents/skills/verify-soodles/features/issue-execution.md\",\n          \"docs/experiments/pclass-owner-continuation/frozen/driver.py\",\n          \"docs/experiments/pclass-owner-continuation/frozen/fixture.py\",\n          \"docs/experiments/pclass-owner-continuation/frozen/migration.md\",\n          \"docs/experiments/pclass-owner-continuation/frozen/oracle.py\",\n          \"docs/experiments/pclass-owner-continuation/frozen/protocol.md\",\n          \"docs/experiments/pclass-owner-continuation/manifest.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/baseline-oracle.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/first-attempt.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/fresh-consumers.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/observed-history.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/treatment-oracle.json\",\n          \"docs/experiments/pclass-owner-continuation/results.md\",\n          \"issue_atom.py\",\n          \"tests/test_issue181_handoff_evidence.py\",\n          \"tests/test_issue_atom.py\",\n          \"tests/test_local_continuation.py\",\n          \"tests/test_owner_continuation.py\"\n        ],\n        \"behavior\": [\n          \"Exact own admitted startup with proven own loop/lock/config/session can return pending and the same command without credential/provider/start/checkpoint effects.\",\n          \"Foreign order/config/process identity, missing or contradictory metadata, unknown/offered/stopped start and absent admitted order refuse.\",\n          \"No new scheduler, retry engine, CLI verb, authority flag or candidate-selected judge; existing normal transitions and unknown-write readback persist.\"\n        ],\n        \"defect_controls\": [\n          \"Fixed external 18-case oracle baseline 16/18 to candidate 18/18, including own pending and running positive cases with zero effects.\",\n          \"Meaningful controls of bounded pending->legal next, identity drift->refusal, no unchanged refusal retry, and existing malformed active scheduler negatives.\",\n          \"One fresh consumer pair each sees own-start and foreign-owner fixtures, selected skill and exact argv without expected answers; report mechanical barrier versus behavior separately.\"\n        ],\n        \"non_cases\": [\n          \"Existing idle scheduler, live own writer, terminal cleanup and foreign ownership guards remain legal according to their current contracts.\",\n          \"No Noodle scheduler algorithm repair, carrier auto-selection, OS birth identity guarantee, cross-platform temp-path rewrite, or full feature-map maintenance claim.\"\n        ],\n        \"dependencies\": [\n          {\n            \"repository\": \"ed3c/soodles\",\n            \"issue\": 183,\n            \"owner\": \"external landing owner\",\n            \"evidence\": \"Resolved exact prior atom and current provider closed/completed readback.\"\n          }\n        ],\n        \"acceptance\": \"Freeze external oracle before candidate. Explicit supervisor schema-3 execution amendment binds exact base, required artifacts and frozen hashes before writer launch. Focused and full native controls, independent evidence review, exact-head Linux canonical acceptance.\",\n        \"delivery\": \"One exact Issue/PR via existing issue-atom, pinned independent publisher and canonical Actions; no candidate self-authorization.\",\n        \"reconciliation\": \"Existing landing owner confirms provider merge/closure and Git/Noodle reconciliation before RESOLVED.\",\n        \"feature_scope\": \"Bounded own-start read-only continuation barrier, including its tests, prompt guidance and evaluation evidence.\",\n        \"base_head\": \"12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd\",\n        \"required_paths\": [\n          \".agents/skills/issue-atom/SKILL.md\",\n          \".agents/skills/verify-soodles/features/issue-execution.md\",\n          \"docs/experiments/pclass-owner-continuation/frozen/driver.py\",\n          \"docs/experiments/pclass-owner-continuation/frozen/fixture.py\",\n          \"docs/experiments/pclass-owner-continuation/frozen/migration.md\",\n          \"docs/experiments/pclass-owner-continuation/frozen/oracle.py\",\n          \"docs/experiments/pclass-owner-continuation/frozen/protocol.md\",\n          \"docs/experiments/pclass-owner-continuation/manifest.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/baseline-oracle.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/first-attempt.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/fresh-consumers.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/observed-history.json\",\n          \"docs/experiments/pclass-owner-continuation/raw/treatment-oracle.json\",\n          \"docs/experiments/pclass-owner-continuation/results.md\",\n          \"issue_atom.py\",\n          \"tests/test_issue181_handoff_evidence.py\",\n          \"tests/test_issue_atom.py\",\n          \"tests/test_local_continuation.py\",\n          \"tests/test_owner_continuation.py\"\n        ],\n        \"evidence_manifest\": \"docs/experiments/pclass-owner-continuation/manifest.json\",\n        \"frozen_paths\": [\n          {\n            \"path\": \"docs/experiments/pclass-owner-continuation/frozen/driver.py\",\n            \"revision\": \"head\",\n            \"sha256\": \"1831f8af62beba5efaddec1a85418862d796cfb82251b0c284ee5e9b0aa593f2\"\n          },\n          {\n            \"path\": \"docs/experiments/pclass-owner-continuation/frozen/fixture.py\",\n            \"revision\": \"head\",\n            \"sha256\": \"0b2abed6703631ad9ce7d27cb5e687d2e94cfe77298d07c5869a8e5e86b86e23\"\n          },\n          {\n            \"path\": \"docs/experiments/pclass-owner-continuation/frozen/oracle.py\",\n            \"revision\": \"head\",\n            \"sha256\": \"60f4aa7f96d0e642a1a0b3d071480769fbd521d4fe351ec908b955f9c9d8f7c4\"\n          },\n          {\n            \"path\": \"docs/experiments/pclass-owner-continuation/frozen/protocol.md\",\n            \"revision\": \"head\",\n            \"sha256\": \"1f0ecff6fbc71993d08fd9de54e74c67fce8b153a7b053310e0bd6511015b9b1\"\n          },\n          {\n            \"path\": \"docs/experiments/pclass-owner-continuation/raw/baseline-oracle.json\",\n            \"revision\": \"head\",\n            \"sha256\": \"87ffc33ed971a406b9b58071e5d2bc70a11db2f6d8e04254c8083675e1796b5c\"\n          },\n          {\n            \"path\": \"docs/experiments/pclass-owner-continuation/raw/observed-history.json\",\n            \"revision\": \"head\",\n            \"sha256\": \"7e2c6b40fc49c2d4ac054408d405ede71053537ac96aa3f60f29bd39e07caa84\"\n          },\n          {\n            \"path\": \"docs/experiments/pclass-owner-continuation/frozen/migration.md\",\n            \"revision\": \"head\",\n            \"sha256\": \"b0534aec69db1c1ff718de4fd338736d2b3ad2e446b59d8c6ecb244bcf17f1f8\"\n          },\n          {\n            \"path\": \"docs/experiments/pclass-owner-continuation/raw/first-attempt.json\",\n            \"revision\": \"head\",\n            \"sha256\": \"993b93867d45be72e39942475f2e74a81763fb2472b346eed3f41c0b4b11a2a1\"\n          }\n        ]\n      },\n      \"authorizes_landing\": false\n    },\n    \"published\": false,\n    \"attempt\": {\n      \"attempt_id\": \"soodles-185-aa89b37b557a-0-attempt-0\",\n      \"session_id\": \"soodles-185-aa89b37b557a-0-execute-20260929-081530-3b8eb3\",\n      \"status\": \"running\",\n      \"started_at\": \"2026-09-29T16:15:30.954755+08:00\",\n      \"completed_at\": \"0001-01-01T00:00:00Z\",\n      \"exit_code\": null,\n      \"worktree_name\": \"soodles-185-aa89b37b557a-0-execute\",\n      \"error\": \"\"\n    },\n    \"next\": {\n      \"kind\": \"input\",\n      \"owner\": \"Noodle\",\n      \"required\": [\n        \"current_order_and_session_readback\"\n      ],\n      \"known\": {\n        \"order_id\": \"soodles-185-aa89b37b557a\"\n      },\n      \"operation\": \"supervised\",\n      \"help_argv\": [\n        \"/opt/homebrew/opt/python@3.14/bin/python3.14\",\n        \"-B\",\n        \"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/control-corrected/soodles.py\",\n        \"issue\",\n        \"supervised\",\n        \"--help\"\n      ],\n      \"reason\": \"Obtain changed input/readback from the named owner before re-entering this boundary. Preserve existing identity and history; do not retry unchanged input. Worker entry remains Noodle-dispatched; help does not authorize another writer.\"\n    }\n  },\n  \"wait_exhausted\": true\n}\n"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/instruction-first-read.md",
+      "sha256": "81ee938d4fec1b698b0e710fe0293882234ce5eb882f76ea96d4ad8e7890cb9d",
+      "content": "---\nname: issue-atom\ndescription: Advance one externally authorized local Soodles plus Noodle Issue through one resumable lifecycle command.\n---\n\n# Local Issue atom\n\nUse only with the immutable schema-2 authorization file selected by the external\nsupervisor. Here, external means outside the candidate's authority, not a\ncloud service: the authorized local Session may select the host capabilities,\nauthorization and independently pinned landing owner on the same Mac. No cloud\nSession, token handoff or separate supervisor daemon is required.\nBefore an authorization has been selected, that authorized local supervisor\nprepares the available inputs and pins the authorization; an unprepared file is\nnot by itself a reason to ask the user to prepare it. After selection, preserve\nits identity on handoff and resume: recover the selected bytes or report the\nexact missing input to its owner. This preparation role does not belong to the\ncandidate writer and does not permit it to select its own verifier.\nIt pins an external landing implementation; never select the\ncandidate's own verifier. The supervisor also supplies its SHA-256 in\n`SOODLES_AUTHORIZATION_SHA256`. The host entry uses an explicit nonblank\n`NOODLES_TOKEN_COMMAND` unchanged; otherwise it consumes the host owner's fixed\nregistration at `$XDG_CONFIG_HOME/soodles/provider.json` or\n`$HOME/.config/soodles/provider.json`. Registration supplies capability, not\nIssue authorization. The entry requests an installation token scoped to the\nauthorized repository. Do not ask a person or another session\nto carry a `GH_TOKEN`, discover App keys, or prepare a checkpoint, envelope\nor phase launcher. The entry materializes that execution state itself. The\nauthorization fixes the repository, exact base, Issue contract, control root,\ntask, Noodle and worker binaries, and required exact-head workflow evidence.\nIt also pins the original host `.noodle.toml` digest (or explicit absence).\nAn existing Issue is adopted only when its exact number, title and body are\nauthorized; it is never replaced with a newly created Issue on mismatch.\n\nRun only:\n\n```bash\n./issue-atom run /absolute/authorization.json\n```\n\nIf the selected authorization cannot be opened on this host, consume the\n`authorization.path` refusal and its same-command continuation. The external\nsupervisor makes that exact selected file readable; do not reconstruct an\nauthorization from Issue prose, substitute another atom or transfer credentials.\n\nThe foreground entry observes normal waits for up to five minutes. A refusal\nstops immediately; it is not retried. Consume the JSON result. If bounded waiting\nends with `next` non-null, wait for the named material\nowner/provider state change and execute only its returned `next.argv`, which\nis the same command. Never use `./noodles issue handoff`. Do not choose issue automatic.\nDo not choose landing dispatch, construct a phase-specific command, or retry\nan ambiguous provider write.\n\nA shared control root may be blocked by its current Noodle owner or another\natom entry. Consume the returned `next.owner`, exact required readback and\nconfirmed blocking order IDs; missing identity remains unknown. Re-enter only\nthe same `next.argv` after that material owner input changes. Elapsed time,\ndeleting a lock file or matching config does not grant ownership. Do not stop\nanother owner or construct its continuation. A verified exact owner may still\nbe observed through this entry.\n\nIf the external Issue selects a schema-4 comparison, consume the same owner's\ncurrent `next` for missing supervisor inputs. Do not construct replay commands,\nsubstitute comparison evidence or remove the requirement. Candidate verification\nand matching comparison receipts remain non-authorizing; this lifecycle entry\nstill owns continuation.\n\nThe owner persists its checkpoint before mutation, creates or adopts only the\nIssue bearing the authorization marker (or the explicitly selected existing\nIssue), always uses supervised Noodle\nadmission, obtains the exact Noodle publication claim, runs native publication\nreadiness once per immutable head, delegates PR publication to its existing\nowner, requires exact-head CI, then delegates merge/closure/reconciliation to\nthe externally pinned landing owner. The existing admission producer binds the\ntask, worker, backlog and native config; the entry preserves the original host\nconfig and starts the long-running Noodle loop once. A pristine root without a canonical\nNoodle snapshot first receives one pinned Noodle `start --once` through this\nsame entry, with the producer-emitted bootstrap config that has no Issue backlog\nadapter. Only its recorded zero exit and empty owner readback permit admission;\nthe full Issue backlog config belongs to the later admitted Noodle start.\nAn unknown exit or partial runtime refuses without replay. An existing matching owner is\nobserved, not restarted. Lost start results require owner readback.\nFor a fresh control root re-entering the same Issue, admission derives a stable\nroot-scoped Noodle order and worktree name. Retain earlier unmerged Noodle\nworktrees; do not rename or clean them to make the new writer fit. A native\nidle `schedule` order can coexist with the admitted order in the running loop;\nthe owner recognizes only its exact pending shape. An active scheduler or any\nother foreign order still requires Noodle readback.\nWrite credentials and host App/supplier configuration never enter Noodle or\ncandidate children. The existing start wrapper obtains only an Issue-read token\nfrom the host supplier for those children; no person or session carries it.\n\nPublication uses the clean native candidate's `native publication readiness`\nreceipt, not Linux runtime-lock acceptance on macOS. Linux canonical acceptance\nruns after publication in the existing exact-head Actions workflow. A native\nreceipt cannot authorize merge or replace that gate. CI supplies evidence; the\nlanding owner, not the CI runner, emits merge and closure requests.\n\nA `provider_credential_profile.*` refusal names the exact registered prerequisite\nfor the host credential owner to correct. Consume the returned `next` and use\nthe same invocation after correction; do not assemble App environment, search\nfor keys/tokens, register a candidate-selected capability or select another route.\nProfile autoload is host-only and refuses Noodle child context.\nA missing or failing supplier is a host credential owner's refusal, before a\nnew lifecycle checkpoint or provider write. An inherited `GH_TOKEN` is not a\nfallback. External authorization still selects identity and capabilities;\nhaving an App key does not authorize an Issue or select a Noodle/worker binary.\nThe cloud connector route keeps its own credential source and does not need\nthis local supplier or any token transfer.\n\nAn unchanged failed candidate head is terminal evidence, not retry authority.\nAn unknown Issue-create, branch, PR, merge, or closure outcome permits only\nfresh exact readback. A competing marker or identity is a refusal.\n\nIf the pinned landing owner refuses a terminal local candidate before creating\nits checkpoint or offering a provider write, retain the original authorization\nand refusal receipt. The external supervisor may select compatible immutable\npublisher bytes and use `landing-supervisor` with fresh provider readback, the\nexact Noodle publication claim and execution envelope to create one pre-write\nlocal activation outside the candidate. The route must pin the native claim's\npath and SHA-256; PR head ref is the publication branch, not the Noodle\nworktree. To adopt that activation, the supervisor supplies\n`SOODLES_LANDING_ACTIVATION` as its absolute `manifest.json` path and\n`SOODLES_LANDING_ACTIVATION_SHA256` as its exact digest, then runs the same\n`./issue-atom run /absolute/authorization.json`. The entry binds the selected\npublisher, candidate, order, PR, runtime and checkpoint before persisting the\ncontinuation. Later re-entry needs only the original command; a changed\nactivation, offered write or unknown write refuses. Do not change the original\nauthorization or construct a landing claim or checkpoint in the Agent.\n\nAfter confirmed merge and closure, a local reconciliation refusal may require\na corrected external publisher. The supervisor selects independently accepted\npublisher bytes in an external descriptor with exact `path`, `sha256` and\n`verifier_sha256`, then supplies its absolute path through\n`SOODLES_LANDING_RESUME_OWNER` and its file digest through\n`SOODLES_LANDING_RESUME_OWNER_SHA256`. Re-enter the same original command.\nThe entry permits this only for the original activation's confirmed post-write\ncheckpoint, persists the resume intent before invoking `landing resume`, and\nchanges only the verifier identity. An unknown result requires checkpoint\nreadback; never replay that resume, merge or closure from a prior trace.\nFor a Codex-managed detached control root, the corrected publisher must prove\nits exact Git worktree registration, clean source and admitted ancestry before\nff-only synchronization. It does not switch the shared main checkout's branch.\n\n`status=resolved` is legal only after the landing owner reports\n`classification=RESOLVED` and local reconciliation has completed. Earlier\nreceipts retain `authorizes_landing=false`.\nAfter confirmed provider closure and local fast-forward, the entry asks the\nexisting Noodle review owner to complete the original order, then reads its\nacknowledgement. It never substitutes completion state. Only its own started\nloop is shut down; unchanged installed config is restored to the pinned bytes.\n\nIssue #131 is the bootstrap deployment: its Issue was created by the existing\nexternal cloud supervisor. Its frozen P-class comparison and provider fixtures\nprove the new local route; its own delivery still uses the pre-existing\nexternal landing authority. The first live R-class use of this new Issue-create\nentry belongs to the next atom and must not be backfilled into this receipt.\n\nFor a task requiring pinned instruction activation, the external supervisor uses\nschema-3 authorization with a nonempty `instruction_pins` list of exact\n`{path, sha256}` entries at the authorized `base_head`. Use the same `issue-atom\nrun` command. The owner validates those committed UTF-8 regular-file bytes before\nIssue mutation and seals their contents into the admission envelope and Noodle\nstage prompt. Missing files, mismatched digests or invalid selection require a\ncorrected external authorization; never fill them from a guessed recipe or tip.\nSchema 2 remains supported without this activation claim. Selecting the right\nrecipes and observing model behavior remain supervisor responsibilities.\n"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/own_pending.json",
+      "sha256": "ef9725870dc1ac8cd1c92ca99b538399daa54913988726567c2b35f5dddb590e",
+      "content": {
+        "case": "own_pending",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.orders",
+            "value": "foreign_nonterminal"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "quiescent_noodle_owner"
+            ],
+            "known": {
+              "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/project",
+              "blocking_order_ids": [
+                "schedule",
+                "soodles-131-3cc3e1708777"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom",
+              "run",
+              "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/foreign_order.json",
+      "sha256": "5c56a591c8209be122532474d7a06b229135f97549df44986e7201e34334914e",
+      "content": {
+        "case": "foreign_order",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.orders",
+            "value": "foreign_nonterminal"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "quiescent_noodle_owner"
+            ],
+            "known": {
+              "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/project",
+              "blocking_order_ids": [
+                "foreign-22",
+                "schedule",
+                "soodles-131-c775bdbbfd7b"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom",
+              "run",
+              "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/invocation-1.stdout",
+      "sha256": "857ae56c7ee6ca6743685a6ea5229248f4c808371c10dfe7ab3d3f92660f3987",
+      "content": "{\"case\": \"own_pending\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.orders\", \"value\": \"foreign_nonterminal\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"quiescent_noodle_owner\"], \"known\": {\"control_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/project\", \"blocking_order_ids\": [\"schedule\", \"soodles-131-3cc3e1708777\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom\", \"run\", \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmp34uiy5x3/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/invocation-1.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "content": ""
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/invocation-2.stdout",
+      "sha256": "434bd32b1bc6066c710aee4cb3a391e95092b0d312ab6626f6348eac458763f7",
+      "content": "{\"case\": \"foreign_order\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.orders\", \"value\": \"foreign_nonterminal\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"quiescent_noodle_owner\"], \"known\": {\"control_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/project\", \"blocking_order_ids\": [\"foreign-22\", \"schedule\", \"soodles-131-c775bdbbfd7b\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/baseline-source/issue-atom\", \"run\", \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpdtwrwwxy/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-a/invocation-2.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "content": ""
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/instruction-first-read.md",
+      "sha256": "d49d1feb84af6f3b08c2c8beb3d0d9df04a5c2e0ec471803b1b62d214f22e62b",
+      "content": "# Instruction first read\n\nPath: /Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/.agents/skills/issue-atom/SKILL.md\n\nBytes: 11262\n\nSHA256: c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8\n\nExpected SHA256: c2be68318b2323e4ab228bc47345aebddcf3d27db0fa8115a820128ef93105d8\n\nMatch: True\n\n```markdown\n---\nname: issue-atom\ndescription: Advance one externally authorized local Soodles plus Noodle Issue through one resumable lifecycle command.\n---\n\n# Local Issue atom\n\nUse only with the immutable schema-2 authorization file selected by the external\nsupervisor. Here, external means outside the candidate's authority, not a\ncloud service: the authorized local Session may select the host capabilities,\nauthorization and independently pinned landing owner on the same Mac. No cloud\nSession, token handoff or separate supervisor daemon is required.\nBefore an authorization has been selected, that authorized local supervisor\nprepares the available inputs and pins the authorization; an unprepared file is\nnot by itself a reason to ask the user to prepare it. After selection, preserve\nits identity on handoff and resume: recover the selected bytes or report the\nexact missing input to its owner. This preparation role does not belong to the\ncandidate writer and does not permit it to select its own verifier.\nIt pins an external landing implementation; never select the\ncandidate's own verifier. The supervisor also supplies its SHA-256 in\n`SOODLES_AUTHORIZATION_SHA256`. The host entry uses an explicit nonblank\n`NOODLES_TOKEN_COMMAND` unchanged; otherwise it consumes the host owner's fixed\nregistration at `$XDG_CONFIG_HOME/soodles/provider.json` or\n`$HOME/.config/soodles/provider.json`. Registration supplies capability, not\nIssue authorization. The entry requests an installation token scoped to the\nauthorized repository. Do not ask a person or another session\nto carry a `GH_TOKEN`, discover App keys, or prepare a checkpoint, envelope\nor phase launcher. The entry materializes that execution state itself. The\nauthorization fixes the repository, exact base, Issue contract, control root,\ntask, Noodle and worker binaries, and required exact-head workflow evidence.\nIt also pins the original host `.noodle.toml` digest (or explicit absence).\nAn existing Issue is adopted only when its exact number, title and body are\nauthorized; it is never replaced with a newly created Issue on mismatch.\n\nRun only:\n\n```bash\n./issue-atom run /absolute/authorization.json\n```\n\nIf the selected authorization cannot be opened on this host, consume the\n`authorization.path` refusal and its same-command continuation. The external\nsupervisor makes that exact selected file readable; do not reconstruct an\nauthorization from Issue prose, substitute another atom or transfer credentials.\n\nThe foreground entry observes normal waits for up to five minutes. A refusal\nstops immediately; it is not retried. Consume the JSON result. If bounded waiting\nends with `next` non-null, wait for the named material\nowner/provider state change and execute only its returned `next.argv`, which\nis the same command. Never use `./noodles issue handoff`. Do not choose issue automatic.\nDo not choose landing dispatch, construct a phase-specific command, or retry\nan ambiguous provider write.\n\nA shared control root may be blocked by its current Noodle owner or another\natom entry. Consume the returned `next.owner`, exact required readback and\nconfirmed blocking order IDs; missing identity remains unknown. Re-enter only\nthe same `next.argv` after that material owner input changes. Elapsed time,\ndeleting a lock file or matching config does not grant ownership. Do not stop\nanother owner or construct its continuation. A verified exact owner may still\nbe observed through this entry.\n\nIf the external Issue selects a schema-4 comparison, consume the same owner's\ncurrent `next` for missing supervisor inputs. Do not construct replay commands,\nsubstitute comparison evidence or remove the requirement. Candidate verification\nand matching comparison receipts remain non-authorizing; this lifecycle entry\nstill owns continuation.\n\nThe owner persists its checkpoint before mutation, creates or adopts only the\nIssue bearing the authorization marker (or the explicitly selected existing\nIssue), always uses supervised Noodle\nadmission, obtains the exact Noodle publication claim, runs native publication\nreadiness once per immutable head, delegates PR publication to its existing\nowner, requires exact-head CI, then delegates merge/closure/reconciliation to\nthe externally pinned landing owner. The existing admission producer binds the\ntask, worker, backlog and native config; the entry preserves the original host\nconfig and starts the long-running Noodle loop once. A pristine root without a canonical\nNoodle snapshot first receives one pinned Noodle `start --once` through this\nsame entry, with the producer-emitted bootstrap config that has no Issue backlog\nadapter. Only its recorded zero exit and empty owner readback permit admission;\nthe full Issue backlog config belongs to the later admitted Noodle start.\nAn unknown exit or partial runtime refuses without replay. An existing matching owner is\nobserved, not restarted. Lost start results require owner readback.\nFor a fresh control root re-entering the same Issue, admission derives a stable\nroot-scoped Noodle order and worktree name. Retain earlier unmerged Noodle\nworktrees; do not rename or clean them to make the new writer fit. A native\nidle `schedule` order can coexist with the admitted order in the running loop;\nthe owner recognizes its exact pending shape. During execution, an active\nscheduler can instead produce a read-only `own_start_wait` with `waiting_on=Noodle`\nwhen the original started loop, held native lock, pinned launcher/config,\nexact admitted order and scheduler session/process metadata all agree. Own\nexecute pending without attempts or a matching live execute attempt remains a\nbounded wait through the same command, before credentials or provider effects.\nMissing or contradictory identity, unknown/offered/stopped start and foreign\norders still refuse immediately; never retry an unchanged refusal. This\ncomposite process evidence grants no effect custody or OS birth-identity proof.\nWrite credentials and host App/supplier configuration never enter Noodle or\ncandidate children. The existing start wrapper obtains only an Issue-read token\nfrom the host supplier for those children; no person or session carries it.\n\nPublication uses the clean native candidate's `native publication readiness`\nreceipt, not Linux runtime-lock acceptance on macOS. Linux canonical acceptance\nruns after publication in the existing exact-head Actions workflow. A native\nreceipt cannot authorize merge or replace that gate. CI supplies evidence; the\nlanding owner, not the CI runner, emits merge and closure requests.\n\nA `provider_credential_profile.*` refusal names the exact registered prerequisite\nfor the host credential owner to correct. Consume the returned `next` and use\nthe same invocation after correction; do not assemble App environment, search\nfor keys/tokens, register a candidate-selected capability or select another route.\nProfile autoload is host-only and refuses Noodle child context.\nA missing or failing supplier is a host credential owner's refusal, before a\nnew lifecycle checkpoint or provider write. An inherited `GH_TOKEN` is not a\nfallback. External authorization still selects identity and capabilities;\nhaving an App key does not authorize an Issue or select a Noodle/worker binary.\nThe cloud connector route keeps its own credential source and does not need\nthis local supplier or any token transfer.\n\nAn unchanged failed candidate head is terminal evidence, not retry authority.\nAn unknown Issue-create, branch, PR, merge, or closure outcome permits only\nfresh exact readback. A competing marker or identity is a refusal.\n\nIf the pinned landing owner refuses a terminal local candidate before creating\nits checkpoint or offering a provider write, retain the original authorization\nand refusal receipt. The external supervisor may select compatible immutable\npublisher bytes and use `landing-supervisor` with fresh provider readback, the\nexact Noodle publication claim and execution envelope to create one pre-write\nlocal activation outside the candidate. The route must pin the native claim's\npath and SHA-256; PR head ref is the publication branch, not the Noodle\nworktree. To adopt that activation, the supervisor supplies\n`SOODLES_LANDING_ACTIVATION` as its absolute `manifest.json` path and\n`SOODLES_LANDING_ACTIVATION_SHA256` as its exact digest, then runs the same\n`./issue-atom run /absolute/authorization.json`. The entry binds the selected\npublisher, candidate, order, PR, runtime and checkpoint before persisting the\ncontinuation. Later re-entry needs only the original command; a changed\nactivation, offered write or unknown write refuses. Do not change the original\nauthorization or construct a landing claim or checkpoint in the Agent.\n\nAfter confirmed merge and closure, a local reconciliation refusal may require\na corrected external publisher. The supervisor selects independently accepted\npublisher bytes in an external descriptor with exact `path`, `sha256` and\n`verifier_sha256`, then supplies its absolute path through\n`SOODLES_LANDING_RESUME_OWNER` and its file digest through\n`SOODLES_LANDING_RESUME_OWNER_SHA256`. Re-enter the same original command.\nThe entry permits this only for the original activation's confirmed post-write\ncheckpoint, persists the resume intent before invoking `landing resume`, and\nchanges only the verifier identity. An unknown result requires checkpoint\nreadback; never replay that resume, merge or closure from a prior trace.\nFor a Codex-managed detached control root, the corrected publisher must prove\nits exact Git worktree registration, clean source and admitted ancestry before\nff-only synchronization. It does not switch the shared main checkout's branch.\n\n`status=resolved` is legal only after the landing owner reports\n`classification=RESOLVED` and local reconciliation has completed. Earlier\nreceipts retain `authorizes_landing=false`.\nAfter confirmed provider closure and local fast-forward, the entry asks the\nexisting Noodle review owner to complete the original order, then reads its\nacknowledgement. It never substitutes completion state. Only its own started\nloop is shut down; unchanged installed config is restored to the pinned bytes.\n\nIssue #131 is the bootstrap deployment: its Issue was created by the existing\nexternal cloud supervisor. Its frozen P-class comparison and provider fixtures\nprove the new local route; its own delivery still uses the pre-existing\nexternal landing authority. The first live R-class use of this new Issue-create\nentry belongs to the next atom and must not be backfilled into this receipt.\n\nFor a task requiring pinned instruction activation, the external supervisor uses\nschema-3 authorization with a nonempty `instruction_pins` list of exact\n`{path, sha256}` entries at the authorized `base_head`. Use the same `issue-atom\nrun` command. The owner validates those committed UTF-8 regular-file bytes before\nIssue mutation and seals their contents into the admission envelope and Noodle\nstage prompt. Missing files, mismatched digests or invalid selection require a\ncorrected external authorization; never fill them from a guessed recipe or tip.\nSchema 2 remains supported without this activation claim. Selecting the right\nrecipes and observing model behavior remain supervisor responsibilities.\n\n```\n"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/own_pending.json",
+      "sha256": "1ae501bd7fb8564789ed955fe69983cf333792b1ecf08bbc7cb18a783c61dd7a",
+      "content": {
+        "case": "own_pending",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "pending",
+          "phase": "execution",
+          "issue": {
+            "number": 131
+          },
+          "publication": null,
+          "next": {
+            "kind": "executable",
+            "owner": "soodles.issue-atom",
+            "required": [
+              "material_owner_or_provider_state_change"
+            ],
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom",
+              "run",
+              "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmprkmadb7u/authorization.json"
+            ],
+            "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+          },
+          "authorizes_landing": false,
+          "waiting_on": "Noodle",
+          "execution": {
+            "action": "own_start_wait",
+            "order_id": "soodles-131-97b3ab315d8b",
+            "sessions": {
+              "schedule": "fixture-scheduler"
+            },
+            "execute_status": "pending"
+          },
+          "wait_exhausted": true
+        },
+        "calls": [
+          {
+            "fixture_process_read": [
+              "ps",
+              "-p",
+              "424242",
+              "-o",
+              "command="
+            ]
+          }
+        ],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/foreign_order.json",
+      "sha256": "ad3c94ccc4a6b9eb7f325b35c23657c8b799db0a12eb57873639f2377071b452",
+      "content": {
+        "case": "foreign_order",
+        "result": {
+          "owner": "soodles.issue-atom",
+          "status": "refused",
+          "invalid": {
+            "field": "noodle.orders",
+            "value": "foreign_nonterminal"
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Noodle",
+            "required": [
+              "quiescent_noodle_owner"
+            ],
+            "known": {
+              "control_root": "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/project",
+              "blocking_order_ids": [
+                "foreign-22",
+                "schedule",
+                "soodles-131-dae1a1867e6c"
+              ]
+            },
+            "argv": [
+              "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom",
+              "run",
+              "/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/authorization.json"
+            ],
+            "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+          },
+          "authorizes_landing": false
+        },
+        "calls": [],
+        "canonical_state_config_unchanged": true,
+        "authorizes_landing": false
+      }
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/invocation-1.stdout",
+      "sha256": "d3cba1bcb60ed253beb4dc06a4465173dc34df272c60ec745acf5a180a85c659",
+      "content": "{\"case\": \"own_pending\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"pending\", \"phase\": \"execution\", \"issue\": {\"number\": 131}, \"publication\": null, \"next\": {\"kind\": \"executable\", \"owner\": \"soodles.issue-atom\", \"required\": [\"material_owner_or_provider_state_change\"], \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom\", \"run\", \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmprkmadb7u/authorization.json\"], \"reason\": \"Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb.\"}, \"authorizes_landing\": false, \"waiting_on\": \"Noodle\", \"execution\": {\"action\": \"own_start_wait\", \"order_id\": \"soodles-131-97b3ab315d8b\", \"sessions\": {\"schedule\": \"fixture-scheduler\"}, \"execute_status\": \"pending\"}, \"wait_exhausted\": true}, \"calls\": [{\"fixture_process_read\": [\"ps\", \"-p\", \"424242\", \"-o\", \"command=\"]}], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/invocation-1.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "content": ""
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/invocation-2.stdout",
+      "sha256": "8a6a327d571b0b1e161ea054b67a208034ad50a60e88b1d2f86bcd8454c1e72f",
+      "content": "{\"case\": \"foreign_order\", \"result\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"noodle.orders\", \"value\": \"foreign_nonterminal\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"quiescent_noodle_owner\"], \"known\": {\"control_root\": \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/project\", \"blocking_order_ids\": [\"foreign-22\", \"schedule\", \"soodles-131-dae1a1867e6c\"]}, \"argv\": [\"/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/treatment-source/issue-atom\", \"run\", \"/private/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/tmpb6naolr1/authorization.json\"], \"reason\": \"Correct the named external input or material owner state; never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [], \"canonical_state_config_unchanged\": true, \"authorizes_landing\": false}\n"
+    },
+    {
+      "path": "/Users/neon/.codex/experiments/pclass-owner-continuation-w192sw1i/consumer-b/invocation-2.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "content": ""
+    }
+  ],
+  "authorizes_landing": false
+}

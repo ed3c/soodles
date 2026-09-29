@@ -1035,6 +1035,147 @@ def native_idle_schedule(order, model):
             and stage.get("status") == "pending" and stage.get("attempts") in (None, []))
 
 
+def own_start_wait(authorization, paths, state, binding, owner, refuse):
+    """Prove only a bounded read-only wait, never admission or effect custody."""
+    root = Path(authorization["control_root"])
+    runtime = root / ".noodle"
+    order_id = binding["execution"]["order_id"]
+    model = binding["execution"]["carrier"]["codex"]["model"]
+    orders = owner["state"]["orders"]
+
+    def check(condition, field, value="mismatch"):
+        if not condition:
+            refuse("noodle.wait." + field, value)
+
+    start = state.get("noodle_start")
+    check(state.get("phase") == "execution" and isinstance(start, dict), "phase")
+    check(start.get("status") == "started" and not any(
+        start.get(key) for key in ("stop_offered", "restore_offered", "restored")), "start")
+    check(type(start.get("pid")) is int and start["pid"] > 1, "pid")
+    # Bind the original producer bytes; matching installed config alone is not custody.
+    prepared_path = paths["envelope"].parent / "prepared.json"
+    captured = {}
+    session_states = {}
+
+    def meta_identity(value):
+        check(isinstance(value, dict), "metadata")
+        # Canonical JSON preserves scalar types (True must not equal 1).
+        return json.dumps({key: value.get(key) for key in
+                           ("session_id", "provider", "model", "runtime", "status", "alive")},
+                          sort_keys=True)
+
+    def owner_identity(value):
+        # Observe all orders, including foreign additions. Timestamps and the
+        # snapshot's event bookkeeping do not change this read-only wait.
+        result = {}
+        for oid, order in value["state"]["orders"].items():
+            check(isinstance(order, dict), "order", oid)
+            result[oid] = {key: item for key, item in order.items() if key != "updated_at"}
+        return json.dumps(result, sort_keys=True)
+
+    def read(path):
+        raw = path.read_bytes()
+        captured[path] = raw
+        value = json.loads(raw)
+        check(isinstance(value, dict), "metadata", str(path))
+        return value
+
+    prepared = read(prepared_path)
+    check(digest_bytes(captured[prepared_path]) == state.get("admission_sha256"), "prepared")
+    check(prepared.get("envelope_sha256") == state["envelope_sha256"]
+          and prepared.get("action") == "ready", "prepared_binding")
+    check(isinstance(prepared.get("next"), dict), "prepared_next")
+    argv = prepared["next"].get("argv")
+    check(argv == [prepared.get("start")] == start.get("argv"), "argv")
+    check(isinstance(argv[0], str), "argv")
+    captured[Path(argv[0])] = Path(argv[0]).read_bytes()
+    check(digest_bytes(captured[Path(argv[0])]) == prepared.get("start_sha256"), "launcher")
+    generated = paths["envelope"].parent / "noodle.toml"
+    captured[generated] = generated.read_bytes()
+    captured[root / ".noodle.toml"] = (root / ".noodle.toml").read_bytes()
+    check(captured[generated] == captured[root / ".noodle.toml"] and
+          digest_bytes(captured[generated]) == start.get("config_sha256"), "config")
+    observed = subprocess.run(["ps", "-p", str(start["pid"]), "-o", "command="],
+                              capture_output=True, text=True)
+    expected = " ".join([authorization["noodle"]["path"], "--project-dir", str(root), "start"])
+    check(observed.returncode == 0 and observed.stdout.strip() == expected, "process")
+    os.kill(start["pid"], 0)
+    sessions = {}
+    process_ids = {start["pid"]}
+    for current_id, skill in (("schedule", "schedule"), (order_id, "execute")):
+        order = orders.get(current_id)
+        check(isinstance(order, dict) and order.get("order_id") == current_id
+              and order.get("status") == "active", "order", current_id)
+        stages = order.get("stages")
+        check(isinstance(stages, list) and len(stages) == 1, "stages", current_id)
+        stage = stages[0]
+        check(type(stage.get("stage_index")) is int and stage["stage_index"] == 0
+              and stage.get("task_key") == skill
+              and stage.get("skill") == skill and stage.get("provider") == "codex"
+              and stage.get("model") == model and stage.get("runtime") == "process",
+              "stage", current_id)
+        if skill == "schedule":
+            check(stage.get("prompt") == "", "scheduler_prompt")
+        else:
+            subject = json.loads(stage.get("prompt", ""))
+            check(isinstance(subject, dict) and subject.get("route") in ("automatic", "supervised")
+                  and subject == issue_execution.projection(
+                      binding, state["envelope_sha256"], subject["route"]), "projection")
+        attempts = stage.get("attempts")
+        if skill == "execute" and stage.get("status") == "pending":
+            check(attempts in (None, []), "pending_attempts")
+            continue
+        check(stage.get("status") in ("dispatching", "running")
+              and isinstance(attempts, list) and bool(attempts)
+              and all(isinstance(a, dict) for a in attempts), "attempts", current_id)
+        check(all(a.get("status") in ("launching", "running", "completed", "failed", "cancelled")
+                  for a in attempts), "attempt_status", current_id)
+        live = [a for a in attempts if a.get("status") in ("launching", "running")]
+        check(len(live) == 1, "live_attempt", current_id)
+        attempt = live[0]
+        check((stage["status"], attempt["status"]) in
+              (("dispatching", "launching"), ("running", "running")), "status_pair", current_id)
+        sid = attempt.get("session_id")
+        check(isinstance(sid, str) and bool(re.fullmatch(r"[A-Za-z0-9_-]+", sid)), "session")
+        check(isinstance(attempt.get("attempt_id"), str)
+              and re.fullmatch(re.escape(current_id) + r"-0-attempt-[0-9]+",
+                               attempt["attempt_id"]), "attempt_id")
+        worktree = "" if skill == "schedule" else order_id + "-0-execute"
+        check(attempt.get("worktree_name") == worktree, "worktree")
+        directory = runtime / "sessions" / sid
+        spawn, process, meta = (read(directory / name) for name in
+                                ("spawn.json", "process.json", "meta.json"))
+        session_states[directory / "meta.json"] = meta_identity(meta)
+        del captured[directory / "meta.json"]
+        check(all(value.get("session_id") == sid for value in (spawn, process, meta)), "session_binding")
+        check(all(value.get("provider") == "codex" and value.get("model") == model
+                  and value.get("runtime") == "process" for value in (spawn, meta)), "carrier")
+        expected_path = root if skill == "schedule" else root / ".worktrees" / worktree
+        check(spawn.get("skill") == skill and spawn.get("worktree_path") == str(expected_path), "spawn")
+        check(meta.get("status") == attempt["status"] and meta.get("alive") is True, "meta")
+        check(type(process.get("pid")) is int and process["pid"] > 1, "session_pid")
+        check(process["pid"] not in process_ids, "distinct_processes")
+        process_ids.add(process["pid"])
+        os.kill(process["pid"], 0)
+        sessions[skill] = sid
+    check(len(set(sessions.values())) == len(sessions), "distinct_sessions")
+    # The existing native lock must already exist and be held; never create it here.
+    with (runtime / "noodle.lock").open("rb") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            pass
+        else:
+            refuse("noodle.wait.lock", "not_held")
+        check(owner_identity(issue_execution.read_owner(binding)) == owner_identity(owner),
+              "snapshot_changed")
+        check(all(path.read_bytes() == raw for path, raw in captured.items()), "metadata_changed")
+        check(all(meta_identity(json.loads(path.read_bytes())) == identity
+                  for path, identity in session_states.items()), "metadata_changed")
+    return {"action": "own_start_wait", "order_id": order_id, "sessions": sessions,
+            "execute_status": orders[order_id]["stages"][0]["status"]}
+
+
 def require_available_owner(authorization, paths, state):
     """Read Noodle custody before credentials, checkpoints or provider effects."""
     root = Path(authorization["control_root"])
@@ -1078,6 +1219,17 @@ def require_available_owner(authorization, paths, state):
         own_id = binding["execution"]["order_id"] if binding else None
         model = (binding["execution"]["carrier"]["codex"]["model"]
                  if binding else None)
+        schedule = orders.get("schedule")
+        active_schedule = (binding and state.get("noodle_start")
+                           and isinstance(schedule, dict)
+                           and schedule.get("status") == "active"
+                           and len(schedule["stages"]) == 1
+                           and schedule["stages"][0].get("status") in ("dispatching", "running")
+                           and bool(schedule["stages"][0].get("attempts")))
+        if active_schedule:
+            if any(order_id not in (own_id, "schedule") for order_id in blocking):
+                refuse("noodle.orders", "foreign_nonterminal", "quiescent_noodle_owner")
+            return own_start_wait(authorization, paths, state, binding, owner, refuse)
         if any(order_id != own_id and not (
                 order_id == "schedule" and state.get("noodle_start")
                 and native_idle_schedule(orders[order_id], model)) for order_id in blocking):
@@ -1130,7 +1282,7 @@ def require_available_owner(authorization, paths, state):
                 issue_execution._absent_process(process.parent, process.parent.name)
     except issue_admission.AdmissionRefusal as error:
         refuse(error.invalid["field"], error.invalid["value"], error.next["required"][0])
-    except (OSError, ValueError) as error:
+    except (OSError, ValueError, TypeError) as error:
         if isinstance(error, AtomRefusal):
             raise
         refuse("noodle.readback", str(error), "canonical_checkpoint_readback")
@@ -1163,7 +1315,10 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
     require(isinstance(state, dict) and state.get("schema_version") == 1
             and state.get("authorization_sha256") == authorization_digest,
             "state.authorization", "mismatch", "matching_lifecycle_checkpoint")
-    require_available_owner(authorization, paths, state)
+    observation = require_available_owner(authorization, paths, state)
+    if observation is not None:
+        return response(state, authorization_path, waiting_on="Noodle",
+                        details={"execution": observation})
     if provider is None:
         try:
             environ = provider_credential.resolve_host_environment(
