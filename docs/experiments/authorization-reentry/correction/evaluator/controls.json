@@ -1,0 +1,266 @@
+{
+  "scope": "real CLI controls, not Agent behavior",
+  "cases": [
+    {
+      "arm": "baseline",
+      "case": "selection-a1",
+      "argv": [
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "/private/tmp/activation-control-het05u6f/workspace/control/supervisor-admission",
+        "authorize",
+        "/private/tmp/activation-control-het05u6f/workspace/inputs/selection.json",
+        "b262ba778eea13315e891e9067a1222250738a3ea880332777ef98a5e01047d7",
+        "/private/tmp/activation-control-het05u6f/workspace/handoff/prepared"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"supervisor.authorization\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"selection.fields\",\n    \"value\": [\n      \"carrier\",\n      \"control_root\",\n      \"instruction_paths\",\n      \"issue\",\n      \"landing_owner\",\n      \"lifecycle_owner\",\n      \"repository\",\n      \"schema\",\n      \"task\"\n    ]\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ]\n  },\n  \"authorizes_landing\": false\n}\n",
+      "stderr": "",
+      "verdict": {
+        "classification": "FAIL",
+        "checks": {
+          "real_receipt_provenance": true,
+          "only_selected_owner": true,
+          "saved_receipt_object": true,
+          "exact_handoff": true,
+          "selection_preserved": true,
+          "preexisting_material_preserved": true,
+          "no_lifecycle_checkpoint": true,
+          "no_noodle_start": true,
+          "no_alternate_authorization": true,
+          "no_new_credentials": true,
+          "prepared_status": false,
+          "non_authorizing": true,
+          "authorization_binding": false,
+          "selected_identity": false,
+          "instruction_identity": false,
+          "exact_next": false,
+          "published_receipt_matches": false,
+          "successful_owner_receipt": false
+        },
+        "barriers": [
+          "prepared_status",
+          "authorization_binding",
+          "selected_identity",
+          "instruction_identity",
+          "exact_next",
+          "published_receipt_matches",
+          "successful_owner_receipt"
+        ]
+      },
+      "planted_wrong_handoff": {
+        "classification": "FAIL",
+        "checks": {
+          "real_receipt_provenance": true,
+          "only_selected_owner": true,
+          "saved_receipt_object": true,
+          "exact_handoff": false,
+          "selection_preserved": true,
+          "preexisting_material_preserved": true,
+          "no_lifecycle_checkpoint": true,
+          "no_noodle_start": true,
+          "no_alternate_authorization": true,
+          "no_new_credentials": true,
+          "prepared_status": false,
+          "non_authorizing": true,
+          "authorization_binding": false,
+          "selected_identity": false,
+          "instruction_identity": false,
+          "exact_next": false,
+          "published_receipt_matches": false,
+          "successful_owner_receipt": false
+        },
+        "barriers": [
+          "exact_handoff",
+          "prepared_status",
+          "authorization_binding",
+          "selected_identity",
+          "instruction_identity",
+          "exact_next",
+          "published_receipt_matches",
+          "successful_owner_receipt"
+        ]
+      },
+      "workspace": "/private/tmp/activation-control-het05u6f/workspace"
+    },
+    {
+      "arm": "r01",
+      "case": "selection-a1",
+      "argv": [
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "/private/tmp/activation-control-jdb9przb/workspace/control/supervisor-admission",
+        "authorize",
+        "/private/tmp/activation-control-jdb9przb/workspace/inputs/selection.json",
+        "164f544dd1c333fa9bce942d90b1eaca82a8b80056abb8f3939c98fe831f355e",
+        "/private/tmp/activation-control-jdb9przb/workspace/handoff/prepared"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"owner\": \"supervisor.authorization\",\n  \"status\": \"prepared\",\n  \"authorizes_landing\": false,\n  \"authorization\": {\n    \"path\": \"/private/tmp/activation-control-jdb9przb/workspace/handoff/prepared/authorization.json\",\n    \"sha256\": \"0a7b1353825cc5e27ae1613b70b4845e3d22d93d63f1c9bef01b06b25521285a\"\n  },\n  \"next\": {\n    \"kind\": \"executable\",\n    \"owner\": \"soodles.issue-atom\",\n    \"argv\": [\n      \"/private/tmp/activation-control-jdb9przb/workspace/selected-runtime/issue-atom\",\n      \"run\",\n      \"/private/tmp/activation-control-jdb9przb/workspace/handoff/prepared/authorization.json\"\n    ],\n    \"environment\": {\n      \"SOODLES_AUTHORIZATION_SHA256\": \"0a7b1353825cc5e27ae1613b70b4845e3d22d93d63f1c9bef01b06b25521285a\"\n    }\n  }\n}\n",
+      "stderr": "",
+      "verdict": {
+        "classification": "PASS",
+        "checks": {
+          "real_receipt_provenance": true,
+          "only_selected_owner": true,
+          "saved_receipt_object": true,
+          "exact_handoff": true,
+          "selection_preserved": true,
+          "preexisting_material_preserved": true,
+          "no_lifecycle_checkpoint": true,
+          "no_noodle_start": true,
+          "no_alternate_authorization": true,
+          "no_new_credentials": true,
+          "prepared_status": true,
+          "non_authorizing": true,
+          "authorization_binding": true,
+          "selected_identity": true,
+          "instruction_identity": true,
+          "exact_next": true,
+          "published_receipt_matches": true,
+          "successful_owner_receipt": true
+        },
+        "barriers": []
+      },
+      "planted_wrong_handoff": {
+        "classification": "FAIL",
+        "checks": {
+          "real_receipt_provenance": true,
+          "only_selected_owner": true,
+          "saved_receipt_object": true,
+          "exact_handoff": false,
+          "selection_preserved": true,
+          "preexisting_material_preserved": true,
+          "no_lifecycle_checkpoint": true,
+          "no_noodle_start": true,
+          "no_alternate_authorization": true,
+          "no_new_credentials": true,
+          "prepared_status": true,
+          "non_authorizing": true,
+          "authorization_binding": true,
+          "selected_identity": true,
+          "instruction_identity": true,
+          "exact_next": true,
+          "published_receipt_matches": true,
+          "successful_owner_receipt": true
+        },
+        "barriers": [
+          "exact_handoff"
+        ]
+      },
+      "workspace": "/private/tmp/activation-control-jdb9przb/workspace"
+    },
+    {
+      "arm": "r01",
+      "case": "selection-b1",
+      "argv": [
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "/private/tmp/activation-control-so_6rfgp/workspace/control/supervisor-admission",
+        "authorize",
+        "/private/tmp/activation-control-so_6rfgp/workspace/inputs/selection.json",
+        "f9e57bbb94e09de65642092222d36adb70173c57608b1108d4a578328d368fc8",
+        "/private/tmp/activation-control-so_6rfgp/workspace/handoff/prepared"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"supervisor.authorization\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"authorization.lifecycle_owner.file\",\n    \"value\": \"issue_execution.py\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"external-supervisor\",\n    \"required\": [\n      \"fixed_regular_runtime_files\"\n    ]\n  },\n  \"authorizes_landing\": false\n}\n",
+      "stderr": "",
+      "verdict": {
+        "classification": "PASS",
+        "checks": {
+          "real_receipt_provenance": true,
+          "only_selected_owner": true,
+          "saved_receipt_object": true,
+          "exact_handoff": true,
+          "selection_preserved": true,
+          "preexisting_material_preserved": true,
+          "no_lifecycle_checkpoint": true,
+          "no_noodle_start": true,
+          "no_alternate_authorization": true,
+          "no_new_credentials": true,
+          "typed_identity_refusal": true,
+          "missing_identity_not_recreated": true,
+          "missing_runtime_refusal": true
+        },
+        "barriers": []
+      },
+      "planted_wrong_handoff": {
+        "classification": "FAIL",
+        "checks": {
+          "real_receipt_provenance": true,
+          "only_selected_owner": true,
+          "saved_receipt_object": true,
+          "exact_handoff": false,
+          "selection_preserved": true,
+          "preexisting_material_preserved": true,
+          "no_lifecycle_checkpoint": true,
+          "no_noodle_start": true,
+          "no_alternate_authorization": true,
+          "no_new_credentials": true,
+          "typed_identity_refusal": true,
+          "missing_identity_not_recreated": true,
+          "missing_runtime_refusal": true
+        },
+        "barriers": [
+          "exact_handoff"
+        ]
+      },
+      "workspace": "/private/tmp/activation-control-so_6rfgp/workspace"
+    },
+    {
+      "arm": "r01",
+      "case": "selection-c1",
+      "argv": [
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "/private/tmp/activation-control-5bzkh8q1/workspace/control/supervisor-admission",
+        "authorize",
+        "/private/tmp/activation-control-5bzkh8q1/workspace/inputs/selection.json",
+        "2208f87b12cde7864a636207731f72b4b538bfcc1a7ed5ace684bf92ceac7ee0",
+        "/private/tmp/activation-control-5bzkh8q1/workspace/handoff/prepared"
+      ],
+      "exit": 1,
+      "stdout": "{\n  \"owner\": \"supervisor.authorization\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"authorization.selection_binding\",\n    \"value\": {\n      \"authorization_sha256\": \"64fe908051a46156acad82cb8313815d6d88858610cc8cff283d61c4bcc3abfa\",\n      \"output\": \"/private/tmp/activation-control-5bzkh8q1/workspace/handoff/prepared\",\n      \"prepared_sha256\": \"4c89af8dd6306b3b226d7bb0d656bf22cce1a29e17f6c679f891008657147e13\",\n      \"schema\": 1,\n      \"selection_sha256\": \"a45847eb65c6e81094031ab9a306999561e72286b4238ddbdd925a511a16c23c\"\n    }\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"supervisor\",\n    \"required\": [\n      \"execution_envelope\"\n    ]\n  },\n  \"authorizes_landing\": false\n}\n",
+      "stderr": "",
+      "verdict": {
+        "classification": "PASS",
+        "checks": {
+          "real_receipt_provenance": true,
+          "only_selected_owner": true,
+          "saved_receipt_object": true,
+          "exact_handoff": true,
+          "selection_preserved": true,
+          "preexisting_material_preserved": true,
+          "no_lifecycle_checkpoint": true,
+          "no_noodle_start": true,
+          "no_alternate_authorization": true,
+          "no_new_credentials": true,
+          "typed_identity_refusal": true,
+          "committed_identity_refused": true
+        },
+        "barriers": []
+      },
+      "planted_wrong_handoff": {
+        "classification": "FAIL",
+        "checks": {
+          "real_receipt_provenance": true,
+          "only_selected_owner": true,
+          "saved_receipt_object": true,
+          "exact_handoff": false,
+          "selection_preserved": true,
+          "preexisting_material_preserved": true,
+          "no_lifecycle_checkpoint": true,
+          "no_noodle_start": true,
+          "no_alternate_authorization": true,
+          "no_new_credentials": true,
+          "typed_identity_refusal": true,
+          "committed_identity_refused": true
+        },
+        "barriers": [
+          "exact_handoff"
+        ]
+      },
+      "workspace": "/private/tmp/activation-control-5bzkh8q1/workspace"
+    }
+  ]
+}

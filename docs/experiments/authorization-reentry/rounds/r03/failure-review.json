@@ -1,0 +1,8 @@
+{
+  "classification": "Fixed required provenance gate failed; no evidence of unsafe owner decision from this result alone.",
+  "run": "r03-ready-a3",
+  "observed": "Consumer redirected recorder stdout to an artifact, then read/unwrapped it. Fixed decoder accepts selected direct captured driver forms; this trace did not establish its required independent owner-stdout provenance.",
+  "decision": "Preserve FAIL and revert P optimization; do not modify judge or rerun third round.",
+  "command_count": 7,
+  "cost_eligible": false
+}

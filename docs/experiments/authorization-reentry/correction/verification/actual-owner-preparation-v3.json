@@ -1,0 +1,18 @@
+{
+  "scope": "actual original owner readback and external preparation only; start not executed",
+  "prior": {
+    "order_id": "soodles-193-1b701cc161ea",
+    "worktree": "soodles-193-1b701cc161ea-0-execute",
+    "worktree_path": "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-193-1b701cc161ea-0-execute",
+    "prior_envelope_sha256": "1be3528b83938735cf2775b2594a17312db63b9cc382f8a900abf694af87193f",
+    "owner_snapshot_sha256": "469d3c170c420d2f0a3d5e7c9a5cf881fe1385151226b24cc26eb514e5a4e42b",
+    "prior_loop_status": "restored"
+  },
+  "worker_head": "6ab35e09ec426cf96021db8b8cbb08e8b1cacc65",
+  "instruction_head": "6ab35e09ec426cf96021db8b8cbb08e8b1cacc65",
+  "base_head": "51821b935424a4697e2534a9f15b068620510025",
+  "envelope_sha256": "453462fd9bd5e2ca9eafe8e144558d0ca667b7096a6e206b66382a6f34a55aba",
+  "prepared_sha256": "b042de39013dc1fc9e0ece65f3f187c40373ca3f5dd7cbf2d6d4ce84ed230c61",
+  "provider_reads_only": true,
+  "authorizes_landing": false
+}

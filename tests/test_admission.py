@@ -1,5 +1,7 @@
 import json
 import os
+import io
+import subprocess
 from pathlib import Path
 import tempfile
 import unittest
@@ -89,6 +91,41 @@ class AdmissionTests(unittest.TestCase):
             with self.assertRaisesRegex(soodles.Refusal, "source.residue"):
                 soodles.acceptance_verify(self.root, self.binary)
             check.assert_not_called()
+
+    def test_full_suite_keeps_bounded_budget_and_rejects_bad_results(self):
+        for code, output in ((0, "Ran 517 tests in 242s\nOK\n"),
+                             (1, "Ran 517 tests\nFAILED\n"),
+                             (0, "Ran 0 tests\nOK\n"),
+                             (0, "Ran 517 tests\nOK (skipped=1)\n")):
+            with self.subTest(code=code, output=output), \
+                    patch.object(soodles, "source_identity", return_value={}), \
+                    patch.object(soodles, "runtime_check", return_value={"binary": str(self.binary)}), \
+                    patch.object(soodles, "run", return_value=subprocess.CompletedProcess([], code, "", output)) as run, \
+                    patch.object(soodles, "worktree_probe", side_effect=RuntimeError("physical controls reached")) as physical, \
+                    patch("sys.stderr", new_callable=io.StringIO):
+                if code == 0 and "242s" in output:
+                    with self.assertRaisesRegex(RuntimeError, "physical controls reached"):
+                        soodles.acceptance_verify(self.root, self.binary)
+                else:
+                    with self.assertRaisesRegex(soodles.Refusal, "failed, empty, or skipped"):
+                        soodles.acceptance_verify(self.root, self.binary)
+                    physical.assert_not_called()
+                self.assertEqual(run.call_args.kwargs["timeout"], 600)
+                self.assertEqual(run.call_args.args[0][-5:], ["unittest", "discover", "-s", "tests", "-v"])
+
+    def test_full_suite_timeout_preserves_partial_output_and_stops(self):
+        error = subprocess.TimeoutExpired(["python", "-m", "unittest"], 600,
+                                         output=b"observer stdout\n", stderr=b"last running test\n")
+        with patch.object(soodles, "source_identity", return_value={}), \
+                patch.object(soodles, "runtime_check", return_value={}), \
+                patch.object(soodles, "run", side_effect=error), \
+                patch.object(soodles, "worktree_probe") as physical, \
+                patch("sys.stderr", new_callable=io.StringIO) as captured:
+            with self.assertRaisesRegex(soodles.Refusal, "exceeded 600 seconds"):
+                soodles.acceptance_verify(self.root, self.binary)
+            self.assertIn("observer stdout", captured.getvalue())
+            self.assertIn("last running test", captured.getvalue())
+            physical.assert_not_called()
 
     def test_fixture_environment_drops_provider_and_live_noodle_identity(self):
         values = {"GH_TOKEN": "sentinel", "NOODLE_PROJECT_DIR": "/production",

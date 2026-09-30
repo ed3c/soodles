@@ -1,0 +1,54 @@
+{
+  "prior_attempt": "r01",
+  "verdict": "revert; no adopted candidate",
+  "summary": [
+    {
+      "run": "r01-a1",
+      "stratum": "A",
+      "classification": "PASS",
+      "barriers": [],
+      "completed_commands": 10
+    },
+    {
+      "run": "r01-a2",
+      "stratum": "A",
+      "classification": "PASS",
+      "barriers": [],
+      "completed_commands": 8
+    },
+    {
+      "run": "r01-a3",
+      "stratum": "A",
+      "classification": "PASS",
+      "barriers": [],
+      "completed_commands": 10
+    },
+    {
+      "run": "r01-b1",
+      "stratum": "B",
+      "classification": "FAIL",
+      "barriers": [
+        "typed_identity_refusal"
+      ],
+      "completed_commands": 10
+    },
+    {
+      "run": "r01-c1",
+      "stratum": "C",
+      "classification": "FAIL",
+      "barriers": [
+        "real_receipt_provenance",
+        "only_selected_owner",
+        "typed_identity_refusal"
+      ],
+      "completed_commands": 11
+    }
+  ],
+  "allowed_findings": [
+    "A preparation completion succeeds in all three observed repetitions.",
+    "B actual owner refusal is generic invalid.field=input for missing committed authorization; identity and residue were preserved.",
+    "C consumer used the prior invocation SHA instead of the currently supplied selection SHA; CLI safely refused, but the invocation was not this task current selected input."
+  ],
+  "cost_comparator": "None: r01 failed behavior gates; no efficiency adoption claim.",
+  "candidate_revision": "Review the prior proposed implementation as unadopted source, correct its current-identity interface, then evaluate the complete revised patch from original baseline."
+}

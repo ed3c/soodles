@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "frozen_at": "2026-09-29T17:34:40.774748+00:00",
+  "winner": "r02",
+  "candidate": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/product-candidate.json",
+    "sha256": "e3c5fe9c7056f12e856cf44b9e51ec66f60056861c7159f0cff6bc0096d5f8cd"
+  },
+  "treatment": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/treatment.json",
+    "sha256": "b3effebd680cbd1c71d675c314e5d98a09c4d2987d1f28cf22526c3c70d789a7"
+  },
+  "selection_decision": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/decision.json",
+    "sha256": "fe85fe91276f466d7d1d0215eca1add686f4b1e0caa95ff1f1c7285849781ba9"
+  },
+  "rejected_last_round": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r03/decision.json",
+    "sha256": "5bc7571258e3ad30df54664ce5d3cdc5ec253b3ea5e9992690517d92da3383fc"
+  },
+  "protocol": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/protocol.md",
+    "sha256": "5ac08b2307fea8d61f5bccad5fe129a06eb0f2a9ef2ca633e226daf52237a8f5"
+  },
+  "freeze": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/freeze.json",
+    "sha256": "9e73a4e12f441d9fed79f6d53502fd663187b8b37e5ee14e5dd586f9be84c06c"
+  },
+  "claims": [
+    "correctness recovery only"
+  ],
+  "efficiency_claim": false,
+  "membership": [
+    {
+      "label": "confirm-baseline-a1",
+      "case": "c-a",
+      "treatment": null
+    },
+    {
+      "label": "confirm-baseline-a2",
+      "case": "c-a",
+      "treatment": null
+    },
+    {
+      "label": "confirm-baseline-a3",
+      "case": "c-a",
+      "treatment": null
+    },
+    {
+      "label": "confirm-baseline-b1",
+      "case": "c-b",
+      "treatment": null
+    },
+    {
+      "label": "confirm-baseline-c1",
+      "case": "c-c",
+      "treatment": null
+    },
+    {
+      "label": "confirm-winner-a1",
+      "case": "c-a",
+      "treatment": {
+        "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/treatment.json",
+        "sha256": "b3effebd680cbd1c71d675c314e5d98a09c4d2987d1f28cf22526c3c70d789a7"
+      }
+    },
+    {
+      "label": "confirm-winner-a2",
+      "case": "c-a",
+      "treatment": {
+        "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/treatment.json",
+        "sha256": "b3effebd680cbd1c71d675c314e5d98a09c4d2987d1f28cf22526c3c70d789a7"
+      }
+    },
+    {
+      "label": "confirm-winner-a3",
+      "case": "c-a",
+      "treatment": {
+        "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/treatment.json",
+        "sha256": "b3effebd680cbd1c71d675c314e5d98a09c4d2987d1f28cf22526c3c70d789a7"
+      }
+    },
+    {
+      "label": "confirm-winner-b1",
+      "case": "c-b",
+      "treatment": {
+        "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/treatment.json",
+        "sha256": "b3effebd680cbd1c71d675c314e5d98a09c4d2987d1f28cf22526c3c70d789a7"
+      }
+    },
+    {
+      "label": "confirm-winner-c1",
+      "case": "c-c",
+      "treatment": {
+        "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/treatment.json",
+        "sha256": "b3effebd680cbd1c71d675c314e5d98a09c4d2987d1f28cf22526c3c70d789a7"
+      }
+    }
+  ],
+  "rule": "One fixed block, no new winner or resampling after inspection; no comparator needed because winner is first correct candidate.",
+  "authorizes_landing": false
+}

@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-q"
+  ],
+  "environment": {
+    "TMPDIR": "/private/tmp",
+    "PYTHONPATH": "tests:."
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 242.09107613563538,
+  "stdout": "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.noodle/sessions/soodles-193-1b701cc161ea-0-execute-20260930-031632-a489e2/delivery-v4-tests.stdout",
+  "stderr": "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.noodle/sessions/soodles-193-1b701cc161ea-0-execute-20260930-031632-a489e2/delivery-v4-tests.stderr"
+}

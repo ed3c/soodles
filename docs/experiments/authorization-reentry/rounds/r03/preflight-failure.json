@@ -1,0 +1,14 @@
+{
+  "failures": [
+    "Supervisor review attempted retired worktree path and aborted.",
+    "Three queued launches refused absent treatment before case preparation/model/credential creation.",
+    "Second review compared file exclusion list against both files and directories; stopped on type mismatch."
+  ],
+  "labels": [
+    "r03-a1",
+    "r03-b1",
+    "r03-c1"
+  ],
+  "correction": "Use surviving captured control snapshot, verify file exclusion list and existing directory modes separately. Only AGENTS delta accepted after audit. New launch labels identify repaired setup, not resampling.",
+  "no_model_runs": true
+}

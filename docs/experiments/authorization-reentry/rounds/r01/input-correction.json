@@ -1,0 +1,25 @@
+{
+  "status": "optimizer input preflight corrected before any candidate",
+  "cause": "git ls-tree path argument *.py matched no files; actual immutable packet missed source/tests",
+  "failed_packet": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/runs/r01-optimizer",
+  "old_launcher": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/launch_optimizer.py",
+    "sha256": "5eab503f57e8b2225a67a3ecf2c23fc934eb3ec089dcdbf92ed4c2f6352983d4"
+  },
+  "corrected_launcher": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/launch_optimizer_r02.py",
+    "sha256": "f6c0c97b646fcc0750357b5b28da20bc54e6d28052e7192320f66286126b6350"
+  },
+  "selected_source_head": "51821b935424a4697e2534a9f15b068620510025",
+  "required_files_verified": [
+    "issue_atom.py",
+    "supervisor_admission.py",
+    "tests/test_issue_atom.py",
+    "tests/test_supervisor_admission.py",
+    "tests/test_supervisor_authorization.py"
+  ],
+  "public_source_file_count": 147,
+  "measurement_conditions_changed": false,
+  "why_baseline_still_valid": "Only optimizer source packaging changed. Consumer task/factory/carrier/capture/oracle/cases/source bytes remain pinned and unchanged; no candidate or scored optimizer proposal existed. The old pinned launcher is preserved unchanged.",
+  "controls": "Required code/test files checked before any model launch."
+}

@@ -1,0 +1,6 @@
+{
+  "failure": "First packaging included regular files but omitted empty directories; immutable archive inventory correctly refused all 31 replays.",
+  "correction": "Rebuild tar containers from unchanged sealed archives including directory entries. No raw/evaluator/result change.",
+  "failed_archives": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/verification/packet-archives-files-only",
+  "judge_changed": false
+}

@@ -1,0 +1,33 @@
+{
+  "authorizes_landing": false,
+  "scope": "same-Issue correction transition prototype; no live provider or Noodle effects",
+  "base_head": "6ab35e09ec426cf96021db8b8cbb08e8b1cacc65",
+  "patch_sha256": "7a80cb02146fcec926fe9a5434a65969a53a5a66567e21312fa8e7f5a25be7c1",
+  "patch_bytes": 194887,
+  "source_digests": {
+    "issue_atom.py": "3e2354f37b658cda5439bcbdd6d39f9b7d16367a5dc36a78e248c5de50f584f0",
+    "issue_execution.py": "98f024846838a46edb7fb15f03930b6411cbe63ec6aee3b3697ec590061d5a26",
+    "tests/test_issue_atom.py": "b66915115d486fcf26937a529e216d914ac1f82467f46cd0205e63757228b600",
+    ".agents/skills/verify-soodles/features/local-supervisor-admission.md": "4afc64182fe1c3d722e1312b498b728b94d9bb1f14ec1b3d19fa2b1b1ee805e6"
+  },
+  "behavior_verdict": "INCONCLUSIVE: no fresh consumer run for these bytes",
+  "delivery_verdict": "INCOMPLETE: selected control root still uses prior lifecycle implementation",
+  "validation": {
+    "full_suite_before_final_proposal_and_epoch_guards": {
+      "tests": 504,
+      "passed": true,
+      "log": "review-transition-tests.log"
+    },
+    "final_affected_suite": {
+      "tests": 89,
+      "passed": true,
+      "log": "review-transition-focused.log"
+    },
+    "independent_noodle_controls": {
+      "tests": 3,
+      "passed": true,
+      "source_sha256": "79d0a79f189b0f845274d7b887be6890436b16210a650384cb26ec677dcae3c2"
+    },
+    "diff_check": "passed"
+  }
+}

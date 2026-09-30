@@ -1,0 +1,18 @@
+test_correction_preparation_binds_the_existing_candidate_not_control_base (test_supervisor_admission.SupervisorAdmissionTests.test_correction_preparation_binds_the_existing_candidate_not_control_base) ... FAIL
+
+======================================================================
+FAIL: test_correction_preparation_binds_the_existing_candidate_not_control_base (test_supervisor_admission.SupervisorAdmissionTests.test_correction_preparation_binds_the_existing_candidate_not_control_base)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/tests/test_supervisor_admission.py", line 365, in test_correction_preparation_binds_the_existing_candidate_not_control_base
+    self.assertEqual(envelope["execution"]["source_head"], candidate)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'f8e21a795b734eb5dc2659ba4a827da76a4b594d' != '79e08ea466a67a9b7ca115d71b6846c3eb8755f1'
+- f8e21a795b734eb5dc2659ba4a827da76a4b594d
++ 79e08ea466a67a9b7ca115d71b6846c3eb8755f1
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.585s
+
+FAILED (failures=1)

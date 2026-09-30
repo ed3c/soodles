@@ -1,0 +1,53 @@
+{
+  "changed_from_supplied_source": [
+    ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
+    "contracts/system-v1.md",
+    "supervisor_admission.py",
+    "tests/test_supervisor_authorization.py"
+  ],
+  "missing_from_carrier_worktree_and_candidate": [
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/control-ack.ndjson",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/control.ndjson",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/orders-next.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/orders.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-160639-a6316d/meta.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-160639-a6316d/process.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-160639-a6316d/spawn.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-160711-41c29f/meta.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-160711-41c29f/process.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-160711-41c29f/spawn.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-160739-1751a9/meta.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-160739-1751a9/process.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-160739-1751a9/spawn.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-161022-05d4df/meta.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-161022-05d4df/process.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-161022-05d4df/spawn.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-161152-aa6f6f/meta.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-161152-aa6f6f/process.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-161152-aa6f6f/spawn.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-170423-d53732/meta.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-170423-d53732/process.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260916-170423-d53732/spawn.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260917-052823-acc4d8/meta.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260917-052823-acc4d8/process.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260917-052823-acc4d8/spawn.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260917-052824-706675/meta.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260917-052824-706675/process.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/schedule-20260917-052824-706675/spawn.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/soodles-18-0-execute-20260916-170442-ab424c/meta.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/soodles-18-0-execute-20260916-170442-ab424c/process.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/sessions/soodles-18-0-execute-20260916-170442-ab424c/spawn.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/state.json",
+    "tests/fixtures/admission-recovery-portable/preserved-soodles-input/.noodle/state.snapshot.json"
+  ],
+  "extra_files": [],
+  "whole_patch_files_from_original_baseline": [
+    ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
+    "contracts/system-v1.md",
+    "supervisor_admission.py",
+    "tests/test_supervisor_authorization.py"
+  ],
+  "patch_apply_check": 0,
+  "adopted_prior_candidate": null,
+  "rule": "Only four reviewed changed files are overlaid onto full-history original source. The same 33 ignored historical runtime-fixture files never entered the model worktree; they are not product deletions. Full regression runs on complete source outside model sandbox."
+}

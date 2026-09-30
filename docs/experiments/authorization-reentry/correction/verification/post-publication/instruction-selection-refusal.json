@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/lifecycle-runtime-v5/issue-atom",
+    "run",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/admission-v5/authorization.json"
+  ],
+  "environment": {
+    "SOODLES_AUTHORIZATION_SHA256": "e847adc119af2c28c824f7fb135785dfcf82728085e30251d2271f4afa891b09"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "REFUSED: issue atom: Issue admission: invalid instruction_context.files.sha256='AGENTS.md'; owner: supervisor; required: execution_envelope; supported help: ./issue-atom --help\n",
+  "elapsed_seconds": 28.603094917023554
+}

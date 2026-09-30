@@ -1,0 +1,37 @@
+{
+  "problem": "Manually pruned source packets omitted transitive product-test dependencies.",
+  "observations": [
+    {
+      "packet": "r01-optimizer",
+      "missing": "Python source and tests; writer stopped without patch"
+    },
+    {
+      "packet": "r01-optimizer-input2",
+      "missing": "provider-execute; sandbox also refused fixture interpreter alias; patch retained but tests blocked"
+    },
+    {
+      "fixture": "verification/r01-product-source",
+      "missing": "historical fixed oracle under docs; 73/74 focused tests passed, one setup error"
+    },
+    {
+      "fixture": "verification/r01-product-source-complete",
+      "missing": "Pinned historical Git commit; complete file archive lacks object history. 73/74 focused tests passed, one missing-object error."
+    }
+  ],
+  "reassessment": "The actual focused-test dependency boundary includes tracked source, historical oracle files and a pinned Git commit. Use a standalone local clone with history and the same four-file overlay; preserve earlier failures. No product/test/judge change.",
+  "external_product_controls": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/verification/r01-external/results.json",
+    "sha256": "e23af48fe7752624a370b05479565d39b5ba2281f9875deef0cf5f9770d77455",
+    "pass": true,
+    "cases": 13
+  },
+  "current_candidate_unchanged": true,
+  "pending": null,
+  "resolution": {
+    "fixture": "verification/r01-product-history",
+    "focused_receipt": "verification/r01-focused-history/receipt.json",
+    "tests": 74,
+    "exit": 0,
+    "unchanged_product_patch": true
+  }
+}

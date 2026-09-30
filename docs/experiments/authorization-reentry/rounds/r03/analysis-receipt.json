@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+    "-B",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/evaluator/analysis.py",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r03/comparison.json",
+    "8672528cacfcdaa928240a56d5a80da32876402c53a1828e084d60458fa5692d"
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"authorizes_landing\": false,\n  \"baseline_target_failures\": 3,\n  \"candidate_all_gates\": false,\n  \"cost_improvement\": null,\n  \"adopt\": false,\n  \"verdict\": \"revert\",\n  \"reason\": \"candidate behavior gate failed; cost not used\"\n}\n",
+  "stderr": ""
+}

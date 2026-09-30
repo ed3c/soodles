@@ -1,0 +1,10 @@
+{
+  "launcher": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/host/launch_optimizer_r03.py",
+    "sha256": "5d1573ae29ae323a00a9fdd770dd9317797007c1bde458d7ef82b36839b1c728"
+  },
+  "scope": "optimizer source packaging only; consumer frozen files unchanged",
+  "public_source": "all tracked files at selected source; current experiment judge/cases remain external and denied",
+  "test_environment": "Actual same-profile probe showed PYTHONEXECUTABLE set to the supplied canonical Python makes sys.executable executable; without override the Framework Python reports an unadmitted opt alias. Use this explicit environment for optimizer unit tests only.",
+  "full_regression": "Supervisor uses complete standalone clone with pinned historical Git objects; no test is disabled."
+}

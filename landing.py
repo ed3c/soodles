@@ -160,7 +160,10 @@ def validate_claim(claim, *, verify_verifier=True):
     if "publication_branch" in claim:
         branch = claim["publication_branch"]
         if "control_root" in claim:
-            require(branch == f"soodles/issue-{claim['issue']}-{claim['head'][:12]}",
+            # A corrected head remains on the PR's original publication branch.
+            # validate_snapshot also binds this branch to the exact provider PR.
+            require(isinstance(branch, str) and re.fullmatch(
+                rf"soodles/issue-{claim['issue']}-[0-9a-f]{{12}}", branch),
                     "claim.publication_branch", branch)
         else:
             require(isinstance(branch, str) and branch and len(branch) <= 255,

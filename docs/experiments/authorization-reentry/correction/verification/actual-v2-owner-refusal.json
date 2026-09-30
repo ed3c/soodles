@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/lifecycle-runtime-v2/issue-atom",
+    "run",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/admission-v2/authorization.json"
+  ],
+  "environment": {
+    "SOODLES_AUTHORIZATION_SHA256": "ab545c5235bcc04f8ddd357e6b0996d3a71c2967fe96f484483e7ff293ac3786"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "REFUSED: issue atom: Issue admission: invalid instruction_context.source_head='51821b935424a4697e2534a9f15b068620510025'; owner: supervisor; required: execution_envelope; supported help: ./issue-atom --help\n",
+  "elapsed_seconds": 17.84584249998443
+}

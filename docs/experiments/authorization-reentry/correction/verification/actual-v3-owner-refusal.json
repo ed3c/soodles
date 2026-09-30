@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/lifecycle-runtime-v3/issue-atom",
+    "run",
+    "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/admission-v3/authorization.json"
+  ],
+  "environment": {
+    "SOODLES_AUTHORIZATION_SHA256": "636f6f5fee23a65a01e27c5a6eb189b333c3f839005c3cb7adff6e9e063e0949"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"owner\": \"soodles.issue-atom\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"amendment.prior_host\",\n    \"value\": null\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"external-supervisor\",\n    \"required\": [\n      \"original_host_recovery_readback\"\n    ],\n    \"argv\": [\n      \"/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/lifecycle-runtime-v3/issue-atom\",\n      \"run\",\n      \"/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/admission-v3/authorization.json\"\n    ],\n    \"reason\": \"The current authorized Local Session is the external supervisor for derivable inputs. Recover selected bytes from their owner, or correct the named material state; ask only for genuinely missing identity or capability. Never choose a phase-specific route.\"\n  },\n  \"authorizes_landing\": false\n}\n",
+  "stderr": "REFUSED: issue atom: invalid amendment.prior_host=None; supported help: ./issue-atom --help\n",
+  "elapsed_seconds": 8.174318499863148
+}

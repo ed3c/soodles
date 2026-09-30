@@ -1,0 +1,52 @@
+{
+  "scope": "real child process faults; local provider fixtures, no GitHub writes",
+  "cases": [
+    {
+      "case": "comparison_owner_guidance",
+      "comparison_fields": 3,
+      "invoked_operations": [
+        "advance",
+        "dispatch",
+        "readmit"
+      ],
+      "refusals": 7,
+      "checkpoint_preserved_on_refusal": true,
+      "provider_writes": 0
+    },
+    {
+      "case": "comparison_identity_before_guidance",
+      "guessed_provider_requests": 0
+    },
+    {
+      "case": "old_acceptance_invalidated",
+      "provider_requests": 0
+    },
+    {
+      "case": "sigkill_invalidation_and_readmission",
+      "signals": 2,
+      "fresh_requests": 1
+    },
+    {
+      "case": "offered_and_legacy_unknown",
+      "reoffers": 0
+    },
+    {
+      "case": "concurrent_readmission",
+      "processes": 2,
+      "admissions": 1
+    },
+    {
+      "case": "same_base_supervised_amendment",
+      "signals": 2,
+      "old_acceptance_dispatches": 0,
+      "fresh_requests": 1,
+      "terminal_classification": null
+    },
+    {
+      "case": "amendment_preserves_offered_and_legacy_unknown",
+      "reoffers": 0
+    }
+  ],
+  "isolated_child_uid": null,
+  "authorizes_landing": false
+}

@@ -224,8 +224,18 @@ def worktree_probe(binary):
 def acceptance_verify(root, binary):
     before = source_identity(root)
     runtime = runtime_check(root, binary)
-    result = run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-v"], root,
-                 timeout=120)
+    # The measured full suite exceeds four minutes; retain a bounded budget
+    # within the workflow's twenty-minute deadline, without skipping controls.
+    try:
+        result = run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-v"], root,
+                     timeout=600)
+    except subprocess.TimeoutExpired as error:
+        for output in (error.stdout, error.stderr):
+            if output:
+                print(output.decode(errors="replace") if isinstance(output, bytes) else output,
+                      file=sys.stderr, end="")
+        raise Refusal("acceptance verify: full test discovery exceeded 600 seconds; "
+                      "partial process output preserved above; no acceptance receipt") from error
     print(result.stderr, file=sys.stderr, end="")
     if result.returncode or not re.search(r"Ran [1-9][0-9]* tests?", result.stderr) or "skipped=" in result.stderr:
         raise Refusal("acceptance verify: test discovery failed, empty, or skipped; supported help: ./soodles acceptance verify --help")

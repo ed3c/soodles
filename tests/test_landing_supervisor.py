@@ -290,6 +290,24 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(result["landing_owner"]["next"]["argv"][-2:],
                          [str(output / "checkpoint.json"), str(output / "readback.json")])
 
+    def test_local_corrected_head_keeps_the_original_pr_branch(self):
+        snapshot, route = self.f.local_case()
+        original_branch = "soodles/issue-122-" + "d" * 12
+        self.assertNotEqual(original_branch[-12:], snapshot["pr"]["head"]["sha"][:12])
+        snapshot["pr"]["head"]["ref"] = original_branch
+        output, result = self.f.prepare("corrected-local", snapshot=snapshot, route=route)
+        claim = json.loads((output / "claim.json").read_text())
+        self.assertEqual(claim["publication_branch"], original_branch)
+        self.assertEqual(claim["head"], snapshot["pr"]["head"]["sha"])
+        self.assertEqual(result["landing_owner"]["owner"], "landing.start")
+
+        foreign = json.loads(json.dumps(snapshot))
+        foreign["pr"]["head"]["ref"] = "soodles/issue-122-" + "e" * 12
+        with self.assertRaises(landing.LandingRefusal) as caught:
+            landing.validate_snapshot(claim, foreign, operation="start",
+                                      checkpoint=output / "checkpoint.json")
+        self.assertEqual(caught.exception.invalid["field"], "pr.head.ref")
+
     def test_local_route_rejects_missing_or_changed_native_claim(self):
         snapshot, route = self.f.local_case()
         bad = json.loads(json.dumps(route))

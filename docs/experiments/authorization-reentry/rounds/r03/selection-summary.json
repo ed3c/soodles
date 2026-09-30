@@ -1,0 +1,60 @@
+{
+  "qualified_candidate": "r02",
+  "decision": {
+    "authorizes_landing": false,
+    "baseline_target_failures": 3,
+    "candidate_all_gates": true,
+    "cost_improvement": null,
+    "adopt": true,
+    "verdict": "keep_correctness",
+    "reason": "recovery completion improved; cost remains unproved",
+    "efficiency_target_achieved": false
+  },
+  "candidate_descriptor": {
+    "path": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/rounds/r02/product-candidate.json",
+    "sha256": "e3c5fe9c7056f12e856cf44b9e51ec66f60056861c7159f0cff6bc0096d5f8cd"
+  },
+  "selection_observations": [
+    {
+      "run": "a1",
+      "stratum": "A",
+      "classification": "PASS",
+      "completed_commands": 11,
+      "barriers": []
+    },
+    {
+      "run": "a2",
+      "stratum": "A",
+      "classification": "PASS",
+      "completed_commands": 10,
+      "barriers": []
+    },
+    {
+      "run": "a3",
+      "stratum": "A",
+      "classification": "PASS",
+      "completed_commands": 9,
+      "barriers": []
+    },
+    {
+      "run": "b1",
+      "stratum": "B",
+      "classification": "PASS",
+      "completed_commands": 13,
+      "barriers": []
+    },
+    {
+      "run": "c1",
+      "stratum": "C",
+      "classification": "PASS",
+      "completed_commands": 9,
+      "barriers": []
+    }
+  ],
+  "product_controls": {
+    "focused": 74,
+    "external": 13,
+    "all_passed": true
+  },
+  "scope": "Selection summary only; no confirmation information. r02 is first fully correct candidate. A is the qualified completed-task cost comparator."
+}

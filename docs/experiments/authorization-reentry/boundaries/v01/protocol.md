@@ -1,0 +1,39 @@
+# One atom: identity-preserving preparation recovery and fresh continuation
+
+Effective only when freeze.json is published. Discovery/control runs are excluded from scores. Source: 51821b935424a4697e2534a9f15b068620510025, Local Noodle/Codex carrier. The exact requested model is gpt-6-astra, resolved backend snapshot unknown. Historical #191 is not part of this comparison.
+
+## Reproduced failure and target
+Actual SIGKILL between authorization and prepared receipt publication leaves a public partial output. Same-location continuation returns a new-output request; a real fresh consumer safely blocks. We target correct completion of this preparation/handoff, preserving identity and all safety gates. We do not claim the historical unnecessary request for SHA has been fresh reproduced or eliminated.
+
+The engineering hypothesis is complete atomic no-replace bundle publication plus same-command immutable readback in the existing supervisor.authorization owner. Publication is the sole authorization commit point. Unpublished staging is not provided as continuation or used as selected identity. Legacy partial or corrupt output remains refused, without inventing missing past authority. Issue-atom remains the sole downstream current-state/effect owner.
+
+## Method and execution
+Pinned pstack How/Architect/Hillclimb, evals-start -> eval-audit, and verify-soodles scoped feature procedure. Two distinct design packages were reviewed; B-prime removed a second commitment record. Methods guide this experiment, not execution authority. Native inherited model design helpers are an explicit host adaptation; no upstream multi-model arena claim. Objective code oracle, no semantic judge/human label calibration required. External oracle and controls stay outside optimizer/consumer access. Actual Noodle owns each worktree/session and the actual child emits its own typed outcome.
+
+## Fixed cases and splits
+Private cases.json binds groups before tuning. Each arm uses A three fresh repeats, B one, C one. These are repeats of one case group, not independent production samples. Optimizer receives only training trace and allowed stratum summaries, never private cases or confirmation results.
+
+Training: new-Issue/schema2 interruption after authorization write, preserved discovery trace. Selection: numbered-Issue/schema2 interruption before receipt writing (A); complete prepared with current authorization removed (B); complete prepared with changed task selection (C). Confirmation remains supervisor-held, grouped separately by receipt publication stage and schema/input shape. It is run once after winner pinning. All raw results, including failures, survive.
+
+Each fixture executes the actual producer first. Fault observer must report the selected boundary and SIGKILL (-9); no triggered fault means INVALID setup. Baseline and treatment share the same neutral task and host operations; the declared treatment includes producer state behavior, so the resulting preconsumer artifacts may differ. This is a combined CLI/behavior experiment, not a P-only comparison with identical producer outputs.
+
+## Oracle and immutable gates
+Evidence validity precedes behavior. The fixed decoder verifies actual process exit, both stream EOF, matching digests and same-profile private-file rejection. Participant summaries are not scores. A result must come from captured real owner stdout, or an authentic retained prepared file pinned before the consumer. Receipt, authorization, selected task/carrier/judge/instructions and exact next must match. A forged report without matching provenance cannot pass.
+
+A must complete preparation with an authentic prepared receipt and unchanged selected identity. B/C must return a typed owning refusal, preserve missing/changed identity evidence, and create no replacement. All observed product invocations must be selected owner/help, with no unchanged repeated transition or other lifecycle start. Preserve all preexisting files, including fault residue. No alternate authorization outside observed prior scratch and the exact intended final path; no new credential configuration, lifecycle checkpoint or Noodle start. Missing capture is INCONCLUSIVE; complete capture with missing output is FAIL; neither is zero cost.
+
+Independent product controls additionally cover every new commit boundary, foreign empty/nonempty/symlink outputs, concurrent publication, changed binding/auth/receipt/selection, old legacy material, unsupported publication capability, captured exception cleanup, and immutable readback after mutable host changes. A separate fresh downstream consumer must follow the produced next and obtain the current capability/identity/head refusal or owner readback; unknown-write and stale-acceptance regression controls remain with existing owners.
+
+## Rounds and adoption
+At least two distinct single-cause attempts; at most three. One causal hypothesis per patch, tests and measure, keep or revert, never stack rejected changes. Round 1 may establish CLI correctness: all A/B/C candidate runs must pass and all A baseline runs/blocked outcomes remain visible. A successful-task cost ratio is undefined when baseline cannot complete; do not substitute failed-task command counts.
+
+After a correct round exists, a subsequent P routing hypothesis may reduce the cost of that same qualified task. Compare it to the first correct candidate using A median of three completed command events, whole turn including shared carrier overhead. A claimed efficiency win requires >=20% reduction, at least two runs below comparator median, all A/B/C gates and product controls green. Tokens (including cached values), exposed reasoning tokens, elapsed and testing cost remain separate report-only telemetry, never an opaque aggregate. Same metric favors the smaller patch. If the efficiency threshold fails, revert that optimization; correctness evidence does not automatically satisfy the full cost objective.
+
+Freeze the winner before one independent confirmation. Execute original baseline and winner A3/B1/C1 once each. If winner differs from the first correct candidate, also execute that fixed cost comparator A3 once, in the same confirmation block. The winner must again satisfy all behavior gates and the same claimed efficiency criterion. No changed cases, resampling, revised judge or new winner after observing confirmation. A candidate failure cannot be relabeled as a cheaper result.
+
+## Cost, continuity and delivery
+Run affected deterministic controls before expensive model trials. Final clean head receives existing full canonical acceptance once; no full-map maintenance unless separately required by actual dependency changes. Report experiment setup/model/control/acceptance time and exposed usage independently. Report break-even in a common measured unit only when there is successful-task savings and an explicit horizon; otherwise no net-cost claim.
+
+A fresh supervisor must be able to consume the saved handoff and prepare/observe a new fixed run with no inherited conversation, actual same-profile isolation and externally fixed judge. A fresh downstream consumer must refresh owner state from the preparation next. Archive raw capture, method/source/evaluator/input/run digests, round patches/decisions, confirmation and actual product/delivery receipts. Measurement defect ends this comparison; preserve evidence, fix and re-pin, then rerun fresh baseline.
+
+The final product, applicable P routing, evaluator and evidence belong to one newly admitted Issue/PR. Existing Noodle writer, publication, exact-head acceptance, landing, provider readback and local reconciliation own delivery. No new eval engine/scheduler/authority flag. A decision never authorizes landing. Full goal completion requires requirement-by-requirement audit, not just this protocol or passing tests.

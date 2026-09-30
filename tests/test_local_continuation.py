@@ -1,4 +1,8 @@
 from pathlib import Path
+import json
+import hashlib
+import subprocess
+import tempfile
 import unittest
 from unittest.mock import Mock, patch
 
@@ -37,6 +41,156 @@ class LocalContinuationTests(unittest.TestCase):
     def test_failed_ci_refuses(self):
         with self.assertRaisesRegex(atom.AtomRefusal, "workflow.conclusion"):
             self.observe({**self.run, "conclusion": "failure"}, [self.job])
+
+    def test_failed_ci_does_not_offer_the_old_authorization_as_a_correction(self):
+        with self.assertRaises(atom.AtomRefusal) as caught:
+            self.observe({**self.run, "conclusion": "failure"}, [self.job])
+        result = atom.refusal_output(caught.exception, "/external/original-authorization.json")
+        self.assertEqual(result["next"]["required"], ["new_candidate_head_after_failed_ci"])
+        self.assertNotIn("argv", result["next"])
+        self.assertIn("current authorized Local Session is the external supervisor",
+                      result["next"]["reason"])
+        self.assertIn("do not ask the user to recreate authorization",
+                      result["next"]["reason"])
+        self.assertFalse(result["authorizes_landing"])
+
+    def test_prior_loop_readback_uses_process_and_lock_not_saved_status(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            runtime = root / ".noodle"
+            runtime.mkdir()
+            lock = runtime / "noodle.lock"
+            lock.touch()
+            ended = subprocess.Popen(["/bin/sh", "-c", "exit 0"], start_new_session=True)
+            ended.wait()
+            auth = {"control_root": str(root), "noodle": {"path": "/bin/false"},
+                    "host_config_sha256": None}
+            state = {"noodle_start": {"status": "started", "pid": ended.pid}}
+            self.assertEqual(atom.observe_prior_loop(auth, state), "stopped")
+            state["noodle_start"]["restored"] = True
+            self.assertEqual(atom.observe_prior_loop(auth, state), "restored")
+            (root / ".noodle.toml").write_text('mode = "supervised"\n')
+            with self.assertRaisesRegex(atom.AtomRefusal,
+                                        "amendment.prior_loop.restored"):
+                atom.observe_prior_loop(auth, state)
+            (root / ".noodle.toml").unlink()
+            state["noodle_start"].pop("restored")
+            with patch.object(atom.subprocess, "run",
+                              return_value=Mock(returncode=0, stdout="foreign owner")):
+                with self.assertRaisesRegex(atom.AtomRefusal,
+                                            "amendment.prior_loop.identity"):
+                    atom.observe_prior_loop(auth, state)
+            lock.unlink()
+            with self.assertRaisesRegex(atom.AtomRefusal, "amendment.prior_loop.lock"):
+                atom.observe_prior_loop(auth, state)
+
+    def test_process_identity_preserves_hold_and_rejects_alternative_flags(self):
+        auth = {"noodle": {"path": "/external/noodle"}, "control_root": "/control"}
+        normal = ["/external/noodle", "--project-dir", "/control", "start"]
+        held = normal + ["--mode", "manual"]
+        self.assertEqual(atom.noodle_process_argv(auth, {}), normal)
+        self.assertEqual(atom.noodle_process_argv(auth, {"process_argv": held}), held)
+        for bad in (normal + ["--mode", "auto"], normal + ["--once"],
+                    ["/foreign/noodle", *held[1:]]):
+            with self.subTest(argv=bad), self.assertRaisesRegex(atom.AtomRefusal, "noodle.process.argv"):
+                atom.noodle_process_argv(auth, {"process_argv": bad})
+
+    def test_stopped_prior_loop_does_not_advance_new_authorization(self):
+        auth = {"prior_atom": {"path": "/fixture/prior"},
+                "control_root": "/fixture/control"}
+        with patch.object(atom, "verify_prior_atom", return_value={
+                "order_id": "same-order", "prior_loop_status": "stopped"}):
+            observed = atom.require_available_owner(auth, {}, {"phase": "issue"})
+        self.assertEqual(observed["action"], "prior_loop_stopped")
+        self.assertEqual(observed["next"]["required"],
+                         ["original_host_recovery_before_new_bundle"])
+
+    def test_prior_host_recovery_persists_intent_before_original_owner_effect(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "control"
+            (root / ".noodle/sessions").mkdir(parents=True)
+            old_path = Path(directory) / "previous.json"
+            old_path.write_text(json.dumps({"control_root": str(root)}) + "\n")
+            digest = hashlib.sha256(old_path.read_bytes()).hexdigest()
+            old_paths = atom.artifact_paths(old_path)
+            old_paths["state"].write_text('{}\n')
+            old_paths["envelope"].parent.mkdir(parents=True)
+            old_paths["envelope"].write_text('{}\n')
+            auth = {"control_root": str(root), "host_config_sha256": None,
+                    "prior_atom": {"path": str(old_path), "sha256": digest}}
+            paths = {"state": Path(directory) / "new-state.json"}
+            state = {"phase": "issue"}
+            prior = {"order_id": "same-order", "prior_loop_status": "stopped"}
+            def original_owner(*_args):
+                persisted = json.loads(paths["state"].read_text())
+                self.assertEqual(persisted["prior_host_recovery"], {
+                    "prior_authorization_sha256": digest, "order_id": "same-order",
+                    "status": "offered"})
+                return True
+            with patch.object(atom, "verify_prior_atom", return_value=prior), \
+                 patch.object(atom.issue_execution, "read_owner",
+                              return_value={"state": {"orders": {}}}), \
+                 patch.object(atom, "finish_host", side_effect=original_owner) as finish:
+                self.assertTrue(atom.recover_prior_host(auth, paths, state))
+            finish.assert_called_once()
+            self.assertEqual(state["prior_host_recovery"]["status"], "restored")
+            self.assertEqual(json.loads(paths["state"].read_text()), state)
+
+    def test_amendment_preflight_binds_failed_run_and_current_pr(self):
+        prior = {"branch": "soodles/issue-1-" + "b" * 12,
+                 "head": "b" * 40, "pr": {"number": 41}}
+        authorization = {"repository": "ed3c/soodles", "base_head": "c" * 40,
+                         "issue": {"number": 1}, "prior_publication": prior,
+                         "workflow": self.auth["workflow"]}
+        self.provider.repository_info.return_value = {
+            "full_name": "ed3c/soodles", "default_branch": "main"}
+        self.provider.base_head.return_value = "c" * 40
+        pr = {"number": 41, "state": "open", "merged": False,
+              "head": {"ref": prior["branch"], "sha": prior["head"]},
+              "base": {"ref": "main"}, "body": "Refs ed3c/soodles#1"}
+        self.provider.pull.return_value = pr
+        self.provider.branch.return_value = {"object": {"sha": prior["head"]}}
+        self.provider.workflow_runs.return_value = {
+            "workflow_runs": [{**self.run, "head_sha": prior["head"], "conclusion": "failure"}]}
+        failed_job = {**self.job, "conclusion": "failure",
+                      "steps": [{**self.job["steps"][0], "conclusion": "failure"}]}
+        self.provider.jobs.return_value = {"jobs": [failed_job]}
+        atom.verify_failed_prior(self.provider, authorization)
+        self.provider.pull.return_value = {**pr, "head": {**pr["head"], "sha": "f" * 40}}
+        with self.assertRaisesRegex(atom.AtomRefusal, "amendment.prior_pr"):
+            atom.verify_failed_prior(self.provider, authorization)
+        self.provider.pull.return_value = pr
+        self.provider.workflow_runs.return_value = {
+            "workflow_runs": [{**self.run, "head_sha": prior["head"]}]}
+        self.provider.jobs.return_value = {"jobs": [self.job]}
+        with self.assertRaisesRegex(atom.AtomRefusal, "amendment.prior_runtime"):
+            atom.verify_failed_prior(self.provider, authorization)
+
+    def test_candidate_amendment_persists_offer_before_effect_and_never_repeats_it(self):
+        with tempfile.TemporaryDirectory(prefix="issue-amendment-") as directory:
+            path = Path(directory) / "state.json"
+            prior = {"head": "b" * 40, "pr": {"number": 41}}
+            authorization = {"prior_publication": prior}
+            state = {"schema_version": 1, "writes": {}}
+            claim = {"head": "a" * 40, "worktree_path": directory}
+            calls = []
+            def observed(*args, **kwargs):
+                calls.append(kwargs)
+                self.assertEqual(json.loads(path.read_text())["writes"]["candidate_amendment"],
+                                 {"old_head": "b" * 40, "new_head": "a" * 40,
+                                  "pr": 41, "status": "offered"})
+                return {"status": "amended"}
+            with patch.object(atom, "authenticated_push", return_value=lambda *_a, **_k: None), \
+                 patch.object(atom.candidate_publication, "publish_amendment", side_effect=observed):
+                self.assertEqual(atom.publish_candidate(authorization, state, {"state": path},
+                                                        claim, {}, self.provider)["status"], "amended")
+                self.assertIsNotNone(calls[0]["push"])
+                atom.publish_candidate(authorization, state, {"state": path}, claim, {}, self.provider)
+                self.assertIsNone(calls[1]["push"])
+                with self.assertRaisesRegex(atom.AtomRefusal, "amendment.intent"):
+                    atom.publish_candidate(authorization, state, {"state": path},
+                                           {**claim, "head": "f" * 40}, {}, self.provider)
+                self.assertEqual(len(calls), 2)
 
     def test_incomplete_job_cannot_authorize_completed_run(self):
         with self.assertRaisesRegex(atom.AtomRefusal, "workflow_job.status"):
@@ -123,6 +277,18 @@ class LocalContinuationTests(unittest.TestCase):
         fixture.snapshot["pr"]["head"]["ref"] = branch
         fixture.start()
         self.assertEqual(landing.read(fixture.checkpoint)["claim"]["worktree"], "example")
+        self.assertEqual(fixture.offer()["expected_head_sha"], "a" * 40)
+
+    def test_corrected_head_keeps_original_provider_pr_branch(self):
+        from test_landing import LandingTests
+        fixture = LandingTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        branch = "soodles/issue-1-" + "b" * 12
+        fixture.claim["publication_branch"] = branch
+        fixture.snapshot["pr"]["head"]["ref"] = branch
+        fixture.start()
+        self.assertEqual(landing.read(fixture.checkpoint)["claim"]["publication_branch"], branch)
         self.assertEqual(fixture.offer()["expected_head_sha"], "a" * 40)
 
     def test_unrelated_publication_branch_cannot_be_selected(self):

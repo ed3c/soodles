@@ -1,0 +1,80 @@
+{
+  "s-a": {
+    "stratum": "A",
+    "fault": "before_receipt_write",
+    "context": {
+      "issue_number": 106,
+      "instruction_paths": [],
+      "retain_prepared_receipt": false,
+      "profile_home_fallback": false
+    },
+    "alter": null,
+    "group": "selection-pre-receipt-numbered-schema2"
+  },
+  "s-b": {
+    "stratum": "B",
+    "fault": null,
+    "context": {
+      "issue_number": 106,
+      "instruction_paths": [],
+      "retain_prepared_receipt": false,
+      "profile_home_fallback": false
+    },
+    "alter": "missing_authorization",
+    "group": "selection-complete-missing-authorization"
+  },
+  "s-c": {
+    "stratum": "C",
+    "fault": null,
+    "context": {
+      "issue_number": 106,
+      "instruction_paths": [],
+      "retain_prepared_receipt": false,
+      "profile_home_fallback": false
+    },
+    "alter": "changed_selection",
+    "group": "selection-complete-changed-task"
+  },
+  "c-a": {
+    "stratum": "A",
+    "fault": "after_receipt_write",
+    "context": {
+      "issue_number": null,
+      "instruction_paths": [
+        "AGENTS.md"
+      ],
+      "retain_prepared_receipt": false,
+      "profile_home_fallback": true
+    },
+    "alter": null,
+    "group": "confirmation-receipt-written-newissue-schema3"
+  },
+  "c-b": {
+    "stratum": "B",
+    "fault": "after_publication",
+    "context": {
+      "issue_number": null,
+      "instruction_paths": [
+        "AGENTS.md"
+      ],
+      "retain_prepared_receipt": false,
+      "profile_home_fallback": true
+    },
+    "alter": "missing_authorization",
+    "group": "confirmation-published-crash-missing-authorization"
+  },
+  "c-c": {
+    "stratum": "C",
+    "fault": "after_publication",
+    "context": {
+      "issue_number": null,
+      "instruction_paths": [
+        "AGENTS.md"
+      ],
+      "retain_prepared_receipt": false,
+      "profile_home_fallback": true
+    },
+    "alter": "changed_instruction_paths",
+    "group": "confirmation-published-crash-changed-instructions"
+  }
+}

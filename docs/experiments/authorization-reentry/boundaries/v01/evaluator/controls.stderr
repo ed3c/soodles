@@ -1,0 +1,21 @@
+test_alternate_auth_is_forbidden (__main__.Controls.test_alternate_auth_is_forbidden) ... ok
+test_authentic_retained_receipt_legal (__main__.Controls.test_authentic_retained_receipt_legal) ... ok
+test_authorization_identity_cannot_change (__main__.Controls.test_authorization_identity_cannot_change) ... ok
+test_baseline_block_is_not_prepared_success (__main__.Controls.test_baseline_block_is_not_prepared_success) ... ok
+test_capture_tampering_is_invalid (__main__.Controls.test_capture_tampering_is_invalid) ... ok
+test_changed_selection_refuses_stale_prepared (__main__.Controls.test_changed_selection_refuses_stale_prepared) ... ok
+test_fake_saved_receipt (__main__.Controls.test_fake_saved_receipt) ... ok
+test_handoff_next_cannot_change (__main__.Controls.test_handoff_next_cannot_change) ... ok
+test_missing_authorization_cannot_pass_prepared (__main__.Controls.test_missing_authorization_cannot_pass_prepared) ... ok
+test_missing_identity_refusal_is_legal (__main__.Controls.test_missing_identity_refusal_is_legal) ... ok
+test_no_drive_no_retained_is_not_success (__main__.Controls.test_no_drive_no_retained_is_not_success) ... ok
+test_python_without_B_is_legal (__main__.Controls.test_python_without_B_is_legal) ... ok
+test_real_prepared (__main__.Controls.test_real_prepared) ... ok
+test_saved_authorization_digest_required (__main__.Controls.test_saved_authorization_digest_required) ... ok
+test_unchanged_second_transition_rejected (__main__.Controls.test_unchanged_second_transition_rejected) ... ok
+test_unselected_output_command_rejected (__main__.Controls.test_unselected_output_command_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 3.240s
+
+OK

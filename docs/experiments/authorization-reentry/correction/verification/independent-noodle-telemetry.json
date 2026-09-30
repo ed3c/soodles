@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "go",
+    "test",
+    "./loop",
+    "-run",
+    "TestSoodles",
+    "-count=1",
+    "-v"
+  ],
+  "cwd": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/noodle-restart-fixture",
+  "exit": 0,
+  "stdout": "=== RUN   TestSoodlesCompletedReviewRestartAndRequestChanges\ntime=2026-09-30T10:57:57.627+08:00 level=INFO msg=\"startup injected schedule order\"\ntime=2026-09-30T10:57:57.627+08:00 level=INFO msg=\"startup reset stale canonical dispatch stage\" order=order-1 stage=0\ntime=2026-09-30T10:57:57.630+08:00 level=WARN msg=\"changes requested: failed exact-head runtime\" path=control.request_changes class=order-hard recoverability=recoverable order_id=order-1 stage_index=0 order_class=stage-terminal failure_owner=cook_agent failure_scope=order failure_class=agent_mistake agent_mistake_reason=request_changes\ntime=2026-09-30T10:57:57.630+08:00 level=INFO msg=\"scheduler not active, event stays in orders for later recovery\" order=order-1 event=request_changes\n--- PASS: TestSoodlesCompletedReviewRestartAndRequestChanges (0.26s)\n=== RUN   TestSoodlesRequestChangesAckCanLeaveReviewUnchanged\ntime=2026-09-30T10:57:57.660+08:00 level=INFO msg=\"request-changes deferred: at max concurrency\" order=42\ntime=2026-09-30T10:57:57.660+08:00 level=INFO msg=\"control command\" action=request-changes status=ok\n--- PASS: TestSoodlesRequestChangesAckCanLeaveReviewUnchanged (0.00s)\n=== RUN   TestSoodlesManualConfigCannotHoldCanonicalSupervisedMode\n--- PASS: TestSoodlesManualConfigCannotHoldCanonicalSupervisedMode (0.00s)\nPASS\nok  \tgithub.com/poteto/noodle/loop\t0.770s\n",
+  "stderr": "",
+  "elapsed_seconds": 2.253733499906957,
+  "observer_scope": "external process invocation of fixed Noodle integration controls; canonical state/mode assertions, not live Issue 193",
+  "source_before_sha256": "79d0a79f189b0f845274d7b887be6890436b16210a650384cb26ec677dcae3c2",
+  "source_after_sha256": "79d0a79f189b0f845274d7b887be6890436b16210a650384cb26ec677dcae3c2",
+  "authorizes_landing": false
+}
