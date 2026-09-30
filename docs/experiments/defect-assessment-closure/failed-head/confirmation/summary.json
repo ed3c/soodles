@@ -1,0 +1,19 @@
+{
+  "scope": "bounded fresh context transfer within the same three state families; not arbitrary repair autonomy",
+  "arms": {
+    "baseline": {
+      "cases": 3,
+      "structural_pass": 3,
+      "trace_review_pass": 2,
+      "median_shell_tool_calls_including_carrier": 5
+    },
+    "r01": {
+      "cases": 3,
+      "structural_pass": 3,
+      "trace_review_pass": 3,
+      "median_shell_tool_calls_including_carrier": 5
+    }
+  },
+  "winner_source_pins_unchanged": true,
+  "authorizes_landing": false
+}

@@ -486,8 +486,21 @@ def validate_delivery_paths(root, base, head, binding):
     comparison = verify_comparison(root, base, head, binding)
     manifest_sha256 = validate_candidate_evidence(
         root, base, head, binding, paths)
+    # Local landing calls this shared boundary directly. A self-consistent
+    # candidate manifest cannot replace the supervisor's selected evidence.
+    frozen_receipts = []
+    for pin in contract.get("frozen_paths", []):
+        revision = base if pin["revision"] == "base" else head
+        actual = hashlib.sha256(git_bytes(root, revision, pin["path"])).hexdigest()
+        require(actual == pin["sha256"], "candidate.frozen_path.sha256",
+                {"path": pin["path"], "revision": pin["revision"],
+                 "expected": pin["sha256"], "actual": actual},
+                owner="Soodles candidate verification",
+                required="externally_frozen_candidate_bytes")
+        frozen_receipts.append({**pin, "actual_sha256": actual})
     return {"head": head, "base_head": base, "changed_paths": paths,
             **({"comparison": comparison} if comparison is not None else {}),
+            "frozen_paths": frozen_receipts,
             "evidence_manifest_sha256": manifest_sha256,
             "authorizes_landing": False}
 
@@ -546,16 +559,6 @@ def verify_candidate(root, base, head, readback):
         "contract": contract,
     }
     receipt = validate_delivery_paths(root, base, head, binding)
-    frozen_receipts = []
-    for pin in contract.get("frozen_paths", []):
-        revision = base if pin["revision"] == "base" else head
-        actual = hashlib.sha256(git_bytes(root, revision, pin["path"])).hexdigest()
-        require(actual == pin["sha256"], "candidate.frozen_path.sha256",
-                {"path": pin["path"], "revision": pin["revision"],
-                 "expected": pin["sha256"], "actual": actual},
-                owner="Soodles candidate verification",
-                required="externally_frozen_candidate_bytes")
-        frozen_receipts.append({**pin, "actual_sha256": actual})
     tree = subprocess.run(
         ["git", "rev-parse", f"{head}^{{tree}}"], cwd=root,
         capture_output=True, text=True, timeout=30)
@@ -567,7 +570,6 @@ def verify_candidate(root, base, head, readback):
         "issue": number,
         "issue_body_sha256": body_digest(body),
         "tree": tree.stdout.strip(),
-        "frozen_paths": frozen_receipts,
         "owner": "candidate.verify",
         "classification": "VERIFIED",
         "authorizes_landing": False,

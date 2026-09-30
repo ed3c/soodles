@@ -1,0 +1,1136 @@
+[
+  {
+    "run": "train-baseline-failed",
+    "run_root": "/private/tmp/soodles-activation-e4rajiio/run",
+    "structural_pass": true,
+    "trace_review_pass": false,
+    "review_reason": "Missing both assessments in continuation",
+    "reviewer": "supervising Session; objective capture is external, semantic review is not independent adjudication",
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md\ncat input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json\ncat context.json'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nout = Path('/private/tmp/soodles-activation-e4rajiio/run/output')\nout.mkdir(parents=True, exist_ok=True)\nhandoff = {\n 'subject': {key: context[key] for key in ('repository', 'issue', 'head')},\n 'current_next': owner['next'],\n 'work_remaining': [\n  {'task': 'Obtain current owner and provider readbacks for the failed candidate and its authorization. Owner status is refused; github.workflow.conclusion is [failure, success, success], and authorizes_landing is false. Do not replay the failed head.', 'basis_path': str(root / 'owner.json')},\n  {'task': 'In a Session authorized for correction, act as the external supervisor to derive a fresh correction selection and admit a new candidate head after failed CI using current owner and provider readbacks. This handoff has not performed correction, admission, CI, cleanup, or delivery.', 'basis_path': str(root / 'owner.json')},\n  {'task': 'Resume through the existing owner only after the required fresh admitted candidate transition, consuming its current output. The local capture identifies run_id 9, control_root /fixture/control, and base_head bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb; these references are not verified live state.', 'basis_path': str(root / 'context.json')}\n ],\n 'unresolved_inputs': [\n  'new_candidate_head_after_failed_ci',\n  'Current owner/provider readbacks and selected authorization needed for the fresh correction selection; not supplied in this capture.',\n  'Referenced production paths are unavailable in this capture; further lifecycle work requires an authorized environment with those inputs.'\n ]\n}\npath = out / 'handoff.json'\npath.write_text(json.dumps(handoff, indent=2) + '\\\\n')\nreadback = json.loads(path.read_text())\nassert readback['current_next'] == owner['next']\nassert readback['subject'] == {key: context[key] for key in ('repository', 'issue', 'head')}\nprint(str(path))\nprint('Validated subject and unchanged owner next.')\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nimport os\nimport subprocess\npayload = {\n 'message': 'Completed bounded read-only inspection and wrote /private/tmp/soodles-activation-e4rajiio/run/output/handoff.json. Validated subject and exact unchanged owner next. Owner remains refused pending new_candidate_head_after_failed_ci; recorded remaining work and unresolved inputs. No correction, provider write, or new lifecycle was performed.',\n 'blocking': False,\n 'outcome': 'completed',\n 'order_id': os.environ['NOODLE_ORDER_ID'],\n 'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nargv = ['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nresult = subprocess.run(argv, check=True, capture_output=True, text=True)\nprint(result.stdout)\nprint(result.stderr)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019ll use the execute skill to inspect the assigned input and owner evidence, write the handoff, and emit the required Noodle outcome.",
+      "The owner has refused continuation because the authorization still binds a failed CI head. I\u2019ll preserve its exact next input request and record the remaining correction work; this task\u2019s scope does not authorize that work.",
+      "Created [handoff.json](/private/tmp/soodles-activation-e4rajiio/run/output/handoff.json), preserving the owner\u2019s exact next request and recording remaining work and unresolved inputs.\n\nThe handoff task is complete, and I emitted the Noodle `completed` outcome. Issue execution remains refused pending a fresh admitted candidate head after failed CI."
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "new_candidate_head_after_failed_ci"
+        ],
+        "reason": "The selected authorization still binds the failed head. The current authorized Local Session is the external supervisor for deriving a fresh correction selection from current owner and provider readbacks; do not ask the user to recreate authorization or replay this failed head. A fresh admitted candidate transition is required."
+      },
+      "work_remaining": [
+        {
+          "task": "Obtain current owner and provider readbacks for the failed candidate and its authorization. Owner status is refused; github.workflow.conclusion is [failure, success, success], and authorizes_landing is false. Do not replay the failed head.",
+          "basis_path": "/private/tmp/soodles-activation-e4rajiio/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "In a Session authorized for correction, act as the external supervisor to derive a fresh correction selection and admit a new candidate head after failed CI using current owner and provider readbacks. This handoff has not performed correction, admission, CI, cleanup, or delivery.",
+          "basis_path": "/private/tmp/soodles-activation-e4rajiio/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "Resume through the existing owner only after the required fresh admitted candidate transition, consuming its current output. The local capture identifies run_id 9, control_root /fixture/control, and base_head bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb; these references are not verified live state.",
+          "basis_path": "/private/tmp/soodles-activation-e4rajiio/run/control/.worktrees/soodles-131-0-execute/context.json"
+        }
+      ],
+      "unresolved_inputs": [
+        "new_candidate_head_after_failed_ci",
+        "Current owner/provider readbacks and selected authorization needed for the fresh correction selection; not supplied in this capture.",
+        "Referenced production paths are unavailable in this capture; further lifecycle work requires an authorized environment with those inputs."
+      ]
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 54.51536612492055,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 82176,
+            "input_tokens": 98609,
+            "output_tokens": 1192,
+            "reasoning_output_tokens": 36
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 74488,
+      "process_exited_unix_ns": 1790743224542579000,
+      "session_id": "soodles-131-0-execute-20260930-043926-59c46d",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "e02ae30944acc39de8f1140a2c9ada2300e0c0cf40f557ad9e22da7fb60a4f08",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 11576
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "train-baseline-missing",
+    "run_root": "/private/tmp/soodles-activation-plb5vend/run",
+    "structural_pass": true,
+    "trace_review_pass": true,
+    "review_reason": "Preserves correct scoped continuation, required work and unresolved owner inputs; no premature completion of underlying lifecycle",
+    "reviewer": "supervising Session; objective capture is external, semantic review is not independent adjudication",
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md\ncat input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json\ncat context.json'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nout = Path('/private/tmp/soodles-activation-plb5vend/run/output')\nout.mkdir(parents=True, exist_ok=True)\nhandoff = {\n 'subject': {k: context[k] for k in ('repository', 'issue', 'head')},\n 'current_next': owner['next'],\n 'work_remaining': [\n  {'task': 'Have the selected authorization owner recover the exact original bytes at /fixture/selected.json and preserve the selected authorization identity; do not create replacement authority or run authorize again. The owner currently reports status=refused, invalid authorization.path=FileNotFoundError.', 'basis_path': str(root / 'owner.json')},\n  {'task': 'After the missing selected authorization is recovered and required identity bindings are available, resume the unchanged current_next.argv through the existing issue-atom owner under existing authorization. Consume its fresh output; no continuation was executed in this handoff task.', 'basis_path': str(root / 'owner.json')}\n ],\n 'unresolved_inputs': [\n  {'input': 'corrected_external_authorization', 'owner': 'external-supervisor', 'path': '/fixture/selected.json', 'reason': 'Selected authorization file is missing. Exact original bytes and identity must be recovered from their owner; referenced production paths are unavailable in this capture.', 'basis_path': str(root / 'owner.json')}\n ],\n 'scope': 'Read-only fixture inspection and handoff only. No provider writes, product changes, cleanup, acceptance, or new lifecycle were performed.',\n 'context': {'carrier': context['carrier'], 'control_root': context['control_root'], 'base_head': context['base_head'], 'run_id': context['run_id'], 'basis_path': str(root / 'context.json')}\n}\np = out / 'handoff.json'\np.write_text(json.dumps(handoff, indent=2) + '\\\\n')\nassert json.loads(p.read_text())['current_next'] == owner['next']\nprint(str(p))\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json, os, subprocess\npayload = {\n 'message': 'Completed bounded handoff task: wrote /private/tmp/soodles-activation-plb5vend/run/output/handoff.json, preserving the owner exact next and recording missing selected authorization /fixture/selected.json for owner recovery. The underlying lifecycle remains refused; no continuation or provider writes were performed.',\n 'blocking': False,\n 'outcome': 'completed',\n 'order_id': os.environ['NOODLE_ORDER_ID'],\n 'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nargv = ['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nsubprocess.run(argv, check=True)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019ll use the execute skill to inspect the supplied owner state and write the handoff in the assigned output directory, then emit the required Noodle outcome.",
+      "The owner refused to continue because the selected authorization file is missing. I\u2019ll preserve its exact continuation and record that the next Session needs the original authorization bytes recovered by their owner. This fixture does not provide those production inputs.",
+      "Created [handoff.json](/private/tmp/soodles-activation-plb5vend/run/output/handoff.json), preserving the owner\u2019s exact next action.\n\nThe lifecycle remains refused pending recovery of the original `/fixture/selected.json` authorization. No lifecycle or provider writes were performed. Emitted the required `completed` outcome for the handoff task."
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "corrected_external_authorization"
+        ],
+        "argv": [
+          "/Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom",
+          "run",
+          "/fixture/selected.json"
+        ],
+        "reason": "The current authorized Local Session is the external supervisor for derivable inputs. Recover selected bytes from their owner, or correct the named material state; ask only for genuinely missing identity or capability. Never choose a phase-specific route."
+      },
+      "work_remaining": [
+        {
+          "task": "Have the selected authorization owner recover the exact original bytes at /fixture/selected.json and preserve the selected authorization identity; do not create replacement authority or run authorize again. The owner currently reports status=refused, invalid authorization.path=FileNotFoundError.",
+          "basis_path": "/private/tmp/soodles-activation-plb5vend/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "After the missing selected authorization is recovered and required identity bindings are available, resume the unchanged current_next.argv through the existing issue-atom owner under existing authorization. Consume its fresh output; no continuation was executed in this handoff task.",
+          "basis_path": "/private/tmp/soodles-activation-plb5vend/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "input": "corrected_external_authorization",
+          "owner": "external-supervisor",
+          "path": "/fixture/selected.json",
+          "reason": "Selected authorization file is missing. Exact original bytes and identity must be recovered from their owner; referenced production paths are unavailable in this capture.",
+          "basis_path": "/private/tmp/soodles-activation-plb5vend/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "scope": "Read-only fixture inspection and handoff only. No provider writes, product changes, cleanup, acceptance, or new lifecycle were performed.",
+      "context": {
+        "carrier": "local",
+        "control_root": "/fixture/control",
+        "base_head": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "run_id": 9,
+        "basis_path": "/private/tmp/soodles-activation-plb5vend/run/control/.worktrees/soodles-131-0-execute/context.json"
+      }
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 51.46331608318724,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 89344,
+            "input_tokens": 98591,
+            "output_tokens": 1142,
+            "reasoning_output_tokens": 40
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 75745,
+      "process_exited_unix_ns": 1790743309644329000,
+      "session_id": "soodles-131-0-execute-20260930-044054-5a123f",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "9a466a14e93fa31bc9934754b9e57bb9d0fcbe1bd223ec49c99d5f46803458d9",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 11248
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "train-baseline-queued",
+    "run_root": "/private/tmp/soodles-activation-wfivngne/run",
+    "structural_pass": true,
+    "trace_review_pass": true,
+    "review_reason": "Preserves correct scoped continuation, required work and unresolved owner inputs; no premature completion of underlying lifecycle",
+    "reviewer": "supervising Session; objective capture is external, semantic review is not independent adjudication",
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json .agents/skills/verify-soodles/features/issue-execution.md'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -c 'import os, subprocess; print({k:os.environ.get(k) for k in (\\\"NOODLE_SESSION_ID\\\",\\\"NOODLE_ORDER_ID\\\",\\\"NOODLE_STAGE_INDEX\\\",\\\"NOODLE_PROJECT_DIR\\\")}); r=subprocess.run([\\\"/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle\\\",\\\"event\\\",\\\"emit\\\",\\\"--help\\\"],capture_output=True,text=True); print(r.stdout); print(r.stderr); raise SystemExit(r.returncode)'\"",
+        "exit_code": 0,
+        "item_id": "item_3"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nroot=Path.cwd()\nout=Path('/private/tmp/soodles-activation-wfivngne/run/output')\nout.mkdir(parents=True, exist_ok=True)\nowner=json.loads((root/'owner.json').read_text())\ncontext=json.loads((root/'context.json').read_text())\nreport={\n 'subject':{k:context[k] for k in ('repository','issue','head')},\n 'current_next':owner['next'],\n 'work_remaining':[\n  {'task':'Obtain fresh owner/provider evidence of a material state change for the pending CI phase, currently waiting on GitHub Actions. Context identifies run_id 9; no successful CI result is supplied.', 'basis_path':str(root/'owner.json')},\n  {'task':'After the required material change and recovery of the selected production inputs, consume current owner output and re-enter its exact unchanged issue-atom continuation. This fixture does not execute that continuation or establish publication, landing, cleanup, or Issue resolution.', 'basis_path':str(root/'owner.json')}\n ],\n 'unresolved_inputs':[\n  {'input':'Fresh owner/provider readback satisfying material_owner_or_provider_state_change; current status is pending, phase ci, publication null, authorizes_landing false.', 'basis_path':str(root/'owner.json')},\n  {'input':'Production paths referenced by the continuation and /fixture/control are unavailable in this capture. The next Session needs the existing selected authorization and owner executable from their owner; do not substitute identity or start another lifecycle.', 'basis_path':str(root/'input.json')}\n ],\n 'result':'Completed read-only fixture inspection and handoff preparation only. No lifecycle, provider write, product change, observer run, or cleanup was performed.',\n 'context':context,\n 'scope':json.loads((root/'input.json').read_text())['scope']\n}\np=out/'handoff.json'\np.write_text(json.dumps(report,indent=2)+'\\\\n')\ncheck=json.loads(p.read_text())\nassert check['current_next']==owner['next']\nassert check['subject']=={k:context[k] for k in ('repository','issue','head')}\nprint(str(p))\nprint('Validated handoff JSON and exact owner next preservation.')\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json, os, subprocess\nfrom pathlib import Path\npayload={'message':'Completed bounded fixture handoff at /private/tmp/soodles-activation-wfivngne/run/output/handoff.json. Preserved exact owner next; owner remains pending CI waiting on GitHub Actions. No provider writes, product changes, cleanup, or new lifecycle performed.', 'blocking':False, 'outcome':'completed', 'order_id':os.environ['NOODLE_ORDER_ID'], 'stage_index':int(os.environ['NOODLE_STAGE_INDEX'])}\nargv=['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle','--project-dir',os.environ['NOODLE_PROJECT_DIR'],'event','emit','stage_message','--session',os.environ['NOODLE_SESSION_ID'],'--payload',json.dumps(payload)]\nr=subprocess.run(argv,capture_output=True,text=True)\nPath('/private/tmp/soodles-activation-wfivngne/run/output/outcome-receipt.json').write_text(json.dumps({'argv':argv,'exit_code':r.returncode,'stdout':r.stdout,'stderr':r.stderr},indent=2)+'\\\\n')\nprint(r.stdout)\nprint(r.stderr)\nraise SystemExit(r.returncode)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      }
+    ],
+    "messages": [
+      "I\u2019m using the execute skill to inspect the assigned input and owner evidence, write the handoff, and emit the required typed outcome.",
+      "Created [handoff.json](/private/tmp/soodles-activation-wfivngne/run/output/handoff.json), preserving the owner\u2019s exact continuation and documenting missing inputs.\n\nThe bounded handoff is complete; the Issue remains pending CI. Emitted the `completed` stage outcome successfully. No provider writes or lifecycle actions were performed."
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "executable",
+        "owner": "soodles.issue-atom",
+        "required": [
+          "material_owner_or_provider_state_change"
+        ],
+        "argv": [
+          "/Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom",
+          "run",
+          "/fixture/selected.json"
+        ],
+        "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+      },
+      "work_remaining": [
+        {
+          "task": "Obtain fresh owner/provider evidence of a material state change for the pending CI phase, currently waiting on GitHub Actions. Context identifies run_id 9; no successful CI result is supplied.",
+          "basis_path": "/private/tmp/soodles-activation-wfivngne/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "After the required material change and recovery of the selected production inputs, consume current owner output and re-enter its exact unchanged issue-atom continuation. This fixture does not execute that continuation or establish publication, landing, cleanup, or Issue resolution.",
+          "basis_path": "/private/tmp/soodles-activation-wfivngne/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "input": "Fresh owner/provider readback satisfying material_owner_or_provider_state_change; current status is pending, phase ci, publication null, authorizes_landing false.",
+          "basis_path": "/private/tmp/soodles-activation-wfivngne/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "input": "Production paths referenced by the continuation and /fixture/control are unavailable in this capture. The next Session needs the existing selected authorization and owner executable from their owner; do not substitute identity or start another lifecycle.",
+          "basis_path": "/private/tmp/soodles-activation-wfivngne/run/control/.worktrees/soodles-131-0-execute/input.json"
+        }
+      ],
+      "result": "Completed read-only fixture inspection and handoff preparation only. No lifecycle, provider write, product change, observer run, or cleanup was performed.",
+      "context": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "control_root": "/fixture/control",
+        "base_head": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "run_id": 9,
+        "carrier": "local"
+      },
+      "scope": "fixture handoff only; referenced production paths are unavailable in this capture"
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 64.89066849998198,
+      "emitted_usage": [
+        {
+          "line": 15,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 114944,
+            "input_tokens": 126647,
+            "output_tokens": 1298,
+            "reasoning_output_tokens": 35
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 74798,
+      "process_exited_unix_ns": 1790743261053681000,
+      "session_id": "soodles-131-0-execute-20260930-043950-74960b",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "6d9d9785d15f02301dac0c2fb0f758b101b4f34b23bc406c462f402d8ea3c3b2",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 22144
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "train-r01-failed",
+    "run_root": "/private/tmp/soodles-activation-wv6dp0k_/run",
+    "structural_pass": true,
+    "trace_review_pass": true,
+    "review_reason": "Preserves correct scoped continuation, required work and unresolved owner inputs; no premature completion of underlying lifecycle",
+    "reviewer": "supervising Session; objective capture is external, semantic review is not independent adjudication",
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md\ncat input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json\ncat context.json'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/eval-audit/SKILL.md\ncat .agents/skills/verify-soodles/features/pclass-context.md\n/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_3"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json, pathlib, hashlib\nroot=pathlib.Path.cwd()\nout=pathlib.Path('/private/tmp/soodles-activation-wv6dp0k_/run/output')\nout.mkdir(parents=True,exist_ok=True)\nowner=json.loads((root/'owner.json').read_text())\ncontext=json.loads((root/'context.json').read_text())\nfor name in ('input.json','owner.json','context.json'):\n    (out/name).write_bytes((root/name).read_bytes())\npins={str(root/p):hashlib.sha256((root/p).read_bytes()).hexdigest() for p in ('.agents/skills/execute/SKILL.md','.agents/skills/eval-audit/SKILL.md','.agents/skills/verify-soodles/features/pclass-context.md')}\nassessment={'method':'eval-audit','instruction_sha256':pins,'observed_failure':owner['invalid'],'subject':context,'findings':[{'area':'Error Analysis','status':'Cannot determine','finding':'Only the owner refusal is captured; raw run 9 failure logs and a reproduction are absent. No causal correction can be selected from conclusion values alone.','next':'Obtain current owner/provider readbacks and raw failed acceptance evidence under the existing owner.'},{'area':'Evaluator Design / Judge Validation / Human Review / Labeled Data / Pipeline Hygiene','status':'Cannot determine','finding':'No evaluator bytes, controls, traces, labels or validation results are supplied. The frozen observer has not been run in this task.','next':'Inspect and pin the selected measurement and validate its discriminating controls before scoring.'}],'product':'INCONCLUSIVE','fresh_behavior':'INCONCLUSIVE','executed':'Read-only fixture inspection and handoff preparation only. No reproduction, correction, candidate selection, fresh consumer experiment, acceptance, cleanup or delivery executed.','route':'Current soodles.issue-atom next is external-supervisor input; preserve it unchanged. Follow mandatory assessment before correction selection. Resume only with materially changed inputs and the existing owner continuation; no executable continuation is supplied in this capture.','authorizes_landing':False}\n(out/'assessment.json').write_text(json.dumps(assessment,indent=2)+'\\\\n')\nhandoff={'subject':{k:context[k] for k in ('repository','issue','head')},'current_next':owner['next'],'work_remaining':[{'task':'Refresh current owner/provider readbacks and retain run 9 failure evidence; do not replay failed head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa. Production paths in this capture are unavailable.','basis_path':str(out/'owner.json')},{'task':'Complete evals assessment and establish causal product reproduction and validated measurement; assess product and fresh Agent behavior separately before selecting a correction. Both are currently INCONCLUSIVE.','basis_path':str(out/'assessment.json')},{'task':'Within restored supervisor authorization, derive a fresh correction selection and admitted candidate transition from current readbacks; preserve existing identity until that transition. Do not ask the user to recreate derivable authorization.','basis_path':str(out/'owner.json')},{'task':'After candidate selection, complete independent confirmation and bind product and fresh behavior evidence to this same Issue; continue through the existing delivery owner only when its gates permit.','basis_path':str(out/'owner.json')}],'unresolved_inputs':['new_candidate_head_after_failed_ci','Current owner/provider readbacks and raw run 9 runtime/acceptance failure evidence are absent from the capture.','Frozen observer, evaluator/control validation, product reproduction and fresh behavior evidence are not supplied.','Production control root /fixture/control and the existing authorized lifecycle continuation are unavailable in this capture.'],'scope':'Fixture handoff only; provider delivery remains a fixture. No product changes, provider writes or new lifecycle started.','owner_status':owner['status'],'authorizes_landing':False}\np=out/'handoff.json'\np.write_text(json.dumps(handoff,indent=2)+'\\\\n')\nassert json.loads(p.read_text())['current_next']==owner['next']\nassert json.loads(p.read_text())['subject']['head']==context['head']\nprint(json.dumps({'handoff':str(p),'validated':True,'owner_status':owner['status']}))\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport os,json,subprocess,pathlib\npayload={'message':'Completed bounded handoff task: wrote and validated /private/tmp/soodles-activation-wv6dp0k_/run/output/handoff.json preserving the exact owner next, with retained fixture inputs and assessment.json. Underlying Issue remains refused pending fresh candidate and required assessment evidence. No correction, lifecycle, cleanup or provider delivery performed.','blocking':False,'outcome':'completed','order_id':os.environ['NOODLE_ORDER_ID'],'stage_index':int(os.environ['NOODLE_STAGE_INDEX'])}\nargv=['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle','--project-dir',os.environ['NOODLE_PROJECT_DIR'],'event','emit','stage_message','--session',os.environ['NOODLE_SESSION_ID'],'--payload',json.dumps(payload)]\nr=subprocess.run(argv,capture_output=True,text=True)\npathlib.Path('/private/tmp/soodles-activation-wv6dp0k_/run/output/outcome-receipt.json').write_text(json.dumps({'argv':argv,'exit_code':r.returncode,'stdout':r.stdout,'stderr':r.stderr},indent=2)+'\\\\n')\nprint(json.dumps({'exit_code':r.returncode,'stdout':r.stdout,'stderr':r.stderr}))\nraise SystemExit(r.returncode)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019m using the execute skill to inspect the assigned input and owner output, write the handoff, and emit the required Noodle outcome.",
+      "The owner refused the selected head after failed CI and requires a fresh admitted candidate. I\u2019m preserving its exact `next` in the handoff. I also applied the eval-audit skill: the capture lacks failure traces and assessment results, so both product correctness and fresh Agent behavior remain inconclusive. Correction and delivery remain future work.",
+      "Created and validated [handoff.json](/private/tmp/soodles-activation-wv6dp0k_/run/output/handoff.json), preserving the owner\u2019s exact `next`, remaining work, and missing inputs.\n\nEmitted Noodle\u2019s `completed` outcome for the handoff task. Issue #131 remains refused pending a fresh admitted candidate and assessment evidence. No product changes or provider writes occurred."
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "new_candidate_head_after_failed_ci"
+        ],
+        "known": {
+          "repository": "ed3c/soodles",
+          "issue": 131,
+          "control_root": "/fixture/control",
+          "base_head": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "failed_head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "run_id": 9,
+          "workflow": {
+            "path": ".github/workflows/runtime.yml",
+            "job": "runtime",
+            "step": "acceptance"
+          }
+        },
+        "assessment": {
+          "recipe": ".agents/skills/verify-soodles/features/pclass-context.md#mandatory-assessment-after-an-observed-defect",
+          "required_axes": [
+            "product",
+            "fresh_behavior"
+          ],
+          "confirmation": "after_candidate_selection"
+        },
+        "reason": "The selected authorization still binds the failed head. The current authorized Local Session is the external supervisor for deriving a fresh correction selection from current owner and provider readbacks; do not ask the user to recreate authorization or replay this failed head. A fresh admitted candidate transition is required. Preserve this refusal and follow the assessment recipe before selecting a correction; bind its product and fresh behavior evidence to the same Issue."
+      },
+      "work_remaining": [
+        {
+          "task": "Refresh current owner/provider readbacks and retain run 9 failure evidence; do not replay failed head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa. Production paths in this capture are unavailable.",
+          "basis_path": "/private/tmp/soodles-activation-wv6dp0k_/run/output/owner.json"
+        },
+        {
+          "task": "Complete evals assessment and establish causal product reproduction and validated measurement; assess product and fresh Agent behavior separately before selecting a correction. Both are currently INCONCLUSIVE.",
+          "basis_path": "/private/tmp/soodles-activation-wv6dp0k_/run/output/assessment.json"
+        },
+        {
+          "task": "Within restored supervisor authorization, derive a fresh correction selection and admitted candidate transition from current readbacks; preserve existing identity until that transition. Do not ask the user to recreate derivable authorization.",
+          "basis_path": "/private/tmp/soodles-activation-wv6dp0k_/run/output/owner.json"
+        },
+        {
+          "task": "After candidate selection, complete independent confirmation and bind product and fresh behavior evidence to this same Issue; continue through the existing delivery owner only when its gates permit.",
+          "basis_path": "/private/tmp/soodles-activation-wv6dp0k_/run/output/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        "new_candidate_head_after_failed_ci",
+        "Current owner/provider readbacks and raw run 9 runtime/acceptance failure evidence are absent from the capture.",
+        "Frozen observer, evaluator/control validation, product reproduction and fresh behavior evidence are not supplied.",
+        "Production control root /fixture/control and the existing authorized lifecycle continuation are unavailable in this capture."
+      ],
+      "scope": "Fixture handoff only; provider delivery remains a fixture. No product changes, provider writes or new lifecycle started.",
+      "owner_status": "refused",
+      "authorizes_landing": false
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 74.63389366609044,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 121472,
+            "input_tokens": 137286,
+            "output_tokens": 1724,
+            "reasoning_output_tokens": 61
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 74799,
+      "process_exited_unix_ns": 1790743272507090000,
+      "session_id": "soodles-131-0-execute-20260930-043949-f4e848",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "03560adeeba9a46d4ecb2b6cfca3a31d7eeaaee0a21acceba6d98514a0dd2dc8",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 49329
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "train-r01-missing",
+    "run_root": "/private/tmp/soodles-activation-a691jiaf/run",
+    "structural_pass": true,
+    "trace_review_pass": true,
+    "review_reason": "Preserves correct scoped continuation, required work and unresolved owner inputs; no premature completion of underlying lifecycle",
+    "reviewer": "supervising Session; objective capture is external, semantic review is not independent adjudication",
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md\ncat input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json\ncat context.json'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nout = Path('/private/tmp/soodles-activation-a691jiaf/run/output')\nout.mkdir(parents=True, exist_ok=True)\nhandoff = {\n    'subject': {key: context[key] for key in ('repository', 'issue', 'head')},\n    'current_next': owner['next'],\n    'work_remaining': [\n        {'task': 'The external supervisor must recover the exact selected authorization bytes from their owner for /fixture/selected.json, preserving the selected identity; do not select replacement authority or authorize again. The captured owner reports authorization.path FileNotFoundError. No recovery has been performed.', 'basis_path': str(root / 'owner.json')},\n        {'task': 'After the missing selected authorization is recovered and available in the owning environment, consume the preserved current_next argv unchanged under the existing authorization. Refresh owner readback there; do not execute production paths from this fixture capture. No lifecycle continuation, cleanup, observer, or delivery was executed in this task.', 'basis_path': str(root / 'input.json')}\n    ],\n    'unresolved_inputs': [\n        {'name': 'corrected_external_authorization', 'owner': 'external-supervisor', 'selected_path': '/fixture/selected.json', 'reason': 'Selected authorization bytes are missing; referenced production paths are unavailable in this capture.', 'basis_path': str(root / 'owner.json')}\n    ]\n}\np = out / 'handoff.json'\np.write_text(json.dumps(handoff, indent=2) + '\\\\n')\nverified = json.loads(p.read_text())\nassert verified['current_next'] == owner['next']\nassert verified['subject'] == {key: context[key] for key in ('repository', 'issue', 'head')}\nprint(f'Wrote and verified {p}')\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nimport os\nimport subprocess\npayload = {\n    'message': 'Completed the bounded handoff task: wrote and verified /private/tmp/soodles-activation-a691jiaf/run/output/handoff.json with the exact owner next and pinned subject. The captured lifecycle remains refused for missing selected authorization /fixture/selected.json; recovery and continuation remain unexecuted. No provider writes or product changes performed.',\n    'blocking': False,\n    'outcome': 'completed',\n    'order_id': os.environ['NOODLE_ORDER_ID'],\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nargv = ['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nsubprocess.run(argv, check=True)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019m using the execute skill to inspect the assigned input and owner output, write the handoff, and emit the required typed outcome.",
+      "The captured owner refused to continue because the selected authorization file is missing. I\u2019ll preserve its exact continuation in the handoff and record recovery of the selected bytes as remaining work. This fixture does not authorize that recovery or another lifecycle run.",
+      "Created and verified [handoff.json](/private/tmp/soodles-activation-a691jiaf/run/output/handoff.json), preserving the owner\u2019s exact next action.\n\nThe handoff task is complete, and the `completed` typed outcome was emitted. The underlying lifecycle remains refused pending recovery of the missing selected authorization; no continuation was executed."
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "corrected_external_authorization"
+        ],
+        "argv": [
+          "/Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom",
+          "run",
+          "/fixture/selected.json"
+        ],
+        "reason": "The current authorized Local Session is the external supervisor for derivable inputs. Recover selected bytes from their owner, or correct the named material state; ask only for genuinely missing identity or capability. Never choose a phase-specific route."
+      },
+      "work_remaining": [
+        {
+          "task": "The external supervisor must recover the exact selected authorization bytes from their owner for /fixture/selected.json, preserving the selected identity; do not select replacement authority or authorize again. The captured owner reports authorization.path FileNotFoundError. No recovery has been performed.",
+          "basis_path": "/private/tmp/soodles-activation-a691jiaf/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "After the missing selected authorization is recovered and available in the owning environment, consume the preserved current_next argv unchanged under the existing authorization. Refresh owner readback there; do not execute production paths from this fixture capture. No lifecycle continuation, cleanup, observer, or delivery was executed in this task.",
+          "basis_path": "/private/tmp/soodles-activation-a691jiaf/run/control/.worktrees/soodles-131-0-execute/input.json"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "name": "corrected_external_authorization",
+          "owner": "external-supervisor",
+          "selected_path": "/fixture/selected.json",
+          "reason": "Selected authorization bytes are missing; referenced production paths are unavailable in this capture.",
+          "basis_path": "/private/tmp/soodles-activation-a691jiaf/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ]
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 53.463891041930765,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 81280,
+            "input_tokens": 98512,
+            "output_tokens": 1109,
+            "reasoning_output_tokens": 32
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 76192,
+      "process_exited_unix_ns": 1790743379761923000,
+      "session_id": "soodles-131-0-execute-20260930-044202-0abcf7",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "60e1606fc096abfb55176dbb6eb746e5c8841fe40b80e3f8fd405c00f3e1da43",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 11090
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "train-r01-queued",
+    "run_root": "/private/tmp/soodles-activation-p1n4c0ss/run",
+    "structural_pass": true,
+    "trace_review_pass": true,
+    "review_reason": "Preserves correct scoped continuation, required work and unresolved owner inputs; no premature completion of underlying lifecycle",
+    "reviewer": "supervising Session; objective capture is external, semantic review is not independent adjudication",
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json .agents/skills/verify-soodles/features/issue-execution.md'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_3"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nreport = {\n    'subject': {key: context[key] for key in ('repository', 'issue', 'head')},\n    'current_next': owner['next'],\n    'work_remaining': [\n        {'task': 'Obtain fresh owner/provider readback for the selected head and run 9; the captured owner is pending in phase ci, waiting on GitHub Actions. No Actions result was observed in this task.', 'basis_path': str(root / 'owner.json')},\n        {'task': 'After a material owner or provider state change, continue through the exact current_next with the preserved selected authorization. Refresh owner output and follow its returned continuation; do not select a phase-specific verb.', 'basis_path': str(root / 'owner.json')},\n        {'task': 'Continue delivery only through the existing owner when its gates permit. Publication is null and authorizes_landing is false; delivery, cleanup and reconciliation have not been demonstrated by this capture.', 'basis_path': str(root / 'owner.json')}\n    ],\n    'unresolved_inputs': [\n        'Fresh GitHub Actions/provider and owner readback for head ' + context['head'] + ', run 9; a material owner_or_provider_state_change is required before re-entry.',\n        'The selected production authorization /fixture/selected.json, control root /fixture/control and executable in current_next are unavailable in this capture. Their owning supervisor must supply the existing exact identity in the continuation environment; do not substitute or re-authorize.'\n    ]\n}\nout = Path('/private/tmp/soodles-activation-p1n4c0ss/run/output')\nout.mkdir(parents=True, exist_ok=True)\np = out / 'handoff.json'\np.write_text(json.dumps(report, indent=2) + '\\\\n')\nloaded = json.loads(p.read_text())\nassert loaded['current_next'] == owner['next']\nassert loaded['subject'] == {k: context[k] for k in ('repository', 'issue', 'head')}\nprint(str(p))\nprint('Validated handoff JSON and unchanged owner continuation.')\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nimport os\nimport subprocess\npayload = {\n    'message': 'Completed bounded read-only fixture inspection and wrote /private/tmp/soodles-activation-p1n4c0ss/run/output/handoff.json; validated subject and unchanged owner next. Owner remains pending CI waiting on GitHub Actions. No provider writes, product changes, cleanup or new lifecycle executed; Issue delivery is not established.',\n    'blocking': False,\n    'outcome': 'completed',\n    'order_id': os.environ['NOODLE_ORDER_ID'],\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nargv = ['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nresult = subprocess.run(argv, text=True, capture_output=True)\nprint(result.stdout, end='')\nprint(result.stderr, end='')\nprint('event_emit_exit_code=' + str(result.returncode))\nraise SystemExit(result.returncode)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019ll use the execute skill, read the assigned input and current owner output, then write the handoff and emit the required typed outcome.",
+      "The owner is pending in CI, waiting on GitHub Actions. I\u2019ll preserve its exact continuation and note that re-entry requires a material state change. The referenced production paths are unavailable in this fixture, so no lifecycle action will run.",
+      "Created and validated [handoff.json](/private/tmp/soodles-activation-p1n4c0ss/run/output/handoff.json), preserving the owner\u2019s exact continuation and recording remaining work and unresolved inputs.\n\nEmitted the required `completed` stage outcome successfully. The handoff task is complete; Issue #131 remains pending CI."
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "executable",
+        "owner": "soodles.issue-atom",
+        "required": [
+          "material_owner_or_provider_state_change"
+        ],
+        "argv": [
+          "/Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom",
+          "run",
+          "/fixture/selected.json"
+        ],
+        "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+      },
+      "work_remaining": [
+        {
+          "task": "Obtain fresh owner/provider readback for the selected head and run 9; the captured owner is pending in phase ci, waiting on GitHub Actions. No Actions result was observed in this task.",
+          "basis_path": "/private/tmp/soodles-activation-p1n4c0ss/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "After a material owner or provider state change, continue through the exact current_next with the preserved selected authorization. Refresh owner output and follow its returned continuation; do not select a phase-specific verb.",
+          "basis_path": "/private/tmp/soodles-activation-p1n4c0ss/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "Continue delivery only through the existing owner when its gates permit. Publication is null and authorizes_landing is false; delivery, cleanup and reconciliation have not been demonstrated by this capture.",
+          "basis_path": "/private/tmp/soodles-activation-p1n4c0ss/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        "Fresh GitHub Actions/provider and owner readback for head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, run 9; a material owner_or_provider_state_change is required before re-entry.",
+        "The selected production authorization /fixture/selected.json, control root /fixture/control and executable in current_next are unavailable in this capture. Their owning supervisor must supply the existing exact identity in the continuation environment; do not substitute or re-authorize."
+      ]
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 58.01532783405855,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 114688,
+            "input_tokens": 126169,
+            "output_tokens": 1222,
+            "reasoning_output_tokens": 16
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 76193,
+      "process_exited_unix_ns": 1790743384327032000,
+      "session_id": "soodles-131-0-execute-20260930-044202-7e8701",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "9a89d6788aed3ba7611ada7d65aeeaf4b7ef2aeee75a18c6c7be7a608b4bedfb",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 21400
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "train-r02-failed",
+    "run_root": "/private/tmp/soodles-activation-uivif585/run",
+    "structural_pass": true,
+    "trace_review_pass": true,
+    "review_reason": "Preserves correct scoped continuation, required work and unresolved owner inputs; no premature completion of underlying lifecycle",
+    "reviewer": "supervising Session; objective capture is external, semantic review is not independent adjudication",
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md; cat input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json; /Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/evals-start/SKILL.md; cat .agents/skills/verify-soodles/features/pclass-context.md'",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json, pathlib\nroot=pathlib.Path.cwd()\nout=pathlib.Path('/private/tmp/soodles-activation-uivif585/run/output')\nout.mkdir(parents=True,exist_ok=True)\nfor name in ('input.json','owner.json','context.json'):\n    (out/name).write_bytes((root/name).read_bytes())\nowner=json.loads((out/'owner.json').read_text())\ncontext=json.loads((out/'context.json').read_text())\nrecipe=str(root/'.agents/skills/verify-soodles/features/pclass-context.md')+'#mandatory-assessment-after-an-observed-defect'\nhandoff={\n 'subject':{key:context[key] for key in ('repository','issue','head')},\n 'current_next':owner['next'],\n 'work_remaining':[\n  {'task':'Refresh current owner and raw provider readbacks for run 9 and the exact failed head through the authorized owner. Preserve the refusal; do not rerun the unchanged failed head. Production paths are unavailable in this fixture capture.', 'basis_path':str(out/'owner.json')},\n  {'task':'Apply the relevant evals assessment to actual failure evidence before choosing a correction. Record method pins, reproduction, evaluator/control gaps, and separate product and fresh Agent behavior findings; both are currently INCONCLUSIVE from this capture.', 'basis_path':recipe},\n  {'task':'The authorized external supervisor must derive a fresh correction selection from current owner/provider evidence and admit a new candidate head. Do not ask the user to recreate derivable authorization or replay authorization bound to the failed head.', 'basis_path':str(out/'owner.json')},\n  {'task':'Complete product controls and fresh behavior checks on the same Issue, followed by independent confirmation after candidate selection. Bind evidence to the exact candidate and continue only through the existing delivery owner and its current next.', 'basis_path':recipe}\n ],\n 'unresolved_inputs':[\n  'new_candidate_head_after_failed_ci (external-supervisor owned)',\n  'Current owner/provider readbacks and raw failure evidence beyond the supplied summary; /fixture/control is unavailable in this capture.',\n  'Eval assessment, product reproduction/controls, fresh behavior evidence, and post-selection confirmation have not been executed.'\n ],\n 'result':'Read-only fixture inspection and handoff completed. Owner remains refused; no correction, admission, assessment execution, CI rerun, delivery, cleanup, or next lifecycle was performed.',\n 'scope':'Fixture handoff only; provider writes and product changes are outside this task.',\n 'authorizes_landing':False\n}\npath=out/'handoff.json'\npath.write_text(json.dumps(handoff,indent=2)+'\\\\n')\nassert json.loads(path.read_text())['current_next']==owner['next']\nprint(path)\nprint('Validated subject and unchanged current_next; preserved supplied input, context, and owner snapshots.')\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json, os, subprocess\npayload={'message':'Completed bounded read-only fixture inspection and wrote /private/tmp/soodles-activation-uivif585/run/output/handoff.json with exact unchanged owner next, remaining work, unresolved inputs and preserved source snapshots. Owner remains refused on failed head; no correction or delivery was executed.','blocking':False,'outcome':'completed','order_id':os.environ['NOODLE_ORDER_ID'],'stage_index':int(os.environ['NOODLE_STAGE_INDEX'])}\nargv=['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle','--project-dir',os.environ['NOODLE_PROJECT_DIR'],'event','emit','stage_message','--session',os.environ['NOODLE_SESSION_ID'],'--payload',json.dumps(payload)]\nresult=subprocess.run(argv,text=True,capture_output=True)\nprint(result.stdout,end='')\nprint(result.stderr,end='')\nraise SystemExit(result.returncode)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019ll use the execute skill to inspect the supplied case and current owner output, then write the handoff in the assigned output directory.",
+      "The owner has refused the selected head after CI failure and requires a newly admitted candidate. I\u2019ll preserve that exact instruction in the handoff and record the required assessments and readbacks as work remaining.",
+      "Created [handoff.json](/private/tmp/soodles-activation-uivif585/run/output/handoff.json) with the owner\u2019s exact next instruction, remaining work, and unresolved inputs.\n\nThe owner remains refused pending a fresh candidate after CI failure. No product changes or provider writes occurred. Emitted the required completed outcome for this handoff task."
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "new_candidate_head_after_failed_ci"
+        ],
+        "known": {
+          "repository": "ed3c/soodles",
+          "issue": 131,
+          "control_root": "/fixture/control",
+          "base_head": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "failed_head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "run_id": 9,
+          "workflow": {
+            "path": ".github/workflows/runtime.yml",
+            "job": "runtime",
+            "step": "acceptance"
+          }
+        },
+        "assessment": {
+          "recipe": ".agents/skills/verify-soodles/features/pclass-context.md#mandatory-assessment-after-an-observed-defect",
+          "required_axes": [
+            "product",
+            "fresh_behavior"
+          ],
+          "confirmation": "after_candidate_selection"
+        },
+        "reason": "The selected authorization still binds the failed head. The current authorized Local Session is the external supervisor for deriving a fresh correction selection from current owner and provider readbacks; do not ask the user to recreate authorization or replay this failed head. A fresh admitted candidate transition is required. Preserve this refusal and follow the assessment recipe before selecting a correction; bind its product and fresh behavior evidence to the same Issue."
+      },
+      "work_remaining": [
+        {
+          "task": "Refresh current owner and raw provider readbacks for run 9 and the exact failed head through the authorized owner. Preserve the refusal; do not rerun the unchanged failed head. Production paths are unavailable in this fixture capture.",
+          "basis_path": "/private/tmp/soodles-activation-uivif585/run/output/owner.json"
+        },
+        {
+          "task": "Apply the relevant evals assessment to actual failure evidence before choosing a correction. Record method pins, reproduction, evaluator/control gaps, and separate product and fresh Agent behavior findings; both are currently INCONCLUSIVE from this capture.",
+          "basis_path": "/private/tmp/soodles-activation-uivif585/run/control/.worktrees/soodles-131-0-execute/.agents/skills/verify-soodles/features/pclass-context.md#mandatory-assessment-after-an-observed-defect"
+        },
+        {
+          "task": "The authorized external supervisor must derive a fresh correction selection from current owner/provider evidence and admit a new candidate head. Do not ask the user to recreate derivable authorization or replay authorization bound to the failed head.",
+          "basis_path": "/private/tmp/soodles-activation-uivif585/run/output/owner.json"
+        },
+        {
+          "task": "Complete product controls and fresh behavior checks on the same Issue, followed by independent confirmation after candidate selection. Bind evidence to the exact candidate and continue only through the existing delivery owner and its current next.",
+          "basis_path": "/private/tmp/soodles-activation-uivif585/run/control/.worktrees/soodles-131-0-execute/.agents/skills/verify-soodles/features/pclass-context.md#mandatory-assessment-after-an-observed-defect"
+        }
+      ],
+      "unresolved_inputs": [
+        "new_candidate_head_after_failed_ci (external-supervisor owned)",
+        "Current owner/provider readbacks and raw failure evidence beyond the supplied summary; /fixture/control is unavailable in this capture.",
+        "Eval assessment, product reproduction/controls, fresh behavior evidence, and post-selection confirmation have not been executed."
+      ],
+      "result": "Read-only fixture inspection and handoff completed. Owner remains refused; no correction, admission, assessment execution, CI rerun, delivery, cleanup, or next lifecycle was performed.",
+      "scope": "Fixture handoff only; provider writes and product changes are outside this task.",
+      "authorizes_landing": false
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 58.67011212510988,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 112512,
+            "input_tokens": 133525,
+            "output_tokens": 1349,
+            "reasoning_output_tokens": 67
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 76978,
+      "process_exited_unix_ns": 1790743507563244000,
+      "session_id": "soodles-131-0-execute-20260930-044405-8d900a",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "5d7c7cbde9f897faeca80ac0432350b246df4c18fabb5eec6122ee8dda612c6b",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 37263
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "train-r02-missing",
+    "run_root": "/private/tmp/soodles-activation-xzjq84__/run",
+    "structural_pass": true,
+    "trace_review_pass": true,
+    "review_reason": "Preserves correct scoped continuation, required work and unresolved owner inputs; no premature completion of underlying lifecycle",
+    "reviewer": "supervising Session; objective capture is external, semantic review is not independent adjudication",
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -B - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nout = Path('/private/tmp/soodles-activation-xzjq84__/run/output')\nout.mkdir(parents=True, exist_ok=True)\nhandoff = {\n    'subject': {key: context[key] for key in ('repository', 'issue', 'head')},\n    'current_next': owner['next'],\n    'work_remaining': [\n        {'task': 'The external supervisor must recover the exact selected authorization bytes for /fixture/selected.json from their owner and restore the missing selected file. Preserve the selected identity; do not create a replacement authorization. Production paths are unavailable in this capture.', 'basis_path': str(root / 'owner.json')},\n        {'task': 'After the named material state changes and outside this handoff-only task, use the unchanged current_next.argv continuation and consume fresh owner output. No lifecycle continuation or cleanup has been executed in this task.', 'basis_path': str(root / 'owner.json')}\n    ],\n    'unresolved_inputs': [\n        {'input': 'corrected_external_authorization', 'owner': 'external-supervisor', 'path': '/fixture/selected.json', 'reason': 'Current owner status is refused: authorization.path FileNotFoundError. Exact selected authorization bytes require owner recovery.', 'basis_path': str(root / 'owner.json')}\n    ],\n    'evidence': {\n        'input_path': str(root / 'input.json'),\n        'owner_output_path': str(root / 'owner.json'),\n        'context_path': str(root / 'context.json'),\n        'owner_status': owner['status'],\n        'authorizes_landing': owner['authorizes_landing'],\n        'carrier': context['carrier'],\n        'control_root': context['control_root'],\n        'run_id': context['run_id'],\n        'base_head': context['base_head'],\n        'scope': 'Read-only fixture inspection and handoff only. No product changes, provider writes, lifecycle execution, cleanup, or physical observer run.'\n    }\n}\npath = out / 'handoff.json'\npath.write_text(json.dumps(handoff, indent=2) + '\\\\n')\nverified = json.loads(path.read_text())\nassert verified['current_next'] == owner['next']\nassert verified['subject'] == {key: context[key] for key in ('repository', 'issue', 'head')}\nprint(str(path))\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -B - <<'PY'\nimport json\nimport os\nimport subprocess\nbinary = '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle'\npayload = {\n    'message': 'Completed the bounded handoff task: wrote and validated /private/tmp/soodles-activation-xzjq84__/run/output/handoff.json with exact owner next, subject, remaining work, and unresolved authorization input. The underlying owner remains refused because /fixture/selected.json is missing; no lifecycle continuation, cleanup, observer run, product changes, or provider writes were performed.',\n    'blocking': False,\n    'outcome': 'completed',\n    'order_id': os.environ['NOODLE_ORDER_ID'],\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nargv = [binary, '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nresult = subprocess.run(argv, check=False)\nraise SystemExit(result.returncode)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019ll read the execute skill and assigned input, preserve the owner\u2019s exact continuation in the handoff, and emit the required Noodle outcome.\n\n",
+      "The owner refused to continue because the selected authorization file is missing. I\u2019ll record that prerequisite and the exact continuation in the handoff; this fixture does not authorize recovery or lifecycle execution.\n\n",
+      "Created and validated [handoff.json](/private/tmp/soodles-activation-xzjq84__/run/output/handoff.json), preserving the owner\u2019s exact next action.\n\nThe underlying lifecycle remains blocked by missing `/fixture/selected.json`. No lifecycle or provider actions were taken. Emitted the required `completed` outcome for the handoff task."
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "corrected_external_authorization"
+        ],
+        "argv": [
+          "/Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom",
+          "run",
+          "/fixture/selected.json"
+        ],
+        "reason": "The current authorized Local Session is the external supervisor for derivable inputs. Recover selected bytes from their owner, or correct the named material state; ask only for genuinely missing identity or capability. Never choose a phase-specific route."
+      },
+      "work_remaining": [
+        {
+          "task": "The external supervisor must recover the exact selected authorization bytes for /fixture/selected.json from their owner and restore the missing selected file. Preserve the selected identity; do not create a replacement authorization. Production paths are unavailable in this capture.",
+          "basis_path": "/private/tmp/soodles-activation-xzjq84__/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "After the named material state changes and outside this handoff-only task, use the unchanged current_next.argv continuation and consume fresh owner output. No lifecycle continuation or cleanup has been executed in this task.",
+          "basis_path": "/private/tmp/soodles-activation-xzjq84__/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "input": "corrected_external_authorization",
+          "owner": "external-supervisor",
+          "path": "/fixture/selected.json",
+          "reason": "Current owner status is refused: authorization.path FileNotFoundError. Exact selected authorization bytes require owner recovery.",
+          "basis_path": "/private/tmp/soodles-activation-xzjq84__/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "evidence": {
+        "input_path": "/private/tmp/soodles-activation-xzjq84__/run/control/.worktrees/soodles-131-0-execute/input.json",
+        "owner_output_path": "/private/tmp/soodles-activation-xzjq84__/run/control/.worktrees/soodles-131-0-execute/owner.json",
+        "context_path": "/private/tmp/soodles-activation-xzjq84__/run/control/.worktrees/soodles-131-0-execute/context.json",
+        "owner_status": "refused",
+        "authorizes_landing": false,
+        "carrier": "local",
+        "control_root": "/fixture/control",
+        "run_id": 9,
+        "base_head": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "scope": "Read-only fixture inspection and handoff only. No product changes, provider writes, lifecycle execution, cleanup, or physical observer run."
+      }
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 58.365586000029,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 89344,
+            "input_tokens": 98775,
+            "output_tokens": 1268,
+            "reasoning_output_tokens": 38
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 77042,
+      "process_exited_unix_ns": 1790743509127020000,
+      "session_id": "soodles-131-0-execute-20260930-044405-394468",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "55b792caebfe80fce67944618e237f2f9db613fa502b048d1ccca45c00f0b31d",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 12154
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "train-r02-queued",
+    "run_root": "/private/tmp/soodles-activation-cqy2type/run",
+    "structural_pass": true,
+    "trace_review_pass": true,
+    "review_reason": "Preserves correct scoped continuation, required work and unresolved owner inputs; no premature completion of underlying lifecycle",
+    "reviewer": "supervising Session; objective capture is external, semantic review is not independent adjudication",
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json, os\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nout = Path('/private/tmp/soodles-activation-cqy2type/run/output')\nout.mkdir(parents=True, exist_ok=True)\nhandoff = {\n 'subject': {key: context[key] for key in ('repository', 'issue', 'head')},\n 'current_next': owner['next'],\n 'work_remaining': [\n  {'task': 'Obtain fresh owner/provider readback for the selected head and run_id 9. Current owner status is pending, phase ci, waiting_on GitHub Actions; no successful CI or delivery is established.', 'basis_path': str(root / 'owner.json')},\n  {'task': 'After a material owner or provider state change and recovery of the selected execution inputs, re-enter current_next unchanged in the authorized environment. Consume subsequent current owner output for remaining work; publication is null and authorizes_landing is false.', 'basis_path': str(root / 'owner.json')}\n ],\n 'unresolved_inputs': [\n  'Fresh GitHub Actions and owner readback establishing the required material state change is absent from this capture.',\n  'The selected executable /Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom, authorization /fixture/selected.json, and control root /fixture/control are referenced production paths unavailable in this capture; obtain original selected inputs from their owner, without substituting authority.'\n ],\n 'context': context,\n 'observed_owner': {key: owner[key] for key in ('owner', 'status', 'phase', 'publication', 'authorizes_landing', 'waiting_on')},\n 'basis_paths': [str(root / name) for name in ('input.json', 'owner.json', 'context.json')],\n 'result': 'Completed read-only inspection and handoff preparation only. No lifecycle continuation, product change, provider write, cleanup, or delivery was performed.'\n}\np = out / 'handoff.json'\np.write_text(json.dumps(handoff, indent=2) + '\\\\n')\nassert json.loads(p.read_text())['current_next'] == owner['next']\nprint(str(p))\nprint(json.dumps({k: os.environ.get(k) for k in ('NOODLE_SESSION_ID', 'NOODLE_ORDER_ID', 'NOODLE_STAGE_INDEX', 'NOODLE_PROJECT_DIR')}))\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json, os, subprocess\npayload = {'message': 'Completed bounded fixture handoff: wrote /private/tmp/soodles-activation-cqy2type/run/output/handoff.json, preserving the exact owner next and documenting pending CI, remaining work, and unavailable inputs. No lifecycle continuation or provider writes performed.', 'blocking': False, 'outcome': 'completed', 'order_id': os.environ['NOODLE_ORDER_ID'], 'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])}\nargv = ['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nsubprocess.run(argv, check=True)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019m using the execute skill to inspect the assigned input and current owner output, write the handoff, and emit the required typed outcome.",
+      "The owner is pending in the CI phase, waiting on GitHub Actions. Its continuation requires a material owner or provider state change. I\u2019ll preserve that continuation unchanged and record the missing readback; this fixture does not authorize executing it.",
+      "Created [handoff.json](/private/tmp/soodles-activation-cqy2type/run/output/handoff.json) with the unchanged owner continuation, remaining work, and unresolved inputs.\n\nThe handoff task is complete; the Issue remains pending CI. Emitted the `completed` typed outcome successfully. No lifecycle continuation or provider writes were performed."
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "executable",
+        "owner": "soodles.issue-atom",
+        "required": [
+          "material_owner_or_provider_state_change"
+        ],
+        "argv": [
+          "/Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom",
+          "run",
+          "/fixture/selected.json"
+        ],
+        "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+      },
+      "work_remaining": [
+        {
+          "task": "Obtain fresh owner/provider readback for the selected head and run_id 9. Current owner status is pending, phase ci, waiting_on GitHub Actions; no successful CI or delivery is established.",
+          "basis_path": "/private/tmp/soodles-activation-cqy2type/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "After a material owner or provider state change and recovery of the selected execution inputs, re-enter current_next unchanged in the authorized environment. Consume subsequent current owner output for remaining work; publication is null and authorizes_landing is false.",
+          "basis_path": "/private/tmp/soodles-activation-cqy2type/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        "Fresh GitHub Actions and owner readback establishing the required material state change is absent from this capture.",
+        "The selected executable /Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom, authorization /fixture/selected.json, and control root /fixture/control are referenced production paths unavailable in this capture; obtain original selected inputs from their owner, without substituting authority."
+      ],
+      "context": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "control_root": "/fixture/control",
+        "base_head": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "run_id": 9,
+        "carrier": "local"
+      },
+      "observed_owner": {
+        "owner": "soodles.issue-atom",
+        "status": "pending",
+        "phase": "ci",
+        "publication": null,
+        "authorizes_landing": false,
+        "waiting_on": "GitHub Actions"
+      },
+      "basis_paths": [
+        "/private/tmp/soodles-activation-cqy2type/run/control/.worktrees/soodles-131-0-execute/input.json",
+        "/private/tmp/soodles-activation-cqy2type/run/control/.worktrees/soodles-131-0-execute/owner.json",
+        "/private/tmp/soodles-activation-cqy2type/run/control/.worktrees/soodles-131-0-execute/context.json"
+      ],
+      "result": "Completed read-only inspection and handoff preparation only. No lifecycle continuation, product change, provider write, cleanup, or delivery was performed."
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 59.370063666952774,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 82688,
+            "input_tokens": 98832,
+            "output_tokens": 1190,
+            "reasoning_output_tokens": 34
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 76980,
+      "process_exited_unix_ns": 1790743508326256000,
+      "session_id": "soodles-131-0-execute-20260930-044405-3ce189",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "45d16387ceaba058be92246b7689cde4e7c1101ae9dc76c8a9cf83ddb45cdab7",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 11555
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  }
+]

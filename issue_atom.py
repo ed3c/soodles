@@ -1342,7 +1342,7 @@ def authenticated_push(provider):
     return push
 
 
-def select_run(provider, authorization, head):
+def select_run(provider, authorization, head, issue=None):
     value = provider.workflow_runs(head)
     runs = value.get("workflow_runs") if isinstance(value, dict) else None
     require(isinstance(runs, list), "github.workflow_runs", value, "fresh_exact_head_ci")
@@ -1370,10 +1370,17 @@ def select_run(provider, authorization, head):
     require(len(step) == 1, "github.workflow_step.count", len(step), "one_exact_acceptance_step")
     require(target[0].get("status") == "completed", "github.workflow_job.status",
             target[0].get("status"), "fresh_exact_head_ci")
-    require(run.get("conclusion") == target[0].get("conclusion") == step[0].get("conclusion") == "success",
+    if not run.get("conclusion") == target[0].get("conclusion") == step[0].get("conclusion") == "success":
+        raise AtomRefusal(
             "github.workflow.conclusion",
             [run.get("conclusion"), target[0].get("conclusion"), step[0].get("conclusion")],
-            "new_candidate_head_after_failed_ci")
+            "new_candidate_head_after_failed_ci", known={
+                "repository": authorization["repository"],
+                "issue": issue if issue is not None else authorization["issue"]["number"],
+                "control_root": authorization["control_root"],
+                "base_head": authorization["base_head"], "failed_head": head,
+                "run_id": run["id"], "workflow": dict(authorization["workflow"]),
+            })
     return run, jobs
 
 
@@ -2099,7 +2106,7 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
 
     claim = read_json(paths["claim"], "publication_claim")
     publication = state["publication"]
-    run_value, jobs = select_run(provider, authorization, claim["head"])
+    run_value, jobs = select_run(provider, authorization, claim["head"], issue["number"])
     if run_value is None or run_value.get("status") != "completed":
         return response(state, authorization_path, waiting_on="GitHub Actions")
     if state["phase"] in {"ci", "landing", "resolved"}:
@@ -2186,7 +2193,9 @@ def refusal_output(error, authorization_path):
                   "for deriving a fresh correction selection from current owner "
                   "and provider readbacks; do not ask the user to recreate "
                   "authorization or replay this failed head. A fresh admitted "
-                  "candidate transition is required.")
+                  "candidate transition is required. Preserve this refusal and "
+                  "follow the assessment recipe before selecting a correction; "
+                  "bind its product and fresh behavior evidence to the same Issue.")
     elif error.owner == "external-supervisor":
         reason = ("The current authorized Local Session is the external "
                   "supervisor for derivable inputs. Recover selected bytes "
@@ -2203,6 +2212,11 @@ def refusal_output(error, authorization_path):
             "kind": "input", "owner": error.owner,
             "required": [error.required],
             **({"known": error.known} if error.known is not None else {}),
+            **({"assessment": {
+                "recipe": ".agents/skills/verify-soodles/features/pclass-context.md#mandatory-assessment-after-an-observed-defect",
+                "required_axes": ["product", "fresh_behavior"],
+                "confirmation": "after_candidate_selection",
+            }} if correction_required else {}),
             **({} if correction_required or error.required == "execute_selected_prepared_continuation"
                else {"argv": same_command(authorization_path)}),
             "reason": reason,

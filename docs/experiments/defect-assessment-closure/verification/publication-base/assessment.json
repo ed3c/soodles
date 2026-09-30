@@ -1,0 +1,18 @@
+{
+  "cause": "Noodle publication claim reads refs/remotes/origin/main; detached App control had correct HEAD but stale shared remote tracking ref. Existing publication hard gate refused before provider write.",
+  "product": "PASS for exact-base refusal; native readiness passed. No new product/source change.",
+  "behavior": "Existing bounded fresh receipts retained because all seven source/P/test files and consumer task inputs remain unchanged. No claim of fresh autonomous remote-ref recovery measurement.",
+  "recovery": "Fresh exact provider GET verified admitted base, normal git fetch updated only origin/main. Original cached claim/authorization remain immutable. New same-Issue admission supplies fresh control state; no manual claim/checkpoint edits.",
+  "source_equivalence": {
+    "issue_atom.py": true,
+    "issue_admission.py": true,
+    "next_issue.py": true,
+    ".agents/skills/next-issue/SKILL.md": true,
+    "tests/test_next_issue.py": true,
+    "tests/test_local_continuation.py": true,
+    "tests/test_comparison_gate.py": true
+  },
+  "eval_method": "eval-audit: audit the observed provider/base binding and retained prior measurement; no change to judge or old scores.",
+  "limitation": "Existing lifecycle lacks in-place pre-publication claim refresh. Recovery uses fresh admission, not a new scheduler or a promise of universal automatic recovery.",
+  "authorizes_landing": false
+}

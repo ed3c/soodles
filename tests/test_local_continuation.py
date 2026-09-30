@@ -12,7 +12,9 @@ import landing
 
 class LocalContinuationTests(unittest.TestCase):
     def setUp(self):
-        self.auth = {"workflow": {"path": ".github/workflows/runtime.yml", "job": "runtime",
+        self.auth = {"repository": "ed3c/soodles", "issue": {"number": 131},
+                     "control_root": "/external/control", "base_head": "b" * 40,
+                     "workflow": {"path": ".github/workflows/runtime.yml", "job": "runtime",
                                   "step": "acceptance"}}
         self.run = {"id": 9, "head_sha": "a" * 40, "event": "pull_request",
                     "path": self.auth["workflow"]["path"], "status": "completed",
@@ -53,6 +55,38 @@ class LocalContinuationTests(unittest.TestCase):
         self.assertIn("do not ask the user to recreate authorization",
                       result["next"]["reason"])
         self.assertFalse(result["authorizes_landing"])
+
+    def test_failed_ci_handoff_retains_observed_subject_and_assessment_route(self):
+        self.provider.workflow_runs.return_value = {"workflow_runs": [
+            {**self.run, "conclusion": "failure"}]}
+        self.provider.jobs.return_value = {"jobs": [self.job]}
+        # A newly created Issue is read from lifecycle state, not absent from
+        # the original create authorization or inferred from a filename.
+        auth = {**self.auth, "issue": {"title": "Admitted work", "body": "contract"}}
+        with self.assertRaises(atom.AtomRefusal) as caught:
+            atom.select_run(self.provider, auth, "a" * 40, issue=132)
+        result = atom.refusal_output(caught.exception, "/external/auth.json")
+        self.assertEqual(result["next"]["known"], {
+            "repository": "ed3c/soodles", "issue": 132,
+            "control_root": "/external/control", "base_head": "b" * 40,
+            "failed_head": "a" * 40, "run_id": 9, "workflow": self.auth["workflow"],
+        })
+        assessment = result["next"]["assessment"]
+        self.assertEqual(assessment["required_axes"], ["product", "fresh_behavior"])
+        self.assertEqual(assessment["confirmation"], "after_candidate_selection")
+        recipe, anchor = assessment["recipe"].split("#")
+        self.assertTrue((Path(atom.__file__).parent / recipe).is_file())
+        self.assertEqual(anchor, "mandatory-assessment-after-an-observed-defect")
+        self.assertNotIn("argv", result["next"])
+        self.assertNotIn("request", result)
+        self.assertEqual([call[0] for call in self.provider.mock_calls], ["workflow_runs", "jobs"])
+
+    def test_missing_identity_is_not_reclassified_as_an_observed_defect(self):
+        error = atom.AtomRefusal("authorization.path", "FileNotFoundError",
+                                "absolute_external_authorization")
+        result = atom.refusal_output(error, "/external/selected.json")
+        self.assertNotIn("assessment", result["next"])
+        self.assertEqual(result["next"]["argv"], atom.same_command("/external/selected.json"))
 
     def test_prior_loop_readback_uses_process_and_lock_not_saved_status(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -140,6 +174,7 @@ class LocalContinuationTests(unittest.TestCase):
         prior = {"branch": "soodles/issue-1-" + "b" * 12,
                  "head": "b" * 40, "pr": {"number": 41}}
         authorization = {"repository": "ed3c/soodles", "base_head": "c" * 40,
+                         "control_root": "/external/control",
                          "issue": {"number": 1}, "prior_publication": prior,
                          "workflow": self.auth["workflow"]}
         self.provider.repository_info.return_value = {

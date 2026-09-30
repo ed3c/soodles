@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_next_issue.py",
+    "-v"
+  ],
+  "exit": 0,
+  "elapsed": 0.2037559999153018,
+  "source_pins": {
+    "next_issue.py": "d563dfcb2c935b0b4361218d8aacfe7fbde6fd95e9bb25d7b3832e3d100da3f5",
+    "tests/test_next_issue.py": "dd4b427f174e82ef71099d008a1c7a5058247c8f50a732320f278b7a09aa8ff4",
+    ".agents/skills/next-issue/SKILL.md": "63d1841d50336bca8ebd09534384c1e6a3f60a4703faf1afe42afa08ef63b3f9"
+  }
+}

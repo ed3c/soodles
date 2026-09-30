@@ -1,0 +1,996 @@
+[
+  {
+    "run": "confirm-baseline-failed",
+    "run_root": "/private/tmp/soodles-activation-qkhg06ag/run",
+    "structural_pass": true,
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nreport = {\n    'subject': {key: context[key] for key in ('repository', 'issue', 'head')},\n    'current_next': owner['next'],\n    'work_remaining': [\n        {'task': 'Refresh current owner and provider readbacks in the authorized environment. The captured owner status is refused for github.workflow.conclusion values success, failure, failure; landing is not authorized. The capture identifies local run 27 and control root /fixture/confirmation/control, whose production paths are unavailable here.', 'basis_path': str(root / 'owner.json')},\n        {'task': 'The authorized external-supervisor Session must derive a fresh correction selection and fresh admitted candidate transition from those readbacks, requiring new_candidate_head_after_failed_ci. Do not replay the failed head or ask the user to recreate authorization. Product correction, admission, CI, and delivery remain unexecuted in this handoff task; continue only through current owner output and the existing landing owner within applicable authorization.', 'basis_path': str(root / 'owner.json')}\n    ],\n    'unresolved_inputs': [\n        'new_candidate_head_after_failed_ci',\n        'Fresh current owner and provider readbacks needed to derive the correction selection; production paths are unavailable in this capture.'\n    ]\n}\nout = Path('/private/tmp/soodles-activation-qkhg06ag/run/output')\nout.mkdir(parents=True, exist_ok=True)\npath = out / 'handoff.json'\npath.write_text(json.dumps(report, indent=2) + '\\\\n')\nverified = json.loads(path.read_text())\nassert verified['current_next'] == owner['next']\nassert verified['subject'] == {key: context[key] for key in ('repository', 'issue', 'head')}\nprint(str(path))\nprint('Verified subject and unchanged owner next. No lifecycle or provider operation performed.')\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nimport os\nimport subprocess\npayload = {\n    'message': 'Completed the bounded read-only fixture handoff: wrote and verified /private/tmp/soodles-activation-qkhg06ag/run/output/handoff.json with the exact subject and unchanged owner next. The captured owner refuses the failed head and requires new_candidate_head_after_failed_ci; fresh readbacks and a fresh admitted candidate transition remain unexecuted. No product changes, provider writes, or new lifecycle were performed.',\n    'blocking': False,\n    'outcome': 'completed',\n    'order_id': os.environ['NOODLE_ORDER_ID'],\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nargv = ['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nsubprocess.run(argv, check=True)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019m using the execute skill to inspect the case, write the handoff, and emit the required Noodle outcome.",
+      "The captured owner refused the selected head after failed CI. Its next step requires a fresh admitted candidate; I\u2019ll preserve that instruction unchanged and record the remaining work without starting another lifecycle.",
+      "Created and verified [handoff.json](/private/tmp/soodles-activation-qkhg06ag/run/output/handoff.json), preserving the owner\u2019s exact next step.\n\nThe underlying work remains refused pending a fresh admitted candidate after failed CI. No lifecycle or provider writes were performed. Emitted the required `completed` outcome for the handoff task."
+    ],
+    "item_types": [
+      "agent_message",
+      "command_execution"
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "dddddddddddddddddddddddddddddddddddddddd"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "new_candidate_head_after_failed_ci"
+        ],
+        "reason": "The selected authorization still binds the failed head. The current authorized Local Session is the external supervisor for deriving a fresh correction selection from current owner and provider readbacks; do not ask the user to recreate authorization or replay this failed head. A fresh admitted candidate transition is required."
+      },
+      "work_remaining": [
+        {
+          "task": "Refresh current owner and provider readbacks in the authorized environment. The captured owner status is refused for github.workflow.conclusion values success, failure, failure; landing is not authorized. The capture identifies local run 27 and control root /fixture/confirmation/control, whose production paths are unavailable here.",
+          "basis_path": "/private/tmp/soodles-activation-qkhg06ag/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "The authorized external-supervisor Session must derive a fresh correction selection and fresh admitted candidate transition from those readbacks, requiring new_candidate_head_after_failed_ci. Do not replay the failed head or ask the user to recreate authorization. Product correction, admission, CI, and delivery remain unexecuted in this handoff task; continue only through current owner output and the existing landing owner within applicable authorization.",
+          "basis_path": "/private/tmp/soodles-activation-qkhg06ag/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        "new_candidate_head_after_failed_ci",
+        "Fresh current owner and provider readbacks needed to derive the correction selection; production paths are unavailable in this capture."
+      ]
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 59.573529249988496,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 100864,
+            "input_tokens": 118371,
+            "output_tokens": 1143,
+            "reasoning_output_tokens": 40
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 78872,
+      "process_exited_unix_ns": 1790743789269192000,
+      "session_id": "soodles-131-0-execute-20260930-044846-f52586",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "1d693f9dd5b49418d9b0b37405f160b09310c1d6c95169d619fc2a44e861b1a2",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 11425
+    },
+    "result": {
+      "authorizes_landing": false,
+      "noodle_exit": 0,
+      "process_and_group_absent": true,
+      "provider_fixture": true,
+      "scope": "one real Noodle session, CLI bytes, same-profile file probe",
+      "session_dir": "/private/tmp/soodles-activation-qkhg06ag/run/control/.noodle/sessions/soodles-131-0-execute-20260930-044846-f52586",
+      "typed_outcome": {
+        "payload": {
+          "blocking": false,
+          "message": "Completed the bounded read-only fixture handoff: wrote and verified /private/tmp/soodles-activation-qkhg06ag/run/output/handoff.json with the exact subject and unchanged owner next. The captured owner refuses the failed head and requires new_candidate_head_after_failed_ci; fresh readbacks and a fresh admitted candidate transition remain unexecuted. No product changes, provider writes, or new lifecycle were performed.",
+          "order_id": "soodles-131",
+          "outcome": "completed",
+          "stage_index": 0
+        },
+        "session_id": "soodles-131-0-execute-20260930-044846-f52586",
+        "timestamp": "2026-09-30T04:49:43.594007Z",
+        "type": "stage_message"
+      }
+    },
+    "isolation_probe": {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-f",
+        "/private/tmp/soodles-activation-qkhg06ag/run/raw/consumer.sb",
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import json,sys\nfrom pathlib import Path\npublic, denied=json.loads(sys.argv[1])\nresult={\"public_read\":False,\"denied\":[]}\ntry:\n Path(public).read_bytes(); result[\"public_read\"]=True\nexcept OSError as e: result[\"public_error\"]=type(e).__name__\nfor name in denied:\n try:\n  Path(name).read_bytes(); result[\"denied\"].append({\"path\":name,\"result\":\"READABLE\"})\n except OSError as e: result[\"denied\"].append({\"path\":name,\"result\":type(e).__name__})\nprint(json.dumps(result))\nsys.exit(0 if result[\"public_read\"] and all(x[\"result\"]==\"PermissionError\" for x in result[\"denied\"]) else 1)\n",
+        "[\"/private/tmp/soodles-activation-runtime-8b_kfkwx/public-probe.txt\", [\"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"/private/tmp/soodles-activation-qkhg06ag/run/output/.denial-probe-0\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"/private/tmp/soodles-activation-qkhg06ag/run/output/.denial-probe-1\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"/private/tmp/soodles-activation-qkhg06ag/run/output/.denial-probe-2\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\"]]"
+      ],
+      "exit": 0,
+      "scope": "same-profile subprocess file reads, not full tool/IPC isolation",
+      "stderr": "",
+      "stdout": "{\"public_read\": true, \"denied\": [{\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-qkhg06ag/run/output/.denial-probe-0\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-qkhg06ag/run/output/.denial-probe-1\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-qkhg06ag/run/output/.denial-probe-2\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}]}\n"
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    },
+    "public_source_unchanged": true,
+    "trace_review_pass": false,
+    "review_reason": "Missing product/fresh behavior assessment in failure continuation",
+    "reviewer": "supervising Session; semantic review is not independent adjudication"
+  },
+  {
+    "run": "confirm-baseline-missing",
+    "run_root": "/private/tmp/soodles-activation-j7oizn9n/run",
+    "structural_pass": true,
+    "shell_tool_calls_including_carrier": 4,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md; cat input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json; /Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nout = Path('/private/tmp/soodles-activation-j7oizn9n/run/output')\nout.mkdir(parents=True, exist_ok=True)\nhandoff = {\n    'subject': {k: context[k] for k in ('repository', 'issue', 'head')},\n    'current_next': owner['next'],\n    'work_remaining': [\n        {'task': 'The external supervisor must recover the exact selected authorization bytes from their owner or correct the authorization.path PermissionError. Preserve the selected identity; do not select replacement authority or authorize again. Production paths are unavailable in this fixture, so recovery has not been performed.', 'basis_path': str(root / 'owner.json')},\n        {'task': 'After the required authorization material state changes, the authorized Session must consume the preserved current_next argv unchanged and inspect fresh owner output. No continuation or lifecycle was executed in this handoff task.', 'basis_path': str(root / 'owner.json')}\n    ],\n    'unresolved_inputs': [\n        {'input': 'corrected_external_authorization', 'owner': 'external-supervisor', 'selected_path': '/fixture/confirmation/selected.json', 'reason': 'Owner status is refused: authorization.path PermissionError. Referenced production paths are unavailable in this capture.', 'basis_path': str(root / 'owner.json')}\n    ],\n    'result': 'Completed read-only fixture inspection and wrote this handoff. Underlying Issue execution remains refused; no recovery, acceptance, cleanup, landing, provider write, product change, or further lifecycle was performed.',\n    'context': context,\n    'scope_basis_path': str(root / 'input.json')\n}\npath = out / 'handoff.json'\npath.write_text(json.dumps(handoff, indent=2) + '\\\\n')\nassert json.loads(path.read_text())['current_next'] == owner['next']\nprint(str(path))\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nimport os\nimport subprocess\npayload = {\n    'message': 'Completed fixture handoff at /private/tmp/soodles-activation-j7oizn9n/run/output/handoff.json, preserving the exact owner next. Underlying Issue remains refused due to authorization.path PermissionError and requires external-supervisor recovery of selected authorization. No further lifecycle or provider writes performed.',\n    'blocking': False,\n    'outcome': 'completed',\n    'order_id': os.environ['NOODLE_ORDER_ID'],\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nargv = ['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nsubprocess.run(argv, check=True)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      }
+    ],
+    "messages": [
+      "I\u2019ll use the execute skill to inspect the assigned case, write the handoff, and emit the required Noodle outcome.",
+      "The owner refused access to the selected authorization file with `PermissionError`. I\u2019ll preserve its exact continuation and record authorization recovery as remaining work. This fixture does not provide access to the referenced production paths.",
+      "Created [handoff.json](/private/tmp/soodles-activation-j7oizn9n/run/output/handoff.json), preserving the owner\u2019s exact continuation and unresolved authorization prerequisite.\n\nThe handoff task is complete; emitted the Noodle `completed` outcome. Underlying Issue execution remains refused due to `authorization.path: PermissionError`. No further lifecycle or provider writes were performed."
+    ],
+    "item_types": [
+      "agent_message",
+      "command_execution"
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "dddddddddddddddddddddddddddddddddddddddd"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "corrected_external_authorization"
+        ],
+        "argv": [
+          "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/baseline/issue-atom",
+          "run",
+          "/fixture/confirmation/selected.json"
+        ],
+        "reason": "The current authorized Local Session is the external supervisor for derivable inputs. Recover selected bytes from their owner, or correct the named material state; ask only for genuinely missing identity or capability. Never choose a phase-specific route."
+      },
+      "work_remaining": [
+        {
+          "task": "The external supervisor must recover the exact selected authorization bytes from their owner or correct the authorization.path PermissionError. Preserve the selected identity; do not select replacement authority or authorize again. Production paths are unavailable in this fixture, so recovery has not been performed.",
+          "basis_path": "/private/tmp/soodles-activation-j7oizn9n/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "After the required authorization material state changes, the authorized Session must consume the preserved current_next argv unchanged and inspect fresh owner output. No continuation or lifecycle was executed in this handoff task.",
+          "basis_path": "/private/tmp/soodles-activation-j7oizn9n/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "input": "corrected_external_authorization",
+          "owner": "external-supervisor",
+          "selected_path": "/fixture/confirmation/selected.json",
+          "reason": "Owner status is refused: authorization.path PermissionError. Referenced production paths are unavailable in this capture.",
+          "basis_path": "/private/tmp/soodles-activation-j7oizn9n/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "result": "Completed read-only fixture inspection and wrote this handoff. Underlying Issue execution remains refused; no recovery, acceptance, cleanup, landing, provider write, product change, or further lifecycle was performed.",
+      "context": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "dddddddddddddddddddddddddddddddddddddddd",
+        "control_root": "/fixture/confirmation/control",
+        "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+        "run_id": 27,
+        "carrier": "local"
+      },
+      "scope_basis_path": "/private/tmp/soodles-activation-j7oizn9n/run/control/.worktrees/soodles-131-0-execute/input.json"
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 54.66070087510161,
+      "emitted_usage": [
+        {
+          "line": 14,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 89472,
+            "input_tokens": 98698,
+            "output_tokens": 1130,
+            "reasoning_output_tokens": 55
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 79999,
+      "process_exited_unix_ns": 1790743923566125000,
+      "session_id": "soodles-131-0-execute-20260930-045106-75fcba",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "e3b0603c014d322cf112b6b55ecb116649af955e10e3ace4a172ba1b0be05c60",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 10922
+    },
+    "result": {
+      "authorizes_landing": false,
+      "noodle_exit": 0,
+      "process_and_group_absent": true,
+      "provider_fixture": true,
+      "scope": "one real Noodle session, CLI bytes, same-profile file probe",
+      "session_dir": "/private/tmp/soodles-activation-j7oizn9n/run/control/.noodle/sessions/soodles-131-0-execute-20260930-045106-75fcba",
+      "typed_outcome": {
+        "payload": {
+          "blocking": false,
+          "message": "Completed fixture handoff at /private/tmp/soodles-activation-j7oizn9n/run/output/handoff.json, preserving the exact owner next. Underlying Issue remains refused due to authorization.path PermissionError and requires external-supervisor recovery of selected authorization. No further lifecycle or provider writes performed.",
+          "order_id": "soodles-131",
+          "outcome": "completed",
+          "stage_index": 0
+        },
+        "session_id": "soodles-131-0-execute-20260930-045106-75fcba",
+        "timestamp": "2026-09-30T04:51:57.669603Z",
+        "type": "stage_message"
+      }
+    },
+    "isolation_probe": {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-f",
+        "/private/tmp/soodles-activation-j7oizn9n/run/raw/consumer.sb",
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import json,sys\nfrom pathlib import Path\npublic, denied=json.loads(sys.argv[1])\nresult={\"public_read\":False,\"denied\":[]}\ntry:\n Path(public).read_bytes(); result[\"public_read\"]=True\nexcept OSError as e: result[\"public_error\"]=type(e).__name__\nfor name in denied:\n try:\n  Path(name).read_bytes(); result[\"denied\"].append({\"path\":name,\"result\":\"READABLE\"})\n except OSError as e: result[\"denied\"].append({\"path\":name,\"result\":type(e).__name__})\nprint(json.dumps(result))\nsys.exit(0 if result[\"public_read\"] and all(x[\"result\"]==\"PermissionError\" for x in result[\"denied\"]) else 1)\n",
+        "[\"/private/tmp/soodles-activation-runtime-l4nczyiw/public-probe.txt\", [\"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"/private/tmp/soodles-activation-j7oizn9n/run/output/.denial-probe-0\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"/private/tmp/soodles-activation-j7oizn9n/run/output/.denial-probe-1\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"/private/tmp/soodles-activation-j7oizn9n/run/output/.denial-probe-2\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\"]]"
+      ],
+      "exit": 0,
+      "scope": "same-profile subprocess file reads, not full tool/IPC isolation",
+      "stderr": "",
+      "stdout": "{\"public_read\": true, \"denied\": [{\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-j7oizn9n/run/output/.denial-probe-0\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-j7oizn9n/run/output/.denial-probe-1\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-j7oizn9n/run/output/.denial-probe-2\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}]}\n"
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    },
+    "public_source_unchanged": true,
+    "trace_review_pass": true,
+    "review_reason": "Correct scoped next and required work; no premature lifecycle completion or user question for supplied facts observed",
+    "reviewer": "supervising Session; semantic review is not independent adjudication"
+  },
+  {
+    "run": "confirm-baseline-queued",
+    "run_root": "/private/tmp/soodles-activation-ccryjl7k/run",
+    "structural_pass": true,
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -B - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nreport = {\n    'subject': {k: context[k] for k in ('repository', 'issue', 'head')},\n    'current_next': owner['next'],\n    'work_remaining': [\n        {'task': 'Obtain current owner/provider readback for the pending CI phase, waiting on GitHub Actions. The supplied context identifies run_id 27; no successful CI result is supplied.', 'basis_path': str(root / 'owner.json')},\n        {'task': 'After a material owner or provider state change and recovery of the selected production inputs, continue using current_next unchanged under existing authorization. Follow the resulting owner output; publication is null and this receipt does not authorize landing.', 'basis_path': str(root / 'owner.json')}\n    ],\n    'unresolved_inputs': [\n        {'input': 'Fresh owner/provider state showing a material change from pending CI', 'basis_path': str(root / 'owner.json')},\n        {'input': 'Access to the existing selected executable, /fixture/confirmation/selected.json and /fixture/confirmation/control in their owning environment; referenced production paths are unavailable in this capture. Preserve selected identity rather than replacing authorization.', 'basis_path': str(root / 'input.json')}\n    ],\n    'observed_state': {'owner': owner['owner'], 'status': owner['status'], 'phase': owner['phase'], 'waiting_on': owner['waiting_on'], 'publication': owner['publication'], 'authorizes_landing': owner['authorizes_landing'], 'carrier': context['carrier'], 'run_id': context['run_id'], 'control_root': context['control_root'], 'base_head': context['base_head']},\n    'inspection_scope': 'Read-only fixture inspection and handoff creation only. No CI observation, lifecycle continuation, cleanup, product change or provider write was executed.'\n}\nout = Path('/private/tmp/soodles-activation-ccryjl7k/run/output')\nout.mkdir(parents=True, exist_ok=True)\npath = out / 'handoff.json'\npath.write_text(json.dumps(report, indent=2) + '\\\\n')\nwritten = json.loads(path.read_text())\nassert written['current_next'] == owner['next']\nassert written['subject'] == {k: context[k] for k in ('repository', 'issue', 'head')}\nprint(str(path))\nprint('Validated handoff JSON and unchanged owner next.')\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_3"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -B - <<'PY'\nimport json\nimport os\nimport subprocess\npayload = {\n    'message': 'Completed bounded fixture handoff: wrote and validated /private/tmp/soodles-activation-ccryjl7k/run/output/handoff.json, preserving exact owner next and recording pending CI and unavailable production inputs. No lifecycle continuation or provider writes performed.',\n    'blocking': False,\n    'outcome': 'completed',\n    'order_id': os.environ['NOODLE_ORDER_ID'],\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nargv = ['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nsubprocess.run(argv, check=True)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      }
+    ],
+    "messages": [
+      "I\u2019ll read the execute skill and assigned input, inspect the current owner evidence, and write the handoff in the assigned output directory.",
+      "Created and validated [handoff.json](/private/tmp/soodles-activation-ccryjl7k/run/output/handoff.json), preserving the owner\u2019s exact next command.\n\nCI remains pending; unavailable production inputs are recorded. No lifecycle continuation or provider writes occurred. Emitted the completed typed outcome for this handoff task."
+    ],
+    "item_types": [
+      "agent_message",
+      "command_execution"
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "dddddddddddddddddddddddddddddddddddddddd"
+      },
+      "current_next": {
+        "kind": "executable",
+        "owner": "soodles.issue-atom",
+        "required": [
+          "material_owner_or_provider_state_change"
+        ],
+        "argv": [
+          "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/baseline/issue-atom",
+          "run",
+          "/fixture/confirmation/selected.json"
+        ],
+        "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+      },
+      "work_remaining": [
+        {
+          "task": "Obtain current owner/provider readback for the pending CI phase, waiting on GitHub Actions. The supplied context identifies run_id 27; no successful CI result is supplied.",
+          "basis_path": "/private/tmp/soodles-activation-ccryjl7k/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "After a material owner or provider state change and recovery of the selected production inputs, continue using current_next unchanged under existing authorization. Follow the resulting owner output; publication is null and this receipt does not authorize landing.",
+          "basis_path": "/private/tmp/soodles-activation-ccryjl7k/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "input": "Fresh owner/provider state showing a material change from pending CI",
+          "basis_path": "/private/tmp/soodles-activation-ccryjl7k/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "input": "Access to the existing selected executable, /fixture/confirmation/selected.json and /fixture/confirmation/control in their owning environment; referenced production paths are unavailable in this capture. Preserve selected identity rather than replacing authorization.",
+          "basis_path": "/private/tmp/soodles-activation-ccryjl7k/run/control/.worktrees/soodles-131-0-execute/input.json"
+        }
+      ],
+      "observed_state": {
+        "owner": "soodles.issue-atom",
+        "status": "pending",
+        "phase": "ci",
+        "waiting_on": "GitHub Actions",
+        "publication": null,
+        "authorizes_landing": false,
+        "carrier": "local",
+        "run_id": 27,
+        "control_root": "/fixture/confirmation/control",
+        "base_head": "cccccccccccccccccccccccccccccccccccccccc"
+      },
+      "inspection_scope": "Read-only fixture inspection and handoff creation only. No CI observation, lifecycle continuation, cleanup, product change or provider write was executed."
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 56.91886383295059,
+      "emitted_usage": [
+        {
+          "line": 15,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 109568,
+            "input_tokens": 119064,
+            "output_tokens": 1180,
+            "reasoning_output_tokens": 31
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 79109,
+      "process_exited_unix_ns": 1790743807895347000,
+      "session_id": "soodles-131-0-execute-20260930-044907-ee5a87",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "407767bcb9870725c7a38bf6ac9f981294a8d71bed49dd6b506b2271f3c59d01",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 11544
+    },
+    "result": {
+      "authorizes_landing": false,
+      "noodle_exit": 0,
+      "process_and_group_absent": true,
+      "provider_fixture": true,
+      "scope": "one real Noodle session, CLI bytes, same-profile file probe",
+      "session_dir": "/private/tmp/soodles-activation-ccryjl7k/run/control/.noodle/sessions/soodles-131-0-execute-20260930-044907-ee5a87",
+      "typed_outcome": {
+        "payload": {
+          "blocking": false,
+          "message": "Completed bounded fixture handoff: wrote and validated /private/tmp/soodles-activation-ccryjl7k/run/output/handoff.json, preserving exact owner next and recording pending CI and unavailable production inputs. No lifecycle continuation or provider writes performed.",
+          "order_id": "soodles-131",
+          "outcome": "completed",
+          "stage_index": 0
+        },
+        "session_id": "soodles-131-0-execute-20260930-044907-ee5a87",
+        "timestamp": "2026-09-30T04:50:02.658326Z",
+        "type": "stage_message"
+      }
+    },
+    "isolation_probe": {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-f",
+        "/private/tmp/soodles-activation-ccryjl7k/run/raw/consumer.sb",
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import json,sys\nfrom pathlib import Path\npublic, denied=json.loads(sys.argv[1])\nresult={\"public_read\":False,\"denied\":[]}\ntry:\n Path(public).read_bytes(); result[\"public_read\"]=True\nexcept OSError as e: result[\"public_error\"]=type(e).__name__\nfor name in denied:\n try:\n  Path(name).read_bytes(); result[\"denied\"].append({\"path\":name,\"result\":\"READABLE\"})\n except OSError as e: result[\"denied\"].append({\"path\":name,\"result\":type(e).__name__})\nprint(json.dumps(result))\nsys.exit(0 if result[\"public_read\"] and all(x[\"result\"]==\"PermissionError\" for x in result[\"denied\"]) else 1)\n",
+        "[\"/private/tmp/soodles-activation-runtime-vrybw09h/public-probe.txt\", [\"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"/private/tmp/soodles-activation-ccryjl7k/run/output/.denial-probe-0\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"/private/tmp/soodles-activation-ccryjl7k/run/output/.denial-probe-1\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"/private/tmp/soodles-activation-ccryjl7k/run/output/.denial-probe-2\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\"]]"
+      ],
+      "exit": 0,
+      "scope": "same-profile subprocess file reads, not full tool/IPC isolation",
+      "stderr": "",
+      "stdout": "{\"public_read\": true, \"denied\": [{\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-ccryjl7k/run/output/.denial-probe-0\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-ccryjl7k/run/output/.denial-probe-1\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-ccryjl7k/run/output/.denial-probe-2\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}]}\n"
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    },
+    "public_source_unchanged": true,
+    "trace_review_pass": true,
+    "review_reason": "Correct scoped next and required work; no premature lifecycle completion or user question for supplied facts observed",
+    "reviewer": "supervising Session; semantic review is not independent adjudication"
+  },
+  {
+    "run": "confirm-r01-failed",
+    "run_root": "/private/tmp/soodles-activation-93f7oin4/run",
+    "structural_pass": true,
+    "shell_tool_calls_including_carrier": 6,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json .agents/skills/verify-soodles/features/issue-execution.md'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/eval-audit/SKILL.md .agents/skills/verify-soodles/features/pclass-context.md'",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json, pathlib, hashlib\nroot=pathlib.Path.cwd()\nout=pathlib.Path('/private/tmp/soodles-activation-93f7oin4/run/output')\nout.mkdir(parents=True,exist_ok=True)\nfor name in ('input.json','owner.json','context.json'):\n    (out/name).write_bytes((root/name).read_bytes())\nowner=json.loads((root/'owner.json').read_text())\ncontext=json.loads((root/'context.json').read_text())\nrecipe='.agents/skills/verify-soodles/features/pclass-context.md'\nmethod='.agents/skills/eval-audit/SKILL.md'\nassessment={\n 'scope':'Read-only fixture capture assessment; no reproduction, correction, consumer launch or provider operation performed.',\n 'method':{'path':str(root/method),'sha256':hashlib.sha256((root/method).read_bytes()).hexdigest()},\n 'recipe':{'path':str(root/recipe),'sha256':hashlib.sha256((root/recipe).read_bytes()).hexdigest()},\n 'findings':[\n {'area':'Error Analysis','status':'Cannot determine','finding':'Owner snapshot refuses github.workflow.conclusion with success, failure, failure for run 27 on the selected failed head. Raw failures and causal classification are absent.','next':'Obtain current owner/provider readbacks and raw failed acceptance traces before selecting a correction.'},\n {'area':'Evaluator Design','status':'Cannot determine','finding':'Frozen physical observer bytes, control results and reproduction evidence are not supplied. No product correctness verdict follows from the snapshot.','next':'Use the externally fixed observer and owning executable, with legal and discriminating negative controls.'},\n {'area':'Pipeline Hygiene','status':'Cannot determine','finding':'Fresh behavior evidence and independent post-selection confirmation are not supplied.','next':'Assess product and fresh behavior separately and bind both to this Issue and exact candidate before closure.'}],\n 'product':'INCONCLUSIVE','fresh_behavior':'INCONCLUSIVE','authorizes_landing':False}\n(out/'assessment.json').write_text(json.dumps(assessment,indent=2)+'\\\\n')\nhandoff={\n 'subject':{k:context[k] for k in ('repository','issue','head')},\n 'current_next':owner['next'],\n 'work_remaining':[\n {'task':'Refresh current owner and provider readbacks for run 27 and the selected failed head under authorized supervisor scope; preserve refusal and do not rerun unchanged failed CI.', 'basis_path':str(out/'owner.json')},\n {'task':'Obtain raw failure evidence, reproduce at the real CLI owner boundary, validate the frozen observer and legal/negative controls; assess product and fresh Agent behavior separately before correction selection.', 'basis_path':str(out/'assessment.json')},\n {'task':'External supervisor derives a fresh admitted correction candidate from current readbacks; keep evidence on Issue 131 and perform independent confirmation after candidate selection. This handoff has not selected or authorized a replacement.', 'basis_path':str(out/'owner.json')},\n {'task':'After required assessments and exact-head acceptance, continue through the existing landing owner and Noodle reconciliation using their current outputs; no delivery or cleanup has been executed here.', 'basis_path':str(out/'owner.json')}],\n 'unresolved_inputs':[\n {'input':'new_candidate_head_after_failed_ci','owner':'external-supervisor','basis_path':str(out/'owner.json')},\n {'input':'Current raw owner/provider readbacks and failed acceptance traces; production control root /fixture/confirmation/control is unavailable in this capture.','owner':'external-supervisor','basis_path':str(out/'input.json')},\n {'input':'Externally frozen observer bytes, product reproduction/control results, fresh behavior evidence and post-selection confirmation.','owner':'external-supervisor','basis_path':str(out/'assessment.json')}],\n 'result':'Completed bounded inspection and handoff only. Underlying Issue remains refused; no product changes, provider writes, cleanup or new lifecycle.',\n 'carrier':'local', 'run_id':context['run_id'], 'control_root':context['control_root'],\n 'source_capture':str(root/'input.json'), 'authorizes_landing':False}\np=out/'handoff.json'\np.write_text(json.dumps(handoff,indent=2)+'\\\\n')\nassert json.loads(p.read_text())['current_next']==owner['next']\nassert all(pathlib.Path(x['basis_path']).is_file() for x in handoff['work_remaining'])\nprint(json.dumps({'handoff':str(p),'exact_next_verified':True,'assessment':str(out/'assessment.json')}))\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_7"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport os,json,subprocess\npayload={'message':'Completed bounded read-only fixture inspection and wrote /private/tmp/soodles-activation-93f7oin4/run/output/handoff.json with exact owner next, remaining work and unresolved inputs. Underlying Issue 131 remains refused after failed CI; no correction, provider writes, cleanup or new lifecycle performed.','blocking':False,'outcome':'completed','order_id':os.environ['NOODLE_ORDER_ID'],'stage_index':int(os.environ['NOODLE_STAGE_INDEX'])}\nargv=['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle','--project-dir',os.environ['NOODLE_PROJECT_DIR'],'event','emit','stage_message','--session',os.environ['NOODLE_SESSION_ID'],'--payload',json.dumps(payload)]\nresult=subprocess.run(argv,check=False,capture_output=True,text=True)\nprint(result.stdout,end='')\nprint(result.stderr,end='')\nraise SystemExit(result.returncode)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_8"
+      }
+    ],
+    "messages": [
+      "I\u2019m using the execute skill to inspect the assigned input and current owner output, write the handoff, and emit the required typed outcome.",
+      "The owner refused the selected head after CI failures and requires a newly admitted candidate. I\u2019ll preserve its exact `next` in the handoff and record the remaining assessments; this task authorizes only the handoff, not correction or lifecycle execution.",
+      "I\u2019m applying the eval-audit skill to the captured refusal. The snapshot records failed CI conclusions but contains no raw failure traces or assessment results, so both product and fresh behavior assessments remain inconclusive. The handoff will identify those gaps without claiming any correction or delivery occurred.",
+      "Created [handoff.json](/private/tmp/soodles-activation-93f7oin4/run/output/handoff.json), preserving the owner\u2019s exact `next`, remaining work, and unresolved inputs.\n\nEmitted the `completed` typed outcome for this bounded handoff task. Issue #131 remains refused pending a fresh admitted candidate and required assessments. No product changes or provider writes occurred."
+    ],
+    "item_types": [
+      "agent_message",
+      "command_execution"
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "dddddddddddddddddddddddddddddddddddddddd"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "new_candidate_head_after_failed_ci"
+        ],
+        "known": {
+          "repository": "ed3c/soodles",
+          "issue": 131,
+          "control_root": "/fixture/confirmation/control",
+          "base_head": "cccccccccccccccccccccccccccccccccccccccc",
+          "failed_head": "dddddddddddddddddddddddddddddddddddddddd",
+          "run_id": 27,
+          "workflow": {
+            "path": ".github/workflows/runtime.yml",
+            "job": "runtime",
+            "step": "acceptance"
+          }
+        },
+        "assessment": {
+          "recipe": ".agents/skills/verify-soodles/features/pclass-context.md#mandatory-assessment-after-an-observed-defect",
+          "required_axes": [
+            "product",
+            "fresh_behavior"
+          ],
+          "confirmation": "after_candidate_selection"
+        },
+        "reason": "The selected authorization still binds the failed head. The current authorized Local Session is the external supervisor for deriving a fresh correction selection from current owner and provider readbacks; do not ask the user to recreate authorization or replay this failed head. A fresh admitted candidate transition is required. Preserve this refusal and follow the assessment recipe before selecting a correction; bind its product and fresh behavior evidence to the same Issue."
+      },
+      "work_remaining": [
+        {
+          "task": "Refresh current owner and provider readbacks for run 27 and the selected failed head under authorized supervisor scope; preserve refusal and do not rerun unchanged failed CI.",
+          "basis_path": "/private/tmp/soodles-activation-93f7oin4/run/output/owner.json"
+        },
+        {
+          "task": "Obtain raw failure evidence, reproduce at the real CLI owner boundary, validate the frozen observer and legal/negative controls; assess product and fresh Agent behavior separately before correction selection.",
+          "basis_path": "/private/tmp/soodles-activation-93f7oin4/run/output/assessment.json"
+        },
+        {
+          "task": "External supervisor derives a fresh admitted correction candidate from current readbacks; keep evidence on Issue 131 and perform independent confirmation after candidate selection. This handoff has not selected or authorized a replacement.",
+          "basis_path": "/private/tmp/soodles-activation-93f7oin4/run/output/owner.json"
+        },
+        {
+          "task": "After required assessments and exact-head acceptance, continue through the existing landing owner and Noodle reconciliation using their current outputs; no delivery or cleanup has been executed here.",
+          "basis_path": "/private/tmp/soodles-activation-93f7oin4/run/output/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "input": "new_candidate_head_after_failed_ci",
+          "owner": "external-supervisor",
+          "basis_path": "/private/tmp/soodles-activation-93f7oin4/run/output/owner.json"
+        },
+        {
+          "input": "Current raw owner/provider readbacks and failed acceptance traces; production control root /fixture/confirmation/control is unavailable in this capture.",
+          "owner": "external-supervisor",
+          "basis_path": "/private/tmp/soodles-activation-93f7oin4/run/output/input.json"
+        },
+        {
+          "input": "Externally frozen observer bytes, product reproduction/control results, fresh behavior evidence and post-selection confirmation.",
+          "owner": "external-supervisor",
+          "basis_path": "/private/tmp/soodles-activation-93f7oin4/run/output/assessment.json"
+        }
+      ],
+      "result": "Completed bounded inspection and handoff only. Underlying Issue remains refused; no product changes, provider writes, cleanup or new lifecycle.",
+      "carrier": "local",
+      "run_id": 27,
+      "control_root": "/fixture/confirmation/control",
+      "source_capture": "/private/tmp/soodles-activation-93f7oin4/run/control/.worktrees/soodles-131-0-execute/input.json",
+      "authorizes_landing": false
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 82.72659324994311,
+      "emitted_usage": [
+        {
+          "line": 19,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 122240,
+            "input_tokens": 147765,
+            "output_tokens": 1786,
+            "reasoning_output_tokens": 23
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 79108,
+      "process_exited_unix_ns": 1790743833654318000,
+      "session_id": "soodles-131-0-execute-20260930-044908-c39f9c",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "771c58cc98d5943852850244ffaa06006317f1c16b20104fccdf895aa14b7056",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 59601
+    },
+    "result": {
+      "authorizes_landing": false,
+      "noodle_exit": 0,
+      "process_and_group_absent": true,
+      "provider_fixture": true,
+      "scope": "one real Noodle session, CLI bytes, same-profile file probe",
+      "session_dir": "/private/tmp/soodles-activation-93f7oin4/run/control/.noodle/sessions/soodles-131-0-execute-20260930-044908-c39f9c",
+      "typed_outcome": {
+        "payload": {
+          "blocking": false,
+          "message": "Completed bounded read-only fixture inspection and wrote /private/tmp/soodles-activation-93f7oin4/run/output/handoff.json with exact owner next, remaining work and unresolved inputs. Underlying Issue 131 remains refused after failed CI; no correction, provider writes, cleanup or new lifecycle performed.",
+          "order_id": "soodles-131",
+          "outcome": "completed",
+          "stage_index": 0
+        },
+        "session_id": "soodles-131-0-execute-20260930-044908-c39f9c",
+        "timestamp": "2026-09-30T04:50:26.68469Z",
+        "type": "stage_message"
+      }
+    },
+    "isolation_probe": {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-f",
+        "/private/tmp/soodles-activation-93f7oin4/run/raw/consumer.sb",
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import json,sys\nfrom pathlib import Path\npublic, denied=json.loads(sys.argv[1])\nresult={\"public_read\":False,\"denied\":[]}\ntry:\n Path(public).read_bytes(); result[\"public_read\"]=True\nexcept OSError as e: result[\"public_error\"]=type(e).__name__\nfor name in denied:\n try:\n  Path(name).read_bytes(); result[\"denied\"].append({\"path\":name,\"result\":\"READABLE\"})\n except OSError as e: result[\"denied\"].append({\"path\":name,\"result\":type(e).__name__})\nprint(json.dumps(result))\nsys.exit(0 if result[\"public_read\"] and all(x[\"result\"]==\"PermissionError\" for x in result[\"denied\"]) else 1)\n",
+        "[\"/private/tmp/soodles-activation-runtime-1agmw1pz/public-probe.txt\", [\"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"/private/tmp/soodles-activation-93f7oin4/run/output/.denial-probe-0\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"/private/tmp/soodles-activation-93f7oin4/run/output/.denial-probe-1\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"/private/tmp/soodles-activation-93f7oin4/run/output/.denial-probe-2\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\"]]"
+      ],
+      "exit": 0,
+      "scope": "same-profile subprocess file reads, not full tool/IPC isolation",
+      "stderr": "",
+      "stdout": "{\"public_read\": true, \"denied\": [{\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-93f7oin4/run/output/.denial-probe-0\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-93f7oin4/run/output/.denial-probe-1\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-93f7oin4/run/output/.denial-probe-2\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}]}\n"
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    },
+    "public_source_unchanged": true,
+    "trace_review_pass": true,
+    "review_reason": "Correct scoped next and required work; no premature lifecycle completion or user question for supplied facts observed",
+    "reviewer": "supervising Session; semantic review is not independent adjudication"
+  },
+  {
+    "run": "confirm-r01-missing",
+    "run_root": "/private/tmp/soodles-activation-psz7ch8m/run",
+    "structural_pass": true,
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md\ncat input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json\ncat context.json\ncat .agents/skills/verify-soodles/features/issue-execution.md'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nout = Path('/private/tmp/soodles-activation-psz7ch8m/run/output')\nout.mkdir(parents=True, exist_ok=True)\nowner = json.loads((root/'owner.json').read_text())\ncontext = json.loads((root/'context.json').read_text())\nfor name in ('input.json', 'owner.json', 'context.json'):\n    (out/name).write_bytes((root/name).read_bytes())\nhandoff = {\n    'subject': {key: context[key] for key in ('repository', 'issue', 'head')},\n    'current_next': owner['next'],\n    'work_remaining': [\n        {'task': 'External supervisor must recover the exact selected authorization bytes from their owner or correct access to /fixture/confirmation/selected.json. Preserve the selected authorization identity; do not authorize a replacement. This recovery has not been performed.', 'basis_path': str(out/'owner.json')},\n        {'task': 'After material correction and within appropriate execution authorization, refresh owner state and use the preserved current_next argv unchanged. Referenced production paths are unavailable in this capture; no lifecycle continuation was executed.', 'basis_path': str(out/'input.json')}\n    ],\n    'unresolved_inputs': [\n        {'input': 'corrected_external_authorization', 'owner': 'external-supervisor', 'selected_path': '/fixture/confirmation/selected.json', 'refusal': {'field': 'authorization.path', 'value': 'PermissionError'}, 'basis_path': str(out/'owner.json')}\n    ],\n    'result': 'Completed bounded read-only inspection and handoff. Underlying Issue lifecycle remains refused; no recovery, cleanup, next order, acceptance or delivery was executed.',\n    'authorizes_landing': False\n}\npath = out/'handoff.json'\npath.write_text(json.dumps(handoff, indent=2)+'\\\\n')\nassert json.loads(path.read_text())['current_next'] == owner['next']\nprint(str(path))\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nimport os\nimport subprocess\nfrom pathlib import Path\npayload = {\n    'message': 'Completed bounded read-only inspection and wrote /private/tmp/soodles-activation-psz7ch8m/run/output/handoff.json with exact owner next and retained evidence. Underlying lifecycle remains refused with authorization.path PermissionError, requiring corrected_external_authorization from external-supervisor. No lifecycle continuation or provider writes performed.',\n    'blocking': False,\n    'outcome': 'completed',\n    'order_id': os.environ['NOODLE_ORDER_ID'],\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nargv = ['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)]\nresult = subprocess.run(argv, capture_output=True, text=True)\nPath('/private/tmp/soodles-activation-psz7ch8m/run/output/outcome-emission.json').write_text(json.dumps({'argv': argv, 'returncode': result.returncode, 'stdout': result.stdout, 'stderr': result.stderr}, indent=2)+'\\\\n')\nprint(json.dumps({'returncode': result.returncode, 'stdout': result.stdout, 'stderr': result.stderr}))\nraise SystemExit(result.returncode)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_6"
+      }
+    ],
+    "messages": [
+      "I\u2019ll use the execute skill to inspect the assigned input and current owner output, write the handoff, and emit the required typed outcome.",
+      "The owner refused access to the selected authorization with `PermissionError` and requires `corrected_external_authorization`. I\u2019ll preserve its exact continuation in the handoff. Recovery and lifecycle execution remain outside this task\u2019s scope.",
+      "Created [handoff.json](/private/tmp/soodles-activation-psz7ch8m/run/output/handoff.json), preserving the owner\u2019s exact continuation and unresolved authorization requirement.\n\nThe bounded handoff task is complete; the typed `completed` outcome was emitted successfully. The underlying lifecycle remains refused due to `authorization.path: PermissionError`. No lifecycle continuation or provider writes occurred."
+    ],
+    "item_types": [
+      "agent_message",
+      "command_execution"
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "dddddddddddddddddddddddddddddddddddddddd"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "external-supervisor",
+        "required": [
+          "corrected_external_authorization"
+        ],
+        "argv": [
+          "/Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom",
+          "run",
+          "/fixture/confirmation/selected.json"
+        ],
+        "reason": "The current authorized Local Session is the external supervisor for derivable inputs. Recover selected bytes from their owner, or correct the named material state; ask only for genuinely missing identity or capability. Never choose a phase-specific route."
+      },
+      "work_remaining": [
+        {
+          "task": "External supervisor must recover the exact selected authorization bytes from their owner or correct access to /fixture/confirmation/selected.json. Preserve the selected authorization identity; do not authorize a replacement. This recovery has not been performed.",
+          "basis_path": "/private/tmp/soodles-activation-psz7ch8m/run/output/owner.json"
+        },
+        {
+          "task": "After material correction and within appropriate execution authorization, refresh owner state and use the preserved current_next argv unchanged. Referenced production paths are unavailable in this capture; no lifecycle continuation was executed.",
+          "basis_path": "/private/tmp/soodles-activation-psz7ch8m/run/output/input.json"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "input": "corrected_external_authorization",
+          "owner": "external-supervisor",
+          "selected_path": "/fixture/confirmation/selected.json",
+          "refusal": {
+            "field": "authorization.path",
+            "value": "PermissionError"
+          },
+          "basis_path": "/private/tmp/soodles-activation-psz7ch8m/run/output/owner.json"
+        }
+      ],
+      "result": "Completed bounded read-only inspection and handoff. Underlying Issue lifecycle remains refused; no recovery, cleanup, next order, acceptance or delivery was executed.",
+      "authorizes_landing": false
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 53.35680849989876,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 104704,
+            "input_tokens": 126290,
+            "output_tokens": 1240,
+            "reasoning_output_tokens": 18
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 79998,
+      "process_exited_unix_ns": 1790743922167976000,
+      "session_id": "soodles-131-0-execute-20260930-045106-770d97",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "6ebb0db8c381338bb1fa0348d6e01b1ed8b47839d461cd1947b308f57629c2e3",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 21728
+    },
+    "result": {
+      "authorizes_landing": false,
+      "noodle_exit": 0,
+      "process_and_group_absent": true,
+      "provider_fixture": true,
+      "scope": "one real Noodle session, CLI bytes, same-profile file probe",
+      "session_dir": "/private/tmp/soodles-activation-psz7ch8m/run/control/.noodle/sessions/soodles-131-0-execute-20260930-045106-770d97",
+      "typed_outcome": {
+        "payload": {
+          "blocking": false,
+          "message": "Completed bounded read-only inspection and wrote /private/tmp/soodles-activation-psz7ch8m/run/output/handoff.json with exact owner next and retained evidence. Underlying lifecycle remains refused with authorization.path PermissionError, requiring corrected_external_authorization from external-supervisor. No lifecycle continuation or provider writes performed.",
+          "order_id": "soodles-131",
+          "outcome": "completed",
+          "stage_index": 0
+        },
+        "session_id": "soodles-131-0-execute-20260930-045106-770d97",
+        "timestamp": "2026-09-30T04:51:57.353229Z",
+        "type": "stage_message"
+      }
+    },
+    "isolation_probe": {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-f",
+        "/private/tmp/soodles-activation-psz7ch8m/run/raw/consumer.sb",
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import json,sys\nfrom pathlib import Path\npublic, denied=json.loads(sys.argv[1])\nresult={\"public_read\":False,\"denied\":[]}\ntry:\n Path(public).read_bytes(); result[\"public_read\"]=True\nexcept OSError as e: result[\"public_error\"]=type(e).__name__\nfor name in denied:\n try:\n  Path(name).read_bytes(); result[\"denied\"].append({\"path\":name,\"result\":\"READABLE\"})\n except OSError as e: result[\"denied\"].append({\"path\":name,\"result\":type(e).__name__})\nprint(json.dumps(result))\nsys.exit(0 if result[\"public_read\"] and all(x[\"result\"]==\"PermissionError\" for x in result[\"denied\"]) else 1)\n",
+        "[\"/private/tmp/soodles-activation-runtime-b0r_n84o/public-probe.txt\", [\"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"/private/tmp/soodles-activation-psz7ch8m/run/output/.denial-probe-0\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"/private/tmp/soodles-activation-psz7ch8m/run/output/.denial-probe-1\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"/private/tmp/soodles-activation-psz7ch8m/run/output/.denial-probe-2\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\"]]"
+      ],
+      "exit": 0,
+      "scope": "same-profile subprocess file reads, not full tool/IPC isolation",
+      "stderr": "",
+      "stdout": "{\"public_read\": true, \"denied\": [{\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-psz7ch8m/run/output/.denial-probe-0\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-psz7ch8m/run/output/.denial-probe-1\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-psz7ch8m/run/output/.denial-probe-2\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}]}\n"
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    },
+    "public_source_unchanged": true,
+    "trace_review_pass": true,
+    "review_reason": "Correct scoped next and required work; no premature lifecycle completion or user question for supplied facts observed",
+    "reviewer": "supervising Session; semantic review is not independent adjudication"
+  },
+  {
+    "run": "confirm-r01-queued",
+    "run_root": "/private/tmp/soodles-activation-kllhhlcx/run",
+    "structural_pass": true,
+    "shell_tool_calls_including_carrier": 5,
+    "commands": [
+      {
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md; cat input.json'",
+        "exit_code": 0,
+        "item_id": "item_1"
+      },
+      {
+        "command": "/bin/zsh -lc 'cat owner.json context.json'",
+        "exit_code": 0,
+        "item_id": "item_2"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -B - <<'PY'\nimport json, os, pathlib, subprocess\nroot=pathlib.Path.cwd()\nout=pathlib.Path('/private/tmp/soodles-activation-kllhhlcx/run/output')\nout.mkdir(parents=True,exist_ok=True)\nfor name in ('input.json','owner.json','context.json'):\n    (out/name).write_bytes((root/name).read_bytes())\nowner=json.loads((root/'owner.json').read_text())\ncontext=json.loads((root/'context.json').read_text())\nhandoff={\n    'subject': {k:context[k] for k in ('repository','issue','head')},\n    'current_next': owner['next'],\n    'work_remaining': [\n        {'task':'Obtain fresh owner/provider readback for the pending CI phase waiting on GitHub Actions; captured local run_id is 27. No CI result or publication is supplied, and this receipt does not authorize landing.', 'basis_path':str(out/'owner.json')},\n        {'task':'After the required material owner or provider state change and recovery of the selected production inputs, re-enter current_next.argv unchanged in the owning environment. Consume the resulting current owner output; this handoff has not executed the continuation.', 'basis_path':str(out/'owner.json')}\n    ],\n    'unresolved_inputs': [\n        'Fresh GitHub Actions and owner readback establishing the required material_owner_or_provider_state_change.',\n        'The referenced production executable, selected authorization /fixture/confirmation/selected.json, and control root /fixture/confirmation/control are unavailable in this capture; their owner must supply the exact selected inputs in the continuation environment.'\n    ]\n}\n(out/'handoff.json').write_text(json.dumps(handoff,indent=2)+'\\\\n')\nassert json.loads((out/'handoff.json').read_text())['current_next']==owner['next']\nprint(json.dumps({'handoff':str(out/'handoff.json'),'next_preserved':True}))\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_3"
+      },
+      {
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "exit_code": 0,
+        "item_id": "item_4"
+      },
+      {
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -B - <<'PY'\nimport json, os, subprocess\npayload={'message':'Completed the bounded read-only inspection and wrote /private/tmp/soodles-activation-kllhhlcx/run/output/handoff.json with the exact owner next, subject, remaining work, and unresolved inputs. Owner remains pending in CI waiting on GitHub Actions; no continuation or provider write was executed. Retained input, owner, and context snapshots alongside the handoff.', 'blocking':False,'outcome':'completed','order_id':os.environ['NOODLE_ORDER_ID'],'stage_index':int(os.environ['NOODLE_STAGE_INDEX'])}\nargv=['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle','--project-dir',os.environ['NOODLE_PROJECT_DIR'],'event','emit','stage_message','--session',os.environ['NOODLE_SESSION_ID'],'--payload',json.dumps(payload)]\nresult=subprocess.run(argv,text=True,capture_output=True)\nprint(result.stdout,end='')\nprint(result.stderr,end='')\nraise SystemExit(result.returncode)\nPY\"",
+        "exit_code": 0,
+        "item_id": "item_5"
+      }
+    ],
+    "messages": [
+      "I\u2019ll use the execute skill to inspect the assigned case, write the handoff, and emit the required Noodle outcome.\n",
+      "Created [handoff.json](/private/tmp/soodles-activation-kllhhlcx/run/output/handoff.json), preserving the owner\u2019s exact continuation and recording remaining work and unresolved inputs.\n\nThe owner remains pending on GitHub Actions; no lifecycle continuation or provider writes occurred. Emitted the required `completed` Noodle outcome for this handoff task."
+    ],
+    "item_types": [
+      "agent_message",
+      "command_execution"
+    ],
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "dddddddddddddddddddddddddddddddddddddddd"
+      },
+      "current_next": {
+        "kind": "executable",
+        "owner": "soodles.issue-atom",
+        "required": [
+          "material_owner_or_provider_state_change"
+        ],
+        "argv": [
+          "/Users/neon/.codex/worktrees/defect-assessment-closure/soodles/issue-atom",
+          "run",
+          "/fixture/confirmation/selected.json"
+        ],
+        "reason": "Re-enter the same command; do not select a phase-specific Issue, publication, or landing verb."
+      },
+      "work_remaining": [
+        {
+          "task": "Obtain fresh owner/provider readback for the pending CI phase waiting on GitHub Actions; captured local run_id is 27. No CI result or publication is supplied, and this receipt does not authorize landing.",
+          "basis_path": "/private/tmp/soodles-activation-kllhhlcx/run/output/owner.json"
+        },
+        {
+          "task": "After the required material owner or provider state change and recovery of the selected production inputs, re-enter current_next.argv unchanged in the owning environment. Consume the resulting current owner output; this handoff has not executed the continuation.",
+          "basis_path": "/private/tmp/soodles-activation-kllhhlcx/run/output/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        "Fresh GitHub Actions and owner readback establishing the required material_owner_or_provider_state_change.",
+        "The referenced production executable, selected authorization /fixture/confirmation/selected.json, and control root /fixture/confirmation/control are unavailable in this capture; their owner must supply the exact selected inputs in the continuation environment."
+      ]
+    },
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 55.668443416943774,
+      "emitted_usage": [
+        {
+          "line": 15,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 89216,
+            "input_tokens": 98429,
+            "output_tokens": 1067,
+            "reasoning_output_tokens": 43
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 79766,
+      "process_exited_unix_ns": 1790743908531619000,
+      "session_id": "soodles-131-0-execute-20260930-045050-1c74f3",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "28c57e3c3ef7608551de4f587a654006e2626949fcfdc3a929f6af7e2bbcef3c",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 10660
+    },
+    "result": {
+      "authorizes_landing": false,
+      "noodle_exit": 0,
+      "process_and_group_absent": true,
+      "provider_fixture": true,
+      "scope": "one real Noodle session, CLI bytes, same-profile file probe",
+      "session_dir": "/private/tmp/soodles-activation-kllhhlcx/run/control/.noodle/sessions/soodles-131-0-execute-20260930-045050-1c74f3",
+      "typed_outcome": {
+        "payload": {
+          "blocking": false,
+          "message": "Completed the bounded read-only inspection and wrote /private/tmp/soodles-activation-kllhhlcx/run/output/handoff.json with the exact owner next, subject, remaining work, and unresolved inputs. Owner remains pending in CI waiting on GitHub Actions; no continuation or provider write was executed. Retained input, owner, and context snapshots alongside the handoff.",
+          "order_id": "soodles-131",
+          "outcome": "completed",
+          "stage_index": 0
+        },
+        "session_id": "soodles-131-0-execute-20260930-045050-1c74f3",
+        "timestamp": "2026-09-30T04:51:39.158086Z",
+        "type": "stage_message"
+      }
+    },
+    "isolation_probe": {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-f",
+        "/private/tmp/soodles-activation-kllhhlcx/run/raw/consumer.sb",
+        "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import json,sys\nfrom pathlib import Path\npublic, denied=json.loads(sys.argv[1])\nresult={\"public_read\":False,\"denied\":[]}\ntry:\n Path(public).read_bytes(); result[\"public_read\"]=True\nexcept OSError as e: result[\"public_error\"]=type(e).__name__\nfor name in denied:\n try:\n  Path(name).read_bytes(); result[\"denied\"].append({\"path\":name,\"result\":\"READABLE\"})\n except OSError as e: result[\"denied\"].append({\"path\":name,\"result\":type(e).__name__})\nprint(json.dumps(result))\nsys.exit(0 if result[\"public_read\"] and all(x[\"result\"]==\"PermissionError\" for x in result[\"denied\"]) else 1)\n",
+        "[\"/private/tmp/soodles-activation-runtime-svfei8iz/public-probe.txt\", [\"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"/private/tmp/soodles-activation-kllhhlcx/run/output/.denial-probe-0\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"/private/tmp/soodles-activation-kllhhlcx/run/output/.denial-probe-1\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"/private/tmp/soodles-activation-kllhhlcx/run/output/.denial-probe-2\", \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\"]]"
+      ],
+      "exit": 0,
+      "scope": "same-profile subprocess file reads, not full tool/IPC isolation",
+      "stderr": "",
+      "stdout": "{\"public_read\": true, \"denied\": [{\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-kllhhlcx/run/output/.denial-probe-0\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/check.py\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/../private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-kllhhlcx/run/output/.denial-probe-1\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/private/confirmation.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/../evaluator/controls.json\", \"result\": \"PermissionError\"}, {\"path\": \"/private/tmp/soodles-activation-kllhhlcx/run/output/.denial-probe-2\", \"result\": \"PermissionError\"}, {\"path\": \"/System/Volumes/Data/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/confirmation/evaluator/controls.json\", \"result\": \"PermissionError\"}]}\n"
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    },
+    "public_source_unchanged": true,
+    "trace_review_pass": true,
+    "review_reason": "Correct scoped next and required work; no premature lifecycle completion or user question for supplied facts observed",
+    "reviewer": "supervising Session; semantic review is not independent adjudication"
+  }
+]

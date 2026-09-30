@@ -1,0 +1,3 @@
+# Independent fresh confirmation
+
+Winner fixed in winner.json before confirmation. No source or prompt optimization follows these results. New head d*40, base c*40, run 27, selected authorization path and failure reason exercise the same predeclared three state families. This is an independent fresh replication within those families, not evidence of unseen failure-mode generalization. Both baseline and fixed winner run again with unchanged neutral task/carrier/model. External raw telemetry and structural evaluator remain as in behavior-v2; the supervisor separately reviews actual traces. Old V1 calibration is excluded. All model processes receive only their assigned case, and private evaluator/confirmation paths must fail OS read probes.

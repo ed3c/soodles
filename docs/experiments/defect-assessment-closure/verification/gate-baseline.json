@@ -1,0 +1,165 @@
+{
+  "scope": "synthetic gate controls; no fresh behavior or live provider effects",
+  "source": "/Users/neon/.codex/worktrees/defect-assessment-closure/soodles",
+  "source_sha256": "6bb652a9c1b41f9ad68b83fbf589bcf2a668b80eca6944752497c152798889fa",
+  "records": [
+    {
+      "case": "complete",
+      "observations": {
+        "shared": {
+          "status": "PASS",
+          "authorizes_landing": false
+        },
+        "candidate": {
+          "status": "PASS",
+          "authorizes_landing": false
+        }
+      },
+      "workspace_unchanged": true
+    },
+    {
+      "case": "missing_product",
+      "observations": {
+        "shared": {
+          "status": "REFUSED",
+          "invalid": {
+            "field": "candidate.missing_required_paths",
+            "value": [
+              "product.json"
+            ]
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Soodles Issue admission",
+            "required": [
+              "complete_candidate_evidence"
+            ]
+          }
+        },
+        "candidate": {
+          "status": "REFUSED",
+          "invalid": {
+            "field": "candidate.missing_required_paths",
+            "value": [
+              "product.json"
+            ]
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Soodles Issue admission",
+            "required": [
+              "complete_candidate_evidence"
+            ]
+          }
+        }
+      },
+      "workspace_unchanged": true
+    },
+    {
+      "case": "missing_behavior",
+      "observations": {
+        "shared": {
+          "status": "REFUSED",
+          "invalid": {
+            "field": "candidate.missing_required_paths",
+            "value": [
+              "behavior.json"
+            ]
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Soodles Issue admission",
+            "required": [
+              "complete_candidate_evidence"
+            ]
+          }
+        },
+        "candidate": {
+          "status": "REFUSED",
+          "invalid": {
+            "field": "candidate.missing_required_paths",
+            "value": [
+              "behavior.json"
+            ]
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Soodles Issue admission",
+            "required": [
+              "complete_candidate_evidence"
+            ]
+          }
+        }
+      },
+      "workspace_unchanged": true
+    },
+    {
+      "case": "missing_confirmation",
+      "observations": {
+        "shared": {
+          "status": "REFUSED",
+          "invalid": {
+            "field": "candidate.missing_required_paths",
+            "value": [
+              "confirmation.json"
+            ]
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Soodles Issue admission",
+            "required": [
+              "complete_candidate_evidence"
+            ]
+          }
+        },
+        "candidate": {
+          "status": "REFUSED",
+          "invalid": {
+            "field": "candidate.missing_required_paths",
+            "value": [
+              "confirmation.json"
+            ]
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Soodles Issue admission",
+            "required": [
+              "complete_candidate_evidence"
+            ]
+          }
+        }
+      },
+      "workspace_unchanged": true
+    },
+    {
+      "case": "substituted_behavior",
+      "observations": {
+        "shared": {
+          "status": "PASS",
+          "authorizes_landing": false
+        },
+        "candidate": {
+          "status": "REFUSED",
+          "invalid": {
+            "field": "candidate.frozen_path.sha256",
+            "value": {
+              "path": "behavior.json",
+              "revision": "head",
+              "expected": "d16a68d2e939eecf577cd3e9cbfb162cf086cd4d0c1feee774a8043d9e86ebdb",
+              "actual": "8fe292dc710adfde45c42022b1972f66159cf543c778fb525ca09e6ad5935c6e"
+            }
+          },
+          "next": {
+            "kind": "input",
+            "owner": "Soodles candidate verification",
+            "required": [
+              "externally_frozen_candidate_bytes"
+            ]
+          }
+        }
+      },
+      "workspace_unchanged": true
+    }
+  ],
+  "authorizes_landing": false
+}

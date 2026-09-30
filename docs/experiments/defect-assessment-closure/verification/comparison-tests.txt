@@ -1,0 +1,16 @@
+test_cloud_fresh_schema4_refuses_without_request (test_comparison_gate.ComparisonGateTests.test_cloud_fresh_schema4_refuses_without_request) ... ok
+test_direct_owner_rejects_foreign_binding_and_missing_comparison (test_comparison_gate.ComparisonGateTests.test_direct_owner_rejects_foreign_binding_and_missing_comparison) ... ok
+test_direct_shared_owner_matches_final_head_and_cleans_replayer (test_comparison_gate.ComparisonGateTests.test_direct_shared_owner_matches_final_head_and_cleans_replayer) ... ok
+test_frozen_nine_case_process_oracle (test_comparison_gate.ComparisonGateTests.test_frozen_nine_case_process_oracle) ... ok
+test_landing_start_advance_dispatch_consume_fresh_contract (test_comparison_gate.ComparisonGateTests.test_landing_start_advance_dispatch_consume_fresh_contract) ... ok
+test_malformed_requirement_refuses_without_replayer (test_comparison_gate.ComparisonGateTests.test_malformed_requirement_refuses_without_replayer) ... ok
+test_nonregression_requires_its_exact_external_target (test_comparison_gate.ComparisonGateTests.test_nonregression_requires_its_exact_external_target) ... ok
+test_publication_replays_before_push_and_pr_and_rejects_changed_subject (test_comparison_gate.ComparisonGateTests.test_publication_replays_before_push_and_pr_and_rejects_changed_subject) ... ok
+test_raw_packet_and_observations_cannot_substitute_instruction (test_comparison_gate.ComparisonGateTests.test_raw_packet_and_observations_cannot_substitute_instruction) ... ok
+test_replay_timeout_preserves_raw_output_and_cleans_extracted_bytes (test_comparison_gate.ComparisonGateTests.test_replay_timeout_preserves_raw_output_and_cleans_extracted_bytes) ... ok
+test_schema3_local_landing_enforces_external_pins_before_checkpoint (test_comparison_gate.ComparisonGateTests.test_schema3_local_landing_enforces_external_pins_before_checkpoint) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 96.144s
+
+OK

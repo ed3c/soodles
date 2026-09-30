@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path.insert(0,'tests');suite=unittest.defaultTestLoader.loadTestsFromNames(['test_issue_admission','test_landing','test_landing_bootstrap']);r=unittest.TextTestRunner(verbosity=2).run(suite);sys.exit(not r.wasSuccessful())"
+  ],
+  "exit": 0,
+  "elapsed_seconds": 18.256054915953428,
+  "output": "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/shared-owner-tests.txt"
+}

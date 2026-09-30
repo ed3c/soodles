@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "issue": 195,
+  "base_head": "0977f2513130e8a38c53665f71c8e90f3ac9c614",
+  "method": {
+    "path": "/Users/neon/.codex/skills/eval-audit/SKILL.md",
+    "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133"
+  },
+  "candidate_issue_atom_sha256": "5de64c72970d5ac62f2d0985fa5b8e612dcb97688d6407edadc021abd97d15e3",
+  "product_assessment": {
+    "status": "FAIL",
+    "scope": "required existing full-suite compatibility; not proof of incorrect live provider behavior",
+    "test": "test_claim_refusal_evidence.ClaimRefusalEvidenceTests.test_frozen_oracle_preserves_refusal_wait_and_resume",
+    "reproduction_exit": 1,
+    "cause": "Selected issue_atom.py _run_owned calls select_run(..., issue=issue[\"number\"]); frozen evaluator worker.py substitutes lambda *x:(None,None), which rejects keyword issue. Success control exits before evaluator verdict and before resume or planted controls.",
+    "exception": "TypeError: <lambda>() got an unexpected keyword argument 'issue'",
+    "completed_legal_controls": {
+      "refusal": {
+        "pass": true,
+        "checks": {
+          "non_authorizing": true,
+          "same_entry": true,
+          "no_provider_writes": true,
+          "named_owner": true,
+          "named_prerequisite": true,
+          "known_identity": true,
+          "structured_refusal": true,
+          "single_claim": true,
+          "no_sleep": true,
+          "no_accept": true,
+          "no_publish": true,
+          "no_claim_artifact": true,
+          "no_acceptance_artifact": true,
+          "execution_preserved": true,
+          "nonzero_observed": true
+        }
+      },
+      "refusal75": {
+        "pass": true,
+        "checks": {
+          "non_authorizing": true,
+          "same_entry": true,
+          "no_provider_writes": true,
+          "named_owner": true,
+          "named_prerequisite": true,
+          "known_identity": true,
+          "structured_refusal": true,
+          "single_claim": true,
+          "no_sleep": true,
+          "no_accept": true,
+          "no_publish": true,
+          "no_claim_artifact": true,
+          "no_acceptance_artifact": true,
+          "execution_preserved": true,
+          "nonzero_observed": true
+        }
+      },
+      "running": {
+        "pass": true,
+        "checks": {
+          "non_authorizing": true,
+          "same_entry": true,
+          "no_provider_writes": true,
+          "legal_pending": true,
+          "no_claim": true,
+          "no_accept": true,
+          "no_publish": true,
+          "execution_preserved": true
+        }
+      }
+    }
+  },
+  "fresh_behavior_assessment": {
+    "status": "INCONCLUSIVE",
+    "scope": "newly observed evaluator integration failure",
+    "reason": "No fresh consumer comparison exists for this failure. Existing frozen failed-head/create confirmations remain scoped to their original cases; they cannot prove this new defect closed."
+  },
+  "eval_audit_findings": [
+    {
+      "area": "Error Analysis",
+      "status": "Problem exists",
+      "finding": "A real external process replay reproduces the failure with raw stdout/stderr retained; three legal refusal/running controls pass."
+    },
+    {
+      "area": "Evaluator Design",
+      "status": "Problem exists",
+      "finding": "Binary objective checks are appropriate, but the frozen success-control mock does not accept the selected caller signature. Replay aborts; it cannot return a full behavioral verdict.",
+      "fix": "Supervisor must choose an authorized compatible source or externally fixed evaluator correction; writer cannot alter either fixed identity."
+    },
+    {
+      "area": "Judge Validation",
+      "status": "Cannot determine",
+      "finding": "No semantic judge is used for this TypeError. Existing fresh trace review is supervisor review, explicitly not an independently calibrated semantic judge."
+    },
+    {
+      "area": "Human Review Process",
+      "status": "OK",
+      "finding": "Actual worker call, original stderr and fixture source were inspected; no output-only pass inference."
+    },
+    {
+      "area": "Labeled Data",
+      "status": "Cannot determine",
+      "finding": "One deterministic integration failure and bounded existing fresh confirmations do not support population claims."
+    },
+    {
+      "area": "Pipeline Hygiene",
+      "status": "Problem exists",
+      "finding": "New callable keyword crosses an externally frozen fixture boundary. Candidate must preserve fixed bytes; no source/fixture edits or acceptance promotion performed."
+    }
+  ],
+  "continuation": {
+    "owner": "external supervisor / existing admission owner",
+    "required": "fresh authorized correction compatible with fixed existing controls, plus any newly selected assessment evidence",
+    "route": "execute skill -> supplied frozen task -> existing admission owner",
+    "preserve": [
+      "selected inventory and candidate bytes",
+      "full-suite output and timing observer",
+      "claim-refusal-reproduction raw evidence"
+    ],
+    "no_unchanged_retry": true
+  },
+  "efficiency_target_met": false,
+  "confirmation_shell_call_medians": {
+    "baseline": 6,
+    "r03": 8
+  },
+  "authorizes_landing": false,
+  "full_suite": {
+    "completed_tests": 526,
+    "failures": 1,
+    "errors": 0,
+    "skips": 0,
+    "unfinished_tests": 0,
+    "exit_code": 1
+  }
+}

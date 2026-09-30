@@ -1,0 +1,1560 @@
+{
+  "phase": "behavior",
+  "archive": "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/archives/behavior.tar.gz",
+  "sha256": "4bcac4c48469ec19419ea5f4f0fe6c888b8316d5c7b33260ab0764c5704e0f4c",
+  "bytes": 789462,
+  "runs": [
+    {
+      "label": "train-baseline-failed",
+      "original_run_root": "/private/tmp/soodles-activation-4dq9uk9d/run",
+      "archive_prefix": "runs/train-baseline-failed",
+      "public_source_unchanged": true,
+      "process_and_group_absent": true,
+      "typed_outcome": "completed",
+      "temporary_runtime_removed": true
+    },
+    {
+      "label": "train-r01-failed",
+      "original_run_root": "/private/tmp/soodles-activation-hh8xlqz2/run",
+      "archive_prefix": "runs/train-r01-failed",
+      "public_source_unchanged": true,
+      "process_and_group_absent": true,
+      "typed_outcome": "completed",
+      "temporary_runtime_removed": true
+    }
+  ],
+  "members": [
+    {
+      "member": "experiment/evaluator/check.py",
+      "sha256": "cca6ff5456b1d5cb38dfa1695464e9490b6cdcf74692605a8460a224b8b8d2fd",
+      "bytes": 1790
+    },
+    {
+      "member": "experiment/evaluator/controls.json",
+      "sha256": "975847baad23e5ae1711a604fdcb4d81c23217c2c38585071316dd06b01caa01",
+      "bytes": 440
+    },
+    {
+      "member": "experiment/evaluator/criteria.json",
+      "sha256": "b43c9e6515fe634d4c84b0579aa0a99942e8ba86c5e72f8a4c1c6c90131465e0",
+      "bytes": 582
+    },
+    {
+      "member": "experiment/freeze.json",
+      "sha256": "6dda1e9c16876cc476b3d182e717a7a2816686e562f71f836c0a3f7433bb44e2",
+      "bytes": 42971
+    },
+    {
+      "member": "experiment/host/launch.py",
+      "sha256": "c824ec96e7b9348f0f035c0cb9e7e7e4a2eb987dfc199f546e8960eb7109be13",
+      "bytes": 3591
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/case.json",
+      "sha256": "186040fd5ec7f636df3e27983d17fa9bb6bc5c3d55945c17f8d938ff8a13c481",
+      "bytes": 9724
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/draft.json",
+      "sha256": "3e6533ada8d5278091985adb9d65a87c52aee9cf2fbc5f3e4c5890decb124561",
+      "bytes": 1701
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/launch-result.json",
+      "sha256": "ecdb1945bd7cb7eacaa6482491c275ac53f0132227cf87c7713c15dc44098342",
+      "bytes": 609
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/prepare.json",
+      "sha256": "f9505584096dc971a39e96986043f66ad2c4765f831a684c874439f58373f2ce",
+      "bytes": 780
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2",
+      "bytes": 12854
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/public/owner.json",
+      "sha256": "809d42a073313a9c90f2f806c219349cadefd90e538bea3ad3ef634762839f8e",
+      "bytes": 712
+    },
+    {
+      "member": "experiment/host/runs/train-baseline-failed/runtime-cleanup.json",
+      "sha256": "c843c7b01df50fa61310d99d1e6aa5c42e9aee5e2f73c3162f8262d0fdffce3c",
+      "bytes": 78
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/case.json",
+      "sha256": "e5c4d402d22b78fbd0dcaecbe772acc4e4dfe22ea310d43c12c212a424e8c0ce",
+      "bytes": 9719
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/draft.json",
+      "sha256": "7a4d899dfd6310c0bac3a19da16cec14cc612ef2b5db54583956a235a23c367c",
+      "bytes": 1696
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/launch-result.json",
+      "sha256": "9c9cd6967ae37880bc03bd6cc58c2ff6b883a95e2b3de14a618af41fd3523429",
+      "bytes": 604
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/prepare.json",
+      "sha256": "f12661834eaf8cd4c768ba9fff4b74e5177cb9e7e18a28ff1466fa820c96ed20",
+      "bytes": 765
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2",
+      "bytes": 12854
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/public/owner.json",
+      "sha256": "ddf76bdc1989bdabd240b5e01c3b7af1cf35e7ba9c00a7c904d7e58025d66331",
+      "bytes": 1538
+    },
+    {
+      "member": "experiment/host/runs/train-r01-failed/runtime-cleanup.json",
+      "sha256": "c843c7b01df50fa61310d99d1e6aa5c42e9aee5e2f73c3162f8262d0fdffce3c",
+      "bytes": 78
+    },
+    {
+      "member": "experiment/host/task.md",
+      "sha256": "27a6f7bcd4319514be1893f26c0035d8647f3326fec9bd6a74b4290f7428646a",
+      "bytes": 708
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2",
+      "bytes": 12854
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/inputs/baseline/failed/owner.json",
+      "sha256": "809d42a073313a9c90f2f806c219349cadefd90e538bea3ad3ef634762839f8e",
+      "bytes": 712
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2",
+      "bytes": 12854
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/inputs/baseline/missing/owner.json",
+      "sha256": "a5c129dcb3128da942a29fcc94b3739b1fc64b267d99e3b1870851c2fb0c6113",
+      "bytes": 530
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2",
+      "bytes": 12854
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/inputs/baseline/queued/owner.json",
+      "sha256": "540bc161517f64dc2a433260f8fd44eb1ad80854ef6058a99977b504e09ab826",
+      "bytes": 242
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2",
+      "bytes": 12854
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/inputs/r01/failed/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/inputs/r01/failed/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/inputs/r01/failed/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/inputs/r01/failed/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/inputs/r01/failed/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/inputs/r01/failed/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/inputs/r01/failed/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/inputs/r01/failed/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/inputs/r01/failed/owner.json",
+      "sha256": "ddf76bdc1989bdabd240b5e01c3b7af1cf35e7ba9c00a7c904d7e58025d66331",
+      "bytes": 1538
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2",
+      "bytes": 12854
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/inputs/r01/missing/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/inputs/r01/missing/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/inputs/r01/missing/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/inputs/r01/missing/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/inputs/r01/missing/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/inputs/r01/missing/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/inputs/r01/missing/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/inputs/r01/missing/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/inputs/r01/missing/owner.json",
+      "sha256": "a5c129dcb3128da942a29fcc94b3739b1fc64b267d99e3b1870851c2fb0c6113",
+      "bytes": 530
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2",
+      "bytes": 12854
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/inputs/r01/queued/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/inputs/r01/queued/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/inputs/r01/queued/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/inputs/r01/queued/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/inputs/r01/queued/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/inputs/r01/queued/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/inputs/r01/queued/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/inputs/r01/queued/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/inputs/r01/queued/owner.json",
+      "sha256": "540bc161517f64dc2a433260f8fd44eb1ad80854ef6058a99977b504e09ab826",
+      "bytes": 242
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "05e6bdb0be0b7f20984b914fd9f0029dc103304be0b487b3f54e55b107e88aa8",
+      "bytes": 13407
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/inputs/r02/failed/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/inputs/r02/failed/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/inputs/r02/failed/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/inputs/r02/failed/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/inputs/r02/failed/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/inputs/r02/failed/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/inputs/r02/failed/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/inputs/r02/failed/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/inputs/r02/failed/owner.json",
+      "sha256": "ddf76bdc1989bdabd240b5e01c3b7af1cf35e7ba9c00a7c904d7e58025d66331",
+      "bytes": 1538
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "05e6bdb0be0b7f20984b914fd9f0029dc103304be0b487b3f54e55b107e88aa8",
+      "bytes": 13407
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/inputs/r02/missing/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/inputs/r02/missing/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/inputs/r02/missing/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/inputs/r02/missing/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/inputs/r02/missing/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/inputs/r02/missing/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/inputs/r02/missing/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/inputs/r02/missing/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/inputs/r02/missing/owner.json",
+      "sha256": "a5c129dcb3128da942a29fcc94b3739b1fc64b267d99e3b1870851c2fb0c6113",
+      "bytes": 530
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/evals-start/SKILL.md",
+      "sha256": "be3fe06449de48f3fd3a8b675eaba73abae8c7f5bb38e64c2add7e29e094ef3b",
+      "bytes": 1536
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/issue-atom/SKILL.md",
+      "sha256": "05e6bdb0be0b7f20984b914fd9f0029dc103304be0b487b3f54e55b107e88aa8",
+      "bytes": 13407
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/SKILL.md",
+      "sha256": "db8dc0148baf7ffb2ccc6f919fc519f77759a17b1201548c7e71313b3a1b136d",
+      "bytes": 10696
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/README.md",
+      "sha256": "cbad61a11d864cf70581e6a7d906451edb899421f7b9c3f9da1a8cf5a5c7c705",
+      "bytes": 4380
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "sha256": "a5ad12f767670817d82dc0d817109bb9987aaea6f2ac370b95a726d7b0599222",
+      "bytes": 2590
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/delivery-recovery.md",
+      "sha256": "90f90c6be5607daead9e70bbc3d58688e3008cb2c8479252f7e0d840c6fa4489",
+      "bytes": 6440
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/github-read.md",
+      "sha256": "7f49915fffb76448ac545520980d69f84b8afb6dfd59d7629d2a02837dd3863b",
+      "bytes": 3868
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/issue-execution.md",
+      "sha256": "f3a2b73dd22b09fb22ed0e7abd56c7efdbfcabb33e08c57d1e8b6c3a69247bf5",
+      "bytes": 9387
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "sha256": "394a13b279efb3375dc2144e1b0bc6a4b3a95bfecb6e65f2ab4684e87b4f532f",
+      "bytes": 11090
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/order-handoff.md",
+      "sha256": "3f9c4e0e7796161e0e6505ca2a5a6e9caebeb199702873762df9800932b71dc8",
+      "bytes": 4058
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/runtime-admission.md",
+      "sha256": "16d2a727ebd653b7f744f67b9aac0e15a7e621436ad3fdf27703eb1226c9e61a",
+      "bytes": 2324
+    },
+    {
+      "member": "experiment/inputs/r02/queued/.agents/skills/verify-soodles/features/supervised-delivery.md",
+      "sha256": "ae69ca77bd7a4f8cda09535bbbccedca901386584cc30b306fb228114b2f6d76",
+      "bytes": 10786
+    },
+    {
+      "member": "experiment/inputs/r02/queued/AGENTS.md",
+      "sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "bytes": 17742
+    },
+    {
+      "member": "experiment/inputs/r02/queued/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "experiment/inputs/r02/queued/contracts/agent-context-design.md",
+      "sha256": "5b5892fc813909c6b3be52c7e7bfef8d95ef61d6064cfeb9b16ab52e80690509",
+      "bytes": 12720
+    },
+    {
+      "member": "experiment/inputs/r02/queued/contracts/next-issue-v1.md",
+      "sha256": "0bc370a6a894f76eca1aefbef454798d93a41c3f68a69ef797f7d08a1fb7bb94",
+      "bytes": 2571
+    },
+    {
+      "member": "experiment/inputs/r02/queued/contracts/provider-readback-v1.md",
+      "sha256": "2fabdb10728ec68b85348a24363d80ff10f4c519efdbb3fb0f4c93eec94c7dbd",
+      "bytes": 2118
+    },
+    {
+      "member": "experiment/inputs/r02/queued/contracts/system-v1.md",
+      "sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "bytes": 45657
+    },
+    {
+      "member": "experiment/inputs/r02/queued/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "experiment/inputs/r02/queued/owner.json",
+      "sha256": "540bc161517f64dc2a433260f8fd44eb1ad80854ef6058a99977b504e09ab826",
+      "bytes": 242
+    },
+    {
+      "member": "experiment/preflight-failures.json",
+      "sha256": "fee4d541f2ebc8f397033d61dc8be05bd500d09a3a01a28d5d2c935afaf3535d",
+      "bytes": 252
+    },
+    {
+      "member": "experiment/private/confirmation.json",
+      "sha256": "bdbc835d219f9071d1d9b4359b9d61d6a156ff5652e8cdd5e598194994278c25",
+      "bytes": 130
+    },
+    {
+      "member": "experiment/protocol.md",
+      "sha256": "641f5049dbf50c5f88e7b7882a13045f5d466db3e091976e4ab9888a1c581c0d",
+      "bytes": 1565
+    },
+    {
+      "member": "runs/train-baseline-failed/output/handoff.json",
+      "sha256": "f39c7c910f1e293a98098b55845252094d2132993a6cd579fc0528f406cb8b1a",
+      "bytes": 3096
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/admission.json",
+      "sha256": "f4016f1f6d2b4ae7f01f711224858e2450d293dc77b35ae3127d9c1156227f6e",
+      "bytes": 5315
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/consumer.sb",
+      "sha256": "97314476619f73800d3d6e54b1839c7084b04498fb3e17502e360f7659fb63d5",
+      "bytes": 11558
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/doctor.json",
+      "sha256": "be18157662c38ba52424e9fbff6d72f7d6619606a083fe689599ad0fab188e01",
+      "bytes": 14279
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/doctor.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/exit.json",
+      "sha256": "49573403e33a500188c220b4f16bd61a2bc9b0ff14572c1d2170d4ab16aab18a",
+      "bytes": 979
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/isolation-probe.json",
+      "sha256": "09fb5fab1204d475e0daa6ab9f9bf58eab178767c07d82b021108b29f623ae4b",
+      "bytes": 4147
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/launch.json",
+      "sha256": "06f929b21aeccdcc0862bc000902e28570a2dc73a4bff8905ef33556faa12ed0",
+      "bytes": 841
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/noodle.stderr",
+      "sha256": "4fefee981d5c94d6257dd45788c686f0c751ba692533bf4fb8c9f1d744845503",
+      "bytes": 1933
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/noodle.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/preflight.json",
+      "sha256": "8f24355d3ab614dbdfd7ae8b58443f1479758f6e656d5da02651409f7f3519e1",
+      "bytes": 1015
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/result.json",
+      "sha256": "74c3ce515f9a536a4eba4cfee16aded799966a9162c86c2ef1549c66eb71098e",
+      "bytes": 1080
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/stderr.bin",
+      "sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "bytes": 29
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/stdout.bin",
+      "sha256": "123ecb96ba8c5a73c4aced28cf74e39a78c151af8fed5d93271fd0d52e59af95",
+      "bytes": 24708
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/supervisor-commands.json",
+      "sha256": "69a56564fafa8ca6aff3277cd8b053163082804ae2e23da1a73c214b341dde91",
+      "bytes": 4917
+    },
+    {
+      "member": "runs/train-baseline-failed/raw/task-boundary.json",
+      "sha256": "fa394e2299c6054ac28beeebc16ee901334b21252cf64fdf58839c0b6ca306c4",
+      "bytes": 2050
+    },
+    {
+      "member": "runs/train-baseline-failed/session/events.ndjson",
+      "sha256": "000bcc0f6decf31d3e1585e4a76b5384e72fdde416c8fc851e9edd3208d77f18",
+      "bytes": 17548
+    },
+    {
+      "member": "runs/train-baseline-failed/session/process.json",
+      "sha256": "49bbd8162553602fb307b3d5b47a9726be28b8c2e65c07af92c771ada8db1816",
+      "bytes": 116
+    },
+    {
+      "member": "runs/train-baseline-failed/session/spawn.json",
+      "sha256": "62938e883907c8fd41e6d2168846617f365a74119b1712d005895a0f1b3a8d59",
+      "bytes": 321
+    },
+    {
+      "member": "runs/train-r01-failed/output/assessment.json",
+      "sha256": "315001e54da41e5787fde96490c7cabe504c3ed5110fae0e1daa45759229efcf",
+      "bytes": 2271
+    },
+    {
+      "member": "runs/train-r01-failed/output/evidence/.agents/skills/eval-audit/SKILL.md",
+      "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133",
+      "bytes": 9954
+    },
+    {
+      "member": "runs/train-r01-failed/output/evidence/.agents/skills/execute/SKILL.md",
+      "sha256": "31b99ef5b65d55c7a74c1d1244f6b32353ff53339cd740411999fe8dec02a20f",
+      "bytes": 182
+    },
+    {
+      "member": "runs/train-r01-failed/output/evidence/.agents/skills/verify-soodles/features/pclass-context.md",
+      "sha256": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384",
+      "bytes": 21432
+    },
+    {
+      "member": "runs/train-r01-failed/output/evidence/context.json",
+      "sha256": "557f36c926d612a1f2f936748709c6b9f5bc287dcc2d29ba33dc83a34005686e",
+      "bytes": 239
+    },
+    {
+      "member": "runs/train-r01-failed/output/evidence/input.json",
+      "sha256": "8350f0313214a0584a2f6baf088f843f42d1233716f52460a74ca67d96142a69",
+      "bytes": 181
+    },
+    {
+      "member": "runs/train-r01-failed/output/evidence/owner.json",
+      "sha256": "ddf76bdc1989bdabd240b5e01c3b7af1cf35e7ba9c00a7c904d7e58025d66331",
+      "bytes": 1538
+    },
+    {
+      "member": "runs/train-r01-failed/output/handoff.json",
+      "sha256": "6ebe742dde0c39b6df2739f9cb8f8b38f9a2d162d3b65c81c2d4998080f10ef7",
+      "bytes": 5878
+    },
+    {
+      "member": "runs/train-r01-failed/raw/admission.json",
+      "sha256": "59c38d0169dce844ef0e86adbe0e2999daab6180923ca26f3081619edd2ce39c",
+      "bytes": 5315
+    },
+    {
+      "member": "runs/train-r01-failed/raw/consumer.sb",
+      "sha256": "66a95e229db5f6e53eb8535a6cc40a2e742992e11d54b490f3f6b405046894e9",
+      "bytes": 11558
+    },
+    {
+      "member": "runs/train-r01-failed/raw/doctor.json",
+      "sha256": "5e5f7c1fdcdc9f21da75f7df6dc3bbd51a40aea5c2cbc15b7f6db207b71b6e98",
+      "bytes": 14280
+    },
+    {
+      "member": "runs/train-r01-failed/raw/doctor.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "runs/train-r01-failed/raw/exit.json",
+      "sha256": "26f2350b9911300e2ef66238eb6d08931fbaf835e0f37e2f8a115148dff446cf",
+      "bytes": 980
+    },
+    {
+      "member": "runs/train-r01-failed/raw/isolation-probe.json",
+      "sha256": "6377723b403c5be5907315b0eef67e2e348bb493a0eb6950bb40d7b49af64740",
+      "bytes": 4147
+    },
+    {
+      "member": "runs/train-r01-failed/raw/launch.json",
+      "sha256": "59da9eba4b0ace3a42d014d9a56248895caf22491e3b847b1ec8fcbee921b001",
+      "bytes": 841
+    },
+    {
+      "member": "runs/train-r01-failed/raw/noodle.stderr",
+      "sha256": "a5a0e0eb0d78e70bd4d76f79086a44bb457f59b9aa73737c83ab128ad0619ac8",
+      "bytes": 2041
+    },
+    {
+      "member": "runs/train-r01-failed/raw/noodle.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "runs/train-r01-failed/raw/preflight.json",
+      "sha256": "73f032968ffd3dd0aa10b417f453f9727836cebd424978733e1db9469fa2045a",
+      "bytes": 1015
+    },
+    {
+      "member": "runs/train-r01-failed/raw/result.json",
+      "sha256": "246ce18978daa3408b91c8ced749a5d05ae9e1ee8b00b9413ddc185d59c4be15",
+      "bytes": 1005
+    },
+    {
+      "member": "runs/train-r01-failed/raw/stderr.bin",
+      "sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "bytes": 29
+    },
+    {
+      "member": "runs/train-r01-failed/raw/stdout.bin",
+      "sha256": "9156ed07b3a007be5db325f485e813e87eba111966040a1d2d585b40ca368029",
+      "bytes": 52032
+    },
+    {
+      "member": "runs/train-r01-failed/raw/supervisor-commands.json",
+      "sha256": "7983d21003956c03c3c157efe125809889e24c3b7d67bf27ec23ac47f397ffa9",
+      "bytes": 4917
+    },
+    {
+      "member": "runs/train-r01-failed/raw/task-boundary.json",
+      "sha256": "c29088f12d03ffe8c81c39cf0c5894fbafbb68b1e971dc4f8d061ee800db8434",
+      "bytes": 2050
+    },
+    {
+      "member": "runs/train-r01-failed/session/events.ndjson",
+      "sha256": "7400f2736aa6db114041cb5f188fc139e667fa23ec8c8b6cbb634c9ff0a5a0c6",
+      "bytes": 21887
+    },
+    {
+      "member": "runs/train-r01-failed/session/process.json",
+      "sha256": "12e8b08acb9acaa55d2da2e4357dcc0ccff161b5e434a0a687bc3ed6294a0b81",
+      "bytes": 116
+    },
+    {
+      "member": "runs/train-r01-failed/session/spawn.json",
+      "sha256": "a72bdf13f6b456d7f6fdc88279c38433ca6794311bfb6773c2d78f6cdf913bcf",
+      "bytes": 322
+    }
+  ],
+  "contains_private_key_or_auth_file": false,
+  "scope": "raw capture and public fixture/evaluator bytes; no home/auth runtime, no provider credential"
+}

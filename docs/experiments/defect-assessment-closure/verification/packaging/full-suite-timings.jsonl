@@ -1,0 +1,1054 @@
+{"cwd": "/Users/neon/.codex/worktrees/defect-assessment-control/soodles/.worktrees/soodles-195-767f198b9e51-0-execute", "event": "observer", "scope": "per-test timings; assertions remain candidate controls", "source_sha256": "37ebf56d3d9b0937908bfbfed02bc6827321e1172d0f6a9e3e6ee61e324042ed"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_admitted_version_is_observed_not_inferred_from_filename"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.39922654209658504, "event": "stop", "test": "test_admission.AdmissionTests.test_admitted_version_is_observed_not_inferred_from_filename"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_all_command_help_routes_are_noninteractive"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5363136660307646, "event": "stop", "test": "test_admission.AdmissionTests.test_all_command_help_routes_are_noninteractive"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_dirty_candidate_rejects_before_binary_and_tests"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1437823330052197, "event": "stop", "test": "test_admission.AdmissionTests.test_dirty_candidate_rejects_before_binary_and_tests"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_fixture_environment_drops_provider_and_live_noodle_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0017735420260578394, "event": "stop", "test": "test_admission.AdmissionTests.test_fixture_environment_drops_provider_and_live_noodle_identity"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_full_suite_keeps_bounded_budget_and_rejects_bad_results"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0027402909472584724, "event": "stop", "test": "test_admission.AdmissionTests.test_full_suite_keeps_bounded_budget_and_rejects_bad_results"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_full_suite_timeout_preserves_partial_output_and_stops"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0014711669646203518, "event": "stop", "test": "test_admission.AdmissionTests.test_full_suite_timeout_preserves_partial_output_and_stops"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_missing_binary_does_not_fall_back_to_path"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0013625831343233585, "event": "stop", "test": "test_admission.AdmissionTests.test_missing_binary_does_not_fall_back_to_path"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_missing_required_binary_is_actionable"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.08071587514132261, "event": "stop", "test": "test_admission.AdmissionTests.test_missing_required_binary_is_actionable"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_unsupported_host_refuses_before_execution"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0014744170475751162, "event": "stop", "test": "test_admission.AdmissionTests.test_unsupported_host_refuses_before_execution"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_wrong_digest_refuses_before_executable_sentinel"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0016256249509751797, "event": "stop", "test": "test_admission.AdmissionTests.test_wrong_digest_refuses_before_executable_sentinel"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_wrong_observed_version_refuses_worktree_execution"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3448475000914186, "event": "stop", "test": "test_admission.AdmissionTests.test_wrong_observed_version_refuses_worktree_execution"}
+{"event": "start", "test": "test_admission.AdmissionTests.test_wrong_repository_and_unknown_policy_fields_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0014077918604016304, "event": "stop", "test": "test_admission.AdmissionTests.test_wrong_repository_and_unknown_policy_fields_refuse"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_all_barriers_are_ordered_and_separate_from_hard_gates"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1489442908205092, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_all_barriers_are_ordered_and_separate_from_hard_gates"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_all_planted_controls_discriminate_from_green_fixture"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.14119116682559252, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_all_planted_controls_discriminate_from_green_fixture"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_analyzer_and_manifest_preflight_precedes_import"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.01582658290863037, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_analyzer_and_manifest_preflight_precedes_import"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_binding_mutations_fail_at_public_entry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.41803520801477134, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_binding_mutations_fail_at_public_entry"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_caller_gates_cannot_supply_pass_or_counts"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005941999843344092, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_caller_gates_cannot_supply_pass_or_counts"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_complete_zero_is_no_qualified_barrier"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1429388748947531, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_complete_zero_is_no_qualified_barrier"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_duplicate_mutation_cannot_be_an_optimization_barrier"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.14609491685405374, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_duplicate_mutation_cannot_be_an_optimization_barrier"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_failed_process_and_failed_cleanup_are_not_success"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5906841249670833, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_failed_process_and_failed_cleanup_are_not_success"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_fixed_append_only_supplement_completes_same_packet"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1844322078395635, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_fixed_append_only_supplement_completes_same_packet"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_historical_normalizer_pin_rejects_current_source_before_import"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.006095166085287929, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_historical_normalizer_pin_rejects_current_source_before_import"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_membership_cannot_be_redeclared_as_two_or_treatment"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.18125295895151794, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_membership_cannot_be_redeclared_as_two_or_treatment"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_missing_and_changed_streams_fail_closed"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.24000633298419416, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_missing_and_changed_streams_fail_closed"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_missing_confirmation_is_unknown_not_zero"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1394310831092298, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_missing_confirmation_is_unknown_not_zero"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_normalizer_identity_is_the_actual_entry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.007282125065103173, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_normalizer_identity_is_the_actual_entry"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_positive_legal_barrier_selects_first_without_confirmation"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.14581979205831885, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_positive_legal_barrier_selects_first_without_confirmation"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_preflight_aborts_have_no_score"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002079624915495515, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_preflight_aborts_have_no_score"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_raw_exploration_preserves_cleanup_disagreement"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1396626248024404, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_raw_exploration_preserves_cleanup_disagreement"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_required_control_and_carrier_cannot_be_redefined"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.07562833302654326, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_required_control_and_carrier_cannot_be_redefined"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_supplement_cannot_hide_scope_or_process_failures"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.1058519999496639, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_supplement_cannot_hide_scope_or_process_failures"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_supplement_omission_and_rebinding_are_red"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5740391248837113, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_supplement_omission_and_rebinding_are_red"}
+{"event": "start", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_unchanged_reinspection_after_completion_is_a_legal_barrier"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.14571645786054432, "event": "stop", "test": "test_admission_recovery_pclass_replay.AdmissionRecoveryReplayTests.test_unchanged_reinspection_after_completion_is_a_legal_barrier"}
+{"event": "start", "test": "test_authorization_materialization_evidence.AuthorizationEvidenceTests.test_archived_oracle_integrity_and_current_preparation_contract"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 11.266847082879394, "event": "stop", "test": "test_authorization_materialization_evidence.AuthorizationEvidenceTests.test_archived_oracle_integrity_and_current_preparation_contract"}
+{"event": "start", "test": "test_candidate_guidance.CandidateGuidanceTests.test_actual_admission_still_requires_its_envelope"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00017666607163846493, "event": "stop", "test": "test_candidate_guidance.CandidateGuidanceTests.test_actual_admission_still_requires_its_envelope"}
+{"event": "start", "test": "test_candidate_guidance.CandidateGuidanceTests.test_followup_raw_binding_and_frozen_replay"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005603041034191847, "event": "stop", "test": "test_candidate_guidance.CandidateGuidanceTests.test_followup_raw_binding_and_frozen_replay"}
+{"event": "start", "test": "test_candidate_guidance.CandidateGuidanceTests.test_only_digest_recovery_guidance_changes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 2.0236598749179393, "event": "stop", "test": "test_candidate_guidance.CandidateGuidanceTests.test_only_digest_recovery_guidance_changes"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_amendment_keeps_exact_pr_and_uses_old_head_lease"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.0676981250289828, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_amendment_keeps_exact_pr_and_uses_old_head_lease"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_amendment_refuses_foreign_branch_and_pr_before_push"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.0166105828247964, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_amendment_refuses_foreign_branch_and_pr_before_push"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_amendment_refuses_unoffered_or_unknown_write_without_retry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.9307490000501275, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_amendment_refuses_unoffered_or_unknown_write_without_retry"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_creates_exact_branch_and_pr"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.45251158298924565, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_creates_exact_branch_and_pr"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_dirty_or_stale_candidate_refuses_before_provider_read"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.35621308418922126, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_dirty_or_stale_candidate_refuses_before_provider_read"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_drifted_competing_pr_refuses_without_create"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.47710404195822775, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_drifted_competing_pr_refuses_without_create"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_failed_push_is_adopted_only_after_exact_readback"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.46718216710723937, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_failed_push_is_adopted_only_after_exact_readback"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_lost_create_response_adopts_only_fresh_exact_readback"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.471485833870247, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_lost_create_response_adopts_only_fresh_exact_readback"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_native_producer_records_actual_results_and_rechecks_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.29416037490591407, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_native_producer_records_actual_results_and_rechecks_identity"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_native_readiness_can_publish_but_never_authorizes_landing"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4673562089446932, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_native_readiness_can_publish_but_never_authorizes_landing"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_native_wrong_platform_missing_checks_and_failure_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.0736035420559347, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_native_wrong_platform_missing_checks_and_failure_refuse"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_reuses_exact_branch_and_pr_without_writes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4450847499538213, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_reuses_exact_branch_and_pr_without_writes"}
+{"event": "start", "test": "test_candidate_publication.CandidatePublicationTests.test_unknown_create_without_effect_refuses_without_retry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.45114520797505975, "event": "stop", "test": "test_candidate_publication.CandidatePublicationTests.test_unknown_create_without_effect_refuses_without_retry"}
+{"event": "start", "test": "test_candidate_verification.CandidateVerificationTests.test_baseline_preserves_the_two_preexisting_admissions"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00048495782539248466, "event": "stop", "test": "test_candidate_verification.CandidateVerificationTests.test_baseline_preserves_the_two_preexisting_admissions"}
+{"event": "start", "test": "test_candidate_verification.CandidateVerificationTests.test_frozen_exact_head_observer_replays_treatment"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.240401707822457, "event": "stop", "test": "test_candidate_verification.CandidateVerificationTests.test_frozen_exact_head_observer_replays_treatment"}
+{"event": "start", "test": "test_candidate_verification.CandidateVerificationTests.test_pr_90_committed_evidence_preserves_historical_baseline_mismatch"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2449202500283718, "event": "stop", "test": "test_candidate_verification.CandidateVerificationTests.test_pr_90_committed_evidence_preserves_historical_baseline_mismatch"}
+{"event": "start", "test": "test_claim_refusal_evidence.ClaimRefusalEvidenceTests.test_frozen_oracle_preserves_refusal_wait_and_resume"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 4.807683082995936, "event": "stop", "test": "test_claim_refusal_evidence.ClaimRefusalEvidenceTests.test_frozen_oracle_preserves_refusal_wait_and_resume"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_cloud_fresh_schema4_refuses_without_request"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.02680124994367361, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_cloud_fresh_schema4_refuses_without_request"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_direct_owner_rejects_foreign_binding_and_missing_comparison"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.040910999989137053, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_direct_owner_rejects_foreign_binding_and_missing_comparison"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_direct_shared_owner_matches_final_head_and_cleans_replayer"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.8181740420404822, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_direct_shared_owner_matches_final_head_and_cleans_replayer"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_frozen_nine_case_process_oracle"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 35.54045266704634, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_frozen_nine_case_process_oracle"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_landing_start_advance_dispatch_consume_fresh_contract"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.1998481671325862, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_landing_start_advance_dispatch_consume_fresh_contract"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_malformed_requirement_refuses_without_replayer"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002386834006756544, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_malformed_requirement_refuses_without_replayer"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_nonregression_requires_its_exact_external_target"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 4.34618991590105, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_nonregression_requires_its_exact_external_target"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_publication_replays_before_push_and_pr_and_rejects_changed_subject"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 3.1115318750962615, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_publication_replays_before_push_and_pr_and_rejects_changed_subject"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_raw_packet_and_observations_cannot_substitute_instruction"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 11.744267584057525, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_raw_packet_and_observations_cannot_substitute_instruction"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_replay_timeout_preserves_raw_output_and_cleans_extracted_bytes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.16960029187612236, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_replay_timeout_preserves_raw_output_and_cleans_extracted_bytes"}
+{"event": "start", "test": "test_comparison_gate.ComparisonGateTests.test_schema3_local_landing_enforces_external_pins_before_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3553441669791937, "event": "stop", "test": "test_comparison_gate.ComparisonGateTests.test_schema3_local_landing_enforces_external_pins_before_checkpoint"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_free_text_owner_is_not_a_hidden_score"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.011640666984021664, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_free_text_owner_is_not_a_hidden_score"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_missing_raw_capture_is_inconclusive"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.009264540858566761, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_missing_raw_capture_is_inconclusive"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_observer_decisions_are_bound_to_raw_capture"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.01290141697973013, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_observer_decisions_are_bound_to_raw_capture"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_observer_report_must_match_raw_classification"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.012451040791347623, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_observer_report_must_match_raw_classification"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_positive_report_cannot_hide_legal_decision_regression"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.011905750026926398, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_positive_report_cannot_hide_legal_decision_regression"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_positive_report_cannot_hide_missing_typed_next"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.012343750102445483, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_positive_report_cannot_hide_missing_typed_next"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_public_projection_keeps_a_positive_path"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.011138166999444366, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_public_projection_keeps_a_positive_path"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_public_projection_rejects_private_rollout_fields"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.010262334020808339, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_public_projection_rejects_private_rollout_fields"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_public_projection_requires_private_raw_binding"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.009996582986786962, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_public_projection_requires_private_raw_binding"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_selected_observer_control_failure_is_preserved"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.011691333027556539, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_selected_observer_control_failure_is_preserved"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_six_raw_captures_support_bounded_positive"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.012475833995267749, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_six_raw_captures_support_bounded_positive"}
+{"event": "start", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_valid_behavior_regression_fails"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.012074624886736274, "event": "stop", "test": "test_consumer_gate_positive.CandidatePositiveControls.test_valid_behavior_regression_fails"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_duplicate_label_refuses_before_effect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.032198083121329546, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_duplicate_label_refuses_before_effect"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_instruction_bindings_require_valid_metadata"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.027182042133063078, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_instruction_bindings_require_valid_metadata"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_long_non_path_argument_does_not_lose_command_receipt"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.04445850010961294, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_long_non_path_argument_does_not_lose_command_receipt"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_missing_executable_is_not_zero"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0030562079045921564, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_missing_executable_is_not_zero"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_records_real_nonzero_and_file_change_without_inventing_success"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.03332599997520447, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_records_real_nonzero_and_file_change_without_inventing_success"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_shell_wrapped_instruction_read_and_parse_failure_are_recorded"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.021321041975170374, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_shell_wrapped_instruction_read_and_parse_failure_are_recorded"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_snapshot_error_after_effect_preserves_result"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.07315062498673797, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_snapshot_error_after_effect_preserves_result"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_snapshot_errors_before_and_after_remain_in_raw_requests"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.01527254213578999, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_snapshot_errors_before_and_after_remain_in_raw_requests"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_three_owner_baselines_and_planted_controls"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.028015625197440386, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_three_owner_baselines_and_planted_controls"}
+{"event": "start", "test": "test_context_recording.ContextRecordingTests.test_timeout_retains_output_and_waits_for_killed_child"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.20652904198504984, "event": "stop", "test": "test_context_recording.ContextRecordingTests.test_timeout_retains_output_and_waits_for_killed_child"}
+{"event": "start", "test": "test_correction_evidence.CorrectionEvidenceTests.test_actual_parent_handoff_capture_is_sealed"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.04829354211688042, "event": "stop", "test": "test_correction_evidence.CorrectionEvidenceTests.test_actual_parent_handoff_capture_is_sealed"}
+{"event": "start", "test": "test_correction_evidence.CorrectionEvidenceTests.test_captures_replay_including_failures_and_tampering_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 5.978757249889895, "event": "stop", "test": "test_correction_evidence.CorrectionEvidenceTests.test_captures_replay_including_failures_and_tampering_refuses"}
+{"event": "start", "test": "test_correction_evidence.CorrectionEvidenceTests.test_decisions_replay_and_efficiency_remains_rejected"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3206563340499997, "event": "stop", "test": "test_correction_evidence.CorrectionEvidenceTests.test_decisions_replay_and_efficiency_remains_rejected"}
+{"event": "start", "test": "test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_only_legacy_schema_two_has_a_soodles_compatibility_binding"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0010893750004470348, "event": "stop", "test": "test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_only_legacy_schema_two_has_a_soodles_compatibility_binding"}
+{"event": "start", "test": "test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_ops_acceptance_produces_only_ops_readbacks_and_request"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004962082952260971, "event": "stop", "test": "test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_ops_acceptance_produces_only_ops_readbacks_and_request"}
+{"event": "start", "test": "test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_real_current_draft_and_incomplete_acceptance_refuse_without_state"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0021389159373939037, "event": "stop", "test": "test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_real_current_draft_and_incomplete_acceptance_refuse_without_state"}
+{"event": "start", "test": "test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_unsupported_repository_refuses_before_reader_transport_or_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.001076082931831479, "event": "stop", "test": "test_cross_repository_delivery.CrossRepositoryDeliveryTests.test_unsupported_repository_refuses_before_reader_transport_or_checkpoint"}
+{"event": "start", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_claim_selects_edges_without_a_source_consumer_registry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0006719159428030252, "event": "stop", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_claim_selects_edges_without_a_source_consumer_registry"}
+{"event": "start", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_complete_result_reaches_existing_consumer_acceptance"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.001647750148549676, "event": "stop", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_complete_result_reaches_existing_consumer_acceptance"}
+{"event": "start", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_consumer_acceptance_still_controls_after_dependency"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0011717500165104866, "event": "stop", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_consumer_acceptance_still_controls_after_dependency"}
+{"event": "start", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_every_selected_edge_gets_stable_requests_and_must_be_present"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0011736250016838312, "event": "stop", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_every_selected_edge_gets_stable_requests_and_must_be_present"}
+{"event": "start", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_foreign_repository_and_wrong_revision_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0019124578684568405, "event": "stop", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_foreign_repository_and_wrong_revision_refuse"}
+{"event": "start", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_forward_main_keeps_exact_artifact_eligible"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0019500420894473791, "event": "stop", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_forward_main_keeps_exact_artifact_eligible"}
+{"event": "start", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_issue_closure_alone_is_not_satisfaction"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0014571670908480883, "event": "stop", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_issue_closure_alone_is_not_satisfaction"}
+{"event": "start", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_malformed_or_duplicate_claim_dependency_refuses_before_state"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0014718750026077032, "event": "stop", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_malformed_or_duplicate_claim_dependency_refuses_before_state"}
+{"event": "start", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_stale_or_incomplete_producer_receipt_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.001593083143234253, "event": "stop", "test": "test_cross_repository_dependency.CrossRepositoryDependencyTests.test_stale_or_incomplete_producer_receipt_refuses"}
+{"event": "start", "test": "test_delivery_refs.DeliveryRefsTests.test_actual_runtime_parser_accepts_publisher_spelling_and_legacy_short"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2149474169127643, "event": "stop", "test": "test_delivery_refs.DeliveryRefsTests.test_actual_runtime_parser_accepts_publisher_spelling_and_legacy_short"}
+{"event": "start", "test": "test_delivery_refs.DeliveryRefsTests.test_real_publisher_refusal_is_preserved_before_any_request"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0005123340524733067, "event": "stop", "test": "test_delivery_refs.DeliveryRefsTests.test_real_publisher_refusal_is_preserved_before_any_request"}
+{"event": "start", "test": "test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_archived_baseline_replay_and_read_binding"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004442583071067929, "event": "stop", "test": "test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_archived_baseline_replay_and_read_binding"}
+{"event": "start", "test": "test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_context_is_exact_selected_source"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.08847937500104308, "event": "stop", "test": "test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_context_is_exact_selected_source"}
+{"event": "start", "test": "test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_observer_controls"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.000648624962195754, "event": "stop", "test": "test_fresh_delivery_decisions.FreshDeliveryDecisionsTests.test_observer_controls"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_304_revalidates_same_identity_and_bytes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0030365001875907183, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_304_revalidates_same_identity_and_bytes"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_authenticated_non_case"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0017424591351300478, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_authenticated_non_case"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_changed_identity_never_reuses_cache"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.003507249988615513, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_changed_identity_never_reuses_cache"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_cli_missing_credential_names_owner_and_help"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.12110545812174678, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_cli_missing_credential_names_owner_and_help"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_cli_quota_wait_reports_exit_75_without_network"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.14155904087238014, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_cli_quota_wait_reports_exit_75_without_network"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_corrupt_cache_requires_fresh_bytes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004377583973109722, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_corrupt_cache_requires_fresh_bytes"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_credential_not_forwarded_on_redirect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5242363750003278, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_credential_not_forwarded_on_redirect"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_expired_wait_allows_authenticated_non_case"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002844792092218995, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_expired_wait_allows_authenticated_non_case"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_header_control_characters_refused_before_transport"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0006657920312136412, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_header_control_characters_refused_before_transport"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_invalid_credential_no_fallback_or_secret_output"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0016889169346541166, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_invalid_credential_no_fallback_or_secret_output"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_malformed_read_arguments_stay_caller_owned_before_transport"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.015803499845787883, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_malformed_read_arguments_stay_caller_owned_before_transport"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_no_anonymous_request_without_credentials"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0008884170092642307, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_no_anonymous_request_without_credentials"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_opaque_provider_credential_is_a_legal_non_case"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0019174579065293074, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_opaque_provider_credential_is_a_legal_non_case"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_provider_failure_never_returns_stale_cache"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0023351251147687435, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_provider_failure_never_returns_stale_cache"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_quota_wait_has_no_retry_and_blocks_next_call"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.001815957948565483, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_quota_wait_has_no_retry_and_blocks_next_call"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_read_input_non_cases_keep_supervisor_owner"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005745624890550971, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_read_input_non_cases_keep_supervisor_owner"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_recipe_command_reads_externally_selected_issue"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.007772249868139625, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_recipe_command_reads_externally_selected_issue"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_retry_after_wait_and_no_missing_deadline_inference"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0012661670334637165, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_retry_after_wait_and_no_missing_deadline_inference"}
+{"event": "start", "test": "test_github_reader.GithubReaderTests.test_wrong_issue_identity_refused"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.001219665864482522, "event": "stop", "test": "test_github_reader.GithubReaderTests.test_wrong_issue_identity_refused"}
+{"event": "start", "test": "test_handoff_cleanup.HandoffCleanupTests.test_cleanup_error_preserves_projection_error_and_restores_environment"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.012282749870792031, "event": "stop", "test": "test_handoff_cleanup.HandoffCleanupTests.test_cleanup_error_preserves_projection_error_and_restores_environment"}
+{"event": "start", "test": "test_handoff_cleanup.HandoffCleanupTests.test_first_projection_failure_reaps_before_fixture_deletion"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.003506000153720379, "event": "stop", "test": "test_handoff_cleanup.HandoffCleanupTests.test_first_projection_failure_reaps_before_fixture_deletion"}
+{"event": "start", "test": "test_handoff_cleanup.HandoffCleanupTests.test_forced_reap_failure_remains_visible_beneath_timeout"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00025637494400143623, "event": "stop", "test": "test_handoff_cleanup.HandoffCleanupTests.test_forced_reap_failure_remains_visible_beneath_timeout"}
+{"event": "start", "test": "test_handoff_cleanup.HandoffCleanupTests.test_nonzero_exit_cannot_supply_success_receipt"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0002057079691439867, "event": "stop", "test": "test_handoff_cleanup.HandoffCleanupTests.test_nonzero_exit_cannot_supply_success_receipt"}
+{"event": "start", "test": "test_handoff_cleanup.HandoffCleanupTests.test_normal_sequence_and_exit_evidence_are_unchanged"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005244457861408591, "event": "stop", "test": "test_handoff_cleanup.HandoffCleanupTests.test_normal_sequence_and_exit_evidence_are_unchanged"}
+{"event": "start", "test": "test_handoff_cleanup.HandoffCleanupTests.test_second_projection_failure_does_not_stop_first_twice"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004234125139191747, "event": "stop", "test": "test_handoff_cleanup.HandoffCleanupTests.test_second_projection_failure_does_not_stop_first_twice"}
+{"event": "start", "test": "test_handoff_cleanup.HandoffCleanupTests.test_successful_stop_signals_only_a_running_process"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0003593750298023224, "event": "stop", "test": "test_handoff_cleanup.HandoffCleanupTests.test_successful_stop_signals_only_a_running_process"}
+{"event": "start", "test": "test_handoff_cleanup.HandoffCleanupTests.test_timeout_kills_owned_group_reaps_and_still_raises"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00020670797675848007, "event": "stop", "test": "test_handoff_cleanup.HandoffCleanupTests.test_timeout_kills_owned_group_reaps_and_still_raises"}
+{"event": "start", "test": "test_instruction_activation_evidence.InstructionActivationEvidenceTests.test_complete_exact_manifest_and_selected_instructions"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1933214170858264, "event": "stop", "test": "test_instruction_activation_evidence.InstructionActivationEvidenceTests.test_complete_exact_manifest_and_selected_instructions"}
+{"event": "start", "test": "test_instruction_activation_evidence.InstructionActivationEvidenceTests.test_frozen_observer_and_planted_bad_result"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.07055924995802343, "event": "stop", "test": "test_instruction_activation_evidence.InstructionActivationEvidenceTests.test_frozen_observer_and_planted_bad_result"}
+{"event": "start", "test": "test_instruction_activation_evidence.InstructionActivationEvidenceTests.test_frozen_oracle_replays_against_current_executable"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 6.013635165989399, "event": "stop", "test": "test_instruction_activation_evidence.InstructionActivationEvidenceTests.test_frozen_oracle_replays_against_current_executable"}
+{"event": "start", "test": "test_instruction_context.InstructionContextTests.test_actual_atom_cli_keeps_same_continuation_on_instruction_refusal"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6103564999066293, "event": "stop", "test": "test_instruction_context.InstructionContextTests.test_actual_atom_cli_keeps_same_continuation_on_instruction_refusal"}
+{"event": "start", "test": "test_instruction_context.InstructionContextTests.test_authorization_revalidated_by_envelope_owner"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.7112581669352949, "event": "stop", "test": "test_instruction_context.InstructionContextTests.test_authorization_revalidated_by_envelope_owner"}
+{"event": "start", "test": "test_instruction_context.InstructionContextTests.test_committed_symlinks_utf8_and_bounds"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6718930839560926, "event": "stop", "test": "test_instruction_context.InstructionContextTests.test_committed_symlinks_utf8_and_bounds"}
+{"event": "start", "test": "test_instruction_context.InstructionContextTests.test_envelope_rejects_wrong_version_digest_content_and_downgrade"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2592237920034677, "event": "stop", "test": "test_instruction_context.InstructionContextTests.test_envelope_rejects_wrong_version_digest_content_and_downgrade"}
+{"event": "start", "test": "test_instruction_context.InstructionContextTests.test_invalid_authorization_precedes_provider_checkpoint_and_bundle"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2786804591305554, "event": "stop", "test": "test_instruction_context.InstructionContextTests.test_invalid_authorization_precedes_provider_checkpoint_and_bundle"}
+{"event": "start", "test": "test_instruction_context.InstructionContextTests.test_invalid_selection_leaves_no_bundle"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.9628342911601067, "event": "stop", "test": "test_instruction_context.InstructionContextTests.test_invalid_selection_leaves_no_bundle"}
+{"event": "start", "test": "test_instruction_context.InstructionContextTests.test_producer_uses_committed_bytes_and_preserves_legacy"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5738425410818309, "event": "stop", "test": "test_instruction_context.InstructionContextTests.test_producer_uses_committed_bytes_and_preserves_legacy"}
+{"event": "start", "test": "test_instruction_context.InstructionContextTests.test_projection_and_worker_refuse_dropped_or_altered_context_before_launch"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.995032041799277, "event": "stop", "test": "test_instruction_context.InstructionContextTests.test_projection_and_worker_refuse_dropped_or_altered_context_before_launch"}
+{"event": "start", "test": "test_issue181_handoff_evidence.Issue181EvidenceTests.test_frozen_receiver_evidence_and_discriminating_controls"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.47913987492211163, "event": "stop", "test": "test_issue181_handoff_evidence.Issue181EvidenceTests.test_frozen_receiver_evidence_and_discriminating_controls"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_actual_git_rename_and_delete_check_both_endpoints"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.28763708285987377, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_actual_git_rename_and_delete_check_both_endpoints"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_candidate_local_or_changed_envelope_cannot_replace_fixed_external_bytes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0012751249596476555, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_candidate_local_or_changed_envelope_cannot_replace_fixed_external_bytes"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_current_body_digest_cannot_grant_missing_or_wider_authority"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0003751248586922884, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_current_body_digest_cannot_grant_missing_or_wider_authority"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_current_provider_binding_is_normalized_but_non_authorizing"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0001436250749975443, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_current_provider_binding_is_normalized_but_non_authorizing"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_frozen_observer_replays_treatment_and_preserves_baseline_red"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.8692269998136908, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_frozen_observer_replays_treatment_and_preserves_baseline_red"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_human_template_and_machine_contract_have_the_same_fields"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0006539581809192896, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_human_template_and_machine_contract_have_the_same_fields"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_identity_is_derived_from_provider_fields_not_title_or_prose"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0004116250202059746, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_identity_is_derived_from_provider_fields_not_title_or_prose"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_invalid_paths_and_duplicate_paths_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00012425007298588753, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_invalid_paths_and_duplicate_paths_refuse"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_one_active_contract_is_required"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00020050001330673695, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_one_active_contract_is_required"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_schema_three_binds_base_and_external_frozen_paths"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.000177707988768816, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_schema_three_binds_base_and_external_frozen_paths"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_schema_two_requires_manifest_and_evidence_inside_write_boundary"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00013845902867615223, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_schema_two_requires_manifest_and_evidence_inside_write_boundary"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_scoped_order_preserves_legacy_and_refuses_forged_worktree"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00026374985463917255, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_scoped_order_preserves_legacy_and_refuses_forged_worktree"}
+{"event": "start", "test": "test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00030462490394711494, "event": "stop", "test": "test_issue_admission.IssueAdmissionTests.test_whole_body_and_revision_changes_require_fresh_envelope"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_authorization_must_be_external_exact_and_clean"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.28006737492978573, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_authorization_must_be_external_exact_and_clean"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_candidate_cannot_select_itself_as_landing_owner"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.19396745809353888, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_candidate_cannot_select_itself_as_landing_owner"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_changed_corrected_publisher_refuses_before_resume"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.22890862496569753, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_changed_corrected_publisher_refuses_before_resume"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_changed_host_configuration_refuses_before_provider_write"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.27356866700574756, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_changed_host_configuration_refuses_before_provider_write"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_completed_bootstrap_config_restore_is_idempotent"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4018887921702117, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_completed_bootstrap_config_restore_is_idempotent"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_completion_ack_required_before_shutdown"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4044499169103801, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_completion_ack_required_before_shutdown"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_completion_cannot_precede_provider_closure_or_select_another_order"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4224286670796573, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_completion_cannot_precede_provider_closure_or_select_another_order"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_completion_uses_noodle_mailbox_once_and_preserves_error_ack"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.53050895803608, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_completion_uses_noodle_mailbox_once_and_preserves_error_ack"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_configuration_and_owner_drift_refuse_before_start"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4023273750208318, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_configuration_and_owner_drift_refuse_before_start"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_corrected_start_refuses_missing_process_hold_before_any_effect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.39827595790848136, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_corrected_start_refuses_missing_process_hold_before_any_effect"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_corrected_start_rejects_changed_original_review"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.39658337482251227, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_corrected_start_rejects_changed_original_review"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_corrected_start_reuses_only_the_unchanged_parked_review"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.40292274998500943, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_corrected_start_reuses_only_the_unchanged_parked_review"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_correction_ack_without_state_change_refuses_without_proposal_or_resend"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4975126660428941, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_correction_ack_without_state_change_refuses_without_proposal_or_resend"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_correction_chain_requires_transition_then_exact_promotion_before_release"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4905000829603523, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_correction_chain_requires_transition_then_exact_promotion_before_release"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_correction_changed_review_refuses_before_control"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.392575291916728, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_correction_changed_review_refuses_before_control"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_correction_control_rejects_unowned_ack_and_foreign_pending"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4360935839358717, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_correction_control_rejects_unowned_ack_and_foreign_pending"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_correction_envelope_derives_hold_only_after_original_host_recovery"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6447991251479834, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_correction_envelope_derives_hold_only_after_original_host_recovery"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_correction_foreign_or_already_dispatched_promotion_cannot_release"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4044776251539588, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_correction_foreign_or_already_dispatched_promotion_cannot_release"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_correction_lost_proposal_response_does_not_publish_again"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.49336137482896447, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_correction_lost_proposal_response_does_not_publish_again"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_correction_owner_checks_real_lock_pinned_bytes_and_foreign_control"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4111835409421474, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_correction_owner_checks_real_lock_pinned_bytes_and_foreign_control"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_correction_unknown_control_never_reappends_even_after_mailbox_disappears"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5212662499397993, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_correction_unknown_control_never_reappends_even_after_mailbox_disappears"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_dirty_control_root_still_refuses_before_supplier_or_provider"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.23943750001490116, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_dirty_control_root_still_refuses_before_supplier_or_provider"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_exact_existing_issue_adoption_never_creates_or_rewrites"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.17957254219800234, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_exact_existing_issue_adoption_never_creates_or_rewrites"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_exact_projection_with_malformed_stage_refuses_before_supplier"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6287957502063364, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_exact_projection_with_malformed_stage_refuses_before_supplier"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_existing_noodle_lock_adopts_only_exact_config_without_spawn"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.38657924998551607, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_existing_noodle_lock_adopts_only_exact_config_without_spawn"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_external_activation_rejects_offered_write"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1906586668919772, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_external_activation_rejects_offered_write"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_external_landing_process_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2713562920689583, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_external_landing_process_identity"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_failed_claim_stops_drive_before_wait_or_publication"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4975224160589278, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_failed_claim_stops_drive_before_wait_or_publication"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_finish_host_refuses_recycled_pid_without_signalling"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.478299125097692, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_finish_host_refuses_recycled_pid_without_signalling"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_finish_host_restores_only_own_unchanged_configuration"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5096640000119805, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_finish_host_restores_only_own_unchanged_configuration"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_fixed_external_shared_owner_controls"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 4.5817337080370635, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_fixed_external_shared_owner_controls"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_foreign_origin_suffix_refuses_before_provider_write"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.24466837500222027, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_foreign_origin_suffix_refuses_before_provider_write"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_fresh_root_bootstraps_with_pinned_noodle_before_admission"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5216395410243422, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_fresh_root_bootstraps_with_pinned_noodle_before_admission"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_help_exposes_only_same_lifecycle_command"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.273751333123073, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_help_exposes_only_same_lifecycle_command"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_host_supplier_replaces_stale_parent_token"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4973048330284655, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_host_supplier_replaces_stale_parent_token"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_idle_native_schedule_is_observed_but_foreign_scheduler_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.41306245792657137, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_idle_native_schedule_is_observed_but_foreign_scheduler_refuses"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_invalid_authorization_precedes_profile_resolution"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.18825020897202194, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_invalid_authorization_precedes_profile_resolution"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_invalid_authorization_precedes_shared_owner_entry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1904652079101652, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_invalid_authorization_precedes_shared_owner_entry"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_live_owner_wait_does_not_ask_for_claim_or_take_over"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4453829168342054, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_live_owner_wait_does_not_ask_for_claim_or_take_over"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_lost_issue_create_adopts_exact_readback_and_never_recreates"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5311383749358356, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_lost_issue_create_adopts_exact_readback_and_never_recreates"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_lost_start_response_cannot_spawn_again"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.38731366698630154, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_lost_start_response_cannot_spawn_again"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_matching_config_does_not_adopt_foreign_order"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.44203595793806016, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_matching_config_does_not_adopt_foreign_order"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_missing_supplier_leaves_no_new_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2186480830423534, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_missing_supplier_leaves_no_new_checkpoint"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_one_entry_routes_publication_landing_and_resolution"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5336370000150055, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_one_entry_routes_publication_landing_and_resolution"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_own_running_metadata_and_pins_remain_required"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.9263564590364695, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_own_running_metadata_and_pins_remain_required"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_own_start_wait_has_no_effects_and_preserves_all_fixture_bytes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4890047910157591, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_own_start_wait_has_no_effects_and_preserves_all_fixture_bytes"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_own_start_wait_refuses_readback_race"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.47343758400529623, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_own_start_wait_refuses_readback_race"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_own_wait_ignores_telemetry_churn_but_refuses_session_drift"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.8941142910625786, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_own_wait_ignores_telemetry_churn_but_refuses_session_drift"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_own_wait_order_timestamp_churn_preserves_state_discriminator"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.505867209052667, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_own_wait_order_timestamp_churn_preserves_state_discriminator"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_own_wait_requires_consistent_dispatch_and_pending_attempts"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6192833750974387, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_own_wait_requires_consistent_dispatch_and_pending_attempts"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_owner_drift_refuses_before_provider_write_or_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2308539159130305, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_owner_drift_refuses_before_provider_write_or_checkpoint"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_partial_runtime_refuses_bootstrap_before_noodle_start"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3965090001001954, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_partial_runtime_refuses_bootstrap_before_noodle_start"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_postwrite_resume_adopts_only_corrected_verifier"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.18595066596753895, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_postwrite_resume_adopts_only_corrected_verifier"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_prewrite_external_activation_preserves_old_authorization"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.18593799998052418, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_prewrite_external_activation_preserves_old_authorization"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_prior_review_preserves_failed_history_but_binds_latest_completed_session"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6657771249301732, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_prior_review_preserves_failed_history_but_binds_latest_completed_session"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_projected_completed_order_can_continue_original_cleanup"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.34570374991744757, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_projected_completed_order_can_continue_original_cleanup"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_provider_credentials_are_removed_from_child_environment"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.17910124990157783, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_provider_credentials_are_removed_from_child_environment"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_registered_missing_input_then_same_entry_reaches_admission"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5001518749631941, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_registered_missing_input_then_same_entry_reaches_admission"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_retired_resolved_checkpoint_is_historical_readback"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.20460979198105633, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_retired_resolved_checkpoint_is_historical_readback"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_start_persists_intent_and_does_not_repeat_unknown_start"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3917762921191752, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_start_persists_intent_and_does_not_repeat_unknown_start"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_timed_out_postwrite_resume_is_unknown"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1833469159901142, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_timed_out_postwrite_resume_is_unknown"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_unavailable_authorization_keeps_structured_same_entry_refusal"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.49167729215696454, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_unavailable_authorization_keeps_structured_same_entry_refusal"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_unknown_bootstrap_never_replays_and_preserves_owner_input"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4266055419575423, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_unknown_bootstrap_never_replays_and_preserves_owner_input"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_unknown_issue_create_without_effect_refuses_without_retry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3539772918447852, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_unknown_issue_create_without_effect_refuses_without_retry"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_unknown_postwrite_resume_requires_readback_without_retry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1945691250730306, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_unknown_postwrite_resume_requires_readback_without_retry"}
+{"event": "start", "test": "test_issue_atom.IssueAtomTests.test_unreadable_authorization_does_not_enter_lifecycle"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.17723754211328924, "event": "stop", "test": "test_issue_atom.IssueAtomTests.test_unreadable_authorization_does_not_enter_lifecycle"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_both_real_entry_functions_consume_same_normalized_binding"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.16191224986687303, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_both_real_entry_functions_consume_same_normalized_binding"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_both_routes_deliver_complete_validated_contract_for_every_schema"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.17003783397376537, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_both_routes_deliver_complete_validated_contract_for_every_schema"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.30941879213787615, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_clean_descendant_is_not_the_selected_starting_head"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_cli_missing_supervisor_input_is_structured_and_has_no_effect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.24096966697834432, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_cli_missing_supervisor_input_is_structured_and_has_no_effect"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.17369341710582376, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_completed_label_cannot_hide_a_live_process_group"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_illegal_binding_refuses_both_routes_before_mailbox_effects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.16374049987643957, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_illegal_binding_refuses_both_routes_before_mailbox_effects"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_issue_atom_can_observe_exact_live_owner_without_takeover_or_effects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.16820295806974173, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_issue_atom_can_observe_exact_live_owner_without_takeover_or_effects"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_live_observation_rejects_foreign_binding_and_parallel_attempts"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.166734250029549, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_live_observation_rejects_foreign_binding_and_parallel_attempts"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_live_observer_does_not_mistake_proposal_fields_for_canonical_state"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.16548670805059373, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_live_observer_does_not_mistake_proposal_fields_for_canonical_state"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_live_writer_refuses_supervised_takeover_without_resetting_history"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1731492909602821, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_live_writer_refuses_supervised_takeover_without_resetting_history"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_lock_selected_noodle_proposal_does_not_invent_revision_protocol"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.16221979190595448, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_lock_selected_noodle_proposal_does_not_invent_revision_protocol"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_missing_or_tampered_contract_refuses_before_worker_and_live_observation"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.3146365419961512, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_missing_or_tampered_contract_refuses_before_worker_and_live_observation"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_network_failure_names_provider_readback_without_mailbox_effects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.16153237503021955, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_network_failure_names_provider_readback_without_mailbox_effects"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_projected_away_blocked_outcome_cannot_authorize_cleanup"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.17507983394898474, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_projected_away_blocked_outcome_cannot_authorize_cleanup"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_projected_away_original_order_requires_exact_completed_session"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.16921262512914836, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_projected_away_original_order_requires_exact_completed_session"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_real_scheduler_provider_entry_also_revalidates_before_launch"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1627270409371704, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_real_scheduler_provider_entry_also_revalidates_before_launch"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_repeated_publication_preserves_one_mailbox_and_prior_admission"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.164588832994923, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_repeated_publication_preserves_one_mailbox_and_prior_admission"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_shared_default_reader_admits_then_reuses_without_duplicate_mailbox"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.17044316697865725, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_shared_default_reader_admits_then_reuses_without_duplicate_mailbox"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_shared_default_reader_quota_preserves_mailbox_and_worker"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.16991283395327628, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_shared_default_reader_quota_preserves_mailbox_and_worker"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2961983750574291, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_stale_body_continuation_preserves_entry_and_requires_supervisor_rebinding"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_supervised_correction_reuses_only_the_failed_original_order"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.17181962495669723, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_supervised_correction_reuses_only_the_failed_original_order"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.15947862504981458, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_worker_refusal_keeps_owner_dispatch_instead_of_offering_another_writer"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_worker_rejects_foreign_dispatch_and_changed_executable"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.47160929115489125, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_worker_rejects_foreign_dispatch_and_changed_executable"}
+{"event": "start", "test": "test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6588376250583678, "event": "stop", "test": "test_issue_execution.IssueExecutionTests.test_worker_revalidates_live_body_before_executable_effect"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_cli_missing_inputs_returns_structured_supervisor_refusal"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4890520409680903, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_cli_missing_inputs_returns_structured_supervisor_refusal"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_complete_binding_materializes_exactly_six_runs"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.49769937503151596, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_complete_binding_materializes_exactly_six_runs"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_complete_binding_reaches_ready_through_cli"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5951171671040356, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_complete_binding_reaches_ready_through_cli"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_foreign_carrier_refuses_before_materialization"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4901235830038786, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_foreign_carrier_refuses_before_materialization"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_foreign_local_binding_refuses_before_materialization"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3953039578627795, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_foreign_local_binding_refuses_before_materialization"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_missing_carrier_is_typed_and_has_no_output"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.37608245806768537, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_missing_carrier_is_typed_and_has_no_output"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_output_and_evidence_must_stay_outside_workdirs"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4946464579552412, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_output_and_evidence_must_stay_outside_workdirs"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_scoring_observer_cannot_be_added_to_consumer_handoff"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.36590945813804865, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_scoring_observer_cannot_be_added_to_consumer_handoff"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_selected_input_digest_and_case_membership_are_hard_gates"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.8504766249097884, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_selected_input_digest_and_case_membership_are_hard_gates"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_stale_run_evidence_destination_refuses_before_materialization"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5195531249046326, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_stale_run_evidence_destination_refuses_before_materialization"}
+{"event": "start", "test": "test_issue_readiness.IssueReadinessTests.test_wrong_head_and_dirty_workdir_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.8551732921041548, "event": "stop", "test": "test_issue_readiness.IssueReadinessTests.test_wrong_head_and_dirty_workdir_refuse"}
+{"event": "start", "test": "test_issue_resume.IssueResumeTests.test_cleanup_path_symlink_and_branch_residue_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.28521558293141425, "event": "stop", "test": "test_issue_resume.IssueResumeTests.test_cleanup_path_symlink_and_branch_residue_refuse"}
+{"event": "start", "test": "test_issue_resume.IssueResumeTests.test_conflicting_mailbox_and_stale_provider_preserve_effects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3206175409723073, "event": "stop", "test": "test_issue_resume.IssueResumeTests.test_conflicting_mailbox_and_stale_provider_preserve_effects"}
+{"event": "start", "test": "test_issue_resume.IssueResumeTests.test_current_owner_and_malformed_checkpoint_preserve_effects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2795050840359181, "event": "stop", "test": "test_issue_resume.IssueResumeTests.test_current_owner_and_malformed_checkpoint_preserve_effects"}
+{"event": "start", "test": "test_issue_resume.IssueResumeTests.test_missing_original_completion_and_same_successor_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.28426500014029443, "event": "stop", "test": "test_issue_resume.IssueResumeTests.test_missing_original_completion_and_same_successor_refuse"}
+{"event": "start", "test": "test_issue_resume.IssueResumeTests.test_pending_and_retained_owner_readback_do_not_republish"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4147750830743462, "event": "stop", "test": "test_issue_resume.IssueResumeTests.test_pending_and_retained_owner_readback_do_not_republish"}
+{"event": "start", "test": "test_issue_resume.IssueResumeTests.test_registration_residue_refuses_even_without_path_or_branch"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3099613329395652, "event": "stop", "test": "test_issue_resume.IssueResumeTests.test_registration_residue_refuses_even_without_path_or_branch"}
+{"event": "start", "test": "test_issue_resume.IssueResumeTests.test_unresolved_and_foreign_predecessor_refuse_before_publication"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.23789445799775422, "event": "stop", "test": "test_issue_resume.IssueResumeTests.test_unresolved_and_foreign_predecessor_refuse_before_publication"}
+{"event": "start", "test": "test_issue_resume.ResumeEvidenceTests.test_frozen_evidence_discriminates_and_preserves_claim_scope"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.003646833123639226, "event": "stop", "test": "test_issue_resume.ResumeEvidenceTests.test_frozen_evidence_discriminates_and_preserves_claim_scope"}
+{"event": "start", "test": "test_issue_resume.ResumeHelperBindingTests.test_candidate_helper_and_cached_modules_cannot_replace_sibling"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.18577433400787413, "event": "stop", "test": "test_issue_resume.ResumeHelperBindingTests.test_candidate_helper_and_cached_modules_cannot_replace_sibling"}
+{"event": "start", "test": "test_issue_resume.ResumeHelperBindingTests.test_matching_pair_reaches_lifecycle_with_candidate_production"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.08589970809407532, "event": "stop", "test": "test_issue_resume.ResumeHelperBindingTests.test_matching_pair_reaches_lifecycle_with_candidate_production"}
+{"event": "start", "test": "test_issue_resume.ResumeHelperBindingTests.test_missing_sibling_fails_without_candidate_fallback"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0812112910207361, "event": "stop", "test": "test_issue_resume.ResumeHelperBindingTests.test_missing_sibling_fails_without_candidate_fallback"}
+{"event": "start", "test": "test_landing.BoundLandingTests.test_body_amendment_refuses_prepared_dispatch_without_offer"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.25100287492386997, "event": "stop", "test": "test_landing.BoundLandingTests.test_body_amendment_refuses_prepared_dispatch_without_offer"}
+{"event": "start", "test": "test_landing.BoundLandingTests.test_closure_metadata_is_legal_but_body_change_still_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2290579159744084, "event": "stop", "test": "test_landing.BoundLandingTests.test_closure_metadata_is_legal_but_body_change_still_refuses"}
+{"event": "start", "test": "test_landing.BoundLandingTests.test_completed_bound_order_can_reconcile_and_clean_fixture_worktree"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.8304999580141157, "event": "stop", "test": "test_landing.BoundLandingTests.test_completed_bound_order_can_reconcile_and_clean_fixture_worktree"}
+{"event": "start", "test": "test_landing.BoundLandingTests.test_missing_binding_refuses_marked_contract_before_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.20022141700610518, "event": "stop", "test": "test_landing.BoundLandingTests.test_missing_binding_refuses_marked_contract_before_checkpoint"}
+{"event": "start", "test": "test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4528459159191698, "event": "stop", "test": "test_landing.BoundLandingTests.test_outside_delivery_paths_refuse_and_current_paths_pass"}
+{"event": "start", "test": "test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.9373464591335505, "event": "stop", "test": "test_landing.BoundLandingTests.test_provider_closure_cannot_resolve_before_original_noodle_order"}
+{"event": "start", "test": "test_landing.LandingTests.test_amendment_allows_forward_base_but_preserves_ancestry_controls"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.007121208123862743, "event": "stop", "test": "test_landing.LandingTests.test_amendment_allows_forward_base_but_preserves_ancestry_controls"}
+{"event": "start", "test": "test_landing.LandingTests.test_amendment_record_cannot_launder_corrupt_identity_or_unknown_writes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004305958049371839, "event": "stop", "test": "test_landing.LandingTests.test_amendment_record_cannot_launder_corrupt_identity_or_unknown_writes"}
+{"event": "start", "test": "test_landing.LandingTests.test_base_advances_again_requires_ancestry_from_observed_recovery_base"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005974083906039596, "event": "stop", "test": "test_landing.LandingTests.test_base_advances_again_requires_ancestry_from_observed_recovery_base"}
+{"event": "start", "test": "test_landing.LandingTests.test_checkpoint_cannot_be_overwritten_or_head_retargeted"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0026675830595195293, "event": "stop", "test": "test_landing.LandingTests.test_checkpoint_cannot_be_overwritten_or_head_retargeted"}
+{"event": "start", "test": "test_landing.LandingTests.test_cli_help_and_malformed_input_refuse_before_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.538573042023927, "event": "stop", "test": "test_landing.LandingTests.test_cli_help_and_malformed_input_refuse_before_checkpoint"}
+{"event": "start", "test": "test_landing.LandingTests.test_cloud_claim_refuses_local_reconcile_and_local_claim_keeps_binary_boundary"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00546795898117125, "event": "stop", "test": "test_landing.LandingTests.test_cloud_claim_refuses_local_reconcile_and_local_claim_keeps_binary_boundary"}
+{"event": "start", "test": "test_landing.LandingTests.test_cloud_claim_resolves_from_provider_readback_without_local_tools"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0074215419590473175, "event": "stop", "test": "test_landing.LandingTests.test_cloud_claim_resolves_from_provider_readback_without_local_tools"}
+{"event": "start", "test": "test_landing.LandingTests.test_cloud_marked_contract_requires_exact_candidate_gate_not_local_envelope"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0022082501091063023, "event": "stop", "test": "test_landing.LandingTests.test_cloud_marked_contract_requires_exact_candidate_gate_not_local_envelope"}
+{"event": "start", "test": "test_landing.LandingTests.test_cloud_only_absence_is_persisted_as_noop_cleanup"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6772666659671813, "event": "stop", "test": "test_landing.LandingTests.test_cloud_only_absence_is_persisted_as_noop_cleanup"}
+{"event": "start", "test": "test_landing.LandingTests.test_cloud_only_noop_refuses_branch_or_registration_before_checkpoint_change"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6564370410051197, "event": "stop", "test": "test_landing.LandingTests.test_cloud_only_noop_refuses_branch_or_registration_before_checkpoint_change"}
+{"event": "start", "test": "test_landing.LandingTests.test_cloud_provider_main_advance_requires_complete_comparison"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005371707957237959, "event": "stop", "test": "test_landing.LandingTests.test_cloud_provider_main_advance_requires_complete_comparison"}
+{"event": "start", "test": "test_landing.LandingTests.test_cloud_route_migration_refuses_local_obligations_and_identity_changes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0069927501026540995, "event": "stop", "test": "test_landing.LandingTests.test_cloud_route_migration_refuses_local_obligations_and_identity_changes"}
+{"event": "start", "test": "test_landing.LandingTests.test_comparison_guidance_preserves_fresh_claim_and_rejects_unconfirmed_endpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.007613707799464464, "event": "stop", "test": "test_landing.LandingTests.test_comparison_guidance_preserves_fresh_claim_and_rejects_unconfirmed_endpoint"}
+{"event": "start", "test": "test_landing.LandingTests.test_completed_legacy_checkpoint_can_migrate_local_to_cloud_route"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004473458975553513, "event": "stop", "test": "test_landing.LandingTests.test_completed_legacy_checkpoint_can_migrate_local_to_cloud_route"}
+{"event": "start", "test": "test_landing.LandingTests.test_corrected_verifier_can_resume_completed_awaiting_reconcile"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004938417114317417, "event": "stop", "test": "test_landing.LandingTests.test_corrected_verifier_can_resume_completed_awaiting_reconcile"}
+{"event": "start", "test": "test_landing.LandingTests.test_corrected_verifier_resume_preserves_identity_and_cannot_repeat_provider_writes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.003955750027671456, "event": "stop", "test": "test_landing.LandingTests.test_corrected_verifier_resume_preserves_identity_and_cannot_repeat_provider_writes"}
+{"event": "start", "test": "test_landing.LandingTests.test_crash_after_merge_and_close_resumes_by_readback_without_duplicate_write"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.007624833146110177, "event": "stop", "test": "test_landing.LandingTests.test_crash_after_merge_and_close_resumes_by_readback_without_duplicate_write"}
+{"event": "start", "test": "test_landing.LandingTests.test_dirty_root_and_wrong_origin_refuse_before_runtime_or_cleanup"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.21019849996082485, "event": "stop", "test": "test_landing.LandingTests.test_dirty_root_and_wrong_origin_refuse_before_runtime_or_cleanup"}
+{"event": "start", "test": "test_landing.LandingTests.test_dispatch_base_drift_invalidates_without_emitting_or_reusing_old_acceptance"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.011765250004827976, "event": "stop", "test": "test_landing.LandingTests.test_dispatch_base_drift_invalidates_without_emitting_or_reusing_old_acceptance"}
+{"event": "start", "test": "test_landing.LandingTests.test_foreign_merge_parent_or_tree_cannot_close_issue"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005325207952409983, "event": "stop", "test": "test_landing.LandingTests.test_foreign_merge_parent_or_tree_cannot_close_issue"}
+{"event": "start", "test": "test_landing.LandingTests.test_foreign_repository_tree_base_and_skipped_step_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00327241700142622, "event": "stop", "test": "test_landing.LandingTests.test_foreign_repository_tree_base_and_skipped_step_refuse"}
+{"event": "start", "test": "test_landing.LandingTests.test_fresh_admission_rejects_identity_changes_stale_acceptance_and_bad_ancestry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.016634583938866854, "event": "stop", "test": "test_landing.LandingTests.test_fresh_admission_rejects_identity_changes_stale_acceptance_and_bad_ancestry"}
+{"event": "start", "test": "test_landing.LandingTests.test_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005549333058297634, "event": "stop", "test": "test_landing.LandingTests.test_intent_is_persisted_before_exact_head_request_and_no_unchanged_retry"}
+{"event": "start", "test": "test_landing.LandingTests.test_invalidation_retains_legacy_empty_admission_and_base_recovery"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005571666872128844, "event": "stop", "test": "test_landing.LandingTests.test_invalidation_retains_legacy_empty_admission_and_base_recovery"}
+{"event": "start", "test": "test_landing.LandingTests.test_legacy_admitted_can_recover_but_legacy_pending_remains_unknown"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.006722416030243039, "event": "stop", "test": "test_landing.LandingTests.test_legacy_admitted_can_recover_but_legacy_pending_remains_unknown"}
+{"event": "start", "test": "test_landing.LandingTests.test_legacy_unknown_preserves_identity_and_cleanup_evidence"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005982417147606611, "event": "stop", "test": "test_landing.LandingTests.test_legacy_unknown_preserves_identity_and_cleanup_evidence"}
+{"event": "start", "test": "test_landing.LandingTests.test_malformed_comparison_refuses_exact_field_without_traceback_or_checkpoint_change"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4430743330158293, "event": "stop", "test": "test_landing.LandingTests.test_malformed_comparison_refuses_exact_field_without_traceback_or_checkpoint_change"}
+{"event": "start", "test": "test_landing.LandingTests.test_merged_readback_readmit_retains_fresh_claim_without_adopting_provider_effect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.006134666036814451, "event": "stop", "test": "test_landing.LandingTests.test_merged_readback_readmit_retains_fresh_claim_without_adopting_provider_effect"}
+{"event": "start", "test": "test_landing.LandingTests.test_merged_readback_start_keeps_confirmed_claim_without_creating_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0016303330194205046, "event": "stop", "test": "test_landing.LandingTests.test_merged_readback_start_keeps_confirmed_claim_without_creating_checkpoint"}
+{"event": "start", "test": "test_landing.LandingTests.test_missing_or_inconsistent_delivery_evidence_cannot_dispatch"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.005275333067402244, "event": "stop", "test": "test_landing.LandingTests.test_missing_or_inconsistent_delivery_evidence_cannot_dispatch"}
+{"event": "start", "test": "test_landing.LandingTests.test_network_child_keeps_proxy_route_without_provider_or_git_injection"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3454137498047203, "event": "stop", "test": "test_landing.LandingTests.test_network_child_keeps_proxy_route_without_provider_or_git_injection"}
+{"event": "start", "test": "test_landing.LandingTests.test_owner_projection_names_missing_input_without_executable_placeholder"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.006111625116318464, "event": "stop", "test": "test_landing.LandingTests.test_owner_projection_names_missing_input_without_executable_placeholder"}
+{"event": "start", "test": "test_landing.LandingTests.test_parser_and_refusal_help_are_bound_to_invoked_action"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.20909920893609524, "event": "stop", "test": "test_landing.LandingTests.test_parser_and_refusal_help_are_bound_to_invoked_action"}
+{"event": "start", "test": "test_landing.LandingTests.test_postwrite_detached_control_fast_forwards_without_branch_switch"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.7628397080115974, "event": "stop", "test": "test_landing.LandingTests.test_postwrite_detached_control_fast_forwards_without_branch_switch"}
+{"event": "start", "test": "test_landing.LandingTests.test_prepared_but_unoffered_provider_effect_cannot_be_adopted"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.007659417111426592, "event": "stop", "test": "test_landing.LandingTests.test_prepared_but_unoffered_provider_effect_cannot_be_adopted"}
+{"event": "start", "test": "test_landing.LandingTests.test_prepared_intent_is_not_an_offer_and_requires_fresh_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0046640420332551, "event": "stop", "test": "test_landing.LandingTests.test_prepared_intent_is_not_an_offer_and_requires_fresh_identity"}
+{"event": "start", "test": "test_landing.LandingTests.test_reconciliation_cannot_start_before_provider_closure"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0023193340748548508, "event": "stop", "test": "test_landing.LandingTests.test_reconciliation_cannot_start_before_provider_closure"}
+{"event": "start", "test": "test_landing.LandingTests.test_recovery_requires_forward_complete_comparison_and_original_subject"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.007079959148541093, "event": "stop", "test": "test_landing.LandingTests.test_recovery_requires_forward_complete_comparison_and_original_subject"}
+{"event": "start", "test": "test_landing.LandingTests.test_registered_detached_control_root_requires_exact_admitted_head"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.36433845781721175, "event": "stop", "test": "test_landing.LandingTests.test_registered_detached_control_root_requires_exact_admitted_head"}
+{"event": "start", "test": "test_landing.LandingTests.test_supervisor_withdraws_green_without_new_ci_or_provider_write"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.006315500009804964, "event": "stop", "test": "test_landing.LandingTests.test_supervisor_withdraws_green_without_new_ci_or_provider_write"}
+{"event": "start", "test": "test_landing.LandingTests.test_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.010713167022913694, "event": "stop", "test": "test_landing.LandingTests.test_terminal_has_no_next_or_checkpoint_rewrite_and_reconciling_names_binary"}
+{"event": "start", "test": "test_landing.LandingTests.test_unoffered_external_merge_or_closure_cannot_resolve_this_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0028804580215364695, "event": "stop", "test": "test_landing.LandingTests.test_unoffered_external_merge_or_closure_cannot_resolve_this_checkpoint"}
+{"event": "start", "test": "test_landing.LandingTests.test_wrong_claim_fields_identity_and_verifier_cannot_admit"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0016415410209447145, "event": "stop", "test": "test_landing.LandingTests.test_wrong_claim_fields_identity_and_verifier_cannot_admit"}
+{"event": "start", "test": "test_landing.LandingTests.test_wrong_closure_reason_and_closed_unmerged_do_not_resolve"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.007225375156849623, "event": "stop", "test": "test_landing.LandingTests.test_wrong_closure_reason_and_closed_unmerged_do_not_resolve"}
+{"event": "start", "test": "test_landing.LandingTests.test_wrong_provider_identities_fail_before_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.006571750156581402, "event": "stop", "test": "test_landing.LandingTests.test_wrong_provider_identities_fail_before_checkpoint"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_bootstrap_reconciliation_retains_native_custody_and_lock"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 2.530035583069548, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_bootstrap_reconciliation_retains_native_custody_and_lock"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_changed_pin_and_identity_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.29152845800854266, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_changed_pin_and_identity_refuse"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_changed_subject_and_foreign_platform_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.28938683308660984, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_changed_subject_and_foreign_platform_refuse"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_dirty_worktree_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3762759999372065, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_dirty_worktree_refuses"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_exact_explicit_custody_admits_without_fabricated_execution"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.48878579190932214, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_exact_explicit_custody_admits_without_fabricated_execution"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_execution_cannot_be_downgraded_to_bootstrap"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.29327749996446073, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_execution_cannot_be_downgraded_to_bootstrap"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_malformed_custody_and_issue_body_refuse_before_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2936610409524292, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_malformed_custody_and_issue_body_refuse_before_checkpoint"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_missing_history_alone_is_not_admission"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2890105410479009, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_missing_history_alone_is_not_admission"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_original_order_history_requires_execution_route"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.469575917115435, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_original_order_history_requires_execution_route"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_orphan_live_process_is_not_ignored"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4706525830551982, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_orphan_live_process_is_not_ignored"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_pending_proposal_is_preserved"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5271127079613507, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_pending_proposal_is_preserved"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_running_noodle_owner_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.30736437486484647, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_running_noodle_owner_refuses"}
+{"event": "start", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_unknown_cleanup_is_not_reoffered"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 3.2888542502187192, "event": "stop", "test": "test_landing_bootstrap.BootstrapCustodyTests.test_unknown_cleanup_is_not_reoffered"}
+{"event": "start", "test": "test_landing_continuation.LandingContinuationTests.test_current_argv_is_executable_without_weakening_readback_guards"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.5324685829691589, "event": "stop", "test": "test_landing_continuation.LandingContinuationTests.test_current_argv_is_executable_without_weakening_readback_guards"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_candidate_cannot_select_itself_as_publisher"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.23531791707500815, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_candidate_cannot_select_itself_as_publisher"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_cloud_terminal_candidate_activates_current_landing_owner"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.23946399986743927, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_cloud_terminal_candidate_activates_current_landing_owner"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_empty_cloud_branch_refuses_before_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.15736524993553758, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_empty_cloud_branch_refuses_before_checkpoint"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_inconsistent_owner_continuation_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0820497500244528, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_inconsistent_owner_continuation_refuses"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_local_corrected_head_keeps_the_original_pr_branch"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.40133808297105134, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_local_corrected_head_keeps_the_original_pr_branch"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_local_route_rejects_missing_or_changed_native_claim"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3911424591206014, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_local_route_rejects_missing_or_changed_native_claim"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_local_terminal_candidate_binds_supplied_execution_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.445752042112872, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_local_terminal_candidate_binds_supplied_execution_identity"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_pclass_terminal_entry_points_only_to_landing_supervisor"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.12699970812536776, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_pclass_terminal_entry_points_only_to_landing_supervisor"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_slash_named_cloud_branch_keeps_provider_identity_separate"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.25445345789194107, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_slash_named_cloud_branch_keeps_provider_identity_separate"}
+{"event": "start", "test": "test_landing_supervisor.LandingSupervisorTests.test_stale_green_wrong_publisher_and_existing_output_refuse_before_checkpoint"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.478096041129902, "event": "stop", "test": "test_landing_supervisor.LandingSupervisorTests.test_stale_green_wrong_publisher_and_existing_output_refuse_before_checkpoint"}
+{"event": "start", "test": "test_lifecycle_activation.LifecycleActivationTests.test_candidate_or_symlink_owner_is_not_an_external_snapshot"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.38685270911082625, "event": "stop", "test": "test_lifecycle_activation.LifecycleActivationTests.test_candidate_or_symlink_owner_is_not_an_external_snapshot"}
+{"event": "start", "test": "test_lifecycle_activation.LifecycleActivationTests.test_prepared_continuation_and_resume_keep_exact_external_owner"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4477297079283744, "event": "stop", "test": "test_lifecycle_activation.LifecycleActivationTests.test_prepared_continuation_and_resume_keep_exact_external_owner"}
+{"event": "start", "test": "test_lifecycle_activation.LifecycleActivationTests.test_selected_runtime_can_validate_its_own_execution_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5764937079511583, "event": "stop", "test": "test_lifecycle_activation.LifecycleActivationTests.test_selected_runtime_can_validate_its_own_execution_identity"}
+{"event": "start", "test": "test_lifecycle_activation.LifecycleActivationTests.test_transitive_byte_drift_refuses_before_publication"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.381889124866575, "event": "stop", "test": "test_lifecycle_activation.LifecycleActivationTests.test_transitive_byte_drift_refuses_before_publication"}
+{"event": "start", "test": "test_lifecycle_activation.LifecycleActivationTests.test_unselected_process_refuses_before_any_effect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4215585000347346, "event": "stop", "test": "test_lifecycle_activation.LifecycleActivationTests.test_unselected_process_refuses_before_any_effect"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_amendment_preflight_binds_failed_run_and_current_pr"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0005541660357266665, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_amendment_preflight_binds_failed_run_and_current_pr"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_candidate_amendment_persists_offer_before_effect_and_never_repeats_it"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0009815830271691084, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_candidate_amendment_persists_offer_before_effect_and_never_repeats_it"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_corrected_head_keeps_original_provider_pr_branch"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004335625097155571, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_corrected_head_keeps_original_provider_pr_branch"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_exact_green_result"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00012083398178219795, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_exact_green_result"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_failed_ci_does_not_offer_the_old_authorization_as_a_correction"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00012929202057421207, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_failed_ci_does_not_offer_the_old_authorization_as_a_correction"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_failed_ci_handoff_retains_observed_subject_and_assessment_route"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0005422909744083881, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_failed_ci_handoff_retains_observed_subject_and_assessment_route"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_failed_ci_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00016287504695355892, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_failed_ci_refuses"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_in_progress_without_steps_is_wait"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 7.995916530489922e-05, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_in_progress_without_steps_is_wait"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_incomplete_job_cannot_authorize_completed_run"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 9.575020521879196e-05, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_incomplete_job_cannot_authorize_completed_run"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_missing_identity_is_not_reclassified_as_an_observed_defect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00013766693882644176, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_missing_identity_is_not_reclassified_as_an_observed_defect"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_missing_jobs_at_completed_run_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00010454095900058746, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_missing_jobs_at_completed_run_refuses"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_native_receipt_is_the_prepublication_boundary"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00040687480941414833, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_native_receipt_is_the_prepublication_boundary"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_other_head_is_not_adopted"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 8.49580392241478e-05, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_other_head_is_not_adopted"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_own_wait_identity_drift_refuses_without_retry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4997701670508832, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_own_wait_identity_drift_refuses_without_retry"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_own_wait_refreshes_identity_before_legal_continuation"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5043445001356304, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_own_wait_refreshes_identity_before_legal_continuation"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_prior_host_recovery_persists_intent_before_original_owner_effect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002718500094488263, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_prior_host_recovery_persists_intent_before_original_owner_effect"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_prior_loop_readback_uses_process_and_lock_not_saved_status"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0248155000153929, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_prior_loop_readback_uses_process_and_lock_not_saved_status"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_process_identity_preserves_hold_and_rejects_alternative_flags"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0002173332031816244, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_process_identity_preserves_hold_and_rejects_alternative_flags"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_publication_branch_does_not_replace_local_cleanup_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004573167068883777, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_publication_branch_does_not_replace_local_cleanup_identity"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_queued_without_jobs_is_wait"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0001335421111434698, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_queued_without_jobs_is_wait"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_refusal_is_never_retried"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00016491697169840336, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_refusal_is_never_retried"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_stopped_prior_loop_does_not_advance_new_authorization"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00012495904229581356, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_stopped_prior_loop_does_not_advance_new_authorization"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_unrelated_publication_branch_cannot_be_selected"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0007931669242680073, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_unrelated_publication_branch_cannot_be_selected"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_wait_continues_same_entry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00013620895333588123, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_wait_continues_same_entry"}
+{"event": "start", "test": "test_local_continuation.LocalContinuationTests.test_wait_exhaustion_retains_pending_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 9.816605597734451e-05, "event": "stop", "test": "test_local_continuation.LocalContinuationTests.test_wait_exhaustion_retains_pending_identity"}
+{"event": "start", "test": "test_local_provider_transport.LocalProviderTransportTests.test_cloud_route_keeps_connector_request_and_no_local_executable"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0037101248744875193, "event": "stop", "test": "test_local_provider_transport.LocalProviderTransportTests.test_cloud_route_keeps_connector_request_and_no_local_executable"}
+{"event": "start", "test": "test_local_provider_transport.LocalProviderTransportTests.test_envelope_bound_reconcile_projects_measured_noodle_binary"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0015128329396247864, "event": "stop", "test": "test_local_provider_transport.LocalProviderTransportTests.test_envelope_bound_reconcile_projects_measured_noodle_binary"}
+{"event": "start", "test": "test_local_provider_transport.LocalProviderTransportTests.test_local_merge_close_are_exact_executable_continuations"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.011258916929364204, "event": "stop", "test": "test_local_provider_transport.LocalProviderTransportTests.test_local_merge_close_are_exact_executable_continuations"}
+{"event": "start", "test": "test_local_provider_transport.LocalProviderTransportTests.test_missing_token_request_drift_and_cloud_checkpoint_refuse_before_mutation"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.08606079104356468, "event": "stop", "test": "test_local_provider_transport.LocalProviderTransportTests.test_missing_token_request_drift_and_cloud_checkpoint_refuse_before_mutation"}
+{"event": "start", "test": "test_local_provider_transport.LocalProviderTransportTests.test_unknown_merge_outcome_reads_back_without_second_mutation"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.006776290945708752, "event": "stop", "test": "test_local_provider_transport.LocalProviderTransportTests.test_unknown_merge_outcome_reads_back_without_second_mutation"}
+{"event": "start", "test": "test_local_routing_evidence.LocalRoutingEvidenceTests.test_fixed_comparison_replays_adoption"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.14201654214411974, "event": "stop", "test": "test_local_routing_evidence.LocalRoutingEvidenceTests.test_fixed_comparison_replays_adoption"}
+{"event": "start", "test": "test_local_routing_evidence.LocalRoutingEvidenceTests.test_required_archives_replay_identically"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 4.2049767090938985, "event": "stop", "test": "test_local_routing_evidence.LocalRoutingEvidenceTests.test_required_archives_replay_identically"}
+{"event": "start", "test": "test_local_routing_evidence.LocalRoutingEvidenceTests.test_unsafe_tar_members_are_rejected"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0037051669787615538, "event": "stop", "test": "test_local_routing_evidence.LocalRoutingEvidenceTests.test_unsafe_tar_members_are_rejected"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_child_and_corrupt_state_refuse_without_transport"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002812625141814351, "event": "stop", "test": "test_next_issue.NextIssueTests.test_child_and_corrupt_state_refuse_without_transport"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_concurrent_entry_cannot_send_second_post"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002745874924585223, "event": "stop", "test": "test_next_issue.NextIssueTests.test_concurrent_entry_cannot_send_second_post"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_dependency_and_write_boundary_are_mechanical_gates"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0015491668600589037, "event": "stop", "test": "test_next_issue.NextIssueTests.test_dependency_and_write_boundary_are_mechanical_gates"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_http_500_keeps_request_id_and_offered_state_prevents_reentry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0031801669392734766, "event": "stop", "test": "test_next_issue.NextIssueTests.test_http_500_keeps_request_id_and_offered_state_prevents_reentry"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_legacy_missing_state_and_changed_intent_never_send"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002197124995291233, "event": "stop", "test": "test_next_issue.NextIssueTests.test_legacy_missing_state_and_changed_intent_never_send"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_local_create_uses_only_persisted_intent_and_stops_at_issue_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002791915787383914, "event": "stop", "test": "test_next_issue.NextIssueTests.test_local_create_uses_only_persisted_intent_and_stops_at_issue_identity"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_missing_supplier_refuses_before_offer_without_token_fallback"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002490124898031354, "event": "stop", "test": "test_next_issue.NextIssueTests.test_missing_supplier_refuses_before_offer_without_token_fallback"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_pclass_contains_one_entry_and_no_manual_decisions"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0009216659236699343, "event": "stop", "test": "test_next_issue.NextIssueTests.test_pclass_contains_one_entry_and_no_manual_decisions"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_process_exit_after_offer_cannot_replay_transport"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.012143958825618029, "event": "stop", "test": "test_next_issue.NextIssueTests.test_process_exit_after_offer_cannot_replay_transport"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_unique_candidate_materializes_exact_cloud_intent"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0013991668820381165, "event": "stop", "test": "test_next_issue.NextIssueTests.test_unique_candidate_materializes_exact_cloud_intent"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_unknown_create_never_retries_and_readback_adopts_exactly_one"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0036144170444458723, "event": "stop", "test": "test_next_issue.NextIssueTests.test_unknown_create_never_retries_and_readback_adopts_exactly_one"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_unresolved_predecessor_and_incomplete_frontier_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0005151249933987856, "event": "stop", "test": "test_next_issue.NextIssueTests.test_unresolved_predecessor_and_incomplete_frontier_refuse"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_wrong_subject_or_unreadable_response_keeps_one_post"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.009546542074531317, "event": "stop", "test": "test_next_issue.NextIssueTests.test_wrong_subject_or_unreadable_response_keeps_one_post"}
+{"event": "start", "test": "test_next_issue.NextIssueTests.test_zero_and_multiple_eligible_never_invent_priority"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0016281669959425926, "event": "stop", "test": "test_next_issue.NextIssueTests.test_zero_and_multiple_eligible_never_invent_priority"}
+{"event": "start", "test": "test_owner_continuation.OwnerContinuationTests.test_frozen_hashes_and_current_source_oracle"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 11.228962250053883, "event": "stop", "test": "test_owner_continuation.OwnerContinuationTests.test_frozen_hashes_and_current_source_oracle"}
+{"event": "start", "test": "test_pclass_case_exposure.CaseExposureTests.test_frozen_nine_case_probe"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0053057498298585415, "event": "stop", "test": "test_pclass_case_exposure.CaseExposureTests.test_frozen_nine_case_probe"}
+{"event": "start", "test": "test_pclass_case_exposure.CaseExposureTests.test_real_public_replay_entry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0969662091229111, "event": "stop", "test": "test_pclass_case_exposure.CaseExposureTests.test_real_public_replay_entry"}
+{"event": "start", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_file_binding_json_and_paths_fail_closed_without_writes"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.007110374979674816, "event": "stop", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_file_binding_json_and_paths_fail_closed_without_writes"}
+{"event": "start", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_invalid_identity_schema_and_authority_are_rejected"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0036942078731954098, "event": "stop", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_invalid_identity_schema_and_authority_are_rejected"}
+{"event": "start", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_missing_null_and_partial_runs_do_not_become_zero"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004661040846258402, "event": "stop", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_missing_null_and_partial_runs_do_not_become_zero"}
+{"event": "start", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_readonly_cli_returns_typed_block_without_traceback"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1249466659501195, "event": "stop", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_readonly_cli_returns_typed_block_without_traceback"}
+{"event": "start", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_returned_descriptors_are_independent"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004179709125310183, "event": "stop", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_returned_descriptors_are_independent"}
+{"event": "start", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_self_labelled_completion_cannot_manufacture_raw_evidence"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.003295124974101782, "event": "stop", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_self_labelled_completion_cannot_manufacture_raw_evidence"}
+{"event": "start", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_status_projection_is_not_zero_or_success"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0033437081146985292, "event": "stop", "test": "test_pclass_case_exposure.ConsumerReadinessControls.test_status_projection_is_not_zero_or_success"}
+{"event": "start", "test": "test_pclass_case_exposure.RequiredConsumerEvidenceTests.test_required_fresh_consumer_evidence_is_ready"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.009242125088348985, "event": "stop", "test": "test_pclass_case_exposure.RequiredConsumerEvidenceTests.test_required_fresh_consumer_evidence_is_ready"}
+{"event": "start", "test": "test_pclass_case_exposure.TypedNextTests.test_mixed_failures_and_inputs_are_preserved"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0020277919247746468, "event": "stop", "test": "test_pclass_case_exposure.TypedNextTests.test_mixed_failures_and_inputs_are_preserved"}
+{"event": "start", "test": "test_pclass_case_exposure.TypedNextTests.test_mutating_a_receipt_cannot_change_the_next_refusal"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0018234588205814362, "event": "stop", "test": "test_pclass_case_exposure.TypedNextTests.test_mutating_a_receipt_cannot_change_the_next_refusal"}
+{"event": "start", "test": "test_pclass_case_exposure.TypedNextTests.test_refusal_next_is_scoped_and_non_executable"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.002917499979957938, "event": "stop", "test": "test_pclass_case_exposure.TypedNextTests.test_refusal_next_is_scoped_and_non_executable"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_arm_case_and_evidence_bindings_reject"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0005340410862118006, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_arm_case_and_evidence_bindings_reject"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_behavior_failure_rejects_despite_better_telemetry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00010695797391235828, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_behavior_failure_rejects_despite_better_telemetry"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_complete_equal_arms_admit_only_nonregression"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00018562492914497852, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_complete_equal_arms_admit_only_nonregression"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_complete_strictly_lower_barrier_admits_improvement"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00010754214599728584, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_complete_strictly_lower_barrier_admits_improvement"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_controls_must_exactly_match_manifest"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00027466705068945885, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_controls_must_exactly_match_manifest"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_direct_candidate_comparison_entry_is_disabled"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.03311850014142692, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_direct_candidate_comparison_entry_is_disabled"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_duplicate_or_extra_run_rejects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0003688749857246876, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_duplicate_or_extra_run_rejects"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_invalid_counts_reject"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00037724990397691727, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_invalid_counts_reject"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_manifest_binding_rejects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00017920788377523422, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_manifest_binding_rejects"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_missing_audit_delta_or_barrier_rejects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00026312493719160557, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_missing_audit_delta_or_barrier_rejects"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_three_against_one_is_incomplete_not_improvement"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00011608400382101536, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_three_against_one_is_incomplete_not_improvement"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_unbalanced_manifest_cannot_define_its_own_exposure"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 9.441608563065529e-05, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_unbalanced_manifest_cannot_define_its_own_exposure"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_unknown_controls_cannot_self_validate"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00015829200856387615, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_unknown_controls_cannot_self_validate"}
+{"event": "start", "test": "test_pclass_decision.PclassDecisionTests.test_worse_telemetry_cannot_turn_nonregression_red"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00012204190716147423, "event": "stop", "test": "test_pclass_decision.PclassDecisionTests.test_worse_telemetry_cannot_turn_nonregression_red"}
+{"event": "start", "test": "test_pclass_metric_binding.PclassMetricBindingTests.test_fixed_oracle_against_current_source"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.45451254211366177, "event": "stop", "test": "test_pclass_metric_binding.PclassMetricBindingTests.test_fixed_oracle_against_current_source"}
+{"event": "start", "test": "test_pclass_metric_binding.PclassMetricBindingTests.test_frozen_inputs_and_observed_red_are_preserved"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0017435417976230383, "event": "stop", "test": "test_pclass_metric_binding.PclassMetricBindingTests.test_frozen_inputs_and_observed_red_are_preserved"}
+{"event": "start", "test": "test_pclass_metric_binding.PclassMetricBindingTests.test_other_json_types_are_rejected_before_either_analyzer_import"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.016160125145688653, "event": "stop", "test": "test_pclass_metric_binding.PclassMetricBindingTests.test_other_json_types_are_rejected_before_either_analyzer_import"}
+{"event": "start", "test": "test_pclass_replay.PclassReplayTests.test_analyzer_digest_mismatch_is_red"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0029415839817374945, "event": "stop", "test": "test_pclass_replay.PclassReplayTests.test_analyzer_digest_mismatch_is_red"}
+{"event": "start", "test": "test_pclass_replay.PclassReplayTests.test_digest_failure_happens_before_analyzer_import"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.003241207916289568, "event": "stop", "test": "test_pclass_replay.PclassReplayTests.test_digest_failure_happens_before_analyzer_import"}
+{"event": "start", "test": "test_pclass_replay.PclassReplayTests.test_issue_73_replays_three_to_zero"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.012822041986510158, "event": "stop", "test": "test_pclass_replay.PclassReplayTests.test_issue_73_replays_three_to_zero"}
+{"event": "start", "test": "test_pclass_replay.PclassReplayTests.test_raw_evidence_tampering_is_red"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0147252909373492, "event": "stop", "test": "test_pclass_replay.PclassReplayTests.test_raw_evidence_tampering_is_red"}
+{"event": "start", "test": "test_pclass_replay.PclassReplayTests.test_treatment_operation_after_completion_is_red"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0038514169864356518, "event": "stop", "test": "test_pclass_replay.PclassReplayTests.test_treatment_operation_after_completion_is_red"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_actions_builds_the_tracked_ui_before_the_embedded_binary"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.015760374953970313, "event": "stop", "test": "test_portable_packet.PacketTests.test_actions_builds_the_tracked_ui_before_the_embedded_binary"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_changed_missing_symlink_evidence"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.023206165991723537, "event": "stop", "test": "test_portable_packet.PacketTests.test_changed_missing_symlink_evidence"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_cli_create_and_verify"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2005611250642687, "event": "stop", "test": "test_portable_packet.PacketTests.test_cli_create_and_verify"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_deterministic_tar_relocates_and_excludes_ambient_secrets"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.02992916712537408, "event": "stop", "test": "test_portable_packet.PacketTests.test_deterministic_tar_relocates_and_excludes_ambient_secrets"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_exact_observers_and_input_digests"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.013805208029225469, "event": "stop", "test": "test_portable_packet.PacketTests.test_exact_observers_and_input_digests"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_linux_schema_noncase_uses_its_own_build_carrier"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.023130000103265047, "event": "stop", "test": "test_portable_packet.PacketTests.test_linux_schema_noncase_uses_its_own_build_carrier"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_manifest_planted_defects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.046264125034213066, "event": "stop", "test": "test_portable_packet.PacketTests.test_manifest_planted_defects"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_real_nonzero_wait_and_streams_survive_packet"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.05115758301690221, "event": "stop", "test": "test_portable_packet.PacketTests.test_real_nonzero_wait_and_streams_survive_packet"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_recorder_drops_credentials_and_live_owner_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.04289554199203849, "event": "stop", "test": "test_portable_packet.PacketTests.test_recorder_drops_credentials_and_live_owner_identity"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_recovery_scratch_isolates_captured_process_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.01631120895035565, "event": "stop", "test": "test_portable_packet.PacketTests.test_recovery_scratch_isolates_captured_process_identity"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_refusal_scratch_isolates_only_captured_process_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.01777770882472396, "event": "stop", "test": "test_portable_packet.PacketTests.test_refusal_scratch_isolates_only_captured_process_identity"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_rehashed_false_process_and_cleanup_are_rejected"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.025058291852474213, "event": "stop", "test": "test_portable_packet.PacketTests.test_rehashed_false_process_and_cleanup_are_rejected"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_source_measurement_keeps_only_the_explicit_toolchain_selector"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.01203716709278524, "event": "stop", "test": "test_portable_packet.PacketTests.test_source_measurement_keeps_only_the_explicit_toolchain_selector"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_tar_refuses_traversal_symlink_and_duplicate_without_extraction"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.013018708908930421, "event": "stop", "test": "test_portable_packet.PacketTests.test_tar_refuses_traversal_symlink_and_duplicate_without_extraction"}
+{"event": "start", "test": "test_portable_packet.PacketTests.test_timeout_is_waited_and_not_zero"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.11726366588845849, "event": "stop", "test": "test_portable_packet.PacketTests.test_timeout_is_waited_and_not_zero"}
+{"event": "start", "test": "test_preparation_reentry_evidence.PreparationReentryEvidenceTests.test_all_recorded_decisions_replay_and_tampering_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 5.786214208928868, "event": "stop", "test": "test_preparation_reentry_evidence.PreparationReentryEvidenceTests.test_all_recorded_decisions_replay_and_tampering_refuses"}
+{"event": "start", "test": "test_preparation_reentry_evidence.PreparationReentryEvidenceTests.test_fixed_selection_and_confirmation_decisions"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.31645504105836153, "event": "stop", "test": "test_preparation_reentry_evidence.PreparationReentryEvidenceTests.test_fixed_selection_and_confirmation_decisions"}
+{"event": "start", "test": "test_preparation_reentry_evidence.PreparationReentryEvidenceTests.test_winner_is_exact_second_round_and_no_efficiency_claim"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0036532077938318253, "event": "stop", "test": "test_preparation_reentry_evidence.PreparationReentryEvidenceTests.test_winner_is_exact_second_round_and_no_efficiency_claim"}
+{"event": "start", "test": "test_provider_credential.FrozenHostRouteControlsTests.test_frozen_inputs_and_real_cli_oracle"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 7.032424665987492, "event": "stop", "test": "test_provider_credential.FrozenHostRouteControlsTests.test_frozen_inputs_and_real_cli_oracle"}
+{"event": "start", "test": "test_provider_credential.HostRegistrationTests.test_bad_profile_shapes_and_fields_are_redacted"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.01321983290836215, "event": "stop", "test": "test_provider_credential.HostRegistrationTests.test_bad_profile_shapes_and_fields_are_redacted"}
+{"event": "start", "test": "test_provider_credential.HostRegistrationTests.test_child_context_refuses_each_identity_even_empty"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0017394579481333494, "event": "stop", "test": "test_provider_credential.HostRegistrationTests.test_child_context_refuses_each_identity_even_empty"}
+{"event": "start", "test": "test_provider_credential.HostRegistrationTests.test_explicit_legacy_is_opaque_and_bypasses_profile_and_context"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.001574791967868805, "event": "stop", "test": "test_provider_credential.HostRegistrationTests.test_explicit_legacy_is_opaque_and_bypasses_profile_and_context"}
+{"event": "start", "test": "test_provider_credential.HostRegistrationTests.test_generic_supplier_never_autoloads"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0013920001219958067, "event": "stop", "test": "test_provider_credential.HostRegistrationTests.test_generic_supplier_never_autoloads"}
+{"event": "start", "test": "test_provider_credential.HostRegistrationTests.test_home_fallback_blank_command_and_no_ambient_fallback"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00238325004465878, "event": "stop", "test": "test_provider_credential.HostRegistrationTests.test_home_fallback_blank_command_and_no_ambient_fallback"}
+{"event": "start", "test": "test_provider_credential.HostRegistrationTests.test_invalid_locator_boundaries"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0019120408687740564, "event": "stop", "test": "test_provider_credential.HostRegistrationTests.test_invalid_locator_boundaries"}
+{"event": "start", "test": "test_provider_credential.HostRegistrationTests.test_profile_and_supplier_cannot_cross_candidate_boundary_via_symlink"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0032541658729314804, "event": "stop", "test": "test_provider_credential.HostRegistrationTests.test_profile_and_supplier_cannot_cross_candidate_boundary_via_symlink"}
+{"event": "start", "test": "test_provider_credential.HostRegistrationTests.test_registered_scope_quoting_stripping_and_no_private_key_read"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3400132078677416, "event": "stop", "test": "test_provider_credential.HostRegistrationTests.test_registered_scope_quoting_stripping_and_no_private_key_read"}
+{"event": "start", "test": "test_provider_credential.ProviderCredentialTests.test_bad_output_and_failure_are_redacted"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.01993199996650219, "event": "stop", "test": "test_provider_credential.ProviderCredentialTests.test_bad_output_and_failure_are_redacted"}
+{"event": "start", "test": "test_provider_credential.ProviderCredentialTests.test_clean_child_keeps_normal_environment_not_host_capability"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 9.004189632833004e-05, "event": "stop", "test": "test_provider_credential.ProviderCredentialTests.test_clean_child_keeps_normal_environment_not_host_capability"}
+{"event": "start", "test": "test_provider_credential.ProviderCredentialTests.test_missing_supplier_does_not_fall_back_to_parent_token"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 3.329198807477951e-05, "event": "stop", "test": "test_provider_credential.ProviderCredentialTests.test_missing_supplier_does_not_fall_back_to_parent_token"}
+{"event": "start", "test": "test_provider_credential.ProviderCredentialTests.test_real_supplier_gets_exact_scope_and_no_inherited_token"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.004490583203732967, "event": "stop", "test": "test_provider_credential.ProviderCredentialTests.test_real_supplier_gets_exact_scope_and_no_inherited_token"}
+{"event": "start", "test": "test_provider_credential.ProviderCredentialTests.test_timeout_exception_does_not_expose_output_or_command"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00032187486067414284, "event": "stop", "test": "test_provider_credential.ProviderCredentialTests.test_timeout_exception_does_not_expose_output_or_command"}
+{"event": "start", "test": "test_provider_readback.ProviderReadbackTests.test_landing_preserves_keys_and_returns_exact_reentry"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.15911554195918143, "event": "stop", "test": "test_provider_readback.ProviderReadbackTests.test_landing_preserves_keys_and_returns_exact_reentry"}
+{"event": "start", "test": "test_provider_readback.ProviderReadbackTests.test_merged_pr_adds_exactly_one_confirmed_merge_commit_get"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.15787566709332168, "event": "stop", "test": "test_provider_readback.ProviderReadbackTests.test_merged_pr_adds_exactly_one_confirmed_merge_commit_get"}
+{"event": "start", "test": "test_provider_readback.ProviderReadbackTests.test_next_issue_paginates_filters_prs_and_returns_reconcile_argv"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.08123158290982246, "event": "stop", "test": "test_provider_readback.ProviderReadbackTests.test_next_issue_paginates_filters_prs_and_returns_reconcile_argv"}
+{"event": "start", "test": "test_provider_readback.ProviderReadbackTests.test_pclass_routes_provider_readback_without_manual_get_assembly"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.08101012511178851, "event": "stop", "test": "test_provider_readback.ProviderReadbackTests.test_pclass_routes_provider_readback_without_manual_get_assembly"}
+{"event": "start", "test": "test_provider_readback.ProviderReadbackTests.test_wrong_method_host_missing_token_and_output_overwrite_refuse"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1583475829102099, "event": "stop", "test": "test_provider_readback.ProviderReadbackTests.test_wrong_method_host_missing_token_and_output_overwrite_refuse"}
+{"event": "start", "test": "test_provider_readback.ProviderReadbackTests.test_wrong_publisher_and_redirect_are_hard_refusals"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.15612033288925886, "event": "stop", "test": "test_provider_readback.ProviderReadbackTests.test_wrong_publisher_and_redirect_are_hard_refusals"}
+{"event": "start", "test": "test_quality.QualityTests.test_analyzer_failure_cannot_be_interpreted_as_no_findings"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0004343329928815365, "event": "stop", "test": "test_quality.QualityTests.test_analyzer_failure_cannot_be_interpreted_as_no_findings"}
+{"event": "start", "test": "test_quality.QualityTests.test_exact_same_head_allowed_but_output_inside_subject_refused"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.15223537501879036, "event": "stop", "test": "test_quality.QualityTests.test_exact_same_head_allowed_but_output_inside_subject_refused"}
+{"event": "start", "test": "test_quality.QualityTests.test_invalid_subject_refused_before_output_or_dependency_import"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.07472687517292798, "event": "stop", "test": "test_quality.QualityTests.test_invalid_subject_refused_before_output_or_dependency_import"}
+{"event": "start", "test": "test_quality.QualityTests.test_new_source_is_visible_in_unclassified_scope"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 6.429199129343033e-05, "event": "stop", "test": "test_quality.QualityTests.test_new_source_is_visible_in_unclassified_scope"}
+{"event": "start", "test": "test_quality.QualityTests.test_pending_time_is_not_zero_and_steps_are_not_summed_into_job_time"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0005290841218084097, "event": "stop", "test": "test_quality.QualityTests.test_pending_time_is_not_zero_and_steps_are_not_summed_into_job_time"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_cli_exit_codes_and_argument_refusal"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.8066401670221239, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_cli_exit_codes_and_argument_refusal"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_cli_refusal_help_is_executable_without_replacing_missing_input"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6183245829306543, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_cli_refusal_help_is_executable_without_replacing_missing_input"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_complete_and_wrong_route_have_distinct_behavior"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.34747587493620813, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_complete_and_wrong_route_have_distinct_behavior"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_dirty_source_wrong_head_and_report_digest"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.271764500066638, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_dirty_source_wrong_head_and_report_digest"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_each_required_read_is_observed"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2951652919873595, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_each_required_read_is_observed"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_fixed_method_route_oracle_and_planted_control"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.1780989170074463, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_fixed_method_route_oracle_and_planted_control"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_frozen_oracle_when_supervisor_evidence_is_present"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.2670161670539528, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_frozen_oracle_when_supervisor_evidence_is_present"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_legal_feature_object_absolute_reads_and_empty_file"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3109047079924494, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_legal_feature_object_absolute_reads_and_empty_file"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_malformed_read_bindings_and_escape_are_invalid"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.8268016660586, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_malformed_read_bindings_and_escape_are_invalid"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_missing_and_null_required_observations_are_not_behavior"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.6160273340065032, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_missing_and_null_required_observations_are_not_behavior"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_operation_types_and_observed_forbidden_operation"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4924099580384791, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_operation_types_and_observed_forbidden_operation"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_preimport_selector_and_evaluator_binding"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.1098095839843154, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_preimport_selector_and_evaluator_binding"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_selector_shape_types_and_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.12160250009037554, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_selector_shape_types_and_identity"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_source_and_instruction_mismatch_are_invalid"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.23381950007751584, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_source_and_instruction_mismatch_are_invalid"}
+{"event": "start", "test": "test_report_evaluation.ReportEvaluationTests.test_unsupported_family_names_the_supported_contract"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.11188495787791908, "event": "stop", "test": "test_report_evaluation.ReportEvaluationTests.test_unsupported_family_names_the_supported_contract"}
+{"event": "start", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_actual_cli_projects_exact_argv_without_executing_launcher"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.08970391703769565, "event": "stop", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_actual_cli_projects_exact_argv_without_executing_launcher"}
+{"event": "start", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_generic_session_has_no_launcher_prerequisite"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0008542079012840986, "event": "stop", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_generic_session_has_no_launcher_prerequisite"}
+{"event": "start", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_mismatched_role_refuses_before_missing_launcher"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0015738331712782383, "event": "stop", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_mismatched_role_refuses_before_missing_launcher"}
+{"event": "start", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_missing_malformed_or_foreign_dispatch_inputs"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0010647089220583439, "event": "stop", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_missing_malformed_or_foreign_dispatch_inputs"}
+{"event": "start", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_preserved_scheduler_requires_supervisor_launcher"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0010438328608870506, "event": "stop", "test": "test_schedule_role.ScheduleRoleBoundaryTests.test_preserved_scheduler_requires_supervisor_launcher"}
+{"event": "start", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_bootstrap_injects_provider_identity_then_uses_exact_launcher"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.941115333000198, "event": "stop", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_bootstrap_injects_provider_identity_then_uses_exact_launcher"}
+{"event": "start", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_correction_preparation_binds_the_existing_candidate_not_control_base"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.132152375066653, "event": "stop", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_correction_preparation_binds_the_existing_candidate_not_control_base"}
+{"event": "start", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_correction_start_pins_process_hold_without_agent_selected_flags"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.4028627499938011, "event": "stop", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_correction_start_pins_process_hold_without_agent_selected_flags"}
+{"event": "start", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_host_bundle_binds_task_worker_and_single_issue_backlog"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.356430040905252, "event": "stop", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_host_bundle_binds_task_worker_and_single_issue_backlog"}
+{"event": "start", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_host_once_refuses_full_backlog_config_before_noodle_effect"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.9378315000794828, "event": "stop", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_host_once_refuses_full_backlog_config_before_noodle_effect"}
+{"event": "start", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_pinned_once_entry_accepts_only_exact_bootstrap_argv"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.8888844170141965, "event": "stop", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_pinned_once_entry_accepts_only_exact_bootstrap_argv"}
+{"event": "start", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_supplier_integrity_and_overwrite_controls_refuse_before_effects"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 2.3899037081282586, "event": "stop", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_supplier_integrity_and_overwrite_controls_refuse_before_effects"}
+{"event": "start", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_unknown_worker_argv_refuses_before_host_bundle_creation"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.35787266702391207, "event": "stop", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_unknown_worker_argv_refuses_before_host_bundle_creation"}
+{"event": "start", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_wrong_origin_and_carrier_digest_refuse_before_output"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4136404590681195, "event": "stop", "test": "test_supervisor_admission.SupervisorAdmissionTests.test_wrong_origin_and_carrier_digest_refuse_before_output"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_actual_sigkill_during_each_write_and_after_publication"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.5027729170396924, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_actual_sigkill_during_each_write_and_after_publication"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_amendment_pins_original_host_config_while_old_bundle_is_installed"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.47006787499412894, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_amendment_pins_original_host_config_while_old_bundle_is_installed"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_amendment_selection_preserves_prior_pr_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 1.1871040828991681, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_amendment_selection_preserves_prior_pr_identity"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_changed_selection_even_with_updated_digest_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.5008742078207433, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_changed_selection_even_with_updated_digest_refuses"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_committed_damage_and_legacy_bundle_are_never_repaired"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 5.456353124929592, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_committed_damage_and_legacy_bundle_are_never_repaired"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_completion_is_bound_to_final_paths_and_existing_validator"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4263488338328898, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_completion_is_bound_to_final_paths_and_existing_validator"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_concurrent_same_and_different_selection"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.7620724579319358, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_concurrent_same_and_different_selection"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_foreign_collisions_and_publication_races_preserve_inode"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6057930418755859, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_foreign_collisions_and_publication_races_preserve_inode"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_git_subdirectory_cannot_become_a_control_root"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2709690830670297, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_git_subdirectory_cannot_become_a_control_root"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_missing_or_nonexecutable_continuation_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.2906983750872314, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_missing_or_nonexecutable_continuation_refuses"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_nonexecutable_selected_carrier_is_not_repaired"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.28948383405804634, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_nonexecutable_selected_carrier_is_not_repaired"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_postcommit_failure_retains_identity"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3737470000050962, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_postcommit_failure_retains_identity"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_precommit_failure_cleans_only_staging"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.3708863342180848, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_precommit_failure_cleans_only_staging"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_rehashed_arbitrary_continuation_or_authorization_refuses"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.4915545000694692, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_rehashed_arbitrary_continuation_or_authorization_refuses"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_same_argv_readback_preserves_bytes_without_live_validation"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.6718534589745104, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_same_argv_readback_preserves_bytes_without_live_validation"}
+{"event": "start", "test": "test_supervisor_authorization.AuthorizationTests.test_unsupported_primitive_refuses_without_publication"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.49647345789708197, "event": "stop", "test": "test_supervisor_authorization.AuthorizationTests.test_unsupported_primitive_refuses_without_publication"}
+{"event": "start", "test": "test_verify_skill.VerificationSkillTests.test_counts_separate_control_refusal_from_failure_and_keep_guard_repeats"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0001750420778989792, "event": "stop", "test": "test_verify_skill.VerificationSkillTests.test_counts_separate_control_refusal_from_failure_and_keep_guard_repeats"}
+{"event": "start", "test": "test_verify_skill.VerificationSkillTests.test_output_refusal_precedes_directory_creation"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.0005387498531490564, "event": "stop", "test": "test_verify_skill.VerificationSkillTests.test_output_refusal_precedes_directory_creation"}
+{"event": "start", "test": "test_verify_skill.VerificationSkillTests.test_resolution_requires_exact_local_skill"}
+{"cumulative_errors": 0, "cumulative_failures": 0, "cumulative_skips": 0, "elapsed_seconds": 0.00016479101032018661, "event": "stop", "test": "test_verify_skill.VerificationSkillTests.test_resolution_requires_exact_local_skill"}
+{"event": "observer_end", "unfinished_tests": 0}

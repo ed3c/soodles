@@ -1,0 +1,1 @@
+This inventory does not change prospective success criteria. The original failed-head protocol is failed-head/protocol.md; the create extension is create/protocol.md with frozen round/confirmation records. The original 20% efficiency experiment failed. The latest user selected correctness/evidence closure for delivery; see delivery/scope-selection.json and results.md.

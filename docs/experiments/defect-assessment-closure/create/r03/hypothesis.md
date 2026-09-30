@@ -1,0 +1,1 @@
+Third and final hypothesis: bind the fresh frontier destination and exact existing reconcile argv in current next; remove another Session command-selection obligation. Same P bytes as r02. Final source additionally rejects a GET returning another Issue number; this identity control was identified before confirmation. No efficiency success inferred.

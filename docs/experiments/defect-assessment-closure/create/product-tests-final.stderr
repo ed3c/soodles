@@ -1,0 +1,19 @@
+test_child_and_corrupt_state_refuse_without_transport (test_next_issue.NextIssueTests.test_child_and_corrupt_state_refuse_without_transport) ... ok
+test_concurrent_entry_cannot_send_second_post (test_next_issue.NextIssueTests.test_concurrent_entry_cannot_send_second_post) ... ok
+test_dependency_and_write_boundary_are_mechanical_gates (test_next_issue.NextIssueTests.test_dependency_and_write_boundary_are_mechanical_gates) ... ok
+test_http_500_keeps_request_id_and_offered_state_prevents_reentry (test_next_issue.NextIssueTests.test_http_500_keeps_request_id_and_offered_state_prevents_reentry) ... ok
+test_legacy_missing_state_and_changed_intent_never_send (test_next_issue.NextIssueTests.test_legacy_missing_state_and_changed_intent_never_send) ... ok
+test_local_create_uses_only_persisted_intent_and_stops_at_issue_identity (test_next_issue.NextIssueTests.test_local_create_uses_only_persisted_intent_and_stops_at_issue_identity) ... ok
+test_missing_supplier_refuses_before_offer_without_token_fallback (test_next_issue.NextIssueTests.test_missing_supplier_refuses_before_offer_without_token_fallback) ... ok
+test_pclass_contains_one_entry_and_no_manual_decisions (test_next_issue.NextIssueTests.test_pclass_contains_one_entry_and_no_manual_decisions) ... ok
+test_process_exit_after_offer_cannot_replay_transport (test_next_issue.NextIssueTests.test_process_exit_after_offer_cannot_replay_transport) ... ok
+test_unique_candidate_materializes_exact_cloud_intent (test_next_issue.NextIssueTests.test_unique_candidate_materializes_exact_cloud_intent) ... ok
+test_unknown_create_never_retries_and_readback_adopts_exactly_one (test_next_issue.NextIssueTests.test_unknown_create_never_retries_and_readback_adopts_exactly_one) ... ok
+test_unresolved_predecessor_and_incomplete_frontier_refuse (test_next_issue.NextIssueTests.test_unresolved_predecessor_and_incomplete_frontier_refuse) ... ok
+test_wrong_subject_or_unreadable_response_keeps_one_post (test_next_issue.NextIssueTests.test_wrong_subject_or_unreadable_response_keeps_one_post) ... ok
+test_zero_and_multiple_eligible_never_invent_priority (test_next_issue.NextIssueTests.test_zero_and_multiple_eligible_never_invent_priority) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.059s
+
+OK

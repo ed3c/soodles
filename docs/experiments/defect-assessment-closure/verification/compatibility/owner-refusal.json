@@ -1,0 +1,30 @@
+{
+  "owner": "soodles.issue-atom",
+  "status": "refused",
+  "invalid": {
+    "field": "noodle.claim.exit",
+    "value": {
+      "exit_status": 1,
+      "diagnostic": "publication requires a non-blocking completed typed outcome"
+    }
+  },
+  "next": {
+    "kind": "input",
+    "owner": "Noodle",
+    "required": [
+      "fresh_noodle_claim"
+    ],
+    "known": {
+      "control_root": "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02",
+      "order_id": "soodles-195-1b701cc161ea",
+      "subject": "ed3c/soodles#195"
+    },
+    "argv": [
+      "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/issue-atom",
+      "run",
+      "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/admission-v1/authorization.json"
+    ],
+    "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+  },
+  "authorizes_landing": false
+}

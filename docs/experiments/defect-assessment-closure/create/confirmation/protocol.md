@@ -1,0 +1,1 @@
+Independent fresh confirmation after winner selection; no source edits or further optimization. Same three state families, new fixture Issue 231, head b, causal fingerprint and credential refusal input. Original criterion retained, no efficiency claim from incomplete baseline work. Product and fresh handoff findings are separate.

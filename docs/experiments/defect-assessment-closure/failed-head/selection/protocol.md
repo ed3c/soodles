@@ -1,0 +1,9 @@
+# Fresh local handoff microcomparison
+
+Scope: a fresh local Session receives an actual owner receipt from the fixed provider fixture, the available context and pinned repository instructions, and prepares the next Session handoff. This proves only that bounded transfer, not autonomous arbitrary bug repair.
+
+Carrier: reuse the existing pinned Noodle run_case.py/capture_adapter.py and same-profile OS read-denial probes; expected outcomes stay external. No native subagent or model-inherited conversation. Three selection strata: failed CI, normal queued CI, unavailable selected authorization. Input JSON and histories are fixtures, not live GitHub tasks. Fixed model, tools, neutral task and P source across baseline and r01 (CLI context treatment). r02 changes only the issue-atom P entry relative to r01. At most three rounds; compare both hypotheses before any efficiency claim. Use separate identities for held-out confirmation after candidate selection. Metrics: task completion, actual tool operations, avoidable user requests, invented routes; no success from word count. Preserve raw requests, terminal output, typed Noodle outcome and cleanup. A 20% median task-operation reduction is required for an efficiency claim; no such claim without valid baseline/final confirmation. Product correctness is scored separately.
+
+Missing or invalid capture is INCONCLUSIVE, not PASS. The external criterion file is fixed before the first model launch. Result semantics requiring interpretation must receive explicit trace review rather than regex-based certainty.
+
+V2 preparation fixes the carrier fixture Issue to 131, matching the task subject. V1 captures remain unscored calibration because their enclosing Issue 106 introduced an extraneous discrepancy. Queued and missing-authorization controls are generated from the actual owner response/refusal functions before model execution. Neither control is a live provider event.

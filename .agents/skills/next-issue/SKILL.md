@@ -30,10 +30,20 @@ Then consume the current next exactly.
   request once through the existing provider connector. Preserve the result and
   obtain the requested fresh Issue readback.
 - `next.kind=executable`: execute that argv exactly once. Local provider identity
-  comes from the supervisor environment, not from task text.
+  comes from the existing host provider registration. The CLI obtains the
+  repository-scoped App token itself; do not request a key path or token from
+  the user, assemble App environment, or substitute a manual HTTP command.
+  Its persisted create state prevents another POST on re-entry. A verified
+  successful create is followed by an exact Issue GET before terminal output.
 - `next.kind=provider_readback`: obtain only the emitted fresh provider readback
   and run the supported reconcile entry with that material. An unknown create
   outcome is never permission for another create mutation.
+
+Missing host registration returns a typed input to the host credential owner.
+An older intent without create state is readback-only because it may already
+have sent its request. Preserve HTTP status/request identity diagnostics and
+consume the current next; a list that has not yet shown the Issue is not proof
+that creation failed. Do not delete create state to make an intent executable.
 
 Do not discover a broader backlog, invent another candidate, infer product
 priority, reconstruct repository/title/body from prose, choose transport from

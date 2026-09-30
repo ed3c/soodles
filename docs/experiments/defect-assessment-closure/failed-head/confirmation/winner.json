@@ -1,0 +1,15 @@
+{
+  "winner": "r01 CLI context plus separately verified shared frozen-evidence gate",
+  "pclass": "retain original pinned instructions; no observed efficiency benefit for r02",
+  "gate_semantics": "required_paths blocks missing product/behavior/confirmation; frozen_paths now rejects substitution in local shared delivery as in candidate verify",
+  "efficiency_claim": false,
+  "reason": "All arms median 5 shell calls including carrier; no 20% reduction. Baseline omits necessary assessment, so its incomplete work is not a valid efficiency benchmark.",
+  "confirmation": "not run yet; no winner changes permitted without restarting confirmation",
+  "source_pins": {
+    "issue_atom.py": "5de64c72970d5ac62f2d0985fa5b8e612dcb97688d6407edadc021abd97d15e3",
+    "issue_admission.py": "f95cfe0af43c61120341d75064af5321663e7a0331f22166ae1a533626cae0bf",
+    ".agents/skills/issue-atom/SKILL.md": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2",
+    ".agents/skills/verify-soodles/features/pclass-context.md": "c41d2225a6cc6a30fe52b9f4c4544a412d22d90f5baa5895ce3a929e541f0384"
+  },
+  "authorizes_landing": false
+}

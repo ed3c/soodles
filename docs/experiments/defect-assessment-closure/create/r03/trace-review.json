@@ -1,0 +1,424 @@
+[
+  {
+    "run": "selection-r03-missing",
+    "run_root": "/private/tmp/soodles-activation-8g0wdrw2/run",
+    "structural_pass": true,
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "input",
+        "owner": "host credential owner",
+        "required": [
+          "provider_credential_profile.path"
+        ]
+      },
+      "work_remaining": [
+        {
+          "task": "Host credential owner must resolve the missing or invalid provider_credential_profile.path through existing host provider registration. Current owner status is refused and authorizes_landing is false; no provider action or landing has been executed by this handoff task.",
+          "basis_path": "/private/tmp/soodles-activation-8g0wdrw2/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "After the named input is resolved, obtain a fresh observation from the existing owner in an environment with host provider registration and consume its exact next. Production paths are unavailable in this local fixture capture; continuation has not been executed.",
+          "basis_path": "/private/tmp/soodles-activation-8g0wdrw2/run/control/.worktrees/soodles-131-0-execute/context.json"
+        },
+        {
+          "task": "Before any new next-issue preparation, require the existing landing owner’s exact classification=RESOLVED, phase=resolved, next=null receipt and the supervisor-supplied candidate packet, fresh frontier, route, and new external output directory. Do not infer readiness from this refused observation.",
+          "basis_path": "/private/tmp/soodles-activation-8g0wdrw2/run/control/.worktrees/soodles-131-0-execute/.agents/skills/next-issue/SKILL.md"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "field": "provider_credential_profile.path",
+          "owner": "host credential owner",
+          "observed_value": "missing-or-invalid",
+          "basis_path": "/private/tmp/soodles-activation-8g0wdrw2/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "id": "item_1",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md; cat input.json'",
+        "aggregated_output": "---\nname: execute\ndescription: one disposable carrier experiment\nschedule: fixture\n---\nConsume only the supplied bounded task. This is local fixture evidence, not provider delivery.\n{\n  \"owner\": \"owner.json\",\n  \"context\": \"context.json\",\n  \"instructions\": [\n    \".agents/skills/next-issue/SKILL.md\"\n  ],\n  \"scope\": \"Read current CLI observation and hand off this bounded task.\"\n}\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_2",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc 'pwd; cat owner.json context.json .agents/skills/next-issue/SKILL.md; rg --files -g AGENTS.md'",
+        "aggregated_output": "/private/tmp/soodles-activation-8g0wdrw2/run/control/.worktrees/soodles-131-0-execute\n{\n  \"owner\": \"next-issue\",\n  \"status\": \"refused\",\n  \"invalid\": {\n    \"field\": \"provider_credential_profile.path\",\n    \"value\": \"missing-or-invalid\"\n  },\n  \"next\": {\n    \"kind\": \"input\",\n    \"owner\": \"host credential owner\",\n    \"required\": [\n      \"provider_credential_profile.path\"\n    ]\n  },\n  \"authorizes_landing\": false\n}\n{\n  \"repository\": \"ed3c/soodles\",\n  \"issue\": 131,\n  \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"carrier\": \"local\",\n  \"capture_scope\": \"Fixture CLI observation only; host provider registration was unavailable. Referenced production paths are unavailable in this capture.\"\n}\n---\nname: next-issue\ndescription: Consume one resolved Soodles atom into at most one exact next-Issue provider identity.\n---\n\n# Next Issue\n\nUse this Skill only after the current landing owner has returned an exact\n`classification=RESOLVED`, `phase=resolved`, `next=null` receipt.\n\nThe supervisor supplies:\n- that resolved receipt;\n- one finite semantic candidate packet;\n- one complete fresh provider Issue frontier;\n- the selected Cloud/Local create route; and\n- one new external output directory.\n\nRun exactly:\n\n```sh\n./next-issue prepare RESOLVED.json CANDIDATES.json FRONTIER.json ROUTE.json /absolute/external/output\n```\n\nThen consume the current next exactly.\n\n- `action=stop`: no mechanically eligible candidate exists. Create nothing.\n- `next.kind=input`: return the named input to its owner. When multiple candidates\n  are eligible, only the supervisor may supply `selected_candidate`.\n- `next.kind=provider_write`: Cloud transport consumes the exact persisted create\n  request once through the existing provider connector. Preserve the result and\n  obtain the requested fresh Issue readback.\n- `next.kind=executable`: execute that argv exactly once. Local provider identity\n  comes from the existing host provider registration. The CLI obtains the\n  repository-scoped App token itself; do not request a key path or token from\n  the user, assemble App environment, or substitute a manual HTTP command.\n  Its persisted create state prevents another POST on re-entry. A verified\n  successful create is followed by an exact Issue GET before terminal output.\n- `next.kind=provider_readback`: obtain only the emitted fresh provider readback\n  and run the supported reconcile entry with that material. An unknown create\n  outcome is never permission for another create mutation.\n\nMissing host registration returns a typed input to the host credential owner.\nAn older intent without create state is readback-only because it may already\nhave sent its request. Preserve HTTP status/request identity diagnostics and\nconsume the current next; a list that has not yet shown the Issue is not proof\nthat creation failed. Do not delete create state to make an intent executable.\n\nDo not discover a broader backlog, invent another candidate, infer product\npriority, reconstruct repository/title/body from prose, choose transport from\ntool availability, or reuse historical create output. Candidate semantics come\nfrom the supervisor packet; eligibility comes from provider truth and the\nexecutable gate.\n\nTerminal success is one exact GitHub Issue identity matching the persisted\ncausal fingerprint. Stop there. Noodle completeness/scheduling/admission is a\nseparate downstream owner and is not part of this Skill.\n\nThis Skill is P-class guidance only. The executable discriminator and GitHub\nreadback own their narrower L/R claims; neither this text nor a local receipt\nauthorizes landing.\nzsh:1: operation not permitted: rg\n",
+        "exit_code": 127,
+        "status": "failed"
+      },
+      {
+        "id": "item_3",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nfrom pathlib import Path\np=Path.cwd()\nfor d in reversed([p,*p.parents]):\n f=d/'AGENTS.md'\n if f.is_file():\n  print(str(f)); print(f.read_text())\nPY\"",
+        "aggregated_output": "",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_5",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nroot=Path.cwd()\nowner=json.loads((root/'owner.json').read_text())\ncontext=json.loads((root/'context.json').read_text())\nreport={\n 'subject':{k:context[k] for k in ('repository','issue','head')},\n 'current_next':owner['next'],\n 'work_remaining':[\n  {'task':'Host credential owner must resolve the missing or invalid provider_credential_profile.path through existing host provider registration. Current owner status is refused and authorizes_landing is false; no provider action or landing has been executed by this handoff task.','basis_path':str(root/'owner.json')},\n  {'task':'After the named input is resolved, obtain a fresh observation from the existing owner in an environment with host provider registration and consume its exact next. Production paths are unavailable in this local fixture capture; continuation has not been executed.','basis_path':str(root/'context.json')},\n  {'task':'Before any new next-issue preparation, require the existing landing owner’s exact classification=RESOLVED, phase=resolved, next=null receipt and the supervisor-supplied candidate packet, fresh frontier, route, and new external output directory. Do not infer readiness from this refused observation.','basis_path':str(root/'.agents/skills/next-issue/SKILL.md')}\n ],\n 'unresolved_inputs':[\n  {'field':'provider_credential_profile.path','owner':'host credential owner','observed_value':owner['invalid']['value'],'basis_path':str(root/'owner.json')}\n ]\n}\nout=Path('/private/tmp/soodles-activation-8g0wdrw2/run/output')\nout.mkdir(parents=True,exist_ok=True)\np=out/'handoff.json'\np.write_text(json.dumps(report,indent=2)+'\\\\n')\ncheck=json.loads(p.read_text())\nassert check['current_next']==owner['next']\nassert check['subject']=={k:context[k] for k in ('repository','issue','head')}\nassert all(Path(w['basis_path']).is_file() for w in check['work_remaining'])\nprint('Wrote and verified '+str(p))\nPY\"",
+        "aggregated_output": "Wrote and verified /private/tmp/soodles-activation-8g0wdrw2/run/output/handoff.json\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_6",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle event emit --help'",
+        "aggregated_output": "Emit an external event\n\nUsage:\n  noodle event emit <type> [flags]\n\nFlags:\n  -h, --help             help for emit\n      --payload string   Event payload as JSON\n      --session string   Session ID (writes to session event log instead of loop event log)\n\nGlobal Flags:\n      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_7",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json, os, subprocess\npayload={\n 'message':'Completed bounded handoff task: wrote and verified /private/tmp/soodles-activation-8g0wdrw2/run/output/handoff.json, preserving the owner exact next and documenting remaining work. Owner remains refused on missing-or-invalid provider_credential_profile.path assigned to host credential owner. No provider writes, product changes, cleanup, or new lifecycle were performed.',\n 'blocking':False,\n 'outcome':'completed',\n 'order_id':os.environ['NOODLE_ORDER_ID'],\n 'stage_index':int(os.environ['NOODLE_STAGE_INDEX'])\n}\nnoodle_binary='/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle'\nsubprocess.run([noodle_binary,'--project-dir',os.environ['NOODLE_PROJECT_DIR'],'event','emit','stage_message','--session',os.environ['NOODLE_SESSION_ID'],'--payload',json.dumps(payload)],check=True)\nPY\"",
+        "aggregated_output": "config repairable: adapters.backlog: no backlog adapter configured Fix: Add [adapters.backlog] to .noodle.toml with adapter scripts.\n",
+        "exit_code": 0,
+        "status": "completed"
+      }
+    ],
+    "messages": [
+      "I’ll use the execute skill to inspect the assigned case and write the handoff, then emit the required Noodle outcome.\n",
+      "The owner refused to proceed because `provider_credential_profile.path` is missing or invalid. I’ll preserve its exact next step in the handoff and record that the host credential owner must resolve this input; no provider action has been executed.\n",
+      "Created and verified [handoff.json](/private/tmp/soodles-activation-8g0wdrw2/run/output/handoff.json), preserving the owner’s exact next step.\n\nContinuation requires the host credential owner to resolve `provider_credential_profile.path`. Emitted the required Noodle `completed` outcome for the handoff task. No provider writes or product changes were performed."
+    ],
+    "shell_calls_including_carrier": 6,
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 59.93627270916477,
+      "emitted_usage": [
+        {
+          "line": 18,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 109952,
+            "input_tokens": 116604,
+            "output_tokens": 1315,
+            "reasoning_output_tokens": 41
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 4294,
+      "process_exited_unix_ns": 1790746259178985000,
+      "session_id": "soodles-131-0-execute-20260930-052957-77e1e2",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "b16487d36b6fbac1bb4c12fd605d94eb7d9f3f461a104cf78818f44c1fd1a0ae",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 14914
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "selection-r03-ready",
+    "run_root": "/private/tmp/soodles-activation-koffieuy/run",
+    "structural_pass": true,
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": null,
+      "work_remaining": [],
+      "unresolved_inputs": [],
+      "observation": {
+        "owner": "next-issue",
+        "action": "created",
+        "issue": {
+          "repository": "ed3c/soodles",
+          "number": 131,
+          "html_url": "https://github.com/ed3c/soodles/issues/131"
+        },
+        "candidate_id": "fixture-continuation",
+        "fingerprint": "c8afcdd103786183e1d6036dde2c3b9e00cddb4b2c2c0b56ca877d6dc7caf153",
+        "authorizes_landing": false,
+        "basis_paths": [
+          "/private/tmp/soodles-activation-koffieuy/run/control/.worktrees/soodles-131-0-execute/input.json",
+          "/private/tmp/soodles-activation-koffieuy/run/control/.worktrees/soodles-131-0-execute/owner.json",
+          "/private/tmp/soodles-activation-koffieuy/run/control/.worktrees/soodles-131-0-execute/context.json",
+          "/private/tmp/soodles-activation-koffieuy/run/control/.worktrees/soodles-131-0-execute/.agents/skills/next-issue/SKILL.md"
+        ]
+      },
+      "continuation": "The supplied owner observation is terminal (action=created, next=null). No further action is supplied for this bounded task. Noodle completeness, scheduling, admission, cleanup, and any later lifecycle belong to the downstream owner. This handoff does not authorize landing.",
+      "evidence_scope": "Fixture CLI observation only; referenced production paths are unavailable in this capture. Host provider registration was available for this task.",
+      "actual_result": "Read the supplied local fixture observation and wrote this handoff. No provider writes, product changes, cleanup, physical observer execution, or new lifecycle were performed."
+    },
+    "commands": [
+      {
+        "id": "item_1",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc 'cat .agents/skills/execute/SKILL.md\ncat input.json'",
+        "aggregated_output": "---\nname: execute\ndescription: one disposable carrier experiment\nschedule: fixture\n---\nConsume only the supplied bounded task. This is local fixture evidence, not provider delivery.\n{\n  \"owner\": \"owner.json\",\n  \"context\": \"context.json\",\n  \"instructions\": [\n    \".agents/skills/next-issue/SKILL.md\"\n  ],\n  \"scope\": \"Read current CLI observation and hand off this bounded task.\"\n}\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_2",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc 'cat owner.json\ncat context.json\ncat .agents/skills/next-issue/SKILL.md\nif [ -f AGENTS.md ]; then cat AGENTS.md; fi'",
+        "aggregated_output": "{\n  \"owner\": \"next-issue\",\n  \"action\": \"created\",\n  \"candidate_id\": \"fixture-continuation\",\n  \"fingerprint\": \"c8afcdd103786183e1d6036dde2c3b9e00cddb4b2c2c0b56ca877d6dc7caf153\",\n  \"issue\": {\n    \"repository\": \"ed3c/soodles\",\n    \"number\": 131,\n    \"html_url\": \"https://github.com/ed3c/soodles/issues/131\"\n  },\n  \"next\": null,\n  \"authorizes_landing\": false\n}\n{\n  \"repository\": \"ed3c/soodles\",\n  \"issue\": 131,\n  \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"carrier\": \"local\",\n  \"capture_scope\": \"Fixture CLI observation only; referenced production paths are unavailable in this capture. Host provider registration was available for this task.\"\n}\n---\nname: next-issue\ndescription: Consume one resolved Soodles atom into at most one exact next-Issue provider identity.\n---\n\n# Next Issue\n\nUse this Skill only after the current landing owner has returned an exact\n`classification=RESOLVED`, `phase=resolved`, `next=null` receipt.\n\nThe supervisor supplies:\n- that resolved receipt;\n- one finite semantic candidate packet;\n- one complete fresh provider Issue frontier;\n- the selected Cloud/Local create route; and\n- one new external output directory.\n\nRun exactly:\n\n```sh\n./next-issue prepare RESOLVED.json CANDIDATES.json FRONTIER.json ROUTE.json /absolute/external/output\n```\n\nThen consume the current next exactly.\n\n- `action=stop`: no mechanically eligible candidate exists. Create nothing.\n- `next.kind=input`: return the named input to its owner. When multiple candidates\n  are eligible, only the supervisor may supply `selected_candidate`.\n- `next.kind=provider_write`: Cloud transport consumes the exact persisted create\n  request once through the existing provider connector. Preserve the result and\n  obtain the requested fresh Issue readback.\n- `next.kind=executable`: execute that argv exactly once. Local provider identity\n  comes from the existing host provider registration. The CLI obtains the\n  repository-scoped App token itself; do not request a key path or token from\n  the user, assemble App environment, or substitute a manual HTTP command.\n  Its persisted create state prevents another POST on re-entry. A verified\n  successful create is followed by an exact Issue GET before terminal output.\n- `next.kind=provider_readback`: obtain only the emitted fresh provider readback\n  and run the supported reconcile entry with that material. An unknown create\n  outcome is never permission for another create mutation.\n\nMissing host registration returns a typed input to the host credential owner.\nAn older intent without create state is readback-only because it may already\nhave sent its request. Preserve HTTP status/request identity diagnostics and\nconsume the current next; a list that has not yet shown the Issue is not proof\nthat creation failed. Do not delete create state to make an intent executable.\n\nDo not discover a broader backlog, invent another candidate, infer product\npriority, reconstruct repository/title/body from prose, choose transport from\ntool availability, or reuse historical create output. Candidate semantics come\nfrom the supervisor packet; eligibility comes from provider truth and the\nexecutable gate.\n\nTerminal success is one exact GitHub Issue identity matching the persisted\ncausal fingerprint. Stop there. Noodle completeness/scheduling/admission is a\nseparate downstream owner and is not part of this Skill.\n\nThis Skill is P-class guidance only. The executable discriminator and GitHub\nreadback own their narrower L/R claims; neither this text nor a local receipt\nauthorizes landing.\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_4",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nfrom pathlib import Path\nsource = Path.cwd()\nowner = json.loads((source / 'owner.json').read_text())\ncontext = json.loads((source / 'context.json').read_text())\noutput = Path('/private/tmp/soodles-activation-koffieuy/run/output')\noutput.mkdir(parents=True, exist_ok=True)\nhandoff = {\n    'subject': {key: context[key] for key in ('repository', 'issue', 'head')},\n    'current_next': owner['next'],\n    'work_remaining': [],\n    'unresolved_inputs': [],\n    'observation': {\n        'owner': owner['owner'],\n        'action': owner['action'],\n        'issue': owner['issue'],\n        'candidate_id': owner['candidate_id'],\n        'fingerprint': owner['fingerprint'],\n        'authorizes_landing': owner['authorizes_landing'],\n        'basis_paths': [str(source / name) for name in ('input.json', 'owner.json', 'context.json', '.agents/skills/next-issue/SKILL.md')],\n    },\n    'continuation': 'The supplied owner observation is terminal (action=created, next=null). No further action is supplied for this bounded task. Noodle completeness, scheduling, admission, cleanup, and any later lifecycle belong to the downstream owner. This handoff does not authorize landing.',\n    'evidence_scope': context['capture_scope'],\n    'actual_result': 'Read the supplied local fixture observation and wrote this handoff. No provider writes, product changes, cleanup, physical observer execution, or new lifecycle were performed.'\n}\npath = output / 'handoff.json'\npath.write_text(json.dumps(handoff, indent=2) + '\\\\n')\nassert json.loads(path.read_text())['current_next'] is None\nprint(path)\nprint(path.read_text())\nPY\"",
+        "aggregated_output": "/private/tmp/soodles-activation-koffieuy/run/output/handoff.json\n{\n  \"subject\": {\n    \"repository\": \"ed3c/soodles\",\n    \"issue\": 131,\n    \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n  },\n  \"current_next\": null,\n  \"work_remaining\": [],\n  \"unresolved_inputs\": [],\n  \"observation\": {\n    \"owner\": \"next-issue\",\n    \"action\": \"created\",\n    \"issue\": {\n      \"repository\": \"ed3c/soodles\",\n      \"number\": 131,\n      \"html_url\": \"https://github.com/ed3c/soodles/issues/131\"\n    },\n    \"candidate_id\": \"fixture-continuation\",\n    \"fingerprint\": \"c8afcdd103786183e1d6036dde2c3b9e00cddb4b2c2c0b56ca877d6dc7caf153\",\n    \"authorizes_landing\": false,\n    \"basis_paths\": [\n      \"/private/tmp/soodles-activation-koffieuy/run/control/.worktrees/soodles-131-0-execute/input.json\",\n      \"/private/tmp/soodles-activation-koffieuy/run/control/.worktrees/soodles-131-0-execute/owner.json\",\n      \"/private/tmp/soodles-activation-koffieuy/run/control/.worktrees/soodles-131-0-execute/context.json\",\n      \"/private/tmp/soodles-activation-koffieuy/run/control/.worktrees/soodles-131-0-execute/.agents/skills/next-issue/SKILL.md\"\n    ]\n  },\n  \"continuation\": \"The supplied owner observation is terminal (action=created, next=null). No further action is supplied for this bounded task. Noodle completeness, scheduling, admission, cleanup, and any later lifecycle belong to the downstream owner. This handoff does not authorize landing.\",\n  \"evidence_scope\": \"Fixture CLI observation only; referenced production paths are unavailable in this capture. Host provider registration was available for this task.\",\n  \"actual_result\": \"Read the supplied local fixture observation and wrote this handoff. No provider writes, product changes, cleanup, physical observer execution, or new lifecycle were performed.\"\n}\n\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_5",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport subprocess\nsubprocess.run(['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', 'event', 'emit', '--help'], check=True)\nPY\"",
+        "aggregated_output": "Emit an external event\n\nUsage:\n  noodle event emit <type> [flags]\n\nFlags:\n  -h, --help             help for emit\n      --payload string   Event payload as JSON\n      --session string   Session ID (writes to session event log instead of loop event log)\n\nGlobal Flags:\n      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_6",
+        "type": "command_execution",
+        "command": "/bin/zsh -lc \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 - <<'PY'\nimport json\nimport os\nimport subprocess\npayload = {\n    'message': 'Completed bounded read-only fixture inspection and wrote /private/tmp/soodles-activation-koffieuy/run/output/handoff.json. Preserved owner next=null, recorded subject and evidence limitations; no pending owner action or unresolved input. No provider writes, product changes, cleanup, physical observer execution, or new lifecycle performed.',\n    'blocking': False,\n    'outcome': 'completed',\n    'order_id': os.environ['NOODLE_ORDER_ID'],\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX']),\n}\nNOODLE_BINARY = '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle'\nsubprocess.run([NOODLE_BINARY, '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)], check=True)\nPY\"",
+        "aggregated_output": "config repairable: adapters.backlog: no backlog adapter configured Fix: Add [adapters.backlog] to .noodle.toml with adapter scripts.\n",
+        "exit_code": 0,
+        "status": "completed"
+      }
+    ],
+    "messages": [
+      "I’ll read the execute skill and assigned input, prepare the handoff in the output directory, then emit the required Noodle outcome.",
+      "The owner reports `action: created` for Issue #131 and `next: null`, so there is no pending owner action to hand off. I’ll preserve that result and note that the supplied evidence is limited to a local fixture observation.",
+      "Created [handoff.json](/private/tmp/soodles-activation-koffieuy/run/output/handoff.json), preserving `current_next: null` with no remaining owner actions or unresolved inputs.\n\nEmitted the Noodle `completed` outcome for the bounded handoff task. No provider writes, product changes, or new lifecycle were performed."
+    ],
+    "shell_calls_including_carrier": 5,
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 54.85616083396599,
+      "emitted_usage": [
+        {
+          "line": 16,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 93824,
+            "input_tokens": 100897,
+            "output_tokens": 1215,
+            "reasoning_output_tokens": 48
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 4233,
+      "process_exited_unix_ns": 1790746252778412000,
+      "session_id": "soodles-131-0-execute-20260930-052955-195d14",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "658df7b3e842008222f3494f6192fc9b9e6a3b9d58d53b45887a10afdd18a049",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 15549
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  },
+  {
+    "run": "selection-r03-unknown",
+    "run_root": "/private/tmp/soodles-activation-ms80w_td/run",
+    "structural_pass": true,
+    "handoff": {
+      "subject": {
+        "repository": "ed3c/soodles",
+        "issue": 131,
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "current_next": {
+        "kind": "provider_readback",
+        "owner": "GitHub",
+        "operation": "reconcile",
+        "required": [
+          "frontier"
+        ],
+        "known": {
+          "intent": "/private/fixture/selected-create/intent.json",
+          "causal_fingerprint": "c8afcdd103786183e1d6036dde2c3b9e00cddb4b2c2c0b56ca877d6dc7caf153"
+        },
+        "readback_path": "/private/fixture/selected-create/provider-frontier.json",
+        "argv": [
+          "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+          "-B",
+          "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/create-shortest-path/r03/sources/treatment/next-issue",
+          "reconcile",
+          "/private/fixture/selected-create/intent.json",
+          "/private/fixture/selected-create/provider-frontier.json"
+        ],
+        "requests": {
+          "issues": {
+            "method": "GET",
+            "url": "https://api.github.com/repos/ed3c/soodles/issues?state=all&per_page=100&page=1"
+          }
+        },
+        "reason": "Save the fresh complete provider frontier to readback_path, then execute argv unchanged. Unknown create outcome never permits another POST."
+      },
+      "work_remaining": [
+        {
+          "task": "In an authorized continuation with access to the persisted intent, obtain the fresh complete provider Issue frontier requested by current_next and save it to the exact readback_path. The current create outcome is unknown (fixture-lost-response); do not issue another POST.",
+          "basis_path": "/private/tmp/soodles-activation-ms80w_td/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        },
+        {
+          "task": "Once the required readback and referenced executable are available, execute current_next.argv unchanged and consume its actual result. Reconciliation has not been executed in this handoff task; landing is not authorized by the current owner output.",
+          "basis_path": "/private/tmp/soodles-activation-ms80w_td/run/control/.worktrees/soodles-131-0-execute/owner.json"
+        }
+      ],
+      "unresolved_inputs": [
+        {
+          "input": "Fresh complete provider Issue frontier",
+          "path": "/private/fixture/selected-create/provider-frontier.json",
+          "status": "Not obtained; this task permits local inspection and handoff writes only."
+        },
+        {
+          "input": "Persisted intent and supported reconcile executable",
+          "paths": [
+            "/private/fixture/selected-create/intent.json",
+            "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/create-shortest-path/r03/sources/treatment/next-issue"
+          ],
+          "status": "Referenced production paths are unavailable in this capture, as stated by context.json. Access is required in the continuation."
+        },
+        {
+          "input": "Exact reconciled provider Issue identity",
+          "status": "Unknown pending readback and reconciliation; provider_mutations is null and action is unknown."
+        }
+      ]
+    },
+    "commands": [
+      {
+        "id": "item_1",
+        "type": "command_execution",
+        "command": "/bin/zsh -c 'cat .agents/skills/execute/SKILL.md'",
+        "aggregated_output": "---\nname: execute\ndescription: one disposable carrier experiment\nschedule: fixture\n---\nConsume only the supplied bounded task. This is local fixture evidence, not provider delivery.\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_2",
+        "type": "command_execution",
+        "command": "/bin/zsh -c 'cat input.json'",
+        "aggregated_output": "{\n  \"owner\": \"owner.json\",\n  \"context\": \"context.json\",\n  \"instructions\": [\n    \".agents/skills/next-issue/SKILL.md\"\n  ],\n  \"scope\": \"Read current CLI observation and hand off this bounded task.\"\n}\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_3",
+        "type": "command_execution",
+        "command": "/bin/zsh -c 'if [ -f AGENTS.md ]; then cat AGENTS.md; fi'",
+        "aggregated_output": "",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_4",
+        "type": "command_execution",
+        "command": "/bin/zsh -c 'cat owner.json context.json .agents/skills/next-issue/SKILL.md'",
+        "aggregated_output": "{\n  \"owner\": \"next-issue.execute\",\n  \"action\": \"unknown\",\n  \"provider_mutations\": null,\n  \"next\": {\n    \"kind\": \"provider_readback\",\n    \"owner\": \"GitHub\",\n    \"operation\": \"reconcile\",\n    \"required\": [\n      \"frontier\"\n    ],\n    \"known\": {\n      \"intent\": \"/private/fixture/selected-create/intent.json\",\n      \"causal_fingerprint\": \"c8afcdd103786183e1d6036dde2c3b9e00cddb4b2c2c0b56ca877d6dc7caf153\"\n    },\n    \"readback_path\": \"/private/fixture/selected-create/provider-frontier.json\",\n    \"argv\": [\n      \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14\",\n      \"-B\",\n      \"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/create-shortest-path/r03/sources/treatment/next-issue\",\n      \"reconcile\",\n      \"/private/fixture/selected-create/intent.json\",\n      \"/private/fixture/selected-create/provider-frontier.json\"\n    ],\n    \"requests\": {\n      \"issues\": {\n        \"method\": \"GET\",\n        \"url\": \"https://api.github.com/repos/ed3c/soodles/issues?state=all&per_page=100&page=1\"\n      }\n    },\n    \"reason\": \"Save the fresh complete provider frontier to readback_path, then execute argv unchanged. Unknown create outcome never permits another POST.\"\n  },\n  \"diagnostic\": {\n    \"reason\": \"fixture-lost-response\"\n  },\n  \"authorizes_landing\": false\n}\n{\n  \"repository\": \"ed3c/soodles\",\n  \"issue\": 131,\n  \"head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"carrier\": \"local\",\n  \"capture_scope\": \"Fixture CLI observation only; referenced production paths are unavailable in this capture. Host provider registration was available for this task.\"\n}\n---\nname: next-issue\ndescription: Consume one resolved Soodles atom into at most one exact next-Issue provider identity.\n---\n\n# Next Issue\n\nUse this Skill only after the current landing owner has returned an exact\n`classification=RESOLVED`, `phase=resolved`, `next=null` receipt.\n\nThe supervisor supplies:\n- that resolved receipt;\n- one finite semantic candidate packet;\n- one complete fresh provider Issue frontier;\n- the selected Cloud/Local create route; and\n- one new external output directory.\n\nRun exactly:\n\n```sh\n./next-issue prepare RESOLVED.json CANDIDATES.json FRONTIER.json ROUTE.json /absolute/external/output\n```\n\nThen consume the current next exactly.\n\n- `action=stop`: no mechanically eligible candidate exists. Create nothing.\n- `next.kind=input`: return the named input to its owner. When multiple candidates\n  are eligible, only the supervisor may supply `selected_candidate`.\n- `next.kind=provider_write`: Cloud transport consumes the exact persisted create\n  request once through the existing provider connector. Preserve the result and\n  obtain the requested fresh Issue readback.\n- `next.kind=executable`: execute that argv exactly once. Local provider identity\n  comes from the existing host provider registration. The CLI obtains the\n  repository-scoped App token itself; do not request a key path or token from\n  the user, assemble App environment, or substitute a manual HTTP command.\n  Its persisted create state prevents another POST on re-entry. A verified\n  successful create is followed by an exact Issue GET before terminal output.\n- `next.kind=provider_readback`: obtain only the emitted fresh provider readback\n  and run the supported reconcile entry with that material. An unknown create\n  outcome is never permission for another create mutation.\n\nMissing host registration returns a typed input to the host credential owner.\nAn older intent without create state is readback-only because it may already\nhave sent its request. Preserve HTTP status/request identity diagnostics and\nconsume the current next; a list that has not yet shown the Issue is not proof\nthat creation failed. Do not delete create state to make an intent executable.\n\nDo not discover a broader backlog, invent another candidate, infer product\npriority, reconstruct repository/title/body from prose, choose transport from\ntool availability, or reuse historical create output. Candidate semantics come\nfrom the supervisor packet; eligibility comes from provider truth and the\nexecutable gate.\n\nTerminal success is one exact GitHub Issue identity matching the persisted\ncausal fingerprint. Stop there. Noodle completeness/scheduling/admission is a\nseparate downstream owner and is not part of this Skill.\n\nThis Skill is P-class guidance only. The executable discriminator and GitHub\nreadback own their narrower L/R claims; neither this text nor a local receipt\nauthorizes landing.\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_6",
+        "type": "command_execution",
+        "command": "/bin/zsh -c \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -B - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path.cwd()\nowner = json.loads((root / 'owner.json').read_text())\ncontext = json.loads((root / 'context.json').read_text())\nhandoff = {\n    'subject': {key: context[key] for key in ('repository', 'issue', 'head')},\n    'current_next': owner['next'],\n    'work_remaining': [\n        {'task': 'In an authorized continuation with access to the persisted intent, obtain the fresh complete provider Issue frontier requested by current_next and save it to the exact readback_path. The current create outcome is unknown (fixture-lost-response); do not issue another POST.', 'basis_path': str(root / 'owner.json')},\n        {'task': 'Once the required readback and referenced executable are available, execute current_next.argv unchanged and consume its actual result. Reconciliation has not been executed in this handoff task; landing is not authorized by the current owner output.', 'basis_path': str(root / 'owner.json')}\n    ],\n    'unresolved_inputs': [\n        {'input': 'Fresh complete provider Issue frontier', 'path': owner['next']['readback_path'], 'status': 'Not obtained; this task permits local inspection and handoff writes only.'},\n        {'input': 'Persisted intent and supported reconcile executable', 'paths': [owner['next']['known']['intent'], owner['next']['argv'][2]], 'status': 'Referenced production paths are unavailable in this capture, as stated by context.json. Access is required in the continuation.'},\n        {'input': 'Exact reconciled provider Issue identity', 'status': 'Unknown pending readback and reconciliation; provider_mutations is null and action is unknown.'}\n    ]\n}\nout = Path('/private/tmp/soodles-activation-ms80w_td/run/output')\nout.mkdir(parents=True, exist_ok=True)\np = out / 'handoff.json'\np.write_text(json.dumps(handoff, indent=2) + '\\\\n')\nsaved = json.loads(p.read_text())\nassert saved['current_next'] == owner['next']\nassert saved['subject'] == {key: context[key] for key in ('repository', 'issue', 'head')}\nassert all(set(item) == {'task', 'basis_path'} for item in saved['work_remaining'])\nprint(f'Wrote and validated {p}')\nPY\"",
+        "aggregated_output": "Wrote and validated /private/tmp/soodles-activation-ms80w_td/run/output/handoff.json\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_7",
+        "type": "command_execution",
+        "command": "/bin/zsh -c \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -B - <<'PY'\nimport subprocess\nsubprocess.run(['/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle', 'event', 'emit', '--help'], check=True)\nPY\"",
+        "aggregated_output": "Emit an external event\n\nUsage:\n  noodle event emit <type> [flags]\n\nFlags:\n  -h, --help             help for emit\n      --payload string   Event payload as JSON\n      --session string   Session ID (writes to session event log instead of loop event log)\n\nGlobal Flags:\n      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)\n",
+        "exit_code": 0,
+        "status": "completed"
+      },
+      {
+        "id": "item_8",
+        "type": "command_execution",
+        "command": "/bin/zsh -c \"/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14 -B - <<'PY'\nimport json\nimport os\nimport subprocess\nbinary = '/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle'\npayload = {\n    'message': 'Completed bounded local handoff task: wrote and validated /private/tmp/soodles-activation-ms80w_td/run/output/handoff.json with exact subject and unchanged owner next, remaining readback/reconcile work, and unresolved inputs. No provider readback, reconciliation, product changes, cleanup, or next lifecycle was executed.',\n    'blocking': False,\n    'outcome': 'completed',\n    'order_id': os.environ['NOODLE_ORDER_ID'],\n    'stage_index': int(os.environ['NOODLE_STAGE_INDEX'])\n}\nsubprocess.run([binary, '--project-dir', os.environ['NOODLE_PROJECT_DIR'], 'event', 'emit', 'stage_message', '--session', os.environ['NOODLE_SESSION_ID'], '--payload', json.dumps(payload)], check=True)\nPY\"",
+        "aggregated_output": "config repairable: adapters.backlog: no backlog adapter configured Fix: Add [adapters.backlog] to .noodle.toml with adapter scripts.\n",
+        "exit_code": 0,
+        "status": "completed"
+      }
+    ],
+    "messages": [
+      "I’ll use the execute skill to inspect the assigned input and owner output, write the handoff, and emit the required Noodle outcome.",
+      "The owner reports an unknown create outcome and requires provider readback before reconciliation. I’ll preserve that exact next step in the handoff and record the unavailable inputs. Provider work is outside this task’s scope.",
+      "Created and validated [handoff.json](/private/tmp/soodles-activation-ms80w_td/run/output/handoff.json), preserving the owner’s exact next step and documenting remaining work and unresolved inputs.\n\nEmitted the completed Noodle outcome. Provider readback and reconciliation remain unexecuted."
+    ],
+    "shell_calls_including_carrier": 7,
+    "exit": {
+      "billing": "unknown",
+      "capture_errors": [],
+      "complete_tool_process_capture": "unknown",
+      "drained": true,
+      "elapsed_seconds": 59.99492250010371,
+      "emitted_usage": [
+        {
+          "line": 20,
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 89856,
+            "input_tokens": 101200,
+            "output_tokens": 1313,
+            "reasoning_output_tokens": 46
+          }
+        }
+      ],
+      "exit": 0,
+      "forwarding_order": "actual process exit -> both stream EOF/fsync -> atomic exit.json -> original terminal suffix",
+      "non_json_lines": [],
+      "pid": 4234,
+      "process_exited_unix_ns": 1790746258059229000,
+      "session_id": "soodles-131-0-execute-20260930-052956-4d32f5",
+      "stderr_sha256": "3e75d28a6681c31400a3f0fcb564c7613fd42796fb83294e4d53fea86bcbd401",
+      "stdout_sha256": "14b58d9e071a77006430425d849c56863177bb9625bc6878e62cca4028c99df1",
+      "streams_eof": {
+        "stderr.bin": true,
+        "stdout.bin": true
+      },
+      "terminal_suffix_offset": 16316
+    },
+    "cleanup": {
+      "temporary_runtime_removed": true,
+      "credential_bytes_archived": false
+    }
+  }
+]

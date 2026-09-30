@@ -1,0 +1,321 @@
+{
+  "archive": "product-verification.tar.gz",
+  "sha256": "583d4493f01aee9f9de82364f24a8ef82ca5fed16d6022892b566e8c35668c86",
+  "members": [
+    {
+      "path": "baseline/base_recovery_oracle.py",
+      "sha256": "fb59735cbdb679d7a6056d1f698f8b8c532fb6388b9d5e1f332d26f78ace5369",
+      "bytes": 18590
+    },
+    {
+      "path": "baseline/candidate_publication.py",
+      "sha256": "6fbd467cc7b17eec182d59a3a8aa277d88da5b88b821c87f75ce92d5c7de01da",
+      "bytes": 25919
+    },
+    {
+      "path": "baseline/cleanup_lock_oracle.py",
+      "sha256": "da40093a1d3f180920dccdc9d562d95e64e2c2ece53a3490bd75c45e99c4f7ff",
+      "bytes": 11003
+    },
+    {
+      "path": "baseline/cleanup_oracle.py",
+      "sha256": "8e7b9502301668c1268fdeb5f0d8ae6f9b6bc5f45c6974dd7b1ed524cb6ed640",
+      "bytes": 10465
+    },
+    {
+      "path": "baseline/delivery_oracle.py",
+      "sha256": "f05fc652085e58f4106947eb111b7b7da7f19f5895aef8dddf5a74263a455b38",
+      "bytes": 18978
+    },
+    {
+      "path": "baseline/dependency_binding.py",
+      "sha256": "d7a6e43e8bace3de378c8b07fc87a3b52f7b63564fbf2bd2f54e5188fdb266b0",
+      "bytes": 11180
+    },
+    {
+      "path": "baseline/github_reader.py",
+      "sha256": "fe77af00f49e249a61265e850aff1c22b857018dec1d5cbd28e8d3fd2fabf6aa",
+      "bytes": 8495
+    },
+    {
+      "path": "baseline/handoff_oracle.py",
+      "sha256": "07823abd99bfcfacc89a14779fc2762e98a4ea1d8de338c98785ace3507dac89",
+      "bytes": 17870
+    },
+    {
+      "path": "baseline/issue-atom",
+      "sha256": "2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c",
+      "bytes": 51
+    },
+    {
+      "path": "baseline/issue_admission.py",
+      "sha256": "6bb652a9c1b41f9ad68b83fbf589bcf2a668b80eca6944752497c152798889fa",
+      "bytes": 41913
+    },
+    {
+      "path": "baseline/issue_atom.py",
+      "sha256": "3950d5b3a051f0d29faede076eccad8b28a9526278232b7a1a0e629caddf5c52",
+      "bytes": 122814
+    },
+    {
+      "path": "baseline/issue_execution.py",
+      "sha256": "98f024846838a46edb7fb15f03930b6411cbe63ec6aee3b3697ec590061d5a26",
+      "bytes": 57957
+    },
+    {
+      "path": "baseline/landing.py",
+      "sha256": "8dbc0bd9b06d179b690e34920bfc01a8680716a5fce3597c76c5f8409b57b340",
+      "bytes": 57449
+    },
+    {
+      "path": "baseline/landing_supervisor.py",
+      "sha256": "c4ea20f778222f000dafbaec75147ae9a41568b9bb2a07eb0bb224f8fe5257cb",
+      "bytes": 16993
+    },
+    {
+      "path": "baseline/next_issue.py",
+      "sha256": "9266c1065ec765dab03baf6f1ef972cd144008e97528e389b2ea483885e0d51f",
+      "bytes": 22879
+    },
+    {
+      "path": "baseline/policy/runtime.lock.json",
+      "sha256": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+      "bytes": 361
+    },
+    {
+      "path": "baseline/portable_packet.py",
+      "sha256": "4a6f0147f00700aed228251880f54e8f14e5cdeb0df84849640ce8e163222691",
+      "bytes": 13762
+    },
+    {
+      "path": "baseline/provider_credential.py",
+      "sha256": "9ad545cfeb7368c400c937e9a66b7607e9815b7751900e298c72cc4ac82a33bb",
+      "bytes": 6159
+    },
+    {
+      "path": "baseline/provider_readback.py",
+      "sha256": "abe12628d75295b7508164ff3135e661ac5285722d385d55e60291022bc6b41d",
+      "bytes": 19764
+    },
+    {
+      "path": "baseline/provider_transport.py",
+      "sha256": "8b9112eb6f5ab51d54ed20cf671ac3ec6ed9113e4d3118d3e7b4998c6581fb79",
+      "bytes": 8897
+    },
+    {
+      "path": "baseline/report_evaluation.py",
+      "sha256": "d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231",
+      "bytes": 10519
+    },
+    {
+      "path": "baseline/repository_binding.py",
+      "sha256": "9259641b37b7e313037e1bc8bd078db6337c19e9405fcead20df0b8349557af1",
+      "bytes": 1729
+    },
+    {
+      "path": "baseline/resume_oracle.py",
+      "sha256": "71ff3977e3c888aafd59d498b7a45feba08555043c784e242be3c1d91109bc03",
+      "bytes": 7096
+    },
+    {
+      "path": "baseline/soodles",
+      "sha256": "cb3c6c81534e99a3ecf25f6c5d9cc2024bae2b9d2672afddb96fba37deda144d",
+      "bytes": 60
+    },
+    {
+      "path": "baseline/soodles.py",
+      "sha256": "680d1702b9a5fd377ac26c9a4769936ca9a4ab0cea9c00a6ddb563c02d5ba531",
+      "bytes": 34392
+    },
+    {
+      "path": "baseline/supervisor_admission.py",
+      "sha256": "5fd5887d2d5b440916aadd54b4859720b4a6561a8422bb897dbf89ccb6a832bd",
+      "bytes": 39420
+    },
+    {
+      "path": "comparison-tests.txt",
+      "sha256": "4a5af267f8402c0b61e792a574143949a54946cd7de119b8bd16e785d47e3141",
+      "bytes": 1952
+    },
+    {
+      "path": "freeze.json",
+      "sha256": "a9ce04e4917dd302151773973ef9600f3344a8ee5ffb8f6953ef585833c34ac0",
+      "bytes": 5355
+    },
+    {
+      "path": "gate-baseline.json",
+      "sha256": "74dce2dfc75fe56314dc560fe50a57f42d6c4f7b1ba55fef3bd777d1ab07e9c4",
+      "bytes": 4318
+    },
+    {
+      "path": "gate-treatment.json",
+      "sha256": "15a70ae901f4eacbfe08f4bce7a97adad416ff4b90ddb886c8e41bf2d6eed968",
+      "bytes": 4873
+    },
+    {
+      "path": "gate_probe.py",
+      "sha256": "ed003fc80bcfb110d2c4e8427f32207604967f61b3c4f99750a3337fb5890643",
+      "bytes": 4374
+    },
+    {
+      "path": "issue-atom-tests.txt",
+      "sha256": "f0d972f32d17895f76737200f26aeb3d3758857ced7fadb2d821e42488be7950",
+      "bytes": 10572
+    },
+    {
+      "path": "local-continuation-final.txt",
+      "sha256": "8bdeb271697a0445f357abd06b0895df46759be33833b67280958475db08e57c",
+      "bytes": 4051
+    },
+    {
+      "path": "observe.py",
+      "sha256": "46783184073cc44599e83d2bfd048024bc0aba9893544ca54680a38ab5df0203",
+      "bytes": 4750
+    },
+    {
+      "path": "process-results.json",
+      "sha256": "14674e004053f343f71e3a65fc8458c74a82e2b89e2fc9bf2c410c1d11fd79a7",
+      "bytes": 14126
+    },
+    {
+      "path": "shared-owner-tests.json",
+      "sha256": "775bc47154b31f7f130d423d4b6c83bd98ba1c1ec041a3851fa143e9593780a8",
+      "bytes": 516
+    },
+    {
+      "path": "shared-owner-tests.txt",
+      "sha256": "26a25cb9fab333003a8b78f2a5f8d3688016bc7fb750a075a6ecd9239a8edac5",
+      "bytes": 12939
+    },
+    {
+      "path": "treatment/base_recovery_oracle.py",
+      "sha256": "fb59735cbdb679d7a6056d1f698f8b8c532fb6388b9d5e1f332d26f78ace5369",
+      "bytes": 18590
+    },
+    {
+      "path": "treatment/candidate_publication.py",
+      "sha256": "6fbd467cc7b17eec182d59a3a8aa277d88da5b88b821c87f75ce92d5c7de01da",
+      "bytes": 25919
+    },
+    {
+      "path": "treatment/cleanup_lock_oracle.py",
+      "sha256": "da40093a1d3f180920dccdc9d562d95e64e2c2ece53a3490bd75c45e99c4f7ff",
+      "bytes": 11003
+    },
+    {
+      "path": "treatment/cleanup_oracle.py",
+      "sha256": "8e7b9502301668c1268fdeb5f0d8ae6f9b6bc5f45c6974dd7b1ed524cb6ed640",
+      "bytes": 10465
+    },
+    {
+      "path": "treatment/delivery_oracle.py",
+      "sha256": "f05fc652085e58f4106947eb111b7b7da7f19f5895aef8dddf5a74263a455b38",
+      "bytes": 18978
+    },
+    {
+      "path": "treatment/dependency_binding.py",
+      "sha256": "d7a6e43e8bace3de378c8b07fc87a3b52f7b63564fbf2bd2f54e5188fdb266b0",
+      "bytes": 11180
+    },
+    {
+      "path": "treatment/github_reader.py",
+      "sha256": "fe77af00f49e249a61265e850aff1c22b857018dec1d5cbd28e8d3fd2fabf6aa",
+      "bytes": 8495
+    },
+    {
+      "path": "treatment/handoff_oracle.py",
+      "sha256": "07823abd99bfcfacc89a14779fc2762e98a4ea1d8de338c98785ace3507dac89",
+      "bytes": 17870
+    },
+    {
+      "path": "treatment/issue-atom",
+      "sha256": "2898c5a28d31363d7250c121fea2b702b619da6b1ccac7194e7457e16d38993c",
+      "bytes": 51
+    },
+    {
+      "path": "treatment/issue_admission.py",
+      "sha256": "6bb652a9c1b41f9ad68b83fbf589bcf2a668b80eca6944752497c152798889fa",
+      "bytes": 41913
+    },
+    {
+      "path": "treatment/issue_atom.py",
+      "sha256": "5de64c72970d5ac62f2d0985fa5b8e612dcb97688d6407edadc021abd97d15e3",
+      "bytes": 123803
+    },
+    {
+      "path": "treatment/issue_execution.py",
+      "sha256": "98f024846838a46edb7fb15f03930b6411cbe63ec6aee3b3697ec590061d5a26",
+      "bytes": 57957
+    },
+    {
+      "path": "treatment/landing.py",
+      "sha256": "8dbc0bd9b06d179b690e34920bfc01a8680716a5fce3597c76c5f8409b57b340",
+      "bytes": 57449
+    },
+    {
+      "path": "treatment/landing_supervisor.py",
+      "sha256": "c4ea20f778222f000dafbaec75147ae9a41568b9bb2a07eb0bb224f8fe5257cb",
+      "bytes": 16993
+    },
+    {
+      "path": "treatment/next_issue.py",
+      "sha256": "9266c1065ec765dab03baf6f1ef972cd144008e97528e389b2ea483885e0d51f",
+      "bytes": 22879
+    },
+    {
+      "path": "treatment/policy/runtime.lock.json",
+      "sha256": "08a67f0c1923a4998d29dd028d62afac0f23c9794975189289644ecc4ad06830",
+      "bytes": 361
+    },
+    {
+      "path": "treatment/portable_packet.py",
+      "sha256": "4a6f0147f00700aed228251880f54e8f14e5cdeb0df84849640ce8e163222691",
+      "bytes": 13762
+    },
+    {
+      "path": "treatment/provider_credential.py",
+      "sha256": "9ad545cfeb7368c400c937e9a66b7607e9815b7751900e298c72cc4ac82a33bb",
+      "bytes": 6159
+    },
+    {
+      "path": "treatment/provider_readback.py",
+      "sha256": "abe12628d75295b7508164ff3135e661ac5285722d385d55e60291022bc6b41d",
+      "bytes": 19764
+    },
+    {
+      "path": "treatment/provider_transport.py",
+      "sha256": "8b9112eb6f5ab51d54ed20cf671ac3ec6ed9113e4d3118d3e7b4998c6581fb79",
+      "bytes": 8897
+    },
+    {
+      "path": "treatment/report_evaluation.py",
+      "sha256": "d9db1c7e35a30a8eda97d3aab5aceaa66926be630f91a5ca92548ff586763231",
+      "bytes": 10519
+    },
+    {
+      "path": "treatment/repository_binding.py",
+      "sha256": "9259641b37b7e313037e1bc8bd078db6337c19e9405fcead20df0b8349557af1",
+      "bytes": 1729
+    },
+    {
+      "path": "treatment/resume_oracle.py",
+      "sha256": "71ff3977e3c888aafd59d498b7a45feba08555043c784e242be3c1d91109bc03",
+      "bytes": 7096
+    },
+    {
+      "path": "treatment/soodles",
+      "sha256": "cb3c6c81534e99a3ecf25f6c5d9cc2024bae2b9d2672afddb96fba37deda144d",
+      "bytes": 60
+    },
+    {
+      "path": "treatment/soodles.py",
+      "sha256": "680d1702b9a5fd377ac26c9a4769936ca9a4ab0cea9c00a6ddb563c02d5ba531",
+      "bytes": 34392
+    },
+    {
+      "path": "treatment/supervisor_admission.py",
+      "sha256": "5fd5887d2d5b440916aadd54b4859720b4a6561a8422bb897dbf89ccb6a832bd",
+      "bytes": 39420
+    }
+  ]
+}

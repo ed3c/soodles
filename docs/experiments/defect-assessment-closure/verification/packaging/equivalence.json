@@ -1,0 +1,23 @@
+{
+  "scope": "Lossless archival packaging only; no runtime or consumer-visible instruction change.",
+  "raw_patch_sha256": "c7cce40ea2c94037e664026c0ac3607479d25f5d39ecf8cf49aedbfaa54a0a6f",
+  "gzip_sha256": "7e5eba6e231b513f52140470b444d0b40351d8adb296e6dea2d6b724184aa174",
+  "decompressed_exactly_equal": true,
+  "prior_product_suite": {
+    "tests": 526,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "source_bytes_unchanged": {
+    "issue_atom.py": true,
+    "issue_admission.py": true,
+    "next_issue.py": true,
+    ".agents/skills/next-issue/SKILL.md": true,
+    "tests/test_next_issue.py": true,
+    "tests/test_local_continuation.py": true,
+    "tests/test_comparison_gate.py": true
+  },
+  "behavior_assessment": "P-class, task inputs and CLI source exactly unchanged from v2; previous bounded fresh evidence retained with existing compatibility bridge. No claim of newly executed fresh consumers for archive format.",
+  "authorizes_landing": false
+}

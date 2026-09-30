@@ -1,0 +1,6 @@
+{
+  "scope": "Proceed under latest user-restated correctness/evidence objective, keeping failed efficiency experiment explicit.",
+  "user_instruction": "重現並修正既有缺陷恢復流程依賴使用者再提示兩層評估的缺口。沿用既有 P-class、CLI owner、evals 方法與交付路徑，自動提供当前任務上下文／next，拒絕缺少必需產品或 fresh 行為證據的完成；固定判準、bounded comparison、independent telemetry、confirmation 優先重用 controls，以狀態／副作用等價證據決定是否重構，避免新增通用引擎或 scheduler。",
+  "efficiency_experiment": "FAILED; unchanged historical 20% criterion",
+  "authorizes_landing": false
+}

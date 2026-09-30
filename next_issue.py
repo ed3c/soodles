@@ -7,6 +7,7 @@ create intent, narrow local create transport, and exact provider readback
 adoption. It never invents product priority or a new task.
 """
 import argparse
+import fcntl
 import hashlib
 import json
 import os
@@ -19,6 +20,7 @@ import urllib.error
 import urllib.request
 
 import issue_admission
+import provider_credential
 from repository_binding import profile
 
 
@@ -39,7 +41,9 @@ class NextIssueRefusal(RuntimeError):
 
 
 class ProviderUnknown(RuntimeError):
-    pass
+    def __init__(self, reason, diagnostic=None):
+        super().__init__(reason)
+        self.diagnostic = diagnostic or {"reason": reason}
 
 
 def require(condition, field, value, *, owner="supervisor", required="corrected_next_issue_input"):
@@ -272,6 +276,11 @@ def _persist(output, intent, report):
     try:
         (temporary / "intent.json").write_bytes(_canonical(intent))
         (temporary / "qualification.json").write_bytes(_canonical(report))
+        if intent["route"] == "local":
+            _save_create_state(temporary / "create-state.json", {
+                "intent_sha256": hashlib.sha256(_canonical(intent)).hexdigest(),
+                "phase": "ready",
+            })
         os.rename(temporary, output)
     except BaseException:
         shutil.rmtree(temporary, ignore_errors=True)
@@ -389,17 +398,19 @@ def prepare(resolved, packet, frontier, route, output):
     }
 
 
-def _token(environ):
-    gh = (environ.get("GH_TOKEN") or "").strip()
-    github = (environ.get("GITHUB_TOKEN") or "").strip()
-    require(not (gh and github and gh != github),
-            "credential.identity", "conflicting",
-            required="single_provider_credential")
-    token = gh or github
-    require(bool(token) and not any(ch.isspace() for ch in token),
-            "credential", "missing_or_malformed",
-            required="supervisor_injected_GH_TOKEN")
-    return token
+def _token(repository, environ):
+    require(not any(key in environ for key in ("NOODLE_SESSION_ID", "NOODLE_ORDER_ID")),
+            "credential.context", "child", owner="host credential owner",
+            required="supervisor_host_context")
+    try:
+        host = provider_credential.resolve_host_environment(
+            Path(__file__).resolve().parent, environ=environ)
+        return provider_credential.supply_token(
+            repository, {"issues": "write"}, environ=host)
+    except provider_credential.CredentialRefusal as error:
+        raise NextIssueRefusal(
+            error.field, error.value,
+            owner="host credential owner", required=error.required) from None
 
 
 def _http(method, url, payload, token):
@@ -410,26 +421,26 @@ def _http(method, url, payload, token):
             "Authorization": "Bearer " + token,
             "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent": "soodles-next-issue",
             **({"Content-Type": "application/json"} if body is not None else {}),
         })
     try:
         with urllib.request.urlopen(request, timeout=30) as response:
             raw = response.read()
     except urllib.error.HTTPError as error:
-        detail = error.read().decode("utf-8", errors="replace")[:500]
-        raise NextIssueRefusal(
-            "provider.http", f"{error.code}:{detail}",
-            owner="GitHub", required="provider_issue_create_readback"
-        ) from error
+        # Keep only safe transport metadata, never echoed credentials or bodies.
+        diagnostic = {
+            "status": error.code,
+            "request_id": error.headers.get("X-GitHub-Request-Id"),
+        }
+        error.close()
+        raise ProviderUnknown("provider.http", diagnostic) from error
     except (urllib.error.URLError, TimeoutError, OSError) as error:
         raise ProviderUnknown(type(error).__name__) from error
     try:
         return json.loads(raw) if raw else {}
     except ValueError as error:
-        raise NextIssueRefusal(
-            "provider.json", url,
-            owner="GitHub", required="valid_provider_response"
-        ) from error
+        raise ProviderUnknown("provider.json") from error
 
 
 def _api(api, method, url, payload, token):
@@ -466,22 +477,57 @@ def _terminal(issue, intent):
 
 def _readback_next(intent_path, intent):
     repository = intent["request"]["repository_full_name"]
+    intent_path = Path(intent_path).resolve()
+    frontier_path = intent_path.with_name("provider-frontier.json")
     return {
         "kind": "provider_readback",
         "owner": "GitHub",
         "operation": "reconcile",
         "required": ["frontier"],
         "known": {
-            "intent": str(Path(intent_path).resolve()),
+            "intent": str(intent_path),
             "causal_fingerprint": intent["fingerprint"],
         },
+        "readback_path": str(frontier_path),
+        "argv": [os.path.realpath(sys.executable), "-B",
+                 str(Path(__file__).resolve().parent / "next-issue"),
+                 "reconcile", str(intent_path), str(frontier_path)],
         "requests": {
             "issues": {
                 "method": "GET",
                 "url": f"https://api.github.com/repos/{repository}/issues?state=all&per_page=100&page=1",
             }
         },
-        "reason": "Unknown create outcome requires fresh complete provider frontier; never repeat POST.",
+        "reason": ("Save the fresh complete provider frontier to readback_path, then execute argv unchanged. "
+                   "Unknown create outcome never permits another POST."),
+    }
+
+
+def _save_create_state(path, state):
+    fd, temporary = tempfile.mkstemp(prefix=".create-state-", dir=path.parent)
+    try:
+        with os.fdopen(fd, "wb") as stream:
+            stream.write(_canonical(state))
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+        directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def _pending_create(intent_path, intent, diagnostic=None):
+    return {
+        "owner": "next-issue.execute", "action": "unknown",
+        "provider_mutations": None,
+        "next": _readback_next(intent_path, intent),
+        "diagnostic": diagnostic,
+        "authorizes_landing": False,
     }
 
 
@@ -495,27 +541,47 @@ def execute(intent_path, *, environ=None, api=None):
     require(intent.get("status") == "prepared",
             "intent.status", intent.get("status"),
             required="prepared_create_intent")
-    token = _token(environ)
-    request = intent["request"]
-    url = f"https://api.github.com/repos/{request['repository_full_name']}/issues"
-    try:
-        issue = _api(
-            api, "POST", url,
-            {"title": request["title"], "body": request["body"]},
-            token,
-        )
-    except ProviderUnknown:
-        return {
-            "owner": "next-issue.execute",
-            "action": "unknown",
-            "provider_mutations": None,
-            "next": _readback_next(intent_path, intent),
-            "authorizes_landing": False,
-        }
-    require(_issue_matches(issue, request),
-            "provider.issue", issue,
-            owner="GitHub", required="exact_created_issue_readback")
-    return _terminal(issue, intent)
+    state_path = intent_path.with_name("create-state.json")
+    # Old intents may already have sent a POST. Absence is never a new offer.
+    if not state_path.exists():
+        return _pending_create(intent_path, intent, {"reason": "legacy_or_missing_create_state"})
+    with intent_path.with_name("create.lock").open("a+b") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return _pending_create(intent_path, intent, {"reason": "create_owner_active"})
+        state = _read_json(state_path, "create.state")
+        require(state.get("intent_sha256") == hashlib.sha256(intent_path.read_bytes()).hexdigest(),
+                "create.intent_sha256", "mismatch", required="original_create_intent")
+        phase = state.get("phase")
+        require(phase in {"ready", "offered", "created"}, "create.phase", phase)
+        if phase == "offered":
+            return _pending_create(intent_path, intent, state.get("diagnostic"))
+        request = intent["request"]
+        token = _token(request["repository_full_name"], environ)
+        url = f"https://api.github.com/repos/{request['repository_full_name']}/issues"
+        try:
+            if phase == "ready":
+                state["phase"] = "offered"
+                _save_create_state(state_path, state)
+                issue = _api(api, "POST", url,
+                             {"title": request["title"], "body": request["body"]}, token)
+                if not _issue_matches(issue, request) or issue.get("state") != "open":
+                    raise ProviderUnknown("provider.issue_identity")
+                state.update(phase="created", issue=issue["number"])
+                _save_create_state(state_path, state)
+            number = state.get("issue")
+            require(type(number) is int and number > 0, "create.issue", number)
+            issue = _api(api, "GET", url + f"/{number}", None, token)
+            require(_issue_matches(issue, request) and issue.get("number") == number
+                    and issue.get("state") == "open",
+                    "provider.issue", number,
+                    owner="GitHub", required="exact_created_issue_readback")
+        except ProviderUnknown as error:
+            state["diagnostic"] = error.diagnostic
+            _save_create_state(state_path, state)
+            return _pending_create(intent_path, intent, error.diagnostic)
+        return _terminal(issue, intent)
 
 
 def reconcile(intent_path, frontier):

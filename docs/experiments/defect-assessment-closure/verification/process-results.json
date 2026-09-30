@@ -1,0 +1,274 @@
+{
+  "scope": "product owner fixture only; not fresh behavior, live GitHub, or delivery",
+  "records": [
+    {
+      "arm": "baseline",
+      "case": "failed",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/baseline",
+        "failed"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"github.workflow.conclusion\", \"value\": [\"failure\", \"success\", \"success\"]}, \"next\": {\"kind\": \"input\", \"owner\": \"external-supervisor\", \"required\": [\"new_candidate_head_after_failed_ci\"], \"reason\": \"The selected authorization still binds the failed head. The current authorized Local Session is the external supervisor for deriving a fresh correction selection from current owner and provider readbacks; do not ask the user to recreate authorization or replay this failed head. A fresh admitted candidate transition is required.\"}, \"authorizes_landing\": false}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], [\"jobs\", 9]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.20865304209291935,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "refused": true,
+        "no_retry": true,
+        "non_authorizing": true,
+        "known": false,
+        "assessment": false
+      },
+      "classification": "FAIL"
+    },
+    {
+      "arm": "baseline",
+      "case": "queued",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/baseline",
+        "queued"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"status\": \"observed\", \"run\": {\"id\": 9, \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"event\": \"pull_request\", \"path\": \".github/workflows/runtime.yml\", \"status\": \"queued\", \"conclusion\": null}, \"jobs\": {\"jobs\": []}}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], [\"jobs\", 9]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.20960229192860425,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "observed": true
+      },
+      "classification": "PASS"
+    },
+    {
+      "arm": "baseline",
+      "case": "green",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/baseline",
+        "green"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"status\": \"observed\", \"run\": {\"id\": 9, \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"event\": \"pull_request\", \"path\": \".github/workflows/runtime.yml\", \"status\": \"completed\", \"conclusion\": \"success\"}, \"jobs\": {\"jobs\": [{\"name\": \"runtime\", \"status\": \"completed\", \"conclusion\": \"success\", \"steps\": [{\"name\": \"acceptance\", \"status\": \"completed\", \"conclusion\": \"success\"}]}]}}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], [\"jobs\", 9]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.1955573339946568,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "observed": true
+      },
+      "classification": "PASS"
+    },
+    {
+      "arm": "baseline",
+      "case": "foreign",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/baseline",
+        "foreign"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"status\": \"observed\", \"run\": null, \"jobs\": null}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.22391504095867276,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "no_foreign_adoption": true
+      },
+      "classification": "PASS"
+    },
+    {
+      "arm": "baseline",
+      "case": "missing_job",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/baseline",
+        "missing_job"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"github.workflow_job.count\", \"value\": 0}, \"next\": {\"kind\": \"input\", \"owner\": \"external-supervisor\", \"required\": [\"one_exact_runtime_job\"], \"argv\": [\"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/baseline/issue-atom\", \"run\", \"/fixture/selected.json\"], \"reason\": \"The current authorized Local Session is the external supervisor for derivable inputs. Recover selected bytes from their owner, or correct the named material state; ask only for genuinely missing identity or capability. Never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], [\"jobs\", 9]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.2619859171099961,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "refusal": true
+      },
+      "classification": "PASS"
+    },
+    {
+      "arm": "treatment",
+      "case": "failed",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/treatment",
+        "failed"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"github.workflow.conclusion\", \"value\": [\"failure\", \"success\", \"success\"]}, \"next\": {\"kind\": \"input\", \"owner\": \"external-supervisor\", \"required\": [\"new_candidate_head_after_failed_ci\"], \"known\": {\"repository\": \"ed3c/soodles\", \"issue\": 131, \"control_root\": \"/fixture/control\", \"base_head\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\", \"failed_head\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"run_id\": 9, \"workflow\": {\"path\": \".github/workflows/runtime.yml\", \"job\": \"runtime\", \"step\": \"acceptance\"}}, \"assessment\": {\"recipe\": \".agents/skills/verify-soodles/features/pclass-context.md#mandatory-assessment-after-an-observed-defect\", \"required_axes\": [\"product\", \"fresh_behavior\"], \"confirmation\": \"after_candidate_selection\"}, \"reason\": \"The selected authorization still binds the failed head. The current authorized Local Session is the external supervisor for deriving a fresh correction selection from current owner and provider readbacks; do not ask the user to recreate authorization or replay this failed head. A fresh admitted candidate transition is required. Preserve this refusal and follow the assessment recipe before selecting a correction; bind its product and fresh behavior evidence to the same Issue.\"}, \"authorizes_landing\": false}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], [\"jobs\", 9]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.2013984580989927,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "refused": true,
+        "no_retry": true,
+        "non_authorizing": true,
+        "known": true,
+        "assessment": true
+      },
+      "classification": "PASS"
+    },
+    {
+      "arm": "treatment",
+      "case": "queued",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/treatment",
+        "queued"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"status\": \"observed\", \"run\": {\"id\": 9, \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"event\": \"pull_request\", \"path\": \".github/workflows/runtime.yml\", \"status\": \"queued\", \"conclusion\": null}, \"jobs\": {\"jobs\": []}}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], [\"jobs\", 9]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.17712937504984438,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "observed": true
+      },
+      "classification": "PASS"
+    },
+    {
+      "arm": "treatment",
+      "case": "green",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/treatment",
+        "green"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"status\": \"observed\", \"run\": {\"id\": 9, \"head_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"event\": \"pull_request\", \"path\": \".github/workflows/runtime.yml\", \"status\": \"completed\", \"conclusion\": \"success\"}, \"jobs\": {\"jobs\": [{\"name\": \"runtime\", \"status\": \"completed\", \"conclusion\": \"success\", \"steps\": [{\"name\": \"acceptance\", \"status\": \"completed\", \"conclusion\": \"success\"}]}]}}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], [\"jobs\", 9]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.20297824987210333,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "observed": true
+      },
+      "classification": "PASS"
+    },
+    {
+      "arm": "treatment",
+      "case": "foreign",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/treatment",
+        "foreign"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"status\": \"observed\", \"run\": null, \"jobs\": null}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.2889630829449743,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "no_foreign_adoption": true
+      },
+      "classification": "PASS"
+    },
+    {
+      "arm": "treatment",
+      "case": "missing_job",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-B",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/observe.py",
+        "--child",
+        "/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/treatment",
+        "missing_job"
+      ],
+      "exit": 0,
+      "stdout": "{\"receipt\": {\"owner\": \"soodles.issue-atom\", \"status\": \"refused\", \"invalid\": {\"field\": \"github.workflow_job.count\", \"value\": 0}, \"next\": {\"kind\": \"input\", \"owner\": \"external-supervisor\", \"required\": [\"one_exact_runtime_job\"], \"argv\": [\"/Users/neon/.codex/experiments/defect-assessment-closure-9s90xbl_/verification/treatment/issue-atom\", \"run\", \"/fixture/selected.json\"], \"reason\": \"The current authorized Local Session is the external supervisor for derivable inputs. Recover selected bytes from their owner, or correct the named material state; ask only for genuinely missing identity or capability. Never choose a phase-specific route.\"}, \"authorizes_landing\": false}, \"calls\": [[\"workflow_runs\", \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], [\"jobs\", 9]]}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.2105578330811113,
+      "source_unchanged": true,
+      "workspace_unchanged": true,
+      "checks": {
+        "read_calls_only": true,
+        "source_unchanged": true,
+        "workspace_unchanged": true,
+        "refusal": true
+      },
+      "classification": "PASS"
+    }
+  ],
+  "authorizes_landing": false
+}

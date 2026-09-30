@@ -1,0 +1,41 @@
+/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/tests/test_next_issue.py:405: DeprecationWarning: This process (pid=10357) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+======================================================================
+FAIL: test_frozen_oracle_preserves_refusal_wait_and_resume (test_claim_refusal_evidence.ClaimRefusalEvidenceTests.test_frozen_oracle_preserves_refusal_wait_and_resume)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/tests/test_claim_refusal_evidence.py", line 25, in test_frozen_oracle_preserves_refusal_wait_and_resume
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/docs/experiments/claim-refusal-closure/evaluator/evaluate.py", line 42, in <module>
+    if __name__=='__main__': sys.exit(main())
+                                      ~~~~^^
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/docs/experiments/claim-refusal-closure/evaluator/evaluate.py", line 29, in main
+    run('success','success','success-state',0)
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/docs/experiments/claim-refusal-closure/evaluator/evaluate.py", line 24, in run
+    if result.returncode: raise RuntimeError(label+': '+result.stderr)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: success: Traceback (most recent call last):
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/docs/experiments/claim-refusal-closure/evaluator/worker.py", line 57, in <module>
+    try: result=atom.drive(case.path,timeout=a.timeout,interval=1,sleep=sleep,clock=lambda:now[0],environ=case.env,provider=provider)
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/issue_atom.py", line 2179, in drive
+    result = run(authorization_path, environ=environ, provider=provider)
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/issue_atom.py", line 1651, in run
+    return _run(authorization_path, environ=environ, provider=provider)
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/issue_atom.py", line 1958, in _run
+    return _run_owned(authorization_path, authorization, authorization_digest, paths,
+                      environ=environ, provider=provider)
+  File "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/.worktrees/soodles-195-1b701cc161ea-0-execute/issue_atom.py", line 2109, in _run_owned
+    run_value, jobs = select_run(provider, authorization, claim["head"], issue=issue["number"])
+                      ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: <lambda>() got an unexpected keyword argument 'issue'
+
+
+
+----------------------------------------------------------------------
+Ran 526 tests in 246.440s
+
+FAILED (failures=1)

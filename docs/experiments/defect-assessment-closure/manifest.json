@@ -1,0 +1,492 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 195
+  },
+  "instructions": [
+    {
+      "path": "issue_atom.py",
+      "baseline_sha256": "3950d5b3a051f0d29faede076eccad8b28a9526278232b7a1a0e629caddf5c52",
+      "treatment_sha256": "1a09e7070f213fdb494dabd6bcef261d682e12330b73c78cfb4746d164f0e872"
+    },
+    {
+      "path": "next_issue.py",
+      "baseline_sha256": "9266c1065ec765dab03baf6f1ef972cd144008e97528e389b2ea483885e0d51f",
+      "treatment_sha256": "d563dfcb2c935b0b4361218d8aacfe7fbde6fd95e9bb25d7b3832e3d100da3f5"
+    },
+    {
+      "path": ".agents/skills/next-issue/SKILL.md",
+      "baseline_sha256": "534f7e9a4b0418832ad8412b95e8ed1ab16909e02e073b2f104c7879861d8a29",
+      "treatment_sha256": "63d1841d50336bca8ebd09534384c1e6a3f60a4703faf1afe42afa08ef63b3f9"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/defect-assessment-closure/analysis.py",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "b88c24471bf48ee675d483d03c1f54dd332573766d592ab1ec0ca29f1a473c9e"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/behavior-index.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "ff1e0c426cf6483a7e8b8bbdaf1e39f85b425f93c6c936bc1c8dd5a5498b5afb"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/behavior-v2-index.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "bf3ccba77e1b88e9561eec463e57ed8059c7ce0e5237817de4f876d4c009fb88"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/behavior-v2.tar.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "daa8b9d3954ffee9977b90a5e3ad13ebabefa4315d76f61a84183d4312f66668"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/behavior.tar.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "4bcac4c48469ec19419ea5f4f0fe6c888b8316d5c7b33260ab0764c5704e0f4c"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/confirmation-index.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "1fc85b6fdce47e235bdf3f7bb392907720a3be0d6703370294f5ee24a337f7b6"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/confirmation.tar.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "5c8011d1991e8bfdda00f0a7101c8e2e4d909c2cd712fed6301dc995ce015257"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/create-confirmation.tar.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "663996c8096b8e074c6b3d17a68b0447dae6af657fd258ff4c4449236f5bf7fa"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/create-confirmation.tar.index.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "3289c16250d7ecc4b40de33a0163f108ba4df963101197dce6ae6d77e4ea077e"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/create-r03.tar.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "5bddf8e2d74ddbfc6517a2b152b8111d3b8a0cb76463ba33b212b492aec057e7"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/create-r03.tar.index.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "4a642583edfd185dd150555394f92e163d1adf79745c40a8ad9a9ccb8c531ec7"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/create-selection.tar.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "9fe95c5e8bf8287376fcd530453e217c33ec6c7e02e32b677a6d1e7b4393cc85"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/create-selection.tar.index.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "405a34990da33968bf82092b6c79856cbd489a50e740a0e635795b2f7595b8d4"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/product-verification.tar.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "583d4493f01aee9f9de82364f24a8ef82ca5fed16d6022892b566e8c35668c86"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/archives/product-verification.tar.index.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "870b72094664c886241936f5392ffd97522320a6ca2a4eb9c3364ed4fb8cf8a4"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/audit.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "f5a6744625edb58f8e61da9c719414e477f7ccce9c19da9703160d2bcfd7bdab"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/confirmation/freeze.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "4a07759708bfb3f80db044d6044b69f2842ed19fb32c022f2e7b857c38f52cf0"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/confirmation/protocol.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "7d63f92a5a12f268f4ee4228b7f158591f59039332a928cad24caf6deee4b945"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/confirmation/summary.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "ffd63272174fc3fe6b90da74aa378113190c60973d11c04163cad18483a15c63"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/confirmation/trace-review.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "6ea5d28eae730815528fe408d6862fdd2b224f85f0ff415fbae594349268a2ac"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/confirmation/winner.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "ef5c7b80c68622c1cea0991c47a235c463d974ef2444feae48ba4be0c2507cc2"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/decision.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "b0fed1992a0df0a2f5376091df99fe646b85d0901e529959c6a523a5232f52f6"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/freeze.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "c06bc6774ea76f579edeeb6eb318fd59b13da302217dd71628a7f507ab323791"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/original-reentry-reproduction.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "2d64cc3977c6fec5b3e9afebf9cea6c06700f60051e1cfb990abe56669372b66"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/product-tests-final.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "4bf4d4cdd14338c7a2649af95472380c170f207ffe4c3346e19f9a6aad85be4f"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/product-tests-final.stderr",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "188e2034bf9c3eeea1987b777ebcaf3c40d84eaa733ba3642d919db7f19b2551"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/product-tests-final.stdout",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/protocol.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "20c5b9eb1a2d54fa71bd155536838d1a94cfeda8e6fe647e27a66d1d759c5700"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/r03/freeze.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "b87d470b71a7c23120cdd6222145924142e93ce6b3980d18c8c6d15796b1b293"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/r03/hypothesis.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "6e88ef575aea77193cd06d89948517742ea18bf103fc1889e184834ed19e0e89"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/r03/trace-review.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "924e4e3346efe1268b95d6a5bc39dddef25a3b99e44ffb79a53d451e7138942e"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/registered-supplier-readback.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "6124b6c76ea3f81d1f177121358798c283083e035118428b52550e7c59580a95"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/selection-trace-review.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "d6bbca4c02afc1e7097a0ce58b5ec8524b77acc5a947c405dbf2744d8e7f0e52"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/create/winner.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "ef5c7b80c68622c1cea0991c47a235c463d974ef2444feae48ba4be0c2507cc2"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/delivery/create-response.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "1133064c8c247794b91238ce84dfd1c2f8161e831acb58b18af0e14c578b0ea4"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/delivery/created-issue.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "72a981d103e1cfe0855c6e3237cfb0e6b6caf93cf37b3747685ff62f34633385"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/delivery/scope-selection.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "47853abafd66f6fd7778123be1d416e88e1c5adf873058076720a23e76d48f66"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/audit.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "736a7fc08c46f6e2e939d61595b8f331aabc382feced0511b774372143ef5a59"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/confirmation/freeze.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "83e1477588d303abefcf9de397766310ef1da8be7f0c986562eeead6ec949d46"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/confirmation/protocol.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "471223bf2eb4dad7afcb334000602b00e9eaa923844c8108e3c23324727b95e5"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/confirmation/results.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "d247e1a8f4211b6fd5cdc60d12e9b633ef6abd9c46f76d2840d25941f9f45e16"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/confirmation/summary.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "2aebc6b3d8f8680450a9def9a6d6e67d83088624e0a0f068cd15a3d17e4c0e87"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/confirmation/winner.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "7937b0cede2424788df815c4d4609d46b86ac744f74c8e2b7377b90ad8769640"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/method-pins.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "ed5df6fb9c0577dd0f04ed46ff9b2bcfadc3146d390968e30720d7b40ab23b13"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/protocol.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "e3d8f03191208c44a83a42fc0feaca5abfd7fb9bf1c1ef1d0aca27856c66b479"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/selection/freeze.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "bdb62fa2483e13b0318c69afa8a761469360a3d84b97c82b8c0c2ab19a0622e6"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/selection/protocol.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "41b2a6d21065165c937e1644e0ddac86764a08d29341d39dbd52a30d232dc278"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/selection/r02-pclass.patch.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "7e5eba6e231b513f52140470b444d0b40351d8adb296e6dea2d6b724184aa174"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/selection/selection-results.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "f80350b8c12e9ebbf2e9d2775ab9e945494bb9f6586e418bfb8b6734f9d007a7"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/failed-head/selection/winner.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "7937b0cede2424788df815c4d4609d46b86ac744f74c8e2b7377b90ad8769640"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/protocol.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "b71d35cb948bd390892811bb36369975a2535a5f4efbb578cba97db142a2b169"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/results.md",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "a0404bacf2010f9a5a60b1de94f0c7f2f1bf5388789ee3c0dea9ebc2543060ea"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/comparison-tests.txt",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "4a5af267f8402c0b61e792a574143949a54946cd7de119b8bd16e785d47e3141"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/equivalence.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "de5575bd0e9a4cc2d3e77dcde2bbef14e58ce25669b61d44a66d0a8a5959e69e"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/focused.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "4273054682072f2404c389a786577ab2085aa50c1fcfe6c0fc274ce3e71d5206"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/focused.stderr",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "90397e356a1fa0b1fb945022f00dd85198cec81f36574c5e542d1455741bb6c5"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/focused.stdout",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/initial-failure-assessment.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "c181bc4921b5d1bd2dd946b14c79b0616d1fcb388abe2ba889c674768b4a8040"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/initial-full-suite-timings.jsonl",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "ea09370cbb5b6d453a3cf66b6364bc75468577a6fa6b78fe8f6fec6db639ebb6"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/initial-full-suite.stderr",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "ec811a88e98a1085038593035f154b36180446e075accffdb1c048dbb15b0610"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/initial-full-suite.stdout",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/initial-typed-outcome-readback.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "08ca9c6ba1ccabf6dbff0608cba276bdd54a9a1a1a791f23fd3dde652fd58d2d"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/compatibility/owner-refusal.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "696a444c30c356ac4b3f9b7688f040ed06272698d95fe8121dd45f178cd6d494"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/freeze.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "a9ce04e4917dd302151773973ef9600f3344a8ee5ffb8f6953ef585833c34ac0"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/gate-baseline.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "74dce2dfc75fe56314dc560fe50a57f42d6c4f7b1ba55fef3bd777d1ab07e9c4"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/gate-treatment.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "15a70ae901f4eacbfe08f4bce7a97adad416ff4b90ddb886c8e41bf2d6eed968"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/gate_probe.py",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "ed003fc80bcfb110d2c4e8427f32207604967f61b3c4f99750a3337fb5890643"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/issue-atom-tests.txt",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "f0d972f32d17895f76737200f26aeb3d3758857ced7fadb2d821e42488be7950"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/local-continuation-final.txt",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "8bdeb271697a0445f357abd06b0895df46759be33833b67280958475db08e57c"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/observe.py",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "46783184073cc44599e83d2bfd048024bc0aba9893544ca54680a38ab5df0203"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/packaging/blocked-assessment.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "02e8ad8ceb74ced1d16af64d76fce2d2b14a2ae84dd8f9f605643986d8628b25"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/packaging/equivalence.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "d3ecc7eafb08d37dc40183df283641730c0e32af4dbcb17d1ed7e16130d9f542"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/packaging/full-suite-timings.jsonl",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "d9913034f49d848e0874d162de0b7f4f95fee83dc1069ba212a2166ccfc504b6"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/packaging/full-suite.result.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "6ade09ea9312482305a5f61dfe39aef9cfc66badc3d56f7947de1df65b93673d"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/packaging/full-suite.stderr.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "001e632efe6a8671c0b9eef2230d8fa9901998d79fe538611fdb332681941fae"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/packaging/full-suite.stdout.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/packaging/staged-diff-check.stderr.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/packaging/staged-diff-check.stdout.gz",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "d67a1acacaea9f579e3a44993d84809f8fb8228eefe2dd7cc8323f3e8d734718"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/process-results.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "14674e004053f343f71e3a65fc8458c74a82e2b89e2fc9bf2c410c1d11fd79a7"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/publication-base/assessment.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "05e0630e7820f83eeaef5fcc241aca3673bb716fd4b4d017b53fac741f9f2b82"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/publication-base/fetch.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "6f862b5a3346bebb887809dd777e25fef56568878889a4c4640bfcffe0dad6a4"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/publication-base/native-readiness.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "36e5459d87acd02a8065a0335e5714c2220bd289c5515f1c69b8fb9f204695e9"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/publication-base/original-claim.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "9ea14ef94f44ad385cdef852a7e62a57b5a4bcd4e5e8a9506b53885b01094a49"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/publication-base/process.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "704eb3d41cec83a4a8c99fb62338c0f8bd42462e700543dbbdf233a6ed3c03d2"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/publication-base/provider-readback.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "4d2c3b48e23eaeacc32c983fc2dc9b990a048b663d0a0a82ae3a3f5bed046b06"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/publication-base/refusal.stderr",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "e5f76805fe3d031e3e3f8336f9d45b428db45077bbd920a4cb7b2f38abce7205"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/shared-owner-tests.json",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "775bc47154b31f7f130d423d4b6c83bd98ba1c1ec041a3851fa143e9593780a8"
+    },
+    {
+      "path": "docs/experiments/defect-assessment-closure/verification/shared-owner-tests.txt",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "26a25cb9fab333003a8b78f2a5f8d3688016bc7fb750a075a6ecd9239a8edac5"
+    },
+    {
+      "path": "issue_admission.py",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "f95cfe0af43c61120341d75064af5321663e7a0331f22166ae1a533626cae0bf"
+    },
+    {
+      "path": "tests/test_comparison_gate.py",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "f1a72047e6bf6a8fabef681cd224a0c3404b47b27a50bc7d2d0fd98f564ed855"
+    },
+    {
+      "path": "tests/test_local_continuation.py",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "30441a010c9d01a53f09402951d730c43fcab2a00cec35e05bbeac4cbabccf8b"
+    },
+    {
+      "path": "tests/test_next_issue.py",
+      "role": "source control or fixed experimental evidence; scope and limitations in results.md",
+      "sha256": "dd4b427f174e82ef71099d008a1c7a5058247c8f50a732320f278b7a09aa8ff4"
+    }
+  ],
+  "owner": {
+    "name": "external supervisor selects scoped evidence for Issue 195",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#195"
+  },
+  "authorizes_landing": false
+}

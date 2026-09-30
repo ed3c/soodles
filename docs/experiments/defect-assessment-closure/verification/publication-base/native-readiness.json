@@ -1,0 +1,116 @@
+{
+  "authorizes_landing": false,
+  "candidate": {
+    "head": "d6beb373e2c40bf2c43a489990f5e98752df51a4",
+    "tree": "681c976d75de0cdb5823d025ba349265feed7891"
+  },
+  "canonical_acceptance": "required after publication on exact-head Linux Actions",
+  "checks": [
+    {
+      "argv": [
+        "/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle",
+        "publication",
+        "claim",
+        "--help"
+      ],
+      "exit_status": 0,
+      "stderr": "",
+      "stdout": "Emit one exact read-only publication claim\n\nUsage:\n  noodle publication claim ORDER_ID SUBJECT [flags]\n\nFlags:\n  -h, --help            help for claim\n      --output string   write the claim to a fresh absolute path as well as stdout\n\nGlobal Flags:\n      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)\n"
+    },
+    {
+      "argv": [
+        "/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle",
+        "worktree",
+        "cleanup",
+        "--help"
+      ],
+      "exit_status": 0,
+      "stderr": "",
+      "stdout": "Remove a worktree without merging\n\nUsage:\n  noodle worktree cleanup <name> [flags]\n\nFlags:\n      --force   Remove even when unmerged commits exist\n  -h, --help    help for cleanup\n\nGlobal Flags:\n      --project-dir string   project directory (default: current directory, env: NOODLE_PROJECT_DIR)\n"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_issue_atom.py"
+      ],
+      "exit_status": 0,
+      "stderr": "..................................................................\n----------------------------------------------------------------------\nRan 66 tests in 30.121s\n\nOK\n",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_issue_execution.py"
+      ],
+      "exit_status": 0,
+      "stderr": "........................\n----------------------------------------------------------------------\nRan 24 tests in 6.879s\n\nOK\n",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_candidate_publication.py"
+      ],
+      "exit_status": 0,
+      "stderr": ".............\n----------------------------------------------------------------------\nRan 13 tests in 7.894s\n\nOK\n",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_local_continuation.py"
+      ],
+      "exit_status": 0,
+      "stderr": ".........................\n----------------------------------------------------------------------\nRan 25 tests in 1.099s\n\nOK\n",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_supervisor_admission.py"
+      ],
+      "exit_status": 0,
+      "stderr": ".........\n----------------------------------------------------------------------\nRan 9 tests in 10.332s\n\nOK\n",
+      "stdout": ""
+    }
+  ],
+  "noodle": {
+    "path": "/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle",
+    "sha256": "965cfd6f985e207551d0664e728ae9fae10ae0cc8cd2885a816415823d9d103d"
+  },
+  "platform": "darwin_arm64",
+  "repository": "ed3c/soodles",
+  "schema_version": 1,
+  "scope": "native publication readiness",
+  "subject": "ed3c/soodles#195"
+}

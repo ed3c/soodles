@@ -343,6 +343,35 @@ class ComparisonGateTests(unittest.TestCase):
                 self.assertFalse(output["authorizes_landing"])
                 self.assertEqual(checkpoint.read_bytes(), before)
 
+    def test_schema3_local_landing_enforces_external_pins_before_checkpoint(self):
+        # Reuse the existing physical Git/envelope fixture. The ordinary
+        # candidate manifest is internally valid, but is not the external pin.
+        contract = copy.deepcopy(self.contract)
+        contract["schema"] = 3
+        del contract["comparison"]
+        with tempfile.TemporaryDirectory() as folder:
+            claim, snapshot, envelope = self.landing_inputs(folder)
+            for altered in (False, True):
+                with self.subTest(altered=altered):
+                    if altered:
+                        contract["frozen_paths"][0]["sha256"] = "0" * 64
+                    snapshot["issue"]["body"] = body(contract)
+                    envelope["body_sha256"] = admission.body_digest(snapshot["issue"]["body"])
+                    path = Path(claim["execution_envelope"]["path"])
+                    path.write_text(json.dumps(envelope))
+                    claim["execution_envelope"]["sha256"] = gate.comparison_digest(path.read_bytes())
+                    checkpoint = Path(folder) / ("altered.json" if altered else "matching.json")
+                    if not altered:
+                        landing.start(claim, snapshot, checkpoint)
+                        self.assertTrue(checkpoint.exists())
+                    else:
+                        with self.assertRaises(landing.LandingRefusal) as caught:
+                            landing.start(claim, snapshot, checkpoint)
+                        self.assertEqual(caught.exception.invalid["field"], "candidate.frozen_path.sha256")
+                        self.assertEqual(caught.exception.next_action["required"],
+                                         ["externally_frozen_candidate_bytes"])
+                        self.assertFalse(checkpoint.exists())
+
 
 if __name__ == "__main__":
     unittest.main()

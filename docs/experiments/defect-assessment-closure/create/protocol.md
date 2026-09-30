@@ -1,0 +1,13 @@
+# Issue 195: registered create continuation extension
+
+Fixed before implementation/consumer runs. Existing failed-head results remain historical and do not score this extension.
+
+Observed failures: create token is manually injected although the host supplier is registered; HTTP 500 loses request identity; same intent can POST again on execute re-entry; absent frontier match has no proof of nonexecution. The successful direct path supplies the registered App token and an explicit User-Agent, then verifies the returned Issue through exact GET. Success does not establish that User-Agent caused the previous 500.
+
+Product gates: a newly prepared local intent has owner-created ready state bound to immutable intent bytes. Existing legacy intents without this state are readback-only. Execute resolves the registered repository-scoped issues:write supplier itself; candidate/child context, missing supplier or changed identity refuses before POST. Persist offered state durably before one POST; concurrent or repeated execute cannot POST again, including actual process exit after offer. Retain safe HTTP status/request-id diagnostics without token/key content. HTTP errors, transport errors, malformed/mismatched responses cannot authorize another POST. A known successful response supports exact GET; verify subject before terminal. Unknown state uses existing frontier reconcile, never inferred absence/retry. Cloud transport remains unchanged.
+
+P entry: consume prepare/execute/reconcile next; local supplier owns credential details, Session never assembles App environment or carries token. No literal host key path in repository instructions. No new scheduler, retry engine or operator bypass.
+
+Eval: same pinned local carrier, neutral task, isolated inputs, raw tool/process capture. Compare baseline and treatment for new ready intent, offered unknown intent and missing host registration; fixed pass/fail criteria are correct owner/next, no credential request for derivable input, no repeated mutation, no fabricated identity. Product code fixtures cannot count as fresh behavior. New-case confirmation after fixed source selection. Retain original 20% efficiency threshold; do not claim it from correctness alone.
+
+Independent telemetry records provider methods, offered-state-before-call, subprocess exits, file digests/residue, and actual Agent tool requests. Controls include nearest valid case and seeded repeated execute, legacy intent, wrong subject, corrupt state, HTTP500, lost response, concurrent entry and pre/post-write crash. Side effects stay fixture-local; no live fault injection or second Issue.

@@ -1,0 +1,39 @@
+{
+  "selection": "r03 CLI state and explicit reconcile continuation with r02 P instructions",
+  "source_pins": {
+    "issue_atom.py": "5de64c72970d5ac62f2d0985fa5b8e612dcb97688d6407edadc021abd97d15e3",
+    "issue_admission.py": "f95cfe0af43c61120341d75064af5321663e7a0331f22166ae1a533626cae0bf",
+    "next_issue.py": "d563dfcb2c935b0b4361218d8aacfe7fbde6fd95e9bb25d7b3832e3d100da3f5",
+    ".agents/skills/next-issue/SKILL.md": "63d1841d50336bca8ebd09534384c1e6a3f60a4703faf1afe42afa08ef63b3f9",
+    "tests/test_next_issue.py": "dd4b427f174e82ef71099d008a1c7a5058247c8f50a732320f278b7a09aa8ff4",
+    "tests/test_local_continuation.py": "30441a010c9d01a53f09402951d730c43fcab2a00cec35e05bbeac4cbabccf8b",
+    "tests/test_comparison_gate.py": "f1a72047e6bf6a8fabef681cd224a0c3404b47b27a50bc7d2d0fd98f564ed855"
+  },
+  "claim": "correctness/continuation obligations only; not 20% efficiency success",
+  "selection_calls": {
+    "baseline": [
+      6,
+      6,
+      8
+    ],
+    "r01": [
+      7,
+      8,
+      6
+    ],
+    "r02": [
+      6,
+      5,
+      8
+    ],
+    "r03": [
+      6,
+      5,
+      7
+    ]
+  },
+  "selection_median_reduction": 0,
+  "confirmation": "not started; same state families with new fixture identities",
+  "reviewer": "supervising Session; independent raw capture is separate from semantic review",
+  "authorizes_landing": false
+}

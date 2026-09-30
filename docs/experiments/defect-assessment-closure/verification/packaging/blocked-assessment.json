@@ -1,0 +1,59 @@
+{
+  "status": "blocked_before_commit",
+  "head": "0977f2513130e8a38c53665f71c8e90f3ac9c614",
+  "issue": 195,
+  "selected_hashes_match": 81,
+  "raw_failure": {
+    "argv": [
+      "git",
+      "diff",
+      "--cached",
+      "--check"
+    ],
+    "exit_code": 2,
+    "stdout": "staged-diff-check.stdout",
+    "stderr": "staged-diff-check.stderr"
+  },
+  "eval_skill": {
+    "path": "/Users/neon/.codex/skills/eval-audit/SKILL.md",
+    "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133"
+  },
+  "assessment_recipe": ".agents/skills/verify-soodles/features/pclass-context.md#mandatory-assessment-after-an-observed-defect",
+  "findings": [
+    {
+      "area": "pipeline hygiene",
+      "status": "problem exists",
+      "finding": "Initial unstaged git diff --check omitted untracked frozen evidence; staged check covers exact selected set and fails."
+    },
+    {
+      "area": "evaluator design",
+      "status": "problem exists",
+      "finding": "Git flags mandatory unified-patch blank context lines in frozen raw evidence as whitespace errors. Hash integrity passes, but requested clean diff check does not. This is not evidence of a runtime product regression."
+    },
+    {
+      "area": "judge validation",
+      "status": "cannot determine",
+      "finding": "No fresh consumer comparison authorized for this new packaging/check conflict; previous bounded fresh handoff results cannot close it."
+    }
+  ],
+  "product": {
+    "status": "PASS",
+    "scope": "existing 526 unit tests and archive integrity/replay",
+    "new_delivery_check": "FAIL"
+  },
+  "fresh_behavior": {
+    "status": "INCONCLUSIVE",
+    "scope": "new packaging/check conflict",
+    "required": "supervisor-fixed measurement and fresh consumer evidence if correction is selected",
+    "existing_fixed_evidence": "preserved, no new model sessions"
+  },
+  "owner": "existing external admission supervisor",
+  "required": "Resolve frozen raw patch bytes versus clean staged diff requirement at the existing selection boundary; writer cannot rewrite selected evidence or change gate policy.",
+  "state": "81 selected files staged; no commit, push, PR, merge or issue closure",
+  "efficiency_target_met": false,
+  "confirmation_medians": {
+    "baseline": 6,
+    "candidate": 8
+  },
+  "authorizes_landing": false
+}
