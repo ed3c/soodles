@@ -166,3 +166,33 @@ These receipts predate this worker and are not this candidate's acceptance. Path
 | `portable-314.log` | Four deterministic recursion faults pass on Python 3.14 | `62a7a72bfb69d5f1d8e3e5dfe57ada1174dc0851edd042b4ebedeaba4cb93214` |
 | `baseline-portable.log` | Old source fails three of four deterministic controls | `0cd7be650ca232f81705aaf110345c3a03aa788bf7cf72608ad10d519234eaad` |
 | `oracle.log` | Unchanged external product observer PASS | `e8b30a5e89256eacfb7aa0086b100c1dd303a4d5ad526866ba5f483e8b57f672` |
+
+### This worker's local verification
+
+Focused controls passed: 129 Issue-owner tests, 12 selector tests and 16 supervisor-authorization tests (157 total). One full unittest discovery then passed on clean implementation commit `9476bf507d10ca99ce7e4b4dcb303181eacad27e`; the summary was:
+
+```text
+Ran 544 tests in 293.973s
+
+OK
+```
+
+The unchanged external `product_oracle.py` passed on that same implementation commit: 3,450 selected bytes, exactly common plus instruction-context, ten frozen contract files, legal shared prerequisites, unknown/traversing-root refusals and unchanged source state. Its fixed scope does not certify the changed correction/admission owners; those are covered by the focused and full suites. The following documentation-only evidence commit changes results and their manifest hash; executable, test and frozen instruction bytes remain those tested above.
+
+Python: `/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/bin/python3.12`; the external evidence directory's `bin/python3` points to that same executable. `TMPDIR` was physically resolved before execution. Environment and exact argv/exit/duration receipts are preserved under:
+
+`/Users/neon/.codex/experiments/system-context-atom-c8qd73l8/followup/fresh-attempt/worker-verification-5236d5ae903f/`
+
+| Current receipt | SHA-256 |
+| --- | --- |
+| `environment.json` | `efebe289f2a22e079da25edf294e9e2afa0dea4e05b3c510bbc638e8d79763e2` |
+| `focused.json` | `d88102056785390f99aff8d7b88ed04341057b24ca92cb2f76bae73c27b94455` |
+| `focused-0.log` | `1325200a39fc2caa12917845c371700952effd0c1c77242db8160379afd56a19` |
+| `focused-1.log` | `6bb7fe775ffcab92b5ed2b8b668c5ff4cbee5a0791fedb33a6ad2a5123d12d59` |
+| `focused-2.log` | `2b6a7fc117be4875abf489da5859418d21dc68e696d863de22aede8f80525fb9` |
+| `full-suite.json` | `606aca2d9cd99a3f13597856bb75d270a4169424da3446e62cc31cf3a2dd2732` |
+| `full-suite.log` | `7d312a93613e0c2c8c5156af213dfb9cb70f3d05edcbdece5baa19192fc829f1` |
+| `oracle.json` | `44adb75f8f9706371f8cf69f873e09cb545c006272cf714852a87a9488f49a78` |
+| `oracle.log` | `8923a11ca5354b0c7e0bbb9282e559a0f79ad9422aa7fa104070447876db95ed` |
+
+Self-review found no changes outside the admitted paths and no modification of the seven selected source/test bytes after their digest check. All 22 frozen pins match. The manifest preserves both original instruction identities and covers all 40 required paths (two instructions, 37 artifacts and the manifest itself). `validate_delivery_paths` is run against the final clean commit, with its non-authorizing receipt retained in the same external evidence directory. Local checks and the completed worker outcome do not authorize landing; exact-head Linux Actions acceptance, native publication readiness and provider/local reconciliation remain with their existing owners.
