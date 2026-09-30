@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "paths": {
+    "contracts/system-v1/common.md": {
+      "requires": []
+    },
+    "contracts/system-v1/runtime.md": {
+      "requires": [
+        "contracts/system-v1/common.md"
+      ]
+    },
+    "contracts/system-v1/landing.md": {
+      "requires": [
+        "contracts/system-v1/common.md"
+      ]
+    },
+    "contracts/system-v1/recovery.md": {
+      "requires": [
+        "contracts/system-v1/common.md",
+        "contracts/system-v1/landing.md"
+      ]
+    },
+    "contracts/system-v1/candidate.md": {
+      "requires": [
+        "contracts/system-v1/common.md"
+      ]
+    },
+    "contracts/system-v1/readback.md": {
+      "requires": [
+        "contracts/system-v1/common.md"
+      ]
+    },
+    "contracts/system-v1/issue-atom.md": {
+      "requires": [
+        "contracts/system-v1/common.md"
+      ]
+    },
+    "contracts/system-v1/instruction-context.md": {
+      "requires": [
+        "contracts/system-v1/common.md"
+      ]
+    }
+  }
+}

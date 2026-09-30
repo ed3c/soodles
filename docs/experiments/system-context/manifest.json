@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 199
+  },
+  "instructions": [
+    {
+      "path": "contracts/system-v1.md",
+      "baseline_sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
+      "treatment_sha256": "6505d904ff4426a20ec78dcce00d35592b2cb43dab00bcd7b30b4c13f5280aca"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "contracts/system-v1/candidate.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "bd0940b4e3bf18f1109c7a79dcf6160507ada9df977881b2bc3833850e161f5e"
+    },
+    {
+      "path": "contracts/system-v1/common.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "b672753179d25e6b7699b5c5f6792ce02f6262f191452ce92ab02d49fb07ccfe"
+    },
+    {
+      "path": "contracts/system-v1/instruction-context.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "ae18e977b72d3a3336c79bb9cd85fa04166fcf5ed4695fba8f22b1a073877b14"
+    },
+    {
+      "path": "contracts/system-v1/issue-atom.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "348a58c21aef00504e0c2be09e9dc57744cb71f54d7ea75507c2e356c2480033"
+    },
+    {
+      "path": "contracts/system-v1/landing.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "fbfacc853a222bc08817d744b278e9dd8184fe93264c4ea8ca2bf76b19fb34ff"
+    },
+    {
+      "path": "contracts/system-v1/readback.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "9ec153bad0c4cf7c338861aa994ca4967677b873745b569e95c88be952fc09e7"
+    },
+    {
+      "path": "contracts/system-v1/recovery.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "7e83ad5331e8383717d7809920ed3528fe82f3309b8a9a0f91e188a9785f0917"
+    },
+    {
+      "path": "contracts/system-v1/routes.json",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "39ac747c6b29779c59a266b9e5f8715581b6137f771892c1b7ddb5199b5c1604"
+    },
+    {
+      "path": "contracts/system-v1/runtime.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "c5002cbc062e62446e83b2ff4ca00ccd805264e3a95a005df01bbda8923695ce"
+    },
+    {
+      "path": "docs/experiments/system-context/behavior-summary.json",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "1d595b6b4df193e42006daab818d5da9d0aabcf073e1349d34c2879591ffcf2e"
+    },
+    {
+      "path": "docs/experiments/system-context/behavior.tar.gz",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "935cd0028a19077e5e116f81721655ac458313dacea5e9c06d6da49076a80fd5"
+    },
+    {
+      "path": "docs/experiments/system-context/frozen-files.json",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "571be46c1401ae9f62c367ad702a6a46ae1242a80a726d5385a9de00cf70a7fc"
+    },
+    {
+      "path": "docs/experiments/system-context/oracle.py",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "eb7e2781f74af26a4340fd3ca14d04ec18d56d6d2ad71965a6c467bcaf202af9"
+    },
+    {
+      "path": "docs/experiments/system-context/product-results.json",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "efcea0d0886c186fa5067cf35243acdff2ed2a5243fc6c1b8279cdce28a8bc0c"
+    },
+    {
+      "path": "docs/experiments/system-context/protocol.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "36cb2077c1f04072960e4676e62435fafb9db583e8a6d626cf3f72f129023317"
+    },
+    {
+      "path": "docs/experiments/system-context/results.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "6f7eada9b9821b130d3216b6b68d722955cd20b3176d3730416152c7c8333516"
+    },
+    {
+      "path": "system-context",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "b5860edd24d1814fd178d77f67f2c5e511e1684b3243822f95e9c953f969b4a0"
+    },
+    {
+      "path": "system_context.py",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "e21450f721ef953c1ffa1cb07cd0c35cb2cf05fbf4cde9d093e73f591222893d"
+    },
+    {
+      "path": "tests/test_system_context.py",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "cf278ce903142279498046749f8b97672aaaa9e904bb3c7f77ed8a73a2a15843"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#199"
+  },
+  "authorizes_landing": false
+}

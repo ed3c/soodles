@@ -1,0 +1,30 @@
+{
+  "owner": "soodles.issue-atom",
+  "status": "refused",
+  "invalid": {
+    "field": "noodle.claim.exit",
+    "value": {
+      "exit_status": 1,
+      "diagnostic": "publication typed outcome: missing stage_message"
+    }
+  },
+  "next": {
+    "kind": "input",
+    "owner": "Noodle",
+    "required": [
+      "fresh_noodle_claim"
+    ],
+    "known": {
+      "control_root": "/Users/neon/.codex/worktrees/atom-context-slice/soodles",
+      "order_id": "soodles-199-a017ded6cee8",
+      "subject": "ed3c/soodles#199"
+    },
+    "argv": [
+      "/Users/neon/.codex/worktrees/atom-context-slice/soodles/issue-atom",
+      "run",
+      "/Users/neon/.codex/experiments/system-context-atom-c8qd73l8/prepared/authorization.json"
+    ],
+    "reason": "Correct the named external input or material owner state; never choose a phase-specific route."
+  },
+  "authorizes_landing": false
+}
