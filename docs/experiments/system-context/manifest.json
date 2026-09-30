@@ -9,6 +9,11 @@
       "path": "contracts/system-v1.md",
       "baseline_sha256": "554564a5ab10ba9be434baccd4528f700096424470d3022352f77bde76759ab7",
       "treatment_sha256": "6505d904ff4426a20ec78dcce00d35592b2cb43dab00bcd7b30b4c13f5280aca"
+    },
+    {
+      "path": ".agents/skills/execute/SKILL.md",
+      "baseline_sha256": "1c815d5024a63f44ad8c0531bade1872a5e485f3f43ad581e0c5b0b9a899e149",
+      "treatment_sha256": "f60e047d6f5c474f19c0281a2cc5ba00cf8958593d16bba12c3d5e8491f2bc8a"
     }
   ],
   "artifacts": [
@@ -68,6 +73,56 @@
       "sha256": "935cd0028a19077e5e116f81721655ac458313dacea5e9c06d6da49076a80fd5"
     },
     {
+      "path": "docs/experiments/system-context/followup/audit.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "ef21fdea54ccb1c29e1eece6b71b5f3b62a3e9db55c07567ba30df7a25261ffb"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/baseline-refusal.json",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "c0fb438672e2c98e3869ddd6a2a0b8bdfa1e06e879ac936c0fbeb1c5d8fc83c4"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/behavior-summary.json",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "ede82c7bcb728222cc3da40b64cbc34de446062fce10144735b8c706c43b2b43"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/behavior.tar.gz",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "68412c959a9e260740fa53bf223db961de2c3c8d5a011de80dadf5ffe943cb9d"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/method-pins.json",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "48d31ebff5875dd2ba11830b027cc14284581e098129f9730a57546c8e506f1f"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/noodle-source-pins.json",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "95123cdf8eea8ea1f5ae10082fd1740a75d68bf16b42b805fd6799c2aa6abb32"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/oracle.py",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "06d7491523739cb807f75ee0c394ef0f191e6ff7dd12391798b5936ab38edbe8"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/product-results.json",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "d60f963fe9902ff3e588ed9c802553a2a9e4ba2b0092a8f3e6bff28684481339"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/protocol.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "e0386a9cec54f81f4da9c62809c9d40e352f3452295c5dc4200ef44e14ccbe69"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/results.md",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "098ec2062983e27af2fc8621e18ed18fcf47d616b7791406ecea01beea2efd65"
+    },
+    {
       "path": "docs/experiments/system-context/frozen-files.json",
       "role": "implementation, controls or bounded experiment evidence",
       "sha256": "571be46c1401ae9f62c367ad702a6a46ae1242a80a726d5385a9de00cf70a7fc"
@@ -93,6 +148,16 @@
       "sha256": "6f7eada9b9821b130d3216b6b68d722955cd20b3176d3730416152c7c8333516"
     },
     {
+      "path": "stage-outcome",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "ab369dd659f105a716747e0f03f96c95e892a221c70088c7cb835a23bb922f34"
+    },
+    {
+      "path": "stage_outcome.py",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "aac5ca9872060a7fd63ac9171fbf980b92f54b8f8ac1e5dc5cf1d8becd4b76c2"
+    },
+    {
       "path": "system-context",
       "role": "implementation, controls or bounded experiment evidence",
       "sha256": "b5860edd24d1814fd178d77f67f2c5e511e1684b3243822f95e9c953f969b4a0"
@@ -101,6 +166,11 @@
       "path": "system_context.py",
       "role": "implementation, controls or bounded experiment evidence",
       "sha256": "e21450f721ef953c1ffa1cb07cd0c35cb2cf05fbf4cde9d093e73f591222893d"
+    },
+    {
+      "path": "tests/test_stage_outcome.py",
+      "role": "implementation, controls or bounded experiment evidence",
+      "sha256": "6a2cc5d868d463766bea22699c5927ba61e01c5bfae3309b2a3da008ce7fc367"
     },
     {
       "path": "tests/test_system_context.py",
