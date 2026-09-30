@@ -11,7 +11,7 @@
           "fixture observation"
         ],
         "exit_status": 1,
-        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.events.existing_outcome\", \"value\": [{\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"completed\", \"blocking\": false, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:47:03.899217Z\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_session_event_readback\"]}, \"authorizes_landing\": false}\n",
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.events.existing_outcome\", \"value\": [{\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"completed\", \"blocking\": false, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:04.095282Z\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_session_event_readback\"]}, \"authorizes_landing\": false}\n",
         "stderr": ""
       },
       "no_new_event": true
@@ -25,7 +25,7 @@
           "fixture observation"
         ],
         "exit_status": 0,
-        "stdout": "{\"status\": \"recorded\", \"event\": {\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"completed\", \"blocking\": false, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:47:03.899217Z\", \"session_id\": \"soodles-18-0-execute-session\"}, \"authorizes_landing\": false}\n",
+        "stdout": "{\"status\": \"recorded\", \"event\": {\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"completed\", \"blocking\": false, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:04.095282Z\", \"session_id\": \"soodles-18-0-execute-session\"}, \"authorizes_landing\": false}\n",
         "stderr": ""
       },
       "events": [
@@ -38,7 +38,7 @@
             "order_id": "soodles-18",
             "stage_index": 0
           },
-          "timestamp": "2026-09-30T15:47:03.899217Z",
+          "timestamp": "2026-09-30T15:49:04.095282Z",
           "session_id": "soodles-18-0-execute-session"
         }
       ]
@@ -52,7 +52,7 @@
           "fixture observation"
         ],
         "exit_status": 1,
-        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.events.existing_outcome\", \"value\": [{\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"blocked\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:47:04.601727Z\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_session_event_readback\"]}, \"authorizes_landing\": false}\n",
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.events.existing_outcome\", \"value\": [{\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"blocked\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:04.730151Z\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_session_event_readback\"]}, \"authorizes_landing\": false}\n",
         "stderr": ""
       },
       "no_new_event": true
@@ -66,7 +66,7 @@
           "fixture observation"
         ],
         "exit_status": 0,
-        "stdout": "{\"status\": \"recorded\", \"event\": {\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"blocked\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:47:04.601727Z\", \"session_id\": \"soodles-18-0-execute-session\"}, \"authorizes_landing\": false}\n",
+        "stdout": "{\"status\": \"recorded\", \"event\": {\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"blocked\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:04.730151Z\", \"session_id\": \"soodles-18-0-execute-session\"}, \"authorizes_landing\": false}\n",
         "stderr": ""
       },
       "events": [
@@ -79,7 +79,7 @@
             "order_id": "soodles-18",
             "stage_index": 0
           },
-          "timestamp": "2026-09-30T15:47:04.601727Z",
+          "timestamp": "2026-09-30T15:49:04.730151Z",
           "session_id": "soodles-18-0-execute-session"
         }
       ]
@@ -93,7 +93,7 @@
           "fixture observation"
         ],
         "exit_status": 1,
-        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.events.existing_outcome\", \"value\": [{\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"failed\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:47:05.240808Z\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_session_event_readback\"]}, \"authorizes_landing\": false}\n",
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.events.existing_outcome\", \"value\": [{\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"failed\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:05.372403Z\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_session_event_readback\"]}, \"authorizes_landing\": false}\n",
         "stderr": ""
       },
       "no_new_event": true
@@ -107,7 +107,7 @@
           "fixture observation"
         ],
         "exit_status": 0,
-        "stdout": "{\"status\": \"recorded\", \"event\": {\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"failed\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:47:05.240808Z\", \"session_id\": \"soodles-18-0-execute-session\"}, \"authorizes_landing\": false}\n",
+        "stdout": "{\"status\": \"recorded\", \"event\": {\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"failed\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:05.372403Z\", \"session_id\": \"soodles-18-0-execute-session\"}, \"authorizes_landing\": false}\n",
         "stderr": ""
       },
       "events": [
@@ -120,7 +120,7 @@
             "order_id": "soodles-18",
             "stage_index": 0
           },
-          "timestamp": "2026-09-30T15:47:05.240808Z",
+          "timestamp": "2026-09-30T15:49:05.372403Z",
           "session_id": "soodles-18-0-execute-session"
         }
       ]
@@ -218,7 +218,7 @@
           "fixture observation"
         ],
         "exit_status": 1,
-        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"envelope.sha256\", \"value\": \"e68c158b41265f16a66b4334c33dbe35853261d120c34f80fb93635d10905271\"}, \"next\": {\"kind\": \"input\", \"owner\": \"supervisor\", \"required\": [\"execution_envelope\"]}, \"authorizes_landing\": false}\n",
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"envelope.sha256\", \"value\": \"96576847d3b73da9a1cd65f4d38b10761cb95689a79ab3e65c7736b4f846e884\"}, \"next\": {\"kind\": \"input\", \"owner\": \"supervisor\", \"required\": [\"execution_envelope\"]}, \"authorizes_landing\": false}\n",
         "stderr": ""
       },
       "events": []

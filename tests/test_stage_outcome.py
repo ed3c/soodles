@@ -137,6 +137,18 @@ if mode == 'write-failure': sys.exit(7)
                 self.fixture.save_owner()
                 self.refused(self.invoke())
 
+    def test_malformed_admitted_carrier_is_a_json_refusal(self):
+        f = self.fixture
+        for value in (None, [], "foreign"):
+            with self.subTest(value=value):
+                f.envelope["execution"]["carrier"]["codex"] = value
+                f.bind_envelope()
+                prompt = json.loads(self.stage["prompt"])
+                prompt["envelope_sha256"] = f.pin
+                self.stage["prompt"] = json.dumps(prompt)
+                f.save_owner()
+                self.refused(self.invoke())
+
     def test_foreign_running_attempt(self):
         self.stage["attempts"][-1]["session_id"] = "foreign"
         self.fixture.save_owner()

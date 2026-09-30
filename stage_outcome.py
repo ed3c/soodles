@@ -121,6 +121,8 @@ def worker_context(root, environ):
             "worker.attempt", attempts, **DISPATCH)
     spawn = spawn_readback(binding, session)
     carrier = execution["carrier"]
+    require(isinstance(carrier.get("codex"), dict),
+            "carrier.codex", carrier.get("codex"))
     for key, expected in (("session_id", session), ("skill", "execute"),
                           ("provider", "codex"), ("runtime", "process"),
                           ("worktree_path", str(root)),
