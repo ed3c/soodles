@@ -749,6 +749,21 @@ def supervised(envelope_path, envelope_digest, root, reader=fetch_issue, *, obse
     return _admit(envelope_path, envelope_digest, root, reader, "supervised", observe_live=observe_live)
 
 
+def native_idle_schedule(order, model):
+    """Recognize Noodle's idle scheduler, never an active or foreign writer."""
+    if not isinstance(order, dict) or order.get("order_id") != "schedule":
+        return False
+    stages = order.get("stages")
+    if order.get("status") != "active" or not isinstance(stages, list) or len(stages) != 1:
+        return False
+    stage = stages[0]
+    return (isinstance(stage, dict) and stage.get("stage_index") == 0
+            and stage.get("task_key") == "schedule" and stage.get("skill") == "schedule"
+            and stage.get("provider") == "codex" and stage.get("model") == model
+            and stage.get("runtime") == "process" and stage.get("prompt") == ""
+            and stage.get("status") == "pending" and stage.get("attempts") in (None, []))
+
+
 def correction_proposal(binding, envelope_digest):
     order_id = binding["execution"]["order_id"]
     codex = binding["execution"]["carrier"]["codex"]
@@ -762,8 +777,8 @@ def correction_proposal(binding, envelope_digest):
     }]}
 
 
-def supervised_correction(envelope_path, envelope_digest, root, prior_order,
-                          reader=fetch_issue):
+def prepare_correction(envelope_path, envelope_digest, root, prior_order,
+                       reader=fetch_issue):
     """Offer one revised task through Noodle's existing failed-order mailbox."""
     root = Path(root).resolve()
     binding = context(envelope_path, envelope_digest, root, reader)
@@ -785,14 +800,26 @@ def supervised_correction(envelope_path, envelope_digest, root, prior_order,
             and order_id not in owner["state"].get("pending_reviews", {}),
             "correction.failed_order", order, owner="Noodle",
             required="request_changes_owner_readback")
-    require(all(key == order_id or all(stage.get("status") in
-                ("completed", "failed", "cancelled") for stage in value.get("stages", []))
+    require(all(key == order_id or (key == "schedule" and native_idle_schedule(
+                value, binding["execution"]["carrier"]["codex"]["model"])) or (isinstance(value, dict)
+                and bool(value.get("stages")) and all(stage.get("status") in
+                ("completed", "failed", "cancelled") for stage in value["stages"]))
                 for key, value in orders.items()),
             "correction.foreign_orders", sorted(orders), owner="Noodle",
             required="quiescent_noodle_owner")
     quiescent_order(binding, owner)
-    proposal = correction_proposal(binding, envelope_digest)
-    published = publish_once(root / ".noodle/orders-next.json", proposal)
+    return binding, correction_proposal(binding, envelope_digest)
+
+
+def supervised_correction(envelope_path, envelope_digest, root, prior_order,
+                          reader=fetch_issue, before_publish=None):
+    """Validate before persisting intent; invoke the hook immediately before effect."""
+    binding, proposal = prepare_correction(envelope_path, envelope_digest, root,
+                                           prior_order, reader)
+    if before_publish is not None:
+        before_publish()
+    published = publish_once(Path(root).resolve() / ".noodle/orders-next.json", proposal)
+    order_id = binding["execution"]["order_id"]
     return {"owner": "Noodle", "action": "proposal_pending",
             "binding": binding, "published": published,
             "next": {"kind": "input", "owner": "Noodle",

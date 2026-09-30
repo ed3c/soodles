@@ -180,7 +180,8 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
                        | ({"instruction_pins"} if schema == 3 else set()))
     amendment_fields = {"prior_publication", "prior_atom"}
     expected_fields |= {"lifecycle_owner"} if "lifecycle_owner" in value else set()
-    require(set(value) in (expected_fields, expected_fields | amendment_fields),
+    require(set(value) in (expected_fields, expected_fields | {"prior_publication"},
+                           expected_fields | amendment_fields),
             "authorization.fields", sorted(value),
             "external_authorization_with_pinned_host_and_landing_owner")
     require(value["owner"] == "external-supervisor",
@@ -221,7 +222,8 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
     if "prior_publication" in value:
         require("number" in issue, "authorization.issue.number", None,
                 "existing_issue_for_candidate_amendment")
-        validate_prior_atom_ref(value["prior_atom"], root)
+        if "prior_atom" in value:
+            validate_prior_atom_ref(value["prior_atom"], root)
         try:
             candidate_publication.validate_amendment_prior(
                 value["prior_publication"], repository,
@@ -897,6 +899,9 @@ def ensure_noodle(authorization, paths, state, admission, environ, *, correction
                     "noodle.start.prior_snapshot", "changed",
                     "unchanged_original_review")
         for order_id, order in owner["state"]["orders"].items():
+            if correction and order_id == "schedule" and native_idle_schedule(
+                    order, authorization["carrier"]["codex"]["model"]):
+                continue
             if correction and order_id == prior["order_id"]:
                 require(isinstance(order, dict)
                         and len(order.get("stages", [])) == 1
@@ -1105,13 +1110,19 @@ def advance_correction(authorization, paths, state, provider):
                 "canonical_failed_order_after_ack_without_resend")
         # Persist before the proposal effect. Recovery observes promotion only;
         # a crash before publication is ambiguous and cannot silently re-offer.
-        state["correction_failed_attempts"] = stage["attempts"]
-        state["correction_proposal"] = {"status": "offered",
-                                        "envelope_sha256": state["envelope_sha256"]}
-        save_json(paths["state"], state)
-        result = issue_execution.supervised_correction(
-            paths["envelope"], state["envelope_sha256"], authorization["control_root"], prior,
-            reader=lambda repository, number: provider.issue(number))
+        def before_publish():
+            state["correction_failed_attempts"] = stage["attempts"]
+            state["correction_proposal"] = {"status": "offered",
+                                            "envelope_sha256": state["envelope_sha256"]}
+            save_json(paths["state"], state)
+        try:
+            result = issue_execution.supervised_correction(
+                paths["envelope"], state["envelope_sha256"], authorization["control_root"], prior,
+                reader=lambda repository, number: provider.issue(number),
+                before_publish=before_publish)
+        except issue_admission.AdmissionRefusal as error:
+            raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                              error.next["required"][0], owner="Noodle") from error
         return {"action": "correction_proposal_pending", "published": result["published"]}
     require(state["correction_proposal"] == {"status": "offered",
                                             "envelope_sha256": state["envelope_sha256"]},
@@ -1578,7 +1589,10 @@ def recover_prior_host(authorization, paths, state):
     old_state = read_json(old_paths["state"], "amendment.prior_state")
     old_binding = read_json(old_paths["envelope"], "amendment.prior_envelope")
     owner = issue_execution.read_owner(old_binding)
-    for order_id in owner["state"]["orders"]:
+    for order_id, order in owner["state"]["orders"].items():
+        if order_id == "schedule" and native_idle_schedule(
+                order, authorization["carrier"]["codex"]["model"]):
+            continue
         try:
             issue_execution.quiescent_order(
                 {"execution": {"control_root": authorization["control_root"],
@@ -1644,19 +1658,7 @@ def run(authorization_path, *, environ=None, provider=None):
         return _run(authorization_path, environ=environ, provider=provider)
 
 
-def native_idle_schedule(order, model):
-    """Recognize Noodle's idle scheduler, never an active or foreign writer."""
-    if not isinstance(order, dict) or order.get("order_id") != "schedule":
-        return False
-    stages = order.get("stages")
-    if order.get("status") != "active" or not isinstance(stages, list) or len(stages) != 1:
-        return False
-    stage = stages[0]
-    return (isinstance(stage, dict) and stage.get("stage_index") == 0
-            and stage.get("task_key") == "schedule" and stage.get("skill") == "schedule"
-            and stage.get("provider") == "codex" and stage.get("model") == model
-            and stage.get("runtime") == "process" and stage.get("prompt") == ""
-            and stage.get("status") == "pending" and stage.get("attempts") in (None, []))
+native_idle_schedule = issue_execution.native_idle_schedule
 
 
 def own_start_wait(authorization, paths, state, binding, owner, refuse):

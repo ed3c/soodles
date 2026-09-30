@@ -1,0 +1,70 @@
+{
+  "groups": {
+    "selection": {
+      "baseline": {
+        "verdict": "INCONCLUSIVE",
+        "reason": "consumer reported tool output truncation; raw subprocess capture was complete",
+        "context_bytes": 45657,
+        "read_capture_valid": true
+      },
+      "treatment": {
+        "verdict": "PASS",
+        "answer": {
+          "pin_mismatch": {
+            "launch_child": false,
+            "substitute_newer_tip": false,
+            "input_owner": "supervisor"
+          },
+          "legacy": {
+            "supported": true,
+            "selected_context_proven": false,
+            "complete_contract_required": true
+          }
+        },
+        "context_bytes": 3451,
+        "read_capture_valid": true
+      }
+    },
+    "confirmation": {
+      "baseline": {
+        "verdict": "PASS",
+        "answer": {
+          "supply": {
+            "exact_context_supplied": true,
+            "model_adherence_proven": false,
+            "replace_complete_contract": false
+          },
+          "amendment": {
+            "continue_old_envelope": false,
+            "fresh_envelope_required": true
+          }
+        },
+        "context_bytes": 45657,
+        "read_capture_valid": true
+      },
+      "treatment": {
+        "verdict": "PASS",
+        "answer": {
+          "supply": {
+            "exact_context_supplied": true,
+            "model_adherence_proven": false,
+            "replace_complete_contract": false
+          },
+          "amendment": {
+            "continue_old_envelope": false,
+            "fresh_envelope_required": true
+          }
+        },
+        "context_bytes": 3451,
+        "read_capture_valid": true
+      }
+    }
+  },
+  "claim": "Scoped matched confirmation nonregression with smaller supplied context; selection baseline semantic verdict is inconclusive.",
+  "capture_scope": "initial subprocess read plus consumer response; not complete platform transcript",
+  "confirmation_output_budget": 22000,
+  "selection_outer_output_budget": "default; baseline reported truncation",
+  "model_observed": null,
+  "token_metrics": null,
+  "authorizes_landing": false
+}

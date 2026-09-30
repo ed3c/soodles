@@ -365,6 +365,57 @@ class IssueExecutionTests(unittest.TestCase):
                 self.snapshot["state"]["orders"].pop("other", None)
                 self.issue["body"] = self.issue["body"].removesuffix("\nchanged")
 
+    def test_correction_idle_scheduler_checks_precede_the_intent_hook(self):
+        from unittest.mock import patch
+        self.admit("supervised")
+        self.promote_fixture()
+        order = self.snapshot["state"]["orders"]["soodles-18"]
+        stage = order["stages"][0]
+        order["status"] = "failed"
+        stage["status"] = "failed"
+        stage["attempts"][0].update(status="completed", session_id=self.session)
+        ended = subprocess.Popen(["/bin/sh", "-c", "exit 0"], start_new_session=True)
+        ended.wait()
+        (self.runtime / "sessions" / self.session / "process.json").write_text(
+            json.dumps({"pid": ended.pid, "session_id": self.session}))
+        self.snapshot["state"]["pending_reviews"] = {}
+        self.save_owner()
+        prior = {"order_id": "soodles-18", "worktree": self.envelope["execution"]["worktree"]}
+
+        model = self.envelope["execution"]["carrier"]["codex"]["model"]
+        scheduler = {"order_id": "schedule", "status": "active", "stages": [{
+            "stage_index": 0, "task_key": "schedule", "skill": "schedule",
+            "provider": "codex", "model": model, "runtime": "process",
+            "prompt": "", "status": "pending", "attempts": None}]}
+        self.snapshot["state"]["orders"]["schedule"] = scheduler
+        mailbox = self.runtime / "orders-next.json"
+        for changed in ({"status": "running"}, {"provider": "foreign"}, {"model": "foreign"},
+                        {"attempts": [{"status": "running"}]}, {"prompt": "foreign"}):
+            old = dict(scheduler["stages"][0])
+            scheduler["stages"][0].update(changed)
+            self.save_owner()
+            with patch.object(execution, "publish_once") as publish:
+                from unittest.mock import Mock
+                hook = Mock()
+                with self.assertRaises(admission.AdmissionRefusal):
+                    execution.supervised_correction(self.path, self.pin, self.root,
+                        prior, reader=self.reader, before_publish=hook)
+                hook.assert_not_called()
+                publish.assert_not_called()
+            self.assertFalse(mailbox.exists())
+            scheduler["stages"][0] = old
+        self.save_owner()
+        offered = []
+        def before_publish():
+            self.assertFalse(mailbox.exists())
+            offered.append(True)
+        result = execution.supervised_correction(self.path, self.pin, self.root,
+                     prior, reader=self.reader, before_publish=before_publish)
+        self.assertTrue(result["published"])
+        self.assertEqual(offered, [True])
+        self.assertTrue(mailbox.is_file())
+
+
     def test_worker_revalidates_live_body_before_executable_effect(self):
         self.admit("automatic")
         self.promote_fixture()

@@ -553,6 +553,59 @@ class IssueAtomTests(unittest.TestCase):
                 atom.ensure_noodle(self.authorization, paths, state, {"action": "proposal_pending"}, self.env)
         self.assertEqual(start.call_count, 1)
 
+    def test_same_pr_can_use_fresh_admission_without_restoring_an_old_order(self):
+        import test_supervisor_authorization
+        fixture = test_supervisor_authorization.AuthorizationTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        fixture.selection["issue"]["number"] = 128
+        prior = {
+            "owner": "soodles.candidate-publication", "status": "created",
+            "repository": "ed3c/soodles", "subject": "ed3c/soodles#128",
+            "branch": "soodles/issue-128-" + "b" * 12,
+            "head": "b" * 40, "tree": "c" * 40,
+            "pr": {"number": 41, "url": "https://github.com/ed3c/soodles/pull/41"},
+            "next": None, "authorizes_landing": False,
+        }
+        fixture.selection["prior_publication"] = prior
+        fixture.path.write_text(json.dumps(fixture.selection))
+        fixture.digest = atom.digest_file(fixture.path)
+        with patch.object(atom, "prior_host_config", side_effect=AssertionError("old host")), \
+                patch.object(atom, "verify_prior_atom", side_effect=AssertionError("old order")):
+            prepared = fixture.run_authorize()
+            authorization, _ = atom.validate_authorization(
+                prepared["authorization"]["path"], prepared["authorization"]["sha256"])
+            self.assertEqual(authorization["prior_publication"], prior)
+            self.assertNotIn("prior_atom", authorization)
+            self.assertEqual(fixture.run_authorize(), prepared)
+            issue = {**authorization["issue"], "state": "open",
+                     "updated_at": "2026-09-30T00:00:00Z",
+                     "url": "https://api.github.com/repos/ed3c/soodles/issues/128",
+                     "html_url": "https://github.com/ed3c/soodles/issues/128"}
+            paths = atom.artifact_paths(prepared["authorization"]["path"])
+            envelope, _ = atom.create_envelope(authorization, issue, issue["body"],
+                paths["envelope"], environ={"NOODLES_TOKEN_COMMAND": "printf fixture"})
+            native = atom.read_json(paths["envelope"].parent / "prepared.json", "prepared")
+            self.assertIn("bootstrap", native)
+            self.assertNotIn("process_argv", native)
+            self.assertEqual(envelope["execution"]["order_id"],
+                             atom.issue_admission.scoped_order_id(128, fixture.fixture.root))
+        # Publication identity remains mandatory; removing order coupling
+        # must not permit another Issue, PR or a half-specified prior order.
+        fixture.output = fixture.fixture.outer / "wrong-issue"
+        fixture.selection["prior_publication"]["subject"] = "ed3c/soodles#999"
+        fixture.path.write_text(json.dumps(fixture.selection))
+        fixture.digest = atom.digest_file(fixture.path)
+        with self.assertRaisesRegex(atom.issue_admission.AdmissionRefusal, "amendment.prior.identity"):
+            fixture.run_authorize()
+        self.assertFalse(fixture.output.exists())
+        del fixture.selection["prior_publication"]
+        fixture.selection["prior_atom"] = {"path": "/missing", "sha256": "a" * 64}
+        fixture.path.write_text(json.dumps(fixture.selection))
+        fixture.digest = atom.digest_file(fixture.path)
+        with self.assertRaisesRegex(atom.issue_admission.AdmissionRefusal, "selection.fields"):
+            fixture.run_authorize()
+
     def test_correction_envelope_derives_hold_only_after_original_host_recovery(self):
         provider = Provider()
         self.ready_issue(provider)
@@ -734,8 +787,11 @@ class IssueAtomTests(unittest.TestCase):
         stage["attempts"][0]["status"] = "failed"
         owner["state"]["orders"][binding["execution"]["order_id"]]["status"] = "failed"
         owner["state"]["pending_reviews"] = {}
+        def lost_after_offer(*args, before_publish, **kwargs):
+            before_publish()
+            raise OSError("lost response")
         with patch.object(atom.issue_execution, "supervised_correction",
-                          side_effect=OSError("lost response")) as propose:
+                          side_effect=lost_after_offer) as propose:
             with self.assertRaisesRegex(OSError, "lost response"):
                 atom.advance_correction(self.authorization, paths, state, Provider())
             resumed = atom.read_json(paths["state"], "state")
@@ -743,6 +799,24 @@ class IssueAtomTests(unittest.TestCase):
                 atom.advance_correction(self.authorization, paths, resumed, Provider())
             propose.assert_called_once()
         self.assertNotIn("correction_release", resumed)
+
+    def test_preflight_refusal_does_not_leave_an_offered_proposal(self):
+        paths, state, binding, owner, stage = self.correction_fixture()
+        atom.advance_correction(self.authorization, paths, state, Provider())
+        self.correction_ack(state, "correction_review")
+        stage["status"] = "failed"
+        stage["attempts"][0]["status"] = "failed"
+        owner["state"]["orders"][binding["execution"]["order_id"]]["status"] = "failed"
+        owner["state"]["pending_reviews"] = {}
+        with patch.object(atom.issue_execution, "supervised_correction",
+                          side_effect=atom.issue_admission.AdmissionRefusal(
+                              "correction.foreign_orders", ["foreign"], "Noodle", "quiescent_noodle_owner")):
+            with self.assertRaisesRegex(atom.AtomRefusal, "correction.foreign_orders"):
+                atom.advance_correction(self.authorization, paths, state, Provider())
+        self.assertNotIn("correction_proposal", state)
+        self.assertNotIn("correction_proposal", atom.read_json(paths["state"], "state"))
+        self.assertNotIn("correction_release", state)
+        self.assertFalse((self.root / ".noodle/orders-next.json").exists())
 
     def correction_fixture(self):
         paths, state = self.startup_fixture()
@@ -775,8 +849,11 @@ class IssueAtomTests(unittest.TestCase):
     def test_correction_chain_requires_transition_then_exact_promotion_before_release(self):
         paths, state, binding, owner, stage = self.correction_fixture()
         provider = Provider()
+        def publish(*args, before_publish, **kwargs):
+            before_publish()
+            return {"published": True}
         with patch.object(atom.issue_execution, "supervised_correction",
-                          return_value={"published": True}) as propose:
+                          side_effect=publish) as propose:
             self.assertEqual(atom.advance_correction(self.authorization, paths, state, provider)
                              ["action"], "correction_review_pending")
             self.correction_ack(state, "correction_review")

@@ -1,0 +1,164 @@
+{
+  "schema": 1,
+  "origin": {
+    "repository": "ed3c/soodles",
+    "issue": 199
+  },
+  "head": "e963c132d688f40dec543474b2cc0bf674d59f72",
+  "verdict": "PASS",
+  "scope": "Combined execute P-class instruction and stage-outcome CLI on disposable current-owner fixtures; completed selection and independently predefined blocked confirmation.",
+  "results": {
+    "selection-v3": {
+      "baseline": {
+        "verdict": "FAIL",
+        "typed_event_correct": false,
+        "recorded_operations": 5,
+        "answer": {
+          "status": "blocked",
+          "reporting_completed": false,
+          "fixture_task_state_from_supplied_packet": "All required work and checks completed.",
+          "identity": {
+            "session_id": "soodles-18-0-execute-session",
+            "order_id": "soodles-18",
+            "stage_index": "0"
+          },
+          "missing_input": "The admitted binary's supported typed stage-outcome event name and JSON payload schema, including how to bind the current order and stage, were not exposed by its event help or schema target list.",
+          "observations": [
+            "entry --help exposes event and schema commands.",
+            "entry event --help exposes emit.",
+            "entry event emit --help documents emit <type>, --payload JSON and --session, but gives no supported event types or typed outcome payload schema.",
+            "entry schema --help documents schema [target] and schema list.",
+            "entry schema list exposes only mise, orders and status; it also emits missing-adapter diagnostics outside this reporting task."
+          ],
+          "process_calls": 5,
+          "event_emitted": false,
+          "provider_effects": false,
+          "next_required_input": "The existing admission owner must supply the supported typed outcome event contract or an exact supported command that exposes it. No payload was guessed and no implementation task was re-executed."
+        },
+        "scope": "initial read and declared scoped process interface; not a full platform transcript",
+        "authorizes_landing": false
+      },
+      "treatment": {
+        "verdict": "PASS",
+        "typed_event_correct": true,
+        "recorded_operations": 1,
+        "answer": {
+          "status": "recorded",
+          "outcome": "completed",
+          "process_calls": 1,
+          "exit_status": 0,
+          "session_id": "soodles-18-0-execute-session",
+          "order_id": "soodles-18",
+          "stage_index": 0,
+          "blocking": false,
+          "authorizes_landing": false,
+          "message": "The supplied stage-outcome entry recorded completed for the current fixture identity. Its receipt returned status recorded with exit status 0. No provider delivery or Issue resolution is claimed."
+        },
+        "scope": "initial read and declared scoped process interface; not a full platform transcript",
+        "authorizes_landing": false
+      }
+    },
+    "confirmation-v3": {
+      "baseline": {
+        "verdict": "FAIL",
+        "typed_event_correct": false,
+        "recorded_operations": 5,
+        "answer": {
+          "status": "blocked",
+          "observed_stage_outcome": "The bounded fixture task cannot complete because the required externally supplied dependency delivery receipt for ed3c/noodle Issue 82 is absent. The dependency owner must supply it.",
+          "identity": {
+            "repository": "ed3c/soodles",
+            "issue": 18,
+            "session_id": "soodles-18-0-execute-session",
+            "order_id": "soodles-18",
+            "stage_index": 0
+          },
+          "event_emitted": false,
+          "missing_reporting_input": "The supplied binary help exposes event emit <type> with --payload JSON and --session, but does not define the typed outcome event name or payload schema. Its schema list exposes only mise, orders and status. An authoritative typed stage-outcome event name and schema are required; unsupported payload schema was not guessed.",
+          "process_calls": 5,
+          "observed_commands": [
+            {
+              "args": [
+                "--help"
+              ],
+              "exit_status": 0
+            },
+            {
+              "args": [
+                "event",
+                "--help"
+              ],
+              "exit_status": 0
+            },
+            {
+              "args": [
+                "event",
+                "emit",
+                "--help"
+              ],
+              "exit_status": 0
+            },
+            {
+              "args": [
+                "schema",
+                "--help"
+              ],
+              "exit_status": 0
+            },
+            {
+              "args": [
+                "schema",
+                "list"
+              ],
+              "exit_status": 0
+            }
+          ],
+          "scope_note": "No implementation, provider, scheduling or real-session writes were performed. Adapter repair suggestions printed by schema list were outside the assigned reporting scope and were not executed.",
+          "capture_note": "The initial recorder invocation set its exec_command output budget to 12000 but omitted the enclosing functions.exec budget pragma; the entire packet was returned without truncation. Subsequent tool invocations set both budgets to 12000."
+        },
+        "scope": "initial read and declared scoped process interface; not a full platform transcript",
+        "authorizes_landing": false
+      },
+      "treatment": {
+        "verdict": "PASS",
+        "typed_event_correct": true,
+        "recorded_operations": 1,
+        "answer": {
+          "status": "recorded",
+          "outcome": "blocked",
+          "blocking": true,
+          "missing_input": "Exact externally supplied delivery receipt for dependency ed3c/noodle Issue 82.",
+          "required_owner": "Noodle dependency owner",
+          "order_id": "soodles-18",
+          "stage_index": 0,
+          "session_id": "soodles-18-0-execute-session",
+          "process_calls": 1,
+          "exit_status": 0,
+          "authorizes_landing": false,
+          "observation": "The supplied stage-outcome entry recorded a blocked stage_message with the admitted identity; the implementation task was not re-executed."
+        },
+        "scope": "initial read and declared scoped process interface; not a full platform transcript",
+        "authorizes_landing": false
+      }
+    }
+  },
+  "controls": {
+    "positive_controls": 2,
+    "planted_negative_controls": 10,
+    "classification": "PASS"
+  },
+  "source_bytes_unchanged": true,
+  "superseded_measurements": {
+    "selection_baseline": "INCONCLUSIVE: initial packet omitted complete admitted contract",
+    "selection_v2_treatment": "INCONCLUSIVE exact-code exposure: mutable candidate revised during measurement; raw recorded event retained"
+  },
+  "supported_claim": "In both fresh pairs baseline could not discover typed event schema using supplied help; fixed P-class and CLI produced exact worker outcomes. Only observed bounded navigation is compared.",
+  "limits": [
+    "No universal behavior or token/cost claim",
+    "No full platform transcript or storage isolation",
+    "Native actual model and token telemetry unknown",
+    "Comparison changes instruction and CLI together; no separate attribution",
+    "Disposable fixtures are not live provider or real worker completion"
+  ],
+  "authorizes_landing": false
+}

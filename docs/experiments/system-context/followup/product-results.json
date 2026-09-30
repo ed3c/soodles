@@ -1,0 +1,242 @@
+{
+  "classification": "PASS",
+  "scope": "actual Noodle event CLI over disposable owner fixtures",
+  "processes": [
+    {
+      "case": "completed-duplicate",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "completed",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.events.existing_outcome\", \"value\": [{\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"completed\", \"blocking\": false, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:04.095282Z\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_session_event_readback\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "no_new_event": true
+    },
+    {
+      "case": "completed",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "completed",
+          "fixture observation"
+        ],
+        "exit_status": 0,
+        "stdout": "{\"status\": \"recorded\", \"event\": {\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"completed\", \"blocking\": false, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:04.095282Z\", \"session_id\": \"soodles-18-0-execute-session\"}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": [
+        {
+          "type": "stage_message",
+          "payload": {
+            "message": "fixture observation",
+            "outcome": "completed",
+            "blocking": false,
+            "order_id": "soodles-18",
+            "stage_index": 0
+          },
+          "timestamp": "2026-09-30T15:49:04.095282Z",
+          "session_id": "soodles-18-0-execute-session"
+        }
+      ]
+    },
+    {
+      "case": "blocked-duplicate",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "blocked",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.events.existing_outcome\", \"value\": [{\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"blocked\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:04.730151Z\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_session_event_readback\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "no_new_event": true
+    },
+    {
+      "case": "blocked",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "blocked",
+          "fixture observation"
+        ],
+        "exit_status": 0,
+        "stdout": "{\"status\": \"recorded\", \"event\": {\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"blocked\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:04.730151Z\", \"session_id\": \"soodles-18-0-execute-session\"}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": [
+        {
+          "type": "stage_message",
+          "payload": {
+            "message": "fixture observation",
+            "outcome": "blocked",
+            "blocking": true,
+            "order_id": "soodles-18",
+            "stage_index": 0
+          },
+          "timestamp": "2026-09-30T15:49:04.730151Z",
+          "session_id": "soodles-18-0-execute-session"
+        }
+      ]
+    },
+    {
+      "case": "failed-duplicate",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "failed",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.events.existing_outcome\", \"value\": [{\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"failed\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:05.372403Z\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_session_event_readback\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "no_new_event": true
+    },
+    {
+      "case": "failed",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "failed",
+          "fixture observation"
+        ],
+        "exit_status": 0,
+        "stdout": "{\"status\": \"recorded\", \"event\": {\"type\": \"stage_message\", \"payload\": {\"message\": \"fixture observation\", \"outcome\": \"failed\", \"blocking\": true, \"order_id\": \"soodles-18\", \"stage_index\": 0}, \"timestamp\": \"2026-09-30T15:49:05.372403Z\", \"session_id\": \"soodles-18-0-execute-session\"}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": [
+        {
+          "type": "stage_message",
+          "payload": {
+            "message": "fixture observation",
+            "outcome": "failed",
+            "blocking": true,
+            "order_id": "soodles-18",
+            "stage_index": 0
+          },
+          "timestamp": "2026-09-30T15:49:05.372403Z",
+          "session_id": "soodles-18-0-execute-session"
+        }
+      ]
+    },
+    {
+      "case": "unknown",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "resolved",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"outcome\", \"value\": \"resolved\"}, \"next\": {\"kind\": \"input\", \"owner\": \"worker\", \"required\": [\"completed_blocked_or_failed\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": []
+    },
+    {
+      "case": "empty",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "completed",
+          " "
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"message\", \"value\": \" \"}, \"next\": {\"kind\": \"input\", \"owner\": \"worker\", \"required\": [\"nonblank_message\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": []
+    },
+    {
+      "case": "wrong-session",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "completed",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.attempt\", \"value\": [{\"status\": \"running\", \"session_id\": \"soodles-18-0-execute-session\"}]}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_dispatch_identity\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": []
+    },
+    {
+      "case": "wrong-order",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "completed",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.order\", \"value\": null}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_dispatch_identity\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": []
+    },
+    {
+      "case": "wrong-stage",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "completed",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.NOODLE_STAGE_INDEX\", \"value\": \"1\"}, \"next\": {\"kind\": \"input\", \"owner\": \"Noodle\", \"required\": [\"current_dispatch_identity\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": []
+    },
+    {
+      "case": "missing-launcher",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "completed",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"worker.launcher\", \"value\": \"\"}, \"next\": {\"kind\": \"input\", \"owner\": \"supervisor\", \"required\": [\"SOODLES_ADMISSION_LAUNCHER\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": []
+    },
+    {
+      "case": "envelope-drift",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "completed",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"envelope.sha256\", \"value\": \"96576847d3b73da9a1cd65f4d38b10761cb95689a79ab3e65c7736b4f846e884\"}, \"next\": {\"kind\": \"input\", \"owner\": \"supervisor\", \"required\": [\"execution_envelope\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": []
+    },
+    {
+      "case": "binary-drift",
+      "process": {
+        "argv": [
+          "/Users/neon/.codex/worktrees/context-outcome/soodles/.worktrees/soodles-199-0dae70bd34ea-0-execute/stage-outcome",
+          "completed",
+          "fixture observation"
+        ],
+        "exit_status": 1,
+        "stdout": "{\"status\": \"refused\", \"invalid\": {\"field\": \"carrier.noodle.sha256\", \"value\": \"965cfd6f985e207551d0664e728ae9fae10ae0cc8cd2885a816415823d9d103d\"}, \"next\": {\"kind\": \"input\", \"owner\": \"supervisor\", \"required\": [\"execution_envelope\"]}, \"authorizes_landing\": false}\n",
+        "stderr": ""
+      },
+      "events": []
+    }
+  ],
+  "authorizes_landing": false
+}
