@@ -640,7 +640,7 @@ def _committed_preparation(target, selection, selection_digest, root):
     schema = 3 if pins else 2
     fields = (issue_atom.AUTH_FIELDS | {"landing_owner"}
               | ({"instruction_pins"} if pins else set())
-              | ({"prior_publication", "prior_atom"} if "prior_publication" in selection else set())
+              | ({"prior_publication", "prior_atom"} & selection.keys())
               | ({"lifecycle_owner"} if "lifecycle_owner" in selection else set()))
     require(isinstance(auth, dict) and set(auth) == fields
             and type(auth.get("schema_version")) is int and auth["schema_version"] == schema,
@@ -659,6 +659,7 @@ def _committed_preparation(target, selection, selection_digest, root):
     if "prior_publication" in selection:
         require(auth["prior_publication"] == selection["prior_publication"],
                 "authorization.bundle.prior_publication", str(target))
+    if "prior_atom" in selection:
         require(auth["prior_atom"] == selection["prior_atom"],
                 "authorization.bundle.prior_atom", str(target))
     require(isinstance(auth["base_head"], str) and issue_atom.SHA40.fullmatch(auth["base_head"])
@@ -702,7 +703,8 @@ def authorize(selection_path, expected_sha256, output):
     required_fields = AUTHORIZATION_SELECTION_FIELDS | (
         {"lifecycle_owner"} if isinstance(selection, dict) and "lifecycle_owner" in selection else set())
     require(isinstance(selection, dict) and set(selection) in
-            (required_fields, required_fields | {"prior_publication", "prior_atom"}),
+            (required_fields, required_fields | {"prior_publication"},
+             required_fields | {"prior_publication", "prior_atom"}),
             "selection.fields", sorted(selection) if isinstance(selection, dict) else type(selection).__name__)
     require(type(selection["schema"]) is int and selection["schema"] == 1,
             "selection.schema", selection["schema"])
@@ -741,6 +743,7 @@ def authorize(selection_path, expected_sha256, output):
         except candidate_publication.PublicationRefusal as error:
             raise AdmissionRefusal(error.invalid["field"], error.invalid["value"],
                                    "supervisor", "exact_prior_publication") from error
+    if "prior_atom" in selection:
         try:
             issue_atom.validate_prior_atom_ref(selection["prior_atom"], root)
             prior_host = issue_atom.prior_host_config(selection["prior_atom"], root)
@@ -789,6 +792,7 @@ def authorize(selection_path, expected_sha256, output):
         authorization["instruction_pins"] = pins
     if "prior_publication" in selection:
         authorization["prior_publication"] = selection["prior_publication"]
+    if "prior_atom" in selection:
         authorization["prior_atom"] = selection["prior_atom"]
     data = _canonical(authorization)
     digest = _sha256(data)

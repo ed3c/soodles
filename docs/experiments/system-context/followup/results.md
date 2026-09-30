@@ -140,3 +140,29 @@ Artifact bindings:
   "verdict": "PASS"
 }
 ```
+
+
+## New admitted correction attempt (Issue 199 / existing PR 200)
+
+This is actual order `soodles-199-5236d5ae903f`, session `soodles-199-5236d5ae903f-0-execute-20260930-165742-db76ce`. Its clean Noodle-owned worktree began at admitted base `0977f2513130e8a38c53665f71c8e90f3ac9c614` and was explicitly fast-forwarded to `c9577fda90ebc910492599d88428f94a5f469869` before applying the seven SHA-256-verified files selected by the supervisor's `followup/fresh-attempt/fixed-files.json`. The read-only worker adapter confirmed the current envelope, binary, order, stage, session and worktree binding. No original-order restoration or event fabrication occurred.
+
+The supervisor reports that c957's Linux runtime run `36741329249` failed on deep JSON; earlier recovery attempts failed and the original order was archived. The user explicitly rejected restoring that order as a prerequisite. This fresh admission preserves Issue 199, PR 200, failed immutable heads and old evidence. The failed `prewrite_recovery` experiment is excluded. No archived-order recovery API is introduced.
+
+Scoped eval-audit (method SHA-256 `c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133`) separates three observed owner faults: unbounded recursion diagnostics, inconsistent idle-scheduler recognition, and proposal intent persisted before validation. Existing controls also exposed unnecessary coupling of prior publication to prior-order continuation. The selected owner correction catches recursion around parsing/validation/diagnostic rendering/output, shares the exact idle-scheduler predicate, validates before recording an offered proposal, and admits a fresh order retaining the prior publication identity. Unknown effect outcomes still require readback and are never automatically reoffered. Existing same-order correction and publication/CI/landing gates remain required.
+
+Measurement assessment: deterministic subprocess faults distinguish four recursion boundaries; the old source fails three controls. Owner controls distinguish idle from active/foreign schedulers, preflight refusal from unknown write outcome, and same-PR fresh admission from foreign identities or a prior atom without publication. Binary criteria use executable checks, so subjective judge calibration is not applicable. Raw logs support these local product findings; the unchanged system-context observer alone does not measure scheduler/admission behavior. Small historical consumer pairs and incomplete platform telemetry support no broad efficiency claim.
+
+Agent behavior for this new correction is **INCONCLUSIVE**: archived fresh-consumer/independent-confirmation evidence retains its original subject and verdict, and is not relabeled as this session or a new-head comparison. The frozen execute instructions and stage-outcome implementation remain byte-identical. Original baseline truncation remains INCONCLUSIVE. This worker reports its bounded implementation/check work only; no new behavior-improvement or combined defect-closure claim is made. Provider resolution and Linux exact-head acceptance remain pending with the selected external owners.
+
+### Preserved external offline receipts
+
+These receipts predate this worker and are not this candidate's acceptance. Paths below are relative to `/Users/neon/.codex/experiments/system-context-atom-c8qd73l8/followup/minimal-review/`.
+
+| Receipt | Scoped result | SHA-256 |
+| --- | --- | --- |
+| `suite.log` | 543 tests passed before publication/admission decoupling | `625731c6b761d1fbc62d0bb667d7c514b9fab125fb6bc2d3afea3b7264e2342a` |
+| `owner-final.log` | Latest changed-owner controls: 109 tests passed | `d16e62199179e85ba9046dc3733b5a1c2d157b799b7ab510029dfa9af9593669` |
+| `portable-312.log` | Four deterministic recursion faults pass on Python 3.12 | `1e0f2a88ebd45c86db66686efeeab74610c5610de47412894002b70d4c851002` |
+| `portable-314.log` | Four deterministic recursion faults pass on Python 3.14 | `62a7a72bfb69d5f1d8e3e5dfe57ada1174dc0851edd042b4ebedeaba4cb93214` |
+| `baseline-portable.log` | Old source fails three of four deterministic controls | `0cd7be650ca232f81705aaf110345c3a03aa788bf7cf72608ad10d519234eaad` |
+| `oracle.log` | Unchanged external product observer PASS | `e8b30a5e89256eacfb7aa0086b100c1dd303a4d5ad526866ba5f483e8b57f672` |

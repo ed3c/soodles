@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -195,6 +196,48 @@ class SystemContextTests(unittest.TestCase):
         self.write_routes('[' * 1100 + ']' * 1100)
         self.commit()
         self.refused(CONTEXT)
+
+    def test_recursion_faults_at_cli_boundaries_remain_bounded_json(self):
+        # Controlled faults distinguish parsing, validation, diagnostic repr,
+        # and output encoding without relying on a carrier's depth threshold.
+        faults = (
+            'patch.object(c.json, "loads", side_effect=RecursionError("parse"))',
+            'patch.object(c, "validate_routes", side_effect=RecursionError("validate"))',
+            'patch.object(c, "validate_routes", side_effect=bad_diagnostic)',
+            'patch.object(c.json, "dumps", side_effect=fail_first_encoding)',
+        )
+        prefix = """import sys
+from unittest.mock import patch
+import system_context as c
+class Unrepresentable:
+    def __repr__(self):
+        raise RecursionError("diagnostic repr")
+def bad_diagnostic(value):
+    raise c.AdmissionRefusal("routes.fields", Unrepresentable())
+real_dumps = c.json.dumps
+encoding_calls = 0
+def fail_first_encoding(*args, **kwargs):
+    global encoding_calls
+    encoding_calls += 1
+    if encoding_calls == 1:
+        raise RecursionError("output encoding")
+    return real_dumps(*args, **kwargs)
+"""
+        for fault in faults:
+            with self.subTest(fault=fault):
+                script = prefix + "with " + fault + ":\n    raise SystemExit(c.main([" + repr(CONTEXT) + "]))\n"
+                result = subprocess.run([sys.executable, "-c", script], cwd=self.root,
+                                        capture_output=True, text=True, timeout=30)
+                self.assertEqual(result.returncode, 1)
+                self.assertEqual(result.stderr, "")
+                self.assertLess(len(result.stdout), 1024)
+                value = json.loads(result.stdout)
+                self.assertEqual(value["status"], "refused")
+                self.assertFalse(value["authorizes_landing"])
+                self.assertNotIn("instruction_context", value)
+                self.assertTrue(value["invalid"]["field"])
+                self.assertEqual(value["next"]["required"],
+                                 ["valid_committed_system_context_selection"])
 
     def test_committed_digest_changes_and_resolver_rejects_old_pin(self):
         original = self.cli(CONTEXT)[1]

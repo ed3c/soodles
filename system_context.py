@@ -107,7 +107,7 @@ def select(root, roots):
             "instruction_context": context, "authorizes_landing": False}
 
 
-def main(argv=None):
+def _main(argv=None):
     try:
         value = select(Path(__file__).resolve().parent,
                        sys.argv[1:] if argv is None else argv)
@@ -124,6 +124,21 @@ def main(argv=None):
                  "authorizes_landing": False}
     print(json.dumps(value, ensure_ascii=True, indent=2))
     return 0 if value["status"] == "ready" else 1
+
+
+def main(argv=None):
+    # Nested input can exceed a carrier's recursion limit while parsing,
+    # constructing a refusal, or serializing the diagnostic.
+    try:
+        return _main(argv)
+    except RecursionError:
+        print(json.dumps({"owner": OWNER, "status": "refused",
+                          "invalid": {"field": "routes.depth",
+                                      "value": "nested input exceeds interpreter capacity"},
+                          "next": {"kind": "input", "owner": "Soodles Issue admission",
+                                   "required": ["valid_committed_system_context_selection"]},
+                          "authorizes_landing": False}))
+        return 1
 
 
 if __name__ == "__main__":
