@@ -154,9 +154,13 @@ def selected_instruction_pins(authorization):
         require("instruction_pins" not in authorization, "authorization.instruction_pins", "legacy schema")
         return None
     pins = authorization.get("instruction_pins")
+    prior = authorization.get("prior_publication")
+    instruction_head = prior.get("head") if isinstance(prior, dict) else authorization["base_head"]
+    require(isinstance(instruction_head, str) and SHA40.fullmatch(instruction_head),
+            "authorization.instruction_head", instruction_head)
     try:
         issue_admission.resolve_instruction_context(
-            authorization["control_root"], authorization["base_head"], pins)
+            authorization["control_root"], instruction_head, pins)
     except issue_admission.AdmissionRefusal as error:
         raise AtomRefusal(error.invalid["field"], error.invalid["value"]) from error
     return pins
@@ -1530,9 +1534,14 @@ def verify_prior_atom(authorization):
             and stage.get("skill") == "execute"
             and stage.get("provider") == "codex"
             and stage.get("model") == authorization["carrier"]["codex"]["model"]
-            and isinstance(attempts, list) and len(attempts) == 1
-            and attempts[0].get("status") == "completed"
-            and attempts[0].get("session_id") == prior_claim.get("session_id"),
+            and isinstance(attempts, list) and bool(attempts)
+            and all(isinstance(attempt, dict) for attempt in attempts)
+            and all(attempt.get("status") == "failed" for attempt in attempts[:-1])
+            and all(isinstance(attempt.get("session_id"), str)
+                    and attempt["session_id"] for attempt in attempts)
+            and len({attempt["session_id"] for attempt in attempts}) == len(attempts)
+            and attempts[-1].get("status") == "completed"
+            and attempts[-1].get("session_id") == prior_claim.get("session_id"),
             "amendment.prior_review", stage.get("status"), "completed_original_attempt")
     try:
         prompt = json.loads(stage.get("prompt", ""))

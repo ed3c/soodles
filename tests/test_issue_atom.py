@@ -575,6 +575,49 @@ class IssueAtomTests(unittest.TestCase):
                          "--project-dir", str(self.root), "start", "--mode", "manual"])
         self.assertNotIn("bootstrap", prepared)
 
+    def test_prior_review_preserves_failed_history_but_binds_latest_completed_session(self):
+        paths, state = self.startup_fixture()
+        binding = atom.read_json(paths["envelope"], "envelope")
+        oid = binding["execution"]["order_id"]
+        name = binding["execution"]["worktree"]
+        worker = self.root / ".worktrees" / name
+        subprocess.run(["git", "worktree", "add", "-b", name, str(worker), self.base],
+                       cwd=self.root, check=True, capture_output=True)
+        tree = atom._git(worker, "rev-parse", "HEAD^{tree}")
+        publication = {"head": self.base, "tree": tree}
+        state.update(phase="ci", issue={"number": 131}, publication=publication)
+        atom.save_json(paths["state"], state)
+        atom.save_json(paths["claim"], {"repository": "ed3c/soodles", "subject": "ed3c/soodles#131",
+            "head": self.base, "tree": tree, "base_head": self.base, "order_id": oid,
+            "worktree_name": name, "worktree_path": str(worker), "session_id": "latest"})
+        authorization = {**self.authorization, "issue": {**self.authorization["issue"], "number": 131},
+            "prior_atom": {"path": str(self.path), "sha256": self.digest}, "prior_publication": publication}
+        old_binding = {**binding, "contract": atom.issue_admission.parse_contract(self.authorization["issue"]["body"])}
+        stage = {"status": "review", "skill": "execute", "provider": "codex", "model": "fixture-model",
+                 "prompt": json.dumps(atom.issue_execution.projection(old_binding, state["envelope_sha256"], "supervised"))}
+        snapshot = {"state": {"orders": {oid: {"status": "active", "stages": [stage]}},
+                              "pending_reviews": {oid: {}}}, "effect_ledger": []}
+        cases = (([], True), ([{"status": "failed", "session_id": "old"}], True),
+                 ([{"status": "failed", "session_id": "old"}, {"status": "failed", "session_id": "older"}], True),
+                 ([{"status": "completed", "session_id": "old"}], False),
+                 ([{"status": "failed", "session_id": "latest"}], False),
+                 ([{"status": "cancelled", "session_id": "old"}], False))
+        with patch.object(atom.issue_execution, "quiescent_order"), \
+                patch.object(atom, "observe_prior_loop", return_value="running"):
+            for history, valid in cases:
+                stage["attempts"] = history + [{"status": "completed", "session_id": "latest"}]
+                atom.save_json(self.root / ".noodle/state.snapshot.json", snapshot)
+                with self.subTest(history=history):
+                    if valid:
+                        self.assertEqual(atom.verify_prior_atom(authorization)["order_id"], oid)
+                    else:
+                        with self.assertRaisesRegex(atom.AtomRefusal, "prior_review"):
+                            atom.verify_prior_atom(authorization)
+            stage["attempts"] = [{"status": "completed", "session_id": "foreign"}]
+            atom.save_json(self.root / ".noodle/state.snapshot.json", snapshot)
+            with self.assertRaisesRegex(atom.AtomRefusal, "prior_review"):
+                atom.verify_prior_atom(authorization)
+
     def test_corrected_start_reuses_only_the_unchanged_parked_review(self):
         from unittest.mock import Mock
         paths, state = self.startup_fixture()

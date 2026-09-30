@@ -84,6 +84,34 @@ class AuthorizationTests(unittest.TestCase):
         self.assertEqual(authorization['prior_atom'], prior_atom)
         self.assertEqual(self.run_authorize(), result)
 
+        # A second correction can follow a P-class change. Its instructions
+        # belong to the selected published head, not the unchanged control base.
+        base = authorization['base_head']
+        instruction = self.fixture.root / 'AGENTS.md'
+        instruction.write_text('Published correction instructions\n')
+        subprocess.run(['git', 'add', 'AGENTS.md'], cwd=self.fixture.root, check=True)
+        subprocess.run(['git', 'commit', '-m', 'fixture published instructions'],
+                       cwd=self.fixture.root, check=True, capture_output=True)
+        published = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=self.fixture.root, text=True).strip()
+        published_tree = subprocess.check_output(['git', 'rev-parse', 'HEAD^{tree}'], cwd=self.fixture.root, text=True).strip()
+        subprocess.run(['git', 'reset', '--hard', base], cwd=self.fixture.root, check=True, capture_output=True)
+        self.selection['prior_publication'] = {**prior, 'head': published, 'tree': published_tree}
+        self.selection['instruction_paths'] = ['AGENTS.md']
+        self.path.write_text(json.dumps(self.selection))
+        self.digest = issue_atom.digest_file(self.path)
+        self.output = self.fixture.outer / 'published-instructions'
+        selected = self.run_authorize()
+        current, _ = issue_atom.validate_authorization(selected['authorization']['path'], selected['authorization']['sha256'])
+        self.assertEqual(current['base_head'], base)
+        context = issue_atom.issue_admission.resolve_instruction_context(
+            self.fixture.root, published, current['instruction_pins'])
+        self.assertEqual(context['source_head'], published)
+        self.assertEqual(self.run_authorize(), selected)
+        current['instruction_pins'][0]['sha256'] = 'f' * 64
+        with self.assertRaisesRegex(issue_atom.AtomRefusal, 'instruction_context.files.sha256'):
+            issue_atom.selected_instruction_pins(current)
+        self.selection['instruction_paths'] = []
+
         self.output = self.fixture.outer / 'foreign-pr-selection'
         self.selection['prior_publication'] = {**prior, 'subject': 'ed3c/soodles#999'}
         self.path.write_text(json.dumps(self.selection))

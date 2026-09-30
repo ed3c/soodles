@@ -1,0 +1,11 @@
+# Product and P-class assessment after actual publication
+
+Product: the actual external runtime log proves 120-second discovery timeout. The independent writer process completed all 513 tests in 241.667 seconds. The actual parked original owner has failed attempt 0 and completed attempt 1: old fixed source refuses; corrected source verifies the same owner readback without writes. 127 affected controls pass, including bounded discovery/failure/skip/timeout gates and parameterized valid/invalid prior histories.
+
+P-class: retain its exact bytes. The earlier fixed A/B/C comparison and once-only confirmation remain scoped to their original source. The archived fresh original-order writer followed the selected packet, verified bytes, completed discovery, committed and parked with typed outcome; provider effects remained with the CLI. This is actual execution evidence, not a blinded comparison or proof of lower decision cost. The next exact source still needs fresh writer and provider acceptance.
+
+Eval-audit: the failure categories arise from raw process/provider traces; objective binary oracles suffice; preserved negative controls discriminate wrong identity and invalid histories. No unvalidated LLM judge or reused confirmation is introduced. Human review is by the authorized Session inspecting full traces; universal performance is unknown. New source is assessed separately, never substituted into old archives.
+
+Independent telemetry and refactoring: capture canonical state, process requests/results, exact provider head/run and residue outside candidate. External per-test timing observation on the next required full run will identify expensive controls without adding a second full run. Test-reported PASS alone is insufficient. The two observed defects require intentional behavior correction, not input/output-equivalent refactoring. No broad refactor is justified yet. Preserve unaffected state/effect/identity behavior; merge redundant controls only after proving equal discrimination, including planted negatives. This correction adds three test methods (one uses seven history cases), not a new complete harness per bug. The 600-second ceiling fixes premature termination, not test growth.
+
+Delivery remains pending on the same Issue 193 / PR 194; no merge authority is claimed here.

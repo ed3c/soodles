@@ -28,6 +28,11 @@
   ],
   "artifacts": [
     {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "a0ecebced9ddf89507b00c01b2c14f46ac2ffde3378a7eb28f59b44c580797e2"
+    },
+    {
       "path": "candidate_publication.py",
       "role": "exact implementation or sealed experiment/control evidence",
       "sha256": "6fbd467cc7b17eec182d59a3a8aa277d88da5b88b821c87f75ce92d5c7de01da"
@@ -738,6 +743,126 @@
       "sha256": "3333165a753a3f01d35294c6acef60cef6e81e5958f6e0b8c3b00153b3b5325c"
     },
     {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/assessment.md",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "0c868d2c461f3e22ef105656a3f4c50e89037735e36414c12a5725d548bfe4f4"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/baseline-custody.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "f5e5ca68756e665f2a1d582e7946f4191999a52b5fb3807aca13dcf96f898fcc"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/before-owner.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "3c2a5a06f79a3ad8619807c0f771dc9a02ce6cd1b85b2505aa043a7aaf379c9b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/focused.stderr",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "6f5d34e08004c70745ae6d0258eeb7883b12e9b38a78d02a2db38ee7105acfdb"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/focused.stdout",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/instruction-selection-finding.md",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "ab5d644f1501b1295f2ad48eeb9a47aadddbc7792f13b22c1543051cadcc4553"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/instruction-selection-refusal.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "0bfd0e363875713e82ed79aaf9dedfbc5d881b23f1085928fa55fd69a56f641a"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/canonical.ndjson",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "6dbd4792b8e55d0dce8b43fb6c19ffa412c359418fda0219c67b0034e7dc5930"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/codex-startup.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "ed6696f89972f0791e3b4698eb65a4b59aba932591a2b2bfebc36e2ead060b04"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/delivery-v4-tests.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "29be311b359bcd39b4cd5bbc0cc5d7b6e11b5262c03906bb885b3c6c8f83b21c"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/delivery-v4-tests.stderr",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "5d48e195858f66a1ec01c68040acd67d3c63fe320990eb0aa867acb98817f178"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/delivery-v4-tests.stdout",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/delivery-v4-validation.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "751f1397d31fca84ed2e56770f4ce74926574f597861cb8d602ac53ee01f88c7"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/events.ndjson",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "0e653d5a453366859cc8458c323e3848670aa3a571214c43a969c458736c730b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/inventory.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "c5cb57adca82b1c629acb3f3a14a7cc03b6ef45e4f848fe001cf1c4f3bac673e"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/meta.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "2522cca4aead0d755c0061c39afe013d0c7d679a587daf4c700680fa790bfd3e"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/process.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "1016de2c4d5753635c74e74d0c122ad3a4a2f14cd0c1e78e62d4b0c564e1388b"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/raw.ndjson",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "9c3432569c91988528724bcbdceb4d7ea72b1b32fd287233df25470c98b55cb8"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/prior-fresh-writer/spawn.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "40912570438a95e74890c2108f06e2468e48aebae1170e952425065b2f6d8757"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/protocol.md",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "651b0b7750d04341fb3540a1ce140c4a4c3541742279e3b1966389b248680931"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/read_custody.py",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "8741f11961e3a5ff28c8803a4e98b1e9fa84e3684f3b76d017e43e372d6df089"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/record_unittest.py",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "37ebf56d3d9b0937908bfbfed02bc6827321e1172d0f6a9e3e6ee61e324042ed"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/runtime311-job.log.gz",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "55309f9cf692f7394e36b78a1f6af0a5d51d31816956b718050de053db3016bd"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/treatment-custody.json",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "ba69b8241400c27fbfc930a939184d82ec5a7f3f3dd82115a4b1da378dbf0451"
+    },
+    {
       "path": "docs/experiments/authorization-reentry/correction/verification/publication-gap-reproduction.json",
       "role": "exact implementation or sealed experiment/control evidence",
       "sha256": "c06eb59d65d0819114f2e108d7666f9d807313c897d3db3d087a93bd05850810"
@@ -1310,7 +1435,7 @@
     {
       "path": "issue_atom.py",
       "role": "exact implementation or sealed experiment/control evidence",
-      "sha256": "432622803a178fba6553df313eaad758d4d69e69c162d4840233cd3fe9c21bdc"
+      "sha256": "3950d5b3a051f0d29faede076eccad8b28a9526278232b7a1a0e629caddf5c52"
     },
     {
       "path": "issue_execution.py",
@@ -1323,14 +1448,24 @@
       "sha256": "8dbc0bd9b06d179b690e34920bfc01a8680716a5fce3597c76c5f8409b57b340"
     },
     {
+      "path": "soodles.py",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "680d1702b9a5fd377ac26c9a4769936ca9a4ab0cea9c00a6ddb563c02d5ba531"
+    },
+    {
       "path": "supervisor_admission.py",
       "role": "exact implementation or sealed experiment/control evidence",
-      "sha256": "c4d1703cd898decef37fce64f0125a85501ec3834b21b429a725d57b923ee64e"
+      "sha256": "5fd5887d2d5b440916aadd54b4859720b4a6561a8422bb897dbf89ccb6a832bd"
     },
     {
       "path": "tests/authorization_prepare_controls.py",
       "role": "exact implementation or sealed experiment/control evidence",
       "sha256": "84ba195a6875f4f6d96f873a81babf1b91ca9bda21b5cb661f1c5c90a860d2b8"
+    },
+    {
+      "path": "tests/test_admission.py",
+      "role": "exact implementation or sealed experiment/control evidence",
+      "sha256": "777232076ddeafa65144ba1c3ee3296fdac6784c1d6528f1643c893be554f91a"
     },
     {
       "path": "tests/test_authorization_materialization_evidence.py",
@@ -1350,7 +1485,7 @@
     {
       "path": "tests/test_issue_atom.py",
       "role": "exact implementation or sealed experiment/control evidence",
-      "sha256": "d47b9b26eef6c12c5135d233ef00ce60125cbb563bf52b47fae669ee981b45a6"
+      "sha256": "f1d3befa68a84685c15b43f8506ecf9b8819fc6c238a9cde2090190bdb62c6b7"
     },
     {
       "path": "tests/test_issue_execution.py",
@@ -1385,7 +1520,7 @@
     {
       "path": "tests/test_supervisor_authorization.py",
       "role": "exact implementation or sealed experiment/control evidence",
-      "sha256": "07167dc657ed54c47462c560c4e15e9e2f46b0c47d614b6c45240bae398c213f"
+      "sha256": "eab119926e0a0c9ae134c4e7552af59048973f8bb26eb4e81cee815395eee647"
     }
   ],
   "owner": {

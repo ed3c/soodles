@@ -188,7 +188,9 @@ entry belongs to the next atom and must not be backfilled into this receipt.
 
 For a task requiring pinned instruction activation, the external supervisor uses
 schema-3 authorization with a nonempty `instruction_pins` list of exact
-`{path, sha256}` entries at the authorized `base_head`. Use the same `issue-atom
+`{path, sha256}` entries at the authorized `base_head`, or the exact
+`prior_publication.head` for a same-Issue correction. The control base remains
+unchanged; the published candidate owns the correction's instruction input. Use the same `issue-atom
 run` command. The owner validates those committed UTF-8 regular-file bytes before
 Issue mutation and seals their contents into the admission envelope and Noodle
 stage prompt. Missing files, mismatched digests or invalid selection require a

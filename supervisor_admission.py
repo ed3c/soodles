@@ -764,11 +764,13 @@ def authorize(selection_path, expected_sha256, output):
     require(isinstance(paths, list), "selection.instruction_paths", paths)
     pins = []
     if paths:
+        instruction_head = (selection["prior_publication"]["head"]
+                            if "prior_publication" in selection else head)
         pins = [{"path": path, "sha256": "0" * 64} for path in paths]
         validate_instruction_files(pins)
         for pin in pins:
-            pin["sha256"] = _sha256(_git_bytes(root, head, pin["path"]))
-        resolve_instruction_context(root, head, pins)
+            pin["sha256"] = _sha256(_git_bytes(root, instruction_head, pin["path"]))
+        resolve_instruction_context(root, instruction_head, pins)
     authorization = {
         "schema_version": 3 if pins else 2,
         "owner": "external-supervisor",
