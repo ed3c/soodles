@@ -1,0 +1,15 @@
+{
+  "scope": "external process fixtures; no GitHub writes",
+  "subject": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/correction/external-publisher-prototype",
+  "verifier_sha256": "3d84f7ff83a0984284403d1cdbecd75eb122b9d61bea1d96b29f76762f4be1a8",
+  "cases": [
+    "same_pr_new_head",
+    "foreign_pr_branch",
+    "stale_pr_head",
+    "stale_runtime_head",
+    "failed_new_runtime",
+    "foreign_verifier",
+    "malformed_branch"
+  ],
+  "authorizes_landing": false
+}

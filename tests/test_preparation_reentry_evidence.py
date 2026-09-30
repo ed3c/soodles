@@ -92,8 +92,18 @@ class PreparationReentryEvidenceTests(unittest.TestCase):
         self.assertEqual(winner['winner'], 'r02')
         self.assertFalse(winner['efficiency_claim'])
         descriptor = json.loads((self.base / 'rounds/r02/product-candidate.json').read_text())
-        for path, pin in descriptor['files'].items():
-            self.assertEqual(sha(ROOT / relative(path)), pin['sha256'])
+        # Historical replay binds the archived winner, not forever-current source.
+        # The active Issue manifest separately binds its actual candidate bytes.
+        source = self.index['winner_source_archive']
+        archive = self.base / relative(source['path'])
+        self.assertEqual(sha(archive), source['sha256'])
+        with tempfile.TemporaryDirectory(prefix='preparation-winner-') as folder:
+            extracted = Path(folder).resolve()
+            safe_unpack(archive, extracted)
+            self.assertEqual({str(p.relative_to(extracted)) for p in extracted.rglob('*') if p.is_file()},
+                             set(descriptor['files']))
+            for path, pin in descriptor['files'].items():
+                self.assertEqual(sha(extracted / relative(path)), pin['sha256'])
         self.assertEqual(json.loads((self.base / 'rounds/r03/decision.json').read_text())['verdict'], 'revert')
 
 if __name__ == '__main__':

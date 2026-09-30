@@ -309,5 +309,9 @@
       "decision": "confirmation/decision.json"
     }
   },
-  "scope": "Historical raw replay only; 30 selection/confirmation consumers plus one separate continuity run. No runtime or landing authorization."
+  "scope": "Historical raw replay only; 30 selection/confirmation consumers plus one separate continuity run. No runtime or landing authorization.",
+  "winner_source_archive": {
+    "path": "rounds/r02/source.tar.gz",
+    "sha256": "58ce9a638144bd936536457e63caed2a56ae7ea15496c2b4a5b0081e76a35739"
+  }
 }

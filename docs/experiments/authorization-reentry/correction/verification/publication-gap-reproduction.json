@@ -1,0 +1,58 @@
+{
+  "scope": "Disposable real Git with provider fixture; zero real provider writes",
+  "first": {
+    "owner": "soodles.candidate-publication",
+    "status": "created",
+    "repository": "ed3c/soodles",
+    "subject": "ed3c/soodles#128",
+    "branch": "soodles/issue-128-925d024a5280",
+    "head": "925d024a5280c7a34b33e761684cf1f9a138f6bf",
+    "tree": "6e1ea7d57b9431acc40137be3f00f3049471bc9e",
+    "pr": {
+      "number": 41,
+      "url": "https://github.com/ed3c/soodles/pull/41"
+    },
+    "next": null,
+    "authorizes_landing": false
+  },
+  "second": {
+    "owner": "soodles.candidate-publication",
+    "status": "created",
+    "repository": "ed3c/soodles",
+    "subject": "ed3c/soodles#128",
+    "branch": "soodles/issue-128-90a3a52af6a9",
+    "head": "90a3a52af6a9886f595206baa9ed3e0feacec657",
+    "tree": "6f395cf79b6ba88b12f995879cf2befdfff299aa",
+    "pr": {
+      "number": 42,
+      "url": "https://github.com/ed3c/soodles/pull/42"
+    },
+    "next": null,
+    "authorizes_landing": false
+  },
+  "same_issue": true,
+  "same_pr": false,
+  "events": [
+    {
+      "fixture_effect": "push",
+      "ref": "refs/heads/soodles/issue-128-925d024a5280",
+      "head": "925d024a5280c7a34b33e761684cf1f9a138f6bf"
+    },
+    {
+      "fixture_effect": "create_pr",
+      "pr": 41,
+      "branch": "soodles/issue-128-925d024a5280"
+    },
+    {
+      "fixture_effect": "push",
+      "ref": "refs/heads/soodles/issue-128-90a3a52af6a9",
+      "head": "90a3a52af6a9886f595206baa9ed3e0feacec657"
+    },
+    {
+      "fixture_effect": "create_pr",
+      "pr": 42,
+      "branch": "soodles/issue-128-90a3a52af6a9"
+    }
+  ],
+  "conclusion": "Current publication creates a different PR for a corrected head; no same-PR amendment route exposed."
+}

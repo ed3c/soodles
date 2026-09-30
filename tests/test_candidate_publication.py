@@ -142,6 +142,92 @@ class CandidatePublicationTests(unittest.TestCase):
         self.assertEqual(result["status"], "reused")
         self.assertEqual(self.provider.create_calls, 0)
 
+    def amended_candidate(self):
+        prior = publication.publish(self.root, self.acceptance, self.claim,
+                                    self.provider, push=self.push())
+        (self.root / "candidate.txt").write_text("corrected candidate\n")
+        self.command(self.root, "git", "add", "candidate.txt")
+        self.command(self.root, "git", "commit", "-m", "Correct the same candidate")
+        head = self.value(self.root, "git", "rev-parse", "HEAD")
+        tree = self.value(self.root, "git", "rev-parse", "HEAD^{tree}")
+        claim = {**self.claim, "head": head, "tree": tree}
+        acceptance = {**self.acceptance, "candidate": {"head": head, "tree": tree}}
+        return prior, acceptance, claim
+
+    def test_amendment_keeps_exact_pr_and_uses_old_head_lease(self):
+        prior, acceptance, claim = self.amended_candidate()
+        calls = []
+        def push(root, *args, **kwargs):
+            calls.append(args)
+            self.assertEqual(Path(root), self.root)
+            self.assertIn("--force-with-lease=refs/heads/" + prior["branch"] + ":" + prior["head"], args)
+            self.provider.ref = claim["head"]
+            self.provider.pull_value = exact_pull(prior["pr"]["number"], prior["branch"],
+                                                  claim["head"], "main", "Refs ed3c/soodles#128")
+            return Result(1)  # Lost command result; provider readback determines outcome.
+        result = publication.publish_amendment(self.root, acceptance, claim, self.provider,
+                                               prior, offered=True, push=push)
+        self.assertEqual(result["status"], "amended")
+        self.assertEqual(result["branch"], prior["branch"])
+        self.assertEqual(result["pr"], prior["pr"])
+        self.assertEqual(len(calls), 1)
+        observed = publication.publish_amendment(self.root, acceptance, claim, self.provider,
+                                                 prior, offered=True)
+        self.assertEqual(observed, result)
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(self.provider.create_calls, 1)
+        self.assertFalse(result["authorizes_landing"])
+
+        # A second failed head may be corrected on this same PR and branch.
+        (self.root / "candidate.txt").write_text("corrected again\n")
+        self.command(self.root, "git", "add", "candidate.txt")
+        self.command(self.root, "git", "commit", "-m", "Correct the same candidate again")
+        third_head = self.value(self.root, "git", "rev-parse", "HEAD")
+        third_tree = self.value(self.root, "git", "rev-parse", "HEAD^{tree}")
+        third_claim = {**claim, "head": third_head, "tree": third_tree}
+        third_acceptance = {**acceptance, "candidate": {"head": third_head, "tree": third_tree}}
+        def third_push(root, *args, **kwargs):
+            self.assertIn("--force-with-lease=refs/heads/" + prior["branch"] + ":" + claim["head"], args)
+            self.provider.ref = third_head
+            self.provider.pull_value = exact_pull(prior["pr"]["number"], prior["branch"],
+                                                  third_head, "main", "Refs ed3c/soodles#128")
+            return Result()
+        later = publication.publish_amendment(self.root, third_acceptance, third_claim,
+                                              self.provider, result, offered=True, push=third_push)
+        self.assertEqual(later["pr"], prior["pr"])
+        self.assertEqual(later["branch"], prior["branch"])
+        self.assertEqual(self.provider.create_calls, 1)
+
+    def test_amendment_refuses_unoffered_or_unknown_write_without_retry(self):
+        prior, acceptance, claim = self.amended_candidate()
+        before = self.provider.reads
+        with self.assertRaisesRegex(publication.PublicationRefusal, "amendment.offer"):
+            publication.publish_amendment(self.root, acceptance, claim, self.provider,
+                                          prior, offered=False)
+        self.assertEqual(self.provider.reads, before)
+        with self.assertRaisesRegex(publication.PublicationRefusal, "github.branch.outcome"):
+            publication.publish_amendment(self.root, acceptance, claim, self.provider,
+                                          prior, offered=True)
+        self.assertEqual(self.provider.ref, prior["head"])
+        self.assertEqual(self.provider.create_calls, 1)
+
+    def test_amendment_refuses_foreign_branch_and_pr_before_push(self):
+        prior, acceptance, claim = self.amended_candidate()
+        self.provider.ref = "f" * 40
+        with self.assertRaisesRegex(publication.PublicationRefusal, "github.branch.head"):
+            publication.publish_amendment(self.root, acceptance, claim, self.provider,
+                                          prior, offered=True, push=lambda *_a, **_k: self.fail("push called"))
+        self.provider.ref = prior["head"]
+        self.provider.pull_value["body"] = "Refs ed3c/soodles#999"
+        with self.assertRaisesRegex(publication.PublicationRefusal, "github.pull.identity"):
+            publication.publish_amendment(self.root, acceptance, claim, self.provider,
+                                          prior, offered=True, push=lambda *_a, **_k: self.fail("push called"))
+        self.provider.pull_value["body"] = "Refs ed3c/soodles#128"
+        self.provider.pull_value["head"]["sha"] = "f" * 40
+        with self.assertRaisesRegex(publication.PublicationRefusal, "github.pull.identity"):
+            publication.publish_amendment(self.root, acceptance, claim, self.provider,
+                                          prior, offered=True, push=lambda *_a, **_k: self.fail("push called"))
+
     def test_lost_create_response_adopts_only_fresh_exact_readback(self):
         self.provider.unknown_create = True
         result = publication.publish(self.root, self.acceptance, self.claim,

@@ -315,6 +315,56 @@ class IssueExecutionTests(unittest.TestCase):
         self.assertEqual(result["action"], "owned")
         self.assertFalse(result["published"])
 
+    def test_supervised_correction_reuses_only_the_failed_original_order(self):
+        self.admit("supervised")
+        self.promote_fixture()
+        order = self.snapshot["state"]["orders"]["soodles-18"]
+        stage = order["stages"][0]
+        order["status"] = "failed"
+        stage["status"] = "failed"
+        stage["attempts"][0].update(status="completed", session_id=self.session)
+        ended = subprocess.Popen(["/bin/sh", "-c", "exit 0"], start_new_session=True)
+        ended.wait()
+        (self.runtime / "sessions" / self.session / "process.json").write_text(
+            json.dumps({"pid": ended.pid, "session_id": self.session}))
+        self.snapshot["state"]["pending_reviews"] = {}
+        self.save_owner()
+        prior = {"order_id": "soodles-18", "worktree": self.envelope["execution"]["worktree"]}
+
+        result = execution.supervised_correction(self.path, self.pin, self.root,
+                                                 prior, reader=self.reader)
+        self.assertTrue(result["published"])
+        proposal = json.loads((self.runtime / "orders-next.json").read_text())
+        self.assertEqual(proposal["orders"][0]["id"], prior["order_id"])
+        self.assertEqual(json.loads(proposal["orders"][0]["stages"][0]["prompt"]),
+                         execution.projection(execution.context(self.path, self.pin,
+                                                                 self.root, self.reader),
+                                              self.pin, "supervised"))
+        self.assertFalse(execution.supervised_correction(
+            self.path, self.pin, self.root, prior, reader=self.reader)["published"])
+
+        (self.runtime / "orders-next.json").unlink()
+        for change in ("active", "review", "foreign_order", "changed_issue"):
+            with self.subTest(change=change):
+                if change == "active":
+                    order["status"] = "active"
+                elif change == "review":
+                    stage["status"] = "review"
+                elif change == "foreign_order":
+                    self.snapshot["state"]["orders"]["other"] = {
+                        "stages": [{"status": "running"}]}
+                else:
+                    self.issue["body"] += "\nchanged"
+                self.save_owner()
+                with self.assertRaises(admission.AdmissionRefusal):
+                    execution.supervised_correction(self.path, self.pin, self.root,
+                                                    prior, reader=self.reader)
+                self.assertFalse((self.runtime / "orders-next.json").exists())
+                order["status"] = "failed"
+                stage["status"] = "failed"
+                self.snapshot["state"]["orders"].pop("other", None)
+                self.issue["body"] = self.issue["body"].removesuffix("\nchanged")
+
     def test_worker_revalidates_live_body_before_executable_effect(self):
         self.admit("automatic")
         self.promote_fixture()

@@ -1,0 +1,54 @@
+{
+  "scope": "local durable checkpoint/process faults; supervisor provider fixture, no GitHub writes",
+  "cases": [
+    {
+      "case": "prepared_sigkill_resume",
+      "signal": "SIGKILL",
+      "first_dispatches": 1
+    },
+    {
+      "case": "merge_commit_readback_recovery",
+      "malformed_controls": 14,
+      "invalid_sha_controls": 5,
+      "foreign_stale_controls": 2,
+      "legacy_history_preserved": true,
+      "provider_fixture": true
+    },
+    {
+      "case": "lost_response_and_close_prepare_crash",
+      "provider_fixture_effects": 2,
+      "phase": "awaiting_reconcile"
+    },
+    {
+      "case": "dispatch_gap_unknown",
+      "signal": "SIGKILL",
+      "reoffers": 0
+    },
+    {
+      "case": "concurrent_dispatch",
+      "processes": 2,
+      "requests": 1
+    },
+    {
+      "case": "legacy_unknown",
+      "merge_and_close_reoffers": 0
+    },
+    {
+      "case": "head_drift",
+      "requests": 0,
+      "checkpoint_unchanged": true
+    },
+    {
+      "case": "structured_owner_refusal",
+      "conflicting_routes": 0,
+      "provider_requests": 0
+    },
+    {
+      "case": "terminal_projection",
+      "next": null,
+      "checkpoint_unchanged": true
+    }
+  ],
+  "isolated_child_uid": null,
+  "authorizes_landing": false
+}

@@ -151,7 +151,7 @@ if __name__ == "__main__":
 
 def _start_text(control_root, launcher_sha256, manifest_sha256,
                 noodle_path, noodle_sha256, interpreter, config_sha256=None,
-                bootstrap_config_sha256=None):
+                bootstrap_config_sha256=None, correction=False):
     template = """#!{interpreter}
 import hashlib
 import json
@@ -168,6 +168,7 @@ NOODLE_PATH = {noodle_path!r}
 NOODLE_SHA256 = {noodle_sha256!r}
 CONFIG_SHA256 = {config_sha256!r}
 BOOTSTRAP_CONFIG_SHA256 = {bootstrap_config_sha256!r}
+CORRECTION_HOLD = {correction!r}
 TOKEN_COMMAND_ENV = {token_command_env!r}
 
 
@@ -190,6 +191,8 @@ def refuse(field, value, required):
 def main():
     if sys.argv[1:] not in ([], ["--once"]):
         return refuse("start.argv", sys.argv[1:], "exact_start_or_once")
+    if CORRECTION_HOLD and sys.argv[1:]:
+        return refuse("start.argv", sys.argv[1:], "exact_correction_start")
     try:
         manifest = ROOT / "manifest.json"
         observed_manifest = digest(manifest.read_bytes())
@@ -234,7 +237,8 @@ def main():
     env.pop(TOKEN_COMMAND_ENV, None)
     os.execve(
         NOODLE_PATH,
-        [NOODLE_PATH, "--project-dir", CONTROL_ROOT, "start", *sys.argv[1:]],
+        [NOODLE_PATH, "--project-dir", CONTROL_ROOT, "start",
+         *(["--mode", "manual"] if CORRECTION_HOLD else sys.argv[1:])],
         env,
     )
 
@@ -251,6 +255,7 @@ if __name__ == "__main__":
         noodle_sha256=noodle_sha256,
         config_sha256=config_sha256,
         bootstrap_config_sha256=bootstrap_config_sha256,
+        correction=correction,
         token_command_env=TOKEN_COMMAND_ENV,
     )
 
@@ -320,9 +325,13 @@ def _config_bytes(output, carrier, *, bootstrap=False):
 
 
 def prepare(issue_readback, carrier, control_root, output, *,
-            interpreter=None, environ=None, task=None, wire_host=False, instruction_pins=None):
+            interpreter=None, environ=None, task=None, wire_host=False, instruction_pins=None,
+            correction=False):
     """Create one immutable external bundle and return the only start continuation."""
     environ = os.environ if environ is None else environ
+    require(type(correction) is bool and (not correction or wire_host),
+            "supervisor.correction", correction,
+            owner="supervisor", required="host_wired_correction_bundle")
     root = Path(control_root)
     require(root.is_absolute(), "supervisor.control_root", str(control_root),
             owner="supervisor", required="absolute_control_root")
@@ -375,6 +384,10 @@ def prepare(issue_readback, carrier, control_root, output, *,
     validate_carrier({"execution": {"carrier": carrier}}, worker=True)
 
     order_id = scoped_order_id(number, root)
+    worktree = root / ".worktrees" / (order_id + "-0-execute")
+    # A correction retains the published worktree, whose HEAD is newer than
+    # the control root. Bind the real worker input without advancing the base.
+    worker_head = _git(worktree, "rev-parse", "HEAD") if correction else head
     envelope = {
         "schema": 1,
         "repository": REPOSITORY,
@@ -391,13 +404,16 @@ def prepare(issue_readback, carrier, control_root, output, *,
             "stage_index": 0,
             "carrier": carrier,
             "task": task if task is not None else f"Execute externally admitted {REPOSITORY}#{number}.",
-            "source_head": head,
+            "source_head": worker_head,
         },
     }
     if instruction_pins is not None:
         envelope["schema"] = 2
-        envelope["execution"]["instruction_context"] = resolve_instruction_context(root, head, instruction_pins)
+        envelope["execution"]["instruction_context"] = resolve_instruction_context(root, worker_head, instruction_pins)
     validate_issue(issue_readback, envelope)
+    if correction:
+        import issue_execution
+        issue_execution.validate_worktree(worktree, envelope)
     require(isinstance(envelope["execution"]["task"], str)
             and bool(envelope["execution"]["task"].strip()),
             "supervisor.task", task, owner="supervisor", required="bounded_task")
@@ -449,7 +465,8 @@ def prepare(issue_readback, carrier, control_root, output, *,
         root, launcher_digest, manifest_digest,
         carrier["noodle"]["path"], carrier["noodle"]["sha256"],
         interpreter, _sha256(host_files["noodle.toml"]) if wire_host else None,
-        _sha256(host_files["bootstrap-noodle.toml"]) if wire_host else None).encode()
+        _sha256(host_files["bootstrap-noodle.toml"]) if wire_host else None,
+        correction=correction).encode()
 
     temporary = Path(tempfile.mkdtemp(prefix="." + output.name + "-", dir=output.parent))
     try:
@@ -491,9 +508,12 @@ def prepare(issue_readback, carrier, control_root, output, *,
         "launcher_sha256": _sha256(launcher.read_bytes()),
         "start": str(start),
         "start_sha256": _sha256(start.read_bytes()),
-        "bootstrap": {"argv": [str(start), "--once"], "owner": "supervisor",
-                      "config": str(output / "bootstrap-noodle.toml") if wire_host else None,
-                      "config_sha256": _sha256(host_files["bootstrap-noodle.toml"]) if wire_host else None},
+        **({"process_argv": [carrier["noodle"]["path"], "--project-dir", str(root),
+                             "start", "--mode", "manual"]} if correction else {}),
+        **({"bootstrap": {"argv": [str(start), "--once"], "owner": "supervisor",
+                           "config": str(output / "bootstrap-noodle.toml") if wire_host else None,
+                           "config_sha256": _sha256(host_files["bootstrap-noodle.toml"]) if wire_host else None}}
+           if not correction else {}),
         "provider_identity": {
             "owner": "supervisor",
             "supplier": TOKEN_COMMAND_ENV,
@@ -572,7 +592,7 @@ def _write_durable(path, data):
         os.fsync(stream.fileno())
 
 
-def _prepared_receipt(root, target, digest):
+def _prepared_receipt(root, target, digest, lifecycle_owner=None):
     final = target / "authorization.json"
     return {
         "owner": "supervisor.authorization", "status": "prepared",
@@ -580,7 +600,7 @@ def _prepared_receipt(root, target, digest):
         "authorization": {"path": str(final), "sha256": digest},
         "next": {
             "kind": "executable", "owner": "soodles.issue-atom",
-            "argv": [str(root / "issue-atom"), "run", str(final)],
+            "argv": [lifecycle_owner["path"] if lifecycle_owner else str(root / "issue-atom"), "run", str(final)],
             "environment": {"SOODLES_AUTHORIZATION_SHA256": digest},
         },
     }
@@ -618,7 +638,10 @@ def _committed_preparation(target, selection, selection_digest, root):
     pins = selection["instruction_paths"]
     require(isinstance(pins, list), "selection.instruction_paths", pins)
     schema = 3 if pins else 2
-    fields = issue_atom.AUTH_FIELDS | {"landing_owner"} | ({"instruction_pins"} if pins else set())
+    fields = (issue_atom.AUTH_FIELDS | {"landing_owner"}
+              | ({"instruction_pins"} if pins else set())
+              | ({"prior_publication", "prior_atom"} if "prior_publication" in selection else set())
+              | ({"lifecycle_owner"} if "lifecycle_owner" in selection else set()))
     require(isinstance(auth, dict) and set(auth) == fields
             and type(auth.get("schema_version")) is int and auth["schema_version"] == schema,
             "authorization.bundle.schema", auth)
@@ -630,19 +653,30 @@ def _committed_preparation(target, selection, selection_digest, root):
                 "workflow": CANONICAL_WORKFLOW}
     require(all(auth[k] == v for k, v in selected.items()),
             "authorization.bundle.selection", str(target))
+    if "lifecycle_owner" in selection:
+        require(auth["lifecycle_owner"] == selection["lifecycle_owner"],
+                "authorization.bundle.lifecycle_owner", str(target))
+    if "prior_publication" in selection:
+        require(auth["prior_publication"] == selection["prior_publication"],
+                "authorization.bundle.prior_publication", str(target))
+        require(auth["prior_atom"] == selection["prior_atom"],
+                "authorization.bundle.prior_atom", str(target))
     require(isinstance(auth["base_head"], str) and issue_atom.SHA40.fullmatch(auth["base_head"])
             and parse_contract(auth["issue"]["body"]).get("base_head") == auth["base_head"],
             "authorization.bundle.base", auth["base_head"])
     config = auth["host_config_sha256"]
     require(config is None or isinstance(config, str) and issue_atom.SHA64.fullmatch(config),
             "authorization.bundle.config", config)
+    if "prior_atom" in selection:
+        require(config == issue_atom.prior_host_config(selection["prior_atom"], root)["original_sha256"],
+                "authorization.bundle.prior_host_config", config)
     if pins:
         from issue_admission import validate_instruction_files
         validate_instruction_files(auth["instruction_pins"])
         require([pin["path"] for pin in auth["instruction_pins"]] == pins,
                 "authorization.bundle.instructions", pins)
     receipt = objects["prepared"]
-    require(receipt == _prepared_receipt(root, target, hashes["authorization"])
+    require(receipt == _prepared_receipt(root, target, hashes["authorization"], selection.get("lifecycle_owner"))
             and receipt.get("authorizes_landing") is False,
             "authorization.bundle.prepared", receipt)
     return receipt
@@ -665,7 +699,10 @@ def authorize(selection_path, expected_sha256, output):
             "selection.sha256", _sha256(raw), owner="supervisor",
             required="unchanged_selected_bytes")
     selection = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object)
-    require(isinstance(selection, dict) and set(selection) == AUTHORIZATION_SELECTION_FIELDS,
+    required_fields = AUTHORIZATION_SELECTION_FIELDS | (
+        {"lifecycle_owner"} if isinstance(selection, dict) and "lifecycle_owner" in selection else set())
+    require(isinstance(selection, dict) and set(selection) in
+            (required_fields, required_fields | {"prior_publication", "prior_atom"}),
             "selection.fields", sorted(selection) if isinstance(selection, dict) else type(selection).__name__)
     require(type(selection["schema"]) is int and selection["schema"] == 1,
             "selection.schema", selection["schema"])
@@ -691,6 +728,30 @@ def authorize(selection_path, expected_sha256, output):
             required="executable_issue_atom_entry")
     head = _git(root, "rev-parse", "HEAD")
     carrier = selection["carrier"]
+    host_config = issue_atom.host_config_identity(root)
+    if "prior_publication" in selection:
+        import candidate_publication
+        number = selection["issue"].get("number")
+        require(type(number) is int and number > 0, "selection.issue.number", number,
+                required="existing_issue_for_candidate_amendment")
+        try:
+            candidate_publication.validate_amendment_prior(
+                selection["prior_publication"], selection["repository"],
+                selection["repository"] + "#" + str(number), number)
+        except candidate_publication.PublicationRefusal as error:
+            raise AdmissionRefusal(error.invalid["field"], error.invalid["value"],
+                                   "supervisor", "exact_prior_publication") from error
+        try:
+            issue_atom.validate_prior_atom_ref(selection["prior_atom"], root)
+            prior_host = issue_atom.prior_host_config(selection["prior_atom"], root)
+        except issue_atom.AtomRefusal as error:
+            raise AdmissionRefusal(error.invalid["field"], error.invalid["value"],
+                                   "supervisor", "selected_previous_atom") from error
+        expected_host = (prior_host["original_sha256"] if prior_host["restored"]
+                         else prior_host["installed_sha256"])
+        require(host_config == expected_host, "amendment.current_host_config", host_config,
+                owner="supervisor", required="unchanged_previous_host_configuration")
+        host_config = prior_host["original_sha256"]
     require(isinstance(carrier, dict) and set(carrier) == {"platform", "noodle", "codex"},
             "selection.carrier", carrier)
     validate_carrier({"execution": {"carrier": carrier}}, worker=True)
@@ -717,14 +778,19 @@ def authorize(selection_path, expected_sha256, output):
         "noodle": carrier["noodle"],
         "carrier": {"platform": carrier["platform"], "codex": carrier["codex"]},
         "workflow": workflow,
-        "host_config_sha256": issue_atom.host_config_identity(root),
+        "host_config_sha256": host_config,
         "landing_owner": selection["landing_owner"],
     }
+    if "lifecycle_owner" in selection:
+        authorization["lifecycle_owner"] = selection["lifecycle_owner"]
     if pins:
         authorization["instruction_pins"] = pins
+    if "prior_publication" in selection:
+        authorization["prior_publication"] = selection["prior_publication"]
+        authorization["prior_atom"] = selection["prior_atom"]
     data = _canonical(authorization)
     digest = _sha256(data)
-    receipt = _prepared_receipt(root, target, digest)
+    receipt = _prepared_receipt(root, target, digest, selection.get("lifecycle_owner"))
     receipt_data = _canonical(receipt)
     binding = {"schema": 1, "selection_sha256": expected_sha256,
                "authorization_sha256": digest, "prepared_sha256": _sha256(receipt_data),

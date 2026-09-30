@@ -1,0 +1,24 @@
+{
+  "scope": "existing prepared continuation on unchanged failed PR head",
+  "authorization": "/Users/neon/.codex/experiments/authorization-reentry-enjygyfl/admission/authorization.json",
+  "authorization_sha256": "ae7ad4c27f40ff4691acda5f5c8119c78c800c31bda6ed1f6ec9fe03d174c3fe",
+  "entry": "/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02/issue-atom",
+  "operation": "run",
+  "exit_status": 1,
+  "invalid": {
+    "field": "github.workflow.conclusion",
+    "value": ["failure", "failure", "failure"]
+  },
+  "next": {
+    "owner": "external-supervisor",
+    "required": ["new_candidate_head_after_failed_ci"],
+    "argv_is_original_entry": true
+  },
+  "post_readback": {
+    "phase": "ci",
+    "publication_head": "6ab35e09ec426cf96021db8b8cbb08e8b1cacc65",
+    "landing_activation_present": false
+  },
+  "provider_write_telemetry": "not captured; the command refused before its landing path",
+  "authorizes_landing": false
+}

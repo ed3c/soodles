@@ -1,0 +1,27 @@
+======================================================================
+ERROR: test_corrected_start_reuses_only_the_unchanged_parked_review (test_issue_atom.IssueAtomTests.test_corrected_start_reuses_only_the_unchanged_parked_review)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/tests/test_issue_atom.py", line 602, in test_corrected_start_reuses_only_the_unchanged_parked_review
+    result = atom.ensure_noodle(self.authorization, paths, state,
+                                {"action": "correction_review"}, self.env,
+                                correction=True)
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/issue_atom.py", line 858, in ensure_noodle
+    require("prior_atom" in authorization
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            and state.get("prior_host_recovery", {}).get("status") == "restored"
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            and admission.get("action") == "correction_review",
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            "noodle.start.correction", admission.get("action"),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            "restored_original_host_and_review")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/issue_atom.py", line 66, in require
+    raise AtomRefusal(field, value, required)
+issue_atom.AtomRefusal: issue atom: invalid noodle.start.correction='correction_review'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.367s
+
+FAILED (errors=1)

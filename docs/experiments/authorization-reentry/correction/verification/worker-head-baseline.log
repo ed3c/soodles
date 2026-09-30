@@ -1,0 +1,28 @@
+test_correction_preparation_binds_the_existing_candidate_not_control_base (test_supervisor_admission.SupervisorAdmissionTests.test_correction_preparation_binds_the_existing_candidate_not_control_base) ... ERROR
+
+======================================================================
+ERROR: test_correction_preparation_binds_the_existing_candidate_not_control_base (test_supervisor_admission.SupervisorAdmissionTests.test_correction_preparation_binds_the_existing_candidate_not_control_base)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/tests/test_supervisor_admission.py", line 361, in test_correction_preparation_binds_the_existing_candidate_not_control_base
+    output, _ = fixture.prepare(wire_host=True, correction=True)
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/tests/test_supervisor_admission.py", line 157, in prepare
+    result = supervisor_admission.prepare(
+        self.issue, self.carrier, self.root, output, environ=environ, **kwargs)
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/supervisor_admission.py", line 437, in prepare
+    "noodle.toml": _config_bytes(output, carrier),
+                   ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/supervisor_admission.py", line 310, in _config_bytes
+    require(codex["argv"][:len(prefix)] == prefix, "supervisor.worker.argv", codex["argv"],
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            owner="supervisor", required="measured_noodle_worker_argv")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/issue_admission.py", line 45, in require
+    raise AdmissionRefusal(field, value, **source)
+issue_admission.AdmissionRefusal: Issue admission: invalid supervisor.worker.argv=['exec']; owner: supervisor; required: measured_noodle_worker_argv
+
+----------------------------------------------------------------------
+Ran 1 test in 0.398s
+
+FAILED (errors=1)

@@ -749,6 +749,57 @@ def supervised(envelope_path, envelope_digest, root, reader=fetch_issue, *, obse
     return _admit(envelope_path, envelope_digest, root, reader, "supervised", observe_live=observe_live)
 
 
+def correction_proposal(binding, envelope_digest):
+    order_id = binding["execution"]["order_id"]
+    codex = binding["execution"]["carrier"]["codex"]
+    return {"orders": [{
+        "id": order_id, "title": f"Execute {binding['repository']}#{binding['issue']}",
+        "rationale": "Externally admitted correction of the same failed order",
+        "stages": [{"do": "execute", "with": "codex", "model": codex["model"],
+                    "runtime": "process",
+                    "prompt": json.dumps(projection(binding, envelope_digest, "supervised"),
+                                         sort_keys=True)}],
+    }]}
+
+
+def supervised_correction(envelope_path, envelope_digest, root, prior_order,
+                          reader=fetch_issue):
+    """Offer one revised task through Noodle's existing failed-order mailbox."""
+    root = Path(root).resolve()
+    binding = context(envelope_path, envelope_digest, root, reader)
+    require(root == Path(binding["execution"]["control_root"]).resolve(),
+            "correction.control_root", str(root))
+    validate_carrier(binding, worker=True)
+    order_id = binding["execution"]["order_id"]
+    require(isinstance(prior_order, dict)
+            and prior_order.get("order_id") == order_id
+            and prior_order.get("worktree") == binding["execution"]["worktree"],
+            "correction.prior_order", prior_order, owner="Noodle",
+            required="same_failed_original_order")
+    owner = read_owner(binding)
+    orders = owner["state"]["orders"]
+    order = orders.get(order_id)
+    require(isinstance(order, dict) and order.get("status") == "failed"
+            and len(order.get("stages", [])) == 1
+            and order["stages"][0].get("status") == "failed"
+            and order_id not in owner["state"].get("pending_reviews", {}),
+            "correction.failed_order", order, owner="Noodle",
+            required="request_changes_owner_readback")
+    require(all(key == order_id or all(stage.get("status") in
+                ("completed", "failed", "cancelled") for stage in value.get("stages", []))
+                for key, value in orders.items()),
+            "correction.foreign_orders", sorted(orders), owner="Noodle",
+            required="quiescent_noodle_owner")
+    quiescent_order(binding, owner)
+    proposal = correction_proposal(binding, envelope_digest)
+    published = publish_once(root / ".noodle/orders-next.json", proposal)
+    return {"owner": "Noodle", "action": "proposal_pending",
+            "binding": binding, "published": published,
+            "next": {"kind": "input", "owner": "Noodle",
+                     "required": ["canonical_promotion_readback"],
+                     "known": {"order_id": order_id}}}
+
+
 def resume(checkpoint, envelope_path, envelope_digest, root, reader=fetch_issue):
     """Read a completed predecessor, then use the existing admission owner.
 

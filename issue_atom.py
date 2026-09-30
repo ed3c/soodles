@@ -6,6 +6,7 @@ owners; it does not replace their validation.
 """
 import hashlib
 import base64
+import binascii
 import fcntl
 import json
 import os
@@ -17,6 +18,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import tomllib
 import urllib.parse
 
 import candidate_publication
@@ -37,6 +39,11 @@ AUTH_FIELDS = {
 OWNER_FILES = ("landing.py", "provider-execute", "provider_transport.py", "soodles.py",
                "issue_admission.py", "repository_binding.py", "dependency_binding.py",
                "issue_execution.py", "policy/runtime.lock.json")
+LIFECYCLE_FILES = ("issue-atom", "soodles", "soodles.py", "issue_atom.py",
+                   "supervisor_admission.py", "issue_admission.py", "issue_execution.py",
+                   "candidate_publication.py", "provider_credential.py", "provider_transport.py",
+                   "repository_binding.py", "dependency_binding.py", "github_reader.py",
+                   "landing.py", "policy/runtime.lock.json")
 MARKER_PREFIX = "<!-- soodles:local-atom-v1:"
 
 
@@ -130,6 +137,7 @@ def clean_child_env():
 def validate_authorization(path, expected_digest, *, allow_advanced=False):
     value, actual = _validate_authorization(path, expected_digest, allow_advanced=allow_advanced)
     require_clean_control_root(value)
+    validate_lifecycle_owner(value)
     return value, actual
 
 
@@ -164,7 +172,12 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
     require(actual == expected_digest, "authorization.digest", actual, "matching_external_digest")
     schema = value.get("schema_version")
     require(type(schema) is int and schema in (2, 3), "authorization.schema_version", schema)
-    require(set(value) == AUTH_FIELDS | {"landing_owner"} | ({"instruction_pins"} if schema == 3 else set()), "authorization.fields", sorted(value),
+    expected_fields = (AUTH_FIELDS | {"landing_owner"}
+                       | ({"instruction_pins"} if schema == 3 else set()))
+    amendment_fields = {"prior_publication", "prior_atom"}
+    expected_fields |= {"lifecycle_owner"} if "lifecycle_owner" in value else set()
+    require(set(value) in (expected_fields, expected_fields | amendment_fields),
+            "authorization.fields", sorted(value),
             "external_authorization_with_pinned_host_and_landing_owner")
     require(value["owner"] == "external-supervisor",
             "authorization.owner", [value["schema_version"], value["owner"]])
@@ -201,9 +214,24 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
     if "number" in issue:
         require(type(issue["number"]) is int and issue["number"] > 0,
                 "authorization.issue.number", issue["number"])
+    if "prior_publication" in value:
+        require("number" in issue, "authorization.issue.number", None,
+                "existing_issue_for_candidate_amendment")
+        validate_prior_atom_ref(value["prior_atom"], root)
+        try:
+            candidate_publication.validate_amendment_prior(
+                value["prior_publication"], repository,
+                repository + "#" + str(issue["number"]), issue["number"])
+        except candidate_publication.PublicationRefusal as error:
+            raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                              "exact_prior_publication") from error
     config_digest = value["host_config_sha256"]
     require(config_digest is None or isinstance(config_digest, str) and SHA64.fullmatch(config_digest),
             "authorization.host_config_sha256", config_digest)
+    if "prior_atom" in value:
+        require(config_digest == prior_host_config(value["prior_atom"], root)["original_sha256"],
+                "amendment.host_config_sha256", config_digest,
+                "original_host_configuration_after_recovery")
     contract = issue_admission.parse_contract(issue["body"])
     require(contract.get("base_head") == value["base_head"],
             "authorization.issue.base_head", contract.get("base_head"))
@@ -238,6 +266,81 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
             "authorization.task", value["task"])
     validate_landing_owner(value)
     return value, actual
+
+
+def validate_prior_atom_ref(ref, root):
+    require(isinstance(ref, dict) and set(ref) == {"path", "sha256"},
+            "amendment.prior_atom", ref, "selected_previous_atom")
+    path, digest = ref["path"], ref["sha256"]
+    require(isinstance(path, str) and Path(path).is_absolute()
+            and not Path(path).is_symlink()
+            and Path(path).is_file()
+            and not Path(path).resolve().is_relative_to(Path(root).resolve()),
+            "amendment.prior_atom.path", path, "external_previous_authorization")
+    require(isinstance(digest, str) and SHA64.fullmatch(digest)
+            and digest_file(path) == digest,
+            "amendment.prior_atom.sha256", digest, "unchanged_previous_authorization")
+
+
+def prior_host_config(ref, root):
+    """Derive the host state that the original lifecycle must restore."""
+    validate_prior_atom_ref(ref, root)
+    prior_path = Path(ref["path"])
+    old = read_json(prior_path, "amendment.prior_authorization")
+    state = read_json(artifact_paths(prior_path)["state"], "amendment.prior_state")
+    start = state.get("noodle_start")
+    require(old.get("control_root") == str(Path(root).resolve())
+            and state.get("authorization_sha256") == ref["sha256"]
+            and state.get("phase") == "ci"
+            and isinstance(start, dict) and start.get("status") == "started"
+            and isinstance(start.get("config_sha256"), str)
+            and SHA64.fullmatch(start["config_sha256"]),
+            "amendment.prior_host", "mismatch", "exact_previous_host_owner")
+    original = start.get("original_config")
+    require(original is None or isinstance(original, str),
+            "amendment.prior_host.original", original)
+    try:
+        raw = None if original is None else base64.b64decode(original, validate=True)
+    except (ValueError, TypeError, binascii.Error) as error:
+        raise AtomRefusal("amendment.prior_host.original", type(error).__name__) from error
+    digest = None if raw is None else digest_bytes(raw)
+    require(old.get("host_config_sha256") == digest,
+            "amendment.prior_host.original", digest, "original_host_configuration")
+    return {"original_sha256": digest, "installed_sha256": start["config_sha256"],
+            "restored": start.get("restored") is True}
+
+
+def validate_lifecycle_owner(authorization, *, executing=False):
+    """Validate supervisor-selected runtime bytes separately from the landing judge."""
+    spec = authorization.get("lifecycle_owner")
+    if spec is None:
+        return Path(authorization["control_root"]) / "issue-atom"
+    require(isinstance(spec, dict) and set(spec) == {"path", "sha256", "source_sha256"},
+            "authorization.lifecycle_owner", spec, "immutable_external_lifecycle_owner")
+    raw_path = Path(spec["path"])
+    path = raw_path.resolve()
+    root = Path(authorization["control_root"]).resolve()
+    require(raw_path.is_absolute() and raw_path == path and path.name == "issue-atom"
+            and not path.is_relative_to(root)
+            and path.parent != Path(authorization["landing_owner"]["path"]).resolve().parent,
+            "authorization.lifecycle_owner.path", str(path), "separate_external_lifecycle_owner")
+    hashes = {}
+    for name in LIFECYCLE_FILES:
+        source = path.parent / name
+        require(source.is_file() and not source.is_symlink() and source.resolve() == source,
+                "authorization.lifecycle_owner.file", name, "fixed_regular_runtime_files")
+        hashes[name] = digest_file(source)
+    require(os.access(path, os.X_OK) and os.access(path.parent / "soodles", os.X_OK)
+            and hashes["issue-atom"] == spec["sha256"],
+            "authorization.lifecycle_owner.sha256", "mismatch", "unchanged_external_lifecycle_owner")
+    actual = digest_bytes(json.dumps(hashes, sort_keys=True, separators=(",", ":")).encode())
+    require(actual == spec["source_sha256"], "authorization.lifecycle_owner.source_sha256",
+            actual, "unchanged_external_lifecycle_owner")
+    if executing:
+        require(Path(__file__).resolve() == path.parent / "issue_atom.py",
+                "authorization.lifecycle_owner.execution", str(Path(__file__).resolve()),
+                "execute_selected_prepared_continuation")
+    return path
 
 
 def validate_landing_owner(authorization):
@@ -609,11 +712,17 @@ def create_envelope(authorization, issue, body, path, *, environ=None):
     root = Path(authorization["control_root"]).resolve()
     require(issue["body"] == body, "envelope.issue_body", "changed")
     pins = selected_instruction_pins(authorization)
+    correction = "prior_atom" in authorization
+    if correction:
+        prior = verify_prior_atom(authorization)
+        require(prior["prior_loop_status"] == "restored",
+                "envelope.prior_host", prior["prior_loop_status"],
+                "original_host_recovery_readback")
     path.parent.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     result = supervisor_admission.prepare(
         issue, {**authorization["carrier"], "noodle": authorization["noodle"]},
         root, path.parent, environ=environ, task=authorization["task"], wire_host=True,
-        instruction_pins=pins)
+        instruction_pins=pins, correction=correction)
     save_json(path.parent / "prepared.json", result, fresh=True)
     return read_json(path, "envelope"), result["envelope_sha256"]
 
@@ -622,6 +731,16 @@ def host_config_identity(root):
     path = Path(root) / ".noodle.toml"
     require(not path.is_symlink(), "noodle.config", "symlink", "unchanged_host_configuration")
     return digest_file(path) if path.exists() else None
+
+
+def noodle_process_argv(authorization, start):
+    """Read the owner's pinned process form, including its temporary start hold."""
+    base = [authorization["noodle"]["path"], "--project-dir",
+            authorization["control_root"], "start"]
+    argv = start.get("process_argv", base)
+    require(argv in (base, base + ["--mode", "manual"]),
+            "noodle.process.argv", argv, "original_start_process_readback")
+    return argv
 
 
 def bootstrap_noodle(authorization, paths, state, environ):
@@ -731,9 +850,19 @@ def bootstrap_noodle(authorization, paths, state, environ):
         save_json(paths["state"], state)
 
 
-def ensure_noodle(authorization, paths, state, admission, environ):
+def ensure_noodle(authorization, paths, state, admission, environ, *, correction=False):
     """Consume the producer's start once; Noodle's lock remains process authority."""
     root = Path(authorization["control_root"])
+    prior = None
+    if correction:
+        require("prior_atom" in authorization
+                and admission.get("action") == "correction_review",
+                "noodle.start.correction", admission.get("action"),
+                "restored_original_host_and_review")
+        prior = verify_prior_atom(authorization)
+        require(prior["prior_loop_status"] == "restored",
+                "noodle.start.prior_loop", prior["prior_loop_status"],
+                "original_host_recovery_readback")
     prepared = read_json(paths["envelope"].parent / "prepared.json", "admission.prepared")
     require(digest_file(paths["envelope"].parent / "prepared.json") == state.get("admission_sha256"),
             "admission.prepared.digest", "changed", "unchanged_supervisor_start")
@@ -753,15 +882,28 @@ def ensure_noodle(authorization, paths, state, admission, environ):
         # Popen response. Its current owner must supply recovery/readback.
         require("noodle_start" not in state, "noodle.start.outcome", "stopped_or_unknown",
                 "current_noodle_owner_readback_without_restart")
-        require(admission.get("action") == "proposal_pending", "noodle.start.admission",
+        require(admission.get("action") in ({"correction_review"} if correction
+                else {"proposal_pending"}), "noodle.start.admission",
                 admission.get("action"), "original_noodle_owner_continuation")
         binding = read_json(paths["envelope"], "envelope")
         owner = issue_execution.read_owner(binding)
-        for order in owner["state"]["orders"].values():
-            require(isinstance(order, dict) and isinstance(order.get("stages"), list)
-                    and all(stage.get("status") in ("completed", "failed", "cancelled")
-                            for stage in order["stages"]),
-                    "noodle.start.orders", "nonquiescent", "quiescent_noodle_owner")
+        if correction:
+            require(digest_file(runtime / "state.snapshot.json")
+                    == prior["owner_snapshot_sha256"],
+                    "noodle.start.prior_snapshot", "changed",
+                    "unchanged_original_review")
+        for order_id, order in owner["state"]["orders"].items():
+            if correction and order_id == prior["order_id"]:
+                require(isinstance(order, dict)
+                        and len(order.get("stages", [])) == 1
+                        and order["stages"][0].get("status") == "review",
+                        "noodle.start.prior_review", order_id,
+                        "original_pending_review")
+            else:
+                require(isinstance(order, dict) and isinstance(order.get("stages"), list)
+                        and all(stage.get("status") in ("completed", "failed", "cancelled")
+                                for stage in order["stages"]),
+                        "noodle.start.orders", "nonquiescent", "quiescent_noodle_owner")
         for process in sorted((runtime / "sessions").glob("*/process.json")):
             issue_execution._absent_process(process.parent, process.parent.name)
         require(host_config_identity(root) == authorization["host_config_sha256"],
@@ -772,9 +914,33 @@ def ensure_noodle(authorization, paths, state, admission, environ):
         config = root / ".noodle.toml"
         original = config.read_bytes() if config.exists() else None
         generated = (paths["envelope"].parent / "noodle.toml").read_bytes()
+        process_argv = noodle_process_argv(authorization, prepared)
+        if correction:
+            try:
+                correction_mode = tomllib.loads(generated.decode("utf-8")).get("mode")
+            except (UnicodeDecodeError, tomllib.TOMLDecodeError) as error:
+                raise AtomRefusal("noodle.start.correction_config", type(error).__name__,
+                                  "isolated_correction_owner") from error
+            require(correction_mode == "supervised"
+                    and process_argv[-2:] == ["--mode", "manual"],
+                    "noodle.start.correction_mode", process_argv,
+                    "pinned_manual_process_hold")
+        else:
+            require(process_argv[-1:] == ["start"], "noodle.start.process_mode",
+                    process_argv, "original_noodle_owner_continuation")
         state["noodle_start"] = {"status": "offered", "argv": start,
+                                 "process_argv": process_argv,
                                  "config_sha256": digest_bytes(generated),
                                  "original_config": None if original is None else base64.b64encode(original).decode()}
+        if correction:
+            with (runtime / "control.lock").open("a+b") as control_lock:
+                fcntl.flock(control_lock, fcntl.LOCK_EX)
+                mailbox = runtime / "control.ndjson"
+                require(not mailbox.exists() or not mailbox.read_bytes().strip(),
+                        "amendment.control.pending", "foreign", "pending_control_readback")
+                ack_path = runtime / "control-ack.ndjson"
+                state["correction_ack_prefix"] = (ack_path.read_text() if ack_path.exists() else "")
+            state["correction_prior"] = {**prior, "stage": owner["state"]["orders"][prior["order_id"]]["stages"][0]}
         save_json(paths["state"], state)
         # Holding the existing Noodle lock excludes an active owner during the
         # bounded config replacement. Noodle itself acquires it on child start.
@@ -788,6 +954,203 @@ def ensure_noodle(authorization, paths, state, admission, environ):
                                 stdout=str(stdout_path), stderr=str(stderr_path))
     save_json(paths["state"], state)
     return {"action": "started", "pid": child.pid, "start_repeated": False}
+
+
+def amendment_control(authorization, paths, state, name, command):
+    """Persist one control intent; an absent ack never permits another append."""
+    runtime = Path(authorization["control_root"]) / ".noodle"
+    with (runtime / "control.lock").open("a+b") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        ack_path = runtime / "control-ack.ndjson"
+        acks = [json.loads(line) for line in ack_path.read_text().splitlines()
+                if line.strip()] if ack_path.exists() else []
+        matches = [ack for ack in acks if ack.get("id") == command["id"]]
+        intent = state.get(name)
+        if intent is not None:
+            require(intent == command, "amendment.control.identity", name,
+                    "unchanged_correction_control")
+        if matches:
+            require(intent == command and len(matches) == 1
+                    and matches[0].get("action") == command["action"]
+                    and matches[0].get("status") == "ok",
+                    "amendment.control.ack", matches, "exact_correction_ack_readback")
+            return matches[0]
+        if intent is None:
+            mailbox = runtime / "control.ndjson"
+            require(not mailbox.exists() or not mailbox.read_bytes().strip(),
+                    "amendment.control.pending", "foreign", "pending_control_readback")
+            state[name] = command
+            save_json(paths["state"], state)
+            with mailbox.open("ab") as stream:
+                stream.write((json.dumps(command, sort_keys=True) + "\n").encode())
+                stream.flush()
+                os.fsync(stream.fileno())
+        return None
+
+
+def correction_owner(authorization, paths, state):
+    """Bind correction readback to this entry's held process and selected bytes."""
+    start = state.get("noodle_start", {})
+    require(start.get("status") == "started" and not any(start.get(key) for key in
+            ("stop_offered", "restore_offered", "restored")),
+            "amendment.process.lifecycle", "not_running", "original_correction_process_readback")
+    require(noodle_process_argv(authorization, start)[-2:] == ["--mode", "manual"],
+            "amendment.process.hold", "missing", "pinned_manual_process_hold")
+    require(observe_prior_loop(authorization, state) == "running",
+            "amendment.process", "stopped", "original_correction_process_readback")
+    prepared_path = paths["envelope"].parent / "prepared.json"
+    require(digest_file(prepared_path) == state["admission_sha256"],
+            "amendment.prepared", "changed", "unchanged_supervisor_start")
+    prepared = read_json(prepared_path, "admission.prepared")
+    require(start["argv"] == prepared["next"]["argv"]
+            and digest_file(prepared["start"]) == prepared["start_sha256"]
+            and start["process_argv"] == noodle_process_argv(authorization, prepared)
+            and host_config_identity(authorization["control_root"]) == start["config_sha256"]
+            == digest_file(paths["envelope"].parent / "noodle.toml"),
+            "amendment.process.identity", "changed", "unchanged_correction_owner")
+    require(digest_file(paths["envelope"]) == state["envelope_sha256"],
+            "amendment.envelope", "changed", "unchanged_execution_envelope")
+    runtime = Path(authorization["control_root"]) / ".noodle"
+    with (runtime / "control.lock").open("a+b") as control_lock:
+        fcntl.flock(control_lock, fcntl.LOCK_EX)
+        ack_path = runtime / "control-ack.ndjson"
+        raw = ack_path.read_text() if ack_path.exists() else ""
+        prefix = state.get("correction_ack_prefix")
+        require(isinstance(prefix, str) and raw.startswith(prefix),
+                "amendment.control.history", "changed", "original_control_history")
+        allowed = {state[key]["id"]: state[key] for key in
+                   ("correction_review", "correction_release") if key in state}
+        acks = [json.loads(line) for line in raw[len(prefix):].splitlines() if line.strip()]
+        require(all(ack.get("id") in allowed and ack.get("action") ==
+                    allowed[ack["id"]]["action"] and ack.get("status") == "ok" for ack in acks),
+                "amendment.control.foreign", acks, "exclusive_correction_control_readback")
+        mailbox = runtime / "control.ndjson"
+        pending = [json.loads(line) for line in mailbox.read_text().splitlines()
+                   if line.strip()] if mailbox.exists() else []
+        require(all(command == allowed.get(command.get("id")) for command in pending),
+                "amendment.control.pending", pending, "exclusive_correction_control_readback")
+        binding = read_json(paths["envelope"], "envelope")
+        binding["contract"] = issue_admission.parse_contract(authorization["issue"]["body"])
+        owner = issue_execution.read_owner(binding)
+    order_id = binding["execution"]["order_id"]
+    orders = owner["state"]["orders"]
+    schedule = orders.get("schedule", {})
+    released_schedule = (state.get("correction_release") is not None
+                         and schedule.get("status") == "active"
+                         and len(schedule.get("stages", [])) == 1
+                         and schedule["stages"][0].get("status") in ("dispatching", "running"))
+    if released_schedule:
+        def refuse(field, value, required="current_noodle_owner_readback"):
+            raise AtomRefusal(field, value, required, owner="Noodle")
+        own_start_wait(authorization, paths, state, binding, owner, refuse)
+    require(all(key == order_id or (key == "schedule" and released_schedule)
+                or (key == "schedule" and native_idle_schedule(
+                value, authorization["carrier"]["codex"]["model"])) or (isinstance(value, dict)
+                and bool(value.get("stages")) and all(stage.get("status") in
+                ("completed", "failed", "cancelled") for stage in value["stages"]))
+                for key, value in orders.items()),
+            "amendment.foreign_orders", sorted(orders), "quiescent_noodle_owner")
+    return binding, owner
+
+
+def advance_correction(authorization, paths, state, provider):
+    """Review → failed → replacement → release, through the original Noodle owner."""
+    binding, owner = correction_owner(authorization, paths, state)
+    order_id = binding["execution"]["order_id"]
+    prior = state.get("correction_prior")
+    require(isinstance(prior, dict) and prior.get("order_id") == order_id
+            and prior.get("worktree") == binding["execution"]["worktree"],
+            "amendment.prior_identity", prior, "original_review_custody")
+    order = owner["state"]["orders"].get(order_id)
+    require(isinstance(order, dict) and len(order.get("stages", [])) == 1,
+            "amendment.order", order, "single_original_order")
+    stage = order["stages"][0]
+    prefix = "soodles-correction-" + state["authorization_sha256"][:24]
+    change = {"id": prefix + "-review", "action": "request-changes",
+              "order_id": order_id, "prompt": "Correct the selected failed exact-head runtime"}
+    release = {"id": prefix + "-release", "action": "mode", "value": "supervised"}
+    if state.get("correction_proposal") is None:
+        # Before replacement the original completed attempt and source stay fixed.
+        original = prior["stage"]
+        require(all(stage.get(key) == original.get(key) for key in
+                    ("prompt", "skill", "provider", "model"))
+                and isinstance(stage.get("attempts"), list)
+                and len(stage["attempts"]) == len(original["attempts"])
+                and all({k: v for k, v in current.items() if k not in ("status", "error")} ==
+                        {k: v for k, v in old.items() if k not in ("status", "error")}
+                        for current, old in zip(stage["attempts"], original["attempts"])),
+                "amendment.review.identity", "changed", "original_completed_review")
+        worktree = Path(prior["worktree_path"])
+        require(_git(worktree, "rev-parse", "HEAD") == authorization["prior_publication"]["head"]
+                and _git(worktree, "status", "--porcelain", "--untracked-files=all") == "",
+                "amendment.worktree", "changed", "clean_published_candidate")
+        issue_execution.quiescent_order(binding, owner)
+        if state.get("correction_review") is None:
+            verify_failed_prior(provider, authorization)
+            require(stage.get("status") == "review" and order.get("status") == "active"
+                    and set(owner["state"].get("pending_reviews", {})) == {order_id}
+                    and stage["attempts"] == original["attempts"],
+                    "amendment.review", stage.get("status"), "original_pending_review")
+        ack = amendment_control(authorization, paths, state, "correction_review", change)
+        if ack is None:
+            return {"action": "correction_review_pending"}
+        require(order.get("status") == stage.get("status") == "failed"
+                and not owner["state"].get("pending_reviews")
+                and all(a.get("status") == "failed" for a in stage["attempts"]),
+                "amendment.review.transition", stage.get("status"),
+                "canonical_failed_order_after_ack_without_resend")
+        # Persist before the proposal effect. Recovery observes promotion only;
+        # a crash before publication is ambiguous and cannot silently re-offer.
+        state["correction_failed_attempts"] = stage["attempts"]
+        state["correction_proposal"] = {"status": "offered",
+                                        "envelope_sha256": state["envelope_sha256"]}
+        save_json(paths["state"], state)
+        result = issue_execution.supervised_correction(
+            paths["envelope"], state["envelope_sha256"], authorization["control_root"], prior,
+            reader=lambda repository, number: provider.issue(number))
+        return {"action": "correction_proposal_pending", "published": result["published"]}
+    require(state["correction_proposal"] == {"status": "offered",
+                                            "envelope_sha256": state["envelope_sha256"]},
+            "amendment.proposal.identity", "changed", "selected_proposal_readback")
+    try:
+        prompt = json.loads(stage.get("prompt", ""))
+    except (TypeError, ValueError):
+        prompt = None
+    if prompt == json.loads(prior["stage"]["prompt"]) and stage.get("status") == "failed":
+        mailbox = Path(authorization["control_root"]) / ".noodle/orders-next.json"
+        require(mailbox.is_file(), "amendment.proposal.outcome", "unknown",
+                "fresh_canonical_promotion_readback_without_resend")
+        require(read_json(mailbox, "amendment.proposal") ==
+                issue_execution.correction_proposal(binding, state["envelope_sha256"]),
+                "amendment.proposal.identity", "foreign", "selected_proposal_readback")
+        return {"action": "correction_proposal_pending", "published": False}
+    require(prompt == issue_execution.projection(binding, state["envelope_sha256"], "supervised")
+            and stage.get("skill") == "execute" and stage.get("provider") == "codex"
+            and stage.get("model") == authorization["carrier"]["codex"]["model"],
+            "amendment.promotion", "mismatch", "exact_canonical_replacement")
+    if state.get("correction_release") is None:
+        require(order.get("status") == "active" and stage.get("status") == "pending"
+                and stage.get("attempts") == state["correction_failed_attempts"]
+                and not owner["state"].get("pending_reviews"),
+                "amendment.promotion.hold", stage.get("status"), "undispatched_replacement")
+        epoch = owner["state"].get("mode_epoch")
+        require(type(epoch) is int and epoch >= 0
+                and state.get("correction_release_epoch", epoch) == epoch,
+                "amendment.release.epoch", epoch, "unchanged_pre_release_mode_epoch")
+        state["correction_release_epoch"] = epoch
+        save_json(paths["state"], state)
+    ack = amendment_control(authorization, paths, state, "correction_release", release)
+    if ack is None:
+        return {"action": "correction_release_pending"}
+    require(owner["state"].get("mode") == "supervised"
+            and owner["state"].get("mode_epoch") == state["correction_release_epoch"] + 1,
+            "amendment.release.transition", owner["state"].get("mode"),
+            "canonical_supervised_mode_after_ack")
+    state["noodle_amendment"] = {"order_id": order_id,
+                                  "envelope_sha256": state["envelope_sha256"],
+                                  "release_ack": ack}
+    save_json(paths["state"], state)
+    return {"action": "correction_released"}
 
 
 def complete_noodle(authorization, paths, state, transition):
@@ -859,7 +1222,7 @@ def finish_host(authorization, paths, state):
     pid = start["pid"]
     observed = subprocess.run(["ps", "-p", str(pid), "-o", "command="], capture_output=True, text=True)
     if observed.returncode == 0 and observed.stdout.strip():
-        expected = " ".join([authorization["noodle"]["path"], "--project-dir", authorization["control_root"], "start"])
+        expected = " ".join(noodle_process_argv(authorization, start))
         require(observed.stdout.strip() == expected, "noodle.stop.identity", "changed",
                 "original_start_process_readback")
         if not start.get("stop_offered"):
@@ -932,6 +1295,27 @@ def _accept(authorization, claim, output):
     return result
 
 
+def publish_candidate(authorization, state, paths, claim, acceptance, provider):
+    if "prior_publication" not in authorization:
+        return candidate_publication.publish(
+            Path(claim["worktree_path"]), acceptance, claim, provider,
+            push=authenticated_push(provider))
+    intent = {"old_head": authorization["prior_publication"]["head"],
+              "new_head": claim["head"],
+              "pr": authorization["prior_publication"]["pr"]["number"],
+              "status": "offered"}
+    prior_intent = state["writes"].get("candidate_amendment")
+    require(prior_intent is None or prior_intent == intent,
+            "amendment.intent", prior_intent, "unchanged_offered_candidate")
+    if prior_intent is None:
+        state["writes"]["candidate_amendment"] = intent
+        save_json(paths["state"], state)
+    return candidate_publication.publish_amendment(
+        Path(claim["worktree_path"]), acceptance, claim, provider,
+        authorization["prior_publication"], offered=True,
+        push=authenticated_push(provider) if prior_intent is None else None)
+
+
 def authenticated_push(provider):
     token = getattr(provider, "token", "")
     require(isinstance(token, str) and token, "github.credential", "missing",
@@ -987,6 +1371,237 @@ def select_run(provider, authorization, head):
             [run.get("conclusion"), target[0].get("conclusion"), step[0].get("conclusion")],
             "new_candidate_head_after_failed_ci")
     return run, jobs
+
+
+def verify_failed_prior(provider, authorization):
+    """Prove a selected correction begins at the exact failed PR head."""
+    prior = authorization["prior_publication"]
+    number = authorization["issue"]["number"]
+    branch = prior["branch"]
+    repository = provider.repository_info()
+    base_branch = repository.get("default_branch") if isinstance(repository, dict) else None
+    require(isinstance(repository, dict)
+            and repository.get("full_name") == authorization["repository"]
+            and isinstance(base_branch, str)
+            and provider.base_head(base_branch) == authorization["base_head"],
+            "amendment.prior_base", repository, "exact_current_provider_base")
+    pull = provider.pull(prior["pr"]["number"])
+    require(isinstance(pull, dict) and pull.get("number") == prior["pr"]["number"]
+            and pull.get("state") == "open" and pull.get("merged") is not True
+            and pull.get("head", {}).get("ref") == branch
+            and pull.get("head", {}).get("sha") == prior["head"]
+            and pull.get("base", {}).get("ref") == base_branch
+            and pull.get("body") == "Refs " + authorization["repository"] + "#" + str(number),
+            "amendment.prior_pr", pull, "exact_failed_open_pr")
+    remote = provider.branch(branch)
+    require(isinstance(remote, dict)
+            and remote.get("object", {}).get("sha") == prior["head"],
+            "amendment.prior_branch", remote, "exact_failed_branch_readback")
+    try:
+        select_run(provider, authorization, prior["head"])
+    except AtomRefusal as error:
+        require(error.invalid == {"field": "github.workflow.conclusion",
+                                  "value": ["failure", "failure", "failure"]},
+                "amendment.prior_runtime", error.invalid,
+                "terminal_failed_exact_head_runtime")
+    else:
+        raise AtomRefusal("amendment.prior_runtime", "not failed",
+                          "terminal_failed_exact_head_runtime")
+
+
+def observe_prior_loop(authorization, prior_state):
+    """Distinguish the original loop's durable status from OS custody."""
+    root = Path(authorization["control_root"]).resolve()
+    start = prior_state.get("noodle_start")
+    require(isinstance(start, dict) and start.get("status") == "started"
+            and type(start.get("pid")) is int and start["pid"] > 1,
+            "amendment.prior_loop", start, "original_start_process_readback")
+    pid = start["pid"]
+    observed = subprocess.run(["ps", "-p", str(pid), "-o", "command="],
+                              capture_output=True, text=True)
+    expected = " ".join(noodle_process_argv(authorization, start))
+    if observed.returncode == 0 and observed.stdout.strip():
+        require(observed.stdout.strip() == expected,
+                "amendment.prior_loop.identity", "changed", "original_start_process_readback")
+        loop_status = "running"
+    else:
+        require(observed.returncode == 1,
+                "amendment.prior_loop.readback", observed.returncode,
+                "original_start_process_readback")
+        try:
+            os.killpg(pid, 0)
+        except ProcessLookupError:
+            pass
+        except PermissionError as error:
+            raise AtomRefusal("amendment.prior_loop.group", type(error).__name__,
+                              "quiescent_noodle_owner") from error
+        else:
+            raise AtomRefusal("amendment.prior_loop.group", "present",
+                              "quiescent_noodle_owner")
+        loop_status = "stopped"
+    lock_path = root / ".noodle/noodle.lock"
+    require(lock_path.is_file(), "amendment.prior_loop.lock", "missing",
+            "canonical_noodle_lock_readback")
+    try:
+        with lock_path.open("r+b") as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                lock_held = True
+            else:
+                lock_held = False
+    except OSError as error:
+        raise AtomRefusal("amendment.prior_loop.lock", type(error).__name__,
+                          "canonical_noodle_lock_readback") from error
+    require(lock_held == (loop_status == "running"),
+            "amendment.prior_loop.lock", lock_held,
+            "matching_process_and_noodle_lock")
+    if start.get("restored") is True:
+        require(loop_status == "stopped"
+                and host_config_identity(root) == authorization["host_config_sha256"],
+                "amendment.prior_loop.restored", "mismatch",
+                "original_host_configuration_readback")
+        return "restored"
+    return loop_status
+
+
+def verify_prior_atom(authorization):
+    """Read the selected old lifecycle and the exact parked Noodle review."""
+    ref = authorization["prior_atom"]
+    root = Path(authorization["control_root"]).resolve()
+    validate_prior_atom_ref(ref, root)
+    prior_path = Path(ref["path"])
+    prior_auth = read_json(prior_path, "amendment.prior_authorization")
+    prior_paths = artifact_paths(prior_path)
+    prior_state = read_json(prior_paths["state"], "amendment.prior_state")
+    old = authorization["prior_publication"]
+    number = authorization["issue"]["number"]
+    require(prior_auth.get("repository") == authorization["repository"]
+            and prior_auth.get("control_root") == str(root)
+            and prior_auth.get("base_head") == authorization["base_head"]
+            and prior_auth.get("noodle") == authorization["noodle"]
+            and prior_auth.get("carrier") == authorization["carrier"]
+            and prior_state.get("authorization_sha256") == ref["sha256"]
+            and prior_state.get("phase") == "ci"
+            and prior_state.get("issue", {}).get("number") == number
+            and prior_state.get("publication") == old
+            and not prior_state.get("landing_activation")
+            and not prior_paths["landing"].exists(),
+            "amendment.prior_state", prior_state.get("phase"),
+            "exact_prelanding_failed_candidate")
+    prior_claim = read_json(prior_paths["claim"], "amendment.prior_claim")
+    prior_envelope = read_json(prior_paths["envelope"], "amendment.prior_envelope")
+    require(digest_file(prior_paths["envelope"]) == prior_state.get("envelope_sha256")
+            and prior_claim.get("repository") == authorization["repository"]
+            and prior_claim.get("subject") == authorization["repository"] + "#" + str(number)
+            and prior_claim.get("head") == old["head"]
+            and prior_claim.get("tree") == old["tree"]
+            and prior_claim.get("base_head") == authorization["base_head"]
+            and prior_envelope.get("repository") == authorization["repository"]
+            and prior_envelope.get("issue") == number
+            and prior_envelope.get("base_head") == authorization["base_head"],
+            "amendment.prior_claim", prior_claim, "same_published_noodle_candidate")
+    execution = prior_envelope.get("execution", {})
+    order_id = issue_admission.scoped_order_id(number, root)
+    worktree = execution.get("worktree")
+    worktree_path = root / ".worktrees" / str(worktree)
+    require(execution.get("order_id") == order_id
+            and execution.get("control_root") == str(root)
+            and prior_claim.get("order_id") == order_id
+            and prior_claim.get("worktree_name") == worktree
+            and prior_claim.get("worktree_path") == str(worktree_path)
+            and worktree_path.is_dir(),
+            "amendment.prior_order", order_id, "exact_original_noodle_order")
+    old_binding = {**prior_envelope,
+                   "contract": issue_admission.parse_contract(prior_auth["issue"]["body"])}
+    try:
+        owner = issue_execution.read_owner(old_binding)
+        order = owner["state"]["orders"].get(order_id)
+        issue_execution.quiescent_order(old_binding, owner)
+    except issue_admission.AdmissionRefusal as error:
+        raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                          error.next["required"][0], owner="Noodle") from error
+    require(isinstance(order, dict) and order.get("status") == "active"
+            and len(order.get("stages", [])) == 1,
+            "amendment.prior_order", order, "single_original_review")
+    stage = order["stages"][0]
+    attempts = stage.get("attempts")
+    require(stage.get("status") == "review"
+            and stage.get("skill") == "execute"
+            and stage.get("provider") == "codex"
+            and stage.get("model") == authorization["carrier"]["codex"]["model"]
+            and isinstance(attempts, list) and len(attempts) == 1
+            and attempts[0].get("status") == "completed"
+            and attempts[0].get("session_id") == prior_claim.get("session_id"),
+            "amendment.prior_review", stage.get("status"), "completed_original_attempt")
+    try:
+        prompt = json.loads(stage.get("prompt", ""))
+    except (TypeError, ValueError):
+        prompt = None
+    require(prompt == issue_execution.projection(
+        old_binding, prior_state["envelope_sha256"], "supervised"),
+        "amendment.prior_prompt", prompt, "original_admitted_task")
+    reviews = owner["state"].get("pending_reviews", {})
+    require(isinstance(reviews, dict) and set(reviews) == {order_id},
+            "amendment.prior_reviews", list(reviews) if isinstance(reviews, dict) else reviews,
+            "one_original_pending_review")
+    require(_git(worktree_path, "rev-parse", "HEAD") == old["head"]
+            and _git(worktree_path, "rev-parse", "HEAD^{tree}") == old["tree"]
+            and _git(worktree_path, "status", "--porcelain", "--untracked-files=all") == "",
+            "amendment.prior_worktree", str(worktree_path), "clean_published_candidate")
+    loop_status = observe_prior_loop(authorization, prior_state)
+    return {"order_id": order_id, "worktree": worktree,
+            "worktree_path": str(worktree_path),
+            "prior_envelope_sha256": prior_state["envelope_sha256"],
+            "owner_snapshot_sha256": digest_file(root / ".noodle/state.snapshot.json"),
+            "prior_loop_status": loop_status}
+
+
+def recover_prior_host(authorization, paths, state):
+    """Retire only the selected original loop through its existing owner."""
+    prior = verify_prior_atom(authorization)
+    require(prior["prior_loop_status"] in {"running", "stopped"},
+            "amendment.prior_host.status", prior["prior_loop_status"])
+    ref = authorization["prior_atom"]
+    old_path = Path(ref["path"])
+    old_auth = read_json(old_path, "amendment.prior_authorization")
+    old_paths = artifact_paths(old_path)
+    old_state = read_json(old_paths["state"], "amendment.prior_state")
+    old_binding = read_json(old_paths["envelope"], "amendment.prior_envelope")
+    owner = issue_execution.read_owner(old_binding)
+    for order_id in owner["state"]["orders"]:
+        try:
+            issue_execution.quiescent_order(
+                {"execution": {"control_root": authorization["control_root"],
+                               "order_id": order_id}}, owner)
+        except issue_admission.AdmissionRefusal as error:
+            raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                              error.next["required"][0], owner="Noodle") from error
+    runtime = Path(authorization["control_root"]) / ".noodle"
+    for process in sorted((runtime / "sessions").glob("*/process.json")):
+        try:
+            issue_execution._absent_process(process.parent, process.parent.name)
+        except issue_admission.AdmissionRefusal as error:
+            raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                              error.next["required"][0], owner="Noodle") from error
+    intent = {"prior_authorization_sha256": ref["sha256"],
+              "order_id": prior["order_id"], "status": "offered"}
+    if "prior_host_recovery" not in state:
+        state["prior_host_recovery"] = intent
+        save_json(paths["state"], state)
+    else:
+        require(state["prior_host_recovery"] in (intent, {**intent, "status": "restored"}),
+                "amendment.prior_host.intent", state["prior_host_recovery"],
+                "same_original_host_recovery")
+    if not finish_host(old_auth, old_paths, old_state):
+        return False
+    require(host_config_identity(authorization["control_root"])
+            == authorization["host_config_sha256"],
+            "amendment.prior_host.config", "changed",
+            "original_host_configuration_readback")
+    state["prior_host_recovery"] = {**intent, "status": "restored"}
+    save_json(paths["state"], state)
+    return True
 
 
 def provider_snapshot(provider, claim, run, jobs):
@@ -1097,7 +1712,7 @@ def own_start_wait(authorization, paths, state, binding, owner, refuse):
           digest_bytes(captured[generated]) == start.get("config_sha256"), "config")
     observed = subprocess.run(["ps", "-p", str(start["pid"]), "-o", "command="],
                               capture_output=True, text=True)
-    expected = " ".join([authorization["noodle"]["path"], "--project-dir", str(root), "start"])
+    expected = " ".join(noodle_process_argv(authorization, start))
     check(observed.returncode == 0 and observed.stdout.strip() == expected, "process")
     os.kill(start["pid"], 0)
     sessions = {}
@@ -1123,7 +1738,9 @@ def own_start_wait(authorization, paths, state, binding, owner, refuse):
                       binding, state["envelope_sha256"], subject["route"]), "projection")
         attempts = stage.get("attempts")
         if skill == "execute" and stage.get("status") == "pending":
-            check(attempts in (None, []), "pending_attempts")
+            check(attempts in (None, []) or (
+                state.get("correction_release") is not None
+                and attempts == state.get("correction_failed_attempts")), "pending_attempts")
             continue
         check(stage.get("status") in ("dispatching", "running")
               and isinstance(attempts, list) and bool(attempts)
@@ -1181,6 +1798,20 @@ def require_available_owner(authorization, paths, state):
     root = Path(authorization["control_root"])
     runtime = root / ".noodle"
     known = {"control_root": str(root)}
+    if ("prior_atom" in authorization and state.get("phase") in {"issue", "execution"}
+            and state.get("noodle_amendment") is None):
+        # An externally selected correction may inspect the original parked
+        # review. It gains no permission to mutate it from this readback.
+        if state.get("noodle_start") is not None:
+            correction_owner(authorization, paths, state)
+            return
+        prior = verify_prior_atom(authorization)
+        if prior["prior_loop_status"] in {"stopped", "running"}:
+            return {"action": "prior_loop_" + prior["prior_loop_status"], "owner": "Noodle",
+                    "next": {"kind": "input", "owner": "original_issue_atom",
+                             "required": ["original_host_recovery_before_new_bundle"],
+                             "known": {"order_id": prior["order_id"]}}}
+        return
     if state.get("phase") == "resolved" and (
             not state.get("noodle_start") or state["noodle_start"].get("restored") is True):
         return  # Historical readback still goes through the existing landing owner.
@@ -1249,6 +1880,10 @@ def require_available_owner(authorization, paths, state):
                 refuse("noodle.order.binding", own_id, "admitted_order_readback")
             stage = stages[0]
             attempts = stage.get("attempts")
+            if (state.get("noodle_amendment") and stage.get("status") == "pending"
+                    and attempts == state["correction_failed_attempts"]):
+                correction_owner(authorization, paths, state)
+                return {"action": "correction_dispatch_pending", "owner": "Noodle"}
             if (stage.get("skill") != "execute" or stage.get("provider") != "codex"
                     or stage.get("model") != binding["execution"]["carrier"]["codex"]["model"]
                     or not isinstance(attempts, list) or not attempts
@@ -1294,6 +1929,7 @@ def _run(authorization_path, *, environ=None, provider=None):
     authorization, authorization_digest = _validate_authorization(
         authorization_path, environ.get("SOODLES_AUTHORIZATION_SHA256"),
         allow_advanced=paths["state"].exists())
+    validate_lifecycle_owner(authorization, executing=True)
     runtime = Path(authorization["control_root"]) / ".noodle"
     runtime.mkdir(exist_ok=True)
     with (runtime / "issue-atom.lock").open("a+b") as lock:
@@ -1316,7 +1952,10 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
             and state.get("authorization_sha256") == authorization_digest,
             "state.authorization", "mismatch", "matching_lifecycle_checkpoint")
     observation = require_available_owner(authorization, paths, state)
-    if observation is not None:
+    prior_recovery = (isinstance(observation, dict)
+                      and observation.get("action") in
+                      {"prior_loop_stopped", "prior_loop_running"})
+    if observation is not None and not prior_recovery:
         return response(state, authorization_path, waiting_on="Noodle",
                         details={"execution": observation})
     if provider is None:
@@ -1330,7 +1969,11 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
     require_clean_control_root(authorization)
     landing_owner = LandingOwner(authorization, paths["directory"])
     if not state_path.exists():
-        require(host_config_identity(authorization["control_root"]) == authorization["host_config_sha256"],
+        selected_config = authorization["host_config_sha256"]
+        if prior_recovery:
+            selected_config = prior_host_config(
+                authorization["prior_atom"], authorization["control_root"])["installed_sha256"]
+        require(host_config_identity(authorization["control_root"]) == selected_config,
                 "noodle.config.digest", "changed", "unchanged_host_configuration")
 
     if provider is None:
@@ -1345,6 +1988,14 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
     if not state_path.exists():
         save_json(state_path, state, fresh=True)
     issue, body = exact_issue(provider, authorization, authorization_digest)
+    if prior_recovery:
+        require(issue is not None and issue.get("state") == "open",
+                "amendment.issue", issue, "exact_open_provider_issue")
+        verify_failed_prior(provider, authorization)
+        restored = recover_prior_host(authorization, paths, state)
+        return response(state, authorization_path, waiting_on=(
+            "original host restored" if restored else "Noodle shutdown readback"),
+            details={"prior_host_recovery": state["prior_host_recovery"]})
     if issue is None:
         write = state["writes"].get("issue_create")
         if write is None:
@@ -1360,6 +2011,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
     require(issue.get("state") == "open" or state["phase"] in {"landing", "resolved"},
             "github.issue.state", issue.get("state"), "current_issue_state")
     if state["issue"] is None:
+        if "prior_publication" in authorization:
+            verify_failed_prior(provider, authorization)
         state["issue"] = {"number": issue["number"], "url": issue.get("html_url"),
                           "body_sha256": issue_admission.body_digest(body)}
         state["phase"] = "execution"
@@ -1375,6 +2028,15 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
             envelope_digest = digest_file(paths["envelope"])
             require(envelope_digest == state.get("envelope_sha256"),
                     "envelope.digest", envelope_digest, "unchanged_execution_envelope")
+        if "prior_atom" in authorization and state.get("noodle_amendment") is None:
+            if state.get("noodle_start") is None:
+                execution = ensure_noodle(
+                    authorization, paths, state, {"action": "correction_review"},
+                    environ, correction=True)
+            else:
+                execution = advance_correction(authorization, paths, state, provider)
+            return response(state, authorization_path, waiting_on="new Noodle loop",
+                            details={"execution": execution})
         if state.get("noodle_bootstrap", {}).get("status") == "exited_zero":
             bootstrap_noodle(authorization, paths, state, environ)
         try:
@@ -1421,9 +2083,7 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                 save_json(state_path, state)
                 raise AtomRefusal("acceptance", str(error), "changed_candidate_head") from error
         acceptance = read_json(paths["acceptance"], "acceptance")
-        publication = candidate_publication.publish(
-            Path(claim["worktree_path"]), acceptance, claim, provider,
-            push=authenticated_push(provider))
+        publication = publish_candidate(authorization, state, paths, claim, acceptance, provider)
         state["publication"] = publication
         state["phase"] = "ci"
         save_json(state_path, state)
@@ -1510,6 +2170,23 @@ def drive(authorization_path, *, timeout=300, interval=5, sleep=time.sleep, cloc
 
 
 def refusal_output(error, authorization_path):
+    correction_required = error.required == "new_candidate_head_after_failed_ci"
+    if correction_required:
+        reason = ("The selected authorization still binds the failed head. "
+                  "The current authorized Local Session is the external supervisor "
+                  "for deriving a fresh correction selection from current owner "
+                  "and provider readbacks; do not ask the user to recreate "
+                  "authorization or replay this failed head. A fresh admitted "
+                  "candidate transition is required.")
+    elif error.owner == "external-supervisor":
+        reason = ("The current authorized Local Session is the external "
+                  "supervisor for derivable inputs. Recover selected bytes "
+                  "from their owner, or correct the named material state; "
+                  "ask only for genuinely missing identity or capability. "
+                  "Never choose a phase-specific route.")
+    else:
+        reason = ("Correct the named external input or material owner state; "
+                  "never choose a phase-specific route.")
     return {
         "owner": "soodles.issue-atom", "status": "refused",
         "invalid": error.invalid,
@@ -1517,8 +2194,9 @@ def refusal_output(error, authorization_path):
             "kind": "input", "owner": error.owner,
             "required": [error.required],
             **({"known": error.known} if error.known is not None else {}),
-            "argv": same_command(authorization_path),
-            "reason": "Correct the named external input or material owner state; never choose a phase-specific route.",
+            **({} if correction_required or error.required == "execute_selected_prepared_continuation"
+               else {"argv": same_command(authorization_path)}),
+            "reason": reason,
         },
         "authorizes_landing": False,
     }

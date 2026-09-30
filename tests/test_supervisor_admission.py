@@ -347,6 +347,71 @@ def observe_sensitivity():
 
 
 class SupervisorAdmissionTests(unittest.TestCase):
+    def test_correction_preparation_binds_the_existing_candidate_not_control_base(self):
+        import issue_execution
+        fixture = SupervisorFixture()
+        self.addCleanup(fixture.close)
+        fixture.carrier["codex"]["argv"] = ["exec", "--skip-git-repo-check", "--json", "--model", "fixture-model"]
+        name = supervisor_admission.scoped_order_id(118, fixture.root) + "-0-execute"
+        worktree = fixture.root / ".worktrees" / name
+        fixture._git("worktree", "add", "-b", name, str(worktree), fixture.head)
+        subprocess.run(["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                        "commit", "--allow-empty", "-m", "Prior published candidate"],
+                       cwd=worktree, check=True, capture_output=True)
+        candidate = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=worktree, text=True).strip()
+        pin = {"path": ".agents/skills/execute/SKILL.md",
+               "sha256": _sha((fixture.root / ".agents/skills/execute/SKILL.md").read_bytes())}
+        output, _ = fixture.prepare(wire_host=True, correction=True, instruction_pins=[pin])
+        envelope = json.loads((output / "envelope.json").read_text())
+        self.assertEqual(envelope["base_head"], fixture.head)
+        self.assertEqual(envelope["execution"]["source_head"], candidate)
+        issue_execution.validate_worktree(worktree, envelope)
+        (worktree / "allowed.py").write_text("changed after preparation")
+        with self.assertRaisesRegex(AdmissionRefusal, "worker.git.residue"):
+            issue_execution.validate_worktree(worktree, envelope)
+        # A later commit is also outside the selected worker identity.
+        subprocess.run(["git", "add", "allowed.py"], cwd=worktree, check=True)
+        subprocess.run(["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                        "commit", "-m", "Later drift"], cwd=worktree, check=True, capture_output=True)
+        with self.assertRaisesRegex(AdmissionRefusal, "worker.git.head"):
+            issue_execution.validate_worktree(worktree, envelope)
+
+    def test_correction_start_pins_process_hold_without_agent_selected_flags(self):
+        import tomllib
+        fixture = SupervisorFixture()
+        self.addCleanup(fixture.close)
+        observed = fixture.external / "process-argv.json"
+        fixture.binary.write_text(
+            "#!/usr/bin/env python3\nimport json, os, sys\nfrom pathlib import Path\n"
+            "Path(os.environ['FIXTURE_PROCESS_ARGV']).write_text(json.dumps(sys.argv))\n")
+        fixture.carrier["noodle"]["sha256"] = _sha(fixture.binary.read_bytes())
+        fixture.carrier["codex"]["sha256"] = _sha(fixture.binary.read_bytes())
+        fixture.carrier["codex"]["argv"] = ["exec", "--skip-git-repo-check", "--json",
+                                               "--model", "fixture-model"]
+        name = supervisor_admission.scoped_order_id(118, fixture.root) + "-0-execute"
+        fixture._git("worktree", "add", "-b", name,
+                     str(fixture.root / ".worktrees" / name), fixture.head)
+        output, prepared = fixture.prepare(wire_host=True, correction=True)
+        self.assertNotIn("bootstrap", prepared)
+        config = (output / "noodle.toml").read_bytes()
+        self.assertEqual(tomllib.loads(config.decode())["mode"], "supervised")
+        (fixture.root / ".noodle.toml").write_bytes(config)
+        env = {**os.environ, TOKEN_COMMAND_ENV: fixture.token_command,
+               "FIXTURE_PROCESS_ARGV": str(observed)}
+        command = prepared["next"]["argv"]
+        run = subprocess.run(command, cwd=fixture.root, env=env, capture_output=True, text=True)
+        self.assertEqual(run.returncode, 0, run.stdout + run.stderr)
+        self.assertEqual(json.loads(observed.read_text()), prepared["process_argv"])
+        self.assertEqual(prepared["process_argv"], [str(fixture.binary), "--project-dir",
+                          str(fixture.root), "start", "--mode", "manual"])
+        before = observed.read_bytes()
+        for extra in (["--once"], ["--mode", "supervised"]):
+            run = subprocess.run(command + extra, cwd=fixture.root, env=env,
+                                 capture_output=True, text=True)
+            self.assertEqual(run.returncode, 64)
+            self.assertEqual(json.loads(run.stdout)["invalid"]["field"], "start.argv")
+            self.assertEqual(observed.read_bytes(), before)
+
     def test_host_bundle_binds_task_worker_and_single_issue_backlog(self):
         import tomllib
         fixture = SupervisorFixture()

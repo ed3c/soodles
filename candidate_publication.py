@@ -395,6 +395,89 @@ def publish(root, acceptance, claim, provider, push=None):
     }
 
 
+def publish_amendment(root, acceptance, claim, provider, prior, *, offered, push=None):
+    """Read back one already offered update to the same PR, or offer it once.
+
+    The lifecycle owner supplies its persisted prior publication and records
+    ``offered`` before allowing ``push``. A repeated call with ``push=None``
+    observes the provider only; it cannot repeat an uncertain write.
+    """
+    root, number = validate_inputs(root, acceptance, claim)
+    branch, pr = validate_amendment_prior(prior, claim["repository"], claim["subject"], number)
+    _require(prior["head"] != claim["head"], "amendment.head", prior["head"])
+    _require(offered is True, "amendment.offer", offered, "persisted_owner_write_intent")
+
+    repository = provider.repository_info()
+    _require(repository.get("full_name") == claim["repository"]
+             and repository.get("default_branch") == claim["base_branch"],
+             "github.repository", repository)
+    issue = provider.issue(number)
+    _comparison_before_effect(root, claim, issue, number)
+    _require(provider.base_head(claim["base_branch"]) == claim["base_head"],
+             "github.base_head", claim["base_head"], "fresh_provider_base")
+    body = "Refs " + claim["subject"]
+    current = provider.pull(pr["number"])
+    _require(isinstance(current, dict) and current.get("state") == "open"
+             and current.get("merged") is not True
+             and current.get("head", {}).get("ref") == branch
+             and current.get("head", {}).get("sha") in {prior["head"], claim["head"]}
+             and current.get("base", {}).get("ref") == claim["base_branch"]
+             and current.get("body") == body
+             and current.get("number") == pr["number"],
+             "github.pull.identity", current, "same_open_provider_pr")
+    remote = provider.branch(branch)
+    remote_head = None if remote is None else remote.get("object", {}).get("sha")
+    _require(remote_head in {prior["head"], claim["head"]},
+             "github.branch.head", remote_head, "exact_old_or_new_branch_readback")
+    if remote_head == prior["head"] and push is not None:
+        # ``push`` is supplied only on the first durable offer. Its exit code
+        # cannot establish outcome; fresh provider readback below does.
+        push(root, "push", "--porcelain",
+             "--force-with-lease=refs/heads/" + branch + ":" + prior["head"],
+             claim["push_remote"], claim["head"] + ":refs/heads/" + branch,
+             check=False)
+        remote = provider.branch(branch)
+        remote_head = None if remote is None else remote.get("object", {}).get("sha")
+    _require(remote_head == claim["head"], "github.branch.outcome", remote_head,
+             "fresh_provider_branch_readback_without_retry")
+    current = provider.pull(pr["number"])
+    _require(_exact_pull(current, branch, claim["head"], claim["base_branch"], body)
+             and current["number"] == pr["number"], "github.pull.readback", current,
+             "same_exact_provider_pr")
+    return {
+        "owner": "soodles.candidate-publication", "status": "amended",
+        "repository": claim["repository"], "subject": claim["subject"],
+        "branch": branch, "head": claim["head"], "tree": claim["tree"],
+        "pr": pr, "next": None, "authorizes_landing": False,
+    }
+
+
+def validate_amendment_prior(prior, repository, subject, number):
+    """Validate the externally selected previous publication before effects."""
+    _require(isinstance(prior, dict) and set(prior) == {
+        "owner", "status", "repository", "subject", "branch", "head", "tree", "pr",
+        "next", "authorizes_landing"}, "amendment.prior", prior)
+    _require(prior["owner"] == "soodles.candidate-publication"
+             and prior["status"] in {"created", "reused", "amended"}
+             and prior["repository"] == repository
+             and prior["subject"] == subject
+             and prior["next"] is None and prior["authorizes_landing"] is False,
+             "amendment.prior.identity", prior)
+    _require(isinstance(prior["head"], str) and SHA40.fullmatch(prior["head"])
+             and isinstance(prior["tree"], str) and SHA40.fullmatch(prior["tree"]),
+             "amendment.head", prior["head"])
+    branch = prior["branch"]
+    _require(isinstance(branch, str) and re.fullmatch(
+        rf"soodles/issue-{number}-[0-9a-f]{{12}}", branch),
+        "amendment.branch", branch)
+    pr = prior["pr"]
+    _require(isinstance(pr, dict) and set(pr) == {"number", "url"}
+             and type(pr["number"]) is int and pr["number"] > 0
+             and pr["url"] == f"https://github.com/{repository}/pull/{pr['number']}",
+             "amendment.pr", pr)
+    return branch, pr
+
+
 def run(root, acceptance_path, claim_path):
     acceptance = _read(acceptance_path, "acceptance")
     claim = _read(claim_path, "claim")

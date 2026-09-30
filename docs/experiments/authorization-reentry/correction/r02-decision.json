@@ -1,0 +1,25 @@
+{
+  "authorizes_landing": false,
+  "baseline_target_failures": 3,
+  "candidate_all_gates": true,
+  "cost_improvement": {
+    "before": [
+      10,
+      9,
+      9
+    ],
+    "after": [
+      9,
+      9,
+      9
+    ],
+    "before_median": 9,
+    "after_median": 9,
+    "relative_reduction": 0.0,
+    "below_before_median": 0
+  },
+  "adopt": false,
+  "verdict": "revert",
+  "reason": "qualified command reduction did not meet unchanged threshold",
+  "efficiency_target_achieved": false
+}

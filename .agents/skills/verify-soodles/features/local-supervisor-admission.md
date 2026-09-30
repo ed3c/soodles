@@ -18,6 +18,14 @@ and an optional exact existing `number`. `carrier` is the measured
 `path`/`sha256`/`verifier_sha256` descriptor. Keep those selected pins unchanged.
 `instruction_paths` explicitly selects committed repository paths; an empty
 list preserves schema-2 authorization, a nonempty list produces schema 3.
+A supervisor may additionally select `lifecycle_owner` with the absolute external
+`issue-atom` path, its `sha256`, and the aggregate `source_sha256` over the fixed
+runtime file set. It remains separate from `landing_owner` and the control root.
+The producer returns that exact executable; the runtime checks selected files
+and its own execution location before creating lifecycle state or effects.
+Committed preparation readback preserves the selection even when runtime files
+are unavailable; execution still requires fresh byte validation. This is a
+supervisor selection input, never a candidate-selected judge or a CLI policy flag.
 This file contains no credentials or alternative workflow selector.
 
 ```sh
@@ -71,6 +79,32 @@ publication races, and concurrent same/different selection. Preserve refused
 evidence and record exit/stdout/stderr and filesystem residue independently.
 A deterministic pass does not prove model improvement; use the bounded P-class
 recipe for fresh behavior comparisons.
+
+## Same-Issue failed-head correction
+
+For an exact failed runtime on an open PR, the authorized local Session derives
+`prior_publication` and `prior_atom` from current provider readback and the
+original immutable authorization. Select both in the same schema-1 selection;
+never ask the user to reconstruct those known identities. The current Issue
+contract must cover the correction. Preparation retains the original control
+root, Noodle order/worktree and PR branch; it does not activate unselected
+lifecycle implementation bytes.
+
+Consume the prepared `issue-atom run` continuation. Its owner restores the old
+host, starts the selected replacement bundle with a process hold, requests
+changes on the original review, observes canonical failed state, publishes one
+revised proposal and observes its exact promotion before releasing the hold.
+The original failed attempt remains historical evidence. A control ack alone
+cannot prove transition; a lost control/proposal response permits readback only.
+Do not choose mode/control commands, edit checkpoints or repeat historical writes.
+
+The discriminating controls are in `tests/test_issue_atom.py` and
+`tests/test_issue_execution.py`: wrong review/promotion identity, foreign
+control, missing process hold, ack without transition and lost responses must
+refuse or wait without another effect. These product controls do not establish
+Agent improvement; the P-class comparison still needs fresh isolated consumers
+and independently fixed scoring. A missing supported owner activation remains
+an explicit capability gap, not a request for the user to recreate authorization.
 
 ## Existing admitted execution producer
 

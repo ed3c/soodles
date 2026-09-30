@@ -1,0 +1,29 @@
+======================================================================
+ERROR: test_correction_preparation_binds_the_existing_candidate_not_control_base (test_supervisor_admission.SupervisorAdmissionTests.test_correction_preparation_binds_the_existing_candidate_not_control_base)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/tests/test_supervisor_admission.py", line 364, in test_correction_preparation_binds_the_existing_candidate_not_control_base
+    output, _ = fixture.prepare(wire_host=True, correction=True, instruction_pins=[pin])
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/tests/test_supervisor_admission.py", line 157, in prepare
+    result = supervisor_admission.prepare(
+        self.issue, self.carrier, self.root, output, environ=environ, **kwargs)
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/supervisor_admission.py", line 413, in prepare
+    validate_issue(issue_readback, envelope)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/issue_admission.py", line 272, in validate_issue
+    envelope = validate_envelope(envelope)
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/issue_admission.py", line 251, in validate_envelope
+    validate_instruction_context(execution["instruction_context"], execution["source_head"])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/issue_admission.py", line 227, in validate_instruction_context
+    require(context["source_head"] == source_head, "instruction_context.source_head", context["source_head"])
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/neon/.codex/worktrees/authorization-shortest-path/soodles/issue_admission.py", line 45, in require
+    raise AdmissionRefusal(field, value, **source)
+issue_admission.AdmissionRefusal: Issue admission: invalid instruction_context.source_head='3ea802552bf6ad41c5b627b7e211a0fb7bcece1f'; owner: supervisor; required: execution_envelope
+
+----------------------------------------------------------------------
+Ran 1 test in 0.372s
+
+FAILED (errors=1)

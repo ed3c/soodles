@@ -553,6 +553,272 @@ class IssueAtomTests(unittest.TestCase):
                 atom.ensure_noodle(self.authorization, paths, state, {"action": "proposal_pending"}, self.env)
         self.assertEqual(start.call_count, 1)
 
+    def test_correction_envelope_derives_hold_only_after_original_host_recovery(self):
+        provider = Provider()
+        self.ready_issue(provider)
+        self.authorization["prior_atom"] = {"path": "/external/prior", "sha256": "a" * 64}
+        paths = atom.artifact_paths(self.path)
+        with patch.object(atom, "verify_prior_atom", return_value={"prior_loop_status": "stopped"}):
+            with self.assertRaisesRegex(atom.AtomRefusal, "envelope.prior_host"):
+                atom.create_envelope(self.authorization, provider.value,
+                                     provider.value["body"], paths["envelope"], environ=self.env)
+        self.assertFalse(paths["envelope"].parent.exists())
+        name = atom.issue_admission.scoped_order_id(provider.value["number"], self.root) + "-0-execute"
+        subprocess.run(["git", "worktree", "add", "-b", name,
+                        str(self.root / ".worktrees" / name), self.authorization["base_head"]],
+                       cwd=self.root, check=True, capture_output=True)
+        with patch.object(atom, "verify_prior_atom", return_value={"prior_loop_status": "restored"}):
+            atom.create_envelope(self.authorization, provider.value,
+                                 provider.value["body"], paths["envelope"], environ=self.env)
+        prepared = atom.read_json(paths["envelope"].parent / "prepared.json", "prepared")
+        self.assertEqual(prepared["process_argv"], [self.authorization["noodle"]["path"],
+                         "--project-dir", str(self.root), "start", "--mode", "manual"])
+        self.assertNotIn("bootstrap", prepared)
+
+    def test_corrected_start_reuses_only_the_unchanged_parked_review(self):
+        from unittest.mock import Mock
+        paths, state = self.startup_fixture()
+        envelope = atom.read_json(paths["envelope"], "envelope")
+        order_id = envelope["execution"]["order_id"]
+        snapshot = self.root / ".noodle/state.snapshot.json"
+        atom.save_json(snapshot, {"state": {"orders": {order_id: {
+            "status": "active", "stages": [{"status": "review"}]}},
+            "pending_reviews": {order_id: {}}}, "effect_ledger": []})
+        self.authorization["prior_atom"] = {"path": "/external/prior", "sha256": "a" * 64}
+        # A new supervisor checkpoint may consume the original owner's
+        # verified restored readback without copying a second success marker.
+        self.assertNotIn("prior_host_recovery", state)
+        prepared_path = paths["envelope"].parent / "prepared.json"
+        prepared = atom.read_json(prepared_path, "prepared")
+        prepared["process_argv"] = [self.authorization["noodle"]["path"], "--project-dir",
+                                     str(self.root), "start", "--mode", "manual"]
+        atom.save_json(prepared_path, prepared)
+        state["admission_sha256"] = atom.digest_file(prepared_path)
+        prior = {"order_id": order_id, "prior_loop_status": "restored",
+                 "owner_snapshot_sha256": atom.digest_file(snapshot)}
+        with patch.object(atom, "verify_prior_atom", return_value=prior), \
+             patch.object(atom.subprocess, "Popen", return_value=Mock(pid=987655)) as spawn, \
+             patch.object(atom.subprocess, "run", return_value=Mock(returncode=0)):
+            result = atom.ensure_noodle(self.authorization, paths, state,
+                                        {"action": "correction_review"}, self.env,
+                                        correction=True)
+        self.assertEqual(result["action"], "started")
+        spawn.assert_called_once()
+        self.assertEqual((self.root / ".noodle.toml").read_bytes(),
+                         (paths["envelope"].parent / "noodle.toml").read_bytes())
+        self.assertEqual(state["noodle_start"]["process_argv"], prepared["process_argv"])
+
+    def test_corrected_start_refuses_missing_process_hold_before_any_effect(self):
+        paths, state = self.startup_fixture()
+        order_id = atom.read_json(paths["envelope"], "envelope")["execution"]["order_id"]
+        snapshot = self.root / ".noodle/state.snapshot.json"
+        atom.save_json(snapshot, {"state": {"orders": {order_id: {
+            "status": "active", "stages": [{"status": "review"}]}},
+            "pending_reviews": {order_id: {}}}, "effect_ledger": []})
+        self.authorization["prior_atom"] = {"path": "/external/prior", "sha256": "a" * 64}
+        state["prior_host_recovery"] = {"status": "restored"}
+        prior = {"order_id": order_id, "prior_loop_status": "restored",
+                 "owner_snapshot_sha256": atom.digest_file(snapshot)}
+        with patch.object(atom, "verify_prior_atom", return_value=prior), \
+             patch.object(atom.subprocess, "Popen") as spawn, \
+             patch.object(atom.subprocess, "run",
+                          return_value=subprocess.CompletedProcess(["git"], 0)):
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.start.correction_mode"):
+                atom.ensure_noodle(self.authorization, paths, state,
+                                   {"action": "correction_review"}, self.env,
+                                   correction=True)
+        spawn.assert_not_called()
+        self.assertFalse((self.root / ".noodle.toml").exists())
+        self.assertNotIn("noodle_start", state)
+
+    def test_corrected_start_rejects_changed_original_review(self):
+        paths, state = self.startup_fixture()
+        envelope = atom.read_json(paths["envelope"], "envelope")
+        order_id = envelope["execution"]["order_id"]
+        snapshot = self.root / ".noodle/state.snapshot.json"
+        atom.save_json(snapshot, {"state": {"orders": {order_id: {
+            "status": "active", "stages": [{"status": "review"}]}},
+            "pending_reviews": {order_id: {}}}, "effect_ledger": []})
+        self.authorization["prior_atom"] = {"path": "/external/prior", "sha256": "a" * 64}
+        state["prior_host_recovery"] = {"status": "restored"}
+        prior = {"order_id": order_id, "prior_loop_status": "restored",
+                 "owner_snapshot_sha256": "f" * 64}
+        with patch.object(atom, "verify_prior_atom", return_value=prior), \
+             patch.object(atom.subprocess, "Popen") as spawn:
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.start.prior_snapshot"):
+                atom.ensure_noodle(self.authorization, paths, state,
+                                   {"action": "correction_review"}, self.env,
+                                   correction=True)
+        spawn.assert_not_called()
+        self.assertFalse((self.root / ".noodle.toml").exists())
+
+    def test_correction_owner_checks_real_lock_pinned_bytes_and_foreign_control(self):
+        import fcntl
+        paths, state = self.startup_fixture()
+        runtime = self.root / ".noodle"
+        prepared_path = paths["envelope"].parent / "prepared.json"
+        prepared = atom.read_json(prepared_path, "prepared")
+        process_argv = [self.authorization["noodle"]["path"], "--project-dir", str(self.root),
+                        "start", "--mode", "manual"]
+        prepared["process_argv"] = process_argv
+        atom.save_json(prepared_path, prepared)
+        config = paths["envelope"].parent / "noodle.toml"
+        (self.root / ".noodle.toml").write_bytes(config.read_bytes())
+        state.update(admission_sha256=atom.digest_file(prepared_path), correction_ack_prefix="",
+                     noodle_start={"status": "started", "pid": 424242,
+                                   "argv": prepared["next"]["argv"], "process_argv": process_argv,
+                                   "config_sha256": atom.digest_file(config)})
+        with (runtime / "noodle.lock").open("a+b") as lock, patch.object(atom.subprocess, "run",
+                return_value=subprocess.CompletedProcess([], 0, " ".join(process_argv), "")):
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            binding, _ = atom.correction_owner(self.authorization, paths, state)
+            self.assertIn("contract", binding)
+            ack = runtime / "control-ack.ndjson"
+            ack.write_text('{"id":"foreign","action":"mode","status":"ok"}\n')
+            with self.assertRaisesRegex(atom.AtomRefusal, "amendment.control.foreign"):
+                atom.correction_owner(self.authorization, paths, state)
+            ack.unlink()
+            (self.root / ".noodle.toml").write_text("mode='auto'\n")
+            with self.assertRaisesRegex(atom.AtomRefusal, "amendment.process.identity"):
+                atom.correction_owner(self.authorization, paths, state)
+        self.assertFalse((runtime / "control.ndjson").exists())
+
+    def test_correction_lost_proposal_response_does_not_publish_again(self):
+        paths, state, binding, owner, stage = self.correction_fixture()
+        atom.advance_correction(self.authorization, paths, state, Provider())
+        self.correction_ack(state, "correction_review")
+        stage["status"] = "failed"
+        stage["attempts"][0]["status"] = "failed"
+        owner["state"]["orders"][binding["execution"]["order_id"]]["status"] = "failed"
+        owner["state"]["pending_reviews"] = {}
+        with patch.object(atom.issue_execution, "supervised_correction",
+                          side_effect=OSError("lost response")) as propose:
+            with self.assertRaisesRegex(OSError, "lost response"):
+                atom.advance_correction(self.authorization, paths, state, Provider())
+            resumed = atom.read_json(paths["state"], "state")
+            with self.assertRaisesRegex(atom.AtomRefusal, "amendment.proposal.outcome"):
+                atom.advance_correction(self.authorization, paths, resumed, Provider())
+            propose.assert_called_once()
+        self.assertNotIn("correction_release", resumed)
+
+    def correction_fixture(self):
+        paths, state = self.startup_fixture()
+        binding = atom.read_json(paths["envelope"], "envelope")
+        binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
+        oid = binding["execution"]["order_id"]
+        stage = {"status": "review", "prompt": json.dumps({"original": True}),
+                 "skill": "execute", "provider": "codex", "model": "fixture-model",
+                 "attempts": [{"session_id": "old-session", "status": "completed"}]}
+        owner = {"state": {"orders": {oid: {"status": "active", "stages": [stage]}},
+                           "mode": "supervised", "mode_epoch": 4, "pending_reviews": {oid: {}}},
+                 "effect_ledger": []}
+        state["correction_prior"] = {"order_id": oid, "worktree": binding["execution"]["worktree"],
+            "worktree_path": str(self.root), "stage": json.loads(json.dumps(stage))}
+        self.authorization["prior_publication"] = {"head": self.base}
+        self.addCleanup(patch.stopall)
+        patch.object(atom, "correction_owner", return_value=(binding, owner)).start()
+        patch.object(atom.issue_execution, "quiescent_order").start()
+        patch.object(atom, "verify_failed_prior").start()
+        return paths, state, binding, owner, stage
+
+    def correction_ack(self, state, name):
+        runtime = self.root / ".noodle"
+        command = state[name]
+        with (runtime / "control-ack.ndjson").open("a") as stream:
+            stream.write(json.dumps({"id": command["id"], "action": command["action"],
+                                     "status": "ok"}) + "\n")
+        (runtime / "control.ndjson").write_text("")
+
+    def test_correction_chain_requires_transition_then_exact_promotion_before_release(self):
+        paths, state, binding, owner, stage = self.correction_fixture()
+        provider = Provider()
+        with patch.object(atom.issue_execution, "supervised_correction",
+                          return_value={"published": True}) as propose:
+            self.assertEqual(atom.advance_correction(self.authorization, paths, state, provider)
+                             ["action"], "correction_review_pending")
+            self.correction_ack(state, "correction_review")
+            stage["status"] = "failed"
+            stage["attempts"][0]["status"] = "failed"
+            owner["state"]["orders"][binding["execution"]["order_id"]]["status"] = "failed"
+            owner["state"]["pending_reviews"] = {}
+            self.assertEqual(atom.advance_correction(self.authorization, paths, state, provider)
+                             ["action"], "correction_proposal_pending")
+            # Unobserved promotion must never append another proposal.
+            atom.save_json(self.root / ".noodle/orders-next.json",
+                           atom.issue_execution.correction_proposal(binding, state["envelope_sha256"]))
+            atom.advance_correction(self.authorization, paths, state, provider)
+            propose.assert_called_once()
+            self.assertNotIn("correction_release", state)
+            stage.update(status="pending", prompt=json.dumps(
+                atom.issue_execution.projection(binding, state["envelope_sha256"], "supervised")))
+            owner["state"]["orders"][binding["execution"]["order_id"]]["status"] = "active"
+            self.assertEqual(atom.advance_correction(self.authorization, paths, state, provider)
+                             ["action"], "correction_release_pending")
+            self.assertNotIn("noodle_amendment", state)
+            self.correction_ack(state, "correction_release")
+            with self.assertRaisesRegex(atom.AtomRefusal, "amendment.release.transition"):
+                atom.advance_correction(self.authorization, paths, state, provider)
+            self.assertNotIn("noodle_amendment", state)
+            owner["state"]["mode_epoch"] += 1
+            self.assertEqual(atom.advance_correction(self.authorization, paths, state, provider)
+                             ["action"], "correction_released")
+            self.assertEqual(state["noodle_amendment"]["order_id"], binding["execution"]["order_id"])
+
+    def test_correction_ack_without_state_change_refuses_without_proposal_or_resend(self):
+        paths, state, binding, owner, stage = self.correction_fixture()
+        atom.advance_correction(self.authorization, paths, state, Provider())
+        self.correction_ack(state, "correction_review")
+        with patch.object(atom.issue_execution, "supervised_correction") as propose:
+            with self.assertRaisesRegex(atom.AtomRefusal, "amendment.review.transition"):
+                atom.advance_correction(self.authorization, paths, state, Provider())
+            propose.assert_not_called()
+        self.assertEqual((self.root / ".noodle/control.ndjson").read_text(), "")
+        self.assertNotIn("correction_proposal", state)
+
+    def test_correction_unknown_control_never_reappends_even_after_mailbox_disappears(self):
+        paths, state, binding, owner, stage = self.correction_fixture()
+        atom.advance_correction(self.authorization, paths, state, Provider())
+        (self.root / ".noodle/control.ndjson").unlink()
+        # Reconstruct state from disk, as a fresh Session would.
+        resumed = atom.read_json(paths["state"], "state")
+        atom.advance_correction(self.authorization, paths, resumed, Provider())
+        self.assertFalse((self.root / ".noodle/control.ndjson").exists())
+
+    def test_correction_changed_review_refuses_before_control(self):
+        paths, state, binding, owner, stage = self.correction_fixture()
+        stage["prompt"] = json.dumps({"foreign": True})
+        with self.assertRaisesRegex(atom.AtomRefusal, "amendment.review.identity"):
+            atom.advance_correction(self.authorization, paths, state, Provider())
+        self.assertFalse((self.root / ".noodle/control.ndjson").exists())
+
+    def test_correction_foreign_or_already_dispatched_promotion_cannot_release(self):
+        paths, state, binding, owner, stage = self.correction_fixture()
+        state["correction_failed_attempts"] = [{"session_id": "old-session", "status": "failed"}]
+        state["correction_proposal"] = {"status": "offered", "envelope_sha256": state["envelope_sha256"]}
+        stage.update(status="pending", prompt=json.dumps({"foreign": True}), attempts=[])
+        with self.assertRaisesRegex(atom.AtomRefusal, "amendment.promotion"):
+            atom.advance_correction(self.authorization, paths, state, Provider())
+        stage.update(status="running", prompt=json.dumps(
+            atom.issue_execution.projection(binding, state["envelope_sha256"], "supervised")))
+        with self.assertRaisesRegex(atom.AtomRefusal, "amendment.promotion.hold"):
+            atom.advance_correction(self.authorization, paths, state, Provider())
+        self.assertNotIn("correction_release", state)
+        self.assertFalse((self.root / ".noodle/control.ndjson").exists())
+
+    def test_correction_control_rejects_unowned_ack_and_foreign_pending(self):
+        paths, state = self.startup_fixture()
+        command = {"id": "exact", "action": "request-changes", "order_id": "one"}
+        runtime = self.root / ".noodle"
+        (runtime / "control-ack.ndjson").write_text(json.dumps(
+            {"id": "exact", "action": "request-changes", "status": "ok"}) + "\n")
+        with self.assertRaisesRegex(atom.AtomRefusal, "amendment.control.ack"):
+            atom.amendment_control(self.authorization, paths, state, "correction_review", command)
+        (runtime / "control-ack.ndjson").unlink()
+        (runtime / "control.ndjson").write_text('{"id":"foreign","action":"mode","value":"auto"}\n')
+        with self.assertRaisesRegex(atom.AtomRefusal, "amendment.control.pending"):
+            atom.amendment_control(self.authorization, paths, state, "correction_review", command)
+        self.assertNotIn("correction_review", state)
+
     def test_fresh_root_bootstraps_with_pinned_noodle_before_admission(self):
         from unittest.mock import Mock
         provider = Provider()
@@ -934,6 +1200,8 @@ class IssueAtomTests(unittest.TestCase):
                 self.assertEqual(receipt["next"]["owner"], "external-supervisor")
                 self.assertEqual(receipt["next"]["required"], ["readable_external_authorization"])
                 self.assertEqual(receipt["next"]["argv"], command)
+                self.assertIn("current authorized Local Session is the external supervisor",
+                              receipt["next"]["reason"])
                 self.assertFalse(receipt["authorizes_landing"])
                 paths = atom.artifact_paths(source)
                 self.assertFalse(paths["state"].exists())
