@@ -22,6 +22,7 @@ REPLACEMENTS = {
 # Traced owner/consumer coverage for bounded changes. A missing mapping is a
 # scope decision for the supervising Session, never an instruction to run all.
 BOUNDARIES = (
+    (("docs/publisher-push-evidence.json",), ("candidate_verification", "publisher_receipts"), ()),
     (("atom_repair.py", "policy/repair-policy.json"),
      ("atom_repair", "issue_atom", "lifecycle_activation", "system_context"), ()),
     (("system_context.py", "contracts/system-v1/routes.json"),
@@ -54,9 +55,9 @@ BOUNDARIES = (
     (("tests/comparison_fixture.py",), ("comparison_gate",), ()),
     ((".gitignore",), ("admission", "candidate_publication"), ()),
     (("issue_atom.py", "issue-atom"),
-     ("issue_atom", "base_readmission", "local_continuation", "instruction_context"), ()),
+     ("issue_atom", "publisher_receipts", "base_readmission", "local_continuation", "instruction_context"), ()),
     (("candidate_publication.py", "candidate-publish"),
-     ("candidate_publication", "issue_atom", "comparison_gate"), ()),
+     ("candidate_publication", "publisher_receipts", "issue_atom", "comparison_gate"), ()),
     (("supervisor_admission.py", "supervisor-admission"),
      ("supervisor_admission", "issue_atom", "instruction_context", "issue_execution"),
      ("order_handoff", "interruption_resume")),

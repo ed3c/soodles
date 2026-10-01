@@ -12,6 +12,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -345,6 +346,66 @@ def _comparison_before_effect(root, claim, issue, number, expected_body=None):
     return contract
 
 
+def push_disposition(receipt):
+    """Only a complete single-ref porcelain rejection proves no ref update."""
+    if not isinstance(receipt, dict) or receipt.get("process") != "completed":
+        return "unknown"
+    argv = receipt.get("argv", [])
+    lines = [line.split("\t") for line in receipt.get("stdout", "").splitlines()
+             if "\t" in line]
+    if (type(receipt.get("exit_status")) is int and receipt["exit_status"] > 0
+            and len(lines) == 1 and len(lines[0]) == 3 and lines[0][0] == "!"
+            and argv and lines[0][1] == argv[-1]
+            and lines[0][2].startswith(("[rejected]", "[remote rejected]"))):
+        return "rejected"
+    return "unknown"  # Even exit zero needs exact provider readback.
+
+
+def run_push(root, argv, *, env=None, secrets=(), record=None):
+    def redact(value):
+        value = value.decode("utf-8", errors="replace") if isinstance(value, bytes) else (value or "")
+        for secret in secrets:
+            value = value.replace(secret, "[REDACTED]") if secret else value
+        value = re.sub(r"(?i)(authorization:\s*(?:basic|bearer)\s+)\S+", r"\1[REDACTED]", value)
+        value = re.sub(r"(https?://)[^/\s@]+@", r"\1[REDACTED]@", value)
+        return value
+    receipt = {"schema": 1, "argv": list(argv), "cwd": str(Path(root).resolve()),
+               "process": "started", "started_ns": time.time_ns(), "exit_status": None, "stdout": "", "stderr": "",
+               "seconds": None, "authorizes_landing": False}
+    # Caller persists started before spawn; a crash cannot look like no attempt.
+    if record:
+        record(dict(receipt))
+    started = time.monotonic()
+    try:
+        result = subprocess.run(argv, cwd=root, stdin=subprocess.DEVNULL,
+                                capture_output=True, text=True, timeout=30, env=env)
+        receipt.update(process="completed", exit_status=result.returncode,
+                       stdout=redact(result.stdout), stderr=redact(result.stderr))
+    except subprocess.TimeoutExpired as error:
+        receipt.update(process="timed_out", stdout=redact(error.stdout), stderr=redact(error.stderr))
+    except OSError as error:
+        receipt.update(process="not_started", stderr=redact(str(error)), errno=error.errno)
+    except UnicodeError:
+        receipt.update(process="output_decode_error", stderr="Git output could not be decoded")
+    except (KeyboardInterrupt, SystemExit):
+        receipt.update(process="interrupted", stderr="Push interrupted; provider effect unknown")
+        raise
+    finally:
+        receipt["seconds"] = round(time.monotonic() - started, 3)
+        if record:
+            record(dict(receipt))
+    return receipt
+
+
+def push_failure(receipt, remote_head, required="fresh_provider_branch_readback_without_retry"):
+    if push_disposition(receipt) == "rejected":
+        raise PublicationRefusal("github.push.rejected", {
+            "exit_status": receipt["exit_status"], "stdout": receipt["stdout"],
+            "stderr": receipt["stderr"], "remote_head": remote_head},
+            "corrected_provider_push_capability_then_same_owner")
+    raise PublicationRefusal("github.branch.outcome", remote_head, required)
+
+
 def publish(root, acceptance, claim, provider, push=None, before_effect=None, refresh=None):
     root, number = validate_inputs(root, acceptance, claim)
     repository = provider.repository_info()
@@ -374,11 +435,8 @@ def publish(root, acceptance, claim, provider, push=None, before_effect=None, re
                       claim["push_remote"], claim["head"] + ":refs/heads/" + branch,
                       check=False)
         remote = provider.branch(branch)
-        _require(remote is not None and remote.get("object", {}).get("sha") == claim["head"],
-                 "github.branch.readback", None if remote is None else remote.get("object", {}).get("sha"),
-                 "fresh_provider_branch_readback")
-        if result.returncode and remote.get("object", {}).get("sha") != claim["head"]:
-            raise PublicationRefusal("github.branch.outcome", "unknown", "fresh_provider_branch_readback")
+        if remote is None or remote.get("object", {}).get("sha") != claim["head"]:
+            push_failure(result, None if remote is None else remote.get("object", {}).get("sha"))
 
     body = "Refs " + claim["subject"]
     pull = _read_exact_pull(provider, branch, claim["head"], claim["base_branch"], body)
@@ -414,7 +472,7 @@ def publish(root, acceptance, claim, provider, push=None, before_effect=None, re
     }
 
 
-def publish_amendment(root, acceptance, claim, provider, prior, *, offered, push=None, refresh=None):
+def publish_amendment(root, acceptance, claim, provider, prior, *, offered, push=None, refresh=None, previous_push=None):
     """Read back one already offered update to the same PR, or offer it once.
 
     The lifecycle owner supplies its persisted prior publication and records
@@ -449,16 +507,16 @@ def publish_amendment(root, acceptance, claim, provider, prior, *, offered, push
     _require(remote_head in {prior["head"], claim["head"]},
              "github.branch.head", remote_head, "exact_old_or_new_branch_readback")
     if remote_head == prior["head"] and push is not None:
-        # ``push`` is supplied only on the first durable offer. Its exit code
-        # cannot establish outcome; fresh provider readback below does.
-        push(root, "push", "--porcelain",
+        # The owner supplies ``push`` only for a durable allowed offer. Its exit
+        # code cannot establish outcome; fresh provider readback below does.
+        previous_push = push(root, "push", "--porcelain",
              "--force-with-lease=refs/heads/" + branch + ":" + prior["head"],
              claim["push_remote"], claim["head"] + ":refs/heads/" + branch,
              check=False)
         remote = provider.branch(branch)
         remote_head = None if remote is None else remote.get("object", {}).get("sha")
-    _require(remote_head == claim["head"], "github.branch.outcome", remote_head,
-             "fresh_provider_branch_readback_without_retry")
+    if remote_head != claim["head"]:
+        push_failure(previous_push, remote_head)
     current = provider.pull(pr["number"])
     # Only an exact old PR beside a confirmed new branch is stale evidence.
     # Conflicting identity, unknown push outcome and ordinary waits never enter
@@ -509,7 +567,37 @@ def validate_amendment_prior(prior, repository, subject, number):
 def run(root, acceptance_path, claim_path):
     acceptance = _read(acceptance_path, "acceptance")
     claim = _read(claim_path, "claim")
-    return publish(root, acceptance, claim, GitHubProvider(claim.get("repository")))
+    # Standalone publication retains the same one-offer/readback contract.
+    # Store its process evidence beside the external readiness receipt, never
+    # in the candidate whose clean identity is being published.
+    import issue_atom
+    journal = Path(acceptance_path).resolve().with_name(Path(acceptance_path).name + ".publication.json")
+    _require(not journal.is_relative_to(Path(root).resolve()), "publication.journal", str(journal),
+             "external_acceptance_receipt")
+    with Path(acceptance_path).open("rb") as lock:
+        import fcntl
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise PublicationRefusal("publication.busy", str(journal), "current_publication_owner") from None
+        binding = {"claim": _digest(claim_path), "acceptance": _digest(acceptance_path)}
+        state = _read(journal, "publication.journal") if journal.exists() else {
+            "binding": binding, "writes": {}, "push_receipts": []}
+        _require(state.get("binding") == binding, "publication.binding", "changed")
+        def before(action):
+            _require(action not in state["writes"], "publication.effect", action,
+                     "fresh_provider_readback_without_retry")
+            state["writes"][action] = "offered"
+            issue_atom.save_json(journal, state)
+        def record(receipt):
+            if receipt["process"] == "started":
+                state["push_receipts"].append(receipt)
+            else:
+                state["push_receipts"][-1] = receipt
+            issue_atom.save_json(journal, state)
+        provider = GitHubProvider(claim.get("repository"))
+        return publish(root, acceptance, claim, provider,
+                       push=issue_atom.authenticated_push(provider, record=record), before_effect=before)
 
 
 def refusal_output(error):

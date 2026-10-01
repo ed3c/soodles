@@ -246,3 +246,12 @@ lineage leaves ordinary lifecycle available without invented zero counters.
 installed; it launches zero models. Use current owner readback for continuation,
 not a fresh authorization to reset repair history. This does not require an evals
 skill or Agent comparison unless the admitted Issue selects that measurement.
+
+## Push receipts and continuation
+
+Consume the [publisher receipt contract](../candidate-publication/SKILL.md#push-receipts-and-continuation).
+The original atom checkpoint owns process history and keeps the same command in
+its refusal, with redacted receipt diagnostics. Correct a named capability before
+re-entry after a confirmed rejection; there is no automatic retry in the wait
+loop. One additional exact-lease offer is the limit. Missing legacy process
+receipts stay unknown; do not replace authorization or reconstruct their outcome.

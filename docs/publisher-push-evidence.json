@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 210
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/candidate-publication/SKILL.md",
+      "baseline_sha256": "2a0750c9d6d61c1625807fad92403a0f6cdb53515b1183edac20bfb2dec2ce13",
+      "treatment_sha256": "32fdc98df55c8cd315b7ce22aeb9be6784661f94663b594cb601b4ea7729fe51"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/publisher-push-receipts.md",
+      "role": "design",
+      "sha256": "55b1a974d938f7ed9c34a7fba7463c7edd758f9bd6f2304235d62e55d45d9bee"
+    }
+  ],
+  "owner": {
+    "name": "Soodles candidate publication owner",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#210"
+  },
+  "authorizes_landing": false
+}
