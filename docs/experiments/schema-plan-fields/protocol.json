@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "scope": "existing host-finalization field provenance and owner projection; first bounded slice of U1",
+  "base_head": "8c6f872620c97cca203b7f325b6bd714ef8cbb45",
+  "requirements": [
+    "Keep existing host stop/restore/confirm/complete truth conditions and original effect custody unchanged.",
+    "Replace opaque fact-name-only configuration with a bounded source/consumer catalog for every existing host-finalization fact: boolean type, exact legal values, producer file and function or adapter, actual source field/readback, consumer node, identity and invalidation, and missing-input owner. Use existing source filenames/CLI entry as keys where applicable; no arbitrary expressions or commands.",
+    "Compile and validate the selected catalog and AND prerequisites once, including existing necessary P-class closure and pinned sources. Unknown fields/producer/entry and incomplete selected mapping must fail with a named gap. Do not represent missing data as false.",
+    "The actual issue-atom response at host-finalization exposes the plan identity, DAG requirements, ready/blocked/unknown facts and their producer, while retaining its existing next argv/environment or named owner readback unchanged. The projection is not an executable substitute for next and grants no effects.",
+    "Use only original-owner observations. No Agent-filled success boolean or rewritten checkpoint establishes proof. Preserve checkpoint/replay/invalidation/unknown-effect semantics and reject incompatible lineage. Legacy data without added metadata is explicit, not fabricated.",
+    "Evidence independently fixes original completion invariants and demonstrates real finish_host integration using existing small disposable process/config fixtures. Keep model reasoning outside this schema.",
+    "Record other known-requirements-plan-v1 requirements as covered/partial/not addressed, with pointers. In particular stopped-consumer recovery and full-runtime mappings are not silently declared solved by this catalog."
+  ],
+  "acceptance": [
+    "Focused positive and missing/wrong producer, identity conflict, stale evidence, replay, unknown side effect and fixed completion-condition controls.",
+    "One changed candidate verification round through Test Manager, with necessary CI preserved. Repair a real failure only after a candidate change; no evals, Agent comparison, full-suite default or extra model agents.",
+    "One bounded local timing observation: darwin_arm64, precompiled selected plan, 100 warmups plus 1000 deterministic valid event/project operations, raw perf_counter_ns samples and p50/p95/max, target p95 <= 10ms. Cold compilation, CLI startup, disk/Git/network/process validation costs are excluded and described separately; timing is not a recurring runtime gate.",
+    "Exact-head provider delivery and original Noodle/host reconciliation remain outside candidate authority."
+  ],
+  "forbidden": [
+    "new scheduler, worktree manager, retry engine, generic expression language, durable observation store or model reasoning DAG",
+    "credential/provider identity/runtime lock/landing verifier changes",
+    "loosening acceptance, repairing by deleting obligations, reoffering unknown writes, updating an old resolved atom"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 217
+  },
+  "instructions": [
+    {
+      "path": "contracts/system-v1/issue-atom.md",
+      "baseline_sha256": "b0956e58642f22553c26ef8ea550a6705d5eca224a622f423ecad4d3506a171d",
+      "treatment_sha256": "399b5856d86ee500c90da9e0be9d571738313f9e0be8daf11ddb77598d88da6a"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/schema-plan-fields/protocol.json",
+      "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
+      "sha256": "463723555e012f009db7a74400240dec7e2f2fabe4e7bf219913bb67a337e69f"
+    },
+    {
+      "path": "docs/experiments/schema-plan-fields/results.json",
+      "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
+      "sha256": "e0ce49f7a8f3f5e0e7ee2181ef5b9dc401f0c75c64f01589113c52b69293ca0f"
+    },
+    {
+      "path": "docs/experiments/schema-plan-fields/results.md",
+      "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
+      "sha256": "bd78e782beda557ac0abd7340ee8567d25bf0c05e4c97b5790ec97725caaca8b"
+    },
+    {
+      "path": "docs/experiments/schema-plan-fields/timing.json",
+      "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
+      "sha256": "2a961fc3cf9345fd8a2e5592a15b49107e237c11ee86f9572d23741a7032b2a2"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
+      "sha256": "28194716e5bf6270cdee360c65b324bff5342d4f314a396b81817e01cf7b6626"
+    },
+    {
+      "path": "policy/host-finalization.json",
+      "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
+      "sha256": "8b1d4749d0c3a4e0e9724cfaddfe75780277ceb5199406da18fe91ea06b79edc"
+    },
+    {
+      "path": "schema_manager.py",
+      "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
+      "sha256": "b8083b701cb6f98fbb470e4022ab122c0ca452376abbce2c206abdb0321a1fd7"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#217"
+  },
+  "authorizes_landing": false
+}

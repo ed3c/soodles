@@ -11,6 +11,11 @@ with an unknown outcome requires original owner readback through the unchanged
 continuation; do not reoffer the effect or replace projection identity. Terminal
 completion needs landing, physical absence/restoration and owner confirmation.
 The projection creates no repair budget and selects no model recovery action.
+Use `host_finalization_projection` in the normal response for the selected plan,
+field producers, P prerequisites and missing data. Preserve `next` unchanged.
+Unknown data and legacy producer metadata are explicit gaps, not success facts.
+A pending completion with no consumer requires the named Noodle readback; this
+catalog supplies no recovery command.
 
 Use the immutable schema-2 or schema-3 authorization selected by the external
 supervisor. Here, external means outside the candidate's authority, not a
