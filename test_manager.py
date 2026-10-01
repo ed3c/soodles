@@ -23,12 +23,14 @@ REPLACEMENTS = {
 # Traced owner/consumer coverage for bounded changes. A missing mapping is a
 # scope decision for the supervising Session, never an instruction to run all.
 BOUNDARIES = (
+    (("schema_manager.py", "issue_atom.py"), ("cost_telemetry",), ()),
     (("cost_telemetry.py", "docs/loop-cost/evidence.json"),
      ("cost_telemetry", "schema_manager", "issue_atom", "lifecycle_activation", "candidate_verification"), ()),
     (("schema_manager.py", "policy/host-finalization.json",
       "docs/experiments/schema-manager/manifest.json",
       "docs/experiments/schema-manager/product-results.json",
-      "docs/experiments/schema-manager/timing.json"),
+      "docs/experiments/schema-manager/timing.json",
+      "docs/experiments/schema-plan-fields/"),
      ("schema_manager", "issue_atom", "lifecycle_activation", "system_context"), ()),
     (("docs/publisher-push-evidence.json",), ("candidate_verification", "publisher_receipts"), ()),
     (("atom_repair.py", "policy/repair-policy.json"),

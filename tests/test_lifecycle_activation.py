@@ -129,7 +129,8 @@ class LifecycleActivationTests(unittest.TestCase):
         state = {'authorization_sha256': 'a' * 64, 'envelope_sha256': 'b' * 64}
         with patch.object(atom, '__file__', str(self.runtime / 'issue_atom.py')):
             manager = atom.host_manager(auth, state)
-        manager.observe({'stop_offered': {'value': True, 'evidence': 'c' * 64}})
+        manager.observe({'stop_offered': {'value': True, 'evidence': 'c' * 64,
+                                         'producer': 'issue_atom.py:finish_host'}})
         prior = manager.record()
         state['host_finalization'] = prior
         state['lifecycle_resume'] = {'from': self.spec, 'to': selected, 'authorization_sha256': 'a' * 64}

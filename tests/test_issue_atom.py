@@ -1197,6 +1197,15 @@ class IssueAtomTests(unittest.TestCase):
             with patch.object(atom, "host_manager", return_value=resumed):
                 self.assertFalse(atom.finish_host(self.authorization, paths, state))
         self.assertEqual(kill.call_count, 1)
+        result = atom.response(state, self.path, waiting_on="Noodle shutdown readback")
+        projection = result["host_finalization_projection"]
+        self.assertEqual(result["next"], atom.response(
+            {k: v for k, v in state.items() if k != "host_finalization"}, self.path)["next"])
+        self.assertEqual(projection["required"], "original_owner_readback")
+        self.assertEqual(projection["dag"]["stop"]["status"], "blocked")
+        self.assertEqual(projection["facts"]["stop_offered"]["observation"]["value"], True)
+        self.assertEqual(projection["facts"]["config_restored"]["status"], "unknown")
+        self.assertNotIn("host_finalization_projection", atom.read_json(paths["state"], "state"))
 
     def test_host_manager_unknown_restore_refuses_without_second_write(self):
         paths, state = self.startup_fixture()
@@ -1226,6 +1235,7 @@ class IssueAtomTests(unittest.TestCase):
         self.assertTrue(atom.finish_host(self.authorization, paths, state))
         manager = atom.host_manager(self.authorization, state)
         self.assertNotEqual(manager.project()["status"], "complete")
+        self.assertEqual(manager.project()["facts"]["landing_resolved"]["status"], "unknown")
         self.assertTrue(atom.finish_host(self.authorization, paths, state, landing=landing))
         self.assertEqual(atom.host_manager(self.authorization, state).project()["status"], "complete")
         (self.root / ".noodle.toml").write_text("foreign")
@@ -1234,6 +1244,19 @@ class IssueAtomTests(unittest.TestCase):
         self.assertNotEqual(atom.host_manager(self.authorization, state).project()["status"], "complete")
         self.assertNotIn("owner_confirmed", state["host_finalization"]["facts"])
         self.assertEqual(state["repair"]["used"], {"actions": 3})
+
+    def test_pending_completion_without_consumer_keeps_named_owner_gap(self):
+        paths, state = self.startup_fixture()
+        state["noodle_completion"] = {"id": "original-completion", "action": "merge"}
+        (self.root / ".noodle/control-ack.ndjson").write_text("")
+        with patch.object(atom.os, "kill") as kill:
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.ack") as caught:
+                atom.finish_host(self.authorization, paths, state, landing={"classification": "RESOLVED"})
+        result = atom.refusal_output(caught.exception, self.path)
+        self.assertEqual(result["next"]["required"], ["current_noodle_owner_readback"])
+        self.assertEqual(result["next"]["argv"], atom.same_command(self.path))
+        self.assertNotIn("host_finalization", state)
+        kill.assert_not_called()
 
     def test_host_manager_preserves_group_lock_and_changed_config_refusals(self):
         import fcntl
@@ -1461,6 +1484,8 @@ class IssueAtomTests(unittest.TestCase):
         self.ready_issue(provider)
         paths = atom.artifact_paths(self.path)
         claim = {
+            "repository": "ed3c/soodles", "subject": "ed3c/soodles#131",
+            "session_id": "fixture-session",
             "worktree_path": str(self.root),
             "worktree_name": atom.issue_admission.scoped_order_id(131, self.root) + "-0-execute",
             "head": "b" * 40, "tree": "c" * 40, "base_head": self.base,
@@ -1484,7 +1509,8 @@ class IssueAtomTests(unittest.TestCase):
             "branch": "soodles/issue-131-" + "b" * 12,
             "head": "b" * 40, "tree": "c" * 40, "authorizes_landing": False,
         }
-        run = {"id": 7, "run_attempt": 1, "status": "completed"}
+        run = {"id": 7, "run_attempt": 1, "status": "completed",
+               "head_sha": "b" * 40, "repository": {"full_name": "ed3c/soodles"}}
         jobs = {"jobs": []}
 
         def start(landing_claim, _snapshot, checkpoint):
@@ -1536,6 +1562,21 @@ class IssueAtomTests(unittest.TestCase):
         self.assertEqual(second["status"], "resolved")
         self.assertIsNone(second["next"])
         self.assertFalse(second["authorizes_landing"])
+        projection = second["host_finalization_projection"]
+        self.assertEqual(projection["status"], "complete")
+        self.assertEqual(projection["identity"], second["host_finalization"]["identity"])
+        self.assertEqual(projection["facts"]["config_restored"]["observation"]["value"], True)
+        self.assertEqual(projection["facts"]["owner_confirmed"]["observation"]["producer"],
+                         "issue_atom.py:finish_host.confirm")
+        self.assertEqual(projection["context"]["consumer"], "issue_atom.finish_host")
+        self.assertEqual(second["cost"]["status"], "reported")
+        cost_projection = second["cost"]["schema_projection"]
+        self.assertEqual(cost_projection["hard_gate"]["status"], "resolved")
+        self.assertEqual(cost_projection["hard_gate"]["host_finalization"], second["host_finalization"])
+        self.assertEqual(cost_projection["hard_gate"]["repair_budget"], second["repair_budget"])
+        self.assertFalse(cost_projection["authorizes_landing"])
+        self.assertEqual(cost_projection["effects"], [])
+        print(json.dumps({"event": "schema_plan_fields.owner_response", "response": second}, sort_keys=True))
         self.assertTrue(paths["landing"].exists())
 
     def test_owner_drift_refuses_before_provider_write_or_checkpoint(self):

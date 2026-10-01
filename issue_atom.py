@@ -937,6 +937,15 @@ def same_command(path):
     return [str((Path(__file__).resolve().parent / "issue-atom")), "run", str(Path(path).resolve())]
 
 
+def host_projection(record):
+    """A disposable view of the owner's record, never a source of effect authority."""
+    try:
+        plan = schema_manager.compiled(Path(__file__).resolve().parent)
+        return schema_manager.Manager(plan, record["identity"], record).project()
+    except (schema_manager.SchemaRefusal, issue_admission.AdmissionRefusal, OSError) as error:
+        return {"status": "unavailable", "gap": str(error), "authorizes_landing": False}
+
+
 def response(state, authorization_path, *, status="pending", waiting_on=None, details=None, repair=None):
     result = {
         "owner": "soodles.issue-atom", "status": status,
@@ -950,6 +959,8 @@ def response(state, authorization_path, *, status="pending", waiting_on=None, de
         },
         "authorizes_landing": False,
     }
+    if "host_finalization" in state:
+        result["host_finalization_projection"] = host_projection(state["host_finalization"])
     if repair is not None:
         result["repair_budget"] = repair.cost_status()
     if waiting_on:
@@ -1537,7 +1548,9 @@ def finish_host(authorization, paths, state, *, landing=None):
 
     def observe(values, evidence):
         try:
-            result = manager.observe({k: {"value": v, "evidence": schema_manager.digest(evidence)}
+            result = manager.observe({k: None if v is None else {
+                                         "value": v, "evidence": schema_manager.digest(evidence),
+                                         "producer": schema_manager.producer_key(manager.plan.catalog[k])}
                                       for k, v in values.items()})
         except schema_manager.SchemaRefusal as error:
             raise AtomRefusal("host_finalization", str(error), "original_owner_readback") from error
@@ -1553,12 +1566,13 @@ def finish_host(authorization, paths, state, *, landing=None):
         # This owner, after its physical readback, produces confirmation. It is
         # never a prerequisite of shutdown or restoration.
         projection = observe({"owner_confirmed": True}, {
-            "facts": {k: manager.facts[k] for k in ("landing_resolved", "loop_absent", "config_restored")},
+            "facts": {k: manager.facts.get(k) for k in ("landing_resolved", "loop_absent", "config_restored")},
             "ack": state.get("noodle_completion_ack")})
         return projection["status"] == "complete" if landing is not None else True
 
     observe({"cleanup_allowed": True}, {"authorization": state["authorization_sha256"]})
-    observe({"landing_resolved": landing is not None and landing.get("classification") == "RESOLVED"}, landing)
+    observe({"landing_resolved": (None if landing is None or "classification" not in landing
+                                  else landing["classification"] == "RESOLVED")}, landing)
     start = state.get("noodle_start")
     if start is None:
         # No owned loop may be signalled; original config still needs readback.
@@ -2571,6 +2585,8 @@ def _run(authorization_path, *, environ=None, provider=None):
                               "required": ["material_owner_readback"],
                               "argv": same_command(authorization_path)}),
                           "authorizes_landing": False}
+            if "host_finalization" in state:
+                result["host_finalization_projection"] = host_projection(state["host_finalization"])
             if isinstance(error, candidate_publication.PublicationRefusal):
                 result["next"] = {**result["next"], "argv": same_command(authorization_path)}
                 result["push_receipts"] = state.get("publication_push_receipts", [])
@@ -2803,7 +2819,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
         transition = landing_owner.reconcile(paths["landing"], authorization["noodle"]["path"])
         if transition.get("action") == "noodle_reconcile":
             complete_noodle(authorization, paths, state, transition)
-            return response(state, authorization_path, repair=repair, waiting_on="Noodle completion acknowledgement")
+            return response(state, authorization_path, repair=repair, waiting_on="Noodle completion acknowledgement",
+                            details={"host_finalization_projection": host_manager(authorization, state).project()})
     if transition.get("classification") == "RESOLVED":
         if not finish_host(authorization, paths, state, landing=transition):
             return response(state, authorization_path, repair=repair, waiting_on="Noodle shutdown readback")

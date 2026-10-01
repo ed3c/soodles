@@ -1,12 +1,310 @@
 {
-  "schema": 1,
+  "schema": 2,
   "owner": "issue_atom",
   "context": "cleanup_residue",
-  "facts": ["cleanup_allowed", "landing_resolved", "loop_live", "loop_absent", "config_installed", "config_restored", "stop_offered", "restore_offered", "owner_confirmed"],
+  "facts": {
+    "cleanup_allowed": {
+      "type": "boolean",
+      "legal_values": [
+        false,
+        true
+      ],
+      "producer": {
+        "file": "issue_atom.py",
+        "function": "finish_host"
+      },
+      "readbacks": [
+        "authorization_sha256"
+      ],
+      "consumers": [
+        "stop",
+        "restore",
+        "confirm"
+      ],
+      "identity": [
+        "authorization",
+        "subject",
+        "plan"
+      ],
+      "invalidation": [
+        "original_owner_readback_changed"
+      ],
+      "missing_input": {
+        "owner": "soodles.issue-atom",
+        "required": "original_owner_readback"
+      }
+    },
+    "landing_resolved": {
+      "type": "boolean",
+      "legal_values": [
+        false,
+        true
+      ],
+      "producer": {
+        "file": "issue_atom.py",
+        "function": "finish_host"
+      },
+      "readbacks": [
+        "landing.classification"
+      ],
+      "consumers": [
+        "complete"
+      ],
+      "identity": [
+        "authorization",
+        "subject",
+        "plan"
+      ],
+      "invalidation": [
+        "original_owner_readback_changed"
+      ],
+      "missing_input": {
+        "owner": "external landing owner",
+        "required": "fresh_owner_readback"
+      }
+    },
+    "loop_live": {
+      "type": "boolean",
+      "legal_values": [
+        false,
+        true
+      ],
+      "producer": {
+        "file": "issue_atom.py",
+        "function": "finish_host"
+      },
+      "readbacks": [
+        "noodle_start.pid",
+        "ps.returncode",
+        "ps.stdout",
+        "noodle_process_argv"
+      ],
+      "consumers": [
+        "stop"
+      ],
+      "identity": [
+        "authorization",
+        "subject",
+        "plan"
+      ],
+      "invalidation": [
+        "original_owner_readback_changed"
+      ],
+      "missing_input": {
+        "owner": "Noodle",
+        "required": "original_start_process_readback"
+      }
+    },
+    "loop_absent": {
+      "type": "boolean",
+      "legal_values": [
+        false,
+        true
+      ],
+      "producer": {
+        "file": "issue_atom.py",
+        "function": "finish_host"
+      },
+      "readbacks": [
+        "noodle_start",
+        "ps.returncode",
+        "os.killpg:ProcessLookupError"
+      ],
+      "consumers": [
+        "restore",
+        "confirm",
+        "complete"
+      ],
+      "identity": [
+        "authorization",
+        "subject",
+        "plan"
+      ],
+      "invalidation": [
+        "original_owner_readback_changed"
+      ],
+      "missing_input": {
+        "owner": "Noodle",
+        "required": "quiescent_noodle_owner"
+      }
+    },
+    "config_installed": {
+      "type": "boolean",
+      "legal_values": [
+        false,
+        true
+      ],
+      "producer": {
+        "file": "issue_atom.py",
+        "function": "finish_host"
+      },
+      "readbacks": [
+        "host_config_identity",
+        "noodle_start.config_sha256"
+      ],
+      "consumers": [
+        "restore"
+      ],
+      "identity": [
+        "authorization",
+        "subject",
+        "plan"
+      ],
+      "invalidation": [
+        "original_owner_readback_changed"
+      ],
+      "missing_input": {
+        "owner": "soodles.issue-atom",
+        "required": "unchanged_installed_configuration"
+      }
+    },
+    "config_restored": {
+      "type": "boolean",
+      "legal_values": [
+        false,
+        true
+      ],
+      "producer": {
+        "file": "issue_atom.py",
+        "function": "finish_host"
+      },
+      "readbacks": [
+        "host_config_identity",
+        "authorization.host_config_sha256"
+      ],
+      "consumers": [
+        "confirm",
+        "complete"
+      ],
+      "identity": [
+        "authorization",
+        "subject",
+        "plan"
+      ],
+      "invalidation": [
+        "original_owner_readback_changed"
+      ],
+      "missing_input": {
+        "owner": "soodles.issue-atom",
+        "required": "original_host_recovery_readback"
+      }
+    },
+    "stop_offered": {
+      "type": "boolean",
+      "legal_values": [
+        false,
+        true
+      ],
+      "producer": {
+        "file": "issue_atom.py",
+        "function": "finish_host"
+      },
+      "readbacks": [
+        "noodle_start.stop_offered"
+      ],
+      "consumers": [
+        "stop"
+      ],
+      "identity": [
+        "authorization",
+        "subject",
+        "plan"
+      ],
+      "invalidation": [
+        "original_owner_readback_changed"
+      ],
+      "missing_input": {
+        "owner": "Noodle",
+        "required": "original_start_process_readback"
+      }
+    },
+    "restore_offered": {
+      "type": "boolean",
+      "legal_values": [
+        false,
+        true
+      ],
+      "producer": {
+        "file": "issue_atom.py",
+        "function": "finish_host"
+      },
+      "readbacks": [
+        "noodle_start.restore_offered"
+      ],
+      "consumers": [
+        "restore"
+      ],
+      "identity": [
+        "authorization",
+        "subject",
+        "plan"
+      ],
+      "invalidation": [
+        "original_owner_readback_changed"
+      ],
+      "missing_input": {
+        "owner": "soodles.issue-atom",
+        "required": "original_host_recovery_readback"
+      }
+    },
+    "owner_confirmed": {
+      "type": "boolean",
+      "legal_values": [
+        false,
+        true
+      ],
+      "producer": {
+        "file": "issue_atom.py",
+        "function": "finish_host.confirm"
+      },
+      "readbacks": [
+        "host_finalization.facts.landing_resolved",
+        "host_finalization.facts.loop_absent",
+        "host_finalization.facts.config_restored",
+        "noodle_completion_ack"
+      ],
+      "consumers": [
+        "complete"
+      ],
+      "identity": [
+        "authorization",
+        "subject",
+        "plan"
+      ],
+      "invalidation": [
+        "landing_resolved",
+        "loop_absent",
+        "config_restored"
+      ],
+      "missing_input": {
+        "owner": "soodles.issue-atom",
+        "required": "original_owner_readback"
+      }
+    }
+  },
   "nodes": {
-    "stop": {"cleanup_allowed": true, "loop_live": true, "stop_offered": false},
-    "restore": {"cleanup_allowed": true, "loop_absent": true, "config_installed": true, "restore_offered": false},
-    "confirm": {"cleanup_allowed": true, "loop_absent": true, "config_restored": true},
-    "complete": {"landing_resolved": true, "loop_absent": true, "config_restored": true, "owner_confirmed": true}
-  }
+    "stop": {
+      "cleanup_allowed": true,
+      "loop_live": true,
+      "stop_offered": false
+    },
+    "restore": {
+      "cleanup_allowed": true,
+      "loop_absent": true,
+      "config_installed": true,
+      "restore_offered": false
+    },
+    "confirm": {
+      "cleanup_allowed": true,
+      "loop_absent": true,
+      "config_restored": true
+    },
+    "complete": {
+      "landing_resolved": true,
+      "loop_absent": true,
+      "config_restored": true,
+      "owner_confirmed": true
+    }
+  },
+  "entry": "issue-atom run"
 }

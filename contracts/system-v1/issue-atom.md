@@ -214,6 +214,38 @@ skip any session PID/group checks or admit a foreign scheduler/writer. The
 existing prior-host recovery path already has this exception and its process
 scan; normal post-stop custody now uses the same discriminator.
 
+### Host field catalog and diagnostics — ed3c/soodles#217
+
+Schema 2 of the fixed host plan catalogs all nine existing facts. Each field
+binds its boolean domain, producer file and function, actual owner readback,
+consumer nodes, identity, invalidation and missing-input owner. Compilation
+rejects unknown or incomplete mappings and expands the existing `issue-atom run`
+cleanup P-class closure once. The source pins include the catalog and producer.
+The four original AND rules and all physical effect checks remain unchanged.
+
+The normal owner response includes `host_finalization_projection`, derived from
+the existing record. It identifies the plan, P prerequisites, field producers and
+ready, blocked or unknown DAG prerequisites. Missing observations remain null,
+never false. Its readback labels are data, not commands or expressions. The
+existing `next` remains the only continuation. A diagnostic cannot grant effects
+or establish physical completion. Refusals retain the named original owner.
+
+Fresh events record the original owner adapter's producer key. Missing or wrong
+producer metadata on a new observation refuses. A legacy record retains its
+original facts and sequence and reports `legacy_without_producer`; it gains
+metadata only through fresh owner readback. A schema-1 pinned plan remains
+explicitly `legacy_without_catalog`. This does not permit rebinding a plan:
+existing identity checks and the externally admitted resume remain necessary.
+The projection stores no second mutable view and hot apply/project performs no
+source, Git, process or network I/O.
+
+This is the first U1 field-contract slice. A pending completion without its
+consumer still requires `current_noodle_owner_readback`; no recovery argv is
+invented. Stopped-consumer recovery, remaining lifecycle mappings and the broader
+known-requirements plan are not completed by this catalog. The frozen protocol,
+source-bound controls, one native timing observation and itemized gaps are under
+`docs/experiments/schema-plan-fields/`. They grant no delivery authority.
+
 ### Descendant-base continuation of a failed PR
 
 A supervisor may select the existing prior-publication-only admission on a fresh
