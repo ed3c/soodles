@@ -60,6 +60,16 @@ class TestSuiteTests(unittest.TestCase):
                 self.assertNotEqual(process.returncode, 0)
                 self.assertTrue('test discovery' in process.stderr or 'discovery found no tests' in process.stderr)
 
+    def test_repair_inputs_use_existing_boundary_scope(self):
+        decision = test_manager.select(ROOT, ["atom_repair.py", "policy/repair-policy.json",
+            "system_context.py", "contracts/system-v1/routes.json",
+            "docs/experiments/bounded-repair/product-results.json"])
+        self.assertEqual(decision["status"], "ready")
+        self.assertEqual(decision["mode"], "focused")
+        self.assertEqual(decision["physical"], [])
+        self.assertIn("test_atom_repair", decision["modules"])
+        self.assertIn("test_lifecycle_activation", decision["modules"])
+
     def test_unknown_scope_never_falls_back_to_full_or_executes(self):
         decision = test_manager.select(ROOT, ["new_owner.py", "tests/test_removed.py"])
         self.assertEqual(decision["status"], "needs_scope")

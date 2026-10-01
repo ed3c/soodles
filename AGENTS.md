@@ -48,19 +48,20 @@ When the supplied provider snapshot already identifies one exact-head successful
 
 Within the current task's authorization, continue through necessary inspection, local correction and relevant checks. Existing disposable local controls may run without a new approval at each step. Finish an analysis/review with findings; finish an implementation with its requested artifact and evidence. A delivery task continues through the existing supervised owner to its requested terminal state. A blocked effect does not prevent unrelated authorized read-only work.
 
-For every defect observed during Soodles execution, the authorized Session must
-first apply the relevant evals skill to the failure and measurement, then use its
-findings to establish the shortest verified P-class entry and CLI owner path.
-Automatically assess both product behavior and Agent instruction/routing behavior
-through the [defect assessment procedure](.agents/skills/verify-soodles/features/pclass-context.md#mandatory-assessment-after-an-observed-defect).
-Do not ask the user to choose an assessment axis or skip either one because of
-testing cost. Product correctness requires the owning executable's controls;
-Agent behavior requires fresh consumer evidence. Missing evidence or capability
-blocks the combined completion claim, not independent authorized investigation.
-P-class guides entry and consumption of current owner output; the CLI implements
-state/identity/effect decisions and hard gates. Preserve separate findings and
-establish causality before selecting the correction; retain an already-correct
-layer only with its supporting assessment, not an assumed exemption.
+For an observed defect, preserve its actual owner/process/readback evidence and
+use the admitted contract's declared controls at the nearest executable boundary.
+The existing atom consumes a finite pinned repair policy; the model does not
+classify retryability or choose a recovery verb. Missing lineage, conflicting
+identity, exhausted budget and unknown effects stop the affected repair branch.
+Use `./system-context entry issue-atom run` (or `soodles candidate publish` /
+`provider-readback consume`) for committed consumer/decision P-class requirements.
+Consume current owner `next`/`request` unchanged; these selections grant no effects.
+
+A fresh Agent comparison or evals skill is required only when the admitted task
+selects that measurement. For such a claim, use the scoped
+[behavior comparison procedure](.agents/skills/verify-soodles/features/pclass-context.md).
+Product controls and instruction source hashes do not establish Agent behavior
+improvement. Preserve historical evidence and report unsupported claims explicitly.
 
 Stop the affected operation when its owner requires missing identity, credentials, admission, capability or readback. Report that exact prerequisite and preserve evidence. Prior user authorization remains applicable, but it does not create a missing executable capability or let the candidate select its own judge.
 
@@ -127,3 +128,8 @@ the returned argv unchanged. A closed producer Issue, cleanup or order is not
 eligibility. Do not edit a source registry or add repository, revision,
 workflow or dependency flags. Soodles owns validation semantics; it does not
 choose, discover or complete the DAG.
+
+Known deterministic faults use declared owner controls. Unknown behavior requests
+scoped offline evals evidence; it does not add a runtime gate. New P-class routes
+or demonstrated routing drift require scoped architecture/verification-skill
+maintenance, not a prescribed Noodle/pstack reasoning DAG or full map audit.

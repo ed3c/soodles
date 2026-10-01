@@ -64,3 +64,10 @@ quota waits and provider refusals retain their existing GitHub ownership and
 guards. This boundary changes neither reader transport nor admission or landing
 authority.
 
+
+The atom's repair-only PR GET runs through `provider_readback.bounded_pull` in a
+killable subprocess with the remaining durable deadline. The fixed worker has no
+provider mutation entry or model carrier. Its result must pass the original
+publication predicate; process failure remains charged in the atom checkpoint.
+`system-context entry provider-readback consume` exposes the registered readback
+consumer requirements without selecting an owner transition or rewriting `next`.

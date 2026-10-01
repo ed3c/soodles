@@ -11,13 +11,12 @@ For feature-specific execution or investigation, read the relevant recipe direct
 
 For P-class behavior/context work, read its recipe before any runtime doctor: use the supplied carrier and operation-specific prerequisites. Native cloud consumers require neither Codex CLI nor the Linux runtime binary. The coordinator captures observations; independent consumers receive only their assigned task/instructions/inputs. A scoped feature check does not claim a full maintenance pass.
 
-For every observed execution defect, first apply the relevant evals skill as
-selected in the P-class recipe, then use the findings to establish the shortest
-verified P-class entry and CLI owner path. This requires both the owning product feature drive and
-the P-class recipe's [automatic defect assessment](features/pclass-context.md#mandatory-assessment-after-an-observed-defect),
-even when the initial diagnosis names only one of them. The authorized Session
-coordinates both using existing owners; test cost is not a reason to omit an
-axis. A product pass does not supply the behavior result, or vice versa.
+For an observed defect, preserve the actual owner/process/readback evidence and
+use the admitted Issue's declared deterministic controls. The [P-class recipe](features/pclass-context.md#declared-defect-controls-and-optional-behavior-comparison)
+selects scoped instruction maintenance or an optional behavior comparison only
+when that claim needs it. Unknown behavior names an offline evals data request;
+it does not add a runtime gate or replace the current owner continuation.
+Product correctness and Agent improvement retain separate evidence requirements.
 
 ## Cloud Actions verification
 
@@ -70,8 +69,7 @@ The runtime driver owns its temporary sentinel directory; recovery oracles own d
 ## Maintenance
 
 P-class comparisons are one mapped feature. Routine feature use has no mandatory
-P-class preflight; discovering an execution defect triggers the two assessments
-above. Maintain reviews the recipe and its recording helper against source and drives it through the supplied experiment packet. Report feature behavior, measured context/cost, map coverage and delivery independently. A full pass still needs all mapped features; unavailable prerequisites remain blocked. The originating issue owns cross-file migration and landing; maintain edits only this skill directory. Never change an active experiment's judge while evaluating its candidate.
+P-class preflight; observed defects use the conditional controls above. Maintain reviews the recipe and its recording helper against source and drives it through the supplied experiment packet. Report feature behavior, measured context/cost, map coverage and delivery independently. A full pass still needs all mapped features; unavailable prerequisites remain blocked. The originating issue owns cross-file migration and landing; maintain edits only this skill directory. Never change an active experiment's judge while evaluating its candidate.
 
 This existing skill was created using pstack at `ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa`. Use its `maintain-verification-skill` for a map audit or observed recipe drift; do not repeat create. A full pass audits the index, runs one read-only source review per feature concurrently, reconciles source/churn drift, and has the coordinator live-drive every mapped feature with doctor, receipts and teardown. Outcome is clean, changed or blocked; clean/blocked passes do not manufacture a PR. Only demonstrated skill corrections belong in a changed maintenance PR. Ordinary feature use does not invoke either authoring method.
 

@@ -133,3 +133,46 @@ route, while its own live merge/closure still uses the pre-existing landing
 authority. The first live R-class Issue creation by this new entry must be a
 subsequent atom.
 
+
+### Bounded repair data — ed3c/soodles#202
+
+The existing atom lock/checkpoint owns finite schema-1 `policy/repair-policy.json`.
+Its signals reference registered producers, consumers, actions and P requirements;
+unknown/dangling/conflicting records refuse. Source bytes belong to the admitted
+base or separately pinned lifecycle bundle, including every new imported module.
+Fresh owner-created Issues establish lineage; legacy or adopted Issues do not
+invent history. Successors with prior-atom/publication references cannot inherit independently
+spendable counters. Without exclusive trusted continuity, automatic repair is
+unavailable with `exclusive_lineage_continuity_required`; normal owner operation
+continues and original history remains unchanged.
+
+The shared history reserves intent before each operation: one readback, one
+projection rebuild, at most one model candidate and verification, four total
+actions and sixty seconds from first repair. This implementation has no bounded
+patch-only carrier; `bounded_patch_capability_required` launches zero models and
+cannot consume an unrestricted session as one inference. Missing/corrupt counters,
+reversed time and unresolved/failed intents stop repair, never reset it. Normal
+owner progress on material fresh input can continue after automatic exhaustion.
+
+After confirmed amendment branch readback, an exact old PR can receive one
+bounded GET in a killable subprocess; identity conflicts or unknown branch outcome
+never enter that action. Confirmation checks the original exact PR predicate.
+A missing publication projection can be rebuilt only from its unchanged validated
+checkpoint source and matching claim. This restores a disposable view, not delivery
+truth. The owner still requires provider evidence and independently selected landing.
+
+Typed adapters preserve original next/request and report missing fact, producer,
+action, remaining limits and stop/wake condition. Unknown observations stop. A
+nonterminal owner result with no legal action or prerequisite is structural deadlock;
+normal waits are preserved, not classified by elapsed time. Nearest process/CLI
+controls provide local discrimination; neither instruction pins nor fixture success
+claims model behavior improvement or live provider delivery.
+
+At fresh lineage admission the bound source compiles the entry/consumer P-class
+AND closure into the existing checkpoint. Data-only reports consume that closure
+without filesystem, Git, network, subprocess, model or test calls. Source and
+required publication evidence checks happen at admission and the affected repair
+effect boundary, never as prerequisites for an early forecast. Missing facts and
+fresh-effect readback are normal owner continuations; only named duplicate-effect,
+lost-projection or no-legal-transition risks are repair diagnoses. Unknown behavior
+requests scoped offline measurement. Diagnostics never rewrite owner next/request.

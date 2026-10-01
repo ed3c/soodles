@@ -250,6 +250,43 @@ def fail_first_encoding(*args, **kwargs):
             issue_admission.resolve_instruction_context(
                 self.root, head, original["instruction_pins"])
 
+    def test_entry_consumers_are_committed_complete_and_fail_on_dangling_mapping(self):
+        source = Path(system_context.__file__).parent
+        for name in ("atom_repair.py", "policy/repair-policy.json", "issue_atom.py",
+                     "candidate_publication.py", "provider_readback.py", "issue-atom", "provider-readback", "soodles"):
+            target = self.root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source / name, target)
+        routes = json.loads((source / system_context.ROUTES).read_text())
+        self.write_routes(routes)
+        head = self.commit()
+        code, value = self.cli("entry", "issue-atom", "run")
+        self.assertEqual(code, 0)
+        self.assertEqual(value["source_head"], head)
+        self.assertEqual(value["entry"], "issue-atom run")
+        self.assertEqual(set(value["instruction_paths"]), {
+            COMMON, "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
+            "contracts/system-v1/readback.md"})
+        self.assertNotIn(LANDING, value["instruction_paths"])
+        self.assertIn("issue_atom.refresh_publication", {d["consumer"] for d in value["consumers"]})
+        self.assertIn("policy/repair-policy.json", {p["path"] for p in value["source_pins"]})
+        (self.root / "policy/repair-policy.json").write_text("dirty policy")
+        self.assertEqual(self.cli("entry", "issue-atom", "run")[1], value)
+        for entry in (("soodles", "candidate", "publish"), ("provider-readback", "consume")):
+            self.assertEqual(self.cli("entry", *entry)[0], 0)
+        self.refused("entry", "issue-atom", "run", "--retry", field="entry.arguments")
+        self.refused("entry", "issue-atom", "restart", field="entry.unknown")
+        shutil.copy2(source / "policy/repair-policy.json", self.root / "policy/repair-policy.json")
+        routes["paths"]["contracts/system-v1/candidate.md"]["requires"] = []
+        self.write_routes(routes)
+        self.commit()
+        self.refused("entry", "soodles", "candidate", "publish", field="entry.prerequisite")
+        routes["paths"]["contracts/system-v1/candidate.md"]["requires"] = [COMMON]
+        routes["entries"]["issue-atom run"]["decisions"][0]["requires"] = ["missing.md"]
+        self.write_routes(routes)
+        self.commit()
+        self.refused("entry", "issue-atom", "run", field="entry.requires")
+
 
 if __name__ == "__main__":
     unittest.main()
