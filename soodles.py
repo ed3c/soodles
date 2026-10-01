@@ -369,6 +369,11 @@ Every result has authorizes_landing=false; no delivery or landing authority.""")
         "run",
         description="Advance one authorized local atom through its exact next owner transition.")
     atom_run.add_argument("authorization")
+    atom_resume = atom_verbs.add_parser(
+        "resume", description="Bind an external runtime to the original stopped post-write atom.")
+    atom_resume.add_argument("authorization")
+    atom_resume.add_argument("descriptor")
+    atom_resume.add_argument("sha256")
     issue = groups.add_parser("issue", description="Consume one externally pinned Issue envelope before Noodle effects.",
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
@@ -497,7 +502,8 @@ def main():
                     ROOT, args.acceptance_receipt, args.noodle_claim)
         elif args.group == "atom":
             import issue_atom
-            result = issue_atom.drive(args.authorization)
+            result = (issue_atom.resume(args.authorization, args.descriptor, args.sha256)
+                      if args.verb == "resume" else issue_atom.drive(args.authorization))
         elif args.group == "issue":
             import issue_execution
             if args.verb == "inspect":

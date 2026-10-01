@@ -356,6 +356,147 @@ def validate_lifecycle_owner(authorization, *, executing=False):
     return path
 
 
+def resumed_lifecycle(authorization, state):
+    resume = state.get("lifecycle_resume")
+    if resume is None:
+        return authorization
+    require(isinstance(resume, dict) and set(resume) == {"from", "to", "authorization_sha256"}
+            and resume["from"] == authorization.get("lifecycle_owner")
+            and resume["authorization_sha256"] == state.get("authorization_sha256"),
+            "lifecycle.resume.binding", "changed", "original_lifecycle_resume")
+    return {**authorization, "lifecycle_owner": resume["to"]}
+
+
+def postwrite_lifecycle(authorization, state, paths):
+    """Bind the stopped original writer and confirmed landing without rewriting either."""
+    require(state.get("phase") == "landing", "lifecycle.resume.phase", state.get("phase"),
+            "original_postwrite_checkpoint")
+    root = Path(authorization["control_root"])
+    binding = issue_admission.load_external_envelope(paths["envelope"], state["envelope_sha256"], root)
+    execution = binding["execution"]
+    claim = read_json(paths["claim"], "publication.claim")
+    number = state["issue"]["number"]
+    body = authorization["issue"]["body"]
+    if "number" not in authorization["issue"]:
+        body = body.rstrip() + "\n\n" + marker(state["authorization_sha256"]) + "\n"
+    require(binding["repository"] == authorization["repository"]
+            and binding["issue"] == number
+            and binding["base_head"] == authorization["base_head"]
+            and binding["body_sha256"] == digest_bytes(body.encode())
+            and execution["control_root"] == str(root)
+            and claim.get("schema_version") == 1 and claim.get("owner") == "Noodle"
+            and claim.get("authorizes_provider_write") is False and claim.get("authorizes_landing") is False
+            and claim.get("repository") == binding["repository"]
+            and claim.get("subject") == binding["repository"] + "#" + str(number)
+            and claim.get("base_head") == binding["base_head"]
+            and claim.get("order_id") == execution["order_id"]
+            and claim.get("stage_index") == execution["stage_index"]
+            and claim.get("worktree_name") == execution["worktree"]
+            and claim.get("worktree_path") == str(root / ".worktrees" / execution["worktree"]),
+            "lifecycle.resume.custody", "changed", "original_native_claim_and_envelope")
+    publication = state["publication"]
+    if state.get("publication_source") is not None:
+        require(state["publication_source"].get("claim_sha256") == atom_repair.digest(claim),
+                "lifecycle.resume.claim", "changed", "original_native_claim")
+    checkpoint_path = paths["landing"]
+    if state.get("landing_activation"):
+        activation = state["landing_activation"]
+        manifest = Path(activation["manifest"])
+        require(digest_file(manifest) == activation["sha256"],
+                "lifecycle.resume.activation", "changed", "original_activation")
+        checkpoint_path = manifest.parent / "checkpoint.json"
+    checkpoint = read_json(checkpoint_path, "landing.checkpoint")
+    landed = checkpoint.get("claim", {})
+    require(checkpoint.get("phase") in {"awaiting_reconcile", "reconciling"}
+            and checkpoint.get("writes_offered") == ["merge", "close"]
+            and checkpoint.get("merge_sha") and checkpoint.get("issue_closed_at")
+            and all(landed.get(key) == claim.get(key) for key in
+                    ("repository", "head", "tree", "base_head"))
+            and landed.get("issue") == number and landed.get("pr") == publication["pr"]["number"]
+            and landed.get("publication_branch") == publication["branch"]
+            and landed.get("worktree") == execution["worktree"]
+            and landed.get("control_root") == str(root)
+            and landed.get("execution_envelope") == {
+                "path": str(paths["envelope"]), "sha256": state["envelope_sha256"]},
+            "lifecycle.resume.landing", "unconfirmed or changed", "confirmed_original_merge_and_closure")
+    # This checks the canonical prompt/stage and all sessions without changing them.
+    require_available_owner(authorization, paths, state)
+    owner = issue_execution.read_owner(binding)
+    order = owner["state"]["orders"].get(execution["order_id"])
+    if order is None:
+        completion = issue_execution.completed_original_order(binding, owner)
+        sessions = [item["session_id"] for item in completion["quiescent_sessions"]]
+        require(sessions == [claim.get("session_id")], "lifecycle.resume.session", sessions)
+    else:
+        attempts = order["stages"][execution["stage_index"]]["attempts"]
+        require(any(attempt.get("attempt_id") == claim.get("attempt_id")
+                    and attempt.get("session_id") == claim.get("session_id")
+                    and attempt.get("worktree_name") == claim.get("worktree_name")
+                    for attempt in attempts), "lifecycle.resume.attempt", "changed",
+                "original_native_attempt")
+    return binding, owner
+
+
+def resume(authorization_path, selected_owner, selected_digest, *, environ=None):
+    """Select one immutable runtime for a stopped post-write original atom."""
+    environ = os.environ if environ is None else environ
+    paths = artifact_paths(authorization_path)
+    with Path(authorization_path).open("rb") as auth_lock:
+        try:
+            fcntl.flock(auth_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise AtomRefusal("authorization.busy", str(authorization_path),
+                              "current_same_entry_owner_readback") from None
+        authorization, auth_digest = validate_authorization(
+            authorization_path, environ.get("SOODLES_AUTHORIZATION_SHA256"), allow_advanced=True)
+        descriptor = Path(selected_owner)
+        require(descriptor.is_absolute() and not descriptor.resolve().is_relative_to(
+                    Path(authorization["control_root"]).resolve())
+                and digest_file(descriptor) == selected_digest,
+                "lifecycle.resume.selection", "changed", "selected_external_lifecycle_owner")
+        spec = read_json(descriptor, "lifecycle.resume.owner")
+        selected = {**authorization, "lifecycle_owner": spec}
+        validate_lifecycle_owner(selected, executing=True)
+        runtime = Path(authorization["control_root"]) / ".noodle"
+        with (runtime / "issue-atom.lock").open("a+b") as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                raise AtomRefusal("noodle.atom_entry", "busy", "current_same_entry_owner_readback") from None
+            state = read_json(paths["state"], "state")
+            require(state.get("schema_version") == 1 and state.get("authorization_sha256") == auth_digest,
+                    "state.authorization", "changed", "original_lifecycle_checkpoint")
+            intent = {"from": authorization.get("lifecycle_owner"), "to": spec,
+                      "authorization_sha256": auth_digest}
+            previous = state.get("lifecycle_resume")
+            if previous is not None:
+                require(previous == intent, "lifecycle.resume.intent", "changed", "original_lifecycle_resume")
+            else:
+                binding, observed_owner = postwrite_lifecycle(authorization, state, paths)
+                with (runtime / "noodle.lock").open("a+b") as native:
+                    try:
+                        fcntl.flock(native, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    except BlockingIOError:
+                        raise AtomRefusal("lifecycle.resume.noodle", "running", "stopped_original_owner") from None
+                    owner = issue_execution.read_owner(binding)
+                    require(owner == observed_owner, "lifecycle.resume.owner", "changed",
+                            "fresh_canonical_checkpoint")
+                    for order_id, order in owner["state"]["orders"].items():
+                        if order_id == "schedule" and native_idle_schedule(
+                                order, binding["execution"]["carrier"]["codex"]["model"]):
+                            continue
+                        issue_execution.quiescent_order(
+                            {"execution": {"control_root": str(runtime.parent), "order_id": order_id}}, owner)
+                    for process in sorted((runtime / "sessions").glob("*/process.json")):
+                        issue_execution._absent_process(process.parent, process.parent.name)
+                    state["lifecycle_resume"] = intent
+                    resume_host_finalization(authorization, state)
+                    save_json(paths["state"], state)
+    return {"owner": "soodles.issue-atom", "status": "resumed", "authorizes_landing": False,
+            "next": {"argv": same_command(authorization_path),
+                     "environment": {"SOODLES_AUTHORIZATION_SHA256": auth_digest}}}
+
+
 def validate_landing_owner(authorization):
     spec = authorization.get("landing_owner")
     require(isinstance(spec, dict) and set(spec) == {"path", "sha256", "verifier_sha256"},
@@ -564,10 +705,12 @@ def external_landing_resume(authorization, state, paths, environ):
     spec = read_json(source, "landing_resume.descriptor")
     corrected = {**authorization, "landing_owner": spec}
     validate_landing_owner(corrected)
-    require(state.get("landing_activation") is not None and state["phase"] in {"landing", "resolved"},
+    require(state["phase"] in {"landing", "resolved"},
             "landing_resume.phase", state["phase"], "original_landing_checkpoint")
     checkpoint = read_json(paths["landing"], "landing.checkpoint")
-    original = read_json(paths["landing"].parent / "claim.json", "landing.original_claim")
+    original_path = (paths["landing"].parent / "claim.json" if state.get("landing_activation")
+                     else paths["directory"] / "landing-claim.json")
+    original = read_json(original_path, "landing.original_claim")
     require(isinstance(checkpoint.get("claim"), dict)
             and {key: value for key, value in checkpoint["claim"].items()
                  if key != "verifier_sha256"}
@@ -583,8 +726,7 @@ def external_landing_resume(authorization, state, paths, environ):
             "landing_resume.verifier", target, "corrected_external_verifier")
     if selected["status"] == "new":
         require(checkpoint["claim"] == original
-                and checkpoint.get("phase") == "awaiting_reconcile"
-                and "cleanup_intent" not in checkpoint,
+                and checkpoint.get("phase") in {"awaiting_reconcile", "reconciling"},
                 "landing_resume.prewrite", checkpoint.get("phase"),
                 "unreconciled_confirmed_provider_closure")
         selected["verifier_sha256"] = target
@@ -1316,8 +1458,8 @@ def host_manager(authorization, state):
     try:
         plan = schema_manager.compiled(root)
         plan.validate_sources(root)
-        if authorization.get("lifecycle_owner"):
-            validate_lifecycle_owner(authorization, executing=True)
+        if resumed_lifecycle(authorization, state).get("lifecycle_owner"):
+            validate_lifecycle_owner(resumed_lifecycle(authorization, state), executing=True)
         else:
             for name in ("schema_manager.py", schema_manager.PLAN_PATH):
                 source = issue_admission.git_bytes(
@@ -1335,6 +1477,31 @@ def host_manager(authorization, state):
         return schema_manager.Manager(plan, identity, state.get("host_finalization"))
     except schema_manager.SchemaRefusal as error:
         raise AtomRefusal("host_finalization", str(error), "original_owner_readback") from error
+
+
+def resume_host_finalization(authorization, state):
+    """Carry the original facts/sequence across an explicitly selected source change."""
+    record = state.get("host_finalization")
+    if record is None:
+        return
+    previous = authorization.get("lifecycle_owner")
+    require(previous is not None, "lifecycle.resume.host_source", "missing",
+            "original_pinned_host_finalization_source")
+    old_root = Path(validate_lifecycle_owner(authorization)).parent
+    try:
+        old_plan = schema_manager.compiled(old_root)
+        old_plan.validate_sources(old_root)
+        current = host_manager(authorization, {k: v for k, v in state.items() if k != "host_finalization"})
+        require(old_plan.rules == current.plan.rules
+                and all(old_plan.context[key] == current.plan.context[key] for key in ("consumer", "requires"))
+                and old_plan.affected == current.plan.affected,
+                "lifecycle.resume.host_plan", "changed semantics", "unchanged_host_finalization_rules")
+        schema_manager.Manager(old_plan, {**current.identity, "plan": old_plan.identity}, record)
+        require("host_finalization_resume" not in state, "lifecycle.resume.host_history", "already selected")
+        state["host_finalization_resume"] = {"prior": record, "identity": current.identity}
+        state["host_finalization"] = {**record, "identity": current.identity}
+    except schema_manager.SchemaRefusal as error:
+        raise AtomRefusal("lifecycle.resume.host_finalization", str(error), "original_owner_readback") from error
 
 
 def finish_host(authorization, paths, state, *, landing=None):
@@ -1592,7 +1759,7 @@ def repair_controller(authorization, state, paths, *, fresh=False, authorization
         # Only this owner creating a new Issue can establish a new lineage.
         # Adopted Issues and legacy checkpoints remain normally operable.
         if authorization.get("lifecycle_owner") is not None:
-            validate_lifecycle_owner(authorization, executing=True)
+            validate_lifecycle_owner(resumed_lifecycle(authorization, state), executing=True)
             trusted = True
         else:
             trusted = True
@@ -2325,7 +2492,12 @@ def _run(authorization_path, *, environ=None, provider=None):
     authorization, authorization_digest = _validate_authorization(
         authorization_path, environ.get("SOODLES_AUTHORIZATION_SHA256"),
         allow_advanced=paths["state"].exists())
-    validate_lifecycle_owner(authorization, executing=True)
+    selected_state = read_json(paths["state"], "state") if paths["state"].exists() else {}
+    if selected_state:
+        require(selected_state.get("authorization_sha256") == authorization_digest,
+                "state.authorization", "mismatch", "matching_lifecycle_checkpoint")
+    selected_runtime = resumed_lifecycle(authorization, selected_state)
+    validate_lifecycle_owner(selected_runtime, executing=True)
     runtime = Path(authorization["control_root"]) / ".noodle"
     runtime.mkdir(exist_ok=True)
     with (runtime / "issue-atom.lock").open("a+b") as lock:
@@ -2335,6 +2507,13 @@ def _run(authorization_path, *, environ=None, provider=None):
             raise AtomRefusal("noodle.atom_entry", "busy", "current_same_entry_owner_readback",
                               owner="soodles.issue-atom",
                               known={"control_root": str(runtime.parent)}) from None
+        selected_state = read_json(paths["state"], "state") if paths["state"].exists() else {}
+        if selected_state:
+            require(selected_state.get("authorization_sha256") == authorization_digest,
+                    "state.authorization", "mismatch", "matching_lifecycle_checkpoint")
+        require(resumed_lifecycle(authorization, selected_state).get("lifecycle_owner")
+                == selected_runtime.get("lifecycle_owner"), "lifecycle.resume.race", "changed",
+                "current_same_entry_owner_readback")
         try:
             return _run_owned(authorization_path, authorization, authorization_digest, paths,
                               environ=environ, provider=provider)

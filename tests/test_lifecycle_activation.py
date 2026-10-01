@@ -94,6 +94,39 @@ class LifecycleActivationTests(unittest.TestCase):
         with self.assertRaisesRegex(atom.AtomRefusal, 'lifecycle_owner.file'):
             self.fixture.run_authorize()
 
+    def test_postwrite_host_projection_rebind_keeps_original_facts_and_sequence(self):
+        new_root = self.runtime.parent / 'postwrite-lifecycle'
+        for name in atom.LIFECYCLE_FILES:
+            target = new_root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(self.runtime / name, target)
+        source = new_root / 'issue_atom.py'
+        source.write_text(source.read_text() + '\n# selected post-write source\n')
+        hashes = {name: atom.digest_file(new_root / name) for name in atom.LIFECYCLE_FILES}
+        selected = {'path': str(new_root / 'issue-atom'), 'sha256': hashes['issue-atom'],
+                    'source_sha256': atom.digest_bytes(json.dumps(hashes, sort_keys=True,
+                                                               separators=(',', ':')).encode())}
+        auth = {**self.fixture.fixture.authorization, 'lifecycle_owner': self.spec}
+        state = {'authorization_sha256': 'a' * 64, 'envelope_sha256': 'b' * 64}
+        with patch.object(atom, '__file__', str(self.runtime / 'issue_atom.py')):
+            manager = atom.host_manager(auth, state)
+        manager.observe({'stop_offered': {'value': True, 'evidence': 'c' * 64}})
+        prior = manager.record()
+        state['host_finalization'] = prior
+        state['lifecycle_resume'] = {'from': self.spec, 'to': selected, 'authorization_sha256': 'a' * 64}
+        with patch.object(atom, '__file__', str(new_root / 'issue_atom.py')):
+            atom.resume_host_finalization(auth, state)
+            resumed = atom.host_manager(auth, state)
+        self.assertEqual(state['host_finalization_resume']['prior'], prior)
+        self.assertEqual(resumed.sequence, prior['sequence'])
+        self.assertEqual(resumed.facts, prior['facts'])
+        self.assertNotEqual(resumed.identity['plan'], prior['identity']['plan'])
+        self.assertEqual(resumed.identity['subject'], prior['identity']['subject'])
+        source.write_text(source.read_text() + '# drift\n')
+        with patch.object(atom, '__file__', str(new_root / 'issue_atom.py')):
+            with self.assertRaises(atom.AtomRefusal):
+                atom.host_manager(auth, state)
+
 
 if __name__ == '__main__':
     unittest.main()
