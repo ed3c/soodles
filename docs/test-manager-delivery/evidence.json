@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 201
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
+      "treatment_sha256": "73e17a5d1435ff412603e24c36422cb36b32f33a5a67b5cba03f49338fa15337"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/test-selection-design.md",
+      "role": "design",
+      "sha256": "fc9100ff2caa014c1d75ebf01c7ddb25d3f8638b0d95b0234b208a9480fec1a4"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Test Manager",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#201"
+  },
+  "authorizes_landing": false
+}

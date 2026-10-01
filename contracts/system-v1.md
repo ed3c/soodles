@@ -12,6 +12,7 @@ Read [`contracts/system-v1/runtime.md`](system-v1/runtime.md).
 
 Read [`contracts/system-v1/runtime.md`](system-v1/runtime.md).
 
+
 ## Authority limits
 
 Read [`contracts/system-v1/common.md`](system-v1/common.md).
@@ -83,4 +84,3 @@ Read [`contracts/system-v1/instruction-context.md`](system-v1/instruction-contex
 ## Local selected-instruction activation
 
 Read [`contracts/system-v1/instruction-context.md`](system-v1/instruction-context.md).
-

@@ -31,8 +31,8 @@ CLAIM_FIELDS = {
     "authorizes_provider_write", "authorizes_landing",
 }
 NATIVE_SCOPE = "native publication readiness"
-# These controls exercise the native routing boundary. Linux runtime-lock
-# admission and its process oracles remain in the post-publication Actions gate.
+# Legacy schema-1 receipts included these regressions. Preserve validation of
+# those receipts; schema 2 checks native capabilities and leaves regressions to CI.
 NATIVE_TESTS = ("test_issue_atom.py", "test_issue_execution.py", "test_candidate_publication.py",
                 "test_local_continuation.py", "test_supervisor_admission.py")
 
@@ -147,10 +147,12 @@ def native_readiness(root, claim, noodle):
     Claim custody and clean source are checked on both sides of execution. Raw
     process results are retained; a failed native check cannot become a receipt.
     """
-    root, _ = validate_claim(root, claim)
-    binary = _native_binary(noodle)
-    for name in NATIVE_TESTS:
-        _require((root / "tests" / name).is_file(), "readiness.test", name)
+    from concurrent.futures import ThreadPoolExecutor
+    from soodles import measured
+
+    root, _ = measured("native_readiness.claim_before", validate_claim, root, claim,
+                       head=claim.get("head") if isinstance(claim, dict) else None)
+    binary = measured("native_readiness.binary_before", _native_binary, noodle, head=claim["head"])
     checks = []
     # Use a physical temporary path: this is fixture configuration, not a
     # portability claim for the Linux-only runtime acceptance implementation.
@@ -162,21 +164,25 @@ def native_readiness(root, claim, noodle):
         env["TMPDIR"] = str(Path(temporary).resolve())
         commands = [[binary, "publication", "claim", "--help"],
                     [binary, "worktree", "cleanup", "--help"]]
-        commands += [[sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", name]
-                     for name in NATIVE_TESTS]
-        for argv in commands:
+        def execute(argv):
             try:
                 process = subprocess.run(argv, cwd=root, env=env, stdin=subprocess.DEVNULL,
-                                         capture_output=True, text=True, timeout=180)
+                                         capture_output=True, text=True,
+                                         timeout=30)
             except (OSError, subprocess.TimeoutExpired) as error:
                 raise PublicationRefusal("readiness.process", {"argv": argv, "error": type(error).__name__}) from None
-            result = {"argv": argv, "exit_status": process.returncode,
-                      "stdout": process.stdout, "stderr": process.stderr}
-            checks.append(result)
-            _require(process.returncode == 0, "readiness.check", result, "changed_candidate_or_native_capability")
-    validate_claim(root, claim)
-    _native_binary(noodle)
-    return {"schema_version": 1, "scope": NATIVE_SCOPE,
+            return {"argv": argv, "exit_status": process.returncode,
+                    "stdout": process.stdout, "stderr": process.stderr}
+
+        with ThreadPoolExecutor(max_workers=min(2, os.cpu_count() or 1)) as pool:
+            checks = list(pool.map(lambda argv: measured(
+                "native_readiness.check", execute, argv, head=claim["head"],
+                check=" ".join(argv[1:])), commands))
+        for result in checks:
+            _require(result["exit_status"] == 0, "readiness.check", result, "changed_candidate_or_native_capability")
+    measured("native_readiness.claim_after", validate_claim, root, claim, head=claim["head"])
+    measured("native_readiness.binary_after", _native_binary, noodle, head=claim["head"])
+    return {"schema_version": 2, "scope": NATIVE_SCOPE,
             "repository": claim["repository"], "subject": claim["subject"],
             "candidate": {"head": claim["head"], "tree": claim["tree"]},
             "platform": platform.system().lower() + "_" + platform.machine().lower(),
@@ -206,16 +212,17 @@ def validate_inputs(root, acceptance, claim):
              "acceptance.candidate", candidate)
     root, number = validate_claim(root, claim)
     if scope == NATIVE_SCOPE:
-        _require(acceptance.get("schema_version") == 1 and acceptance.get("subject") == claim["subject"],
+        _require(acceptance.get("schema_version") in (1, 2) and acceptance.get("subject") == claim["subject"],
                  "readiness.identity", acceptance.get("subject"))
         observed = platform.system().lower() + "_" + platform.machine().lower()
         _require(acceptance.get("platform") == observed, "readiness.platform", acceptance.get("platform"))
         binary = _native_binary(acceptance.get("noodle"))
         checks = acceptance.get("checks")
-        _require(isinstance(checks, list) and len(checks) == 2 + len(NATIVE_TESTS), "readiness.checks", checks)
         expected = [[binary, "publication", "claim", "--help"], [binary, "worktree", "cleanup", "--help"]]
-        expected += [[sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", name]
-                     for name in NATIVE_TESTS]
+        if acceptance["schema_version"] == 1:
+            expected += [[sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", name]
+                         for name in NATIVE_TESTS]
+        _require(isinstance(checks, list) and len(checks) == len(expected), "readiness.checks", checks)
         _require(all(isinstance(check, dict) and check.get("argv") == argv
                      and type(check.get("exit_status")) is int and check["exit_status"] == 0
                      and isinstance(check.get("stdout"), str) and isinstance(check.get("stderr"), str)

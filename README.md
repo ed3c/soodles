@@ -14,10 +14,27 @@ Obtain the release asset named in `policy/runtime.lock.json` from [ed3c/noodle r
 
 ```sh
 ./soodles runtime check /absolute/path/to/noodle
-./soodles acceptance verify /absolute/path/to/noodle > /tmp/soodles-acceptance.json
+./soodles acceptance verify /absolute/path/to/noodle --base EXACT_SHA > /tmp/soodles-acceptance.json
 ```
 
-Acceptance requires a clean committed candidate. While editing, use `python3 -B -m unittest discover -s tests -v`; after the final commit, run canonical acceptance once for that head. Receipts belong outside the source tree.
+Acceptance requires a clean committed candidate. While editing:
+
+```sh
+./soodles test --plan              # Explain the affected scope; execute nothing
+./soodles test                     # Tests for current staged/unstaged/new files
+./soodles test --base EXACT_SHA    # Include committed changes since this base
+./soodles test --full              # Explicitly run every current unit test
+```
+
+The [Test Manager](.agents/skills/test-manager/SKILL.md) owns scope for every
+caller. Actions supplies the exact provider base/head. For a specific behavior,
+request named modules or physical controls with `--reason`; add `--plan` to inspect
+without execution. Full coverage runs only when explicitly requested with
+`--full`, never because a filename is shared, a base is missing or scope is unknown.
+Unknown scope is returned to the current Agent for impact analysis. The source map
+and executor live in `test_manager.py`. No selected tests is not full-suite success.
+Native publication checks capabilities and identity; behavior tests run in CI.
+Receipts belong outside the source tree. See the [design rationale](docs/test-selection-design.md).
 
 ## Data flow
 

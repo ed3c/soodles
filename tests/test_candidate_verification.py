@@ -1,98 +1,113 @@
+"""Current candidate byte binding on disposable Git commits, without historical heads."""
+import copy
 import hashlib
 import json
-import os
 from pathlib import Path
 import subprocess
-import sys
+import tempfile
 import unittest
 
 import issue_admission as admission
+from test_issue_admission import issue_fixture
 
 
-ROOT = Path(admission.__file__).resolve().parent
-EVIDENCE = ROOT / "docs/experiments/exact-head-candidate-binding"
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
 
 
 class CandidateVerificationTests(unittest.TestCase):
-    def test_frozen_exact_head_observer_replays_treatment(self):
-        observer = EVIDENCE / "observer.py"
-        self.assertEqual(
-            hashlib.sha256(observer.read_bytes()).hexdigest(),
-            "0e22cb83764980a41a10a638e06139c82070df5e2e49b6007a9a57410e831511")
-        environment = dict(os.environ)
-        environment["PYTHONPATH"] = str(ROOT)
-        result = subprocess.run(
-            [sys.executable, str(observer), str(ROOT / "issue_admission.py"),
-             "91", "treatment"],
-            cwd=ROOT, env=environment, capture_output=True, text=True,
-            timeout=30)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(
-            json.loads(result.stdout),
-            json.loads((EVIDENCE / "raw/treatment.json").read_text()))
-
-    def test_pr_90_committed_evidence_preserves_historical_baseline_mismatch(self):
-        base = "de7b07b99e7879d54fda99e8166cc2aa782e04cc"
-        head = "448ff50b8e399c55c51b8b1afe7d481aa463d3a4"
-        prompt = ".agents/skills/verify-soodles/features/pclass-context.md"
-        prefix = "docs/experiments/pclass-atom-binding/"
-        required = [
-            prompt,
-            prefix + "task.md",
-            prefix + "observer.py",
-            prefix + "raw/baseline.json",
-            prefix + "raw/treatment.json",
-            prefix + "raw/noncase.json",
-            prefix + "manifest.json",
-            prefix + "results.md",
-        ]
-        write_paths = required + [
-            ".github/ISSUE_TEMPLATE/execution.yml",
-            "issue_admission.py",
-            "tests/test_issue_admission.py",
-        ]
-        binding = {
-            "issue": 89,
-            "base_head": base,
-            "write_paths": sorted(write_paths),
-            "contract": {
-                "schema": 2,
-                "required_paths": sorted(required),
-                "evidence_manifest": prefix + "manifest.json",
-            },
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name).resolve()
+        self.git('init', '-b', 'main')
+        (self.root / 'policy.md').write_bytes(b'baseline\n')
+        self.base = self.commit()
+        (self.root / 'policy.md').write_bytes(b'treatment\n')
+        (self.root / 'observer.py').write_bytes(b'externally selected observer\n')
+        self.manifest = {
+            'schema': 1, 'issue': {'repository': 'ed3c/soodles', 'number': 18},
+            'instructions': [{'path': 'policy.md', 'baseline_sha256': digest(b'baseline\n'),
+                              'treatment_sha256': digest(b'treatment\n')}],
+            'artifacts': [{'path': 'observer.py', 'role': 'observer',
+                           'sha256': digest((self.root / 'observer.py').read_bytes())}],
+            'owner': {'name': 'Soodles Issue admission',
+                      'tool': 'issue_admission.validate_delivery_paths',
+                      'authorization': 'ed3c/soodles#18'},
+            'authorizes_landing': False,
         }
-        with self.assertRaises(admission.AdmissionRefusal) as caught:
-            admission.validate_delivery_paths(ROOT, base, head, binding)
-        self.assertEqual(caught.exception.invalid["field"],
-                         "candidate.instruction.baseline_sha256")
-        manifest_bytes = admission.git_bytes(
-            ROOT, head, prefix + "manifest.json")
-        self.assertEqual(
-            hashlib.sha256(manifest_bytes).hexdigest(),
-            "1dfa4370d483017fc51cd636010f863846d286c62d8209dbc002e5ac9ccae5c5")
-        manifest = json.loads(manifest_bytes)
-        instruction = manifest["instructions"][0]
-        self.assertEqual(
-            hashlib.sha256(admission.git_bytes(ROOT, head, prompt)).hexdigest(),
-            instruction["treatment_sha256"])
-        self.assertNotEqual(
-            hashlib.sha256(admission.git_bytes(ROOT, base, prompt)).hexdigest(),
-            instruction["baseline_sha256"])
-        for artifact in manifest["artifacts"]:
-            self.assertEqual(
-                hashlib.sha256(admission.git_bytes(
-                    ROOT, head, artifact["path"])).hexdigest(),
-                artifact["sha256"])
+        self.issue, _ = issue_fixture()
+        self.contract = admission.parse_contract(self.issue['body'])
+        paths = ['policy.md', 'observer.py', 'manifest.json']
+        self.contract.update(schema=3, base_head=self.base, write_paths=paths, required_paths=paths,
+                             evidence_manifest='manifest.json', frozen_paths=[{
+                                 'path': 'observer.py', 'revision': 'head',
+                                 'sha256': self.manifest['artifacts'][0]['sha256']}])
 
-    def test_baseline_preserves_the_two_preexisting_admissions(self):
-        baseline = json.loads((EVIDENCE / "raw/baseline.json").read_text())
-        self.assertEqual(baseline["classification"], "RED")
-        self.assertEqual(
-            [(item["case"], item["outcome"]) for item in baseline["records"]],
-            [("prompt_mismatch", "accepted"),
-             ("frozen_observer_mismatch", "accepted"),
-             ("complete", "accepted")])
+    def git(self, *args):
+        return subprocess.check_output(['git', *args], cwd=self.root, text=True,
+                                       stderr=subprocess.PIPE).strip()
 
+    def commit(self):
+        self.git('add', '.')
+        self.git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
+                 'commit', '--allow-empty', '-m', 'Bind candidate control')
+        return self.git('rev-parse', 'HEAD')
 
-if __name__ == "__main__":
-    unittest.main()
+    def candidate(self):
+        (self.root / 'manifest.json').write_text(json.dumps(self.manifest))
+        self.issue['body'] = ('<!-- soodles:execution-v1 -->\n```json\n'
+                              + json.dumps(self.contract) + '\n```\n<!-- /soodles:execution-v1 -->')
+        return self.commit()
+
+    def test_complete_candidate_reads_selected_git_bytes_not_dirty_files(self):
+        head = self.candidate()
+        (self.root / 'policy.md').write_text('unselected working copy')
+        result = admission.verify_candidate(self.root, self.base, head, self.issue)
+        self.assertEqual(result['classification'], 'VERIFIED')
+        self.assertEqual(result['head'], head)
+        self.assertEqual(result['tree'], self.git('rev-parse', 'HEAD^{tree}'))
+        self.assertFalse(result['authorizes_landing'])
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'candidate.checkout_head'):
+            admission.verify_candidate(self.root, self.base, self.base, self.issue)
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'candidate.base'):
+            admission.verify_candidate(self.root, 'f' * 40, head, self.issue)
+
+    def test_instruction_artifact_and_external_pin_mismatches_refuse(self):
+        original = copy.deepcopy(self.manifest)
+        for field in ('baseline', 'treatment', 'artifact', 'external_pin'):
+            with self.subTest(field=field):
+                self.manifest = copy.deepcopy(original)
+                if field in ('baseline', 'treatment'):
+                    self.manifest['instructions'][0][field + '_sha256'] = '0' * 64
+                    expected = 'candidate.instruction.' + field + '_sha256'
+                elif field == 'artifact':
+                    self.manifest['artifacts'][0]['sha256'] = '0' * 64
+                    expected = 'candidate.artifact.sha256'
+                else:
+                    # Manifest and candidate agree; the external pin still rejects them.
+                    changed = b'candidate-selected observer\n'
+                    (self.root / 'observer.py').write_bytes(changed)
+                    self.manifest['artifacts'][0]['sha256'] = digest(changed)
+                    expected = 'candidate.frozen_path.sha256'
+                head = self.candidate()
+                with self.assertRaises(admission.AdmissionRefusal) as caught:
+                    admission.verify_candidate(self.root, self.base, head, self.issue)
+                self.assertEqual(caught.exception.invalid['field'], expected)
+                if field in ('baseline', 'treatment'):
+                    self.assertEqual(caught.exception.next['required'],
+                                     ['candidate_instruction_matches_frozen_evidence'])
+
+    def test_missing_evidence_and_legacy_schema_two_binding(self):
+        head = self.commit()
+        binding = {'issue': 18, 'base_head': self.base,
+                   'write_paths': self.contract['write_paths'], 'contract': {
+                       'schema': 2, 'candidate_evidence': {
+                           'manifest_path': 'manifest.json',
+                           'required_paths': self.contract['required_paths']}}}
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'candidate.missing_required_paths'):
+            admission.validate_delivery_paths(self.root, self.base, head, binding)
+        head = self.candidate()
+        self.assertEqual(admission.validate_delivery_paths(self.root, self.base, head, binding)['changed_paths'],
+                         sorted(self.contract['required_paths']))
+        self.assertEqual(admission.AdmissionRefusal('envelope', None).next['required'], ['execution_envelope'])

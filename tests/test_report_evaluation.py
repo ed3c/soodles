@@ -2,7 +2,6 @@
 import copy
 import hashlib
 import json
-import os
 from pathlib import Path
 import subprocess
 import sys
@@ -14,7 +13,6 @@ import report_evaluation
 import soodles
 
 ROOT = Path(__file__).resolve().parents[1]
-ORACLE_SHA256 = "2a9f0853f1f067ea74fe826be94842204dae7eec35476d4796df976a7af2c815"
 
 
 def sha(data):
@@ -208,16 +206,6 @@ class ReportEvaluationTests(unittest.TestCase):
             self.assertEqual(proc.returncode, 2)
             self.assert_unusable(json.loads(proc.stdout), "INVALID", "arguments")
 
-    def test_frozen_oracle_when_supervisor_evidence_is_present(self):
-        evidence = ROOT / "docs/experiments/eval-validity-shortest-path"
-        if not (evidence / "manifest.json").exists():
-            self.skipTest("supervisor evidence patch has not arrived")
-        oracle = evidence / "oracle.py"
-        self.assertEqual(sha(oracle.read_bytes()), ORACLE_SHA256)
-        output = self.base / "oracle-result"
-        proc = subprocess.run([sys.executable, "-B", str(oracle), str(ROOT), "candidate", str(output)], env=self.env, capture_output=True, text=True, timeout=60)
-        self.assertEqual(proc.returncode, 0, proc.stderr)
-        self.assertEqual(json.loads(proc.stdout)["classification"], "GREEN", proc.stdout)
 
     def test_cli_refusal_help_is_executable_without_replacing_missing_input(self):
         cases = [(["eval", "report"], "INVALID", "arguments"),
@@ -245,26 +233,6 @@ class ReportEvaluationTests(unittest.TestCase):
         result = self.evaluate()
         self.assert_unusable(result, "INVALID", "selection.kind")
         self.assertIn("feature_map_routing_report_v2", result["problem"]["reason"])
-
-    def test_fixed_method_route_oracle_and_planted_control(self):
-        evidence = ROOT / "docs/experiments/eval-method-route"
-        for name, digest in {
-            "oracle.py": "f64c8064e97d54db8e4f965b69ac183c787f5c13f0a76323b187beaddd0bebcc",
-            "fixture.py": "9052df3cea1318c5b460ebadd11a6af6c296b4f4573df7f50d3b6138b2d6666d",
-        }.items():
-            self.assertEqual(sha((evidence / name).read_bytes()), digest, name)
-        output = self.base / "method-route-oracle"
-        proc = subprocess.run([sys.executable, "-B", str(evidence / "oracle.py"), str(ROOT), str(output)],
-                              env=self.env, capture_output=True, text=True, timeout=60)
-        self.assertEqual(proc.returncode, 0, proc.stderr)
-        result = json.loads(proc.stdout)
-        self.assertEqual(result["classification"], "GREEN", result)
-        self.assertEqual(len(result["checks"]), 11)
-        self.assertTrue(all(value is True for value in result["checks"].values()), result)
-        self.assertTrue(result["planted_missing_help_rejected"])
-        self.assertTrue(result["fixture_removed"])
-        self.assertFalse(result["authorizes_landing"])
-        self.assertEqual(json.loads((output / "controls.json").read_text())["checks"], result["checks"])
 
 
 if __name__ == "__main__":

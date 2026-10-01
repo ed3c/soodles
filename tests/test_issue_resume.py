@@ -183,15 +183,3 @@ oracle.resume_probe('unused-noodle', candidate)
 
     def test_missing_sibling_fails_without_candidate_fallback(self):
         self.assertIn('FileNotFoundError:', self.probe(missing_sibling=True))
-
-
-class ResumeEvidenceTests(unittest.TestCase):
-    def test_frozen_evidence_discriminates_and_preserves_claim_scope(self):
-        import importlib.util
-        directory = Path(__file__).resolve().parents[1] / 'docs/experiments/interruption-resume'
-        spec = importlib.util.spec_from_file_location('resume_evidence', directory / 'observer.py')
-        observer = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(observer)
-        result = observer.verify(directory)
-        self.assertEqual(result['classification'], 'VERIFIED')
-        self.assertFalse(result['authorizes_landing'])

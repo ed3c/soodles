@@ -26,7 +26,7 @@ class QualityTests(unittest.TestCase):
     def test_exact_same_head_allowed_but_output_inside_subject_refused(self):
         head = measure.git(ROOT, 'rev-parse', 'HEAD').decode().strip()
         with tempfile.TemporaryDirectory() as tmp:
-            out = Path(tmp)/'report'
+            out = Path(tmp).resolve()/'report'
             self.assertEqual(measure.preflight(ROOT, head, head, out), out)
             self.assertFalse(out.exists())
         with self.assertRaisesRegex(ValueError, 'outside the subject'):

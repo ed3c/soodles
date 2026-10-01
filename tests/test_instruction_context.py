@@ -42,11 +42,24 @@ class InstructionContextTests(unittest.TestCase):
         path = ".agents/skills/execute/SKILL.md"
         data = admission.git_bytes(fixture.root, fixture.head, path)
         (fixture.root / path).write_text("unselected working copy")
-        output, _ = fixture.prepare("selected", instruction_pins=[pin(path, data)])
+        output, prepared = fixture.prepare("selected", instruction_pins=[pin(path, data)])
         envelope = json.loads((output / "envelope.json").read_text())
         self.assertEqual(envelope["schema"], 2)
         self.assertEqual(envelope["execution"]["instruction_context"], {
             "source_head": fixture.head, "files": [{**pin(path, data), "content": data.decode()}]})
+        # Exercise the real producer CLI once; malformed pins have direct controls below.
+        from issue_execution import inspect_schedule
+        next_action = inspect_schedule(fixture.root, {
+            **fixture.schedule_env, "SOODLES_ADMISSION_LAUNCHER": prepared["launcher"]})["next"]
+        env = {key: value for key, value in os.environ.items() if not key.startswith("NOODLE_")}
+        env["FIXTURE_ISSUE_READBACK"] = str(fixture.issue_path)
+        process = subprocess.run(next_action["argv"], cwd=fixture.root, env=env,
+                                 capture_output=True, text=True, timeout=30)
+        self.assertEqual(process.returncode, 0, process.stderr + process.stdout)
+        proposal = json.loads((fixture.root / ".noodle/orders-next.json").read_text())
+        prompt = json.loads(proposal["orders"][0]["stages"][0]["prompt"])
+        self.assertEqual(prompt["instruction_context"], envelope["execution"]["instruction_context"])
+        self.assertFalse(fixture.child_marker.exists())
         output, _ = fixture.prepare("legacy")
         legacy = json.loads((output / "envelope.json").read_text())
         self.assertEqual(legacy["schema"], 1)

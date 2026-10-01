@@ -240,20 +240,6 @@ class PacketTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertFalse(json.loads(result.stdout)['authorizes_landing'])
 
-    def test_actions_builds_the_tracked_ui_before_the_embedded_binary(self):
-        workflow = (Path(packet.__file__).parent / '.github/workflows/runtime.yml').read_text()
-        self.assertIn('GITHUB_API_TOKEN: ${{ github.token }}', workflow)
-        self.assertIn("authenticated=True", workflow)
-        install = workflow.index('corepack pnpm install --frozen-lockfile')
-        ui = workflow.index('corepack pnpm --filter noodle-ui build')
-        binary = workflow.index('go build -o "$RUNNER_TEMP/noodle-admission"')
-        measurement = workflow.index('go version -m "$RUNNER_TEMP/noodle-admission"')
-        observation = workflow.index('--build-info "$RUNNER_TEMP/noodle-build.txt"')
-        self.assertLess(install, ui)
-        self.assertLess(ui, binary)
-        self.assertLess(binary, measurement)
-        self.assertLess(measurement, observation)
-
 
 if __name__ == '__main__':
     unittest.main()

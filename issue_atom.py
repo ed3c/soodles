@@ -1389,7 +1389,7 @@ def select_run(provider, authorization, head):
 
 
 def verify_failed_prior(provider, authorization):
-    """Prove a selected correction begins at the exact failed PR head."""
+    """Prove correction of a failed CI or an exact pre-write publisher refusal."""
     prior = authorization["prior_publication"]
     number = authorization["issue"]["number"]
     branch = prior["branch"]
@@ -1413,15 +1413,51 @@ def verify_failed_prior(provider, authorization):
             and remote.get("object", {}).get("sha") == prior["head"],
             "amendment.prior_branch", remote, "exact_failed_branch_readback")
     try:
-        select_run(provider, authorization, prior["head"])
+        run_value, jobs = select_run(provider, authorization, prior["head"])
     except AtomRefusal as error:
         require(error.invalid == {"field": "github.workflow.conclusion",
                                   "value": ["failure", "failure", "failure"]},
                 "amendment.prior_runtime", error.invalid,
                 "terminal_failed_exact_head_runtime")
     else:
-        raise AtomRefusal("amendment.prior_runtime", "not failed",
-                          "terminal_failed_exact_head_runtime")
+        require(prewrite_scope_refusal(authorization, run_value, jobs),
+                "amendment.prior_runtime", "not failed",
+                "terminal_failed_exact_head_runtime_or_pinned_prewrite_scope_refusal")
+
+
+def prewrite_scope_refusal(authorization, run_value, jobs):
+    """Allow source correction, never landing, after a pinned step-scope refusal."""
+    ref = authorization.get("prior_atom")
+    if ref is None:
+        return False
+    validate_prior_atom_ref(ref, authorization["control_root"])
+    old = read_json(ref["path"], "amendment.prior_authorization")
+    publisher = validate_landing_owner(old)
+    paths = artifact_paths(ref["path"])
+    records = list(paths["directory"].glob("landing-start-*.json"))
+    if paths["landing"].exists() or len(records) != 1:
+        return False
+    record = read_json(records[0], "amendment.prewrite_receipt")
+    try:
+        result = json.loads(record["stdout"])
+    except (KeyError, TypeError, ValueError):
+        return False
+    claim = read_json(paths["directory"] / "landing-claim.json", "amendment.prewrite_claim")
+    prior = authorization["prior_publication"]
+    return (record.get("exit_status") not in (None, 0)
+            and record.get("argv") == [sys.executable, "-B", str(publisher), "landing", "start",
+                str(paths["directory"] / "landing-claim.json"),
+                str(paths["directory"] / "readback.json"), str(paths["landing"])]
+            and isinstance(result, dict) and result.get("owner") == "landing.start"
+            and result.get("status") == "refused" and "request" not in result
+            and result.get("invalid", {}).get("field") == "job.steps"
+            and any(result["invalid"].get("value") == job.get("steps") for job in jobs["jobs"])
+            and all(claim.get(key) == value for key, value in {
+                "repository": authorization["repository"], "issue": authorization["issue"]["number"],
+                "pr": prior["pr"]["number"], "head": prior["head"], "tree": prior["tree"],
+                "base_head": authorization["base_head"], "run_id": run_value["id"],
+                "run_attempt": run_value["run_attempt"],
+                "verifier_sha256": old["landing_owner"]["verifier_sha256"]}.items()))
 
 
 def observe_prior_loop(authorization, prior_state):
@@ -2168,16 +2204,21 @@ def drive(authorization_path, *, timeout=300, interval=5, sleep=time.sleep, cloc
     Durable transitions and unknown-write readback remain in their existing
     owners. The bounded foreground wait creates no scheduler or new state.
     """
+    from soodles import measured
+
     require(timeout >= 0 and interval >= 0, "wait.bounds", [timeout, interval])
     deadline = clock() + timeout
     while True:
-        result = run(authorization_path, environ=environ, provider=provider)
+        result = measured("issue_atom.observe",
+                          lambda: run(authorization_path, environ=environ, provider=provider),
+                          authorization=str(Path(authorization_path).resolve()))
         if result.get("status") != "pending" or not result.get("next"):
             return result
         remaining = deadline - clock()
         if remaining <= 0:
             return {**result, "wait_exhausted": True}
-        sleep(min(interval, remaining))
+        measured("issue_atom.wait", sleep, min(interval, remaining),
+                 phase=result.get("phase"), waiting_on=result.get("waiting_on"))
 
 
 def refusal_output(error, authorization_path):

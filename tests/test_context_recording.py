@@ -41,19 +41,19 @@ def capture_refusal(operation, function, *args):
 class ContextRecordingTests(unittest.TestCase):
     def test_records_real_nonzero_and_file_change_without_inventing_success(self):
         with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / 'state'
+            path = Path(tmp).resolve() / 'state'
             path.write_text('before')
             result, stdout, _ = module.record(tmp, 'drive', [sys.executable, '-c',
                 'import pathlib,sys;pathlib.Path(sys.argv[1]).write_text("after");print("observed");sys.exit(3)', str(path)])
             self.assertEqual(result['exit_code'], 3)
             self.assertEqual(stdout, b'observed\n')
-            before = json.loads((Path(tmp)/'drive/request.json').read_text())['files_before']
+            before = json.loads((Path(tmp).resolve()/'drive/request.json').read_text())['files_before']
             self.assertNotEqual(before[str(path)]['sha256'], result['files_after'][str(path)]['sha256'])
             self.assertFalse(result['authorizes_landing'])
 
     def test_duplicate_label_refuses_before_effect(self):
         with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / 'sentinel'
+            path = Path(tmp).resolve() / 'sentinel'
             module.record(tmp, 'once', [sys.executable, '-c', 'pass'])
             with self.assertRaises(FileExistsError):
                 module.record(tmp, 'once', [sys.executable, '-c',
@@ -70,7 +70,7 @@ class ContextRecordingTests(unittest.TestCase):
 
     def test_missing_executable_is_not_zero(self):
         with tempfile.TemporaryDirectory() as tmp:
-            result, _, _ = module.record(tmp, 'missing', [str(Path(tmp)/'absent')])
+            result, _, _ = module.record(tmp, 'missing', [str(Path(tmp).resolve()/'absent')])
             self.assertIsNone(result['exit_code'])
             self.assertIsNotNone(result['error'])
 
@@ -80,13 +80,13 @@ class ContextRecordingTests(unittest.TestCase):
                 'print("' + 'x' * 300 + '")'])
             self.assertEqual(result['exit_code'], 0)
             self.assertEqual(stdout, b'x' * 300 + b'\n')
-            self.assertTrue((Path(tmp)/'long/result.json').is_file())
+            self.assertTrue((Path(tmp).resolve()/'long/result.json').is_file())
 
     def test_snapshot_error_after_effect_preserves_result(self):
         from unittest.mock import patch
         for shell in (False, True):
             with self.subTest(shell=shell), tempfile.TemporaryDirectory() as tmp:
-                path = Path(tmp)/'state'
+                path = Path(tmp).resolve()/'state'
                 path.write_text('before')
                 original = Path.read_bytes
                 def read_bytes(p):
@@ -99,19 +99,19 @@ class ContextRecordingTests(unittest.TestCase):
                     argv = ['/bin/sh', '-c', shlex.join(argv)]
                 with patch.object(Path, 'read_bytes', read_bytes):
                     result, _, _ = module.record(tmp, 'changed', argv)
-                request = json.loads((Path(tmp)/'changed/request.json').read_text())
+                request = json.loads((Path(tmp).resolve()/'changed/request.json').read_text())
                 self.assertEqual(request['files_before'][str(path)]['bytes'], len(b'before'))
                 self.assertEqual(result['exit_code'], 0)
                 self.assertEqual(result['files_after'][str(path)], {
                     'snapshot_error': 'PermissionError',
                     'observed_from': ['shell' if shell else 'argv']})
-                self.assertTrue((Path(tmp)/'changed/result.json').is_file())
+                self.assertTrue((Path(tmp).resolve()/'changed/result.json').is_file())
 
     def test_snapshot_errors_before_and_after_remain_in_raw_requests(self):
         from unittest.mock import patch
         for shell in (False, True):
             with self.subTest(shell=shell), tempfile.TemporaryDirectory() as tmp:
-                path = Path(tmp)/'AGENTS.md'
+                path = Path(tmp).resolve()/'AGENTS.md'
                 path.write_text('route\n')
                 original = Path.read_bytes
                 def read_bytes(p):
@@ -123,7 +123,7 @@ class ContextRecordingTests(unittest.TestCase):
                     argv = ['/bin/sh', '-c', shlex.join(argv)]
                 with patch.object(Path, 'read_bytes', read_bytes):
                     result, stdout, _ = module.record(tmp, 'denied', argv)
-                request = json.loads((Path(tmp)/'denied/request.json').read_text())
+                request = json.loads((Path(tmp).resolve()/'denied/request.json').read_text())
                 expected = {'snapshot_error': 'PermissionError',
                             'observed_from': ['shell' if shell else 'argv']}
                 self.assertEqual(request['files_before'][str(path)], expected)
@@ -136,15 +136,15 @@ class ContextRecordingTests(unittest.TestCase):
     def test_instruction_bindings_require_valid_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
             claim, snapshot = self.landing_inputs()
-            checkpoint = Path(tmp)/'pending.json'
+            checkpoint = Path(tmp).resolve()/'pending.json'
             landing.start(claim, snapshot, checkpoint)
             landing.advance(checkpoint, snapshot)
             projection = landing.dispatch(checkpoint, snapshot)
             pending = landing.advance(checkpoint, snapshot)
-            instruction = Path(tmp)/'AGENTS.md'
+            instruction = Path(tmp).resolve()/'AGENTS.md'
             instruction.write_bytes(b'')
             result, stdout, _ = module.record(tmp, 'empty', ['cat', str(instruction)])
-            request = json.loads((Path(tmp)/'empty/request.json').read_text())
+            request = json.loads((Path(tmp).resolve()/'empty/request.json').read_text())
             valid = request['files_before'][str(instruction)]
             receipt = bound_evaluate('pending', [pending], [request], projection, [])
             self.assertEqual(result['exit_code'], 0)
@@ -161,7 +161,7 @@ class ContextRecordingTests(unittest.TestCase):
             invalid.extend({**valid, 'sha256': value}
                            for value in (None, 64, '', 'a' * 63, 'a' * 65,
                                          'g' * 64, 'a' * 63 + '\n'))
-            for path in (str(instruction), str(Path(tmp)/'.agents/skills/example/SKILL.md')):
+            for path in (str(instruction), str(Path(tmp).resolve()/'.agents/skills/example/SKILL.md')):
                 for observation in invalid:
                     with self.subTest(path=path, observation=observation):
                         bad_request = {'files_before': {path: observation}}
@@ -178,7 +178,7 @@ class ContextRecordingTests(unittest.TestCase):
             failed = {'snapshot_error': 'PermissionError'}
             mixed_request = {'files_before': {
                 str(instruction): valid,
-                str(Path(tmp)/'.agents/skills/denied/SKILL.md'): failed}}
+                str(Path(tmp).resolve()/'.agents/skills/denied/SKILL.md'): failed}}
             repeated_failure = {'files_before': {str(instruction): failed}}
             for requests in ([mixed_request, repeated_failure],
                              [repeated_failure, mixed_request]):
@@ -191,9 +191,9 @@ class ContextRecordingTests(unittest.TestCase):
 
     def test_shell_wrapped_instruction_read_and_parse_failure_are_recorded(self):
         with tempfile.TemporaryDirectory() as tmp:
-            instruction = Path(tmp) / 'AGENTS.md'
+            instruction = Path(tmp).resolve() / 'AGENTS.md'
             instruction.write_text('route\n')
-            evidence = Path(tmp) / 'evidence'
+            evidence = Path(tmp).resolve() / 'evidence'
             module.record(evidence, 'shell', ['/bin/sh', '-c',
                 'sed -n "1p" ' + shlex.quote(str(instruction))])
             request = json.loads((evidence/'shell/request.json').read_text())
@@ -207,7 +207,7 @@ class ContextRecordingTests(unittest.TestCase):
 
     def test_three_owner_baselines_and_planted_controls(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
+            root = Path(tmp).resolve()
             instruction = root / 'AGENTS.md'
             instruction.write_text('route\n')
             evidence = root / 'evidence'

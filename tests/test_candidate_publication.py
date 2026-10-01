@@ -70,7 +70,7 @@ class CandidatePublicationTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        outer = Path(self.temp.name)
+        outer = Path(self.temp.name).resolve()
         self.project = outer / "project"
         self.root = self.project / ".worktrees" / "candidate"
         self.command(outer, "git", "init", "-b", "main", self.project)
@@ -267,7 +267,7 @@ class CandidatePublicationTests(unittest.TestCase):
             publication.publish(self.root, self.acceptance, self.claim, self.provider)
         self.assertEqual(self.provider.create_calls, 0)
 
-    def native_receipt(self):
+    def native_receipt(self, schema=1):
         import platform
         import sys
         binary = Path(self.temp.name).resolve() / "noodle"
@@ -275,9 +275,10 @@ class CandidatePublicationTests(unittest.TestCase):
         binary.chmod(0o755)
         commands = [[str(binary), "publication", "claim", "--help"],
                     [str(binary), "worktree", "cleanup", "--help"]]
-        commands += [[sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", name]
-                     for name in publication.NATIVE_TESTS]
-        return {**self.acceptance, "schema_version": 1, "scope": publication.NATIVE_SCOPE,
+        if schema == 1:
+            commands += [[sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", name]
+                         for name in publication.NATIVE_TESTS]
+        return {**self.acceptance, "schema_version": schema, "scope": publication.NATIVE_SCOPE,
                 "subject": self.claim["subject"],
                 "platform": platform.system().lower() + "_" + platform.machine().lower(),
                 "noodle": {"path": str(binary), "sha256": publication._digest(binary)},
@@ -285,35 +286,33 @@ class CandidatePublicationTests(unittest.TestCase):
                            for argv in commands]}
 
     def test_native_readiness_can_publish_but_never_authorizes_landing(self):
-        result = publication.publish(self.root, self.native_receipt(), self.claim,
+        result = publication.publish(self.root, self.native_receipt(schema=2), self.claim,
                                      self.provider, push=self.push())
         self.assertFalse(result["authorizes_landing"])
         self.assertEqual(result["head"], self.head)
 
     def test_native_wrong_platform_missing_checks_and_failure_refuse(self):
-        for mutation in (lambda r: r.update(platform="foreign"),
-                         lambda r: r["checks"].pop(),
-                         lambda r: r["checks"][0].update(exit_status=1),
-                         lambda r: r["noodle"].update(sha256="f" * 64),
-                         lambda r: r.update(subject="ed3c/soodles#999")):
-            receipt = self.native_receipt()
-            mutation(receipt)
-            with self.subTest(receipt=receipt), self.assertRaises(ValueError):
-                publication.publish(self.root, receipt, self.claim, self.provider)
-            self.assertEqual(self.provider.reads, 0)
+        for schema in (1, 2):
+            for mutation in (lambda r: r.update(platform="foreign"),
+                             lambda r: r["checks"].pop(),
+                             lambda r: r["checks"][0].update(exit_status=1),
+                             lambda r: r["noodle"].update(sha256="f" * 64),
+                             lambda r: r.update(subject="ed3c/soodles#999")):
+                receipt = self.native_receipt(schema)
+                mutation(receipt)
+                with self.subTest(receipt=receipt), self.assertRaises(ValueError):
+                    publication.publish(self.root, receipt, self.claim, self.provider)
+                self.assertEqual(self.provider.reads, 0)
 
     def test_native_producer_records_actual_results_and_rechecks_identity(self):
         receipt = self.native_receipt()
-        for name in publication.NATIVE_TESTS:
-            path = self.root / "tests" / name
-            path.parent.mkdir(exist_ok=True)
-            path.write_text("# isolated native readiness process fixture\n")
         process = subprocess.CompletedProcess([], 0, "actual output", "actual diagnostic")
         with patch.object(publication, "validate_claim", return_value=(self.root, 128)) as identity, \
                 patch.object(publication.subprocess, "run", return_value=process) as run:
             result = publication.native_readiness(self.root, self.claim, receipt["noodle"])
         self.assertEqual(identity.call_count, 2)
-        self.assertEqual(run.call_count, len(receipt["checks"]))
+        self.assertEqual(run.call_count, 2)
+        self.assertEqual(result["schema_version"], 2)
         self.assertTrue(all(check["stdout"] == "actual output" for check in result["checks"]))
         self.assertFalse(result["authorizes_landing"])
 

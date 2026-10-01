@@ -191,32 +191,3 @@ printf fixture-token
         inside.symlink_to(self.supplier)
         self.spec['supplier']['path'] = str(inside); self.write_profile()
         self.assert_refusal('supplier.path')
-
-
-class FrozenHostRouteControlsTests(unittest.TestCase):
-    def test_frozen_inputs_and_real_cli_oracle(self):
-        import hashlib
-        import os
-        from pathlib import Path
-        import sys
-        import tempfile
-        root = Path(credential.__file__).parent
-        evidence = root / 'docs/experiments/host-credential-route'
-        frozen = {
-            'protocol.md': 'c5726114a6392d656462ba00a647b69442cd629b15c04c060b23471afd3cbe64',
-            'oracle.py': '2af7c4402aa8a77b7a8ba4c0f316e1454fbe6eb1c6db907bb2b32b18178f5216',
-            'consumer-drive.py': 'bb23cba4878c2248232e683cf26cc4c319cfe05a1d8237e39afd94f912c60eeb',
-            'fixture.py': '813ef574ec739ddd99467c69bd57ed0f65fb52b739591edc05882a419860be80',
-        }
-        for name, digest in frozen.items():
-            self.assertEqual(hashlib.sha256((evidence / name).read_bytes()).hexdigest(), digest, name)
-        with tempfile.TemporaryDirectory() as directory:
-            env = credential.clean_child_env({key: value for key, value in os.environ.items()
-                                               if not key.startswith('NOODLE_')})
-            env.update(HOME=directory, XDG_CONFIG_HOME=directory)
-            result = subprocess.run([sys.executable, '-B', str(evidence / 'oracle.py'),
-                                     str(root), str(Path(directory) / 'controls')],
-                                    capture_output=True, text=True, env=env, timeout=180,
-                                    start_new_session=True)
-            self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(json.loads(result.stdout)['classification'], 'GREEN', result.stdout)

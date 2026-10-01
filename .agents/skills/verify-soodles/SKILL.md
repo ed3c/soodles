@@ -33,6 +33,14 @@ Runtime admission and delivery-recovery fixtures run from a clean committed Sood
 
 For the lock-bound recipes, start each fresh driving session with `./soodles runtime check` on the supplied binary. Its receipt must match the lock before Noodle is used. The runtime driver's doctor doubles as its positive feature drive. For bounded Issue execution, use that recipe's carrier/envelope and canonical-state preflight instead; the Linux lock does not certify a native macOS executable. Recheck after an unexpected failed drive or changed environment before continuing; preserve the failure first. Doctor is not permission to retry unchanged input. A refusal names the invalid field and supported help; a missing prerequisite remains blocked until its owner supplies it.
 
+## Test scope
+
+Use the [Test Manager](../test-manager/SKILL.md) before requesting regression or
+physical controls. Its decision applies to local work and canonical CI; this
+skill and its feature recipes do not append a full-suite run. A feature receipt
+needs the requested feature's controls, not every other mapped feature. Missing
+base or scope goes back to the current Agent for readback/impact analysis.
+
 ## Local drive and shared owner outputs
 
 Use the shipped executable from the repository root:
@@ -51,7 +59,7 @@ Noodle resolves `.agents/skills` by default. Resolution must name this checkout'
 
 For a local runtime-admission drive, require the driver's `receipt.json` with `classification: VERIFIED`, exact candidate head/tree, observed runtime identity, local skill resolution, rejected sentinel and successful cleanup. Other recipes specify their own receipts. Preserve actual argv/provider operations, subjects, output, exit codes and elapsed time where observed. Record skill resolution path/digests, unexpected command failures, expected control refusals, repeated readbacks and verification invocations; label top-level versus child-command scope. Missing measurements are unknown, not zero. These records do not establish a matched baseline/treatment experiment or reduced Agent decision cost.
 
-Local feature receipts have `authorizes_landing: false`; `VERIFIED` is not Issue closure. Only the externally selected delivery owner can produce the admitted Issue's `RESOLVED` receipt. Cloud claims require exact merge/closure/runtime/provider-main readback through GitHub; local claims additionally require Git/Noodle reconciliation. `next: null` alone is not resolution (identity also returns it). Canonical acceptance still runs once for each final candidate through its existing owner; do not repeat it just because this skill was used. A pre-change receipt does not verify a changed candidate. Shorter instructions, lower structural scores or fewer commands do not establish reduced Agent decision cost.
+Local feature receipts have `authorizes_landing: false`; `VERIFIED` is not Issue closure. Only the externally selected delivery owner can produce the admitted Issue's `RESOLVED` receipt. Cloud claims require exact merge/closure/runtime/provider-main readback through GitHub; local claims additionally require Git/Noodle reconciliation. `next: null` alone is not resolution (identity also returns it). Canonical acceptance consumes Test Manager scope for the exact candidate through its existing owner; using this skill adds no full-suite requirement or duplicate run. A pre-change receipt does not verify a changed candidate. Shorter instructions, lower structural scores or fewer commands do not establish reduced Agent decision cost.
 
 ## Cleanup
 

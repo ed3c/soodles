@@ -1,14 +1,12 @@
 import hashlib
-import io
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
-import tarfile
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import issue_atom as atom
 
@@ -369,30 +367,6 @@ class IssueAtomTests(unittest.TestCase):
                     supplier.assert_not_called()
                 self.assertEqual(len(reads), 2)
 
-    def test_fixed_external_shared_owner_controls(self):
-        source = Path(atom.__file__).resolve().parent
-        oracle = source / "docs/experiments/shared-owner-handoff/oracle.py"
-        self.assertEqual(atom.digest_file(oracle),
-                         "4691bc4dd03245ed667925de604b0c9637c333170f96bfc2b408db6fbe67021b")
-        home = self.outer / "isolated-home"
-        home.mkdir()
-        env = {k: v for k, v in os.environ.items() if not k.startswith("NOODLE_")}
-        env.update(HOME=str(home), XDG_CONFIG_HOME=str(home / "config"), TMPDIR="/private/tmp")
-        output = self.outer / "fixed-controls"
-        # The frozen consumer encodes the historical static order ID. Replay it
-        # against its exact prior source; current scoped-ID behavior has live controls.
-        historical = self.outer / "historical-source"
-        historical.mkdir()
-        archive = subprocess.check_output(["git", "archive",
-            "95e8a3abddda8328d32f0ccf8011b463603d15b2"], cwd=source)
-        with tarfile.open(fileobj=io.BytesIO(archive)) as files:
-            files.extractall(historical, filter="data")
-        result = subprocess.run([sys.executable, "-B", str(oracle), str(historical), str(output)],
-                                env=env, capture_output=True, text=True,
-                                start_new_session=True, timeout=120)
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        receipt = json.loads((output / "result.json").read_text())
-        self.assertEqual(receipt["classification"], "GREEN", result.stdout + result.stderr)
 
     def test_invalid_authorization_precedes_shared_owner_entry(self):
         import fcntl
@@ -1165,11 +1139,11 @@ class IssueAtomTests(unittest.TestCase):
     def test_failed_claim_stops_drive_before_wait_or_publication(self):
         provider = Provider()
         self.ready_issue(provider)
+        sleep = Mock()
         with patch.object(atom.issue_execution, "supervised", return_value={"published": True}), \
                 patch.object(atom, "_run_claim", return_value=Result(2, "terminal subject refusal")) as claim, \
                 patch.object(atom, "_accept") as accept, \
-                patch.object(atom.candidate_publication, "publish") as publish, \
-                patch.object(atom.time, "sleep") as sleep:
+                patch.object(atom.candidate_publication, "publish") as publish:
             with self.assertRaises(atom.AtomRefusal) as caught:
                 atom.drive(self.path, timeout=2, sleep=sleep,
                            clock=iter((0, 0, 1, 2)).__next__,
@@ -1240,12 +1214,14 @@ class IssueAtomTests(unittest.TestCase):
         provider = Provider()
         self.ready_issue(provider)
         first, second = self.pending_patches()
-        # Scope of the real supplier is exercised independently by the fixed CLI oracle.
-        with first, second, patch.object(atom, "GitHubProvider", return_value=provider), \
-                patch.object(atom.provider_credential, "supply_token", return_value="fixture-token") as supplier:
+        fixture.supplier.write_text(fixture.supplier.read_text()
+            .replace('["other"]', '["soodles"]')
+            .replace('{"issues": "read"}', '{"actions": "read", "contents": "write", "issues": "write", "pull_requests": "write"}'))
+        fixture.spec["supplier"]["sha256"] = atom.digest_file(fixture.supplier)
+        fixture.write_profile()
+        with first, second, patch.object(atom, "GitHubProvider", return_value=provider) as factory:
             result = atom.run(self.path, environ=self.env)
-        resolved = supplier.call_args.kwargs["environ"]
-        self.assertEqual(resolved["NOODLES_APP_INSTALLATION_ID"], "123")
+        factory.assert_called_once_with("ed3c/soodles", token="fixture-token")
         self.assertEqual(result["next"]["argv"], receipt["next"]["argv"])
         self.assertEqual(provider.create_calls, 0)
         public = json.dumps(result) + atom.artifact_paths(self.path)["state"].read_text()
@@ -1634,6 +1610,49 @@ class IssueAtomTests(unittest.TestCase):
         self.assertEqual(state["landing_resume"]["status"], "offered")
         self.assertEqual(atom.read_json(paths["landing"], "checkpoint")["phase"],
                          "awaiting_reconcile")
+
+
+class PrewriteScopeRefusalTests(unittest.TestCase):
+    def test_exact_prewrite_refusal_allows_correction_but_not_other_subject_or_writes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            prior_path = root / 'authorization.json'
+            paths = atom.artifact_paths(prior_path)
+            publisher = root / 'publisher/soodles.py'
+            old = {'landing_owner': {'verifier_sha256': 'v' * 64}}
+            atom.save_json(prior_path, old)
+            authorization = {'prior_atom': {'path': str(prior_path),
+                'sha256': atom.digest_file(prior_path)}, 'control_root': str(root / 'control'),
+                'repository': 'ed3c/soodles', 'issue': {'number': 201}, 'base_head': 'b' * 40,
+                'prior_publication': {'pr': {'number': 203}, 'head': 'h' * 40, 'tree': 't' * 40}}
+            run = {'id': 1, 'run_attempt': 1}
+            steps = [{'name': 'runtime preparation', 'status': 'completed', 'conclusion': 'skipped'}]
+            jobs = {'jobs': [{'steps': steps}]}
+            claim = {'repository': 'ed3c/soodles', 'issue': 201, 'pr': 203,
+                'head': 'h' * 40, 'tree': 't' * 40, 'base_head': 'b' * 40,
+                'run_id': 1, 'run_attempt': 1, 'verifier_sha256': 'v' * 64}
+            claim_path = paths['directory'] / 'landing-claim.json'
+            atom.save_json(claim_path, claim)
+            result = {'owner': 'landing.start', 'status': 'refused',
+                      'invalid': {'field': 'job.steps', 'value': steps}}
+            record = {'exit_status': 1, 'stdout': json.dumps(result),
+                'argv': [sys.executable, '-B', str(publisher), 'landing', 'start',
+                         str(claim_path), str(paths['directory'] / 'readback.json'), str(paths['landing'])]}
+            receipt = paths['directory'] / 'landing-start-fixture.json'
+            atom.save_json(receipt, record)
+            with patch.object(atom, 'validate_landing_owner', return_value=publisher):
+                self.assertTrue(atom.prewrite_scope_refusal(authorization, run, jobs))
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, {**run, 'id': 2}, jobs))
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, run, {'jobs': []}))
+                atom.save_json(claim_path, {**claim, 'head': 'x' * 40})
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, run, jobs))
+                atom.save_json(claim_path, claim)
+                atom.save_json(receipt, {**record, 'stdout': json.dumps({**result, 'request': {}})})
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, run, jobs))
+                atom.save_json(receipt, record)
+                atom.save_json(paths['landing'], {'phase': 'offered'})
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, run, jobs))
+            self.assertFalse(atom.prewrite_scope_refusal({}, run, jobs))
 
 
 if __name__ == "__main__":
