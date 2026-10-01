@@ -1358,7 +1358,11 @@ class IssueAtomTests(unittest.TestCase):
 
         first_transition = {"action": "dispatch"}
         second_transition = {"action": "reconcile"}
-        transitions = [first_transition, second_transition]
+        waiting = {"owner": "landing.advance", "action": "readback", "phase": "admitted",
+                   "next": {"kind": "provider_readback", "owner": "GitHub",
+                            "requests": {"pr": {"method": "GET", "url": "fixture://exact-pr"}}}}
+        deadlock = {"owner": "landing.advance", "action": "readback", "phase": "admitted", "next": None}
+        transitions = [first_transition, waiting, deadlock, second_transition]
 
         def advance(_checkpoint, _snapshot):
             return transitions.pop(0)
@@ -1384,6 +1388,14 @@ class IssueAtomTests(unittest.TestCase):
         first = atom.run(self.path, environ=self.env, provider=provider)
         self.assertEqual(first["waiting_on"], "fresh provider readback")
         self.assertEqual(first["next"]["argv"], atom.same_command(self.path))
+        self.assertEqual(provider.merge_calls, 1)
+        observed = atom.run(self.path, environ=self.env, provider=provider)
+        self.assertEqual(observed["status"], "pending")
+        self.assertEqual(observed["landing"], waiting)
+        stopped = atom.run(self.path, environ=self.env, provider=provider)
+        self.assertEqual(stopped["status"], "refused")
+        self.assertEqual(stopped["repair"]["classification"], "no_legal_next")
+        self.assertEqual(stopped["landing"], deadlock)
         self.assertEqual(provider.merge_calls, 1)
         second = atom.run(self.path, environ=self.env, provider=provider)
         self.assertEqual(second["status"], "resolved")

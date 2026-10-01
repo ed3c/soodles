@@ -23,7 +23,11 @@ class LifecycleActivationTests(unittest.TestCase):
             "supervisor_admission.py", "issue_admission.py", "issue_execution.py",
             "candidate_publication.py", "provider_credential.py", "provider_transport.py",
             "repository_binding.py", "dependency_binding.py", "github_reader.py",
-            "landing.py", "policy/runtime.lock.json"}
+            "landing.py", "policy/runtime.lock.json", "atom_repair.py",
+            "policy/repair-policy.json", "provider_readback.py", "system_context.py",
+            "contracts/system-v1/routes.json", "contracts/system-v1/common.md",
+            "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
+            "contracts/system-v1/readback.md", "provider-readback"}
         self.assertEqual(set(atom.LIFECYCLE_FILES), expected_files)
         for name in expected_files:
             destination = self.runtime / name

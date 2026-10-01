@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 202
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "73e17a5d1435ff412603e24c36422cb36b32f33a5a67b5cba03f49338fa15337",
+      "treatment_sha256": "f50cc51f1bcc7ce4f1f872340f80ce6fe71f96dd2fe06a09f66d2f32bd5a4124"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "atom_repair.py",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "f782bd25976b164bbbb8999b73a744d066d23de7a0a88643b07ab6bca54a0b9f"
+    },
+    {
+      "path": "contracts/system-v1/issue-atom.md",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "5ad678378eaee905e938783a98ca5a92d8a250f028593250d5cb515ebd298e19"
+    },
+    {
+      "path": "docs/experiments/bounded-repair/product-results.json",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "7c8c5050a89ee56a79371429c37441d9de9b535f3bd2df0efa027a3cd1a51fd9"
+    },
+    {
+      "path": "docs/experiments/bounded-repair/protocol.md",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "9647ce2391e10724b2a8e2273ab764b93d79256e6b9fc352be579057df6dd8f3"
+    },
+    {
+      "path": "docs/experiments/bounded-repair/results.md",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "9dd54c0b50fd72eb481eaed1a5dd994201e884dd9bebf3cc631a958b94ff78c3"
+    },
+    {
+      "path": "docs/experiments/bounded-repair/supplement.md",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "b6930a884b5022b6e97964e6a352cd52812b97937a51b45a3138faa9769665f9"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "2f39f9329cf72a145ae0ec33d9350f94859f9387d41bf8ccb13c41231dac4b75"
+    },
+    {
+      "path": "policy/repair-policy.json",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "1e9de3ea83b8af0b5498c068f13921be25955ed09cf86a0fd22139a2c1676820"
+    },
+    {
+      "path": "system_context.py",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "eb669ff106bfc5bcc468f5bcbe48d6cc05a385e7315989461b786e6e1ba2eaaf"
+    },
+    {
+      "path": "tests/test_atom_repair.py",
+      "role": "Implementation, declared control or actual local process evidence; non-authorizing",
+      "sha256": "cac89a71b0b6d38181e7b83a0d098a220fadfa92585b2fff0102534014f6b716"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#202"
+  },
+  "authorizes_landing": false
+}

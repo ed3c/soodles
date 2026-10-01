@@ -345,7 +345,7 @@ def _comparison_before_effect(root, claim, issue, number, expected_body=None):
     return contract
 
 
-def publish(root, acceptance, claim, provider, push=None):
+def publish(root, acceptance, claim, provider, push=None, before_effect=None, refresh=None):
     root, number = validate_inputs(root, acceptance, claim)
     repository = provider.repository_info()
     _require(repository.get("full_name") == claim["repository"]
@@ -366,6 +366,8 @@ def publish(root, acceptance, claim, provider, push=None):
                  "github.branch.head", remote.get("object", {}).get("sha"), "exact_provider_branch")
     else:
         _comparison_before_effect(root, claim, provider.issue(number), number, issue["body"])
+        if before_effect is not None:
+            before_effect("branch_push")
         push = push or _git
         result = push(root, "push", "--porcelain",
                       "--force-with-lease=refs/heads/" + branch + ":",
@@ -383,6 +385,8 @@ def publish(root, acceptance, claim, provider, push=None):
     created = False
     if pull is None:
         _comparison_before_effect(root, claim, provider.issue(number), number, issue["body"])
+        if before_effect is not None:
+            before_effect("pr_create")
         try:
             provider.create_pull(issue["title"], branch, claim["base_branch"], body)
         except ProviderMutationUnknown:
@@ -390,7 +394,15 @@ def publish(root, acceptance, claim, provider, push=None):
         pull = _read_exact_pull(provider, branch, claim["head"], claim["base_branch"], body)
         _require(pull is not None, "github.pull.outcome", "unknown", "fresh_provider_pr_readback")
         created = True
-    pull = provider.pull(pull["number"])
+    confirmed_number = pull["number"]
+    pull = provider.pull(confirmed_number)
+    # List and branch already confirm this candidate; only the known base head
+    # in the same PR detail is eligible for one bounded, read-only refresh.
+    if (refresh is not None and _exact_pull(pull, branch, claim["base_head"], claim["base_branch"], body)
+            and pull.get("number") == confirmed_number and pull.get("merged") is not True):
+        pull = refresh(confirmed_number, lambda value: (
+            _exact_pull(value, branch, claim["head"], claim["base_branch"], body)
+            and value.get("number") == confirmed_number and value.get("merged") is not True))
     _require(_exact_pull(pull, branch, claim["head"], claim["base_branch"], body),
              "github.pull.readback", pull, "exact_provider_pr")
     return {
@@ -402,7 +414,7 @@ def publish(root, acceptance, claim, provider, push=None):
     }
 
 
-def publish_amendment(root, acceptance, claim, provider, prior, *, offered, push=None):
+def publish_amendment(root, acceptance, claim, provider, prior, *, offered, push=None, refresh=None):
     """Read back one already offered update to the same PR, or offer it once.
 
     The lifecycle owner supplies its persisted prior publication and records
@@ -448,6 +460,15 @@ def publish_amendment(root, acceptance, claim, provider, prior, *, offered, push
     _require(remote_head == claim["head"], "github.branch.outcome", remote_head,
              "fresh_provider_branch_readback_without_retry")
     current = provider.pull(pr["number"])
+    # Only an exact old PR beside a confirmed new branch is stale evidence.
+    # Conflicting identity, unknown push outcome and ordinary waits never enter
+    # this adapter. The atom callback owns its durable budget, not this publisher.
+    if (refresh is not None
+            and _exact_pull(current, branch, prior["head"], claim["base_branch"], body)
+            and current["number"] == pr["number"] and current.get("merged") is not True):
+        current = refresh(pr["number"], lambda value: (
+            _exact_pull(value, branch, claim["head"], claim["base_branch"], body)
+            and value["number"] == pr["number"] and value.get("merged") is not True))
     _require(_exact_pull(current, branch, claim["head"], claim["base_branch"], body)
              and current["number"] == pr["number"], "github.pull.readback", current,
              "same_exact_provider_pr")
@@ -493,4 +514,5 @@ def run(root, acceptance_path, claim_path):
 
 def refusal_output(error):
     return {"owner": "soodles.candidate-publication", "status": "refused",
-            "invalid": error.invalid, "next": error.next, "authorizes_landing": False}
+            "invalid": error.invalid, "next": error.next, "authorizes_landing": False,
+            **({"repair": error.repair} if hasattr(error, "repair") else {})}

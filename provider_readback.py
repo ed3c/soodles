@@ -21,6 +21,33 @@ import urllib.request
 from repository_binding import profile
 
 
+def bounded_pull(repository, number, token, timeout):
+    """One GET in a killable process; the caller supplies remaining atom time.
+
+    Fixed worker source and stdin credentials, with no write transport or model
+    carrier. The outer timeout bounds response-body reads as well as connect.
+    """
+    require(type(number) is int and number > 0, "pr.number", number)
+    url = f"https://api.github.com/repos/{repository}/pulls/{number}"
+    _repository_from_url(url)
+    require(0 < timeout <= 60, "repair.deadline", timeout)
+    worker = ("import json,sys; from provider_readback import _http; "
+              "v=json.load(sys.stdin); "
+              "print(json.dumps(_http('GET',v['url'],v['token'])[0]))")
+    result = subprocess.run(
+        [sys.executable, "-B", "-c", worker], cwd=Path(__file__).resolve().parent,
+        input=json.dumps({"url": url, "token": token}), capture_output=True,
+        text=True, timeout=timeout,
+        env={key: value for key, value in os.environ.items()
+             if key in {"PATH", "SYSTEMROOT", "TMPDIR", "SSL_CERT_FILE", "SSL_CERT_DIR"}})
+    require(result.returncode == 0, "repair.read.exit", result.returncode,
+            "successful_bounded_provider_readback")
+    try:
+        return json.loads(result.stdout)
+    except ValueError as error:
+        raise ReadbackRefusal("repair.read.json", type(error).__name__) from error
+
+
 class ReadbackRefusal(RuntimeError):
     def __init__(self, field, value, required="corrected_provider_readback_input"):
         self.invalid = {"field": field, "value": value}

@@ -2,68 +2,28 @@
 
 Use this feature to compare a scoped instruction change or maintain this verification capability. The originating issue owns intent, cross-file migration and delivery; this recipe owns the bounded experiment procedure. Maintenance checks source/live correspondence, not automatic model improvement. N observations, P guidance, tested L refusals and actual R provider readbacks retain separate claims.
 
-## Mandatory assessment after an observed defect
+## Declared defect controls and optional behavior comparison
 
-Every defect discovered during Soodles execution triggers both assessments below,
-coordinated automatically by the authorized Session under the existing owner and
-carrier. The user does not select an axis or provide derivable authorization
-paths/digests. Testing cost does not waive either assessment. This is a defect
-trigger, not a requirement to evaluate unrelated features on every invocation.
+An observed defect first needs its actual subject, owner/checkpoint, process result
+and effects preserved. Use the admitted Issue's executable controls and existing
+owner entry. Do not infer retryability from error prose, replace authority, or
+turn every product defect into a new model experiment. The atom's fixed finite
+policy owns supported readback/projection repair, durable budgets and typed stops.
+`./system-context entry issue-atom run` selects the committed decisions and their
+necessary P-class AND closure; it does not run a model or authorize a transition.
 
-Before selecting a correction, apply an evals skill to this defect. Use
-`eval-audit` for an existing evaluator/pipeline, `error-discovery` for traces whose
-failure modes are not yet classified, and `evals-start` to select the applicable
-method when no specific route is known. Follow the selected skill's actual
-workflow; naming a skill is not an assessment. Record its pinned version,
-findings, reproduction and evaluator/control gaps in this atom's evidence.
-Capture missing real failure evidence before scoring; synthetic controls do not
-establish that a historical bug was reproduced. Complete the necessary oracle
-validation before scored baseline or hill climb. The sequence is:
+When the admitted task selects an Agent behavior comparison, use the methods
+below and freeze the measurement before scoring. Product behavior requires real
+owner/CLI controls; Agent improvement requires fresh matched consumer evidence.
+Keep their findings separate and establish causality before attributing a change.
+Unavailable measurement is INCONCLUSIVE for that claim, not a product failure or
+permission to create another carrier. Source baseline/treatment hashes alone are
+identity evidence. Existing historical experiments retain their original scope.
 
-`observed bug -> evals assessment -> fixed measurement -> P-class/CLI correction -> product and fresh behavior checks -> confirmation -> existing delivery`
-
-1. Preserve the actual failure, subject/head, current owner state and raw effects.
-   Reproduce the product condition at its real CLI/owner boundary, with the nearest
-   legal case and a discriminating negative control. State, identity and effect
-   defects are corrected in their executable owner; prompt wording cannot replace
-   its hard gates or create a missing transition.
-2. Fix an external evaluator and neutral task, then run fresh consumers on the
-   relevant workload, including handoff/recovery when affected. Capture actual
-   tool requests/results and owner readbacks independently of the consumer's
-   summary. Evaluate task completion, guessed routes, avoidable requests for
-   derivable user input, repeated transitions and identity/effect safety. Objective
-   checks use code; semantic criteria require the validated judge described below.
-3. Report product and Agent behavior separately as PASS, FAIL or INCONCLUSIVE;
-   invalid evidence cannot produce a behavioral verdict. A failed Agent task on a
-   broken product does not establish a prompt defect. Hold instructions fixed to
-   isolate a CLI treatment; hold executable behavior fixed to isolate an instruction
-   treatment. A combined change remains combined unless those controls establish
-   attribution. Neither axis is skipped because the other already failed.
-4. Use the evals findings to establish the shortest verified path across both
-   P-class and CLI: P-class identifies the existing entry and tells the consumer
-   to use its current typed `next`; the CLI derives available inputs, validates
-   identity and owns state/effect transitions and hard gates. Do not embed a
-   historical phase command in the prompt or make the model reconstruct one.
-   Repair the demonstrated cause and rerun both assessments; preserve an
-   already-correct layer with evidence. A shorter path must preserve required
-   observations, gates and recovery. Before claiming fewer
-   guesses or interruptions, require a matched baseline and an independent
-   confirmation after winner selection. An unreproduced symptom remains unproved;
-   it is not a zero-failure improvement. Keep the bounded stop rule and failures.
-5. Bind required evidence to the same atom and exact candidate through its existing
-   admission/publication/delivery owner. Both assessments must be complete and meet
-   their fixed criteria before declaring the defect closed. Missing runtime support
-   or evidence remains an explicit gap; prose and self-reported PASS cannot supply
-   an executable gate. Existing delivery and unknown-write readback requirements
-   still apply. Return stable counterexamples to owner controls and this recipe so
-   the next fresh Session can continue from evidence rather than conversation.
-
-Automation means the Session selects the applicable methods, invokes admitted
-owners, captures evidence and obtains these verdicts without repeated user
-steering. It does not guarantee that an arbitrary defect can be causally classified
-from incomplete observations. An unsupported comparison returns INCONCLUSIVE and
-the exact missing capability/evidence. Preserve earlier frozen experiments; new
-criteria require a separately fixed comparison boundary, never revised old scores.
+For product-only corrections, relevant deterministic controls, original-predicate
+confirmation and fixed identity/effect invariants are sufficient for that local
+claim. Existing native readiness, Linux exact-head acceptance and external landing
+remain separate. This recipe adds no universal evals requirement or approval gate.
 
 ## Select the applicable method
 
@@ -219,3 +179,8 @@ After supported behavior, keep reusable operation steps here or in the owning fe
 Keep evidence outside disposable state and verify it survives cleanup. Stop processes/resources created by the drive through their owner; retain pending delivery worktrees for Noodle reconciliation. Every feature receipt has `authorizes_landing: false`. Canonical acceptance and supervised delivery remain with their existing owners.
 
 Sources: `landing.py` and the selected owner define effects; `scripts/record_context.py` records bounded subprocess observations. The experiment's pinned external criteria judge its limited claim, not global correctness.
+
+Known deterministic faults use declared owner controls. Unknown behavior requests
+scoped offline evals evidence; it does not add a runtime gate. New P-class routes
+or demonstrated routing drift require scoped architecture/verification-skill
+maintenance, not a prescribed Noodle/pstack reasoning DAG or full map audit.

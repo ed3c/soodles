@@ -40,5 +40,134 @@
         "contracts/system-v1/common.md"
       ]
     }
+  },
+  "entries": {
+    "issue-atom run": {
+      "sources": [
+        "issue_atom.py",
+        "candidate_publication.py",
+        "provider_readback.py",
+        "system_context.py",
+        "issue-atom"
+      ],
+      "decisions": [
+        {
+          "signal": "missing_input",
+          "consumer": "issue_atom._run_owned",
+          "requires": [
+            "contracts/system-v1/issue-atom.md"
+          ]
+        },
+        {
+          "signal": "identity_conflict",
+          "consumer": "issue_atom._run_owned",
+          "requires": [
+            "contracts/system-v1/issue-atom.md"
+          ]
+        },
+        {
+          "signal": "stale_pr",
+          "consumer": "issue_atom.refresh_publication",
+          "requires": [
+            "contracts/system-v1/candidate.md"
+          ]
+        },
+        {
+          "signal": "invalid_entry",
+          "consumer": "system_context.select",
+          "requires": [
+            "contracts/system-v1/readback.md"
+          ]
+        },
+        {
+          "signal": "unknown_effect",
+          "consumer": "issue_atom._run_owned",
+          "requires": [
+            "contracts/system-v1/readback.md"
+          ]
+        },
+        {
+          "signal": "failed_process",
+          "consumer": "issue_atom._run_owned",
+          "requires": [
+            "contracts/system-v1/issue-atom.md"
+          ]
+        },
+        {
+          "signal": "cleanup_residue",
+          "consumer": "issue_atom.finish_host",
+          "requires": [
+            "contracts/system-v1/issue-atom.md"
+          ]
+        },
+        {
+          "signal": "no_legal_next",
+          "consumer": "issue_atom._run_owned",
+          "requires": [
+            "contracts/system-v1/readback.md"
+          ]
+        },
+        {
+          "signal": "missing_projection",
+          "consumer": "issue_atom.restore_publication",
+          "requires": [
+            "contracts/system-v1/candidate.md"
+          ]
+        },
+        {
+          "signal": "unknown_signal",
+          "consumer": "issue_atom._run_owned",
+          "requires": [
+            "contracts/system-v1/issue-atom.md"
+          ]
+        }
+      ]
+    },
+    "provider-readback consume": {
+      "sources": [
+        "provider_readback.py",
+        "provider-readback"
+      ],
+      "decisions": [
+        {
+          "signal": "validate_GET_projection",
+          "consumer": "provider_readback._next_projection",
+          "requires": [
+            "contracts/system-v1/readback.md"
+          ]
+        },
+        {
+          "signal": "materialize_readback",
+          "consumer": "provider_readback.consume",
+          "requires": [
+            "contracts/system-v1/readback.md"
+          ]
+        }
+      ]
+    },
+    "soodles candidate publish": {
+      "sources": [
+        "candidate_publication.py",
+        "soodles",
+        "soodles.py"
+      ],
+      "decisions": [
+        {
+          "signal": "validate_inputs",
+          "consumer": "candidate_publication.validate_inputs",
+          "requires": [
+            "contracts/system-v1/candidate.md"
+          ]
+        },
+        {
+          "signal": "confirm_effect",
+          "consumer": "candidate_publication.publish",
+          "requires": [
+            "contracts/system-v1/candidate.md",
+            "contracts/system-v1/readback.md"
+          ]
+        }
+      ]
+    }
   }
 }

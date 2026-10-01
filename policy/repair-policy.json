@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "limits": {
+    "readback": 1,
+    "rebuild": 1,
+    "model": 1,
+    "verification": 1,
+    "actions": 4,
+    "seconds": 60
+  },
+  "protected": [
+    "subject",
+    "evidence",
+    "verifier",
+    "policy",
+    "limits",
+    "unknown_writes"
+  ],
+  "actions": [
+    "stop",
+    "readback",
+    "rebuild",
+    "model"
+  ],
+  "signals": {
+    "missing_input": {
+      "producer": "external_owner",
+      "consumer": "issue_atom._run_owned",
+      "action": "stop",
+      "requires": [
+        "contracts/system-v1/issue-atom.md"
+      ],
+      "missing_fact": "named owner prerequisite",
+      "wake": "material_owner_readback"
+    },
+    "identity_conflict": {
+      "producer": "identity_validator",
+      "consumer": "issue_atom._run_owned",
+      "action": "stop",
+      "requires": [
+        "contracts/system-v1/issue-atom.md"
+      ],
+      "missing_fact": "unchanged admitted identity",
+      "wake": "material_owner_readback"
+    },
+    "stale_pr": {
+      "producer": "candidate_publication.publish",
+      "consumer": "issue_atom.refresh_publication",
+      "action": "readback",
+      "requires": [
+        "contracts/system-v1/candidate.md"
+      ],
+      "missing_fact": "exact PR head after confirmed branch readback",
+      "wake": "material_owner_readback"
+    },
+    "invalid_entry": {
+      "producer": "system_context.select",
+      "consumer": "system_context.select",
+      "action": "stop",
+      "requires": [
+        "contracts/system-v1/readback.md"
+      ],
+      "missing_fact": "registered entry and supported options",
+      "wake": "material_owner_readback"
+    },
+    "unknown_effect": {
+      "producer": "effect_owner",
+      "consumer": "issue_atom._run_owned",
+      "action": "stop",
+      "requires": [
+        "contracts/system-v1/readback.md"
+      ],
+      "missing_fact": "current effect-owner outcome; never reoffer",
+      "wake": "material_owner_readback"
+    },
+    "failed_process": {
+      "producer": "process_owner",
+      "consumer": "issue_atom._run_owned",
+      "action": "model",
+      "requires": [
+        "contracts/system-v1/issue-atom.md"
+      ],
+      "missing_fact": "bounded_patch_capability_required",
+      "wake": "material_owner_readback"
+    },
+    "cleanup_residue": {
+      "producer": "cleanup_owner",
+      "consumer": "issue_atom.finish_host",
+      "action": "stop",
+      "requires": [
+        "contracts/system-v1/issue-atom.md"
+      ],
+      "missing_fact": "owner-confirmed cleanup",
+      "wake": "material_owner_readback"
+    },
+    "no_legal_next": {
+      "producer": "landing_owner",
+      "consumer": "issue_atom._run_owned",
+      "action": "stop",
+      "requires": [
+        "contracts/system-v1/readback.md"
+      ],
+      "missing_fact": "owner transition for satisfied prerequisites",
+      "wake": "material_owner_readback"
+    },
+    "missing_projection": {
+      "producer": "atom_checkpoint",
+      "consumer": "issue_atom.restore_publication",
+      "action": "rebuild",
+      "requires": [
+        "contracts/system-v1/candidate.md"
+      ],
+      "missing_fact": "publication projection from unchanged validated source",
+      "wake": "material_owner_readback"
+    },
+    "unknown_signal": {
+      "producer": "unregistered_owner",
+      "consumer": "issue_atom._run_owned",
+      "action": "stop",
+      "requires": [
+        "contracts/system-v1/issue-atom.md"
+      ],
+      "missing_fact": "registered trusted observation adapter",
+      "wake": "material_owner_readback"
+    }
+  }
+}

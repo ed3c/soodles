@@ -207,3 +207,15 @@ selected controls. Never infer full coverage, add a precautionary full run, or
 repeat historical behavior experiments. Measure normal execution and waits from
 logs. A supervising Session resolves available owner inputs itself under existing
 authorization; an owner label alone is no reason for another human handoff.
+
+For bounded repair, use `./system-context entry issue-atom run` to read committed
+consumer/decision requirements. The same atom command consumes its fixed policy,
+reserves repair intent under its existing locks and returns typed classification,
+missing fact/producer, remaining budget and stop/wake condition. Only an exact
+stale PR beside confirmed branch readback and a disposable publication projection
+have automatic repairs. Unknown effects never grant write replay. Missing trusted
+lineage leaves ordinary lifecycle available without invented zero counters.
+`bounded_patch_capability_required` means no bounded patch-only model carrier is
+installed; it launches zero models. Use current owner readback for continuation,
+not a fresh authorization to reset repair history. This does not require an evals
+skill or Agent comparison unless the admitted Issue selects that measurement.

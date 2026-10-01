@@ -22,6 +22,13 @@ REPLACEMENTS = {
 # Traced owner/consumer coverage for bounded changes. A missing mapping is a
 # scope decision for the supervising Session, never an instruction to run all.
 BOUNDARIES = (
+    (("atom_repair.py", "policy/repair-policy.json"),
+     ("atom_repair", "issue_atom", "lifecycle_activation", "system_context"), ()),
+    (("system_context.py", "contracts/system-v1/routes.json"),
+     ("system_context", "atom_repair", "lifecycle_activation"), ()),
+    (("docs/experiments/bounded-repair/manifest.json",
+      "docs/experiments/bounded-repair/product-results.json"),
+     ("candidate_verification", "atom_repair"), ()),
     (("docs/test-manager-delivery/evidence.json",), ("candidate_verification",), ()),
     (("soodles", "soodles.py", ".github/workflows/runtime.yml"),
      ("admission", "test_suite", "delivery_refs"), ()),

@@ -22,6 +22,7 @@ import tomllib
 import urllib.parse
 
 import candidate_publication
+import atom_repair
 import issue_admission
 import issue_execution
 import provider_credential
@@ -43,7 +44,11 @@ LIFECYCLE_FILES = ("issue-atom", "soodles", "soodles.py", "issue_atom.py",
                    "supervisor_admission.py", "issue_admission.py", "issue_execution.py",
                    "candidate_publication.py", "provider_credential.py", "provider_transport.py",
                    "repository_binding.py", "dependency_binding.py", "github_reader.py",
-                   "landing.py", "policy/runtime.lock.json")
+                   "landing.py", "policy/runtime.lock.json", "atom_repair.py",
+                   "policy/repair-policy.json", "provider_readback.py", "system_context.py",
+                   "contracts/system-v1/routes.json", "contracts/system-v1/common.md",
+                   "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
+                   "contracts/system-v1/readback.md", "provider-readback")
 MARKER_PREFIX = "<!-- soodles:local-atom-v1:"
 
 
@@ -608,6 +613,10 @@ def external_landing_resume(authorization, state, paths, environ):
 
 
 class GitHubProvider(candidate_publication.GitHubProvider):
+    def repair_pull(self, number, timeout):
+        from provider_readback import bounded_pull
+        return bounded_pull(self.repository, number, self.token, timeout)
+
     def issues(self):
         return self.request("GET", "/issues?state=all&sort=created&direction=desc&per_page=100")
 
@@ -1310,11 +1319,19 @@ def _accept(authorization, claim, output):
     return result
 
 
-def publish_candidate(authorization, state, paths, claim, acceptance, provider):
+def publish_candidate(authorization, state, paths, claim, acceptance, provider, repair=None):
     if "prior_publication" not in authorization:
+        def before_effect(action):
+            key = "publication_" + action
+            require(key not in state["writes"], "publication.effect", action,
+                    "fresh_provider_readback_without_retry")
+            state["writes"][key] = {"head": claim["head"], "status": "offered"}
+            save_json(paths["state"], state)
         return candidate_publication.publish(
             Path(claim["worktree_path"]), acceptance, claim, provider,
-            push=authenticated_push(provider))
+            push=authenticated_push(provider), before_effect=before_effect,
+            refresh=(lambda number, confirm: refresh_publication(repair, provider, number, confirm))
+            if repair is not None and state.get("repair") is not None and repair.disabled is None else None)
     intent = {"old_head": authorization["prior_publication"]["head"],
               "new_head": claim["head"],
               "pr": authorization["prior_publication"]["pr"]["number"],
@@ -1328,7 +1345,116 @@ def publish_candidate(authorization, state, paths, claim, acceptance, provider):
     return candidate_publication.publish_amendment(
         Path(claim["worktree_path"]), acceptance, claim, provider,
         authorization["prior_publication"], offered=True,
-        push=authenticated_push(provider) if prior_intent is None else None)
+        push=authenticated_push(provider) if prior_intent is None else None,
+        refresh=(lambda number, confirm: refresh_publication(repair, provider, number, confirm))
+        if repair is not None and state.get("repair") is not None and repair.disabled is None else None)
+
+
+def refresh_publication(repair, provider, number, confirm):
+    from provider_readback import ReadbackRefusal
+    try:
+        return repair.perform("stale_pr", lambda remaining: provider.repair_pull(number, remaining()), confirm)
+    except (ReadbackRefusal, OSError, subprocess.TimeoutExpired) as error:
+        raise AtomRefusal("repair.readback", type(error).__name__,
+                          "fresh_provider_readback_without_retry", owner="GitHub") from error
+
+
+def repair_binding(authorization, policy):
+    # Candidate head and prior-reference fields are continuity, not permission to
+    # change the original evidence requirements or independently selected judge.
+    fixed = {key: authorization.get(key) for key in (
+        "repository", "control_root", "base_head", "noodle", "carrier", "workflow",
+        "landing_owner", "lifecycle_owner")}
+    fixed["issue"] = {key: authorization["issue"][key] for key in ("title", "body")}
+    root = Path(__file__).resolve().parent
+    source = {name: digest_file(root / name) for name in LIFECYCLE_FILES}
+    return atom_repair.digest({"authorization": fixed, "policy": policy, "source": source})
+
+
+def repair_controller(authorization, state, paths, *, fresh=False, authorization_path=None):
+    root = Path(__file__).resolve().parent
+    raw = (root / atom_repair.POLICY_PATH).read_bytes()
+    policy = atom_repair.load(raw)
+    binding = repair_binding(authorization, policy)
+    # Independent successors cannot share mutable counters safely. No copying,
+    # reset or new ledger; prior history stays with its original owner.
+    disabled = "exclusive_lineage_continuity_required" if (
+        "prior_atom" in authorization or "prior_publication" in authorization) else None
+    context = {}
+    if state.get("repair") is not None:
+        context = json.loads(json.dumps(state["repair"].get("context", {})))
+    if fresh and disabled is None and "number" not in authorization["issue"]:
+        # Only this owner creating a new Issue can establish a new lineage.
+        # Adopted Issues and legacy checkpoints remain normally operable.
+        if authorization.get("lifecycle_owner") is not None:
+            validate_lifecycle_owner(authorization, executing=True)
+            trusted = True
+        else:
+            trusted = True
+            names = ("atom_repair.py", atom_repair.POLICY_PATH) + LIFECYCLE_FILES
+            for name in dict.fromkeys(names):
+                result = subprocess.run(["git", "show", authorization["base_head"] + ":" + name],
+                                        cwd=authorization["control_root"], capture_output=True, timeout=30)
+                if result.returncode != 0 and name in {"atom_repair.py", atom_repair.POLICY_PATH}:
+                    trusted = False  # Legacy base without repair bindings.
+                    break
+                require(result.returncode == 0, "repair.source", name,
+                        "complete_supervisor_selected_repair_source")
+                require(result.stdout == (root / name).read_bytes(), "repair.source", name,
+                        "unchanged_supervisor_selected_repair_source")
+        if trusted:
+            from system_context import compile_repair
+            context = compile_repair(root)
+            state["repair"] = atom_repair.new_history(state["authorization_sha256"], binding, policy, context=context)
+    def invariants():
+        from system_context import compile_repair
+        require(compile_repair(root) == context, "repair.context", "changed compiled closure")
+        require(repair_binding(authorization, policy) == binding,
+                "repair.source", "changed", "original_source_and_authorization_binding")
+        files = {}
+        for name in ("claim", "acceptance", "envelope"):
+            # These inputs have already passed the owning publication boundary.
+            # Their absence is not a stable invariant that can confirm repair.
+            require(paths[name].is_file(), "repair.evidence." + name, str(paths[name]),
+                    "unchanged_required_publication_evidence")
+            files[name] = digest_file(paths[name])
+        claim = read_json(paths["claim"], "publication_claim")
+        acceptance = read_json(paths["acceptance"], "acceptance")
+        candidate_publication.validate_inputs(Path(claim["worktree_path"]), acceptance, claim)
+        require(files["envelope"] == state.get("envelope_sha256"),
+                "repair.evidence.envelope", "changed", "original_execution_envelope")
+        if authorization_path is not None:
+            files["authorization"] = digest_file(authorization_path)
+            require(files["authorization"] == state["authorization_sha256"],
+                    "repair.authorization", "changed", "original_authorization_bytes")
+        return {"files": files, "writes": atom_repair.digest(state.get("writes")),
+                "publication_source": atom_repair.digest(state.get("publication_source")),
+                "binding": binding}
+    controller = atom_repair.Controller(state, policy, binding, lambda: save_json(paths["state"], state),
+                                       invariants=invariants, context=context, disabled=disabled)
+    if state.get("repair") is not None and disabled is None:
+        controller.check()  # Changed policy/invariants refuse before normal effects too.
+    return controller
+
+
+def restore_publication(state, claim, repair):
+    if state.get("publication") is not None:
+        return state["publication"]
+    source = state.get("publication_source")
+    def valid(value):
+        if not isinstance(source, dict) or set(source) != {"claim_sha256", "value", "sha256"}:
+            return False
+        if source["claim_sha256"] != atom_repair.digest(claim) or source["sha256"] != atom_repair.digest(value):
+            return False
+        candidate_publication.validate_amendment_prior(
+            value, claim["repository"], claim["subject"], int(claim["subject"].split("#")[1]))
+        return value["head"] == claim["head"] and value["tree"] == claim["tree"]
+    require(isinstance(source, dict) and valid(source.get("value")), "repair.projection.source", "missing or changed",
+            "unchanged_validated_publication_source")
+    result = repair.perform("missing_projection", lambda remaining: json.loads(json.dumps(source["value"])), valid)
+    state["publication"] = result
+    repair.save()
+    return result
 
 
 def authenticated_push(provider):
@@ -1986,8 +2112,39 @@ def _run(authorization_path, *, environ=None, provider=None):
             raise AtomRefusal("noodle.atom_entry", "busy", "current_same_entry_owner_readback",
                               owner="soodles.issue-atom",
                               known={"control_root": str(runtime.parent)}) from None
-        return _run_owned(authorization_path, authorization, authorization_digest, paths,
-                          environ=environ, provider=provider)
+        try:
+            return _run_owned(authorization_path, authorization, authorization_digest, paths,
+                              environ=environ, provider=provider)
+        except (AtomRefusal, candidate_publication.PublicationRefusal,
+                atom_repair.RepairRefusal) as error:
+            # Diagnostic projection only; preserve the invoked owner's next.
+            state = read_json(paths["state"], "state") if paths["state"].exists() else {}
+            if isinstance(error, AtomRefusal):
+                result = refusal_output(error, authorization_path)
+            else:
+                result = {"owner": "soodles.issue-atom", "status": "refused",
+                          "invalid": getattr(error, "invalid", {"field": "process", "value": type(error).__name__}),
+                          "next": getattr(error, "next", {
+                              "kind": "input", "owner": "external-supervisor",
+                              "required": ["material_owner_readback"],
+                              "argv": same_command(authorization_path)}),
+                          "authorizes_landing": False}
+            try:
+                controller = repair_controller(authorization, state, paths)
+                result["repair"] = controller.report(atom_repair.observation(error),
+                                                     stop=getattr(error, "invalid", None)
+                                                     if isinstance(error, atom_repair.RepairRefusal) else None)
+            except (atom_repair.RepairRefusal, OSError) as invalid:
+                result["repair"] = {"classification": "identity_conflict", "action": "stop",
+                                    "missing_fact": "valid immutable repair policy", "producer": "external-supervisor",
+                                    "remaining": None, "stop": str(invalid), "wake": "material_owner_readback",
+                                    "model_invocations": 0}
+            if isinstance(error, AtomRefusal):
+                error.repair = result["repair"]
+                raise
+            wrapped = AtomRefusal(result["invalid"]["field"], result["invalid"]["value"])
+            wrapped.owner_result = result
+            raise wrapped from error
 
 
 def _run_owned(authorization_path, authorization, authorization_digest, paths, *, environ, provider):
@@ -1998,6 +2155,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
     require(isinstance(state, dict) and state.get("schema_version") == 1
             and state.get("authorization_sha256") == authorization_digest,
             "state.authorization", "mismatch", "matching_lifecycle_checkpoint")
+    repair = repair_controller(authorization, state, paths, fresh=not state_path.exists(),
+                               authorization_path=authorization_path)
     observation = require_available_owner(authorization, paths, state)
     prior_recovery = (isinstance(observation, dict)
                       and observation.get("action") in
@@ -2130,13 +2289,15 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                 save_json(state_path, state)
                 raise AtomRefusal("acceptance", str(error), "changed_candidate_head") from error
         acceptance = read_json(paths["acceptance"], "acceptance")
-        publication = publish_candidate(authorization, state, paths, claim, acceptance, provider)
+        publication = publish_candidate(authorization, state, paths, claim, acceptance, provider, repair)
         state["publication"] = publication
+        state["publication_source"] = {"claim_sha256": atom_repair.digest(claim),
+                                       "value": publication, "sha256": atom_repair.digest(publication)}
         state["phase"] = "ci"
         save_json(state_path, state)
 
     claim = read_json(paths["claim"], "publication_claim")
-    publication = state["publication"]
+    publication = restore_publication(state, claim, repair)
     run_value, jobs = select_run(provider, authorization, claim["head"])
     if run_value is None or run_value.get("status") != "completed":
         return response(state, authorization_path, waiting_on="GitHub Actions")
@@ -2194,7 +2355,13 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
         save_json(state_path, state)
         return response(state, authorization_path, status="resolved",
                         details={"landing": transition})
-    return response(state, authorization_path, waiting_on="fresh owner readback")
+    if transition.get("next") is None:
+        # The owner has returned a nonterminal outcome with neither a legal
+        # action nor a prerequisite. This is a structural deadlock, not a timer.
+        return response(state, authorization_path, status="refused", details={
+            "landing": transition, "repair": repair.report("no_legal_next")})
+    return response(state, authorization_path, waiting_on="fresh owner readback",
+                    details={"landing": transition})
 
 
 def drive(authorization_path, *, timeout=300, interval=5, sleep=time.sleep, clock=time.monotonic,
@@ -2222,6 +2389,8 @@ def drive(authorization_path, *, timeout=300, interval=5, sleep=time.sleep, cloc
 
 
 def refusal_output(error, authorization_path):
+    if hasattr(error, "owner_result"):
+        return error.owner_result
     correction_required = error.required == "new_candidate_head_after_failed_ci"
     if correction_required:
         reason = ("The selected authorization still binds the failed head. "
@@ -2251,4 +2420,5 @@ def refusal_output(error, authorization_path):
             "reason": reason,
         },
         "authorizes_landing": False,
+        **({"repair": error.repair} if hasattr(error, "repair") else {}),
     }

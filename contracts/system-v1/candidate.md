@@ -68,3 +68,18 @@ The publisher-derived `publication_branch` is distinct from the Noodle local
 `worktree` identity. When present, landing accepts only the exact
 `soodles/issue-N-HEAD12` derivation, validates provider head/ref against it and
 retains the original local worktree for envelope validation and cleanup.
+
+
+The atom may supply a bounded read-only refresh callback after amendment branch
+readback confirms the new head but the exact same open PR still names the old head.
+The callback never invokes publication again. Foreign identity and unknown branch
+outcomes refuse; the publisher rechecks its original exact PR predicate after the
+single refresh. Standalone publication keeps its existing refusal when no atom
+repair lineage is supplied. `system-context entry soodles candidate publish` selects this
+consumer's committed P requirements; it grants no write or landing authority.
+
+For an initialized new lineage, first publication can refresh the same PR detail
+once when the branch and PR list already confirm the candidate but detail still
+names its known base head. This callback is GET-only and reserves durable intent
+before transport. Changed identity and unknown writes retain owner readback;
+independent successor authorizations have no automatic repair budget.
