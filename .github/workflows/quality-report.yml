@@ -1,7 +1,15 @@
 name: quality-report
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      base:
+        description: 'Exact base commit SHA to compare with the selected ref'
+        required: true
+        type: string
+      reason:
+        description: 'Question this full-repository observation will answer'
+        required: true
+        type: string
   workflow_run:
     workflows: [runtime]
     types: [completed]
@@ -9,24 +17,43 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: quality-report-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt || 1 }}
+  group: quality-report-${{ github.event_name }}-${{ github.event.workflow_run.id || github.run_id }}-${{ github.event.workflow_run.run_attempt || 1 }}
   cancel-in-progress: true
 jobs:
   observation:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Checkout exact PR head
+      - name: Checkout exact requested head
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - name: Set up Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
+      - name: Admit requested observation through Test Manager
+        env:
+          BASE_SHA: ${{ inputs.base }}
+          HEAD_SHA: ${{ github.sha }}
+          REQUEST_REASON: ${{ inputs.reason }}
+        run: |
+          python3 -B - <<'PY'
+          import json, os
+          from pathlib import Path
+          from test_manager import ci_request
+          from quality.measure import preflight, git
+          request = ci_request('quality', os.environ['GITHUB_EVENT_NAME'], os.environ['BASE_SHA'], os.environ['REQUEST_REASON'])
+          root = Path.cwd()
+          assert git(root, 'rev-parse', 'HEAD').decode().strip() == os.environ['HEAD_SHA']
+          preflight(root, request['base'], os.environ['HEAD_SHA'], Path(os.environ['RUNNER_TEMP']) / 'quality-report')
+          request['head'] = os.environ['HEAD_SHA']
+          (Path(os.environ['RUNNER_TEMP']) / 'quality-request.json').write_text(json.dumps(request, indent=2) + '\n')
+          print(json.dumps(request))
+          PY
       - name: Install pinned measurement recipe
         run: |
           python3 -m venv "$RUNNER_TEMP/quality-env"
@@ -39,8 +66,8 @@ jobs:
           PY
       - name: Measure all scopes with one entry
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_SHA: ${{ inputs.base }}
+          HEAD_SHA: ${{ github.sha }}
           GH_TOKEN: ${{ github.token }}
         run: |
           "$RUNNER_TEMP/quality-env/bin/python" -B quality/measure.py --base "$BASE_SHA" --head "$HEAD_SHA" --output "$RUNNER_TEMP/quality-report"
@@ -48,10 +75,11 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: quality-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}-${{ github.run_attempt }}
+          name: quality-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             ${{ runner.temp }}/quality-report/
             ${{ runner.temp }}/quality-install.json
+            ${{ runner.temp }}/quality-request.json
           if-no-files-found: error
           retention-days: 30
   completed-runtime-cost:

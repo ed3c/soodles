@@ -2,6 +2,7 @@
 
 All entrypoints consume this decision. It grants no publication/landing authority.
 """
+import ast
 import json
 import os
 from pathlib import Path
@@ -97,6 +98,45 @@ BOUNDARIES = (
 )
 
 
+def ci_request(kind, event, base, reason=None):
+    """CI adapters consume demand here; a merge event is not a new test request."""
+    if kind not in {"runtime", "quality"}:
+        raise ValueError("Test Manager: unknown CI observation: " + str(kind))
+    if not isinstance(base, str) or not re.fullmatch(r"[0-9a-f]{40}", base) or base == "0" * 40:
+        raise ValueError("Test Manager: CI requires an exact nonzero base commit SHA")
+    if kind == "runtime" and event == "pull_request":
+        reason = "exact candidate acceptance for the current PR diff"
+    elif event != "workflow_dispatch" or not isinstance(reason, str) or not reason.strip():
+        raise ValueError("Test Manager: additional CI work requires an explicit request and reason")
+    return {"owner": "test-manager", "kind": kind, "event": event,
+            "base": base, "reason": reason.strip(), "authorizes_landing": False}
+
+
+def fixture_imports(files):
+    """Trace Python imports once; prose mentions do not make fixture consumers."""
+    imports = {}
+    for module, path in files.items():
+        names = set()
+        for node in ast.walk(ast.parse(path.read_text(), filename=str(path))):
+            if isinstance(node, ast.Import):
+                names.update(alias.name for alias in node.names)
+            elif isinstance(node, ast.ImportFrom):
+                package = module.split(".")[:-node.level] if node.level else []
+                prefix = ".".join([*package, node.module or ""]).strip(".")
+                names.add(prefix)
+                names.update((prefix + "." + alias.name).strip(".") for alias in node.names)
+            elif isinstance(node, ast.Call) and (
+                    isinstance(node.func, ast.Name) and node.func.id == "__import__"
+                    or isinstance(node.func, ast.Attribute) and node.func.attr == "import_module"):
+                if node.args and isinstance(node.args[0], ast.Constant) and isinstance(node.args[0].value, str):
+                    names.add(node.args[0].value)
+                else:
+                    raise ValueError(f"Test Manager: resolve dynamic fixture import in {path}; do not expand to full")
+        names.update(name.removeprefix("tests.") for name in tuple(names))
+        imports[module] = names & files.keys()
+    return imports
+
+
 def select(root, changed, *, base=None, full=False, modules=(), controls=(), reason=None):
     root = Path(root)
     files = {".".join(p.relative_to(root / "tests").with_suffix("").parts): p
@@ -108,6 +148,7 @@ def select(root, changed, *, base=None, full=False, modules=(), controls=(), rea
     if requested and not (isinstance(reason, str) and reason.strip()):
         raise ValueError("Test Manager: name the observed behavior in --reason for explicit local scope")
     selected, physical, reasons, unresolved = set(modules), set(controls), [], []
+    imports = None
     if full:
         selected, physical = set(files), set(PHYSICAL)
         reasons.append(reason or "explicit full-suite request")
@@ -125,16 +166,17 @@ def select(root, changed, *, base=None, full=False, modules=(), controls=(), rea
                     else:
                         unresolved.append({"path": path, "reason": "removed test: identify its replacement coverage"})
                 else:
+                    if imports is None:
+                        imports = fixture_imports(files)
                     consumers = {module}
                     while True:
-                        extra = {name for name, p in files.items()
-                                 if any(re.search(r"\b" + re.escape(m) + r"\b", p.read_text())
-                                        for m in consumers)}
+                        extra = {name for name, dependencies in imports.items()
+                                 if dependencies & consumers}
                         if extra <= consumers:
                             break
                         consumers |= extra
                     selected |= consumers
-                    reasons.append(f"{path}: changed tests and their fixture consumers")
+                    reasons.append(f"{path}: changed tests and imported fixture consumers: {', '.join(sorted(consumers))}")
                 continue
             matched = False
             for sources, tests, probes in BOUNDARIES:
@@ -207,6 +249,7 @@ def _run_suite(root, modules):
     import unittest
 
     root = Path(root).resolve()
+    discovery_started = time.monotonic()
     loader = unittest.TestLoader()
     if modules is None:
         discovered = loader.discover(str(root / "tests"))
@@ -238,16 +281,27 @@ def _run_suite(root, modules):
     if not groups:
         raise Refusal("test discovery found no tests")
     workers = min(4, os.cpu_count() or 1, len(groups))
+    print(json.dumps({"event": "soodles.timing", "operation": "test.discovery",
+                      "modules": len(groups), "count": sum(map(len, groups.values())),
+                      "seconds": round(time.monotonic() - discovery_started, 3)}),
+          file=sys.stderr, flush=True)
     started = time.monotonic()
     # Workers keep mock patches and fixture globals out of other test modules.
     code = """
-import json, sys, unittest
+import json, sys, time, unittest
 sys.path.insert(0, 'tests')
 seen = []
 class Result(unittest.TextTestResult):
     def startTest(self, test):
         seen.append(test.id())
+        self.started = time.monotonic()
         super().startTest(test)
+    def stopTest(self, test):
+        super().stopTest(test)
+        print(json.dumps({"event": "soodles.timing", "operation": "test.case",
+                          "test": test.id(), "includes": "setup, body, teardown, cleanups",
+                          "seconds": round(time.monotonic() - self.started, 6)}),
+              file=sys.stderr, flush=True)
 suite = unittest.defaultTestLoader.loadTestsFromNames(sys.argv[2:])
 result = unittest.TextTestRunner(verbosity=2, resultclass=Result, durations=5).run(suite)
 with open(sys.argv[1], 'w') as stream:

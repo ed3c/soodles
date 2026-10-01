@@ -1,6 +1,6 @@
 ---
 name: test-manager
-description: Own on-demand test scope for Soodles changes and requested verification; choose named local controls or explicitly requested full coverage without speculative suite runs.
+description: Own on-demand test scope and normal CI cost review for Soodles; trace necessary controls and optional observations without speculative full-suite runs.
 ---
 
 # Test Manager
@@ -10,6 +10,18 @@ skills consume its decision; they do not add their own full-suite requirement.
 [`test_manager.py`](../../../test_manager.py) resolves that scope and runs unit
 controls; canonical acceptance executes only the named physical controls.
 Neither the skill nor a selection receipt grants publication or landing authority.
+
+Normal CI runs runtime acceptance for PR updates only. The landing owner already
+checks exact merge parents/tree and provider-main readback; merging does not
+request a second runtime run. An additional runtime check uses the `runtime`
+workflow's manual dispatch with the exact base SHA and the observed behavior as
+its reason. This is a new requested run, never a relabeled PR result.
+
+Full-repository quality analysis uses `quality-report` manual dispatch with an
+exact base SHA and the question it should answer. Its selected workflow ref fixes
+the head. Both workflows consume `test_manager.ci_request` before executing
+requested work; no push, completed workflow or ordinary PR implicitly requests
+a full quality report. The completed-runtime cost collector remains read-only.
 
 ## Decide from the present need
 
@@ -79,3 +91,47 @@ Reuse actual results only for the same verified source/input identity and covere
 behavior. Additional changes or newly observed failures justify another affected
 run; merely entering another skill or publishing does not. Record selection
 reasons and normal-run timing logs. Do not add benchmark rounds to routine work.
+
+## Audit necessity and normal CI cost
+
+When reviewing CI cost, use existing normal-run evidence first. A selected module
+is a coverage candidate, not proof that every contained case is necessary. Trace
+each proposed reduction to the changed behavior, its unique assertion and the
+remaining discriminator. A text mention or fixture import alone does not show
+that every consumer case is affected; inspect the imported helper and its data
+inputs before narrowing the existing boundary map.
+
+Classify costs separately: exact-subject/provider admission, affected behavior
+controls, fixture/process overhead, requested physical controls, optional quality
+observations, and repeated execution across PR/main/publication. Report job/phase
+wall time separately from overlapping worker seconds. Missing case/setup timing
+is unknown, not zero; do not attribute fixture costs from names alone.
+
+Treat full-repository quality metrics as an on-demand observation with a named
+decision consumer, not an implicit correctness requirement on every PR. Changing
+the measurement recipe warrants its focused controls; it does not by itself
+require measuring every repository scope. Keep these decisions here and consume
+them through the existing manager; do not introduce a second scope policy.
+
+Do not build a PR/main test-result cache to eliminate an unnecessary invocation.
+The supported delivery route consumes exact PR acceptance and its existing
+merge/provider controls. Direct main edits have no implied acceptance; request
+their affected verification explicitly. If a future task actually needs result
+reuse across contexts, verify source, base/diff, runner, recipe, inputs and
+coverage first; never present a PR receipt as a new main-head execution.
+
+The selector follows actual Python fixture imports transitively, including
+literal dynamic imports, and ignores prose mentions. Unresolved computed imports
+need a scope correction. Imported modules remain the unit of coverage; do not
+claim method-level selection or skip real consumers just because their fixture
+method text stayed unchanged. Normal logs record discovery, every case including
+its setup/teardown/cleanups, and each module; class fixtures/process import remain
+part of the module cost rather than an individual case.
+
+Prioritize measured avoidable work over minor runner tuning. Record whether a
+reduction is implemented or only proposed, and whether it reduces delivery
+latency, background runner time, or both. Add missing timing only to subsequent
+authorized normal execution. For the observed scope inflation, repeat-run and
+quality-report costs, consult the [2026-10-01 CI audit](../../../docs/test-manager-ci-cost-audit.md)
+when working on those boundaries; its measurements are N-class, not policy or
+an acceptance receipt.

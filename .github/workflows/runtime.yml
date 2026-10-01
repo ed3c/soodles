@@ -2,15 +2,23 @@ name: runtime
 
 on:
   pull_request:
-  push:
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      base:
+        description: 'Exact base commit SHA for requested verification of the selected ref'
+        required: true
+        type: string
+      reason:
+        description: 'Behavior requiring additional verification'
+        required: true
+        type: string
 
 permissions:
   contents: read
   issues: read
 
 concurrency:
-  group: runtime-${{ github.event.pull_request.number || github.ref }}
+  group: runtime-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
 jobs:
@@ -54,17 +62,18 @@ jobs:
       - name: Request verification scope from Test Manager
         id: scope
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base }}
+          REQUEST_REASON: ${{ inputs.reason }}
         run: |
           mkdir -p "$RUNNER_TEMP/soodles-runtime"
           python3 -B - <<'PY'
           import json, os
           from pathlib import Path
-          from test_manager import plan, require_ready
-          base = os.environ.get('BASE_SHA', '')
-          if base == '0' * 40:
-              base = ''
-          selection = plan(Path.cwd(), base or None, require_base=True)
+          from test_manager import ci_request, plan, require_ready
+          request = ci_request('runtime', os.environ['GITHUB_EVENT_NAME'], os.environ.get('BASE_SHA', ''), os.environ.get('REQUEST_REASON'))
+          base = request['base']
+          selection = plan(Path.cwd(), base, require_base=True)
+          selection['request'] = request
           output = Path(os.environ['RUNNER_TEMP']) / 'soodles-runtime/selection.json'
           output.write_text(json.dumps(selection, indent=2) + '\n')
           print(json.dumps(selection))
