@@ -53,3 +53,23 @@ release whenever selected physical controls require it;
 building a separate historical Noodle source for a portable evidence packet is
 an explicitly requested evidence-production operation, not a prerequisite of
 every Soodles candidate.
+
+Runtime acceptance is automatically requested on PR updates. The existing landing
+owner verifies merge parents, the accepted candidate tree and provider-main
+readback; a main push does not automatically repeat candidate tests. Additional
+verification of a selected ref is an explicit runtime workflow dispatch with an
+exact base and reason, resolved by Test Manager. This does not create a main-head
+acceptance receipt from a PR result. Direct main changes require their own
+requested verification and cannot claim PR acceptance.
+
+Full-repository quality measurement is an optional manual workflow dispatch with
+an exact base and a decision question, admitted by the same Test Manager before
+analyzer installation. The selected workflow ref fixes its head. Ordinary PRs
+do not request this observation. The completed-runtime collector continues to
+read normal-run cost without executing the subject or measuring repository code.
+
+Test fixture dependencies follow Python imports, not text mentions; computed
+imports that cannot be resolved require scope correction, never full fallback.
+Normal test logs include discovery time and every case's setup/body/teardown/
+cleanup duration. Module timing also includes process/import/class-fixture costs;
+parallel worker durations are not summed into wall time.

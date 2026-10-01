@@ -2,26 +2,26 @@
   "schema": 1,
   "issue": {
     "repository": "ed3c/soodles",
-    "number": 201
+    "number": 204
   },
   "instructions": [
     {
       "path": "AGENTS.md",
-      "baseline_sha256": "a53ee52a870236b26af806400aa4ab6b886d326da64c5aaf9c8d47adf9242afc",
-      "treatment_sha256": "73e17a5d1435ff412603e24c36422cb36b32f33a5a67b5cba03f49338fa15337"
+      "baseline_sha256": "f50cc51f1bcc7ce4f1f872340f80ce6fe71f96dd2fe06a09f66d2f32bd5a4124",
+      "treatment_sha256": "34a4938656622ef1150c6cfdd20c5c8b89768ba4673910e69c67abe20ec825bb"
     }
   ],
   "artifacts": [
     {
-      "path": "docs/test-selection-design.md",
+      "path": "docs/test-manager-ci-cost-audit.md",
       "role": "design",
-      "sha256": "fc9100ff2caa014c1d75ebf01c7ddb25d3f8638b0d95b0234b208a9480fec1a4"
+      "sha256": "695c20b0dc8f9188f1fefcb2c128157d01910119ce1340c4e345360f436e4ff6"
     }
   ],
   "owner": {
     "name": "Soodles Test Manager",
     "tool": "issue_admission.validate_delivery_paths",
-    "authorization": "ed3c/soodles#201"
+    "authorization": "ed3c/soodles#204"
   },
   "authorizes_landing": false
 }

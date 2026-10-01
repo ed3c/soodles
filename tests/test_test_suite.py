@@ -36,6 +36,10 @@ class TestSuiteTests(unittest.TestCase):
         self.assertEqual((result['exit'], result['count']), (0, 2))
         pids = [line for line in result['output'].splitlines() if line.startswith('worker_pid=')]
         self.assertEqual(len(set(pids)), 2)
+        timings = [json.loads(line) for line in result['output'].splitlines()
+                   if line.startswith('{"event": "soodles.timing"')]
+        self.assertEqual({item['test'] for item in timings if item['operation'] == 'test.case'},
+                         {'test_one.Control.test_ok', 'test_two.Control.test_ok'})
 
     def test_failed_skipped_and_early_exit_cannot_pass(self):
         for body in ('self.fail("planted failure")', 'self.skipTest("planted skip")',
@@ -89,3 +93,42 @@ class TestSuiteTests(unittest.TestCase):
         self.assertEqual(focused["modules"], ["test_test_suite"])
         self.assertEqual(focused["mode"], "focused")
         self.assertEqual(focused["unresolved"], [])
+
+    def test_ci_requires_demand_beyond_pr_acceptance(self):
+        base = 'a' * 40
+        self.assertEqual(test_manager.ci_request('runtime', 'pull_request', base)['base'], base)
+        for kind in ('runtime', 'quality'):
+            requested = test_manager.ci_request(kind, 'workflow_dispatch', base, 'Inspect changed behavior')
+            self.assertEqual(requested['reason'], 'Inspect changed behavior')
+            self.assertFalse(requested['authorizes_landing'])
+            for event, reason in (('push', 'merged'), ('workflow_dispatch', '  '),
+                                  ('workflow_run', 'completed')):
+                with self.subTest(kind=kind, event=event), self.assertRaises(ValueError):
+                    test_manager.ci_request(kind, event, base, reason)
+        with self.assertRaises(ValueError):
+            test_manager.ci_request('quality', 'pull_request', base, 'automatic report')
+        for base in ('main', '', '0' * 40, None):
+            with self.subTest(base=base), self.assertRaises(ValueError):
+                test_manager.ci_request('runtime', 'pull_request', base)
+
+    def test_fixture_imports_expand_transitively_without_prose_mentions(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            tests = root / 'tests'
+            tests.mkdir()
+            files = {
+                'test_source.py': 'import test_transitive\n',
+                'test_consumer.py': 'def helper():\n from test_source import fixture\n',
+                'test_transitive.py': 'import test_consumer as fixture\n',
+                'test_dynamic.py': 'fixture = __import__("test_source")\n',
+                'test_prose.py': '# test_source\ntext = "test_consumer"\n',
+            }
+            for name, source in files.items():
+                (tests / name).write_text(source)
+            decision = test_manager.select(root, ['tests/test_source.py'])
+            self.assertEqual(decision['modules'], ['test_consumer', 'test_dynamic',
+                                                   'test_source', 'test_transitive'])
+            self.assertEqual(decision['status'], 'ready')
+            (tests / 'test_dynamic.py').write_text('fixture = __import__(selected_name)\n')
+            with self.assertRaisesRegex(ValueError, 'resolve dynamic fixture import'):
+                test_manager.select(root, ['tests/test_source.py'])
