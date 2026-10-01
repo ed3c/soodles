@@ -1501,16 +1501,39 @@ def _accept(authorization, claim, output):
 
 
 def publish_candidate(authorization, state, paths, claim, acceptance, provider, repair=None):
+    # The existing checkpoint owns process evidence as well as write intent.
+    receipts = state.setdefault("publication_push_receipts", [])
+    def record(receipt):
+        if receipt["process"] == "started":
+            receipts.append(receipt)
+        else:
+            require(receipts and receipts[-1]["process"] == "started"
+                    and receipts[-1]["argv"] == receipt["argv"],
+                    "publication.push.receipt", "unbound", "original_push_process_receipt")
+            receipts[-1] = receipt
+        save_json(paths["state"], state)
+    def previous_rejected():
+        if len(receipts) != 1 or candidate_publication.push_disposition(receipts[-1]) != "rejected":
+            return False
+        prior = authorization.get("prior_publication")
+        branch = prior["branch"] if prior else f"soodles/issue-{claim['subject'].split('#')[1]}-{claim['head'][:12]}"
+        lease = prior["head"] if prior else ""
+        return (receipts[-1]["cwd"] == str(Path(claim["worktree_path"]).resolve())
+                and receipts[-1]["argv"] == ["git", "push", "--porcelain",
+                    "--force-with-lease=refs/heads/" + branch + ":" + lease,
+                    "https://github.com/" + claim["repository"] + ".git",
+                    claim["head"] + ":refs/heads/" + branch])
+    push = authenticated_push(provider, record=record)
     if "prior_publication" not in authorization:
         def before_effect(action):
             key = "publication_" + action
-            require(key not in state["writes"], "publication.effect", action,
+            require(key not in state["writes"] or (action == "branch_push" and previous_rejected()), "publication.effect", action,
                     "fresh_provider_readback_without_retry")
             state["writes"][key] = {"head": claim["head"], "status": "offered"}
             save_json(paths["state"], state)
         return candidate_publication.publish(
             Path(claim["worktree_path"]), acceptance, claim, provider,
-            push=authenticated_push(provider), before_effect=before_effect,
+            push=push, before_effect=before_effect,
             refresh=(lambda number, confirm: refresh_publication(repair, provider, number, confirm))
             if repair is not None and state.get("repair") is not None and repair.disabled is None else None)
     intent = {"old_head": authorization["prior_publication"]["head"],
@@ -1526,7 +1549,8 @@ def publish_candidate(authorization, state, paths, claim, acceptance, provider, 
     return candidate_publication.publish_amendment(
         Path(claim["worktree_path"]), acceptance, claim, provider,
         authorization["prior_publication"], offered=True,
-        push=authenticated_push(provider) if prior_intent is None else None,
+        push=push if prior_intent is None or previous_rejected() else None,
+        previous_push=receipts[-1] if receipts else None,
         refresh=(lambda number, confirm: refresh_publication(repair, provider, number, confirm))
         if repair is not None and state.get("repair") is not None and repair.disabled is None else None)
 
@@ -1638,25 +1662,37 @@ def restore_publication(state, claim, repair):
     return result
 
 
-def authenticated_push(provider):
+def authenticated_push(provider, *, record=None):
     token = getattr(provider, "token", "")
     require(isinstance(token, str) and token, "github.credential", "missing",
             "repository_scoped_installation_token_in_GH_TOKEN")
     encoded = base64.b64encode(("x-access-token:" + token).encode()).decode()
 
     def push(root, *args, check=False):
+        # The validated origin may be SSH. Pin this invocation to the same
+        # repository over HTTPS so the selected installation token is actually used.
+        repository = provider.repository
+        endpoint = "https://github.com/" + repository + ".git"
+        require(args[0:2] == ("push", "--porcelain") and args[-2] == "origin",
+                "git.push.argv", "unexpected", "exact_publication_push")
+        argv = ["git", *args[:-2], endpoint, args[-1]]
         env = clean_child_env()
+        for key in list(env):
+            if key.startswith(("GIT_CONFIG_", "GIT_TRACE", "GIT_CURL_VERBOSE")):
+                env.pop(key)
         env.update({
-            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_COUNT": "3",
             "GIT_CONFIG_KEY_0": "http.https://github.com/.extraheader",
             "GIT_CONFIG_VALUE_0": "Authorization: Basic " + encoded,
+            "GIT_CONFIG_KEY_1": "credential.helper", "GIT_CONFIG_VALUE_1": "",
+            "GIT_CONFIG_KEY_2": "core.askPass", "GIT_CONFIG_VALUE_2": "",
             "GIT_TERMINAL_PROMPT": "0",
         })
-        result = subprocess.run(["git", *args], cwd=root, stdin=subprocess.DEVNULL,
-                                capture_output=True, text=True, timeout=30, env=env)
-        if check and result.returncode:
-            raise AtomRefusal("git.push", result.returncode, "fresh_provider_branch_readback")
-        return result
+        receipt = candidate_publication.run_push(
+            root, argv, env=env, secrets=(token, encoded), record=record)
+        if check and receipt["exit_status"] != 0:
+            raise AtomRefusal("git.push", receipt["exit_status"], "fresh_provider_branch_readback")
+        return receipt
     return push
 
 
@@ -2316,6 +2352,12 @@ def _run(authorization_path, *, environ=None, provider=None):
                               "required": ["material_owner_readback"],
                               "argv": same_command(authorization_path)}),
                           "authorizes_landing": False}
+            if isinstance(error, candidate_publication.PublicationRefusal):
+                result["next"] = {**result["next"], "argv": same_command(authorization_path)}
+                result["push_receipts"] = state.get("publication_push_receipts", [])
+                if (error.invalid["field"] == "github.push.rejected"
+                        and len(state.get("publication_push_receipts", [])) >= 2):
+                    result["next"]["required"] = ["push_rejection_budget_exhausted"]
             try:
                 controller = repair_controller(authorization, state, paths)
                 result["repair"] = controller.report(atom_repair.observation(error),
@@ -2371,10 +2413,13 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
 
     if provider is None:
         try:
+            permissions = {"contents": "write", "issues": "write",
+                           "pull_requests": "write", "actions": "read"}
+            if any(path.startswith(".github/workflows/") for path in
+                   issue_admission.parse_contract(authorization["issue"]["body"])["write_paths"]):
+                permissions["workflows"] = "write"
             token = provider_credential.supply_token(
-                authorization["repository"],
-                {"contents": "write", "issues": "write",
-                 "pull_requests": "write", "actions": "read"}, environ=environ)
+                authorization["repository"], permissions, environ=environ)
         except provider_credential.CredentialRefusal as error:
             raise AtomRefusal(error.field, error.value, error.required) from None
         provider = GitHubProvider(authorization["repository"], token=token)
