@@ -178,6 +178,42 @@ lost-projection or no-legal-transition risks are repair diagnoses. Unknown behav
 requests scoped offline measurement. Diagnostics never rewrite owner next/request.
 
 
+### Fixed host finalization — ed3c/soodles#209
+
+The existing atom owns the fixed `policy/host-finalization.json` plan and its
+`schema_manager.py` compiler/reducer. Both are included in lifecycle source pins
+and the committed entry source closure. Compilation uses system-context's
+registered `cleanup_residue` consumer/P prerequisites; it is cached only within
+one bounded foreground process. Source/plan validation remains at owner entry
+and physical effect boundaries. Hot apply/project performs no source loading.
+
+Fresh owner observations drive stop, restore and confirmation readiness inside
+`finish_host`. Readiness is not authority: exact process argv, process-group
+absence, config custody, backup digest, completion acknowledgement and Noodle's
+lock remain owner checks. Persisted stop/restore intents precede their effects.
+An offered operation is never repeated on an unknown result; original owner
+readback must establish absence/restoration. Cleanup of a selected prior failed
+owner remains possible before landing. Terminal success separately requires
+resolved landing, original config bytes/absence, own PID/group absence and this
+owner's confirmation of those readbacks. Confirmation is an output of cleanup,
+never its prerequisite. An adopted external loop is not signalled; the atom
+still reads back the original configuration.
+
+The same checkpoint stores only a bounded current projection with authorization,
+subject and compiled-plan identities, a sequence and finite facts. Identical
+events are no-ops; conflicting replay, changed identity and sequence gaps refuse.
+Relevant changed evidence invalidates confirmation. Restart validates/rebuilds
+the projection from the same durable owner inputs; a legacy checkpoint with no
+projection acquires one only through these readbacks. No repair counters are
+created, copied or reset by this projection. A different pinned plan is an
+identity conflict, not permission to migrate authority implicitly.
+
+Custody accepts the native idle schedule only beside the exact original order
+or its verified completed history and this atom's recorded start. This does not
+skip any session PID/group checks or admit a foreign scheduler/writer. The
+existing prior-host recovery path already has this exception and its process
+scan; normal post-stop custody now uses the same discriminator.
+
 ### Descendant-base continuation of a failed PR
 
 A supervisor may select the existing prior-publication-only admission on a fresh

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "owner": "issue_atom",
+  "context": "cleanup_residue",
+  "facts": ["cleanup_allowed", "landing_resolved", "loop_live", "loop_absent", "config_installed", "config_restored", "stop_offered", "restore_offered", "owner_confirmed"],
+  "nodes": {
+    "stop": {"cleanup_allowed": true, "loop_live": true, "stop_offered": false},
+    "restore": {"cleanup_allowed": true, "loop_absent": true, "config_installed": true, "restore_offered": false},
+    "confirm": {"cleanup_allowed": true, "loop_absent": true, "config_restored": true},
+    "complete": {"landing_resolved": true, "loop_absent": true, "config_restored": true, "owner_confirmed": true}
+  }
+}

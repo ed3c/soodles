@@ -253,6 +253,7 @@ def fail_first_encoding(*args, **kwargs):
     def test_entry_consumers_are_committed_complete_and_fail_on_dangling_mapping(self):
         source = Path(system_context.__file__).parent
         for name in ("atom_repair.py", "policy/repair-policy.json", "issue_atom.py",
+                     "schema_manager.py", "policy/host-finalization.json",
                      "candidate_publication.py", "provider_readback.py", "issue-atom", "provider-readback", "soodles"):
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
