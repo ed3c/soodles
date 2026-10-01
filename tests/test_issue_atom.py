@@ -67,6 +67,7 @@ class IssueAtomTests(unittest.TestCase):
                        cwd=self.root, check=True)
         (self.root / ".gitignore").write_text(".noodle/\n.worktrees/\n.noodle.toml\n")
         for name in atom.supervisor_admission.BUNDLE_PATHS + (
+                "schema_manager.py", "policy/host-finalization.json",
                 ".agents/skills/execute/SKILL.md", ".agents/skills/schedule/SKILL.md"):
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -465,6 +466,47 @@ class IssueAtomTests(unittest.TestCase):
                 with self.assertRaisesRegex(atom.AtomRefusal, "noodle.orders"):
                     atom.require_available_owner(self.authorization, paths, state)
                 schedule["stages"][0] = {**schedule["stages"][0], **{"provider": "codex", "status": "pending"}}
+
+    def test_stopped_owner_idle_schedule_keeps_exact_order_and_all_process_checks(self):
+        paths, state = self.startup_fixture()
+        state.update(issue={"number": 131}, noodle_start={"stop_offered": True})
+        binding = atom.read_json(paths["envelope"], "envelope")
+        binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
+        oid = binding["execution"]["order_id"]
+        stage = {"status": "completed", "skill": "execute", "provider": "codex",
+                 "model": "fixture-model", "prompt": json.dumps(atom.issue_execution.projection(
+                     binding, state["envelope_sha256"], "supervised")),
+                 "attempts": [{"status": "completed", "session_id": "original"}]}
+        schedule = {"order_id": "schedule", "status": "active", "stages": [{
+            "stage_index": 0, "task_key": "schedule", "skill": "schedule",
+            "provider": "codex", "model": "fixture-model", "runtime": "process",
+            "prompt": "", "status": "pending", "attempts": None}]}
+        snapshot = {"state": {"orders": {oid: {"stages": [stage]}, "schedule": schedule}}, "effect_ledger": []}
+        for sid, pid in (("original", 987650), ("other-session", 987651)):
+            directory = self.root / ".noodle/sessions" / sid
+            directory.mkdir(parents=True)
+            atom.save_json(directory / "process.json", {"session_id": sid, "pid": pid})
+        path = self.root / ".noodle/state.snapshot.json"
+        atom.save_json(path, snapshot)
+        with patch.object(atom.os, "kill", side_effect=ProcessLookupError):
+            atom.require_available_owner(self.authorization, paths, state)
+            stage["prompt"] = "foreign"
+            atom.save_json(path, snapshot)
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.order.binding"):
+                atom.require_available_owner(self.authorization, paths, state)
+            stage["prompt"] = json.dumps(atom.issue_execution.projection(binding, state["envelope_sha256"], "supervised"))
+            schedule["stages"][0]["model"] = "foreign"
+            atom.save_json(path, snapshot)
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.orders"):
+                atom.require_available_owner(self.authorization, paths, state)
+        schedule["stages"][0]["model"] = "fixture-model"
+        atom.save_json(path, snapshot)
+        def live_extra(pid, sig):
+            if abs(pid) != 987651:
+                raise ProcessLookupError
+        with patch.object(atom.os, "kill", side_effect=live_extra):
+            with self.assertRaisesRegex(atom.AtomRefusal, "completion.process_alive"):
+                atom.require_available_owner(self.authorization, paths, state)
 
     def test_projected_completed_order_can_continue_original_cleanup(self):
         import fcntl
@@ -1107,7 +1149,9 @@ class IssueAtomTests(unittest.TestCase):
         config = self.root / ".noodle.toml"
         config.write_bytes((paths["envelope"].parent / "noodle.toml").read_bytes())
         state["noodle_start"] = {"pid": 987654, "config_sha256": atom.digest_file(config), "original_config": None}
-        with patch.object(atom.subprocess, "run", return_value=Mock(returncode=1, stdout="")), \
+        manager = atom.host_manager(self.authorization, state)
+        with patch.object(atom, "host_manager", return_value=manager), \
+                patch.object(atom.subprocess, "run", return_value=Mock(returncode=1, stdout="")), \
                 patch.object(atom.os, "killpg", side_effect=ProcessLookupError):
             self.assertTrue(atom.finish_host(self.authorization, paths, state))
             self.assertFalse(config.exists())
@@ -1118,11 +1162,92 @@ class IssueAtomTests(unittest.TestCase):
         from unittest.mock import Mock
         paths, state = self.startup_fixture()
         state["noodle_start"] = {"pid": 987654}
-        with patch.object(atom.subprocess, "run", return_value=Mock(returncode=0, stdout="foreign-process")), \
+        manager = atom.host_manager(self.authorization, state)
+        with patch.object(atom, "host_manager", return_value=manager), \
+                patch.object(atom.subprocess, "run", return_value=Mock(returncode=0, stdout="foreign-process")), \
                 patch.object(atom.os, "kill") as kill:
             with self.assertRaisesRegex(atom.AtomRefusal, "noodle.stop.identity"):
                 atom.finish_host(self.authorization, paths, state)
         kill.assert_not_called()
+
+    def test_host_manager_unknown_stop_is_not_reoffered_after_restart(self):
+        paths, state = self.startup_fixture()
+        state["noodle_start"] = {"pid": 987654}
+        expected = " ".join(atom.noodle_process_argv(self.authorization, state["noodle_start"]))
+        manager = atom.host_manager(self.authorization, state)
+        with patch.object(atom.subprocess, "run", return_value=Mock(returncode=0, stdout=expected)), \
+                patch.object(atom.os, "kill", side_effect=OSError("lost signal response")) as kill:
+            with patch.object(atom, "host_manager", return_value=manager):
+                with self.assertRaisesRegex(atom.AtomRefusal, "noodle.stop.outcome") as caught:
+                    atom.finish_host(self.authorization, paths, state)
+                self.assertEqual(atom.refusal_output(caught.exception, self.path)["next"]["argv"],
+                                 atom.same_command(self.path))
+                self.assertTrue(atom.read_json(paths["state"], "state")["noodle_start"]["stop_offered"])
+                resumed = atom.schema_manager.Manager(manager.plan, manager.identity, state["host_finalization"])
+            with patch.object(atom, "host_manager", return_value=resumed):
+                self.assertFalse(atom.finish_host(self.authorization, paths, state))
+        self.assertEqual(kill.call_count, 1)
+
+    def test_host_manager_unknown_restore_refuses_without_second_write(self):
+        paths, state = self.startup_fixture()
+        config = self.root / ".noodle.toml"
+        config.write_text("installed")
+        state["noodle_start"] = {"pid": 987654, "config_sha256": atom.digest_file(config),
+                                 "original_config": None}
+        manager = atom.host_manager(self.authorization, state)
+        with patch.object(atom, "host_manager", return_value=manager), \
+                patch.object(atom.subprocess, "run", return_value=Mock(returncode=1, stdout="")), \
+                patch.object(atom.os, "killpg", side_effect=ProcessLookupError):
+            with patch.object(Path, "unlink", side_effect=OSError("lost write")) as write:
+                with self.assertRaisesRegex(atom.AtomRefusal, "noodle.config.restore_outcome") as caught:
+                    atom.finish_host(self.authorization, paths, state)
+                self.assertEqual(atom.refusal_output(caught.exception, self.path)["next"]["argv"],
+                                 atom.same_command(self.path))
+                self.assertEqual(write.call_count, 1)
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.config.restore_outcome"):
+                atom.finish_host(self.authorization, paths, state)
+        self.assertEqual(config.read_text(), "installed")
+        self.assertNotIn("repair", state)
+
+    def test_host_manager_terminal_requires_physical_facts_and_landing(self):
+        paths, state = self.startup_fixture()
+        state["repair"] = {"fixture": "existing finite history stays unchanged", "used": {"actions": 3}}
+        landing = {"classification": "RESOLVED", "next": None}
+        self.assertTrue(atom.finish_host(self.authorization, paths, state))
+        manager = atom.host_manager(self.authorization, state)
+        self.assertNotEqual(manager.project()["status"], "complete")
+        self.assertTrue(atom.finish_host(self.authorization, paths, state, landing=landing))
+        self.assertEqual(atom.host_manager(self.authorization, state).project()["status"], "complete")
+        (self.root / ".noodle.toml").write_text("foreign")
+        with self.assertRaisesRegex(atom.AtomRefusal, "noodle.config.restored"):
+            atom.finish_host(self.authorization, paths, state, landing=landing)
+        self.assertNotEqual(atom.host_manager(self.authorization, state).project()["status"], "complete")
+        self.assertNotIn("owner_confirmed", state["host_finalization"]["facts"])
+        self.assertEqual(state["repair"]["used"], {"actions": 3})
+
+    def test_host_manager_preserves_group_lock_and_changed_config_refusals(self):
+        import fcntl
+        paths, state = self.startup_fixture()
+        config = self.root / ".noodle.toml"
+        config.write_text("installed")
+        state["noodle_start"] = {"pid": 987654, "config_sha256": atom.digest_file(config),
+                                 "original_config": None}
+        manager = atom.host_manager(self.authorization, state)
+        with patch.object(atom, "host_manager", return_value=manager), \
+                patch.object(atom.subprocess, "run", return_value=Mock(returncode=1, stdout="")):
+            with patch.object(atom.os, "killpg"):
+                with self.assertRaisesRegex(atom.AtomRefusal, "noodle.stop.process_group"):
+                    atom.finish_host(self.authorization, paths, state)
+            with patch.object(atom.os, "killpg", side_effect=ProcessLookupError):
+                with (self.root / ".noodle/noodle.lock").open("a+b") as lock:
+                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    with self.assertRaisesRegex(atom.AtomRefusal, "noodle.stop.owner"):
+                        atom.finish_host(self.authorization, paths, state)
+                config.write_text("foreign")
+                with self.assertRaisesRegex(atom.AtomRefusal, "noodle.config.restore"):
+                    atom.finish_host(self.authorization, paths, state)
+        self.assertEqual(config.read_text(), "foreign")
+        self.assertNotIn("restore_offered", state["noodle_start"])
 
     def test_live_owner_wait_does_not_ask_for_claim_or_take_over(self):
         provider = Provider()

@@ -1,0 +1,1324 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 209
+  },
+  "authorizes_landing": false,
+  "clock": "time.perf_counter_ns",
+  "carrier": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]"
+  },
+  "scope": "apply(event) plus project(); includes event/fact/identity/sequence validation and affected-node recomputation; excludes event construction, compilation, source validation, durable I/O, subprocess, model, network and physical effects",
+  "plan": {
+    "schema": 1,
+    "owner": "issue_atom",
+    "context": "cleanup_residue",
+    "facts": [
+      "cleanup_allowed",
+      "landing_resolved",
+      "loop_live",
+      "loop_absent",
+      "config_installed",
+      "config_restored",
+      "stop_offered",
+      "restore_offered",
+      "owner_confirmed"
+    ],
+    "nodes": {
+      "stop": {
+        "cleanup_allowed": true,
+        "loop_live": true,
+        "stop_offered": false
+      },
+      "restore": {
+        "cleanup_allowed": true,
+        "loop_absent": true,
+        "config_installed": true,
+        "restore_offered": false
+      },
+      "confirm": {
+        "cleanup_allowed": true,
+        "loop_absent": true,
+        "config_restored": true
+      },
+      "complete": {
+        "landing_resolved": true,
+        "loop_absent": true,
+        "config_restored": true,
+        "owner_confirmed": true
+      }
+    }
+  },
+  "source_sha256": {
+    "schema_manager.py": "e025fb4f39a256603c3865d073194d995c9bc57b3689ecb5ff79422abe899696",
+    "policy/host-finalization.json": "94f1b45babe092d7f882ce59c31c1c279c6ee50168c25cb9a2f2c9014549c08a",
+    "issue_atom.py": "dbc247d1fc5f7838e462ba44bfaab4ecba502736bd435a35c14d3bac46808c3c",
+    "system_context.py": "ad89a275d75f01a66eb725c6b01dc9a6e35e5aa25bdec8bdb81fb4c4b7606e92",
+    "atom_repair.py": "f782bd25976b164bbbb8999b73a744d066d23de7a0a88643b07ab6bca54a0b9f",
+    "policy/repair-policy.json": "1e9de3ea83b8af0b5498c068f13921be25955ed09cf86a0fd22139a2c1676820",
+    "contracts/system-v1/routes.json": "22e84baf0ea582d394e5c6d0516c60e7e09a309e182d5257c75cb823035158b3",
+    "contracts/system-v1/common.md": "b672753179d25e6b7699b5c5f6792ce02f6262f191452ce92ab02d49fb07ccfe",
+    "contracts/system-v1/issue-atom.md": "e9add58859a86d4fcbde7573cc699f449a80c084e9a30dadf5e797f11d4ef53c"
+  },
+  "initial_event": {
+    "identity": {
+      "authorization": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "subject": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan": "69d1d1bb69aa98608feaf9a408912e685c73636f67ce84bfef4ab0e2fe51dc70"
+    },
+    "sequence": 1,
+    "facts": {
+      "cleanup_allowed": {
+        "value": true,
+        "evidence": "e953156f2fad74f1c486c2e54d3926938cdc3575c5bafcecaa43ff2d382a1501"
+      },
+      "landing_resolved": {
+        "value": true,
+        "evidence": "e953156f2fad74f1c486c2e54d3926938cdc3575c5bafcecaa43ff2d382a1501"
+      },
+      "loop_live": {
+        "value": false,
+        "evidence": "e953156f2fad74f1c486c2e54d3926938cdc3575c5bafcecaa43ff2d382a1501"
+      },
+      "loop_absent": {
+        "value": true,
+        "evidence": "e953156f2fad74f1c486c2e54d3926938cdc3575c5bafcecaa43ff2d382a1501"
+      },
+      "config_installed": {
+        "value": false,
+        "evidence": "e953156f2fad74f1c486c2e54d3926938cdc3575c5bafcecaa43ff2d382a1501"
+      },
+      "config_restored": {
+        "value": true,
+        "evidence": "e953156f2fad74f1c486c2e54d3926938cdc3575c5bafcecaa43ff2d382a1501"
+      },
+      "stop_offered": {
+        "value": true,
+        "evidence": "e953156f2fad74f1c486c2e54d3926938cdc3575c5bafcecaa43ff2d382a1501"
+      },
+      "restore_offered": {
+        "value": true,
+        "evidence": "e953156f2fad74f1c486c2e54d3926938cdc3575c5bafcecaa43ff2d382a1501"
+      },
+      "owner_confirmed": {
+        "value": false,
+        "evidence": "e953156f2fad74f1c486c2e54d3926938cdc3575c5bafcecaa43ff2d382a1501"
+      }
+    }
+  },
+  "event_recipe": [
+    "config_restored=false, owner_confirmed=false, sequence+1",
+    "config_restored=true, sequence+1",
+    "owner_confirmed=true, sequence+1",
+    "identical replay with same sequence"
+  ],
+  "history": "16 warmup events then 128 measured events, all raw durations retained; no repair history or effect budget created",
+  "samples": [
+    {
+      "index": 0,
+      "warmup": true,
+      "step": 0,
+      "sequence": 2,
+      "elapsed_ns": 21875,
+      "status": "stop"
+    },
+    {
+      "index": 1,
+      "warmup": true,
+      "step": 1,
+      "sequence": 3,
+      "elapsed_ns": 17791,
+      "status": "ready"
+    },
+    {
+      "index": 2,
+      "warmup": true,
+      "step": 2,
+      "sequence": 4,
+      "elapsed_ns": 14666,
+      "status": "complete"
+    },
+    {
+      "index": 3,
+      "warmup": true,
+      "step": 3,
+      "sequence": 4,
+      "elapsed_ns": 11083,
+      "status": "complete"
+    },
+    {
+      "index": 4,
+      "warmup": true,
+      "step": 0,
+      "sequence": 5,
+      "elapsed_ns": 14875,
+      "status": "stop"
+    },
+    {
+      "index": 5,
+      "warmup": true,
+      "step": 1,
+      "sequence": 6,
+      "elapsed_ns": 14542,
+      "status": "ready"
+    },
+    {
+      "index": 6,
+      "warmup": true,
+      "step": 2,
+      "sequence": 7,
+      "elapsed_ns": 13333,
+      "status": "complete"
+    },
+    {
+      "index": 7,
+      "warmup": true,
+      "step": 3,
+      "sequence": 7,
+      "elapsed_ns": 10375,
+      "status": "complete"
+    },
+    {
+      "index": 8,
+      "warmup": true,
+      "step": 0,
+      "sequence": 8,
+      "elapsed_ns": 13959,
+      "status": "stop"
+    },
+    {
+      "index": 9,
+      "warmup": true,
+      "step": 1,
+      "sequence": 9,
+      "elapsed_ns": 13625,
+      "status": "ready"
+    },
+    {
+      "index": 10,
+      "warmup": true,
+      "step": 2,
+      "sequence": 10,
+      "elapsed_ns": 13000,
+      "status": "complete"
+    },
+    {
+      "index": 11,
+      "warmup": true,
+      "step": 3,
+      "sequence": 10,
+      "elapsed_ns": 9958,
+      "status": "complete"
+    },
+    {
+      "index": 12,
+      "warmup": true,
+      "step": 0,
+      "sequence": 11,
+      "elapsed_ns": 13667,
+      "status": "stop"
+    },
+    {
+      "index": 13,
+      "warmup": true,
+      "step": 1,
+      "sequence": 12,
+      "elapsed_ns": 13667,
+      "status": "ready"
+    },
+    {
+      "index": 14,
+      "warmup": true,
+      "step": 2,
+      "sequence": 13,
+      "elapsed_ns": 12375,
+      "status": "complete"
+    },
+    {
+      "index": 15,
+      "warmup": true,
+      "step": 3,
+      "sequence": 13,
+      "elapsed_ns": 9708,
+      "status": "complete"
+    },
+    {
+      "index": 16,
+      "warmup": false,
+      "step": 0,
+      "sequence": 14,
+      "elapsed_ns": 13541,
+      "status": "stop"
+    },
+    {
+      "index": 17,
+      "warmup": false,
+      "step": 1,
+      "sequence": 15,
+      "elapsed_ns": 13334,
+      "status": "ready"
+    },
+    {
+      "index": 18,
+      "warmup": false,
+      "step": 2,
+      "sequence": 16,
+      "elapsed_ns": 12500,
+      "status": "complete"
+    },
+    {
+      "index": 19,
+      "warmup": false,
+      "step": 3,
+      "sequence": 16,
+      "elapsed_ns": 9542,
+      "status": "complete"
+    },
+    {
+      "index": 20,
+      "warmup": false,
+      "step": 0,
+      "sequence": 17,
+      "elapsed_ns": 13084,
+      "status": "stop"
+    },
+    {
+      "index": 21,
+      "warmup": false,
+      "step": 1,
+      "sequence": 18,
+      "elapsed_ns": 13250,
+      "status": "ready"
+    },
+    {
+      "index": 22,
+      "warmup": false,
+      "step": 2,
+      "sequence": 19,
+      "elapsed_ns": 12500,
+      "status": "complete"
+    },
+    {
+      "index": 23,
+      "warmup": false,
+      "step": 3,
+      "sequence": 19,
+      "elapsed_ns": 9541,
+      "status": "complete"
+    },
+    {
+      "index": 24,
+      "warmup": false,
+      "step": 0,
+      "sequence": 20,
+      "elapsed_ns": 13417,
+      "status": "stop"
+    },
+    {
+      "index": 25,
+      "warmup": false,
+      "step": 1,
+      "sequence": 21,
+      "elapsed_ns": 13042,
+      "status": "ready"
+    },
+    {
+      "index": 26,
+      "warmup": false,
+      "step": 2,
+      "sequence": 22,
+      "elapsed_ns": 12458,
+      "status": "complete"
+    },
+    {
+      "index": 27,
+      "warmup": false,
+      "step": 3,
+      "sequence": 22,
+      "elapsed_ns": 9667,
+      "status": "complete"
+    },
+    {
+      "index": 28,
+      "warmup": false,
+      "step": 0,
+      "sequence": 23,
+      "elapsed_ns": 13167,
+      "status": "stop"
+    },
+    {
+      "index": 29,
+      "warmup": false,
+      "step": 1,
+      "sequence": 24,
+      "elapsed_ns": 13166,
+      "status": "ready"
+    },
+    {
+      "index": 30,
+      "warmup": false,
+      "step": 2,
+      "sequence": 25,
+      "elapsed_ns": 12375,
+      "status": "complete"
+    },
+    {
+      "index": 31,
+      "warmup": false,
+      "step": 3,
+      "sequence": 25,
+      "elapsed_ns": 9459,
+      "status": "complete"
+    },
+    {
+      "index": 32,
+      "warmup": false,
+      "step": 0,
+      "sequence": 26,
+      "elapsed_ns": 13416,
+      "status": "stop"
+    },
+    {
+      "index": 33,
+      "warmup": false,
+      "step": 1,
+      "sequence": 27,
+      "elapsed_ns": 13167,
+      "status": "ready"
+    },
+    {
+      "index": 34,
+      "warmup": false,
+      "step": 2,
+      "sequence": 28,
+      "elapsed_ns": 12334,
+      "status": "complete"
+    },
+    {
+      "index": 35,
+      "warmup": false,
+      "step": 3,
+      "sequence": 28,
+      "elapsed_ns": 9792,
+      "status": "complete"
+    },
+    {
+      "index": 36,
+      "warmup": false,
+      "step": 0,
+      "sequence": 29,
+      "elapsed_ns": 13166,
+      "status": "stop"
+    },
+    {
+      "index": 37,
+      "warmup": false,
+      "step": 1,
+      "sequence": 30,
+      "elapsed_ns": 13250,
+      "status": "ready"
+    },
+    {
+      "index": 38,
+      "warmup": false,
+      "step": 2,
+      "sequence": 31,
+      "elapsed_ns": 12292,
+      "status": "complete"
+    },
+    {
+      "index": 39,
+      "warmup": false,
+      "step": 3,
+      "sequence": 31,
+      "elapsed_ns": 9542,
+      "status": "complete"
+    },
+    {
+      "index": 40,
+      "warmup": false,
+      "step": 0,
+      "sequence": 32,
+      "elapsed_ns": 13291,
+      "status": "stop"
+    },
+    {
+      "index": 41,
+      "warmup": false,
+      "step": 1,
+      "sequence": 33,
+      "elapsed_ns": 13375,
+      "status": "ready"
+    },
+    {
+      "index": 42,
+      "warmup": false,
+      "step": 2,
+      "sequence": 34,
+      "elapsed_ns": 12583,
+      "status": "complete"
+    },
+    {
+      "index": 43,
+      "warmup": false,
+      "step": 3,
+      "sequence": 34,
+      "elapsed_ns": 9583,
+      "status": "complete"
+    },
+    {
+      "index": 44,
+      "warmup": false,
+      "step": 0,
+      "sequence": 35,
+      "elapsed_ns": 13375,
+      "status": "stop"
+    },
+    {
+      "index": 45,
+      "warmup": false,
+      "step": 1,
+      "sequence": 36,
+      "elapsed_ns": 13125,
+      "status": "ready"
+    },
+    {
+      "index": 46,
+      "warmup": false,
+      "step": 2,
+      "sequence": 37,
+      "elapsed_ns": 12083,
+      "status": "complete"
+    },
+    {
+      "index": 47,
+      "warmup": false,
+      "step": 3,
+      "sequence": 37,
+      "elapsed_ns": 9708,
+      "status": "complete"
+    },
+    {
+      "index": 48,
+      "warmup": false,
+      "step": 0,
+      "sequence": 38,
+      "elapsed_ns": 13250,
+      "status": "stop"
+    },
+    {
+      "index": 49,
+      "warmup": false,
+      "step": 1,
+      "sequence": 39,
+      "elapsed_ns": 13125,
+      "status": "ready"
+    },
+    {
+      "index": 50,
+      "warmup": false,
+      "step": 2,
+      "sequence": 40,
+      "elapsed_ns": 12292,
+      "status": "complete"
+    },
+    {
+      "index": 51,
+      "warmup": false,
+      "step": 3,
+      "sequence": 40,
+      "elapsed_ns": 9500,
+      "status": "complete"
+    },
+    {
+      "index": 52,
+      "warmup": false,
+      "step": 0,
+      "sequence": 41,
+      "elapsed_ns": 13166,
+      "status": "stop"
+    },
+    {
+      "index": 53,
+      "warmup": false,
+      "step": 1,
+      "sequence": 42,
+      "elapsed_ns": 13375,
+      "status": "ready"
+    },
+    {
+      "index": 54,
+      "warmup": false,
+      "step": 2,
+      "sequence": 43,
+      "elapsed_ns": 13083,
+      "status": "complete"
+    },
+    {
+      "index": 55,
+      "warmup": false,
+      "step": 3,
+      "sequence": 43,
+      "elapsed_ns": 9958,
+      "status": "complete"
+    },
+    {
+      "index": 56,
+      "warmup": false,
+      "step": 0,
+      "sequence": 44,
+      "elapsed_ns": 14000,
+      "status": "stop"
+    },
+    {
+      "index": 57,
+      "warmup": false,
+      "step": 1,
+      "sequence": 45,
+      "elapsed_ns": 13708,
+      "status": "ready"
+    },
+    {
+      "index": 58,
+      "warmup": false,
+      "step": 2,
+      "sequence": 46,
+      "elapsed_ns": 12833,
+      "status": "complete"
+    },
+    {
+      "index": 59,
+      "warmup": false,
+      "step": 3,
+      "sequence": 46,
+      "elapsed_ns": 10042,
+      "status": "complete"
+    },
+    {
+      "index": 60,
+      "warmup": false,
+      "step": 0,
+      "sequence": 47,
+      "elapsed_ns": 13959,
+      "status": "stop"
+    },
+    {
+      "index": 61,
+      "warmup": false,
+      "step": 1,
+      "sequence": 48,
+      "elapsed_ns": 14000,
+      "status": "ready"
+    },
+    {
+      "index": 62,
+      "warmup": false,
+      "step": 2,
+      "sequence": 49,
+      "elapsed_ns": 13291,
+      "status": "complete"
+    },
+    {
+      "index": 63,
+      "warmup": false,
+      "step": 3,
+      "sequence": 49,
+      "elapsed_ns": 9833,
+      "status": "complete"
+    },
+    {
+      "index": 64,
+      "warmup": false,
+      "step": 0,
+      "sequence": 50,
+      "elapsed_ns": 14375,
+      "status": "stop"
+    },
+    {
+      "index": 65,
+      "warmup": false,
+      "step": 1,
+      "sequence": 51,
+      "elapsed_ns": 13709,
+      "status": "ready"
+    },
+    {
+      "index": 66,
+      "warmup": false,
+      "step": 2,
+      "sequence": 52,
+      "elapsed_ns": 13333,
+      "status": "complete"
+    },
+    {
+      "index": 67,
+      "warmup": false,
+      "step": 3,
+      "sequence": 52,
+      "elapsed_ns": 10459,
+      "status": "complete"
+    },
+    {
+      "index": 68,
+      "warmup": false,
+      "step": 0,
+      "sequence": 53,
+      "elapsed_ns": 13917,
+      "status": "stop"
+    },
+    {
+      "index": 69,
+      "warmup": false,
+      "step": 1,
+      "sequence": 54,
+      "elapsed_ns": 14167,
+      "status": "ready"
+    },
+    {
+      "index": 70,
+      "warmup": false,
+      "step": 2,
+      "sequence": 55,
+      "elapsed_ns": 12875,
+      "status": "complete"
+    },
+    {
+      "index": 71,
+      "warmup": false,
+      "step": 3,
+      "sequence": 55,
+      "elapsed_ns": 10417,
+      "status": "complete"
+    },
+    {
+      "index": 72,
+      "warmup": false,
+      "step": 0,
+      "sequence": 56,
+      "elapsed_ns": 13667,
+      "status": "stop"
+    },
+    {
+      "index": 73,
+      "warmup": false,
+      "step": 1,
+      "sequence": 57,
+      "elapsed_ns": 13042,
+      "status": "ready"
+    },
+    {
+      "index": 74,
+      "warmup": false,
+      "step": 2,
+      "sequence": 58,
+      "elapsed_ns": 12709,
+      "status": "complete"
+    },
+    {
+      "index": 75,
+      "warmup": false,
+      "step": 3,
+      "sequence": 58,
+      "elapsed_ns": 9750,
+      "status": "complete"
+    },
+    {
+      "index": 76,
+      "warmup": false,
+      "step": 0,
+      "sequence": 59,
+      "elapsed_ns": 13458,
+      "status": "stop"
+    },
+    {
+      "index": 77,
+      "warmup": false,
+      "step": 1,
+      "sequence": 60,
+      "elapsed_ns": 13584,
+      "status": "ready"
+    },
+    {
+      "index": 78,
+      "warmup": false,
+      "step": 2,
+      "sequence": 61,
+      "elapsed_ns": 12666,
+      "status": "complete"
+    },
+    {
+      "index": 79,
+      "warmup": false,
+      "step": 3,
+      "sequence": 61,
+      "elapsed_ns": 10125,
+      "status": "complete"
+    },
+    {
+      "index": 80,
+      "warmup": false,
+      "step": 0,
+      "sequence": 62,
+      "elapsed_ns": 13208,
+      "status": "stop"
+    },
+    {
+      "index": 81,
+      "warmup": false,
+      "step": 1,
+      "sequence": 63,
+      "elapsed_ns": 13292,
+      "status": "ready"
+    },
+    {
+      "index": 82,
+      "warmup": false,
+      "step": 2,
+      "sequence": 64,
+      "elapsed_ns": 12667,
+      "status": "complete"
+    },
+    {
+      "index": 83,
+      "warmup": false,
+      "step": 3,
+      "sequence": 64,
+      "elapsed_ns": 9625,
+      "status": "complete"
+    },
+    {
+      "index": 84,
+      "warmup": false,
+      "step": 0,
+      "sequence": 65,
+      "elapsed_ns": 13167,
+      "status": "stop"
+    },
+    {
+      "index": 85,
+      "warmup": false,
+      "step": 1,
+      "sequence": 66,
+      "elapsed_ns": 13041,
+      "status": "ready"
+    },
+    {
+      "index": 86,
+      "warmup": false,
+      "step": 2,
+      "sequence": 67,
+      "elapsed_ns": 12250,
+      "status": "complete"
+    },
+    {
+      "index": 87,
+      "warmup": false,
+      "step": 3,
+      "sequence": 67,
+      "elapsed_ns": 9625,
+      "status": "complete"
+    },
+    {
+      "index": 88,
+      "warmup": false,
+      "step": 0,
+      "sequence": 68,
+      "elapsed_ns": 13500,
+      "status": "stop"
+    },
+    {
+      "index": 89,
+      "warmup": false,
+      "step": 1,
+      "sequence": 69,
+      "elapsed_ns": 13458,
+      "status": "ready"
+    },
+    {
+      "index": 90,
+      "warmup": false,
+      "step": 2,
+      "sequence": 70,
+      "elapsed_ns": 12500,
+      "status": "complete"
+    },
+    {
+      "index": 91,
+      "warmup": false,
+      "step": 3,
+      "sequence": 70,
+      "elapsed_ns": 9625,
+      "status": "complete"
+    },
+    {
+      "index": 92,
+      "warmup": false,
+      "step": 0,
+      "sequence": 71,
+      "elapsed_ns": 12916,
+      "status": "stop"
+    },
+    {
+      "index": 93,
+      "warmup": false,
+      "step": 1,
+      "sequence": 72,
+      "elapsed_ns": 13042,
+      "status": "ready"
+    },
+    {
+      "index": 94,
+      "warmup": false,
+      "step": 2,
+      "sequence": 73,
+      "elapsed_ns": 12292,
+      "status": "complete"
+    },
+    {
+      "index": 95,
+      "warmup": false,
+      "step": 3,
+      "sequence": 73,
+      "elapsed_ns": 9584,
+      "status": "complete"
+    },
+    {
+      "index": 96,
+      "warmup": false,
+      "step": 0,
+      "sequence": 74,
+      "elapsed_ns": 12959,
+      "status": "stop"
+    },
+    {
+      "index": 97,
+      "warmup": false,
+      "step": 1,
+      "sequence": 75,
+      "elapsed_ns": 13208,
+      "status": "ready"
+    },
+    {
+      "index": 98,
+      "warmup": false,
+      "step": 2,
+      "sequence": 76,
+      "elapsed_ns": 12458,
+      "status": "complete"
+    },
+    {
+      "index": 99,
+      "warmup": false,
+      "step": 3,
+      "sequence": 76,
+      "elapsed_ns": 9584,
+      "status": "complete"
+    },
+    {
+      "index": 100,
+      "warmup": false,
+      "step": 0,
+      "sequence": 77,
+      "elapsed_ns": 13000,
+      "status": "stop"
+    },
+    {
+      "index": 101,
+      "warmup": false,
+      "step": 1,
+      "sequence": 78,
+      "elapsed_ns": 13708,
+      "status": "ready"
+    },
+    {
+      "index": 102,
+      "warmup": false,
+      "step": 2,
+      "sequence": 79,
+      "elapsed_ns": 12875,
+      "status": "complete"
+    },
+    {
+      "index": 103,
+      "warmup": false,
+      "step": 3,
+      "sequence": 79,
+      "elapsed_ns": 9666,
+      "status": "complete"
+    },
+    {
+      "index": 104,
+      "warmup": false,
+      "step": 0,
+      "sequence": 80,
+      "elapsed_ns": 13709,
+      "status": "stop"
+    },
+    {
+      "index": 105,
+      "warmup": false,
+      "step": 1,
+      "sequence": 81,
+      "elapsed_ns": 13083,
+      "status": "ready"
+    },
+    {
+      "index": 106,
+      "warmup": false,
+      "step": 2,
+      "sequence": 82,
+      "elapsed_ns": 12708,
+      "status": "complete"
+    },
+    {
+      "index": 107,
+      "warmup": false,
+      "step": 3,
+      "sequence": 82,
+      "elapsed_ns": 10000,
+      "status": "complete"
+    },
+    {
+      "index": 108,
+      "warmup": false,
+      "step": 0,
+      "sequence": 83,
+      "elapsed_ns": 13666,
+      "status": "stop"
+    },
+    {
+      "index": 109,
+      "warmup": false,
+      "step": 1,
+      "sequence": 84,
+      "elapsed_ns": 13500,
+      "status": "ready"
+    },
+    {
+      "index": 110,
+      "warmup": false,
+      "step": 2,
+      "sequence": 85,
+      "elapsed_ns": 12167,
+      "status": "complete"
+    },
+    {
+      "index": 111,
+      "warmup": false,
+      "step": 3,
+      "sequence": 85,
+      "elapsed_ns": 10125,
+      "status": "complete"
+    },
+    {
+      "index": 112,
+      "warmup": false,
+      "step": 0,
+      "sequence": 86,
+      "elapsed_ns": 13333,
+      "status": "stop"
+    },
+    {
+      "index": 113,
+      "warmup": false,
+      "step": 1,
+      "sequence": 87,
+      "elapsed_ns": 13541,
+      "status": "ready"
+    },
+    {
+      "index": 114,
+      "warmup": false,
+      "step": 2,
+      "sequence": 88,
+      "elapsed_ns": 12625,
+      "status": "complete"
+    },
+    {
+      "index": 115,
+      "warmup": false,
+      "step": 3,
+      "sequence": 88,
+      "elapsed_ns": 9542,
+      "status": "complete"
+    },
+    {
+      "index": 116,
+      "warmup": false,
+      "step": 0,
+      "sequence": 89,
+      "elapsed_ns": 13209,
+      "status": "stop"
+    },
+    {
+      "index": 117,
+      "warmup": false,
+      "step": 1,
+      "sequence": 90,
+      "elapsed_ns": 13542,
+      "status": "ready"
+    },
+    {
+      "index": 118,
+      "warmup": false,
+      "step": 2,
+      "sequence": 91,
+      "elapsed_ns": 12916,
+      "status": "complete"
+    },
+    {
+      "index": 119,
+      "warmup": false,
+      "step": 3,
+      "sequence": 91,
+      "elapsed_ns": 10125,
+      "status": "complete"
+    },
+    {
+      "index": 120,
+      "warmup": false,
+      "step": 0,
+      "sequence": 92,
+      "elapsed_ns": 13666,
+      "status": "stop"
+    },
+    {
+      "index": 121,
+      "warmup": false,
+      "step": 1,
+      "sequence": 93,
+      "elapsed_ns": 13292,
+      "status": "ready"
+    },
+    {
+      "index": 122,
+      "warmup": false,
+      "step": 2,
+      "sequence": 94,
+      "elapsed_ns": 12458,
+      "status": "complete"
+    },
+    {
+      "index": 123,
+      "warmup": false,
+      "step": 3,
+      "sequence": 94,
+      "elapsed_ns": 9542,
+      "status": "complete"
+    },
+    {
+      "index": 124,
+      "warmup": false,
+      "step": 0,
+      "sequence": 95,
+      "elapsed_ns": 13250,
+      "status": "stop"
+    },
+    {
+      "index": 125,
+      "warmup": false,
+      "step": 1,
+      "sequence": 96,
+      "elapsed_ns": 13000,
+      "status": "ready"
+    },
+    {
+      "index": 126,
+      "warmup": false,
+      "step": 2,
+      "sequence": 97,
+      "elapsed_ns": 12666,
+      "status": "complete"
+    },
+    {
+      "index": 127,
+      "warmup": false,
+      "step": 3,
+      "sequence": 97,
+      "elapsed_ns": 9625,
+      "status": "complete"
+    },
+    {
+      "index": 128,
+      "warmup": false,
+      "step": 0,
+      "sequence": 98,
+      "elapsed_ns": 13500,
+      "status": "stop"
+    },
+    {
+      "index": 129,
+      "warmup": false,
+      "step": 1,
+      "sequence": 99,
+      "elapsed_ns": 13291,
+      "status": "ready"
+    },
+    {
+      "index": 130,
+      "warmup": false,
+      "step": 2,
+      "sequence": 100,
+      "elapsed_ns": 12583,
+      "status": "complete"
+    },
+    {
+      "index": 131,
+      "warmup": false,
+      "step": 3,
+      "sequence": 100,
+      "elapsed_ns": 9833,
+      "status": "complete"
+    },
+    {
+      "index": 132,
+      "warmup": false,
+      "step": 0,
+      "sequence": 101,
+      "elapsed_ns": 13250,
+      "status": "stop"
+    },
+    {
+      "index": 133,
+      "warmup": false,
+      "step": 1,
+      "sequence": 102,
+      "elapsed_ns": 13000,
+      "status": "ready"
+    },
+    {
+      "index": 134,
+      "warmup": false,
+      "step": 2,
+      "sequence": 103,
+      "elapsed_ns": 12459,
+      "status": "complete"
+    },
+    {
+      "index": 135,
+      "warmup": false,
+      "step": 3,
+      "sequence": 103,
+      "elapsed_ns": 9750,
+      "status": "complete"
+    },
+    {
+      "index": 136,
+      "warmup": false,
+      "step": 0,
+      "sequence": 104,
+      "elapsed_ns": 13792,
+      "status": "stop"
+    },
+    {
+      "index": 137,
+      "warmup": false,
+      "step": 1,
+      "sequence": 105,
+      "elapsed_ns": 13500,
+      "status": "ready"
+    },
+    {
+      "index": 138,
+      "warmup": false,
+      "step": 2,
+      "sequence": 106,
+      "elapsed_ns": 12958,
+      "status": "complete"
+    },
+    {
+      "index": 139,
+      "warmup": false,
+      "step": 3,
+      "sequence": 106,
+      "elapsed_ns": 10000,
+      "status": "complete"
+    },
+    {
+      "index": 140,
+      "warmup": false,
+      "step": 0,
+      "sequence": 107,
+      "elapsed_ns": 13375,
+      "status": "stop"
+    },
+    {
+      "index": 141,
+      "warmup": false,
+      "step": 1,
+      "sequence": 108,
+      "elapsed_ns": 13416,
+      "status": "ready"
+    },
+    {
+      "index": 142,
+      "warmup": false,
+      "step": 2,
+      "sequence": 109,
+      "elapsed_ns": 12250,
+      "status": "complete"
+    },
+    {
+      "index": 143,
+      "warmup": false,
+      "step": 3,
+      "sequence": 109,
+      "elapsed_ns": 9625,
+      "status": "complete"
+    }
+  ],
+  "warm": {
+    "count": 128,
+    "p50_ns": 13000,
+    "p95_ns": 13792,
+    "max_ns": 14375,
+    "target_p95_ns": 1000000,
+    "met": true
+  },
+  "cold_compile_ns": [
+    55605667,
+    45712125,
+    44605416
+  ],
+  "cold_python_cli": [
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import json,time; from pathlib import Path; import schema_manager; t=time.perf_counter_ns(); p=schema_manager.compile_plan(Path.cwd()); print(json.dumps({\"compile_ns\":time.perf_counter_ns()-t,\"plan\":p.identity}))"
+      ],
+      "exit": 0,
+      "stdout": "{\"compile_ns\": 56279416, \"plan\": \"69d1d1bb69aa98608feaf9a408912e685c73636f67ce84bfef4ab0e2fe51dc70\"}\n",
+      "stderr": "",
+      "elapsed_ns": 134245375
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import json,time; from pathlib import Path; import schema_manager; t=time.perf_counter_ns(); p=schema_manager.compile_plan(Path.cwd()); print(json.dumps({\"compile_ns\":time.perf_counter_ns()-t,\"plan\":p.identity}))"
+      ],
+      "exit": 0,
+      "stdout": "{\"compile_ns\": 55168042, \"plan\": \"69d1d1bb69aa98608feaf9a408912e685c73636f67ce84bfef4ab0e2fe51dc70\"}\n",
+      "stderr": "",
+      "elapsed_ns": 132045917
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import json,time; from pathlib import Path; import schema_manager; t=time.perf_counter_ns(); p=schema_manager.compile_plan(Path.cwd()); print(json.dumps({\"compile_ns\":time.perf_counter_ns()-t,\"plan\":p.identity}))"
+      ],
+      "exit": 0,
+      "stdout": "{\"compile_ns\": 55604667, \"plan\": \"69d1d1bb69aa98608feaf9a408912e685c73636f67ce84bfef4ab0e2fe51dc70\"}\n",
+      "stderr": "",
+      "elapsed_ns": 131992583
+    }
+  ]
+}

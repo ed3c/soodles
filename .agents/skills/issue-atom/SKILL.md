@@ -5,6 +5,13 @@ description: Advance one externally authorized local Soodles plus Noodle Issue t
 
 # Local Issue atom
 
+Host finalization consumes the fixed Manager projection inside this same owner.
+Its readiness never grants effect or landing authority. A stop/restore intent
+with an unknown outcome requires original owner readback through the unchanged
+continuation; do not reoffer the effect or replace projection identity. Terminal
+completion needs landing, physical absence/restoration and owner confirmation.
+The projection creates no repair budget and selects no model recovery action.
+
 Use the immutable schema-2 or schema-3 authorization selected by the external
 supervisor. Here, external means outside the candidate's authority, not a
 cloud service: the authorized local Session may select the host capabilities,

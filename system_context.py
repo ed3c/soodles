@@ -164,7 +164,7 @@ def validate_entries(root, head, value, paths, read_source=None):
     for entry, (source, consumer) in ENTRY_CONSUMERS.items():
         record = entries[entry]
         exact_object(record, {"sources", "decisions"}, "entry.fields")
-        expected_sources = [source] + (["candidate_publication.py", "provider_readback.py", "system_context.py", "issue-atom"] if entry == "issue-atom run" else ["soodles", "soodles.py"] if entry == "soodles candidate publish" else ["provider-readback"])
+        expected_sources = [source] + (["candidate_publication.py", "provider_readback.py", "system_context.py", "issue-atom", "schema_manager.py", "policy/host-finalization.json"] if entry == "issue-atom run" else ["soodles", "soodles.py"] if entry == "soodles candidate publish" else ["provider-readback"])
         require(record["sources"] == expected_sources, "entry.sources", record["sources"])
         committed = read(expected_sources)
         definitions = set()

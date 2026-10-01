@@ -23,6 +23,7 @@ import urllib.parse
 
 import candidate_publication
 import atom_repair
+import schema_manager
 import issue_admission
 import issue_execution
 import provider_credential
@@ -48,7 +49,8 @@ LIFECYCLE_FILES = ("issue-atom", "soodles", "soodles.py", "issue_atom.py",
                    "policy/repair-policy.json", "provider_readback.py", "system_context.py",
                    "contracts/system-v1/routes.json", "contracts/system-v1/common.md",
                    "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
-                   "contracts/system-v1/readback.md", "provider-readback")
+                   "contracts/system-v1/readback.md", "provider-readback",
+                   "schema_manager.py", "policy/host-finalization.json")
 MARKER_PREFIX = "<!-- soodles:local-atom-v1:"
 
 
@@ -1308,7 +1310,34 @@ def complete_noodle(authorization, paths, state, transition):
             os.fsync(mailbox.fileno())
 
 
-def finish_host(authorization, paths, state):
+def host_manager(authorization, state):
+    """Compile once; source identity remains checked outside the hot reducer."""
+    root = Path(__file__).resolve().parent
+    try:
+        plan = schema_manager.compiled(root)
+        plan.validate_sources(root)
+        if authorization.get("lifecycle_owner"):
+            validate_lifecycle_owner(authorization, executing=True)
+        else:
+            for name in ("schema_manager.py", schema_manager.PLAN_PATH):
+                source = issue_admission.git_bytes(
+                    authorization["control_root"], authorization["base_head"], name)
+                require(digest_bytes(source) == plan.sources[name], "host_finalization.source", name,
+                        "supervisor_selected_lifecycle_source")
+        start = state.get("noodle_start")
+        subject = {"repository": authorization["repository"],
+                   "root": authorization["control_root"], "base": authorization["base_head"],
+                   "envelope": state.get("envelope_sha256"),
+                   "start": None if start is None else {k: start.get(k) for k in
+                       ("pid", "argv", "config_sha256", "original_config")}}
+        identity = {"authorization": state["authorization_sha256"],
+                    "subject": schema_manager.digest(subject), "plan": plan.identity}
+        return schema_manager.Manager(plan, identity, state.get("host_finalization"))
+    except schema_manager.SchemaRefusal as error:
+        raise AtomRefusal("host_finalization", str(error), "original_owner_readback") from error
+
+
+def finish_host(authorization, paths, state, *, landing=None):
     """Retire only this entry's own loop; restore only unchanged installed config."""
     if state.get("noodle_completion"):
         command = state["noodle_completion"]
@@ -1321,22 +1350,73 @@ def finish_host(authorization, paths, state):
         if state.get("noodle_completion_ack") != matches[0]:
             state["noodle_completion_ack"] = matches[0]
             save_json(paths["state"], state)
+    manager = host_manager(authorization, state)
+
+    def check_sources():
+        try:
+            manager.plan.validate_sources(Path(__file__).resolve().parent)
+        except (schema_manager.SchemaRefusal, OSError) as error:
+            raise AtomRefusal("host_finalization.source", str(error),
+                              "supervisor_selected_lifecycle_source") from error
+
+    def observe(values, evidence):
+        try:
+            result = manager.observe({k: {"value": v, "evidence": schema_manager.digest(evidence)}
+                                      for k, v in values.items()})
+        except schema_manager.SchemaRefusal as error:
+            raise AtomRefusal("host_finalization", str(error), "original_owner_readback") from error
+        record = manager.record()
+        if state.get("host_finalization") != record:
+            state["host_finalization"] = record
+            save_json(paths["state"], state)
+        return result
+
+    def confirm():
+        require("confirm" in manager.project()["ready"], "host_finalization.confirm", "missing physical facts",
+                "original_owner_readback")
+        # This owner, after its physical readback, produces confirmation. It is
+        # never a prerequisite of shutdown or restoration.
+        projection = observe({"owner_confirmed": True}, {
+            "facts": {k: manager.facts[k] for k in ("landing_resolved", "loop_absent", "config_restored")},
+            "ack": state.get("noodle_completion_ack")})
+        return projection["status"] == "complete" if landing is not None else True
+
+    observe({"cleanup_allowed": True}, {"authorization": state["authorization_sha256"]})
+    observe({"landing_resolved": landing is not None and landing.get("classification") == "RESOLVED"}, landing)
     start = state.get("noodle_start")
     if start is None:
-        return True  # An adopted external owner is not ours to terminate.
+        # No owned loop may be signalled; original config still needs readback.
+        config = host_config_identity(authorization["control_root"])
+        observe({"config_restored": config == authorization["host_config_sha256"]}, config)
+        require(config == authorization["host_config_sha256"],
+                "noodle.config.restored", "changed", "unchanged_host_configuration")
+        observe({"loop_live": False, "loop_absent": True}, {"owned_start": None})
+        return confirm()
     require(type(start.get("pid")) is int and start["pid"] > 1,
             "noodle.stop.pid", start.get("pid"), "original_start_process_readback")
     pid = start["pid"]
     observed = subprocess.run(["ps", "-p", str(pid), "-o", "command="], capture_output=True, text=True)
     if observed.returncode == 0 and observed.stdout.strip():
         expected = " ".join(noodle_process_argv(authorization, start))
+        if observed.stdout.strip() != expected:
+            observe({"loop_live": False, "loop_absent": False}, {"pid": pid, "identity": "foreign"})
         require(observed.stdout.strip() == expected, "noodle.stop.identity", "changed",
                 "original_start_process_readback")
-        if not start.get("stop_offered"):
+        observe({"loop_live": True, "loop_absent": False}, {"pid": pid, "argv": expected})
+        projection = observe({"stop_offered": bool(start.get("stop_offered"))}, bool(start.get("stop_offered")))
+        if "stop" in projection["ready"]:
+            check_sources()
             start["stop_offered"] = True
             save_json(paths["state"], state)
-            os.kill(pid, signal.SIGTERM)  # Noodle's documented shutdown path.
+            observe({"stop_offered": True}, True)
+            try:
+                os.kill(pid, signal.SIGTERM)  # Noodle's documented shutdown path.
+            except OSError as error:
+                raise AtomRefusal("noodle.stop.outcome", type(error).__name__,
+                                  "original_start_process_readback", owner="Noodle") from error
         return False
+    if observed.returncode != 1:
+        observe({"loop_live": False, "loop_absent": False}, {"pid": pid, "ps_exit": observed.returncode})
     require(observed.returncode == 1, "noodle.stop.readback", observed.returncode,
             "original_start_process_readback")
     try:
@@ -1344,11 +1424,15 @@ def finish_host(authorization, paths, state):
     except ProcessLookupError:
         pass
     else:
+        observe({"loop_live": False, "loop_absent": False}, {"pid": pid, "group_absent": False})
         raise AtomRefusal("noodle.stop.process_group", "present", "quiescent_noodle_owner")
+    observe({"loop_live": False, "loop_absent": True}, {"pid": pid, "ps_exit": 1, "group_absent": True})
     if start.get("restored"):
-        require(host_config_identity(authorization["control_root"]) == authorization["host_config_sha256"],
+        config = host_config_identity(authorization["control_root"])
+        observe({"config_restored": config == authorization["host_config_sha256"]}, config)
+        require(config == authorization["host_config_sha256"],
                 "noodle.config.restored", "changed", "unchanged_host_configuration")
-        return True
+        return confirm()
     root = Path(authorization["control_root"])
     with (root / ".noodle/noodle.lock").open("a+b") as lock:
         try:
@@ -1356,24 +1440,38 @@ def finish_host(authorization, paths, state):
         except BlockingIOError:
             raise AtomRefusal("noodle.stop.owner", "running", "quiescent_noodle_owner") from None
         observed_config = host_config_identity(root)
+        observe({"config_restored": observed_config == authorization["host_config_sha256"]}, observed_config)
         if start.get("restore_offered") and observed_config == authorization["host_config_sha256"]:
             start["restored"] = True
             save_json(paths["state"], state)
-            return True
+            return confirm()
         require(observed_config == start["config_sha256"],
                 "noodle.config.restore", "changed", "unchanged_installed_configuration")
         original = start["original_config"]
         require((None if original is None else digest_bytes(base64.b64decode(original)))
                 == authorization["host_config_sha256"], "noodle.config.backup", "changed")
+        observe({"config_installed": True, "config_restored": False}, observed_config)
+        projection = observe({"restore_offered": bool(start.get("restore_offered"))}, bool(start.get("restore_offered")))
+        require("restore" in projection["ready"], "noodle.config.restore_outcome", "unknown",
+                "original_host_recovery_readback")
+        check_sources()
         start["restore_offered"] = True
         save_json(paths["state"], state)
-        if original is None:
-            (root / ".noodle.toml").unlink()
-        else:
-            (root / ".noodle.toml").write_bytes(base64.b64decode(original))
+        observe({"restore_offered": True}, True)
+        try:
+            if original is None:
+                (root / ".noodle.toml").unlink()
+            else:
+                (root / ".noodle.toml").write_bytes(base64.b64decode(original))
+        except OSError as error:
+            raise AtomRefusal("noodle.config.restore_outcome", type(error).__name__,
+                              "original_host_recovery_readback", owner="soodles.issue-atom") from error
+        require(host_config_identity(root) == authorization["host_config_sha256"],
+                "noodle.config.restored", "changed", "original_host_recovery_readback")
         start["restored"] = True
         save_json(paths["state"], state)
-    return True
+        observe({"config_installed": False, "config_restored": True}, authorization["host_config_sha256"])
+    return confirm()
 
 
 def _run_claim(authorization, subject, output, order_id):
@@ -2170,6 +2268,9 @@ def require_available_owner(authorization, paths, state):
                     refuse("noodle.running.config", "foreign")
                 return
             for order_id in orders:
+                if (order_id == "schedule" and exact_order and state.get("noodle_start")
+                        and native_idle_schedule(orders[order_id], model)):
+                    continue  # Every actual session process is checked below.
                 issue_execution.quiescent_order(
                     {"execution": {"control_root": str(root), "order_id": order_id}}, owner)
             for process in sorted((runtime / "sessions").glob("*/process.json")):
@@ -2436,12 +2537,13 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
             complete_noodle(authorization, paths, state, transition)
             return response(state, authorization_path, waiting_on="Noodle completion acknowledgement")
     if transition.get("classification") == "RESOLVED":
-        if not finish_host(authorization, paths, state):
+        if not finish_host(authorization, paths, state, landing=transition):
             return response(state, authorization_path, waiting_on="Noodle shutdown readback")
         state["phase"] = "resolved"
         save_json(state_path, state)
         return response(state, authorization_path, status="resolved",
-                        details={"landing": transition})
+                        details={"landing": transition,
+                                 "host_finalization": state["host_finalization"]})
     if transition.get("next") is None:
         # The owner has returned a nonterminal outcome with neither a legal
         # action nor a prerequisite. This is a structural deadlock, not a timer.

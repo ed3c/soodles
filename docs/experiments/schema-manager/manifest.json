@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 209
+  },
+  "instructions": [
+    {
+      "path": "contracts/system-v1/issue-atom.md",
+      "baseline_sha256": "dd1582f3a56f6449f95153ec989887d437510b0925836c313b4221fb67c53b17",
+      "treatment_sha256": "e9add58859a86d4fcbde7573cc699f449a80c084e9a30dadf5e797f11d4ef53c"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/schema-manager/product-results.json",
+      "role": "Implementation, declared controls or actual local evidence; non-authorizing",
+      "sha256": "6e8e3e773112ea3c7078657756350340a1d7b313d939bec13254ad9cd2bf11cb"
+    },
+    {
+      "path": "docs/experiments/schema-manager/protocol.md",
+      "role": "Implementation, declared controls or actual local evidence; non-authorizing",
+      "sha256": "0a6322cba76d5bc019b30cf8fb7776c81fb52a0f817846aa8bfd6d4bbcdbd48f"
+    },
+    {
+      "path": "docs/experiments/schema-manager/results.md",
+      "role": "Implementation, declared controls or actual local evidence; non-authorizing",
+      "sha256": "9e732c7af2f7d5ce7e0ae77f2fe3b21286415a803304a996b783d06acbc04516"
+    },
+    {
+      "path": "docs/experiments/schema-manager/timing.json",
+      "role": "Implementation, declared controls or actual local evidence; non-authorizing",
+      "sha256": "a4b4e99eef79146099e818990f50377bae4927ccb1137ce296e092c40cc47f1a"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "Implementation, declared controls or actual local evidence; non-authorizing",
+      "sha256": "dbc247d1fc5f7838e462ba44bfaab4ecba502736bd435a35c14d3bac46808c3c"
+    },
+    {
+      "path": "policy/host-finalization.json",
+      "role": "Implementation, declared controls or actual local evidence; non-authorizing",
+      "sha256": "94f1b45babe092d7f882ce59c31c1c279c6ee50168c25cb9a2f2c9014549c08a"
+    },
+    {
+      "path": "schema_manager.py",
+      "role": "Implementation, declared controls or actual local evidence; non-authorizing",
+      "sha256": "e025fb4f39a256603c3865d073194d995c9bc57b3689ecb5ff79422abe899696"
+    },
+    {
+      "path": "tests/test_schema_manager.py",
+      "role": "Implementation, declared controls or actual local evidence; non-authorizing",
+      "sha256": "1d3906420544cbfcaa5f76a35e6d699620d7764536e2794ea8f594ada257dad0"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#209"
+  },
+  "authorizes_landing": false
+}
