@@ -248,6 +248,59 @@ class CostTests(unittest.TestCase):
         self.assertEqual(event['outcome'], 'pending')
         self.assertEqual(cost.report(self.auth)['coverage']['waits']['status'], 'partial')
 
+    def test_created_issue_keeps_subject_and_binds_actual_readback(self):
+        auth = {'repository': 'ed3c/soodles', 'base_head': 'a'*40,
+                'issue': {'title': 'cost', 'body': 'selected body'}}
+        self.auth.write_text(json.dumps(auth))
+        raw = self.auth.read_bytes()
+        identity = cost.subject(auth, raw, {})
+        body = 'selected body\n\n<!-- soodles:local-atom-v1:' + identity['authorization'] + ' -->\n'
+        self.state.update(authorization_sha256=identity['authorization'], issue={
+            'number': 215, 'url': 'https://github.com/ed3c/soodles/issues/215',
+            'body_sha256': cost.digest(body.encode())})
+        self.assertEqual(identity, cost.subject(auth, raw, self.state))
+        self.manifest.update(subject=identity, authorization_sha256=identity['authorization'],
+                             state=self.write('state.json', self.state))
+        process = self.process_manifest()
+        entry = self.manifest['processes'][0]
+        entry['stdout'] = self.write('stdout.json', {'status': 'refused', 'issue': {'number': 215}})
+        process.update(exit_status=1, stdout_sha256=entry['stdout']['sha256'])
+        entry['process'] = self.write('process.json', process)
+        self.manifest['claim'] = self.write('claim.json', {'repository': 'ed3c/soodles',
+            'subject': 'ed3c/soodles#215', 'base_head': 'a'*40, 'head': 'b'*40})
+        result = cost.report(self.auth, self.write('manifest.json', self.manifest)['path'])
+        self.assertEqual(result['summary']['statuses']['refused'], 1)
+        self.assertIsNone(result['subject']['issue'])
+        self.state['issue']['body_sha256'] = '0'*64
+        with self.assertRaisesRegex(cost.CostRefusal, 'created_issue_binding'):
+            cost.subject(auth, raw, self.state)
+
+    def test_codex_terminal_usage_and_nested_schema_numbers(self):
+        self.manifest['claim'] = self.write('claim.json', {'repository': 'ed3c/soodles',
+            'subject': 'ed3c/soodles#215', 'base_head': 'a'*40, 'head': 'b'*40,
+            'session_id': 'session', 'order_id': 'order'})
+        ref = self.write('raw.ndjson', {'type': 'turn.completed', 'usage': {
+            'input_tokens': 100, 'cached_input_tokens': 80, 'output_tokens': 12,
+            'reasoning_output_tokens': 3}})
+        entry = {'file': ref, 'kind': 'codex_raw', 'session_id': 'session', 'order_id': 'order'}
+        self.manifest['native'] = [entry, copy.deepcopy(entry)]
+        result = cost.report(self.auth, self.write('manifest.json', self.manifest)['path'])
+        self.assertEqual(result['summary']['tokens']['input_tokens'], 100)
+        self.assertEqual(result['summary']['tokens']['output_tokens'], 12)
+        self.assertIsNone(result['summary']['price'])
+        facts = {key: result[key] for key in ('subject', 'coverage', 'summary', 'sources')}
+        facts['summary']['tokens']['input_tokens'] = -1
+        with self.assertRaises(schema_manager.SchemaRefusal):
+            schema_manager.project_cost(facts)
+
+    def test_phase_and_legacy_wait_costs_reach_schema_without_wall_invention(self):
+        raw = json.dumps({'event': 'soodles.timing', 'operation': 'issue_atom.wait',
+                          'seconds': 5, 'status': 'pending'}).encode()
+        result = cost.project(self.identity, cost.timing_log(raw, self.source, self.identity))
+        self.assertIsNone(result['summary']['external_wait_seconds'])
+        self.assertEqual(result['summary']['logged_wait_seconds'], 5)
+        self.assertEqual(result['schema_projection']['cost']['phase_costs'][0]['inclusive_seconds'], 5)
+
     def test_incomplete_normal_intent_and_direct_schema_numeric_refusal(self):
         handle = cost.begin(self.auth, atom.save_json)
         result = cost.report(self.auth)

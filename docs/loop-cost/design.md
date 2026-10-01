@@ -73,7 +73,7 @@ receipts; do not rewrite them into candidate-authored accounting.
   "subject": {
     "authorization": "SHA256_OF_ORIGINAL_AUTHORIZATION_BYTES",
     "repository": "ed3c/soodles",
-    "issue": 215,
+    "issue": null,
     "base_head": "8c6f872620c97cca203b7f325b6bd714ef8cbb45"
   },
   "head": "EXACT_CANDIDATE_HEAD_FROM_ORIGINAL_PUBLICATION",
@@ -128,8 +128,10 @@ for collector starts without completed process receipts. They retain unknown
 status and duration; list only genuinely incomplete invocations there. Native raw files are retained under exact claim
 order/session linkage. Optional `kind: "meta"` additionally cross-checks the JSON
 session_id and exposes a finite nonnegative total_cost_usd as reported_cost_usd in
-native_usage, never a billed price or independently verified total. Raw log usage
-and tokens remain unparsed; no token parser or model billing authority is claimed.
+native_usage, never a billed price or independently verified total. `kind: "codex_raw"` reads a single terminal Codex turn.completed usage record.
+Multiple-turn totals remain unknown because cumulative versus incremental accounting
+is unspecified. Cached/reasoning counters are subsets, never added to token totals;
+reported usage is not a billing authority.
 
 Provider run repository/head/workflow and job run_id/run_attempt/head must match.
 Log lines come from the explicitly supplied run entry, retain their source hash,
@@ -153,7 +155,9 @@ independent spans and authorization/observation correlation in stderr. The norma
 owner retains already-returned run/jobs bytes and normalizes them through the same
 external-evidence adapter without another provider GET. An external manifest at
 `AUTHORIZATION.d/cost-evidence.json` automatically supplements normal projections.
-Raw source and record files stay under the existing artifact directory. Reporting
+Once the original publication claim exists, normal reports also read its original
+Noodle session raw log for available terminal Codex usage. Raw source and record
+files stay under the existing artifact directory. Reporting
 reads history linearly; it adds no checkpoint migration or second authority store.
 
 Coverage includes end-to-end, processing, waits, writer/model, API observations,
@@ -161,8 +165,8 @@ verification, retries, startup, publication, landing, cleanup and telemetry. Rec
 spans are measured; family coverage is partial until whole-family accounting exists.
 End-to-end is only the observed envelope; gaps are not attributed to people. Normal
 foreground ending in a phase is explicitly inclusive, not exclusive phase cost.
-Unknown/unavailable spans retain null durations. Tokens/price/CPU/API counts/human
-waiting have no current accounting adapter and remain null. Telemetry records its
+Unknown/unavailable spans retain null durations. Available single-turn Codex token usage is exposed; price/CPU/API counts/human
+waiting without an accounting source remain null. Telemetry records its
 record/report overhead for the next projection, excluding its final evidence flush.
 
 Schema Manager receives finite numeric summary, source refs, coverage and the
@@ -204,3 +208,21 @@ serves issue/worker entrypoints and needs no cost import: soodles.measured uses
 only the standard library. The independent landing OWNER_FILES closure is unchanged.
 Wait controls now permit only cost-artifact writes; their original lifecycle/config/
 provider no-effect and unchanged-byte assertions remain intact.
+
+## Supervisor review before publication
+
+The actual new-Issue authorization has no Issue number. Its stable cost subject
+keeps null, while external process/claim readbacks bind the created number through
+the original state authorization, body-marker digest and exact Issue URL. This does
+not rewrite authorization or observations. Nonzero process exits retain typed
+refused/pending/unknown results, separately from the raw exit evidence.
+
+Schema Manager receives per-phase inclusive observed durations and legacy logged
+wait seconds; nested phases must not be summed into wall latency. Provider job
+bounds are separate from foreground bounds. Historical write offers are labeled
+history, with current required readback taken only from the owner response.
+
+The installed pstack provider was updated during this atom to cursor/plugins
+2eb7ed4613cfc8f098dfe464a23680ea44d84c5e (0.15.5). The dispatched writer used
+the original pinned 0.14.5 snapshot above; supervisor review read the new architect
+method. No arena or model experiments were added.

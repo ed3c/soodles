@@ -15,6 +15,8 @@ import uuid
 FAMILIES = ("end_to_end", "processing", "waits", "writer_model", "api",
             "verification", "retries", "startup", "publication", "landing",
             "cleanup", "telemetry")
+TOKEN_FIELDS = {"input_tokens", "cached_input_tokens", "cache_write_input_tokens",
+                "output_tokens", "reasoning_output_tokens"}
 STATUSES = {"passed", "failed", "pending", "refused", "unknown", "not_required"}
 
 
@@ -92,9 +94,24 @@ def subject(authorization, raw, state):
     require(issue is None or type(issue) is int and issue > 0, "issue")
     selected = authorization.get("issue", {}).get("number")
     require(selected is None or observed_issue is None or selected == observed_issue, "issue_identity")
+    bound_issue(authorization, {"authorization": auth, "repository": repository, "issue": issue}, state)
     base = authorization.get("base_head")
     require(isinstance(base, str) and re.fullmatch(r"[0-9a-f]{40}", base), "base_head")
     return {"authorization": auth, "repository": repository, "issue": issue, "base_head": base}
+
+
+def bound_issue(authorization, identity, state):
+    """Created Issue readback binds separately from the immutable pre-create subject."""
+    observed = state.get("issue") or {}
+    number_value = observed.get("number", identity["issue"])
+    require(number_value is None or type(number_value) is int and number_value > 0, "observed_issue")
+    if identity["issue"] is None and number_value is not None:
+        body = authorization["issue"]["body"].rstrip() + "\n\n<!-- soodles:local-atom-v1:" + identity["authorization"] + " -->\n"
+        require(state.get("authorization_sha256") == identity["authorization"]
+                and observed.get("body_sha256") == digest(body.encode())
+                and observed.get("url") == "https://github.com/" + identity["repository"] + "/issues/" + str(number_value),
+                "created_issue_binding")
+    return number_value
 
 
 def observation(identity, source, span, *, family, kind, phase, outcome,
@@ -129,9 +146,14 @@ def validate(item, identity):
     require(item.get("attempt") is None or type(item["attempt"]) is int and item["attempt"] > 0
             or isinstance(item.get("attempt"), str) and bool(item["attempt"]), "attempt")
     if "usage" in item:
-        require(isinstance(item["usage"], dict) and set(item["usage"]) <= {"reported_cost_usd"}, "usage")
+        require(isinstance(item["usage"], dict) and set(item["usage"]) <= {"reported_cost_usd", "tokens"}, "usage")
         for key, value in item["usage"].items():
-            number(value, key)
+            if key == "tokens":
+                require(isinstance(value, dict) and set(value) <= TOKEN_FIELDS and value, "tokens")
+                for name, count in value.items():
+                    require(type(count) is int and count >= 0, "token_" + name)
+            else:
+                number(value, key)
     if "scope" in item:
         require(isinstance(item["scope"], dict), "scope")
         count = item["scope"].get("count")
@@ -197,9 +219,37 @@ def project(identity, observations, gate=None):
     for item in values:
         if item["phase"].startswith("provider_job:") and item["seconds"] is not None:
             key = (item["head"], item["attempt"], item["span"])
-            bounds = (item["started"], item["finished"], item["seconds"])
-            require(provider_jobs.get(key, bounds) == bounds, "conflicting_provider_duration")
-            provider_jobs[key] = bounds
+            job_bounds = (item["started"], item["finished"], item["seconds"])
+            require(provider_jobs.get(key, job_bounds) == job_bounds, "conflicting_provider_duration")
+            provider_jobs[key] = job_bounds
+    phases, usage_sessions, phase_jobs = {}, {}, set()
+    for item in values:
+        if item.get("usage"):
+            session = usage_sessions.setdefault(item["attempt"], {"session": item["attempt"], "sources": []})
+            session["sources"].append(item["source"])
+            for key, value in item["usage"].items():
+                require(session.get(key, value) == value, "conflicting_native_usage")
+                session[key] = value
+        if item["phase"].startswith("provider_job:") and item["seconds"] is not None:
+            key = (item["head"], item["attempt"], item["span"])
+            if key in phase_jobs:
+                continue
+            phase_jobs.add(key)
+        key = (item["phase"], item["kind"], item.get("worker") or "")
+        phase = phases.setdefault(key, {"phase": item["phase"], "kind": item["kind"],
+            "worker": item.get("worker"), "observations": 0, "measured_spans": 0,
+            "inclusive_seconds": None, "statuses": {}, "sources": []})
+        phase["observations"] += 1
+        phase["statuses"][item["status"]] = phase["statuses"].get(item["status"], 0) + 1
+        if item["seconds"] is not None:
+            phase["measured_spans"] += 1
+            phase["inclusive_seconds"] = (phase["inclusive_seconds"] or 0) + item["seconds"]
+        if item["source"]["sha256"] not in phase["sources"]:
+            phase["sources"].append(item["source"]["sha256"])
+    token_sessions = [value["tokens"] for value in usage_sessions.values() if "tokens" in value]
+    tokens = ({name: sum(value[name] for value in token_sessions if name in value)
+               for name in TOKEN_FIELDS if any(name in value for value in token_sessions)}
+              if token_sessions else None)
     summary = {"observations": len(values),
                "statuses": {name: sum(x["status"] == name for x in values) for name in sorted(STATUSES)},
                "observed_wall_seconds": intervals(foreground + waits),
@@ -208,10 +258,13 @@ def project(identity, observations, gate=None):
                "parallel_worker_seconds": sum(worker_seconds) if worker_seconds else None,
                "observed_envelope_seconds": max(x["finished"] for x in bounds) - min(x["started"] for x in bounds) if bounds else None,
                "provider_job_seconds": sum(value[2] for value in provider_jobs.values()) if provider_jobs else None,
-               "cpu_seconds": None, "tokens": None, "price": None,
+               "cpu_seconds": None, "tokens": tokens, "price": None,
                "api_calls": None, "human_wait_seconds": None,
-               "native_usage": [{"session": x["attempt"], "source": x["source"], **x["usage"]}
-                                for x in values if x.get("usage")],
+               "native_usage": list(usage_sessions.values()),
+               "phase_costs": list(phases.values()),
+               "phase_basis": "inclusive observed durations, not additive across nested phases; missing spans unknown",
+               "logged_wait_seconds": sum(x["seconds"] for x in values if x["family"] == "waits" and x["seconds"] is not None)
+                   if any(x["family"] == "waits" and x["seconds"] is not None for x in values) else None,
                "verification_modules": sorted({x["scope"]["module"] for x in values
                     if isinstance(x.get("scope", {}).get("module"), str)}),
                "basis": "interval union for observed wall; foreground includes I/O; worker time is separate, nested details excluded"}
@@ -309,7 +362,8 @@ def gate_from_state(state, source, result=None):
             "repair_history": {key: repair.get(key) for key in ("lineage", "policy", "started", "last_time", "limits", "used")}
                 if repair is not None else None,
             "basis": "elapsed since first repair; not whole-Issue spend or compute",
-            "unknown_writes": {k: v for k, v in state.get("writes", {}).items()},
+            "write_history": {k: v for k, v in state.get("writes", {}).items()},
+            "write_history_basis": "historical offers; current required readback comes only from owner result",
             "host_finalization": state.get("host_finalization"), "authorizes_landing": False}
 
 
@@ -348,6 +402,17 @@ def report(authorization_path, manifest_path=None, *, state=None, result=None):
             sources.append(item["source"])
         observations.extend(entry["observations"])
         sources.append(ref)
+    if manifest_path is None and (directory / "publication-claim.json").exists():
+        claim_ref = file_ref(directory / "publication-claim.json")
+        claim = decode(read_ref(claim_ref))
+        session = claim.get("session_id")
+        require(isinstance(session, str) and re.fullmatch(r"[A-Za-z0-9_.-]+", session), "native_session_path")
+        native_path = Path(authorization["control_root"]) / ".noodle" / "sessions" / session / "raw.ndjson"
+        if native_path.is_file():
+            observed = {"claim": claim_ref, "head": claim.get("head"), "native": [{
+                "file": file_ref(native_path), "kind": "codex_raw", "session_id": session,
+                "order_id": claim.get("order_id")} ]}
+            observations.extend(external(observed, identity, state, path, sources, authorization))
     if manifest_path is not None:
         require(manifest.get("subject") == identity, "manifest_subject")
         observations.extend(external(manifest, identity, state, path, sources, authorization))
@@ -380,11 +445,12 @@ def report(authorization_path, manifest_path=None, *, state=None, result=None):
 def external(manifest, identity, state, authorization_path, sources, authorization):
     result = []
     head = (state.get("publication") or {}).get("head")
+    issue_number = bound_issue(authorization, identity, state)
     claim_ref = manifest.get("claim")
     if claim_ref:
         claim = decode(read_ref(claim_ref))
         require(claim.get("repository") == identity["repository"]
-                and claim.get("subject") == identity["repository"] + "#" + str(identity["issue"]), "claim_subject")
+                and claim.get("subject") == identity["repository"] + "#" + str(issue_number), "claim_subject")
         require(head is None or claim.get("head") == head, "claim_head")
         require(claim.get("base_head") == identity["base_head"], "claim_base")
         head = claim.get("head")
@@ -433,12 +499,12 @@ def external(manifest, identity, state, authorization_path, sources, authorizati
             output = {}
         if isinstance(output, dict):
             issue = output.get("issue")
-            require(not isinstance(issue, dict) or issue.get("number") == identity["issue"], "process_issue")
+            require(not isinstance(issue, dict) or issue.get("number") == issue_number, "process_issue")
             published = output.get("publication")
             require(not isinstance(published, dict) or published.get("head") == head, "process_head")
         result.append(observation(identity, ref, "foreground", family="processing", kind="foreground",
             phase=output.get("phase", "unknown") if isinstance(output, dict) else "unknown",
-            outcome="failed" if process["exit_status"] else status(output),
+            outcome=output["status"] if isinstance(output, dict) and output.get("status") in {"refused", "pending", "unknown", "failed"} else "failed" if process["exit_status"] else status(output),
             seconds=process.get("seconds"), started=process.get("wall_started"),
             finished=process.get("wall_finished"), head=head,
             reason="external observer foreground; includes waits and I/O, origin is not truth"))
@@ -492,6 +558,22 @@ def external(manifest, identity, state, authorization_path, sources, authorizati
             require(meta.get("session_id") == entry["session_id"], "native_session")
             if meta.get("total_cost_usd") is not None:
                 usage["reported_cost_usd"] = number(meta["total_cost_usd"], "native_reported_cost")
+        elif entry.get("kind") == "codex_raw":
+            turns = []
+            for line in raw.splitlines():
+                if not line.strip():
+                    continue
+                event = decode(line)
+                if event.get("type") == "turn.completed":
+                    tokens = event.get("usage")
+                    require(isinstance(tokens, dict), "native_usage")
+                    tokens = {key: value for key, value in tokens.items() if key in TOKEN_FIELDS}
+                    require(tokens and all(type(value) is int and value >= 0 for value in tokens.values()), "native_tokens")
+                    turns.append(tokens)
+            # Multiple turns may use cumulative or incremental provider accounting.
+            # Retain the source, but do not guess a session total for that format.
+            if len(turns) == 1:
+                usage["tokens"] = turns[0]
         sources.append(entry["file"])
         result.append(observation(identity, entry["file"], "native", family="writer_model",
             kind="detail", phase="execute", outcome="unknown", head=head,
