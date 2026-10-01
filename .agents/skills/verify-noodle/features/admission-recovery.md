@@ -77,11 +77,13 @@ observer bytes and input selection now also live in
 selection, not candidate-granted authority. The preserved input selection digest
 is `9b5c6505bcd023fb1a872d44d8a33880e862046883349bd032c4b830ccf18e14`.
 
-Actions builds that exact source separately from the runtime-lock release,
-runs both observers in disposable scratch directories with a credential-free
-environment, waits for their actual exits, and packages `admission-recovery.tar`
-beside the existing acceptance/release JSON. Download the exact-head artifact
-through the existing provider owner and run:
+The original Actions experiment built that exact historical source separately
+from the runtime-lock release. Routine Soodles acceptance no longer repeats
+that build. For an explicitly requested recovery verification, the supervisor
+supplies the exact source build; `packet observe` runs both observers in
+disposable scratch directories with a credential-free environment and waits
+for their actual exits. Package the result with `packet create`. To inspect an
+existing packet obtained through its provider owner, run:
 
 ```sh
 ./soodles packet verify /download/admission-recovery.tar --expected-carrier linux_amd64
@@ -91,8 +93,9 @@ This reads tar members without extracting or executing them. A local unpacked
 packet uses the same command. For existing native macOS evidence, use
 `--expected-carrier darwin_arm64`; it must refuse the Linux claim. Verification
 checks evidence integrity and preserves nonzero exits, including legal refusals;
-it does not turn an observer's failure into behavioral success. Actions separately
-requires successful observer exits. The receipt is always non-authorizing.
+it does not turn an observer's failure into behavioral success. A recovery
+verification separately requires successful observer exits. The receipt is
+always non-authorizing.
 
 To produce a new evidence set, use `packet observe BINARY SOURCE OUTPUT` with the
 supplied exact source build, then `packet create OUTPUT ARCHIVE --carrier ID`.

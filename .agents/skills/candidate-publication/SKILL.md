@@ -8,7 +8,10 @@ description: Publish one verified local Soodles candidate from its exact Noodle 
 Use only after native publication readiness (or canonical acceptance) produced
 a receipt for the current clean candidate and the Noodle supervisor produced
 the matching publication claim. Native readiness binds actual platform,
-executable, checks and head/tree; it is not Linux canonical acceptance. On the
+executable, capability checks and head/tree; it is not Linux canonical acceptance.
+Schema-2 readiness leaves behavior regressions to the
+[Test Manager](../test-manager/SKILL.md) decision consumed by exact-head Actions;
+publication adds neither the legacy fixed tests nor a full-suite requirement. On the
 local macOS route, publish first, then observe the existing Linux exact-head
 Actions acceptance before landing. Do not install a local Linux runner.
 Do not rediscover or rewrite repository, subject, worktree, branch, base, HEAD,

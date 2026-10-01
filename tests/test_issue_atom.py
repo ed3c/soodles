@@ -1,11 +1,9 @@
 import hashlib
-import io
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
-import tarfile
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -369,30 +367,6 @@ class IssueAtomTests(unittest.TestCase):
                     supplier.assert_not_called()
                 self.assertEqual(len(reads), 2)
 
-    def test_fixed_external_shared_owner_controls(self):
-        source = Path(atom.__file__).resolve().parent
-        oracle = source / "docs/experiments/shared-owner-handoff/oracle.py"
-        self.assertEqual(atom.digest_file(oracle),
-                         "4691bc4dd03245ed667925de604b0c9637c333170f96bfc2b408db6fbe67021b")
-        home = self.outer / "isolated-home"
-        home.mkdir()
-        env = {k: v for k, v in os.environ.items() if not k.startswith("NOODLE_")}
-        env.update(HOME=str(home), XDG_CONFIG_HOME=str(home / "config"), TMPDIR="/private/tmp")
-        output = self.outer / "fixed-controls"
-        # The frozen consumer encodes the historical static order ID. Replay it
-        # against its exact prior source; current scoped-ID behavior has live controls.
-        historical = self.outer / "historical-source"
-        historical.mkdir()
-        archive = subprocess.check_output(["git", "archive",
-            "95e8a3abddda8328d32f0ccf8011b463603d15b2"], cwd=source)
-        with tarfile.open(fileobj=io.BytesIO(archive)) as files:
-            files.extractall(historical, filter="data")
-        result = subprocess.run([sys.executable, "-B", str(oracle), str(historical), str(output)],
-                                env=env, capture_output=True, text=True,
-                                start_new_session=True, timeout=120)
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        receipt = json.loads((output / "result.json").read_text())
-        self.assertEqual(receipt["classification"], "GREEN", result.stdout + result.stderr)
 
     def test_invalid_authorization_precedes_shared_owner_entry(self):
         import fcntl
@@ -1240,12 +1214,14 @@ class IssueAtomTests(unittest.TestCase):
         provider = Provider()
         self.ready_issue(provider)
         first, second = self.pending_patches()
-        # Scope of the real supplier is exercised independently by the fixed CLI oracle.
-        with first, second, patch.object(atom, "GitHubProvider", return_value=provider), \
-                patch.object(atom.provider_credential, "supply_token", return_value="fixture-token") as supplier:
+        fixture.supplier.write_text(fixture.supplier.read_text()
+            .replace('["other"]', '["soodles"]')
+            .replace('{"issues": "read"}', '{"actions": "read", "contents": "write", "issues": "write", "pull_requests": "write"}'))
+        fixture.spec["supplier"]["sha256"] = atom.digest_file(fixture.supplier)
+        fixture.write_profile()
+        with first, second, patch.object(atom, "GitHubProvider", return_value=provider) as factory:
             result = atom.run(self.path, environ=self.env)
-        resolved = supplier.call_args.kwargs["environ"]
-        self.assertEqual(resolved["NOODLES_APP_INSTALLATION_ID"], "123")
+        factory.assert_called_once_with("ed3c/soodles", token="fixture-token")
         self.assertEqual(result["next"]["argv"], receipt["next"]["argv"])
         self.assertEqual(provider.create_calls, 0)
         public = json.dumps(result) + atom.artifact_paths(self.path)["state"].read_text()

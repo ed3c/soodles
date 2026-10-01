@@ -42,10 +42,11 @@ custody. Its schema-1 publication claim binds the exact order/stage/attempt,
 session evidence, repository remote, branch, base, candidate HEAD and tree;
 it authorizes no provider write. Native publication readiness binds the same
 clean candidate HEAD/tree, subject, actual host platform, selected executable
-digest and successful native routing controls. It is non-authorizing and is
+digest and successful native CLI capability checks. It is non-authorizing and is
 not Linux runtime-lock acceptance. Legacy canonical receipts remain accepted.
-The native controls are explicitly enumerated by
-`candidate_publication.NATIVE_TESTS`; they do not claim full canonical coverage.
+Schema-2 native readiness runs no regression suite. The Test Manager owns
+behavior coverage in exact-head Actions. `candidate_publication.NATIVE_TESTS`
+remains only for validating historical schema-1 receipts.
 Linux exact-head canonical acceptance runs after PR publication and is required
 before landing. Its runtime lock and workflow remain unchanged.
 
@@ -67,4 +68,3 @@ The publisher-derived `publication_branch` is distinct from the Noodle local
 `worktree` identity. When present, landing accepts only the exact
 `soodles/issue-N-HEAD12` derivation, validates provider head/ref against it and
 retains the original local worktree for envelope validation and cleanup.
-

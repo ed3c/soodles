@@ -197,3 +197,13 @@ stage prompt. Missing files, mismatched digests or invalid selection require a
 corrected external authorization; never fill them from a guessed recipe or tip.
 Schema 2 remains supported without this activation claim. Selecting the right
 recipes and observing model behavior remain supervisor responsibilities.
+
+## On-demand test scope
+
+Use the [Test Manager](../test-manager/SKILL.md) as the sole scope owner. Native
+publication readiness checks custody and CLI capabilities once per clean head;
+it adds no fixed regression suite. Exact-head Linux Actions consumes the manager's
+selected controls. Never infer full coverage, add a precautionary full run, or
+repeat historical behavior experiments. Measure normal execution and waits from
+logs. A supervising Session resolves available owner inputs itself under existing
+authorization; an owner label alone is no reason for another human handoff.

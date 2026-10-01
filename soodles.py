@@ -9,6 +9,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 import types
 
 ROOT = Path(__file__).resolve().parent
@@ -221,53 +222,90 @@ def worktree_probe(binary):
         return {"worktree_owner": "Noodle", "zero_residue": True, "controls": transcript}
 
 
-def acceptance_verify(root, binary):
-    before = source_identity(root)
-    runtime = runtime_check(root, binary)
-    # The measured full suite exceeds four minutes; retain a bounded budget
-    # within the workflow's twenty-minute deadline, without skipping controls.
+def measured(operation, function, *arguments, **identity):
+    """Observe normal execution without adding a gate or another state file."""
+    started = time.monotonic()
+    outcome = "failed"
     try:
-        result = run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-v"], root,
-                     timeout=600)
-    except subprocess.TimeoutExpired as error:
-        for output in (error.stdout, error.stderr):
-            if output:
-                print(output.decode(errors="replace") if isinstance(output, bytes) else output,
-                      file=sys.stderr, end="")
-        raise Refusal("acceptance verify: full test discovery exceeded 600 seconds; "
-                      "partial process output preserved above; no acceptance receipt") from error
-    print(result.stderr, file=sys.stderr, end="")
-    if result.returncode or not re.search(r"Ran [1-9][0-9]* tests?", result.stderr) or "skipped=" in result.stderr:
-        raise Refusal("acceptance verify: test discovery failed, empty, or skipped; supported help: ./soodles acceptance verify --help")
-    physical = worktree_probe(runtime["binary"])
-    from cleanup_oracle import cleanup_recovery_probe
-    physical["cleanup_recovery"] = cleanup_recovery_probe(runtime["binary"])
-    from cleanup_lock_oracle import lock_recovery_probe
-    physical["cleanup_lock_recovery"] = lock_recovery_probe(runtime["binary"], ROOT)
-    from delivery_oracle import delivery_probe
-    physical["delivery_recovery"] = delivery_probe(ROOT)
-    from base_recovery_oracle import base_recovery_probe
-    physical["base_recovery"] = base_recovery_probe(ROOT)
-    from handoff_oracle import handoff_probe
-    physical["order_handoff"] = handoff_probe(runtime["binary"], ROOT)
-    from resume_oracle import resume_probe
-    physical["interruption_resume"] = resume_probe(runtime["binary"], ROOT)
-    print(json.dumps({"delivery_recovery": physical["delivery_recovery"]["cases"]}), file=sys.stderr)
-    print(json.dumps({"cleanup_lock_recovery": physical["cleanup_lock_recovery"]["cases"]}), file=sys.stderr)
-    print(json.dumps({"cleanup_recovery": physical["cleanup_recovery"]["cases"]}), file=sys.stderr)
-    if source_identity(root) != before:
+        result = function(*arguments)
+        if isinstance(result, dict) and "head" in result:
+            identity.setdefault("head", result["head"])
+        if isinstance(result, dict):
+            for field in ("status", "phase", "waiting_on"):
+                if field in result:
+                    identity.setdefault(field, result[field])
+        failed = isinstance(result, dict) and result.get("exit", result.get("exit_status", 0))
+        outcome = "failed" if failed else "passed"
+        return result
+    finally:
+        print(json.dumps({"event": "soodles.timing", "operation": operation, **identity,
+                          "platform": sys.platform, "python": platform.python_version(),
+                          "seconds": round(time.monotonic() - started, 3), "outcome": outcome}),
+              file=sys.stderr, flush=True)
+
+
+def acceptance_verify(root, binary, base=None, *, decision=None):
+    from test_manager import plan, require_ready, execute_units
+    before = measured("acceptance.source_before", source_identity, root)
+    selection = decision if decision is not None else plan(root, base, require_base=True)
+    print(json.dumps({"event": "soodles.test_selection", "head": before["head"], **selection}),
+          file=sys.stderr, flush=True)
+    require_ready(selection)
+    def phase(name, function, *arguments):
+        return measured("acceptance." + name, function, *arguments, head=before["head"])
+
+    runtime = phase("runtime_check", runtime_check, root, binary) if selection["physical"] else None
+    unit_tests = phase("unit_tests", execute_units, root, selection)
+    print(unit_tests["output"], file=sys.stderr, end="")
+    if unit_tests["exit"]:
+        raise Refusal("acceptance verify: tests failed, empty, incomplete, or skipped; supported help: ./soodles test --help")
+    physical = {"scope": "selected_controls", "executed": selection["physical"]}
+    for control in selection["physical"]:
+        if control == "worktree":
+            physical.update(phase(control, worktree_probe, runtime["binary"]))
+        elif control == "cleanup_recovery":
+            from cleanup_oracle import cleanup_recovery_probe
+            physical[control] = phase(control, cleanup_recovery_probe, runtime["binary"], root)
+        elif control == "cleanup_lock_recovery":
+            from cleanup_lock_oracle import lock_recovery_probe
+            physical[control] = phase(control, lock_recovery_probe, runtime["binary"], root)
+        elif control == "delivery_recovery":
+            from delivery_oracle import delivery_probe
+            physical[control] = phase(control, delivery_probe, root)
+        elif control == "base_recovery":
+            from base_recovery_oracle import base_recovery_probe
+            physical[control] = phase(control, base_recovery_probe, root)
+        elif control == "order_handoff":
+            from handoff_oracle import handoff_probe
+            physical[control] = phase(control, handoff_probe, runtime["binary"], root)
+        elif control == "interruption_resume":
+            from resume_oracle import resume_probe
+            physical[control] = phase(control, resume_probe, runtime["binary"], root)
+    if phase("source_after", source_identity, root) != before:
         refuse("acceptance verify", "source.identity", "changed during acceptance")
     return {"repository": "ed3c/soodles", "scope": "candidate runtime acceptance",
             "candidate": before, "runtime": runtime, "physical": physical,
-            "unit_tests": {"exit": result.returncode, "output": result.stderr},
+            "unit_tests": unit_tests, "selection": selection,
             "authorizes_landing": False,
-            "non_claims": ["Codex generation", "provider admission", "merge", "Issue closure", "production checkpoint recovery"]}
+            "non_claims": ["unselected controls", "Codex generation", "provider admission", "merge", "Issue closure", "production checkpoint recovery"]}
+
+
+def test_options(parser):
+    parser.add_argument("--base", help="Exact comparison SHA; local tests default to working changes against HEAD.")
+    parser.add_argument("--full", action="store_true", help="Explicitly request full coverage; never selected automatically.")
+    parser.add_argument("--module", action="append", default=[], help="Request a test module for a traced behavior; repeatable.")
+    parser.add_argument("--control", action="append", default=[],
+                        help="Request a named physical control for acceptance; repeatable.")
+    parser.add_argument("--reason", help="Observed behavior requiring the explicit local scope.")
+    parser.add_argument("--plan", action="store_true", help="Describe requested coverage without executing tests.")
 
 
 def parser():
     p = Parser(prog="./soodles", description="Noodle runtime evidence and supervised landing checkpoints.",
                                 epilog="Examples: ./soodles runtime --help; ./soodles acceptance --help; ./soodles landing --help")
     groups = p.add_subparsers(dest="group", required=True)
+    test = groups.add_parser("test", help="Run affected tests, or explicitly select the full suite.")
+    test_options(test)
     evaluation = groups.add_parser(
         "eval", description="Externally selected feature_map_routing_report_v2 verification only; "
         "not general behavior-eval authoring. Read evidence_validity before behavior. No landing authority.",
@@ -353,12 +391,14 @@ Every result has authorizes_landing=false; no delivery or landing authority.""")
             command.add_argument("worker_argv", nargs=argparse.REMAINDER,
                                  help="Exact provider argv supplied by Noodle and bound by the carrier.")
     for group, verb, description in (("runtime", "check", "Check the pinned host and binary before executing it."),
-                                     ("acceptance", "verify", "Run all controls on a clean candidate; emit a non-authorizing receipt.")):
+                                     ("acceptance", "verify", "Run only coverage requested through Test Manager; no implicit full suite.")):
         g = groups.add_parser(group, epilog=f"Examples: ./soodles {group} {verb} --help")
         verbs = g.add_subparsers(dest="verb", required=True)
         v = verbs.add_parser(verb, description=description,
                             epilog=f"Examples: ./soodles {group} {verb} /absolute/path/to/noodle")
         v.add_argument("binary", help="Explicit path to the pinned Noodle executable; no PATH fallback or installation.")
+        if group == "acceptance":
+            test_options(v)
     landing = groups.add_parser("landing", description="The supervisor supplies exact claims and raw provider readbacks. No credentials or provider writes in this process.",
                                 epilog="Examples: ./soodles landing start --help; ./soodles landing advance --help; ./soodles landing reconcile --help")
     verbs = landing.add_subparsers(dest="verb", required=True)
@@ -422,7 +462,19 @@ def main():
         return 0 if result["behavior"]["classification"] == "PASS" else 1
     import landing
     try:
-        if args.group == "packet":
+        if args.group == "test":
+            from test_manager import requested_plan, execute_units
+            selection = requested_plan(ROOT, args)
+            print(json.dumps(selection, indent=2) if args.plan else json.dumps({
+                "event": "soodles.test_selection", **selection}),
+                file=sys.stdout if args.plan else sys.stderr)
+            if args.plan:
+                return 0
+            result = execute_units(ROOT, selection)
+            print(result.pop("output"), file=sys.stderr, end="")
+            print(json.dumps({**result, "selection": selection, "authorizes_landing": False}))
+            return result["exit"]
+        elif args.group == "packet":
             import portable_packet
             if args.verb == "create":
                 result = portable_packet.create(args.root, args.carrier, args.archive)
@@ -481,7 +533,15 @@ def main():
             else:
                 result = landing.reconcile(args.checkpoint, args.binary)
         else:
-            result = runtime_check(ROOT, args.binary) if args.group == "runtime" else acceptance_verify(ROOT, args.binary)
+            if args.group == "runtime":
+                result = runtime_check(ROOT, args.binary)
+            else:
+                from test_manager import requested_plan
+                decision = requested_plan(ROOT, args, require_base=True)
+                if args.plan:
+                    print(json.dumps(decision, indent=2))
+                    return 0
+                result = acceptance_verify(ROOT, args.binary, decision=decision)
         print(json.dumps(bind_landing_continuation(result, args), indent=2))
     except landing.LandingRefusal as exc:
         result = landing.refusal_output(exc, args.verb)

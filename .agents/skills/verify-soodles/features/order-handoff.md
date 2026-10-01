@@ -3,9 +3,16 @@
 Use this recipe for the bounded local claim that a completed original Noodle
 order can be reconciled and cleaned before the next Issue order starts.
 
-Run `./soodles runtime check ABSOLUTE_NOODLE` first. Then run canonical
-`./soodles acceptance verify ABSOLUTE_NOODLE` once on the final clean candidate.
-Read `physical.order_handoff` from its receipt and require:
+Ask the [Test Manager](../../test-manager/SKILL.md) for the requested order-handoff
+control. Use a matching existing receipt when available; otherwise, when execution
+is authorized, run the named control through the existing acceptance entry:
+
+```sh
+./soodles acceptance verify ABSOLUTE_NOODLE --control order_handoff --reason 'Requested order handoff verification'
+```
+
+Acceptance performs required binary admission for this control; do not add a
+separate doctor or full-suite run. Read `physical.order_handoff` and require:
 
 - `classification: VERIFIED` and `sequence: [A, cleanup, B]`;
 - current `next.argv` actions `dispatch, merge, readback` with exactly one

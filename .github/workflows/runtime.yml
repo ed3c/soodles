@@ -51,7 +51,31 @@ jobs:
           ./soodles github issue ed3c/soodles "$issue" > "$RUNNER_TEMP/soodles-runtime/issue-readback.json"
           ./soodles candidate verify "$RUNNER_TEMP/soodles-runtime/issue-readback.json" "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/soodles-runtime/candidate-evidence.json"
 
+      - name: Request verification scope from Test Manager
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/soodles-runtime"
+          python3 -B - <<'PY'
+          import json, os
+          from pathlib import Path
+          from test_manager import plan, require_ready
+          base = os.environ.get('BASE_SHA', '')
+          if base == '0' * 40:
+              base = ''
+          selection = plan(Path.cwd(), base or None, require_base=True)
+          output = Path(os.environ['RUNNER_TEMP']) / 'soodles-runtime/selection.json'
+          output.write_text(json.dumps(selection, indent=2) + '\n')
+          print(json.dumps(selection))
+          require_ready(selection)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('base=' + base + '\n')
+              stream.write('physical=' + str(bool(selection['physical'])).lower() + '\n')
+          PY
+
       - name: Read release identity and verify archive and binary before execution
+        if: steps.scope.outputs.physical == 'true'
         env:
           GITHUB_API_TOKEN: ${{ github.token }}
         run: |
@@ -97,36 +121,13 @@ jobs:
       - name: Canonical acceptance on the exact candidate head
         env:
           EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          BASE_SHA: ${{ steps.scope.outputs.base }}
         run: |
           test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
-          ./soodles acceptance verify "$RUNNER_TEMP/soodles-runtime/noodle" > "$RUNNER_TEMP/soodles-runtime/acceptance.json"
-          python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(json.dumps({"candidate":r["candidate"],"zero_residue":r["physical"]["zero_residue"],"authorizes_landing":r["authorizes_landing"]}))' "$RUNNER_TEMP/soodles-runtime/acceptance.json"
-
-      - name: Build exact admission-recovery subject and preserve observer processes
-        env:
-          GOTOOLCHAIN: go1.26.1
-        run: |
-          subject="$RUNNER_TEMP/noodle-admission-source"
-          git init "$subject"
-          git -C "$subject" remote add origin https://github.com/ed3c/noodle.git
-          git -C "$subject" fetch --depth=1 origin ca81f942f478e8e4afcbbce6ca69640867efe753
-          git -C "$subject" checkout --detach FETCH_HEAD
-          test "$(git -C "$subject" rev-parse HEAD)" = ca81f942f478e8e4afcbbce6ca69640867efe753
-          (cd "$subject" && corepack pnpm install --frozen-lockfile)
-          (cd "$subject" && corepack pnpm --filter noodle-ui build)
-          (cd "$subject" && go build -o "$RUNNER_TEMP/noodle-admission" .)
-          go version -m "$RUNNER_TEMP/noodle-admission" > "$RUNNER_TEMP/noodle-build.txt"
-          ./soodles packet observe "$RUNNER_TEMP/noodle-admission" "$subject" "$RUNNER_TEMP/admission-packet" --build-info "$RUNNER_TEMP/noodle-build.txt"
-          ./soodles packet create "$RUNNER_TEMP/admission-packet" "$RUNNER_TEMP/soodles-runtime/admission-recovery.tar" --carrier linux_amd64
-          ./soodles packet verify "$RUNNER_TEMP/soodles-runtime/admission-recovery.tar" --expected-carrier linux_amd64
-          python3 - <<'PYTHON'
-          import json, os
-          from pathlib import Path
-          root = Path(os.environ['RUNNER_TEMP']) / 'admission-packet'
-          for label, expected_exit in (('recovery', 0), ('refusal', 0)):
-              process = json.loads((root / label / 'process.json').read_text())
-              assert process['exit_code'] == expected_exit and process['waited'] and not process['timed_out'], (label, process)
-          PYTHON
+          args=()
+          if [ -n "$BASE_SHA" ]; then args=(--base "$BASE_SHA"); fi
+          ./soodles acceptance verify "$RUNNER_TEMP/soodles-runtime/noodle" "${args[@]}" > "$RUNNER_TEMP/soodles-runtime/acceptance.json" 2> >(tee "$RUNNER_TEMP/soodles-runtime/acceptance.log" >&2)
+          python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(json.dumps({"candidate":r["candidate"],"selection":r["selection"],"zero_residue":r["physical"].get("zero_residue"),"authorizes_landing":r["authorizes_landing"]}))' "$RUNNER_TEMP/soodles-runtime/acceptance.json"
 
       - name: Preserve non-authorizing evidence
         if: ${{ always() }}
@@ -135,6 +136,6 @@ jobs:
           name: runtime-evidence-${{ github.event.pull_request.head.sha || github.sha }}
           path: |
             ${{ runner.temp }}/soodles-runtime/*.json
-            ${{ runner.temp }}/soodles-runtime/admission-recovery.tar
+            ${{ runner.temp }}/soodles-runtime/*.log
           if-no-files-found: error
           retention-days: 30

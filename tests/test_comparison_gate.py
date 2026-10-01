@@ -1,7 +1,5 @@
-"""Frozen process controls plus real shared-owner and effect-boundary controls."""
+"""Current comparison CLI, shared owner and effect boundaries on small Git subjects."""
 import copy
-import hashlib
-import importlib.util
 import json
 from pathlib import Path
 import subprocess
@@ -16,26 +14,9 @@ import issue_admission as admission
 import landing
 from test_candidate_publication import Provider, Result
 import test_landing
+import comparison_fixture
 
 ROOT = Path(__file__).resolve().parents[1]
-FROZEN = ROOT / "docs/experiments/comparison-delivery-gate"
-PINS = {
-    "fixture.py": "58f54b71b67c5fc229d8ca50a25f72cf428696af7d5f931d352e71afeadbcb24",
-    "oracle.py": "64ade25a8e8046c4247acb6bb4f9712dbba56b8e7b875ba8b8b9dac771be0b40",
-    "protocol.md": "8a14ea9cf62e40460e3d796d9d79a249312c335b62c506f9321a2fb389eee9e7",
-    "task.md": "819a7c462070c15a136b69ef257cb48944e667cd6ef5672f47fd3c2d2b0853bd",
-}
-
-
-def fixture_module():
-    for name, expected in PINS.items():
-        if hashlib.sha256((FROZEN / name).read_bytes()).hexdigest() != expected:
-            raise AssertionError("frozen external bytes changed: " + name)
-    spec = importlib.util.spec_from_file_location("comparison_fixture", FROZEN / "fixture.py")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
-
 
 def body(contract):
     return "<!-- soodles:execution-v1 -->\n```json\n" + json.dumps(contract) + "\n```\n<!-- /soodles:execution-v1 -->\n"
@@ -45,7 +26,7 @@ class ComparisonGateTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.temp = tempfile.TemporaryDirectory()
-        cls.fixture = fixture_module()
+        cls.fixture = comparison_fixture
         cls.value = cls.fixture.build(ROOT, Path(cls.temp.name) / "control" / ".worktrees" / "candidate")
         cls.root = Path(cls.value["root"])
         cls.issue = json.loads(Path(cls.value["issue"]).read_text())
@@ -60,22 +41,35 @@ class ComparisonGateTests(unittest.TestCase):
         return {"repository": "ed3c/soodles", "issue": 1, "base_head": self.value["base"],
                 "write_paths": contract["write_paths"], "contract": contract}
 
-    def test_frozen_nine_case_process_oracle(self):
-        with tempfile.TemporaryDirectory() as folder:
-            output = Path(folder) / "oracle"
-            process = subprocess.run([sys.executable, "-B", str(FROZEN / "oracle.py"), str(ROOT), str(output)],
-                                     capture_output=True, text=True, timeout=240)
-            self.assertEqual(process.returncode, 0, process.stdout + process.stderr)
-            receipt = json.loads((output / "receipt.json").read_text())
-            self.assertEqual(receipt["classification"], "GREEN")
-            self.assertEqual(len(receipt["records"]), 9)
-            for record in receipt["records"]:
-                result = json.loads(record["stdout"])
-                if record["case"] not in ("ordinary", "admitted"):
+    def test_cli_accepts_ordinary_and_admitted_but_refuses_failed_comparison(self):
+        for case in ("ordinary", "admitted", "rejected"):
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as folder:
+                value = self.fixture.build(ROOT, Path(folder) / "candidate", case)
+                process = subprocess.run(
+                    [sys.executable, "-B", str(Path(value["root"]) / "soodles.py"),
+                     "candidate", "verify", value["issue"], value["base"], value["head"]],
+                    cwd=value["root"], capture_output=True, text=True, timeout=30)
+                self.assertEqual(process.returncode, 1 if case == "rejected" else 0,
+                                 process.stderr + process.stdout)
+                self.assertTrue(process.stdout, process.stderr)
+                result = json.loads(process.stdout)
+                self.assertNotIn("request", result)
+                if case == "rejected":
                     self.assertEqual(result["next"]["owner"], "supervisor")
-                    self.assertEqual(result["next"]["kind"], "input")
                     self.assertEqual(result["next"]["help_argv"], gate.COMPARISON_HELP)
-                    self.assertNotIn("request", result)
+                else:
+                    self.assertEqual(result["classification"], "VERIFIED")
+                    self.assertFalse(result["authorizes_landing"])
+
+    def test_changed_or_missing_comparison_bytes_refuse_before_analyzer_import(self):
+        for case in ("foreign_instruction", "raw_tamper", "missing", "analyzer_mismatch"):
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as folder:
+                value = self.fixture.build(ROOT, Path(folder) / "candidate", case)
+                issue = json.loads(Path(value["issue"]).read_text())
+                with self.assertRaises(admission.AdmissionRefusal):
+                    admission.verify_candidate(value["root"], value["base"], value["head"], issue)
+                self.assertFalse(Path(value["sentinel"]).exists())
+
 
     def test_direct_shared_owner_matches_final_head_and_cleans_replayer(self):
         receipt = admission.verify_candidate(self.root, self.value["base"], self.value["head"], self.issue)

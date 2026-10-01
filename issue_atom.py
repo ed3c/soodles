@@ -2168,16 +2168,21 @@ def drive(authorization_path, *, timeout=300, interval=5, sleep=time.sleep, cloc
     Durable transitions and unknown-write readback remain in their existing
     owners. The bounded foreground wait creates no scheduler or new state.
     """
+    from soodles import measured
+
     require(timeout >= 0 and interval >= 0, "wait.bounds", [timeout, interval])
     deadline = clock() + timeout
     while True:
-        result = run(authorization_path, environ=environ, provider=provider)
+        result = measured("issue_atom.observe",
+                          lambda: run(authorization_path, environ=environ, provider=provider),
+                          authorization=str(Path(authorization_path).resolve()))
         if result.get("status") != "pending" or not result.get("next"):
             return result
         remaining = deadline - clock()
         if remaining <= 0:
             return {**result, "wait_exhausted": True}
-        sleep(min(interval, remaining))
+        measured("issue_atom.wait", sleep, min(interval, remaining),
+                 phase=result.get("phase"), waiting_on=result.get("waiting_on"))
 
 
 def refusal_output(error, authorization_path):
