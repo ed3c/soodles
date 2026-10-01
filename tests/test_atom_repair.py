@@ -51,6 +51,26 @@ class RepairTests(unittest.TestCase):
     def controller(self, **kwargs):
         return repair.Controller(self.state, self.policy, "fixed", self.save, **kwargs)
 
+    def test_cost_status_reads_original_budget_without_reserving_or_resetting(self):
+        before = self.checkpoint.read_bytes()
+        now = self.state["repair"]["last_time"]
+        value = self.controller(clock=lambda: now).cost_status()
+        self.assertIsNone(value["elapsed_seconds"])
+        self.assertEqual(value["remaining_seconds"], 60)
+        self.assertFalse(value["authorizes_landing"])
+        self.assertEqual(before, self.checkpoint.read_bytes())
+        self.state["repair"]["started"] = now - 61
+        self.state["repair"]["used"]["actions"] = 1
+        self.state["repair"]["used"]["readback"] = 1
+        self.state["repair"]["history"] = [{"signal": "stale_pr", "action": "readback",
+                                            "status": "intent", "evidence": None}]
+        value = self.controller(clock=lambda: now).cost_status()
+        self.assertEqual(value["elapsed_seconds"], 61)
+        self.assertEqual(value["remaining_seconds"], 0)
+        self.assertIn("seconds", value["exhausted"])
+        self.assertEqual(value["unresolved_intents"], ["stale_pr"])
+        self.assertEqual(before, self.checkpoint.read_bytes())
+
     def test_stale_pr_refresh_is_read_only_and_rebuild_uses_unchanged_source(self):
         f = self.fixture
         prior, acceptance, claim = f.amended_candidate()

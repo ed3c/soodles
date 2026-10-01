@@ -73,3 +73,15 @@ imports that cannot be resolved require scope correction, never full fallback.
 Normal test logs include discovery time and every case's setup/body/teardown/
 cleanup duration. Module timing also includes process/import/class-fixture costs;
 parallel worker durations are not summed into wall time.
+
+Cost observations preserve returned status: refused/pending/unknown never become
+passed through a zero exit. New normal timing includes span identity and observed
+wall bounds. Original raw logs remain evidence, including legacy missing bounds.
+Cost reporting validates finite nonnegative durations and source/subject correlation;
+wall interval unions, inclusive foreground processing, explicit waits, provider job
+seconds and parallel module seconds are distinct. Nested cases are not added to
+module costs. Tokens, price, API calls, CPU and human attribution remain unknown
+without supported accounting. Every metric family reports partial/unknown (or an
+explicit not-required observation), with evidence and a reason; measured spans do
+not assert complete lifecycle coverage. Existing Test Manager scope and exact-head
+PR demand are unchanged; missing telemetry never launches another test run.

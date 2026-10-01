@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 215
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/test-manager/SKILL.md",
+      "baseline_sha256": "4dde749a779cec11ea387d698be16633a1290c7bf5d0eb4697790c9ec5e288b5",
+      "treatment_sha256": "9737f283aaac090a514e395d889d0e5ca6c134a8062cc35fb443175420338025"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/loop-cost/design.md",
+      "role": "Single-writer Ground/Sketch/Agree/Implement/Scrap rationale, evidence format and unexecuted CI controls",
+      "sha256": "28aabcd08a8820ee4bf56d296b03ce74a5a9f647618c3dca4cd84efa474f2c3c"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#215"
+  },
+  "authorizes_landing": false
+}

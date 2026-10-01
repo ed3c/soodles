@@ -216,14 +216,23 @@ class IssueAtomTests(unittest.TestCase):
         stack.enter_context(patch.object(atom.os, "kill", return_value=None))
         return stack
 
+    def allow_cost_artifacts_only(self, stack, paths):
+        save = atom.save_json
+        def guarded(path, value, **kwargs):
+            self.assertTrue(Path(path).resolve().is_relative_to((paths["directory"] / "cost").resolve()),
+                            "wait must not write lifecycle state or offer effects")
+            return save(path, value, **kwargs)
+        stack.enter_context(patch.object(atom, "save_json", side_effect=guarded))
+
     def test_own_start_wait_has_no_effects_and_preserves_all_fixture_bytes(self):
         paths, state, snapshot = self.own_wait_fixture()
         with self.own_wait_processes() as stack:
+            self.allow_cost_artifacts_only(stack, paths)
             spies = [stack.enter_context(patch.object(owner, name, side_effect=AssertionError(name)))
                      for owner, name in ((atom.provider_credential, "resolve_host_environment"),
                          (atom.provider_credential, "supply_token"), (atom, "GitHubProvider"),
                          (atom, "LandingOwner"), (atom, "ensure_noodle"), (atom, "exact_issue"),
-                         (atom, "_run_claim"), (atom, "save_json"))]
+                         (atom, "_run_claim"))]
             before = {p: p.read_bytes() for root in (self.root / ".noodle", paths["directory"])
                       for p in root.rglob("*") if p.is_file()}
             before[self.root / ".noodle.toml"] = (self.root / ".noodle.toml").read_bytes()
@@ -323,12 +332,13 @@ class IssueAtomTests(unittest.TestCase):
                             raw = actual_read(path)
                     return raw
                 with self.own_wait_processes() as stack:
+                    self.allow_cost_artifacts_only(stack, paths)
                     spies = [stack.enter_context(patch.object(owner, name,
                                 side_effect=AssertionError(name))) for owner, name in
                              ((atom.provider_credential, "resolve_host_environment"),
                               (atom.provider_credential, "supply_token"),
                               (atom, "GitHubProvider"), (atom, "ensure_noodle"),
-                              (atom, "_run_claim"), (atom, "save_json"))]
+                              (atom, "_run_claim"))]
                     with patch.object(Path, "read_bytes", churn):
                         if allowed:
                             result = atom.drive(self.path, timeout=0, environ=self.env)

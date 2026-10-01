@@ -28,7 +28,7 @@ class LifecycleActivationTests(unittest.TestCase):
             "contracts/system-v1/routes.json", "contracts/system-v1/common.md",
             "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
             "contracts/system-v1/readback.md", "provider-readback",
-            "schema_manager.py", "policy/host-finalization.json"}
+            "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py"}
         self.assertEqual(set(atom.LIFECYCLE_FILES), expected_files)
         for name in expected_files:
             destination = self.runtime / name
@@ -42,6 +42,25 @@ class LifecycleActivationTests(unittest.TestCase):
         self.fixture.selection['lifecycle_owner'] = self.spec
         self.fixture.path.write_text(json.dumps(self.fixture.selection))
         self.fixture.digest = atom.digest_file(self.fixture.path)
+
+    def test_legacy_descriptor_keeps_exact_closure_but_current_import_is_required(self):
+        (self.runtime / "cost_telemetry.py").unlink()
+        with self.assertRaisesRegex(atom.AtomRefusal, "lifecycle_owner.file"):
+            atom.validate_lifecycle_owner({"control_root": str(self.fixture.fixture.root),
+                "landing_owner": self.fixture.selection["landing_owner"], "lifecycle_owner": self.spec})
+        # Minimal legacy source fixture tests descriptor compatibility, not a
+        # historical implementation replay or selected execution authority.
+        (self.runtime / "issue_atom.py").write_text("# legacy owner without telemetry import\n")
+        hashes = {name: atom.digest_file(self.runtime / name)
+                  for name in atom.LIFECYCLE_FILES if name != "cost_telemetry.py"}
+        spec = {**self.spec, "source_sha256": atom.digest_bytes(json.dumps(
+            hashes, sort_keys=True, separators=(",", ":")).encode())}
+        auth = {"control_root": str(self.fixture.fixture.root),
+                "landing_owner": self.fixture.selection["landing_owner"], "lifecycle_owner": spec}
+        self.assertEqual(atom.validate_lifecycle_owner(auth), self.runtime / "issue-atom")
+        (self.runtime / "schema_manager.py").write_text("changed")
+        with self.assertRaisesRegex(atom.AtomRefusal, "source_sha256"):
+            atom.validate_lifecycle_owner(auth)
 
     def test_prepared_continuation_and_resume_keep_exact_external_owner(self):
         receipt = self.fixture.run_authorize()

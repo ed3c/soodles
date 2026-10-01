@@ -140,6 +140,23 @@ class Controller:
                  and started <= record["last_time"]), "clock", "invalid start")
         return record, now
 
+    def cost_status(self):
+        """Read the existing budget without reserving, resetting or granting it."""
+        try:
+            record, now = self.check()
+        except RepairRefusal as error:
+            return {"status": "unavailable", "invalid": error.invalid,
+                    "basis": "elapsed since first repair", "authorizes_landing": False}
+        elapsed = None if record["started"] is None else now - record["started"]
+        return {"status": "observed", "limits": dict(record["limits"]),
+                "used": dict(record["used"]), "elapsed_seconds": elapsed,
+                "remaining_seconds": LIMITS["seconds"] if elapsed is None else max(0, LIMITS["seconds"]-elapsed),
+                "unresolved_intents": [entry["signal"] for entry in record["history"] if entry["status"] != "confirmed"],
+                "exhausted": [key for key, used in record["used"].items() if used >= LIMITS[key]]
+                    + (["seconds"] if elapsed is not None and elapsed >= LIMITS["seconds"] else []),
+                "basis": "elapsed since first repair; not whole-Issue spend or compute",
+                "authorizes_landing": False}
+
     def report(self, signal, *, stop=None):
         signal = signal if signal in DECISIONS else "unknown_signal"
         rule = self.policy["signals"][signal]
