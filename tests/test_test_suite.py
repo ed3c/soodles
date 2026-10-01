@@ -82,6 +82,16 @@ class TestSuiteTests(unittest.TestCase):
                                              "test_schema_manager", "test_system_context"])
         self.assertEqual(decision["physical"], [])
 
+    def test_cost_evidence_uses_affected_controls_without_full_demand(self):
+        decision = test_manager.select(ROOT, ["cost_telemetry.py", "docs/loop-cost/evidence.json"])
+        self.assertEqual(decision["status"], "ready")
+        self.assertEqual(decision["mode"], "focused")
+        self.assertEqual(decision["physical"], [])
+        self.assertIn("test_cost_telemetry", decision["modules"])
+        self.assertIn("test_schema_manager", decision["modules"])
+        for path in ("schema_manager.py", "issue_atom.py"):
+            self.assertIn("test_cost_telemetry", test_manager.select(ROOT, [path])["modules"])
+
     def test_unknown_scope_never_falls_back_to_full_or_executes(self):
         decision = test_manager.select(ROOT, ["new_owner.py", "tests/test_removed.py"])
         self.assertEqual(decision["status"], "needs_scope")

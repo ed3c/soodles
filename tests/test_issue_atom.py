@@ -216,14 +216,23 @@ class IssueAtomTests(unittest.TestCase):
         stack.enter_context(patch.object(atom.os, "kill", return_value=None))
         return stack
 
+    def allow_cost_artifacts_only(self, stack, paths):
+        save = atom.save_json
+        def guarded(path, value, **kwargs):
+            self.assertTrue(Path(path).resolve().is_relative_to((paths["directory"] / "cost").resolve()),
+                            "wait must not write lifecycle state or offer effects")
+            return save(path, value, **kwargs)
+        stack.enter_context(patch.object(atom, "save_json", side_effect=guarded))
+
     def test_own_start_wait_has_no_effects_and_preserves_all_fixture_bytes(self):
         paths, state, snapshot = self.own_wait_fixture()
         with self.own_wait_processes() as stack:
+            self.allow_cost_artifacts_only(stack, paths)
             spies = [stack.enter_context(patch.object(owner, name, side_effect=AssertionError(name)))
                      for owner, name in ((atom.provider_credential, "resolve_host_environment"),
                          (atom.provider_credential, "supply_token"), (atom, "GitHubProvider"),
                          (atom, "LandingOwner"), (atom, "ensure_noodle"), (atom, "exact_issue"),
-                         (atom, "_run_claim"), (atom, "save_json"))]
+                         (atom, "_run_claim"))]
             before = {p: p.read_bytes() for root in (self.root / ".noodle", paths["directory"])
                       for p in root.rglob("*") if p.is_file()}
             before[self.root / ".noodle.toml"] = (self.root / ".noodle.toml").read_bytes()
@@ -323,12 +332,13 @@ class IssueAtomTests(unittest.TestCase):
                             raw = actual_read(path)
                     return raw
                 with self.own_wait_processes() as stack:
+                    self.allow_cost_artifacts_only(stack, paths)
                     spies = [stack.enter_context(patch.object(owner, name,
                                 side_effect=AssertionError(name))) for owner, name in
                              ((atom.provider_credential, "resolve_host_environment"),
                               (atom.provider_credential, "supply_token"),
                               (atom, "GitHubProvider"), (atom, "ensure_noodle"),
-                              (atom, "_run_claim"), (atom, "save_json"))]
+                              (atom, "_run_claim"))]
                     with patch.object(Path, "read_bytes", churn):
                         if allowed:
                             result = atom.drive(self.path, timeout=0, environ=self.env)
@@ -1474,6 +1484,8 @@ class IssueAtomTests(unittest.TestCase):
         self.ready_issue(provider)
         paths = atom.artifact_paths(self.path)
         claim = {
+            "repository": "ed3c/soodles", "subject": "ed3c/soodles#131",
+            "session_id": "fixture-session",
             "worktree_path": str(self.root),
             "worktree_name": atom.issue_admission.scoped_order_id(131, self.root) + "-0-execute",
             "head": "b" * 40, "tree": "c" * 40, "base_head": self.base,
@@ -1497,7 +1509,8 @@ class IssueAtomTests(unittest.TestCase):
             "branch": "soodles/issue-131-" + "b" * 12,
             "head": "b" * 40, "tree": "c" * 40, "authorizes_landing": False,
         }
-        run = {"id": 7, "run_attempt": 1, "status": "completed"}
+        run = {"id": 7, "run_attempt": 1, "status": "completed",
+               "head_sha": "b" * 40, "repository": {"full_name": "ed3c/soodles"}}
         jobs = {"jobs": []}
 
         def start(landing_claim, _snapshot, checkpoint):
@@ -1556,6 +1569,13 @@ class IssueAtomTests(unittest.TestCase):
         self.assertEqual(projection["facts"]["owner_confirmed"]["observation"]["producer"],
                          "issue_atom.py:finish_host.confirm")
         self.assertEqual(projection["context"]["consumer"], "issue_atom.finish_host")
+        self.assertEqual(second["cost"]["status"], "reported")
+        cost_projection = second["cost"]["schema_projection"]
+        self.assertEqual(cost_projection["hard_gate"]["status"], "resolved")
+        self.assertEqual(cost_projection["hard_gate"]["host_finalization"], second["host_finalization"])
+        self.assertEqual(cost_projection["hard_gate"]["repair_budget"], second["repair_budget"])
+        self.assertFalse(cost_projection["authorizes_landing"])
+        self.assertEqual(cost_projection["effects"], [])
         print(json.dumps({"event": "schema_plan_fields.owner_response", "response": second}, sort_keys=True))
         self.assertTrue(paths["landing"].exists())
 

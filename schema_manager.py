@@ -238,3 +238,28 @@ class Manager:
                                   "ready" if self.facts[name]["value"] is value else "blocked"}
                                  for name, value in rule.items()],
                 } for node, rule in self.plan.rules.items()}}
+
+
+def project_cost(facts, gate=None):
+    """Data-only observation projection; original owners retain every hard gate."""
+    require(isinstance(facts, dict) and set(facts) == {"subject", "coverage", "summary", "sources"},
+            "cost_facts")
+    # Finite numeric evidence was normalized before entry. Recheck at this public
+    # boundary so a direct caller cannot silently introduce NaN or negative cost.
+    import math
+    def validate_numbers(value, path):
+        if type(value) in (int, float):
+            require(math.isfinite(value) and value >= 0, "cost_number:" + path)
+        elif isinstance(value, dict):
+            for key, child in value.items():
+                validate_numbers(child, path + "." + key)
+        elif isinstance(value, list):
+            for index, child in enumerate(value):
+                validate_numbers(child, path + "." + str(index))
+    validate_numbers(facts["summary"], "summary")
+    gate = gate or {"status": "unknown", "basis": "original owner evidence unavailable"}
+    return {"status": "observed", "subject": facts["subject"],
+            "coverage": facts["coverage"], "cost": facts["summary"],
+            "hard_gate": gate, "required": gate.get("required"),
+            "budget_basis": gate.get("basis"),
+            "authorizes_landing": False, "effects": [], "test_demand": None}

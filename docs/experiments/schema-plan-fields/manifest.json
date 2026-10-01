@@ -7,8 +7,8 @@
   "instructions": [
     {
       "path": "contracts/system-v1/issue-atom.md",
-      "baseline_sha256": "b0956e58642f22553c26ef8ea550a6705d5eca224a622f423ecad4d3506a171d",
-      "treatment_sha256": "399b5856d86ee500c90da9e0be9d571738313f9e0be8daf11ddb77598d88da6a"
+      "baseline_sha256": "f0b3de80162b3baf4931e953d0b4d14763420c639429c1bcd88ce0513884dfd8",
+      "treatment_sha256": "e90788e4fe959fcffbb14cdcad66ae11a092a5a2943910932f35e7805a19eeec"
     }
   ],
   "artifacts": [
@@ -20,22 +20,22 @@
     {
       "path": "docs/experiments/schema-plan-fields/results.json",
       "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
-      "sha256": "e0ce49f7a8f3f5e0e7ee2181ef5b9dc401f0c75c64f01589113c52b69293ca0f"
+      "sha256": "7b7ce00811976aaa1f074a6b380ee8f86f1f2ecafa457788a72ed42e4b83d290"
     },
     {
       "path": "docs/experiments/schema-plan-fields/results.md",
       "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
-      "sha256": "bd78e782beda557ac0abd7340ee8567d25bf0c05e4c97b5790ec97725caaca8b"
+      "sha256": "795f63a83470037ddc298f5a8312709aadf75dbceb44ae4d07dd64b26bef2d47"
     },
     {
       "path": "docs/experiments/schema-plan-fields/timing.json",
       "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
-      "sha256": "2a961fc3cf9345fd8a2e5592a15b49107e237c11ee86f9572d23741a7032b2a2"
+      "sha256": "12a62066d960e2b4b80f6d58976137fdf87c3eaa1333382919a68c60625afc4e"
     },
     {
       "path": "issue_atom.py",
       "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
-      "sha256": "28194716e5bf6270cdee360c65b324bff5342d4f314a396b81817e01cf7b6626"
+      "sha256": "0e0737f9eb0a09298be9456b9dd129936246abfa74b2845d614fba36e2c47ee7"
     },
     {
       "path": "policy/host-finalization.json",
@@ -45,7 +45,7 @@
     {
       "path": "schema_manager.py",
       "role": "Frozen protocol, implementation or measured local evidence; non-authorizing",
-      "sha256": "b8083b701cb6f98fbb470e4022ab122c0ca452376abbce2c206abdb0321a1fd7"
+      "sha256": "a0ead59e00211a21199943e4ec3aa9e175ca8a449e25f0631393f23dd3a67e76"
     }
   ],
   "owner": {

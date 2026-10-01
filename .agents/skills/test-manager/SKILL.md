@@ -135,3 +135,22 @@ authorized normal execution. For the observed scope inflation, repeat-run and
 quality-report costs, consult the [2026-10-01 CI audit](../../../docs/test-manager-ci-cost-audit.md)
 when working on those boundaries; its measurements are N-class, not policy or
 an acceptance receipt.
+
+## Original atom cost evidence
+
+For cost review use `./soodles atom cost-report AUTHORIZATION MANIFEST` on
+original source-bound receipts; the [manifest contract](../../../docs/loop-cost/design.md)
+specifies local process/provider files. This is read-only and consumes the same
+Schema Manager projection as normal atom responses. It performs no tests or
+network calls and grants no effects. Telemetry absent, partial or slow is never
+new test demand. Keep the existing normal exact-head CI selection.
+
+Distinguish observed wall/foreground time, explicit waits, provider job time and
+parallel module worker time. Cases are nested in modules; parent timing is not
+additional worker time. A pending/refused/unknown span is not successful work,
+even when its elapsed duration is measured. Incomplete starts and uninstrumented
+old owners retain unknown coverage. Tokens, price, API-call accounting and human
+attribution remain unknown without their own supported evidence. Repair seconds
+remain elapsed since first repair; no cost projection creates new thresholds or
+resets/reserves counters. Fixture gate observations are CI product controls,
+never measurements of live exhaustion or independent acceptance authority.
