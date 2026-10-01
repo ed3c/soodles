@@ -74,11 +74,16 @@ jobs:
               stream.write('physical=' + str(bool(selection['physical'])).lower() + '\n')
           PY
 
-      - name: Read release identity and verify archive and binary before execution
-        if: steps.scope.outputs.physical == 'true'
+      - name: Prepare runtime only when requested by Test Manager
         env:
           GITHUB_API_TOKEN: ${{ github.token }}
+          PHYSICAL_REQUIRED: ${{ steps.scope.outputs.physical }}
         run: |
+          if [ "$PHYSICAL_REQUIRED" = 'false' ]; then
+            echo 'Test Manager requested no physical controls; no runtime download or execution required.'
+            exit 0
+          fi
+          test "$PHYSICAL_REQUIRED" = 'true'
           python3 -B - <<'PY'
           import hashlib, io, json, os, pathlib, tarfile, urllib.request
           import soodles

@@ -1612,5 +1612,48 @@ class IssueAtomTests(unittest.TestCase):
                          "awaiting_reconcile")
 
 
+class PrewriteScopeRefusalTests(unittest.TestCase):
+    def test_exact_prewrite_refusal_allows_correction_but_not_other_subject_or_writes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            prior_path = root / 'authorization.json'
+            paths = atom.artifact_paths(prior_path)
+            publisher = root / 'publisher/soodles.py'
+            old = {'landing_owner': {'verifier_sha256': 'v' * 64}}
+            atom.save_json(prior_path, old)
+            authorization = {'prior_atom': {'path': str(prior_path),
+                'sha256': atom.digest_file(prior_path)}, 'control_root': str(root / 'control'),
+                'repository': 'ed3c/soodles', 'issue': {'number': 201}, 'base_head': 'b' * 40,
+                'prior_publication': {'pr': {'number': 203}, 'head': 'h' * 40, 'tree': 't' * 40}}
+            run = {'id': 1, 'run_attempt': 1}
+            steps = [{'name': 'runtime preparation', 'status': 'completed', 'conclusion': 'skipped'}]
+            jobs = {'jobs': [{'steps': steps}]}
+            claim = {'repository': 'ed3c/soodles', 'issue': 201, 'pr': 203,
+                'head': 'h' * 40, 'tree': 't' * 40, 'base_head': 'b' * 40,
+                'run_id': 1, 'run_attempt': 1, 'verifier_sha256': 'v' * 64}
+            claim_path = paths['directory'] / 'landing-claim.json'
+            atom.save_json(claim_path, claim)
+            result = {'owner': 'landing.start', 'status': 'refused',
+                      'invalid': {'field': 'job.steps', 'value': steps}}
+            record = {'exit_status': 1, 'stdout': json.dumps(result),
+                'argv': [sys.executable, '-B', str(publisher), 'landing', 'start',
+                         str(claim_path), str(paths['directory'] / 'readback.json'), str(paths['landing'])]}
+            receipt = paths['directory'] / 'landing-start-fixture.json'
+            atom.save_json(receipt, record)
+            with patch.object(atom, 'validate_landing_owner', return_value=publisher):
+                self.assertTrue(atom.prewrite_scope_refusal(authorization, run, jobs))
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, {**run, 'id': 2}, jobs))
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, run, {'jobs': []}))
+                atom.save_json(claim_path, {**claim, 'head': 'x' * 40})
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, run, jobs))
+                atom.save_json(claim_path, claim)
+                atom.save_json(receipt, {**record, 'stdout': json.dumps({**result, 'request': {}})})
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, run, jobs))
+                atom.save_json(receipt, record)
+                atom.save_json(paths['landing'], {'phase': 'offered'})
+                self.assertFalse(atom.prewrite_scope_refusal(authorization, run, jobs))
+            self.assertFalse(atom.prewrite_scope_refusal({}, run, jobs))
+
+
 if __name__ == "__main__":
     unittest.main()
