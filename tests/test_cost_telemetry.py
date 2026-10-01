@@ -234,6 +234,32 @@ class CostTests(unittest.TestCase):
         self.assertIsNone(final['next'])
         self.assertEqual(final['cost']['status'], 'refused')
 
+    def test_untyped_owner_response_preserves_payload_and_exposes_cost_on_stderr(self):
+        env = {'SOODLES_AUTHORIZATION_SHA256': self.identity['authorization']}
+        payload = {'payload': {'next': ['opaque']}}
+        stderr = io.StringIO()
+        with patch.object(atom, '_run', return_value=payload), patch('sys.stderr', stderr):
+            result = atom.run(self.auth, environ=env)
+        self.assertIs(result, payload)
+        self.assertEqual(result, {'payload': {'next': ['opaque']}})
+        event = json.loads(stderr.getvalue())
+        self.assertEqual(event['event'], 'soodles.cost')
+        self.assertEqual(event['subject'], self.identity)
+        self.assertEqual(event['summary']['statuses']['unknown'], 1)
+        self.assertEqual(event['schema_projection']['cost'], event['summary'])
+        self.assertTrue(event['observation_id'])
+        stderr = io.StringIO()
+        with patch.object(atom, '_run', return_value=payload), patch('sys.stderr', stderr), \
+                patch.object(cost, 'report', side_effect=cost.CostRefusal('cost.native_fields')):
+            result = atom.run(self.auth, environ=env)
+        self.assertEqual(result, {'payload': {'next': ['opaque']}})
+        event = json.loads(stderr.getvalue())
+        self.assertEqual(event['event'], 'soodles.cost')
+        self.assertEqual(event['status'], 'refused')
+        self.assertEqual(event['invalid'], {'field': 'cost.evidence', 'value': 'cost.native_fields'})
+        self.assertFalse(event['authorizes_landing'])
+        self.assertEqual(cost.report(self.auth)['summary']['statuses']['unknown'], 2)
+
     def test_wait_preserves_observation_correlation_and_is_pending(self):
         atom.save_json(self.auth.with_name(self.auth.name + '.state.json'), self.state)
         result = {'status': 'pending', 'phase': 'ci', 'waiting_on': 'GitHub Actions',

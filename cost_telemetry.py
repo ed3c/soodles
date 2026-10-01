@@ -548,7 +548,7 @@ def external(manifest, identity, state, authorization_path, sources, authorizati
     # Native raw logs may be retained with a claim/session link. No guessed usage.
     for entry in manifest.get("native", []):
         require(isinstance(entry, dict) and {"file", "session_id", "order_id"} <= set(entry)
-                <= {"file", "session_id", "order_id", "kind"} and entry.get("kind") in {None, "meta", "raw"}, "native_fields")
+                <= {"file", "session_id", "order_id", "kind"} and entry.get("kind") in {None, "meta", "raw", "codex_raw"}, "native_fields")
         require(claim_ref is not None and entry.get("session_id") == claim.get("session_id")
                 and entry.get("order_id") == claim.get("order_id"), "native_identity")
         raw = read_ref(entry["file"])

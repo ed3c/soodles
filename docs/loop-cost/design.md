@@ -226,3 +226,30 @@ The installed pstack provider was updated during this atom to cursor/plugins
 2eb7ed4613cfc8f098dfe464a23680ea44d84c5e (0.15.5). The dispatched writer used
 the original pinned 0.14.5 snapshot above; supervisor review read the new architect
 method. No arena or model experiments were added.
+
+## Correction after the first normal CI attempt
+
+Normal exact-head run 36880034418, job 110429169809, failed at
+`e8ffb08b5022045d10a917195fbc4a254e87a270`. Its original raw log remains at
+`/Users/neon/.codex/soodles-loop-cost-um4agqox/fresh-control/ci-first/job-110429169809.log`.
+The original native report at
+`/Users/neon/.codex/soodles-loop-cost-um4agqox/fresh-control/native-report/report.json`
+also refused with `cost.native_fields`. These failed receipts remain unchanged.
+
+The correction admits the already implemented `codex_raw` format in the native
+kind whitelist. Unsupported raw usage remains unknown. The existing
+`test_codex_terminal_usage_and_nested_schema_numbers` control covers the parser.
+
+`issue_atom.run` still records unknown starts and finished observations, but only
+adds `cost` to responses with a string status. Opaque owner responses pass through
+unchanged; their projection or refusal diagnostic uses the existing `soodles.cost`
+stderr event. Pending, refused and resolved responses retain their cost field.
+The added focused control checks opaque payload preservation, stderr projection,
+visible cost refusal and persisted unknown observations. Existing typed-response
+controls and `test_cleanup_continuation.py` remain unchanged.
+
+This correction applies pstack 0.15.5 architect's subtract-first principle by
+removing unconditional payload mutation without adding an adapter or redesign.
+Local checks are syntax, diff and hashes only. No local tests or reporting runs
+were executed; corrected behavior awaits normal exact-head CI on the same PR.
+The supervisor retains original reporting, publication and landing ownership.

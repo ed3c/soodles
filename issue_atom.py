@@ -2228,7 +2228,11 @@ def run(authorization_path, *, environ=None, provider=None):
             result["cost"] = cost_response(authorization_path, handle, result, telemetry_error)
             error.owner_result = result
             raise
-        result["cost"] = cost_response(authorization_path, handle, result, telemetry_error)
+        cost = cost_response(authorization_path, handle, result, telemetry_error)
+        if isinstance(result.get("status"), str):
+            result["cost"] = cost
+        else:
+            print(json.dumps({"event": "soodles.cost", **cost}), file=sys.stderr)
         return result
 
 
