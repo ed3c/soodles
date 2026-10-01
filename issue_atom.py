@@ -24,6 +24,7 @@ import urllib.parse
 import candidate_publication
 import atom_repair
 import schema_manager
+import cost_telemetry
 import issue_admission
 import issue_execution
 import provider_credential
@@ -50,7 +51,7 @@ LIFECYCLE_FILES = ("issue-atom", "soodles", "soodles.py", "issue_atom.py",
                    "contracts/system-v1/routes.json", "contracts/system-v1/common.md",
                    "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
                    "contracts/system-v1/readback.md", "provider-readback",
-                   "schema_manager.py", "policy/host-finalization.json")
+                   "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py")
 MARKER_PREFIX = "<!-- soodles:local-atom-v1:"
 
 
@@ -338,7 +339,13 @@ def validate_lifecycle_owner(authorization, *, executing=False):
             and path.parent != Path(authorization["landing_owner"]["path"]).resolve().parent,
             "authorization.lifecycle_owner.path", str(path), "separate_external_lifecycle_owner")
     hashes = {}
-    for name in LIFECYCLE_FILES:
+    # Old immutable descriptors retain their original exact source closure.
+    names = LIFECYCLE_FILES
+    if not (path.parent / "cost_telemetry.py").exists():
+        require(b"import cost_telemetry" not in (path.parent / "issue_atom.py").read_bytes(),
+                "authorization.lifecycle_owner.file", "cost_telemetry.py")
+        names = tuple(name for name in names if name != "cost_telemetry.py")
+    for name in names:
         source = path.parent / name
         require(source.is_file() and not source.is_symlink() and source.resolve() == source,
                 "authorization.lifecycle_owner.file", name, "fixed_regular_runtime_files")
@@ -930,7 +937,7 @@ def same_command(path):
     return [str((Path(__file__).resolve().parent / "issue-atom")), "run", str(Path(path).resolve())]
 
 
-def response(state, authorization_path, *, status="pending", waiting_on=None, details=None):
+def response(state, authorization_path, *, status="pending", waiting_on=None, details=None, repair=None):
     result = {
         "owner": "soodles.issue-atom", "status": status,
         "phase": state["phase"], "issue": state.get("issue"),
@@ -943,6 +950,8 @@ def response(state, authorization_path, *, status="pending", waiting_on=None, de
         },
         "authorizes_landing": False,
     }
+    if repair is not None:
+        result["repair_budget"] = repair.cost_status()
     if waiting_on:
         result["waiting_on"] = waiting_on
     if details:
@@ -2204,7 +2213,34 @@ def run(authorization_path, *, environ=None, provider=None):
         except BlockingIOError:
             raise AtomRefusal("authorization.busy", str(authorization_path),
                               "current_same_entry_owner_readback", owner="soodles.issue-atom") from None
-        return _run(authorization_path, environ=environ, provider=provider)
+        # Telemetry failure never suppresses unknown-write readback or cleanup.
+        handle, telemetry_error = None, None
+        try:
+            selected = os.environ if environ is None else environ
+            if selected.get("SOODLES_AUTHORIZATION_SHA256") == digest_file(authorization_path):
+                handle = cost_telemetry.begin(authorization_path, save_json)
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            telemetry_error = error
+        try:
+            result = _run(authorization_path, environ=environ, provider=provider)
+        except AtomRefusal as error:
+            result = refusal_output(error, authorization_path)
+            result["cost"] = cost_response(authorization_path, handle, result, telemetry_error)
+            error.owner_result = result
+            raise
+        result["cost"] = cost_response(authorization_path, handle, result, telemetry_error)
+        return result
+
+
+def cost_response(authorization_path, handle, result, error=None):
+    try:
+        if error is not None:
+            raise error
+        if handle is not None:
+            return cost_telemetry.finish(authorization_path, handle, result, save_json)
+        return cost_telemetry.report(authorization_path, result=result)
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        return cost_telemetry.failure(error)
 
 
 native_idle_schedule = issue_execution.native_idle_schedule
@@ -2570,7 +2606,7 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                       and observation.get("action") in
                       {"prior_loop_stopped", "prior_loop_running"})
     if observation is not None and not prior_recovery:
-        return response(state, authorization_path, waiting_on="Noodle",
+        return response(state, authorization_path, repair=repair, waiting_on="Noodle",
                         details={"execution": observation})
     if provider is None:
         try:
@@ -2611,7 +2647,7 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                 "amendment.issue", issue, "exact_open_provider_issue")
         verify_failed_prior(provider, authorization)
         restored = recover_prior_host(authorization, paths, state)
-        return response(state, authorization_path, waiting_on=(
+        return response(state, authorization_path, repair=repair, waiting_on=(
             "original host restored" if restored else "Noodle shutdown readback"),
             details={"prior_host_recovery": state["prior_host_recovery"]})
     if issue is None:
@@ -2653,7 +2689,7 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                     environ, correction=True)
             else:
                 execution = advance_correction(authorization, paths, state, provider)
-            return response(state, authorization_path, waiting_on="new Noodle loop",
+            return response(state, authorization_path, repair=repair, waiting_on="new Noodle loop",
                             details={"execution": execution})
         if state.get("noodle_bootstrap", {}).get("status") == "exited_zero":
             bootstrap_noodle(authorization, paths, state, environ)
@@ -2670,11 +2706,11 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                 paths["envelope"], envelope_digest, Path(authorization["control_root"]),
                 reader=lambda repository, number: provider.issue(number), observe_live=True)
         if admission.get("action") == "running":
-            return response(state, authorization_path, waiting_on="Noodle",
+            return response(state, authorization_path, repair=repair, waiting_on="Noodle",
                             details={"execution": admission})
         if admission.get("action") == "proposal_pending":
             execution = ensure_noodle(authorization, paths, state, admission, environ)
-            return response(state, authorization_path, waiting_on="Noodle", details={"execution": execution})
+            return response(state, authorization_path, repair=repair, waiting_on="Noodle", details={"execution": execution})
         subject = authorization["repository"] + "#" + str(issue["number"])
         if not paths["claim"].exists() or state.get("failed_candidate_head"):
             order_id = read_json(paths["envelope"], "envelope")["execution"]["order_id"]
@@ -2711,8 +2747,12 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
     claim = read_json(paths["claim"], "publication_claim")
     publication = restore_publication(state, claim, repair)
     run_value, jobs = select_run(provider, authorization, claim["head"])
+    try:
+        cost_telemetry.record_provider(authorization_path, state, run_value, jobs, save_json)
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        print(json.dumps({"event": "soodles.cost", **cost_telemetry.failure(error)}), file=sys.stderr)
     if run_value is None or run_value.get("status") != "completed":
-        return response(state, authorization_path, waiting_on="GitHub Actions")
+        return response(state, authorization_path, repair=repair, waiting_on="GitHub Actions")
     if state["phase"] in {"ci", "landing", "resolved"}:
         selected_owner = external_landing_activation(
             authorization, state, paths, environ,
@@ -2754,26 +2794,26 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                 provider.close_issue(request["issue_number"], request["state_reason"])
         except MutationUnknown:
             pass
-        return response(state, authorization_path, waiting_on="fresh provider readback")
+        return response(state, authorization_path, repair=repair, waiting_on="fresh provider readback")
     if transition["action"] == "reconcile":
         transition = landing_owner.reconcile(paths["landing"], authorization["noodle"]["path"])
         if transition.get("action") == "noodle_reconcile":
             complete_noodle(authorization, paths, state, transition)
-            return response(state, authorization_path, waiting_on="Noodle completion acknowledgement")
+            return response(state, authorization_path, repair=repair, waiting_on="Noodle completion acknowledgement")
     if transition.get("classification") == "RESOLVED":
         if not finish_host(authorization, paths, state, landing=transition):
-            return response(state, authorization_path, waiting_on="Noodle shutdown readback")
+            return response(state, authorization_path, repair=repair, waiting_on="Noodle shutdown readback")
         state["phase"] = "resolved"
         save_json(state_path, state)
-        return response(state, authorization_path, status="resolved",
+        return response(state, authorization_path, repair=repair, status="resolved",
                         details={"landing": transition,
                                  "host_finalization": state["host_finalization"]})
     if transition.get("next") is None:
         # The owner has returned a nonterminal outcome with neither a legal
         # action nor a prerequisite. This is a structural deadlock, not a timer.
-        return response(state, authorization_path, status="refused", details={
+        return response(state, authorization_path, repair=repair, status="refused", details={
             "landing": transition, "repair": repair.report("no_legal_next")})
-    return response(state, authorization_path, waiting_on="fresh owner readback",
+    return response(state, authorization_path, repair=repair, waiting_on="fresh owner readback",
                     details={"landing": transition})
 
 
@@ -2797,8 +2837,41 @@ def drive(authorization_path, *, timeout=300, interval=5, sleep=time.sleep, cloc
         remaining = deadline - clock()
         if remaining <= 0:
             return {**result, "wait_exhausted": True}
-        measured("issue_atom.wait", sleep, min(interval, remaining),
-                 phase=result.get("phase"), waiting_on=result.get("waiting_on"))
+        wait_cost(authorization_path, result, min(interval, remaining), sleep)
+
+
+def wait_cost(authorization_path, result, seconds, sleep):
+    from soodles import measured
+    handle = None
+    try:
+        with Path(authorization_path).open("rb") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            handle = cost_telemetry.begin(authorization_path, save_json,
+                                          waiting=result.get("waiting_on") or "owner")
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        print(json.dumps({"event": "soodles.cost", **cost_telemetry.failure(error)}), file=sys.stderr)
+    measured("issue_atom.wait", sleep, seconds,
+             authorization=str(Path(authorization_path).resolve()),
+             authorization_sha256=(result.get("cost", {}).get("subject") or {}).get("authorization"),
+             observation_id=wait_identity(result), status="pending",
+             phase=result.get("phase"), waiting_on=result.get("waiting_on"))
+    if handle is not None:
+        try:
+            with Path(authorization_path).open("rb") as lock:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                cost = cost_response(authorization_path, handle, result)
+                if cost.get("status") == "refused":
+                    print(json.dumps({"event": "soodles.cost", **cost}), file=sys.stderr)
+        except OSError as error:
+            print(json.dumps({"event": "soodles.cost", **cost_telemetry.failure(error)}), file=sys.stderr)
+
+
+def wait_identity(result):
+    if result.get("cost", {}).get("observation_id"):
+        return result["cost"]["observation_id"]
+    return cost_telemetry.digest(cost_telemetry.canonical({
+        "phase": result.get("phase"), "issue": result.get("issue"),
+        "publication": result.get("publication"), "waiting_on": result.get("waiting_on")}))
 
 
 def refusal_output(error, authorization_path):

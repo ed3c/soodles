@@ -147,3 +147,21 @@ class Manager:
                 else "ready" if actions else "wait", "ready": actions,
                 "required": "original_owner_readback" if unknown else None,
                 "authorizes_landing": False}
+
+
+def project_cost(facts, gate=None):
+    """Data-only observation projection; original owners retain every hard gate."""
+    require(isinstance(facts, dict) and set(facts) == {"subject", "coverage", "summary", "sources"},
+            "cost_facts")
+    # Finite numeric evidence was normalized before entry. Recheck at this public
+    # boundary so a direct caller cannot silently introduce NaN or negative cost.
+    import math
+    for key, value in facts["summary"].items():
+        if type(value) in (int, float):
+            require(math.isfinite(value) and value >= 0, "cost_number:" + key)
+    gate = gate or {"status": "unknown", "basis": "original owner evidence unavailable"}
+    return {"status": "observed", "subject": facts["subject"],
+            "coverage": facts["coverage"], "cost": facts["summary"],
+            "hard_gate": gate, "required": gate.get("required"),
+            "budget_basis": gate.get("basis"),
+            "authorizes_landing": False, "effects": [], "test_demand": None}

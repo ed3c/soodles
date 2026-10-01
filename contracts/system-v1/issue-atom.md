@@ -265,3 +265,28 @@ plan and subject, require unchanged rules/context, retain its complete prior rec
 and carry facts/sequence to the selected plan identity. No raw authorization, Noodle
 prompt/order, provider history or repair budget is replaced. The returned continuation
 belongs to that selected owner; no new merge, close, writer or authorization is offered.
+
+### Original cost evidence — ed3c/soodles#215
+
+`cost_telemetry.py` records source-bound observations in the existing atom artifact
+directory while holding the existing authorization lock. A start without a finish
+is unknown. Re-entry reads original records; identical source/span replay is
+idempotent, conflicting replay or invalid numeric/subject evidence refuses the
+cost report. Cost evidence never changes lifecycle/repair state or authority.
+Normal pending/refused/resolved output includes coverage, summary, original gate
+facts and a data-only `schema_manager.project_cost` result. Observation errors are
+visible alongside the unchanged owner result and continuation. Required identity,
+repair and unknown-effect checks remain mandatory; telemetry failure does not
+suppress original owner readback or cleanup. Repair elapsed seconds retain their
+first-repair basis; counters are neither inferred, copied nor reset.
+
+`./soodles atom cost-report AUTHORIZATION MANIFEST` reads explicit digest-bound
+state, process and provider receipts, without Git/network/process/model/test or
+provider effects. `AUTHORIZATION.d/cost-evidence.json`, when externally supplied,
+feeds the identical normal-run projection. The manifest contract lives in
+`docs/loop-cost/design.md` as format documentation, not correctness authority.
+This permits reporting original atoms run by older pinned owners without changing
+those bytes or replaying effects. New lifecycle closures pin `cost_telemetry.py`;
+legacy closures keep their original exact source digest. New source importing the
+module cannot use a legacy missing-module closure. The landing verifier file set
+and authority remain unchanged.

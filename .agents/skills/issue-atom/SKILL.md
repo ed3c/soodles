@@ -284,3 +284,26 @@ its refusal, with redacted receipt diagnostics. Correct a named capability befor
 re-entry after a confirmed rejection; there is no automatic retry in the wait
 loop. One additional exact-lease offer is the limit. Missing legacy process
 receipts stay unknown; do not replace authorization or reconstruct their outcome.
+
+## Cost readback
+
+Normal `run` responses include non-authorizing `cost` coverage and the data-only
+Schema Manager projection. Raw observations persist under the original
+`AUTHORIZATION.d/cost/` using the authorization lock. Telemetry refusal preserves
+the original status, refusal and continuation; it cannot suppress unknown-effect
+readback or host cleanup. Existing repair/budget checks remain with their owners.
+
+After an original atom resolves, including one executed by older immutable
+runtime bytes, read its receipts with the accepted entry:
+
+```sh
+./soodles atom cost-report /absolute/authorization.json /absolute/cost-evidence.json
+```
+
+The external supervisor binds original state/process/provider files in the
+[manifest](../../../docs/loop-cost/design.md). An optional manifest at
+`AUTHORIZATION.d/cost-evidence.json` is consumed by subsequent normal responses
+through that same path. Do not replay a writer, provider mutation or verification
+to fill missing cost coverage. An old owner did not emit newly introduced spans;
+its report remains partial. A report validates evidence correlation, not truth,
+acceptance, publication permission or a replacement landing identity.

@@ -11,6 +11,7 @@ import sys
 import tempfile
 import time
 import types
+import uuid
 
 ROOT = Path(__file__).resolve().parent
 
@@ -225,6 +226,8 @@ def worktree_probe(binary):
 def measured(operation, function, *arguments, **identity):
     """Observe normal execution without adding a gate or another state file."""
     started = time.monotonic()
+    wall_started = time.time()
+    span_id = uuid.uuid4().hex
     outcome = "failed"
     try:
         result = function(*arguments)
@@ -234,11 +237,25 @@ def measured(operation, function, *arguments, **identity):
             for field in ("status", "phase", "waiting_on"):
                 if field in result:
                     identity.setdefault(field, result[field])
-        failed = isinstance(result, dict) and result.get("exit", result.get("exit_status", 0))
-        outcome = "failed" if failed else "passed"
+        if isinstance(result, dict) and isinstance(result.get("cost"), dict):
+            cost = result["cost"]
+            identity.setdefault("observation_id", cost.get("observation_id"))
+            identity.setdefault("authorization_sha256", (cost.get("subject") or {}).get("authorization"))
+        failed = isinstance(result, dict) and (result.get("complete") is False or result.get("exit", result.get("exit_status", 0)))
+        value = result.get("status") if isinstance(result, dict) else identity.get("status")
+        outcome = (value if value in {"pending", "refused", "unknown", "not_required", "failed"}
+                   else "failed" if failed else "passed" if value in
+                   {None, "resolved", "completed", "success", "passed", "accepted"} else "unknown")
         return result
+    except Exception as error:
+        if getattr(error, "invalid", None) is not None:
+            outcome = "refused"
+            identity["status"] = "refused"
+            identity["invalid"] = error.invalid
+        raise
     finally:
         print(json.dumps({"event": "soodles.timing", "operation": operation, **identity,
+                          "span_id": span_id, "wall_started": wall_started, "wall_finished": time.time(),
                           "platform": sys.platform, "python": platform.python_version(),
                           "seconds": round(time.monotonic() - started, 3), "outcome": outcome}),
               file=sys.stderr, flush=True)
@@ -374,6 +391,9 @@ Every result has authorizes_landing=false; no delivery or landing authority.""")
     atom_resume.add_argument("authorization")
     atom_resume.add_argument("descriptor")
     atom_resume.add_argument("sha256")
+    atom_report = atom_verbs.add_parser("cost-report", description="Read original cost evidence without lifecycle or provider effects.")
+    atom_report.add_argument("authorization")
+    atom_report.add_argument("manifest")
     issue = groups.add_parser("issue", description="Consume one externally pinned Issue envelope before Noodle effects.",
                               epilog="Examples: ./soodles issue automatic --help; ./soodles issue supervised --help")
     issue_verbs = issue.add_subparsers(dest="verb", required=True)
@@ -502,8 +522,16 @@ def main():
                     ROOT, args.acceptance_receipt, args.noodle_claim)
         elif args.group == "atom":
             import issue_atom
-            result = (issue_atom.resume(args.authorization, args.descriptor, args.sha256)
-                      if args.verb == "resume" else issue_atom.drive(args.authorization))
+            if args.verb == "cost-report":
+                import cost_telemetry
+                try:
+                    result = cost_telemetry.report(args.authorization, args.manifest)
+                except (OSError, ValueError, KeyError, TypeError) as error:
+                    print(json.dumps(cost_telemetry.failure(error), indent=2))
+                    return 1
+            else:
+                result = (issue_atom.resume(args.authorization, args.descriptor, args.sha256)
+                          if args.verb == "resume" else issue_atom.drive(args.authorization))
         elif args.group == "issue":
             import issue_execution
             if args.verb == "inspect":
@@ -619,6 +647,8 @@ def main():
             import issue_atom
             if isinstance(exc, issue_atom.AtomRefusal):
                 result = issue_atom.refusal_output(exc, args.authorization)
+                if "cost" not in result:
+                    result["cost"] = issue_atom.cost_response(args.authorization, None, result)
                 print(json.dumps(result, indent=2))
                 print(
                     f"REFUSED: issue atom: invalid {exc.invalid['field']}={exc.invalid['value']!r}; "
