@@ -804,6 +804,33 @@ def require_control_checkout(root, claim, state, before, envelope, base_ref):
         checked(["git", "merge-base", "--is-ancestor", claim["base_head"], before["head"]], root)
 
 
+def cleanup_integration(root, base_ref):
+    """Observe the same local integration branch selected by Noodle's CLI."""
+    result = subprocess.run(["git", "symbolic-ref", "refs/remotes/origin/HEAD"],
+                            cwd=root, env=clean_env(), stdin=subprocess.DEVNULL,
+                            capture_output=True, text=True, timeout=30)
+    remote = result.stdout.strip()
+    prefix = "refs/remotes/origin/"
+    branch = remote[len(prefix):] if result.returncode == 0 and remote.startswith(prefix) else "main"
+    if branch.startswith("-"):
+        branch = "main"
+    require(branch == base_ref, "cleanup.integration_branch", branch)
+    ref = "refs/heads/" + branch
+    result = subprocess.run(["git", "rev-parse", "--verify", ref + "^{commit}"],
+                            cwd=root, env=clean_env(), stdin=subprocess.DEVNULL,
+                            capture_output=True, text=True, timeout=30)
+    require(result.returncode == 0, "cleanup.integration_ref", ref)
+    return {"integration_ref": ref, "main_head": result.stdout.strip(),
+            "control_head": checked(["git", "rev-parse", "HEAD"], root)}
+
+
+def same_cleanup_input(previous, observation):
+    # Detached control HEAD is diagnostic; Noodle tests the local integration ref.
+    return isinstance(previous, dict) and (
+        {k: v for k, v in previous.items() if k != "control_head"} ==
+        {k: v for k, v in observation.items() if k != "control_head"})
+
+
 def reconcile(checkpoint, binary):
     with locked(checkpoint) as path, contextlib.ExitStack() as custody:
         state = read(path)
@@ -917,7 +944,7 @@ def reconcile(checkpoint, binary):
             git_path = shutil.which("git")
             require(git_path is not None, "cleanup.git", "not found")
             observation = {"path_present": worktree.exists(), "branch_head": branch_head,
-                           "main_head": checked(["git", "rev-parse", "HEAD"], root),
+                           **cleanup_integration(root, base_ref),
                            "git_path": str(Path(git_path).resolve()),
                            "git_sha256": hashlib.sha256(Path(git_path).read_bytes()).hexdigest(),
                            "noodle_sha256": runtime["observed_binary_sha256"],
@@ -934,7 +961,7 @@ def reconcile(checkpoint, binary):
                 require(False, "cleanup.ref_lock", ref_lock)
             released = state.get("cleanup_blocked") == blocked
             # Missing legacy lock evidence means unknown, not a present->absent transition.
-            require(state.get("cleanup_intent") != observation or released,
+            require(not same_cleanup_input(state.get("cleanup_intent"), observation) or released,
                     "cleanup.observation", "unchanged; owner readback or changed capability required")
             state.pop("cleanup_blocked", None)  # Consume the observed release before calling its owner.
             state["cleanup_intent"] = observation

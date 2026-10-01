@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 213
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "9d323a1768a71bbc191fee11fa0730ebd07372ede7148911b805b6544f6050b6",
+      "treatment_sha256": "53fd1fa19b5fc30a114510733d5bd21498d9d860c6b65285bbd979ba00c2eb9a"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/cleanup-integration-ref.md",
+      "role": "design",
+      "sha256": "414e2e56f57fd948b65430f03d0c618a93ee082f377545630a93d3711f7087b7"
+    }
+  ],
+  "owner": {
+    "name": "Soodles landing reconciliation and original Issue atom continuation",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#213"
+  },
+  "authorizes_landing": false
+}

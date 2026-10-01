@@ -238,3 +238,30 @@ failures, not landing. Missing, pending, ambiguous, cancelled and successful run
 remain ineligible for failed-head correction. New candidate publication retains
 its original force-with-lease and unknown-write readback obligations, and landing
 still requires the exact successful candidate CI plus external judge.
+
+### Stopped post-write cleanup continuation — ed3c/soodles#213
+
+The existing external landing resume accepts the original normal `landing-claim.json`
+or activated claim after confirmed merge and closure, in `awaiting_reconcile` or
+`reconciling`. Only verifier identity changes. Cleanup intent, lock observations,
+provider writes and unknown/offered history remain; an offered resume needs current
+checkpoint readback and cannot be replayed.
+
+Cleanup binds Noodle CLI's origin/HEAD branch-name discovery (fallback main) to the
+profile base_ref and requires its actual local `refs/heads/<branch>` commit. Detached
+control HEAD is diagnostic, not the integration head or a cleanup retry trigger.
+Unchanged cleanup inputs refuse; existing exact ancestry, clean tree, candidate,
+lock release, unknown outcome and no-op discriminators remain in force.
+
+`issue-atom resume AUTH DESCRIPTOR SHA256` admits one externally selected immutable
+lifecycle bundle to a stopped original post-write checkpoint. It requires the original
+authorization digest, exact native claim/envelope/order and landing merge/closure,
+quiescent sessions and free authorization/atom/native locks. Only the exact native
+idle schedule shape is exempt from terminal order checks. Advanced control roots
+still require admitted ancestry. State binds from/to/auth digest; same selection is
+readback, changed second selection refuses. Run and host finalization validate the
+selected runtime. If a host projection already exists, validate its original pinned
+plan and subject, require unchanged rules/context, retain its complete prior record
+and carry facts/sequence to the selected plan identity. No raw authorization, Noodle
+prompt/order, provider history or repair budget is replaced. The returned continuation
+belongs to that selected owner; no new merge, close, writer or authorization is offered.

@@ -173,13 +173,35 @@ publisher bytes in an external descriptor with exact `path`, `sha256` and
 `verifier_sha256`, then supplies its absolute path through
 `SOODLES_LANDING_RESUME_OWNER` and its file digest through
 `SOODLES_LANDING_RESUME_OWNER_SHA256`. Re-enter the same original command.
-The entry permits this only for the original activation's confirmed post-write
-checkpoint, persists the resume intent before invoking `landing resume`, and
-changes only the verifier identity. An unknown result requires checkpoint
-readback; never replay that resume, merge or closure from a prior trace.
+The entry permits this for the original normal or activated confirmed post-write
+checkpoint, including `reconciling` with existing cleanup intent. It persists the
+resume intent before invoking `landing resume` and changes only the verifier
+identity; provider writes, cleanup observations and unknown history remain. An
+unknown result requires checkpoint readback; never replay that resume, merge or closure from a prior trace.
 For a Codex-managed detached control root, the corrected publisher must prove
 its exact Git worktree registration, clean source and admitted ancestry before
 ff-only synchronization. It does not switch the shared main checkout's branch.
+
+Cleanup observes Noodle CLI's actual integration branch (`origin/HEAD` branch
+name, fallback `main`), requires the profile's permitted branch and a present
+`refs/heads/<branch>`, and binds that local head separately from detached control
+HEAD. Only changed cleanup inputs or the existing lock-release readback permit
+another offer. Remote-tracking or detached HEAD movement alone is insufficient;
+no-op cleanup keeps its existing safeguards.
+
+An immutable old lifecycle cannot acquire new code through `run`. For a stopped
+original atom after confirmed merge and closure, the external supervisor may
+invoke the independently selected runtime's `issue-atom resume AUTH DESCRIPTOR
+SHA256`. The descriptor pins `path`, `sha256` and `source_sha256` using the existing
+lifecycle bundle contract; retain `SOODLES_AUTHORIZATION_SHA256`. This owner checks
+the original native claim/envelope/order, absent sessions and free native/atom
+locks, allowing only the exact idle schedule shape and admitted base ancestry.
+It records `from`/`to`/authorization digest without editing authorization or raw
+Noodle history. Existing host-finalization facts and sequence carry forward only
+under unchanged rules, retaining the complete prior projection. No unresolved
+publication amendment is required. Same selection is readback; a different second
+selection refuses. Consume the selected owner's returned `next` unchanged.
+This selection does not choose the landing verifier or authorize new writes.
 
 `status=resolved` is legal only after the landing owner reports
 `classification=RESOLVED` and local reconciliation has completed. Earlier
