@@ -6,7 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import issue_atom as atom
 
@@ -1139,11 +1139,11 @@ class IssueAtomTests(unittest.TestCase):
     def test_failed_claim_stops_drive_before_wait_or_publication(self):
         provider = Provider()
         self.ready_issue(provider)
+        sleep = Mock()
         with patch.object(atom.issue_execution, "supervised", return_value={"published": True}), \
                 patch.object(atom, "_run_claim", return_value=Result(2, "terminal subject refusal")) as claim, \
                 patch.object(atom, "_accept") as accept, \
-                patch.object(atom.candidate_publication, "publish") as publish, \
-                patch.object(atom.time, "sleep") as sleep:
+                patch.object(atom.candidate_publication, "publish") as publish:
             with self.assertRaises(atom.AtomRefusal) as caught:
                 atom.drive(self.path, timeout=2, sleep=sleep,
                            clock=iter((0, 0, 1, 2)).__next__,
