@@ -176,3 +176,29 @@ effect boundary, never as prerequisites for an early forecast. Missing facts and
 fresh-effect readback are normal owner continuations; only named duplicate-effect,
 lost-projection or no-legal-transition risks are repair diagnoses. Unknown behavior
 requests scoped offline measurement. Diagnostics never rewrite owner next/request.
+
+
+### Descendant-base continuation of a failed PR
+
+A supervisor may select the existing prior-publication-only admission on a fresh
+clean root at the exact current descendant provider base. Issue/PR/branch and
+failed head remain fixed; the old quiescent Noodle owner and history remain
+intact. `prior_atom` continues to mean same-root, same-base original-order
+correction. Fresh-root instruction pins resolve at the new base; same-root
+correction pins resolve at the prior published head.
+
+Before adoption or execution, Issue-atom alone may rebind that numbered open
+schema-3 Issue. Only base_head and existing base-revision frozen hashes may
+change, with both revisions validated from Git; scope, head pins, prose and
+marker remain identical. Exact failed open PR/branch and current provider base
+readback precede the persisted update intent. One PATCH is followed by exact
+Issue readback; an unknown result never reoffers it. Schema 4 is excluded because
+its fixed comparison evidence cannot be implicitly rebased. No automatic repair
+budget is copied or reset for an independently admitted successor.
+
+The exact completed runtime/job may fail with its completed acceptance step
+failed or skipped. The latter permits correcting preceding evidence/admission
+failures, not landing. Missing, pending, ambiguous, cancelled and successful runs
+remain ineligible for failed-head correction. New candidate publication retains
+its original force-with-lease and unknown-write readback obligations, and landing
+still requires the exact successful candidate CI plus external judge.

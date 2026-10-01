@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 207
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "213601f1c315dca21388ed1c91c0a6c2d9950ae9e11b2f76e986883453449778",
+      "treatment_sha256": "d1e05647f46bc79fdf77fb785b4ef37af67c36b1feeda5102dc4fd8618ca64ca"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/owner-base-continuation.md",
+      "role": "design",
+      "sha256": "e2c0fbe64ba36d5f459d45032e7e62342dbb70baaf796ce5dc36ddd6ac36a09e"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue atom owner",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#207"
+  },
+  "authorizes_landing": false
+}

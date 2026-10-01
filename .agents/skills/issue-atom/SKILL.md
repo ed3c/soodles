@@ -49,6 +49,8 @@ task, Noodle and worker binaries, and required exact-head workflow evidence.
 It also pins the original host `.noodle.toml` digest (or explicit absence).
 An existing Issue is adopted only when its exact number, title and body are
 authorized; it is never replaced with a newly created Issue on mismatch.
+The bounded base-advancement exception below updates that same Issue through
+the owner before exact adoption.
 
 After authorization preparation, the lifecycle uses only:
 
@@ -189,14 +191,39 @@ entry belongs to the next atom and must not be backfilled into this receipt.
 For a task requiring pinned instruction activation, the external supervisor uses
 schema-3 authorization with a nonempty `instruction_pins` list of exact
 `{path, sha256}` entries at the authorized `base_head`, or the exact
-`prior_publication.head` for a same-Issue correction. The control base remains
-unchanged; the published candidate owns the correction's instruction input. Use the same `issue-atom
+`prior_publication.head` for a same-root correction carrying `prior_atom`.
+A fresh-root continuation uses the newly admitted base instruction bytes;
+it does not import the old candidate's instructions. Use the same `issue-atom
 run` command. The owner validates those committed UTF-8 regular-file bytes before
 Issue mutation and seals their contents into the admission envelope and Noodle
 stage prompt. Missing files, mismatched digests or invalid selection require a
 corrected external authorization; never fill them from a guessed recipe or tip.
 Schema 2 remains supported without this activation claim. Selecting the right
 recipes and observing model behavior remain supervisor responsibilities.
+
+## Failed PR when the base advances
+
+Read the exact current provider base and original publication. If the same-root
+correction refuses because that base advanced, use the existing fresh-root
+`prior_publication` admission in the [authorization recipe](../verify-soodles/features/local-supervisor-admission.md).
+Keep the same Issue, PR and publication branch. Select a clean control root at
+the exact descendant provider base and omit `prior_atom`; that field means
+resuming the original order on its unchanged base, not history migration.
+Keep the old owner quiescent and retain its authorization, attempts, worktree
+and failure receipts. The new root gets its own Noodle order; prior repair
+history is not copied or reset into a new automatic repair allowance.
+
+The selected schema-3 Issue may change only `base_head` and the SHA-256 of
+existing `revision=base` frozen paths. Read both revisions to bind those bytes;
+preserve all scope, head pins, prose and the original marker. The lifecycle
+checks descendant ancestry, exact open failed PR/branch/head and current provider
+base, persists intent, updates the same Issue once, and commits the change only
+from readback. Never patch the Issue manually. An unknown outcome permits fresh
+readback only, not another offer or a new authorization to retry the write.
+Schema-4 comparison requirements need separately selected fresh evidence and do
+not use this rebind. Pending, cancelled or successful CI cannot authorize this
+failed-head route. A completed failed runtime whose acceptance step was skipped
+because a preceding step failed is eligible for correction, never for landing.
 
 ## On-demand test scope
 
