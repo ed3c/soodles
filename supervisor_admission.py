@@ -768,7 +768,7 @@ def authorize(selection_path, expected_sha256, output):
     pins = []
     if paths:
         instruction_head = (selection["prior_publication"]["head"]
-                            if "prior_publication" in selection else head)
+                            if "prior_atom" in selection else head)
         pins = [{"path": path, "sha256": "0" * 64} for path in paths]
         validate_instruction_files(pins)
         for pin in pins:

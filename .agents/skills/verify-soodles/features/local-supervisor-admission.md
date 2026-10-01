@@ -106,6 +106,29 @@ Agent improvement; the P-class comparison still needs fresh isolated consumers
 and independently fixed scoring. A missing supported owner activation remains
 an explicit capability gap, not a request for the user to recreate authorization.
 
+## Same Issue after provider base advancement
+
+When fresh provider readback shows a descendant base, use a fresh clean control
+root at that exact base with the same numbered Issue and `prior_publication`.
+Omit `prior_atom`: its existing contract keeps the old order and old base intact.
+Retain the quiescent old owner, failed attempt, authorization and publication
+receipts. This fresh admission has no renewed automatic repair budget.
+
+Select a schema-3 body with only `base_head` and existing base-revision frozen
+hashes updated from the old/new Git bytes. Keep head pins, scope, outside prose
+and marker unchanged. Select instruction paths from the new base. The prepared
+same-command owner validates the exact current provider base and failed open
+PR, records its Issue-update intent before PATCH, and adopts only exact readback.
+A lost result cannot offer a second PATCH. Do not edit the Issue, migrate Noodle
+state or replay unknown publication effects from the supervising Agent.
+
+A completed failed runtime includes failure before acceptance with the named
+acceptance step completed/skipped. Queued, running, cancelled, absent, ambiguous
+or successful runtime does not authorize this failed-head continuation. Use the
+normal changed-head PR CI and its Test Manager scope; no extra local regression
+or model experiment is implied. See `tests/test_base_readmission.py` for the
+provider-effect and instruction-binding controls.
+
 ## Existing admitted execution producer
 
 The lower-level `prepare` producer below remains owned by the lifecycle;

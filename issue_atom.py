@@ -159,7 +159,7 @@ def selected_instruction_pins(authorization):
         require("instruction_pins" not in authorization, "authorization.instruction_pins", "legacy schema")
         return None
     pins = authorization.get("instruction_pins")
-    prior = authorization.get("prior_publication")
+    prior = authorization.get("prior_publication") if "prior_atom" in authorization else None
     instruction_head = prior.get("head") if isinstance(prior, dict) else authorization["base_head"]
     require(isinstance(instruction_head, str) and SHA40.fullmatch(instruction_head),
             "authorization.instruction_head", instruction_head)
@@ -626,6 +626,12 @@ class GitHubProvider(candidate_publication.GitHubProvider):
         except candidate_publication.ProviderMutationUnknown as error:
             raise MutationUnknown(str(error)) from None
 
+    def update_issue_body(self, number, body):
+        try:
+            return self.request("PATCH", f"/issues/{number}", {"body": body}, mutation=True)
+        except candidate_publication.ProviderMutationUnknown as error:
+            raise MutationUnknown(str(error)) from None
+
     def workflow_runs(self, head):
         query = urllib.parse.urlencode({"head_sha": head, "event": "pull_request", "per_page": 100})
         return self.request("GET", "/actions/runs?" + query)
@@ -684,6 +690,83 @@ def exact_issue(provider, authorization, authorization_digest):
             and issue.get("body") == expected_body,
             "github.issue.shape", issue.get("number"), "exact_provider_issue")
     return issue, expected_body
+
+
+def readmit_issue_base(provider, authorization, state, paths):
+    """Rebind one failed PR's Issue to a freshly admitted descendant base.
+
+    A fresh control root uses the existing prior-publication path. Old Noodle
+    orders and immutable authorizations remain historical, never transplanted.
+    """
+    if "prior_publication" not in authorization or "prior_atom" in authorization:
+        return
+    selected = authorization["issue"]
+    current = provider.issue(selected["number"])
+    require(isinstance(current, dict) and current.get("number") == selected["number"]
+            and current.get("title") == selected["title"]
+            and current.get("html_url") == f'https://github.com/{authorization["repository"]}/issues/{selected["number"]}'
+            and "pull_request" not in current,
+            "readmission.issue.identity", selected["number"], "exact_provider_issue")
+    intent = state["writes"].get("issue_base")
+    if current.get("body") == selected["body"]:
+        if intent is not None:
+            require(intent.get("body_sha256") == issue_admission.body_digest(selected["body"])
+                    and intent.get("base_head") == authorization["base_head"]
+                    and intent.get("prior_head") == authorization["prior_publication"]["head"]
+                    and intent.get("status") in {"offered", "observed"},
+                    "readmission.issue.intent", intent, "unchanged_base_readmission")
+            if intent["status"] == "offered":
+                state["writes"]["issue_base"] = {**intent, "status": "observed"}
+                save_json(paths["state"], state)
+        return
+    require(current.get("state") == "open" and state["phase"] == "issue"
+            and state.get("issue") is None and state.get("publication") is None
+            and not paths["envelope"].exists() and not paths["landing"].exists(),
+            "readmission.issue.phase", state["phase"], "fresh_pre_execution_admission")
+    require(intent is None, "readmission.issue.outcome", "unknown",
+            "fresh_provider_issue_readback_without_retry")
+    old = issue_admission.parse_contract(current.get("body"))
+    new = issue_admission.parse_contract(selected["body"])
+    require(old.get("schema") == new.get("schema") == 3,
+            "readmission.issue.schema", new.get("schema"), "schema_three_base_readmission")
+    previous, target = old["base_head"], authorization["base_head"]
+    require(previous != target and new["base_head"] == target,
+            "readmission.issue.base", [previous, target], "changed_admitted_base")
+    root = Path(authorization["control_root"])
+    ancestor = subprocess.run(["git", "merge-base", "--is-ancestor", previous, target],
+                              cwd=root, capture_output=True, timeout=30)
+    require(ancestor.returncode == 0, "readmission.issue.ancestry", [previous, target],
+            "descendant_provider_base")
+    pins = []
+    for pin in old["frozen_paths"]:
+        if pin["revision"] == "base":
+            require(digest_bytes(issue_admission.git_bytes(root, previous, pin["path"])) == pin["sha256"],
+                    "readmission.issue.previous_pin", pin["path"], "exact_previous_base_pin")
+            pin = {**pin, "sha256": digest_bytes(issue_admission.git_bytes(root, target, pin["path"]))}
+        pins.append(pin)
+    require(new == {**old, "base_head": target, "frozen_paths": pins},
+            "readmission.issue.scope", "changed", "same_contract_with_current_base_pins")
+    marker = re.escape(issue_admission.MARKER)
+    block = r"<!--\s*" + marker + r"\s*-->\s*```json\s*\n.*?\n\s*```\s*<!--\s*/" + marker + r"\s*-->"
+    require(re.sub(block, "<contract>", current["body"], flags=re.DOTALL)
+            == re.sub(block, "<contract>", selected["body"], flags=re.DOTALL),
+            "readmission.issue.prose", "changed", "unchanged_issue_prose_and_marker")
+    verify_failed_prior(provider, authorization)
+    # Refresh the actual Issue immediately before recording the only write offer.
+    require(provider.issue(selected["number"]) == current,
+            "readmission.issue.race", "changed", "fresh_provider_issue_readback")
+    state["writes"]["issue_base"] = {
+        "status": "offered", "previous_body_sha256": issue_admission.body_digest(current["body"]),
+        "body_sha256": issue_admission.body_digest(selected["body"]),
+        "previous_base": previous, "base_head": target,
+        "prior_head": authorization["prior_publication"]["head"]}
+    save_json(paths["state"], state)
+    try:
+        provider.update_issue_body(selected["number"], selected["body"])
+    except MutationUnknown:
+        pass
+    # Only provider readback commits the transition; an unknown result never reoffers.
+    readmit_issue_base(provider, authorization, state, paths)
 
 
 def artifact_paths(authorization_path):
@@ -1507,6 +1590,8 @@ def select_run(provider, authorization, head):
     require(len(step) == 1, "github.workflow_step.count", len(step), "one_exact_acceptance_step")
     require(target[0].get("status") == "completed", "github.workflow_job.status",
             target[0].get("status"), "fresh_exact_head_ci")
+    require(step[0].get("status") == "completed", "github.workflow_step.status",
+            step[0].get("status"), "fresh_exact_head_ci")
     require(run.get("conclusion") == target[0].get("conclusion") == step[0].get("conclusion") == "success",
             "github.workflow.conclusion",
             [run.get("conclusion"), target[0].get("conclusion"), step[0].get("conclusion")],
@@ -1541,8 +1626,9 @@ def verify_failed_prior(provider, authorization):
     try:
         run_value, jobs = select_run(provider, authorization, prior["head"])
     except AtomRefusal as error:
-        require(error.invalid == {"field": "github.workflow.conclusion",
-                                  "value": ["failure", "failure", "failure"]},
+        require(error.invalid in (
+                    {"field": "github.workflow.conclusion", "value": ["failure", "failure", "failure"]},
+                    {"field": "github.workflow.conclusion", "value": ["failure", "failure", "skipped"]}),
                 "amendment.prior_runtime", error.invalid,
                 "terminal_failed_exact_head_runtime")
     else:
@@ -2193,6 +2279,7 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
         provider = GitHubProvider(authorization["repository"], token=token)
     if not state_path.exists():
         save_json(state_path, state, fresh=True)
+    readmit_issue_base(provider, authorization, state, paths)
     issue, body = exact_issue(provider, authorization, authorization_digest)
     if prior_recovery:
         require(issue is not None and issue.get("state") == "open",
