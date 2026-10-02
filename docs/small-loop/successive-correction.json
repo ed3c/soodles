@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 225
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "5227161d67b10d70a9e296cbc17b12018062956c7dc88de4a8d62c5b34b9d2ab",
+      "treatment_sha256": "7941a738abfb4f1f5dd4dfff0e8fff4d50fce02425d64e25f34fe9c2cacaeca4"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "role": "Successive correction ownership, failure-data admission, or focused control",
+      "sha256": "4b86b80df0b35bc9fd607c5eb9e29b35d0e1928b7936f6f9a98d65f51d0d5b28"
+    },
+    {
+      "path": "contracts/system-v1/issue-atom.md",
+      "role": "Successive correction ownership, failure-data admission, or focused control",
+      "sha256": "e6fa4b811a800373b7860b93a8bc1b9dcf5678a3ad0d482ff29cd2ce53a709a0"
+    },
+    {
+      "path": "issue_admission.py",
+      "role": "Successive correction ownership, failure-data admission, or focused control",
+      "sha256": "36efd12a886fe3e694a6a256f550822e898d62f9239156f55ae6c081bf1c006d"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "Successive correction ownership, failure-data admission, or focused control",
+      "sha256": "e5e29f9608ff7c28b1e3aef930eaee6fc9ded8a47ab307abe3dc400d65163b3d"
+    },
+    {
+      "path": "issue_execution.py",
+      "role": "Successive correction ownership, failure-data admission, or focused control",
+      "sha256": "7a333ac2cb54579c106a04bf5cbf88b873c31eba0855dcc08dd2472aefea01db"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "Successive correction ownership, failure-data admission, or focused control",
+      "sha256": "34837967ff1c21aa8f72575961155d91dd214d502f732516cb8954ce4a50935b"
+    },
+    {
+      "path": "tests/test_correction_preparation.py",
+      "role": "Successive correction ownership, failure-data admission, or focused control",
+      "sha256": "643c1847e5710a24dbb47c9c3082e22a7252c3097a35aacaf033195fa6a0e414"
+    }
+  ],
+  "owner": {
+    "name": "Existing Soodles authorization producer and original Noodle correction owner",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#225"
+  },
+  "authorizes_landing": false
+}

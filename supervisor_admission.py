@@ -326,7 +326,7 @@ def _config_bytes(output, carrier, *, bootstrap=False):
 
 def prepare(issue_readback, carrier, control_root, output, *,
             interpreter=None, environ=None, task=None, wire_host=False, instruction_pins=None,
-            correction=False):
+            correction=False, failure_context=None):
     """Create one immutable external bundle and return the only start continuation."""
     environ = os.environ if environ is None else environ
     require(type(correction) is bool and (not correction or wire_host),
@@ -410,6 +410,9 @@ def prepare(issue_readback, carrier, control_root, output, *,
     if instruction_pins is not None:
         envelope["schema"] = 2
         envelope["execution"]["instruction_context"] = resolve_instruction_context(root, worker_head, instruction_pins)
+    if failure_context is not None:
+        require(correction, "supervisor.failure_context", "requires correction")
+        envelope["execution"]["failure_context"] = failure_context
     validate_issue(issue_readback, envelope)
     if correction:
         import issue_execution
@@ -640,7 +643,7 @@ def _committed_preparation(target, selection, selection_digest, root):
     schema = 3 if pins else 2
     fields = (issue_atom.AUTH_FIELDS | {"landing_owner"}
               | ({"instruction_pins"} if pins else set())
-              | ({"prior_publication", "prior_atom"} & selection.keys())
+              | ({"prior_publication", "prior_atom", "failure_context"} & selection.keys())
               | ({"lifecycle_owner"} if "lifecycle_owner" in selection else set()))
     require(isinstance(auth, dict) and set(auth) == fields
             and type(auth.get("schema_version")) is int and auth["schema_version"] == schema,
@@ -656,6 +659,10 @@ def _committed_preparation(target, selection, selection_digest, root):
     if "lifecycle_owner" in selection:
         require(auth["lifecycle_owner"] == selection["lifecycle_owner"],
                 "authorization.bundle.lifecycle_owner", str(target))
+    if "failure_context" in selection:
+        require(auth["failure_context"] == selection["failure_context"],
+                "authorization.bundle.failure_context", "changed")
+        issue_atom.validate_authorization_failure(auth)
     if "prior_publication" in selection:
         require(auth["prior_publication"] == selection["prior_publication"],
                 "authorization.bundle.prior_publication", str(target))
@@ -702,6 +709,7 @@ def authorize(selection_path, expected_sha256, output):
     selection = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object)
     required_fields = AUTHORIZATION_SELECTION_FIELDS | (
         {"lifecycle_owner"} if isinstance(selection, dict) and "lifecycle_owner" in selection else set())
+    required_fields |= {"failure_context"} if isinstance(selection, dict) and "failure_context" in selection else set()
     require(isinstance(selection, dict) and set(selection) in
             (required_fields, required_fields | {"prior_publication"},
              required_fields | {"prior_publication", "prior_atom"}),
@@ -794,6 +802,8 @@ def authorize(selection_path, expected_sha256, output):
         authorization["prior_publication"] = selection["prior_publication"]
     if "prior_atom" in selection:
         authorization["prior_atom"] = selection["prior_atom"]
+    if "failure_context" in selection:
+        authorization["failure_context"] = selection["failure_context"]
     data = _canonical(authorization)
     digest = _sha256(data)
     receipt = _prepared_receipt(root, target, digest, selection.get("lifecycle_owner"))
@@ -823,7 +833,7 @@ def authorize(selection_path, expected_sha256, output):
             shutil.rmtree(staging)
 
 
-def _correction_selection(authorization, reference, issue, publication):
+def _correction_selection(authorization, reference, issue, publication, failure_context=None):
     selection = {
         "schema": 1, "repository": authorization["repository"],
         "control_root": authorization["control_root"],
@@ -833,6 +843,8 @@ def _correction_selection(authorization, reference, issue, publication):
         "instruction_paths": [pin["path"] for pin in authorization.get("instruction_pins", [])],
         "prior_atom": reference, "prior_publication": publication,
     }
+    if failure_context is not None:
+        selection["failure_context"] = failure_context
     if "lifecycle_owner" in authorization:
         selection["lifecycle_owner"] = authorization["lifecycle_owner"]
     return selection
@@ -875,7 +887,8 @@ def _correction_readback(target, authorization, reference):
             and issue["title"] == authorization["issue"]["title"]
             and issue["body"] == expected_body
             and selection == _correction_selection(
-                authorization, reference, issue, selection.get("prior_publication")),
+                authorization, reference, issue, selection.get("prior_publication"),
+                selection.get("failure_context")),
             "correction.selection", "changed", required="original_correction_selection")
     return authorize(str(target / "selection.json"), hashes["selection"], str(target / "prepared"))
 
@@ -908,10 +921,7 @@ def _prepare_correction(authorization_path, expected_sha256, output, *, environ,
             required="unchanged_original_authorization")
     authorization = json.loads(raw, object_pairs_hook=_unique_object)
     reference = {"path": str(source.resolve()), "sha256": expected_sha256}
-    require(isinstance(authorization, dict)
-            and not ({"prior_atom", "prior_publication"} & authorization.keys()),
-            "correction.lineage", "automatic_correction_already_derived",
-            owner="soodles.issue-atom", required="original_owner_after_one_automatic_correction")
+    require(isinstance(authorization, dict), "correction.authorization", "invalid")
     root = Path(authorization["control_root"]).resolve()
     issue_atom.validate_prior_atom_ref(reference, root)
     paths = issue_atom.artifact_paths(source.resolve())
@@ -931,18 +941,7 @@ def _prepare_correction(authorization_path, expected_sha256, output, *, environ,
             and not paths["landing"].exists(),
             "correction.state", state.get("phase"), owner="soodles.issue-atom",
             required="exact_prelanding_failed_candidate")
-    # Admission preparation does not execute the repair policy's unavailable
-    # model action. Its fixed output permits one derivation, not a renewed ledger.
-    # Existing unknown repair effects still need their original owner readback.
-    repair_record = state.get("repair")
-    require(repair_record is None or isinstance(repair_record, dict),
-            "correction.repair_history", "invalid", owner="soodles.issue-atom",
-            required="original_repair_owner_readback_without_retry")
-    history = repair_record.get("history", []) if repair_record is not None else []
-    require(isinstance(history, list) and all(isinstance(entry, dict)
-            and entry.get("status") == "confirmed" for entry in history),
-            "correction.repair_history", "unresolved", owner="soodles.issue-atom",
-            required="original_repair_owner_readback_without_retry")
+    correction_count = issue_atom.validate_correction_lineage(authorization, reference, state)
     number = state.get("issue", {}).get("number")
     require(type(number) is int and number > 0, "correction.issue", number,
             owner="soodles.issue-atom", required="original_issue_checkpoint")
@@ -967,13 +966,19 @@ def _prepare_correction(authorization_path, expected_sha256, output, *, environ,
     require(isinstance(current, dict) and current.get("number") == number
             and current.get("state") == "open" and body == expected_body,
             "correction.issue", number, owner="GitHub", required="exact_open_original_issue")
-    issue_atom.verify_failed_prior(provider, candidate, failed_ci_only=True)
-    selection = _correction_selection(authorization, reference, issue, publication)
+    failed_run, failed_jobs = issue_atom.verify_failed_prior(provider, candidate, failed_ci_only=True)
+    require(correction_count < 3, "correction.lineage.limit", correction_count,
+            owner="soodles.issue-atom", required="reassess_cause_after_three_failed_corrections")
+    failure_context, diagnostic_raw = issue_atom.failed_ci_context(
+        provider, candidate, failed_run, failed_jobs, target / "diagnostic.log")
+    selection = _correction_selection(authorization, reference, issue, publication, failure_context)
     data = _canonical(selection)
     binding = {"schema": 1, "prior_atom": reference, "output": str(target),
                "selection_sha256": _sha256(data)}
     staging = Path(tempfile.mkdtemp(prefix=".correction-", dir=target.parent))
     try:
+        if diagnostic_raw is not None:
+            _write_durable(staging / "diagnostic.log", diagnostic_raw)
         _write_durable(staging / "selection.json", data)
         _write_durable(staging / "correction-binding.json", _canonical(binding))
         _sync_directory(staging)

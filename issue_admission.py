@@ -228,6 +228,92 @@ def validate_instruction_context(context, source_head):
     validate_instruction_files(context["files"], content=True)
 
 
+def failure_digest(data):
+    return hashlib.sha256(json.dumps(data, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def validate_failure_context(context, repository, issue, head, workflow=None, pr=None):
+    """Validate pinned diagnostic data without granting instructions or effects."""
+    exact_object(context, {"sha256", "data"}, "failure_context.fields")
+    data = context["data"]
+    exact_object(data, {"schema", "repository", "issue", "pr", "head", "workflow",
+                        "run", "jobs", "diagnostics"}, "failure_context.data")
+    require(context["sha256"] == failure_digest(data), "failure_context.sha256", "changed")
+    require(type(data["schema"]) is int and data["schema"] == 1
+            and data["repository"] == repository and type(data["issue"]) is int
+            and data["issue"] == issue and data["head"] == head
+            and type(data["pr"]) is int and data["pr"] > 0
+            and (pr is None or data["pr"] == pr), "failure_context.subject", "mismatch")
+    selected = data["workflow"]
+    exact_object(selected, {"path", "job", "step"}, "failure_context.workflow")
+    require(all(nonempty(v) for v in selected.values())
+            and (workflow is None or selected == workflow), "failure_context.workflow", "mismatch")
+    run, jobs = data["run"], data["jobs"]
+    require(isinstance(run, dict) and type(run.get("id")) is int and run["id"] > 0
+            and type(run.get("run_attempt")) is int and run["run_attempt"] > 0
+            and run.get("head_sha") == head and run.get("event") == "pull_request"
+            and run.get("path") == selected["path"] and run.get("status") == "completed"
+            and run.get("conclusion") == "failure", "failure_context.run", "mismatch")
+    require(isinstance(jobs, dict) and isinstance(jobs.get("jobs"), list)
+            and all(isinstance(j, dict) for j in jobs["jobs"]), "failure_context.jobs", "invalid")
+    targets = [j for j in jobs["jobs"] if j.get("name") == selected["job"]]
+    require(len(targets) == 1, "failure_context.job", "ambiguous")
+    job = targets[0]
+    require(type(job.get("id")) is int and job["id"] > 0
+            and type(job.get("run_id")) is int and job["run_id"] == run["id"]
+            and type(job.get("run_attempt")) is int and job["run_attempt"] == run["run_attempt"]
+            and job.get("head_sha") == head
+            and job.get("status") == "completed" and job.get("conclusion") == "failure"
+            and isinstance(job.get("steps"), list)
+            and all(isinstance(step, dict) for step in job["steps"]), "failure_context.job", "mismatch")
+    steps = [step for step in job["steps"] if step.get("name") == selected["step"]]
+    require(len(steps) == 1 and steps[0].get("status") == "completed"
+            and steps[0].get("conclusion") in {"failure", "skipped"}
+            and any(step.get("status") == "completed" and step.get("conclusion") == "failure"
+                    for step in job["steps"]), "failure_context.steps", "missing failed step")
+    diagnostics = data["diagnostics"]
+    require(isinstance(diagnostics, list) and len(diagnostics) == 1,
+            "failure_context.diagnostics", "missing")
+    diagnostic = diagnostics[0]
+    exact_object(diagnostic, {"job_id", "log", "gap"}, "failure_context.diagnostic")
+    require(diagnostic["job_id"] == job["id"] and type(diagnostic["job_id"]) is int,
+            "failure_context.diagnostic.job", "mismatch")
+    if diagnostic["gap"] is None:
+        ref = diagnostic["log"]
+        exact_object(ref, {"path", "sha256", "bytes"}, "failure_context.diagnostic.log")
+        require(isinstance(ref["path"], str) and Path(ref["path"]).is_absolute()
+                and isinstance(ref["sha256"], str) and re.fullmatch(r"[0-9a-f]{64}", ref["sha256"])
+                and type(ref["bytes"]) is int and ref["bytes"] >= 0,
+                "failure_context.diagnostic.log", "invalid")
+    else:
+        require(nonempty(diagnostic["gap"]) and diagnostic["log"] is None,
+                "failure_context.diagnostic.gap", "invalid")
+    return context
+
+
+def validate_failure_logs(context, control_root):
+    """Read the external pinned bytes without adding log text to model instructions."""
+    for diagnostic in context["data"]["diagnostics"]:
+        if diagnostic["log"] is None:
+            continue
+        ref = diagnostic["log"]
+        path = Path(ref["path"])
+        require(not path.is_symlink() and path.is_file()
+                and path.resolve() == path and not path.is_relative_to(Path(control_root).resolve()),
+                "failure_context.diagnostic.path", str(path), required="immutable_external_diagnostic")
+        try:
+            digest, size = hashlib.sha256(), 0
+            with path.open("rb") as stream:
+                for chunk in iter(lambda: stream.read(65536), b""):
+                    digest.update(chunk)
+                    size += len(chunk)
+        except OSError as error:
+            raise AdmissionRefusal("failure_context.diagnostic.read", str(path),
+                                   required="immutable_external_diagnostic") from error
+        require(digest.hexdigest() == ref["sha256"] and size == ref["bytes"],
+                "failure_context.diagnostic.sha256", "changed", required="immutable_external_diagnostic")
+
+
 def validate_envelope(envelope):
     exact_object(envelope, ENVELOPE_FIELDS, "envelope.fields")
     require(type(envelope["schema"]) is int and envelope["schema"] in (1, 2), "envelope.schema", envelope["schema"])
@@ -243,6 +329,7 @@ def validate_envelope(envelope):
     paths = path_set(envelope["write_paths"], "envelope.write_paths")
     execution = envelope["execution"]
     context_fields = {"instruction_context"} if envelope["schema"] == 2 else set()
+    context_fields |= {"failure_context"} if isinstance(execution, dict) and "failure_context" in execution else set()
     exact_object(execution, {"control_root", "worktree", "order_id", "stage_index", "carrier", "task", "source_head"} | context_fields,
                  "envelope.execution.fields")
     require(isinstance(execution["source_head"], str) and re.fullmatch(r"[0-9a-f]{40}", execution["source_head"]),
@@ -252,6 +339,10 @@ def validate_envelope(envelope):
     require(nonempty(execution["task"]), "envelope.execution.task", execution["task"])
     require(isinstance(execution["control_root"], str) and Path(execution["control_root"]).is_absolute(),
             "envelope.execution.control_root", execution["control_root"])
+    if "failure_context" in execution:
+        validate_failure_context(execution["failure_context"], envelope["repository"],
+                                 envelope["issue"], execution["source_head"])
+        validate_failure_logs(execution["failure_context"], execution["control_root"])
     require(isinstance(execution["worktree"], str) and re.fullmatch(r"[a-z0-9][a-z0-9-]{0,99}", execution["worktree"]),
             "envelope.execution.worktree", execution["worktree"])
     require(execution["order_id"] in (f"soodles-{envelope['issue']}",

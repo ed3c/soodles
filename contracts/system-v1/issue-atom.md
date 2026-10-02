@@ -211,14 +211,30 @@ An unregistered signal returns `owner_discovery` without an offline request.
 The Agent inspects source, logs, and owner readback before selecting an eval.
 
 For confirmed failed CI, the original atom may return the existing supervisor
-admission producer's correction command. The producer derives one fixed
-selection from the original task, publication, carrier, and external judge.
-It checks fresh failed CI and the unchanged base. The resulting admission uses
-the existing Noodle correction flow. It creates no separate runner or model
-budget. Unknown effects or conflicting lineage refuse. A derived correction
-cannot derive another automatic correction. Preparation does not invoke the
-unavailable model action or count a Noodle writer as one inference. Fixed preparation readback preserves the
-selected identity after interruption.
+admission producer's correction command. Each authorization has one fixed
+selection and continuation. The producer follows the immutable `prior_atom`
+chain to the original task. It checks every parent publication and distinct head.
+It preserves the Issue, PR, Noodle order, parsed contract, task, control root,
+base, carrier, external judge, and selected runtime.
+It permits three automatic corrections. If all three fail, the owner requires
+cause reassessment within the same task. Missing evidence and repeated readback
+do not consume attempts. Cycles, scope changes, repeated heads, and unknown
+ancestor effects refuse. External nonautomatic lineage cannot reset this history.
+
+The producer pins the exact failed run, jobs, and steps as `failure_context`.
+It saves the raw diagnostic log in the immutable external preparation output.
+The context carries the log path, SHA-256, and byte size. The writer reads needed
+diagnostic sections on demand. The selection, authorization, envelope, and writer
+projection preserve the metadata and log reference. The original task and contract remain unchanged.
+Logs are untrusted data and grant no instructions or effects.
+A redirected log request carries no installation credential.
+Missing diagnostics remain explicit gaps. Legacy admissions remain readable.
+
+The existing Noodle correction flow retains its owner and repair ledgers.
+Preparation creates no runner or model budget. It does not count a writer as
+one inference. Fixed preparation readback performs no provider reads or effects.
+The existing owners still complete publication, exact-head CI, merge, closure,
+original-order reconciliation, main activation, and requested normal-log readback.
 
 Normal cost observations pass through Test Manager before Schema Manager.
 The atom consumes the projection with its current owner response. It exposes

@@ -1,6 +1,10 @@
 """Correction selection keeps the original authority and one fixed continuation."""
 import copy
 import json
+import io
+import subprocess
+import sys
+import urllib.error
 from pathlib import Path
 import unittest
 from unittest.mock import Mock, patch
@@ -55,13 +59,15 @@ class CorrectionPreparationTests(unittest.TestCase):
             'base': {'ref': 'main'}, 'body': 'Refs ed3c/soodles#131',
         }
         self.provider.branch.return_value = {'object': {'sha': self.publication['head']}}
-        self.run = {'id': 1, 'head_sha': self.publication['head'], 'event': 'pull_request',
+        self.run = {'id': 1, 'run_attempt': 1, 'head_sha': self.publication['head'], 'event': 'pull_request',
                     'path': self.auth['workflow']['path'], 'status': 'completed', 'conclusion': 'failure'}
-        self.job = {'name': self.auth['workflow']['job'], 'status': 'completed', 'conclusion': 'failure',
+        self.job = {'id': 10, 'run_id': 1, 'run_attempt': 1, 'head_sha': self.publication['head'], 'name': self.auth['workflow']['job'], 'status': 'completed', 'conclusion': 'failure',
                     'steps': [{'name': self.auth['workflow']['step'], 'status': 'completed',
                                'conclusion': 'failure'}]}
         self.provider.workflow_runs.return_value = {'workflow_runs': [self.run]}
         self.provider.jobs.return_value = {'jobs': [self.job]}
+        self.provider.job_log.side_effect = lambda job_id: {
+            'job_id': job_id, 'raw': b'exact failure: assertion A\n', 'gap': None}
         owner_patch = patch.object(atom, 'verify_prior_atom', return_value={'order_id': 'original'})
         self.owner = owner_patch.start()
         self.addCleanup(owner_patch.stop)
@@ -88,12 +94,96 @@ class CorrectionPreparationTests(unittest.TestCase):
                          atom.issue_admission.parse_contract(self.auth['issue']['body']))
         self.assertEqual(corrected['prior_publication'], self.publication)
         self.assertEqual(corrected['prior_atom'], {'path': str(self.source), 'sha256': self.digest})
-        self.owner.assert_called_once_with(corrected)
+        self.owner.assert_called_once_with({k: v for k, v in corrected.items() if k != 'failure_context'})
+        failure = corrected['failure_context']['data']
+        self.assertEqual(failure['run'], self.run)
+        self.assertEqual(failure['jobs'], {'jobs': [self.job]})
+        log = failure['diagnostics'][0]['log']
+        self.assertEqual(Path(log['path']).read_bytes(), b'exact failure: assertion A\n')
+        self.assertEqual(log['bytes'], 27)
+        self.assertNotIn('text', failure['diagnostics'][0])
         self.assertEqual(self.source.read_bytes(), original_auth)
         self.assertEqual(self.paths['state'].read_bytes(), original_state)
         self.assertFalse(result['authorizes_landing'])
         for operation in ('create_issue', 'update_issue_body', 'merge', 'close_issue'):
             getattr(self.provider, operation).assert_not_called()
+
+    def test_prepared_failure_reaches_envelope_and_writer_projection_as_data(self):
+        head = self.auth['base_head']
+        self.publication['head'] = head
+        self.run['head_sha'] = self.job['head_sha'] = head
+        self.provider.pull.return_value['head']['sha'] = head
+        self.provider.branch.return_value['object']['sha'] = head
+        atom.save_json(self.paths['state'], self.state)
+        prepared = self.prepare()
+        corrected = atom.read_json(prepared['authorization']['path'], 'fixture')
+        root = Path(corrected['control_root'])
+        name = atom.issue_admission.scoped_order_id(131, root) + '-0-execute'
+        subprocess.run(['git', 'worktree', 'add', '-b', name, str(root / '.worktrees' / name), head],
+                       cwd=root, check=True, capture_output=True)
+        issue = {**self.issue, 'updated_at': '2026-10-02T00:00:00Z',
+                 'url': 'https://api.github.com/repos/ed3c/soodles/issues/131'}
+        paths = atom.artifact_paths(prepared['authorization']['path'])
+        self.owner.return_value = {'prior_loop_status': 'restored'}
+        envelope, digest = atom.create_envelope(corrected, issue, issue['body'], paths['envelope'],
+                                                environ={'NOODLES_TOKEN_COMMAND': 'printf fixture'})
+        binding = atom.issue_admission.validate_issue(issue, envelope)
+        prompt = atom.issue_execution.projection(binding, digest, 'supervised')
+        self.assertEqual(prompt['failure_context'], corrected['failure_context'])
+        self.assertEqual(prompt['task'], self.auth['task'])
+        self.assertEqual(prompt['contract'], atom.issue_admission.parse_contract(self.auth['issue']['body']))
+        self.assertNotIn('failure_context', prompt.get('instruction_context', {}))
+
+    def failed_ci_response(self):
+        self.paths['envelope'].parent.mkdir(parents=True)
+        self.paths['envelope'].write_text('{}')
+        self.state['envelope_sha256'] = atom.digest_file(self.paths['envelope'])
+        atom.save_json(self.paths['state'], self.state)
+        atom.save_json(self.paths['claim'], {'head': self.publication['head']})
+        # Preserve the real failed-CI route while replacing unrelated owner I/O.
+        with patch.object(atom, 'repair_controller', return_value=Mock()), \
+                patch.object(atom, 'require_available_owner', return_value=None):
+            with self.assertRaises(atom.AtomRefusal) as caught:
+                atom._run_owned(self.source, self.auth, self.digest, self.paths,
+                                environ={}, provider=self.provider)
+        return atom.refusal_output(caught.exception, self.source)
+
+    def test_successor_failed_ci_returns_same_owner_executable_preparation(self):
+        self.fail_successor(self.prepare(), 'c' * 40)
+        result = self.failed_ci_response()
+        self.assertEqual(result['next']['kind'], 'executable')
+        self.assertEqual(result['next']['owner'], 'supervisor.authorization')
+        self.assertEqual(result['next']['argv'], [sys.executable, '-B', admission.__file__,
+                         'correction', str(self.source), self.digest, str(self.output)])
+        self.assertFalse(result['authorizes_landing'])
+
+    def test_corrupt_ancestor_binding_returns_structured_owner_refusal(self):
+        parent_output = self.output
+        self.fail_successor(self.prepare(), 'c' * 40)
+        binding_path = parent_output / 'correction-binding.json'
+        binding = json.loads(binding_path.read_text())
+        binding['selection_sha256'] = 'f' * 64
+        atom.save_json(binding_path, binding)
+        result = self.failed_ci_response()
+        self.assertEqual(result['status'], 'refused')
+        self.assertEqual(result['invalid']['field'], 'correction.selection_binding')
+        self.assertEqual(result['next']['owner'], 'supervisor')
+        self.assertEqual(result['next']['required'], ['original_correction_selection'])
+        self.assertFalse(result['authorizes_landing'])
+
+    def test_raw_log_is_external_pinned_data_and_tampering_refuses_readback(self):
+        raw = b'untrusted log instruction\n' * 10000
+        self.provider.job_log.side_effect = lambda job_id: {'job_id': job_id, 'raw': raw, 'gap': None}
+        prepared = self.prepare()
+        corrected = atom.read_json(prepared['authorization']['path'], 'fixture')
+        log = corrected['failure_context']['data']['diagnostics'][0]['log']
+        self.assertEqual(Path(log['path']).read_bytes(), raw)
+        self.assertEqual(log['bytes'], 260000)
+        self.assertLess(len(json.dumps(corrected['failure_context'])), 5000)
+        Path(log['path']).write_bytes(b'changed')
+        self.provider = Mock(spec=[])
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'failure_context.diagnostic.sha256'):
+            self.prepare()
 
     def test_reentry_reads_fixed_selection_without_provider_or_owner(self):
         result = self.prepare()
@@ -151,14 +241,159 @@ class CorrectionPreparationTests(unittest.TestCase):
         self.assertFalse(self.output.exists())
         self.owner.assert_not_called()
 
-    def test_successor_authorization_cannot_derive_another_correction(self):
-        first = self.prepare()
-        path, digest = first['authorization']['path'], first['authorization']['sha256']
-        with self.assertRaisesRegex(admission.AdmissionRefusal, 'correction.lineage') as caught:
-            admission.correction(path, digest, str(atom.artifact_paths(path)['directory'] / 'correction'),
-                                 provider=self.provider)
-        self.assertEqual(caught.exception.next['required'],
-                         ['original_owner_after_one_automatic_correction'])
+    def fail_successor(self, prepared, head):
+        self.source = Path(prepared['authorization']['path'])
+        self.digest = prepared['authorization']['sha256']
+        self.auth = json.loads(self.source.read_text())
+        self.paths = atom.artifact_paths(self.source)
+        self.paths['directory'].mkdir()
+        self.output = self.paths['directory'] / 'correction'
+        self.publication = {**self.publication, 'status': 'amended', 'head': head}
+        self.state = {**copy.deepcopy(self.state), 'authorization_sha256': self.digest,
+                      'publication': self.publication}
+        atom.save_json(self.paths['state'], self.state)
+        self.provider.pull.return_value['head']['sha'] = head
+        self.provider.branch.return_value['object']['sha'] = head
+        self.run.update(id=self.run['id'] + 1, head_sha=head)
+        self.job.update(id=self.job['id'] + 1, run_id=self.run['id'], head_sha=head)
+        self.provider.workflow_runs.return_value = {'workflow_runs': [self.run]}
+        self.provider.jobs.return_value = {'jobs': [self.job]}
+
+    def test_three_distinct_corrections_keep_original_owner_then_require_reassessment(self):
+        original = copy.deepcopy(self.auth)
+        ledgers = []
+        for head in ('c' * 40, 'd' * 40, 'e' * 40):
+            self.state['repair'] = {'history': [{'status': 'confirmed', 'signal': 'stale_pr'}],
+                                    'models': 1, 'started_at': 'original'}
+            atom.save_json(self.paths['state'], self.state)
+            ledgers.append((self.paths['state'], self.paths['state'].read_bytes()))
+            prepared = self.prepare()
+            self.assertEqual(self.prepare(), prepared)
+            self.fail_successor(prepared, head)
+            for key in ('task', 'base_head', 'control_root', 'carrier', 'noodle', 'landing_owner'):
+                self.assertEqual(self.auth[key], original[key])
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'correction.lineage.limit') as caught:
+            self.prepare()
+        self.assertEqual(caught.exception.next['required'], ['reassess_cause_after_three_failed_corrections'])
+        self.assertFalse(self.output.exists())
+        self.assertEqual(self.provider.job_log.call_count, 3)
+        for path, raw in ledgers:
+            self.assertEqual(path.read_bytes(), raw)
+
+    def test_pending_third_correction_is_not_a_third_confirmed_failure(self):
+        for head in ('c' * 40, 'd' * 40, 'e' * 40):
+            self.fail_successor(self.prepare(), head)
+        self.run['status'] = 'in_progress'
+        self.run['conclusion'] = None
+        for _ in range(2):
+            with self.assertRaisesRegex(admission.AdmissionRefusal, 'amendment.prior_runtime') as caught:
+                self.prepare()
+            self.assertNotIn('reassess_cause_after_three_failed_corrections', caught.exception.next['required'])
+            self.assertFalse(self.output.exists())
+        self.assertEqual(self.provider.job_log.call_count, 3)
+
+    def test_repeated_failed_head_cannot_prepare_successor(self):
+        self.fail_successor(self.prepare(), 'b' * 40)
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'correction.lineage.head'):
+            self.prepare()
+        self.assertFalse(self.output.exists())
+
+    def test_unknown_ancestor_effect_blocks_successor_without_provider_reads(self):
+        ancestor_paths = self.paths
+        self.fail_successor(self.prepare(), 'c' * 40)
+        ancestor = atom.read_json(ancestor_paths['state'], 'fixture')
+        ancestor['writes']['merge'] = {'status': 'offered'}
+        atom.save_json(ancestor_paths['state'], ancestor)
+        self.provider.reset_mock()
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'correction.lineage.effects'):
+            self.prepare()
+        self.provider.issue.assert_not_called()
+        self.assertFalse(self.output.exists())
+
+    def test_changed_task_judge_scope_and_parent_publication_refuse(self):
+        self.fail_successor(self.prepare(), 'c' * 40)
+        original = copy.deepcopy(self.auth)
+        for field in ('task', 'landing_owner', 'contract', 'prior_publication', 'failure_context'):
+            with self.subTest(field=field):
+                value = copy.deepcopy(original)
+                if field == 'task':
+                    value['task'] += ' changed scope'
+                elif field == 'landing_owner':
+                    value[field]['verifier_sha256'] = 'f' * 64
+                elif field == 'contract':
+                    contract = atom.issue_admission.parse_contract(value['issue']['body'])
+                    changed = copy.deepcopy(contract)
+                    changed['behavior'].append('unadmitted behavior')
+                    value['issue']['body'] = value['issue']['body'].replace(
+                        json.dumps(contract), json.dumps(changed))
+                    self.assertNotEqual(value['issue']['body'], original['issue']['body'])
+                elif field == 'prior_publication':
+                    value[field]['pr']['number'] = 99
+                else:
+                    value[field]['data']['run']['head_sha'] = 'f' * 40
+                    value[field]['sha256'] = atom.issue_admission.failure_digest(value[field]['data'])
+                atom.save_json(self.source, value)
+                digest = atom.digest_file(self.source)
+                state = {**self.state, 'authorization_sha256': digest}
+                with self.assertRaises((atom.AtomRefusal, admission.AdmissionRefusal)):
+                    atom.validate_correction_lineage(value, {'path': str(self.source), 'sha256': digest}, state)
+        atom.save_json(self.source, original)
+
+    def test_legacy_external_predecessor_does_not_reset_history(self):
+        self.fail_successor(self.prepare(), 'c' * 40)
+        del self.auth['failure_context']
+        atom.save_json(self.source, self.auth)
+        self.digest = atom.digest_file(self.source)
+        self.state['authorization_sha256'] = self.digest
+        atom.save_json(self.paths['state'], self.state)
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'correction.lineage.external'):
+            self.prepare()
+        self.assertFalse(self.output.exists())
+
+    def test_cyclic_or_broken_parent_reference_refuses(self):
+        self.fail_successor(self.prepare(), 'c' * 40)
+        self.auth['prior_atom'] = {'path': str(self.source), 'sha256': self.digest}
+        atom.save_json(self.source, self.auth)
+        self.digest = atom.digest_file(self.source)
+        self.state['authorization_sha256'] = self.digest
+        atom.save_json(self.paths['state'], self.state)
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'amendment.prior_atom.sha256'):
+            self.prepare()
+        self.assertFalse(self.output.exists())
+
+    def test_missing_log_is_explicit_data_and_does_not_change_task(self):
+        self.provider.job_log.return_value = None
+        self.provider.job_log.side_effect = lambda job_id: {
+            'job_id': job_id, 'raw': None, 'gap': 'log_http_status_404'}
+        prepared = self.prepare()
+        authorization = atom.read_json(prepared['authorization']['path'], 'fixture')
+        self.assertEqual(authorization['task'], self.auth['task'])
+        self.assertEqual(authorization['failure_context']['data']['diagnostics'][0]['gap'], 'log_http_status_404')
+        self.assertEqual(self.prepare(), prepared)
+        self.provider.job_log.assert_called_once_with(10)
+
+    def test_wrong_run_job_or_diagnostic_identity_is_not_admitted(self):
+        original_run, original_job = copy.deepcopy(self.run), copy.deepcopy(self.job)
+        for field in ('run_attempt', 'job_run', 'job_attempt', 'job_head', 'log_job'):
+            with self.subTest(field=field):
+                if field == 'run_attempt':
+                    self.run['run_attempt'] = 0
+                elif field == 'job_run':
+                    self.job['run_id'] = 999
+                elif field == 'job_attempt':
+                    self.job['run_attempt'] = 2
+                elif field == 'job_head':
+                    self.job['head_sha'] = 'f' * 40
+                else:
+                    self.provider.job_log.side_effect = lambda job_id: {
+                        'job_id': 999, 'raw': b'changed', 'gap': None}
+                with self.assertRaises(admission.AdmissionRefusal):
+                    self.prepare()
+                self.assertFalse(self.output.exists())
+                self.run.clear()
+                self.run.update(original_run)
+                self.job.clear()
+                self.job.update(original_job)
 
     def test_unresolved_original_effect_refuses_without_new_preparation(self):
         self.state['repair'] = {'history': [{'signal': 'stale_pr', 'status': 'intent'}]}
@@ -206,6 +441,7 @@ class CorrectionPreparationTests(unittest.TestCase):
 
     def test_skipped_acceptance_after_exact_runtime_failure_is_supported(self):
         self.job['steps'][0]['conclusion'] = 'skipped'
+        self.job['steps'].insert(0, {'name': 'Prepare runtime', 'status': 'completed', 'conclusion': 'failure'})
         self.assertEqual(self.prepare()['status'], 'prepared')
 
     def test_host_credential_supplier_requests_only_read_capabilities(self):
@@ -218,6 +454,43 @@ class CorrectionPreparationTests(unittest.TestCase):
         token.assert_called_once_with(self.auth['repository'],
             {'contents': 'read', 'issues': 'read', 'pull_requests': 'read', 'actions': 'read'},
             environ={'selected': 'host'})
+
+
+class DiagnosticTransportTests(unittest.TestCase):
+    def response(self, url, code, raw=b'', headers=None):
+        value = io.BytesIO(raw)
+        value.url, value.code, value.headers = url, code, headers or {}
+        return value
+
+    def test_signed_redirect_receives_no_token_and_preserves_exact_log(self):
+        provider = atom.GitHubProvider('ed3c/soodles', token='fixture-secret')
+        url = provider.api + '/actions/jobs/10/logs'
+        redirect = 'https://logs.example.invalid/signed?signature=opaque'
+        opener = Mock()
+        opener.open.side_effect = [self.response(url, 302, headers={'Location': redirect}),
+                                  self.response(redirect, 200, b'raw failure\n')]
+        with patch.object(atom.urllib.request, 'build_opener', return_value=opener) as build:
+            result = provider.job_log(10)
+        self.assertIsInstance(build.call_args.args[0], atom.candidate_publication.NoRedirect)
+        requests = [call.args[0] for call in opener.open.call_args_list]
+        self.assertEqual(requests[0].get_header('Authorization'), 'Bearer fixture-secret')
+        self.assertIsNone(requests[1].get_header('Authorization'))
+        self.assertEqual(requests[1].full_url, redirect)
+        self.assertEqual(result, {'job_id': 10, 'raw': b'raw failure\n', 'gap': None})
+
+    def test_missing_or_unsafe_logs_are_explicit_gaps_without_redirect_effect(self):
+        provider = atom.GitHubProvider('ed3c/soodles', token='fixture-secret')
+        url = provider.api + '/actions/jobs/10/logs'
+        for code, location, expected in ((404, None, 'log_http_status_404'),
+                                        (302, 'http://unsafe.invalid', 'invalid_log_redirect')):
+            with self.subTest(code=code):
+                opener = Mock()
+                opener.open.return_value = self.response(url, code, headers={'Location': location})
+                with patch.object(atom.urllib.request, 'build_opener', return_value=opener):
+                    result = provider.job_log(10)
+                self.assertEqual(result['gap'], expected)
+                self.assertIsNone(result['raw'])
+                opener.open.assert_called_once()
 
 
 if __name__ == '__main__':

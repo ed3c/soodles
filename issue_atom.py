@@ -20,6 +20,8 @@ import tempfile
 import time
 import tomllib
 import urllib.parse
+import urllib.request
+import urllib.error
 
 import candidate_publication
 import atom_repair
@@ -188,6 +190,7 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
     expected_fields = (AUTH_FIELDS | {"landing_owner"}
                        | ({"instruction_pins"} if schema == 3 else set()))
     amendment_fields = {"prior_publication", "prior_atom"}
+    expected_fields |= {"failure_context"} if "failure_context" in value else set()
     expected_fields |= {"lifecycle_owner"} if "lifecycle_owner" in value else set()
     require(set(value) in (expected_fields, expected_fields | {"prior_publication"},
                            expected_fields | amendment_fields),
@@ -240,6 +243,7 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
         except candidate_publication.PublicationRefusal as error:
             raise AtomRefusal(error.invalid["field"], error.invalid["value"],
                               "exact_prior_publication") from error
+    validate_authorization_failure(value)
     config_digest = value["host_config_sha256"]
     require(config_digest is None or isinstance(config_digest, str) and SHA64.fullmatch(config_digest),
             "authorization.host_config_sha256", config_digest)
@@ -295,6 +299,124 @@ def validate_prior_atom_ref(ref, root):
     require(isinstance(digest, str) and SHA64.fullmatch(digest)
             and digest_file(path) == digest,
             "amendment.prior_atom.sha256", digest, "unchanged_previous_authorization")
+
+
+def validate_authorization_failure(authorization):
+    if "failure_context" not in authorization:
+        return
+    require("prior_atom" in authorization and "prior_publication" in authorization,
+            "failure_context.lineage", "missing", "original_correction_lineage")
+    prior = authorization["prior_publication"]
+    try:
+        issue_admission.validate_failure_context(
+            authorization["failure_context"], authorization["repository"],
+            authorization["issue"]["number"], prior["head"], authorization["workflow"], prior["pr"]["number"])
+        issue_admission.validate_failure_logs(authorization["failure_context"], authorization["control_root"])
+    except issue_admission.AdmissionRefusal as error:
+        raise AtomRefusal(error.invalid["field"], error.invalid["value"], "exact_failed_ci_evidence") from error
+
+
+def validate_correction_lineage(authorization, reference, state):
+    """Count immutable automatic edges; leave every ancestor's repair ledger untouched."""
+    root = authorization["control_root"]
+    current, ref, checkpoint = authorization, reference, state
+    seen, heads = set(), set()
+    count = 0
+    identity = ("repository", "control_root", "base_head", "task", "noodle", "carrier",
+                "workflow", "landing_owner", "lifecycle_owner", "host_config_sha256")
+    contract = issue_admission.parse_contract(authorization["issue"]["body"])
+    publication = state.get("publication")
+    require(isinstance(publication, dict), "correction.publication", "missing")
+    number = state.get("issue", {}).get("number")
+    while True:
+        key = str(Path(ref["path"]).resolve())
+        require(key not in seen, "correction.lineage.cycle", key, "original_immutable_lineage")
+        seen.add(key)
+        validate_prior_atom_ref(ref, root)
+        require(read_json(ref["path"], "correction.authorization") == current,
+                "correction.lineage.authorization", "changed", "original_immutable_lineage")
+        paths = artifact_paths(ref["path"])
+        require(all(current.get(k) == authorization.get(k) for k in identity)
+                and current["issue"]["title"] == authorization["issue"]["title"]
+                and issue_admission.parse_contract(current["issue"]["body"]) == contract
+                and current["issue"].get("number", number) == number
+                and resumed_lifecycle(current, checkpoint).get("lifecycle_owner") == authorization.get("lifecycle_owner"),
+                "correction.lineage.scope", "changed", "unchanged_original_task_scope_and_runtime")
+        published = checkpoint.get("publication")
+        require(checkpoint.get("authorization_sha256") == ref["sha256"]
+                and checkpoint.get("phase") == "ci"
+                and checkpoint.get("issue", {}).get("number") == number
+                and isinstance(published, dict)
+                and all(published.get(k) == publication.get(k) for k in ("repository", "subject", "branch", "pr"))
+                and not checkpoint.get("landing_activation") and not paths["landing"].exists(),
+                "correction.lineage.state", "mismatch", "exact_prelanding_failed_candidate")
+        try:
+            candidate_publication.validate_amendment_prior(published, current["repository"],
+                current["repository"] + "#" + str(number), number)
+        except candidate_publication.PublicationRefusal as error:
+            raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                              "exact_parent_publication") from error
+        require(published["head"] not in heads, "correction.lineage.head", published["head"],
+                "distinct_failed_candidate_heads")
+        heads.add(published["head"])
+        repair = checkpoint.get("repair")
+        require(repair is None or isinstance(repair, dict), "correction.repair_history", "invalid")
+        history = repair.get("history", []) if repair is not None else []
+        require(isinstance(history, list) and all(isinstance(entry, dict)
+                and entry.get("status") == "confirmed" for entry in history),
+                "correction.repair_history", "unresolved", "original_repair_owner_readback_without_retry")
+        for field, status in (("noodle_start", "started"), ("noodle_bootstrap", "complete"),
+                              ("prior_host_recovery", "restored")):
+            effect = checkpoint.get(field)
+            require(effect is None or isinstance(effect, dict) and effect.get("status") == status,
+                    "correction.lineage.effects", field, "original_effect_owner_readback")
+        require(not checkpoint.get("landing_resume") and not checkpoint.get("noodle_reconciliation"),
+                "correction.lineage.effects", "postlanding effect", "original_effect_owner_readback")
+        writes = checkpoint.get("writes", {})
+        require(isinstance(writes, dict), "correction.lineage.effects", "invalid")
+        for name, effect in writes.items():
+            confirmed = isinstance(effect, dict) and (
+                (name == "issue_create" and effect == {"status": "offered"})
+                or (name in {"publication_branch_push", "publication_pr_create"}
+                    and effect == {"head": published["head"], "status": "offered"})
+                or (name == "candidate_amendment" and effect == {
+                    "old_head": current.get("prior_publication", {}).get("head"),
+                    "new_head": published["head"], "pr": published["pr"]["number"], "status": "offered"}))
+            require(confirmed, "correction.lineage.effects", name, "original_effect_owner_readback")
+        parent = current.get("prior_atom")
+        if parent is None:
+            require("prior_publication" not in current and "failure_context" not in current,
+                    "correction.lineage.external", "unbound predecessor", "external_lineage_owner_review")
+            break
+        require("failure_context" in current, "correction.lineage.external", "nonautomatic predecessor",
+                "external_lineage_owner_review")
+        validate_authorization_failure(current)
+        validate_prior_atom_ref(parent, root)
+        parent_auth = read_json(parent["path"], "correction.parent")
+        parent_paths = artifact_paths(parent["path"])
+        parent_state = read_json(parent_paths["state"], "correction.parent_state")
+        require(current["prior_publication"] == parent_state.get("publication"),
+                "correction.lineage.parent", "mismatch", "exact_parent_publication")
+        expected_body = parent_auth["issue"]["body"]
+        if "number" not in parent_auth["issue"]:
+            expected_body = expected_body.rstrip() + "\n\n" + marker(parent["sha256"]) + "\n"
+        require(current["issue"]["body"] == expected_body,
+                "correction.lineage.body", "changed", "unchanged_original_issue")
+        target = parent_paths["directory"] / "correction"
+        require(Path(ref["path"]).resolve() == target / "prepared/authorization.json",
+                "correction.lineage.edge", "external predecessor", "original_automatic_preparation")
+        # The committed producer receipt binds the exact parent, selection and child.
+        require((target / "prepared").is_dir(), "correction.lineage.prepared", "missing",
+                "original_committed_preparation")
+        try:
+            receipt = supervisor_admission._correction_readback(target, parent_auth, parent)
+        except issue_admission.AdmissionRefusal as error:
+            raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                              error.next["required"][0], owner=error.next["owner"]) from error
+        require(receipt["authorization"] == ref, "correction.lineage.binding", "changed")
+        count += 1
+        current, ref, checkpoint = parent_auth, parent, parent_state
+    return count
 
 
 def prior_host_config(ref, root):
@@ -829,6 +951,41 @@ class GitHubProvider(candidate_publication.GitHubProvider):
     def jobs(self, run_id):
         return self.request("GET", f"/actions/runs/{run_id}/jobs?per_page=100")
 
+    def job_log(self, job_id):
+        """Read diagnostic bytes; signed redirects never receive the installation token."""
+        url = self.api + f"/actions/jobs/{job_id}/logs"
+        diagnostic = {"job_id": job_id, "raw": None, "gap": None}
+        request = urllib.request.Request(url, headers={
+            "Authorization": "Bearer " + self.token, "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "soodles-candidate-publication"})
+        opener = urllib.request.build_opener(candidate_publication.NoRedirect())
+        try:
+            for redirect in range(2):
+                try:
+                    response = opener.open(request, timeout=30)
+                except urllib.error.HTTPError as error:
+                    response = error
+                with response:
+                    if response.url != request.full_url:
+                        diagnostic["gap"] = "unexpected_log_response_url"
+                        break
+                    if response.code == 302 and redirect == 0:
+                        location = response.headers.get("Location", "")
+                        parsed = urllib.parse.urlsplit(location)
+                        if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
+                            diagnostic["gap"] = "invalid_log_redirect"
+                            break
+                        request = urllib.request.Request(location, headers={"User-Agent": "soodles-candidate-publication"})
+                        continue
+                    if response.code != 200:
+                        diagnostic["gap"] = f"log_http_status_{response.code}"
+                        break
+                    diagnostic["raw"] = response.read()
+                    break
+        except (urllib.error.URLError, OSError, ValueError, UnicodeError) as error:
+            diagnostic["gap"] = "log_unavailable_" + type(error).__name__
+        return diagnostic
+
     def git_commit(self, sha):
         return self.request("GET", f"/git/commits/{sha}")
 
@@ -1023,7 +1180,8 @@ def create_envelope(authorization, issue, body, path, *, environ=None):
     result = supervisor_admission.prepare(
         issue, {**authorization["carrier"], "noodle": authorization["noodle"]},
         root, path.parent, environ=environ, task=authorization["task"], wire_host=True,
-        instruction_pins=pins, correction=correction)
+        instruction_pins=pins, correction=correction,
+        failure_context=authorization.get("failure_context"))
     save_json(path.parent / "prepared.json", result, fresh=True)
     return read_json(path, "envelope"), result["envelope_sha256"]
 
@@ -2002,7 +2160,7 @@ def authenticated_push(provider, *, record=None):
     return push
 
 
-def select_run(provider, authorization, head):
+def select_run(provider, authorization, head, *, allow_failure=False):
     value = provider.workflow_runs(head)
     runs = value.get("workflow_runs") if isinstance(value, dict) else None
     require(isinstance(runs, list), "github.workflow_runs", value, "fresh_exact_head_ci")
@@ -2032,6 +2190,9 @@ def select_run(provider, authorization, head):
             target[0].get("status"), "fresh_exact_head_ci")
     require(step[0].get("status") == "completed", "github.workflow_step.status",
             step[0].get("status"), "fresh_exact_head_ci")
+    if (allow_failure and run.get("conclusion") == target[0].get("conclusion") == "failure"
+            and step[0].get("conclusion") in {"failure", "skipped"}):
+        return run, jobs
     require(run.get("conclusion") == target[0].get("conclusion") == step[0].get("conclusion") == "success",
             "github.workflow.conclusion",
             [run.get("conclusion"), target[0].get("conclusion"), step[0].get("conclusion")],
@@ -2063,20 +2224,43 @@ def verify_failed_prior(provider, authorization, *, failed_ci_only=False):
     require(isinstance(remote, dict)
             and remote.get("object", {}).get("sha") == prior["head"],
             "amendment.prior_branch", remote, "exact_failed_branch_readback")
-    try:
-        run_value, jobs = select_run(provider, authorization, prior["head"])
-    except AtomRefusal as error:
-        require(error.invalid in (
-                    {"field": "github.workflow.conclusion", "value": ["failure", "failure", "failure"]},
-                    {"field": "github.workflow.conclusion", "value": ["failure", "failure", "skipped"]}),
-                "amendment.prior_runtime", error.invalid,
-                "terminal_failed_exact_head_runtime")
-    else:
-        require(not failed_ci_only, "amendment.prior_runtime", "not failed",
-                "terminal_failed_exact_head_runtime")
-        require(prewrite_scope_refusal(authorization, run_value, jobs),
+    run_value, jobs = select_run(provider, authorization, prior["head"], allow_failure=True)
+    failed = run_value is not None and run_value.get("status") == "completed" and run_value.get("conclusion") == "failure"
+    if not failed:
+        require(not failed_ci_only and run_value is not None and jobs is not None
+                and prewrite_scope_refusal(authorization, run_value, jobs),
                 "amendment.prior_runtime", "not failed",
                 "terminal_failed_exact_head_runtime_or_pinned_prewrite_scope_refusal")
+        return None
+    return run_value, jobs
+
+
+def failed_ci_context(provider, authorization, run_value, jobs, diagnostic_path):
+    """Pin observed failure metadata and return raw log bytes for atomic preparation."""
+    prior = authorization["prior_publication"]
+    number = authorization["issue"]["number"]
+    job = next(job for job in jobs["jobs"] if job.get("name") == authorization["workflow"]["job"])
+    data = {"schema": 1, "repository": authorization["repository"], "issue": number,
+            "pr": prior["pr"]["number"], "head": prior["head"],
+            "workflow": authorization["workflow"], "run": run_value, "jobs": jobs,
+            "diagnostics": [{"job_id": job.get("id"), "log": None,
+                             "gap": "diagnostic_not_fetched"}]}
+    context = {"data": data, "sha256": issue_admission.failure_digest(data)}
+    issue_admission.validate_failure_context(context, authorization["repository"], number,
+                                             prior["head"], authorization["workflow"], prior["pr"]["number"])
+    diagnostic = provider.job_log(job["id"])
+    raw = diagnostic["raw"]
+    require(diagnostic["job_id"] == job["id"]
+            and ((isinstance(raw, bytes) and diagnostic["gap"] is None)
+                 or (raw is None and isinstance(diagnostic["gap"], str) and diagnostic["gap"])),
+            "failure_context.diagnostic", "invalid", "exact_failed_ci_evidence")
+    data["diagnostics"] = [{"job_id": job["id"], "gap": diagnostic["gap"],
+        "log": None if raw is None else {"path": str(diagnostic_path),
+            "sha256": digest_bytes(raw), "bytes": len(raw)}}]
+    context["sha256"] = issue_admission.failure_digest(data)
+    issue_admission.validate_failure_context(context, authorization["repository"], number,
+                                             prior["head"], authorization["workflow"], prior["pr"]["number"])
+    return context, raw
 
 
 def prewrite_scope_refusal(authorization, run_value, jobs):
@@ -2894,11 +3078,12 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
     except AtomRefusal as error:
         if error.required == "new_candidate_head_after_failed_ci" and error.invalid.get("value") in (
                 ["failure", "failure", "failure"], ["failure", "failure", "skipped"]):
-            if {"prior_atom", "prior_publication"} & authorization.keys():
-                error.owner = "soodles.issue-atom"
-                error.required = "original_owner_after_one_automatic_correction"
-            else:
-                error.known = {"authorization_sha256": authorization_digest}
+            count = validate_correction_lineage(authorization,
+                {"path": str(authorization_path), "sha256": authorization_digest}, state)
+            if count >= 3:
+                raise AtomRefusal("correction.lineage.limit", count,
+                    "reassess_cause_after_three_failed_corrections", owner="soodles.issue-atom") from error
+            error.known = {"authorization_sha256": authorization_digest}
         raise
     try:
         cost_telemetry.record_provider(authorization_path, state, run_value, jobs, save_json)

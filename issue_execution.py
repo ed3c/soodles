@@ -640,6 +640,13 @@ def projection(binding, envelope_digest, route):
             "contract": binding["contract"]}
     if "instruction_context" in binding["execution"]:
         subject["instruction_context"] = binding["execution"]["instruction_context"]
+    if "failure_context" in binding["execution"]:
+        context = binding["execution"]["failure_context"]
+        from issue_admission import validate_failure_context, validate_failure_logs
+        validate_failure_context(context, binding["repository"], binding["issue"],
+                                 binding["execution"]["source_head"])
+        validate_failure_logs(context, binding["execution"]["control_root"])
+        subject["failure_context"] = context
     return subject
 
 
