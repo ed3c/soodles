@@ -22,11 +22,10 @@ The baseline failed because its observer had no state-derived
 | omitted transport evidence | PASS | PASS | FAIL/UNKNOWN transport |
 | request created with explicit empty transport | PASS | n/a | PASS |
 
-The observer now receives the complete event list. It derives the expected
-operation from the supplied current owner's `next.operation`, advances that
-expectation only from an event on the expected route, and reports route and
-identity safety separately. The case label still selects the required outcome;
-it no longer selects the operation.
+The observer now receives the complete event list. It derives the expected operation from the supplied current owner's `next.operation`.
+It advances that expectation only from an event on the expected route.
+The observer reports route and identity safety separately.
+The case label still selects the required outcome. It no longer selects the operation.
 
 For the historical shape the observer records one event, zero route-matching
 events and one refusal. For the mixed trace it records both events, one

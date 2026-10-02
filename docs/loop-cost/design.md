@@ -2,18 +2,19 @@
 
 ## Method and phase record
 
-One writer; no arena, delegation, provider research, comparison or experiment.
-This adapts the supervisor-selected pstack methods as explicitly admitted.
-Ground: complete. Sketch: two structural alternatives complete. Agree: default
-no checkpoint, selected A. Implement: complete; CI unexecuted locally. Scrap: reviewed; no redesign needed; subtract
-per-phase accumulators and any inferred spending/budget policy before coding.
+One writer performed this work. It used no arena, delegation, provider research,
+comparison or experiment. The work adapted the supervisor-selected pstack methods
+as explicitly admitted.
+Ground was complete. Sketch compared two structural alternatives. Agree selected A
+with the default of no checkpoint. Implement was complete, but CI had not run locally.
+Scrap review found no need for redesign. Before coding, the design removed per-phase
+accumulators and any inferred spending or budget policy.
 
 ## Ground and rationale
 
 `soodles.measured → acceptance` emits stderr timing but treats returned pending
-and refused dictionaries as passed. `test_manager.run_modules` measures discovery,
-modules and cases: module workers overlap, case durations are nested; their sums
-cannot be wall latency. `quality/provider.py.collect` is a precedent for independent
+and refused dictionaries as passed. `test_manager.run_modules` measures discovery, modules and cases.
+Module workers overlap, and case durations are nested. Their sums cannot represent wall latency. `quality/provider.py.collect` is a precedent for independent
 readback with pending/partial coverage, not an authority source or a new scheduler.
 `issue_atom.run → _run → _run_owned` owns authorization/atom locks and artifacts;
 `drive` waits between invocations. `finish_host → schema_manager.Manager` consumes
@@ -21,9 +22,9 @@ fixed host facts without taking effect custody. `atom_repair.Controller.perform`
 reserves intent before effect; `check/report` preserve exclusive lineage and limits.
 Repair seconds mean elapsed time since first repair, not whole-Issue compute.
 
-Direct rationale: admitted #215 forbids new effects, thresholds and experiments;
-contract issue-atom bounded repair and fixed-host sections require source pins,
-unknown-effect readback and original cleanup. Git anchors: d05886e introduced fixed
+Admitted #215 forbids new effects, thresholds and experiments.
+The issue-atom contract sections on bounded repair and fixed-host behavior require
+source pins, unknown-effect readback and original cleanup. Git anchors: d05886e introduced fixed
 host finalization; 7b8aa9e requires explicit extra CI demand; a3356c9 preserves original
 cleanup. These support preserving owners. Wider historical motives are unknown;
 external categories were intentionally not searched under this task's cost constraint.
@@ -34,10 +35,11 @@ A (selected): `cost_telemetry.report(AUTH, MANIFEST)` validates original bytes a
 normalizes records; `schema_manager.project_cost(facts, gate)` is data-only. Normal
 `issue_atom.run` records under its authorization lock and attaches the same projection.
 CLI: `./soodles atom cost-report /absolute/authorization.json /absolute/evidence.json`.
-B: each phase stores counters and exposes its own reporting adapter, with Schema
-Manager combining them. It hides less: callers must coordinate replay, nesting,
-coverage and source validation. Rejected as information leakage and temporal
-partitioning; it would also require checkpoint migration of old immutable owners.
+B: each phase stores counters and exposes its own reporting adapter. Schema Manager
+combines those counters. Callers must then coordinate replay, nesting, coverage
+and source validation across phases. The design rejected B because it spreads
+these responsibilities across callers and phases. B would also require checkpoint
+migration of old immutable owners.
 
 A hides source formats, identity validation, idempotence and overlap arithmetic
 behind one evidence boundary. Raw observations stay in the existing artifact
@@ -48,10 +50,8 @@ The module's own timing is observed only for subsequent normal executions.
 ## Tradeoffs and limits
 
 Read-only reports verify digests and subject links, not the truth of a supervisor's
-assertions. Observer identity attests origin only. Old owner bytes remain immutable:
-new reports do not claim it emitted new spans. Missing intervals, tokens, price,
-API accounting and human attribution are unknown. Observed foreground elapsed is
-inclusive of internal I/O; it is not CPU time. Provider job/worker sums overlap.
+assertions. Observer identity attests origin only. Old owner bytes remain immutable. New reports do not claim that the old owner emitted new spans. Missing intervals, tokens, price,
+API accounting and human attribution are unknown. Observed foreground elapsed includes internal I/O. It is not CPU time. Provider job/worker sums overlap.
 No fixture result is live budget exhaustion. CI controls are authored, not run locally.
 
 ## Evidence input
@@ -62,7 +62,7 @@ See the concrete manifest and coverage contract below after implementation.
 
 The supervisor writes schema 1 JSON. `REF` below always means exactly
 `{"path":"/absolute/original-or-snapshot-file","sha256":"64 lowercase hex"}`.
-Paths are data; no file is imported as Python and no argv is executed. A source
+Paths are data. The importer neither imports files as Python nor executes argv. A source
 SHA attests matching bytes, not independent truth. Preserve original observer
 receipts; do not rewrite them into candidate-authored accounting.
 
@@ -111,11 +111,10 @@ schema, authorization_sha256, subject, head and state are required. Omit optiona
 keys rather than using these explanatory placeholders. Head is null before any
 publication/claim; an adopted authorization without a selected Issue number uses
 subject.issue=null, preserving that original subject identity across admission.
-The actual state still retains the created Issue. Lists may be empty; absent
-coverage is unknown, never zero. One provider snapshot per run/attempt is allowed;
-conflicting snapshots in an external manifest refuse instead of selecting one.
-Normal owner history may retain multiple observations of a progressing job;
-completed job duration conflicts refuse and identical completed spans count once.
+The actual state still retains the created Issue. Lists may be empty. Absent coverage is unknown, never zero. Each run/attempt permits one provider snapshot.
+If an external manifest contains conflicting snapshots, the importer refuses to select one.
+Normal owner history may retain multiple observations while a job progresses.
+Conflicting completed job durations cause refusal. Identical completed spans count once.
 
 For the already pinned supervisor collector, retain its exact `process.json`,
 `input_receipt` file, `.stdout.json`, `.stderr.log` and `observe.py`. The importer
@@ -124,19 +123,18 @@ observer hash, output hashes, available Issue/head identity and finite wall/mono
 durations. Non-JSON stdout retains unknown status (or failed process exit), never
 passed. Stderr's old wrongly passed pending/refused timing is normalized from its
 actual returned status. Missing old wall bounds are not reconstructed. An optional `intents` list accepts `{intent: REF, input: REF, observer: REF}`
-for collector starts without completed process receipts. They retain unknown
-status and duration; list only genuinely incomplete invocations there. Native raw files are retained under exact claim
+for collector starts without completed process receipts. These entries retain unknown status and duration. List only incomplete invocations there. Native raw files are retained under exact claim
 order/session linkage. Optional `kind: "meta"` additionally cross-checks the JSON
 session_id and exposes a finite nonnegative total_cost_usd as reported_cost_usd in
 native_usage, never a billed price or independently verified total. `kind: "codex_raw"` reads a single terminal Codex turn.completed usage record.
 Multiple-turn totals remain unknown because cumulative versus incremental accounting
-is unspecified. Cached/reasoning counters are subsets, never added to token totals;
-reported usage is not a billing authority.
+is unspecified. Cached/reasoning counters are subsets. Never add them to token totals.
+Reported usage is not a billing authority.
 
 Provider run repository/head/workflow and job run_id/run_attempt/head must match.
 Log lines come from the explicitly supplied run entry, retain their source hash,
-and cross-check any embedded head. Offline files cannot independently prove API
-origin or complete pagination/history; this limitation keeps their coverage partial.
+and cross-check any embedded head. Offline files cannot independently prove API origin or complete pagination/history.
+Their coverage therefore remains partial.
 Test module names/counts are retained as observed scope. Case timings are nested
 and excluded from module totals. Provider job seconds are reported separately from
 module worker seconds. API file observations do not equal API request counts.
@@ -157,32 +155,29 @@ external-evidence adapter without another provider GET. An external manifest at
 `AUTHORIZATION.d/cost-evidence.json` automatically supplements normal projections.
 Once the original publication claim exists, normal reports also read its original
 Noodle session raw log for available terminal Codex usage. Raw source and record
-files stay under the existing artifact directory. Reporting
-reads history linearly; it adds no checkpoint migration or second authority store.
+files stay under the existing artifact directory. Reporting reads history linearly. It adds no checkpoint migration or second authority store.
 
 Coverage includes end-to-end, processing, waits, writer/model, API observations,
-verification, retries, startup, publication, landing, cleanup and telemetry. Recorded
-spans are measured; family coverage is partial until whole-family accounting exists.
-End-to-end is only the observed envelope; gaps are not attributed to people. Normal
+verification, retries, startup, publication, landing, cleanup and telemetry. Recorded spans are measured. Family coverage stays partial until accounting covers the whole family.
+End-to-end covers only the observed envelope. Gaps are not attributed to people. Normal
 foreground ending in a phase is explicitly inclusive, not exclusive phase cost.
-Unknown/unavailable spans retain null durations. Available single-turn Codex token usage is exposed; price/CPU/API counts/human
-waiting without an accounting source remain null. Telemetry records its
+Unknown/unavailable spans retain null durations. The report exposes available single-turn Codex token usage.
+Price, CPU time, API counts and human waiting remain null without an accounting source. Telemetry records its
 record/report overhead for the next projection, excluding its final evidence flush.
 
 Schema Manager receives finite numeric summary, source refs, coverage and the
 existing owner's refusal/repair budget/history basis. It projects no effects and no
 test demand. Unknown write and host-finalization facts remain with their owner.
-`Controller.cost_status` reads `check()` and existing limits; it neither performs a
-repair nor decides a new retry. Missing trusted lineage remains unavailable.
+`Controller.cost_status` reads `check()` and existing limits.
+It neither performs a repair nor decides a new retry. Missing trusted lineage remains unavailable.
 
 ## Verification and remaining work
 
 Local verification is syntax parsing, diff review and hash checks only. Authored
 controls in test_cost_telemetry cover source/status/replay/numeric semantics,
 partial old logs, parallel/nested accounting, original observer/provider import,
-read-only behavior and normal refusal/continuation preservation. Existing repair
-reserve-before-effect/unknown-write controls remain; the added cost-status case
-reads synthetic history without spending it. Lifecycle controls cover new pins
+read-only behavior and normal refusal/continuation preservation. Existing repair reserve-before-effect/unknown-write controls remain.
+The added cost-status case reads synthetic history without spending it. Lifecycle controls cover new pins
 and legacy exact descriptor compatibility. Test Manager maps the new evidence
 boundary to these consumers and candidate evidence validation; it does not request
 full coverage. No tests, benchmark, fault experiment, model comparison, arena or
@@ -203,9 +198,8 @@ Source commit: `68836ddaf5697224520f1847d90cdb90ca8babaa`. All five method byte 
 - `pstack/skills/why/SKILL.md`: `dc8f2d8a7dbef7d0467cca8e6d055a4dbde027db6e2cbbfb18aa9071d8f20b6c`
 - `pins.json`: `cf58a00d0a881f5dca2a4545909c03ac72d04adb9ddafebc15c0f5a8150f5fa0`
 
-New lifecycle pins include cost_telemetry.py. The supervisor worker bundle still
-serves issue/worker entrypoints and needs no cost import: soodles.measured uses
-only the standard library. The independent landing OWNER_FILES closure is unchanged.
+New lifecycle pins include cost_telemetry.py. The supervisor worker bundle still serves issue/worker entrypoints.
+It needs no cost import because soodles.measured uses only the standard library. The independent landing OWNER_FILES closure is unchanged.
 Wait controls now permit only cost-artifact writes; their original lifecycle/config/
 provider no-effect and unchanged-byte assertions remain intact.
 
@@ -217,15 +211,14 @@ the original state authorization, body-marker digest and exact Issue URL. This d
 not rewrite authorization or observations. Nonzero process exits retain typed
 refused/pending/unknown results, separately from the raw exit evidence.
 
-Schema Manager receives per-phase inclusive observed durations and legacy logged
-wait seconds; nested phases must not be summed into wall latency. Provider job
+Schema Manager receives inclusive observed durations for each phase and legacy logged wait seconds.
+Nested phases must not be summed into wall latency. Provider job
 bounds are separate from foreground bounds. Historical write offers are labeled
 history, with current required readback taken only from the owner response.
 
 The installed pstack provider was updated during this atom to cursor/plugins
-2eb7ed4613cfc8f098dfe464a23680ea44d84c5e (0.15.5). The dispatched writer used
-the original pinned 0.14.5 snapshot above; supervisor review read the new architect
-method. No arena or model experiments were added.
+2eb7ed4613cfc8f098dfe464a23680ea44d84c5e (0.15.5). The dispatched writer used the original pinned 0.14.5 snapshot above.
+Supervisor review read the new architect method. No arena or model experiments were added.
 
 ## Correction after the first normal CI attempt
 
@@ -241,15 +234,14 @@ kind whitelist. Unsupported raw usage remains unknown. The existing
 `test_codex_terminal_usage_and_nested_schema_numbers` control covers the parser.
 
 `issue_atom.run` still records unknown starts and finished observations, but only
-adds `cost` to responses with a string status. Opaque owner responses pass through
-unchanged; their projection or refusal diagnostic uses the existing `soodles.cost`
-stderr event. Pending, refused and resolved responses retain their cost field.
+adds `cost` to responses with a string status. Opaque owner responses pass through unchanged.
+Their projection or refusal diagnostic uses the existing `soodles.cost` stderr event. Pending, refused and resolved responses retain their cost field.
 The added focused control checks opaque payload preservation, stderr projection,
 visible cost refusal and persisted unknown observations. Existing typed-response
 controls and `test_cleanup_continuation.py` remain unchanged.
 
 This correction applies pstack 0.15.5 architect's subtract-first principle by
 removing unconditional payload mutation without adding an adapter or redesign.
-Local checks are syntax, diff and hashes only. No local tests or reporting runs
-were executed; corrected behavior awaits normal exact-head CI on the same PR.
+Local checks are syntax, diff and hashes only. No local tests or reporting runs were executed.
+At this stage, corrected behavior awaited normal exact-head CI on the same PR.
 The supervisor retains original reporting, publication and landing ownership.

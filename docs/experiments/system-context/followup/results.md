@@ -1,20 +1,53 @@
 # Issue 199: context supply and worker-owned outcome follow-up
 
-Implementation selected for the fresh comparison: `e963c132d688f40dec543474b2cc0bf674d59f72`. The first readiness head `f2a15539e8febf8bed417b779fd0984405203383` was explicitly superseded after self-review found that malformed admitted `carrier.codex` could raise an unstructured exception. The replacement adds the type discriminator and its subprocess control. Readiness revisions are preserved by the external supervisor; these are experiment handoffs, not lifecycle state or landing authority.
+The fresh comparison selected implementation `e963c132d688f40dec543474b2cc0bf674d59f72`.
+Self-review found that malformed admitted `carrier.codex` could raise an
+unstructured exception. The first readiness head
+`f2a15539e8febf8bed417b779fd0984405203383` was therefore explicitly superseded.
+The replacement adds the type discriminator and its subprocess control.
+The external supervisor preserves readiness revisions. These are experiment
+handoffs, not lifecycle state or landing authority.
 
 ## Product evidence
 
-The fixed external actual-Noodle oracle passed against this implementation. `product-results.json` preserves its complete stdout, including completed/blocked/failed effects, exact readbacks, duplicate refusals and invalid-identity/admission/binary controls. Unit controls separately cover foreign or missing role, missing context, malformed carrier, empty message/unknown outcome, committed completion, process failure, contradictory or duplicated readback and malformed event logs. No provider writes occur in these controls.
+The fixed external actual-Noodle oracle passed against this implementation.
+`product-results.json` preserves its complete stdout. This includes completed,
+blocked and failed effects, exact readbacks, duplicate refusals, and controls for
+invalid identity, admission and binary. Separate unit controls cover foreign or
+missing role, missing context, malformed carrier, empty message, and unknown
+outcome. They also cover committed completion, process failure, contradictory or
+duplicated readback, and malformed event logs. No provider writes occur in these controls.
 
-The original fixed system-context product observer also passed at the selected implementation head: exactly common plus instruction-context, 3,450 selected bytes, ten frozen files checked and candidate state unchanged. Its raw result is preserved below. Original comparison files and frozen source bytes remain unchanged, including original selection baseline truncation; that baseline remains INCONCLUSIVE, not PASS.
+The original fixed system-context product observer also passed at the selected
+implementation head. It selected exactly common plus instruction-context, with
+3,450 selected bytes. It checked ten frozen files and left candidate state
+unchanged. Its raw result is preserved below. Original comparison files and
+frozen source bytes remain unchanged, including original selection baseline
+truncation. That baseline remains INCONCLUSIVE, not PASS.
 
 ### Retained failed product attempt
 
-The first follow-up product invocation failed because the adapter refused a missing `events.ndjson` before the first event. Evaluation of the actual Noodle writer established that this is a legal first-append case after session identity validation. The correction allows an absent log only before the effect; post-effect readback must exist and match. This was one failed attempt, followed by PASS under the unchanged oracle. The exact stderr is retained below. The earlier stopped writer's missing-stage_message failure remains separately preserved in `baseline-refusal.json`; no event was fabricated into that session.
+The first follow-up product invocation failed because the adapter refused a
+missing `events.ndjson` before the first event. Evaluation of the actual Noodle
+writer established that this is a legal first-append case after session identity
+validation. The correction allows an absent log only before the effect.
+Post-effect readback must exist and match. This was one failed attempt, followed
+by PASS under the unchanged oracle. The exact stderr is retained below.
+`baseline-refusal.json` separately preserves the earlier stopped writer's
+missing-stage_message failure. No event was fabricated into that session.
 
 ## Measurement and attribution
 
-The eval-audit found a concrete routing/capability mismatch: binary help did not provide the typed payload schema. Product assessment uses executable identity/effect discriminators and the fixed actual writer, while Agent assessment uses separately supplied fresh consumer operations and independent confirmation. Code-based outcomes need no subjective LLM judge. The small scoped pairs do not establish general efficiency, token savings or universal nonregression. Recorded operations are not a complete native platform transcript; unavailable telemetry stays unknown. This is a combined change to the supplied execute instruction and executable interface, so any supported improvement cannot be attributed to either component alone.
+The eval-audit found a routing and capability mismatch. Binary help did not
+provide the typed payload schema. Product assessment uses executable identity
+and effect discriminators and the fixed actual writer. Agent assessment uses
+separately supplied fresh consumer operations and independent confirmation.
+Code-based outcomes need no subjective LLM judge. The small scoped pairs do not
+establish general efficiency, token savings or universal nonregression.
+Recorded operations are not a complete native platform transcript. Unavailable
+telemetry stays unknown. The change combines supplied execute instructions and
+the executable interface. Any supported improvement therefore cannot be attributed
+to either component alone.
 
 ## Provider boundary
 
@@ -100,7 +133,12 @@ AssertionError: ('completed', {'argv': ['/Users/neon/.codex/worktrees/context-ou
 
 ## Local verification
 
-The single full unittest discovery ran 539 tests in 288.390 seconds with exit 0 and no skips. It started after the first readiness head; the subsequent two-line carrier type correction and added test were separately verified by 13 focused adapter tests and the unchanged external actual-Noodle oracle before replacement readiness. The original selector focused suite passed all 11 tests. This is local test evidence, not canonical Linux acceptance.
+The single full unittest discovery ran 539 tests in 288.390 seconds with exit 0
+and no skips. It started after the first readiness head. The subsequent two-line
+carrier type correction and added test received separate verification before
+replacement readiness. That verification used 13 focused adapter tests and the
+unchanged external actual-Noodle oracle. The original selector focused suite
+passed all 11 tests. This is local test evidence, not canonical Linux acceptance.
 
 Full-suite raw log: `/Users/neon/.codex/experiments/system-context-atom-c8qd73l8/followup/full-suite.log`; SHA-256 `58f1e832e79dd852d871b894cf47bb102f9c5e858c46689565c3735b7480d37b`.
 
@@ -120,7 +158,13 @@ Supervisor readiness binds the archived comparison to implementation head `e963c
 
 The blocked confirmation preserves the missing externally supplied dependency delivery receipt and the dependency owner; it does not infer completion from successful reporting. The original context-supply confirmation remains separate from this outcome comparison. Exact supplied instruction bytes alone do not establish Agent behavior, and neither comparison relaxes full-contract delivery or the fresh-envelope requirement for body amendments.
 
-Superseded follow-up measurements remain archived: initial selection baseline is INCONCLUSIVE because its packet omitted the complete admitted contract; selection-v2 treatment is INCONCLUSIVE for exact-code exposure because the candidate was revised during that measurement. Its actual recorded event remains evidence, but receives no final-head credit. The independent v3 pair supports the final scoped conclusion. The original context-selection baseline truncation also remains INCONCLUSIVE. No earlier failure or incomplete capture was rewritten as PASS.
+Superseded follow-up measurements remain archived. Initial selection baseline
+is INCONCLUSIVE because its packet omitted the complete admitted contract.
+Selection-v2 treatment is INCONCLUSIVE for exact-code exposure because the
+candidate changed during that measurement. Its actual recorded event remains
+evidence but receives no final-head credit. The independent v3 pair supports
+the final scoped conclusion. The original context-selection baseline truncation
+also remains INCONCLUSIVE. No earlier failure or incomplete capture was rewritten as PASS.
 
 The follow-up archive and summary are unchanged copies from the supervisor. Reported operations cover the initial read and declared process interface, not a complete platform transcript. Actual native model/token telemetry and storage isolation remain unknown. Product PASS, observed behavior PASS and pending provider resolution are separate findings.
 
@@ -144,15 +188,54 @@ Artifact bindings:
 
 ## New admitted correction attempt (Issue 199 / existing PR 200)
 
-This is actual order `soodles-199-5236d5ae903f`, session `soodles-199-5236d5ae903f-0-execute-20260930-165742-db76ce`. Its clean Noodle-owned worktree began at admitted base `0977f2513130e8a38c53665f71c8e90f3ac9c614` and was explicitly fast-forwarded to `c9577fda90ebc910492599d88428f94a5f469869` before applying the seven SHA-256-verified files selected by the supervisor's `followup/fresh-attempt/fixed-files.json`. The read-only worker adapter confirmed the current envelope, binary, order, stage, session and worktree binding. No original-order restoration or event fabrication occurred.
+This is actual order `soodles-199-5236d5ae903f`, session
+`soodles-199-5236d5ae903f-0-execute-20260930-165742-db76ce`. Its clean Noodle-owned
+worktree began at admitted base `0977f2513130e8a38c53665f71c8e90f3ac9c614`.
+It was explicitly fast-forwarded to `c9577fda90ebc910492599d88428f94a5f469869`.
+The seven SHA-256-verified files selected by the supervisor's
+`followup/fresh-attempt/fixed-files.json` were applied after that fast-forward.
+The read-only worker adapter confirmed the current envelope, binary, order,
+stage, session and worktree binding. No original-order restoration or event
+fabrication occurred.
 
-The supervisor reports that c957's Linux runtime run `36741329249` failed on deep JSON; earlier recovery attempts failed and the original order was archived. The user explicitly rejected restoring that order as a prerequisite. This fresh admission preserves Issue 199, PR 200, failed immutable heads and old evidence. The failed `prewrite_recovery` experiment is excluded. No archived-order recovery API is introduced.
+The supervisor reports that c957's Linux runtime run `36741329249` failed on
+deep JSON. Earlier recovery attempts failed, and the original order was archived.
+The user explicitly rejected restoring that order as a prerequisite. This fresh
+admission preserves Issue 199, PR 200, failed immutable heads and old evidence.
+The failed `prewrite_recovery` experiment is excluded.
+No archived-order recovery API is introduced.
 
-Scoped eval-audit (method SHA-256 `c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133`) separates three observed owner faults: unbounded recursion diagnostics, inconsistent idle-scheduler recognition, and proposal intent persisted before validation. Existing controls also exposed unnecessary coupling of prior publication to prior-order continuation. The selected owner correction catches recursion around parsing/validation/diagnostic rendering/output, shares the exact idle-scheduler predicate, validates before recording an offered proposal, and admits a fresh order retaining the prior publication identity. Unknown effect outcomes still require readback and are never automatically reoffered. Existing same-order correction and publication/CI/landing gates remain required.
+Scoped eval-audit uses method SHA-256
+`c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133`.
+It separates three observed owner faults: unbounded recursion diagnostics,
+inconsistent idle-scheduler recognition, and proposal intent persisted before
+validation. Existing controls also exposed unnecessary coupling of prior
+publication to prior-order continuation. The selected owner correction catches
+recursion around parsing, validation, diagnostic rendering and output. It shares
+the exact idle-scheduler predicate and validates before recording an offered
+proposal. It also admits a fresh order while retaining the prior publication
+identity. Unknown effect outcomes still require readback and are never
+automatically reoffered. Existing same-order correction and publication, CI and
+landing gates remain required.
 
-Measurement assessment: deterministic subprocess faults distinguish four recursion boundaries; the old source fails three controls. Owner controls distinguish idle from active/foreign schedulers, preflight refusal from unknown write outcome, and same-PR fresh admission from foreign identities or a prior atom without publication. Binary criteria use executable checks, so subjective judge calibration is not applicable. Raw logs support these local product findings; the unchanged system-context observer alone does not measure scheduler/admission behavior. Small historical consumer pairs and incomplete platform telemetry support no broad efficiency claim.
+Deterministic subprocess faults distinguish four recursion boundaries.
+The old source fails three controls. Owner controls distinguish idle schedulers
+from active or foreign schedulers, and preflight refusal from an unknown write
+outcome. They also distinguish same-PR fresh admission from foreign identities
+or a prior atom without publication. Binary criteria use executable checks, so
+subjective judge calibration is not applicable. Raw logs support these local
+product findings. The unchanged system-context observer alone does not measure
+scheduler or admission behavior. Small historical consumer pairs and incomplete
+platform telemetry support no broad efficiency claim.
 
-Agent behavior for this new correction is **INCONCLUSIVE**: archived fresh-consumer/independent-confirmation evidence retains its original subject and verdict, and is not relabeled as this session or a new-head comparison. The frozen execute instructions and stage-outcome implementation remain byte-identical. Original baseline truncation remains INCONCLUSIVE. This worker reports its bounded implementation/check work only; no new behavior-improvement or combined defect-closure claim is made. Provider resolution and Linux exact-head acceptance remain pending with the selected external owners.
+Agent behavior for this new correction is **INCONCLUSIVE**. Archived fresh-consumer
+and independent-confirmation evidence retains its original subject and verdict.
+It is not relabeled as this session or a new-head comparison. The frozen execute
+instructions and stage-outcome implementation remain byte-identical. Original
+baseline truncation remains INCONCLUSIVE. This worker reports only its bounded
+implementation and checks. It makes no new behavior-improvement or combined
+defect-closure claim. Provider resolution and Linux exact-head acceptance remain
+pending with the selected external owners.
 
 ### Preserved external offline receipts
 
@@ -177,7 +260,14 @@ Ran 544 tests in 293.973s
 OK
 ```
 
-The unchanged external `product_oracle.py` passed on that same implementation commit: 3,450 selected bytes, exactly common plus instruction-context, ten frozen contract files, legal shared prerequisites, unknown/traversing-root refusals and unchanged source state. Its fixed scope does not certify the changed correction/admission owners; those are covered by the focused and full suites. The following documentation-only evidence commit changes results and their manifest hash; executable, test and frozen instruction bytes remain those tested above.
+The unchanged external `product_oracle.py` passed on that same implementation
+commit. It covered 3,450 selected bytes, exactly common plus instruction-context,
+ten frozen contract files, legal shared prerequisites, refusals of unknown or
+traversing roots, and unchanged source state. Its fixed scope does not certify
+the changed correction or admission owners. The focused and full suites cover
+those owners. The following documentation-only evidence commit changes results
+and their manifest hash. Executable, test and frozen instruction bytes remain
+those tested above.
 
 Python: `/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/bin/python3.12`; the external evidence directory's `bin/python3` points to that same executable. `TMPDIR` was physically resolved before execution. Environment and exact argv/exit/duration receipts are preserved under:
 
@@ -195,4 +285,12 @@ Python: `/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Ver
 | `oracle.json` | `44adb75f8f9706371f8cf69f873e09cb545c006272cf714852a87a9488f49a78` |
 | `oracle.log` | `8923a11ca5354b0c7e0bbb9282e559a0f79ad9422aa7fa104070447876db95ed` |
 
-Self-review found no changes outside the admitted paths and no modification of the seven selected source/test bytes after their digest check. All 22 frozen pins match. The manifest preserves both original instruction identities and covers all 40 required paths (two instructions, 37 artifacts and the manifest itself). `validate_delivery_paths` is run against the final clean commit, with its non-authorizing receipt retained in the same external evidence directory. Local checks and the completed worker outcome do not authorize landing; exact-head Linux Actions acceptance, native publication readiness and provider/local reconciliation remain with their existing owners.
+Self-review found no changes outside the admitted paths. It also found no
+modification of the seven selected source and test bytes after their digest check.
+All 22 frozen pins match. The manifest preserves both original instruction
+identities and covers all 40 required paths: two instructions, 37 artifacts and
+the manifest itself. `validate_delivery_paths` is run against the final clean
+commit. Its non-authorizing receipt is retained in the same external evidence
+directory. Local checks and the completed worker outcome do not authorize
+landing. Exact-head Linux Actions acceptance, native publication readiness, and
+provider and local reconciliation remain with their existing owners.

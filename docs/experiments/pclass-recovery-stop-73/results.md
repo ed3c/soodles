@@ -19,9 +19,9 @@ produced none. The frozen #71 discriminator returned `ADMIT_IMPROVEMENT`:
 | Baseline | 3 / 3 PASS | 3 |
 | Treatment | 3 / 3 PASS | 0 |
 
-This admits one narrow P-class rule in the existing feature recipe: a bounded
-recovery packet may stop at an externally selected exact completion projection
-before following its next operation when provider transport is unauthorized.
+This result admitted one narrow P-class rule in the existing feature recipe.
+If provider transport is unauthorized, a bounded recovery packet may stop at an
+externally selected exact completion projection before following its next operation.
 It does not make the projection provider truth or authorize landing.
 
 ## Frozen boundary
@@ -39,9 +39,9 @@ It does not make the projection provider truth or authorize landing.
 
 The coordinator selected each run's complete initial and completion owner
 projections before the consumer acted. Both projections were bound by canonical
-JSON SHA-256. The completion digest differs per run because the projection
-contains the run-specific checkpoint path; causal comparison canonicalized that
-path and its derived digest, not any behavior field.
+JSON SHA-256. The completion digest differed per run because the projection contained that
+run's checkpoint path. The causal comparison canonicalized the path and its
+derived digest. It did not canonicalize any behavior field.
 
 ## Executable discrimination
 

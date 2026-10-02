@@ -5,8 +5,8 @@ The observed incident is
 It records #204 closed, PR #205 merged, candidate
 `7b8aa9e52137e0e2b6de4523f13ea3c23face24f`, merge/main
 `3c40138ec205db9c254bce8a4adb73bd8c32ab29`, and original order
-`soodles-204-c4b0157d5b77` completed. Its worktree remains and original lifecycle
-phase is landing, refused at `cleanup.observation`. The incident's successful
+`soodles-204-c4b0157d5b77` completed. At that observation, its worktree remained. The original lifecycle phase was landing,
+with a refusal at `cleanup.observation`. The incident's successful
 run 36837614425 (29 tests, five modules) is historical #204 evidence, not #213
 acceptance. No live recovery, cleanup or provider write was performed for this
 implementation.
@@ -20,9 +20,9 @@ and `worktree/commands_cleanup.go` checking that integration branch. Its
 `cmd_worktree.go` does not set IntegrationBranch. Consequently advancing the
 actual local main ref did not change the old Soodles observation.
 
-The correction observes `refs/heads/<discovered branch>`, rejects a branch outside
-the repository profile and a missing local ref, and retains detached control HEAD
-separately. Repeated identical cleanup inputs refuse; control HEAD movement alone
+The correction observes `refs/heads/<discovered branch>`.
+It rejects a branch outside the repository profile or a missing local ref.
+It retains the detached control HEAD separately. Repeated identical cleanup inputs refuse. Control HEAD movement alone
 does not permit an offer. Actual local integration movement can permit the same
 continuation. Existing ancestry, clean tree, exact candidate, lock release, unknown
 cleanup and no-op behavior remain. Soodles neither modifies Noodle nor forces
@@ -35,18 +35,17 @@ identity. An interrupted offer requires checkpoint readback, never replay.
 
 The #204 lifecycle-v2 bundle is immutable and has no lifecycle_resume record.
 The selected replacement runtime therefore owns a bounded `issue-atom resume`
-entry. It validates original authorization bytes/digest, claim/envelope/order,
-confirmed landing, stopped sessions and free locks before recording from/to/auth
-binding. Its original command continues under the selected runtime. No unresolved
+entry. Before recording from/to/auth binding, the entry validates the original
+authorization bytes/digest and claim/envelope/order. It also checks confirmed
+landing, stopped sessions and free locks. Its original command continues under the selected runtime. No unresolved
 amendment is required. An advanced control root retains ancestry validation; the
 exact idle schedule shape is accepted without changing canonical prompt/history.
-Same selection permits readback; a different second selection refuses.
+The same selection permits readback. A different second selection refuses.
 
 The actual #204 host-finalization record has sequence 6 and retained stop/absence
 facts. Its plan identity includes issue_atom.py, so simply changing the runtime
-would otherwise refuse at host finalization. Resume validates the old pinned plan
-and subject, requires unchanged rules/context, retains the whole prior record,
-and carries facts/sequence to the selected plan identity. This is a source identity
+would otherwise refuse at host finalization. Resume validates the old pinned plan and subject. It requires unchanged rules/context
+and retains the whole prior record. It carries facts/sequence to the selected plan identity. This is a source identity
 migration within the original owner, not a new cleanup or repair allowance.
 
 Focused controls cover detached vs local integration, unchanged input, missing or

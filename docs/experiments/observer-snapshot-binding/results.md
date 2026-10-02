@@ -6,13 +6,13 @@ The following evidence-only commit does not change measured executable/instructi
 The old public observer returned PASS after an actual denied `cat` whose recorder
 request contained only PermissionError for AGENTS.md. Shell-wrapped failure was
 silently omitted. The correction preserves shell errors and filters invalid
-observations out of valid instruction bindings. Raw requests remain intact;
-route, transport, identity and landing authority are unchanged.
+observations out of valid instruction bindings. Raw requests remain intact.
+Route, transport, identity and landing authority are unchanged.
 
 The externally frozen public-CLI oracle improves from
 7/14 to
-14/14 checks. Both readable
-and zero-byte legal cases remain accepted; a separate valid read remains usable.
+14/14 checks. Both readable and zero-byte legal cases remain accepted.
+A separate valid read remains usable.
 Actual denied direct/shell reads and malformed metadata cannot establish a binding.
 The fixed owner projections come from the real disposable pending owner, not a
 candidate-selected judge. Original diagnostic raw files and its /var versus

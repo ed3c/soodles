@@ -2,7 +2,14 @@
 
 # Issue #39: context transfer experiment
 
-Current status: integration of main #41 is awaiting fresh instruction-bound comparison and Noodle proposal recovery before delivery. The [complete instrumented local comparison](local/comparison-results.md) satisfies the three bounded cases in both arms, with scoped non-regression and no demonstrated treatment advantage. Actual child exits, native model/tool evidence, producer transfer and independent raw/export review are preserved in its immutable archive. Disclosed procedural deviations and failed pre-model attempts remain visible. Historical [cloud results](recovery-results.md) and earlier local INCOMPLETE observations are unchanged; chronology below is historical.
+Current status: integration of main #41 awaits a fresh instruction-bound comparison
+and Noodle proposal recovery before delivery. The [complete instrumented local comparison](local/comparison-results.md)
+satisfies the three bounded cases in both arms. It supports scoped non-regression
+and demonstrates no treatment advantage. Its immutable archive preserves actual
+child exits, native model and tool evidence, producer transfer, and independent
+review of raw and exported records. Procedural deviations and failed pre-model
+attempts remain visible. Historical [cloud results](recovery-results.md) and
+earlier local INCOMPLETE observations are unchanged. The chronology below is historical.
 
 Class: N. Historical cloud status: native paired cases executed; evidence gate incomplete. See [current observations](native-results.md); the earlier setup chronology below is retained.
 Owner: https://github.com/ed3c/soodles/issues/39
@@ -63,9 +70,19 @@ The existing canonical acceptance remains required for the final clean candidate
 - Fixtures and execution receipt: [immutable results](https://github.com/ed3c/soodles/tree/de34516e6e073622e0bd654fd97c5085bd033d01/docs/experiments/agent-context/observer/results).
 - Consumer/operator separation and exact inputs: [trial handoff](trial-handoff.md).
 
-The observer ran four unittest methods covering 21 synthetic variants: three valid/legal cases, ten planted violations, and eight incomplete-evidence cases. All passed their expected detector outcome. This validates only the discriminator on those inputs. Its TRACE_CONSISTENT result always retains behavior_proven=false and requires independent review of complete raw traces.
+The observer ran four unittest methods covering 21 synthetic variants. These
+included three valid/legal cases, ten planted violations, and eight cases with
+incomplete evidence. All produced their expected detector outcome. This validates
+only the discriminator on those inputs. Its TRACE_CONSISTENT result always
+retains behavior_proven=false and requires independent review of complete raw traces.
 
-Two existing owner controls ran against six source blobs verified at the common code ref. A real disposable checkpoint retained its exact SHA-256 across unknown-write readback, retained writes_offered=[merge], and returned provider_readback without another request. A real landing identity invocation returned next:null; it did not establish Issue resolution. The temporary checkpoint and its directory were subsequently observed absent. Provider data is simulated and no provider writes occurred.
+Two existing owner controls ran against six source blobs verified at the common
+code ref. A real disposable checkpoint retained its exact SHA-256 across
+unknown-write readback. It also retained writes_offered=[merge] and returned
+provider_readback without another request. A real landing identity invocation
+returned next:null. That result did not establish Issue resolution. Later
+observations confirmed that the temporary checkpoint and its directory were absent.
+Provider data is simulated. No provider writes occurred.
 
 The shared common-code runtime is run 35128051435, attempt 1, head e4b4a8487855b75ef2d47087019bb52c4d5ffd6c; provider job records show successful canonical acceptance. This fixed shared input prevents workflow head differences from becoming a second treatment variable. Final candidate acceptance remains separate.
 
@@ -87,12 +104,12 @@ See [native observations](native-results.md) and [immutable evidence](https://gi
 
 ## Latest bounded continuation
 
-[Durable supervisor observation receipt and independent reviewer message](https://github.com/ed3c/soodles/tree/49f4c0ef16887535656d757ca53cbb31e41e043d/docs/experiments/agent-context/native-round2). Four fresh consumers actually invoked the existing owner on mutable disposable checkpoints: exit 0, readback, merge_pending, no new request. Supervisor and independent reviewer checked before/after bytes; all match digest e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed and preserve writes_offered=[merge]. All four live checkpoint paths were removed. The mutable-checkpoint evidence gap is now addressed within this fixture scope.
+The [durable supervisor observation receipt and independent reviewer message](https://github.com/ed3c/soodles/tree/49f4c0ef16887535656d757ca53cbb31e41e043d/docs/experiments/agent-context/native-round2) record four fresh consumers. Each invoked the existing owner on a mutable disposable checkpoint. Each returned exit 0, readback and merge_pending, with no new request. The supervisor and independent reviewer checked bytes before and after. All match digest e3881548ceababec1070e2509ead654f58249ce69a9c6bd6d4388143a17a14ed and preserve writes_offered=[merge]. All four live checkpoint paths were removed. These observations address the mutable-checkpoint evidence gap within this fixture scope.
 
-Two new consumers received no prescribed connector/CLI/browser route. Both selected GitHub/Actions after reading assigned instructions and correctly consumed candidate 505f4976's runtime. This is observed route selection after explicit instruction loading; automatic platform discovery/injection and treatment advantage remain unproven.
+Two new consumers received no prescribed connector, CLI or browser route. Both read their assigned instructions, selected GitHub/Actions and correctly consumed candidate 505f4976's runtime. This observation shows route selection after explicit instruction loading. It does not prove automatic platform discovery, automatic injection or a treatment advantage.
 
-Independent review counted 43 recorded request/result pairs, zero unmatched, and 10 matching returned Git blobs. Frozen continuation verdicts are four INCOMPLETE, no violations: complete_capture and observed_model remain missing; resume_y additionally missed recording its first handoff read. All recorder/discovery failures and route_y's artifact HTTP 403 are disclosed. Earlier results below remain historical and are not rewritten.
+Independent review counted 43 recorded request/result pairs, zero unmatched pairs, and 10 matching returned Git blobs. The frozen continuation verdicts are four INCOMPLETE, with no violations. complete_capture and observed_model remain missing. resume_y also failed to record its first handoff read. The record discloses all recorder and discovery failures and route_y's artifact HTTP 403. Earlier results below remain historical and are not rewritten.
 
-The environment disconnected with environment_offline before raw round2 files could be collected for GitHub. The linked commit saves returned supervisor observations and the reviewer's message, **not a full raw round2 archive**. Local files were written under context39-round2; their durable upload remains unverified. GitHub connector remained available and was used to preserve these receipts.
+Before raw round2 files could be collected for GitHub, the environment disconnected with environment_offline. The linked commit saves returned supervisor observations and the reviewer's message, **not a full raw round2 archive**. The local files were written under context39-round2. Their durable upload remains unverified. The GitHub connector remained available and preserved these receipts.
 
 Current remaining gate: complete native task capture/model provenance, the missing handoff capture for that consumer, and durable raw round2 evidence. No Codex CLI/browser requirement is introduced. Keep #39 open and #40 draft. Do not rerun unchanged cases to compensate for missing telemetry; recover existing files when the environment is available. No merge, close or Noodle reconciliation occurred.

@@ -19,10 +19,10 @@ non-authorizing evidence upload.
 
 ## Demonstrated local/cloud parity
 
-Cloud remains unchanged: connector/Actions own provider identity outside the
-Agent.
+Cloud ownership remained unchanged. The connector and Actions owned provider
+identity outside the Agent.
 
-The bounded local treatment mirrors that ownership model:
+The bounded local treatment used that ownership model:
 
 1. supervisor prepare requires machine-local `NOODLES_TOKEN_COMMAND` before
    creating an external bundle;

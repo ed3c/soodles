@@ -1,13 +1,13 @@
 # Issue 199: committed system-v1 context selection
 
 The fixed external product observer reports **PASS** at implementation head
-`9d2c6a8df6b3296a995d478293e0f24c14a31143`. Its complete JSON stdout, including
-actual subprocess argv, exit codes and output, is in `product-results.json`.
-It was invoked with the externally supplied `product_oracle.py` and
+`9d2c6a8df6b3296a995d478293e0f24c14a31143`. `product-results.json` contains its
+complete JSON stdout, including actual subprocess argv, exit codes, and output.
+The invocation used the externally supplied `product_oracle.py` and
 `frozen-files.json`, not the candidate copy of the observer. All 15 frozen
 paths in the admitted Issue contract match their selected SHA-256 values.
-The later evidence commit binds these unchanged implementation bytes; this
-receipt does not claim execution against that later head or Linux acceptance.
+The later evidence commit binds these unchanged implementation bytes.
+This receipt claims neither execution against that later head nor Linux acceptance.
 
 The baseline is `0977f2513130e8a38c53665f71c8e90f3ac9c614`. The old resolver's
 actual whole-file projection is archived in `behavior.tar.gz` as
@@ -24,21 +24,24 @@ context loading, or general Agent efficiency.
 
 `system-context` reads routes and instruction files from one captured committed
 HEAD. It validates the fixed filename vocabulary and the entire prerequisite
-graph, computes a deterministic dependency-first AND closure, derives actual
-Git-byte digests, and delegates regular-file, UTF-8, bounds and digest checks
-to `issue_admission.resolve_instruction_context`. Shared prerequisites appear
-once. Refusals contain invalid field/value and an owning input; they emit no
-ready context or guessed continuation argv. No authorization/envelope/provider
-schema or runtime transition owner changed.
+graph. It computes a deterministic dependency-first AND closure and derives
+actual Git-byte digests. It delegates regular-file, UTF-8, bounds, and digest
+checks to `issue_admission.resolve_instruction_context`. Shared prerequisites
+appear once. Refusals contain the invalid field/value and an owning input.
+They emit no ready context or guessed continuation argv. No authorization,
+envelope, or provider schema changed. No runtime transition owner changed.
 
-The final eleven focused unittest cases passed in 17.045 seconds using disposable committed Git fixtures and
-the actual wrapper. They cover exact source identity/content/pins, independent
-and shared roots, input-order stability, dirty route/content non-consumption,
-traversal/unknown/empty roots, whole-graph cycles and dangling edges, duplicate
-JSON keys at each object depth, malformed graph records, committed symlinks,
-directories, missing/non-UTF-8 files, and changed committed digests versus stale
-pins, non-JSON numeric constants and deeply nested JSON. Every CLI observation compares Git status before and after, including
-untracked files. Existing frozen history tests were left unchanged.
+The final eleven focused unittest cases passed in 17.045 seconds.
+They used disposable committed Git fixtures and the actual wrapper.
+The cases cover exact source identity, content, and pins; independent and shared
+roots; and input-order stability. They check that dirty route and content files
+are not consumed. They also cover traversal, unknown or empty roots, whole-graph
+cycles, dangling edges, duplicate JSON keys at each object depth, and malformed
+graph records. File controls cover committed symlinks, directories, missing
+or non-UTF-8 files, and changed committed digests against stale pins.
+JSON controls cover non-JSON numeric constants and deeply nested JSON.
+Every CLI observation compares Git status before and after, including untracked
+files. Existing frozen history tests remain unchanged.
 
 The first full run executed 526 tests in 272.592 seconds and returned
 `FAILED (failures=10, errors=4)`. All failures were in
@@ -50,21 +53,22 @@ same assertion. Re-running these four modules with `TMPDIR` set to
 `str(Path(tempfile.gettempdir()).resolve())` passed all 29 tests in 10.399 seconds.
 No test or product source was changed to hide these failures.
 
-Eval-audit of this additional observation distinguishes fixture/carrier identity
-from selector behavior: the traceback records path-key/equality failures,
-canonical-path controls pass, and the same fixed product observer passes.
-The frozen Agent evidence is unchanged; these test-environment observations
-supply no new Agent-behavior or routing-improvement claim. The combined
-context claim remains bounded by the archived confirmation and its limitations.
+The eval-audit separates fixture and carrier identity from selector behavior.
+The traceback records path-key and equality failures. Canonical-path controls
+and the same fixed product observer pass. Frozen Agent evidence remains unchanged.
+These test-environment observations support no new Agent-behavior or
+routing-improvement claim. The combined context claim remains limited by the
+archived confirmation and its stated limits.
 
 The second complete run used the same canonical TMPDIR and passed **526 tests
 in 250.750 seconds**. Its full log is `/tmp/soodles-199-canonical-unit-tests.log`,
-SHA-256 `5e8973e1a33ab4645285ec72292a69acda13a2d4f775086d29f047b047fd8ac7`. The full suite had already discovered its 526
-tests when the defensive JSON guard was added; the final focused run separately
-passed all **11** selector tests, including that additional portable refusal
-control. The fixed external product observer then passed on the committed final
-implementation head. The unit runs used macOS; Linux canonical acceptance was
-not launched. These checks confer no publication or landing authority.
+SHA-256 `5e8973e1a33ab4645285ec72292a69acda13a2d4f775086d29f047b047fd8ac7`.
+The full suite had already discovered its 526 tests when the defensive JSON
+guard was added. The final focused run separately passed all **11** selector
+tests, including that additional portable refusal control. The fixed external
+product observer then passed on the committed final implementation head.
+The unit runs used macOS. Linux canonical acceptance was not launched.
+These checks confer no publication or landing authority.
 
 ## Frozen consumer evidence
 
@@ -86,14 +90,14 @@ the consumer explicitly reported truncation. The separate confirmation pair
 used the archived 22,000 output budget. A complete local subprocess capture
 does not prove all bytes reached the consumer's model context.
 
-Fresh consumers were recorded by the supervisor with no inherited conversation.
-The archive supports only its scoped initial read and response; it is not a
+The supervisor recorded fresh consumers with no inherited conversation.
+The archive supports only the scoped initial read and response. It is not a
 complete platform transcript or proof of storage-access isolation. Observed
 model identity and token telemetry are null/unknown. Neither fresh threads nor
 smaller packets prove hidden isolation, universal nonregression, or adherence
-beyond the concrete observed answers. Exact context supply remains distinct
-from behavior. The complete admitted structured contract remains required, and
-an amended Issue body still requires the supervisor's fresh envelope.
+beyond the observed answers. Exact context supply remains distinct from behavior.
+The complete admitted structured contract remains required. An amended Issue
+body still requires the supervisor's fresh envelope.
 
 ## Eval audit and causal assessment
 
@@ -124,26 +128,26 @@ controls and summary, without editing or rescoring the supervisor evidence.
   predate this writer and retain their supplied digests. No new sampling,
   replacement authority or changed scores were introduced by the candidate.
 
-The shortest P-class path is the frozen contract index to the explicit boundary
-and its prerequisites. The CLI owns committed identity, graph validation and
-refusal. The existing admission resolver remains unchanged, supported by its
-exact-byte/digest controls and the frozen product observation; the fresh
-confirmation supports only the named instruction decisions. This combined
-document/selector correction does not attribute general Agent improvement to
-either component.
+The shortest P-class path runs from the frozen contract index to the explicit
+boundary and its prerequisites. The CLI owns committed identity, graph validation,
+and refusal. The existing admission resolver remains unchanged. Its exact-byte
+and digest controls and frozen product observation support that boundary.
+The fresh confirmation supports only the named instruction decisions.
+This combined document and selector correction attributes no general Agent
+improvement to either component.
 
 ## Typed stage outcome capability
 
 The actual running parent process identifies the selected binary as
 `/Users/neon/.codex/experiments/soodles133-bootstrap.QpepPK/noodle-source/bin/noodle`.
-The PATH binary at `/Users/neon/.local/bin/noodle` is different and was not
-selected for emitting an outcome. The selected binary's `event emit --help`
-exposes only generic `event emit <type>`, `--payload`, and `--session`.
-Its `schema list` exposes only `mise`, `orders`, and `status`; inspecting the
-public status/orders schemas provides no typed outcome payload. Consequently
-no completed or blocked event has been guessed or emitted. The admission/runtime
-owner must supply the selected typed outcome schema or its formal read-only
-query entry before this writer can perform that stage effect.
+The PATH binary at `/Users/neon/.local/bin/noodle` differs and was not selected
+to emit an outcome. The selected binary's `event emit --help` exposes only
+generic `event emit <type>`, `--payload`, and `--session`. Its `schema list`
+exposes only `mise`, `orders`, and `status`. The public status/orders schemas
+supply no typed outcome payload. No completed or blocked event has therefore
+been guessed or emitted. Before this writer can perform that stage effect,
+the admission/runtime owner must supply the selected typed outcome schema
+or its formal read-only query entry.
 
 The actual runtime identity is session
 `soodles-199-a017ded6cee8-0-execute-20260930-144905-41f649`, order

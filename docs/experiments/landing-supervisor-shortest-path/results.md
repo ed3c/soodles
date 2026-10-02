@@ -34,6 +34,6 @@ The CLI performs no provider mutation. Cloud/local provider transport remains ou
 
 ## P-class disposition
 
-Historical fresh cloud delivery consumers had already exposed publisher/help/checkpoint barriers. This atom removes those decisions from the current instruction surface and supplies one executable entry. Because this atom did not run a new matched independent baseline/treatment model experiment, the P-class disposition remains `SCOPED_ALIGNMENT`, not a quantified model-behavior improvement.
+Historical fresh cloud delivery consumers had already exposed publisher/help/checkpoint barriers. This atom removes those decisions from the Agent instructions and supplies one executable entry. Because this atom did not run a new matched independent baseline/treatment model experiment, the P-class disposition remains `SCOPED_ALIGNMENT`, not a quantified model-behavior improvement.
 
-All candidate/observer receipts remain `authorizes_landing=false`; provider merge/closure remain with the existing landing owner and downstream transport.
+All candidate/observer receipts remain `authorizes_landing=false`. Provider merge/closure remain with the existing landing owner and downstream transport.

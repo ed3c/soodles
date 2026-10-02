@@ -16,13 +16,14 @@ All local observations have `authorizes_landing: false`.
 | Fresh consumer foreign-owner result | Refused | Refused |
 | Consumer legal interpretation | Legal | Legal |
 
-The CLI mechanically removes the unnecessary intervention barrier for positively
-identified own startup. Both fresh consumers correctly interpret their actual
-outputs and do not claim lifecycle completion. This is scoped legal nonregression,
-not measured behavioral improvement. The intervention combines code and selected
-Skill changes; a prompt-only causal effect is not isolated. The paired consumers
-saw one neutral task and two invocations each, without inherited conversation,
-expected answers, another arm's result, or resampling, as recorded by the supervisor.
+For positively identified own startup, the CLI removes the unnecessary
+intervention barrier. Both fresh consumers interpret their actual outputs
+correctly and make no lifecycle-completion claim. This is scoped legal
+nonregression, not measured behavioral improvement. The intervention combines
+code and selected Skill changes. It does not isolate a prompt-only causal effect.
+The paired consumers saw one neutral task and two invocations each. The supervisor
+recorded that they received no inherited conversation, expected answers, or
+other arm's result, and that no resampling occurred.
 
 `raw/treatment-oracle.json` and `raw/fresh-consumers.json` are unchanged copies of
 the supervisor-root results. The latter contains 30 raw records, including packets,
@@ -31,45 +32,50 @@ the writer verified each retained source file's digest and embedded content.
 
 ## Boundary and downstream behavior
 
-`require_available_owner` proves exact started loop, held existing native lock,
-pinned envelope/launcher/config, own admitted order projection, and bound scheduler
-and live execute session/process metadata. Pending execute may have no attempt.
-The early response precedes credential resolution, supplier, provider, start,
-claim and lifecycle checkpoint effects. Existing `drive` owns bounded observation;
-there is no new scheduler, retry engine, verb or authority flag.
+`require_available_owner` proves the exact started loop, held existing native
+lock, pinned envelope, launcher, and config, and own admitted order projection.
+It also proves bound scheduler and live execute session/process metadata.
+Pending execute may have no attempt. The early response precedes credential
+resolution, supplier, provider, start, claim, and lifecycle checkpoint effects.
+Existing `drive` owns bounded observation. There is no new scheduler, retry
+engine, verb, or authority flag.
 
-Rereads compare session identity/status/alive and all canonical orders except their
-`updated_at`. Session cost/timestamp telemetry does not invalidate custody; process,
-spawn and immutable launcher/config bytes still must match. Canonical JSON comparison
-preserves scalar types, so `alive: 1` cannot replace `alive: true`.
+Rereads compare session identity, status, and alive state. They compare all
+canonical orders except their `updated_at`. Session cost and timestamp telemetry
+does not invalidate custody. Process, spawn, and immutable launcher and config
+bytes must still match. Canonical JSON comparison preserves scalar types.
+Thus `alive: 1` cannot replace `alive: true`.
 
-Focused tests cover no effects, unchanged fixture bytes, pending/running wait,
-dispatch/attempt consistency, deadline, telemetry-only churn, session identity and
-status drift, wrong scalar types, immutable pins and malformed active scheduler
-negatives. A subsequent idle scheduler reaches the existing credential gate;
-a subsequent foreign order refuses immediately without a retry. That transition
-control proves re-entry to the normal gate, not successful provider delivery.
-Unknown/offered/stopped startup, missing admitted order, foreign identity/config,
-missing metadata and malformed attempts remain refusals. Existing unknown-write
-readback and downstream publication/landing owners remain in force.
+Focused tests cover no effects, unchanged fixture bytes, pending and running
+waits, dispatch and attempt consistency, deadline, and telemetry-only churn.
+They also cover session identity and status drift, wrong scalar types, immutable
+pins, and malformed active scheduler negatives. A subsequent idle scheduler
+reaches the existing credential gate. A subsequent foreign order refuses
+immediately without retry. That control proves re-entry to the normal gate,
+not successful provider delivery.
+Unknown, offered, or stopped startup remains a refusal. So do missing admitted
+order, foreign identity or config, missing metadata, and malformed attempts.
+Existing unknown-write readback and downstream publication and landing owners
+remain in force.
 
 ## Same-Issue correction and evidence preservation
 
-`raw/first-attempt.json` retains the withdrawn writer's typed blocked outcome and
-actual RED receipts. Its clean head `5be0db089219525838918ad86a2396d695dcdbd5`
-was withdrawn before any treatment consumer launched: the 451-test suite had one
-historical #181 replay failure, and pre-measurement review found a telemetry-only
-refusal. The supervisor explicitly admitted this correction and selected the new
-clean source before the single treatment consumer. Old raw outputs are preserved;
-new runs use `corrected-*` filenames externally.
+`raw/first-attempt.json` retains the withdrawn writer's typed blocked outcome
+and actual RED receipts. Its clean head `5be0db089219525838918ad86a2396d695dcdbd5`
+was withdrawn before any treatment consumer launched. The 451-test suite had
+one historical #181 replay failure. Pre-measurement review also found a
+telemetry-only refusal. The supervisor explicitly admitted this correction
+and selected the new clean source before the single treatment consumer.
+Old raw outputs remain preserved. New external runs use `corrected-*` filenames.
 
-Following the unchanged `frozen/migration.md`, the #181 test adapter extracts exact
-historical commit `12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd` through `git archive`.
-A missing object fails diagnostically. It compares current historical evidence bytes
-to the archive, replays the original observer/manifest/raw records, and retains
-both legal-owner-prose and planted-wrong-continuation discriminators. No historical
-pins, observer or replay source changed. Separate current-source oracle/tests
-qualify #185. All eight externally frozen file hashes remain unchanged.
+The #181 test adapter follows the unchanged `frozen/migration.md`.
+It extracts exact historical commit `12fb0a6ab8660fc1d7f0e0822e3b0fd28089d5dd`
+through `git archive`. A missing object fails with a diagnostic.
+The adapter compares current historical evidence bytes with the archive and
+replays the original observer, manifest, and raw records. It retains both
+legal-owner-prose and planted-wrong-continuation discriminators. No historical
+pins, observer, or replay source changed. Separate current-source oracle and
+tests qualify #185. All eight externally frozen file hashes remain unchanged.
 
 ## Scoped eval audit
 
@@ -99,15 +105,17 @@ global behavior nonregression or a delivery-completion claim.
 
 ## Native verification and remaining owner
 
-Final focused run: 69 tests passed. Full native suite: 453 tests passed in 143.706s
-(test process elapsed 144.003s), using test-only removal of inherited `NOODLE_*`
-and `TMPDIR=/private/tmp`. The independent telemetry probe now returns pending,
-with canonical state/config unchanged and only the fixture process read recorded.
-The complete source/contract manifest binds both instruction baseline/treatment
-digests and every required nonmanifest artifact. Linux canonical exact-head Actions
-acceptance, publication, merge/closure and Git/Noodle reconciliation remain with the
-external supervisor; this writer performs no provider writes and does not claim
-RESOLVED. The local downstream gate tests cannot replace those checks.
+The final focused run passed 69 tests. The full native suite passed 453 tests
+in 143.706s, with test process elapsed 144.003s. Those runs used test-only
+removal of inherited `NOODLE_*` and `TMPDIR=/private/tmp`. The independent
+telemetry probe now returns pending. Canonical state and config remain unchanged,
+and only the fixture process read is recorded.
+The complete source/contract manifest binds both baseline and treatment
+instruction digests and every required nonmanifest artifact. The external
+supervisor retains Linux canonical exact-head Actions acceptance, publication,
+merge and closure, and Git/Noodle reconciliation. This writer performs no
+provider writes and does not claim RESOLVED. Local downstream gate tests cannot
+replace those checks.
 
 The following records preserve actual corrected control outputs. Paths identify
 external evidence storage, not executable continuation authority.

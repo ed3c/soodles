@@ -1,0 +1,737 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 219
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "34a4938656622ef1150c6cfdd20c5c8b89768ba4673910e69c67abe20ec825bb",
+      "treatment_sha256": "90c6db718ff616c1e55e8a62121f0dacbd3defe2d1c1516f07a8ee088c0d6a34"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".agents/skills/candidate-publication/SKILL.md",
+      "role": "reviewed prose",
+      "sha256": "e80363ac416a29b379411c4225e689e128726abddc07a447bca81a9fa8fb6dd2"
+    },
+    {
+      "path": ".agents/skills/execute/SKILL.md",
+      "role": "reviewed prose",
+      "sha256": "f4cfc314a3434fee46a43679a181fa29109273b3e8d056a56a2e0a735f08db02"
+    },
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "role": "reviewed prose",
+      "sha256": "5c24a445a3bd76ef13dc2631f26680cacea046e67077cd62c6abd25547c998d4"
+    },
+    {
+      "path": ".agents/skills/issue-atom/references/preparation.md",
+      "role": "reviewed prose",
+      "sha256": "8e35da611be67afa4897c77b57263e97ae5f1d529eeee9cc192d5c4505d097c0"
+    },
+    {
+      "path": ".agents/skills/next-issue/SKILL.md",
+      "role": "reviewed prose",
+      "sha256": "91d332906e18d05e05f16660226403d7aa4fdc32bb0a35f3410f362432cc7e02"
+    },
+    {
+      "path": ".agents/skills/provider-readback/SKILL.md",
+      "role": "reviewed prose",
+      "sha256": "673db618a7d9918073b7d1060fb3a67a5410b7c129d55c7569e1cb12aba3e54c"
+    },
+    {
+      "path": ".agents/skills/schedule/SKILL.md",
+      "role": "reviewed prose",
+      "sha256": "1d168807c384d85c0079b574dd5b94f4e934bea96dbecaedcc0f7189852e4535"
+    },
+    {
+      "path": ".agents/skills/test-manager/SKILL.md",
+      "role": "reviewed prose",
+      "sha256": "f874a6ac1516bce51444664e773cf730e034f765ef797461bde336b3d0e48fde"
+    },
+    {
+      "path": ".agents/skills/verify-noodle/SKILL.md",
+      "role": "reviewed prose",
+      "sha256": "3b35935aa23410b6c74f623846d7a682b8b50434174002d0dc643438bd5f28a5"
+    },
+    {
+      "path": ".agents/skills/verify-noodle/features/README.md",
+      "role": "reviewed prose",
+      "sha256": "8d3b0e4d11b2ef7f771e7f5f566114fae41040641e12f735f08231b3223fe364"
+    },
+    {
+      "path": ".agents/skills/verify-noodle/features/admission-recovery.md",
+      "role": "reviewed prose",
+      "sha256": "622bdc8902f9d7c11d5ff8c427e5998cd39072a3ac6c07a2223c138bf82e2915"
+    },
+    {
+      "path": ".agents/skills/verify-noodle/features/identity-skills.md",
+      "role": "reviewed prose",
+      "sha256": "c36894b5450ef3574afe9a281205ea050194492a00f41e1c2715d8773d658814"
+    },
+    {
+      "path": ".agents/skills/verify-noodle/features/order-handoff.md",
+      "role": "reviewed prose",
+      "sha256": "00369dd9958ff6d2dfd0a5fc9ec0e09dafb3581ec0ab102edd38f20324797a41"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/SKILL.md",
+      "role": "reviewed prose",
+      "sha256": "244280d9bd3278068449dcee2da0390ba71a26d26c548bf94a75266fb72d7328"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/README.md",
+      "role": "reviewed prose",
+      "sha256": "b9cbd9824703c4f913d09d900c547d764e03224811a8acb37312f05aead6db0c"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "role": "reviewed prose",
+      "sha256": "49f3e441a4328e3deb2f32220c5c0c9251858a10a7bbfdf93af59e023a4298cc"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/delivery-recovery.md",
+      "role": "reviewed prose",
+      "sha256": "d530630358c275e011aafe3c26bef2d628ae0df2786c6904d05ccef1ab41caa8"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/github-read.md",
+      "role": "reviewed prose",
+      "sha256": "0a97915660886fdf08fbc37f84f89b7a0f28fc6aa55e35bc29389d824f09b4fe"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/issue-execution.md",
+      "role": "reviewed prose",
+      "sha256": "87da07c9d396d4960ade8d06145ca8ab3d3e0a998433cd7253e57e654cfebaa1"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "role": "reviewed prose",
+      "sha256": "c6d9b9e139b5c307344a524a0c40c4f064305b818158c5e564a99f05f0e01bd5"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/order-handoff.md",
+      "role": "reviewed prose",
+      "sha256": "e4b69a2c875b9ae78a415ef8af4aba620f99eaa24396b002a934cf7b262795bd"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
+      "role": "reviewed prose",
+      "sha256": "469331a694e4b47e5ce99d93b08420ea48322a612134324d2fbf4ea39effd3ec"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/runtime-admission.md",
+      "role": "reviewed prose",
+      "sha256": "ad2862b3ee8246241ba3d084bebefba22288b50a246dbc2779025f747a90fcad"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/supervised-delivery.md",
+      "role": "reviewed prose",
+      "sha256": "2523e26da1e993d9923891f6f6ac37790c0da5debe5adeb45c9e309ef21d2041"
+    },
+    {
+      "path": "README.md",
+      "role": "reviewed prose",
+      "sha256": "c7d8cbff6eea8e3a8e01c4e5680c40b3f9aa0205dc25c8fb6bc1b7a675e0a019"
+    },
+    {
+      "path": "contracts/agent-context-design.md",
+      "role": "reviewed prose",
+      "sha256": "a43d02486e4ce4d5cdfc49b54190632425cd077e768813d2681177deede18f99"
+    },
+    {
+      "path": "contracts/next-issue-v1.md",
+      "role": "reviewed prose",
+      "sha256": "2c43b123dde3c8b5ab7879d70e460e9c60c8e8209daa3dbd1951d0899f520fee"
+    },
+    {
+      "path": "contracts/provider-readback-v1.md",
+      "role": "reviewed prose",
+      "sha256": "e965cd6e3c11650263c539f8f604aed99be156438ef0c24eb9f43ea5aedc6822"
+    },
+    {
+      "path": "contracts/system-v1.md",
+      "role": "reviewed prose",
+      "sha256": "9711b0ff4293db95751d1c77e9897a356b1bce02132f57145f56c5afa2d8421f"
+    },
+    {
+      "path": "contracts/system-v1/candidate.md",
+      "role": "reviewed prose",
+      "sha256": "057e454694da81afe73cb926d7b2dd370c359e3e3b7c17727ca009b971595af4"
+    },
+    {
+      "path": "contracts/system-v1/common.md",
+      "role": "reviewed prose",
+      "sha256": "f77ba6c4cc733a07a6f15e9697403041f197786fe785e4205e79f8899c65ea15"
+    },
+    {
+      "path": "contracts/system-v1/instruction-context.md",
+      "role": "reviewed prose",
+      "sha256": "74be6d40a0a642be8afca96cc3b8a5f2b3f57f782f5d0ebf4b4ca3e1e729642f"
+    },
+    {
+      "path": "contracts/system-v1/issue-atom.md",
+      "role": "reviewed prose",
+      "sha256": "0c11da6a94c7242170983b60f75c9eb2c66ec6d19b7e4e913788282e3244068f"
+    },
+    {
+      "path": "contracts/system-v1/landing.md",
+      "role": "reviewed prose",
+      "sha256": "4c92c0c9623d2e2460b9a22e84b723c1031d9b3c717858e1f83e35ce36262eb1"
+    },
+    {
+      "path": "contracts/system-v1/readback.md",
+      "role": "reviewed prose",
+      "sha256": "76632996ed20e88b9632d139cbb3e924f97c9f25b59bc5222b6301fb89d9fda8"
+    },
+    {
+      "path": "contracts/system-v1/recovery.md",
+      "role": "reviewed prose",
+      "sha256": "855bdb7a0b6235ae743a86365cfb338cbd49c3eb1a6ce4f5b9de3339a9a868eb"
+    },
+    {
+      "path": "contracts/system-v1/runtime.md",
+      "role": "reviewed prose",
+      "sha256": "fc3aa3086807bc44f30fd2fb32d59bcfbdfe2aa136397c9ec43b02c9b5d04957"
+    },
+    {
+      "path": "docs/base-recovery.md",
+      "role": "reviewed prose",
+      "sha256": "01a188e309c89b4ea25872586e222e3e74324d2f9aa2d6cfd7afac9a40ac7ece"
+    },
+    {
+      "path": "docs/bootstrap-runtime.md",
+      "role": "reviewed prose",
+      "sha256": "72ac0a9c87d2bd1b36df9fb08ffae8e1340fd48f9276b7d81e1f3fdfa2052d0c"
+    },
+    {
+      "path": "docs/cleanup-integration-ref.md",
+      "role": "reviewed prose",
+      "sha256": "0c7fce3a60f1e141454336c9e2a5ad3498e0a46c83e94d1f8143770e2567614a"
+    },
+    {
+      "path": "docs/experiments/agent-context/local/README.md",
+      "role": "reviewed prose",
+      "sha256": "b9d10f6c5d11618ec765795581fc3db996fd64fe18562ff0a1d09f08dfa1fad9"
+    },
+    {
+      "path": "docs/experiments/agent-context/local/comparison-results.md",
+      "role": "reviewed prose",
+      "sha256": "730f56295172858f19c3991c90b7bba1cb555435d56d23111345fadabf4f23a8"
+    },
+    {
+      "path": "docs/experiments/agent-context/local/comparison.md",
+      "role": "reviewed prose",
+      "sha256": "384a475cd562c49c147ccf9a9bdfab8434aa7414790a9f3a602b999fa0fcaaff"
+    },
+    {
+      "path": "docs/experiments/agent-context/local/results.md",
+      "role": "reviewed prose",
+      "sha256": "bdcd7cfe20808a3c733254ad8cf1612ff7b3c8cc528eae432581002f9788292f"
+    },
+    {
+      "path": "docs/experiments/agent-context/native-results.md",
+      "role": "reviewed prose",
+      "sha256": "2f4e6bae0464f573d1fa4bd2f1851fcafef8629e4d554af8eda0c61dcdae29dc"
+    },
+    {
+      "path": "docs/experiments/agent-context/protocol.md",
+      "role": "reviewed prose",
+      "sha256": "86e0968e86590b007b4cee4ebf850a4c3ab63ebf7e1ba12d7bab9041151fa1cc"
+    },
+    {
+      "path": "docs/experiments/agent-context/recovery-results.md",
+      "role": "reviewed prose",
+      "sha256": "25404e4d6a6485e35993f5d1ce997f200c5754b1218643d7a69846f0a9a1b632"
+    },
+    {
+      "path": "docs/experiments/agent-context/trial-handoff.md",
+      "role": "reviewed prose",
+      "sha256": "487c56f2bab7d01674caf53ab8a1059cf8ebecfe82c1b475e85a3b701729dcef"
+    },
+    {
+      "path": "docs/experiments/atomic-delivery-baseline/results.md",
+      "role": "reviewed prose",
+      "sha256": "6924743035b0520226663fbe7488ae8b9ca8c8ce695767cc891207d81761e194"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/behavior-v3/supervisor-stop/results.md",
+      "role": "reviewed prose",
+      "sha256": "fc4a99ec476fa17f512b2c48418ee0031faf4625c541f2eeb75bf5360aaed414"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/closure-audit.md",
+      "role": "reviewed prose",
+      "sha256": "dea04c796b9734033c8fdef67341a4a5592b412c082f77371006c4bd4fe093cf"
+    },
+    {
+      "path": "docs/experiments/authorization-materialization/results.md",
+      "role": "reviewed prose",
+      "sha256": "64149f65d95a782f3f21cadc1b3864342a9fc7c2ff017bc7080541b0b67bcae3"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/results.md",
+      "role": "reviewed prose",
+      "sha256": "566475034153904b9a15e0e4f8978981ff6965a88dda4fd2edc0f9c3793dd3e0"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/activation-audit.md",
+      "role": "reviewed prose",
+      "sha256": "7ecb5c4493d69ead60b9511db65164dde58c40f64f282cca6a5026a81606d992"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/assessment.md",
+      "role": "reviewed prose",
+      "sha256": "5826c882895ecdc45ab3ec808c5fc779760a0696092ac902f55803725b99be77"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/post-publication/instruction-selection-finding.md",
+      "role": "reviewed prose",
+      "sha256": "8024ecc0acb0bcbf34f96c055ced09a71040ab3d9dd76a5ae58ec052e23ffdc7"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/restored-readback-finding.md",
+      "role": "reviewed prose",
+      "sha256": "7fbba6d629ae28b004488f0966f28f944366ad1b6f84eabe9cff7d1f48a3a380"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/worker-context-finding.md",
+      "role": "reviewed prose",
+      "sha256": "ac57e357d9a70e7bc29856bd43f2afb0242f63ccb2e86165adcddc8797a8994d"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/correction/verification/worker-head-finding.md",
+      "role": "reviewed prose",
+      "sha256": "e0493c38d98d6e2e291efdff808621d87a8172141a965ab44121070e2163ffce"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/discovery/eval-audit.md",
+      "role": "reviewed prose",
+      "sha256": "9d5ed673574ffabeb4323aa7eae1237da4203390815782d2f35520ba7f82fc13"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/discovery/how.md",
+      "role": "reviewed prose",
+      "sha256": "a324779d684ac5fb78f76e615f55c2dbb106ba43adc9902df880aec05b8b0000"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/results.md",
+      "role": "reviewed prose",
+      "sha256": "ea647e15a6e32c2631539078d33bd88583b66218b5c922230c08f9f1309311b5"
+    },
+    {
+      "path": "docs/experiments/authorization-reentry/synthesis.md",
+      "role": "reviewed prose",
+      "sha256": "3810f8dab05839f555b9ea46d092a33c62721b385a6cd84dda1c4d1e33739fe0"
+    },
+    {
+      "path": "docs/experiments/bootstrap-backlog-isolation/results.md",
+      "role": "reviewed prose",
+      "sha256": "81d0cbbaa1a25ab07c18561561cd4fbe1195e471bbe0e3c5838f71ff3879c644"
+    },
+    {
+      "path": "docs/experiments/bounded-repair/results.md",
+      "role": "reviewed prose",
+      "sha256": "bf133bc06e8eb2ef9cbb1fc71be0512f50e10046e9a06a837948cee79fbf2fa6"
+    },
+    {
+      "path": "docs/experiments/candidate-publication-shortest-path/results.md",
+      "role": "reviewed prose",
+      "sha256": "5c2eeb11d082e515bd585553fabc5322f79bbff66709409cea34e198d48f312e"
+    },
+    {
+      "path": "docs/experiments/child-contract/results.md",
+      "role": "reviewed prose",
+      "sha256": "8812de142a0e6a6e6247ff5ea8c1fd6fab3a0bf11f265fff41cea67615143f9e"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/hypothesis.md",
+      "role": "reviewed prose",
+      "sha256": "14467a8aa536d1dd92675b8430358559fb866463d6a012c39dc92220d9082b1f"
+    },
+    {
+      "path": "docs/experiments/claim-refusal-closure/results.md",
+      "role": "reviewed prose",
+      "sha256": "34efdcb310f0ad7136bdbac4498b25e3e635d1f52304e5a0ae5b3afd86d85d1e"
+    },
+    {
+      "path": "docs/experiments/cloud-branch-landing/results.md",
+      "role": "reviewed prose",
+      "sha256": "c56ba9856a59c3cc25f045d32f5be553d33421faebcf80696bdc5fcd1b5341ab"
+    },
+    {
+      "path": "docs/experiments/comparison-delivery-gate/results.md",
+      "role": "reviewed prose",
+      "sha256": "ecb2bb475878780aa35127e540445e94d2720a44f9327bb42b44ef4753357e3a"
+    },
+    {
+      "path": "docs/experiments/cross-repository-dependency/results.md",
+      "role": "reviewed prose",
+      "sha256": "95f8692b7941ecbeca42b831514eb0eb21942d7b8fac4d9fdb81eabec4fcfa9c"
+    },
+    {
+      "path": "docs/experiments/cross-repository-routing/results.md",
+      "role": "reviewed prose",
+      "sha256": "640067a9afba327d9f97c3861ed9d3d92e6d7f1c4ab33386c5e5c2a0815135cb"
+    },
+    {
+      "path": "docs/experiments/detached-root-reconciliation/results.md",
+      "role": "reviewed prose",
+      "sha256": "ea19196a51bd7685b8e0d6af0d5d36c672e9a80cb9bb6719e2068f724fd0cc2d"
+    },
+    {
+      "path": "docs/experiments/eval-method-route/results.md",
+      "role": "reviewed prose",
+      "sha256": "92c7f3379fd3cd9cf45b56f59722fa32f5911a1a1a6a41ac893bf754fb3d3d3d"
+    },
+    {
+      "path": "docs/experiments/eval-validity-shortest-path/results.md",
+      "role": "reviewed prose",
+      "sha256": "fca93128128363e6ddfa4ee9a5491dc499be508414721ca536f9313e6bbac085"
+    },
+    {
+      "path": "docs/experiments/exact-head-candidate-binding/results.md",
+      "role": "reviewed prose",
+      "sha256": "a0c46c82f32616cc7f0fd97777085dd8bce5b44dd7caac063c3b573581fe0c25"
+    },
+    {
+      "path": "docs/experiments/feature-map-dependency-routing/results.md",
+      "role": "reviewed prose",
+      "sha256": "aa839f4cb990c46a4f500274c471c1e0a5d906ba9d3edc05597d529d383d11fd"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/protocol-review.md",
+      "role": "reviewed prose",
+      "sha256": "f53a6372027f26928e3ed24933d6ce1807d0639510728f644e828a652dddbfe5"
+    },
+    {
+      "path": "docs/experiments/fresh-delivery-decisions/results.md",
+      "role": "reviewed prose",
+      "sha256": "7a7e0825ba65e6e00e7009d751090f4dfa945606d84549a4f6a8cb65b73536ad"
+    },
+    {
+      "path": "docs/experiments/fresh-root-bootstrap/results.md",
+      "role": "reviewed prose",
+      "sha256": "9fe0f562f8a10f2010027146c49985e9c6c1213c41c16d97bfc7b8995a9c7c32"
+    },
+    {
+      "path": "docs/experiments/handoff-failure-teardown/results.md",
+      "role": "reviewed prose",
+      "sha256": "9b72920f6444787c075d6733cc8b78ba0c281da55b61546153aeda57c298d139"
+    },
+    {
+      "path": "docs/experiments/host-credential-route/results.md",
+      "role": "reviewed prose",
+      "sha256": "748e7e6643d5bbd144743bafe0137dd9accdc9c1f323a66b6b87251f88a7a0be"
+    },
+    {
+      "path": "docs/experiments/instruction-activation/results.md",
+      "role": "reviewed prose",
+      "sha256": "e44ba8512e720eb15ba296a4574a154245cf06e813174c34f79653c9f14a038b"
+    },
+    {
+      "path": "docs/experiments/interruption-resume/results.md",
+      "role": "reviewed prose",
+      "sha256": "e80d4961721264e3277ea99124e2818e7ac96935cfd1b90aad08e18326a08edb"
+    },
+    {
+      "path": "docs/experiments/issue-181-handoff/README.md",
+      "role": "reviewed prose",
+      "sha256": "e0c671dd6299a5b9670b6e9c119b57ad0a8eec6bd11c26eab51e401f1ff0f5be"
+    },
+    {
+      "path": "docs/experiments/issue-atom-shortest-path/results.md",
+      "role": "reviewed prose",
+      "sha256": "ccd9db52642af6dc7a0137254873dfae707b122b80b1b385d1b4a6e815780dd0"
+    },
+    {
+      "path": "docs/experiments/issue-readiness/results.md",
+      "role": "reviewed prose",
+      "sha256": "ce4fcceb04847e7c2b8f84137197f7d7351b7ea3e8eaa443227fa62b1d338e22"
+    },
+    {
+      "path": "docs/experiments/landing-continuation-rebase/results.md",
+      "role": "reviewed prose",
+      "sha256": "a349399a5d94b33e64b462046e219ce96882c6d669fa57287f07ee8a95740095"
+    },
+    {
+      "path": "docs/experiments/landing-continuation/results.md",
+      "role": "reviewed prose",
+      "sha256": "f73cfab558acfd2e884292536225d8c8e1f40ed8209473907fdd3fa7e78dd859"
+    },
+    {
+      "path": "docs/experiments/landing-order-handoff/results.md",
+      "role": "reviewed prose",
+      "sha256": "9561435e6d924ecdc574b19e268c27a3859a3312d6d69803333313372feae013"
+    },
+    {
+      "path": "docs/experiments/landing-supervisor-shortest-path/results.md",
+      "role": "reviewed prose",
+      "sha256": "90d4b6016bd49c5a23037b6807136c132b47b428fdb2df945494a0cb6b3788bd"
+    },
+    {
+      "path": "docs/experiments/local-atom-host-bootstrap/results.md",
+      "role": "reviewed prose",
+      "sha256": "5f61e926dc5987f42d2ced846297e63a4123aa6d6c60c5b3451a3c078580cd3c"
+    },
+    {
+      "path": "docs/experiments/local-landing-readmission/results.md",
+      "role": "reviewed prose",
+      "sha256": "547a710ffbbef040bfc979dacc914d16246dd8264ca058a1023d9956b6c9d6f9"
+    },
+    {
+      "path": "docs/experiments/local-provider-shortest-path/results.md",
+      "role": "reviewed prose",
+      "sha256": "c720e9d371cbb8b505813aac9bfa049bfbaf6eefe82573d1f1430c04f42c988a"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/discovery/audit-v02.md",
+      "role": "reviewed prose",
+      "sha256": "d05602d0c19a697b9e0304da86745e528b3adff810033b2a3ef80cf6fd80c8c4"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/discovery/owner-boundary-review.md",
+      "role": "reviewed prose",
+      "sha256": "42d4054bfaeacb84b04ac1d8dcfc5931f3bb325f11ef457c1aa2b8a3a3051455"
+    },
+    {
+      "path": "docs/experiments/local-session-routing/results.md",
+      "role": "reviewed prose",
+      "sha256": "6c132c73fad031ce875a095c6176edbeb8e83480cefad886e5c990af39810a30"
+    },
+    {
+      "path": "docs/experiments/local-supervisor-admission/results.md",
+      "role": "reviewed prose",
+      "sha256": "1eb253718fceea1d6b088d5ede87243c3e1e719c0f126d1dc22fcbdc582168da"
+    },
+    {
+      "path": "docs/experiments/local-supplier-integration/results.md",
+      "role": "reviewed prose",
+      "sha256": "3c69ba21f5967bf1c38d4ed6b7babf32ae0d2965798ca04637c5fa3ac0a5882f"
+    },
+    {
+      "path": "docs/experiments/next-issue-shortest-path/results.md",
+      "role": "reviewed prose",
+      "sha256": "37b3448ad63773db1b4234957bea2cf2c8bd256c2993da3565da2c2a8c53e51b"
+    },
+    {
+      "path": "docs/experiments/observer-snapshot-binding/results.md",
+      "role": "reviewed prose",
+      "sha256": "f592a6249d40448301ffcb6b4a43bb8a8a8888e1e567bb2529381ac34aace4e7"
+    },
+    {
+      "path": "docs/experiments/order-handoff-helper-binding/results.md",
+      "role": "reviewed prose",
+      "sha256": "a23c6655fd6e29de565eedcdc8f2f8b3f8ec50bd559d8aa741e7552965d08bc0"
+    },
+    {
+      "path": "docs/experiments/pclass-ablation-49/results.md",
+      "role": "reviewed prose",
+      "sha256": "d81c11ab0dc09db1dcf9050ae7d4900a53c5d5c2e2f4eefd59440f6bb72546d0"
+    },
+    {
+      "path": "docs/experiments/pclass-ablation-59/results.md",
+      "role": "reviewed prose",
+      "sha256": "74e934efc1a637153b9161b882deac3f178dfe719212bce4c90adbc25bc309eb"
+    },
+    {
+      "path": "docs/experiments/pclass-ablation-69/results.md",
+      "role": "reviewed prose",
+      "sha256": "b9d298a1d05931dd419f1b69cd41e95c50f21dbb8bc0855d8d3114596a6d08aa"
+    },
+    {
+      "path": "docs/experiments/pclass-admission-recovery-81/results.md",
+      "role": "reviewed prose",
+      "sha256": "8000dc312dccc4d567a35a0d83fa14c32bcac6af6b41d92f9b5160e3a7ce5e8b"
+    },
+    {
+      "path": "docs/experiments/pclass-atom-binding/results.md",
+      "role": "reviewed prose",
+      "sha256": "3e78471572b5fb03caef6ba1a08408a2b14362635b07a1922fed67cae2566606"
+    },
+    {
+      "path": "docs/experiments/pclass-baseline-61/results.md",
+      "role": "reviewed prose",
+      "sha256": "19efbbce9c32dbc40d67ee3b5b7749829ae233b398a6de316f161c78cb894d30"
+    },
+    {
+      "path": "docs/experiments/pclass-behavior-51/results.md",
+      "role": "reviewed prose",
+      "sha256": "ec42649e435e7000b8087c3c356b4a51e57b0683682553dedb399090c6677ba9"
+    },
+    {
+      "path": "docs/experiments/pclass-case-exposure/results.md",
+      "role": "reviewed prose",
+      "sha256": "013d3769e28c19dba2631bf6fbf70bc9c76e330a8d37bd66829dcaa65e30936e"
+    },
+    {
+      "path": "docs/experiments/pclass-cloud-delivery-prerequisite/results.md",
+      "role": "reviewed prose",
+      "sha256": "29b80d7fdb4212a1428f52263cf461c4c7d9a09b1102386543e124ac478299d3"
+    },
+    {
+      "path": "docs/experiments/pclass-comparison-replay-75/results.md",
+      "role": "reviewed prose",
+      "sha256": "b659930921b4a176bb263fb6db754c47a4c1af16a5b842b91b8f79617013fc0d"
+    },
+    {
+      "path": "docs/experiments/pclass-decision-71/results.md",
+      "role": "reviewed prose",
+      "sha256": "419b6bd58eff1d9a514f78dae44e21c0b9817dda8445c92906714c9ee4ff5f61"
+    },
+    {
+      "path": "docs/experiments/pclass-derived-admission-77/results.md",
+      "role": "reviewed prose",
+      "sha256": "093b5003453e7e450b5a56a1b152f6bb99491c31d8217381b4543886def8261e"
+    },
+    {
+      "path": "docs/experiments/pclass-evidence-65/results.md",
+      "role": "reviewed prose",
+      "sha256": "e9542b2b8d77b563e66537efa107843762c26646c2dffc9552ec2988d828f1ed"
+    },
+    {
+      "path": "docs/experiments/pclass-maintenance/results.md",
+      "role": "reviewed prose",
+      "sha256": "9c30cfb50c6cb1daf9fca0bdf51aa14793c85ead9f047ca9bb342237d1f71248"
+    },
+    {
+      "path": "docs/experiments/pclass-metric-binding/results.md",
+      "role": "reviewed prose",
+      "sha256": "6007bfa7bdc2c7068b3482a2a4e4db757d38f7964d53d1af56acad989a555de1"
+    },
+    {
+      "path": "docs/experiments/pclass-observer-63/results.md",
+      "role": "reviewed prose",
+      "sha256": "de220a8bdc5037b20c81017331d304fd15b237ddc3e8284d692f66450a694f3a"
+    },
+    {
+      "path": "docs/experiments/pclass-owner-continuation/results.md",
+      "role": "reviewed prose",
+      "sha256": "277c3946bf934eda1bf0e949b952462f3e669c9251b60eb9d50ef022f7b13583"
+    },
+    {
+      "path": "docs/experiments/pclass-packet-67/results.md",
+      "role": "reviewed prose",
+      "sha256": "2b51acd350680d73be508753d78333a9f9273391653527d4abd05dcb92d9e37b"
+    },
+    {
+      "path": "docs/experiments/pclass-recovery-stop-73/results.md",
+      "role": "reviewed prose",
+      "sha256": "de3a2fa942e99789577085a297677a64652b0bb81428e949adf8b55b33a429f0"
+    },
+    {
+      "path": "docs/experiments/provider-readback-shortest-path/results.md",
+      "role": "reviewed prose",
+      "sha256": "2e1becc5ee02a3114c55f180e22439963a02a9e93498c3e5a7f52020948f91e6"
+    },
+    {
+      "path": "docs/experiments/read-caller-recovery/results.md",
+      "role": "reviewed prose",
+      "sha256": "d28c0d53c22e38d661cb723ed2c03c857c7ccfe9889742adbf8a6b7ad5ced183"
+    },
+    {
+      "path": "docs/experiments/reentry-order-namespace/results.md",
+      "role": "reviewed prose",
+      "sha256": "d0e1c736d39e995d19de0bae9d0f50aff96995e8e0e91d4eb61365ae86bc3b74"
+    },
+    {
+      "path": "docs/experiments/schedule-entry-cli/results.md",
+      "role": "reviewed prose",
+      "sha256": "ae0b0c6c0fc5b04330811f7fa32c56b75ee1fda75aebf982cc499d87421993ac"
+    },
+    {
+      "path": "docs/experiments/schedule-role-boundary/results.md",
+      "role": "reviewed prose",
+      "sha256": "9a6beed3af47c67f7f1cead7f3d4447002b624de4ce9fc201449c0097295baa6"
+    },
+    {
+      "path": "docs/experiments/schema-manager/results.md",
+      "role": "reviewed prose",
+      "sha256": "e6494ed78a6142de0f0074b791a22935a5ba79a7c078ca58041037160136cad4"
+    },
+    {
+      "path": "docs/experiments/session-activation/host-bootstrap.md",
+      "role": "reviewed prose",
+      "sha256": "261efd3710bac04dbc565313f1d5088fc6e5aeb8947540019c02d2e7301525bf"
+    },
+    {
+      "path": "docs/experiments/shared-owner-handoff/results.md",
+      "role": "reviewed prose",
+      "sha256": "c0295472251527d7707a4adcaf44f5622b541d91ec872b1a9cb5afe1440e1c30"
+    },
+    {
+      "path": "docs/experiments/supervisor-dependency-claims/results.md",
+      "role": "reviewed prose",
+      "sha256": "0c8f517cacbf829f0ea25da923e85b7bbcfc5640c7d7f3802d217bf780c57b6c"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/audit.md",
+      "role": "reviewed prose",
+      "sha256": "71b330848daecde844ff09c4f0aa8fa811e36c4dc5ad0c05953a1dd2e9a474d9"
+    },
+    {
+      "path": "docs/experiments/system-context/followup/results.md",
+      "role": "reviewed prose",
+      "sha256": "3f975a534c6db31e3a0ec5afd9480e6c5f7e548fc58bd4a6425d5ed754d5ba71"
+    },
+    {
+      "path": "docs/experiments/system-context/results.md",
+      "role": "reviewed prose",
+      "sha256": "1a4ca5886195445a1507ae4566f77e173501fb384e64f9f9e939a641a13c4d3e"
+    },
+    {
+      "path": "docs/loop-cost/design.md",
+      "role": "reviewed prose",
+      "sha256": "83e69f5d585d0d7ee885f4ae251e142b0221e82818eae5ac8009c42a8ad18d06"
+    },
+    {
+      "path": "docs/owner-base-continuation.md",
+      "role": "reviewed prose",
+      "sha256": "9dc841278c6c42fe30588d72a19dc4a43d5981f4e147e6a32f1bca28a1d24363"
+    },
+    {
+      "path": "docs/publisher-push-receipts.md",
+      "role": "reviewed prose",
+      "sha256": "e2c650fd6bc085e9a3038cd0d907aeb130e4a77b6958731b985783c432cd50cd"
+    },
+    {
+      "path": "docs/quality-report.md",
+      "role": "reviewed prose",
+      "sha256": "ddd985597f181d5a728b61f2ba48092945ce7b27371c48c8358fc4ef777424b4"
+    },
+    {
+      "path": "docs/test-manager-ci-cost-audit.md",
+      "role": "reviewed prose",
+      "sha256": "316c22b07dd72c3ca68e6b678bb17f03a59c30c4bb3b91c8b2e685dda942ad97"
+    },
+    {
+      "path": "docs/test-selection-design.md",
+      "role": "reviewed prose",
+      "sha256": "02d41d17e73c9f963ea2e7dea0572c80aeb0d94f7b2270fd975cb3486ee8eae6"
+    },
+    {
+      "path": "docs/verify-soodles.md",
+      "role": "reviewed prose",
+      "sha256": "4ac8214bb28b5a1a3f1aadd2b912a9410072b25b432443f7238e473ab414b093"
+    },
+    {
+      "path": "docs/experiments/README.md",
+      "role": "reviewed prose",
+      "sha256": "0e23d356e2c034014574738027d18554ea3b9b2e96eb56f31528f1b8ccf8bb85"
+    },
+    {
+      "path": "test_manager.py",
+      "role": "exact Test Manager mapping",
+      "sha256": "621801cb69eef227fd6de9d2def24731b05ea83ae82648bf70fde6bcc2cdd039"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#219"
+  },
+  "authorizes_landing": false
+}

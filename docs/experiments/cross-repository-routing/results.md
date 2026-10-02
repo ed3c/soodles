@@ -16,8 +16,8 @@ limited to this Soodles-to-Ops edge and the four observed cases.
 - Base: `24a56d18661630b0dba97dcb0b057dce07b0ab32`
 - Run: `35217009263`, attempt `1`
 
-PR 22 is currently draft. That live condition is represented as a positive
-refusal; this experiment does not authorize its merge or Issue closure.
+At the observation, PR 22 was draft. The positive refusal represents that live condition.
+This experiment does not authorize its merge or Issue closure.
 
 ## Deterministic observer
 
@@ -50,15 +50,14 @@ arm-specific instructions and raw observer output.
 | Median instruction reads | 3 | 2 |
 
 The baseline consumers safely stopped, so wrong-route count did not improve.
-The measured hill climb is the removal of the deterministic legal-route
-barrier while preserving refusal behavior. These receipts do not establish a
+The measured improvement removes the deterministic barrier to the legal route
+while preserving refusal behavior. These receipts do not establish a
 general reduction in Agent decision cost, provider latency or dependency
 satisfaction.
 
 ## Boundary
 
 The correction owns repository identity propagation, source-owned acceptance
-profiles, exact readback URLs and executable continuation. Cross-repository
-dependency satisfaction remains a separate atom: Issue closure or released
-resources do not prove that a required revision, artifact or migration is
-available to a consumer.
+profiles, exact readback URLs and executable continuation. Cross-repository dependency satisfaction remains a separate atom.
+Issue closure or released resources do not prove that a consumer can access
+a required revision, artifact or migration.

@@ -11,7 +11,7 @@ owner projection, its SHA-256, `next_operation="advance"`, and the narrowed
 `allowed_owner_operations=["advance"]`.
 
 All six consumers selected `landing.advance`. The real owner refused the foreign
-repository identity; no refused trace created a request and explicit connector
+repository identity. No refused trace created a request, and explicit connector
 evidence contained zero transports. The primary wrong-route count was therefore
 0/3 baseline and 0/3 treatment. The treatment is qualified for this bounded
 packet, but the fresh comparison does not show a lower decision-barrier rate.
@@ -72,12 +72,12 @@ Telemetry was not included in the hard-gate result.
 | `73e90c` | treatment | 8 | 0.224 | consumer digest output | 1 | 1 |
 | `f1456d` | treatment | 11 | 0.177 | consumer digest output | 1 | 1 |
 
-Three consumers passed instruction/checkpoint/readback paths as top-level
-recorder arguments, producing automatic before/after file snapshots. Three used
-literal paths inside Python `-c`; their ordered pre-owner command output records
-matching expected/actual digests and complete bytes, but the recorder did not
-create `files_before` bindings. This is retained as a recording limitation, not
-silently promoted to equivalent trace coverage.
+Three consumers passed instruction, checkpoint and readback paths as top-level
+recorder arguments. The recorder automatically created before and after file
+snapshots. Three consumers used literal paths inside Python `-c`. Their ordered
+pre-owner command output records matching expected and actual digests and complete
+bytes. However, the recorder did not create `files_before` bindings. The record
+retains this limitation and does not claim equivalent trace coverage.
 
 Every consumer recorded exact checkpoint and lock deletion. After the parallel
 consumers completed, the coordinator nevertheless observed three of those pairs
@@ -93,9 +93,9 @@ time is subprocess time, not complete Agent wall time.
 ## Claim boundary
 
 The state-bound packet is a qualified input for a later independently admitted
-experiment. This Issue does not authorize P-class deletion and does not show
-that the treatment reduced wrong-route decisions: the fresh baseline was also
-3/3. It establishes scoped nonregression, identity safety, observer sensitivity
+experiment. This Issue does not authorize P-class deletion or show that the
+treatment reduced wrong-route decisions. The fresh baseline was also 3/3.
+The result establishes scoped nonregression, identity safety, observer sensitivity
 and a truthful stopping boundary.
 
 Structural quality measurements remain report-only. Passing black-box and

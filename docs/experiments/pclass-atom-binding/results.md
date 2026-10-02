@@ -9,10 +9,10 @@ The base entry admitted both invalid candidates:
 - required evidence absent;
 - manifest treatment digest different from candidate prompt bytes.
 
-The proposed entry refuses them as
+The proposed entry refused them as
 `candidate.missing_required_paths` and
-`candidate.instruction.treatment_sha256`. The complete candidate passes.
-Legacy schema 1 also passes as a scoped compatibility non-case.
+`candidate.instruction.treatment_sha256`. The complete candidate passed. Legacy schema 1 also passed as a scoped
+compatibility non-case.
 
 ## Frozen identities
 

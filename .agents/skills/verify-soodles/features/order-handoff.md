@@ -24,17 +24,18 @@ separate doctor or full-suite run. Read `physical.order_handoff` and require:
 - `zero_residue: true`, `provider_fixture: true`, and
   `authorizes_landing: false`.
 
-Preserve the supervisor-selected external `handoff_oracle.py` bytes and digest.
-Run those same bytes against the admitted baseline and candidate; the repository
-copy participates in acceptance but cannot select itself. A missing current row
+Preserve the selected external judge's bytes and digest. Only a task-selected
+baseline/candidate comparison runs the supervisor-pinned `handoff_oracle.py`
+against both subjects; normal acceptance does not request that comparison.
+The repository copy cannot select itself as the external judge. A missing current row
 alone never proves completion. Do not replace missing Session, outcome, exit,
 effect or kernel readback with prose or a fabricated order. Provider merge and
 Issue closure remain with supervised delivery.
 
-On a failed A or B projection, require the oracle-owned child to be stopped and
-reaped before its fixture is removed, with the original failure retained and
-any cleanup failure visible. A graceful-stop timeout must force bounded process
-group cleanup and still fail; forced termination cannot produce `VERIFIED`.
+If an A or B projection fails, require the oracle to stop and reap its child
+before removing its fixture. Require it to retain the original failure and expose any cleanup failure.
+If graceful stop times out, require the oracle to force bounded process group
+cleanup and still report failure. Forced termination cannot produce `VERIFIED`.
 Preserve the fixed external failed-projection control and portable cleanup test
 results separately from canonical Linux positive handoff evidence. This fault
 control is not a fresh model comparison.
@@ -42,11 +43,11 @@ control is not a fresh model comparison.
 ## Interrupted after A cleanup, before B admission
 
 The supervisor supplies the existing A landing checkpoint and B external
-envelope/digest in a complete invocation of
+envelope and digest in a complete invocation of
 `./soodles issue resume A_CHECKPOINT B_ENVELOPE SHA256`. Consume that invocation
-verbatim from the control root. This one entry reads A's resolved cleanup and
-original-order evidence, checks that its path, branch and registration remain
-absent, then reads B through the existing admission owner. Do not infer cleanup
+verbatim from the control root. This entry reads A's resolved cleanup and
+original-order evidence. It checks that A's path, branch and registration remain
+absent. It then reads B through the existing admission owner. Do not infer cleanup
 from a missing order row or compose a second admission writer.
 
 If the prior publication result is unknown, re-enter this guarded boundary with
@@ -56,13 +57,15 @@ Noodle readback; none authorizes another publication or restart. A refusal names
 the owner/input needed before continuation. The entry neither cleans A nor
 selects B, and adds no durable ledger, retry loop or concurrent exactly-once claim.
 
-Read `physical.interruption_resume` from canonical acceptance. Require two
+When Test Manager selects interruption verification, read
+`physical.interruption_resume` from canonical acceptance. Its controls require two
 externally waited SIGKILL exits (before admission and after publication before
 response), a fresh CLI readback preserving the pending mailbox identity/bytes,
 a retained-owner readback without publication, one original B session in the
 real Noodle lifecycle, and zero residue. Preserve the supervisor-pinned
 `resume_oracle.py` and `handoff_oracle.py` together in the same external directory,
-recording each file's SHA-256 before execution against baseline and candidate.
+recording each file's SHA-256. Execution against both baseline and candidate
+applies only to an explicitly selected comparison, not ordinary resume.
 The resume observer loads that sibling helper under a private module identity;
 candidate source and existing module-cache entries cannot select either judge.
 Candidate source still supplies production modules such as `issue_execution`.

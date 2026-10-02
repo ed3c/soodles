@@ -25,9 +25,10 @@ synthetic test inputs, not real owner readbacks or independent Agent telemetry.
 ## P-class and closure: NOT COMPLETE
 
 The recipe delegates exposure eligibility to the existing decider and consumes
-its rejection; no model-side counting procedure is added. This is guidance, not
-proof of actual adherence. Fresh isolated consumers were NOT run. Behavior counts
-and independent telemetry remain unknown; `consumer-comparison.json` is BLOCKED.
+its rejection. It adds no model-side counting procedure. This is guidance,
+not proof of actual adherence. Fresh isolated consumers were NOT run.
+Behavior counts and independent telemetry remain unknown.
+`consumer-comparison.json` is BLOCKED.
 
 The supported result is an executable evaluator-defect correction, not a measured
 Agent decision-cost reduction. The Issue must remain OPEN and the PR DRAFT until
@@ -53,26 +54,28 @@ Only three production lines add an input descriptor for the existing exposure
 refusal. P now consumes `decision.next` from the unchanged replay envelope. No
 new CLI, replayer, carrier, scheduler, write permission or state store is added.
 
-The same four focused unit tests ran on both sources. Before: exit 1, six
-assertion failure records across three new tests; the old nine-case probe still
-passed. After: exit 0, all four tests passed, including the unchanged nine-case
-probe. Checks cover the exact descriptor, legal and unrelated output stability,
-mixed-error preservation, unchanged inputs, rejection of caller-supplied next,
-no executable argv/request, and independent returned descriptor objects.
+The same four focused unit tests ran on both sources. Before the change,
+exit was 1, with six assertion failure records across three new tests.
+The old nine-case probe still passed. After the change, exit was 0 and all four
+tests passed, including the unchanged nine-case probe. The checks cover the
+exact descriptor, legal and unrelated output stability, mixed-error preservation,
+and unchanged inputs. They also check rejection of caller-supplied next,
+absence of executable argv/request, and independent returned descriptor objects.
 These are deterministic fixture controls, not fresh Agent observations.
-The strengthened public replay test is committed but is not claimed executed
-in this scratch process; exact-head Actions must verify it.
+The strengthened public replay test is committed. Its execution is not claimed
+in this scratch process. Exact-head Actions must verify it.
 
 The scratch helper download failed with DNS resolution before public replay
 could run. No substituted replayer, scratch Noodle or alternate carrier was
 installed. Byte-verified archive source sufficed for the four focused controls.
 
-The previous exact-head runtime run 35864011049 remains a recorded failure:
-369 tests, one comparison-gate temporary .git cleanup failure. It was not rerun
-or waived; this is a real new source head, not an empty change to seek green.
-The cleanup root cause has not been established or changed by this refinement.
-Fresh acceptance for the new head is pending at commit construction. Provider
-results will be recorded in the same Issue/PR, not invented in these artifacts.
+The previous exact-head runtime run 35864011049 remains a recorded failure.
+It ran 369 tests and had one comparison-gate temporary .git cleanup failure.
+The run was neither repeated nor waived. This is a real new source head,
+not an empty change to seek green. This refinement has neither established
+nor changed the cleanup root cause. At commit construction, fresh acceptance
+for the new head is pending. Provider results will be recorded in the same
+Issue/PR. These artifacts do not invent them.
 
 consumer-comparison.json remains byte-identical: BLOCKED / INCONCLUSIVE, no
 fresh runs and null behavior counts. The planned six-run comparison, external
@@ -88,12 +91,13 @@ Origin remains #157 / PR #158. Parent candidate is
 `36160092262` coexisted with the byte-valid BLOCKED consumer artifact. This
 follow-up makes that unmet requirement visible in existing acceptance discovery.
 
-The experiment-local `consumer_gate.py` is a conservative read-only veto, NOT
-a complete native consumer evaluator. It verifies the supplied file digest,
-rejects absent/foreign/malformed evidence, and emits a typed supervisor input
-request. It has no positive native-capture adapter and cannot yet admit a real
-completed comparison. Six dictionaries or a self-labelled PASS are not proof
-of execution. No native launch schema, carrier or external authority is invented.
+The experiment-local `consumer_gate.py` is a conservative read-only veto.
+It is NOT a complete native consumer evaluator. It verifies the supplied file
+digest and rejects absent, foreign, or malformed evidence. It emits a typed
+supervisor input request. It has no positive native-capture adapter and cannot
+yet admit a real completed comparison. Six dictionaries or a self-labelled PASS
+do not prove execution. The gate invents no native launch schema, carrier,
+or external authority.
 
 The existing test module adds seven veto-control tests and one actual-artifact
 acceptance requirement. The seven controls plus four existing focused tests
@@ -185,20 +189,20 @@ is deliberately preserved separately from passing unit controls.
 
 ## Local carrier qualification and amendment — 2026-09-26
 
-The Issue contract now permits a separately supervised Local Codex CLI
-comparison while cloud PR delivery stays on this same atom. This entry is a
-qualification record, not one of the six consumer runs. On the local host,
-`codex-cli 0.156.1` exposes plain `codex exec`, distinct `resume` and
-`fork`, `--json` JSONL and final-message output. `codex login status`
-reported ChatGPT login. The visible config requests `gpt-6-sol` at high
-reasoning effort with approval_policy=never; an effective child model/tool
-receipt has not been observed. Existing persisted rollout shapes are from
-other sessions, not #157 `codex exec --json` captures. No extra model trial
-was run. The local worktree inventory did not identify a #157 owner/root; #156
-resources are excluded. The external supervisor must still select observer
-bytes, exact inputs, capture mapping, evidence destination and local resource
-owner before run one. The existing gate has no successful exit and the actual
-required-evidence test remains RED. No behavior improvement is claimed.
+The Issue contract now permits a separately supervised Local Codex CLI comparison.
+Cloud PR delivery stays on this same atom. This entry is a qualification record,
+not one of the six consumer runs. On the local host, `codex-cli 0.156.1`
+exposes plain `codex exec`, distinct `resume` and `fork`, `--json` JSONL,
+and final-message output. `codex login status` reported ChatGPT login.
+The visible config requests `gpt-6-sol` at high reasoning effort with
+approval_policy=never. No effective child model/tool receipt has been observed.
+Existing persisted rollout shapes belong to other sessions. They are not #157
+`codex exec --json` captures. No extra model trial ran.
+The local worktree inventory identified no #157 owner/root. #156 resources
+are excluded. Before run one, the external supervisor must still select observer
+bytes, exact inputs, capture mapping, evidence destination, and local resource
+owner. The existing gate has no successful exit. The actual required-evidence
+test remains RED. No behavior improvement is claimed.
 
 ## First selected Local Codex run and mapping failure — 2026-09-26
 
@@ -240,18 +244,20 @@ so #157 stays open and PR #158 stays Draft.
 
 ## Candidate gate success/failure paths, still without real comparison
 
-The same PR now adds a candidate `consumer_gate.py` schema-2 path that opens
-bounded regular raw capture files by path and digest, checks recorder process
-completion and exact argv, matches persisted thread/model/config/source head,
-reads the last CLI agent message, pairs command start/end events, parses the
-actual replay output, requires six distinct threads, and computes the
-mismatched unsupported-admission primary outcome. It returns a bounded success
-only when a separately supplied selected-observer report agrees with that raw
-outcome; valid treatment regression or failed controls returns FAIL, and absent
-or malformed capture returns INCONCLUSIVE. It does not launch a model, import
-supplied code or authorize landing. External selection provenance still requires
-supervisor readback; JSON files and hashes alone cannot prove that a process
-ran. Unknown hidden tool/service behavior remains outside this bounded gate.
+The same PR now adds a candidate `consumer_gate.py` schema-2 path.
+It opens bounded regular raw capture files by path and digest. It checks recorder
+process completion and exact argv, then matches persisted thread, model, config,
+and source head. It reads the last CLI agent message, pairs command start/end
+events, and parses actual replay output. It requires six distinct threads and
+computes the mismatched unsupported-admission primary outcome.
+
+The gate returns bounded success only if a separately supplied selected-observer
+report agrees with that raw outcome. Valid treatment regression or failed
+controls returns FAIL. Absent or malformed capture returns INCONCLUSIVE.
+The gate launches no model, imports no supplied code, and authorizes no landing.
+External selection provenance still requires supervisor readback. JSON files
+and hashes alone cannot prove that a process ran. Unknown hidden tool or service
+behavior remains outside this bounded gate.
 
 Synthetic controls on the staging source passed 11/11: seven prior veto
 controls plus positive six-capture, valid regression, missing raw capture and
@@ -281,16 +287,17 @@ No other replacement runs were started. Applying a draft v6 parser to those
 raw bytes shows format compatibility, but that check cannot rescore the v5
 run or make a valid six-run set.
 
-The local `codex sandbox -P :read-only` command probe, which starts no model,
-returned `PermissionError: Operation not permitted` for both an outbound
+The local `codex sandbox -P :read-only` command probe starts no model.
+It returned `PermissionError: Operation not permitted` for both an outbound
 socket to 1.1.1.1:443 and a file write in the #157 control root. This checks
-the local built-in read-only profile, not every hidden property of a particular
-model session. The persisted v5 rollout reported sandbox `read-only` and
-approval `never`. External raw command review and source/evidence readback
-remain necessary. No raw rollout was published to the PR because it may contain
-private session instructions or secrets. The candidate gate's synthetic
-control now includes a captured `sed -n` command as a secondary count; 11/11
-related controls pass. The required real consumer artifact remains BLOCKED.
+the local built-in read-only profile. It does not check every hidden property
+of a particular model session. The persisted v5 rollout reported sandbox
+`read-only` and approval `never`. External raw command review and source and
+evidence readback remain necessary. No raw rollout was published to the PR
+because it may contain private session instructions or secrets.
+The candidate gate's synthetic control now includes a captured `sed -n` command
+as a secondary count. The 11/11 related controls pass. The required real consumer
+artifact remains BLOCKED.
 
 ## Candidate path admission readback at `1f0722d`
 
@@ -343,13 +350,13 @@ counted or rescored.
 
 The selected external observer returned `evidence_validity=VALID` and
 `classification=FAIL`. Primary unsupported admission fell from baseline 1 to
-treatment 0, but its predeclared controls failed:
+treatment 0. However, the predeclared controls failed:
 `baseline:legal_control`, `baseline:missing_evidence_control`, and
-`treatment:missing_evidence_control`. The raw final `next_owner` values did
-not meet the selected exact owner contract. No outcome was averaged away and
-no fourth run/set was started. The observer report SHA-256 is
-`12fe6f85463b93023eedd7091d61d3989ffadacd50d5214c2d6674e321b31173`;
-the independent comparison readback SHA-256 is
+`treatment:missing_evidence_control`. The raw final `next_owner` values did not
+meet the selected exact owner contract. No outcome was averaged away.
+No fourth run/set was started. The observer report SHA-256 is
+`12fe6f85463b93023eedd7091d61d3989ffadacd50d5214c2d6674e321b31173`.
+The independent comparison readback SHA-256 is
 `c6b1d422e4f743a7b17acd0459c6ca71a6aede1f51ecbb1b1c30fcbd00ea391c`.
 
 An external local adapter supplied those real raw files to this PR's
@@ -380,14 +387,14 @@ Its FAIL is the recorded experiment result. The output schema had allowed
 unannounced exact English labels. This explains the three listed control
 failures; it does not retrospectively change them.
 
-The candidate gate no longer scores that free-text field. It binds the
-externally reported per-run final and replay decisions to all six raw captures,
-checks the primary count and refuses a positive report that contradicts the
-legal or missing-evidence decisions. A separate, explicitly non-authorizing
-diagnostic adapter projected the **original** observer's decisions and failure
-list into that gate contract. Its comparison SHA-256 is
-`ad0cb3a65da7301ef07eb8c84ef1c16131bf9ab81ed255b8a05625676ad1aae6`;
-the revised candidate gate returned `VALID / FAIL / terminal_ready=false`
+The candidate gate no longer scores that free-text field. It binds externally
+reported per-run final and replay decisions to all six raw captures. It checks
+the primary count and refuses a positive report that contradicts legal or
+missing-evidence decisions. A separate, explicitly non-authorizing diagnostic
+adapter projected the **original** observer's decisions and failure list into
+that gate contract. Its comparison SHA-256 is
+`ad0cb3a65da7301ef07eb8c84ef1c16131bf9ab81ed255b8a05625676ad1aae6`.
+The revised candidate gate returned `VALID / FAIL / terminal_ready=false`
 with exit 1. No v6 raw file or selected observer was rescored.
 
 At this stage the committed public artifact was a status summary with the fixed observer
@@ -399,15 +406,15 @@ nor landing authority.
 
 ## V7 preselected repair set: bounded improvement
 
-The user subsequently authorized one new fixed six-run set after the scoring
-contract was corrected. Before r19, the external supervisor selected observer
+The user subsequently authorized one new fixed six-run set after correction
+of the scoring contract. Before r19, the external supervisor selected observer
 SHA-256 `c17dfcf8e5388d397adaaaa3f801dc4e8c66cac4bd6f4a104373d42ce0d174c6`,
 selection SHA-256 `1b336d29b8cd9e4946c66ac922949d0fd44a73305daa0d62c8220f449f2b8c93`,
-the six packet/prompt bytes and public projection producer SHA-256
+the six packet/prompt bytes, and public projection producer SHA-256
 `d6143fa9417e5ce022828eb4f81a06ab74fa4ec9221f10b0af06f1d8404c9ca7`.
 Twenty-two synthetic observer controls passed before selection. The original
-baseline, treatment behavior ref, three cases, primary outcome and required
-legal/missing-evidence behavior were unchanged. V6's selected FAIL remains
+baseline, treatment behavior ref, three cases, primary outcome, and required
+legal/missing-evidence behavior remained unchanged. V6's selected FAIL remains
 immutable historical evidence.
 
 | Run | Arm / case | Final decision | Replay decision | Raw capture |
@@ -429,16 +436,16 @@ external comparison readback SHA-256 is
 Extra captured commands were 2, 2, 1 / 0, 1, 1; whether they were avoidable
 manual recount remains unknown and is not part of the primary score.
 
-The original raw rollouts remain with the local #157 supervisor. The public
-projection SHA-256 is
-`97a0d80a010bb67b31f377d3854435bd71a325b12f7547b19ff36d738af5f673`;
-it carries six original CLI/recorder streams and final messages, plus only
-whitelisted rollout settings and the private rollout hashes. A privacy scan
-found no credential-shaped strings or private rollout fields in decoded
-public captures. The candidate gate returned VALID /
-BOUNDED_IMPROVEMENT / `terminal_ready=true` on that projection, exit 0.
-The external projection readback SHA-256 is
+The original raw rollouts remain with the local #157 supervisor.
+The public projection SHA-256 is
+`97a0d80a010bb67b31f377d3854435bd71a325b12f7547b19ff36d738af5f673`.
+It carries six original CLI/recorder streams and final messages. It includes
+only whitelisted rollout settings and the private rollout hashes. A privacy
+scan found no credential-shaped strings or private rollout fields in decoded
+public captures. On that projection, the candidate gate returned VALID /
+BOUNDED_IMPROVEMENT / `terminal_ready=true`, exit 0. The external projection
+readback SHA-256 is
 `86f7ca4994a337180617c972757fc15d3336f3ba74bec427fda6b9e1860a1170`.
-This is a bounded Local Codex CLI+P combined result, not a native ChatGPT
-cloud result, population estimate or landing authorization. Exact-head Actions
+This is a bounded combined Local Codex CLI+P result. It is not a native ChatGPT
+cloud result, population estimate, or landing authorization. Exact-head Actions
 and the selected external landing owner remain outstanding.

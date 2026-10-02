@@ -4,9 +4,9 @@
 
 Correction owned by [Issue #99](https://github.com/ed3c/soodles/issues/99):
 the bounded P0 fixture observation remains supported, but the former P1
-**2 to 0** inference is withdrawn. Counting PRs across #91/#93/#95 does not
-establish when each defect was discovered relative to merge, nor a matched
-fresh-consumer comparison. The historical P1 behavior delta is **not established**,
+**2 to 0** inference is withdrawn. Counting PRs across #91/#93/#95 does not establish whether each defect was
+discovered before or after merge. It also does not establish a matched comparison
+between fresh consumers. The historical P1 behavior delta is **not established**,
 not retroactively zero. Historical raw files and observer remain unchanged;
 the original report and manifest remain available at immutable commit
 `a2e46631b59b1f304391bfcd49615cdd9f6124e7`.
@@ -33,20 +33,19 @@ process identities were replaced in the disposable copy. The live-session and
 orphan-live-group controls still refused for the live process-group predicate.
 The source fixture digest map was identical before and after execution.
 
-The historical observer returns `PASS` for the committed summary packet. It
-consumes supplied booleans and PR counts, not an independently captured fresh
-consumer trace; this is deterministic summary replay, not independent behavioral
-telemetry. The supplied non-case packet also returns `PASS`, but the observer
+The historical observer returned `PASS` for the committed summary packet. It
+consumed supplied booleans and PR counts. It did not inspect an independently
+captured fresh consumer trace. The result was a deterministic summary replay,
+not independent behavioral telemetry. The supplied non-case packet also returns `PASS`, but the observer
 does not inspect its post-merge discovery field. It therefore did not demonstrate
 the semantic distinction between same-PR correction before merge and a newly
 discovered defect after merge.
 
 ## Delivery gate
 
-This evidence update remains on PR #98. Its terminal head must independently
-repeat candidate verification, runtime and quality before merge; the prior
-GREEN run is evidence for the unchanged P0/P1 instruction bytes, not authority
-to skip the final exact-head checks. After merge, main requires a fresh runtime
+This evidence update remains on PR #98. Its terminal head still required independent candidate verification, runtime,
+and quality checks before merge. The prior GREEN run covered the unchanged P0/P1
+instruction bytes. It did not authorize skipping the final exact-head checks. After merge, main requires a fresh runtime
 and provider readback before Issue closure.
 
 ## Claim boundary

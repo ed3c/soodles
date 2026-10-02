@@ -1,9 +1,9 @@
 # Issue #118: local supplier integration — incomplete delivery
 
-One causal correction: the already configured host credential supplier is now
-consumed by the shipped `issue-atom run` entry and the pending supervisor
-bootstrap, with matching P guidance. No new lifecycle, broker or cloud handoff
-mechanism. This is combined CLI/P treatment, not P-only evidence.
+This atom made one causal correction. The shipped `issue-atom run` entry and
+pending supervisor bootstrap consumed the configured host credential supplier.
+P guidance described the same behavior. The correction added no lifecycle,
+broker, or cloud handoff mechanism. This is combined CLI/P treatment, not P-only evidence.
 
 ## Identity and preserved state
 
@@ -77,8 +77,8 @@ consumer launcher. `worktree exec` alone is not an admitted session/order.
 
 Codex 0.153.4 doctor confirms repo detected and matching worktree cwd/root;
 overall doctor exit 1 includes TERM=dumb. No model session was launched by that
-diagnostic. The measured Noodle lacks the newer publication surface required
-by the shipped lifecycle; no substitute executable was built or installed.
+diagnostic. The measured Noodle lacked the newer publication commands required by the
+shipped lifecycle. No substitute executable was built or installed.
 
 The missing capability is not a request to transport credentials from cloud.
 Host App identity and a repository-scoped read token were separately verified
@@ -87,9 +87,9 @@ external task/carrier authorization are distinct from derived checkpoints.
 
 ## Effects, evidence and continuation
 
-Effects: existing Issue #118 title/body amended under user authorization;
-two Noodle-owned local worktrees; candidate file edits; disposable fixture
-state and evidence. No production scheduler start, Issue creation, branch/PR
+Under user authorization, this work amended the existing Issue #118 title and
+body. It also created two Noodle-owned local worktrees, candidate file edits,
+and disposable fixture state and evidence. No production scheduler start, Issue creation, branch/PR
 publication, merge, closure or cleanup. Pending worktrees remain for their owner.
 The recorder captures top-level argv, outputs, exit status and selected file
 snapshots; it is not a full OS audit of nested calls. Unknown telemetry stays

@@ -5,6 +5,38 @@ description: Advance one externally authorized local Soodles plus Noodle Issue t
 
 # Local Issue atom
 
+## Preserve the request through admission and delivery
+
+Before selecting authorization, compare the user's requested outcomes with the
+proposed `task`, contract behavior, acceptance and non-cases. Include the producers,
+consumers, activation and normal-use evidence needed to deliver those outcomes.
+Do not turn required work into a non-case to fit a small atom, available verifier
+or convenient implementation. One atom bounds the causal change and its landing.
+Only the user can accept a narrower requested outcome. Retain the outcome, its
+evidence and remaining work in the existing task or handoff. No new schema,
+checklist file, approval step or full test run is required.
+
+Before admission, carry the requested outcomes and the division of writer versus
+later owner work in the existing task/contract. The writer reconciles its work
+with those outcomes before reporting `completed`, as specified by
+[execute](../execute/SKILL.md). In one call, `issue_atom.run` can consume the
+completed claim, check readiness and publish. It provides no supervisor review
+callback between these actions. Do not assign a required review to that nonexistent pause.
+Correct omissions within admission before the writer completes. A conflicting
+boundary returns through the existing blocked stage/owner route, without editing
+pinned authorization. CI, activation and delivery explicitly assigned to later
+owners remain supervisor work; they do not block an otherwise complete writer.
+
+At final readback, distinguish writer completion, owner `resolved` and fulfillment
+of the requested outcome. A receipt proves only its named operation. When the
+request includes actual use or reduced cost, identify the implementation used by
+normal execution and the evidence for that claim. Reading old receipts with new
+code proves the reader, not activation of the new instrumentation or a speedup.
+Keep available-but-unconsumed evidence as unfinished integration. Use `unknown`
+for unavailable evidence, with its missing source; it does not waive a requirement.
+Continue authorized work on remaining outcomes rather than closing them with a
+limitations note. A genuine owner prerequisite stops only the affected operation.
+
 Host finalization consumes the fixed Manager projection inside this same owner.
 Its readiness never grants effect or landing authority. A stop/restore intent
 with an unknown outcome requires original owner readback through the unchanged
@@ -18,9 +50,9 @@ A pending completion with no consumer requires the named Noodle readback; this
 catalog supplies no recovery command.
 
 Use the immutable schema-2 or schema-3 authorization selected by the external
-supervisor. Here, external means outside the candidate's authority, not a
-cloud service: the authorized local Session may select the host capabilities,
-authorization and independently pinned landing owner on the same Mac. No cloud
+supervisor. Here, external means outside the candidate's authority. It does not
+mean a cloud service. The authorized local Session may select host capabilities,
+authorization and an independently pinned landing owner on the same Mac. No cloud
 Session, token handoff or separate supervisor daemon is required.
 Before an authorization has been selected, the authorized local Session acts
 as supervisor. Select the exact Issue/task, control root, measured carrier and
@@ -34,22 +66,23 @@ python3 -B ./supervisor-admission authorize /absolute/selection.json SELECTED_SH
 ```
 
 On `status=prepared`, hand off the receipt's `authorization` and `next`
-unchanged; its digest and executable argv/environment are the validated result.
+unchanged. Its digest, executable argv and environment are the validated result.
 Do not reconstruct a second continuation or guess internal authorization fields.
 For lifecycle execution, consume `next.argv` and `next.environment` unchanged.
 The CLI derives the committed base, instruction pins and host config identity,
 validates them through the existing authorization owner, and returns the one
 `issue-atom run` continuation. Do not hand-assemble derived authorization fields
 or ask the user to calculate hashes/create an unprepared authorization file.
-Missing selected identity/capability is still a typed refusal to its owner;
-the command never discovers another identity or selects a judge for a writer.
-After selection, preserve that authorization on handoff/resume: recover its
-exact bytes instead of using `authorize` to replace a missing selected file.
+If selected identity or capability is missing, the command returns a typed
+refusal to its owner. It never discovers another identity or selects a judge for a writer.
+After selection, preserve that authorization through handoff and resume.
+If the selected file is missing, recover its exact bytes. Do not use `authorize`
+to replace it.
 This preparation role does not belong to the candidate writer.
 It pins an external landing implementation; never select the
 candidate's own verifier. The supervisor also supplies its SHA-256 in
 `SOODLES_AUTHORIZATION_SHA256`. The host entry uses an explicit nonblank
-`NOODLES_TOKEN_COMMAND` unchanged; otherwise it consumes the host owner's fixed
+`NOODLES_TOKEN_COMMAND` unchanged. Otherwise, it consumes the host owner's fixed
 registration at `$XDG_CONFIG_HOME/soodles/provider.json` or
 `$HOME/.config/soodles/provider.json`. Registration supplies capability, not
 Issue authorization. The entry requests an installation token scoped to the
@@ -76,15 +109,15 @@ supervisor makes that exact selected file readable; do not reconstruct an
 authorization from Issue prose, substitute another atom or transfer credentials.
 
 The foreground entry observes normal waits for up to five minutes. A refusal
-stops immediately; it is not retried. A nonzero publication-claim exit returns
+stops immediately and is not retried. A nonzero publication-claim exit returns
 `next.kind=input`, owned by Noodle, with the exact control root/order/subject.
 Preserve that receipt across handoff. Obtain the named fresh owner readback
-before re-entering the returned same command; elapsed time alone is no change.
+before re-entering the returned same command. Elapsed time alone is no change.
 Do not infer retryability from stderr or treat claim failure as a running worker.
-Consume the JSON result. If bounded waiting
-ends with `next` non-null, wait for the named material
-owner/provider state change and execute only its returned `next.argv`, which
-is the same command. Never use `./noodles issue handoff`. Do not choose issue automatic.
+Consume the JSON result. If bounded waiting ends with `next` non-null, wait for
+the named material change in owner or provider state. Then execute only the
+returned `next.argv`, which is the same command. Never use `./noodles issue handoff`.
+Do not choose issue automatic.
 Do not choose landing dispatch, construct a phase-specific command, or retry
 an ambiguous provider write.
 
@@ -102,33 +135,36 @@ substitute comparison evidence or remove the requirement. Candidate verification
 and matching comparison receipts remain non-authorizing; this lifecycle entry
 still owns continuation.
 
-The owner persists its checkpoint before mutation, creates or adopts only the
-Issue bearing the authorization marker (or the explicitly selected existing
-Issue), always uses supervised Noodle
-admission, obtains the exact Noodle publication claim, runs native publication
-readiness once per immutable head, delegates PR publication to its existing
-owner, requires exact-head CI, then delegates merge/closure/reconciliation to
-the externally pinned landing owner. The existing admission producer binds the
-task, worker, backlog and native config; the entry preserves the original host
-config and starts the long-running Noodle loop once. A pristine root without a canonical
-Noodle snapshot first receives one pinned Noodle `start --once` through this
-same entry, with the producer-emitted bootstrap config that has no Issue backlog
-adapter. Only its recorded zero exit and empty owner readback permit admission;
-the full Issue backlog config belongs to the later admitted Noodle start.
-An unknown exit or partial runtime refuses without replay. An existing matching owner is
-observed, not restarted. Lost start results require owner readback.
+Before mutation, the owner persists its checkpoint. It creates or adopts only
+the Issue with the authorization marker or the explicitly selected existing Issue.
+It always uses supervised Noodle admission and obtains the exact Noodle
+publication claim. It runs native publication readiness once per immutable head.
+The owner delegates PR publication to its existing owner and requires exact-head CI.
+It then delegates merge, closure and reconciliation to the externally pinned
+landing owner. The existing admission producer binds the task, worker, backlog
+and native config. The entry preserves the original host config and starts the
+long-running Noodle loop once.
+
+If a pristine root has no canonical Noodle snapshot, this same entry first runs
+one pinned Noodle `start --once`. It uses the producer-emitted bootstrap config,
+which has no Issue backlog adapter. Admission requires both its recorded zero
+exit and an empty owner readback. The later admitted Noodle start uses the full
+Issue backlog config. An unknown exit or partial runtime refuses without replay.
+The entry observes an existing matching owner without restarting it.
+Lost start results require owner readback.
 For a fresh control root re-entering the same Issue, admission derives a stable
 root-scoped Noodle order and worktree name. Retain earlier unmerged Noodle
-worktrees; do not rename or clean them to make the new writer fit. A native
+worktrees. Do not rename or clean them to make the new writer fit. A native
 idle `schedule` order can coexist with the admitted order in the running loop;
 the owner recognizes its exact pending shape. During execution, an active
-scheduler can instead produce a read-only `own_start_wait` with `waiting_on=Noodle`
-when the original started loop, held native lock, pinned launcher/config,
-exact admitted order and scheduler session/process metadata all agree. Own
-execute pending without attempts or a matching live execute attempt remains a
-bounded wait through the same command, before credentials or provider effects.
-Missing or contradictory identity, unknown/offered/stopped start and foreign
-orders still refuse immediately; never retry an unchanged refusal. This
+scheduler can return a read-only `own_start_wait` with `waiting_on=Noodle`.
+This requires agreement among the original started loop, held native lock,
+pinned launcher and config, exact admitted order, and scheduler session and
+process metadata. An own execute stage remains a bounded wait through the same
+command when it is pending without attempts or has a matching live execute attempt.
+This wait occurs before credentials or provider effects. Missing or contradictory
+identity, an unknown, offered or stopped start, and foreign orders still refuse
+immediately. Never retry an unchanged refusal. This
 composite process evidence grants no effect custody or OS birth-identity proof.
 Write credentials and host App/supplier configuration never enter Noodle or
 candidate children. The existing start wrapper obtains only an Issue-read token
@@ -187,12 +223,12 @@ For a Codex-managed detached control root, the corrected publisher must prove
 its exact Git worktree registration, clean source and admitted ancestry before
 ff-only synchronization. It does not switch the shared main checkout's branch.
 
-Cleanup observes Noodle CLI's actual integration branch (`origin/HEAD` branch
-name, fallback `main`), requires the profile's permitted branch and a present
-`refs/heads/<branch>`, and binds that local head separately from detached control
-HEAD. Only changed cleanup inputs or the existing lock-release readback permit
-another offer. Remote-tracking or detached HEAD movement alone is insufficient;
-no-op cleanup keeps its existing safeguards.
+Cleanup observes Noodle CLI's actual integration branch. It uses the
+`origin/HEAD` branch name, with `main` as the fallback. Cleanup requires the
+profile's permitted branch and a present `refs/heads/<branch>`. It binds that
+local head separately from detached control HEAD. Another offer requires changed
+cleanup inputs or the existing lock-release readback. Movement of a remote-tracking
+ref or detached HEAD alone is insufficient. No-op cleanup keeps its existing safeguards.
 
 An immutable old lifecycle cannot acquire new code through `run`. For a stopped
 original atom after confirmed merge and closure, the external supervisor may
@@ -203,9 +239,9 @@ the original native claim/envelope/order, absent sessions and free native/atom
 locks, allowing only the exact idle schedule shape and admitted base ancestry.
 It records `from`/`to`/authorization digest without editing authorization or raw
 Noodle history. Existing host-finalization facts and sequence carry forward only
-under unchanged rules, retaining the complete prior projection. No unresolved
-publication amendment is required. Same selection is readback; a different second
-selection refuses. Consume the selected owner's returned `next` unchanged.
+under unchanged rules. The complete prior projection is retained. No unresolved
+publication amendment is required. The same selection returns readback.
+A different second selection refuses. Consume the selected owner's returned `next` unchanged.
 This selection does not choose the landing verifier or authorize new writes.
 
 `status=resolved` is legal only after the landing owner reports
@@ -248,11 +284,12 @@ and failure receipts. The new root gets its own Noodle order; prior repair
 history is not copied or reset into a new automatic repair allowance.
 
 The selected schema-3 Issue may change only `base_head` and the SHA-256 of
-existing `revision=base` frozen paths. Read both revisions to bind those bytes;
-preserve all scope, head pins, prose and the original marker. The lifecycle
-checks descendant ancestry, exact open failed PR/branch/head and current provider
-base, persists intent, updates the same Issue once, and commits the change only
-from readback. Never patch the Issue manually. An unknown outcome permits fresh
+existing `revision=base` frozen paths. Read both revisions to bind those bytes.
+Preserve all scope, head pins, prose and the original marker. The lifecycle
+checks descendant ancestry, the exact open failed PR, branch and head, and the
+current provider base. It persists intent and updates the same Issue once.
+It commits the change only from readback. Never patch the Issue manually.
+An unknown outcome permits fresh
 readback only, not another offer or a new authorization to retry the write.
 Schema-4 comparison requirements need separately selected fresh evidence and do
 not use this rebind. Pending, cancelled or successful CI cannot authorize this
@@ -270,14 +307,15 @@ logs. A supervising Session resolves available owner inputs itself under existin
 authorization; an owner label alone is no reason for another human handoff.
 
 For bounded repair, use `./system-context entry issue-atom run` to read committed
-consumer/decision requirements. The same atom command consumes its fixed policy,
-reserves repair intent under its existing locks and returns typed classification,
-missing fact/producer, remaining budget and stop/wake condition. Only an exact
-stale PR beside confirmed branch readback and a disposable publication projection
-have automatic repairs. Unknown effects never grant write replay. Missing trusted
-lineage leaves ordinary lifecycle available without invented zero counters.
+consumer and decision requirements. The same atom command consumes its fixed policy
+and reserves repair intent under its existing locks. It returns typed
+classification, the missing fact and its producer, remaining budget, and the stop
+or wake condition. Automatic repairs cover only an exact stale PR with confirmed
+branch readback and a disposable publication projection. Unknown effects never
+grant write replay. If trusted lineage is missing, ordinary lifecycle remains
+available. Do not invent zero counters.
 `bounded_patch_capability_required` means no bounded patch-only model carrier is
-installed; it launches zero models. Use current owner readback for continuation,
+installed. It launches zero models. Use current owner readback for continuation,
 not a fresh authorization to reset repair history. This does not require an evals
 skill or Agent comparison unless the admitted Issue selects that measurement.
 
@@ -298,8 +336,10 @@ Schema Manager projection. Raw observations persist under the original
 the original status, refusal and continuation; it cannot suppress unknown-effect
 readback or host cleanup. Existing repair/budget checks remain with their owners.
 
-After an original atom resolves, including one executed by older immutable
-runtime bytes, read its receipts with the accepted entry:
+Read available original receipts with the accepted entry when reviewing cost.
+Put any required pre-publication integration evidence in the writer's admitted
+work; do not assume `run` pauses for supervisor review. The same entry can read
+a resolved atom executed by older immutable runtime bytes:
 
 ```sh
 ./soodles atom cost-report /absolute/authorization.json /absolute/cost-evidence.json
@@ -309,6 +349,10 @@ The external supervisor binds original state/process/provider files in the
 [manifest](../../../docs/loop-cost/design.md). An optional manifest at
 `AUTHORIZATION.d/cost-evidence.json` is consumed by subsequent normal responses
 through that same path. Do not replay a writer, provider mutation or verification
-to fill missing cost coverage. An old owner did not emit newly introduced spans;
-its report remains partial. A report validates evidence correlation, not truth,
+to fill missing cost coverage. Consume measurements already present in those
+sources; a missing adapter is work, not unavailable data. Old bytes did not emit
+new spans. If new automatic collection is requested, retain its activation and
+normal-use readback as remaining work through the existing authorized owner.
+A partial historical report does not complete that requirement.
+A report validates evidence correlation, not truth,
 acceptance, publication permission or a replacement landing identity.

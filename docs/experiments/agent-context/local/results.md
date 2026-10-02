@@ -11,15 +11,15 @@ fields and no violations. Historical INCOMPLETE observations below remain intact
 
 ## What changed and what actually ran
 
-The initial child-wait recorder preserved the scheduler exit but still lost the
-worker exit. Pinned Noodle source `loop/session_meta_repair.go` calls ForceKill on
+The initial child-wait recorder preserved the scheduler exit status but lost the
+worker exit status. Pinned Noodle source `loop/session_meta_repair.go` calls ForceKill on
 the whole process group after terminal metadata appears; the actual log reported
 that terminal-meta completion. This identifies a recorder race. No historical
 kernel trace is available to certify which signal terminated that first worker.
 A real owner-like group-kill control makes the previous recorder RED.
 
-The correction captures native stdout bytes immediately, forwards nonterminal
-lines, and defers the first terminal event plus subsequent lines until the actual
+The correction captures native stdout bytes immediately and forwards nonterminal
+lines. It holds the first terminal event and subsequent lines until the actual
 child exits and its wait receipt is durable. It then forwards those exact bytes.
 The recorder retains Noodle's group, stdin and stderr; it writes no Agent outcome
 or canonical state. This changes terminal delivery timing and therefore proves
@@ -40,9 +40,9 @@ seconds from loop start, using clean source
 - Agent executed the marker and itself emitted one matching `blocked` outcome
   for order `soodles-39`, stage 0. This was the requested bounded handoff.
 
-The external audit joins recorder PID to Noodle process metadata, child/session/
-order/stage/cwd/argv to the admitted exec chain, and the native thread/turn to the
-raw tools. All 15 binding checks pass. Original stdout byte count/digest match the
+The external audit joined the recorder PID to Noodle process metadata. It also
+joined the child, session, order, stage, cwd, and argv to the admitted exec chain,
+and the native thread and turn to the raw tools. All 15 binding checks pass. Original stdout byte count/digest match the
 receipt; every captured native event equals the downstream event after excluding
 Noodle's added delivery timestamp. Every started native item has one result.
 Noodle's attempt exit_code remains null; it was not edited or used as a substitute.
@@ -64,9 +64,9 @@ supplied control root then succeeded before any model task. Doctor verified the
 worktree cwd/root and repo detection; its overall exit 1 was TERM=dumb, retained
 as such rather than called an overall doctor PASS.
 
-The narrower exit/model/tool capability gate is now satisfied. Full matched
-baseline/treatment cases remain **NOT_RUN**, actual compaction is unproven and
-cloud verdicts are unchanged. #39 stays open and PR #40 draft. Final-head canonical
+At this stage, the narrower exit/model/tool capability gate was satisfied. Full
+matched baseline/treatment cases remained **NOT_RUN**. Actual compaction was
+unproven, and cloud verdicts were unchanged. #39 stays open and PR #40 draft. Final-head canonical
 acceptance and existing delivery/reconciliation remain separate; all experimental
 receipts have authorizes_landing=false.
 
@@ -123,10 +123,10 @@ proof that Codex failed or that a model turn never ran.
 
 ## Controls and cleanup
 
-Nine unittest methods pass. Four pre-run planted discriminator defects—missing
-native model requirement, missing thread binding, omitted tool-result matching,
-and omitted model match—each made the same control RED; restoration and legal
-non-cases were GREEN. A first weak tool-result mutation control was strengthened
+Nine unittest methods passed. Four planted discriminator defects each made the
+same control RED before the run. The defects were a missing native model requirement,
+a missing thread binding, omitted tool-result matching, and an omitted model match.
+Restoration and legal non-cases were GREEN. A first weak tool-result mutation control was strengthened
 before the live run; its original failure logs are retained. These mutations do
 not prove a defect in the baseline instructions.
 

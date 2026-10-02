@@ -1,9 +1,8 @@
 # Local provider shortest path result
 
 Classification: **VERIFIED** for the bounded local provider continuation on
-implementation head `a912aee37195d9567bfeba804dbfc2b1ebebe0d1`. This evidence is
-non-authorizing; the terminal evidence-bound head must still earn its own
-exact-head gates.
+implementation head `a912aee37195d9567bfeba804dbfc2b1ebebe0d1`. This evidence grants no authority.
+The terminal evidence-bound head must still pass its own exact-head gates.
 
 ## Preserved attempts
 
@@ -15,7 +14,7 @@ exact-head gates.
   identity passed; canonical acceptance exposed the old landing projection
   assertion that still required local `advance` after dispatch. The new #120
   controls themselves were green. That obsolete assertion was corrected on a
-  new head; the failed head was not rerun.
+  new head. The failed head was not rerun.
 
 ## Verified implementation head
 
@@ -45,20 +44,19 @@ The focused controls passed:
 For a local claim the landing owner now persists the exact offered merge/close
 request and projects one narrow `provider-execute CHECKPOINT` argv. The local
 transport accepts no repository, PR, Issue, expected-head or merge-method flags.
-It consumes only that persisted request, uses the supervisor-injected provider
-credential, performs at most one mutation, obtains fresh provider readback and
-returns exact `landing advance` argv.
+It consumes only that persisted request and uses the supervisor-injected provider credential.
+The transport performs at most one mutation. It then obtains fresh provider readback
+and returns exact `landing advance` argv.
 
 An unknown mutation response never triggers an automatic mutation retry. Fresh
-provider readback determines whether the effect happened; an unobserved outcome
+provider readback determines whether the effect happened. An unobserved outcome
 remains readback-only.
 
 After provider closure, an envelope-bound local claim derives the measured
 Noodle binary and projects exact `landing reconcile` argv. A claim without an
 execution envelope remains the legal binary-input non-case.
 
-The P-class consumer path is correspondingly smaller: execute current
-`next.argv` exactly once. It does not instruct the Agent to choose `gh`/REST
+The P-class consumer path has one instruction. Execute current `next.argv` exactly once. It does not instruct the Agent to choose `gh`/REST
 mutation syntax, provider subject identity, credential source, merge method or
 Noodle binary.
 

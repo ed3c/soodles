@@ -1,18 +1,18 @@
 # Bounded repair implementation — Issue 202
 
-The admitted writer implementation and affected local controls are complete.
+The admitted writer completed the implementation and affected local controls.
 Native readiness, exact-head Linux Actions, publication and external landing remain
 with the existing lifecycle; this record does not claim Issue resolution.
 
 The atom retains finite policy, immutable source/subject bindings, durable intent,
 shared limits and compiled consumer/P-class closure in its existing checkpoint.
-Independent successor authorizations cannot copy a spendable budget: automatic
-repair is disabled with `exclusive_lineage_continuity_required`, while ordinary
-owner operation and original history remain available. No ledger was added.
+Independent successor authorizations cannot copy a spendable budget. Automatic
+repair is disabled with `exclusive_lineage_continuity_required`. Ordinary owner
+operation and original history remain available. No ledger was added.
 
-The reachable new-lineage control calls `_run_owned` from no checkpoint, creates
-its fixture Issue through the existing owner, and uses the same admitted base,
-control root and Issue for candidate publication. A confirmed branch and PR list
+The reachable new-lineage control calls `_run_owned` without a checkpoint. It
+creates its fixture Issue through the existing owner. Candidate publication
+uses the same admitted base, control root, and Issue. A confirmed branch and PR list
 with a same-PR detail still at the known base head causes one GET-only refresh.
 A later restart reconstructs a lost disposable publication view from unchanged
 source without another publish. Tampered readiness refuses before spending the
@@ -36,9 +36,8 @@ a prescribed workflow. Unsupported model repair reports
 The existing Test Manager boundary table selected 12 modules / 186 controls and
 no physical controls. The first run passed 185 and failed the new fixture's
 precreated empty admission directory. The affected rerun exposed its stale Issue
-contract base. Both diagnostics remain in product-results.json. Correcting those
-fixture identities made all 14 repair controls pass on the third attempt; no
-production guard or old assertion was removed. The original explicit lifecycle
+contract base. Both diagnostics remain in product-results.json. After correction of those fixture identities, all 14 repair controls passed on
+the third attempt. No production guard or old assertion was removed. The original explicit lifecycle
 source set now includes every added module/data dependency and its five controls
 pass. Test Manager's existing selection/execution behavior is retained.
 

@@ -28,9 +28,9 @@ The synthetic checkpoint is not proof of prior live execution/publication.
 | Whole carrier observation seconds | 172.968 | 396.864 |
 | Subject checkout changes | none | none |
 
-Both consumers correctly obeyed their current owner's output. The baseline
-barrier is the CLI-induced unnecessary request for an external job while CI is
-normally queued, not a consumer's bad argv or failure to obey a refusal.
+Both consumers correctly obeyed their current owner's output. The baseline CLI unnecessarily requested an external job while CI was queued
+normally. That request caused the barrier. The consumer did not use bad argv or
+fail to obey a refusal.
 Classification: baseline OBSERVED_BARRIER; treatment NO_OBSERVED_BARRIER in
 this bounded case. This supports scoped combined CLI/P continuation improvement,
 not P-only causality, statistical generalization, or lower total execution cost.
@@ -38,14 +38,13 @@ Treatment made more calls and took longer while observing the bounded wait.
 No additional samples will be drawn from this comparison.
 
 Both consumers visibly read assigned AGENTS.md and the bounded execution recipe.
-Neither visibly read the issue-atom skill; the same-host supervisor clarification
-must not be credited with the improvement. Their common neutral execute skill
+Neither visibly read the issue-atom skill. The result therefore cannot attribute
+the improvement to the same-host supervisor clarification. Their common neutral execute skill
 contained no diagnosis or correct Issue-atom argv. Baseline used its valid
 schema-1 authorization and treatment its valid schema-2 authorization; both
 passed their own executable validators before either consumer launched.
-The common carrier was separate from each unmodified subject checkout. Its
-fixture Issue118/order identity is not a live #118 operation or the experiment
-owner (#133). No production state was synthesized.
+The common carrier was separate from each unmodified subject checkout. Its fixture Issue118/order identity identifies neither a live #118 operation
+nor the experiment owner (#133). No production state was synthesized.
 
 Both requested gpt-6-astra/high with the same measured Codex 0.153.4, native
 Noodle and normalized flags/permissions. Actual server model provenance and
@@ -141,9 +140,9 @@ Full native development tests used an explicit physical TMPDIR in both arms:
 | Canonical live-owner observation correction | 272 | Passed |
 | Host producer/start/continuation wiring | 286 | Passed |
 
-The four matching failures are test_admission's binary version, digest and path
-controls. Their shell sentinel fixtures formerly inherited the macOS host,
-therefore hit the Linux-lock platform refusal before the intended assertion.
+The four matching failures concerned test_admission's binary version, digest,
+and path controls. Their shell sentinel fixtures inherited the macOS host.
+They therefore reached the Linux-lock platform refusal before the intended assertion.
 The candidate fixes those four fixture platforms explicitly. The unsupported
 Darwin-host refusal remains tested; no test is skipped and no production platform
 gate changes. This passing native suite is not actual Linux Noodle acceptance.
@@ -178,8 +177,8 @@ continuing the remaining implementation; do not erase these gaps to pass a gate.
 The producer now binds the exact task, immutable runtime bytes, worker/backlog
 and native config. Existing-Issue adoption cannot create a replacement on drift.
 The entry persists start intent before installing configuration and invoking
-the producer's returned argv. The existing Noodle instance lock, not a second
-lifecycle, protects adoption/start. Unknown start cannot be repeated. Host config
+the producer's returned argv. The existing Noodle instance lock protects adoption and start. The correction
+adds no second lifecycle. Unknown start cannot be repeated. Host config
 is externally pinned and preserved; only this entry's own process is stopped.
 Provider completion remains necessary before the original order's Noodle
 control-mailbox approval. A refused acknowledgement cannot be turned into success.

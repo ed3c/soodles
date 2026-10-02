@@ -6,7 +6,7 @@ correction; neither instructions nor experiment receipts authorize landing.
 The actual baseline has correct refusal semantics but no executable help projection
 for argument, unsupported report-family and incomplete-observation refusals. The fixed
 external five-case CLI observer records three missing-help predicates before and zero
-after. All 11 candidate predicates pass; valid normal and wrong-route reports preserve
+after. All 11 candidate predicates pass. Valid normal and wrong-route reports preserve
 VALID/PASS/exit 0 and VALID/FAIL/exit 1. Unusable evidence retains INVALID or INCONCLUSIVE,
 null behavior, exact supervisor missing input and exit 2. Every offered help argv is
 executed successfully. The comparator rejects planted removal of the help projection.
@@ -21,18 +21,17 @@ skills are reached directly; a general report verifier or all-method pipeline is
 introduced. CLI judgment/authority and external evaluator selection are unchanged.
 
 Exactly one fresh baseline and one fresh treatment consumer received the same neutral
-five-job task and available method bytes, with no inherited conversation. The supplied
-report bytes/subject are identical; the treatment selector binds its changed evaluator
-bytes. Observed barriers: **0 before, 0 after**. These are bounded consumer results,
+five-job task and available method bytes, with no inherited conversation. The supplied report bytes/subject are identical.
+The treatment selector binds its changed evaluator bytes. Observed barriers: **0 before, 0 after**. These are bounded consumer results,
 not a universal effectiveness or cost estimate. There is no isolated P-only causal
 claim. Native model/config internals, token/window/compaction and complete platform
-transcripts are unavailable. Evidence distinguishes self-recorded process output from
-consumer statements; absence of all external effects is not independently certified.
+transcripts are unavailable. Evidence distinguishes self-recorded process output from consumer statements.
+It does not independently certify the absence of all external effects.
 
 The fixed protocol, fixture, oracle and observer were selected outside the candidate
 before implementation. The manifest binds source, guidance and every required evidence
-artifact. Focused tests and the frozen observer were exercised before this evidence
-patch; final full native tests, native publication readiness and Linux exact-head
-Actions remain required by the existing owner. This pre-publication record does not
+artifact. Focused tests and the frozen observer ran before this evidence patch.
+At that stage, the existing owner still required final full native tests,
+native publication readiness and Linux exact-head Actions. This pre-publication record does not
 claim provider merge, Issue closure or local RESOLVED; terminal receipts remain with
 the externally selected issue-atom/landing owners.

@@ -19,12 +19,13 @@ The following evidence-only commit does not change measured instructions/code.
 | macOS default temporary path suite | 288 tests, 7 failures + 1 error | 291 tests, identical 7 failures + 1 error | Same named path-sensitive failures, not waived |
 | Physical TMPDIR environment control | 288 tests pass | 291 tests pass | Scoped environment control, not Linux acceptance |
 
-The fresh consumer actually read execute, issue-execution and the old github-read
-recipe, then selected the correct repository + Issue argv. It read fixture Issue
-44 open on its first call; wrong argv, wrong owner, envelope requests and recovery
-calls were all zero. Eight completed shell calls include normal lifecycle help,
-verification and outcome readback, not eight Issue reads. It wrote only result.json.
-The source system-v1 was not explicitly read; no behavior is attributed to it.
+The fresh consumer read execute, issue-execution and the old github-read recipe.
+It then selected the correct repository + Issue argv. Its first call read fixture
+Issue 44 as open. Wrong argv, wrong owner, envelope requests and recovery calls
+were all zero. The eight completed shell calls included normal lifecycle help,
+verification and outcome readback. They were not eight Issue reads. The consumer
+wrote only result.json. It did not explicitly read source system-v1.
+No behavior is attributed to that source.
 Do not confuse the synthetic execution Issue118 with experiment owner Issue137.
 
 The predeclared stop rule therefore ended behavior sampling. No treatment model
@@ -33,26 +34,26 @@ inputs prove specified recovery/correspondence improvement, not natural error.
 This is a combined CLI/P correction, never isolated P-only efficacy. An observed
 successful baseline cannot negate a separately reproduced defective command.
 
-The initial P-only assumption was disproved by the pre-consumer CLI control.
-protocol.md remains unchanged; amendment.md records the explicit scope change
-before any consumer/candidate. Task, sample limit, scoring and fixed observer
+The pre-consumer CLI control disproved the initial P-only assumption.
+protocol.md remains unchanged. amendment.md records the explicit scope change
+before any consumer or candidate. Task, sample limit, scoring and fixed observer
 did not change after results. Fixture transport substitutes only HTTP under the
-real parser/reader; it proves neither App token scope nor live network reliability.
+real parser and reader. It proves neither App token scope nor live network reliability.
 
 Noodle dispatched a new Codex exec with no inherited conversation. The raw archive
 preserves actual prompts, command requests/results, source digests, owner and
 session identity, preflight and cleanup. Worker completed outcome was read back.
-Loop exit 1 is retained: backlog.done correctly refuses closure of the still-open
+Loop exit 1 is retained. backlog.done correctly refuses closure of the still-open
 synthetic Issue. Recorded processes were absent before fixture removal. Native
-worker exit is null/unknown; do not substitute the model's success message.
+worker exit is null/unknown. The model's success message cannot replace that evidence.
 
 ## Gates and feature-map boundary
 
 Default macOS TMPDIR exposes the same eight path-sensitive test failures in both
 subjects. The changed paths do not include their implementations. The separate
 physical-path control passes both subjects. Existing native_readiness itself
-already selects a physical temporary directory; no gate/test was disabled and no
-carrier portability fix was added. Publication still requires that native gate;
+already selects a physical temporary directory. No gate or test was disabled,
+and no carrier portability fix was added. Publication still requires that native gate;
 landing requires existing Linux exact-head canonical acceptance.
 
 All nine verify-soodles features received read-only source review. That is not a
@@ -62,7 +63,7 @@ qualifies only github-read correspondence/recovery and one bounded P-class
 baseline; its eventual delivery uses the existing delivery owners.
 
 protocol.md, amendment.md and observer.py are externally fixed inputs copied
-unchanged. raw.json binds a lossless archive and all member hashes; manifest.json
-binds both instruction digests and required artifacts. Unknown hidden reads,
+unchanged. raw.json binds a lossless archive and all member hashes.
+manifest.json binds both instruction digests and required artifacts. Unknown hidden reads,
 backend model identity and full nested telemetry remain unknown. No evidence here
 grants landing authority or claims that publication/merge already occurred.

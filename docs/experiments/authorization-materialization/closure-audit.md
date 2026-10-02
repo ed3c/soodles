@@ -1,6 +1,6 @@
 # Authorization shortest-path atom: closure audit
 
-This atom addresses one transition: an authorized local supervisor's selected inputs → validated initial authorization → one executable Issue-atom continuation. It does not remove the independent publisher, invent credentials/identity, replace Noodle, add a scheduler or authorize a writer to select its own judge.
+This atom addressed one transition. The authorized local supervisor supplied selected inputs. The producer validated the initial authorization and returned one executable Issue-atom continuation. It does not remove the independent publisher, invent credentials/identity, replace Noodle, add a scheduler or authorize a writer to select its own judge.
 
 ## Which paths must be executable
 
@@ -19,7 +19,7 @@ P-class should name the entry, applicability, invariant and how to consume its r
 
 Local closure targets correct completion of one bounded transition with fewer captured avoidable operations, preserving legal cases and hard refusals. The cost target is not a string with fewer CLI calls: a single handwritten program that moves authority or hides extra decisions is not a shorter safe path.
 
-Global closure connects the same atom's products: fixed requirement → executable counterexamples → actual fresh behavior traces → independent readback/confirmation → exact source/evidence package → existing Issue/PR acceptance and terminal delivery. A reusable counterexample and feature recipe survive session context; the next fresh session receives exact source/owner/evidence references, not an optimistic prose summary. There is no claim that one atom proves all future tasks or all carriers nondegrading.
+Global closure connected the products of the same atom. A fixed requirement led to executable counterexamples and fresh behavior traces. Independent readback and confirmation then bound the exact source and evidence package to existing Issue/PR acceptance and terminal delivery. A reusable counterexample and feature recipe survive session context; the next fresh session receives exact source/owner/evidence references, not an optimistic prose summary. There is no claim that one atom proves all future tasks or all carriers nondegrading.
 
 The regression gates cover exact identity and source, no observed forbidden effect, selected publisher pins, correct refusal, and authorization validity. Only after those gates do captured operation counts matter. The actual model, hidden reasoning tokens, full transcript and unobserved network/kernel effects remain unknown. This experiment uses native fresh subagents with local fixture access; its results do not stand in for local Noodle/Codex CLI consumer behavior.
 
@@ -38,15 +38,15 @@ Recorded consumer operations are a direct but narrow decision-barrier proxy. The
 
 ## Measurement correction
 
-Version-1 adoption is INCONCLUSIVE: its universal all-gates wording wrongly makes an actual baseline refusal-residue failure block the entire adoption claim. That failure is real behavior evidence, not missing evidence. It remains recorded. Version 2 must fix evidence-validity versus candidate-safety semantics before any new consumers, hold product/P source 8ef fixed, and obtain fresh independent observations. A change in verdict due solely to the corrected contract cannot count as product improvement.
+Version-1 adoption was INCONCLUSIVE. Its universal all-gates wording made an actual baseline refusal-residue failure block the entire adoption claim. That wording was incorrect. That failure is real behavior evidence, not missing evidence. It remains recorded. Version 2 must fix evidence-validity versus candidate-safety semantics before any new consumers, hold product/P source 8ef fixed, and obtain fresh independent observations. A change in verdict due solely to the corrected contract cannot count as product improvement.
 
 ## Known downstream defect outside this causal correction
 
-Current selected baseline 7e602db still maps any nonzero `_run_claim` exit to `waiting_on=Noodle` (`issue_atom.py`, publication claim branch), without classifying a permanent refusal separately. This can turn a downstream claim failure into repeated waiting. It is a different transition from initial authorization materialization and is not silently included in this atom. The earlier audit and patch remain at `/Users/neon/soodles-audits/20260929-hillclimb-claim-refusal/`; this task only rechecked the current owning source branch. A successful authorization experiment cannot establish that the whole unattended lifecycle is free of that defect. It needs its own bounded owner correction/controls, or a revised explicitly combined causal scope before implementation.
+The selected baseline 7e602db mapped any nonzero `_run_claim` exit to `waiting_on=Noodle` (`issue_atom.py`, publication claim branch), without classifying a permanent refusal separately. This can turn a downstream claim failure into repeated waiting. It is a different transition from initial authorization materialization and is not silently included in this atom. The earlier audit and patch remain at `/Users/neon/soodles-audits/20260929-hillclimb-claim-refusal/`; this task only rechecked the current owning source branch. A successful authorization experiment cannot establish that the whole unattended lifecycle is free of that defect. It needs its own bounded owner correction/controls, or a revised explicitly combined causal scope before implementation.
 
 ## Final measurement and delivery stop
 
-Version 2 remained INCONCLUSIVE after observed baseline exposure. Version 3 retained fixed product/P and common read-only projections, but its task write scope excluded the producer's temporary validation staging. The fixed observer returned NOT_VERIFIED, evidence_valid=true and treatment_safety_pass=false; adoption is DO_NOT_ADOPT. No fourth measurement, production Issue, PR or landing was started. See results.md and the exact behavior-v3 receipt. The automatic authorization packaging refuses unless the final adoption gate is ADOPT; this is external task packaging, not a new production lifecycle owner.
+Version 2 remained INCONCLUSIVE after observed baseline exposure. Version 3 retained fixed product/P and common read-only projections, but its task write scope excluded the producer's temporary validation staging. The fixed observer returned NOT_VERIFIED, evidence_valid=true and treatment_safety_pass=false. The adoption decision was DO_NOT_ADOPT. No fourth measurement, production Issue, PR or landing was started. See results.md and the exact behavior-v3 receipt. The automatic authorization packaging refuses unless the final adoption gate is ADOPT; this is external task packaging, not a new production lifecycle owner.
 
 ## User-directed continuation and final bounded adoption
 

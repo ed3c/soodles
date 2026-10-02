@@ -16,13 +16,12 @@ non-authorizing (`authorizes_landing: false`). Stage completion is not RESOLVED.
 
 `frozen/protocol.md`, `frozen/fixture.json`, `frozen/oracle.py` and
 `frozen/migration.md` retain supervisor-selected bytes. The candidate does not
-select its own acceptance judge. The recipe clarification describes the supported
-metric; both fresh consumers receive the same old pinned recipe to isolate the
-CLI delta. This does **not** measure a P-only instruction treatment.
+select its own acceptance judge. The recipe clarification described the supported metric. Both fresh consumers
+received the same old pinned recipe to isolate the CLI delta. This does **not** measure a P-only instruction treatment.
 
 ## Deterministic result
 
-The external frozen oracle observes baseline **1/8** and treatment **8/8**.
+The external frozen oracle observed baseline **1/8** and treatment **8/8**.
 The seven formerly failing controls reject wrong, unknown, empty, null, array,
 missing metric labels and the matching-digest import sentinel. The supported
 `post_completion_owner_request` case retains the raw-derived 3-to-0 comparison,
@@ -36,9 +35,8 @@ accepts only the metric actually counted by `normalize_run`. The separate
 ## Discovered failure and fixture migration
 
 `raw/first-attempt.json` preserves the actual first writer's typed blocked
-outcome, raw full-suite output and earlier environmental failures. In canonical
-`TMPDIR=/private/tmp`, the first writer ran 443 tests and encountered 15 failures
-and 15 errors in the affected admission-recovery tests: their historical
+outcome, raw full-suite output and earlier environmental failures. In canonical `TMPDIR=/private/tmp`, the first writer ran 443 tests. The affected
+admission-recovery tests had 15 failures and 15 errors. Their historical
 normalizer digest refused the changed entry before behavioral assertions.
 The initial macOS temporary-path failures and matched baseline/current 26/26
 controls are retained too; they do not establish universal nonregression.
@@ -107,15 +105,15 @@ The common consumer recipe SHA-256 is
 it is distinct from both the admitted-base and clarified candidate recipes.
 
 Evidence validity: the supplied records bind the selected inputs and actual
-process outputs. The requested `wrong_route` comparison is invalid: the raw
-fixture measures post-completion owner requests, not wrong routes. Baseline CLI
+process outputs. The requested `wrong_route` comparison was invalid. The raw fixture measured
+post-completion owner requests, not wrong routes. Baseline CLI
 incorrectly returned PASS/ADMIT_IMPROVEMENT; treatment CLI returned exit 1,
 FAIL and `unsupported_primary_barrier`. Both consumers correctly declined the
 unsupported improvement claim (semantic decision errors 0 → 0), so the bounded
 behavior result is **BOUNDED_NONREGRESSION**, not model improvement.
 
-The process cwd differs: baseline used `/Users/neon/soodles`, treatment its
-assigned evidence directory; all replay file operands were absolute. The pair
+The process cwd differed. Baseline used `/Users/neon/soodles`, and treatment used
+its assigned evidence directory. All replay file operands were absolute. The pair
 therefore shares carrier/configuration but does not establish identical process
 cwd. Consumer-reported absence of provider effects is not an independent
 transport audit. No second pair, resampling or model session was launched by

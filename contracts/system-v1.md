@@ -1,8 +1,16 @@
 # system-v1: contract index
 
-Read only the boundary needed for the current task, together with [common authority limits](system-v1/common.md). These files preserve the existing requirements and transition owners; this index grants no execution authority.
+Read only the boundary needed for the current task and the
+[common authority limits](system-v1/common.md). These files preserve the existing
+requirements and transition owners. This index grants no execution authority.
 
-Use `./system-context EXACT_REPOSITORY_RELATIVE_FILE [FILE ...]` to read the selected committed files and their required context. The read-only result supplies `source_head`, the selected dependency graph, existing `instruction_pins` and `instruction_context`; it does not choose a task, execute a next action or grant admission. Missing or unknown paths refuse explicitly. Existing consumers may follow the links directly, retaining the declared prerequisites in [routes.json](system-v1/routes.json).
+Use `./system-context EXACT_REPOSITORY_RELATIVE_FILE [FILE ...]` to read the
+selected committed files and their required context. The read-only result
+supplies `source_head`, the selected dependency graph, existing `instruction_pins`
+and `instruction_context`. It does not choose a task, execute a next action,
+or grant admission. Missing or unknown paths cause an explicit refusal.
+Existing consumers may follow the links directly. They must retain the declared
+prerequisites in [routes.json](system-v1/routes.json).
 
 ## RUNTIME.ADMISSION.001
 

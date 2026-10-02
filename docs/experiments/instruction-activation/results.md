@@ -3,9 +3,8 @@
 The fixed external oracle reports 16/16 PASS for code head
 `fa3667645e38326a68f551a33a3b98c53d794840`. The baseline at
 `00a5909941a632537dc6992b5354cd37614ea4a8` rejects valid selected-instruction
-inputs because the API/schema is absent: capability RED → GREEN. Its six
-reported PASS cases include broad schema refusals; they do not establish the
-matching new negative guards. Treatment supports valid input, preserves the
+inputs because the API/schema is absent: capability RED → GREEN. Its six reported PASS cases included broad schema refusals. Those cases did not
+establish that the matching new negative guards worked. Treatment supports valid input, preserves the
 legacy sentinel, and discriminates every frozen negative.
 
 Authorization schema 3 selects nonempty instruction pins at its exact base.
@@ -31,8 +30,8 @@ underlying evaluation evidence into a behavior PASS.
 | Input bytes returned | 4184 | 18045 |
 | Separate recipe bytes returned | 12866 | 0 |
 
-One required recipe acquisition read was removed because treatment received
-those bytes in its stage prompt. Both legal results support scoped
+Treatment received the recipe bytes in its stage prompt, which removed one
+required read to acquire the recipe. Both legal results support scoped
 nonregression and reduced recipe acquisition, not generalized model improvement
 or fewer wrong behavior barriers. There is no token, latency, cost, capacity or
 compaction claim. Telemetry records actual reader selections, digests, byte
@@ -48,9 +47,9 @@ provider truth. The native consumers are actual independent contexts. Snapshot
 fixtures are helper data; the active oracle, observer, protocol, reader and both
 instruction arms were fixed externally before implementation. `frozen-selection.json`
 and the delivery manifest bind their bytes and all saved empirical artifacts.
-Replay tests run the fixed oracle against current production source and the
-fixed observer over saved inputs in disposable directories; they do not launch
-fresh consumers or replace the external judge.
+Replay tests run the fixed oracle against current production source. They also
+run the fixed observer over saved inputs in disposable directories. They do not
+launch fresh consumers or replace the external judge.
 
 Qualification failures remain in `raw/qualification-controls.json` and
 `frozen/qualification.json`. A supervisor precommit CLI check also found that an
@@ -165,9 +164,9 @@ run is recorded in that directory as `full-tests.log` and `full-tests.json`.
 These local controls are non-authorizing; the parent retains publication,
 final exact-head Linux acceptance, provider landing and reconciliation.
 
-The initial complete suite passed 387 tests without skips. During its run,
-manifest self-review caught an extra source-comparison field incompatible with
-the existing closed manifest schema. That record was moved into this document
+The initial complete suite passed 387 tests without skips. During that run,
+self-review found an extra source-comparison field in the manifest. The field
+was incompatible with the existing closed manifest schema. That record was moved into this document
 and the replay control; production schema validation was not widened. The
 existing delivery validator then accepted the staged tree with all 51 changed
 paths. The first full-run receipts are preserved as

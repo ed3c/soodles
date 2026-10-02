@@ -1,7 +1,7 @@
 # Noodle verification map
 
 This independent map covers exactly three Noodle CLI features. The index is
-N-class inventory; recipes are P-class guidance consuming existing owners.
+N-class inventory. The recipes provide P-class guidance and consume existing owners.
 
 | Feature | User entry | Observable end state and boundary |
 | --- | --- | --- |
@@ -9,13 +9,13 @@ N-class inventory; recipes are P-class guidance consuming existing owners.
 | [Initial admission recovery](admission-recovery.md) | admission inspect; current owner continuation | Rejected disposable proposal archived, canonical bytes preserved; legal refusal GREEN; no admission or restart |
 | [Original order/session handoff](order-handoff.md) | Already admitted original order; status and worker event interface | Matching own outcome, external actual exit and process/group absence; provider delivery and cleanup remain separate |
 
-Ordinary use selects one recipe. Full maintenance needs one source reviewer and
-a coordinator live drive for every row. Historical external receipts support the
-owner controls but do not replace a current live pass. Creation requires an applied
-skill and one physical recipe pass; full maintenance requires all three. Preserve
-each receipt's actual candidate revision or uncommitted-overlay scope. Record
-unavailable prerequisites and attempted entry; do not
-promote partial coverage to clean or invent a genuine order.
+Ordinary use selects the relevant recipe and requested observation. Scoped edits
+use the [owning maintenance guidance](../SKILL.md#maintenance); this inventory
+does not request a live drive. An explicitly selected full pass covers every row
+under the installed maintenance skill and user constraints. Historical receipts
+retain their original subjects; neither those nor an edited recipe prove a new
+live pass. Record actual coverage and missing prerequisites without turning a
+scoped correction into an incomplete full audit or inventing a genuine order.
 
 Interview baseline: Noodle `ca81f942f478e8e4afcbbce6ca69640867efe753`, selected native
 Darwin arm64 binary SHA-256

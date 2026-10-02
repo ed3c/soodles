@@ -2,9 +2,9 @@
 
 ## Sub-features
 
-Observe an externally admitted original Noodle order created before its writer;
-bind the actual Session, worktree, selected Skill and tool trace; read the
-worker's own typed outcome and external process wait/exit. Observe quiescence
+Observe an externally admitted original Noodle order created before its writer.
+Bind the actual Session, worktree, selected Skill and tool trace. Read the
+worker's own typed outcome and the external process wait and exit. Observe quiescence
 without conflating it with order completion, provider delivery or local cleanup.
 
 ## How to get to it (user POV)
@@ -12,14 +12,15 @@ without conflating it with order completion, provider delivery or local cleanup.
 The supervisor supplies the existing admitted Issue/envelope, original order,
 absolute project/worktree, measured Noodle and Session carrier, original Session
 binding, raw trace location and selected external recorder. Noodle owns dispatch
-and worktrees. Use a genuine admitted task; a missing subject remains blocked
-with the supervisor as supplier and the existing admission entry as continuation.
+and worktrees. Use a genuine admitted task. If its subject is missing, the task
+remains blocked. The supervisor supplies the subject, and the existing admission
+entry remains the continuation.
 Do not create an empty, post-hoc or second order for coverage, or start another
 model session from this recipe.
 
 ## Driving it with the Noodle CLI
 
-1. Doctor the supplied binary and source. Run
+1. Apply the owning skill's conditional identity checks. Run
    `"$NOODLE_BIN" --project-dir "$NOODLE_PROJECT" status` as a compact readback.
    Read the supplied canonical snapshot/order and original Session's `spawn.json`,
    `process.json`, prompt and raw tool logs. Match Issue/envelope, order/stage,
@@ -29,18 +30,24 @@ model session from this recipe.
    Status text alone cannot establish this binding or kernel process absence.
 2. Observe the admitted worker performing its exact task. Preserve raw Session
    and tool evidence externally, including actual selected-file reads/digests.
-   A completed authoring handoff may still leave application, live verification
-   and delivery with the supervisor; label those scopes explicitly. A no-change
+   A completed stage may leave explicitly assigned later work with the supervisor;
+   that alone is not `blocked`. Use the admitted stage's outcome rules. A no-change
    completed stage can finish the order and remove its worktree even in supervised
-   mode. If unfinished work requires the current checkout, hand it off as blocked
-   under the admitted task boundary. Preserve draft bytes outside the worktree.
+   mode. Finish available admitted work before the outcome; unfinished work alone
+   is not a reason to hand it off. If a concrete missing owner input prevents
+   completion and the current checkout is needed, report that blocker and preserve
+   draft bytes outside the worktree before any owner cleanup or requeue.
    If cleanup already occurred, only the supervisor may select a Noodle-owned
-   checkout recreation from the admitted base; record that boundary, do not call
-   it an unchanged checkout or recreate the order/checkpoint.
-3. The worker itself obtains `event emit --help` from the measured binary and
-   reads `event/types.go:StageMessagePayload` and `loop/stage_outcome.go` from the
-   selected source. The measured CLI's `schema list` exposes mise/orders/status,
-   not an event target. Use the real event invocation as an argv array:
+   checkout recreation from the admitted base. Record that boundary.
+   Do not call it an unchanged checkout or recreate the order or checkpoint.
+3. For a Soodles-admitted writer, follow [execute](../../execute/SKILL.md) and
+   invoke `./stage-outcome OUTCOME MESSAGE` from the admitted worktree. Its
+   executable derives and validates identity and payload. Do not reconstruct
+   them or fall back to direct event emission after refusal.
+   Only a separately selected native Noodle event-interface task uses the lower
+   interface below. Resolve unknown syntax from that measured binary's help and
+   selected `event/types.go` / `loop/stage_outcome.go`; no repeated help/source
+   discovery is needed for a known interface. Its event argv is:
    `[binary, "--project-dir", project, "event", "emit", "stage_message",
    "--session", actual_session_id, "--payload", serialized_payload]`.
    Payload fields are `message`, Boolean `blocking`, `outcome`, `order_id`, and

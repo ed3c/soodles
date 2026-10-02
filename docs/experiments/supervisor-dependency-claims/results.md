@@ -18,9 +18,9 @@ different edge. The independent claim remains legal.
 
 Treatment is `VERIFIED`. The same landing command accepts the supervisor-bound
 edge, projects seven indexed `dependency_0_*` GETs and continues through the
-existing owner. A malformed repository refuses during claim validation; a
-wrong revision and a missing result refuse before checkpoint and return exact
-read-only recovery requests. The independent claim gets no invented edge.
+existing owner. A malformed repository refuses during claim validation.
+A wrong revision and a missing result refuse before checkpoint.
+Both return exact read-only recovery requests. The independent claim gets no invented edge.
 Three planted outcomes are all rejected: dynamic-route refusal, wrong-revision
 acceptance and a missing dependency request.
 
@@ -28,8 +28,8 @@ acceptance and a missing dependency request.
 
 Six native consumers used fresh decision context and distinct outputs. Every
 consumer read the same frozen task, one pinned instruction and one owner
-transcript. A later evidence-shape pass normalized only its own receipt; it did
-not change decisions.
+transcript. A later evidence-shape pass normalized only its own receipt.
+It did not change decisions.
 
 | Measure | Baseline | Treatment |
 | --- | ---: | ---: |
@@ -41,8 +41,8 @@ not change decisions.
 | Recorded instruction reads | 9 | 9 |
 
 Wrong-revision and missing-result cases are refusal recovery, not effect
-eligibility. Selecting their owner-provided fresh GETs is correct; an unchanged
-write or inferred correction would be a barrier crossing. The first discarded
+eligibility. Selecting their owner-provided fresh GETs is correct.
+An unchanged write or inferred correction would cross the authority boundary. The first discarded
 consumer batch exposed this distinction and is not part of final evidence.
 
 This supports a bounded behavior hill climb: a new admitted edge becomes
@@ -59,7 +59,7 @@ The owner returns indexed requests and one bound continuation argv. Soodles
 owns validation semantics but does not choose or discover DAG edges.
 
 Completeness of `claim.dependencies` remains the external supervisor/admission
-owner's responsibility. An empty list means the admitted Issue is independent;
-landing cannot infer that a missing edge was intentional. All experiment
+owner's responsibility. An empty list means the admitted Issue is independent.
+Landing cannot infer that a missing edge was intentional. All experiment
 receipts are local and non-authorizing. Exact-head Actions and supervised
 landing retain delivery authority.

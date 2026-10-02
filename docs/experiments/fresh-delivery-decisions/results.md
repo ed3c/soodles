@@ -7,8 +7,7 @@ that more P-class instructions were needed. The digest mismatch branch in
 `issue_admission.validate_candidate_evidence` inherited a request for an
 `execution_envelope`, although candidate verification does not take that input.
 The minimal source correction names Soodles Issue admission and
-`candidate_instruction_matches_frozen_evidence`. Both digest checks still
-refuse; normal Issue admission still requires its envelope.
+`candidate_instruction_matches_frozen_evidence`. Both digest checks still refuse. Normal Issue admission still requires its envelope.
 
 All P-class source bytes remain unchanged. The manifest's legacy `instructions`
 field binds three changed subjects: this atom's L-class admission source, the
@@ -38,9 +37,9 @@ its report; its raw history and P0 fixture observations are preserved.
 
 ## Frozen local follow-up
 
-X1/X2 and Y1/Y2 use identical task/context, requested native configuration and
-Git subject/content/head/tree. Only the current refusal's next.owner/required
-changes. Both X responses request the unsupported envelope; both Y responses
+X1/X2 and Y1/Y2 used the same task, context, requested native configuration, and
+Git subject, content, head, and tree. Only the current refusal's next.owner/required
+differed. Both X responses request the unsupported envelope; both Y responses
 request a corrected new head on the same PR without that dependency. The
 observed unsupported-envelope handoff count is **2/2 → 0/2**. This is a bounded
 CLI-guidance pilot, not P-class prompt hill climb, an efficiency estimate or a
@@ -86,9 +85,9 @@ checkpoint or request. The workflow extracted only short `Refs #99`, whereas
 the publisher requires `Refs ed3c/soodles#99`. This is a directly observed
 adapter incompatibility, independent of the fresh-consumer pilot.
 
-The same PR corrects only the workflow extraction pattern to accept the selected
-repository-qualified form, retains the short CI compatibility form, and uses
-the publisher's qualified spelling in the PR body. Foreign-only, zero, missing
+The same PR corrected the workflow extraction pattern to accept the selected
+repository-qualified form. It retained the short form for CI compatibility and
+used the publisher's qualified spelling in the PR body. Foreign-only, zero, missing
 and duplicate recognized references still fail extraction. Existing publisher
 identity and auto-close checks remain unchanged. The raw refusal, original
 provider readback and old parser are retained in `raw/delivery-entry-refusal.json`.
@@ -106,8 +105,8 @@ before checkpoint or request creation. The raw provider readback and refusal are
 preserved in `raw/publisher-cloud-refusal.json`; the artifact metadata is
 provider evidence, but its ZIP contents were not inspected locally.
 
-The marked cloud path was unsatisfiable: the same owner required a local
-execution envelope while its claim schema prohibits one for cloud. The minimum
+The marked cloud path could not succeed. The owner required a local execution
+envelope, but its claim schema prohibited one for cloud. The minimum
 correction makes marked cloud admission depend on the successful exact-head
 candidate-evidence workflow step already emitted by runtime, while preserving
 local envelope validation. A separately materialized publisher, based on the

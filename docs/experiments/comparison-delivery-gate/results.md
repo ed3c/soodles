@@ -2,11 +2,26 @@
 
 Repository: ed3c/soodles. Baseline: `f4e80d6c55514201f7a66db5e2d75bbcf442ba74`. Treatment code/P freeze: `e99b3737b52fb112aef09aed49f28f69a6e9f27f` (tree `0909bff3bccc33139fd5eca080e00fc70d516402`). Subsequent evidence-only commits must preserve every frozen code, instruction and test digest in `raw/selection.json`.
 
-The existing candidate verification owner now consumes an explicitly selected schema-4 comparison; local publication and landing consume that same discriminator before effects. The external Issue selects the exact subject, instruction bytes, raw/gates/manifest bytes, three fixed base-revision analyzers and required admission target. Replay is bounded and receives no provider credentials. A nonregression result cannot satisfy improvement. Comparison refusals name supervisor inputs and the existing read-only help; no new Agent-facing command or flag is introduced. The shared implementation stays in `issue_admission.py`, preserving the existing publisher bundle and identity boundaries.
+The existing candidate verification owner now consumes an explicitly selected
+schema-4 comparison. Before effects, local publication and landing consume the
+same discriminator. The external Issue selects the exact subject, instruction
+bytes, raw, gates and manifest bytes, three fixed base-revision analyzers, and
+required admission target. Replay is bounded and receives no provider credentials.
+A nonregression result cannot satisfy improvement. Comparison refusals name
+supervisor inputs and the existing read-only help. No new Agent-facing command
+or flag is introduced. The shared implementation stays in `issue_admission.py`
+and preserves the existing publisher bundle and identity boundaries.
 
 ## Deterministic evidence
 
-The external frozen nine-case candidate oracle and six-case direct local landing CLI controls are GREEN for the frozen treatment. They cover ordinary and matching admission, rejected comparison, foreign subject/instruction, modified raw bytes despite rehashed ordinary artifacts, insufficient admission target, missing evidence, and analyzer mismatch before import. Direct publication tests count push/PR effects; landing tests cover start/advance/dispatch and changed provider contract. Unsupported gated cloud delivery explicitly refuses. Fixtures do not execute live provider writes.
+The external frozen nine-case candidate oracle and six-case direct local landing
+CLI controls are GREEN for the frozen treatment. They cover ordinary and matching
+admission, rejected comparison, foreign subject or instruction, and modified raw
+bytes despite rehashed ordinary artifacts. They also cover insufficient admission
+target, missing evidence, and analyzer mismatch before import. Direct publication
+tests count push and PR effects. Landing tests cover start, advance, dispatch and
+a changed provider contract. Unsupported gated cloud delivery explicitly refuses.
+Fixtures do not execute live provider writes.
 
 Baseline is RED only because its matching schema-4 positive is unsupported. Baseline negative refusals do not demonstrate semantic comparison checks. The earlier prose qualification is retained separately and is not described as a live bypass.
 
@@ -18,7 +33,15 @@ Exactly one fresh native consumer per arm assessed the same five opaque syntheti
 
 Observed primary decision barriers: **0 baseline → 0 treatment**. The verdict is **scoped combined nonregression**, not demonstrated behavioral hill-climb improvement. Baseline correctly stopped at unsupported schema-4 capability. Treatment recognized matching admission and the three supplied negative cases' current prerequisites without guessing an alternate command, substituting identity/judge, treating refusal as eligible delivery, or claiming completed delivery. Ordinary byte verification remained a limited non-authorizing result. No extra consumers were added to obtain a better score.
 
-This is a combined code/contract/recipe intervention; it isolates no P-only effect. Native hidden model provenance, token/window/compaction, complete platform transcripts and platform-wide absence of effects are unknown. The recorded subprocess paths show no provider operation; consumer self-reports are not independent proof of all possible hidden activity. The baseline consumer was not supplied the originating Issue and correctly left its report origin unknown; the supervising selection independently binds this experiment to #152. The baseline spawn message was not separately archived and is not reconstructed. Both arms' actual recorder inputs/results remain available.
+This intervention combines code, contract and recipe changes. It isolates no
+P-only effect. Native hidden model provenance, token/window/compaction, complete
+platform transcripts and platform-wide absence of effects are unknown. The
+recorded subprocess paths show no provider operation. Consumer self-reports do
+not independently prove the absence of all possible hidden activity. The baseline
+consumer did not receive the originating Issue and correctly left its report
+origin unknown. The supervising selection independently binds this experiment
+to #152. The baseline spawn message was not separately archived and is not
+reconstructed. Both arms' actual recorder inputs and results remain available.
 
 ## Authority and delivery boundary
 
