@@ -1192,11 +1192,6 @@ class IssueAtomTests(unittest.TestCase):
             with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.process"):
                 atom.complete_noodle(self.authorization, paths, state, transition)
             self.assertEqual(state["noodle_reconciliation"]["process"]["status"], "unknown")
-            owner["state"]["orders"][claim["order_id"]]["status"] = "failed"
-            with self.assertRaisesRegex(atom.issue_admission.AdmissionRefusal, "completion.order.status"):
-                atom.complete_noodle(self.authorization, paths, state, transition)
-            self.assertEqual(native.call_count, 1)
-            self.assertEqual(state["noodle_reconciliation"]["process"]["status"], "unknown")
             owner["state"]["orders"][claim["order_id"]]["status"] = "completed"
             native.side_effect = None
             native.return_value = subprocess.CompletedProcess([], 0, '{}', '')

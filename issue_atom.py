@@ -1492,7 +1492,7 @@ def complete_noodle(authorization, paths, state, transition):
         prior.update(status="observed", completion=completion)
         save_json(paths["state"], state)
         return
-    if prior is not None or order is None:
+    if order is None:
         issue_execution.completed_original_order(binding, owner)
     else:
         issue_execution.quiescent_order(binding, owner)

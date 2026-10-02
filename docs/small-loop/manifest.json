@@ -6,17 +6,12 @@
   },
   "instructions": [
     {
-      "path": "AGENTS.md",
-      "baseline_sha256": "d91987b536f6c9a4efa7a1edbb5cf098885401e5b3f6b43e892c70eb03440b3b",
-      "treatment_sha256": "d91987b536f6c9a4efa7a1edbb5cf098885401e5b3f6b43e892c70eb03440b3b"
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "d8fc8cf89b86d8d13f0300d2ab13f9a7669bb708f804715787efab50816c52b2",
+      "treatment_sha256": "5227161d67b10d70a9e296cbc17b12018062956c7dc88de4a8d62c5b34b9d2ab"
     }
   ],
   "artifacts": [
-    {
-      "path": ".agents/skills/issue-atom/SKILL.md",
-      "role": "Original-order reconciliation implementation, guidance, or focused control",
-      "sha256": "5227161d67b10d70a9e296cbc17b12018062956c7dc88de4a8d62c5b34b9d2ab"
-    },
     {
       "path": "contracts/system-v1/issue-atom.md",
       "role": "Original-order reconciliation implementation, guidance, or focused control",
@@ -25,12 +20,12 @@
     {
       "path": "issue_atom.py",
       "role": "Original-order reconciliation implementation, guidance, or focused control",
-      "sha256": "92ff4bd18fe9a65e5c184ccee9fcea638daa21627db6c515cd16e2d7091d490e"
+      "sha256": "c1b80e46bbf5044e7bd5d00bcb9855023b86b3522e90b04ac2d00a2698766d9e"
     },
     {
       "path": "tests/test_issue_atom.py",
       "role": "Original-order reconciliation implementation, guidance, or focused control",
-      "sha256": "dd641e2013a309b823b97c9a499a677cadbb699e0849ea02cd03386bedb55743"
+      "sha256": "46d6d73d894552caa4bb5ef74e838888cf2f6009cdf8d6ee5cc6edfa67ff72a7"
     },
     {
       "path": "tests/test_lifecycle_activation.py",
