@@ -252,16 +252,24 @@ It records `from`/`to`/authorization digest without editing authorization or raw
 Noodle history. Existing host-finalization facts and sequence carry forward only
 under unchanged rules. The complete prior projection is retained. No unresolved
 publication amendment is required. The same selection returns readback.
-A different second selection refuses. Consume the selected owner's returned `next` unchanged.
+A later supervisor-selected correction must preserve the prior runtime selection
+and the original identity. The owner validates that history before adopting the
+new runtime. It validates the repair ledger against its original source and
+retains its limits and history. Unknown repair effects still require readback.
+A resumed runtime gains no repair-action authority from that old ledger.
+Consume the selected owner's returned `next` unchanged.
 This selection does not choose the landing verifier or authorize new writes.
 
 `status=resolved` is legal only after the landing owner reports
 `classification=RESOLVED` and local reconciliation has completed. Earlier
 receipts retain `authorizes_landing=false`.
-After confirmed provider closure and local fast-forward, the entry asks the
-existing Noodle review owner to complete the original order, then reads its
-acknowledgement. It never substitutes completion state. Only its own started
-loop is shut down; unchanged installed config is restored to the pinned bytes.
+After confirmed provider closure and local fast-forward, the entry stops its own
+loop and uses Noodle's existing `publication reconcile` owner. That owner checks
+the original claim and merged ancestry, then completes the original order.
+It preserves the original attempt and any merge error. It starts no writer and
+performs no merge. A legacy merge acknowledgement proves command acceptance,
+not completion. The entry reads the completed order before cleanup. It restores
+unchanged installed config to the pinned bytes after the owned loop is absent.
 
 Issue #131 is the bootstrap deployment: its Issue was created by the existing
 external cloud supervisor. Its frozen P-class comparison and provider fixtures

@@ -1,4 +1,5 @@
 """External lifecycle activation: selection is not candidate self-authorization."""
+import copy
 import json
 from pathlib import Path
 import shutil
@@ -113,6 +114,136 @@ class LifecycleActivationTests(unittest.TestCase):
         with self.assertRaisesRegex(atom.AtomRefusal, 'lifecycle_owner.file'):
             self.fixture.run_authorize()
 
+    def selected_copy(self, name):
+        root = self.runtime.parent / name
+        for entry in atom.LIFECYCLE_FILES:
+            target = root / entry
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(self.runtime / entry, target)
+        source = root / 'issue_atom.py'
+        source.write_text(source.read_text() + '\n# selected ' + name + '\n')
+        hashes = {entry: atom.digest_file(root / entry) for entry in atom.LIFECYCLE_FILES}
+        return root, {'path': str(root / 'issue-atom'), 'sha256': hashes['issue-atom'],
+                      'source_sha256': atom.digest_bytes(json.dumps(hashes, sort_keys=True,
+                                                                  separators=(',', ':')).encode())}
+
+    def resumed_repair_fixture(self):
+        from system_context import compile_repair
+        receipt = self.fixture.run_authorize()
+        path = Path(receipt['authorization']['path'])
+        auth = atom.read_json(path, 'authorization')
+        digest = receipt['authorization']['sha256']
+        root, selected = self.selected_copy('repair-resume')
+        policy = atom.atom_repair.load((self.runtime / atom.atom_repair.POLICY_PATH).read_bytes())
+        history = atom.atom_repair.new_history(digest,
+            atom.repair_binding(auth, policy, source_root=self.runtime), policy,
+            context=compile_repair(self.runtime))
+        history['used'].update(readback=1, actions=1)
+        history['started'] = history['last_time']
+        history['history'] = [{'signal': 'stale_pr', 'action': 'readback',
+                               'status': 'confirmed', 'evidence': 'c' * 64}]
+        state = {'schema_version': 1, 'authorization_sha256': digest, 'phase': 'landing',
+                 'repair': history, 'lifecycle_resume': {
+                     'from': self.spec, 'to': selected, 'authorization_sha256': digest}}
+        return path, auth, state, root, selected
+
+    def test_postwrite_resume_validates_original_repair_without_transferring_effects(self):
+        path, auth, state, root, _ = self.resumed_repair_fixture()
+        before = copy.deepcopy(state)
+        with patch.object(atom, '__file__', str(root / 'issue_atom.py')), \
+                patch.object(atom, 'postwrite_lifecycle') as postwrite:
+            controller = atom.repair_controller(auth, state, atom.artifact_paths(path), authorization_path=path)
+            with self.assertRaisesRegex(atom.atom_repair.RepairRefusal, 'preserves_original_repair_authority'):
+                controller.perform('missing_projection', lambda _: self.fail('new repair effect'), lambda _: True)
+        postwrite.assert_called_once_with(auth, state, atom.artifact_paths(path), allow_resolved=True)
+        self.assertEqual(state, before)
+        self.assertEqual(state['repair']['used']['readback'], 1)
+
+    def test_postwrite_resume_refuses_foreign_binding_lineage_limits_and_unknown_effects(self):
+        path, auth, state, root, _ = self.resumed_repair_fixture()
+        original = copy.deepcopy(state['repair'])
+        for field, value in (('binding', 'f' * 64), ('lineage', 'f' * 64),
+                             ('limits', {**original['limits'], 'model': 2}),
+                             ('intent', None), ('failed', None)):
+            with self.subTest(field=field):
+                state['repair'] = copy.deepcopy(original)
+                if field in {'intent', 'failed'}:
+                    state['repair']['history'][0]['status'] = field
+                else:
+                    state['repair'][field] = value
+                before = copy.deepcopy(state)
+                with patch.object(atom, '__file__', str(root / 'issue_atom.py')), \
+                        patch.object(atom, 'postwrite_lifecycle'):
+                    with self.assertRaises((atom.AtomRefusal, atom.atom_repair.RepairRefusal)):
+                        atom.repair_controller(auth, state, atom.artifact_paths(path), authorization_path=path)
+                self.assertEqual(state, before)
+
+    def test_legacy_postwrite_without_repair_history_does_not_create_one(self):
+        path, auth, state, root, _ = self.resumed_repair_fixture()
+        del state['repair']
+        del auth['lifecycle_owner']
+        path.write_text(json.dumps(auth))
+        state['authorization_sha256'] = atom.digest_file(path)
+        state['lifecycle_resume']['from'] = None
+        state['lifecycle_resume']['authorization_sha256'] = state['authorization_sha256']
+        with patch.object(atom, '__file__', str(root / 'issue_atom.py')), \
+                patch.object(atom, 'postwrite_lifecycle'):
+            controller = atom.repair_controller(auth, state, atom.artifact_paths(path), authorization_path=path)
+        self.assertIsNotNone(controller.disabled)
+        self.assertNotIn('repair', state)
+
+    def test_second_resume_persists_previous_selection_without_repair_or_projection_reset(self):
+        path, auth, state, _, first = self.resumed_repair_fixture()
+        root, second = self.selected_copy('second-selected-runtime')
+        descriptor = root.parent / 'second-selection.json'
+        descriptor.write_text(json.dumps(second))
+        paths = atom.artifact_paths(path)
+        atom.save_json(paths['state'], state)
+        before = copy.deepcopy(state)
+        auth_bytes = path.read_bytes()
+        runtime = Path(auth['control_root']) / '.noodle'
+        runtime.mkdir(exist_ok=True)
+        owner = {'state': {'orders': {}}}
+        with patch.object(atom, '__file__', str(root / 'issue_atom.py')), \
+                patch.object(atom, 'postwrite_lifecycle', return_value=({'execution': {}}, owner)), \
+                patch.object(atom.issue_execution, 'read_owner', return_value=owner):
+            result = atom.resume(path, str(descriptor), atom.digest_file(descriptor),
+                environ={'SOODLES_AUTHORIZATION_SHA256': state['authorization_sha256']})
+            once = paths['state'].read_bytes()
+            atom.resume(path, str(descriptor), atom.digest_file(descriptor),
+                environ={'SOODLES_AUTHORIZATION_SHA256': state['authorization_sha256']})
+        saved = atom.read_json(paths['state'], 'state')
+        self.assertEqual(result['status'], 'resumed')
+        self.assertEqual(saved['lifecycle_resume']['from'], first)
+        self.assertEqual(saved['lifecycle_resume']['to'], second)
+        self.assertEqual(saved['lifecycle_resume']['previous'], before['lifecycle_resume'])
+        self.assertEqual(saved['repair'], before['repair'])
+        self.assertNotIn('host_finalization', saved)
+        self.assertEqual(path.read_bytes(), auth_bytes)
+        self.assertEqual(paths['state'].read_bytes(), once)
+
+    def test_resume_chain_binds_every_selected_owner_to_original_authorization(self):
+        _, auth, state, _, first = self.resumed_repair_fixture()
+        _, second = self.selected_copy('second-resume')
+        previous = copy.deepcopy(state['lifecycle_resume'])
+        state['lifecycle_resume'] = {'from': first, 'to': second,
+            'authorization_sha256': state['authorization_sha256'], 'previous': previous}
+        self.assertEqual(atom.resumed_lifecycle(auth, state)['lifecycle_owner'], second)
+        for field in ('from', 'authorization_sha256', 'to'):
+            with self.subTest(field=field):
+                changed = copy.deepcopy(state)
+                if field == 'from':
+                    changed['lifecycle_resume'][field] = self.spec
+                elif field == 'to':
+                    changed['lifecycle_resume'][field] = self.spec
+                else:
+                    changed['lifecycle_resume']['previous'][field] = 'f' * 64
+                with self.assertRaises(atom.AtomRefusal):
+                    atom.resumed_lifecycle(auth, changed)
+        (Path(first['path']).parent / 'issue_atom.py').write_text('changed historical selection')
+        with self.assertRaisesRegex(atom.AtomRefusal, 'source_sha256'):
+            atom.resumed_lifecycle(auth, state)
+
     def test_postwrite_host_projection_rebind_keeps_original_facts_and_sequence(self):
         new_root = self.runtime.parent / 'postwrite-lifecycle'
         for name in atom.LIFECYCLE_FILES:
@@ -142,6 +273,18 @@ class LifecycleActivationTests(unittest.TestCase):
         self.assertEqual(resumed.facts, prior['facts'])
         self.assertNotEqual(resumed.identity['plan'], prior['identity']['plan'])
         self.assertEqual(resumed.identity['subject'], prior['identity']['subject'])
+        second_root, second = self.selected_copy('second-host-resume')
+        first_history = copy.deepcopy(state['host_finalization_resume'])
+        first_projection = copy.deepcopy(state['host_finalization'])
+        state['lifecycle_resume'] = {'from': selected, 'to': second,
+            'authorization_sha256': 'a' * 64, 'previous': state['lifecycle_resume']}
+        with patch.object(atom, '__file__', str(second_root / 'issue_atom.py')):
+            atom.resume_host_finalization(auth, state)
+            second_manager = atom.host_manager(auth, state)
+        self.assertEqual(state['host_finalization_resume']['previous'], first_history)
+        self.assertEqual(state['host_finalization_resume']['prior'], first_projection)
+        self.assertEqual(second_manager.sequence, prior['sequence'])
+        self.assertEqual(second_manager.facts, prior['facts'])
         source.write_text(source.read_text() + '# drift\n')
         with patch.object(atom, '__file__', str(new_root / 'issue_atom.py')):
             with self.assertRaises(atom.AtomRefusal):

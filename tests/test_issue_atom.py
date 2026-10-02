@@ -535,6 +535,9 @@ class IssueAtomTests(unittest.TestCase):
         with (fixture.runtime / "noodle.lock").open("a+b") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
+            del state["noodle_completion"]
+            state["noodle_reconciliation"] = {"status": "observed"}
+            atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
             events = session / "events.ndjson"
             bad = json.loads(events.read_text())
             bad["payload"].update(outcome="blocked", blocking=True)
@@ -1119,27 +1122,115 @@ class IssueAtomTests(unittest.TestCase):
                 atom.finish_host(self.authorization, paths, state)
         kill.assert_not_called()
 
-    def test_completion_uses_noodle_mailbox_once_and_preserves_error_ack(self):
+    def completion_fixture(self):
         paths, state = self.startup_fixture()
         order_id = atom.read_json(paths["envelope"], "envelope")["execution"]["order_id"]
+        claim = {"order_id": order_id, "head": self.base, "tree": "exact-tree"}
+        atom.save_json(paths["claim"], claim)
         atom.save_json(paths["landing"], {"phase": "reconciling", "writes_offered": ["merge", "close"],
-                                         "claim": {"head": self.base}, "merge_sha": self.base})
+                                         "claim": claim, "merge_sha": self.base})
         transition = {"next": {"owner": "Noodle", "known": {"order_id": order_id}}}
-        owner = {"state": {"orders": {order_id: {"stages": [{"status": "review"}]}}}}
+        owner = {"state": {"orders": {order_id: {"stages": [{"status": "failed"}]}}}}
+        return paths, state, claim, transition, owner
+
+    def test_completion_reconciles_original_order_without_merge_or_writer(self):
+        paths, state, claim, transition, owner = self.completion_fixture()
+        ack = {"id": "old-merge", "action": "merge", "status": "error", "message": "merge_failed"}
+        state["noodle_completion"] = {"id": "old-merge", "action": "merge", "order_id": claim["order_id"]}
+        ack_path = self.root / ".noodle/control-ack.ndjson"
+        ack_path.write_text(json.dumps(ack) + "\n")
         with patch.object(atom.issue_execution, "read_owner", return_value=owner), \
-                patch.object(atom.issue_execution, "quiescent_order"):
+                patch.object(atom.issue_execution, "quiescent_order"), \
+                patch.object(atom.issue_execution, "completed_original_order", return_value={"order_id": claim["order_id"]}) as readback, \
+                patch.object(atom, "finish_host", return_value=True) as stop, \
+                patch.object(atom, "_git") as ancestry, \
+                patch.object(atom.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, '{}', '')) as native:
             atom.complete_noodle(self.authorization, paths, state, transition)
             atom.complete_noodle(self.authorization, paths, state, transition)
-            lines = (self.root / ".noodle/control.ndjson").read_text().splitlines()
-            self.assertEqual(len(lines), 1)
-            command = json.loads(lines[0])
-            self.assertEqual(command["action"], "merge")
-            self.assertEqual(command["order_id"], order_id)
-            ack = {"id": command["id"], "action": "merge", "status": "error", "message": "fixture refusal"}
-            (self.root / ".noodle/control-ack.ndjson").write_text(json.dumps(ack) + "\n")
-            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.ack"):
+        self.assertEqual(native.call_count, 1)
+        self.assertEqual(native.call_args.args[0], [self.authorization["noodle"]["path"],
+            "--project-dir", str(self.root), "publication", "reconcile", str(paths["claim"]),
+            atom.digest_file(paths["claim"]), self.base])
+        self.assertEqual(readback.call_count, 2)
+        stop.assert_called_once_with(self.authorization, paths, state, stop_only=True)
+        self.assertEqual(ancestry.call_count, 4)
+        self.assertEqual(state["noodle_reconciliation"]["status"], "observed")
+        self.assertEqual(json.loads(ack_path.read_text()), ack)
+        self.assertFalse((self.root / ".noodle/control.ndjson").exists())
+
+    def test_reconciliation_waits_for_original_loop_shutdown(self):
+        paths, state, _, transition, owner = self.completion_fixture()
+        with patch.object(atom.issue_execution, "read_owner", return_value=owner), \
+                patch.object(atom.issue_execution, "quiescent_order"), \
+                patch.object(atom, "finish_host", return_value=False), \
+                patch.object(atom, "_git"), patch.object(atom.subprocess, "run") as native:
+            atom.complete_noodle(self.authorization, paths, state, transition)
+        native.assert_not_called()
+        self.assertNotIn("noodle_reconciliation", state)
+
+    def test_reconciliation_rejects_changed_claim_or_unmerged_head_before_effect(self):
+        paths, state, claim, transition, _ = self.completion_fixture()
+        atom.save_json(paths["claim"], {**claim, "head": "f" * 40})
+        with patch.object(atom, "finish_host") as stop:
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.claim"):
                 atom.complete_noodle(self.authorization, paths, state, transition)
-            self.assertEqual((self.root / ".noodle/control.ndjson").read_text().splitlines(), lines)
+            stop.assert_not_called()
+        atom.save_json(paths["claim"], claim)
+        with patch.object(atom, "_git", side_effect=atom.AtomRefusal("git", "not an ancestor")), \
+                patch.object(atom, "finish_host") as stop:
+            with self.assertRaisesRegex(atom.AtomRefusal, "not an ancestor"):
+                atom.complete_noodle(self.authorization, paths, state, transition)
+            stop.assert_not_called()
+        self.assertNotIn("noodle_reconciliation", state)
+
+    def test_lost_reconciliation_result_resumes_native_projection_after_canonical_completion(self):
+        paths, state, claim, transition, owner = self.completion_fixture()
+        with patch.object(atom.issue_execution, "read_owner", return_value=owner), \
+                patch.object(atom.issue_execution, "quiescent_order"), \
+                patch.object(atom, "finish_host", return_value=True), patch.object(atom, "_git"), \
+                patch.object(atom.subprocess, "run", side_effect=subprocess.TimeoutExpired('reconcile', 30)) as native:
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.process"):
+                atom.complete_noodle(self.authorization, paths, state, transition)
+            self.assertEqual(state["noodle_reconciliation"]["process"]["status"], "unknown")
+            owner["state"]["orders"][claim["order_id"]]["status"] = "failed"
+            with self.assertRaisesRegex(atom.issue_admission.AdmissionRefusal, "completion.order.status"):
+                atom.complete_noodle(self.authorization, paths, state, transition)
+            self.assertEqual(native.call_count, 1)
+            self.assertEqual(state["noodle_reconciliation"]["process"]["status"], "unknown")
+            owner["state"]["orders"][claim["order_id"]]["status"] = "completed"
+            native.side_effect = None
+            native.return_value = subprocess.CompletedProcess([], 0, '{}', '')
+            with patch.object(atom.issue_execution, "completed_original_order", return_value={"order_id": claim["order_id"]}):
+                atom.complete_noodle(self.authorization, paths, state, transition)
+        self.assertEqual(native.call_count, 2)
+        self.assertEqual(native.call_args_list[0].args[0], native.call_args_list[1].args[0])
+        self.assertEqual(state["noodle_reconciliation"]["status"], "observed")
+        self.assertEqual(state["noodle_reconciliation"]["process"]["status"], "completed")
+
+    def test_repair_diagnostic_gap_preserves_original_unknown_process_refusal(self):
+        paths, state = self.startup_fixture()
+        original = atom.AtomRefusal("noodle.completion.process", "TimeoutExpired",
+                                   "selected_noodle_reconciler_readback")
+        with patch.object(atom, "_run_owned", side_effect=original), \
+                patch.object(atom, "repair_controller", side_effect=atom.AtomRefusal(
+                    "repair.original_effect", "unresolved", "original_repair_owner_readback_without_retry")) as repair:
+            with self.assertRaises(atom.AtomRefusal) as caught:
+                atom._run(self.path, environ=self.env, provider=Provider())
+        self.assertIs(caught.exception, original)
+        self.assertEqual(caught.exception.required, "selected_noodle_reconciler_readback")
+        self.assertEqual(repair.call_args.kwargs['authorization_path'], self.path)
+
+    def test_reconciliation_process_success_requires_canonical_completion(self):
+        paths, state, _, transition, owner = self.completion_fixture()
+        with patch.object(atom.issue_execution, "read_owner", return_value=owner), \
+                patch.object(atom.issue_execution, "quiescent_order"), \
+                patch.object(atom.issue_execution, "completed_original_order",
+                             side_effect=atom.issue_admission.AdmissionRefusal("completion.order.status", "failed")), \
+                patch.object(atom, "finish_host", return_value=True), patch.object(atom, "_git"), \
+                patch.object(atom.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, '{}', '')):
+            with self.assertRaisesRegex(atom.issue_admission.AdmissionRefusal, "completion.order.status"):
+                atom.complete_noodle(self.authorization, paths, state, transition)
+        self.assertEqual(state["noodle_reconciliation"]["status"], "offered")
 
     def test_completion_cannot_precede_provider_closure_or_select_another_order(self):
         paths, state = self.startup_fixture()
@@ -1167,6 +1258,32 @@ class IssueAtomTests(unittest.TestCase):
             self.assertFalse(config.exists())
             self.assertTrue(state["noodle_start"]["restored"])
             self.assertTrue(atom.finish_host(self.authorization, paths, state))
+
+    def test_stop_only_preserves_installed_config_and_failed_merge_ack(self):
+        paths, state = self.startup_fixture()
+        config = self.root / ".noodle.toml"
+        config.write_bytes((paths["envelope"].parent / "noodle.toml").read_bytes())
+        original = config.read_bytes()
+        state["noodle_start"] = {"pid": 987654, "config_sha256": atom.digest_file(config),
+                                 "original_config": None}
+        state["noodle_completion"] = {"id": "old-merge", "action": "merge"}
+        ack = {"id": "old-merge", "action": "merge", "status": "error"}
+        ack_path = self.root / ".noodle/control-ack.ndjson"
+        ack_path.write_text(json.dumps(ack) + "\n")
+        manager = atom.host_manager(self.authorization, state)
+        with patch.object(atom, "host_manager", return_value=manager), \
+                patch.object(atom.subprocess, "run", return_value=Mock(returncode=1, stdout="")), \
+                patch.object(atom.os, "killpg", side_effect=ProcessLookupError):
+            self.assertTrue(atom.finish_host(self.authorization, paths, state, stop_only=True))
+            self.assertEqual(config.read_bytes(), original)
+            self.assertNotIn("restore_offered", state["noodle_start"])
+            self.assertNotIn("owner_confirmed", state["host_finalization"]["facts"])
+            state["noodle_reconciliation"] = {"status": "observed"}
+            self.assertTrue(atom.finish_host(self.authorization, paths, state,
+                                             landing={"classification": "RESOLVED"}))
+        self.assertEqual(json.loads(ack_path.read_text()), ack)
+        self.assertFalse(config.exists())
+        self.assertTrue(state["noodle_start"]["restored"])
 
     def test_finish_host_refuses_recycled_pid_without_signalling(self):
         from unittest.mock import Mock

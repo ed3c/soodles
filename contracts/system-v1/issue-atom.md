@@ -140,11 +140,13 @@ Issue-atom Noodle and candidate children receive neither write credentials nor
 host supplier/App configuration. The existing start wrapper supplies only its
 independently scoped issues-read credential.
 
-After the landing owner confirms closure and fast-forwards main, the entry may
-append one exact merge approval for the original order to Noodle's existing
-control mailbox. It then reads the acknowledgement. Noodle still validates
-review and completion and owns history. Only the entry's own measured loop may
-receive shutdown. Config restoration requires that loop's absence, the existing
+After the landing owner confirms closure and local fast-forward, the entry stops
+its own loop. Noodle's existing `publication reconcile` owner checks the original
+claim and merged ancestry. It completes the original order and preserves its
+attempt history, including a prior merge error. It performs no merge and starts
+no writer. A legacy merge acknowledgement proves command acceptance only.
+The entry reads Noodle's completed order before cleanup. Only the entry's own
+measured loop may receive shutdown. Config restoration requires that loop's absence, the existing
 instance lock, and unchanged installed bytes. Missing or ambiguous mutation
 responses never authorize repetition. Unchanged failed candidate heads, foreign
 markers, drifted identities, and non-exact checks cause refusal.
@@ -223,6 +225,13 @@ The atom consumes the projection with its current owner response. It exposes
 the same `next`, the review, and unknown effectiveness evidence. A historical
 failure or a repeated module is not by itself a current repair instruction.
 
+After confirmed provider landing, a supervisor-selected lifecycle correction
+retains the original authorization and each prior runtime selection. The owner
+validates that chain and the original repair ledger against its pinned source.
+It preserves the ledger, limits, and history. An unresolved repair effect still
+requires original readback. The corrected runtime can complete normal landing
+reconciliation. The old ledger grants it no repair-action authority.
+
 
 ### Fixed host finalization — ed3c/soodles#209
 
@@ -235,8 +244,8 @@ and physical effect boundaries. Hot apply/project performs no source loading.
 
 Fresh owner observations determine readiness to stop, restore, and confirm
 inside `finish_host`. Readiness is not authority. The owner still checks exact
-process argv, process-group absence, config custody, backup digest, completion
-acknowledgement, and Noodle's lock. Stop and restore intents are persisted before
+process argv, process-group absence, config custody, backup digest, original-order
+completion, and Noodle's lock. Stop and restore intents are persisted before
 their effects. If an offered operation has an unknown result, it is never repeated.
 Original owner readback must establish absence or restoration.
 Cleanup of a selected prior failed owner remains possible before landing.
