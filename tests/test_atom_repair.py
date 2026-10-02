@@ -394,7 +394,8 @@ class OwnerLineageTests(unittest.TestCase):
         self.assertEqual(report["mode"], "owner_continuation")
         self.assertEqual(effect["mode"], "owner_continuation")
         self.assertEqual(risk["mode"], "defined_risk")
-        self.assertEqual(unknown["mode"], "offline_measurement")
+        self.assertEqual(unknown["mode"], "owner_discovery")
+        self.assertIsNone(unknown['offline_request'])
         self.assertEqual(report["context"]["requires"], ["contracts/system-v1/common.md",
                                                         "contracts/system-v1/issue-atom.md"])
         record("pure-decision", {"elapsed_ns": elapsed, "observation_count": 1,

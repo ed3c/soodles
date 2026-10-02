@@ -98,6 +98,21 @@ recipe only when the admitted task selects that comparison.
 
 ## Same-Issue failed-head correction
 
+If the atom returns a correction preparation argv, consume that exact argv.
+The producer derives the selection from original authority and current readback.
+Its fixed output is the original atom directory's `correction` directory.
+It preserves the original task, contract, carrier, external judge, Issue, and PR.
+The producer saves the selection before preparing its continuation. Re-entry
+reads that fixed selection. It does not reconstruct identity from later provider data.
+Consume the returned prepared `next` and environment.
+
+This automatic entry requires a confirmed failed CI, the same base, and the
+original parked Noodle owner. It permits one derivation
+from the original task. A successor cannot derive another automatic correction.
+Preparation launches no model. The existing Noodle admission controls its writer.
+The original repair ledger remains unchanged. A writer is not counted as one inference. Missing requirements
+remain named owner inputs. A refusal does not permit replaying the failed head.
+
 For an exact failed runtime on an open PR, the authorized local Session derives
 `prior_publication` and `prior_atom` from current provider readback and the
 original immutable authorization. Select both in the same schema-1 selection;

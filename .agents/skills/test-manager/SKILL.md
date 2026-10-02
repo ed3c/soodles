@@ -42,7 +42,9 @@ module selection does not establish that every contained case is necessary.
   A model-written contract cannot create that demand merely by listing full coverage.
 - Prose-only changes require review of changed meaning, not a runtime pass.
   Executable/evidence inputs under docs are not prose-only. Do not claim model
-  behavior from a Markdown diff or add an unrequested behavioral experiment.
+  behavior from a Markdown diff. P-class writing follows
+  [review-writing](../review-writing/SKILL.md) for scoped evals and Schema Manager
+  feedback. That requirement does not demand software tests or a full suite.
 - Keep unique current behavior/refusal controls. Remove redundant historical
   reruns and duplicate runs through different entrypoints. A failure prompts
   diagnosis and affected controls, not automatic expansion to the full suite.
@@ -178,3 +180,23 @@ when reconciling cost observations with the requested outcome. Repair seconds
 remain elapsed since first repair; no cost projection creates new thresholds or
 resets/reserves counters. Fixture gate observations are CI product controls,
 never measurements of live exhaustion or independent acceptance authority.
+
+
+## P-class feedback scope
+
+Normal lifecycle cost projections call `review_cost` before Schema Manager.
+The review names measured phases, their sources, and unknown measurements.
+Repeated module observations need input comparison before they count as waste.
+Historical failures need current owner readback before they trigger a correction.
+The atom exposes this review with its unchanged `next` in `feedback`.
+A resolved owner retains the history without reopening delivery.
+Long durations and missing timing alone request no repair, eval, or test.
+
+For the existing stage-outcome feedback entry, `feedback_scope` selects consumer
+observations from Schema Manager's current result and the prior recorded round.
+Resolve unsupported conditions before requesting a consumer. Reuse only passed
+cases with matching instruction, method, requirement, input, and expected-value
+identities. Missing observations still need original evidence references before
+Schema Manager can pass the complete selection. A reuse decision is not an observation.
+The decision records current projection cost. It requests no software modules,
+physical controls, or full suite. Existing software scope selection remains separate.

@@ -83,6 +83,52 @@ class CostTests(unittest.TestCase):
         with self.assertRaises(cost.CostRefusal):
             cost.decode('{"seconds": 1, "seconds": 2}')
 
+    def test_cost_review_preserves_sources_and_unknowns_without_demand(self):
+        values = [self.span('slow', outcome='passed', seconds=90000, started=None, finished=None),
+                  self.span('incomplete', seconds=None, finished=None, outcome='unknown')]
+        with patch('schema_manager.project_cost', wraps=schema_manager.project_cost) as project:
+            result = cost.project(self.identity, values)
+        review = project.call_args.kwargs['review']
+        self.assertEqual(review['owner'], 'test-manager')
+        self.assertEqual(review['subject'], self.identity)
+        self.assertEqual(review['sources'], result['sources'])
+        self.assertEqual(review['status'], 'reviewed')
+        self.assertIsNone(review['next'])
+        self.assertIsNone(review['test_demand'])
+        self.assertEqual(review['effects'], [])
+        self.assertFalse(review['authorizes_landing'])
+        observed = next(item for item in review['findings'] if item['kind'] == 'observed_cost')
+        self.assertEqual(observed['phase'], 'execution')
+        self.assertEqual(observed['sources'], [self.source['sha256']])
+        self.assertEqual(observed['observation']['inclusive_seconds'], 90000)
+        self.assertEqual(observed['observation']['statuses'], {'passed': 1, 'unknown': 1})
+        self.assertTrue(any(item['kind'] == 'unmeasured_spans' and item['phase'] == 'execution'
+                            for item in review['unknowns']))
+        self.assertTrue(any(item.get('family') == 'writer_model' and item['status'] == 'unknown'
+                            for item in review['unknowns']))
+
+    def test_cost_review_routes_failures_and_repeated_modules_to_owner_readback(self):
+        values = [self.span('failure', outcome='failed'), self.span('refusal', outcome='refused'),
+                  self.span('module-one', family='verification', kind='worker', phase='test.module',
+                            worker='test_example', outcome='passed'),
+                  self.span('module-two', family='verification', kind='worker', phase='test.module',
+                            worker='test_example', outcome='passed')]
+        with patch('schema_manager.project_cost', wraps=schema_manager.project_cost) as project:
+            cost.project(self.identity, values)
+        review = project.call_args.kwargs['review']
+        self.assertEqual(review['status'], 'needs_owner_readback')
+        self.assertEqual(review['next'], {'owner': 'original-owner', 'required': 'original_owner_readback',
+                                          'continuation': 'existing_owner_next'})
+        failure = next(item for item in review['findings'] if item['kind'] == 'owner_readback_required')
+        self.assertEqual(failure['observation'], {'failed': 1, 'refused': 1})
+        repeated = next(item for item in review['findings'] if item['kind'] == 'repeated_module_observations')
+        self.assertEqual(repeated['worker'], 'test_example')
+        self.assertEqual(repeated['observation'], {'runs': 2})
+        self.assertEqual(repeated['sources'], [self.source['sha256']])
+        self.assertTrue(any(item['kind'] == 'repeat_necessity' for item in review['unknowns']))
+        self.assertEqual(review['effects'], [])
+        self.assertIsNone(review['test_demand'])
+
     def test_nested_parallel_intervals_do_not_become_wall_sum(self):
         values = [self.span(), self.span('nested', started=12, finished=16, seconds=4),
                   self.span('other', started=18, finished=25, seconds=7),

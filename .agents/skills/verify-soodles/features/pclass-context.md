@@ -7,6 +7,12 @@ checks correspondence between source and live behavior. It does not automaticall
 establish model improvement. N observations, P guidance, tested L refusals and
 actual R provider readbacks retain separate claims.
 
+For P-class writing completion, use the
+[review-writing feedback procedure](../../review-writing/features/pclass-feedback.md).
+It records scoped consumer behavior through Schema Manager.
+The comparison procedure below applies when the claim requires a comparison.
+Neither route requests a full software test suite.
+
 ## Declared defect controls and optional behavior comparison
 
 An observed defect first needs its actual subject, owner/checkpoint, process result

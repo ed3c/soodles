@@ -169,9 +169,9 @@ class Controller:
         if signal == "failed_process":
             stop = "bounded_patch_capability_required"
         mode = ("defined_risk" if signal in {"stale_pr", "missing_projection", "no_legal_next"}
-                else "offline_measurement" if signal == "unknown_signal" else "owner_continuation")
+                else "owner_discovery" if signal == "unknown_signal" else "owner_continuation")
         return {"classification": signal, "mode": mode,
-                "offline_request": "scoped_unknown_behavior_evidence" if mode == "offline_measurement" else None,
+                "offline_request": None,
                 "context": copy.deepcopy(self.context.get(signal)),
                 **copy.deepcopy(rule), "remaining": remaining,
                 "stop": stop or ("owner_input_required" if rule["action"] == "stop" else None),

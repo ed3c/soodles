@@ -23,6 +23,10 @@ REPLACEMENTS = {
 # Traced owner/consumer coverage for bounded changes. A missing mapping is a
 # scope decision for the supervising Session, never an instruction to run all.
 BOUNDARIES = (
+    (("supervisor_admission.py", "issue_atom.py"), ("correction_preparation",), ()),
+    (("stage_outcome.py", "stage-outcome", "schema_manager.py", "issue_execution.py", "handoff_oracle.py"),
+     ("feedback_owner", "stage_outcome"), ()),
+    (("schema_manager.py", "soodles.py", "stage_outcome.py"), ("pclass_feedback",), ()),
     (("schema_manager.py", "issue_atom.py"), ("cost_telemetry",), ()),
     (("cost_telemetry.py", "docs/loop-cost/evidence.json"),
      ("cost_telemetry", "schema_manager", "issue_atom", "lifecycle_activation", "candidate_verification"), ()),
@@ -40,7 +44,7 @@ BOUNDARIES = (
     (("docs/experiments/bounded-repair/manifest.json",
       "docs/experiments/bounded-repair/product-results.json"),
      ("candidate_verification", "atom_repair"), ()),
-    (("docs/test-manager-delivery/evidence.json", "docs/ste-writing/manifest.json"),
+    (("docs/test-manager-delivery/evidence.json", "docs/ste-writing/manifest.json", "docs/small-loop/manifest.json"),
      ("candidate_verification",), ()),
     (("docs/owner-base-continuation-evidence.json",), ("candidate_verification",), ()),
     (("docs/cleanup-integration-evidence.json",), ("candidate_verification", "cleanup_continuation"), ()),
@@ -341,3 +345,75 @@ sys.exit(0 if result.wasSuccessful() and not result.skipped else 1)
             "output": "".join(output for _, output in results),
             "count": sum(map(len, groups.values())), "workers": workers,
             "seconds": round(time.monotonic() - started, 3)}
+
+
+def review_cost(facts):
+    """Review normal observations without selecting tests, repair, or effects."""
+    findings, unknowns = [], []
+    needs_readback = False
+    for phase in facts["summary"].get("phase_costs", []):
+        context = {"phase": phase["phase"], "worker": phase["worker"],
+                   "sources": phase["sources"]}
+        findings.append({**context, "kind": "observed_cost", "observation": {
+            key: phase[key] for key in ("kind", "observations", "measured_spans",
+                                       "inclusive_seconds", "statuses")}})
+        if phase["measured_spans"] < phase["observations"] and set(phase["statuses"]) != {"not_required"}:
+            unknowns.append({**context, "kind": "unmeasured_spans",
+                             "reason": "Some observed spans have no duration."})
+        if any(phase["statuses"].get(status, 0) for status in ("failed", "refused")):
+            needs_readback = True
+            findings.append({**context, "kind": "owner_readback_required",
+                             "observation": phase["statuses"],
+                             "reason": "Recorded failures or refusals need the original owner's current readback."})
+        if phase["phase"] == "test.module" and phase["worker"] and phase["observations"] > 1:
+            needs_readback = True
+            findings.append({**context, "kind": "repeated_module_observations",
+                             "observation": {"runs": phase["observations"]},
+                             "reason": "Multiple runs are recorded. Their necessity is not established."})
+            unknowns.append({**context, "kind": "repeat_necessity",
+                             "reason": "The original owner must compare each run's inputs and required behavior."})
+    for family, coverage in facts["coverage"].items():
+        if coverage["status"] in {"unknown", "partial"}:
+            unknowns.append({"family": family, "kind": "coverage",
+                             "status": coverage["status"], "sources": coverage["evidence"],
+                             "reason": coverage["reason"]})
+    for metric, value in facts["summary"].items():
+        if value is None:
+            unknowns.append({"metric": metric, "kind": "unmeasured_summary",
+                             "sources": facts["sources"],
+                             "reason": "Available observations do not establish this measurement."})
+    return {"owner": "test-manager", "subject": facts["subject"], "sources": facts["sources"],
+            "status": "needs_owner_readback" if needs_readback else "reviewed",
+            "findings": findings, "unknowns": unknowns,
+            "next": {"owner": "original-owner", "required": "original_owner_readback",
+                     "continuation": "existing_owner_next"} if needs_readback else None,
+            "effects": [], "test_demand": None, "authorizes_landing": False}
+
+
+def feedback_scope(result, previous=None):
+    """Select consumer observations from current needs, never a software full suite."""
+    old = previous or {}
+    reuse, needed, verified = [], [], []
+    prior_cases = {case["id"]: case for case in old.get("cases", [])}
+    current_cases = {case["id"]: case for case in result.get("cases", [])}
+    for name, identity in result.get("case_fingerprints", {}).items():
+        reusable = (result.get("criteria", {}).get("status") == "SUPPORTED"
+                    and old.get("criteria", {}).get("status") == "SUPPORTED"
+                    and old.get("case_fingerprints", {}).get(name) == identity
+                    and prior_cases.get(name, {}).get("status") == "passed")
+        if current_cases.get(name, {}).get("status") == "passed":
+            verified.append(name)
+        else:
+            (reuse if reusable else needed).append(name)
+    if result.get("criteria", {}).get("status") != "SUPPORTED":
+        needed = []
+    from schema_manager import project_cost
+    cost = project_cost({"subject": result.get("subject"), "coverage": "current feedback projection only",
+        "summary": {"schema_ms": result.get("elapsed_ms"), "projection_ms": result.get("projection_ms"),
+                    "model_ms": None, "tokens": None},
+        "sources": result.get("sources", [])})
+    return {"owner": "test-manager", "mode": "focused", "cases": needed, "reuse": reuse, "verified": verified,
+            "cost": cost,
+            "modules": [], "physical": [], "full": False,
+            "reason": "Resolve criteria first; reuse matching passed observations; observe only affected cases.",
+            "authorizes_landing": False}

@@ -28,7 +28,7 @@ class LifecycleActivationTests(unittest.TestCase):
             "contracts/system-v1/routes.json", "contracts/system-v1/common.md",
             "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
             "contracts/system-v1/readback.md", "provider-readback",
-            "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py"}
+            "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py", "test_manager.py"}
         self.assertEqual(set(atom.LIFECYCLE_FILES), expected_files)
         for name in expected_files:
             destination = self.runtime / name

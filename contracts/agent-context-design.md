@@ -19,8 +19,10 @@ provider, or verifier authority.
 Report the requested outcome, instruction conflict with source locations, correction,
 affected consumers and available evidence. Baseline/treatment observations and
 non-cases belong only to a selected behavior comparison. Ordinary instruction
-corrections need no experiment packet; report their static checks without claiming
-measured behavior improvement. Never invent observations to fill a report format.
+corrections use [review-writing](../.agents/skills/review-writing/SKILL.md)
+for style review and scoped behavior feedback through Schema Manager.
+They need no baseline/treatment packet unless the claim compares behavior.
+Report covered observations without claiming measured improvement. Never invent observations to fill a report format.
 
 Write conditions and actions: **when this task/state applies, use this owner/source, continue to this observable result, stop for this named missing input**. Prefer outcomes and constraints for ordinary work. Preserve exact sequences for side effects whose ordering is part of correctness.
 

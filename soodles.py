@@ -24,11 +24,20 @@ class Parser(argparse.ArgumentParser):
     def parse_known_args(self, args=None, namespace=None):
         parsed, unknown = super().parse_known_args(args, namespace)
         # Keep unknown read flags at the reader's error boundary instead of the root parser.
-        if self.prog.startswith(("./soodles github", "./soodles eval")) and unknown:
+        if self.prog.startswith(("./soodles github", "./soodles eval", "./soodles schema")) and unknown:
             self.error("unrecognized arguments: " + " ".join(unknown))
         return parsed, unknown
 
     def error(self, message):
+        if self.prog.startswith("./soodles schema"):
+            print(json.dumps({"owner": "schema-manager.pclass-feedback", "status": "refused",
+                              "evidence_validity": "INVALID", "behavior": None,
+                              "authorizes_landing": False, "effects": [], "test_demand": None,
+                              "problem": {"field": "arguments", "reason": message},
+                              "next": {"owner": "caller", "operation": "supply_bound_evidence",
+                                       "required": ["valid_arguments"],
+                                       "help_argv": ["./soodles", "schema", "pclass-feedback", "--help"]}}, indent=2))
+            self.exit(2)
         if self.prog.startswith("./soodles eval"):
             print(json.dumps(report_refusal("arguments", message), indent=2))
             self.exit(2)
@@ -323,6 +332,13 @@ def parser():
     groups = p.add_subparsers(dest="group", required=True)
     test = groups.add_parser("test", help="Run affected tests, or explicitly select the full suite.")
     test_options(test)
+    schema = groups.add_parser("schema", description="Read-only Schema Manager evidence projections.")
+    schema_verbs = schema.add_subparsers(dest="verb", required=True)
+    feedback = schema_verbs.add_parser("pclass-feedback", description=(
+        "Bind selected P-class consumer reports to a fixed protocol and return validity, behavior, DAG and next. "
+        "No model, test, runtime, provider, repair or landing effects. Exit 0: PASS; 1: FAIL; 2: unusable evidence."))
+    feedback.add_argument("selection", help="Absolute path to the supervisor-selected feedback JSON")
+    feedback.add_argument("expected_sha256", help="SHA-256 of the selected file bytes")
     evaluation = groups.add_parser(
         "eval", description="Externally selected feature_map_routing_report_v2 verification only; "
         "not general behavior-eval authoring. Read evidence_validity before behavior. No landing authority.",
@@ -479,10 +495,17 @@ def bind_landing_continuation(result, args):
 
 def main():
     args = parser().parse_args()
+    if args.group == "schema":
+        from schema_manager import pclass_feedback
+        result = measured("schema.pclass_feedback", pclass_feedback, args.selection, args.expected_sha256)
+        print(json.dumps(result, indent=2))
+        if result["evidence_validity"] != "VALID" or result["behavior"] is None:
+            return 2
+        return 0 if result["behavior"]["classification"] == "PASS" else 1
     if args.group == "eval":
         result = eval_report(args.selection, args.expected_sha256)
         print(json.dumps(result, indent=2))
-        if result["evidence_validity"] != "VALID":
+        if result["evidence_validity"] != "VALID" or result["behavior"] is None:
             return 2
         return 0 if result["behavior"]["classification"] == "PASS" else 1
     import landing
