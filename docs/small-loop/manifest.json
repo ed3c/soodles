@@ -2,156 +2,41 @@
   "schema": 1,
   "issue": {
     "repository": "ed3c/soodles",
-    "number": 221
+    "number": 223
   },
   "instructions": [
     {
-      "path": "AGENTS.md",
-      "baseline_sha256": "90c6db718ff616c1e55e8a62121f0dacbd3defe2d1c1516f07a8ee088c0d6a34",
-      "treatment_sha256": "d91987b536f6c9a4efa7a1edbb5cf098885401e5b3f6b43e892c70eb03440b3b"
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "d8fc8cf89b86d8d13f0300d2ab13f9a7669bb708f804715787efab50816c52b2",
+      "treatment_sha256": "5227161d67b10d70a9e296cbc17b12018062956c7dc88de4a8d62c5b34b9d2ab"
     }
   ],
   "artifacts": [
     {
-      "path": ".agents/skills/execute/SKILL.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "f024f884520064684eee4e0a112a412982887b8e4ca5f1aadd5519c241e42fd0"
-    },
-    {
-      "path": ".agents/skills/issue-atom/SKILL.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "d8fc8cf89b86d8d13f0300d2ab13f9a7669bb708f804715787efab50816c52b2"
-    },
-    {
-      "path": ".agents/skills/review-writing/SKILL.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "fbc1f479ba625511de1a89973aca2109463ce28581d7097141cda929eed4e37a"
-    },
-    {
-      "path": ".agents/skills/review-writing/features/README.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "54867bfc6a6cc4dc19f1967062c9333788e83ab57b6584173084a08c3833b905"
-    },
-    {
-      "path": ".agents/skills/review-writing/features/pclass-feedback.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "b4eaaaab04a3ea286460b3fe597fe0c359d3fe203bb54a1ad1f9e029e1b7cb78"
-    },
-    {
-      "path": ".agents/skills/review-writing/features/writing-review.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "e2370667f57a4c610f63eff39a41bcea8d0ce5fb417606483036dd9bcaad5766"
-    },
-    {
-      "path": ".agents/skills/test-manager/SKILL.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "4481d3a3d3592dbf37955f93f712f40e98ec8ab47b574c814c2c9681cec1de44"
-    },
-    {
-      "path": ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "2a9ae47ef8ad0fc59cbe9f3d487e8d77a3ede7fd0e64ec6225956202df411fcb"
-    },
-    {
-      "path": ".agents/skills/verify-soodles/features/pclass-context.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "b8db523f63fd9f71a43ad7d4cc66b364549a5365d2d63fc28f0801c6b55082dc"
-    },
-    {
-      "path": "atom_repair.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "7abb92c98e5cb1a22b4931fca0584d8a7fe1bc34c205cf13ebd34f1e049c4e17"
-    },
-    {
-      "path": "contracts/agent-context-design.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "c257a2c32dd07ffec33b16fa965a291797c1909638153cf71c613fa3fe1d8b79"
-    },
-    {
       "path": "contracts/system-v1/issue-atom.md",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "30301ba44f45b8898697a1548a6a5f8cbe88652e98883cf17080d5770a6ad5fb"
-    },
-    {
-      "path": "cost_telemetry.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "3c7adec459c4f6bb0bcaf4ce9ddcb908d3f5aff08533255cf3566f25eb92c743"
-    },
-    {
-      "path": "handoff_oracle.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "d0635c36881156610b50df43134adf9351baa7ac49ed94f84b5012df7f231bf3"
+      "role": "Original-order reconciliation implementation, guidance, or focused control",
+      "sha256": "388e24cb8da63ecb4d7c99be6ec8b625d679ae2f6c3bb7a72fd48f842e9a05e5"
     },
     {
       "path": "issue_atom.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "19f6da2dcd9726ef20cd4eedbd8df9d640eacff91cf120be19d349eb8463240e"
+      "role": "Original-order reconciliation implementation, guidance, or focused control",
+      "sha256": "8ca38aeea8d9e841d179ae0f14778b1ac95ecdfb42c5251944f28557460250d8"
     },
     {
-      "path": "issue_execution.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "32ec445242855392efbcab551817a7fb06da3f083f8563daf25466d975bfdac4"
-    },
-    {
-      "path": "schema_manager.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "c30b4633792101ffa90a6bdac81df81b47a4736d9ba628a8280826788c1a200d"
-    },
-    {
-      "path": "soodles.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "cb8928a8b32f1b4386200367174d364c90f9d5e78dfb8ae6ce8ea642df97d9a2"
-    },
-    {
-      "path": "stage_outcome.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "d329aaacc62b071178818c584dc1675ba46c7e9e48a04c055551d03b09ff5098"
-    },
-    {
-      "path": "supervisor_admission.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "c1c74f7bd5aa25914d573984f6e89bb167957e29b895119981b6a459c62fed57"
-    },
-    {
-      "path": "test_manager.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "616a48166d822d824fc33734e65286839a8b6f90eabfccd62d328d23331c27f7"
-    },
-    {
-      "path": "tests/test_atom_repair.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "c4bc772098c270c99a094ae7a9bf4fb7c1117fba6648c83454bbe830d9ad50e8"
-    },
-    {
-      "path": "tests/test_correction_preparation.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "4afdae40a15896635343bd36d23fa9cdc2bc891a17fdec39bbaf1afcccf1c0c3"
-    },
-    {
-      "path": "tests/test_cost_telemetry.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "1d630582a4638aabfbfa328146cf4405d2eff9c5b3f0cc2a1e1f523249d34a50"
-    },
-    {
-      "path": "tests/test_feedback_owner.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "75f46d41e3d3eb60ba360575e939db645337f83143338d354daff0a54d455fe5"
+      "path": "tests/test_issue_atom.py",
+      "role": "Original-order reconciliation implementation, guidance, or focused control",
+      "sha256": "46d6d73d894552caa4bb5ef74e838888cf2f6009cdf8d6ee5cc6edfa67ff72a7"
     },
     {
       "path": "tests/test_lifecycle_activation.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "945457d2da8461904ccf5cc8618f4ad805674fb94963c780b51af96f7788d234"
-    },
-    {
-      "path": "tests/test_pclass_feedback.py",
-      "role": "prepared small-loop implementation, guidance, or focused control",
-      "sha256": "23d4db0e80502bf9fb49a83b45b6a071ae9729338383add33956f9a946be1097"
+      "role": "Original-order reconciliation implementation, guidance, or focused control",
+      "sha256": "22af15039907557eee82bc1d6a26d3585ae56b6f93b764af684e8cfe6c61b42c"
     }
   ],
   "owner": {
-    "name": "Soodles Issue atom and original Noodle order",
+    "name": "Original Soodles lifecycle and Noodle publication reconciliation owner",
     "tool": "issue_admission.validate_delivery_paths",
-    "authorization": "ed3c/soodles#221"
+    "authorization": "ed3c/soodles#223"
   },
   "authorizes_landing": false
 }
