@@ -4,9 +4,8 @@ N-class observation for [Issue 49](https://github.com/ed3c/soodles/issues/49).
 Baseline: `defc5f41153837f4db5ee0858fd03c9029523c6c`.
 This report grants no acceptance or landing authority.
 
-Six fresh native cloud consumers exercised three matched fixture cases. Captured
-behavior supports scoped nonregression, but the deletion failed every pair's
-prospective efficiency conditions. **AGENTS.md remains unchanged.** This is a
+Six fresh native cloud consumers exercised three matched fixture cases. Captured behavior supported scoped nonregression. The deletion nevertheless
+failed the efficiency conditions fixed in advance for every pair. **AGENTS.md remains unchanged.** This is a
 negative optimization result, not a repaired baseline defect or a universal claim.
 
 ## Change, controls and observations
@@ -31,8 +30,8 @@ explicitly requested; automatic instruction discovery was not tested.
 
 Independent review checked all 53 captured command records, stdout/stderr hashes,
 explicit cat output against bound source bytes, original and corrected recovery
-inputs, owner responses and final state. Treatment b/c also read the 6,070-byte
-recovery recipe, outweighing the removed 280 bytes. This observed route difference
+inputs, owner responses and final state. Treatment b/c also read the 6,070-byte recovery recipe. That read added more bytes
+than the deletion removed: 280 bytes. This observed route difference
 does not prove the deletion caused that choice.
 
 There were no repeated instruction documents. Audited directory enumeration

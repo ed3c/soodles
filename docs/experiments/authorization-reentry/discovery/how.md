@@ -2,9 +2,9 @@
 
 ## Overview
 
-問題：`authorize` 已寫完 `authorization.json`，但在 `prepared.json` 發布前或後遭程序終止；fresh Session 只拿原 selection SHA、output 與原 handoff，能否合法恢復？答案取決於留下的是已發布的收據，還是只有未完成發布的授權 bytes。若原可信 output 中有完整 `prepared.json`，即使 stdout 未送達，也可讀回原 `next.argv`／`next.environment`，再由 Issue-atom 重新驗證；不必重跑 `authorize`。若只有 `authorization.json`，而 handoff 沒保存其外部選定 digest／continuation，目前沒有可執行的 owner recovery 路徑可以從 selection 身份接回去。這是待 fault controls 證明的「部分發布恢復能力缺口」，不是 output collision refusal 本身的 bug。
+本報告檢查以下情況：`authorize` 已寫完 `authorization.json`，但程序在 `prepared.json` 發布前或後終止。fresh Session 只有原 selection SHA、output 與原 handoff。能否合法恢復，取決於留下的是已發布收據，還是尚未完成發布的授權 bytes。若原可信 output 中有完整 `prepared.json`，即使 stdout 未送達，也可讀回原 `next.argv`／`next.environment`。Issue-atom 再驗證這份 continuation，不必重跑 `authorize`。若只剩 `authorization.json`，還須確認 handoff 是否保存外部選定的 digest／continuation。若沒有，當時的 owner recovery 沒有可執行路徑能從 selection 身份恢復。這是待 fault controls 證明的「部分發布恢復能力缺口」，不是 output collision refusal 本身的 bug。
 
-本報告只做靜態 grounding；未啟動模型、Noodle daemon、provider mutation 或 fault process，也未修改 repository。讀取 source `/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02`，Git HEAD 已確認為 `51821b935424a4697e2534a9f15b068620510025`。採用指定 How explainer 格式。carrier 為目前平台原生委派 agent，模型配置繼承 parent；上游方法的模型配置不適用，本報告不宣稱取得不可觀測的 model ID 或推理設定。
+本報告只依靜態 source 分析。分析未啟動模型、Noodle daemon、provider mutation 或 fault process，也未修改 repository。讀取 source `/Users/neon/.codex/experiments/claim-refusal-closure-39lph64z/control-r02`，Git HEAD 已確認為 `51821b935424a4697e2534a9f15b068620510025`。採用指定 How explainer 格式。carrier 是當時平台的原生委派 agent，模型配置繼承 parent。上游方法的模型配置不適用。本報告不宣稱已取得不可觀測的 model ID 或推理設定。
 
 ## Key Concepts
 
@@ -46,15 +46,15 @@ flowchart LR
 ### 哪些情況目前能恢復
 
 1. **發布後、stdout 前 SIGKILL**：final receipt 與 authorization 都完整留存時，可從原 handoff 指定的可信 output 讀回。仍需檢查 final paths、receipt digest／environment 一致性，再走原 continuation；更改 bytes 或外部 pins 應由既有 validator 拒絕。不要再 `authorize` 到同一目錄，也不要把「新的空目錄可成功」當作同一身份恢復。
-2. **authorization 寫完、receipt 發布前 SIGKILL**：同 output 重入會在 565 行拒絕。`.prepared.json` 即便看似完整也是未發布暫存物，現有契約沒有授權 Session 自行 rename、補收據或把它提升為完成證據。若 handoff 原本已保存可信 authorization digest 與原 continuation，可用既有 Issue-atom 入口；若只有 selection digest，不可把殘留檔案的即時計算 hash 自行當成外部授權。
+2. **authorization 寫完、receipt 發布前 SIGKILL**：同 output 重入會在 565 行拒絕。`.prepared.json` 即便看似完整也是未發布暫存物，現有契約沒有授權 Session 自行 rename、補收據或把它提升為完成證據。若 handoff 原本保存了可信 authorization digest 與原 continuation，可用既有 Issue-atom 入口。若只有 selection digest，則不能把殘留檔案的即時計算 hash 自行當成外部授權。
 3. **可捕捉的 publication exception**：`except BaseException` 刪除其 owned output（625–629）；現有 unit test 注入的是 `OSError`，驗證此清理。這不等於 SIGKILL：後者不執行 Python cleanup。一般「程序終止」太寬，評估必須指明 kill 類型與位置。
 4. **authorization 原檔已遺失**：selected 身份不得重新授權替代。AGENTS 與 recipe 明確要求原 owner 回復 exact bytes。只有 selection SHA，甚至 selection 檔案也缺失時，缺的前提更多，不能聲稱可自行恢复。
 
 ### 兩個相似 durable checkpoint owner 的不變量
 
-**Issue-atom owner** 使用 `save_json`（82–114）：暫存檔 write/flush/fsync、replace、directory fsync。`_run_owned` 在 `create_issue` 前先存 `writes.issue_create.status=offered`（1348–1359），再以 exact Issue marker readback 判斷結果；unknown 不重送。`bootstrap_noodle` 在 Noodle start 前持久記錄 offered（674–685）；只有 recorded `exited_zero` 才能完成後續恢復，snapshot 不能替代已遺失的 exit receipt（696–697）。相似處是同 command + durable identity + current readback；差異是這些 effect 可能真的已執行，而 authorize 尚未產生 lifecycle effect。
+**Issue-atom owner** 使用 `save_json`（82–114）保存狀態。它先對暫存檔執行 write/flush/fsync，再執行 replace 與 directory fsync。`_run_owned` 在 `create_issue` 前先存 `writes.issue_create.status=offered`（1348–1359），再以 exact Issue marker readback 判斷結果。結果 unknown 時不重送。`bootstrap_noodle` 在 Noodle start 前持久記錄 offered（674–685）。只有 recorded `exited_zero` 才能完成後續恢復。snapshot 不能替代已遺失的 exit receipt（696–697）。這些 owner 都使用同一 command、durable identity 與 current readback。但它們的 effect 可能已執行，authorize 則尚未產生 lifecycle effect。
 
-**Landing owner** 使用 `landing.save`（129–146）保存 checkpoint；`advance` 將合法候選變成 prepared intent（640–689）；`dispatch` 必須先改成 offered 並 fsync，再返回 request（692–725）。回應遺失時既有 offered evidence 留著，後續只能 readback；舊 schema 缺 delivery 也按 offered 解讀，不把 absence 當成未送達（498–513）。相似處是完成投影可從 durable state 再導出；差異是 authorization producer 尚無對應的 selected identity checkpoint。不能為了仿照 landing，就替沒有 provider effect 的 producer 加一套 scheduler/retry engine。
+**Landing owner** 使用 `landing.save`（129–146）保存 checkpoint。`advance` 將合法候選變成 prepared intent（640–689）。`dispatch` 必須先改成 offered 並 fsync，再返回 request（692–725）。回應遺失後，owner 保留 offered evidence，後續只能 readback。若舊 schema 缺少 delivery，也按 offered 解讀，不能視為未送達（498–513）。Landing owner 可從 durable state 重新導出完成投影，但 authorization producer 尚無對應的 selected identity checkpoint。不能只為仿照 landing，就替沒有 provider effect 的 producer 新增 scheduler/retry engine。
 
 ### 最小 fault cases（待執行，不是既有通過證據）
 
@@ -71,11 +71,11 @@ flowchart LR
 
 ### 兩個可能的 owning boundaries
 
-**A. 既有 `supervisor.authorization` producer 擁有身份保持的 materialization recovery（較直接）**。它已擁有 selection 驗證與 authorization 衍生，可以在同一邊界加入可驗證的原 selection／derived bytes commitment，再根據 durable state 回報或完成原 publication。優點是 fresh Session 不需重建環境、digest 或 argv；能保持 Issue-atom「只消費授權」的單一職責。成本是必须清楚定義 commit point、partial/corrupt/foreign output、競爭 reservation、舊 output compatibility；沒有 ownership proof 的舊殘留依然要拒絕。不能只刪掉 `not target.exists()`，也不能拿當下 host config 重新授權。這需要新測試支持的契約修正，不是現行權限。
+**A. 既有 `supervisor.authorization` producer 擁有身份保持的 materialization recovery（較直接）**。它已負責 selection 驗證與 authorization 衍生。可以在同一邊界加入可驗證的原 selection／derived bytes commitment，再依 durable state 回報或完成原 publication。如此，fresh Session 不需重建環境、digest 或 argv，Issue-atom 也能維持「只消費授權」的職責。但契約須清楚定義 commit point、partial/corrupt/foreign output、競爭 reservation 與舊 output compatibility。沒有 ownership proof 的舊殘留仍須拒絕。不能只刪掉 `not target.exists()`，也不能拿當下 host config 重新授權。這需要新測試支持的契約修正，不是現行權限。
 
-**B. 保留 producer 為一次性發布，由既有 external supervisor／handoff owner 回復 exact bytes**。優點是 output collision guard 與現有 CLI 不變，不擴大 repo 內權限。代價是 supervisor 必須在可中斷區之前保存足夠的原 authorization bytes/digest/continuation commitment；目前傳入的 selection SHA/output/handoff 若沒有这些內容就不足。只寫「請 owner 恢復」的 prose 不會創造可執行能力；必須有實際 owner receipt 或受測 recovery 實作，且不開新 authority 選擇。
+**B. 保留 producer 為一次性發布，由既有 external supervisor／handoff owner 回復 exact bytes**。優點是 output collision guard 與現有 CLI 不變，不擴大 repo 內權限。supervisor 須在可中斷區之前保存足夠的原 authorization bytes/digest/continuation commitment。若傳入的 selection SHA/output/handoff 沒有這些內容，就不足以恢復。只寫「請 owner 恢復」不會產生可執行能力。恢復必須有實際 owner receipt 或受測的 recovery 實作，而且不能重新選擇 authority。
 
-不建議把恢復放到 `issue_atom.drive`：它不持有 selection commitment，且允許它從未發布殘留自選 digest，會模糊授權 producer 與 effect consumer 的界線。若評估選 A，缺陷名稱應是「選定 authorization 的部分發布沒有身份保持的 owner continuation」，而不是「既存 output 被拒絕」。若需求只承諾 fail closed、由外部 owner 人工恢復，現狀是刻意受限；若承諾上述有限 handoff 足以 fresh-session 自動續接，F2 才是可判定的 contract gap。
+本報告不建議由 `issue_atom.drive` 負責恢復。它不持有 selection commitment。若允許它從未發布殘留自選 digest，就無法清楚區分授權 producer 與 effect consumer 的責任。若評估選 A，缺陷名稱應是「選定 authorization 的部分發布沒有身份保持的 owner continuation」，而不是「既存 output 被拒絕」。若需求只承諾 fail closed，並由外部 owner 人工恢復，當時的限制就是刻意設計。若需求承諾上述有限 handoff 足以讓 fresh-session 自動續接，F2 才構成可判定的 contract gap。
 
 ## Where Things Live
 
@@ -89,6 +89,6 @@ flowchart LR
 
 ## Gotchas
 
-prepared receipt 沒帶 selection SHA；它證明 producer 輸出的 continuation，不能單靠陌生 output 中同名檔案證明與原 selection 的關係。信任仍來自 supervisor 所保存的原 invocation／output custody。authorization validator 验 structural identity 与外部 digest，不驗「這個 digest 是從哪份 selection 合法衍生」。
+prepared receipt 沒有 selection SHA。它證明 producer 輸出的 continuation，但陌生 output 中的同名檔案不足以證明與原 selection 的關係。信任仍來自 supervisor 所保存的原 invocation／output custody。authorization validator 验 structural identity 与外部 digest，不驗「這個 digest 是從哪份 selection 合法衍生」。
 
-本問題先限定 process kill。沒有 fsync 是另外的 power-loss 持久性限制，不應把兩種 fault 混在同一成功條件。另需留意 `prepared.json` 已發布但 process 尚未結束時的可捕捉中止可能走 cleanup；receipt publication 與 return/cleanup 之間的 commit-point 定義也應由選定 owning boundary 明確化。
+本問題限定於 process kill。缺少 fsync 另有限制，即無法保證 power-loss 後的持久性。兩種 fault 需要分開的成功條件。另有一個邊界需要確認。`prepared.json` 已發布但 process 尚未結束時，可捕捉的中止仍可能執行 cleanup。選定的 owning boundary 須明確定義 receipt publication 與 return/cleanup 之間的 commit point。

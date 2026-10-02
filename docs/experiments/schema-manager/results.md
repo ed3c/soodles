@@ -3,8 +3,8 @@
 Original candidate base: `f1de3f85bb02555bfaeae3290faece475e2ec3e1` (includes PR208). Frozen protocol SHA-256:
 `0a6322cba76d5bc019b30cf8fb7776c81fb52a0f817846aa8bfd6d4bbcdbd48f`. The external original protocol and landing verifier were not changed.
 
-The four-node, nine-fact Manager is used by actual `issue_atom.finish_host`
-stop/restore execution and `_run_owned` terminal response. The original owner
+The actual `issue_atom.finish_host` stop/restore execution and `_run_owned`
+terminal response use the four-node, nine-fact Manager. The original owner
 retains authorization, checkpoint, physical readback, Noodle lock and all effects.
 The plan consumes the existing system-context `cleanup_residue` P closure;
 source pins include the new module/data in the existing lifecycle bundle and
@@ -16,16 +16,16 @@ selection receipts and runtime/control hashes. They cover missing AND inputs,
 confirmation as output, replay/conflict, evidence invalidation, restart without
 repair-budget reset, unknown stop/restore, real terminal caller wiring, unchanged
 foreign/live/config/lock/group refusals and stopped exact native idle scheduling.
-The recovery path already had the idle exception and process scan; only the
+The recovery path already had the idle exception and process scan. Only the
 normal stopped-owner custody site needed correction. Every session process is
 still checked. Legacy absence of a projection does not create repair history.
 
 One disposable process/config fixture (revalidated after the negative-readback
 invalidation correction) traversed actual `finish_host` with no process, signal,
 config, lock or Manager mocks. A tiny native fixture executable accepted the
-original argv form and held the Noodle instance lock. The original loop received
-SIGTERM (exit -15); restart readback observed PID/group absence, restored the
-original bytes and produced terminal confirmation. Identical replay left the
+original argv form and held the Noodle instance lock. The original loop received SIGTERM (exit -15). Restart readback observed that
+the PID and process group were absent, restored the original bytes, and produced
+terminal confirmation. Identical replay left the
 checkpoint bytes unchanged. A separate foreign loop remained alive and its
 configuration remained unchanged before fixture-owned cleanup. Both fixture
 processes and the temporary root were removed. Raw argv, compilation/process
@@ -64,18 +64,18 @@ Current integrated-source Test Manager result: **181 passed**, 11 focused module
 suite or model evaluation was requested or run.
 
 Both Manager host finalization and the base's publisher process receipts are
-preserved. The only textual merge conflict was the two additive Test Manager
-boundary entries; both remain. No separate external lifecycle readmission
+preserved. The two additive Test Manager boundary entries caused the only textual merge
+conflict. Both entries remain. No separate external lifecycle readmission
 implementation was copied into the candidate.
 
 The original 173 controls, physical observations and timing samples above remain
 historical evidence for the original candidate. Current source/control hashes,
 raw Test Manager receipt and new physical observations are recorded separately
 under `product-results.json:baseline_integration`. The existing physical driver
-was rerun against integrated source, with only its output path changed. It
-confirmed own-loop SIGTERM exit -15, PID/group absence, original config restore,
-terminal confirmation, unchanged checkpoint on replay and foreign process/config
-preservation; fixture cleanup removed both processes and the temporary root.
+was rerun against integrated source, with only its output path changed. It confirmed own-loop SIGTERM exit -15, PID/group absence, original config restore,
+and terminal confirmation. Replay left the checkpoint unchanged, and the foreign
+process and config were preserved. Fixture cleanup removed both processes and
+the temporary root.
 
 Manager, plan and context compilation inputs are unchanged, so no additional
 benchmark was run. `timing.json` remains byte-identical historical hot/cold evidence;

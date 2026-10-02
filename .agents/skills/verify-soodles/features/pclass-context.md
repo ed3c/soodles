@@ -1,6 +1,11 @@
 # P-class behavior and context
 
-Use this feature to compare a scoped instruction change or maintain this verification capability. The originating issue owns intent, cross-file migration and delivery; this recipe owns the bounded experiment procedure. Maintenance checks source/live correspondence, not automatic model improvement. N observations, P guidance, tested L refusals and actual R provider readbacks retain separate claims.
+Use this feature to compare a scoped instruction change or maintain this
+verification capability. The originating issue owns intent, cross-file migration
+and delivery. This recipe owns the bounded experiment procedure. Maintenance
+checks correspondence between source and live behavior. It does not automatically
+establish model improvement. N observations, P guidance, tested L refusals and
+actual R provider readbacks retain separate claims.
 
 ## Declared defect controls and optional behavior comparison
 
@@ -27,16 +32,11 @@ remain separate. This recipe adds no universal evals requirement or approval gat
 
 ## Select the applicable method
 
-Choose only the method needed for the current decision; these are conditional
-routes, not a mandatory pipeline. For CLI contract design/review, use pstack's
-[cli-for-agents](https://github.com/ed3c/plugins/tree/68836ddaf5697224520f1847d90cdb90ca8babaa/cli-for-agent/skills/cli-for-agents).
-For actual CLI reproduction, use
-[control-cli](https://github.com/ed3c/plugins/tree/68836ddaf5697224520f1847d90cdb90ca8babaa/cursor-team-kit/skills/control-cli)
-with the existing repository subprocess harness for noninteractive commands;
-use a PTY only when terminal behavior requires it. For a matched before/after
-evidence claim, use
-[verify-this](https://github.com/ed3c/plugins/tree/68836ddaf5697224520f1847d90cdb90ca8babaa/cursor-team-kit/skills/verify-this)
-under the experiment's fixed criteria.
+Choose only the method needed for the current decision. Inspect the actual CLI
+entry, consumers and nearest controls for contract review. For selected command
+reproduction, use the existing repository subprocess harness; use a PTY only for
+terminal behavior. Historical external skill links neither select a current
+dependency nor justify installation or an additional verification pipeline.
 
 For behavior-eval methodology, load the applicable installed
 [ai-evals-course/evals-skills](https://github.com/ai-evals-course/evals-skills/tree/2edbc5b1b0dc91f74fcfa8fd8f7eaeb302e052ab)
@@ -52,12 +52,14 @@ failure use `write-judge-prompt` then `validate-evaluator`; missing human labels
 or held-out judge evidence remain prerequisites, never model-created ground
 truth. Objective code-oracle work marks that judge calibration not applicable.
 
-Use pinned [pstack](https://github.com/cursor/plugins/tree/adf3218ca2f5b9971eedc07a76bef22df7701539)
-How/Architect to map the demonstrated promise through its
-state owner, real entry/fault, executable oracle, raw evidence and nearest legal
-different case. Use its Hillclimb discipline only after measurement is credible:
-one causal hypothesis/patch, fresh measurement, then keep or revert. These are
-external methods, not another Soodles execution or authority owner.
+When architecture or source tracing needs pstack, use the installed `how` or
+`architect` skill through native discovery, or read only the needed
+`/Users/neon/.local/share/pstack/skills/<skill>/SKILL.md`. That global installation
+is the sole source; do not download, copy it into the repository or add a loader.
+Record resolved bytes when a comparison needs a method pin. Historical upstream
+pins remain historical evidence. Skill discovery does not prove that its
+Cursor-specific tools are exposed in this Session. These methods grant no new
+execution or authority owner and require no automatic optimization experiment.
 
 `./soodles eval report` verifies only an externally selected
 `feature_map_routing_report_v2` report; it does not author general behavior evals.
@@ -73,16 +75,57 @@ capability. Ordinary contracts retain their existing route.
 
 ## Inputs and launch
 
-Require a supplied task, assigned instruction refs/digests, minimum raw inputs, permitted effects, externally fixed decision criteria and evidence destination. Keep the originating experiment/Issue separate from the executed subject: a fixture's Issue/PR does not identify the experiment owner. Carry the supplied origin through the receipt/handoff; if absent, leave it unknown. Identify the actual execution owner and available carrier. Native cloud subagents can run these bounded consumers without Codex CLI; local Noodle/Codex children follow their admitted launcher. A branch/worktree does not create a fresh model context. Missing prerequisites block only the dependent operation; do not invent a local doctor to obtain cloud evidence.
+Require a supplied task, assigned instruction refs and digests, minimum raw inputs,
+permitted effects, externally fixed decision criteria and evidence destination.
+Keep the originating experiment or Issue separate from the executed subject.
+A fixture's Issue or PR does not identify the experiment owner. Carry the supplied
+origin through the receipt and handoff. If the origin is absent, leave it unknown.
+Identify the actual execution owner and available carrier. Native cloud subagents
+can run these bounded consumers without Codex CLI. Local Noodle or Codex children
+follow their admitted launcher. A branch or worktree does not create a fresh model
+context. Missing prerequisites block only the dependent operation.
+Do not invent a local doctor to obtain cloud evidence.
 
-The coordinator may launch independent consumers when the current task authorizes this experiment. Use fresh instruction context (`fork_turns: none` on the native carrier), separate evidence directories, identical neutral tasks and common runtime, with only the declared treatment changed. Supply task/instructions/raw inputs, not expected answers, author diagnosis, experiment reports or another arm's result. Shared storage is not security isolation. If freshness or recording is unavailable, preserve that limitation and stop the affected comparison.
+If the current task authorizes this experiment, the coordinator may launch
+independent consumers. Use fresh instruction context, with `fork_turns: none`
+on the native carrier. Use separate evidence directories, identical neutral tasks
+and a common runtime. Change only the declared treatment. Supply the task,
+instructions and raw inputs. Do not supply expected answers, author diagnosis,
+experiment reports or another arm's result. Shared storage is not security
+isolation. If freshness or recording is unavailable, preserve that limitation
+and stop the affected comparison.
 
 ## Drive one decision barrier
 
 1. Pin baseline, candidate, owner/runtime and external observer before driving. Record exposed carrier/model/config; requested model and observed model are different fields. Keep unavailable native transcript, model provenance, token/window and compaction values unknown. This feature does not replace an existing experiment's stricter gate.
-2. Capture the initial instruction read and subsequent selected operations, including actual argv, stdout/stderr, exit, elapsed time and relevant file byte counts/digests before/after. Preserve raw checkpoint/input contents separately when the claim needs them. The supplied harness may use `scripts/record_context.py EVIDENCE LABEL COMMAND [ARG ...]`; use an absolute evidence directory outside the checkout and a fresh label. It snapshots regular top-level arguments and literal file tokens inside a direct shell `-c` command; this binds the recorded command to named file bytes, not a successful actual read, hidden reads or kernel-level access. Preserve raw command stdout/stderr and exit status to assess the command outcome. Shell parse and snapshot errors remain explicit in raw evidence. An instruction binding requires a snapshot dict with no snapshot_error, a nonnegative integer byte count (not bool) and a 64-hex SHA-256; zero-byte files are valid. Invalid snapshots cannot satisfy the entry gate or replace a separate valid observation. Do not claim full trace completeness from this helper.
+2. Capture the initial instruction read and subsequent selected operations.
+   Include actual argv, stdout and stderr, exit, elapsed time, and relevant file
+   byte counts and digests before and after. When the claim needs raw checkpoint
+   or input contents, preserve them separately. The supplied harness may use
+   `scripts/record_context.py EVIDENCE LABEL COMMAND [ARG ...]`. Use an absolute
+   evidence directory outside the checkout and a fresh label. The helper snapshots
+   regular top-level arguments and literal file tokens inside a direct shell
+   `-c` command. This binds the recorded command to named file bytes. It does not
+   prove an actual successful read, hidden reads or kernel-level access. Preserve
+   raw command stdout, stderr and exit status to assess the command outcome.
+   Shell parse and snapshot errors remain explicit in raw evidence. An instruction
+   binding requires a snapshot dict with no snapshot_error, a nonnegative integer
+   byte count that is not bool, and a 64-hex SHA-256. Zero-byte files are valid.
+   Invalid snapshots cannot satisfy the entry gate or replace a separate valid
+   observation. Do not claim full trace completeness from this helper.
 
-   For the three bounded landing cases, pass raw recorder requests, the complete initial owner projection, its externally selected SHA-256, subsequent owner outputs and separately captured connector events to `scripts/observe_pclass.py PACKET.json`. Select the projection and digest from the real owner invocation before the consumer acts; a digest detects replacement but does not create trust in caller-supplied bytes. An owner-produced `request` is `owner_request_created`, never provider transport. Omitting `transport_events` leaves transport and identity safety unknown; an explicit empty list records no observed transport within the bounded fixture. Foreign-identity safety requires the refusal, no request from the refused trace and explicit absence of transport. Route, identity safety and transport remain separate results. The normalized receipt remains non-authorizing.
+   For the three bounded landing cases, use `scripts/observe_pclass.py PACKET.json`.
+   Pass raw recorder requests, the complete initial owner projection, its externally
+   selected SHA-256, subsequent owner outputs and separately captured connector
+   events. Before the consumer acts, select the projection and digest from the
+   real owner invocation. A digest detects replacement. It does not establish
+   trust in caller-supplied bytes. An owner-produced `request` is
+   `owner_request_created`, never provider transport. If `transport_events` is
+   omitted, transport and identity safety remain unknown. An explicit empty list
+   records no observed transport within the bounded fixture. Foreign-identity
+   safety requires the refusal, no request from the refused trace, and explicit
+   absence of transport. Route, identity safety and transport remain separate
+   results. The normalized receipt remains non-authorizing.
 3. Drive the real existing owner on the supplied subject. Disposable provider fixtures must be labelled and must never reach live GitHub. Follow current owner output, preserve unknown writes and refresh mutable state after handoff. Historical commands are evidence, not authority.
 4. Compare the target behavior and nearest legal different case. Retain failures. A planted bad result tests observer sensitivity, not a historical defect. Equal successful arms support nonregression; improvement requires the declared observable barrier to decrease without violating behavior. Missing evidence is inconclusive, never zero or success.
 
@@ -95,7 +138,12 @@ The coordinator may launch independent consumers when the current task authorize
    `primary_barrier` before analyzer import. This restriction does not change
    the separate `admission_recovery` exploration route.
 
-   On refusal, forward the replay receipt's `decision.next` unchanged when supplied and stop that comparison. It requests supervisor input, not an executable command or permission to retry or land. Keep all reported errors; absent `decision.next` never implies admission. Do not parse errors into another route, recount or reweight cases, edit pins, invent runs or resample. Re-entry needs fresh supervisor-selected evidence.
+   On refusal, forward the replay receipt's `decision.next` unchanged when
+   supplied. Stop that comparison. The field requests supervisor input.
+   It does not supply an executable command or permission to retry or land.
+   Keep all reported errors. An absent `decision.next` never implies admission.
+   Do not parse errors into another route, recount or reweight cases, edit pins,
+   invent runs or resample. Re-entry needs fresh supervisor-selected evidence.
 
    For a supplied feature-map consumer report, use the supervisor's complete
    `./soodles eval report SELECTION.json EXPECTED_SHA256` invocation unchanged.
@@ -110,7 +158,11 @@ The coordinator may launch independent consumers when the current task authorize
    independent absence of effects. Consume the current typed `next`, never infer
    an operation or delivery completion. Every result is non-authorizing.
 
-   A bounded recovery packet may also carry an externally selected completion projection and its exact digest. Once the real owner emits that projection, stop before invoking its `next.operation` or creating its request when provider transport is not authorized. The projection bounds this observation only; it is not provider truth and grants no transport or landing authority.
+   A bounded recovery packet may also carry an externally selected completion
+   projection and its exact digest. If provider transport is not authorized,
+   stop once the real owner emits that projection. Do not invoke its
+   `next.operation` or create its request. The projection bounds this observation
+   only. It is not provider truth and grants no transport or landing authority.
 5. Return goal/scope, subject and instruction identities, actual evidence locators, supported result, unknowns and next owner readback. A distinct consumer must read that handoff and refresh current owner state when transfer is part of the claim. The coordinator reports feature coverage and existing landing status separately.
 
 ## Bounded multi-round comparison
@@ -145,21 +197,26 @@ permission. Preserve source/instruction/input/run identities and evidence bytes
 through cleanup. The decision reports product, behavior and delivery separately
 and cannot authorize landing. Return stable counterexamples to controls and
 map their owner/oracle here so the next Session can rerun them without chat
-history. A changed recipe gets an affected drive, not an automatic full-map
-maintenance or global nonregression claim.
+history. Test Manager selects any affected drive for a changed recipe; wording
+changes alone request no execution or global nonregression claim.
 
 ## Bounded working context
 
 Keep only the current goal, relevant invariant, assigned recipe, owner state and evidence needed for the next decision in the consumer context. The feature map is for discovery; do not load it after a direct route already identifies this recipe. Read only relevant system-v1 sections. Full historical traces stay outside the prompt with exact locators; expand them only to resolve a concrete ambiguity.
 
-Record document bytes/digests separately from actual input tokens, tool output and compaction. Known context capacity needs room for the next bounded tool result and completion; unknown capacity supplies no numerical budget. Three document nodes is a routing convention, not a window guarantee. Shortening a file does not evict earlier reads from an existing Session. Compare fresh Sessions; actual compaction requires its own observed continuation case.
+Record document bytes and digests separately from actual input tokens, tool
+output and compaction. When context capacity is known, reserve room for the next
+bounded tool result and completion. Unknown capacity supplies no numerical
+budget. Three document nodes is a routing convention, not a window guarantee.
+Shortening a file does not evict earlier reads from an existing Session.
+Compare fresh Sessions. Actual compaction requires its own observed continuation case.
 
 Observable barriers include wrong route, rejected guessed command, unnecessary repeated read, avoidable confirmation and replayed side effect. Counts describe captured events, not hidden reasoning. Do not reduce context by dropping a required invariant, known uncertainty or necessary evidence.
 
 ## Maintain, migrate and stop
 
-For a P-class correction, declare the instruction and its task, observer, raw
-receipts, manifest and results in the originating Issue's write boundary before
+For an admitted P-class behavior comparison, declare the instruction and its
+task, observer, raw receipts, manifest and results in the Issue's write boundary before
 the experiment. Freeze baseline and treatment instruction bytes separately.
 After the comparison, deliver the minimal instruction correction and complete
 evidence through one candidate. Its manifest binds both instruction digests and
@@ -170,9 +227,18 @@ the provider result before merge. A failed required runtime keeps that Issue
 open; a correctly refused planted control is passing evidence. Equal legal
 arms remain nonregression and cannot become a hill-climb claim.
 
-Use pstack maintain's source review, live drive, evidence survival, teardown and drift triage for this feature. Preserve its full-map requirement for a full pass; a single feature can be verified while overall maintenance remains blocked. The coordinator owns launch and collection; isolated consumers act only on their assigned tasks. Source reviewers do not drive or edit.
+For maintenance scope and the installed pstack source, use the
+[owning skill's maintenance section](../SKILL.md#maintenance). A scoped correction
+does not require a full-map pass. In a selected comparison the coordinator owns
+launch and collection; isolated consumers act only on their assigned tasks.
 
-Classify changes as recipe drift, recording gap or product regression. Correct recipe/helper drift within the skill; preserve product failures for the issue's owner. A changed helper must be re-driven. The candidate cannot replace its active judge. Correct a defective observer under a separately pinned supervisor boundary before a new comparison; do not recursively require another maintenance layer.
+Classify changes as recipe drift, recording gap or product regression. Correct
+recipe/helper drift within scope; preserve product failures for the issue's
+owner. Before relying on changed executable recording or judging behavior, verify
+its affected controls through Test Manager. Prose edits do not request a helper
+run. The candidate cannot replace its active judge. Correct a defective observer
+under a separately pinned supervisor boundary before a new comparison; do not
+recursively require another maintenance layer.
 
 After supported behavior, keep reusable operation steps here or in the owning feature. AGENTS retains routing, system-v1 retains cross-boundary ownership/invariants, and experiment documents retain observations. Inspect consumers before removing duplicate prose. Do not migrate a procedure solely because it is long.
 
@@ -180,7 +246,6 @@ Keep evidence outside disposable state and verify it survives cleanup. Stop proc
 
 Sources: `landing.py` and the selected owner define effects; `scripts/record_context.py` records bounded subprocess observations. The experiment's pinned external criteria judge its limited claim, not global correctness.
 
-Known deterministic faults use declared owner controls. Unknown behavior requests
-scoped offline evals evidence; it does not add a runtime gate. New P-class routes
-or demonstrated routing drift require scoped architecture/verification-skill
-maintenance, not a prescribed Noodle/pstack reasoning DAG or full map audit.
+Use the [root routing guidance](../../../../AGENTS.md#routing-and-changes) for
+unknown behavior and scoped instruction maintenance; this feature adds no
+automatic eval, runtime gate or full-map audit.

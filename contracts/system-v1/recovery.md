@@ -1,56 +1,202 @@
 ### Interrupted cleanup — ed3c/soodles#6
 
-A reconciling checkpoint may retain its exact admitted branch after Noodle has removed the worktree directory. Before another cleanup request, require that branch to remain at the admitted head and have no checkout at another path. Noodle's existing missing-directory cleanup owns the remaining deletion. A moved branch or foreign checkout refuses before deletion. A resolved checkpoint cannot authorize deletion of a newly appearing branch.
+A reconciling checkpoint may retain its exact admitted branch after Noodle
+removes the worktree directory. Before another cleanup request, confirm that
+the branch remains at the admitted head and has no checkout at another path.
+Noodle's existing missing-directory cleanup owns the remaining deletion.
+A moved branch or foreign checkout causes refusal before deletion.
+A resolved checkpoint cannot authorize deletion of a newly appearing branch.
 
-A local control root may itself be a clean, registered detached Git worktree when its exact execution envelope binds the root and the initial HEAD equals the admitted base. During interrupted reconciliation, its HEAD must remain a descendant of that base and an ancestor of provider main. The landing owner fast-forwards that detached HEAD without switching the shared main checkout or inventing another worktree. Foreign, dirty or unregistered detached roots refuse before synchronization or Noodle cleanup.
+A local control root may be a clean, registered detached Git worktree.
+Its exact execution envelope must bind the root, and its initial HEAD must
+equal the admitted base. During interrupted reconciliation, its HEAD must remain
+a descendant of that base and an ancestor of provider main. The landing owner
+fast-forwards that detached HEAD. It does not switch the shared main checkout
+or create another worktree. Foreign, dirty, or unregistered detached roots
+cause refusal before synchronization or Noodle cleanup.
 
-Persist `cleanup_intent` before calling Noodle. It binds observed path presence, branch/main heads, Git executable path/digest, Noodle digest and verifier digest. The same observation cannot issue another cleanup request; changed owner readback or executable capability is required. Existing reconciling checkpoints without this field are read as the prior schema, with all identity checks still required. Path/branch/registration absence and clean main remain prerequisites for RESOLVED.
+Before calling Noodle, persist `cleanup_intent`. It binds observed path
+presence, branch and main heads, Git executable path and digest, Noodle digest,
+and verifier digest. The same observation cannot issue another cleanup request.
+A changed owner readback or executable capability is required.
+Existing reconciling checkpoints without this field use the prior schema.
+All identity checks still apply. RESOLVED still requires absent path, branch,
+and registration, plus clean main.
 
-A legacy local-shaped delivery whose candidate path, branch and worktree registration were never created records that three-way absence as `cleanup_intent.mode=no_op` before local Git synchronization. It never creates or asks Noodle to delete a synthetic worktree. Any matching branch or registration refuses this compatibility path; a native cloud claim never enters local reconcile.
+For a legacy local-shaped delivery, the candidate path, branch, and worktree
+registration may never have been created. Before local Git synchronization,
+that delivery records all three absences as `cleanup_intent.mode=no_op`.
+It never creates a synthetic worktree or asks Noodle to delete one.
+Any matching branch or registration causes refusal of this compatibility path.
+A native cloud claim never enters local reconcile.
 
-The nearest local-cleanup oracle is `cleanup_oracle.cleanup_recovery_probe`, called by canonical acceptance after the original runtime oracle. It physically kills the pinned Noodle process between worktree removal and branch deletion, exercises the real CLI, and checks positive recovery, moved-branch/foreign-checkout refusals, unchanged-attempt refusal, old-checkpoint compatibility, plus verifier migration and no-op cleanup compatibility. Provider closure fields and the Git fetch transport are local fixture data; native cloud resolution is instead discriminated at the landing/provider boundary.
+The nearest local-cleanup oracle is `cleanup_oracle.cleanup_recovery_probe`.
+Canonical acceptance calls it only when Test Manager selects that control.
+The control kills the pinned Noodle process between worktree removal and branch deletion.
+It checks recovery, identity refusals, unchanged attempts and checkpoint compatibility.
+It also checks verifier migration and no-op cleanup compatibility.
+Provider closure and Git fetch transport use local fixtures.
+Native cloud resolution uses the landing/provider boundary.
 
 ### Observed Git lock recovery — ed3c/soodles#8
 
-This one atom includes the lock readback producer, retry consumer, checkpoint compatibility and runtime controls. `landing reconcile` asks Git for the absolute target ref-lock path; an existing lock produces `cleanup.ref_lock` before Noodle cleanup. It records `cleanup_blocked` bound to the existing cleanup observation and that path, without deleting the lock or replacing the prior cleanup intent. Repeated blocked readback changes neither deletion state nor checkpoint contents.
+This atom includes the lock readback producer, retry consumer, checkpoint
+compatibility, and runtime controls. `landing reconcile` asks Git for the
+absolute target ref-lock path. If the lock exists, the owner produces
+`cleanup.ref_lock` before Noodle cleanup. It records `cleanup_blocked`, bound
+to the existing cleanup observation and that path. It does not delete the lock
+or replace the prior cleanup intent. Repeated blocked readback changes neither
+deletion state nor checkpoint contents.
 
-An observed disappearance of that same lock for the same cleanup context permits one recovery attempt. Consume `cleanup_blocked` and durably save the new intent before invoking Noodle. Another interruption with unchanged context requires new material evidence. Existing checkpoint records with no blocked-lock observation remain unknown; field absence alone cannot authorize a retry. Existing changed-path/executable capability rules and moved-branch/foreign-checkout controls remain in force. This covers the observed target ref lock; it does not claim every filesystem, packed-ref lock or race is recoverable.
+If that same lock disappears in the same cleanup context, the observation
+permits one recovery attempt. Consume `cleanup_blocked` and durably save the
+new intent before calling Noodle. Another interruption with unchanged context
+requires new material evidence. Existing checkpoint records without a blocked-lock
+observation remain unknown. Field absence alone cannot authorize a retry.
+Existing changed-path and executable-capability rules remain in force, as do
+moved-branch and foreign-checkout controls. This covers the observed target ref
+lock. It does not establish recovery for every filesystem, packed-ref lock, or race.
 
-The standalone `cleanup_lock_oracle.py` imports no candidate verdict logic. Its four cases exercise actual Noodle SIGKILL, present/absent locks, legacy unknown state, consumed recovery and changed ownership. Canonical acceptance includes it alongside all prior tests and runtime controls. A candidate copy is still non-authorizing. The supervisor may select and freeze an external copy, evaluate the candidate only as a subject, and independently read Git state to reject false success. Process isolation and external Actions execution are claims only when supported by their exact receipts.
+The standalone `cleanup_lock_oracle.py` imports no candidate verdict logic.
+Its four cases exercise actual Noodle SIGKILL, present and absent locks, legacy
+unknown state, consumed recovery, and changed ownership. Canonical acceptance
+runs it only when Test Manager selects the cleanup lock recovery control.
+This recipe does not request all prior tests or other runtime controls.
+A candidate copy remains non-authorizing. The supervisor may select and freeze
+an external copy. The supervisor may evaluate the candidate only as a subject
+and independently read Git state to reject false success. Process isolation
+and external Actions execution require their exact receipts to support those claims.
 
-The existing externally selected publishing verifier remains unchanged for this Issue. A changed default-branch tip or merged verifier source does not change that selection. `landing resume` cannot supply its own initial trust. New code and tests can be corrected in the same causal atom without replacing the active judge; a separate authorization is needed to promote a new judge.
+The existing externally selected publishing verifier remains unchanged for
+this Issue. Neither a changed default-branch tip nor merged verifier source
+changes that selection. `landing resume` cannot supply its own initial trust.
+New code and tests can be corrected in the same causal atom without replacing
+the active judge. Promoting a new judge requires separate authorization.
 
 ### Interrupted delivery preparation — ed3c/soodles#10
 
-The same landing owner contains the intent producer, CLI dispatch consumer and schema migration. Schema 2 distinguishes `delivery.status=prepared` from `offered`. Preparing produces no provider request and does not append `writes_offered`. A restarted supervisor can consume that original prepared intent through `landing dispatch`; its checkpoint lock serializes concurrent consumers. Fresh repository/head/base/run readback must still agree before consumption. After the durable offered state, another dispatch refuses and only provider readback can advance. Merge/closure readbacks without this checkpoint's matching offered write cannot be adopted.
+The same landing owner contains the intent producer, CLI dispatch consumer,
+and schema migration. Schema 2 distinguishes `delivery.status=prepared` from
+`offered`. Preparation produces no provider request and does not append
+`writes_offered`. A restarted supervisor can consume the original prepared
+intent through `landing dispatch`. The checkpoint lock serializes concurrent
+consumers. Before consumption, fresh repository, head, base, and run readback
+must still agree. After the offered state is durable, another dispatch refuses.
+Only provider readback can advance. Merge or closure readbacks cannot be adopted
+without this checkpoint's matching offered write.
 
-Schema 1 pending states migrate conservatively to offered, preserving identities and existing evidence. A missing delivery field in schema 2 or inconsistent `writes_offered` refuses. Migration grants no authority to change an old verifier digest; the supervising claim still binds the selected implementation. Existing schema 1 cleanup and reconciliation records remain supported.
+Schema 1 pending states migrate conservatively to offered. Migration preserves
+identities and existing evidence. A missing delivery field in schema 2 or
+inconsistent `writes_offered` causes refusal. Migration grants no authority to
+change an old verifier digest. The supervising claim still binds the selected
+implementation. Existing schema 1 cleanup and reconciliation records remain
+supported.
 
-`delivery_oracle.py` is the nearest standalone discriminator, also called by canonical acceptance. It kills real child processes after actual durable saves, observes merge/close preparation recovery, models lost replies with a supervisor-owned provider fixture, checks concurrent first consumption, legacy unknown states and head drift. It imports candidate code only inside the fault-injected child, never into the observing process. The candidate copy is non-authorizing; a supervisor-selected external copy can judge baseline, treatment and planted-negative candidates.
+`delivery_oracle.py` is the nearest standalone discriminator. Canonical
+acceptance calls it only when Test Manager selects the delivery recovery control. It kills real child processes after actual durable
+saves and observes merge and close preparation recovery. It models lost replies
+with a supervisor-owned provider fixture. It checks concurrent first consumption,
+legacy unknown states, and head drift. Only the fault-injected child imports
+candidate code. The observing process never imports it. The candidate copy
+is non-authorizing. A supervisor-selected external copy can judge baseline,
+treatment, and planted-negative candidates.
 
-The gap after dispatch persistence but before emission/network execution remains unknown: this atom never guesses non-delivery from a timeout or an unmerged PR. There is no remote exactly-once transaction, automatic retry, separate ledger or bounded-generation completion claim. Checkpoint locking is local and per checkpoint. This Issue's publishing verifier remains the externally frozen pre-candidate implementation; no default-branch tip or newly merged verifier selects itself.
+After dispatch persistence but before emission or network execution, the outcome
+remains unknown. This atom never infers non-delivery from a timeout or an unmerged
+PR. It provides no remote exactly-once transaction, automatic retry, separate
+ledger, or bounded-generation completion claim. Checkpoint locking is local
+and per checkpoint. This Issue's publishing verifier remains the externally
+frozen pre-candidate implementation. No default-branch tip or newly merged
+verifier selects itself.
 
 ### Base advancement before delivery — ed3c/soodles#16
 
-The existing delivery owner recognizes a coherent forward base change through `landing advance` or the first `landing dispatch`. Original subject, target and runtime identities remain required. A complete supervisor-transported GitHub `base_comparison` must establish old base as the merge base and new base as the final commit. Inconsistent, divergent or truncated readbacks refuse. Before any offered write, persist `readmission_pending` with the observed base and snapshot fingerprint. The old claim remains present but can no longer dispatch, including when an old base readback reappears. The result names `base.head`, its actual/expected values, the landing owner and one supported next help entry. Identical recovery readback does not rewrite the checkpoint.
+Through `landing advance` or the first `landing dispatch`, the existing
+delivery owner recognizes a coherent forward base change. Original subject,
+target, and runtime identities remain required. A complete GitHub
+`base_comparison`, transported by the supervisor, must establish the old base
+as the merge base and the new base as the final commit. Inconsistent, divergent,
+or truncated readbacks cause refusal.
 
-`landing readmit CHECKPOINT CLAIM READBACK` consumes an explicit fresh supervisor claim under the same checkpoint lock. Repository, Issue, PR, worktree, control root and verifier digest must remain identical. Head, base and runtime run ID must change; the existing exact-head successful CI checks remain mandatory. `base_comparison` proves forward movement from the original base; `candidate_comparison` proves the fresh head contains its new base. If main advanced again after the recorded recovery, `recovery_comparison` must prove forward ancestry from that observed base too. These are complete raw compare responses provided by the supervisor, not candidate declarations. This entry executes neither Git rebase nor provider writes.
+Before any offered write, persist `readmission_pending` with the observed base
+and snapshot fingerprint. The old claim remains present but can no longer
+dispatch, even if an old base readback reappears. The result names `base.head`,
+its actual and expected values, the landing owner, and one supported next help
+entry. Identical recovery readback does not rewrite the checkpoint.
 
-One atomic save appends the old claim, prepared delivery and invalidation receipt to `prior_admissions` with classification `SUPERSEDED`, then admits the fresh claim. This classification belongs to the replaced admission, not the Issue. A crash after that save resumes through `advance`; duplicate or concurrent readmission cannot replace it again. Overall resource limits remain external; the command contains no retry or generation loop.
+`landing readmit CHECKPOINT CLAIM READBACK` consumes an explicit fresh
+supervisor claim under the same checkpoint lock. Repository, Issue, PR,
+worktree, control root, and verifier digest must remain identical. Head, base,
+and runtime run ID must change. Existing exact-head successful CI checks remain
+mandatory. `base_comparison` proves forward movement from the original base.
+`candidate_comparison` proves that the fresh head contains its new base.
+If main advanced again after the recorded recovery, `recovery_comparison` must
+also prove forward ancestry from that observed base. The supervisor supplies
+complete raw compare responses. Candidate declarations cannot replace them.
+This entry executes neither Git rebase nor provider writes.
 
-Schema 1 admitted records with an explicit empty offered-write list can follow this path; legacy pending records remain conservatively offered. A base change cannot turn an unknown request into a known rejection. Offered writes continue to require owner readback, and identity/reconciliation checks remain intact. No post-offer retarget, remote exactly-once transaction, live parallel Issues experiment or autonomous scheduler is claimed.
+One atomic save appends the old claim, prepared delivery, and invalidation
+receipt to `prior_admissions` with classification `SUPERSEDED`. That same save
+admits the fresh claim. The classification belongs to the replaced admission,
+not the Issue. After a crash following the save, execution resumes through
+`advance`. Duplicate or concurrent readmission cannot replace the admission
+again. Overall resource limits remain external. The command contains no retry
+or generation loop.
 
-`base_recovery_oracle.py` is the nearest standalone process observer and is included in canonical acceptance. It observes ordinary CLI output, actual SIGKILL after durable invalidation/admission, concurrent consumers and legacy unknown controls using local provider fixtures. Its candidate copy remains non-authorizing. For this atom the supervisor freezes an external observer before candidate acceptance; the active publishing verifier stays unchanged and is never loaded from default-branch tips.
+Schema 1 admitted records may follow this path when they have an explicit
+empty offered-write list. Legacy pending records remain conservatively offered.
+A base change cannot turn an unknown request into a known rejection. Offered
+writes still require owner readback. Identity and reconciliation checks remain
+intact. This boundary claims no post-offer retarget, remote exactly-once
+transaction, live parallel Issues experiment, or autonomous scheduler.
+
+`base_recovery_oracle.py` is the nearest standalone process observer.
+Canonical acceptance runs it only when Test Manager selects the base recovery control.
+With local provider fixtures, it observes
+ordinary CLI output, actual SIGKILL after durable invalidation and admission,
+concurrent consumers, and legacy unknown controls. Its candidate copy remains
+non-authorizing. For this atom, the supervisor freezes an external observer
+before candidate acceptance. The active publishing verifier stays unchanged
+and is never loaded from default-branch tips.
 
 ### Supervised correction before an offer — ed3c/soodles#19
 
-`landing invalidate CHECKPOINT` durably withdraws an admitted or prepared, known-unoffered acceptance under the existing checkpoint lock. It consumes no CI verdict or provider snapshot because it only removes permission to dispatch. Preserve the prior claim and prepared intent; repeated invalidation does not rewrite them. Existing base-drift recovery stays intact. The owner returns `landing readmit --help` as the supported next action. A pending explicit amendment cannot dispatch using old green evidence, including after process interruption.
+Under the existing checkpoint lock, `landing invalidate CHECKPOINT` durably
+withdraws an admitted or prepared acceptance known to be unoffered. It consumes
+no CI verdict or provider snapshot because it only removes permission to dispatch.
+Preserve the prior claim and prepared intent. Repeated invalidation does not
+rewrite them. Existing base-drift recovery stays intact. The owner returns
+`landing readmit --help` as the supported next action. A pending explicit
+amendment cannot dispatch using old green evidence, even after process interruption.
 
-The supervisor amends the same causal Issue and obtains its fresh execution boundary before source changes. Implementations, tests and erroneous candidate gates may be corrected or deleted together. Replace false assertions with discriminating positive/negative behavior controls; do not preserve wrong behavior for test-count stability or erase an unresolved failure to obtain green. This command does not author Issue bodies, inspect every source write, or change required-check policy.
+Before source changes, the supervisor amends the same causal Issue and obtains
+its fresh execution boundary. Implementations, tests, and erroneous candidate
+gates may be corrected or deleted together. Replace false assertions with
+positive and negative controls that distinguish behavior. Do not preserve wrong
+behavior to keep a stable test count. Do not erase an unresolved failure to
+obtain green. This command does not author Issue bodies, inspect every source
+write, or change required-check policy.
 
-`landing readmit` accepts a changed head and fresh successful exact-head run at the same base after explicit invalidation. Changed bases still require complete forward ancestry; every new candidate must contain its admitted base. Repository, Issue, PR, worktree, control root and external verifier stay identical. Archive the old claim, evidence and intent as SUPERSEDED in the same atomic save. Schema 1 known-empty admissions and existing schema 2 base-drift records remain supported. Offered or legacy-unknown writes require owner readback and cannot enter this path.
+After explicit invalidation, `landing readmit` accepts a changed head and
+fresh successful exact-head run at the same base. Changed bases still require
+complete forward ancestry. Every new candidate must contain its admitted base.
+Repository, Issue, PR, worktree, control root, and external verifier stay
+identical. Archive the old claim, evidence, and intent as SUPERSEDED in the same
+atomic save. Schema 1 known-empty admissions and existing schema 2 base-drift
+records remain supported. Offered or legacy-unknown writes require owner
+readback and cannot enter this path.
 
-The selected external judge is fixed for this acceptance, not a permanent freeze of repository source. Changing its source in this Issue does not promote it into authority. A defect in the active external judge needs an explicit supervisor authority decision and fresh acceptance; the candidate cannot bless its replacement or bypass a required check.
+The selected external judge is fixed for this acceptance. Repository source
+is not permanently frozen. Changing that source in this Issue does not give it
+authority. A defect in the active external judge needs an explicit supervisor
+authority decision and fresh acceptance. The candidate cannot approve its
+replacement or bypass a required check.
 
-The extended `base_recovery_oracle.py` observes actual child SIGKILL after invalidation/readmission saves, same-base recovery, old/failed/unchanged evidence refusal and unchanged-verifier enforcement. It uses labeled provider fixtures. Green admission, fresh readmission and an emitted merge request all retain null Issue classification. RESOLVED remains route-specific: exact provider completion for cloud, and provider completion plus Git/Noodle reconciliation for local. Actual provider delivery is evidenced separately.
-
+The extended `base_recovery_oracle.py` observes actual child SIGKILL after
+invalidation and readmission saves. It checks same-base recovery, refusal of
+old, failed, or unchanged evidence, and enforcement of the unchanged verifier.
+It uses labeled provider fixtures. Green admission, fresh readmission, and an
+emitted merge request all retain null Issue classification. RESOLVED remains
+route-specific. Cloud resolution requires exact provider completion. Local
+resolution requires provider completion plus Git/Noodle reconciliation.
+Actual provider delivery has separate evidence.

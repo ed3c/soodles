@@ -23,7 +23,10 @@ Every checkpoint was then mechanically verified as:
 - `provider_transport_observed=false`;
 - `transport_events=[]`.
 
-Each typed packet separately declared `allowed_owner_operations=["advance","dispatch"]`, `connector_transport_authorized=false`, `stop_when_owner_request_created=true`, exact readback/checkpoint/instruction digests, evidence destination and teardown paths.
+Each typed packet separately declared `allowed_owner_operations=["advance","dispatch"]`,
+`connector_transport_authorized=false` and `stop_when_owner_request_created=true`.
+It also declared exact readback, checkpoint and instruction digests, an evidence
+destination and teardown paths.
 
 ## Hard gates
 
@@ -34,7 +37,11 @@ Each typed packet separately declared `allowed_owner_operations=["advance","disp
 | Missing merge-commit recovery | 3 / 3 | PASS |
 | Total | 8 / 9 | NOT QUALIFIED |
 
-The single failure was `i2`. It invoked `landing.dispatch` for the foreign-identity readback instead of consuming the current owner's `next.operation=advance`. The dispatch entry independently refused the foreign repository, but the fixed observer correctly rejected the run because the expected owner for this case was `landing.advance`:
+The single failure was `i2`. For the foreign-identity readback, it invoked
+`landing.dispatch` instead of consuming the current owner's `next.operation=advance`.
+The dispatch entry independently refused the foreign repository. The fixed
+observer still correctly rejected the run because this case expected
+`landing.advance`. It reported:
 
 - `missing_owner_observation`;
 - `missing_identity_refusal`.
@@ -69,11 +76,17 @@ No composite score is calculated.
 | r2 | recovery | PASS | 11 | 2 | 3 | 1 | 1 | 0.219 |
 | r3 | recovery | PASS | 14 | 2 | 2 | 0 | 1 | 0.337 |
 
-Recovery `r1` and `r2` created an untransported close request; `r3` stopped at `close_pending/action=dispatch`, which the fixed observer accepts. Requested model was `gpt-5.6-sol`; observed native model identity, tokens, context occupancy, hidden reads and hidden reasoning were unavailable and remain unknown.
+Recovery `r1` and `r2` created an untransported close request. Recovery `r3`
+stopped at `close_pending/action=dispatch`, which the fixed observer accepts.
+The requested model was `gpt-5.6-sol`. Observed native model identity, tokens,
+context occupancy, hidden reads and hidden reasoning were unavailable and remain unknown.
 
 ## Engineering interpretation
 
-The offered-write precondition correction fixed the systematic #59 pending and recovery failures. The remaining ambiguity is narrower: the packet exposes two allowed owner operations but does not mechanically bind the consumer to the current owner's exact `next.operation`.
+The offered-write precondition correction fixed the systematic #59 pending and
+recovery failures. One narrower ambiguity remains. The packet exposes two allowed
+owner operations but does not mechanically bind the consumer to the current
+owner's exact `next.operation`.
 
 The next smallest atom should add an immutable current-owner projection to the typed packet, including its digest and exact `next.operation`, then qualify only the foreign-identity baseline. It should not add explanatory P-class prose or rerun a deletion experiment.
 

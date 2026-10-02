@@ -28,15 +28,15 @@ the array literally. This is a combined CLI/recipe treatment, not prose ablation
 | Rejected planted transcript mutations | 7/7 | 7/7 |
 
 Baseline runs are r11/r36/r24; treatment runs are r23/r12/r35.
-All three prepared cases emitted exactly one request; offered cases retained
-unknown merge outcomes without reoffer; recovery cases preserved the missing
-merge-commit refusal and stopped at close preparation. The frozen CLI observer
+All three prepared cases emitted exactly one request. Offered cases retained
+unknown merge outcomes without another offer. Recovery cases preserved the
+missing merge-commit refusal and stopped at close preparation. The frozen CLI observer
 also exercises historical dispatch, invalid/foreign input, paths with spaces,
 fresh-claim invalidation and terminal idempotency. Planted transcript defects
 prove observer sensitivity, not historical failures or source-mutation coverage.
 
-The defensible improvement is availability and observed literal consumption of
-owner-selected syntax. Zero-to-zero wrong routes is nonregression. Help counts
+The improvement was that the owner supplied executable syntax and consumers
+used it literally in the observed runs. Zero-to-zero wrong routes is nonregression. Help counts
 are descriptive only; they do not establish the four decision-path metrics,
 cognition, elapsed-time superiority, or globally shortest Agent behavior.
 
@@ -46,8 +46,8 @@ r24 recorded one extra submitted recovery argv rejected by the recorder before
 owner invocation. Its consumer reported a preceding successful fixture refresh
 whose event was absent from the retained stream. The receipt preserves the
 reported hash/time and exact refusal. Cause is unknown. A subsequent fresh
-refresh supplied materially changed input before continuation. This anomaly is
-not attributed to baseline CLI behavior and is not an extra wrong owner route.
+refresh supplied materially changed input before continuation. The report does not attribute this anomaly to baseline CLI behavior or count it
+as an extra wrong owner route.
 All r24 evidence is retained, but full trace completeness and a clean 3-versus-3
 cost comparison are not claimed. The two other baseline consumers independently
 show the same four successful routes with reconstructed argv.

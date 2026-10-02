@@ -5,22 +5,37 @@ description: Verify Soodles runtime, bounded execution, delivery, recovery or bo
 
 # Verify Soodles
 
-Soodles has a runtime CLI and an external supervised publisher. Retain the path selected by [root AGENTS](../../../AGENTS.md#session-entry--select-once-then-act); if entering through this skill, read that short entry first. Do not reclassify an established cloud Session as local merely because a recipe contains shell commands.
+Soodles has a runtime CLI and an external supervised publisher. Retain the path
+selected by [root AGENTS](../../../AGENTS.md#session-entry--select-once-then-act).
+If you enter through this skill, read that short entry first. Shell commands in
+a recipe do not make an established cloud Session local.
 
-For feature-specific execution or investigation, read the relevant recipe directly: [authenticated Issue readback](features/github-read.md), [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). After an exact landing RESOLVED receipt, use the dedicated [next-Issue Skill](../../next-issue/SKILL.md) for bounded candidate qualification and provider Issue creation; it is not a scheduler or product-priority owner. Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
+For feature-specific execution or investigation, read the relevant recipe directly: [authenticated Issue readback](features/github-read.md), [runtime admission](features/runtime-admission.md), [bounded Issue execution](features/issue-execution.md), [supervised delivery](features/supervised-delivery.md), [delivery recovery](features/delivery-recovery.md), or [P-class behavior/context](features/pclass-context.md). After an exact landing RESOLVED receipt, use the dedicated [next-Issue Skill](../next-issue/SKILL.md) for bounded candidate qualification and provider Issue creation; it is not a scheduler or product-priority owner. Consult [the feature index](features/README.md) for a full maintenance pass. Quality reporting, general production scheduling and Issue DAG execution remain outside this map. The normal route is AGENTS → this skill → the feature, with no mandatory index hop.
 
-For P-class behavior/context work, read its recipe before any runtime doctor: use the supplied carrier and operation-specific prerequisites. Native cloud consumers require neither Codex CLI nor the Linux runtime binary. The coordinator captures observations; independent consumers receive only their assigned task/instructions/inputs. A scoped feature check does not claim a full maintenance pass.
+For P-class behavior/context work, read its recipe before any runtime doctor.
+Use the supplied carrier and the prerequisites for that operation. Native cloud
+consumers require neither Codex CLI nor the Linux runtime binary. The coordinator
+captures observations. Independent consumers receive only their assigned task,
+instructions and inputs. A scoped feature check does not claim a full maintenance pass.
 
 For an observed defect, preserve the actual owner/process/readback evidence and
 use the admitted Issue's declared deterministic controls. The [P-class recipe](features/pclass-context.md#declared-defect-controls-and-optional-behavior-comparison)
 selects scoped instruction maintenance or an optional behavior comparison only
-when that claim needs it. Unknown behavior names an offline evals data request;
-it does not add a runtime gate or replace the current owner continuation.
+when the task selects it. Unknown behavior first needs the relevant existing logs,
+source and owner readback. Request offline evals only for a selected Agent behavior
+measurement that needs them; uncertainty adds no test demand or runtime gate.
 Product correctness and Agent improvement retain separate evidence requirements.
 
 ## Cloud Actions verification
 
-For cloud candidate verification, use the current Session's GitHub connector to read the exact PR/head and existing `runtime.yml` run. It already performs pinned Noodle setup and canonical acceptance on the runner. Read run/attempt/head, acceptance job/step outcome and artifact identity/content when accessible; distinguish metadata readback from receipt inspection. Reuse a completed matching run, or observe the current run. A prior head is historical evidence. No scratch checkout, binary doctor, `noodle skills list`, Codex CLI or API key is a prerequisite for this branch.
+For cloud candidate verification, use the current Session's GitHub connector.
+Read the exact PR and head and the existing `runtime.yml` run. That workflow
+already performs pinned Noodle setup and canonical acceptance on the runner.
+Read the run, attempt, head, and acceptance job and step outcome. When accessible,
+also read artifact identity and content. Distinguish metadata readback from
+receipt inspection. Reuse a completed matching run, or observe the current run.
+A prior head is historical evidence. This branch needs no scratch checkout,
+binary doctor, `noodle skills list`, Codex CLI or API key.
 
 On failure, inspect the owning failed step and report its actual input/capability gap; do not retry an unchanged write or invent a workflow dispatch. On success, return the requested evidence or continue the already-authorized delivery through its existing owner. CI success grants no landing authority. A targeted feature not covered by an existing workflow remains a named gap; do not pretend that the general runtime run exercised it. This cloud branch does not require reading the local Launch/Doctor/Drive sections.
 
@@ -30,7 +45,17 @@ Runtime admission and delivery-recovery fixtures run from a clean committed Sood
 
 ## Local doctor
 
-For the lock-bound recipes, start each fresh driving session with `./soodles runtime check` on the supplied binary. Its receipt must match the lock before Noodle is used. The runtime driver's doctor doubles as its positive feature drive. For bounded Issue execution, use that recipe's carrier/envelope and canonical-state preflight instead; the Linux lock does not certify a native macOS executable. Recheck after an unexpected failed drive or changed environment before continuing; preserve the failure first. Doctor is not permission to retry unchanged input. A refusal names the invalid field and supported help; a missing prerequisite remains blocked until its owner supplies it.
+For lock-bound recipes, start each fresh driving session with
+`./soodles runtime check` on the supplied binary. Before using Noodle, require
+its receipt to match the lock. The runtime driver's doctor also supplies its
+positive feature drive. For bounded Issue execution, use that recipe's carrier,
+envelope and canonical-state preflight. The Linux lock does not certify a native
+macOS executable. Preserve a failure and inspect its owning step. Repeat doctor
+only if a failure implicates runtime identity or health, or a change invalidates
+the existing check. Expected control refusals and unrelated failures do not
+invalidate it. Doctor does not permit a retry with unchanged input.
+A refusal names the invalid field and supported help. If a prerequisite is
+missing, the operation stays blocked until its owner supplies it.
 
 ## Test scope
 
@@ -50,7 +75,12 @@ Use the shipped executable from the repository root:
 
 Both arguments are supplied by the current execution environment: the already-admitted binary and a fresh evidence destination. This runtime driver checks source identity, performs doctor/positive admission, resolves this skill through `noodle skills list`, and drives a wrong-digest executable sentinel through the same CLI. It then checks cleanup and unchanged source identity. It never sends provider writes or runs full acceptance. Other recipes reuse existing owner entries and recovery oracles; do not route them through a new scheduler or copy their transition logic into a skill helper.
 
-For landing, consume the invoked owner's current `owner`, `action`, `next`, `invalid` and, when emitted, `request`. Missing input and provider readback are not executable commands. Follow the returned operation/help using confirmed inputs; never derive an operation by splitting a field name. A historical next action is trace evidence only. The owning action rechecks the current claim, head, checkpoint, provider state and write eligibility before an effect.
+For landing, consume the invoked owner's current `owner`, `action`, `next`,
+`invalid` and, when emitted, `request`. Missing input and provider readback are
+not executable commands. Use confirmed inputs with the returned operation or
+help. Never derive an operation by splitting a field name. A historical next
+action is trace evidence only. Before an effect, the owning action rechecks the
+current claim, head, checkpoint, provider state and write eligibility.
 
 Noodle resolves `.agents/skills` by default. Resolution must name this checkout's exact `verify-soodles` directory; requesting a name is not proof of loading it. The captured digest map identifies the actual skill files. Noodle may emit missing-backlog-adapter diagnostics: they disclose that production scheduling is unavailable, not a request to repair unrelated adapters during verification.
 
@@ -68,10 +98,26 @@ The runtime driver owns its temporary sentinel directory; recovery oracles own d
 
 ## Maintenance
 
-P-class comparisons are one mapped feature. Routine feature use has no mandatory
-P-class preflight; observed defects use the conditional controls above. Maintain reviews the recipe and its recording helper against source and drives it through the supplied experiment packet. Report feature behavior, measured context/cost, map coverage and delivery independently. A full pass still needs all mapped features; unavailable prerequisites remain blocked. The originating issue owns cross-file migration and landing; maintain edits only this skill directory. Never change an active experiment's judge while evaluating its candidate.
+For observed recipe drift, compare the affected instructions with their source and
+correct that scope. Test Manager selects any necessary executable verification;
+a prose correction alone requests neither model comparisons nor a full-map drive.
+Keep product regressions with their causal owner and preserve the active judge.
 
-This existing skill was created using pstack at `ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa`. Use its `maintain-verification-skill` for a map audit or observed recipe drift; do not repeat create. A full pass audits the index, runs one read-only source review per feature concurrently, reconciles source/churn drift, and has the coordinator live-drive every mapped feature with doctor, receipts and teardown. Outcome is clean, changed or blocked; clean/blocked passes do not manufacture a PR. Only demonstrated skill corrections belong in a changed maintenance PR. Ordinary feature use does not invoke either authoring method.
+For an explicitly requested full verification-skill maintenance pass, use the
+installed pstack `maintain-verification-skill` from
+`/Users/neon/.local/share/pstack/skills/maintain-verification-skill/SKILL.md`.
+Only such a pass claims full-map coverage; a scoped correction does not become
+blocked because unrelated features were not exercised. Native skill symlinks
+resolve to that sole source; do not download, copy or add a loader. Its original
+creation at `ed3c/plugins@68836ddaf5697224520f1847d90cdb90ca8babaa` is historical
+provenance, not the current method selection. Ordinary use does not repeat create
+or maintain. User-selected scope and execution constraints still apply.
 
-This guidance is P-class; the index, counts and prose are N-class. Executable local discriminators provide L-class evidence; actual provider-enforced identity and merge/closure readback provide R-class evidence. None is interchangeable. Product regressions retain their failing evidence and follow the admitted Issue's owner/write boundary; changing a recipe must not hide them. Supervisor correction remains available through the existing owning action before an unoffered admission is reused. Preserve unknown writes for owner readback. Neither maintenance nor a candidate-edited test selects its effective external judge.
-
+This guidance is P-class. The index, counts and prose are N-class. Executable
+local discriminators provide L-class evidence. Actual provider-enforced identity,
+merge readback and closure readback provide R-class evidence. These classes are
+not interchangeable. Preserve failing evidence for product regressions and follow
+the admitted Issue's owner and write boundary. A recipe change must not hide
+regressions. Before reusing an unoffered admission, the supervisor can correct it
+through the existing owning action. Preserve unknown writes for owner readback.
+Neither maintenance nor a candidate-edited test selects its effective external judge.

@@ -2,10 +2,14 @@
 
 ## Sub-features
 
-Inspect a rejected INITIAL proposal; retire only the exact unchanged subject
-through the stopped owner; observe archival, canonical preservation and legal
-refusals. Consume independently accepted Noodle #84 controls without implementing
-another recovery algorithm.
+Inspect a rejected INITIAL proposal. Through the stopped owner, retire only the
+exact unchanged subject. Observe archival, canonical preservation and legal
+refusals. Use the independently accepted Noodle #84 controls.
+Do not implement another recovery algorithm.
+
+Normal recovery consumes the current owner's inspect/next/readback for the exact
+authorized subject. Extra observers, failure fixtures and P-class replay below
+apply only to selected verification claims; they are not recovery prerequisites.
 
 ## How to get to it (user POV)
 
@@ -22,7 +26,8 @@ inconsistent evidence. A `status` summary alone does not prove a stopped owner.
 
 ## Driving it with the Noodle CLI
 
-1. Doctor the selected binary. Record fixture selection and before bytes/digests
+1. Apply the owning skill's conditional identity checks. Record fixture selection
+   and before bytes/digests
    of `.noodle/orders-next.json`, `state.snapshot.json`, `orders.json`, and relevant
    original session evidence, with the preserved production source kept unchanged.
 2. In the supplied disposable project run
@@ -39,7 +44,8 @@ inconsistent evidence. A `status` summary alone does not prove a stopped owner.
    checkpoint/orders unchanged. Preserve the archive outside scratch before
    cleanup. `no_proposal` has no executable recovery continuation: report its
    named scheduling owner/required separately admitted intent and stop this drive.
-5. Reuse the supervisor's fixed #84 recovery/refusal observers and selected
+5. When recovery/refusal controls are selected, reuse the supervisor's fixed #84
+   observers and selected
    fixtures for defect and non-case evidence. Their measured interface is
    `python3 "$RECOVERY_OBSERVER" "$NOODLE_BIN" "$RECOVERY_EVIDENCE"` and
    `python3 "$REFUSAL_OBSERVER" "$NOODLE_BIN" "$REFUSAL_EVIDENCE"`, with absolute
@@ -52,9 +58,16 @@ The #46 selection pins recovery observer SHA-256
 and refusal observer SHA-256
 `64cd30de8faeea72b38d839cefadb900d9a87c2f96ea7acd123387f2fa58efce`.
 Their adjacent `preserved-input-selection.json` and `preserved-soodles-input`
-remain supervisor-selected inputs; the #79 portable fixture copy preserves their bytes. After verifying those original bytes, both observers replace captured historical PIDs only in their disposable execution copies with an out-of-range sentinel and record every adjustment. This prevents an unrelated carrier process from impersonating a captured session. The refusal observer creates its own live PID and orphan-process-group controls only after that isolation, so those controls remain live. The recovery observer contains a bounded idempotence
-control; it is not a general instruction to replay old argv. The coordinator's
-normal drive always consumes fresh next and includes the post-retirement readback.
+remain supervisor-selected inputs. The #79 portable fixture copy preserves
+their bytes. Both observers first verify those original bytes. In their
+disposable execution copies only, they replace captured historical PIDs with
+an out-of-range sentinel. They record every adjustment. This prevents an
+unrelated carrier process from impersonating a captured session. After that
+isolation, the refusal observer creates its own live PID and orphan-process-group
+controls. Those controls therefore remain live. The recovery observer contains
+a bounded idempotence control. It does not instruct consumers to replay old argv.
+The coordinator's normal drive always consumes fresh next and includes the
+post-retirement readback.
 The fixed refusal observer covers wrong digest/revision, admitted ledger, valid
 proposal, live process and orphan live group. It preserves mailbox/snapshot but
 does not measure orders bytes, continuation fields or final group absence. Its
@@ -122,10 +135,14 @@ is migrated by this format.
 
 ## Bounded P-class replay (Soodles #81)
 
-The demonstrated route is stopped-owner input → fresh `admission inspect`
-projection → exact selected `next.argv` retirement → fresh `no_proposal`
-completion and prohibited-effect observations → manifest-bound executable
-observer/decider → preserved raw/replay packet. Noodle alone owns retirement.
+Use this section only for an explicitly selected replay of that evidence; normal
+recovery and recipe maintenance do not request a comparison or historical replay.
+
+The demonstrated route starts with stopped-owner input and a fresh
+`admission inspect` projection. The consumer executes the exact selected
+`next.argv` retirement, then observes fresh `no_proposal` completion and
+prohibited effects. The manifest-bound executable observer and decider process
+those observations. The raw and replay packet is preserved. Noodle alone owns retirement.
 `replay_pclass.py` selects `feature=admission_recovery`; it checks the supplied
 manifest and analyzer digests before importing the observer or decider. It never
 executes commands archived in the packet. Use the externally supplied manifest
@@ -140,8 +157,8 @@ python3 .agents/skills/verify-soodles/scripts/replay_pclass.py \
 
 The four ordered legal barriers are unchanged-projection reinspection, help after
 an executable projection, repeated unchanged instruction reads, and avoidable
-confirmation. Reinspection after retirement observes changed state and is legal;
-an argv identical to current `next.argv` remains legal regardless of how the
+confirmation. Reinspection after retirement observes changed state and is legal.
+An argv identical to current `next.argv` remains legal regardless of how the
 consumer assembled it. Stale continuation, wrong identity, missing completion,
 changed archive/canonical bytes and process or cleanup residue are hard failures,
 never optimization targets. Missing evidence never supplies a zero.

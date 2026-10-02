@@ -13,11 +13,10 @@ immediately and stated that a missing launcher/input required the supervisor.
 That wording allowed a generic local analysis/review Session that merely read
 the Skill to overgeneralize a schedule-only prerequisite.
 
-Current Noodle main `98d845608d64a78b1c116a8f0be6a6de47c8b2b2`
-already builds process child environment from `os.Environ()` in
-`dispatcher/command.go:buildDispatchEnv` (apart from the explicit
-`CLAUDECODE` removal), so this atom does not change Noodle environment
-propagation.
+At the time, Noodle main `98d845608d64a78b1c116a8f0be6a6de47c8b2b2`
+already built the process child environment from `os.Environ()` in
+`dispatcher/command.go:buildDispatchEnv` apart from the explicit `CLAUDECODE` removal. This atom did not change Noodle
+environment propagation.
 
 ## Correction
 
@@ -32,8 +31,8 @@ launcher from historical evidence.
 A missing `NOODLE_SESSION_ID` means the Skill has not established scheduler
 role and therefore cannot make the launcher a prerequisite for the caller's
 original task. A present ID with missing/mismatched spawn refuses the schedule
-operation as role identity. Only a matching schedule spawn reaches launcher
-admission; at that point a missing launcher still belongs to the supervisor.
+operation as role identity. Only a matching schedule spawn reaches launcher admission. At that point, the
+supervisor still owns a missing launcher.
 
 ## Focused controls
 

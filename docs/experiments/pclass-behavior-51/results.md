@@ -18,12 +18,13 @@ The atom fixed three disposable owner cases before launch:
 - missing merge-commit recovery;
 - foreign provider identity.
 
-Each case received three baseline and three treatment consumers: 18 fresh native
-cloud sessions, opaque run IDs, no inherited conversation, common source/owner,
-separate evidence directories and no live provider transport. The executable
-observer checked task outcome, owner identity, refusal/recovery, checkpoint
-identity, replay/request barriers and evidence. Explicit instruction reads,
-commands, searches, bytes and elapsed time were also recorded.
+Each case received three baseline consumers and three treatment consumers.
+The 18 fresh native cloud sessions had opaque run IDs, no inherited conversation,
+common source and owner, separate evidence directories, and no live provider
+transport. The executable observer checked task outcome, owner identity,
+refusal and recovery, checkpoint identity, replay and request barriers, and
+evidence. The recorder also saved explicit instruction reads, commands, searches,
+bytes, and elapsed time.
 
 The static check proved that the treatment removed only the named 280 bytes,
 kept all non-entry instruction digests equal and left the executable owner and
@@ -39,9 +40,9 @@ The local observer and receipts, not context size, determined the outcome.
 ## Supervisor correction before the valid comparison
 
 The first 18-run trial is invalid for the treatment claim. Its frozen observer
-assumed `receipt.owner` was an object; eight consumers emitted a string, causing
-the normalizer to raise `AttributeError` before judgment. The raw trial was
-preserved rather than repaired in place.
+assumed `receipt.owner` was an object. Eight consumers emitted a string, which
+caused the normalizer to raise `AttributeError` before judgment. The raw trial
+was preserved without in-place repair.
 
 A fresh supervisor boundary then:
 
@@ -111,17 +112,17 @@ The atom physically demonstrates a behavior-first eval loop:
 7. retain no instruction change when required evidence fails.
 
 It does **not** demonstrate that the 280-byte deletion is harmful. The baseline
-itself failed every recovery run, so this dataset is not a valid equivalence
+failed every recovery run. This dataset is therefore not a valid equivalence
 baseline for that case. Most `missing_entry_read` errors came from shell-wrapped
-`cat` or `sed` commands that the recorder could not bind as direct file
-arguments. The close request is an owner-produced proposal, not provider
-transport; the frozen observer intentionally treated it as a barrier, but this
-exposes a future oracle question rather than a proven side effect.
+`cat` or `sed` commands. The recorder could not bind them as direct file arguments.
+The close request is an owner-produced proposal, not provider transport.
+The frozen observer intentionally treated it as a barrier. That raises a question
+for a future oracle. It does not prove a side effect.
 
-A later atom should first make the recorder bind shell-wrapped instruction reads
-and separately classify request creation versus connector transport. It should
-not add another P-class rule or rerun this deletion until those observer
-boundaries discriminate a valid baseline.
+A later atom should first make the recorder bind shell-wrapped instruction
+reads. It should classify request creation and connector transport separately.
+Until those observer boundaries distinguish a valid baseline, the atom should
+neither add another P-class rule nor rerun this deletion.
 
 ## Evidence and limits
 

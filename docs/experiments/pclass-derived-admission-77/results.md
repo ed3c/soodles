@@ -1,6 +1,6 @@
 # Derived P-class admission — issue #77
 
-This issue atom closes one real P-class comparison failure without rerunning the six issue #73 model consumers or adding an eval service. The public comparison entry now derives receipts and planted controls from fixed raw evidence; a candidate cannot submit those results directly.
+This issue atom corrected one P-class comparison failure. It did not rerun the six issue #73 model consumers or add an eval service. The public comparison entry derived receipts and planted controls from fixed raw evidence. A candidate could not submit those results directly.
 
 ## Preserved RED
 
@@ -15,7 +15,7 @@ At base commit `5463e7b212dcdd578e39f3cfc9e5c6da800ea541`, the frozen probe (`sh
 
 `manifest.json` fixes three runs per arm, all six raw run identities, observer/normalizer/decider bytes, the gates digest, and six mutation predicates. `gates.json` has an exact narrow schema: causal-delta PASS, independent-audit PASS, and report-only telemetry. Extra candidate receipt or control fields are rejected.
 
-`replay_pclass.py` is the single command entry. It verifies digests before analyzer import, normalizes raw runs, executes the manifest-selected mutations, builds the comparison, and calls the internal evaluator. `decide_pclass.py` rejects command-line comparison input. Neither receipt authorizes landing.
+`replay_pclass.py` is the single command entry. It verifies digests before importing the analyzer. It then normalizes raw runs, executes the manifest-selected mutations, and builds the comparison. Finally, it calls the internal evaluator. `decide_pclass.py` rejects command-line comparison input. Neither receipt authorizes landing.
 
 ## Replayed evidence
 

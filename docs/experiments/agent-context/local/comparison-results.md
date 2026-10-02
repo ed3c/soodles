@@ -1,7 +1,7 @@
 # Integrated local comparison — 2026-09-17
 
 N-class report for [Issue 39](https://github.com/ed3c/soodles/issues/39).
-The current comparison uses main `1ff2882891792b50d97529c9ee1a3e76eac1a6e7`
+This comparison used main `1ff2882891792b50d97529c9ee1a3e76eac1a6e7`
 and the five frozen treatment instruction blobs at
 `388c86be5eef0f317b0ae38ffac70892f24c13de`, preserving #41/#44/#46.
 It supersedes the historical input selection below, not its recorded results.
@@ -22,15 +22,15 @@ All ten bounded worker tasks, including the original incomplete pair, have
 actual child wait exit 0 and own matching typed blocked outcomes. The neutral
 execute skill prescribes blocked because experiments do not deliver production;
 it is not independent evidence of the Agent choosing its own stop policy.
-The ten tasks contain 70 native outer tool request/result pairs and 100 emitted
+The ten tasks contained 70 native outer tool request/result pairs and 100 emitted
 command results. These counts exclude Noodle scheduling, setup, observer and
 coordinator work, and are not a measurement of hidden reasoning or decision cost.
 Nested owner refusals can have exit 1 while the containing observation command
 succeeds. Correctly refusing an illegal dispatch is rejection-control GREEN;
 it does not establish a defect RED or an optimal Agent route.
 
-The frozen observer checks normalized consistency only. Its unchanged fourteen
-controls passed, as did six existing context-recorder controls. Independent raw
+The frozen observer checked only normalized consistency. Its unchanged fourteen
+controls passed. The six existing context-recorder controls also passed. Independent raw
 review separately validates actual operations and joins Noodle session/order/stage,
 worktree, recorder PID/child wait, Codex thread/turn and exposed model identity.
 Prior recorder defect RED/cure GREEN/legal non-case GREEN evidence remains scoped
@@ -87,8 +87,8 @@ Session `soodles-39-0-execute-20260917-084802-fa146c` produced complete external
 drafts and its own scoped completed outcome; the external recorder waited for the
 actual child. Noodle automatically removed its no-change checkout. The supervisor
 then explicitly asked Noodle to recreate the same worktree from admitted main
-and applied those drafts. This is recorded reconstruction, not fabricated
-uninterrupted checkout or retrospectively created order history.
+and applied those drafts. The record documents that reconstruction. It does not claim that the checkout
+was uninterrupted or that the order history was created retrospectively.
 
 The ten experimental worktrees are removed and their source/evidence retained.
 Experimental cleanup is distinct from production reconciliation. The original
@@ -103,7 +103,7 @@ Only that external terminal receipt establishes RESOLVED; this report does not.
 
 ## Historical comparison with earlier instruction inputs
 
-The following report is preserved for its original source/carrier only.
+The following report applies only to its original source and carrier.
 
 # Complete instrumented local comparison — 2026-09-17
 
@@ -152,9 +152,9 @@ matching typed outcome. Noodle's attempt `exit_code` remains null; it is not the
 source of the exit-0 claim. No parent-created outcome or summary substitutes for
 these observations.
 
-All consumer verdicts are `TRACE_CONSISTENT`, with no missing fields or violations.
-That result validates normalized trace consistency; independent review of raw
-inputs/results and state supplies the separate behavioral audit. Correctly
+All consumer verdicts were `TRACE_CONSISTENT`, with no missing fields or violations.
+That result validated normalized trace consistency. Independent review of raw
+inputs, results, and state supplied the separate behavioral audit. Correctly
 waiting for readback is a GREEN legal non-case, not evidence of a defect RED.
 The existing frozen observer/recorder defect controls remain independently scoped:
 omitted/false exit, lost signal, overwrite and group-kill defects fail their same

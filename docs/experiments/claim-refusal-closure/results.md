@@ -1,12 +1,12 @@
 # Claim refusal：一顆 atom 的有界閉環
 
-產品修正與固定外部 oracle 已通過；3組fresh native比較支持有界的決策非退化。改善成立在CLI內部：拒絕不再被當成等待。沒有證明Agent推理成本、token或全流程總成本下降。此報告在正式admission前封存；實際Issue由manifest綁定，交付完成以外部owner terminal receipt為準。
+產品修正已通過固定外部 oracle。3 組 fresh native 比較支持有界的決策非退化。CLI 的修正使拒絕不再被當成等待，但沒有證明 Agent 推理成本、token 或全流程總成本下降。本報告在正式 admission 前封存。manifest 綁定實際 Issue，外部 owner terminal receipt 才能證明交付完成。
 
 ## 真實缺陷與最小修正
 
-Baseline a6254973b15f4f97295a99b29de17fbe7009a171 的 issue_atom.py 在 _run_claim 非零退出後回傳 pending，drive 因而重複呼叫。既有 admission 的 running/proposal_pending 已負責合法等待；非零claim沒有可信的retryable分類。
+Baseline a6254973b15f4f97295a99b29de17fbe7009a171 的 issue_atom.py 在 _run_claim 非零退出後回傳 pending。drive 因而重複呼叫。既有 admission 的 running/proposal_pending 已表示合法等待。非零 claim 沒有可信的 retryable 分類。
 
-只把這個分支導向既有 AtomRefusal(noodle.claim.exit)，保留原始process receipt，回傳 Noodle／fresh_noodle_claim 與 exact control_root/order_id/subject。原execution checkpoint與同一authorization/command保留。沒有新狀態、scheduler、retry engine、CLI flag或授權層。P只補上收到此receipt時的停止與fresh-readback要求；feature recipe和system contract更新到相同範圍。
+修正將這個分支導向既有 AtomRefusal(noodle.claim.exit)，並保留原始 process receipt。回傳值包含 Noodle／fresh_noodle_claim，以及 exact control_root/order_id/subject。原 execution checkpoint、authorization 和 command 均保留。修正沒有新增狀態、scheduler、retry engine、CLI flag 或授權層。P 只補上收到此 receipt 時的停止要求與 fresh-readback 要求。feature recipe 和 system contract 更新到相同範圍。
 
 ## 固定產品判準
 
@@ -18,28 +18,28 @@ Baseline a6254973b15f4f97295a99b29de17fbe7009a171 的 issue_atom.py 在 _run_cla
 | 成功claim | readiness/publication各一次、停在CI等待 | 相同 |
 | 同auth跨3個fresh process | 身分保持，但最初拒絕錯當等待 | 拒絕→owner改變→running→成功接續 |
 
-拒絕案例無claim/acceptance artifact，沒有readiness/publication；所有provider操作都是fixture。固定外部oracle拒絕了植入的重複publication與running時claim反例。Drive telemetry有實際subprocess argv/stdout/stderr/exit，fake clock只縮短測試，不是wall-clock latency證明。
+拒絕案例沒有 claim/acceptance artifact，也沒有 readiness/publication。所有 provider 操作都使用 fixture。固定外部 oracle 拒絕了植入的重複 publication，以及 running 時執行 claim 的反例。Drive telemetry 記錄實際 subprocess argv/stdout/stderr/exit。fake clock 只縮短測試時間，不能證明 wall-clock latency。
 
-77項focused tests通過，含既有issue_atom/issue_execution與一個固定oracle replay test。外部judge在candidate修改前固定；原始harness兩次allowlist遺漏及修復前baseline失敗保留。第一個產品修正即通過，沒有藉換裁判或反覆挑樣本取得勝利。
+77 項 focused tests 通過，涵蓋既有 issue_atom/issue_execution 與一個固定 oracle replay test。外部 judge 在 candidate 修改前固定。原始 harness 的兩次 allowlist 遺漏，以及修復前的 baseline 失敗均保留。第一個產品修正即通過，沒有更換裁判或反覆挑選樣本。
 
 ## Fresh consumer與上下文接續
 
-使用6個無繼承對話的native consumers；一組train、兩組confirmation，之後未修改source/P/judge。每個只取得中性任務、固定instructions、identity與owner投影；獨立reader記錄實際送入的檔案bytes/digests。
+本輪使用 6 個不繼承對話的 native consumers，分為一組 train 和兩組 confirmation。之後未修改 source/P/judge。每個 consumer 只取得中性任務、固定 instructions、identity 與 owner 投影。獨立 reader 記錄實際送入的檔案 bytes/digests。
 
-- c1：baseline依pending選wait_for_change；treatment依refused選stop_for_input，交回Noodle的fresh_noodle_claim。兩者都遵守收到的介面，因此這不是模型能力提升。
-- c2：兩臂對真正running都等待Noodle狀態改變，不提出claim或其他phase命令。
-- c3：新consumer讀舊handoff，再讀當前owner receipt，改為等待GitHub Actions，沒有沿用舊Noodle阻擋，authorization與續接身份保持。
+- c1：baseline 依 pending 選擇 wait_for_change。treatment 依 refused 選擇 stop_for_input，交回 Noodle 的 fresh_noodle_claim。兩者都遵守收到的介面，因此結果不表示模型能力提升。
+- c2：兩臂收到真正的 running 狀態後，都等待 Noodle 狀態改變。兩臂均未提出 claim 或其他 phase 命令。
+- c3：新 consumer 先讀舊 handoff，再讀當前 owner receipt，然後改為等待 GitHub Actions。它沒有沿用舊 Noodle 阻擋，並保持 authorization 與續接身份。
 
-這是read-only report決策比較，不是模型實際執行reentry。真正跨程序重入由上述獨立worker證據支持。initial action gate偏寬（允許兩種停止/等待標籤），凍結後未改；原始treatment report確實選擇stop_for_input。完整平台transcript、精確模型provenance、hidden reads、token與實際compaction均未知。共同任務限制effects，不能推論無限制自主執行也不退化。Treatment instruction/read bytes略增；不能由內部重試下降推論Agent總成本降低。
+這次比較觀察 read-only report 的決策，沒有讓模型實際執行 reentry。上述獨立 worker 證據支持真正的跨程序重入。initial action gate 允許兩種停止/等待標籤，判準偏寬。固定後未再修改，原始 treatment report 選擇了 stop_for_input。完整平台 transcript、精確模型 provenance、hidden reads、token 與實際 compaction 均未知。共同任務限制了 effects，因此結果不能推論至無限制的自主執行。Treatment instruction/read bytes 略增。內部重試減少，不能證明 Agent 總成本降低。
 
 ## 閉環與資料流
 
-已觀察失敗 → verify-soodles受影響recipe → objective code evaluator及正反controls → 外部固定baseline → 一個CLI/P假設 → 產品controls → fresh decisions與confirmation → 固定evidence manifest → 同一Issue/PR的既有acceptance/landing。
+本輪先將已觀察失敗對應到 verify-soodles 的受影響 recipe，再建立 objective code evaluator 與正反 controls。外部固定 baseline 後，以一個 CLI/P 假設進行修正。產品 controls、fresh decisions 與 confirmation 提供判定依據。固定的 evidence manifest 將這些證據交給同一 Issue/PR 的既有 acceptance/landing。
 
-閉環目標是指定因果鏈內正確完成或正確阻塞、保留身分並能在真實狀態改變後恢復，同時移除可證明的無效重試。它跨session依靠持久化owner證據與當前readback，不依靠作者記憶。失敗控制透過tests重播，P規則回到既有feature/skill；不建立泛用eval平台或每輪全圖maintenance。
+本輪目標是在指定因果鏈內正確完成或阻塞，同時保留身分。真實狀態改變後，原流程須能恢復。修正也須移除可證明無效的重試。跨 session 的接續依靠持久化 owner 證據與當前 readback，不依靠作者記憶。tests 重播失敗控制，既有 feature/skill 保存 P 規則。本輪沒有建立泛用 eval 平台，也沒有要求每輪執行全圖 maintenance。
 
-原始report與裁判見behavior/；產品raw見verification/；analysis.py可從原始stdout重算固定產品判定。Behavior輸入保留實際絕對路徑；異機重播須顯式映射封存路徑，不能假裝原runtime仍存在。來源、判準、carrier或owner語義改變時應重驗受影響範圍。全系統與任意未來任務永不退化不在本次證明內。
+behavior/ 保存原始 report 與裁判，verification/ 保存產品 raw。analysis.py 可從原始 stdout 重算固定產品判定。Behavior 輸入保留實際絕對路徑。異機重播須明確映射封存路徑，不能假定原 runtime 仍存在。來源、判準、carrier 或 owner 語義改變時，須重驗受影響範圍。本次結果不保證全系統與任意未來任務永不退化。
 
 ## 交付邊界
 
-本候選必須通過既有native publication readiness、exact-head Linux acceptance，再由外部固定landing owner處理provider merge/closure與local Git/Noodle reconciliation。decision.json與fixture receipt皆不授權landing。delivery/references.json指向本次外部交付證據位置；此處不預造terminal verdict。
+本候選仍須通過既有 native publication readiness 與 exact-head Linux acceptance。之後由外部固定 landing owner 處理 provider merge/closure 與 local Git/Noodle reconciliation。decision.json 與 fixture receipt 皆不授權 landing。delivery/references.json 指向本次外部交付證據的位置。本報告不預先宣告 terminal verdict。

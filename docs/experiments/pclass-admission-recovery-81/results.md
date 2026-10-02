@@ -1,8 +1,8 @@
 # Admission-recovery P-class replay — Issue #81
 
-**Disposition: NO_QUALIFIED_BARRIER.** The same three exploration runs pass all
-hard gates after the fixed append-only cleanup supplement; all four totals are
-zero. This is a non-authorizing handoff,
+**Disposition: NO_QUALIFIED_BARRIER.** After the fixed append-only cleanup
+supplement, the same three exploration runs pass all hard gates. All four totals
+are zero. This is a non-authorizing handoff,
 `authorizes_landing: false`, not Issue resolution or an improvement claim.
 
 ## Subject and fixed evidence
@@ -41,11 +41,11 @@ It does not execute or import an archived command, packet observer or fixture.
 
 ## Actual exploration
 
-The raw chronology independently establishes one fresh inspect, the exact
-current owner-selected retire argv, and a fresh post-retirement inspect in each
-run. All nine owner operations exited 0. Each completion is `no_proposal` with
+For each run, the raw chronology independently establishes one fresh inspect,
+the exact current owner-selected retire argv, and a fresh post-retirement inspect.
+All nine owner operations exited 0. Each completion is `no_proposal` with an
 empty executable continuation. The archive decodes to the exact 1915-byte
-proposal; snapshot, orders and state bytes remain unchanged.
+proposal. Snapshot, orders and state bytes remain unchanged.
 
 | Run | Recorded commands | Observed legal barriers, in plan order | Hard gate | Scored barriers |
 | --- | ---: | --- | --- | --- |
@@ -60,16 +60,16 @@ reads occurred before a complete executable projection. Confirmation absence is
 explicitly consumer-recorded; it is not inferred from an absent command.
 
 The initial raw packet did not support the supplied prose claiming complete
-cleanup. Its e_b4 observation retains `.noodle/noodle.lock` with a recorded
-absent PID/group.
-e_b6's final inventory explicitly includes that lock; its kernel check covers
-nine historical session PIDs/groups, not the lock's PID. e_b5 observed absent
-session and lock PIDs/groups and removed its disposable lock manually before
+cleanup. Its e_b4 observation retains `.noodle/noodle.lock` and records an absent
+PID and group. The e_b6 final inventory explicitly includes that lock.
+Its kernel check covers nine historical session PIDs and groups, not the lock's
+PID. e_b5 observed absent session and lock PIDs and groups. It manually removed
+its disposable lock before
 its final residue readback. Its PASS covers this admitted disposable cleanup,
 not owner-automatic cleanup or general permission to delete locks.
 
-The first executable replay truthfully returned `INCONCLUSIVE`: e_b4/e_b6
-had null scored barriers and aggregate totals were null. The original run bytes,
+The first executable replay truthfully returned `INCONCLUSIVE`. e_b4/e_b6
+had null scored barriers, and aggregate totals were null. The original run bytes,
 initial manifest and failed replay receipt remain losslessly embedded in the
 raw packet. No consumer, owner operation
 or exploration run was restarted or replaced.
@@ -87,7 +87,7 @@ fixed bytes are embedded as data, never executed by replay:
 The manifest binds both original run hashes, exact project paths, lock digests,
 original session records and the fixed cleanup scope. e_b4's original lock bytes
 hash to `e8803715182f41810f42210189953184b7d35624906530a049f9dcddcdd58305`.
-e_b6 originally recorded lock presence only; its lock digest
+e_b6 originally recorded lock presence only. Its lock digest
 `40530cde3e5be2951b683df362ad737ddb4adcba95c59ea2c8d9317ff2c02f54`
 comes from the fixed observer's before-removal readback, not an invented original
 consumer measurement. Both locks are six bytes, with PIDs 65227 and 65571.
@@ -97,8 +97,8 @@ PIDs/groups before removing only `.noodle/noodle.lock`. It recorded mailbox
 absence, one unchanged archive path and no temporary residue. The replay verifies
 that final readback follows the original observations and cannot clear a different
 residue or process failure. Original cleanup errors remain explicit in the final
-receipt. Final totals are 0, 0, 0, 0, so no barrier qualifies; this is neither
-improvement nor scoped nonregression. The external observer's narrow deletion is
+receipt. Final totals are 0, 0, 0, 0, so no barrier qualifies. This establishes
+neither improvement nor scoped nonregression. The external observer's narrow deletion is
 not Noodle automatic cleanup or permission to remove a production lock.
 
 ## Aborted drives and limits
@@ -132,11 +132,12 @@ analyzer import. Raw normalization then checks membership, identity, current
 operation, completion, preservation, process and cleanup. Caller-supplied PASS
 controls or behavior counts are not accepted as gates.
 
-All 18 manifest-selected mutation/non-case controls match their predicates:
-stale continuation, wrong projection, wrong Noodle subject, missing completion,
-false cleanup, incomplete/duplicate membership, recorder/run identity, changed
-archive, provider command and missing wait are RED; exact fresh completion and
-independently assembled equivalent current argv are GREEN. Predicates require
+All 18 manifest-selected mutation/non-case controls match their predicates.
+The RED controls cover stale continuation, wrong projection, wrong Noodle subject,
+missing completion, false cleanup, incomplete or duplicate membership, recorder
+or run identity, changed archive, provider command and missing wait.
+Exact fresh completion and independently assembled equivalent current argv are
+GREEN. Predicates require
 the source run's specific error. Four additional controls
 reject supplement omission/rebinding and accept the corrected same packet and
 the legal complete-cleanup non-case.
@@ -159,12 +160,12 @@ The original distinct read-only consumer's requests, pinned identities, raw
 checks, failed replay and discrepancies remain in `raw/independent-replay.json`.
 The continuation uses a separate read-only process over files read with `git show`
 from commit `a308815d5c40dae06ca0730d491f62ce37ad9aa8`. It independently checks
-all embedded blob hashes, unchanged original run hashes and original raw digest,
-then invokes the same pinned replay entry. It exited 0 and reproduced the stored
-receipt exactly: PASS / `NO_QUALIFIED_BARRIER`, no disagreement. Its source,
-input pins, raw stdout/stderr, actual wait/exit and scratch removal are appended
-to `raw/independent-replay.json`; the earlier independent Agent review remains
-unchanged. This continuation is process-level replay, not a new independent
+all embedded blob hashes, unchanged original run hashes and the original raw digest.
+It then invokes the same pinned replay entry. The process exited 0 and reproduced
+the stored receipt exactly, with PASS / `NO_QUALIFIED_BARRIER` and no disagreement.
+Its source, input pins, raw stdout and stderr, actual wait and exit, and scratch
+removal are appended to `raw/independent-replay.json`. The earlier independent
+Agent review remains unchanged. This continuation is process-level replay, not a new independent
 Agent judgment. No exploration consumer or owner operation was rerun.
 
 No treatment arm or 3+3 confirmation was created. The recipe records this

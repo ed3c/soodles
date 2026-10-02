@@ -1,21 +1,50 @@
 # Qualification eval audit (not a scored comparison)
 
 ## Error analysis — demonstrated process fault; behavior observation pending sealing
-The real producer is killed after authorization write, after temporary receipt write, and after receipt publication. Source owner bytes are unchanged. Each same-path invocation returns authorization.output with a new-output input request, even where exact valid authorization remains. This is evidence of missing supported partial-publication recovery, not evidence that output-collision rejection itself is incorrect. Historical unnecessary requests for authorization path/SHA remain separate and are not newly reproduced by this fixture.
-Fix: score identity-preserving preparation/handoff completion and its nearest refusal controls, never lower command counts on incomplete tasks.
+The real producer is killed at three points: after authorization write, after
+temporary receipt write, and after receipt publication. Source owner bytes remain
+unchanged. Each same-path invocation returns authorization.output and requests
+a new output, even when exact valid authorization remains. This shows missing
+supported recovery from partial publication. It does not show that output-collision
+rejection is incorrect. Historical unnecessary requests for authorization path/SHA
+remain separate. This fixture does not reproduce them.
+Score identity-preserving preparation and handoff completion, with the nearest
+refusal controls. Do not reward lower command counts on incomplete tasks.
 
 ## Evaluator design — current stage is diagnostic, no adopted score
-No current candidate or formal baseline exists. Use objective checks against actual command stdout, preserved authorization identity, handoff, filesystem residue and downstream current owner. Code oracle must reject model-authored receipts without matching captured owner output. A safe blocked baseline may pass safety but fail preparation completion; do not collapse these into one PASS.
-Fix: freeze independently validated oracle and controls before candidate scoring. Partial capture is INCONCLUSIVE, never an easy zero-cost win.
+No current candidate or formal baseline exists. Check actual command stdout,
+preserved authorization identity, handoff, filesystem residue, and the downstream
+current owner. The code oracle must reject model-authored receipts that lack
+matching captured owner output. A safely blocked baseline may pass safety and
+fail preparation completion. Do not combine those outcomes into one PASS.
+Before candidate scoring, freeze an independently validated oracle and controls.
+Partial capture is INCONCLUSIVE. It is never a zero-cost win.
 
 ## Human review — full diagnostic trace
-Supervisor has full source, fault boundaries and subprocess output. A fresh Noodle/Codex consumer receives neutral facts/previous invocation and current instructions, not expected outcomes or this report. This is a deterministic operational criterion; no semantic judge or synthetic human labels.
+The supervisor has full source, fault boundaries, and subprocess output.
+A fresh Noodle/Codex consumer receives neutral facts, the previous invocation,
+and current instructions. It does not receive expected outcomes or this report.
+The criterion is deterministic and operational. It uses no semantic judge or
+synthetic human labels.
 
 ## Labeled data — bounded process-fault workload
-These are real executions of injected local process faults, not claimed production incidents or representative user-frequency data. Repeats estimate model variation within one case group; they are not independent origins. Separate train/selection/confirmation by fault publication phase and schema/identity situation before tuning.
+These are real executions of injected local process faults. They are not
+claimed production incidents or representative user-frequency data. Repeats
+estimate model variation within one case group. They are not independent origins.
+Before tuning, separate train, selection, and confirmation by fault publication
+phase and schema/identity situation.
 
 ## Pipeline hygiene — new comparison boundary required
-Prior #191 source/method/harness are references; no old scores enter this comparison. Freeze actual host/task/observer bytes again. Existing pinned capture adapter is reused, including EOF/process sealing, actual worktree doctor and same-profile file denial. New fixture logic must be pinned too. R3 requires a fresh supervisor to reconstruct the next fresh run from saved handoff; archived replay alone is insufficient.
+Prior #191 source, method, and harness are references. No old scores enter
+this comparison. Freeze actual host, task, and observer bytes again.
+Reuse the existing pinned capture adapter, including EOF/process sealing,
+actual worktree doctor, and same-profile file denial. Pin new fixture logic too.
+R3 requires a fresh supervisor to reconstruct the next fresh run from a saved
+handoff. Archived replay alone is insufficient.
 
 ## Cost accounting — no savings claim yet
-Report completed command events and all exposed input/cache/output tokens, whole-turn elapsed, local control elapsed, canonical acceptance elapsed, and any human intervention independently. The absence of a successful baseline prevents a valid successful-task cost ratio. Do not claim 20% cost improvement by counting a refused task as cheap.
+Report completed command events and all exposed input, cache, and output tokens.
+Report whole-turn elapsed, local control elapsed, canonical acceptance elapsed,
+and any human intervention separately. Without a successful baseline, there is
+no valid successful-task cost ratio. A refused task's low cost cannot support
+a claim of 20% cost improvement.

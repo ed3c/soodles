@@ -17,10 +17,9 @@ and `raw/state.snapshot.json` preserve the observation. This proves that the
 selected Noodle entry can create the initial snapshot; it does not prove a live
 Issue delivery.
 
-The candidate uses that pinned one-cycle start only for a pristine root. It
-records intent before the effect, requires a recorded zero exit and an empty
-canonical owner readback, restores the original host configuration, then resumes
-the existing supervised admission. Existing owners are observed. Partial roots,
+The candidate uses that pinned one-cycle start only for a pristine root. It records intent before the effect. It then requires a recorded zero exit and
+an empty canonical owner readback. After restoring the original host configuration,
+it resumes the existing supervised admission. Existing owners are observed. Partial roots,
 unexpected start arguments, a nonzero or unknown result, and a changed host
 configuration refuse without a second start. The focused tests exercise these
 positive and planted-negative paths: 43 passed. The full repository suite ran

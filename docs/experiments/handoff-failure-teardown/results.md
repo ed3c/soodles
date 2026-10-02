@@ -5,14 +5,13 @@ The following evidence-only commit leaves measured executable/instruction bytes 
 
 The frozen external observer calls the actual handoff_probe, substitutes a real
 harmless Python child at _start, and injects a fixed first projection failure.
-Baseline removed its fixture while PID 55713 remained alive. Its exact
-child was stopped/reaped by emergency external cleanup, not subject success.
-Candidate had already stopped/reaped PID 60670 before returning the
-same original failure. Both controls confirm no process residue afterwards.
+Baseline removed its fixture while PID 55713 remained alive. Emergency external
+cleanup stopped and reaped that child. The subject did not complete the cleanup.
+Candidate stopped and reaped PID 60670 before returning the same original failure. Both controls confirm no process residue afterwards.
 The observer/protocol bytes and criteria were frozen before any candidate edit.
 
-This RED→GREEN proves this deterministic failed-wait cleanup boundary, not a
-fresh-model hill climb. No model baseline/treatment is claimed for this atom.
+This RED→GREEN result demonstrated cleanup after the deterministic failed wait.
+It did not demonstrate a fresh-model behavior improvement. No model baseline/treatment is claimed for this atom.
 The separate delivery-routing fresh baseline stopped at 1/0 NO_OBSERVED_BARRIER;
 its result is not reused as efficacy evidence for this correction. The candidate
 also includes portable nearest controls; unchanged full baseline and candidate

@@ -1,7 +1,7 @@
 # Issue #135: complete admitted child contract
 
-The source defect is a missing projection: Soodles already validates the entire
-structured Issue contract but previously omitted it from the stage prompt.
+Soodles validated the entire structured Issue contract but omitted it from the
+stage prompt. That omission was the source defect.
 The correction adds that existing object to the exact prompt and tells the
 ordinary execute consumer to use it. No new schema, context carrier, scheduler,
 credential route or GitHub command is introduced. Provider freshness remains
@@ -13,9 +13,10 @@ Evidence-only commit follows; raw.json binds candidate diff and instruction byte
 
 ## Observations
 
-One new Noodle/Codex exec per arm, identical task, model/executable, workspace-write
-sandbox, tools and disposable read-only provider. No inherited conversation,
-diagnosis, expected command or other consumer result. Baseline and treatment
+Each arm used one new Noodle/Codex exec. Both arms had the same task, model and
+executable, workspace-write sandbox, tools, and disposable read-only provider.
+Neither arm inherited a conversation, diagnosis, expected command, or the other
+consumer's result. Baseline and treatment
 both changed only allowed.py, verified exact bytes/output and emitted their own
 completed/nonblocking outcome. This is fixture task completion, not delivery.
 
@@ -37,7 +38,7 @@ and AGENTS. The final companion recipe/system-v1 correction is not independently
 behavior-qualified. Never attribute behavior to an unread document.
 
 The baseline selected a duplicate Issue read before it encountered an incomplete
-fixture CLI (`landing` module absent); then the available Python fixture reader
+fixture CLI (`landing` module absent). The available Python fixture reader then
 returned the contract. That error is not a product bug and cannot prove recovery
 cost improvement. Both arms retain the same fixture; no replacement sample was
 run. The bounded redundant retrieval observation is supported, while live network

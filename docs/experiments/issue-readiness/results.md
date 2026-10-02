@@ -2,16 +2,14 @@
 
 The original head `a342c1a53c880dfb24b3dcc7e30cec0ce87c6bb5` passed
 exact-head runtime and quality Actions. Its positive readiness fixture mocked
-`issue_atom.validate_authorization`. A direct call with that fixture instead
-refused `authorization.fields` before materialization: the read-only operation
-required a full local Issue lifecycle authorization that the portable handoff
-did not supply. The old green test therefore did not prove its claimed positive
+`issue_atom.validate_authorization`. A direct call with that fixture instead refused `authorization.fields` before materialization.
+The read-only operation required a full local Issue lifecycle authorization.
+The portable handoff did not supply that authorization. The old green test therefore did not prove its claimed positive
 path.
 
 The corrected local candidate consumes the externally byte-bound carrier in
-`LOCAL.json` and leaves launch authorization with the supervisor. A real
-`./soodles issue readiness` invocation reaches `READY` and emits six packets;
-wrong local origin, missing/foreign carrier, wrong head, dirty workdir,
+`LOCAL.json` and leaves launch authorization with the supervisor. A real `./soodles issue readiness` invocation reaches `READY` and emits six packets.
+Wrong local origin, missing/foreign carrier, wrong head, dirty workdir,
 changed selected input, missing case, stale evidence destination and unsafe
 output root refuse before materialization. Focused local controls passed 10/10
 on macOS. These are deterministic L-class results, not behavioral improvement.
@@ -21,7 +19,7 @@ failed runtime candidate verification before acceptance: the manifest still
 pinned the instruction baseline SHA-256 from the old base. The current main
 instruction bytes have SHA-256
 `a7414971e64640d6fd6ff948ed6331093d9dc741b705d3b274aba4c8bacf6a4f`.
-The manifest now binds that actual base; the failed head is preserved and must
+The manifest now binds that actual base. The failed head is preserved and must
 not be rerun.
 
 The first baseline pilot at candidate `28bfccb7e517771cc52b6695507a4a44a4c5e167`

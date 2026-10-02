@@ -23,8 +23,8 @@ and the full 174-test suite pass locally.
 The first exact head `84584ac61474c3ac1354ad8f70efb2fea3e29807`
 remains an immutable failed attempt. Its candidate-verification step, canonical
 acceptance and quality report passed, but runtime run `35502602979` recorded the
-pinned refusal observer exiting 1. Packet verification preserved those bytes;
-it did not make the failed observer a passing control. Candidate
+pinned refusal observer exiting 1. Packet verification preserved those bytes.
+It did not make the failed observer a passing control. Candidate
 `5203c15b36d8e21437b4fbb2e8e12496c2d92946` incorrectly changed the shell
 consumer to accept that exit. The merge-push run `35502919063` then recorded the
 same observer completing its refusal cases with exit 0 and correctly exposed
@@ -41,7 +41,7 @@ while base commit `de7b07b99e7879d54fda99e8166cc2aa782e04cc` contains SHA-256
 `84e3c7dc8f985e16797b307bdc5b5571eafeda5b967a71079f4ce3e2674b2098`.
 The treatment prompt and all manifest-listed artifacts match their committed
 digests. The new entry therefore correctly refuses the historical candidate at
-`candidate.instruction.baseline_sha256`; this failed historical head remains
+`candidate.instruction.baseline_sha256`. This failed historical head remains
 immutable and is not relabelled green.
 
 ## Scope

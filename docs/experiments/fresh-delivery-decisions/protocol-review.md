@@ -5,10 +5,11 @@ requested with `fork_turns: none`. This is a coordinator-preserved review, not a
 signed native transcript. The reviewer had read-only access and no landing
 authority. It did not drive the eight consumers or modify files.
 
-The review accepted only a bounded current-context first-decision baseline and
-required raw response/read capture, explicit subject/owner predicates, legitimate
-stops, malformed-as-inconclusive handling, independent reason review, and no
-forced P-class treatment. It distinguished local HEAD `27d5754a09ffc5c79603aba8bb6c528e869eaf38`
+The review accepted only a bounded current-context first-decision baseline.
+It required capture of raw responses and reads, explicit subject and owner
+predicates, legitimate stops, and independent review of reasons. Malformed
+evidence had to remain inconclusive. P-class treatment could not be forced.
+The review distinguished local HEAD `27d5754a09ffc5c79603aba8bb6c528e869eaf38`
 from provider main `a2e46631b59b1f304391bfcd49615cdd9f6124e7`; the coordinator
 independently read the provider tree and confirmed both tree identities equal
 `8a402ee881c1036b9f79f22c9f29cb742b634d57`.
@@ -21,11 +22,12 @@ Before the Issue freeze the reviewer identified these concrete detector defects:
 - Boolean `true` must not pass as integer Issue 1.
 - D's later discovery was stipulated, not produced by the resolved owner.
 
-Before any consumer launch, task/observer/protocol were corrected to distinguish
-the immediate responsible party, derive B/C next-owner values from actual
-outputs, report MATCHING_CHOICE rather than LEGAL, reject boolean identities and
-require independent contradiction review. The final bytes were then pinned in
-Issue #99. The initial observer source was not promoted into landing authority.
+Before any consumer launch, the task, observer and protocol were corrected.
+They distinguished the immediate responsible party and derived B/C next-owner
+values from actual outputs. They reported MATCHING_CHOICE rather than LEGAL,
+rejected boolean identities and required independent contradiction review.
+Issue #99 then pinned the final bytes. The initial observer source did not
+become landing authority.
 
 The retained discovery results expose two limits not eliminated by this review:
 B's default envelope guidance conflicts with the intended corrective handoff,

@@ -2,9 +2,9 @@
 
 ## Supported result
 
-The new read-only `./soodles issue inspect` owns the deterministic decision:
-current Noodle Session and matching scheduler spawn → selected launcher capability
-→ one exact `next.argv`. The schedule Skill consumes that projection instead of
+The new read-only `./soodles issue inspect` owns the deterministic decision.
+It checks the current Noodle Session and matching scheduler spawn, then the
+selected launcher capability. It returns one exact `next.argv`. The schedule Skill consumes that projection instead of
 implementing identity checks in model reasoning. Existing launcher admission,
 canonical order ownership, worker revalidation and provider delivery remain the
 effect boundaries. Inspection does not execute the launcher or admit work.
@@ -24,8 +24,8 @@ External observer v2 SHA-256:
 The old CLI lacks the inspect operation and fails all 13 new interface controls.
 The candidate passes all 13, including the exact fixture-launcher handoff.
 This is an executable interface gap/cure, not evidence that 13 historical
-scheduler actions were unsafe. Each inspect leaves the fixture unchanged and
-does not execute its launcher; all disposable CLI directories are removed.
+scheduler actions were unsafe. Each inspect left the fixture unchanged and did not execute its launcher.
+All disposable CLI directories were removed.
 
 The frozen classifier rejects five planted evidence defects: wrong argv, false
 completion, mutation, absent execution observation and execution during inspect.
@@ -50,9 +50,9 @@ have final fixture cleanup observations. This supports **scoped nonregression**
 for the combined CLI/P-class treatment, not lower error probability or a prose
 ablation claim. Treatment consumers use the actual inspect entry and its result.
 
-Recorded subprocess calls are 6 → 4 across these three cases. That is bounded
-telemetry only: it does not measure hidden reasoning, tokens, complete native
-tool activity or general Agent cost. Model/config provenance and a complete
+Recorded subprocess calls fell from 6 to 4 across these three cases. Those counts
+are bounded telemetry. They do not measure hidden reasoning, tokens, complete
+native tool activity, or general Agent cost. Model/config provenance and a complete
 platform transcript are unavailable. Native contexts share storage; separate
 directories and task restrictions are not security isolation.
 

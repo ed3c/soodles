@@ -4,9 +4,9 @@ Origin: ed3c/soodles#154. Claim: **deterministic correction plus scoped combined
 
 ## Actual gap and minimal correction
 
-At baseline 0a28e7f279987e07c6fa548d43838026b8bb5d2d, a new atom encountering a foreign owner refused after one synthetic Issue-create and an admission proposal. Two independently valid authorizations could both enter synthetic Issue-create at the same control root. Existing owner/config bytes were preserved; this is not evidence of historical production overwrite or duplicate writes.
+At baseline 0a28e7f279987e07c6fa548d43838026b8bb5d2d, a new atom encountering a foreign owner refused after one synthetic Issue-create and an admission proposal. Two independently valid authorizations could both enter synthetic Issue-create at the same control root. The baseline preserved existing owner and config bytes. These fixture results do not show historical production overwrites or duplicate writes.
 
-Candidate 0692ac5cb2a141a1ab7e856433ab4bbcad87cddb adds a nonblocking per-root process mutex and validates current Noodle custody before supplier/provider/new checkpoint/proposal. Exact checkpoint, envelope and order projection bind legitimate continuation; matching config alone does not. The existing CLI remains the single entry. Typed input names Noodle or the competing entry owner, confirmed blockers and the same argv. The Skill adds eight operational lines; the system contract records the ownership boundary. There is no Noodle code change, scheduler, queue, durable lease, automatic retry, forced shutdown or new Agent flag.
+Candidate 0692ac5cb2a141a1ab7e856433ab4bbcad87cddb adds a nonblocking per-root process mutex and validates current Noodle custody before supplier/provider/new checkpoint/proposal. The exact checkpoint, envelope, and order projection bind legitimate continuation. Matching config alone does not establish that binding. The existing CLI remains the single entry. Typed input names Noodle or the competing entry owner, confirmed blockers and the same argv. The Skill adds eight operational lines; the system contract records the ownership boundary. There is no Noodle code change, scheduler, queue, durable lease, automatic retry, forced shutdown or new Agent flag.
 
 ## Externally fixed controls
 
@@ -29,11 +29,11 @@ The earlier qualification at f4e80d6 is retained separately. Its first same-owne
 
 ## Fresh observations
 
-Exactly one independent native consumer per arm, fork_turns:none, with the same neutral task, tools/config and requested inherited model. Four exposures per arm: foreign live, foreign stopped, idle and same owner. Source and instruction digests were frozen before treatment. Actual unexposed model metadata, tokens and full native transcript remain unknown.
+Each arm used exactly one independent native consumer with fork_turns:none. Both received the same neutral task, tools/config, and requested inherited model. Each arm had four exposures: foreign live, foreign stopped, idle, and same owner. Source and instruction digests were frozen before treatment. Actual unexposed model metadata, tokens and full native transcript remain unknown.
 
 Observed consumer barrier exposures were **0/4 baseline and 0/4 treatment**. Both consumers respected valid refusal, preserved unknown continuation boundaries, did not retry and did not claim delivery completion. Treatment identifies the precise Noodle blocker in the owner output. This supports scoped combined nonregression, not reduced Agent error rate, general behavioral improvement or a P-only causal claim. No extra sampling was performed. Subprocess time is report-only in raw/consumer-runs.json.
 
-Recorder requests/results/stdout/stderr bind the executed subprocesses and instruction reads; consumer action rationale and extra-action counters remain self-report. The supervision does not claim full platform trace completeness. Repository projections replace host home and per-user temporary prefixes with /HOST_HOME and /HOST_TMP. Each bundled item records both original and projected hashes; original bytes remain in external custody. Credentials and host registration identities are excluded.
+Recorder requests, results, stdout, and stderr bind the executed subprocesses and instruction reads. Consumer action rationale and extra-action counters remain self-report. The supervision does not claim full platform trace completeness. Repository projections replace host home and per-user temporary prefixes with /HOST_HOME and /HOST_TMP. Each bundled item records both original and projected hashes; original bytes remain in external custody. Credentials and host registration identities are excluded.
 
 ## Validation and delivery boundary
 

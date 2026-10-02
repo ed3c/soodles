@@ -14,6 +14,5 @@ unknown-create refusal without retry, external authorization, credential
 isolation, and routing through publication, landing and terminal resolution.
 
 These receipts are P/L-class discrimination and authorize no landing. Issue
-#131 was bootstrapped by the existing cloud supervisor. Its live delivery uses
-the pre-existing external landing owner; live R-class proof for the newly
-landed Issue-create entry belongs to the next atom.
+#131 was bootstrapped by the existing cloud supervisor. Its live delivery uses the pre-existing external landing owner.
+Live R-class proof for the newly landed Issue-create entry belongs to the next atom.

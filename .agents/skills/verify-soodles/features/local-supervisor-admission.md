@@ -1,13 +1,21 @@
 # Local supervisor admission
 
-The authorized local Session may act as supervisor before initial authorization
-selection. Use the existing `supervisor-admission authorize` producer to
-materialize explicit selected inputs; after preparation use only the
+Before initial authorization selection, the authorized local Session may act
+as supervisor. Use the existing `supervisor-admission authorize` producer to
+materialize explicit selected inputs. After preparation, use only the
 [issue-atom entry](../../issue-atom/SKILL.md). The candidate writer cannot select
 its judge. An already selected but missing authorization must be recovered by
 its owner, not replaced through initial preparation.
 
 ## Initial authorization preparation
+
+Before serializing selection, apply the issue-atom
+[scope and completion guidance](../../issue-atom/SKILL.md#preserve-the-request-through-admission-and-delivery).
+The producer validates selected inputs. It cannot determine whether the supervisor
+omitted a user requirement. Before pinning the task and contract, preserve that
+requirement in them. Do not admit a smaller task and treat its success as completion.
+Carry writer outcomes and later owner work in those existing inputs. Publication
+can follow writer completion without returning control to the supervisor.
 
 The supervisor supplies an absolute regular UTF-8 JSON file with these exact
 schema-1 fields: `schema`, `repository`, `control_root`, `issue`, `task`,
@@ -32,31 +40,34 @@ This file contains no credentials or alternative workflow selector.
 python3 -B ./supervisor-admission authorize /absolute/selection.json SELECTED_SHA256 /absolute/new-output
 ```
 
-The command validates the selection digest, exact clean Git toplevel/origin and executable continuation entry, Issue
-base, executable carrier and external publisher through existing validators.
-It derives committed instruction digests and host configuration identity. The
-canonical runtime workflow remains fixed. It writes `authorization.json`,
-`prepared.json` and `selection-binding.json` fully in unique private staging,
-with all receipt paths naming the original final output. Files and staging are
-fsynced before atomic no-replace directory publication, the sole identity commit;
-the parent directory is then fsynced. Unsupported Darwin/Linux exclusive rename
-capability refuses. An existing empty directory is foreign, never a reservation.
-Catchable precommit failure removes only the invocation's staging. SIGKILL may
-leave private staging residue, which is never a continuation. Postcommit failure
-or lost response must preserve the entire final bundle.
+The command uses existing validators to check the selection digest, exact clean
+Git toplevel and origin, executable continuation entry, Issue base, executable
+carrier and external publisher. It derives committed instruction digests and
+host configuration identity. The canonical runtime workflow remains fixed.
+The command writes complete `authorization.json`, `prepared.json` and
+`selection-binding.json` files in unique private staging. All receipt paths name
+the original final output. It fsyncs the files and staging before publishing the
+directory atomically without replacement. That publication is the sole identity
+commit. The command then fsyncs the parent directory. If Darwin or Linux lacks
+exclusive rename capability, the command refuses. An existing empty directory
+is foreign, never a reservation. A catchable precommit failure removes only the
+invocation's staging. SIGKILL may leave private staging residue. That residue
+is never a continuation. A postcommit failure or lost response must preserve the
+entire final bundle.
 
-For preparation readback, use the existing authorize entry with the currently
-supplied selection path and SHA and the same original output directory. Prior
-invocation/stdout is evidence, not a current input selector. The executable
+For preparation readback, use the existing authorize entry. Supply the current
+selection path and SHA and the same original output directory. A prior invocation
+or stdout is evidence, not a current input selector. The executable
 compares that selection with the immutable committed binding and refuses changes.
 Do not recompute a digest, create a replacement selection, pick a new output or
 bypass a refusal. Missing, unreadable or malformed committed components return
-an `authorization.*` input refusal naming the damaged component and its path;
-preserve all artifacts for the named owner. Strict regular-file,
+an `authorization.*` input refusal naming the damaged component and its path.
+Preserve all artifacts for the named owner. Strict regular-file,
 schema, raw digest, selection, final path and expected continuation validation
-must succeed; no current host config, base, instruction, carrier or clean-head
-checks are readback prerequisites. Missing authorization, receipt or binding,
-corrupt/partial/foreign/symlink output or changed selection refuses without repair.
+must succeed. Readback does not require checks of current host config, base,
+instruction, carrier or clean head. Missing authorization, receipt or binding
+causes a refusal without repair. Corrupt, partial, foreign or symlink output and
+a changed selection also cause that refusal.
 Concurrent publishers may read a matching winner only after these same checks.
 Readback proves preparation provenance, not current runtime readiness.
 `prepared.next` contains both the exact lifecycle argv and
@@ -68,17 +79,22 @@ Issue, Noodle session or provider effect. Do not ask the user to prepare files
 that the authorized Session can derive. Unknown identity or missing capability
 requires its named owner, not a replacement authorization.
 
-Verify selection → existing validator → atomic bundle → exact continuation.
+The following controls apply when Test Manager selects verification of changed
+admission production, atomic publication or readback behavior. Ordinary authorize
+and continuation use their returned receipts; they do not run fault injection.
+For a selected control, verify that the selection passes through the existing
+validator to an atomic bundle and its exact continuation.
 Keep nearest schema 2/3, numbered Issue/config, pins, dirty/wrong root and invalid
 instruction controls. Kill real child processes during actual receipt writes
-and immediately after final publication: precommit final must be absent;
-postcommit final must be complete and readable with the same argv and unchanged
-identity. Require observed SIGKILL, not simulated success. Test missing/corrupt
+and immediately after final publication. Before commit, require the final output
+to be absent. After commit, require a complete, readable final output with the
+same argv and unchanged identity. Require observed SIGKILL, not simulated success.
+Test missing/corrupt
 files, rehashed arbitrary argv, foreign empty/nonempty/symlink output including
 publication races, and concurrent same/different selection. Preserve refused
 evidence and record exit/stdout/stderr and filesystem residue independently.
-A deterministic pass does not prove model improvement; use the bounded P-class
-recipe for fresh behavior comparisons.
+A deterministic pass does not prove model improvement. Use the bounded P-class
+recipe only when the admitted task selects that comparison.
 
 ## Same-Issue failed-head correction
 
@@ -102,8 +118,8 @@ The discriminating controls are in `tests/test_issue_atom.py` and
 `tests/test_issue_execution.py`: wrong review/promotion identity, foreign
 control, missing process hold, ack without transition and lost responses must
 refuse or wait without another effect. These product controls do not establish
-Agent improvement; the P-class comparison still needs fresh isolated consumers
-and independently fixed scoring. A missing supported owner activation remains
+Agent improvement; a separately selected P-class comparison needs fresh isolated
+consumers and independently fixed scoring. A missing supported owner activation remains
 an explicit capability gap, not a request for the user to recreate authorization.
 
 ## Same Issue after provider base advancement
@@ -190,23 +206,24 @@ After Noodle starts, the existing schedule entry is unchanged:
 ```
 
 A ready schedule result returns exactly `[selected_launcher, "automatic"]`.
-Execute that argv once and consume the existing admission owner's result. The
-launcher revalidates envelope/runtime digests before calling the existing
-automatic boundary.
+Execute that argv once and consume the existing admission owner's result.
+Before calling the existing automatic boundary, the launcher revalidates the
+envelope and runtime digests.
 
-Verification requires all of these directions:
+When Test Manager selects verification of this producer, use the affected
+directions below. These are behavior controls, not steps for every admission:
 
-- baseline missing launcher → supervisor-owned refusal, zero proposal;
-- valid supplier → start wrapper child receives exact token in
-  `GH_TOKEN/GITHUB_TOKEN`, receives launcher, and does not receive the supplier;
-- stale inherited provider token is overwritten;
-- token value and supplier command are absent from returned argv and persisted
-  bundle bytes;
-- treatment schedule inspect → launcher automatic → `proposal_pending`;
-- missing supplier refuses before bundle creation;
-- failing supplier refuses before child/proposal;
-- envelope/runtime tamper, historical unselected launcher, foreign origin,
-  carrier digest mismatch and existing output all fail closed.
+- If the baseline launcher is missing, require a supervisor-owned refusal and zero proposals.
+- With a valid supplier, require the start wrapper child to receive the exact
+  token in `GH_TOKEN/GITHUB_TOKEN` and the launcher. It must not receive the supplier.
+- Require a stale inherited provider token to be overwritten.
+- Require the token value and supplier command to be absent from returned argv
+  and persisted bundle bytes.
+- In treatment, require schedule inspect to reach launcher automatic and then `proposal_pending`.
+- If the supplier is missing, require refusal before bundle creation.
+- If the supplier fails, require refusal before child start or proposal.
+- Require envelope or runtime tamper, a historical unselected launcher, a foreign
+  origin, a carrier digest mismatch and existing output to fail closed.
 
 These receipts are local and `authorizes_landing=false`. Do not use this recipe
 for stale schedule recovery, dead-PID recovery, unknown writes or request-changes.

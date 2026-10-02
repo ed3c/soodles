@@ -15,9 +15,8 @@
 
 ## Executable comparison
 
-The observer was frozen before implementation. On the base source, the legal
-case and all five invalid dependency cases entered landing, so the baseline is
-`RED`. On the candidate, the complete result enters the existing Ops owner;
+The observer was frozen before implementation. On the base source, the legal case and all five invalid dependency cases entered
+landing. The baseline was therefore `RED`. On the candidate, the complete result enters the existing Ops owner;
 closure-only, foreign repository, wrong revision, stale ancestry and missing
 producer acceptance refuse before a checkpoint. Treatment is `VERIFIED`, and
 all five planted result mutations are rejected.
@@ -42,8 +41,8 @@ five invalid cases as one decision barrier crossing.
 | Repository guesses | 0 | 0 |
 | Recorded instruction reads | 9 | 9 |
 
-This supports a bounded behavior hill climb: the legal route is preserved and
-the observed invalid-route barrier falls from ten selections to zero. It does
+This supported a bounded behavior improvement. The legal route was preserved,
+and invalid-route selections fell from ten to zero. It does
 not claim lower global context cost, fewer instruction reads, complete model
 traces or provider correctness.
 

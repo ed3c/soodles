@@ -1,6 +1,7 @@
 # Soodles verification map
 
-Scoped runtime/delivery features and #18's physically observed bounded execution/handoff; no claim of whole-app coverage.
+This map covers scoped runtime and delivery features and #18's physically
+observed bounded execution and handoff. It does not claim whole-app coverage.
 
 | Feature | Live surface | Evidence boundary |
 | --- | --- | --- |
@@ -14,7 +15,13 @@ Scoped runtime/delivery features and #18's physically observed bounded execution
 | [Order handoff](order-handoff.md) | Landing current-next consumer and pinned Noodle A → cleanup → B lifecycle | Local provider fixtures; real Sessions, typed outcomes, exits, worktrees and cleanup |
 | [Cross-repository delivery](cross-repository-delivery.md) | Supervisor-selected supported repository through Issue read, admission, worker and landing owners | Ops acceptance fixtures bound to its real candidate/run and fixture discrimination of externally selected dependency satisfaction through the existing landing owner; L-class, non-authorizing, no provider write |
 
-The standalone runtime and recovery recipes require the admitted Linux amd64 binary. The runtime driver provides command tracing, an external receipt and scratch teardown; its first runtime check is both doctor and positive drive. Bounded Issue execution has a distinct supervisor-selected carrier and preflight. Local supervisor admission uses the measured carrier plus host-owned provider credential supplier and makes no runtime-lock or credential-minting claim. Follow the selected recipe; do not use a platform label as evidence for another route.
+The standalone runtime and recovery recipes require the admitted Linux amd64
+binary. The runtime driver provides command tracing, an external receipt and
+scratch teardown. Its first runtime check is both doctor and positive drive.
+Bounded Issue execution has a distinct supervisor-selected carrier and preflight.
+Local supervisor admission uses the measured carrier and host-owned provider
+credential supplier. It makes no runtime-lock or credential-minting claim.
+Follow the selected recipe. Do not use a platform label as evidence for another route.
 
 Every mapped feature must be driven during a full maintenance pass. A feature outside this index is not verified by this skill. A failed or unreachable path remains explicit in its receipt; a different successful path cannot replace it.
 

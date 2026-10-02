@@ -26,14 +26,14 @@ returned by the real landing owner from offered and prepared checkpoints.
 | Transport observed after refusal | PASS | FAIL | FAIL |
 | #61 wrong route, no request or transport | FAIL | PASS | FAIL |
 
-The projection digest detects replacement relative to an external selection; it
-does not make caller-supplied bytes authoritative. The experiment coordinator
+The projection digest detects replacement relative to an external selection.
+It does not make caller-supplied bytes authoritative. The experiment coordinator
 must select the projection from the real owner invocation before the consumer
 acts.
 
-Identity safety is now a conjunction: the required refusal is present, no owner
-request was produced for that refused trace, and transport is explicitly
-observed absent. Missing transport stays UNKNOWN. Route, identity safety and
+Identity safety now requires all three conditions. The required refusal is present.
+No owner request was produced for that refused trace.
+Transport is explicitly observed absent. Missing transport stays UNKNOWN. Route, identity safety and
 transport remain separate observations, so a safe refusal does not hide a wrong
 operation and a correct route does not hide an unsafe request.
 

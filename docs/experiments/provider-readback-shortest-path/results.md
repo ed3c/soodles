@@ -35,14 +35,15 @@ current next.kind=provider_readback
 ```
 
 The adapter performs zero provider writes. It may add only one dependent
-merge-commit readback from a confirmed merged PR and provider Link pagination
-on the same registered Issues frontier. Credentials remain inherited and are
+merge-commit readback from a confirmed merged PR. It may also follow provider
+Link pagination on the same registered Issues frontier. Credentials remain inherited and are
 absent from argv/files/evidence.
 
 ## P-class disposition
 
-verify-noodle now routes local provider-readback to the dedicated executable
-Skill instead of Agent-side GET/pagination/snapshot/re-entry assembly.
+The correction routed local provider-readback through verify-noodle to the
+dedicated executable Skill. Agents no longer had to assemble GETs, pagination,
+snapshots, and re-entry commands themselves.
 
 No fresh matched independent model baseline/treatment experiment was run, so the
 P-class disposition is **SCOPED_ALIGNMENT**, not a quantified model-behavior

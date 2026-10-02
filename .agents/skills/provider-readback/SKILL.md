@@ -8,7 +8,8 @@ description: Materialize one current Soodles owner's local GitHub readback into 
 Use this Skill only when the current local Soodles owner returns
 `next.kind=provider_readback` with `next.owner=GitHub`.
 
-The supervisor supplies:
+The supervisor supplies these inputs:
+
 - the current owner-result JSON;
 - one context descriptor naming the already-selected landing publisher or
   next-Issue consumer root; and
@@ -22,27 +23,24 @@ Run exactly:
 
 Then consume the returned current next exactly.
 
-The executable adapter owns the read-only mechanics:
-- executes only owner-emitted `GET` requests to supported GitHub repository API
-  URLs;
-- preserves every owner request key in landing `readback.json`;
-- when the returned PR is merged, obtains the one dependent merge-commit GET
-  from its confirmed `merge_commit_sha`;
-- for next-Issue recovery, follows provider `Link rel="next"` pagination,
-  filters pull-request records from the Issues endpoint, and writes the complete
-  `frontier.json`;
-- verifies the selected external landing publisher before composing a landing
-  re-entry argv; and
-- returns one exact executable re-entry argv.
+The executable adapter owns these read-only operations:
 
-Do not use curl, gh, browser, handwritten REST URLs, manual pagination or
-hand-built snapshot/frontier JSON. Do not derive another repository, provider
+- It executes only owner-emitted `GET` requests to supported GitHub repository API URLs.
+- It preserves every owner request key in landing `readback.json`.
+- If the returned PR is merged, it obtains the dependent merge-commit GET from the confirmed `merge_commit_sha`.
+- For next-Issue recovery, it follows provider `Link rel="next"` pagination.
+  It excludes pull-request records from the Issues endpoint. It writes the complete `frontier.json`.
+- It checks the selected external landing publisher before it constructs the landing re-entry argv.
+- It returns one exact executable re-entry argv.
+
+Do not use curl, gh, a browser, handwritten REST URLs or manual pagination.
+Do not hand-build snapshot or frontier JSON. Do not derive another repository, provider
 host, operation, checkpoint, intent or publisher from history.
 
-A missing credential or rejected provider read is a blocked input, not permission
-for anonymous fallback or identity change. Redirects are refused. This Skill
-never performs provider writes.
+A missing credential or rejected provider read blocks the operation.
+Neither condition permits anonymous access or an identity change.
+The adapter refuses redirects. This Skill never performs provider writes.
 
 This Skill is P-class guidance only. The adapter provides bounded L-class
-readback/materialization evidence; GitHub responses remain R-class truth for
+evidence for readback and file creation. GitHub responses remain R-class truth for
 their exact provider subjects. Neither grants merge or Issue-creation authority.

@@ -2,7 +2,7 @@
 
 Claim: **combined deterministic correction plus scoped nonregression**. This is not an isolated P-only result, a model-behavior improvement, full-map verification, or a delivery gate.
 
-The archived #143 evaluator incorrectly accepts missing/null operation observation as no operation, and groups source/read-binding errors with behavior barriers. It remains unchanged. The intentionally selected successor supports one feature-map report family through the externally supplied `./soodles eval report SELECTION.json EXPECTED_SHA256` invocation. The adapter verifies selector/evaluator bytes before loading; P-class guidance consumes validity, then behavior and current supervisor-owned missing input. Empty operation arrays retain consumer-report scope.
+The archived #143 evaluator incorrectly treated missing or null operation observations as evidence of no operation. It also grouped source and read-binding errors with behavior barriers. It remains unchanged. The intentionally selected successor supports one feature-map report family through the externally supplied `./soodles eval report SELECTION.json EXPECTED_SHA256` invocation. The adapter verifies selector and evaluator bytes before loading. P-class guidance first consumes validity, then behavior and the current missing input owned by the supervisor. Empty operation arrays retain consumer-report scope.
 
 ## Fixed deterministic qualification
 
@@ -25,7 +25,7 @@ Exactly one baseline and one treatment consumer were started with `fork_turns:no
 
 Both consumers reached correct bounded conclusions for all four cases: **0/4 observed decision barriers before and 0/4 after**. The baseline consumer read the old evaluator and independently rejected its misleading conclusions on incomplete/invalid evidence. The treatment consumed the explicit validity/behavior split and current typed next. There is no demonstrated decrease in Agent errors, and no additional sampling was performed. Command/time data remain telemetry, not a substitute behavior score.
 
-Recorded subprocess argv, raw stdout/stderr, exit codes, file snapshots, consumer reports, selectors and input bytes are retained in `raw/consumer-runs.json`. Consumer self-reports are distinguished from recorder observations. Actual native model/config internals, full platform transcripts, hidden reads and independently verified absence of all effects remain unknown. The report family itself proves only consumer-report scope. Shared storage is not security isolation.
+Recorded subprocess argv, raw stdout/stderr, exit codes, file snapshots, consumer reports, selectors and input bytes are retained in `raw/consumer-runs.json`. Consumer self-reports are distinguished from recorder observations. Actual native model/config internals, full platform transcripts, hidden reads and independently verified absence of all effects remain unknown. The report family establishes only what consumer reports show. Shared storage is not security isolation.
 
 ## Candidate and delivery boundary
 

@@ -7,14 +7,14 @@
 The treatment deleted exactly one 280-byte root `AGENTS.md` bullet about
 consuming the landing owner's current `next` projection. Three fresh baseline
 consumers and three fresh treatment consumers received the same #67-qualified
-state-bound packet. All six selected `landing.advance`; the real owner refused
-the foreign repository identity; no refused trace created a request and the
-explicit connector evidence recorded zero transports.
+state-bound packet. All six selected `landing.advance`. The real owner refused
+the foreign repository identity. No refused trace created a request, and explicit
+connector evidence recorded zero transports.
 
-The primary wrong-route result was 0/3 baseline and 0/3 treatment. Therefore
-the deletion is retained as removal of a duplicate P-class copy. This is not a
-claim that behavior or Agent efficiency improved: the existing feature recipe,
-owner implementation and packet continue to carry the executable invariant.
+The primary wrong-route result was 0/3 baseline and 0/3 treatment. The deletion
+is therefore retained as removal of a duplicate P-class copy. This does not
+claim better behavior or Agent efficiency. The existing feature recipe, owner
+implementation, and packet still carry the executable invariant.
 
 ## Frozen causal boundary
 
@@ -70,13 +70,13 @@ The auditor received six randomized receipts without run-to-arm mapping. It
 reported PASS: 6/6 receipts, 4/4 controls, the one-removal/no-addition static
 diff, and final zero residue all matched the frozen criteria.
 
-As in #67, shared execution storage was not transactional isolation. Four
-consumer contexts recorded their named checkpoint and lock absent immediately
-after teardown, but eight disposable paths later reappeared in the coordinator
-view with their original bytes. The discrepancy is retained in
-`raw/coordinator-cleanup.json`. The coordinator removed only the twelve packet-
-enumerated teardown paths; its final probe found zero residue. This supports
-final cleanup, not a stronger claim about isolation between parallel consumers.
+As in #67, shared execution storage did not provide transactional isolation.
+Four consumer contexts recorded their named checkpoint and lock absent immediately
+after teardown. Later, eight disposable paths reappeared in the coordinator's
+view with their original bytes. `raw/coordinator-cleanup.json` retains that
+discrepancy. The coordinator removed only the twelve teardown paths listed in
+the packets. Its final probe found zero residue. This supports final cleanup.
+It does not establish stronger isolation between parallel consumers.
 
 ## Independent telemetry
 
@@ -94,11 +94,11 @@ reasoning, compaction and observed model provenance remain UNKNOWN.
 
 ## Claim boundary
 
-This atom establishes only that, for the #67-qualified foreign-identity packet,
-deleting this duplicate root guidance preserved the encoded observable
-contract and observer sensitivity. It does not cover pending, recovery or other
-feature-map states; authorize deletion of other P-class guidance; establish
-formal correctness; or establish future maintainability improvement.
+For the #67-qualified foreign-identity packet, deleting this duplicate root
+guidance preserved the encoded observable contract and observer sensitivity.
+That is the extent of this atom's claim. It does not cover pending, recovery,
+or other feature-map states. It does not authorize deletion of other P-class
+guidance or establish formal correctness or future maintainability improvement.
 
 The raw run records, normalized receipts, planted controls, blinded audit,
 unblind map and cleanup receipt are retained under `raw/`. Every experiment

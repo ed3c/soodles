@@ -11,7 +11,7 @@
     → 既有 issue-atom run
 ```
 
-Session 可以擔任 candidate 外的 supervisor。新入口代為取得 Git root/head、設定與 instruction digest，驗證既有契約，保留明確選定的 carrier／publisher，回傳唯一 continuation。它不選擇自己的裁判、不啟動 Noodle／模型或 provider 寫入。首次準備不再要求使用者手工組 authorization；已選定後的恢復仍須保持同一身份，不能找不到就另造一份。
+本輪允許 Session 擔任 candidate 外的 supervisor。新入口取得 Git root/head、設定與 instruction digest，再驗證既有契約。入口保留已選定的 carrier／publisher，並回傳唯一 continuation。它不選擇自己的裁判、不啟動 Noodle／模型或 provider 寫入。首次準備不再要求使用者手工組 authorization。選定身份後，恢復仍須保持同一身份，不能因原檔遺失就另造一份。
 
 P-class 只固定入口、適用條件與如何消費結果，不嵌入各階段可漂移的歷史命令。必要的 identity／owner／readback gate 保留。先前 claim 非零退出誤判成等待是另一個 transition 缺陷，未併入這個 atom。
 
@@ -39,7 +39,7 @@ P-class 只固定入口、適用條件與如何消費結果，不嵌入各階段
 | v4 | INCONCLUSIVE | 封存程式改錯 projection 執行 mode；只啟動兩個，未補抽其餘四個 |
 | v5 | VERIFIED_BOUNDED_OBSERVED_IMPROVEMENT | 證據完整性與 treatment safety gates 全通過 |
 
-v3 之後曾按三次上限停止；使用者明確要求「反覆直到修正成功」後，才繼續修正量測。原判定與停止報告保留於各輪目錄，沒有回寫舊裁判。v4 的設定錯誤也保留。v5 將 output 放進共同可寫 work 範圍，完成全部 freeze 後才執行可重跑的 bytes／mode／fixture／metadata 核對、實際 staging／cleanup audit，再核對一次並啟動 consumers。這些量測修正本身不計為產品改善。
+v3 之後曾按三次上限停止；使用者明確要求「反覆直到修正成功」後，才繼續修正量測。原判定與停止報告保留於各輪目錄，沒有回寫舊裁判。v4 的設定錯誤也保留。v5 將 output 放進共同可寫的 work 範圍。完成全部 freeze 後，supervisor 才執行可重跑的 bytes／mode／fixture／metadata 核對，以及實際 staging／cleanup audit。supervisor 再核對一次，然後啟動 consumers。這些量測修正本身不計為產品改善。
 
 v5 採相同 20-file 唯讀 source projection、6 個 fresh native consumers、51 次 recorded operations／204 個 raw files。4 份有效 authorization 通過原 frozen validator；兩個 publisher mismatch 均正確拒絕，沒有 output 或殘留 staging。唯一非零退出是預期 refusal exit1，沒有意外 recorded operation errors。
 
@@ -53,9 +53,9 @@ v5 採相同 20-file 唯讀 source projection、6 個 fresh native consumers、5
 
 ## 局部與全局閉環
 
-局部目標：讓一個 bounded transition 的合法完成與正確拒絕更直接，同時守住身份、效果與恢復 invariant。全局目標：需求／反例 → 固定裁判 → fresh 行為證據 → 採納判定 → 同一候選的 acceptance／owner terminal receipt，並把反例與可執行檢查留給下一個 Session。
+局部目標是簡化一個 bounded transition 的合法完成與正確拒絕，同時保持身份、效果與恢復 invariant。全局目標是從需求與反例開始，先固定裁判，再取得 fresh 行為證據並作出採納判定。之後，同一候選仍須取得 acceptance／owner terminal receipt。反例與可執行檢查須保留給下一個 Session。
 
-前幾輪不採納時，交付準備確實停止，沒有產生 production authorization；`verification/delivery-stop.json` 保留這個實測。新的正向判定通過後，外部 supervisor 才可用既有 Issue-atom owner 交付同一組 source、controls、失敗與成功證據。這是本次 task 的外部採納 gate，不是新增 production scheduler 或聲稱已有通用自動 hill-climb engine。最終交付狀態必須讀 owner receipt，不能從這份實驗的 PASS 推論。
+前幾輪未獲採納時，交付準備停止，沒有產生 production authorization。`verification/delivery-stop.json` 保留這次實測。新的正向判定通過後，外部 supervisor 才可用既有 Issue-atom owner 交付同一組 source、controls、失敗與成功證據。這是本次 task 的外部採納 gate，不是新增 production scheduler 或聲稱已有通用自動 hill-climb engine。最終交付狀態必須讀 owner receipt，不能從這份實驗的 PASS 推論。
 
 ## 主張限制與成本
 

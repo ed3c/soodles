@@ -10,13 +10,14 @@ there is no Agent flag for adding or changing them.
 1. Read the externally pinned envelope or claim. Its repository is the subject.
 2. For an authenticated Issue read, execute the owner form exactly:
    `./soodles github issue OWNER/REPOSITORY NUMBER`.
-3. For admission and worker execution, use the existing `issue automatic`,
-   `issue supervised` and Noodle-dispatched `issue worker` entries. They
-   derive provider URLs, order title and Git origin from that same envelope.
-4. For delivery, obtain every GET named by `landing.next.requests`, save one
-   readback, then execute the current `landing.next.argv` unchanged.
+3. For an active atom, use its current continuation. The installed admission and
+   worker entries derive identity from the envelope. Do not choose a lower-level
+   `automatic`, `supervised` or `worker` command from this list.
+4. For local delivery readback, use [provider-readback](../../provider-readback/SKILL.md).
+   For cloud delivery, consume the connector requests from `landing.next.requests`.
+   Then execute the current continuation unchanged.
    A supervisor-bound dependency appears in that same request map with
-   indexed `dependency_N_*` keys; it is not a separate command or
+   indexed `dependency_N_*` keys. It is not a separate command or
    Agent-selected gate.
 5. Stop on an unsupported repository, repository mismatch, wrong head, draft
    PR, missing registered job/step or unknown write outcome. Report the exact
@@ -28,14 +29,14 @@ Their success proves that exact candidate's repository acceptance. It does not
 prove a live model call, business accuracy or landing authority.
 
 The installed supervisor binds each admitted DAG edge in the immutable landing
-claim, including the exact producer Issue, PR, base, candidate, tree, merged
-revision, runtime and required steps. Soodles does not keep a source edge
+claim. Each binding includes the exact producer Issue, PR, base, candidate, tree,
+merged revision, runtime and required steps. Soodles does not keep a source edge
 registry. Issue closure alone, resource cleanup, an order or a different
 successful revision is insufficient. Once every selected result is eligible,
 the same invocation validates the consumer candidate and continues through its
-existing owner. A claim without dependencies remains independent; landing does
-not discover or invent an edge. Copy all returned GETs and the current
-continuation argv; there is no dependency flag or correction guess.
+existing owner. A claim without dependencies remains independent. Landing does
+not discover or invent an edge. Consume all requests through the selected transport.
+Keep the current continuation unchanged. There is no dependency flag or correction guess.
 
 ## Evidence boundary
 

@@ -6,7 +6,7 @@ description: Own on-demand test scope and normal CI cost review for Soodles; tra
 # Test Manager
 
 This is the single P-class owner of test scope. CLI, CI, verification and delivery
-skills consume its decision; they do not add their own full-suite requirement.
+skills consume its decision. They do not add their own full-suite requirement.
 [`test_manager.py`](../../../test_manager.py) resolves that scope and runs unit
 controls; canonical acceptance executes only the named physical controls.
 Neither the skill nor a selection receipt grants publication or landing authority.
@@ -17,17 +17,21 @@ request a second runtime run. An additional runtime check uses the `runtime`
 workflow's manual dispatch with the exact base SHA and the observed behavior as
 its reason. This is a new requested run, never a relabeled PR result.
 
-Full-repository quality analysis uses `quality-report` manual dispatch with an
-exact base SHA and the question it should answer. Its selected workflow ref fixes
-the head. Both workflows consume `test_manager.ci_request` before executing
-requested work; no push, completed workflow or ordinary PR implicitly requests
-a full quality report. The completed-runtime cost collector remains read-only.
+For full-repository quality analysis, use `quality-report` manual dispatch.
+Supply an exact base SHA and the question the analysis should answer.
+The selected workflow ref fixes the head. Before executing requested work, both
+workflows consume `test_manager.ci_request`. A push, completed workflow or
+ordinary PR does not implicitly request a full quality report.
+The completed-runtime cost collector remains read-only.
 
 ## Decide from the present need
 
 Read the actual diff, changed behavior, callers and existing evidence. Apply the
 pstack `architect` method of tracing ownership and consumers before changing the
 boundary map; do not start a multi-model design exercise on every update.
+The smallest sufficient verification scope must still cover the requested changed
+behavior. Test selection does not reduce the user's delivery scope, and a passing
+module selection does not establish that every contained case is necessary.
 
 - Request the smallest existing controls that discriminate the changed behavior
   and its affected consumers. A shared filename, a large diff, a release stage,
@@ -35,6 +39,7 @@ boundary map; do not start a multi-model design exercise on every update.
 - Full coverage requires a concrete full-coverage request from the task or an
   explicitly selected acceptance requirement. Record that reason. Never invoke
   `--full` as a precaution, to discover impact, or to get around `needs_scope`.
+  A model-written contract cannot create that demand merely by listing full coverage.
 - Prose-only changes require review of changed meaning, not a runtime pass.
   Executable/evidence inputs under docs are not prose-only. Do not claim model
   behavior from a Markdown diff or add an unrequested behavioral experiment.
@@ -42,9 +47,11 @@ boundary map; do not start a multi-model design exercise on every update.
   reruns and duplicate runs through different entrypoints. A failure prompts
   diagnosis and affected controls, not automatic expansion to the full suite.
 
-The user may request no test execution. In that case prepare/review the decision
-and code only; do not reinterpret a full-coverage requirement as permission to
-run it now. Clearly report what remains unexecuted.
+The user may request no test execution. Honor that limit while continuing the
+authorized implementation, static review, normal-log readback and delivery.
+Do not reduce the task to code preparation or infer permission for a test run.
+Distinguish prohibited tests from separately authorized normal CI, and report
+unexecuted checks without calling an unmet outcome complete.
 
 ## Request once, consume everywhere
 
@@ -82,10 +89,11 @@ correct the existing map in `test_manager.py` so CI consumes the same decision.
 Do not create a second map, scheduler, report gate or policy file. Do not ask the
 user to decide scope when the code and task already contain the answer.
 
-A missing provider base requires its exact readback, not full testing. Removed
-tests require identifying the replacement or remaining coverage, not a full run.
-Only unavailable evidence/capability or genuinely ambiguous requested behavior
-needs clarification. Preserve the gap; do not report unexecuted controls as green.
+If the provider base is missing, obtain its exact readback. Do not request full testing.
+If tests were removed, identify their replacements or remaining coverage.
+That removal does not require a full run. Ask for clarification only when evidence
+or capability is unavailable, or the requested behavior is ambiguous.
+Preserve the gap. Do not report unexecuted controls as green.
 
 Reuse actual results only for the same verified source/input identity and covered
 behavior. Additional changes or newly observed failures justify another affected
@@ -101,11 +109,16 @@ remaining discriminator. A text mention or fixture import alone does not show
 that every consumer case is affected; inspect the imported helper and its data
 inputs before narrowing the existing boundary map.
 
-Classify costs separately: exact-subject/provider admission, affected behavior
-controls, fixture/process overhead, requested physical controls, optional quality
-observations, and repeated execution across PR/main/publication. Report job/phase
-wall time separately from overlapping worker seconds. Missing case/setup timing
-is unknown, not zero; do not attribute fixture costs from names alone.
+Normal logs can identify avoidable work and support a targeted correction.
+Report measured differences with their subjects and conditions.
+Missing matched experiments limit causal claims; they do not require another experiment before an authorized correction.
+
+Classify costs separately. The categories are exact-subject and provider
+admission, affected behavior controls, fixture and process overhead, requested
+physical controls, optional quality observations, and repeated execution across
+PR, main and publication. Report job and phase wall time separately from
+overlapping worker seconds. If case or setup timing is missing, record it as
+unknown, not zero. Do not attribute fixture costs from names alone.
 
 Treat full-repository quality metrics as an on-demand observation with a named
 decision consumer, not an implicit correctness requirement on every PR. Changing
@@ -121,12 +134,16 @@ reuse across contexts, verify source, base/diff, runner, recipe, inputs and
 coverage first; never present a PR receipt as a new main-head execution.
 
 The selector follows actual Python fixture imports transitively, including
-literal dynamic imports, and ignores prose mentions. Unresolved computed imports
-need a scope correction. Imported modules remain the unit of coverage; do not
-claim method-level selection or skip real consumers just because their fixture
-method text stayed unchanged. Normal logs record discovery, every case including
-its setup/teardown/cleanups, and each module; class fixtures/process import remain
-part of the module cost rather than an individual case.
+literal dynamic imports. It ignores prose mentions. If computed imports remain
+unresolved, correct the scope. The current selector uses imported modules as its
+unit of coverage. This implementation limit does not prove that every imported
+case is necessary. It also does not prevent better selection. Before changing
+selection, trace measured scope inflation to fixture dependencies and distinct
+behavior controls. Do not claim method-level selection. Do not skip real
+consumers just because their fixture method text stayed unchanged. Normal logs
+record discovery, each module, and every case with its setup, teardown and
+cleanups. Class fixtures and process import remain part of the module cost.
+They are not costs of an individual case.
 
 Prioritize measured avoidable work over minor runner tuning. Record whether a
 reduction is implemented or only proposed, and whether it reduces delivery
@@ -138,19 +155,26 @@ an acceptance receipt.
 
 ## Original atom cost evidence
 
-For cost review use `./soodles atom cost-report AUTHORIZATION MANIFEST` on
-original source-bound receipts; the [manifest contract](../../../docs/loop-cost/design.md)
-specifies local process/provider files. This is read-only and consumes the same
-Schema Manager projection as normal atom responses. It performs no tests or
-network calls and grants no effects. Telemetry absent, partial or slow is never
-new test demand. Keep the existing normal exact-head CI selection.
+For cost review, use `./soodles atom cost-report AUTHORIZATION MANIFEST` on
+original source-bound receipts. The [manifest contract](../../../docs/loop-cost/design.md)
+specifies local process and provider files. This read-only entry consumes the
+same Schema Manager projection as normal atom responses. It performs no tests
+or network calls and grants no effects. Absent, partial or slow telemetry does
+not request new tests. Keep the existing normal exact-head CI selection.
 
-Distinguish observed wall/foreground time, explicit waits, provider job time and
-parallel module worker time. Cases are nested in modules; parent timing is not
-additional worker time. A pending/refused/unknown span is not successful work,
-even when its elapsed duration is measured. Incomplete starts and uninstrumented
-old owners retain unknown coverage. Tokens, price, API-call accounting and human
-attribution remain unknown without their own supported evidence. Repair seconds
+Distinguish observed wall time, foreground time, explicit waits, provider job
+time and parallel module worker time. Cases are nested in modules. Parent
+timing is not additional worker time. A pending, refused or unknown span does
+not establish successful work, even when its elapsed duration is measured.
+Incomplete starts and uninstrumented old owners retain unknown coverage.
+When evidence is unavailable, tokens, price, API-call accounting and human
+attribution remain unknown. If a source contains a measurement that the
+requested consumer lacks, treat that as an integration gap.
+The source data is available. Prioritize actual end-to-end costs, including
+writer, waits, rework and collection overhead. CI duration alone does not
+establish delivery speed. Use the issue-atom
+[completion guidance](../issue-atom/SKILL.md#preserve-the-request-through-admission-and-delivery)
+when reconciling cost observations with the requested outcome. Repair seconds
 remain elapsed since first repair; no cost projection creates new thresholds or
 resets/reserves counters. Fixture gate observations are CI product controls,
 never measurements of live exhaustion or independent acceptance authority.

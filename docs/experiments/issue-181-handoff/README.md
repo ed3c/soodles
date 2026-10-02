@@ -1,6 +1,6 @@
 # Issue #181: retain the receiving Session's continuation
 
-When a receiving Session cannot open its selected external authorization, the
+When a receiving Session could not open its selected external authorization, the
 original `issue-atom run` printed only stderr. It now emits the existing typed
 refusal with the input owner, required input and same-entry argv. It still exits
 1 and performs no lifecycle work. The skill distinguishes initial preparation
@@ -16,9 +16,9 @@ comparison, not an isolated P-only effect or a general efficiency estimate.
 The baseline's five recorded subprocesses include a failed report write and its
 repair; treatment recorded three. Those counts do not establish a cost reduction.
 Observer v1 incorrectly rejected the equivalent prose owner `external supervisor`.
-Its original bytes/results remain. Supervisor-selected v2 accepts that legal
-alias, keeps the continuation criterion and replays the same two reports without
-launching new consumers. Baseline then fails only continuation completeness.
+Its original bytes and results remain. Supervisor-selected v2 accepted that legal
+alias and kept the continuation criterion. It replayed the same two reports
+without launching new consumers. Baseline then fails only continuation completeness.
 Legal blocked and planted wrong-command controls are retained.
 
 The independent ChatGPT Work receiver read the fixed GitHub source and Issue,

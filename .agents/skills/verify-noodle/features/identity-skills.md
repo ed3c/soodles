@@ -3,37 +3,38 @@
 ## Sub-features
 
 Observe the version string, embedded build provenance, binary digest and selected
-source; resolve Skill names to exact files through the real CLI. Distinguish
-configured resolution from a worker actually reading/loading those bytes.
+source. Use the real CLI to resolve Skill names to exact files. Distinguish
+configured resolution from a worker that actually reads or loads those bytes.
 
 ## How to get to it (user POV)
 
-Use the supervisor's measured executable and absolute source/project/worktree
-paths. A user runs `version` to identify the executable and `skills list` to see
-what the selected project resolves. No daemon, credentials or model session is
-needed. Missing executable/source/carrier or expected Skill path comes from the
-supervisor's selection; resume this same recipe after it is supplied.
+Use the selected executable. `version` reports its version. For `skills list`,
+supply the absolute target project path. It reports that project's resolution. A source
+checkout is required only for a source/build correspondence claim. Neither read
+needs an admitted worktree, daemon, credentials or model session. The supervisor
+resolves available inputs; unknown executable/project identity remains with its owner.
 
 ## Driving it with the Noodle CLI
 
-1. Follow SKILL Launch/Doctor, preserving version, `go version -m`, SHA-256 and
-   clean source readbacks. Compare the complete revision, clean flag, platform and
-   digest to the packet. The #46 interview returned `v0.1.19` but embedded
-   `vcs.revision=ca81f942f478e8e4afcbbce6ca69640867efe753`,
-   `vcs.modified=false`, `GOOS=darwin`, `GOARCH=arm64`; version alone is insufficient.
-2. Run `"$NOODLE_BIN" --project-dir "$NOODLE_WORKTREE" skills list` and capture
-   both streams and actual exit. The output columns are name, source search path,
-   `HasSkillMD`, resolved directory. Match `verify-noodle` to the exact intended
-   `.agents/skills/verify-noodle` directory, then measure the actual `SKILL.md`,
-   index and three recipes. Record symlink resolution if applicable. Also measure
-   the selected execute invocation when it is part of the subject.
-3. Compare the returned path and file digests with the applied candidate. An absent
+1. Select the needed observation, not every item in this recipe. For version,
+   run `"$NOODLE_BIN" version`. For source/build correspondence, additionally
+   read `go version -m "$NOODLE_BIN"`, the binary SHA-256 and selected source
+   revision and clean state. Compare exact `vcs.revision`, `vcs.modified`, GOOS,
+   GOARCH and digest with the selection. A version string alone cannot prove
+   that stronger claim. Reuse applicable observations under the owning skill's
+   [Doctor conditions](../SKILL.md#doctor).
+2. For resolution, run `"$NOODLE_BIN" --project-dir "$NOODLE_PROJECT" skills list`
+   and capture both streams and exit. Match the requested skill to its intended
+   resolved path. If exact file identity is required, measure the selected files
+   and resolve symlinks; do not hash every recipe or unrelated skill by default.
+3. For resolution/activation verification, compare the returned path and any
+   required file digests with the selected candidate. An absent
    new Skill in an unapplied draft is pending application, not a pass. Wrong-path
    resolution belongs to the supervisor/project configuration owner; report the
-   actual path and continue through that owner's correction, without changing
-   global configuration or substituting another directory.
-4. Preserve the command receipts and digest map externally. Confirm no source
-   changes and evidence survival after the short-lived processes exit. For a
+   actual path and continue through that owner's correction. Do not change
+   global configuration or substitute another directory.
+4. Retain the observed command results and any required digest map in the existing
+   task record or selected external evidence destination. For a
    loading claim additionally require the real admitted worker's prompt/tool
    evidence tied to these bytes through the order-handoff recipe.
 
@@ -51,8 +52,9 @@ that a not-yet-applied verify-noodle was loaded. Read the selected feature link
 explicitly when using the skill.
 
 Nested-worktree builds can carry a misleading VCS stamp. A filename or nearby
-checkout does not establish binary provenance: stop at a revision/clean/digest
-mismatch and retain the failing build evidence. Do not repair it by assertion.
+checkout does not establish binary provenance. If the revision, clean state or
+digest does not match, stop and retain the failing build evidence.
+Do not repair the mismatch by assertion.
 Native evidence is separate from Soodles' Linux runtime lock.
 
 Adapter repair diagnostics may accompany an exit-zero skills listing. Preserve

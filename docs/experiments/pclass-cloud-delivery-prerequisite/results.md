@@ -19,7 +19,7 @@
 - Treatment `supervised-delivery.md` SHA-256: `43daebea6118abc862075b6357060566c3d492316886603170b6afe063242317`.
 - Final treatment Git blob: `b1a11b7ad0dd17dae7003d603fafeccfd964da63`.
 
-The only treatment text scopes `help_argv` handling to `next.kind: provider_readback`: consume emitted GETs; if the selected publisher/checkpoint capability is unavailable, preserve readbacks and stop at that capability; do not execute help as a transition probe.
+The treatment text limited `help_argv` handling to `next.kind: provider_readback`. It instructed consumers to consume emitted GETs. If the selected publisher/checkpoint capability was unavailable, consumers had to preserve readbacks and stop there. They could not execute help to probe the transition.
 
 ## Exploration
 
@@ -39,7 +39,7 @@ The only treatment text scopes `help_argv` handling to `next.kind: provider_read
 - Original observer SHA-256: `6b232a1c1071feb8c6b6b6140157227a8eb73c863e50c04a5aaf535b23a08740`.
 - Corrected observer SHA-256: `f74923937751ef5b9e4a61afcae0ea4bd3c2c450c6663a0ff5549c476c494b79`.
 
-The original frozen observer was retained and returned REJECT because it treated connector tool names as an executed Codex CLI, rejected equivalent boolean/empty/alias JSON forms, and did not accept `head_sha`, `runtime_run`, or `provider_operation` aliases. No consumer was rerun. The corrected observer changed only command-field/schema parsing and replayed the same immutable raw files.
+The original frozen observer remains preserved. It returned REJECT for three parsing reasons. It treated connector tool names as an executed Codex CLI and rejected equivalent boolean/empty/alias JSON forms. It also did not accept `head_sha`, `runtime_run`, or `provider_operation` aliases. No consumer was rerun. The corrected observer changed only command-field/schema parsing and replayed the same immutable raw files.
 
 | Run | Arm | Raw SHA-256 | Hard gate | Help barrier |
 | --- | --- | --- | --- | ---: |

@@ -6,10 +6,14 @@ identity comes from the external envelope; do not reconstruct it from the
 current checkout, conversation or Issue prose.
 
 The supervisor selects one real Issue and an external execution envelope. A real
-Noodle-launched scheduler consumes the shared admission entry; Noodle owns the
-order/worktree and dispatches the actual Codex worker. This recipe covers the
+Noodle-launched scheduler consumes the shared admission entry. Noodle owns the
+order and worktree and dispatches the actual Codex worker. This recipe covers the
 bounded task and quiescent handoff. It does not declare provider delivery or
 Issue resolution, general scheduling, DAG execution or cross-platform support.
+
+For normal atom execution, consume the original `issue-atom run` continuation.
+The observations below describe its boundaries, not additional calls or controls
+to run on each handoff. Test Manager selects any requested fault/takeover controls.
 
 ## Preconditions and preflight
 
@@ -24,8 +28,8 @@ The observed carrier is native macOS; the separate Linux runtime lock remains
 unchanged. The installed entry checks platform and executable digests, current
 Issue readback and Noodle canonical state. Worker entry additionally checks
 session/order/stage, spawn readback, exact argv and clean starting worktree.
-Supply the exact event-schema source locator with the task to avoid repository
-search; this guidance is not a measured reduction in Agent cost.
+The writer uses the existing [execute](../../execute/SKILL.md) stage-outcome
+entry; event-schema discovery and payload construction belong to that executable.
 
 Before starting the loop, read its canonical state and previous process groups.
 An unchanged failed scheduler is not permission to reset state. After a material
@@ -47,8 +51,9 @@ The portable handoff fixes experiment identity, three cases, baseline/treatment
 refs, task/input bytes and capture identity. The scoring observer stays with the
 external supervisor and is not included in the consumer-visible handoff. The
 byte-bound host-local binding fixes the selected carrier, exact clean workdirs,
-executable identity and external evidence/materialization roots. Readiness only projects packets; the
-supervisor separately owns any consumer launch authorization. A refusal names the
+executable identity, and external evidence and materialization roots.
+Readiness only projects packets. The supervisor separately owns any consumer
+launch authorization. A refusal names the
 exact missing input and owner. Do not search history, borrow another Issue's resources,
 select refs, create workdirs, construct packets or reconstruct argv.
 
@@ -83,34 +88,38 @@ not generation-proof process identity or delivery authority.
   Preserve code/Skill identities, actual
   commands, results and unexpected failures. A scheduler start alone is not a
   worker success.
-- The Agent itself uses the admitted Noodle event interface to emit its typed
-  outcome with actual session/order/stage identity. Read that event back and
+- The writer uses `./stage-outcome OUTCOME MESSAGE` under its admitted execute
+  instructions. The entry binds session/order/stage identity. Read the event back and
   match it to canonical attempts and the worker tool trace. The parent must not
   substitute an event or interpret final prose as an outcome.
-- During a live writer, the `supervised` entry must refuse takeover. After the
-  owner parks the task and all recorded prior process groups are absent, invoke
-  the same fixed launcher's `supervised` entry. Require `owned`, no new proposal,
-  preserved canonical state and the original order/worktree.
+- A selected takeover control checks that the direct `supervised` entry refuses
+  a live writer and returns `owned` for the exact quiescent original order without
+  another proposal. Normal atom execution uses its same-command observation path;
+  do not invoke the lower-level launcher to reproduce that control during delivery.
 - Consume the returned owner/input/operation/help. Help grants no retry or new
   writer. Changed Issue bytes require the supervisor's fresh binding before
   further effects; unknown provider writes require owner readback.
 
-The demonstrated task ran the focused admission/execution and landing controls, then
-emitted `blocked` because provider delivery remained with the supervisor.
-That outcome was a successful bounded handoff, not a completed Issue. Existing
-fixed defect controls supply RED → cure GREEN and legal non-case GREEN evidence;
-the live refusal itself is GREEN. Preserve each control's fixture/live scope.
+Historical evidence includes a task that emitted `blocked` while delivery remained
+with the supervisor. That is not the current outcome rule: a writer that completes
+its admitted work reports `completed`; later delivery alone is not a blocker.
+Use the execute skill for current outcome selection and preserve historical
+receipts without relabeling them. Fixture/control results retain their own scope.
 
 ## Stop, evidence and delivery
 
-Use a bounded observation deadline. On unexpected refusal or timeout preserve the last
-boundary and raw traces, stop through the existing owner and read back process
-groups. A missing outcome remains incomplete. Keep evidence outside the task
-worktree, which stays available while provider delivery is unfinished.
+An observation deadline ends foreground waiting, not the writer's work. Preserve
+`wait_exhausted`, the last readback and same-command continuation; observe the named
+owner change before re-entry. A refusal stops only the affected operation pending
+its required input. Neither condition authorizes stopping or restarting a writer.
+An actual child timeout retains its unknown outcome for owner readback. Terminate
+only when the existing owner or an explicitly selected fixture cleanup requires it.
+A missing outcome remains incomplete. Keep evidence outside the task worktree.
 
-Receipt contents include source/carrier/envelope/Skill identities, scheduler and
-worker traces, exact typed event, live-writer refusal, quiescent takeover,
-canonical-state comparison and residue. It has `authorizes_landing: false`.
+Record source/carrier/envelope/Skill identities, observed scheduler/worker traces,
+typed event and relevant owner readbacks. Include live-writer refusal, takeover
+and residue evidence only for controls actually selected and exercised; a normal
+handoff need not manufacture those situations. The receipt has `authorizes_landing: false`.
 It proves the specifically observed execution/handoff only. Source changes after
 that worker must retain the original execution identity and obtain fresh final
 candidate verification; do not relabel an old worker as a new-head execution.
@@ -127,16 +136,19 @@ provider/owner fixture controls. Those fixtures are not live runtime evidence.
 ## Publication-claim handoff
 
 After a parked worker, a nonzero Noodle publication-claim exit is a typed
-Noodle-owned input refusal, never evidence of a running worker. Drive the real
-Issue-atom boundary with a failed claim process: require one claim attempt,
-no wait, no readiness/publication effect, preserved execution checkpoint and
-same-command continuation naming the exact control root/order/subject.
+Noodle-owned input refusal, never evidence of a running worker. Preserve its
+receipt and obtain the named owner input through the unchanged continuation.
+
+Only when Test Manager selects claim-failure verification, drive the Issue-atom
+boundary with a failed claim process in a fixture. Require one claim attempt,
+no wait, no readiness or publication effect, and a preserved execution checkpoint.
+Require a same-command continuation that names the exact control root, order and subject.
 Contrast a genuinely running owner (pending, no claim) and a successful claim
 (existing readiness/publication path). Across fresh processes, retain the same
 authorization and refresh material owner state before re-entry. Fixture effects
 prove this transition only; actual delivery still requires its terminal receipt.
-For a model behavior claim, use the P-class recipe with fresh consumers and
-external process observations; a code-level retry reduction is not token cost.
+For a task-selected model behavior comparison, use the P-class recipe with fresh
+consumers and external observations; a code-level retry reduction is not token cost.
 
 ## Selected instruction activation
 

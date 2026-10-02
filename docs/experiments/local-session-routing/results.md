@@ -1,8 +1,8 @@
 # Local Session：固定既有 CLI 入口的有界閉環
 
-第二輪 P-class 候選通過 selection 和独立 confirmation：A 的 completed command 中位數均由 12 降為 9，減少 25%；三種狀態全部正確。這是所選 fixture／carrier 的觀察，並非所有 Agent 永不退化，也不是模型內部決策成本的直接量測。
+第二輪 P-class 候選通過 selection 和獨立 confirmation。兩次比較中，A 的 completed command 中位數都由 12 降為 9，減少 25%。三種狀態全部正確。這些觀察僅適用於所選 fixture 和 carrier，不能保證所有 Agent 永不退化，也沒有直接量測模型內部決策成本。
 
-真實問題是使用者已授權地端工作，Session 卻要求人提供它能準備的 authorization 路徑／SHA。Source review 發現根入口漏了 pre-selection Local Session；既有 authorize／issue-atom owners 已能處理狀態，所以本 atom 只修 AGENTS 路由與既有 CLI 呼叫形式，不改 CLI code，不新增 eval engine。pstack How/Architect 用於找 owner 與承諾，Hillclimb 用於單一假設及保留／回退；evals-start 導向 eval-audit 審查裁判與證據；verify-soodles recipe 保存可重跑路徑。
+真實問題是使用者已授權地端工作，Session 卻要求人提供它能自行準備的 authorization 路徑和 SHA。Source review 發現，根入口漏了 pre-selection Local Session。既有 authorize 和 issue-atom owners 已能處理這些狀態。因此，本 atom 只修 AGENTS 路由與既有 CLI 呼叫形式，不改 CLI code，也不新增 eval engine。pstack How/Architect 用於找 owner 與承諾。Hillclimb 用於測試單一假設，再保留或回退。evals-start 導向 eval-audit，審查裁判與證據。verify-soodles recipe 保存可重跑路徑。
 
 | 比較 | A baseline | A candidate | 中位數改善 | 三種狀態 | 決定 |
 | --- | --- | --- | --- | --- | --- |
@@ -10,7 +10,7 @@
 | r02：明示既有 CLI argv 與狀態界線 | 11、13、12 | 9、10、9 | 25% | 全 PASS | 固定 winner |
 | 未見 confirmation | 12、12、12 | 9、9、9 | 25% | 全 PASS | 有界採納 |
 
-固定規則是至少兩個不同假設、最多三輪；正確性先於成本；A 中位數至少降低 20%，至少兩次低於 baseline。已測兩輪，沒有為提高分數啟動第三輪。Confirmation 在 winner 固定後只跑一次，未換樣本。B/C 是 regression gates，不拿其較低操作數替代 A 的主指標。
+固定規則要求至少兩個不同假設，最多三輪。先檢查正確性，再比較成本。A 中位數必須至少降低 20%，且至少兩次低於 baseline。已測兩輪，沒有為提高分數啟動第三輪。Winner 固定後，confirmation 只跑一次，沒有更換樣本。B/C 是 regression gates，不能用它們較低的操作數替代 A 的主指標。
 
 ## 承諾與既有 owner
 
@@ -64,11 +64,11 @@ flowchart TD
   M --> C
 ```
 
-此閉環不靠同一上下文記住過去：protocol、角色可讀資料、owner receipts、raw、固定裁判及可重播 tests 留在持久產物。下一 Session 讀目前 owner/state；缺項不能以舊對話補成成功。產品／行為／交付分開判定。
+Protocol、角色可讀資料、owner receipts、raw、固定裁判及可重播 tests 都保存在持久產物中。這套流程不需要同一上下文記住過去。下一 Session 讀取目前 owner 和 state。若有缺項，不能用舊對話補成成功。產品、行為和交付分開判定。
 
 ## 修正裁判也是閉環的一部分
 
-v01 真實 B 曾把 shell issue-atom 用 Python 啟動而失敗；C 則是 oracle 錯拒同 owner 的 soodles.py atom 合法入口。聚合器也誤將 baseline B/C 失敗一律禁止比較，違反事先 protocol。已結束 v01，原結果及 raw 留 history，修正外部裁判與 controls 後固定 v02，五次 baseline 全新執行；沒有把換裁判後的分數當產品改善。
+v01 的真實 B 曾用 Python 啟動 shell issue-atom，因此失敗。C 則是 oracle 錯拒同 owner 的 soodles.py atom 合法入口。聚合器也誤將 baseline B/C 失敗一律視為禁止比較，違反事先 protocol。v01 已結束，原結果及 raw 保留在 history。外部裁判與 controls 修正後，才固定 v02 並全新執行五次 baseline。換裁判後的分數沒有被算作產品改善。
 
 R02 oracle 的 31 個 controls、aggregation 的 8 個 controls 通過。25 個正式 v02 consumer runs 和兩個實際隔離 optimizer 均有原始 capture；完成後已確認 owned process/group 結束並移除 temporary runtime credential copies。Offline tests 重播 sealed bytes，不能算新模型樣本，也不需要模型／provider credentials。
 

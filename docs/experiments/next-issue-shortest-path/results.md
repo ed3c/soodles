@@ -8,7 +8,7 @@ identity path on candidate `29cc1209c8fe90b50221e85ae44a085ddafc74df`.
 - `327fba31d4fa1bc4d3c8ce3e8e421f9bea5517b8`: immutable RED. Exact candidate
   verification correctly rejected the Issue because the P-class treatment path
   was in `required_paths` but omitted from the Issue `write_paths`. The Issue
-  contract was corrected; this head was not rerun.
+  contract was corrected. This head was not rerun.
 - `29cc1209c8fe90b50221e85ae44a085ddafc74df`: implementation GREEN.
 
 ## Exact candidate evidence
@@ -53,9 +53,8 @@ rule exists.
 
 ## P-class disposition
 
-The new next-Issue Skill and verify-soodles route remove backlog discovery,
-candidate ranking, Issue-body assembly and transport selection from the
-instruction surface. Executable tests bind that route to the CLI.
+The new next-Issue Skill and verify-soodles route no longer require the Agent
+to discover the backlog, rank candidates, assemble the Issue body or select transport. Executable tests bind that route to the CLI.
 
 No fresh matched independent model baseline/treatment experiment was run in this
 atom, so the P-class disposition is **SCOPED_ALIGNMENT**, not a quantified model

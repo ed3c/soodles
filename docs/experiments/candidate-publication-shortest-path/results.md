@@ -8,7 +8,7 @@ The frozen task was observed against Soodles main
 | Baseline | 1 | exit 1 (entry/tests absent) | FAIL |
 | Treatment | 0 | exit 0 | PASS |
 
-The treatment provides one P-class command backed by one executable owner.
+The treatment provided one P-class command backed by one executable owner.
 Focused controls cover exact create/reuse, dirty and stale refusal, drifted PR
 refusal, failed-push readback, lost-create adoption and unknown-create stop.
 

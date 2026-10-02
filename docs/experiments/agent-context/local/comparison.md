@@ -2,9 +2,9 @@
 
 # Prospective complete local comparison
 
-Owner: Issue 39. This is the instrumented macOS Soodles → Noodle → Codex carrier,
-not replacement evidence for historical cloud cases. The capability prerequisite
-is already satisfied; no additional marker probe is required.
+Issue 39 owned this comparison on the instrumented macOS Soodles → Noodle → Codex
+carrier. The comparison did not replace historical cloud evidence. The capability
+prerequisite was satisfied, so no additional marker probe was required.
 
 Freeze common executable code at e4b4a8487855b75ef2d47087019bb52c4d5ffd6c;
 baseline instructions at that ref and treatment's five instruction files at
@@ -13,8 +13,8 @@ fixtures from de34516e6e073622e0bd654fd97c5085bd033d01. The local observer and
 terminal-delaying recorder are selected outside the candidate from 88d38bfd.
 All input and executable digests are fixed in the external selection receipt.
 
-Run one pair each for runner-task, unknown-write and fresh-transfer: six fresh
-consumers and two actual producers. Opaque task labels carry no arm label. Both
+Run one pair each for runner-task, unknown-write, and fresh-transfer. These pairs
+require six fresh consumers and two actual producers. Opaque task labels carry no arm label. Both
 arms use the same common runtime, neutral installed execution skill, task text,
 Astra/high, permissions and recorder. Only assigned instruction documents differ.
 Every run uses an isolated disposable Noodle root/order/worktree; 300 seconds per
@@ -37,8 +37,8 @@ material and reread current owner/provider state. Generated seeds are not produc
 Capture every emitted native item and paired tool result, final response, actual
 child wait status and Agent-produced typed outcome, joined to native thread/turn
 model context. Match normalized events to raw locators and audit independently.
-Complete capture means this task's exposed harness/tool surface; hidden service
-internals remain unknown. Native stdout is unchanged, but terminal delivery waits
+Complete capture covers the harness and tool data exposed for this task. Hidden
+service internals remain unknown. Native stdout is unchanged, but terminal delivery waits
 until exit persistence; both arms must retain this same instrumentation.
 
 A passing observer is trace consistency, not authentication or landing authority.

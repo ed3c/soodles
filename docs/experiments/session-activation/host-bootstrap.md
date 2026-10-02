@@ -25,10 +25,9 @@ and claim; each route retains its own selected ref, owner and evidence.
 
 Saved-setting readback proves persistence for this Project setting only.
 Fresh Project conversations provide scoped behavioral observations, not causal
-proof that Project instructions alone caused the answers. A native Work child
-pilot established that `collaboration.spawn_agent` was exposed in that Work task
-with `fork_turns: "none"`; the platform did not expose an independent raw child
-tool transcript or complete child input identity to the parent. That missing
+proof that Project instructions alone caused the answers. A native Work child pilot established that the Work task exposed
+`collaboration.spawn_agent` with `fork_turns: "none"`. The platform did not expose
+an independent raw child tool transcript or complete child input identity to the parent. That missing
 telemetry is preserved as a limitation, not converted into a failed Host claim.
 
 The revised #159 terminal claim is limited to Session-entry route preservation,

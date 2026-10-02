@@ -4,15 +4,16 @@
 
 **PRIORITIZE THE P-CLASS GATE, BUT NOT AS A PURE GOVERNANCE ISSUE.**
 
-The missing reusable boundary was not another behavior inventory or quality
-measurement policy. `observe_pclass.py` already normalizes one run, but #67 and
-#69 each needed an experiment-local aggregator to decide whether equal green
-arms meant nonregression, whether a lower barrier meant improvement, and
-whether telemetry could affect admission.
+The missing reusable component was neither another behavior inventory nor a
+quality measurement policy. `observe_pclass.py` already normalizes one run.
+However, #67 and #69 each needed an experiment-local aggregator. It decided
+whether equal green arms meant nonregression, whether a lower barrier meant
+improvement, and whether telemetry could affect admission.
 
 Issue #71 adds `decide_pclass.py`, a non-authorizing local discriminator over
-already-normalized receipts. It does not observe behavior, replace the owner or
-observer, create provider requests, or turn quality telemetry into correctness.
+already-normalized receipts. It does not observe behavior or replace the owner
+or observer. It creates no provider requests and does not turn quality telemetry
+into correctness.
 
 ## Replayed accepted evidence
 
@@ -69,8 +70,8 @@ would duplicate an existing boundary.
 
 ## Claim boundary
 
-The new discriminator makes one policy executable: behavior gates and
-sensitivity evidence decide admission; telemetry does not. It does not prove
-that the upstream receipts are true, choose an intervention's admission target,
-authorize landing, enumerate every future owner state, or convert structural
-quality signals into merge gates.
+The new discriminator makes one policy executable. Behavior gates and sensitivity
+evidence decide admission. Telemetry does not. The discriminator does not prove
+that upstream receipts are true or choose an intervention's admission target.
+It does not authorize landing, enumerate every future owner state, or turn
+structural quality signals into merge gates.

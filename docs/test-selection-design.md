@@ -1,7 +1,7 @@
 # On-demand Test Manager
 
-User requirement: testing scope has one owner, selects only presently necessary
-controls, and never predicts or defaults to a full-suite run. This document is
+The user requires one owner for testing scope. That owner selects only the controls
+needed now. It never predicts or defaults to a full-suite run. This document is
 N-class rationale, not test evidence. The Test Manager skill owns P-class guidance;
 `test_manager.py` resolves requests and executes unit tests. Canonical acceptance
 executes its named physical controls. Other skills, CLI and CI consume that result.
@@ -13,26 +13,26 @@ CI's missing-base fallback, and the order-handoff recipe. Even after narrowing C
 those other callers could still force full coverage. Treating shared or unknown
 paths as full also turned missing analysis into runtime cost.
 
-Two shapes were considered from the actual call chain: keep separate defaults
-with more exceptions, or move decisions and unit execution into one manager.
+The actual call chain suggested two designs. One kept separate defaults with more
+exceptions. The other moved decisions and unit execution into one manager.
 The manager was selected to remove policy leakage. It replaces `test_selection.py`
 rather than adding another layer. CLI argument parsing remains in `soodles.py` so
 non-test commands and existing external publisher bundles need no manager import.
 
-API: `plan(root, base, full=False, modules=(), controls=(), reason=None)` returns
-ready/needs_scope, focused/full/none, exact base, changed paths, named controls,
-reasons and unresolved inputs. `execute_units` refuses unresolved scope. Only
+The API is `plan(root, base, full=False, modules=(), controls=(), reason=None)`.
+It returns ready/needs_scope, focused/full/none, the exact base and changed paths.
+It also returns named controls, reasons and unresolved inputs. `execute_units` refuses unresolved scope. Only
 an explicit full request selects full. Otherwise existing traced boundaries select
-local controls. Unknown inputs and removed tests require impact analysis by the
-current Agent; missing canonical base requires the admitted provider readback.
+local controls. For unknown inputs or removed tests, the current Agent must analyze the impact.
+For a missing canonical base, use the admitted provider readback.
 No extra scheduler, report gate, policy file or human relay is introduced.
 
 On-demand verification of unchanged behavior uses named modules/physical controls
 with a reason. In particular order-handoff requests only `order_handoff`, including
 its necessary runtime admission. A shared filename alone neither proves broad
-impact nor licenses full coverage. Update the existing map when observed callers
-or requirements establish a different reusable boundary; don't encode a guessed
-future regression or request full merely to make scope refusal disappear.
+impact nor licenses full coverage. When observed callers or requirements establish a different reusable boundary,
+update the existing map. Do not encode a guessed future regression.
+Do not request full coverage merely to remove a scope refusal.
 
 Native publication schema 2 checks source custody and CLI capabilities, leaving
 regressions to manager-selected exact-head CI. Existing schema-1 receipts retain
@@ -41,8 +41,8 @@ or prove provider merge/closure and local reconciliation.
 
 ## Method and evidence limits
 
-Applied Noodle's pstack `architect` method: trace callers/ownership, compare shapes,
-and remove policy leakage. Provider source commit:
+This work applied Noodle's pstack `architect` method. It traced callers and ownership,
+compared designs and removed duplicated policy decisions. Provider source commit:
 `68836ddaf5697224520f1847d90cdb90ca8babaa`; local skill:
 `/Users/neon/noodles/.noodle/providers/cursor-pstack/pstack/skills/architect/SKILL.md`.
 The user's no-test/no-experiment instruction overrides multi-model trials here.
@@ -61,9 +61,8 @@ This is a source-level incompatibility, not an executed failure reproduction.
 
 Method: installed `eval-audit/SKILL.md`, SHA-256
 `c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133`,
-adapted to deterministic repository controls. Evaluator design and pipeline
-hygiene findings: the old assertion measured retired behavior; replace it with
-the successful selected-unit-to-physical boundary. The adjacent failure control
+adapted to deterministic repository controls. The evaluator review found that the old assertion measured retired behavior.
+Replace that assertion with the successful selected-unit-to-physical boundary. The adjacent failure control
 and `test_test_suite` retain failed, empty, skipped and incomplete execution
 checks. Judge calibration, human labels and subjective scoring are inapplicable.
 Error analysis is limited to the actual source diff; no fresh runtime traces
