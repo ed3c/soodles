@@ -339,6 +339,10 @@ def validate_lifecycle_owner(authorization, *, executing=False):
             and not path.is_relative_to(root)
             and path.parent != Path(authorization["landing_owner"]["path"]).resolve().parent,
             "authorization.lifecycle_owner.path", str(path), "separate_external_lifecycle_owner")
+    atom_source = path.parent / "issue_atom.py"
+    require(atom_source.is_file() and not atom_source.is_symlink()
+            and atom_source.resolve() == atom_source,
+            "authorization.lifecycle_owner.file", "issue_atom.py", "fixed_regular_runtime_files")
     hashes = {}
     # Old immutable descriptors retain their original exact source closure.
     names = LIFECYCLE_FILES
@@ -395,7 +399,12 @@ def resumed_lifecycle(authorization, state):
                 and item["to"] not in identities,
                 "lifecycle.resume.chain", "changed", "continuous_external_lifecycle_selections")
         selected = {**authorization, "lifecycle_owner": item["to"]}
-        validate_lifecycle_owner(selected)
+        try:
+            validate_lifecycle_owner(selected)
+        except AtomRefusal as error:
+            raise AtomRefusal("lifecycle.resume.intent",
+                              error.invalid,
+                              "original_lifecycle_resume") from error
         identities.append(item["to"])
     return selected
 
