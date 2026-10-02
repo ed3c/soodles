@@ -2,10 +2,129 @@
 
 Migrate only exact, executable claims demonstrated in this repository.
 
-When writing or revising documents, use ASD-STE100 principles as a writing aid.
-Use short sentences, explicit actors, consistent terms, and conditions before actions.
-Preserve exact commands, identifiers, facts, and raw evidence.
+Use ASD-STE100 principles for all documents that you write or revise.
+This includes current guidance and historical explanatory articles.
+Use short sentences. State one idea per sentence. Name the actor and use active
+verbs. Use one term for each concept. State conditions before actions. Define
+necessary technical terms. Keep the user's requested language.
+
+Use the same rules to clarify every identified incorrect inference. State the
+original claim and its premise. Identify the available evidence.
+Explain where the reasoning fails. State the supported conclusion.
+Then state how that conclusion changes the required action.
+Separate observed facts from assumptions. If evidence is missing, name the gap.
+Clear wording does not make an unsupported claim true.
+Correct the reasoning, not just the wording of its conclusion.
+
+Apply these principles as a practical writing aid. If strict wording obscures
+the meaning, relax it while keeping the explanation clear and exact. A request
+to move "80% toward ASD-STE100" describes a style preference, not a measured
+compliance score. Preserve exact commands, identifiers, facts, and raw evidence.
+Do not rewrite logs, receipts, or fixed snapshots to satisfy the style rules.
 These principles do not add a verification gate or establish formal compliance.
+[review-writing](.agents/skills/review-writing/SKILL.md) owns writing style for
+all P-class guidance, including contracts, skills, recipes, and routing text.
+Use it when writing or revising that guidance. For N-class documents, use it
+when a writing review is requested or a writing defect is observed.
+The skill owns criteria, corrections, and readback of the saved text.
+For a P-class writing result, use the applicable evals skill to verify the
+covered Agent behavior. Send the evidence to Schema Manager and consume its
+returned next action before reporting that result complete.
+Use the [P-class feedback procedure](.agents/skills/review-writing/features/pclass-feedback.md).
+Reuse evidence only when it covers the same saved instructions, inputs, and claim.
+Keep unsupported behavior claims incomplete. Do not turn this scoped requirement
+into full-suite testing, a runtime gate, or a claim of universal correctness.
+For an admitted writer, use the existing stage-outcome feedback entry before completion.
+Noodle retains the session and event log. Test Manager selects the needed observations.
+Schema Manager separates condition review from observed behavior.
+The current Agent continues authorized corrections without waiting for another user turn.
+Preserve the original requirements. Stop unchanged retries and unknown effects.
+After three failed corrections, reassess the cause within the existing task.
+Missing evidence and repeated readback do not consume a correction attempt.
+Retain the failure history when new evidence supports completion.
+
+Use this small loop for the whole authorized outcome. Read existing source,
+normal logs, and owner receipts before requesting a reproduction. Reuse them
+when they establish the same fault and inputs. Otherwise, reproduce only the
+missing behavior at its nearest boundary. Check the expected condition against
+the original requirement before changing code or guidance.
+The current Agent performs supported corrections within the admitted boundary.
+Test Manager selects the necessary verification. Schema Manager returns the
+state and the original owner's next action. Continue publication, reconciliation,
+and requested normal-use readback through their existing owners.
+Do not end at a report or a passing local check when those outcomes remain due.
+An unknown signal first needs source and owner discovery. It does not itself
+request evals, physical execution, or a full suite.
+
+## Cost and decision principles
+
+Use the shortest supported path that completes the user's requested outcome.
+The following requirements guide engineering work.
+They do not claim that the current implementation already meets them.
+Test Manager owns cost review across the whole Soodles lifecycle.
+Test Manager uses normal execution logs to identify these costs:
+
+- Runtime and physical verification.
+- Tests, model calls, and provider operations.
+- Waiting, repeated work, and decisions that require Agent or user interpretation.
+- Measurement and repair overhead.
+
+Test Manager records missing measurements as unknown.
+Do not infer waste from a duration or filename alone.
+Identify the operation that incurs the cost and the task that needs its result.
+Within authorization, remove unnecessary work or correct the design that causes it.
+Keep the controls needed to verify the required behavior.
+Measure the result through subsequent normal execution.
+Do not add benchmark runs or full-suite tests merely to measure cost.
+
+Test Manager supplies measurements, observed risks, corrections, and remaining gaps to Schema Manager.
+Each record identifies its source, subject, and observation.
+Schema Manager keeps facts, assumptions, and unknowns distinct.
+Schema Manager exposes these records in the normal CLI response and its dependency graph (DAG).
+The state-transition owner uses these records to determine the supported next action.
+Producing a report alone does not complete this feedback path.
+
+P-class guidance and CLI responses use the same validated schema data.
+Each response identifies the current state and the responsible owner.
+It lists the applicable prerequisites and their evidence.
+It returns the supported next action or names the missing input.
+The Agent and user must not have to infer a command from prose.
+They must not have to choose among equivalent routes.
+Use the existing owner's returned continuation.
+That owner retains authority over actions that change external or persistent state.
+
+Schema Manager should evaluate known transitions within milliseconds, using available facts and the DAG.
+Measure this evaluation time in normal use.
+Record network, model, test, and physical execution time separately.
+A predicted path depends on its stated inputs.
+It does not prove a future external result.
+The response must identify missing data.
+Do not replace missing data with a guessed success or an invented time estimate.
+
+Automatic repair requires an observed defect or design risk.
+Examples include unnecessary physical verification, accumulated runtime or test cost, repeated work, and avoidable decisions.
+When that condition holds, the existing repair owner uses its declared controls and existing budget.
+A hypothetical risk or missing timing alone does not trigger repair.
+If a write outcome is unknown, obtain owner readback before another effect.
+Do not invent identities, credentials, or authorization as a repair.
+
+For an unresolved Agent behavior question, inspect existing source, logs, and owner readback first.
+If those sources cannot answer the question, use the relevant evals skill to obtain the needed behavior evidence.
+Supply the result and its limits to Schema Manager.
+Missing credentials, pending provider results, and known deterministic faults do not by themselves request evals.
+When establishing a reusable shortest path, use pstack system design to define ownership and dependencies.
+Use verification-skill maintenance to keep that path's procedure consistent with actual behavior.
+For P-class writing, apply the review-writing feedback procedure.
+For other work, use evals when the unresolved behavior question requires new evidence.
+Keep each activity within the selected path.
+Skill use alone does not request a full-feature audit, experiment, or runtime gate.
+
+Schema data should support autonomous Soodles state transitions.
+Noodle and pstack remain free to perform their admitted work.
+Reduce decisions without adding a second scheduler or policy layer.
+Not every fact requires runtime execution.
+If existing source, static checks, receipts, and logs support the claim, use that evidence.
+Request physical verification only when the behavior claim needs evidence from physical execution.
 
 ## Session entry — select once, then act
 
@@ -151,8 +270,9 @@ Use `./system-context entry issue-atom run` (or `soodles candidate publish` /
 `provider-readback consume`) for committed consumer/decision P-class requirements.
 Consume current owner `next`/`request` unchanged. These selections grant no effects.
 
-A fresh Agent comparison or evals skill is required only when the admitted task
-selects that measurement. For such a claim, use the scoped
+P-class writing follows review-writing and its scoped behavior feedback.
+A comparative improvement claim additionally requires a task-selected measurement.
+For that comparison, use the scoped
 [behavior comparison procedure](.agents/skills/verify-soodles/features/pclass-context.md).
 Product controls and instruction source hashes do not establish Agent behavior
 improvement. Preserve historical evidence and report unsupported claims explicitly.
@@ -168,6 +288,7 @@ Stop the affected operation when its owner requires missing identity, credential
 - Keep `tests/` focused on current behavior and distinct failure boundaries. Use small disposable fixtures. Do not copy the repository or rerun historical implementations or reports in routine acceptance. Historical evidence stays under `docs/`. When replacing a replay, retain any unique current behavior controls. Frozen external verifier bytes and their authority are unchanged by test maintenance.
 - Local and PR self-test receipts have `authorizes_landing: false`. They cannot select or authorize their own verifier.
 - For a user-authorized local Issue lifecycle, the supervising Session prepares the external authorization and digest through the [issue-atom skill](.agents/skills/issue-atom/SKILL.md). Missing generated files do not require human handoff. Ordinary edits do not require an atom. Once prepared, use only `./issue-atom run /absolute/authorization.json` and re-enter its returned same command after material state changes. Never reconstruct `./noodles issue handoff`, select an Issue/landing verb, or retry an unknown provider write.
+- For a confirmed failed CI, consume an owner-returned correction preparation command when present. That producer retains the original task, Issue, PR, carrier, and external judge. Consume its prepared continuation. It does not replay the failed head or reset repair history. A capability or lineage refusal stops that correction branch, not unrelated authorized work.
 - First installation uses the explicitly requested supervised fallback. The supervisor pins the landing implementation outside the candidate, admits one exact claim, and supplies raw provider readbacks. `landing.py` owns pending-write checkpoints and exact requests. The existing GitHub connector executes them under existing provider rules. No Administration access or protection-policy modification is a prerequisite.
 - Do not fabricate a production generation, independent default-branch verification, or unattended lander. A cloud Issue is RESOLVED only from exact merge, closure, runtime, and provider-main readback through the connector. A local Issue also requires Git/Noodle reconciliation. Never cross from the selected cloud route into shell Git because a local checkout exists. Unknown writes require readback. Never repeat the offered request from model memory.
 - For delivery preparation, candidate correction, base drift or interrupted cleanup, use the existing [delivery](.agents/skills/verify-soodles/features/supervised-delivery.md) or [recovery](.agents/skills/verify-soodles/features/delivery-recovery.md) recipe and owning requirement in `contracts/system-v1.md`. Preserve fresh admission and evidence, exact identity, and unknown-write readback obligations. Process-fault oracles use provider fixtures, not live GitHub writes.
@@ -276,8 +397,8 @@ discover, or complete the DAG.
 
 For known deterministic faults, use declared owner controls. For unknown
 behavior, first inspect relevant existing logs, source, and owner readback.
-Offline evals apply only to a task-selected Agent behavior measurement.
+P-class writing uses review-writing and scoped behavior feedback through Schema Manager.
+Other offline evals need a task-selected Agent behavior measurement.
 Uncertainty alone does not request them. New P-class routes or demonstrated
-routing drift need scoped source and consumer review and correction. They do
-not automatically request an experiment, a full verification-skill pass,
-or another runtime gate.
+routing drift need source and consumer review and correction.
+None of these routes requests a full verification-skill pass or another runtime gate.

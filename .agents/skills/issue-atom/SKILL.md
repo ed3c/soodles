@@ -189,6 +189,17 @@ The cloud connector route keeps its own credential source and does not need
 this local supplier or any token transfer.
 
 An unchanged failed candidate head is terminal evidence, not retry authority.
+For a confirmed failed CI, the current atom can return an executable correction
+preparation command. The supervising Agent executes that returned argv and
+consumes its prepared `next` and environment. Do not reconstruct the selection.
+The producer reads the original task, contract, publication, carrier and judge.
+It verifies current failed CI and the same base through the existing owners.
+The fixed output belongs to this original authorization. Re-entry reads its
+saved selection. A second automatic derivation from a prior publication or atom
+refuses. Unknown effects still require original owner readback. Preparation
+uses no model action and does not copy or reset the original repair ledger.
+The existing Noodle admission controls the writer; its cost is not one inference. The admitted correction still uses
+the existing Noodle order and correction lifecycle.
 An unknown Issue-create, branch, PR, merge, or closure outcome permits only
 fresh exact readback. A competing marker or identity is a refusal.
 

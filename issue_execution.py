@@ -609,9 +609,13 @@ def completed_original_order(binding, state):
     require(meta.get("session_id") == session and meta.get("status") == "exited" and meta.get("alive") is False,
             "completion.meta", meta, owner="Noodle", required="original_session_exit_readback")
     terminal = [event for event in events if event.get("type") == "stage_message"
+                and event.get("payload", {}).get("outcome") not in (None, "")
                 and event.get("payload", {}).get("order_id") == order_id
                 and event.get("payload", {}).get("stage_index") == binding["execution"]["stage_index"]]
     require(len(terminal) == 1, "completion.typed_outcome", len(terminal),
+            owner="Noodle", required="completed_typed_outcome")
+    require([event for event in events if event.get("type") == "stage_message"][-1] == terminal[0],
+            "completion.last_stage_message", terminal[0],
             owner="Noodle", required="completed_typed_outcome")
     payload = terminal[0]["payload"]
     require(payload.get("outcome") == "completed" and payload.get("blocking") is False,

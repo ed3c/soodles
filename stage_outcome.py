@@ -4,6 +4,9 @@ This is a stateless identity/readback adapter, not a concurrency lease or a
 replacement for Noodle's typed-outcome consumer. No provider access occurs.
 """
 import json
+import hashlib
+import fcntl
+import time
 import os
 from pathlib import Path
 import re
@@ -160,6 +163,141 @@ def typed_events(events):
             and e["payload"].get("outcome") not in (None, "")]
 
 
+FEEDBACK_PREFIX = "soodles.pclass-feedback.v1 "
+
+
+def feedback_records(events, session, execution):
+    records = []
+    for event in events:
+        payload = event.get("payload", {})
+        message = payload.get("message", "") if isinstance(payload, dict) else ""
+        if event.get("type") != "stage_message" or not isinstance(message, str) or not message.startswith(FEEDBACK_PREFIX):
+            continue
+        try:
+            record = json.loads(message[len(FEEDBACK_PREFIX):])
+        except ValueError as error:
+            raise AdmissionRefusal("worker.feedback.record", str(error), **READBACK) from error
+        require(isinstance(record, dict) and event.get("session_id") == session
+                and payload.get("outcome") in (None, "") and payload.get("blocking") is False
+                and payload.get("order_id") == execution["order_id"]
+                and type(payload.get("stage_index")) is int
+                and payload["stage_index"] == execution["stage_index"]
+                and record.get("round") == len(records) + 1
+                and record.get("previous") == (records[-1]["identity"] if records else None),
+                "worker.feedback.lineage", record, **READBACK)
+        require(isinstance(record.get("result"), dict) and isinstance(record.get("selection"), dict)
+                and record.get("identity") == feedback_identity(record["result"]),
+                "worker.feedback.identity", record, **READBACK)
+        records.append(record)
+    return records
+
+
+def feedback_identity(result):
+    material = {"case_fingerprints": result.get("case_fingerprints"),
+                "criteria": result.get("criteria", {}).get("status"),
+                "observed": {c["id"]: c["observed"] for c in result.get("cases", [])}}
+    return hashlib.sha256(json.dumps(material, sort_keys=True).encode()).hexdigest()
+
+
+def failed_feedback(result):
+    return (result.get("criteria", {}).get("status") == "REVISION_REQUIRED"
+            or (result.get("behavior") or {}).get("classification") == "FAIL")
+
+
+def pclass_paths(root, binding):
+    base = binding.get("base_head") or binding.get("contract", {}).get("base_head")
+    if not base:
+        return []  # Legacy contracts retain their existing completion boundary.
+    run = subprocess.run(["git", "diff", "--name-only", base], cwd=root,
+                         capture_output=True, text=True, timeout=30)
+    untracked = subprocess.run(["git", "ls-files", "--others", "--exclude-standard"], cwd=root,
+                              capture_output=True, text=True, timeout=30)
+    require(run.returncode == untracked.returncode == 0, "worker.feedback.changed_paths",
+            run.stderr + untracked.stderr, owner="Git", required="admitted_base_diff")
+    return [str((Path(root) / name).resolve()) for name in set((run.stdout + untracked.stdout).splitlines())
+            if name.endswith(".md") and (name == "AGENTS.md" or name.startswith((".agents/skills/", "contracts/")))
+            and (Path(root) / name).is_file()]
+
+
+def require_feedback_completion(root, binding, session, events):
+    records = feedback_records(events, session, binding["execution"])
+    changed = pclass_paths(root, binding)
+    if not records and not changed:
+        return
+    require(bool(records), "worker.feedback.missing", changed,
+            owner="review-writing", required="current_pclass_feedback")
+    from schema_manager import pclass_feedback
+    record = records[-1]
+    selected = record["selection"]
+    current = pclass_feedback(selected["path"], selected["sha256"])
+    require(current.get("criteria", {}).get("status") == "SUPPORTED"
+            and current.get("evidence_validity") == "VALID"
+            and current.get("behavior", {}).get("classification") == "PASS"
+            and feedback_identity(current) == record["identity"],
+            "worker.feedback.incomplete", current, owner="review-writing", required="current_pclass_feedback")
+    covered = {str(Path(ref["path"]).resolve()) for ref in current["instructions"]}
+    require(set(changed) <= covered, "worker.feedback.coverage", sorted(set(changed) - covered),
+            owner="review-writing", required="changed_pclass_behavior_coverage")
+
+
+def feedback(selection_path, expected_sha256, root=None, environ=None):
+    """Consume one observation through Noodle's existing session event writer."""
+    from schema_manager import pclass_feedback, feedback_bytes, feedback_json, project_feedback_history
+    from test_manager import feedback_scope
+    root = Path(root or Path.cwd()).resolve()
+    binding, session, binary = worker_context(root, os.environ if environ is None else environ)
+    execution = binding["execution"]
+    directory = Path(execution["control_root"]) / ".noodle/sessions" / session
+    # Serialize this adapter on an existing session file. Noodle still owns append.
+    with (directory / "spawn.json").open("rb") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as error:
+            raise AdmissionRefusal("worker.feedback.busy", session, **READBACK) from error
+        before, events = session_events(directory / "events.ndjson", initial=True)
+        require(not typed_events(events), "worker.events.existing_outcome", typed_events(events), **READBACK)
+        records = feedback_records(events, session, execution)
+        result = pclass_feedback(selection_path, expected_sha256)
+        require(result.get("evidence_validity") != "INVALID" and "case_fingerprints" in result
+                and result.get("criteria", {}).get("status") != "NOT_REVIEWED",
+                "worker.feedback.input", result, owner="review-writing", required="bound_schema_2_feedback")
+        requirements = feedback_json(feedback_bytes(result["requirements"], "requirements"), "requirements")
+        require(requirements == {"task": execution["task"], "contract": binding["contract"]},
+                "worker.feedback.requirements", "changed task or contract",
+                owner="supervisor", required="original_admitted_requirements")
+        identity = feedback_identity(result)
+        if records and identity == records[-1]["identity"]:
+            return {"status": "readback", "round": records[-1]["round"],
+                    "feedback": records[-1], "next": records[-1]["result"]["next"],
+                    "authorizes_landing": False}
+        failures = sum(failed_feedback(record["result"]) for record in records)
+        require(failures < 3 or not failed_feedback(result), "worker.feedback.budget", failures,
+                owner="review-writing", required="reassess_cause_after_three_failures")
+        require(identity not in {r["identity"] for r in records}, "worker.feedback.cycle", identity,
+                owner="review-writing", required="material_evidence_without_replaying_failed_state")
+        result = project_feedback_history(result, failures + int(failed_feedback(result)))
+        record = {"round": len(records) + 1, "previous": records[-1]["identity"] if records else None,
+                  "identity": identity, "selection": {"path": str(Path(selection_path).resolve()),
+                                                       "sha256": expected_sha256},
+                  "result": result, "failed_attempts": failures + int(failed_feedback(result)),
+                  "test_scope": feedback_scope(result, records[-1]["result"] if records else None)}
+        payload = {"message": FEEDBACK_PREFIX + json.dumps(record, sort_keys=True),
+                   "blocking": False, "order_id": execution["order_id"], "stage_index": execution["stage_index"]}
+        argv = [binary, "--project-dir", execution["control_root"], "event", "emit", "stage_message",
+                "--session", session, "--payload", json.dumps(payload)]
+        try:
+            run = subprocess.run(argv, capture_output=True, text=True, timeout=30)
+        except (OSError, subprocess.SubprocessError) as error:
+            raise AdmissionRefusal("worker.event.process_unknown", str(error), **READBACK) from error
+        after, observed = session_events(directory / "events.ndjson")
+        accepted = feedback_records(observed, session, execution)
+        require(run.returncode == 0 and after.startswith(before) and len(accepted) == len(records) + 1
+                and accepted[-1] == record and not typed_events(observed),
+                "worker.feedback.readback", {"exit_code": run.returncode, "stderr": run.stderr}, **READBACK)
+        return {"status": "recorded", "round": record["round"], "feedback": record,
+                "next": result["next"], "authorizes_landing": False}
+
+
 def report(outcome, message, root=None, environ=None):
     require(outcome in OUTCOMES, "outcome", outcome,
             owner="worker", required="completed_blocked_or_failed")
@@ -170,6 +308,8 @@ def report(outcome, message, root=None, environ=None):
     path = Path(control) / ".noodle/sessions" / session / "events.ndjson"
     before, events = session_events(path, initial=True)
     require(not typed_events(events), "worker.events.existing_outcome", typed_events(events), **READBACK)
+    if outcome == "completed":
+        require_feedback_completion(root or Path.cwd(), binding, session, events)
     payload = {"message": message, "outcome": outcome, "blocking": outcome != "completed",
                "order_id": execution["order_id"], "stage_index": execution["stage_index"]}
     argv = [binary, "--project-dir", control, "event", "emit", "stage_message",
@@ -195,9 +335,11 @@ def report(outcome, message, root=None, environ=None):
 
 
 def main(argv=None):
+    started = time.perf_counter()
     argv = sys.argv[1:] if argv is None else argv
     if argv in (["--help"], ["-h"]):
         print("Usage: ./stage-outcome {completed,blocked,failed} MESSAGE\n"
+              "       ./stage-outcome feedback /absolute/selection.json SHA256\n"
               "Requires admitted worker cwd, NOODLE_PROJECT_DIR, NOODLE_WORKTREE,\n"
               "NOODLE_SESSION_ID, NOODLE_ORDER_ID, NOODLE_STAGE_INDEX and\n"
               "SOODLES_ADMISSION_LAUNCHER with its pinned sibling envelope.json.\n"
@@ -205,8 +347,11 @@ def main(argv=None):
               "Refusal requires the named owner's input/readback; never auto-retry.")
         return 0
     try:
-        require(len(argv) == 2, "arguments", argv, owner="worker", required="outcome_and_message")
-        receipt = report(*argv)
+        if len(argv) == 3 and argv[0] == "feedback":
+            receipt = feedback(*argv[1:])
+        else:
+            require(len(argv) == 2, "arguments", argv, owner="worker", required="outcome_and_message")
+            receipt = report(*argv)
     except AdmissionRefusal as error:
         receipt = {"status": "refused", "invalid": error.invalid,
                    "next": error.next, "authorizes_landing": False}
@@ -214,8 +359,10 @@ def main(argv=None):
         receipt = {"status": "refused", "invalid": {"field": "worker.input", "value": str(error)},
                    "next": {"owner": "Noodle", "required": ["current_dispatch_and_admission_readback"]},
                    "authorizes_landing": False}
+    print(json.dumps({"event": "soodles.timing", "operation": "stage.feedback" if argv and argv[0] == "feedback" else "stage.outcome",
+                      "seconds": time.perf_counter() - started, "status": receipt["status"]}), file=sys.stderr)
     print(json.dumps(receipt, ensure_ascii=False))
-    return 0 if receipt["status"] == "recorded" else 1
+    return 0 if receipt["status"] in ("recorded", "readback") else 1
 
 
 if __name__ == "__main__":

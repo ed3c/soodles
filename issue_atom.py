@@ -51,7 +51,8 @@ LIFECYCLE_FILES = ("issue-atom", "soodles", "soodles.py", "issue_atom.py",
                    "contracts/system-v1/routes.json", "contracts/system-v1/common.md",
                    "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
                    "contracts/system-v1/readback.md", "provider-readback",
-                   "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py")
+                   "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py",
+                   "test_manager.py")
 MARKER_PREFIX = "<!-- soodles:local-atom-v1:"
 
 
@@ -345,6 +346,11 @@ def validate_lifecycle_owner(authorization, *, executing=False):
         require(b"import cost_telemetry" not in (path.parent / "issue_atom.py").read_bytes(),
                 "authorization.lifecycle_owner.file", "cost_telemetry.py")
         names = tuple(name for name in names if name != "cost_telemetry.py")
+    if not (path.parent / "test_manager.py").exists():
+        cost_source = path.parent / "cost_telemetry.py"
+        require(not cost_source.exists() or b"from test_manager import" not in cost_source.read_bytes(),
+                "authorization.lifecycle_owner.file", "test_manager.py")
+        names = tuple(name for name in names if name != "test_manager.py")
     for name in names:
         source = path.parent / name
         require(source.is_file() and not source.is_symlink() and source.resolve() == source,
@@ -1923,7 +1929,7 @@ def select_run(provider, authorization, head):
     return run, jobs
 
 
-def verify_failed_prior(provider, authorization):
+def verify_failed_prior(provider, authorization, *, failed_ci_only=False):
     """Prove correction of a failed CI or an exact pre-write publisher refusal."""
     prior = authorization["prior_publication"]
     number = authorization["issue"]["number"]
@@ -1956,6 +1962,8 @@ def verify_failed_prior(provider, authorization):
                 "amendment.prior_runtime", error.invalid,
                 "terminal_failed_exact_head_runtime")
     else:
+        require(not failed_ci_only, "amendment.prior_runtime", "not failed",
+                "terminal_failed_exact_head_runtime")
         require(prewrite_scope_refusal(authorization, run_value, jobs),
                 "amendment.prior_runtime", "not failed",
                 "terminal_failed_exact_head_runtime_or_pinned_prewrite_scope_refusal")
@@ -2240,11 +2248,13 @@ def run(authorization_path, *, environ=None, provider=None):
         except AtomRefusal as error:
             result = refusal_output(error, authorization_path)
             result["cost"] = cost_response(authorization_path, handle, result, telemetry_error)
+            result["feedback"] = schema_manager.project_owner_feedback(result)
             error.owner_result = result
             raise
         cost = cost_response(authorization_path, handle, result, telemetry_error)
         if isinstance(result.get("status"), str):
             result["cost"] = cost
+            result["feedback"] = schema_manager.project_owner_feedback(result)
         else:
             print(json.dumps({"event": "soodles.cost", **cost}), file=sys.stderr)
         return result
@@ -2766,7 +2776,17 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
 
     claim = read_json(paths["claim"], "publication_claim")
     publication = restore_publication(state, claim, repair)
-    run_value, jobs = select_run(provider, authorization, claim["head"])
+    try:
+        run_value, jobs = select_run(provider, authorization, claim["head"])
+    except AtomRefusal as error:
+        if error.required == "new_candidate_head_after_failed_ci" and error.invalid.get("value") in (
+                ["failure", "failure", "failure"], ["failure", "failure", "skipped"]):
+            if {"prior_atom", "prior_publication"} & authorization.keys():
+                error.owner = "soodles.issue-atom"
+                error.required = "original_owner_after_one_automatic_correction"
+            else:
+                error.known = {"authorization_sha256": authorization_digest}
+        raise
     try:
         cost_telemetry.record_provider(authorization_path, state, run_value, jobs, save_json)
     except (OSError, ValueError, KeyError, TypeError) as error:
@@ -2915,7 +2935,7 @@ def refusal_output(error, authorization_path):
     else:
         reason = ("Correct the named external input or material owner state; "
                   "never choose a phase-specific route.")
-    return {
+    result = {
         "owner": "soodles.issue-atom", "status": "refused",
         "invalid": error.invalid,
         "next": {
@@ -2929,3 +2949,12 @@ def refusal_output(error, authorization_path):
         "authorizes_landing": False,
         **({"repair": error.repair} if hasattr(error, "repair") else {}),
     }
+    selected_digest = (error.known or {}).get("authorization_sha256") if isinstance(error.known, dict) else None
+    if correction_required and isinstance(selected_digest, str) and SHA64.fullmatch(selected_digest):
+        result["next"] = {
+            "kind": "executable", "owner": "supervisor.authorization", "required": [],
+            "argv": [sys.executable, "-B", str(Path(__file__).resolve().with_name("supervisor_admission.py")),
+                     "correction", str(Path(authorization_path).resolve()), selected_digest,
+                     str(artifact_paths(authorization_path)["directory"] / "correction")],
+            "reason": "Prepare the bounded correction from original authority and fresh owner readback. Consume its returned next."}
+    return result

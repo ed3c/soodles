@@ -269,9 +269,11 @@ def project(identity, observations, gate=None):
                     if isinstance(x.get("scope", {}).get("module"), str)}),
                "basis": "interval union for observed wall; foreground includes I/O; worker time is separate, nested details excluded"}
     from schema_manager import project_cost
+    from test_manager import review_cost
     facts = {"subject": identity, "coverage": coverage, "summary": summary,
              "sources": sorted({x["source"]["sha256"] for x in values})}
-    return {**facts, "schema_projection": project_cost(facts, gate), "authorizes_landing": False}
+    review = review_cost(facts)
+    return {**facts, "schema_projection": project_cost(facts, gate, review=review), "authorizes_landing": False}
 
 
 def read_ref(ref):

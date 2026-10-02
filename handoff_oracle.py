@@ -105,8 +105,10 @@ def _session(root, order_id):
     directory, spawn = matches[0]
     meta = json.loads((directory / "meta.json").read_text())
     events = [json.loads(line) for line in (directory / "events.ndjson").read_text().splitlines()]
-    terminal = [event for event in events if event.get("type") == "stage_message"]
+    terminal = [event for event in events if event.get("type") == "stage_message"
+                and event.get("payload", {}).get("outcome") not in (None, "")]
     if (len(terminal) != 1 or terminal[0].get("payload", {}).get("outcome") != "completed"
+            or [event for event in events if event.get("type") == "stage_message"][-1] != terminal[0]
             or terminal[0]["payload"].get("blocking") is not False
             or meta.get("status") != "exited" or meta.get("alive") is not False):
         raise RuntimeError("original session lacks one completed typed outcome and exit")

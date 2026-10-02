@@ -205,6 +205,23 @@ repair diagnoses. Unknown behavior retains its evidence and current owner
 continuation. Offline Agent measurement requires task selection under the root
 P-class guidance. Diagnostics never rewrite owner next/request or create test
 demand.
+An unregistered signal returns `owner_discovery` without an offline request.
+The Agent inspects source, logs, and owner readback before selecting an eval.
+
+For confirmed failed CI, the original atom may return the existing supervisor
+admission producer's correction command. The producer derives one fixed
+selection from the original task, publication, carrier, and external judge.
+It checks fresh failed CI and the unchanged base. The resulting admission uses
+the existing Noodle correction flow. It creates no separate runner or model
+budget. Unknown effects or conflicting lineage refuse. A derived correction
+cannot derive another automatic correction. Preparation does not invoke the
+unavailable model action or count a Noodle writer as one inference. Fixed preparation readback preserves the
+selected identity after interruption.
+
+Normal cost observations pass through Test Manager before Schema Manager.
+The atom consumes the projection with its current owner response. It exposes
+the same `next`, the review, and unknown effectiveness evidence. A historical
+failure or a repeated module is not by itself a current repair instruction.
 
 
 ### Fixed host finalization — ed3c/soodles#209

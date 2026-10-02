@@ -5,6 +5,7 @@ from functools import lru_cache
 import hashlib
 import json
 import re
+import time
 from pathlib import Path
 
 from system_context import compile_repair, unique_object
@@ -240,7 +241,7 @@ class Manager:
                 } for node, rule in self.plan.rules.items()}}
 
 
-def project_cost(facts, gate=None):
+def project_cost(facts, gate=None, *, review=None):
     """Data-only observation projection; original owners retain every hard gate."""
     require(isinstance(facts, dict) and set(facts) == {"subject", "coverage", "summary", "sources"},
             "cost_facts")
@@ -258,8 +259,285 @@ def project_cost(facts, gate=None):
                 validate_numbers(child, path + "." + str(index))
     validate_numbers(facts["summary"], "summary")
     gate = gate or {"status": "unknown", "basis": "original owner evidence unavailable"}
+    if review is not None:
+        require(review.get("owner") == "test-manager"
+                and review.get("subject") == facts["subject"]
+                and review.get("sources") == facts["sources"]
+                and review.get("effects") == [] and review.get("test_demand") is None
+                and review.get("authorizes_landing") is False, "cost_review_identity")
     return {"status": "observed", "subject": facts["subject"],
             "coverage": facts["coverage"], "cost": facts["summary"],
+            "sources": facts["sources"], "review": review,
             "hard_gate": gate, "required": gate.get("required"),
             "budget_basis": gate.get("basis"),
             "authorizes_landing": False, "effects": [], "test_demand": None}
+
+
+def project_owner_feedback(result):
+    """Bind cost findings to the current owner's continuation, without effects."""
+    started = time.perf_counter()
+    cost = result.get("cost") or {}
+    review = (cost.get("schema_projection") or {}).get("review")
+    terminal = result.get("status") == "resolved"
+    next_action = result.get("next")
+    return {"owner": "schema-manager", "state": result.get("status"),
+            "phase": result.get("phase"), "transition_owner": result.get("owner"),
+            "next": next_action, "cost_review": review,
+            "review_disposition": "history_retained" if terminal else
+                "consume_current_owner_next" if next_action else "owner_readback_required",
+            "dag": {
+                "cost_review": {"status": "observed" if review else "unknown",
+                                "requires": ["normal_execution_logs", "test_manager_review"]},
+                "owner_transition": {"status": "complete" if terminal else
+                    "available" if next_action else "unknown", "requires": ["current_owner_readback"]},
+                "effectiveness": {"status": "unknown", "requires": ["task_selected_normal_use_evidence"]}},
+            "limits": ["Historical failures do not prove a current defect.",
+                       "Owner resolution does not prove all requested outcomes or reduced cost."],
+            "elapsed_ms": (time.perf_counter() - started) * 1000,
+            "effects": [], "test_demand": None, "authorizes_landing": False}
+
+
+class FeedbackRefusal(ValueError):
+    def __init__(self, field, reason, validity="INVALID"):
+        self.field, self.reason, self.validity = field, reason, validity
+        super().__init__(f"{field}: {reason}")
+
+
+def feedback_require(condition, field, reason, validity="INVALID"):
+    if not condition:
+        raise FeedbackRefusal(field, reason, validity)
+
+
+def feedback_object(value, fields, field):
+    feedback_require(type(value) is dict and set(value) == set(fields), field,
+                     "expected fields: " + ", ".join(sorted(fields)))
+
+
+def feedback_json(raw, field):
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            feedback_require(key not in result, field, "duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def constant(value):
+        raise FeedbackRefusal(field, "nonfinite JSON value: " + value)
+    def number(value):
+        import math
+        parsed = float(value)
+        feedback_require(math.isfinite(parsed), field, "nonfinite JSON number")
+        return parsed
+    try:
+        return json.loads(raw, object_pairs_hook=pairs, parse_constant=constant, parse_float=number)
+    except (ValueError, UnicodeError) as error:
+        if isinstance(error, FeedbackRefusal):
+            raise
+        raise FeedbackRefusal(field, str(error)) from error
+
+
+def feedback_bytes(ref, field):
+    feedback_object(ref, {"path", "sha256"}, field)
+    feedback_require(isinstance(ref["path"], str) and Path(ref["path"]).is_absolute(),
+                     field + ".path", "expected absolute file path")
+    feedback_require(isinstance(ref["sha256"], str)
+                     and re.fullmatch(r"[0-9a-f]{64}", ref["sha256"]),
+                     field + ".sha256", "expected SHA-256")
+    try:
+        raw = Path(ref["path"]).read_bytes()
+    except FileNotFoundError as error:
+        raise FeedbackRefusal(field, "selected file is missing", "INCONCLUSIVE") from error
+    except (OSError, ValueError) as error:
+        raise FeedbackRefusal(field, str(error)) from error
+    feedback_require(hashlib.sha256(raw).hexdigest() == ref["sha256"], field, "file digest mismatch")
+    return raw
+
+
+def pclass_feedback(selection_path, expected_sha256):
+    """Evaluate selected consumer reports. Never run an evaluator or infer effects."""
+    started = time.perf_counter()
+    result = {"schema": 1, "owner": "schema-manager.pclass-feedback",
+              "observation_scope": "consumer_report", "evidence_validity": "INCONCLUSIVE",
+              "behavior": None, "authorizes_landing": False, "effects": [],
+              "test_demand": None, "selection_sha256": expected_sha256,
+              "sources": [], "cases": [], "dag": {},
+              "limits": ["File digests bind bytes, not observer independence or complete capture.",
+                         "Field equality checks reported behavior, not unobserved effects.",
+                         "No formal writing compliance or comparative improvement is established."]}
+    try:
+        selection = feedback_json(feedback_bytes(
+            {"path": str(selection_path), "sha256": expected_sha256}, "selection"), "selection")
+        version = selection.get("schema") if isinstance(selection, dict) else None
+        selection_fields = {"schema", "protocol", "observations"}
+        if version == 2:
+            selection_fields.add("criteria_review")
+        feedback_object(selection, selection_fields, "selection")
+        feedback_require(type(version) is int and version in (1, 2),
+                         "selection.schema", "unsupported schema")
+        protocol = feedback_json(feedback_bytes(selection["protocol"], "protocol"), "protocol")
+        protocol_fields = {"schema", "subject", "instructions", "methods", "cases"}
+        if version == 2:
+            protocol_fields.add("requirements")
+        feedback_object(protocol, protocol_fields, "protocol")
+        feedback_require(type(protocol["schema"]) is int and protocol["schema"] == version,
+                         "protocol.schema", "unsupported schema")
+        feedback_require(isinstance(protocol["subject"], str) and protocol["subject"].strip(),
+                         "protocol.subject", "expected named behavior claim")
+        result["subject"] = protocol["subject"]
+        result["protocol"] = selection["protocol"]
+        result["instructions"] = protocol["instructions"]
+        result["sources"].append(selection["protocol"])
+        for field in ("instructions", "methods"):
+            refs = protocol[field]
+            feedback_require(type(refs) is list and bool(refs), "protocol." + field, "expected selected files")
+            paths = set()
+            for ref in refs:
+                feedback_bytes(ref, "protocol." + field)
+                path = str(Path(ref["path"]).resolve())
+                feedback_require(path not in paths, "protocol." + field, "duplicate file")
+                paths.add(path)
+                result["sources"].append(ref)
+        instructions = {ref["path"]: ref["sha256"] for ref in protocol["instructions"]}
+        result["dag"]["instructions"] = {"status": "ready", "requires": []}
+        cases = protocol["cases"]
+        feedback_require(type(cases) is list and bool(cases), "protocol.cases", "expected selected cases")
+        selected = {}
+        for case in cases:
+            feedback_object(case, {"id", "input", "expected"}, "protocol.case")
+            name = case["id"]
+            feedback_require(isinstance(name, str) and re.fullmatch(r"[a-zA-Z0-9_-]+", name)
+                             and name not in selected, "protocol.case.id", "expected unique case ID")
+            feedback_require(type(case["expected"]) is dict and bool(case["expected"]),
+                             "protocol.case.expected", "expected nonempty output field predicates")
+            feedback_bytes(case["input"], "protocol.case.input")
+            result["sources"].append(case["input"])
+            selected[name] = case
+        result["case_fingerprints"] = {
+            name: hashlib.sha256(json.dumps({"instructions": protocol["instructions"],
+                "methods": protocol["methods"], "requirements": protocol.get("requirements"),
+                "case": case}, sort_keys=True).encode()).hexdigest()
+            for name, case in selected.items()}
+        result["criteria"] = {"status": "NOT_REVIEWED", "scope": "legacy field comparison"}
+        if version == 2:
+            result["requirements"] = protocol["requirements"]
+            result["criteria"] = review_criteria(protocol, selection, selected)
+            result["sources"].append(protocol["requirements"])
+            if selection["criteria_review"] is not None:
+                result["sources"].append(selection["criteria_review"])
+            if result["criteria"]["status"] != "SUPPORTED":
+                result.update(evidence_validity="VALID", status="criteria_pending",
+                    next={"owner": "review-writing", "operation": "review_criteria",
+                          "required": result["criteria"]["required"]})
+                result["dag"]["criteria"] = {"status": "unknown", "requires": ["requirements", "criteria_review"]}
+                result["dag"]["feedback"] = {"status": "unknown", "requires": ["criteria"]}
+                result["elapsed_ms"] = (time.perf_counter() - started) * 1000
+                return result
+            result["dag"]["criteria"] = {"status": "ready", "requires": ["requirements", "criteria_review"]}
+        observations = selection["observations"]
+        feedback_require(type(observations) is list, "observations", "expected list")
+        observed = {}
+        for observation in observations:
+            feedback_object(observation, {"case_id", "report", "trace"}, "observation")
+            name = observation["case_id"]
+            feedback_require(isinstance(name, str) and name in selected and name not in observed,
+                             "observation.case_id", "duplicate or unselected case")
+            feedback_require(bool(feedback_bytes(observation["trace"], "observation.trace")),
+                             "observation.trace", "capture is empty", "INCONCLUSIVE")
+            report = feedback_json(feedback_bytes(observation["report"], "observation.report"), "report")
+            feedback_object(report, {"schema", "case_id", "instructions", "input_sha256", "output"}, "report")
+            feedback_require(type(report["schema"]) is int and report["schema"] == 1,
+                             "report.schema", "unsupported schema")
+            feedback_require(report["case_id"] == name and report["instructions"] == instructions
+                             and report["input_sha256"] == selected[name]["input"]["sha256"],
+                             "report.identity", "case, instruction or input identity mismatch")
+            feedback_require(type(report["output"]) is dict, "report.output", "expected object")
+            observed[name] = report["output"]
+            result["sources"].extend((observation["report"], observation["trace"]))
+        projection_started = time.perf_counter()
+        missing, failed = [], []
+        for name, case in selected.items():
+            output = observed.get(name, {})
+            checks = {}
+            for key, expected in case["expected"].items():
+                checks[key] = (None if key not in output else
+                               json.dumps(output[key], sort_keys=True) == json.dumps(expected, sort_keys=True))
+                if checks[key] is None:
+                    missing.append(name + ".output." + key)
+                elif checks[key] is False:
+                    failed.append(name + ".output." + key)
+            status = "unknown" if any(v is None for v in checks.values()) else "failed" if not all(checks.values()) else "passed"
+            result["cases"].append({"id": name, "status": status, "checks": checks,
+                                    "observed": output if name in observed else None})
+            result["dag"]["case:" + name] = {"status": status, "requires": ["instructions"] + (["criteria"] if version == 2 else [])}
+        result["evidence_validity"] = "INCONCLUSIVE" if missing else "VALID"
+        if not missing:
+            result["behavior"] = {"classification": "FAIL" if failed else "PASS", "barriers": failed}
+        operation = "supply_behavior_evidence" if missing else "correct_pclass" if failed else "consume_verified_behavior"
+        result["next"] = {"owner": "evals" if missing else "review-writing" if failed else "task-owner",
+                          "operation": operation, "required": missing or failed}
+        result["dag"]["feedback"] = {"status": "unknown" if missing else "failed" if failed else "ready",
+                                      "requires": ["case:" + name for name in selected]}
+        result["projection_ms"] = (time.perf_counter() - projection_started) * 1000
+    except FeedbackRefusal as error:
+        result["evidence_validity"] = error.validity
+        result["behavior"] = None
+        result["problem"] = {"field": error.field, "reason": error.reason}
+        result["next"] = {"owner": "supervisor", "operation": "supply_bound_evidence",
+                          "required": [error.field]}
+        result["dag"]["feedback"] = {"status": "unknown" if error.validity == "INCONCLUSIVE" else "invalid",
+                                      "requires": [error.field]}
+    result["status"] = ("inconclusive" if result["evidence_validity"] == "INCONCLUSIVE" else
+                        "refused" if result["evidence_validity"] == "INVALID" else
+                        "passed" if result["behavior"]["classification"] == "PASS" else "failed")
+    result["elapsed_ms"] = (time.perf_counter() - started) * 1000
+    return result
+
+
+def project_feedback_history(result, failed_attempts):
+    """Expose the existing owner's failure history and its required reassessment."""
+    result = {**result, "failed_attempts": failed_attempts}
+    if failed_attempts >= 3 and (result.get("criteria", {}).get("status") == "REVISION_REQUIRED"
+            or (result.get("behavior") or {}).get("classification") == "FAIL"):
+        result["next"] = {"owner": "review-writing", "operation": "reassess_cause",
+                          "required": ["root_cause_review_with_original_requirements"]}
+    return result
+
+
+def review_criteria(protocol, selection, cases):
+    """Validate scoped reasoning evidence; do not certify its semantic truth."""
+    try:
+        requirements = feedback_bytes(protocol["requirements"], "protocol.requirements").decode("utf-8")
+    except UnicodeError as error:
+        raise FeedbackRefusal("protocol.requirements", "expected UTF-8 requirements") from error
+    ref = selection["criteria_review"]
+    if ref is None:
+        return {"status": "UNKNOWN", "required": ["criteria_review"]}
+    review = feedback_json(feedback_bytes(ref, "criteria_review"), "criteria_review")
+    feedback_object(review, {"schema", "protocol_sha256", "reviewer", "checks"}, "criteria_review")
+    feedback_require(type(review["schema"]) is int and review["schema"] == 1
+                     and review["protocol_sha256"] == selection["protocol"]["sha256"],
+                     "criteria_review.protocol", "review must bind the selected protocol")
+    feedback_require(isinstance(review["reviewer"], str) and review["reviewer"].strip(),
+                     "criteria_review.reviewer", "name the actual reviewing Agent or observer")
+    feedback_object(review["checks"], cases, "criteria_review.checks")
+    required, unsupported = [], []
+    for name, case in cases.items():
+        feedback_object(review["checks"][name], case["expected"], "criteria_review." + name)
+        for field, check in review["checks"][name].items():
+            key = name + "." + field
+            feedback_object(check, {"status", "requirement_quote", "reason"}, "criteria_review." + key)
+            feedback_require(check["status"] in ("supported", "unsupported", "unknown")
+                and isinstance(check["reason"], str) and check["reason"].strip()
+                and isinstance(check["requirement_quote"], str),
+                "criteria_review." + key, "supply status, requirement quote, and reasoning")
+            if check["status"] == "supported":
+                feedback_require(bool(check["requirement_quote"].strip())
+                    and check["requirement_quote"] in requirements,
+                    "criteria_review." + key, "supported condition needs an exact requirement quote")
+            else:
+                required.append(key)
+                if check["status"] == "unsupported":
+                    unsupported.append(key)
+    return {"status": "REVISION_REQUIRED" if unsupported else "UNKNOWN" if required else "SUPPORTED",
+            "required": required, "reviewer": review["reviewer"], "source": ref,
+            "requirements": protocol["requirements"],
+            "limits": "Agent reasoning bound to requirements; not independent authority or universal correctness."}

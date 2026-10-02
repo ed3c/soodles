@@ -823,6 +823,171 @@ def authorize(selection_path, expected_sha256, output):
             shutil.rmtree(staging)
 
 
+def _correction_selection(authorization, reference, issue, publication):
+    selection = {
+        "schema": 1, "repository": authorization["repository"],
+        "control_root": authorization["control_root"],
+        "issue": issue, "task": authorization["task"],
+        "carrier": {**authorization["carrier"], "noodle": authorization["noodle"]},
+        "landing_owner": authorization["landing_owner"],
+        "instruction_paths": [pin["path"] for pin in authorization.get("instruction_pins", [])],
+        "prior_atom": reference, "prior_publication": publication,
+    }
+    if "lifecycle_owner" in authorization:
+        selection["lifecycle_owner"] = authorization["lifecycle_owner"]
+    return selection
+
+
+def _correction_readback(target, authorization, reference):
+    """Read fixed selection bytes before consulting any mutable owner."""
+    require(stat.S_ISDIR(target.lstat().st_mode), "correction.output", str(target),
+            required="original_correction_selection")
+    values, hashes = {}, {}
+    for name in ("selection", "correction-binding"):
+        path = target / (name + ".json")
+        try:
+            require(stat.S_ISREG(path.lstat().st_mode), "correction.component", str(path))
+            fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+            with os.fdopen(fd, "rb") as stream:
+                require(stat.S_ISREG(os.fstat(stream.fileno()).st_mode),
+                        "correction.component", str(path))
+                raw = stream.read()
+            values[name] = json.loads(raw, object_pairs_hook=_unique_object)
+            hashes[name] = _sha256(raw)
+        except (OSError, ValueError, AdmissionRefusal) as error:
+            raise AdmissionRefusal("correction.component", str(path),
+                                   "supervisor", "original_correction_selection") from error
+    binding, selection = values["correction-binding"], values["selection"]
+    require(isinstance(binding, dict) and type(binding.get("schema")) is int
+            and binding == {"schema": 1, "prior_atom": reference, "output": str(target),
+                        "selection_sha256": hashes["selection"]},
+            "correction.selection_binding", binding, required="original_correction_selection")
+    require(isinstance(selection, dict) and isinstance(selection.get("issue"), dict),
+            "correction.selection", selection, required="original_correction_selection")
+    issue = selection["issue"]
+    import issue_atom
+    expected_body = authorization["issue"]["body"]
+    if "number" not in authorization["issue"]:
+        expected_body = expected_body.rstrip() + "\n\n" + issue_atom.marker(reference["sha256"]) + "\n"
+    require(set(issue) == {"number", "title", "body"}
+            and type(issue["number"]) is int and issue["number"] > 0
+            and issue["number"] == authorization["issue"].get("number", issue["number"])
+            and issue["title"] == authorization["issue"]["title"]
+            and issue["body"] == expected_body
+            and selection == _correction_selection(
+                authorization, reference, issue, selection.get("prior_publication")),
+            "correction.selection", "changed", required="original_correction_selection")
+    return authorize(str(target / "selection.json"), hashes["selection"], str(target / "prepared"))
+
+
+def correction(authorization_path, expected_sha256, output, *, environ=None, provider=None):
+    """Prepare one same-base correction through the existing authorization owner."""
+    import issue_atom
+    import provider_credential
+    try:
+        return _prepare_correction(authorization_path, expected_sha256, output,
+                                   environ=environ, provider=provider)
+    except issue_atom.AtomRefusal as error:
+        raise AdmissionRefusal(error.invalid["field"], error.invalid["value"],
+                               error.owner, error.required) from error
+    except provider_credential.CredentialRefusal as error:
+        raise AdmissionRefusal(error.field, error.value, "supervisor", error.required) from error
+
+
+def _prepare_correction(authorization_path, expected_sha256, output, *, environ, provider):
+    import issue_atom
+    import provider_credential
+
+    source = Path(authorization_path)
+    require(source.is_absolute() and source.is_file() and not source.is_symlink(),
+            "correction.authorization", str(source), required="original_external_authorization")
+    raw = source.read_bytes()
+    require(isinstance(expected_sha256, str) and issue_atom.SHA64.fullmatch(expected_sha256)
+            and _sha256(raw) == expected_sha256,
+            "correction.authorization_sha256", _sha256(raw),
+            required="unchanged_original_authorization")
+    authorization = json.loads(raw, object_pairs_hook=_unique_object)
+    reference = {"path": str(source.resolve()), "sha256": expected_sha256}
+    require(isinstance(authorization, dict)
+            and not ({"prior_atom", "prior_publication"} & authorization.keys()),
+            "correction.lineage", "automatic_correction_already_derived",
+            owner="soodles.issue-atom", required="original_owner_after_one_automatic_correction")
+    root = Path(authorization["control_root"]).resolve()
+    issue_atom.validate_prior_atom_ref(reference, root)
+    paths = issue_atom.artifact_paths(source.resolve())
+    target = Path(output)
+    require(target.is_absolute(), "correction.output", str(target))
+    target = target.parent.resolve() / target.name
+    require(target == paths["directory"] / "correction" and not target.is_relative_to(root)
+            and target.parent.is_dir(), "correction.output", str(target),
+            required="original_atom_directory/correction")
+    if os.path.lexists(target):
+        return _correction_readback(target, authorization, reference)
+
+    authorization, _ = issue_atom.validate_authorization(source, expected_sha256)
+    state = issue_atom.read_json(paths["state"], "correction.state")
+    require(state.get("authorization_sha256") == expected_sha256
+            and state.get("phase") == "ci" and not state.get("landing_activation")
+            and not paths["landing"].exists(),
+            "correction.state", state.get("phase"), owner="soodles.issue-atom",
+            required="exact_prelanding_failed_candidate")
+    # Admission preparation does not execute the repair policy's unavailable
+    # model action. Its fixed output permits one derivation, not a renewed ledger.
+    # Existing unknown repair effects still need their original owner readback.
+    repair_record = state.get("repair")
+    require(repair_record is None or isinstance(repair_record, dict),
+            "correction.repair_history", "invalid", owner="soodles.issue-atom",
+            required="original_repair_owner_readback_without_retry")
+    history = repair_record.get("history", []) if repair_record is not None else []
+    require(isinstance(history, list) and all(isinstance(entry, dict)
+            and entry.get("status") == "confirmed" for entry in history),
+            "correction.repair_history", "unresolved", owner="soodles.issue-atom",
+            required="original_repair_owner_readback_without_retry")
+    number = state.get("issue", {}).get("number")
+    require(type(number) is int and number > 0, "correction.issue", number,
+            owner="soodles.issue-atom", required="original_issue_checkpoint")
+    publication = state.get("publication")
+    require(isinstance(publication, dict), "correction.publication", publication,
+            owner="soodles.issue-atom", required="original_publication_readback")
+    expected_body = authorization["issue"]["body"]
+    if "number" not in authorization["issue"]:
+        expected_body = expected_body.rstrip() + "\n\n" + issue_atom.marker(expected_sha256) + "\n"
+    issue = {"number": number, "title": authorization["issue"]["title"], "body": expected_body}
+    candidate = {**authorization, "issue": issue, "prior_atom": reference,
+                 "prior_publication": publication}
+    # This owner proves the original order, parked review, process and clean worktree.
+    issue_atom.verify_prior_atom(candidate)
+    if provider is None:
+        env = provider_credential.resolve_host_environment(root, environ=environ)
+        token = provider_credential.supply_token(authorization["repository"],
+            {"contents": "read", "issues": "read", "pull_requests": "read", "actions": "read"},
+            environ=env)
+        provider = issue_atom.GitHubProvider(authorization["repository"], token=token)
+    current, body = issue_atom.exact_issue(provider, authorization, expected_sha256)
+    require(isinstance(current, dict) and current.get("number") == number
+            and current.get("state") == "open" and body == expected_body,
+            "correction.issue", number, owner="GitHub", required="exact_open_original_issue")
+    issue_atom.verify_failed_prior(provider, candidate, failed_ci_only=True)
+    selection = _correction_selection(authorization, reference, issue, publication)
+    data = _canonical(selection)
+    binding = {"schema": 1, "prior_atom": reference, "output": str(target),
+               "selection_sha256": _sha256(data)}
+    staging = Path(tempfile.mkdtemp(prefix=".correction-", dir=target.parent))
+    try:
+        _write_durable(staging / "selection.json", data)
+        _write_durable(staging / "correction-binding.json", _canonical(binding))
+        _sync_directory(staging)
+        try:
+            _publish_directory(staging, target)
+        except FileExistsError:
+            return _correction_readback(target, authorization, reference)
+        _sync_directory(target.parent)
+    finally:
+        if staging.exists():
+            shutil.rmtree(staging)
+    return _correction_readback(target, authorization, reference)
+
+
 def parser():
     value = argparse.ArgumentParser(
         description="Materialize one externally selected local Soodles admission bundle.")
@@ -836,6 +1001,10 @@ def parser():
     authorize_parser.add_argument("selection")
     authorize_parser.add_argument("expected_sha256")
     authorize_parser.add_argument("output")
+    correction_parser = sub.add_parser("correction")
+    correction_parser.add_argument("authorization")
+    correction_parser.add_argument("expected_sha256")
+    correction_parser.add_argument("output")
     return value
 
 
@@ -844,6 +1013,8 @@ def main():
     try:
         if args.verb == "authorize":
             result = authorize(args.selection, args.expected_sha256, args.output)
+        elif args.verb == "correction":
+            result = correction(args.authorization, args.expected_sha256, args.output)
         else:
             result = prepare(
                 _read_json(args.issue_readback, "supervisor.issue_readback"),
@@ -857,7 +1028,7 @@ def main():
             "kind": "input", "owner": getattr(error, "owner", "supervisor"),
             "required": [getattr(error, "required", "valid_supervisor_input")]})
         print(json.dumps({
-            "owner": "supervisor.authorization" if args.verb == "authorize" else "supervisor.admission",
+            "owner": "supervisor.authorization" if args.verb in {"authorize", "correction"} else "supervisor.admission",
             "status": "refused",
             "invalid": invalid,
             "next": next_action,
