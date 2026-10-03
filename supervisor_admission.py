@@ -329,7 +329,7 @@ def _config_bytes(output, carrier, *, bootstrap=False):
 
 def prepare(issue_readback, carrier, control_root, output, *,
             interpreter=None, environ=None, task=None, wire_host=False, instruction_pins=None,
-            correction=False, failure_context=None, runtime_root=None, readback=False):
+            correction=False, failure_context=None, runtime_root=None, readback=False, recovery_context=None):
     """Create one immutable external bundle and return the only start continuation."""
     environ = os.environ if environ is None else environ
     require(type(correction) is bool and (not correction or wire_host),
@@ -374,7 +374,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
     body = issue_readback.get("body")
     contract = parse_contract(body)
     head = _git(root, "rev-parse", "HEAD")
-    if contract.get("schema", 0) >= 3:
+    if contract.get("schema", 0) >= 3 and recovery_context is None:
         require(head == contract["base_head"], "supervisor.control_root.head", head,
                 owner="supervisor", required="fresh_issue_base_checkout")
     base_head = contract["base_head"] if contract.get("schema", 0) >= 3 else head
@@ -416,8 +416,18 @@ def prepare(issue_readback, carrier, control_root, output, *,
     if failure_context is not None:
         require(correction, "supervisor.failure_context", "requires correction")
         envelope["execution"]["failure_context"] = failure_context
+    if recovery_context is not None:
+        require(correction and runtime_root is not None, "supervisor.recovery", "requires held external runtime")
+        original = json.loads(Path(recovery_context["original_envelope"]["path"]).read_bytes())
+        envelope = {**original, "execution": {**original["execution"],
+                    "carrier": carrier, "recovery_context": recovery_context}}
+        from issue_admission import validate_recovery_context
+        validate_recovery_context(envelope)
+        worker_head = original["execution"]["source_head"]
+        require(_git(worktree, "rev-parse", "HEAD") == worker_head,
+                "supervisor.recovery.head", "changed", required="original_candidate_head")
     validate_issue(issue_readback, envelope)
-    if correction:
+    if correction and recovery_context is None:
         import issue_execution
         issue_execution.validate_worktree(worktree, envelope)
     require(isinstance(envelope["execution"]["task"], str)

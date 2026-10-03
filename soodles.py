@@ -403,7 +403,7 @@ Every result has authorizes_landing=false; no delivery or landing authority.""")
         description="Advance one authorized local atom through its exact next owner transition.")
     atom_run.add_argument("authorization")
     atom_resume = atom_verbs.add_parser(
-        "resume", description="Bind an external runtime to the original stopped post-write atom.")
+        "resume", description="Bind a selected runtime to original post-write, correction-start or interruption custody.")
     atom_resume.add_argument("authorization")
     atom_resume.add_argument("descriptor")
     atom_resume.add_argument("sha256")

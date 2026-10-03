@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 234
+  },
+  "instructions": [
+    {
+      "path": "contracts/system-v1/issue-atom.md",
+      "baseline_sha256": "049557bfbccd335bbf3c3bcef9fc9014f9ec8ae26234dcc5c40d2d6f98fb2512",
+      "treatment_sha256": "03391f27a4cedb40aa80e44e7bc45a3bde6aab0f713e6022080a2a5a0aa28368"
+    },
+    {
+      "path": ".agents/skills/verify-soodles/features/delivery-recovery.md",
+      "baseline_sha256": "d530630358c275e011aafe3c26bef2d628ae0df2786c6904d05ccef1ab41caa8",
+      "treatment_sha256": "6ba36c6a32588c7dea822146c4ac2710928c276ccaa98bccf9a2564d7b01f4c1"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/interrupted-owner-recovery/design.md",
+      "role": "evidence",
+      "sha256": "767e0e20fb6438cd6d1ea3a1c8d820d9a1cceab43928f4aed3c5c9702d0c0745"
+    },
+    {
+      "path": "docs/experiments/interrupted-owner-recovery/handoff.md",
+      "role": "evidence",
+      "sha256": "98b3e87d0a2012be978e23129a8ec3471732b2434c143980eb99347f94019b34"
+    },
+    {
+      "path": "docs/experiments/interrupted-owner-recovery/results.md",
+      "role": "evidence",
+      "sha256": "9dc5b8c0900c991d6f4696422961276e440b4f4275f6fbd01fc2e5a632ef176b"
+    }
+  ],
+  "owner": {
+    "name": "Original issue-atom and Noodle interruption owners; incomplete adapter admission retained",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#234"
+  },
+  "authorizes_landing": false
+}

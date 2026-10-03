@@ -197,10 +197,11 @@ def validate_entries(root, head, value, paths, read_source=None):
     return entries
 
 
-def compile_repair(root):
+def compile_repair(root, *, read=None):
     """Compile the already source-bound owner's finite P closure at admission."""
-    def read(name):
-        return (root / name).read_text()
+    if read is None:
+        def read(name):
+            return (root / name).read_text()
     value = json.loads(read(ROUTES), object_pairs_hook=unique_object,
                        parse_constant=invalid_constant)
     paths = validate_routes(value)

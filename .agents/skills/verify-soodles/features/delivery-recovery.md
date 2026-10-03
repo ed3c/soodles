@@ -75,3 +75,35 @@ because an input changed. Never remove/skip a failing case to get green. Record
 top-level invocations separately from child commands, intentional faults and
 expected refusals; unmeasured counts remain unknown. Delivery/base case summaries
 are not complete child CLI traces; disclose that evidence limit.
+
+## 原 prepublication interruption 的接入控制
+
+若 task 選定此接入，先取得 supervisor 選定的 Noodle binary 與 digest。
+使用 disposable Git／owner fixture。不得操作 live interrupted Issue。
+此控制不要求上方全部 oracles。Test Manager 選擇必要 producer、consumer、
+普通 resume 和 unknown-effect controls。
+
+使用既有 `resume AUTH DESCRIPTOR SHA256` 的
+`kind=prepublication_interruption` descriptor。其 schema 由
+`contracts/system-v1/issue-atom.md` 定義。保留原 authorization 與 envelope。
+先驗證 descriptor 不符時沒有 prepare、start、Issue write 或 dispatch。
+再驗證 native prepare 零 dispatch、dirty candidate 保存、manual hold、
+edit-item ack、mode release 和唯一 successor。使用 sentinel process 代替模型。
+缺少已選定 native bytes 時，記錄 native 接入未完成。Mock receipt 只支持 Python 邊界。
+
+Worker 必須取得 candidate_unchanged=true 和 exact successor receipt 才能使用
+保留的 dirty candidate。用真實短命 process 延後 dispatch-result 的出現。
+驗證 receipt 前 sentinel 未啟動。驗證 timeout、foreign receipt、owner 消失
+和 candidate drift 都拒絕。沒有 receipt 不得放行，也不得重新 dispatch。
+Supervisor 的 dispatched readback 只要求原 lineage。不要把 writer 合法修改後的
+manifest 變動當成新的恢復指令。原 session hashes 改變必須拒絕。
+
+使用小 fixture 固定原 repair base，然後改動 control source。
+驗證 postwrite 和 interruption 共用的 source reader 保留原 binding 與非零 ledger。
+缺少原 object、binding/context/policy 不符或未確認 effect 必須拒絕。
+新 runtime closure 的增減不得重定義歷史 source identity。
+
+完成 worker 接入後，追查原 writer 的 `./stage-outcome` 到其 validator。
+若舊 candidate 的 validator 不接受 recovery_context，保留此 consumer 缺口，
+交回原 admission owner 補足範圍。不要修改未准許的 adapter，也不要宣稱整條恢復完成。
+工程 source、fixture 或落地成功，都不是原 Issue 的 publication、landing 或正常使用證據。
