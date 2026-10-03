@@ -16,6 +16,26 @@ Separate observed facts from assumptions. If evidence is missing, name the gap.
 Clear wording does not make an unsupported claim true.
 Correct the reasoning, not just the wording of its conclusion.
 
+Use zero-context explanations for algorithms and design choices in the reviewed scope.
+Each explanation must expose why the choice follows from the problem constraints
+and what actually happens at runtime. State the required outcome, constraints,
+evidence, and premises. Explain the choice and why a relevant simpler alternative
+does not meet those constraints. If it does, prefer that alternative.
+Name the runtime actor, inputs, checks, state changes, effects, and failure path.
+Distinguish proposed behavior, behavior traced from source, and observed execution.
+State the observable acceptance, rejection, and unknown conditions.
+A summary that needs no chat history is insufficient if it omits this reasoning.
+Keep the explanation proportional to the decision. This adds no experiment or gate.
+
+An unknown error may come from an incorrect inference. Use the writing rules to
+make its premises and acceptance boundary explicit before requesting a product decision.
+Do not treat semantic acceptance as subjective by default or use that label for handoff.
+Derive acceptance and rejection from the original requirements and available evidence.
+Correct unsupported criteria before judging Agent behavior. Preserve the required outcome.
+If a decision remains unresolved, name the conflicting constraints or missing premise
+and explain why existing evidence and authorization cannot resolve it.
+Clear wording neither supplies missing facts nor grants permission for an effect.
+
 Apply these principles as a practical writing aid. If strict wording obscures
 the meaning, relax it while keeping the explanation clear and exact. A request
 to move "80% toward ASD-STE100" describes a style preference, not a measured

@@ -35,6 +35,10 @@ Repeat an input check only when its bytes change or an observation contradicts i
 
 Use the [writing review procedure](features/writing-review.md).
 Review the requested passage and the nearby text needed to interpret it.
+For each algorithm or design choice in scope, expose its problem constraints,
+supporting premises, selection reason, and runtime behavior. Apply the procedure's
+zero-context review. Clarify semantic acceptance boundaries before treating them
+as unresolved product decisions. Correct faulty reasoning as well as prose.
 Do not expand a local review into a repository-wide rewrite.
 Correct authorized defects, then re-read the saved file and its diff.
 For a P-class result, follow the [behavior feedback procedure](features/pclass-feedback.md).

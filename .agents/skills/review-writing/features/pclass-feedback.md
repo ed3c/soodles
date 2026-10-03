@@ -12,9 +12,14 @@ A changed instruction needs evidence for its saved bytes.
 Load the applicable installed evals skill. Use `eval-audit` to inspect an existing
 pipeline. Use `error-discovery` for unclassified traces. Use `evals-start` when
 the needed method is unknown. Record the actual method files and their digests.
-Use objective checks for structured decisions. If a judgment requires semantic
-interpretation, use `write-judge-prompt` and `validate-evaluator`. Missing human
-labels or judge calibration remain evidence gaps. Do not invent ground truth.
+Before scoring behavior, use the writing review to derive each condition from
+the original requirement, stated premises, and available evidence. Explain why
+the design follows from those constraints and what happens at runtime.
+Clarify semantic acceptance boundaries before treating them as product decisions.
+Use objective checks for structured decisions. If a remaining behavior question
+requires a semantic model judge, use `write-judge-prompt` and `validate-evaluator`.
+Missing human labels or judge calibration remain evidence gaps. Do not invent
+ground truth or require a model judge for a condition that code and receipts can resolve.
 
 This procedure verifies observed behavior for selected tasks. It does not claim
 that wording caused an improvement. A comparative claim needs the selected
@@ -152,6 +157,11 @@ A supported condition needs an exact quote from the requirement file.
 Its reason explains why the task input makes that expected result necessary.
 The reviewing Agent reads the requirement, case, and available raw observations.
 It checks omitted outcomes, contradictory inputs, and expectations with no premise.
+An exact output label is required only when the input or selected contract defines it.
+Otherwise, check the required behavior without inventing a label as the acceptance boundary.
+Review condition validity and observed behavior separately. Correct a faulty condition
+within the original requirement before scoring new behavior. Do not rewrite it merely
+to match a consumer's answer. Preserve the original condition and the correction reason.
 Do not use a successful score as evidence that the condition is correct.
 A quote and an Agent verdict provide scoped reasoning evidence, not formal proof.
 For independent review claims, retain the actual fresh reviewer request and response.
