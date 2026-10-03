@@ -241,3 +241,46 @@ Schema Manager 第一輪要求補齊拒絕情境，並保留已驗證的 ready o
 Writer 已讀回兩份 capture，消費 `consume_verified_behavior`。
 本地 receipt script 曾誤把 behavior 物件當字串。修正只讀原成功 response，沒有重送 feedback。
 P feedback 只支持這兩組 consumer reports。它不證明完整平台行為或決策改善。
+
+## 第三次固定 base 的整合
+
+本輪保留 candidate `1bc726aabf9f7c91a172bd920912be729bf31ed2`。
+Exact target 是 `67e477864a69c233f2e3d98b37d25143362e3c3b`。
+Writer 在原 worktree 無衝突合併 target。
+三次先前 refusal 都來自 provider base 前進，不能據此判定 receipt 修正失敗。
+本輪沒有重做原工程，也沒有重設 authority 或 repair history。
+
+Target 新增初始 pending execute 的 readback，並調整 local landing 的 current base 判定。
+兩側都修改 `tests/test_issue_atom.py`，Git 已自動合併。
+Source 審查追蹤 `issue_execution.py` 新分支與 `issue_atom.py` 原 consumer 的交界。
+Revision pending 仍保留 prior attempts，並由原 owner 的 custody 檢查處理。
+它不使用沒有 attempts 的 initial pending 分支。
+Landing consumer 仍從 projection 的 current claim 取得 candidate 身分。
+這些是 source 追蹤結果，不是本輪 live publication 或 landing 的觀測。
+
+Test Manager 選定 `test_admission_revision`、`test_issue_atom` 和 `test_issue_execution`。
+三個 module 共 154 個案例通過，正常 process wall time 是 85.155 秒。
+本輪沒有 full suite 或 physical acceptance。
+前輪 255 個不同案例的證據繼續保留，各自受原 source、inputs 與覆蓋範圍限制。
+Target 自身的 landing 控制紀錄保留在合併的 `current-base-landing` 文件中。
+本輪不把那些歷史結果改稱本輪執行。
+
+三份 P-class guidance 的 saved bytes 未變。
+新 session 的 completion 檢查要求本 session 的 feedback 紀錄。
+Root 重讀兩份原 consumer captures，確認 task、cases、methods 與 covered behavior 未變。
+Requirements 只有 `contract.base_head` 改變。
+Root 重新審查條件，保留原獨立 criteria review，綁定本輪 requirements 後提交原 observations。
+原 stage-outcome adapter 回傳 `VALID`、`SUPPORTED` 與 `PASS`。
+Writer 已消費 `consume_verified_behavior`，沒有新增 consumer 執行或模型實驗。
+本輪條件複核由 root 執行，不宣稱它是新的獨立 criteria review。
+
+本輪證據在
+`/Users/neon/soodles-audits/manager-coverage-loops/issue254-writer/base-advance-67e4778/`。
+`tests.stdout`、`tests.stderr` 和 process receipt 保存正常測試結果。
+`pclass/reuse-review.json` 保存重用邊界，`pclass/consumed.json` 保存回饋接收結果。
+`source-review.md` 保存本輪 native 同模型獨立 source/comment review。
+Root 讀回該報告並核對相關 source，沒有未處理 blocker，也不需新增 integration control。
+本輪沒有使用 Comment Sicko wrapper 或跨模型 review。
+Supervisor 仍負責新 head 的 exact-head CI、publication、landing 和本機 reconciliation。
+接受後，supervisor 才能由原 owners 接續 251 與 248。
+Parent 的完整 CLI、lifecycle cost、owner decision 與 matched decision measurement 仍待完成。

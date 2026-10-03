@@ -40,5 +40,38 @@
     "No physical successor or provider delivery claim",
     "No decision improvement claim"
   ],
-  "authorizes_landing": false
+  "authorizes_landing": false,
+  "base_advance_67e4778": {
+    "selection": {
+      "path": "/Users/neon/soodles-audits/manager-coverage-loops/issue254-writer/base-advance-67e4778/pclass/selection.json",
+      "sha256": "05bbee9c9b5bca832030f57e160da640784dd01a09901c4ee25bd402fbb93119"
+    },
+    "response": {
+      "path": "/Users/neon/soodles-audits/manager-coverage-loops/issue254-writer/base-advance-67e4778/pclass/feedback.stdout",
+      "sha256": "041ab32cbfc27ded41b32d0c6016319760ce61691d4798c37ef0f3a5a5d3159e"
+    },
+    "evidence_validity": "VALID",
+    "criteria": "SUPPORTED",
+    "behavior": {
+      "classification": "PASS",
+      "barriers": []
+    },
+    "next": {
+      "owner": "task-owner",
+      "operation": "consume_verified_behavior",
+      "required": [],
+      "argv": null,
+      "input": null,
+      "evidence": {
+        "observe": [],
+        "reuse": [],
+        "verified": [
+          "ready",
+          "refusals"
+        ]
+      }
+    },
+    "action_taken": "Original current writer read original captures and current response; consumed same scoped behavior evidence. No new consumer execution or delivery claim.",
+    "authorizes_landing": false
+  }
 }

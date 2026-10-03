@@ -269,6 +269,43 @@ class IssueAtomTests(unittest.TestCase):
             for spy in spies:
                 spy.assert_not_called()
 
+    def test_initial_pending_observation_preserves_original_atom_and_schema_wait(self):
+        paths, state, snapshot = self.own_wait_fixture()
+        provider = Provider()
+        self.ready_issue(provider)
+        order_id = atom.read_json(paths["envelope"], "envelope")["execution"]["order_id"]
+        stage = snapshot["state"]["orders"][order_id]["stages"][0]
+        snapshot_path = self.root / ".noodle/state.snapshot.json"
+        with self.own_wait_processes() as stack:
+            spies = [stack.enter_context(patch.object(atom, name, side_effect=AssertionError(name)))
+                     for name in ("ensure_noodle", "_run_claim", "publish_candidate")]
+            for attempts in (None, []):
+                with self.subTest(attempts=attempts):
+                    stage["attempts"] = attempts
+                    atom.save_json(snapshot_path, snapshot)
+                    before = snapshot_path.read_bytes()
+                    observed = atom.issue_execution.supervised(
+                        paths["envelope"], state["envelope_sha256"], self.root,
+                        reader=lambda repository, number: provider.issue(number), observe_live=True)
+                    self.assertEqual(observed["action"], "owned")
+                    self.assertFalse(observed["published"])
+                    self.assertEqual(observed["next"]["known"], {"order_id": order_id})
+                    result = atom.run(self.path, environ=self.env, provider=provider)
+                    self.assertEqual(result["status"], "pending")
+                    self.assertEqual(result["continuation_state"], "waiting")
+                    self.assertEqual(result["execution"]["action"], "own_start_wait")
+                    self.assertEqual(result["next"]["argv"], atom.same_command(self.path))
+                    transition = result["feedback"]["dag"]["owner_transition"]
+                    self.assertEqual(transition["status"], "waiting")
+                    self.assertEqual(transition["gaps"], [])
+                    self.assertEqual(result["feedback"]["next"], result["next"])
+                    self.assertEqual(snapshot_path.read_bytes(), before)
+                    self.assertFalse((self.root / ".noodle/orders-next.json").exists())
+            for spy in spies:
+                spy.assert_not_called()
+        self.assertEqual(provider.create_calls, 0)
+        self.assertEqual(provider.merge_calls, 0)
+
     def test_own_running_metadata_and_pins_remain_required(self):
         paths, state, snapshot = self.own_wait_fixture(running=True)
         session = self.root / ".noodle/sessions/fixture-execute"
