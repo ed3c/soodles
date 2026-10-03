@@ -371,7 +371,7 @@ class ProviderReadbackTests(unittest.TestCase):
         ).read_text()
         self.assertIn("./provider-readback consume", skill)
         self.assertIn("provider-readback Skill", verify)
-        self.assertIn("Do not use curl, gh, browser", skill)
+        self.assertIn("Do not use curl, gh, a browser", skill)
         self.assertIn("do not translate GETs, pagination", verify)
 
 

@@ -11,6 +11,14 @@ skills consume its decision. They do not add their own full-suite requirement.
 controls; canonical acceptance executes only the named physical controls.
 Neither the skill nor a selection receipt grants publication or landing authority.
 
+若 admission 含 `target_binding`，Test Manager 讀取該外部 binding 的 `verification`。
+`owner` 指定 scope owner，`paths` 指定覆蓋範圍，`commands` 指定 target 的 argv。
+Supervisor 在 initial authorization 前固定這份資料。Writer 不修改它來放寬 scope。
+`runtime.test_argv` 從原 worktree 執行這些命令並回傳結果與耗時。
+缺少覆蓋時，回傳 `needs_scope` 與該 owner 的 `selected_target_scope` input。
+Soodles `BOUNDARIES` 不決定 target 的 tests。不得以 full suite 取代缺少的 scope。
+以下 `./soodles test` 範例只適用於 Soodles 自身。
+
 Normal CI runs runtime acceptance for PR updates only. The landing owner already
 checks exact merge parents/tree and provider-main readback; merging does not
 request a second runtime run. An additional runtime check uses the `runtime`

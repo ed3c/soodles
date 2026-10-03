@@ -136,3 +136,13 @@ has no saved process result. It is not retroactively classified as rejected.
 Standalone candidate-publish retains a locked external journal beside its
 readiness receipt and continues by readback only. These receipts grant no
 landing authority.
+
+### Generic target 的 acceptance 身分
+
+Generic readiness 保留 supervisor-selected `target_binding` reference。
+Publication 消費原 Noodle claim 的 worktree，不要求 target 安裝 Soodles。
+Owner 核對 target origin、base、candidate manifest 與 fresh Issue 後，才可 offer push 或 PR create。
+CI 選擇器核對 binding 的全部 jobs 與必要 steps。每個 job 都必須符合 run attempt 與 head。
+Correction 使用固定 `base_ref`，不從 provider default branch 推導新的 base。
+Binding 缺失、digest 改變或 provider evidence 不完整時，停止相依 effect。
+Unknown write 保留原 checkpoint 並要求 owner readback。Readiness 與 fixture 不授予 landing authority。
