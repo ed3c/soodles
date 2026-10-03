@@ -284,15 +284,16 @@ try:
         order = envelope["execution"]["order_id"]
         if argv == ["done", "schedule"]:
             print("{{}}")
-        elif argv == ["sync"] or argv == ["done", order]:
+        elif argv == ["sync"]:
+            print(json.dumps({{"id": order, "title": order,
+                "plan": envelope["execution"]["task"],
+                "repository": envelope["repository"], "issue": envelope["issue"],
+                "source": "admission_snapshot"}}))
+        elif argv == ["done", order]:
             issue = issue_execution.fetch_issue(envelope["repository"], envelope["issue"])
             completed = issue.get("state") == "closed"
             validate_issue(issue, envelope, completed=completed)
-            if argv == ["sync"]:
-                if not completed:
-                    print(json.dumps({{"id": order, "title": issue.get("title", order),
-                        "status": "open", "plan": envelope["execution"]["task"]}}))
-            elif not completed:
+            if not completed:
                 raise SystemExit("provider Issue is not completed")
             else:
                 print(json.dumps({{"readback": "closed/completed", "issue": envelope["issue"]}}))
