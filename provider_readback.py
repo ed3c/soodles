@@ -18,10 +18,10 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from repository_binding import profile
+from repository_binding import profile, selected
 
 
-def bounded_pull(repository, number, token, timeout):
+def bounded_pull(repository, number, token, timeout, *, target_binding=None):
     """One GET in a killable process; the caller supplies remaining atom time.
 
     Fixed worker source and stdin credentials, with no write transport or model
@@ -29,14 +29,18 @@ def bounded_pull(repository, number, token, timeout):
     """
     require(type(number) is int and number > 0, "pr.number", number)
     url = f"https://api.github.com/repos/{repository}/pulls/{number}"
-    _repository_from_url(url)
+    repositories = None
+    if target_binding is not None:
+        selected({"repository": repository, "target_binding": target_binding}, require)
+        repositories = {repository}
+    _repository_from_url(url, repositories)
     require(0 < timeout <= 60, "repair.deadline", timeout)
     worker = ("import json,sys; from provider_readback import _http; "
               "v=json.load(sys.stdin); "
-              "print(json.dumps(_http('GET',v['url'],v['token'])[0]))")
+              "print(json.dumps(_http('GET',v['url'],v['token'],v['repositories'])[0]))")
     result = subprocess.run(
         [sys.executable, "-B", "-c", worker], cwd=Path(__file__).resolve().parent,
-        input=json.dumps({"url": url, "token": token}), capture_output=True,
+        input=json.dumps({"url": url, "token": token, "repositories": sorted(repositories) if repositories else None}), capture_output=True,
         text=True, timeout=timeout,
         env={key: value for key, value in os.environ.items()
              if key in {"PATH", "SYSTEMROOT", "TMPDIR", "SSL_CERT_FILE", "SSL_CERT_DIR"}})
@@ -85,7 +89,7 @@ def _token(environ):
     return token
 
 
-def _repository_from_url(url):
+def _repository_from_url(url, repositories=None):
     require(isinstance(url, str), "request.url", url, "supported_github_get")
     parsed = urllib.parse.urlsplit(url)
     require(parsed.scheme == "https" and parsed.netloc == "api.github.com",
@@ -95,7 +99,7 @@ def _repository_from_url(url):
     require(match is not None, "request.path", parsed.path,
             "repository_scoped_github_get")
     repository = match.group(1)
-    require(profile(repository) is not None, "request.repository", repository,
+    require((repository in repositories if repositories is not None else profile(repository) is not None), "request.repository", repository,
             "supported_repository")
     return repository
 
@@ -109,9 +113,9 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
         )
 
 
-def _http(method, url, token):
+def _http(method, url, token, repositories=None):
     require(method == "GET", "request.method", method, "GET_only")
-    _repository_from_url(url)
+    _repository_from_url(url, repositories)
     request = urllib.request.Request(
         url,
         method="GET",
@@ -161,7 +165,7 @@ def _api(api, method, url, token):
     return result, {}
 
 
-def _next_projection(result):
+def _next_projection(result, repositories=None):
     require(isinstance(result, dict), "owner_result", type(result).__name__)
     next_action = result.get("next")
     require(isinstance(next_action, dict), "next", next_action,
@@ -181,7 +185,7 @@ def _next_projection(result):
                 f"next.requests.{key}", request, "exact_GET_request")
         require(request["method"] == "GET",
                 f"next.requests.{key}.method", request["method"], "GET_only")
-        _repository_from_url(request["url"])
+        _repository_from_url(request["url"], repositories)
     return next_action, requests
 
 
@@ -367,7 +371,7 @@ def _issue_frontier_item(repository, issue):
     }
 
 
-def _next_issue_consume(result, next_action, requests, context, output, token, api):
+def _next_issue_consume(result, next_action, requests, context, output, token, api, repositories=None):
     require(set(context) == {"schema", "kind", "consumer_root"},
             "context.fields", sorted(context))
     require(context["schema"] == 1 and context["kind"] == "next_issue",
@@ -383,7 +387,7 @@ def _next_issue_consume(result, next_action, requests, context, output, token, a
     require(set(requests) == {"issues"},
             "next.requests", sorted(requests), "issues_frontier_request_only")
     first = requests["issues"]["url"]
-    repository = _repository_from_url(first)
+    repository = _repository_from_url(first, repositories)
     parsed = urllib.parse.urlsplit(first)
     require(parsed.path == f"/repos/{repository}/issues",
             "next.requests.issues.path", parsed.path,
@@ -407,7 +411,7 @@ def _next_issue_consume(result, next_action, requests, context, output, token, a
         require(url not in seen, "provider.pagination", url,
                 "acyclic_provider_pagination")
         seen.add(url)
-        require(_repository_from_url(url) == repository,
+        require(_repository_from_url(url, repositories) == repository,
                 "provider.pagination.repository", url,
                 "same_repository_pagination")
         payload, headers = _api(api, "GET", url, token)
@@ -421,7 +425,7 @@ def _next_issue_consume(result, next_action, requests, context, output, token, a
         next_url = _link_next(headers)
         if not next_url:
             break
-        require(_repository_from_url(next_url) == repository,
+        require(_repository_from_url(next_url, repositories) == repository,
                 "provider.pagination.repository", next_url,
                 "same_repository_pagination")
         next_parsed = urllib.parse.urlsplit(next_url)
@@ -486,14 +490,32 @@ def consume(result, context, output, *, environ=None, api=None):
     output = _new_output(output)
     environ = os.environ if environ is None else environ
     token = _token(environ)
-    next_action, requests = _next_projection(result)
+    refs = (result.get("next") or {}).get("bindings")
+    repositories = None
+    if refs is not None:
+        require(isinstance(refs, list) and bool(refs), "next.bindings", refs)
+        repositories = set()
+        bindings = {}
+        for subject in refs:
+            selected(subject, require)
+            require(subject["repository"] not in bindings
+                    or bindings[subject["repository"]] == subject.get("target_binding"),
+                    "next.bindings.conflict", subject["repository"])
+            bindings[subject["repository"]] = subject.get("target_binding")
+            repositories.add(subject["repository"])
+        supplied_api = api
+        def bound_api(method, url, token):
+            _repository_from_url(url, repositories)
+            return _http(method, url, token, repositories) if supplied_api is None else supplied_api(method, url, token)
+        api = bound_api
+    next_action, requests = _next_projection(result, repositories)
     kind = context.get("kind") if isinstance(context, dict) else None
     if kind == "landing":
         return _landing_consume(
             result, next_action, requests, context, output, token, api)
     if kind == "next_issue":
         return _next_issue_consume(
-            result, next_action, requests, context, output, token, api)
+            result, next_action, requests, context, output, token, api, repositories)
     raise ReadbackRefusal(
         "context.kind", kind, "landing_or_next_issue_context"
     )

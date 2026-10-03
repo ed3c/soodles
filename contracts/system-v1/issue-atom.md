@@ -442,6 +442,17 @@ A generic claim refusal must not hide an available blocker.
 Schema feedback distinguishes condition review, observed behavior, and owner capability.
 A passed routing case cannot establish publication, reconciliation, or delivery.
 
+### 外部 target binding 與 lifecycle runtime
+
+Supervisor 在 initial selection 固定 `target_binding` 的絕對 path 與 SHA-256。
+同一 reference 沿 authorization、envelope、correction 與 landing claim 傳遞。
+Owner 在 effect 前重新核對 bytes、repository、base、runtime 與原 lineage。
+Generic authorization 必須固定外部 lifecycle owner 的完整 `GENERIC_LIFECYCLE_FILES`。
+Target checkout 不提供 lifecycle 實作。Noodle 仍獨占 order、session 與 worktree。
+Worker prompt 回傳固定的 outcome 與 target-test argv。Scheduler 使用固定 launcher 的 inspect 操作。
+Legacy authorization 沒有這個欄位，保留原 source profile 與 source closure。
+Factory 交付不等於 target activation。原 supervisor 保留獨立 target admission 與正常使用結果的責任。
+
 ### Prepublication interruption selection
 
 原 order 的 process 消失不代表 writer 成功或失敗。若 native custody

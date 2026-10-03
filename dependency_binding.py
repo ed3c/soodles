@@ -5,8 +5,9 @@ their shape, provider readback projection and satisfaction semantics; it owns
 no edge registry, effects, scheduler, retry loop or lifecycle state.
 """
 import re
+from urllib.parse import quote
 
-from repository_binding import valid_name
+from repository_binding import valid_name, selected as target_profile
 
 
 EDGE_FIELDS = {
@@ -28,11 +29,17 @@ def dependencies(claim, require):
     """Validate and return exact dependencies selected by the supervisor."""
     values = claim.get("dependencies", []) if isinstance(claim, dict) else []
     require(isinstance(values, list), "claim.dependencies", values)
-    identities = []
+    identities, normalized = [], []
     for index, selected in enumerate(values):
         field = f"claim.dependencies[{index}]"
-        require(isinstance(selected, dict) and set(selected) == EDGE_FIELDS,
+        generic = isinstance(selected, dict) and "target_binding" in selected
+        expected = (EDGE_FIELDS - {"base_ref", "workflow_path", "jobs"}) | {"target_binding"} if generic else EDGE_FIELDS
+        require(isinstance(selected, dict) and set(selected) == expected,
                 field + ".fields", sorted(selected) if isinstance(selected, dict) else selected)
+        if generic:
+            acceptance = target_profile(selected, require)
+            selected = {**selected, **{key: acceptance[key] for key in ("base_ref", "workflow_path", "jobs")}}
+        normalized.append(selected)
         require(valid_name(selected["repository"]),
                 field + ".repository", selected["repository"])
         for name in ("issue", "pr", "run_id", "run_attempt"):
@@ -62,7 +69,7 @@ def dependencies(claim, require):
         identity = (selected["repository"], selected["issue"], selected["revision"])
         require(identity not in identities, "claim.dependencies.identity", list(identity))
         identities.append(identity)
-    return values
+    return normalized
 
 
 def requests(claim, require):
@@ -74,8 +81,8 @@ def requests(claim, require):
             "issue": f"issues/{selected['issue']}",
             "pr": f"pulls/{selected['pr']}",
             "commit": f"git/commits/{selected['revision']}",
-            "branch": f"branches/{selected['base_ref']}",
-            "ancestry": f"compare/{selected['revision']}...{selected['base_ref']}",
+            "branch": "branches/" + quote(selected["base_ref"], safe=""),
+            "ancestry": f"compare/{selected['revision']}..." + quote(selected["base_ref"], safe=""),
             "run": f"actions/runs/{selected['run_id']}",
             "jobs": f"actions/runs/{selected['run_id']}/jobs",
         }
@@ -184,6 +191,9 @@ def _validate_one(index, selected, snapshot, require, next_action):
 
     jobs = snapshot.get(_key(index, "jobs"))
     need(isinstance(jobs, dict), "jobs", jobs)
+    if "target_binding" in selected:
+        from repository_binding import validate_run
+        validate_run(selected, run, jobs, selected["candidate_head"], need)
     raw_jobs = jobs.get("jobs", [])
     observed = {job.get("name"): job for job in raw_jobs if isinstance(job, dict)}
     need(isinstance(raw_jobs, list)

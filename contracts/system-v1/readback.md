@@ -149,3 +149,11 @@ original publication predicate. Process failure remains charged in the atom
 checkpoint. `system-context entry provider-readback consume` exposes the
 registered readback consumer requirements. It neither selects an owner transition
 nor rewrites `next`.
+
+### Generic repository 的 readback
+
+Owner 的 `next.bindings` 保留 selected target references。
+Adapter 驗證每個 reference 的 bytes 與 repository，然後執行同一 owner 的 requests。
+它不從 URL 或 target checkout 建立新 authorization。
+Next-Issue intent 保留 candidate reference。Local create 在 POST 前持久化 offer。
+Unknown create 只回傳原 readback，不能重送。Provider frontier 仍須完整並核對 causal fingerprint。

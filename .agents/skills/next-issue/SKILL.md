@@ -24,6 +24,12 @@ Run exactly:
 
 Then consume the current next exactly.
 
+若 predecessor 或 candidate 使用 `target_binding`，保留 supervisor 選定的同一 reference。
+使用已選定 external runtime 的 `next-issue` entry，不要求 target 安裝此程式。
+Owner 依 binding 驗證 repository，並把 reference 帶到 create intent 與 readback request。
+Local create 在 POST 前保存 offer。若回覆遺失，再次進入只會要求原 owner readback。
+不要刪除 offer、換 output directory 或重新建立 intent 來重送 POST。
+
 - `action=stop`: no mechanically eligible candidate exists. Create nothing.
 - `next.kind=input`: obtain the named input from its owner. The authorized
   supervisor supplies inputs that it can derive. An owner label does not require a

@@ -85,8 +85,13 @@ def _deadline(headers, now):
     return max([now] + dates)
 
 
-def issue(repository, number):
-    if not valid_name(repository) or profile(repository) is None:
+def issue(repository, number, *, binding=None):
+    if binding is not None:
+        from repository_binding import selected
+        from issue_admission import require
+        selected(binding, require)
+        require(binding["repository"] == repository, "issue.repository", repository)
+    if not valid_name(repository) or (binding is None and profile(repository) is None):
         raise AdmissionRefusal("issue.repository", repository, "supervisor",
                                "supported_repository_identity")
     if type(number) is not int or number <= 0:
@@ -167,8 +172,8 @@ def issue(repository, number):
             raise AdmissionRefusal("issue.provider_readback", type(error).__name__, "GitHub", "fresh_issue_readback") from None
 
 
-def fetch_issue(repository, number):
-    return issue(repository, number)["issue"]
+def fetch_issue(repository, number, *, binding=None):
+    return issue(repository, number, binding=binding)["issue"]
 
 
 def refusal_output(error):
