@@ -58,6 +58,7 @@ BOUNDARIES = (
     (("docs/cleanup-integration-evidence.json",), ("candidate_verification", "cleanup_continuation"), ()),
     (("soodles", "soodles.py", ".github/workflows/runtime.yml"),
      ("admission", "test_suite", "delivery_refs"), ()),
+    (("runtime_candidate.py", ".github/workflows/runtime.yml"), ("runtime_base",), ()),
     (("test_manager.py", "test_selection.py"), ("test_suite",), ()),
     (("issue_admission.py",),
      ("issue_admission", "candidate_verification", "comparison_gate", "instruction_context",

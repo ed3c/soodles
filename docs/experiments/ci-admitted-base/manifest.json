@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 250
+  },
+  "instructions": [
+    {
+      "path": ".github/workflows/runtime.yml",
+      "baseline_sha256": "7603709cc784b6691651ccd12f9890c326c27eee33e8b150802ffa6814fbeca4",
+      "treatment_sha256": "2fdd2451a63c985eeb41b85ebf461bdad914b282b3cc5b0eac1153909f42c113"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/ci-admitted-base/design.md",
+      "role": "observed_evidence",
+      "sha256": "2257464603820dcfa3837768cfd775acd80aa0754ff07ddf01bdf5dff7ab4a8f"
+    },
+    {
+      "path": "docs/experiments/ci-admitted-base/results.md",
+      "role": "observed_evidence",
+      "sha256": "117dd8c89c01e8190c645a0b11708c256fe77b48373190eb1aa366a487dfed33"
+    },
+    {
+      "path": "tests/test_runtime_base.py",
+      "role": "control",
+      "sha256": "6941b4a86061a633e870022f6e58d31ff64f33dae98183b9f97e8d3f51eeb386"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#250"
+  },
+  "authorizes_landing": false
+}
