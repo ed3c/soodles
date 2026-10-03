@@ -221,14 +221,15 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
             "authorization.base_head", value["base_head"])
     selected_instruction_pins(value)
     current_head = _git(root, "rev-parse", "HEAD")
+    source_head = correction_source_head(value) if "prior_atom" in value else value["base_head"]
     if allow_advanced:
         ancestor = subprocess.run(
-            ["git", "merge-base", "--is-ancestor", value["base_head"], current_head],
+            ["git", "merge-base", "--is-ancestor", source_head, current_head],
             cwd=root, stdin=subprocess.DEVNULL, capture_output=True, timeout=30)
         require(ancestor.returncode == 0, "git.head", current_head,
                 "authorized_base_ancestry_after_checkpoint")
     else:
-        require(current_head == value["base_head"],
+        require(current_head == source_head,
                 "git.head", current_head, "exact_authorized_base")
     origins = {_git(root, "remote", "get-url", "origin")}
     require(origins.issubset(set(git_origins(repository))),
@@ -264,6 +265,12 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
     contract = issue_admission.parse_contract(issue["body"])
     require(contract.get("base_head") == value["base_head"],
             "authorization.issue.base_head", contract.get("base_head"))
+    if "prior_atom" in value:
+        parent, checkpoint, _ = correction_parent(value)
+        old_body = authorized_issue_body(parent, checkpoint["authorization_sha256"])
+        require(value["issue"]["body"] == correction_base_body(
+            parent, old_body, value["base_head"], value["prior_publication"]["head"]),
+            "correction.base.scope", "changed", "same_contract_with_descendant_base_pins")
     noodle = value["noodle"]
     require(isinstance(noodle, dict) and set(noodle) == {"path", "sha256"},
             "authorization.noodle", noodle)
@@ -332,6 +339,76 @@ def validate_authorization_failure(authorization):
         raise AtomRefusal(error.invalid["field"], error.invalid["value"], "exact_failed_ci_evidence") from error
 
 
+def correction_source_head(authorization):
+    """The original authorization owns the unchanged control checkout."""
+    current, seen = authorization, set()
+    while "prior_atom" in current:
+        reference = current["prior_atom"]
+        validate_prior_atom_ref(reference, authorization["control_root"])
+        require(reference["path"] not in seen, "correction.lineage.cycle", reference["path"])
+        seen.add(reference["path"])
+        parent = read_json(reference["path"], "correction.parent")
+        require(parent.get("repository") == authorization["repository"]
+                and parent.get("control_root") == authorization["control_root"]
+                and parent.get("target_binding") == authorization.get("target_binding")
+                and isinstance(parent.get("base_head"), str) and SHA40.fullmatch(parent["base_head"]),
+                "correction.parent.identity", "changed", "original_same_root_authorization")
+        current = parent
+    return current["base_head"]
+
+
+def correction_parent(authorization):
+    correction_source_head(authorization)
+    reference = authorization["prior_atom"]
+    validate_prior_atom_ref(reference, authorization["control_root"])
+    parent = read_json(reference["path"], "correction.parent")
+    paths = artifact_paths(reference["path"])
+    checkpoint = read_json(paths["state"], "correction.parent_state")
+    parent, paths = scope_projection(parent, checkpoint, paths)
+    return parent, checkpoint, paths
+
+
+def correction_revision_source(authorization):
+    parent, checkpoint, paths = correction_parent(authorization)
+    native = None
+    if checkpoint.get("scope_amendment") is not None:
+        selection = scope_packet(parent, checkpoint)["selection"]
+        if selection.get("schema") == 2:
+            native = selection["native_acceptance"]
+    elif (paths["envelope"].parent / "revision-entry.json").exists():
+        entry = read_json(paths["envelope"].parent / "revision-entry.json", "correction.prior_entry")
+        require(entry.get("kind") == "ci_correction"
+                and entry.get("correction_authorization") == authorization["prior_atom"],
+                "correction.prior_entry", "changed", "parent_sealed_correction_entry")
+        native = entry["native_acceptance"]
+    require(native is not None or parent["base_head"] == authorization["base_head"],
+            "correction.base.native", "missing", "prior_selected_typed_revision_capability")
+    if native is not None:
+        require(issue_admission.load_revision_native(native, authorization["control_root"])
+                == authorization["noodle"], "correction.base.native", "changed", "prior_selected_native_binary")
+    return parent, checkpoint, paths, native
+
+
+def correction_base_body(authorization, body, target, prior_head):
+    try:
+        return issue_admission.correction_base_body(authorization, body, target, prior_head)
+    except issue_admission.AdmissionRefusal as error:
+        raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                          "same_contract_with_descendant_base_pins") from error
+
+
+def correction_base_intent(authorization):
+    parent, checkpoint, _ = correction_parent(authorization)
+    old_body = authorized_issue_body(parent, checkpoint["authorization_sha256"])
+    require(authorization["issue"]["body"] == correction_base_body(parent, old_body,
+                authorization["base_head"], authorization["prior_publication"]["head"]),
+            "correction.base.scope", "changed", "exact_base_only_edge")
+    return {"status": "observed", "previous_body_sha256": issue_admission.body_digest(old_body),
+            "body_sha256": issue_admission.body_digest(authorization["issue"]["body"]),
+            "previous_base": parent["base_head"], "base_head": authorization["base_head"],
+            "prior_head": authorization["prior_publication"]["head"]}
+
+
 def validate_correction_lineage(authorization, reference, state):
     """Count immutable automatic edges; leave every ancestor's repair ledger untouched."""
     root = authorization["control_root"]
@@ -340,7 +417,7 @@ def validate_correction_lineage(authorization, reference, state):
     ref, checkpoint = reference, state
     seen, heads = set(), set()
     count = 0
-    identity = ("repository", "control_root", "base_head", "task", "noodle", "carrier",
+    identity = ("repository", "control_root", "task", "noodle", "carrier",
                 "workflow", "landing_owner", "host_config_sha256")
     contract = issue_admission.parse_contract(authorization["issue"]["body"])
     publication = state.get("publication")
@@ -359,7 +436,8 @@ def validate_correction_lineage(authorization, reference, state):
         require(all(effective.get(k) == authorization.get(k) for k in identity)
                 and effective.get("target_binding") == authorization.get("target_binding")
                 and effective["issue"]["title"] == authorization["issue"]["title"]
-                and issue_admission.parse_contract(effective["issue"]["body"]) == contract
+                and issue_admission.parse_contract(correction_base_body(effective,
+                    effective["issue"]["body"], authorization["base_head"], publication["head"])) == contract
                 and effective["issue"].get("number", number) == number,
                 "correction.lineage.scope", "changed", "unchanged_original_task_scope_and_runtime")
         published = checkpoint.get("publication")
@@ -402,6 +480,9 @@ def validate_correction_lineage(authorization, reference, state):
                 or (name == "candidate_amendment" and effect == {
                     "old_head": current.get("prior_publication", {}).get("head"),
                     "new_head": published["head"], "pr": published["pr"]["number"], "status": "offered"})
+                or (name == "issue_base" and "prior_atom" in current
+                    and effect == correction_base_intent(current)
+                    and effect["previous_base"] != effect["base_head"])
                 or (name == "issue_scope" and checkpoint.get("scope_amendment", {}).get("status") == "released"
                     and effect.get("status") == "observed"
                     and effect.get("selection_sha256") == checkpoint["scope_amendment"]["selection"]["sha256"]
@@ -427,7 +508,8 @@ def validate_correction_lineage(authorization, reference, state):
         expected_body = parent_effective["issue"]["body"]
         if "number" not in parent_effective["issue"]:
             expected_body = expected_body.rstrip() + "\n\n" + marker(parent["sha256"]) + "\n"
-        require(current["issue"]["body"] == expected_body,
+        require(current["issue"]["body"] == correction_base_body(parent_effective, expected_body,
+                    current["base_head"], current["prior_publication"]["head"]),
                 "correction.lineage.body", "changed", "unchanged_original_issue")
         target = parent_paths["directory"] / "correction"
         require(Path(ref["path"]).resolve() == target / "prepared/authorization.json",
@@ -675,8 +757,11 @@ def postwrite_lifecycle(authorization, state, paths, *, allow_resolved=False):
 
 def prelanding_lifecycle(authorization_path, authorization, state, paths):
     """Read one published review before selecting source bytes; issue no effects."""
-    require(state.get("scope_amendment") is not None
-            and scope_packet(authorization, state)["selection"].get("schema") == 2,
+    typed_scope = (state.get("scope_amendment") is not None
+                   and scope_packet(authorization, state)["selection"].get("schema") == 2)
+    typed_correction = ("prior_atom" in authorization
+                        and (paths["envelope"].parent / "revision-entry.json").is_file())
+    require(typed_scope or typed_correction,
             "lifecycle.resume.scope", "unsupported", "original_typed_revision_context")
     reference = {"path": str(Path(authorization_path).resolve()),
                  "sha256": state["authorization_sha256"]}
@@ -685,7 +770,8 @@ def prelanding_lifecycle(authorization_path, authorization, state, paths):
             "lifecycle.resume.correction", "already_selected", "original_correction_owner_readback")
     validate_correction_lineage(authorization, reference, state)
     effective, selected_paths = scope_projection(authorization, state, paths)
-    candidate = {**effective, "issue": {**effective["issue"], "number": state["issue"]["number"]},
+    candidate = {**effective, "issue": {**effective["issue"], "number": state["issue"]["number"],
+                 "body": authorized_issue_body(effective, state["authorization_sha256"])},
                  "prior_atom": reference, "prior_publication": state["publication"]}
     prior = verify_prior_atom(candidate)
     binding = issue_admission.load_external_envelope(selected_paths["envelope"],
@@ -732,8 +818,28 @@ def prelanding_lifecycle(authorization_path, authorization, state, paths):
         issue_execution._absent_process(process.parent, process.parent.name)
     require(not any(state.get(key) for key in ("base_recovery", "interruption", "correction_start_recovery")),
             "lifecycle.resume.recovery", "selected", "original_recovery_owner_readback")
-    prefix = state["scope_amendment"].get("ack_prefix")
-    keys = ("scope_request", "scope_edit", "scope_requeue", "scope_release")
+    completed_control_readback(effective, state, selected_paths)
+    require(issue_execution.read_owner(binding) == owner
+            and digest_file(runtime / "state.snapshot.json") == prior["owner_snapshot_sha256"]
+            and read_json(paths["state"], "state") == state,
+            "lifecycle.resume.owner", "changed", "fresh_canonical_checkpoint")
+
+
+def completed_control_readback(authorization, state, paths):
+    """Preserve the original ACK prefix and require the completed control tail."""
+    runtime = Path(authorization["control_root"]) / ".noodle"
+    if state.get("scope_amendment") is not None:
+        prefix = state["scope_amendment"].get("ack_prefix")
+        keys = ("scope_edit", "scope_requeue", "scope_release")
+        if scope_packet(authorization, state)["selection"].get("schema") == 2:
+            keys = ("scope_request", *keys)
+    elif "prior_atom" in authorization:
+        prefix = state.get("correction_ack_prefix")
+        keys = (("correction_review", "correction_edit", "correction_requeue", "correction_release")
+                if (paths["envelope"].parent / "revision-entry.json").exists()
+                else ("correction_review", "correction_release"))
+    else:
+        prefix, keys = "", ()
     commands = [state[key] for key in keys if key in state]
     allowed = {command["id"]: command for command in commands}
     ack_path = runtime / "control-ack.ndjson"
@@ -750,10 +856,162 @@ def prelanding_lifecycle(authorization_path, authorization, state, paths):
     require((not mailbox.exists() or not mailbox.read_bytes().strip())
             and not (runtime / "orders-next.json").exists(),
             "lifecycle.resume.mailbox", "pending", "original_control_and_proposal_readback")
-    require(issue_execution.read_owner(binding) == owner
-            and digest_file(runtime / "state.snapshot.json") == prior["owner_snapshot_sha256"]
-            and read_json(paths["state"], "state") == state,
+
+
+def postwrite_parked_custody(authorization, paths, state):
+    """Read a published parked review under the caller's control lock."""
+    binding, owner = postwrite_lifecycle(authorization, state, paths)
+    effective, selected_paths = scope_projection(authorization, state, paths)
+    checkpoint = read_json(selected_paths["landing"], "landing.checkpoint")
+    require(checkpoint.get("phase") in {"awaiting_reconcile", "reconciling"}
+            and not state.get("landing_activation"),
+            "control_alignment.landing", checkpoint.get("phase"), "original_awaiting_reconcile_checkpoint")
+    claim = read_json(selected_paths["claim"], "publication.claim")
+    require(all(state["publication"].get(key) == claim.get(key) for key in ("head", "tree")),
+            "lifecycle.resume.publication", "changed", "original_published_claim")
+    order = owner["state"]["orders"].get(binding["execution"]["order_id"])
+    if isinstance(order, dict) and order.get("status") != "completed":
+        base_recovery_completed(binding, owner)
+    else:
+        issue_execution.completed_original_order(binding, owner, claim)
+    runtime = Path(effective["control_root"]) / ".noodle"
+    for order_id, order in owner["state"]["orders"].items():
+        if order_id == "schedule" and native_idle_schedule(order, binding["execution"]["carrier"]["codex"]["model"]):
+            continue
+        issue_execution.quiescent_order({"execution": {
+            "control_root": str(runtime.parent), "order_id": order_id}}, owner)
+    for process in sorted((runtime / "sessions").glob("*/process.json")):
+        issue_execution._absent_process(process.parent, process.parent.name)
+    start = state.get("noodle_start", {})
+    prepared_path = selected_paths["envelope"].parent / "prepared.json"
+    prepared = read_json(prepared_path, "lifecycle.resume.prepared")
+    require(start.get("status") == "started" and not start.get("restored")
+            and digest_file(prepared_path) == state["admission_sha256"]
+            and prepared.get("envelope_sha256") == state["envelope_sha256"]
+            and prepared.get("next", {}).get("argv") == start.get("argv")
+            and digest_file(prepared["start"]) == prepared["start_sha256"]
+            and noodle_process_argv(effective, prepared) == noodle_process_argv(effective, start)
+            and host_config_identity(effective["control_root"]) == start.get("config_sha256")
+            == digest_file(selected_paths["envelope"].parent / "noodle.toml"),
+            "lifecycle.resume.prepared", "changed", "original_start_bundle_and_configuration")
+    completed_control_readback(effective, state, selected_paths)
+    require(issue_execution.read_owner(binding) == owner,
             "lifecycle.resume.owner", "changed", "fresh_canonical_checkpoint")
+    return binding, owner
+
+
+def require_git_idle(root, field):
+    gitdir = Path(_git(root, "rev-parse", "--absolute-git-dir"))
+    busy = [str(gitdir / name) for name in ("MERGE_HEAD", "CHERRY_PICK_HEAD", "REVERT_HEAD",
+            "rebase-merge", "rebase-apply", "sequencer", "index.lock", "HEAD.lock") if (gitdir / name).exists()]
+    require(not busy, field, {"root": str(root), "paths": busy}, "quiescent_original_checkout")
+
+
+def ensure_reconcile_control(authorization, paths, state):
+    """Stop the exact parked owner, then align a correction's original source."""
+    start = state.get("noodle_start")
+    if state.get("landing_activation") or not start or start.get("restored"):
+        return True  # The selected landing owner retains these existing continuations.
+    original = authorization
+    if state.get("scope_amendment") is not None:
+        packet = scope_packet(authorization, state)
+        require(state["scope_amendment"].get("status") == "released",
+                "control_alignment.scope", "incomplete", "original_released_revision")
+        original = read_json(packet["authorization"]["path"], "scope.authorization")
+    checkpoint = read_json(paths["landing"], "landing.checkpoint")
+    if checkpoint.get("phase") not in {"awaiting_reconcile", "reconciling"}:
+        return True
+    before, after = correction_source_head(original), authorization["base_head"]
+    align = (checkpoint["phase"] == "awaiting_reconcile" and before != after
+             and state.get("base_recovery") is None)
+    root = Path(authorization["control_root"])
+    runtime = root / ".noodle"
+    claim = read_json(paths["claim"], "publication.claim")
+
+    def read_alignment():
+        head = _git(root, "rev-parse", "HEAD")
+        require(_git(root, "remote", "get-url", "origin") in git_origins(authorization["repository"]),
+                "control_alignment.origin", "changed", "original_repository")
+        residue = _git(root, "status", "--porcelain", "--untracked-files=all")
+        require(residue == "", "control_alignment.residue", {"root": str(root), "status": residue},
+                "clean_original_control")
+        require_git_idle(root, "control_alignment.busy")
+        if not align:
+            if checkpoint["phase"] == "awaiting_reconcile":
+                require(head == after, "control_alignment.head", head, "exact_admitted_control_base")
+            return None, head
+        entries = _git(root, "worktree", "list", "--porcelain").split("\n\n")
+        registrations = [set(entry.splitlines()) for entry in entries
+                         if "worktree " + str(root) in entry.splitlines()]
+        require((root / ".git").is_file() and _git(root, "branch", "--show-current") == ""
+                and len(registrations) == 1 and "detached" in registrations[0]
+                and "HEAD " + head in registrations[0]
+                and not any(line.startswith("branch ") for line in registrations[0]),
+                "control_alignment.registration", str(root), "original_registered_detached_control")
+        _git(root, "merge-base", "--is-ancestor", before, after)
+        require(not _git(root, "ls-tree", before, "--", ".noodle.toml")
+                and not _git(root, "ls-tree", after, "--", ".noodle.toml"),
+                "control_alignment.config", "tracked", "unchanged_installed_configuration")
+        identity = {"before": before, "after": after, "root": str(root),
+                    "envelope_sha256": state["envelope_sha256"], "claim_sha256": atom_repair.digest(claim),
+                    "authorization_sha256": state["authorization_sha256"],
+                    "landing_sha256": atom_repair.digest({key: checkpoint.get(key) for key in
+                        ("claim", "merge_sha", "issue_closed_at", "writes_offered")}), "branch": None}
+        intent = state.get("control_alignment")
+        if intent is not None:
+            require({key: intent.get(key) for key in identity} == identity,
+                    "control_alignment.identity", "changed", "original_alignment_intent")
+            require(head == after, "control_alignment.outcome", head, "original_alignment_readback_without_replay")
+        else:
+            require(head == before, "control_alignment.head", head, "exact_original_control_source")
+        return identity, head
+
+    with (runtime / "control.lock").open("a+b") as control:
+        fcntl.flock(control, fcntl.LOCK_EX)
+        binding, _ = postwrite_parked_custody(authorization, paths, state)
+        require(binding["base_head"] == claim.get("base_head") == after,
+                "control_alignment.binding", "changed", "original_claim_envelope_and_landing")
+        read_alignment()
+    if not finish_host(authorization, paths, state, stop_only=True):
+        return False
+    with (runtime / "noodle.lock").open("a+b") as native, (runtime / "control.lock").open("a+b") as control:
+        try:
+            fcntl.flock(native, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise AtomRefusal("control_alignment.owner", "running", "quiescent_original_noodle_owner") from None
+        fcntl.flock(control, fcntl.LOCK_EX)
+        binding, owner = postwrite_parked_custody(authorization, paths, state)
+        require(binding["base_head"] == claim.get("base_head") == after
+                and checkpoint == read_json(paths["landing"], "landing.checkpoint")
+                and claim == read_json(paths["claim"], "publication.claim"),
+                "control_alignment.binding", "changed", "original_claim_envelope_and_landing")
+        identity, head = read_alignment()
+        if not align:
+            return True
+        intent = state.get("control_alignment")
+        if intent is None:
+            require(issue_execution.read_owner(binding) == owner,
+                    "control_alignment.owner", "changed", "fresh_canonical_checkpoint")
+            state["control_alignment"] = {**identity, "status": "offered"}
+            save_json(paths["state"], state)
+            command = ["git", "merge", "--ff-only", after]
+            try:
+                process = subprocess.run(command, cwd=root, stdin=subprocess.DEVNULL,
+                    capture_output=True, text=True, timeout=30, env=clean_child_env())
+            except (OSError, subprocess.TimeoutExpired) as error:
+                raise AtomRefusal("control_alignment.outcome", type(error).__name__,
+                    "original_alignment_readback_without_replay") from error
+            state["control_alignment"]["process"] = {"argv": command, "exit_status": process.returncode,
+                "stdout": process.stdout, "stderr": process.stderr}
+            save_json(paths["state"], state)
+            require(_git(root, "rev-parse", "HEAD") == after, "control_alignment.outcome",
+                    process.returncode, "original_alignment_readback_without_replay")
+        require(host_config_identity(root) == digest_file(paths["envelope"].parent / "noodle.toml"),
+                "control_alignment.config", "changed", "unchanged_installed_configuration")
+        if state["control_alignment"].get("status") != "observed":
+            state["control_alignment"]["status"] = "observed"
+            save_json(paths["state"], state)
+    return True
 
 
 def resume(authorization_path, selected_owner, selected_digest, *, environ=None):
@@ -816,6 +1074,26 @@ def resume(authorization_path, selected_owner, selected_digest, *, environ=None)
                         prelanding_lifecycle(authorization_path, authorization, state, paths)
                         state["lifecycle_resume"] = intent
                         resumed_lifecycle(authorization, state)
+                        save_json(paths["state"], state)
+                    return {"owner": "soodles.issue-atom", "status": "resumed", "continuation_state": "ready",
+                            "authorizes_landing": False,
+                            "next": {"argv": same_command(authorization_path),
+                                     "environment": {"SOODLES_AUTHORIZATION_SHA256": auth_digest}}}
+                if (state.get("phase") == "landing" and state.get("noodle_start")
+                        and not state["noodle_start"].get("restored")
+                        and not state.get("landing_activation")
+                        and not any(state.get(key) for key in ("base_recovery", "interruption", "correction_start_recovery"))
+                        and read_json(paths["landing"], "landing.checkpoint").get("phase") == "awaiting_reconcile"):
+                    with (runtime / "control.lock").open("a+b") as control:
+                        fcntl.flock(control, fcntl.LOCK_EX)
+                        binding, observed_owner = postwrite_parked_custody(authorization, paths, state)
+                        effective, _ = scope_projection(authorization, state, paths)
+                        observe_prior_loop(effective, state)
+                        require(issue_execution.read_owner(binding) == observed_owner,
+                                "lifecycle.resume.owner", "changed", "fresh_canonical_checkpoint")
+                        state["lifecycle_resume"] = intent
+                        resumed_lifecycle(authorization, state)
+                        resume_host_finalization(authorization, state)
                         save_json(paths["state"], state)
                     return {"owner": "soodles.issue-atom", "status": "resumed", "continuation_state": "ready",
                             "authorizes_landing": False,
@@ -1273,11 +1551,23 @@ def exact_issue(provider, authorization, authorization_digest):
 def readmit_issue_base(provider, authorization, state, paths):
     """Rebind one failed PR's Issue to a freshly admitted descendant base.
 
-    A fresh control root uses the existing prior-publication path. Old Noodle
-    orders and immutable authorizations remain historical, never transplanted.
+    Both fresh-root admission and an exact same-root correction retain the old
+    claim. The same-root owner restores the prior host before this single write.
     """
-    if "prior_publication" not in authorization or "prior_atom" in authorization:
+    if "prior_publication" not in authorization:
         return
+    if "prior_atom" in authorization:
+        parent, checkpoint, _ = correction_parent(authorization)
+        if parent["base_head"] == authorization["base_head"]:
+            return
+        if state.get("prior_host_recovery", {}).get("status") != "restored":
+            require(verify_prior_atom(authorization)["prior_loop_status"] == "restored",
+                    "readmission.issue.prior_host", "not_restored", "original_host_recovery_readback")
+            recover_prior_host(authorization, paths, state)
+        old_body = authorized_issue_body(parent, checkpoint["authorization_sha256"])
+        require(authorization["issue"]["body"] == correction_base_body(parent, old_body,
+                    authorization["base_head"], authorization["prior_publication"]["head"]),
+                "readmission.issue.scope", "changed", "exact_correction_base_edge")
     selected = authorization["issue"]
     current = provider.issue(selected["number"])
     require(isinstance(current, dict) and current.get("number") == selected["number"]
@@ -1286,6 +1576,10 @@ def readmit_issue_base(provider, authorization, state, paths):
             and "pull_request" not in current,
             "readmission.issue.identity", selected["number"], "exact_provider_issue")
     intent = state["writes"].get("issue_base")
+    if intent is not None and "prior_atom" in authorization:
+        expected = correction_base_intent(authorization)
+        require(intent in (expected, {**expected, "status": "offered"}),
+                "readmission.issue.intent", intent, "exact_correction_base_intent")
     if current.get("body") == selected["body"]:
         if intent is not None:
             require(intent.get("body_sha256") == issue_admission.body_digest(selected["body"])
@@ -3147,7 +3441,7 @@ def response(state, authorization_path, *, status="pending", waiting_on=None, de
     return result
 
 
-def create_envelope(authorization, issue, body, path, *, environ=None):
+def create_envelope(authorization, issue, body, path, *, environ=None, authorization_reference=None):
     root = Path(authorization["control_root"]).resolve()
     require(issue["body"] == body, "envelope.issue_body", "changed")
     pins = selected_instruction_pins(authorization)
@@ -3162,13 +3456,36 @@ def create_envelope(authorization, issue, body, path, *, environ=None):
                 "original_host_recovery_readback")
     if authorization.get("lifecycle_owner") is not None:
         runtime_root = Path(validate_lifecycle_owner(authorization, executing=True)).parent
+    entry = None
+    if correction:
+        parent, checkpoint, parent_paths, native = correction_revision_source(authorization)
+        if native is not None:
+            require(authorization_reference is not None, "correction.entry.authorization", "missing")
+            original = read_json(parent_paths["envelope"], "correction.original_envelope")
+            owner = issue_execution.read_owner(original)
+            terminal = issue_execution.blocked_outcome(original, owner, completed=True)
+            require(terminal is not None and terminal["message"]["outcome"] == "completed",
+                    "correction.entry.terminal", "missing", "original_completed_review")
+            attempts = owner["state"]["orders"][prior["order_id"]]["stages"][0]["attempts"]
+            entry = {"schema": 1, "kind": "ci_correction", "correction_authorization": authorization_reference,
+                "original_issue": {**parent["issue"], "number": issue["number"],
+                    "body": authorized_issue_body(parent, checkpoint["authorization_sha256"])},
+                "original_envelope": {"path": str(parent_paths["envelope"]), "sha256": checkpoint["envelope_sha256"]},
+                "selection_sha256": authorization_reference["sha256"],
+                "candidate_head": authorization["prior_publication"]["head"],
+                "candidate_tree": authorization["prior_publication"]["tree"],
+                "old_base": parent["base_head"], "target_base": authorization["base_head"],
+                "terminal": terminal, "native_acceptance": native,
+                "prior_attempts": [*attempts[:-1], {**attempts[-1], "status": "failed",
+                    "error": "changes requested: Correct the selected failed exact-head runtime"}],
+                **{key: original["execution"][key] for key in ("order_id", "stage_index", "worktree")}}
     path.parent.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     result = supervisor_admission.prepare(
         issue, {**authorization["carrier"], "noodle": authorization["noodle"]},
         root, path.parent, environ=environ, task=authorization["task"], wire_host=True,
         instruction_pins=pins, correction=correction,
         failure_context=authorization.get("failure_context"), runtime_root=runtime_root,
-        target_binding=authorization.get("target_binding"))
+        target_binding=authorization.get("target_binding"), revision_entry=entry)
     if runtime_root is None:
         save_json(path.parent / "prepared.json", result, fresh=True)
     return read_json(path, "envelope"), result["envelope_sha256"]
@@ -3572,7 +3889,7 @@ def correction_owner(authorization, paths, state):
         require(isinstance(prefix, str) and raw.startswith(prefix),
                 "amendment.control.history", "changed", "original_control_history")
         allowed = {state[key]["id"]: state[key] for key in
-                   ("correction_review", "correction_release") if key in state}
+                   ("correction_review", "correction_edit", "correction_requeue", "correction_release") if key in state}
         acks = [json.loads(line) for line in raw[len(prefix):].splitlines() if line.strip()]
         require(all(ack.get("id") in allowed and ack.get("action") ==
                     allowed[ack["id"]]["action"] and ack.get("status") == "ok" for ack in acks),
@@ -3588,6 +3905,12 @@ def correction_owner(authorization, paths, state):
                 "amendment.envelope.body_sha256", "changed", "unchanged_execution_envelope")
         binding["contract"] = issue_admission.parse_contract(body)
         binding["issue_body"] = body
+        entry_path = paths["envelope"].parent / "revision-entry.json"
+        if entry_path.exists():
+            binding = issue_execution.revision_context(binding,
+                {"path": str(entry_path), "sha256": digest_file(entry_path)}, state["envelope_sha256"])
+            require(binding["revision_entry"]["context"]["kind"] == "ci_correction",
+                    "correction.entry.kind", "changed", "sealed_correction_entry")
         owner = issue_execution.read_owner(binding)
     order_id = binding["execution"]["order_id"]
     orders = owner["state"]["orders"]
@@ -3622,6 +3945,8 @@ def advance_correction(authorization, paths, state, provider):
     require(isinstance(order, dict) and len(order.get("stages", [])) == 1,
             "amendment.order", order, "single_original_order")
     stage = order["stages"][0]
+    if "revision_entry" in binding:
+        return advance_typed_correction(authorization, paths, state, binding, owner, prior, provider)
     if state.get("correction_proposal") is None:
         worktree = Path(prior["worktree_path"])
         require(_git(worktree, "rev-parse", "HEAD") == authorization["prior_publication"]["head"]
@@ -3636,7 +3961,7 @@ def advance_correction(authorization, paths, state, provider):
     return advance_correction_replacement(authorization, paths, state, binding, owner, prior, provider)
 
 
-def retire_completed_review(authorization, paths, state, owner, prior, reason):
+def retire_completed_review(authorization, paths, state, owner, prior, reason, *, retained=False):
     order_id = prior["order_id"]
     order = owner["state"]["orders"][order_id]
     stage = order["stages"][0]
@@ -3657,10 +3982,65 @@ def retire_completed_review(authorization, paths, state, owner, prior, reason):
     if amendment_control(authorization, paths, state, "correction_review", command) is None:
         return False
     require(order.get("status") == stage.get("status") == "failed"
-            and not owner["state"].get("pending_reviews")
+            and (set(owner["state"].get("pending_reviews", {})) == {order_id} if retained
+                 else not owner["state"].get("pending_reviews"))
             and all(item.get("status") == "failed" for item in stage["attempts"]),
             "amendment.review.transition", stage.get("status"), "canonical_failed_order_after_ack_without_resend")
     return True
+
+
+def advance_typed_correction(authorization, paths, state, binding, owner, prior, provider):
+    """Use the selected native custody path for this same correction child."""
+    order_id = prior["order_id"]
+    order = owner["state"]["orders"][order_id]
+    stage = order["stages"][0]
+    entry = binding["revision_entry"]["context"]
+    require(all(stage.get(key) == prior["stage"].get(key) for key in
+                ("task_key", "skill", "provider", "model", "runtime")),
+            "correction.stage.identity", "changed", "original_dispatch_identity")
+    if state.get("correction_edit") is None:
+        require(_git(prior["worktree_path"], "rev-parse", "HEAD") == entry["candidate_head"]
+                and _git(prior["worktree_path"], "status", "--porcelain", "--untracked-files=all") == "",
+                "amendment.worktree", "changed", "clean_published_candidate")
+        issue_execution.quiescent_order(binding, owner)
+        if state.get("correction_review") is None:
+            verify_failed_prior(provider, authorization)
+        if not retire_completed_review(authorization, paths, state, owner, prior,
+                "Correct the selected failed exact-head runtime", retained=True):
+            return {"action": "correction_review_pending"}
+    if state.get("correction_release") is None:
+        review = (stage.get("extra", {}).get("request_changes_requeued", {}).get("review")
+                  or owner["state"].get("pending_reviews", {}).get(order_id))
+        issue_execution.validate_revision_custody(binding, stage, review, prior["worktree_path"])
+    prefix = "soodles-correction-" + state["authorization_sha256"][:24]
+    prompt = json.dumps(issue_execution.projection(binding, state["envelope_sha256"], "supervised"), sort_keys=True)
+    commands = {
+        "correction_edit": {"id": prefix + "-edit", "action": "edit-item", "order_id": order_id, "prompt": prompt},
+        "correction_requeue": {"id": prefix + "-requeue", "action": "requeue", "order_id": order_id},
+        "correction_release": {"id": prefix + "-release", "action": "mode", "value": "supervised"}}
+    if amendment_control(authorization, paths, state, "correction_edit", commands["correction_edit"]) is None:
+        return {"action": "correction_edit_pending"}
+    require(stage.get("prompt") == prompt, "correction.prompt", "changed", "native_edited_prompt_readback")
+    if amendment_control(authorization, paths, state, "correction_requeue", commands["correction_requeue"]) is None:
+        return {"action": "correction_requeue_pending"}
+    if "correction_release" not in state:
+        require(stage.get("status") == "pending" and stage.get("attempts") == entry["prior_attempts"]
+                and not owner["state"].get("pending_reviews"),
+                "correction.requeue", stage.get("status"), "canonical_requeued_original_order")
+        verify_failed_prior(provider, authorization)
+        state["correction_failed_attempts"] = entry["prior_attempts"]
+        state["correction_release_epoch"] = owner["state"].get("mode_epoch")
+        require(type(state["correction_release_epoch"]) is int, "amendment.release.epoch", "missing")
+        save_json(paths["state"], state)
+    ack = amendment_control(authorization, paths, state, "correction_release", commands["correction_release"])
+    if ack is None:
+        return {"action": "correction_release_pending"}
+    require(owner["state"].get("mode") == "supervised"
+            and owner["state"].get("mode_epoch") == state["correction_release_epoch"] + 1,
+            "amendment.release.transition", owner["state"].get("mode"), "canonical_supervised_mode_after_ack")
+    state["noodle_amendment"] = {"order_id": order_id, "envelope_sha256": state["envelope_sha256"], "release_ack": ack}
+    save_json(paths["state"], state)
+    return {"action": "correction_released"}
 
 
 def advance_correction_replacement(authorization, paths, state, binding, owner, prior, provider):
@@ -3733,16 +4113,13 @@ def advance_correction_replacement(authorization, paths, state, binding, owner, 
     return {"action": "correction_released"}
 
 
-def complete_noodle(authorization, paths, state, transition):
-    """Reconcile the original order after the external owner has landed it."""
-    next_action = transition.get("next", {})
+def noodle_completion_intent(authorization, paths, state):
+    """Bind native reconciliation readback to the original landed claim and argv."""
     binding = read_json(paths["envelope"], "envelope")
     order_id = binding["execution"]["order_id"]
-    require(next_action.get("owner") == "Noodle"
-            and next_action.get("known", {}).get("order_id") == order_id,
-            "noodle.completion.owner", next_action, "current_landing_next")
     landing_state = read_json(paths["landing"], "landing.checkpoint")
-    require(landing_state.get("phase") == "reconciling"
+    require((landing_state.get("phase") == "reconciling"
+             or landing_state.get("phase") == "resolved" and state.get("noodle_reconciliation") is not None)
             and set(landing_state.get("writes_offered", [])) == {"merge", "close"},
             "noodle.completion.phase", landing_state.get("phase"), "confirmed_provider_closure")
     root = Path(authorization["control_root"])
@@ -3764,13 +4141,41 @@ def complete_noodle(authorization, paths, state, transition):
     prior = state.get("noodle_reconciliation")
     require(prior is None or prior["intent"] == intent,
             "noodle.completion.intent", "changed", "original_reconciliation_identity")
+    return binding, publication_claim, intent
+
+
+def adopt_noodle_completion(paths, state, binding, owner, publication_claim, intent):
+    prior = state.get("noodle_reconciliation")
+    if prior is None:
+        return False
+    require(prior.get("intent") == intent, "noodle.completion.intent", "changed",
+            "original_reconciliation_identity")
+    order = owner["state"]["orders"].get(intent["order_id"])
+    if (prior.get("status") != "observed" and isinstance(order, dict)
+            and order.get("status") != "completed"):
+        return False
+    completion = issue_execution.completed_original_order(binding, owner, publication_claim)
+    prior.update(status="observed", completion=completion)
+    save_json(paths["state"], state)
+    return True
+
+
+def complete_noodle(authorization, paths, state, transition):
+    """Reconcile the original order after the external owner has landed it."""
+    order_id = read_json(paths["envelope"], "envelope")["execution"]["order_id"]
+    next_action = transition.get("next", {})
+    require(next_action.get("owner") == "Noodle"
+            and next_action.get("known", {}).get("order_id") == order_id,
+            "noodle.completion.owner", next_action, "current_landing_next")
+    binding, publication_claim, intent = noodle_completion_intent(authorization, paths, state)
+    argv = intent["argv"]
+    prior = state.get("noodle_reconciliation")
     owner = issue_execution.read_owner(binding)
     order = owner["state"]["orders"].get(order_id)
-    if prior is not None and prior.get("status") == "observed":
-        completion = issue_execution.completed_original_order(binding, owner, publication_claim)
-        prior.update(status="observed", completion=completion)
-        save_json(paths["state"], state)
+    if adopt_noodle_completion(paths, state, binding, owner, publication_claim, intent):
         return
+    require(prior is None, "noodle.completion.outcome", "unconfirmed",
+            "original_reconciliation_readback_without_replay")
     if order is None:
         issue_execution.completed_original_order(binding, owner, publication_claim)
     else:
@@ -3782,8 +4187,7 @@ def complete_noodle(authorization, paths, state, transition):
     if prior is None:
         state["noodle_reconciliation"] = {"intent": intent, "status": "offered"}
         save_json(paths["state"], state)
-    # Native recovery persists before/after custody and can resume an
-    # interrupted projection. Re-entry never starts a merge or writer.
+    # Persist this offer before invoking the native owner. Re-entry reads its outcome.
     state["noodle_reconciliation"]["process"] = {"status": "started", "started_ns": time.time_ns()}
     save_json(paths["state"], state)
     started = time.monotonic()
@@ -4443,11 +4847,14 @@ def verify_failed_prior(provider, authorization, *, failed_ci_only=False):
     branch = prior["branch"]
     repository = provider.repository_info()
     base_branch = target_profile(authorization, require)["base_ref"]
+    observed_base = provider.base_head(base_branch)
     require(isinstance(repository, dict)
             and repository.get("full_name") == authorization["repository"]
             and isinstance(base_branch, str)
-            and provider.base_head(base_branch) == authorization["base_head"],
-            "amendment.prior_base", repository, "exact_current_provider_base")
+            and observed_base == authorization["base_head"],
+            "amendment.prior_base", {"repository": repository.get("full_name") if isinstance(repository, dict) else None,
+                "default_branch": base_branch, "expected_base": authorization["base_head"],
+                "observed_base": observed_base}, "exact_current_provider_base")
     pull = provider.pull(prior["pr"]["number"])
     require(isinstance(pull, dict) and pull.get("number") == prior["pr"]["number"]
             and pull.get("state") == "open" and pull.get("merged") is not True
@@ -4608,7 +5015,6 @@ def verify_prior_atom(authorization):
     number = authorization["issue"]["number"]
     require(prior_auth.get("repository") == authorization["repository"]
             and prior_auth.get("control_root") == str(root)
-            and prior_auth.get("base_head") == authorization["base_head"]
             and prior_auth.get("noodle") == authorization["noodle"]
             and prior_auth.get("carrier") == authorization["carrier"]
             and prior_state.get("authorization_sha256") == ref["sha256"]
@@ -4626,10 +5032,10 @@ def verify_prior_atom(authorization):
             and prior_claim.get("subject") == authorization["repository"] + "#" + str(number)
             and prior_claim.get("head") == old["head"]
             and prior_claim.get("tree") == old["tree"]
-            and prior_claim.get("base_head") == authorization["base_head"]
+            and prior_claim.get("base_head") == prior_auth["base_head"]
             and prior_envelope.get("repository") == authorization["repository"]
             and prior_envelope.get("issue") == number
-            and prior_envelope.get("base_head") == authorization["base_head"],
+            and prior_envelope.get("base_head") == prior_auth["base_head"],
             "amendment.prior_claim", prior_claim, "same_published_noodle_candidate")
     execution = prior_envelope.get("execution", {})
     order_id = issue_admission.scoped_order_id(number, root)
@@ -4643,6 +5049,9 @@ def verify_prior_atom(authorization):
             and worktree_path.is_dir(),
             "amendment.prior_order", order_id, "exact_original_noodle_order")
     prior_body = authorized_issue_body(prior_auth, prior_state["authorization_sha256"])
+    require(authorization["issue"]["body"] == correction_base_body(prior_auth, prior_body,
+        authorization["base_head"], old["head"]), "amendment.prior_scope", "changed",
+        "original_scope_with_only_descendant_base_pins")
     require(prior_envelope["body_sha256"] == digest_bytes(prior_body.encode()),
             "amendment.prior_envelope.body_sha256", "changed", "original_execution_envelope")
     old_binding = {**prior_envelope, "contract": issue_admission.parse_contract(prior_body),
@@ -4702,6 +5111,16 @@ def verify_prior_atom(authorization):
                     "original_scope_revision_entry")
             require(stage["attempts"][:len(entry["prior_attempts"])] == entry["prior_attempts"],
                     "amendment.prior_revision.attempts", "changed", "retained_original_attempt_history")
+    elif (prior_paths["envelope"].parent / "revision-entry.json").exists():
+        revision_path = prior_paths["envelope"].parent / "revision-entry.json"
+        reference = {"path": str(revision_path), "sha256": digest_file(revision_path)}
+        require(isinstance(prompt, dict) and prompt.get("revision_context") == reference,
+                "amendment.prior_revision.reference", "changed", "parent_sealed_correction_entry")
+        old_binding = issue_execution.revision_context(old_binding, reference, prior_state["envelope_sha256"])
+        entry = old_binding["revision_entry"]["context"]
+        require(entry.get("kind") == "ci_correction" and entry.get("correction_authorization") == ref
+                and stage["attempts"][:len(entry["prior_attempts"])] == entry["prior_attempts"],
+                "amendment.prior_revision.attempts", "changed", "retained_original_attempt_history")
     require(prompt == issue_execution.projection(
         old_binding, prior_state["envelope_sha256"], "supervised"),
         "amendment.prior_prompt", prompt, "original_admitted_task")
@@ -4724,7 +5143,7 @@ def verify_prior_atom(authorization):
 def recover_prior_host(authorization, paths, state):
     """Retire only the selected original loop through its existing owner."""
     prior = verify_prior_atom(authorization)
-    require(prior["prior_loop_status"] in {"running", "stopped"},
+    require(prior["prior_loop_status"] in {"running", "stopped", "restored"},
             "amendment.prior_host.status", prior["prior_loop_status"])
     ref = authorization["prior_atom"]
     old_path = Path(ref["path"])
@@ -4761,7 +5180,7 @@ def recover_prior_host(authorization, paths, state):
         require(state["prior_host_recovery"] in (intent, {**intent, "status": "restored"}),
                 "amendment.prior_host.intent", state["prior_host_recovery"],
                 "same_original_host_recovery")
-    if not finish_host(old_auth, old_paths, old_state):
+    if prior["prior_loop_status"] != "restored" and not finish_host(old_auth, old_paths, old_state):
         return False
     require(host_config_identity(authorization["control_root"])
             == authorization["host_config_sha256"],
@@ -5304,9 +5723,9 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                 **({"target_binding": authorization["target_binding"]} if "target_binding" in authorization else {}))
     if not state_path.exists():
         save_json(state_path, state, fresh=True)
-    readmit_issue_base(provider, authorization, state, paths)
-    issue, body = exact_issue(provider, authorization, authorization_digest)
     if prior_recovery:
+        parent, parent_state, _ = correction_parent(authorization)
+        issue, body = exact_issue(provider, parent, parent_state["authorization_sha256"])
         require(issue is not None and issue.get("state") == "open",
                 "amendment.issue", issue, "exact_open_provider_issue")
         verify_failed_prior(provider, authorization)
@@ -5314,6 +5733,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
         return response(state, authorization_path, repair=repair, waiting_on=(
             "original host restored" if restored else "Noodle shutdown readback"),
             details={"prior_host_recovery": state["prior_host_recovery"]})
+    readmit_issue_base(provider, authorization, state, paths)
+    issue, body = exact_issue(provider, authorization, authorization_digest)
     if issue is None:
         write = state["writes"].get("issue_create")
         if write is None:
@@ -5338,7 +5759,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
 
     if state["phase"] == "execution":
         if not paths["envelope"].exists():
-            envelope, envelope_digest = create_envelope(authorization, issue, body, paths["envelope"], environ=environ)
+            envelope, envelope_digest = create_envelope(authorization, issue, body, paths["envelope"], environ=environ,
+                authorization_reference={"path": str(Path(authorization_path).resolve()), "sha256": authorization_digest})
             state["envelope_sha256"] = envelope_digest
             state["admission_sha256"] = digest_file(paths["envelope"].parent / "prepared.json")
             save_json(state_path, state)
@@ -5471,6 +5893,14 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
         save_json(state_path, state)
 
     landing_state = read_json(paths["landing"], "landing.checkpoint")
+    completion_receipt = state.get("noodle_reconciliation")
+    if completion_receipt is not None and completion_receipt.get("status") != "observed":
+        binding, publication_claim, intent = noodle_completion_intent(authorization, paths, state)
+        if not adopt_noodle_completion(paths, state, binding, issue_execution.read_owner(binding),
+                                      publication_claim, intent):
+            raise AtomRefusal("noodle.completion.outcome", "unconfirmed",
+                "original_reconciliation_readback_without_replay", owner="Noodle",
+                known={"order_id": intent["order_id"]})
     snapshot = provider_snapshot(provider, landing_state["claim"], run_value, jobs)
     transition = landing_owner.advance(paths["landing"], snapshot)
     if transition["action"] == "dispatch":
@@ -5486,6 +5916,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
             pass
         return response(state, authorization_path, repair=repair, waiting_on="fresh provider readback")
     if transition["action"] == "reconcile":
+        if not ensure_reconcile_control(authorization, paths, state):
+            return response(state, authorization_path, repair=repair, waiting_on="Noodle shutdown readback")
         transition = landing_owner.reconcile(paths["landing"], authorization["noodle"]["path"])
         if transition.get("action") == "noodle_reconcile":
             complete_noodle(authorization, paths, state, transition)

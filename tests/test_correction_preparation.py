@@ -1,5 +1,9 @@
 """Correction selection keeps the original authority and one fixed continuation."""
 import copy
+import hashlib
+import os
+import signal
+import time
 import json
 import io
 import subprocess
@@ -10,10 +14,32 @@ import unittest
 from unittest.mock import Mock, patch
 
 import issue_atom as atom
+import issue_admission as native_admission
+import issue_execution as native_execution
+import supervisor_admission as native_supervisor
 import test_issue_atom as atom_tests
 import supervisor_admission as admission
 import test_supervisor_authorization as authorization_tests
 from test_admission_revision import RevisionFixture, ref
+
+
+class CorrectionWorkerReaderTests(unittest.TestCase):
+    def test_explicit_generic_entry_keeps_bound_reader_and_ignores_old_prompt(self):
+        execution = atom.issue_execution
+        envelope = {'repository': 'fixture/target', 'issue': 18,
+                    'target_binding': {'fixture': 'fixed'}, 'execution': {}}
+        entry = {'path': '/fixture/entry.json', 'sha256': 'e' * 64}
+        with patch.object(execution, 'load_external_envelope', return_value=envelope), \
+                patch.object(execution, 'fetch_issue', return_value={'number': 18}) as reader, \
+                patch.object(execution, 'validate_issue', return_value=envelope), \
+                patch.object(execution, 'revision_context', return_value=envelope) as revision, \
+                patch.object(execution, 'context') as old_context:
+            with self.assertRaisesRegex(atom.issue_admission.AdmissionRefusal, 'worker.session_id'):
+                execution.worker('/fixture/envelope.json', 'd' * 64, '/fixture', [],
+                    reader=reader, environ={}, entry_reference=entry)
+        reader.assert_called_once_with('fixture/target', 18, binding=envelope)
+        revision.assert_called_once_with(envelope, entry, 'd' * 64)
+        old_context.assert_not_called()
 
 
 class TypedRevisionPriorTests(unittest.TestCase):
@@ -102,6 +128,26 @@ class TypedRevisionPriorTests(unittest.TestCase):
                 atom.verify_prior_atom(self.authorization)
         self.assertEqual(legacy.read_bytes(), retained)
         self.assertEqual(self.paths['state'].read_bytes(), state)
+
+    def test_tri_base_prior_keeps_old_claim_and_rejects_scope_change(self):
+        f = self.f
+        f.git('commit', '--allow-empty', '-m', 'New provider target')
+        target = f.git('rev-parse', 'HEAD')
+        f.git('reset', '--hard', f.base)
+        child = {**self.authorization, 'base_head': target,
+            'issue': {**self.authorization['issue'], 'body': atom.correction_base_body(
+                self.authorization, self.authorization['issue']['body'], target,
+                self.authorization['prior_publication']['head'])}}
+        self.assertEqual(len({f.base, f.target, target}), 3)
+        before = self.paths['state'].read_bytes()
+        with patch.object(atom.issue_execution, 'quiescent_order'), \
+                patch.object(atom, 'observe_prior_loop', return_value='stopped'):
+            result = atom.verify_prior_atom(child)
+            self.assertEqual(result['prior_envelope_sha256'], self.state['envelope_sha256'])
+            with self.assertRaisesRegex(atom.AtomRefusal, 'amendment.prior_scope'):
+                atom.verify_prior_atom({**child, 'issue': {**child['issue'], 'body': child['issue']['body'] + 'Other task'}})
+        self.assertEqual(self.paths['state'].read_bytes(), before)
+        self.assertEqual(f.git('rev-parse', 'HEAD'), f.base)
 
     def test_prior_atom_rejects_missing_foreign_or_changed_revision_reference(self):
         foreign = self.f.save('foreign-entry.json', json.loads(self.entry_path.read_text()))
@@ -237,6 +283,113 @@ class CIPrelandingResumeTests(unittest.TestCase):
         self.spec = f.selection['lifecycle_owner']
         self.descriptor = f.save('runtime-selection.json', self.spec)
 
+    def postwrite_fixture(self):
+        p = self.prior
+        self.state['phase'] = 'landing'
+        effective, selected_paths = atom.scope_projection(self.f.auth, self.state, p.paths)
+        claim = atom.read_json(p.paths['claim'], 'claim')
+        publication = self.state['publication']
+        atom.save_json(p.paths['landing'], {'phase': 'awaiting_reconcile',
+            'writes_offered': ['merge', 'close'], 'merge_sha': claim['head'], 'issue_closed_at': 'fixture',
+            'claim': {**{key: claim[key] for key in ('repository', 'head', 'tree', 'base_head')},
+                'issue': 18, 'pr': publication['pr']['number'], 'publication_branch': publication['branch'],
+                'worktree': claim['worktree_name'], 'control_root': str(self.f.root),
+                'execution_envelope': {'path': str(selected_paths['envelope']),
+                                       'sha256': self.state['envelope_sha256']}}})
+        p.snapshot['state']['mode'] = 'supervised'
+        p.snapshot['state']['orders']['schedule'] = {'order_id': 'schedule', 'status': 'active',
+            'stages': [{'stage_index': 0, 'task_key': 'schedule', 'skill': 'schedule',
+                'provider': 'codex', 'model': 'fixture', 'runtime': 'process', 'prompt': '',
+                'status': 'pending', 'attempts': []}]}
+        atom.save_json(p.snapshot_path, p.snapshot)
+        atom.save_json(p.paths['state'], self.state)
+        return effective, selected_paths
+
+    def test_postwrite_resume_accepts_exact_parked_supervised_owner_without_effects(self):
+        import fcntl
+        self.postwrite_fixture()
+        before = copy.deepcopy(self.state)
+        original = atom.subprocess.run
+        def read_process(command, *args, **kwargs):
+            if command[0] == 'ps':
+                return subprocess.CompletedProcess(command, 0,
+                    ' '.join(self.state['noodle_start']['process_argv']) + '\n', '')
+            return original(command, *args, **kwargs)
+        with (self.runtime / 'noodle.lock').open('a+b') as native, \
+                patch.object(atom, 'validate_authorization', return_value=(self.f.auth, self.digest)), \
+                patch.object(atom.subprocess, 'run', side_effect=read_process), \
+                patch.object(atom.issue_execution.os, 'kill', side_effect=ProcessLookupError), \
+                patch.object(atom, 'ensure_noodle') as start, patch.object(atom, 'finish_host') as stop:
+            fcntl.flock(native, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            result = atom.resume(self.source, self.descriptor, ref(self.descriptor)['sha256'],
+                environ={'SOODLES_AUTHORIZATION_SHA256': self.digest})
+            start.assert_not_called()
+            stop.assert_not_called()
+        saved = atom.read_json(self.prior.paths['state'], 'state')
+        self.assertEqual(saved.pop('lifecycle_resume'), {'from': None, 'to': self.spec,
+            'authorization_sha256': self.digest})
+        self.assertEqual(saved, before)
+        self.assertEqual(result['status'], 'resumed')
+        self.assertEqual(result['next']['argv'], atom.same_command(self.source))
+
+    def test_postwrite_resume_rejects_foreign_process_before_selecting_source(self):
+        import fcntl
+        self.postwrite_fixture()
+        original = atom.subprocess.run
+        def read_process(command, *args, **kwargs):
+            if command[0] == 'ps':
+                return subprocess.CompletedProcess(command, 0, 'foreign-process\n', '')
+            return original(command, *args, **kwargs)
+        before = self.prior.paths['state'].read_bytes()
+        with (self.runtime / 'noodle.lock').open('a+b') as native, \
+                patch.object(atom, 'validate_authorization', return_value=(self.f.auth, self.digest)), \
+                patch.object(atom.subprocess, 'run', side_effect=read_process), \
+                patch.object(atom.issue_execution.os, 'kill', side_effect=ProcessLookupError):
+            fcntl.flock(native, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            with self.assertRaisesRegex(atom.AtomRefusal, 'amendment.prior_loop.identity'):
+                atom.resume(self.source, self.descriptor, ref(self.descriptor)['sha256'],
+                    environ={'SOODLES_AUTHORIZATION_SHA256': self.digest})
+        self.assertEqual(self.prior.paths['state'].read_bytes(), before)
+
+    def test_postwrite_custody_rejects_active_writer_config_and_foreign_control(self):
+        self.postwrite_fixture()
+        p = self.prior
+        with patch.object(atom.issue_execution.os, 'kill', side_effect=ProcessLookupError):
+            p.stage['attempts'][-1]['status'] = 'running'
+            atom.save_json(p.snapshot_path, p.snapshot)
+            with self.assertRaisesRegex(atom.AtomRefusal, 'noodle.order.attempt'):
+                atom.postwrite_parked_custody(self.f.auth, p.paths, self.state)
+            p.stage['attempts'][-1]['status'] = 'completed'
+            atom.save_json(p.snapshot_path, p.snapshot)
+            config = self.f.root / '.noodle.toml'
+            raw = config.read_bytes()
+            config.write_text('foreign = true\n')
+            with self.assertRaisesRegex(atom.AtomRefusal, 'lifecycle.resume.prepared'):
+                atom.postwrite_parked_custody(self.f.auth, p.paths, self.state)
+            config.write_bytes(raw)
+            with (self.runtime / 'control-ack.ndjson').open('a') as stream:
+                stream.write('{"id":"foreign","action":"mode","status":"ok"}\n')
+            with self.assertRaisesRegex(atom.AtomRefusal, 'lifecycle.resume.controls'):
+                atom.postwrite_parked_custody(self.f.auth, p.paths, self.state)
+
+    def test_prior_host_restored_readback_completes_missing_or_offered_child_receipt(self):
+        p = self.prior
+        child = {**p.authorization, 'host_config_sha256': None}
+        child_paths = atom.artifact_paths(self.f.directory / 'child.json')
+        (self.f.root / '.noodle.toml').unlink()
+        original = p.paths['state'].read_bytes()
+        with patch.object(atom.issue_execution, 'quiescent_order'), \
+                patch.object(atom.issue_execution, '_absent_process'), \
+                patch.object(atom, 'observe_prior_loop', return_value='restored'), \
+                patch.object(atom, 'finish_host') as finish:
+            intent = {'prior_authorization_sha256': child['prior_atom']['sha256'],
+                      'order_id': self.f.selection['order_id'], 'status': 'offered'}
+            for checkpoint in ({}, {'prior_host_recovery': intent}):
+                self.assertTrue(atom.recover_prior_host(child, child_paths, checkpoint))
+                self.assertEqual(checkpoint['prior_host_recovery'], {**intent, 'status': 'restored'})
+            finish.assert_not_called()
+        self.assertEqual(p.paths['state'].read_bytes(), original)
+
     def test_resume_selects_ci_runtime_without_changing_parked_review_or_effects(self):
         p = self.prior
         before = copy.deepcopy(self.state)
@@ -308,6 +461,47 @@ class CIPrelandingResumeTests(unittest.TestCase):
             stop.assert_not_called()
         self.assertEqual(self.source.read_bytes(), auth_bytes)
         self.assertEqual(self.prior.snapshot_path.read_bytes(), owner_bytes)
+
+    def test_created_issue_number_preserves_original_authorization_marker(self):
+        original = copy.deepcopy(self.f.auth)
+        original['issue'].pop('number', None)
+        observed = {}
+        def prior(candidate):
+            observed.update(candidate)
+            raise atom.AtomRefusal('fixture.prior', 'captured')
+        before = self.source.read_bytes()
+        with patch.object(atom, 'scope_packet', return_value={'selection': {'schema': 2}}), \
+                patch.object(atom, 'validate_correction_lineage'), \
+                patch.object(atom, 'scope_projection', return_value=(original, self.prior.paths)), \
+                patch.object(atom, 'verify_prior_atom', side_effect=prior):
+            with self.assertRaisesRegex(atom.AtomRefusal, 'fixture.prior'):
+                atom.prelanding_lifecycle(self.source, original, self.state, self.prior.paths)
+        self.assertEqual(observed['issue']['number'], self.state['issue']['number'])
+        self.assertEqual(observed['issue']['body'], atom.authorized_issue_body(original, self.digest))
+        self.assertIn(atom.marker(self.digest), observed['issue']['body'])
+        self.assertNotIn('number', original['issue'])
+        self.assertEqual(self.source.read_bytes(), before)
+
+    def test_typed_correction_ack_prefix_and_complete_tail_are_required(self):
+        _, selected_paths = atom.scope_projection(self.f.auth, self.state, self.prior.paths)
+        authorization = {**self.f.auth, 'prior_atom': {'path': str(self.source), 'sha256': self.digest}}
+        state = {'correction_ack_prefix': '{"id":"parent","status":"ok"}\n'}
+        commands = {name: {'id': name, 'action': action} for name, action in (
+            ('correction_review', 'request-changes'), ('correction_edit', 'edit-item'),
+            ('correction_requeue', 'requeue'), ('correction_release', 'mode'))}
+        state.update(commands)
+        path = self.runtime / 'control-ack.ndjson'
+        tail = ''.join(json.dumps({**command, 'status': 'ok'}) + '\n' for command in commands.values())
+        for raw, field in ((tail, 'lifecycle.resume.control_history'),
+                (state['correction_ack_prefix'] + tail + '{"id":"foreign","status":"ok"}\n',
+                 'lifecycle.resume.controls')):
+            path.write_text(raw)
+            with self.assertRaisesRegex(atom.AtomRefusal, field):
+                atom.completed_control_readback(authorization, state, selected_paths)
+        raw = state['correction_ack_prefix'] + tail
+        path.write_text(raw)
+        atom.completed_control_readback(authorization, state, selected_paths)
+        self.assertEqual(path.read_text(), raw)
 
     def test_resume_refuses_changed_custody_and_unknown_effects_without_selection(self):
         p = self.prior
@@ -443,6 +637,7 @@ class CorrectionPreparationTests(unittest.TestCase):
         self.provider.jobs.return_value = {'jobs': [self.job]}
         self.provider.job_log.side_effect = lambda job_id: {
             'job_id': job_id, 'raw': b'exact failure: assertion A\n', 'gap': None}
+        self.prior_validator = atom.verify_prior_atom
         owner_patch = patch.object(atom, 'verify_prior_atom', return_value={'order_id': 'original'})
         self.owner = owner_patch.start()
         self.addCleanup(owner_patch.stop)
@@ -450,6 +645,221 @@ class CorrectionPreparationTests(unittest.TestCase):
     def prepare(self, *, provider=None, output=None):
         return admission.correction(str(self.source), self.digest, str(output or self.output),
                                     provider=self.provider if provider is None else provider)
+
+    def test_descendant_correction_requires_parent_selected_native_capability(self):
+        root = self.fixture.fixture.root
+        source_head = self.auth['base_head']
+        subprocess.run(['git', 'commit', '--allow-empty', '-m', 'provider base advance'],
+                       cwd=root, check=True, capture_output=True)
+        target = atom._git(root, 'rev-parse', 'HEAD')
+        subprocess.run(['git', 'reset', '--hard', source_head], cwd=root,
+                       check=True, capture_output=True)
+        self.publication['head'] = source_head
+        self.publication['tree'] = atom._git(root, 'rev-parse', source_head + '^{tree}')
+        self.provider.pull.return_value['head']['sha'] = source_head
+        self.provider.branch.return_value['object']['sha'] = source_head
+        self.run['head_sha'] = self.job['head_sha'] = source_head
+        self.provider.base_head.return_value = target
+        atom.save_json(self.paths['state'], self.state)
+        with self.assertRaises(admission.AdmissionRefusal) as caught:
+            self.prepare()
+        self.assertEqual(caught.exception.invalid['field'], 'correction.base.native')
+        self.assertFalse(self.output.exists())
+        self.assertEqual(atom._git(root, 'rev-parse', 'HEAD'), source_head)
+        self.provider.update_issue_body.assert_not_called()
+
+    def test_typed_release_rechecks_fixed_base_before_offer_then_reads_ack(self):
+        authorization = {**self.auth, 'issue': {key: self.issue[key] for key in ('number', 'title', 'body')},
+                         'prior_publication': self.publication}
+        order_id = 'fixture-order'
+        attempts = [{'status': 'failed', 'session_id': 'prior', 'attempt_id': 'prior-attempt'}]
+        binding = {'repository': self.auth['repository'], 'issue': 131, 'body_sha256': 'a' * 64,
+            'body_updated_at': None, 'contract': atom.issue_admission.parse_contract(self.issue['body']),
+            'issue_body': self.issue['body'], 'execution': {'task': self.auth['task']},
+            'revision_entry': {'reference': ref(self.source), 'context': {'prior_attempts': attempts}}}
+        prompt = json.dumps(atom.issue_execution.projection(binding, 'b' * 64, 'supervised'), sort_keys=True)
+        prefix = 'soodles-correction-' + self.digest[:24]
+        commands = {'correction_edit': {'id': prefix + '-edit', 'action': 'edit-item', 'order_id': order_id, 'prompt': prompt},
+                    'correction_requeue': {'id': prefix + '-requeue', 'action': 'requeue', 'order_id': order_id}}
+        checkpoint = {'authorization_sha256': self.digest, 'envelope_sha256': 'b' * 64, **commands}
+        stage = {'status': 'pending', 'prompt': prompt, 'attempts': attempts}
+        owner = {'state': {'orders': {order_id: {'stages': [stage]}}, 'pending_reviews': {}, 'mode': 'manual', 'mode_epoch': 1}}
+        prior = {'order_id': order_id, 'worktree_path': str(self.fixture.fixture.root), 'stage': stage}
+        runtime = self.fixture.fixture.root / '.noodle'
+        runtime.mkdir(exist_ok=True)
+        acks = runtime / 'control-ack.ndjson'
+        acks.write_text(''.join(json.dumps({**command, 'status': 'ok'}) + '\n' for command in commands.values()))
+        self.provider.base_head.return_value = 'f' * 40
+        with patch.object(atom.issue_execution, 'validate_revision_custody'):
+            with self.assertRaises(atom.AtomRefusal) as caught:
+                atom.advance_typed_correction(authorization, self.paths, checkpoint, binding, owner, prior, self.provider)
+            self.assertEqual(caught.exception.invalid['field'], 'amendment.prior_base')
+            self.assertEqual(caught.exception.invalid['value']['observed_base'], 'f' * 40)
+            self.assertNotIn('correction_release', checkpoint)
+            self.assertFalse((runtime / 'control.ndjson').exists())
+            self.provider.base_head.return_value = self.auth['base_head']
+            result = atom.advance_typed_correction(authorization, self.paths, checkpoint, binding, owner, prior, self.provider)
+            self.assertEqual(result['action'], 'correction_release_pending')
+            with acks.open('a') as stream:
+                stream.write(json.dumps({**checkpoint['correction_release'], 'status': 'ok'}) + '\n')
+            (runtime / 'control.ndjson').write_text('')
+            owner['state'].update(mode='supervised', mode_epoch=2)
+            self.provider.base_head.reset_mock()
+            self.provider.base_head.return_value = 'e' * 40
+            self.assertEqual(atom.advance_typed_correction(authorization, self.paths, checkpoint, binding, owner, prior, self.provider)['action'], 'correction_released')
+            self.provider.base_head.assert_not_called()
+
+    def test_tri_base_preparation_readmission_and_sealed_entry_preserve_old_generation(self):
+        root = self.fixture.fixture.root
+        outer = self.fixture.fixture.outer
+        source_head = self.auth['base_head']
+        self.issue.update(url='https://api.github.com/repos/ed3c/soodles/issues/131',
+                          updated_at='2026-10-04T00:00:00Z')
+        env = {admission.TOKEN_COMMAND_ENV: 'fixture-unused-credential'}
+        original_bundle = outer / 'original-bundle'
+        admission.prepare(self.issue, {**self.auth['carrier'], 'noodle': self.auth['noodle']},
+                          root, original_bundle, task=self.auth['task'], environ=env)
+        original = atom.read_json(original_bundle / 'envelope.json', 'original')
+        subprocess.run(['git', 'commit', '--allow-empty', '-m', 'Prior scope base'], cwd=root, check=True, capture_output=True)
+        prior_base = atom._git(root, 'rev-parse', 'HEAD')
+        worktree = root / '.worktrees' / original['execution']['worktree']
+        subprocess.run(['git', 'worktree', 'add', '-b', worktree.name, str(worktree), prior_base], cwd=root, check=True, capture_output=True)
+        (worktree / 'allowed.py').write_text('retained candidate\n')
+        subprocess.run(['git', 'add', '.'], cwd=worktree, check=True, capture_output=True)
+        subprocess.run(['git', 'commit', '-m', 'Published candidate'], cwd=worktree, check=True, capture_output=True)
+        head = atom._git(worktree, 'rev-parse', 'HEAD')
+        self.publication.update(head=head, tree=atom._git(worktree, 'rev-parse', 'HEAD^{tree}'))
+        runtime_root = Path(atom.__file__).parent
+        hashes = {name: atom.digest_file(runtime_root / name) for name in atom.LIFECYCLE_FILES}
+        runtime = {'path': str(runtime_root / 'issue-atom'), 'sha256': hashes['issue-atom'],
+                   'source_sha256': atom.digest_bytes(json.dumps(hashes, sort_keys=True, separators=(',', ':')).encode())}
+        accepted = outer / 'accepted.json'
+        atom.save_json(accepted, {'schema': 1, 'issue': 106, 'accepted_at': 'fixture',
+            'binary': self.auth['noodle'], 'acceptance': ref(self.source), 'interface': ref(self.source)})
+        readback = outer / 'scope-provider.json'
+        atom.save_json(readback, {'repository': {'full_name': self.auth['repository'], 'default_branch': 'main'},
+            'branch': {'name': 'main', 'commit': {'sha': prior_base}}})
+        selection = {'schema': 2, 'type': 'base_advance', 'reason': 'Prior admitted base.',
+            'evidence': ref(self.source), 'lifecycle_owner': runtime, 'candidate_head': head,
+            'candidate_tree': self.publication['tree'], 'original_envelope': ref(original_bundle / 'envelope.json'),
+            'order_id': original['execution']['order_id'], 'stage_index': 0, 'terminal_session': 'older-session',
+            'before_contract': atom.issue_admission.parse_contract(self.auth['issue']['body']),
+            'target_base': prior_base, 'references': [], 'provider_readback': ref(readback), 'native_acceptance': ref(accepted)}
+        scope_output = outer / 'scope'
+        scope_output.mkdir()
+        packet = scope_output / 'scope-selection.json'
+        atom.save_json(packet, {'schema': 1, 'authorization': ref(self.source), 'selection': selection, 'output': str(scope_output)})
+        selection = atom.read_json(packet, 'selected scope')['selection']
+        self.issue['body'] = atom.revision_body({**self.auth, 'issue': self.issue}, selection)
+        prior_envelope = {**original, 'body_sha256': atom.digest_bytes(self.issue['body'].encode()), 'base_head': prior_base}
+        prior_envelope_path = scope_output / 'admission/envelope.json'
+        prior_envelope_path.parent.mkdir()
+        atom.save_json(prior_envelope_path, prior_envelope)
+        atom.save_json(prior_envelope_path.parent / 'prepared.json', {'envelope_sha256': atom.digest_file(prior_envelope_path)})
+        self.state.update(lifecycle_resume={'from': None, 'to': runtime, 'authorization_sha256': self.digest},
+            envelope_sha256=atom.digest_file(prior_envelope_path), scope_amendment={
+            'selection': ref(packet), 'prepared': ref(prior_envelope_path.parent / 'prepared.json'), 'status': 'released'})
+        atom.save_json(self.paths['state'], self.state)
+        self.provider.pull.return_value['head']['sha'] = head
+        self.provider.branch.return_value['object']['sha'] = head
+        self.run['head_sha'] = self.job['head_sha'] = head
+        subprocess.run(['git', 'commit', '--allow-empty', '-m', 'New provider base'], cwd=root, check=True, capture_output=True)
+        target = atom._git(root, 'rev-parse', 'HEAD')
+        subprocess.run(['git', 'reset', '--hard', source_head], cwd=root, check=True, capture_output=True)
+        self.provider.base_head.return_value = target
+        prepared = self.prepare()
+        child_path = Path(prepared['authorization']['path'])
+        child = atom.read_json(child_path, 'child')
+        self.assertEqual(len({source_head, prior_base, target}), 3)
+        self.assertEqual(child['base_head'], target)
+        self.assertEqual(child['lifecycle_owner'], runtime)
+        child_paths = atom.artifact_paths(child_path)
+        child_paths['directory'].mkdir()
+        child_state = {'phase': 'issue', 'writes': {}, 'issue': None, 'publication': None,
+            'prior_host_recovery': {'status': 'restored'}}
+        self.provider.update_issue_body.side_effect = atom.MutationUnknown('lost Issue PATCH response')
+        for _ in range(2):
+            with self.assertRaises(atom.AtomRefusal) as caught:
+                atom.readmit_issue_base(self.provider, child, child_state, child_paths)
+            self.assertEqual(caught.exception.invalid['field'], 'readmission.issue.outcome')
+        self.issue['body'] = child['issue']['body']
+        atom.readmit_issue_base(self.provider, child, child_state, child_paths)
+        self.provider.update_issue_body.assert_called_once()
+        self.assertEqual(child_state['writes']['issue_base'], atom.correction_base_intent(child))
+        order_id = original['execution']['order_id']
+        attempt = {'status': 'completed', 'session_id': 'published-session', 'attempt_id': 'attempt-published', 'worktree_name': worktree.name}
+        stage = {'status': 'review', 'attempts': [attempt]}
+        review = {'order_id': order_id, 'stage_index': 0, 'session_id': 'published-session',
+                  'worktree_name': worktree.name, 'worktree_path': str(worktree)}
+        events = root / '.noodle/sessions/published-session/events.ndjson'
+        events.parent.mkdir(parents=True)
+        events.write_text(json.dumps({'type': 'stage_message', 'session_id': 'published-session',
+            'payload': {'order_id': order_id, 'stage_index': 0, 'outcome': 'completed', 'blocking': False}}) + '\n')
+        atom.save_json(root / '.noodle/state.snapshot.json', {'state': {'orders': {order_id: {'status': 'active', 'stages': [stage]}},
+            'pending_reviews': {order_id: review}}, 'effect_ledger': []})
+        self.owner.return_value = {'prior_loop_status': 'restored', 'order_id': order_id,
+            'worktree': worktree.name, 'worktree_path': str(worktree)}
+        envelope, digest = atom.create_envelope(child, self.issue, self.issue['body'], child_paths['envelope'],
+                                               environ=env, authorization_reference=ref(child_path))
+        entry_path = child_paths['envelope'].parent / 'revision-entry.json'
+        binding = atom.issue_execution.revision_context(atom.issue_admission.validate_issue(self.issue, envelope), ref(entry_path), digest)
+        self.assertEqual(binding['revision_entry']['context']['kind'], 'ci_correction')
+        self.assertEqual(envelope['execution']['source_head'], head)
+        atom.issue_execution.validate_worktree(worktree, binding)
+        self.assertEqual(atom._git(root, 'rev-parse', 'HEAD'), source_head)
+        # A retained previous prompt cannot select the next envelope's entry.
+        snapshot = atom.read_json(root / '.noodle/state.snapshot.json', 'snapshot')
+        snapshot['state']['orders'][order_id]['stages'][0]['prompt'] = json.dumps({'revision_context': ref(original_bundle / 'envelope.json')})
+        atom.save_json(root / '.noodle/state.snapshot.json', snapshot)
+        with self.assertRaises(atom.issue_admission.AdmissionRefusal) as caught:
+            atom.issue_execution.worker(child_paths['envelope'], digest, worktree, [],
+                reader=lambda *_: self.issue, environ={}, entry_reference=ref(entry_path))
+        self.assertEqual(caught.exception.invalid['field'], 'worker.session_id')
+        original_entry = atom.read_json(entry_path, 'entry')
+        controls = [({**envelope, 'execution': {**envelope['execution'], 'source_head': source_head}}, original_entry, 'revision.entry.instructions'),
+                    (envelope, {**original_entry, 'prior_attempts': []}, 'correction.entry.terminal'),
+                    (envelope, {**original_entry, 'native_acceptance': ref(self.source)}, 'revision.native.acceptance'),
+                    (envelope, {**original_entry, 'candidate_head': source_head}, 'correction.entry.identity')]
+        for changed_envelope, changed_entry, field in controls:
+            with self.subTest(field=field), self.assertRaises(atom.issue_admission.AdmissionRefusal) as caught:
+                atom.issue_execution.validate_revision_entry(changed_envelope, changed_entry, digest)
+            self.assertEqual(caught.exception.invalid['field'], field)
+        # A later failed CI keeps this child's sealed entry and every previous edge.
+        subprocess.run(['git', 'merge', '--no-edit', target], cwd=worktree, check=True, capture_output=True)
+        successor_head = atom._git(worktree, 'rev-parse', 'HEAD')
+        successor_publication = {**self.publication, 'head': successor_head,
+                                 'tree': atom._git(worktree, 'rev-parse', 'HEAD^{tree}')}
+        child_state.update(authorization_sha256=ref(child_path)['sha256'], phase='ci',
+            issue={'number': 131}, publication=successor_publication, envelope_sha256=digest,
+            admission_sha256=atom.digest_file(child_paths['envelope'].parent / 'prepared.json'))
+        atom.save_json(child_paths['state'], child_state)
+        next_stage = {'status': 'review', 'skill': 'execute', 'provider': 'codex',
+            'model': child['carrier']['codex']['model'],
+            'prompt': json.dumps(atom.issue_execution.projection(binding, digest, 'supervised')),
+            'attempts': [*original_entry['prior_attempts'], {**attempt, 'session_id': 'next-session', 'attempt_id': 'attempt-next'}]}
+        snapshot['state']['orders'][order_id]['stages'] = [next_stage]
+        snapshot['state']['pending_reviews'][order_id] = {**review, 'session_id': 'next-session',
+            **{key: next_stage.get(key) for key in ('task_key', 'skill', 'provider', 'model', 'runtime', 'prompt')}}
+        atom.save_json(root / '.noodle/state.snapshot.json', snapshot)
+        atom.save_json(child_paths['claim'], {'repository': child['repository'], 'subject': child['repository'] + '#131',
+            'head': successor_head, 'tree': successor_publication['tree'], 'base_head': target,
+            'order_id': order_id, 'worktree_name': worktree.name, 'worktree_path': str(worktree), 'session_id': 'next-session'})
+        next_authorization = {**child, 'prior_atom': ref(child_path), 'prior_publication': successor_publication}
+        with patch.object(atom.issue_execution, 'quiescent_order'), \
+                patch.object(atom, 'observe_prior_loop', return_value='stopped'):
+            self.assertEqual(self.prior_validator(next_authorization)['prior_envelope_sha256'], digest)
+            changed = copy.deepcopy(snapshot)
+            changed['state']['orders'][order_id]['stages'][0]['attempts'] = next_stage['attempts'][-1:]
+            atom.save_json(root / '.noodle/state.snapshot.json', changed)
+            with self.assertRaises(atom.AtomRefusal) as caught:
+                self.prior_validator(next_authorization)
+            self.assertEqual(caught.exception.invalid['field'], 'amendment.prior_revision.attempts')
+            atom.save_json(root / '.noodle/state.snapshot.json', snapshot)
+        self.assertEqual(atom.validate_correction_lineage(child, ref(child_path), child_state), 1)
+        child_state['writes']['issue_base']['status'] = 'offered'
+        with self.assertRaises(atom.AtomRefusal) as caught:
+            atom.validate_correction_lineage(child, ref(child_path), child_state)
+        self.assertEqual(caught.exception.invalid['field'], 'correction.lineage.effects')
 
     def test_prepares_same_issue_task_judge_carrier_and_fixed_continuation(self):
         original_auth = self.source.read_bytes()
@@ -887,5 +1297,384 @@ class DiagnosticTransportTests(unittest.TestCase):
                 opener.open.assert_called_once()
 
 
-if __name__ == '__main__':
-    unittest.main()
+
+def native_ref(path):
+    return {'path': str(path), 'sha256': atom.digest_file(path)}
+
+
+def native_save(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2) + '\n')
+    return path
+
+
+class NativeFailedProvider:
+    def __init__(self, authorization):
+        self.authorization = authorization
+        self.head = authorization['prior_publication']['head']
+        self.workflow = authorization['workflow']
+        self.run = {'id': 19, 'run_attempt': 1, 'head_sha': self.head,
+                    'event': 'pull_request', 'path': self.workflow['path'],
+                    'status': 'completed', 'conclusion': 'failure'}
+        self.job = {'id': 23, 'run_id': 19, 'run_attempt': 1, 'head_sha': self.head,
+                    'name': self.workflow['job'], 'status': 'completed', 'conclusion': 'failure',
+                    'steps': [{'name': self.workflow['step'], 'status': 'completed', 'conclusion': 'failure'}]}
+
+    def repository_info(self):
+        return {'full_name': self.authorization['repository'], 'default_branch': 'main'}
+
+    def base_head(self, branch):
+        assert branch == 'main'
+        return self.authorization['base_head']
+
+    def pull(self, number):
+        prior = self.authorization['prior_publication']
+        assert number == prior['pr']['number']
+        return {'number': number, 'state': 'open', 'merged': False,
+                'head': {'ref': prior['branch'], 'sha': self.head}, 'base': {'ref': 'main'},
+                'body': 'Refs ' + self.authorization['repository'] + '#' + str(self.authorization['issue']['number'])}
+
+    def branch(self, branch):
+        assert branch == self.authorization['prior_publication']['branch']
+        return {'object': {'sha': self.head}}
+
+    def workflow_runs(self, head):
+        assert head == self.head
+        return {'workflow_runs': [self.run]}
+
+    def jobs(self, run_id):
+        assert run_id == self.run['id']
+        return {'jobs': [self.job]}
+
+    def job_log(self, job_id):
+        return {'job_id': job_id, 'raw': b'disposable exact-head failure\n', 'gap': None}
+
+
+def native_ci_correction(root, project, wt, original_bundle, selected, issue, carrier, env):
+    runtime = project / '.noodle'
+    process = None
+    started = time.monotonic()
+
+    def command(argv, cwd=project):
+        before = time.monotonic()
+        result = subprocess.run(list(map(str, argv)), cwd=cwd, env=env, capture_output=True, text=True, timeout=30)
+        with (root / 'ci-commands.ndjson').open('a') as stream:
+            stream.write(json.dumps({'argv': list(map(str, argv)), 'cwd': str(cwd), 'exit': result.returncode,
+                                    'stdout': result.stdout, 'stderr': result.stderr,
+                                    'elapsed_seconds': time.monotonic() - before}) + '\n')
+        assert result.returncode == 0, result.stdout + result.stderr
+        return result.stdout.strip()
+
+    def git(*args, cwd=project):
+        return command(['git', *args], cwd)
+
+    def snapshot():
+        return json.loads((runtime / 'state.snapshot.json').read_text())['state']
+
+    def wait(predicate, label):
+        deadline = time.monotonic() + 25
+        while time.monotonic() < deadline:
+            value = predicate()
+            if value:
+                return value
+            if process is not None and process.poll() is not None:
+                raise AssertionError('native owner exited: ' + (root / 'ci-daemon.stderr').read_text())
+            time.sleep(.05)
+        raise AssertionError('timeout: ' + label)
+
+    original = json.loads((original_bundle / 'envelope.json').read_text())
+    order = original['execution']['order_id']
+    old_stage = copy.deepcopy(snapshot()['orders'][order]['stages'][0])
+    retained_head = git('rev-parse', 'HEAD', cwd=wt)
+    retained_tree = git('rev-parse', 'HEAD^{tree}', cwd=wt)
+    assert git('status', '--porcelain=v1', '--untracked-files=all', cwd=wt) == ''
+    terminal = native_execution.blocked_outcome(original, native_execution.read_owner(original), completed=True)
+    assert terminal['message']['outcome'] == 'completed'
+    target = git('commit-tree', original['base_head'] + '^{tree}', '-p', original['base_head'],
+                 '-m', 'Advance disposable provider base independently')
+    git('update-ref', 'refs/remotes/origin/main', target)
+    accepted = Path(env['FIXTURE_NATIVE_ACCEPTED'])
+    parent_path = root / 'parent-authorization.json'
+    parent_paths = atom.artifact_paths(parent_path)
+    native_save(parent_paths['envelope'], original)
+    parent = {'schema_version': 3, 'control_root': str(project), 'repository': original['repository'],
+              'base_head': original['base_head'], 'task': original['execution']['task'], 'issue': issue,
+              'noodle': carrier['noodle'], 'carrier': {k: v for k, v in carrier.items() if k != 'noodle'},
+              'instruction_pins': [{'path': '.agents/skills/execute/SKILL.md',
+                                    'sha256': atom.digest_file(project / '.agents/skills/execute/SKILL.md')}]}
+    native_save(parent_path, parent)
+    publication = {'head': retained_head, 'tree': retained_tree, 'branch': wt.name, 'pr': {'number': 41}}
+    packet = native_save(root / 'selected-scope-fixture.json',
+                  {'selection': {'schema': 2, 'native_acceptance': native_ref(accepted)}, 'output': str(parent_paths['directory'])})
+    parent_state = {'authorization_sha256': native_ref(parent_path)['sha256'], 'publication': publication,
+                    'envelope_sha256': native_ref(parent_paths['envelope'])['sha256'],
+                    'scope_amendment': {'selection': native_ref(packet)}}
+    native_save(parent_paths['state'], parent_state)
+    child = {**parent, 'prior_atom': native_ref(parent_path), 'prior_publication': publication,
+             'base_head': target, 'lifecycle_owner': {'fixture': 'selected runtime'},
+             'workflow': {'path': '.github/workflows/runtime.yml', 'job': 'runtime', 'step': 'Accept runtime'}}
+    new_body = atom.correction_base_body(parent, issue['body'], target, retained_head)
+    issue = {**issue, 'body': new_body, 'updated_at': '2026-10-04T00:00:00Z'}
+    child['issue'] = issue
+    provider = NativeFailedProvider(child)
+    failure, raw = atom.failed_ci_context(provider, child, provider.run, {'jobs': [provider.job]}, root / 'failed-job.log')
+    (root / 'failed-job.log').write_bytes(raw)
+    child['failure_context'] = failure
+    child_path = native_save(root / 'child-authorization.json', child)
+    paths = atom.artifact_paths(child_path)
+    (root / 'issue-readback.json').write_text(json.dumps(issue))
+    code = root / 'fixture-code'
+    code.mkdir()
+    source = Path(atom.__file__).resolve().parent
+    for name in ('test_admission_revision.py', 'test_issue_admission.py'):
+        (code / name).write_bytes((source / 'tests' / name).read_bytes())
+    env['PYTHONPATH'] = str(code) + os.pathsep + str(source)
+    prior = {'prior_loop_status': 'restored', 'order_id': order}
+    with patch.object(atom, 'verify_prior_atom', return_value=prior), \
+            patch.object(atom, 'correction_revision_source', return_value=(parent, parent_state, parent_paths, native_ref(accepted))), \
+            patch.object(atom, 'validate_lifecycle_owner', return_value=selected / 'issue-atom'):
+        envelope, digest = atom.create_envelope(child, issue, new_body, paths['envelope'],
+                                                environ=env, authorization_reference=native_ref(child_path))
+    bundle = paths['envelope'].parent
+    prepared = json.loads((bundle / 'prepared.json').read_text())
+    entry = json.loads((bundle / 'revision-entry.json').read_text())
+    assert entry['kind'] == 'ci_correction' and entry['native_acceptance'] == native_ref(accepted)
+    assert entry['old_base'] == original['base_head'] and entry['target_base'] == target
+    assert envelope['execution']['source_head'] == retained_head
+    (project / '.noodle.toml').write_bytes((bundle / 'noodle.toml').read_bytes())
+    env['SOODLES_ADMISSION_LAUNCHER'] = str(bundle / 'launcher')
+    before = (root / 'sentinel.ndjson').read_bytes()
+    state = {'authorization_sha256': native_ref(child_path)['sha256'], 'envelope_sha256': digest,
+             'admission_sha256': atom.digest_file(bundle / 'prepared.json'),
+             'correction_ack_prefix': (runtime / 'control-ack.ndjson').read_text(),
+             'correction_prior': {'order_id': order, 'worktree': wt.name, 'worktree_path': str(wt), 'stage': old_stage}}
+    stdout = (root / 'ci-daemon.stdout').open('w')
+    stderr = (root / 'ci-daemon.stderr').open('w')
+    try:
+        process = subprocess.Popen(prepared['next']['argv'], env=env, stdout=stdout, stderr=stderr, start_new_session=True)
+        state['noodle_start'] = {'status': 'started', 'pid': process.pid, 'argv': prepared['next']['argv'],
+            'process_argv': prepared['process_argv'], 'config_sha256': atom.digest_file(bundle / 'noodle.toml')}
+        native_save(paths['state'], state)
+        native_save(root / 'ci-daemon-launch.json', {'argv': prepared['next']['argv'], 'pid': process.pid})
+        wait(lambda: command(['ps', '-p', str(process.pid), '-o', 'command=']) == ' '.join(prepared['process_argv']), 'native exec')
+        wait(lambda: (runtime / 'status.json').exists(), 'native status')
+        time.sleep(.2)
+        for index in range(30):
+            before_call = time.monotonic()
+            result = atom.advance_correction(child, paths, state, provider)
+            native_save(root / ('owner-' + str(index) + '.json'), {'result': result, 'state': copy.deepcopy(state),
+                 'native': snapshot(), 'elapsed_seconds': time.monotonic() - before_call})
+            if result['action'] == 'correction_released':
+                break
+            if result['action'] != 'correction_release_pending':
+                assert (root / 'sentinel.ndjson').read_bytes() == before
+            key = {'correction_review_pending': 'correction_review', 'correction_edit_pending': 'correction_edit',
+                   'correction_requeue_pending': 'correction_requeue', 'correction_release_pending': 'correction_release'}[result['action']]
+            control = state[key]
+            wait(lambda: any(json.loads(line).get('id') == control['id'] for line in
+                             (runtime / 'control-ack.ndjson').read_text().splitlines()), 'native ' + control['action'])
+        else:
+            raise AssertionError('owner did not release')
+        wait(lambda: (root / 'revision-outcome.json').exists(), 'sentinel completed outcome')
+        outcome = json.loads((root / 'revision-outcome.json').read_text())
+        assert outcome['returncode'] == 0, outcome
+        wait(lambda: snapshot()['orders'][order]['stages'][0]['status'] == 'review', 'successor review')
+        final = snapshot()['orders'][order]['stages'][0]
+        launches = [json.loads(line) for line in (root / 'sentinel.ndjson').read_text().splitlines()]
+        assert len(launches) == len(before.splitlines()) + 1
+        assert launches[-1]['cwd'] == str(wt)
+        assert len(final['attempts']) == len(old_stage['attempts']) + 1
+        assert final['attempts'][:-1] == entry['prior_attempts']
+        assert final.get('extra', {}).get('interrupted_execution_history', []) == []
+        assert git('status', '--porcelain=v1', '--untracked-files=all', cwd=wt) == ''
+        git('merge-base', '--is-ancestor', target, 'HEAD', cwd=wt)
+        assert atom.digest_file(terminal['source']['path']) == terminal['source']['sha256']
+        controls = [json.loads(line) for line in (runtime / 'control-ack.ndjson').read_text()[len(state['correction_ack_prefix']):].splitlines()]
+        assert [value['action'] for value in controls] == ['request-changes', 'edit-item', 'requeue', 'mode']
+        native_save(root / 'ci-final-snapshot.json', snapshot())
+        return {'status': 'passed', 'owner_entry': 'issue_atom.advance_correction', 'successor_count': 1,
+                'same_order': order, 'same_worktree': str(wt), 'prior_attempts_preserved': True,
+                'interruption_history_count': 0, 'retained_head': retained_head, 'target_base': target,
+                'final_head': git('rev-parse', 'HEAD', cwd=wt), 'elapsed_seconds': time.monotonic() - started,
+                'model_calls': 0, 'live_provider_calls': 0, 'scope': 'producer and held owner to native continuation',
+                'setup_stubs': ['verify_prior_atom', 'correction_revision_source', 'validate_lifecycle_owner'],
+                'unknown': ['Agent engineering semantics', 'live CI', 'landing', 'complete admission lifecycle'],
+                'source_hashes': {name: atom.digest_file(source / name) for name in
+                                  ('issue_atom.py', 'issue_admission.py', 'issue_execution.py', 'supervisor_admission.py',
+                                   'tests/test_correction_preparation.py')}}
+    finally:
+        if process is not None and process.poll() is None:
+            process.send_signal(signal.SIGTERM)
+            try:
+                process.wait(timeout=15)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait(timeout=5)
+        stdout.close()
+        stderr.close()
+        native_save(root / 'ci-cleanup.json', {'daemon_pid': process.pid if process else None,
+                                      'daemon_returncode': process.returncode if process else None})
+
+
+def native_completed_control(output, accepted):
+    import fcntl
+    import platform
+    import sys
+    from test_issue_admission import issue_fixture
+    root = Path(output).resolve()
+    root.mkdir(parents=True, exist_ok=False)
+    project = root / 'project'
+    runtime = project / '.noodle'
+    binary = accepted['binary']['path']
+    env = {k: v for k, v in os.environ.items() if not any(x in k.upper() for x in ('TOKEN', 'API_KEY', 'SECRET'))}
+    env.update(NOODLE_NO_BROWSER='1', GIT_TERMINAL_PROMPT='0', GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL='/dev/null')
+    process = None
+
+    def run(argv, cwd=None):
+        start = time.monotonic()
+        result = subprocess.run(list(map(str, argv)), cwd=cwd, env=env, capture_output=True, text=True, timeout=30)
+        with (root / 'setup-commands.ndjson').open('a') as stream:
+            stream.write(json.dumps({'argv': list(map(str, argv)), 'cwd': str(cwd), 'exit': result.returncode,
+                                    'stdout': result.stdout, 'stderr': result.stderr,
+                                    'elapsed_seconds': time.monotonic() - start}) + '\n')
+        assert result.returncode == 0, result.stdout + result.stderr
+        return result.stdout.strip()
+
+    def write(path, text):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text)
+
+    def wait(predicate, label):
+        deadline = time.monotonic() + 25
+        while time.monotonic() < deadline:
+            if process is not None and process.poll() is not None:
+                raise AssertionError('initial daemon exited')
+            value = predicate()
+            if value:
+                return value
+            time.sleep(.05)
+        raise AssertionError('timeout: ' + label)
+
+    try:
+        run(['git', 'init', '-b', 'main', project])
+        run(['git', 'config', 'user.name', 'Native Fixture'], project)
+        run(['git', 'config', 'user.email', 'fixture@example.invalid'], project)
+        source = Path(atom.__file__).resolve().parent
+        for name in native_supervisor.BUNDLE_PATHS:
+            write(project / name, (source / name).read_text())
+        reader = "import json, os\nfrom pathlib import Path\ndef fetch_issue(repository, number):\n    return json.loads(Path(os.environ['FIXTURE_ISSUE_READBACK']).read_text())\n"
+        write(project / 'github_reader.py', reader)
+        write(project / '.gitignore', '.noodle/\n.worktrees/\n.noodle.toml\n')
+        write(project / 'candidate.txt', 'candidate\n')
+        write(project / 'new.txt', 'fixture evidence\n')
+        for skill in ('execute', 'schedule'):
+            write(project / '.agents/skills' / skill / 'SKILL.md',
+                  f'---\nname: {skill}\ndescription: Local fixture only.\nschedule: Local fixture only.\n---\nRemain idle.\n')
+        sentinel = root / 'fixture-bin/codex'
+        write(sentinel, '#!' + sys.executable + '\n' + """
+import json, os, pathlib, subprocess, sys
+root = pathlib.Path(ROOT)
+prompt = sys.stdin.read()
+with (root / 'sentinel.ndjson').open('a') as stream:
+    stream.write(json.dumps({'pid': os.getpid(), 'argv': sys.argv, 'cwd': os.getcwd(), 'prompt': prompt})+'\\n')
+print(json.dumps({'type': 'thread.started', 'thread_id': 'fixture-'+str(os.getpid())}), flush=True)
+bundle = pathlib.Path(os.environ['SOODLES_ADMISSION_LAUNCHER']).parent
+if (bundle / 'revision-entry.json').exists():
+    sys.path.insert(0, str(root / 'fixture-code'))
+    from test_admission_revision import native_successor
+    native_successor(root)
+else:
+    pathlib.Path('candidate.txt').write_text('completed candidate\\n')
+    subprocess.run(['git', 'add', '.'], check=True)
+    subprocess.run(['git', 'commit', '-m', 'Keep disposable completed candidate'], check=True, capture_output=True)
+    argv = [str(bundle / 'launcher'), 'stage-outcome', 'completed', 'Completed disposable candidate.']
+    result = subprocess.run(argv, capture_output=True, text=True, timeout=30)
+    (root / 'initial-outcome.json').write_text(json.dumps({'argv': argv, 'exit': result.returncode, 'stdout': result.stdout, 'stderr': result.stderr}))
+    assert result.returncode == 0, result.stdout + result.stderr
+    print(json.dumps({'type': 'turn.completed', 'usage': {'input_tokens': 0, 'output_tokens': 0}}), flush=True)
+""".replace('ROOT', repr(str(root))))
+        sentinel.chmod(0o755)
+        backlog = root / 'backlog-sync'
+        write(backlog, '#!/bin/sh\nexit 0\n'); backlog.chmod(0o755)
+        write(project / '.noodle.toml', f'mode = "manual"\n[routing.defaults]\nprovider = "codex"\nmodel = "fixture"\n[agents.codex]\npath = {json.dumps(str(sentinel.parent))}\n[server]\nenabled = false\n[concurrency]\nmax_concurrency = 1\n[adapters.backlog.scripts]\nsync = {json.dumps(str(backlog))}\nadd = {json.dumps(str(backlog))}\ndone = {json.dumps(str(backlog))}\nedit = {json.dumps(str(backlog))}\n')
+        run(['git', 'add', '.'], project); run(['git', 'commit', '-m', 'Keep minimal native fixture inputs'], project)
+        run(['git', 'remote', 'add', 'origin', 'git@github.com:ed3c/soodles.git'], project)
+        base = run(['git', 'rev-parse', 'HEAD'], project)
+        run(['git', 'update-ref', 'refs/remotes/origin/main', base], project)
+        run(['git', 'symbolic-ref', 'refs/remotes/origin/HEAD', 'refs/remotes/origin/main'], project)
+        issue, _ = issue_fixture()
+        contract = native_admission.parse_contract(issue['body'])
+        contract.update(schema=3, base_head=base, write_paths=['candidate.txt', 'new.txt'],
+                        required_paths=['candidate.txt', 'new.txt'], evidence_manifest='new.txt',
+                        frozen_paths=[{'path': 'candidate.txt', 'revision': 'base', 'sha256': atom.digest_file(project / 'candidate.txt')}])
+        issue['body'] = '<!-- soodles:execution-v1 -->\n```json\n' + json.dumps(contract) + '\n```\n<!-- /soodles:execution-v1 -->'
+        native_save(root / 'issue-readback.json', issue)
+        env.update(FIXTURE_ISSUE_READBACK=str(root / 'issue-readback.json'), NOODLES_TOKEN_COMMAND='printf fixture-installation-token')
+        carrier = {'platform': platform.system().lower() + '_' + platform.machine().lower(), 'noodle': accepted['binary'],
+                   'codex': {**native_ref(sentinel), 'model': 'fixture', 'argv': ['exec', '--skip-git-repo-check', '--json', '--model', 'fixture']}}
+        selected = root / 'selected-runtime'; selected.mkdir()
+        for name in native_supervisor.BUNDLE_PATHS:
+            write(selected / name, reader if name == 'github_reader.py' else (source / name).read_text())
+        bundle = root / 'original-bundle'
+        prepared = native_supervisor.prepare(issue, carrier, project, bundle, environ=env, wire_host=True,
+            task='Retain this disposable candidate and report one completed outcome.',
+            instruction_pins=[{'path': '.agents/skills/execute/SKILL.md', 'sha256': atom.digest_file(project / '.agents/skills/execute/SKILL.md')}])
+        original = json.loads((bundle / 'envelope.json').read_text())
+        order = original['execution']['order_id']
+        wt = project / '.worktrees' / original['execution']['worktree']
+        prompt = json.dumps(native_execution.projection(native_admission.validate_issue(issue, original), atom.digest_file(bundle / 'envelope.json'), 'supervised'))
+        stage = {'stage_index': 0, 'task_key': 'execute', 'status': 'pending', 'provider': 'codex', 'model': 'fixture',
+                 'runtime': 'process', 'skill': 'execute', 'prompt': prompt, 'attempts': []}
+        stamp = '2026-10-04T00:00:00Z'
+        canonical = {'orders': {order: {'order_id': order, 'status': 'active', 'stages': [stage]}},
+                     'pending_reviews': {}, 'mode': 'manual', 'schema_version': 1, 'last_event_id': '1'}
+        native_save(runtime / 'state.snapshot.json', {'order_revision': 'a' * 32, 'state': canonical, 'effect_ledger': [], 'generated_at': stamp})
+        native_save(runtime / 'orders.json', {'generated_at': stamp, 'orders': [{'id': order, 'status': 'active',
+             'stages': [{k: v for k, v in stage.items() if k not in ('stage_index', 'attempts')}]}]})
+        native_save(runtime / 'pending-review.json', [])
+        (project / '.noodle.toml').write_bytes((bundle / 'noodle.toml').read_bytes())
+        env['SOODLES_ADMISSION_LAUNCHER'] = str(bundle / 'launcher')
+        stdout = (root / 'initial-daemon.stdout').open('w'); stderr = (root / 'initial-daemon.stderr').open('w')
+        process = subprocess.Popen(prepared['next']['argv'], env=env, stdout=stdout, stderr=stderr, start_new_session=True)
+        native_save(root / 'initial-daemon-launch.json', {'argv': prepared['next']['argv'], 'pid': process.pid})
+        wait(lambda: (runtime / 'status.json').exists(), 'initial status')
+        with (runtime / 'control.lock').open('a') as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            with (runtime / 'control.ndjson').open('a') as stream:
+                stream.write(json.dumps({'id': 'fixture-initial-release', 'action': 'mode', 'value': 'supervised'}) + '\n')
+        wait(lambda: (root / 'initial-outcome.json').exists(), 'initial completed outcome')
+        wait(lambda: json.loads((runtime / 'state.snapshot.json').read_text())['state']['orders'][order]['stages'][0]['status'] == 'review', 'initial parked review')
+        process.send_signal(signal.SIGTERM); process.wait(timeout=15)
+        stdout.close(); stderr.close()
+        result = native_ci_correction(root, project, wt, bundle, selected, issue, carrier, env)
+        native_save(root / 'result.json', result)
+        return result
+    except Exception as error:
+        import traceback
+        native_save(root / 'failure.json', {'error': str(error), 'traceback': traceback.format_exc()})
+        raise
+    finally:
+        if process is not None and process.poll() is None:
+            process.send_signal(signal.SIGTERM)
+            process.wait(timeout=15)
+        launches = [json.loads(line) for line in (root / 'sentinel.ndjson').read_text().splitlines()] if (root / 'sentinel.ndjson').exists() else []
+        pids = ([process.pid] if process else []) + [value['pid'] for value in launches]
+        remaining = [pid for pid in pids if subprocess.run(['ps', '-p', str(pid), '-o', 'pid='], capture_output=True, text=True).stdout.strip()]
+        native_save(root / 'process-readback.json', {'pids': pids, 'remaining': remaining})
+        assert not remaining, remaining
+
+
+def run_native_correction(accepted_path, output):
+    accepted = json.loads(Path(accepted_path).read_text())
+    for name in ('binary', 'acceptance', 'interface'):
+        assert atom.digest_file(accepted[name]['path']) == accepted[name]['sha256']
+    with patch.dict(os.environ, {'FIXTURE_NATIVE_ACCEPTED': str(Path(accepted_path).resolve())}):
+        return native_completed_control(output, accepted)
+
+
+
+if __name__ == "__main__":
+    if len(sys.argv) == 4 and sys.argv[1] == "--native":
+        print(json.dumps(run_native_correction(sys.argv[2], sys.argv[3]), indent=2))
+    else:
+        unittest.main()

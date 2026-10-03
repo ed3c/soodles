@@ -49,6 +49,37 @@ def body_digest(body):
     return hashlib.sha256(body.encode("utf-8")).hexdigest()
 
 
+def correction_base_body(authorization, body, target, prior_head):
+    """Derive only descendant base hashes; preserve prose and every other field."""
+    before = parse_contract(body)
+    previous_base = before.get("base_head", authorization.get("base_head"))
+    if target is not None and target == previous_base:
+        return body
+    require(before.get("schema") == 3 and isinstance(target, str) and re.fullmatch(r"[0-9a-f]{40}", target),
+            "correction.base.target", target, required="schema_three_descendant_base")
+    root = authorization["control_root"]
+    for head in (prior_head, target):
+        observed = subprocess.run(["git", "merge-base", "--is-ancestor", before["base_head"], head],
+                                  cwd=root, capture_output=True, timeout=30)
+        require(observed.returncode == 0, "correction.base.ancestry", head,
+                required="published_head_and_target_descend_from_prior_base")
+    pins = []
+    for pin in before["frozen_paths"]:
+        if pin["revision"] == "base":
+            require(hashlib.sha256(git_bytes(root, before["base_head"], pin["path"])).hexdigest()
+                    == pin["sha256"], "correction.base.previous_pin", pin["path"])
+            pin = {**pin, "sha256": hashlib.sha256(git_bytes(root, target, pin["path"])).hexdigest()}
+        pins.append(pin)
+    after = {**before, "base_head": target, "frozen_paths": pins}
+    marker_pattern = re.escape(MARKER)
+    pattern = r"(<!--\s*" + marker_pattern + r"\s*-->\s*```json\s*\n).*?(\n\s*```\s*<!--\s*/" + marker_pattern + r"\s*-->)"
+    result, count = re.subn(pattern, lambda m: m[1] + json.dumps(after, indent=2, ensure_ascii=False) + m[2],
+                            body, flags=re.DOTALL)
+    require(count == 1 and parse_contract(result) == after,
+            "correction.base.body", "invalid")
+    return result
+
+
 def supplemented_body(body, added_paths):
     """Add explicit write paths while retaining every other contract requirement."""
     contract = parse_contract(body)

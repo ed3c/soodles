@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 264
+  },
+  "instructions": [
+    {
+      "path": "issue_atom.py",
+      "baseline_sha256": "a9eaea6ec7aac1246ab885200ee6b9216ee6778915dad2fbdbdfae41e1cfd5c6",
+      "treatment_sha256": "8bf5feb9bc249809f5939bce42b702f5b605beb186e79bf186d244082175823d"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tests/test_correction_preparation.py",
+      "role": "hard_controls",
+      "sha256": "b843529110aa052ff3c59d0a7a6a009c9d1fcfd83c627ab5e28b6e9a64ca4415"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "hard_controls",
+      "sha256": "09da5cb34ac701d015f7697eabdc2fb6403f0e7e2fa2cdeb9d4096cb3147f786"
+    },
+    {
+      "path": "docs/experiments/landed-correction-import/results.md",
+      "role": "result",
+      "sha256": "f2543e7015b3a7c6bec30ec5f31b1bd2f2449cf6cd0c28db727a526f6cf1fc37"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#264"
+  },
+  "authorizes_landing": false
+}

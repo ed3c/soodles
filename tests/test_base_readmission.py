@@ -89,6 +89,32 @@ class BaseReadmissionTests(unittest.TestCase):
     def advance(self):
         atom.readmit_issue_base(self.provider, self.auth, self.state, self.paths)
 
+    def test_correction_body_advances_only_base_pins_and_preserves_prose(self):
+        contract = copy.deepcopy(self.contract)
+        contract['frozen_paths'].append({'path': 'evidence.json', 'revision': 'head', 'sha256': 'a' * 64})
+        body = self.body(contract)
+        result = atom.issue_admission.correction_base_body(self.auth, body, self.base, self.old)
+        expected = atom.issue_admission.parse_contract(body)
+        expected['base_head'] = self.base
+        expected['frozen_paths'][0]['sha256'] = atom.digest_file(self.root / 'policy.md')
+        self.assertEqual(atom.issue_admission.parse_contract(result), expected)
+        self.assertTrue(result.startswith('Original scope.\n<!-- soodles:execution-v1 -->\n'))
+        self.assertTrue(result.endswith('<!-- /soodles:execution-v1 -->\n<!-- original-marker -->\n'))
+        self.assertEqual(atom.issue_admission.correction_base_body(self.auth, body, self.old, self.old), body)
+
+    def test_correction_body_rejects_wrong_failed_head_and_changed_original_pin(self):
+        for kind in ('failed_head', 'original_pin'):
+            with self.subTest(kind=kind):
+                contract = copy.deepcopy(self.contract)
+                prior_head = self.old
+                if kind == 'failed_head':
+                    prior_head = 'f' * 40
+                else:
+                    contract['frozen_paths'][0]['sha256'] = 'f' * 64
+                with self.assertRaises(atom.issue_admission.AdmissionRefusal):
+                    atom.issue_admission.correction_base_body(self.auth, self.body(contract), self.base, prior_head)
+        self.provider.update_issue_body.assert_not_called()
+
     def test_known_success_is_adopted_from_readback_without_another_patch(self):
         self.job['steps'][0]['conclusion'] = 'failure'
         self.advance()
@@ -169,10 +195,43 @@ class BaseReadmissionTests(unittest.TestCase):
                 self.job.clear(); self.job.update(job)
 
     def test_same_root_correction_does_not_patch_issue(self):
-        self.auth['prior_atom'] = {'path': '/original/authorization.json'}
+        external = tempfile.TemporaryDirectory()
+        self.addCleanup(external.cleanup)
+        source = Path(external.name) / 'authorization.json'
+        parent = {key: value for key, value in self.auth.items() if key != 'prior_publication'}
+        atom.save_json(source, parent)
+        self.auth['prior_atom'] = {'path': str(source), 'sha256': atom.digest_file(source)}
+        atom.save_json(atom.artifact_paths(source)['state'], {
+            'authorization_sha256': self.auth['prior_atom']['sha256']})
         self.advance()
         self.provider.issue.assert_not_called()
         self.provider.update_issue_body.assert_not_called()
+
+    def test_same_root_descendant_keeps_parent_and_never_reoffers_unknown_write(self):
+        external = tempfile.TemporaryDirectory()
+        self.addCleanup(external.cleanup)
+        source = Path(external.name) / 'authorization.json'
+        parent = {key: value for key, value in self.auth.items() if key != 'prior_publication'}
+        parent.update(base_head=self.old, issue={**parent['issue'], 'body': self.value['body']})
+        atom.save_json(source, parent)
+        original = source.read_bytes()
+        self.auth['prior_atom'] = {'path': str(source), 'sha256': atom.digest_file(source)}
+        atom.save_json(atom.artifact_paths(source)['state'], {
+            'authorization_sha256': self.auth['prior_atom']['sha256']})
+        self.state['prior_host_recovery'] = {'status': 'restored'}
+        self.auth['issue']['body'] = atom.issue_admission.correction_base_body(
+            self.auth, self.value['body'], self.base, self.old)
+        self.unknown, self.effect = True, False
+        for _ in range(2):
+            with self.assertRaisesRegex(atom.AtomRefusal, 'readmission.issue.outcome'):
+                self.advance()
+            self.state = json.loads(self.paths['state'].read_text())
+        self.provider.update_issue_body.assert_called_once()
+        self.value['body'] = self.auth['issue']['body']
+        self.advance()
+        self.assertEqual(self.state['writes']['issue_base'], atom.correction_base_intent(self.auth))
+        self.assertEqual(source.read_bytes(), original)
+        self.provider.update_issue_body.assert_called_once()
 
     def test_wrong_issue_identity_refuses_before_write(self):
         original = dict(self.value)

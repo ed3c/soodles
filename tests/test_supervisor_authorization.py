@@ -67,8 +67,9 @@ class AuthorizationTests(unittest.TestCase):
         }
         self.selection['prior_publication'] = prior
         prior_path = self.fixture.outer / 'previous-authorization.json'
-        prior_path.write_text(json.dumps({'control_root': str(self.fixture.root),
-                                          'host_config_sha256': None}) + '\n')
+        parent = {**self.fixture.authorization, 'base_head': admission.parse_contract(self.selection['issue']['body'])['base_head'],
+                  'issue': dict(self.selection['issue'])}
+        prior_path.write_text(json.dumps(parent) + '\n')
         prior_atom = {'path': str(prior_path), 'sha256': issue_atom.digest_file(prior_path)}
         prior_path.with_name(prior_path.name + '.state.json').write_text(json.dumps({
             'authorization_sha256': prior_atom['sha256'], 'phase': 'ci',
@@ -144,8 +145,9 @@ class AuthorizationTests(unittest.TestCase):
         config.write_text('mode = "supervised"\n')
         installed = issue_atom.digest_file(config)
         previous = self.fixture.outer / 'previous-live.json'
-        previous.write_text(json.dumps({'control_root': str(self.fixture.root),
-                                        'host_config_sha256': None}) + '\n')
+        parent = {**self.fixture.authorization, 'base_head': admission.parse_contract(self.selection['issue']['body'])['base_head'],
+                  'issue': dict(self.selection['issue'])}
+        previous.write_text(json.dumps(parent) + '\n')
         digest = issue_atom.digest_file(previous)
         previous.with_name(previous.name + '.state.json').write_text(json.dumps({
             'authorization_sha256': digest, 'phase': 'ci',
@@ -447,6 +449,48 @@ except a.AdmissionRefusal:
             self.run_authorize()
         self.assertFalse(self.output.exists())
         self.assertEqual(self.fixture.binary.stat().st_mode & 0o777, 0o644)
+
+
+class GenericCorrectionAuthorizationTests(unittest.TestCase):
+    def test_descendant_base_keeps_original_control_source_and_bound_base_ref(self):
+        import test_generic_repository_binding as generic_tests
+        fixture = generic_tests.GenericBindingTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        root, selection, _ = fixture.target(branch='trunk')
+        prepared = fixture.authorize(selection)
+        parent = json.loads(Path(prepared['authorization']['path']).read_text())
+        source = parent['base_head']
+        tree = fixture.git(root, 'rev-parse', 'HEAD^{tree}')
+        parent_path = Path(prepared['authorization']['path'])
+        issue_atom.save_json(issue_atom.artifact_paths(parent_path)['state'], {
+            'authorization_sha256': prepared['authorization']['sha256'], 'phase': 'ci',
+            'noodle_start': {'status': 'started', 'config_sha256': '1' * 64,
+                             'original_config': None, 'restored': True}})
+        (root / 'target.py').write_text("print('advanced target')\n")
+        fixture.git(root, 'commit', '-am', 'Advance the selected provider base')
+        target = fixture.git(root, 'rev-parse', 'HEAD')
+        fixture.git(root, 'update-ref', 'refs/remotes/origin/trunk', target)
+        fixture.git(root, 'reset', '--hard', source)
+        correction = {**selection, 'prior_atom': prepared['authorization'],
+            'prior_publication': {'owner': 'soodles.candidate-publication', 'status': 'created',
+                'repository': selection['repository'], 'subject': selection['repository'] + '#7',
+                'branch': 'soodles/issue-7-' + source[:12], 'head': source, 'tree': tree,
+                'pr': {'number': 8, 'url': 'https://github.com/' + selection['repository'] + '/pull/8'},
+                'next': None, 'authorizes_landing': False},
+            'issue': {**selection['issue'], 'body': issue_atom.issue_admission.correction_base_body(
+                parent, selection['issue']['body'], target, source)}}
+        receipt = fixture.authorize(correction, 'correction')
+        authorization, _ = issue_atom.validate_authorization(
+            receipt['authorization']['path'], receipt['authorization']['sha256'])
+        self.assertEqual(authorization['base_head'], target)
+        self.assertEqual(authorization['target_binding'], selection['target_binding'])
+        self.assertEqual(authorization['prior_atom'], prepared['authorization'])
+        self.assertEqual(fixture.git(root, 'rev-parse', 'HEAD'), source)
+        self.assertEqual(fixture.authorize(correction, 'correction'), receipt)
+        fixture.git(root, 'update-ref', 'refs/remotes/origin/trunk', source)
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'authorization.noodle_base'):
+            fixture.authorize(correction, 'changed-base')
 
 
 if __name__ == '__main__':

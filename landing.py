@@ -941,6 +941,165 @@ def sync_integration(path, state, root, base_ref, target_head):
     return Path(observation["checkout"])
 
 
+def parked_reconciliation(envelope, owner, claim):
+    """Bind one completed attempt still awaiting its original native review."""
+    from issue_admission import body_digest, parse_contract
+    from issue_execution import (projection, quiescent_order, read_owner,
+                                 revision_context, native_idle_schedule, _absent_process, _matching_effects)
+    execution = envelope["execution"]
+    order_id = execution["order_id"]
+    order = owner["state"]["orders"].get(order_id)
+    require(isinstance(order, dict) and order.get("status") == "active"
+            and isinstance(order.get("stages"), list) and len(order["stages"]) == 1,
+            "reconcile.parked_order", order_id)
+    stage = order["stages"][0]
+    attempts = stage.get("attempts")
+    require(stage.get("status") == "review" and stage.get("skill") == "execute"
+            and stage.get("stage_index") == execution["stage_index"]
+            and stage.get("runtime") == "process" and stage.get("provider") == "codex"
+            and stage.get("model") == execution["carrier"]["codex"]["model"]
+            and isinstance(attempts, list) and bool(attempts)
+            and all(isinstance(attempt, dict) for attempt in attempts)
+            and attempts[-1].get("status") == "completed",
+            "reconcile.parked_stage", order_id)
+    attempt = attempts[-1]
+    session = attempt.get("session_id")
+    require(isinstance(session, str) and re.fullmatch(r"[a-zA-Z0-9-]+", session)
+            and isinstance(attempt.get("attempt_id"), str) and bool(attempt["attempt_id"])
+            and attempt.get("worktree_name") == execution["worktree"],
+            "reconcile.parked_attempt", attempt)
+    dispatches = [record for record in _matching_effects(owner, order_id, "dispatch")
+                  if record["effect"].get("payload", {}).get("stage_index") == execution["stage_index"]
+                  and record["effect"].get("payload", {}).get("attempt_id") == attempt["attempt_id"]]
+    require(len(dispatches) == 1, "reconcile.parked_dispatch", len(dispatches))
+    worktree = str(Path(execution["control_root"]) / ".worktrees" / execution["worktree"])
+    reviews = owner["state"].get("pending_reviews")
+    require(isinstance(reviews, dict) and set(reviews) == {order_id},
+            "reconcile.parked_reviews", reviews)
+    review = reviews[order_id]
+    expected = {"order_id": order_id, "stage_index": execution["stage_index"],
+                "session_id": session, "worktree_name": execution["worktree"],
+                "worktree_path": worktree,
+                **{key: stage.get(key) for key in ("skill", "provider", "model", "runtime", "prompt")}}
+    require(isinstance(review, dict) and all(review.get(key) == value for key, value in expected.items()),
+            "reconcile.parked_review", review)
+    try:
+        subject = json.loads(stage.get("prompt", ""))
+        require(isinstance(subject, dict) and isinstance(subject.get("issue_body"), str)
+                and body_digest(subject["issue_body"]) == envelope["body_sha256"],
+                "reconcile.parked_prompt", "changed Issue body")
+        binding = {**envelope, "issue_body": subject["issue_body"],
+                   "contract": parse_contract(subject["issue_body"])}
+        pin = claim["execution_envelope"]["sha256"]
+        if "revision_context" in subject:
+            binding = revision_context(binding, subject["revision_context"], pin)
+        require(subject.get("route") in ("automatic", "supervised")
+                and subject == projection(binding, pin, subject["route"]),
+                "reconcile.parked_prompt", "changed execution projection")
+        directory = Path(execution["control_root"]) / ".noodle/sessions" / session
+        spawn = read(directory / "spawn.json")
+        require(all(spawn.get(key) == value for key, value in {
+            "session_id": session, "worktree_path": worktree, "skill": "execute",
+            "provider": "codex", "model": stage["model"], "runtime": stage.get("runtime")}.items()),
+            "reconcile.parked_spawn", session)
+        events = [json.loads(line) for line in (directory / "events.ndjson").read_bytes().splitlines()
+                  if line.strip()]
+    except (OSError, ValueError, TypeError) as error:
+        raise LandingRefusal("reconcile.parked_readback", str(error)) from error
+    messages = [event for event in events if event.get("type") == "stage_message"]
+    terminal = [event for event in messages if event.get("payload", {}).get("outcome")]
+    require(len(terminal) == 1 and terminal[0] == messages[-1]
+            and terminal[0].get("session_id") == session
+            and all(terminal[0]["payload"].get(key) == value for key, value in {
+                "order_id": order_id, "stage_index": execution["stage_index"],
+                "outcome": "completed", "blocking": False}.items()),
+            "reconcile.parked_outcome", session)
+    quiescent_order(envelope, owner)
+    for other_id, other_order in owner["state"]["orders"].items():
+        if other_id == order_id or (other_id == "schedule" and native_idle_schedule(
+                other_order, execution["carrier"]["codex"]["model"])):
+            continue
+        require(isinstance(other_order, dict) and other_order.get("status") in {"completed", "failed", "cancelled"},
+                "reconcile.foreign_order", other_id)
+        quiescent_order({"execution": {"control_root": execution["control_root"],
+                                      "order_id": other_id}}, owner)
+    runtime = Path(execution["control_root"]) / ".noodle"
+    require(not (runtime / "orders-next.json").exists()
+            and (not (runtime / "control.ndjson").exists() or not (runtime / "control.ndjson").read_bytes().strip()),
+            "reconcile.parked_mailbox", "pending native effect")
+    for process in (Path(execution["control_root"]) / ".noodle/sessions").glob("*/process.json"):
+        _absent_process(process.parent, process.parent.name)
+    require(read_owner(envelope) == owner, "reconcile.owner_changed", order_id)
+    return {"order_id": order_id, "stage_index": execution["stage_index"],
+            "attempt_id": attempt["attempt_id"], "session_id": session,
+            "worktree": execution["worktree"]}
+
+
+@contextlib.contextmanager
+def reconciliation_guard(root):
+    """Use the stopped native owner's existing lock for control Git effects."""
+    try:
+        stream = (root / ".noodle/noodle.lock").open("rb")
+    except OSError as error:
+        raise LandingRefusal("reconcile.noodle_lock", type(error).__name__) from error
+    with stream:
+        try:
+            fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as error:
+            raise LandingRefusal("reconcile.live_owner", type(error).__name__) from error
+        try:
+            yield
+        finally:
+            fcntl.flock(stream, fcntl.LOCK_UN)
+
+
+def sync_control(path, state, root, before, target_head, envelope, owner, completion):
+    """Persist one fixed control target; unknown effects are readback-only."""
+    claim = state["claim"]
+    next_action = input_next("reconcile", ["material_control_sync_readback_without_retry"], path)
+    observation = {"control_root": str(root), "before_head": before["head"],
+                   "target_head": target_head, "merge_sha": state["merge_sha"],
+                   "execution_envelope": claim.get("execution_envelope")}
+    intent = state.get("control_sync")
+    require(source_identity(root) == before, "control_sync.observation", "changed before readback", next_action)
+    for name in ("HEAD.lock", "index.lock", "packed-refs.lock", "MERGE_HEAD", "CHERRY_PICK_HEAD",
+                 "REVERT_HEAD", "rebase-merge", "rebase-apply", "sequencer"):
+        git_path = checked(["git", "rev-parse", "--path-format=absolute", "--git-path", name], root)
+        require(not os.path.lexists(git_path), "control_sync.busy", name, next_action)
+    if intent is not None:
+        require(isinstance(intent, dict) and set(intent) == set(observation) | {"status"}
+                and intent.get("status") in {"intent", "confirmed"}
+                and isinstance(intent.get("before_head"), str)
+                and re.fullmatch(r"[0-9a-f]{40}", intent["before_head"]) is not None
+                and all(intent.get(key) == value for key, value in observation.items() if key != "before_head"),
+                "control_sync.intent", intent, next_action)
+        advanced_integration = (intent["status"] == "confirmed" and completion is not None
+                                and checked(["git", "branch", "--show-current"], root)
+                                == selected(claim, require)["base_ref"])
+        require(before["head"] == target_head or advanced_integration,
+                "control_sync.outcome", "unknown or changed; intent cannot be resent", next_action)
+        checked(["git", "merge-base", "--is-ancestor", target_head, before["head"]], root)
+    else:
+        require(completion is not None or before["head"] in {claim["base_head"], target_head},
+                "control_sync.source", before["head"], next_action)
+        intent = {**observation, "status": "intent"}
+        state["control_sync"] = intent
+        save(path, state)
+        if envelope is not None:
+            from issue_execution import read_owner
+            require(read_owner(envelope) == owner, "reconcile.owner_changed", "before control effect")
+        require(source_identity(root) == before, "control_sync.observation", "changed before effect", next_action)
+        if before["head"] != target_head:
+            try:
+                checked(["git", "merge", "--ff-only", target_head], root)
+            except (Refusal, OSError, subprocess.SubprocessError) as error:
+                raise LandingRefusal("control_sync.outcome", str(error), next_action) from error
+        require(source_identity(root)["head"] == target_head,
+                "control_sync.observation", "changed after effect", next_action)
+    state["control_sync"] = {**intent, "status": "confirmed"}
+    save(path, state)
+
+
 def reconcile(checkpoint, binary):
     with locked(checkpoint) as path, contextlib.ExitStack() as custody:
         state = read(path)
@@ -959,6 +1118,26 @@ def reconcile(checkpoint, binary):
         before = source_identity(root)
         envelope = execution_binding(claim, operation="reconcile", checkpoint=path)
         require_control_checkout(root, claim, state, before, envelope, base_ref)
+        owner = completion = parked = None
+        if envelope is not None:
+            custody.enter_context(reconciliation_guard(root))
+            from issue_execution import completed_original_order, read_owner
+            try:
+                owner = read_owner(envelope)
+                order = owner["state"]["orders"].get(envelope["execution"]["order_id"])
+                if isinstance(order, dict) and order.get("status") != "completed":
+                    parked = parked_reconciliation(envelope, owner, claim)
+                else:
+                    completion = completed_original_order(envelope, owner)
+            except Refusal as error:
+                invalid = getattr(error, "invalid", {"field": "reconcile.noodle", "value": str(error)})
+                required = getattr(error, "next", {}).get("required", ["exact_original_order_and_quiescent_sessions"])
+                next_action = input_next("reconcile", required, path)
+                next_action["owner"] = "Noodle"
+                next_action["known"]["order_id"] = envelope["execution"]["order_id"]
+                raise LandingRefusal(invalid["field"], invalid["value"], next_action) from error
+        require(state.get("issue_closed_at") and state.get("writes_offered") == ["merge", "close"],
+                "reconcile.provider_confirmation", "merge and closure must belong to this checkpoint")
         if "bootstrap_custody" in claim:
             binding = bootstrap_binding(claim, allow_removed=state["phase"] in {"reconciling", "resolved"})
             require(str(Path(binary).resolve()) == str(Path(binding["noodle"]["path"]).resolve()),
@@ -1035,36 +1214,27 @@ def reconcile(checkpoint, binary):
                 raise LandingRefusal(field, {"ancestor": ancestor, "target": target_head,
                                              "error": str(error)},
                                      input_next("reconcile", ["confirmed_merge_and_fetched_target_readback"], path)) from error
+        control_target = target_head
+        if state.get("control_sync") is not None:
+            control_target = state["control_sync"].get("target_head")
+            require(isinstance(control_target, str) and re.fullmatch(r"[0-9a-f]{40}", control_target),
+                    "control_sync.target", control_target)
+            checked(["git", "merge-base", "--is-ancestor", state["merge_sha"], control_target], root)
+            checked(["git", "merge-base", "--is-ancestor", control_target, target_head], root)
         if envelope is not None:
-            from issue_execution import completed_original_order, read_owner
-            try:
-                owner = read_owner(envelope)
-            except Refusal as error:
-                invalid = getattr(error, "invalid", {"field": "reconcile.noodle", "value": str(error)})
-                required = getattr(error, "next", {}).get("required", ["completed_original_order_and_quiescent_sessions"])
-                next_action = input_next("reconcile", required, path)
-                next_action["owner"] = "Noodle"
-                next_action["known"]["order_id"] = envelope["execution"]["order_id"]
-                raise LandingRefusal(invalid["field"], invalid["value"], next_action) from error
-            try:
-                completion = completed_original_order(envelope, owner)
-            except Refusal as error:
-                required = getattr(error, "next", {}).get(
-                    "required", ["completed_original_order_and_quiescent_sessions"])
+            sync_control(path, state, root, before, control_target, envelope, owner, completion)
+            if parked is not None:
                 return response("reconcile", state, "noodle_reconcile", {
                     "kind": "input", "owner": "Noodle", "operation": "reconcile",
-                    "required": required,
-                    "known": {"checkpoint": str(path),
-                              "order_id": envelope["execution"]["order_id"]},
+                    "required": ["completed_original_order_and_quiescent_sessions"],
+                    "known": {"checkpoint": str(path), **parked},
                     "help_argv": cli_argv("reconcile", "--help")})
             state["noodle_reconciliation"] = completion
             save(path, state)
-        require(state.get("issue_closed_at") and state.get("writes_offered") == ["merge", "close"],
-                "reconcile.provider_confirmation", "merge and closure must belong to this checkpoint")
         if worktree.exists() or branch:
             cleanup_integration(root, base_ref)
         integration_root = sync_integration(path, state, root, base_ref, target_head)
-        if integration_root != root:
+        if integration_root != root and envelope is None:
             require(source_identity(root) == before, "local.observation", "changed before fast-forward")
             if before["head"] != target_head:
                 checked(["git", "merge", "--ff-only", target_head], root)

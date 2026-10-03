@@ -3,6 +3,7 @@ import copy
 import hashlib
 import json
 import os
+import subprocess
 from pathlib import Path
 import tempfile
 import unittest
@@ -104,12 +105,15 @@ class LandingTests(unittest.TestCase):
                      "writes_offered": ["merge", "close"], "merge_sha": merged,
                      "issue_closed_at": "now"})
         binary = str(Path("/bin/true").resolve())
+        (primary / ".git/info/exclude").write_text(".noodle/\n")
+        (detached / ".noodle").mkdir()
+        (detached / ".noodle/noodle.lock").touch()
         envelope = {"execution": {"carrier": {"noodle": {"sha256": "f" * 64}},
                                   "order_id": "fixture-order"}}
         with patch("landing.execution_binding", return_value=envelope), \
                 patch("landing.fetch_main", side_effect=lambda root: None) as fetch, \
                 patch("issue_execution.validate_carrier", return_value={"noodle": binary}), \
-                patch("issue_execution.read_owner", return_value={"fixture": True}), \
+                patch("issue_execution.read_owner", return_value={"state": {"orders": {}}}), \
                 patch("issue_execution.completed_original_order",
                       return_value={"order_id": "fixture-order"}):
             result = landing.reconcile(self.checkpoint, binary)
@@ -966,7 +970,7 @@ class IntegrationReconciliationTests(unittest.TestCase):
         self.primary = self.primary.resolve()
         self.directory = Path(self.fixture.temp.name).resolve()
         self.checkpoint = self.fixture.checkpoint
-        (self.primary / ".git/info/exclude").write_text(".worktrees/\n")
+        (self.primary / ".git/info/exclude").write_text(".worktrees/\n.noodle/\n")
         self.root = self.directory / "detached-control"
         self.git(self.primary, "worktree", "add", "--detach", str(self.root), self.base)
         self.worktree = self.root / ".worktrees" / self.claim["worktree"]
@@ -991,6 +995,10 @@ class IntegrationReconciliationTests(unittest.TestCase):
                          "carrier": {"noodle": {"sha256": "f" * 64}}}}
         self.events = []
         self.base_ref = "main"
+        self.runtime = self.root / ".noodle"
+        self.runtime.mkdir()
+        (self.runtime / "noodle.lock").touch()
+        self.owner = {"state": {"orders": {}}, "effect_ledger": []}
 
     def git(self, root, *args):
         return soodles.checked(["git", *args], root)
@@ -1015,7 +1023,8 @@ class IntegrationReconciliationTests(unittest.TestCase):
             return ""
         if argv[:3] == ["git", "merge", "--ff-only"]:
             self.events.append(("ff", str(cwd), argv[-1]))
-            self.assertIn("completed-and-quiescent", self.events)
+            if Path(cwd) != self.root or self.root == self.primary:
+                self.assertIn("completed-and-quiescent", self.events)
         return soodles.checked(argv, cwd)
 
     @contextlib.contextmanager
@@ -1023,7 +1032,7 @@ class IntegrationReconciliationTests(unittest.TestCase):
         with patch("landing.execution_binding", return_value=self.envelope), \
                 patch("landing.fetch_main") as fetch, \
                 patch("issue_execution.validate_carrier", return_value={"noodle": self.binary}), \
-                patch("issue_execution.read_owner", return_value={}), \
+                patch("issue_execution.read_owner", side_effect=lambda binding: copy.deepcopy(self.owner)), \
                 patch("issue_execution.completed_original_order", side_effect=completion or self.complete), \
                 patch("landing.checked", side_effect=checked or self.checked):
             yield fetch
@@ -1076,6 +1085,8 @@ class IntegrationReconciliationTests(unittest.TestCase):
         self.git(self.primary, "worktree", "move", str(old_worktree), str(self.worktree))
         self.claim["control_root"] = str(self.primary)
         self.envelope["execution"]["control_root"] = str(self.primary)
+        (self.primary / ".noodle").mkdir()
+        (self.primary / ".noodle/noodle.lock").touch()
         landing.save(self.checkpoint, self.state)
         with self.owners():
             self.assertEqual(self.reconcile()["classification"], "RESOLVED")
@@ -1099,17 +1110,193 @@ class IntegrationReconciliationTests(unittest.TestCase):
         self.assertEqual(result["classification"], "RESOLVED")
         self.assertEqual(result["integration_sync"]["integration_ref"], "refs/heads/trunk")
 
-    def test_incomplete_order_or_active_sessions_make_no_git_or_cleanup_effect(self):
+    def parked_fixture(self):
+        from test_issue_admission import issue_fixture
+        from issue_admission import parse_contract
+        from issue_execution import projection
+        issue, envelope = issue_fixture()
+        envelope["execution"].update(self.envelope["execution"])
+        envelope["execution"].update(worktree=self.claim["worktree"], stage_index=0)
+        envelope["execution"]["carrier"]["codex"] = {"model": "fixture-model"}
+        self.envelope = envelope
+        body = issue["body"]
+        binding = {**envelope, "issue_body": body, "contract": parse_contract(body)}
+        prompt = json.dumps(projection(binding, self.claim["execution_envelope"]["sha256"], "supervised"))
+        self.session = "original-terminal-session"
+        self.stage = {"status": "review", "stage_index": 0, "skill": "execute", "provider": "codex",
+                      "model": "fixture-model", "runtime": "process", "prompt": prompt,
+                      "attempts": [{"status": "completed", "session_id": self.session,
+                                    "attempt_id": "original-attempt", "worktree_name": self.claim["worktree"]}]}
+        review = {"order_id": "original-order", "stage_index": 0, "session_id": self.session,
+                  "worktree_name": self.claim["worktree"], "worktree_path": str(self.worktree),
+                  **{key: self.stage[key] for key in ("skill", "provider", "model", "runtime", "prompt")}}
+        self.owner = {"state": {"orders": {"original-order": {"status": "active", "stages": [self.stage]}},
+                                "pending_reviews": {"original-order": review}},
+                      "effect_ledger": [{"effect": {"type": "dispatch", "payload": {
+                          "order_id": "original-order", "stage_index": 0, "attempt_id": "original-attempt"}}}]}
+        self.session_root = self.runtime / "sessions" / self.session
+        self.session_root.mkdir(parents=True)
+        stopped = subprocess.Popen(["/bin/sh", "-c", "exit 0"], start_new_session=True)
+        stopped.wait()
+        landing.save(self.session_root / "process.json", {"session_id": self.session, "pid": stopped.pid})
+        landing.save(self.session_root / "spawn.json", {"session_id": self.session,
+                     "worktree_path": str(self.worktree), "skill": "execute", "provider": "codex",
+                     "runtime": "process", "model": "fixture-model"})
+        event = {"type": "stage_message", "session_id": self.session,
+                 "payload": {"order_id": "original-order", "stage_index": 0,
+                             "outcome": "completed", "blocking": False}}
+        (self.session_root / "events.ndjson").write_text(json.dumps(event) + "\n")
         self.git(self.root, "checkout", "--detach", self.base)
-        for condition in ("order_not_completed", "sessions_not_quiescent"):
+        self.state["phase"] = "awaiting_reconcile"
+        landing.save(self.checkpoint, self.state)
+
+    def test_parked_review_advances_control_before_native_completion_and_integration(self):
+        self.parked_fixture()
+        with self.owners():
+            result = self.reconcile()
+            self.assertEqual(result["action"], "noodle_reconcile")
+            self.assertEqual(result["next"]["known"]["session_id"], self.session)
+            self.assertEqual(self.git(self.root, "rev-parse", "HEAD"), self.target)
+            self.assertEqual(self.git(self.primary, "rev-parse", "HEAD"), self.base)
+            self.assertNotIn("cleanup", self.events)
+            self.assertNotIn("integration_sync", landing.read(self.checkpoint))
+            self.owner["state"]["orders"]["original-order"]["status"] = "completed"
+            result = self.reconcile()
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertEqual([event for event in self.events if isinstance(event, tuple)],
+                         [("ff", str(self.root), self.target), ("ff", str(self.primary), self.target)])
+        self.assertEqual(result["control_sync"]["status"], "confirmed")
+
+    def test_native_wait_preserves_fixed_control_target_and_newer_integration(self):
+        self.parked_fixture()
+        merge = self.target
+        with self.owners():
+            self.assertEqual(self.reconcile()["action"], "noodle_reconcile")
+            self.git(self.primary, "merge", "--ff-only", merge)
+            self.commit(self.primary, "later main change")
+            self.target = self.git(self.primary, "rev-parse", "HEAD")
+            self.git(self.primary, "update-ref", "refs/remotes/origin/main", self.target)
+            self.owner["state"]["orders"]["original-order"]["status"] = "completed"
+            result = self.reconcile()
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertEqual(self.git(self.root, "rev-parse", "HEAD"), merge)
+        self.assertEqual(self.git(self.primary, "rev-parse", "HEAD"), self.target)
+        self.assertEqual(result["control_sync"]["target_head"], merge)
+        self.assertEqual(result["integration_sync"]["target_head"], self.target)
+        self.assertEqual([event for event in self.events if isinstance(event, tuple)],
+                         [("ff", str(self.root), merge)])
+
+    def test_active_foreign_and_missing_parked_custody_refuse_before_git_effect(self):
+        self.parked_fixture()
+        original = copy.deepcopy(self.owner)
+        for condition in ("active", "foreign_review", "foreign_prompt", "missing_order", "missing_attempt", "foreign_dispatch", "foreign_order", "stage_index", "runtime"):
             with self.subTest(condition=condition):
+                self.owner = copy.deepcopy(original)
+                order = self.owner["state"]["orders"]["original-order"]
+                if condition == "active":
+                    order["stages"][0]["attempts"][0]["status"] = "running"
+                elif condition == "foreign_review":
+                    self.owner["state"]["pending_reviews"]["original-order"]["session_id"] = "foreign"
+                elif condition == "foreign_prompt":
+                    order["stages"][0]["prompt"] = "{}"
+                elif condition == "missing_order":
+                    del self.owner["state"]["orders"]["original-order"]
+                elif condition == "foreign_dispatch":
+                    self.owner["effect_ledger"][0]["effect"]["payload"]["attempt_id"] = "foreign-attempt"
+                elif condition == "foreign_order":
+                    self.owner["state"]["orders"]["foreign"] = {"status": "active", "stages": []}
+                elif condition == "stage_index":
+                    order["stages"][0]["stage_index"] = 1
+                elif condition == "runtime":
+                    order["stages"][0]["runtime"] = "foreign"
+                else:
+                    order["stages"][0]["attempts"] = []
                 before = self.observe()
-                with self.owners(completion=landing.LandingRefusal(condition, "fixture")):
-                    result = self.reconcile()
-                self.assertEqual(result["action"], "noodle_reconcile")
+                with self.owners(completion=landing.LandingRefusal("completion.dispatch", "missing")) as fetch:
+                    with self.assertRaises(landing.LandingRefusal):
+                        self.reconcile()
+                fetch.assert_not_called()
                 self.assertEqual(self.observe(), before)
                 self.assertEqual(self.events, [])
-                self.assertNotIn("integration_sync", landing.read(self.checkpoint))
+                self.assertNotIn("control_sync", landing.read(self.checkpoint))
+
+    def test_control_unknown_intent_is_readback_only_and_lost_success_is_adopted(self):
+        self.parked_fixture()
+        def unknown(argv, cwd):
+            if argv[:3] == ["git", "merge", "--ff-only"]:
+                self.assertEqual(landing.read(self.checkpoint)["control_sync"]["status"], "intent")
+                raise RuntimeError("unknown control dispatch")
+            return self.checked(argv, cwd)
+        with self.owners(checked=unknown), self.assertRaisesRegex(RuntimeError, "unknown control"):
+            self.reconcile()
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "control_sync.outcome"):
+            self.reconcile()
+        self.assertEqual(self.events, [])
+        self.git(self.root, "merge", "--ff-only", self.target)
+        with self.owners():
+            result = self.reconcile()
+        self.assertEqual(result["action"], "noodle_reconcile")
+        self.assertEqual(landing.read(self.checkpoint)["control_sync"]["status"], "confirmed")
+        self.assertEqual(self.events, [])
+
+    def test_parked_process_and_native_lock_refuse_without_effect(self):
+        import fcntl
+        self.parked_fixture()
+        process = subprocess.Popen(["/bin/sh", "-c", "sleep 30"], start_new_session=True)
+        try:
+            landing.save(self.session_root / "process.json", {"session_id": self.session, "pid": process.pid})
+            before = self.observe()
+            with self.owners() as fetch, self.assertRaisesRegex(landing.LandingRefusal, "takeover.process_alive"):
+                self.reconcile()
+            fetch.assert_not_called()
+            self.assertEqual(self.observe(), before)
+        finally:
+            import signal
+            os.killpg(process.pid, signal.SIGTERM)
+            process.wait()
+        with (self.runtime / "noodle.lock").open("rb") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            with self.owners() as fetch, self.assertRaisesRegex(landing.LandingRefusal, "reconcile.live_owner"):
+                self.reconcile()
+            fetch.assert_not_called()
+        (self.runtime / "noodle.lock").unlink()
+        with self.owners() as fetch, self.assertRaisesRegex(landing.LandingRefusal, "reconcile.noodle_lock"):
+            self.reconcile()
+        fetch.assert_not_called()
+        self.assertEqual(self.events, [])
+
+    def test_parked_control_busy_does_not_offer_an_intent(self):
+        self.parked_fixture()
+        lock = Path(self.git(self.root, "rev-parse", "--path-format=absolute", "--git-path", "index.lock"))
+        lock.touch()
+        before = self.observe()
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "control_sync.busy"):
+            self.reconcile()
+        self.assertEqual(self.observe(), before)
+        self.assertNotIn("control_sync", landing.read(self.checkpoint))
+        self.assertEqual(self.events, [])
+        lock.unlink()
+        with self.owners():
+            self.assertEqual(self.reconcile()["action"], "noodle_reconcile")
+        lock.touch()
+        prior = landing.read(self.checkpoint)["control_sync"]
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "control_sync.busy"):
+            self.reconcile()
+        self.assertEqual(landing.read(self.checkpoint)["control_sync"], prior)
+
+    def test_control_lost_success_acknowledgement_is_adopted_without_replay(self):
+        self.parked_fixture()
+        def lost(argv, cwd):
+            result = self.checked(argv, cwd)
+            if argv[:3] == ["git", "merge", "--ff-only"]:
+                raise RuntimeError("lost control acknowledgement")
+            return result
+        with self.owners(checked=lost), self.assertRaisesRegex(RuntimeError, "lost control"):
+            self.reconcile()
+        with self.owners():
+            self.assertEqual(self.reconcile()["action"], "noodle_reconcile")
+        self.assertEqual(self.events, [("ff", str(self.root), self.target)])
+        self.assertEqual(landing.read(self.checkpoint)["control_sync"]["status"], "confirmed")
 
     def test_dirty_primary_preserves_tracked_and_untracked_bytes(self):
         for name in ("file", "untracked"):
@@ -1306,7 +1493,7 @@ class IntegrationReconciliationTests(unittest.TestCase):
         later = self.git(self.root, "rev-parse", "HEAD")
         self.git(self.root, "update-ref", "refs/remotes/origin/main", later)
         before = self.observe()
-        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "integration_sync.intent"):
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "control_sync.outcome"):
             self.reconcile()
         self.assertEqual(self.observe(), before)
         self.assertEqual(landing.read(self.checkpoint)["integration_sync"], saved["integration_sync"])
@@ -1321,6 +1508,7 @@ class BoundLandingTests(unittest.TestCase):
         self.consumer.setUp()
         self.addCleanup(self.consumer.doCleanups)
         c = self.consumer
+        (c.runtime / "noodle.lock").touch()
         self.delivery = LandingTests()
         self.delivery.setUp()
         self.addCleanup(self.delivery.doCleanups)
@@ -1399,11 +1587,12 @@ class BoundLandingTests(unittest.TestCase):
                      writes_offered=["merge", "close"])
         landing.save(d.checkpoint, state)
         c.git("update-ref", "refs/remotes/origin/main", d.claim["head"])
-        with patch("landing.fetch_main"):
-            result = landing.reconcile(d.checkpoint, str(c.binary))
-        self.assertEqual(result["action"], "noodle_reconcile")
-        self.assertEqual(result["next"]["owner"], "Noodle")
-        self.assertEqual(result["next"]["known"]["order_id"], "soodles-18")
+        with patch("landing.fetch_main") as fetch:
+            with self.assertRaises(landing.LandingRefusal) as incomplete:
+                landing.reconcile(d.checkpoint, str(c.binary))
+        fetch.assert_not_called()
+        self.assertEqual(incomplete.exception.next_action["owner"], "Noodle")
+        self.assertEqual(incomplete.exception.next_action["known"]["order_id"], "soodles-18")
         self.assertIsNone(landing.read(d.checkpoint)["classification"])
         self.assertTrue(c.worktree.exists())
         self.assertFalse(c.effect.exists())

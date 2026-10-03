@@ -1,0 +1,380 @@
+{
+  "schema": 2,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 264
+  },
+  "selection": {
+    "path": "/private/tmp/soodles-264-evidence/pclass/selection-complete.json",
+    "sha256": "ec61efc03bb6f6318efbd71dbb731646010abcd6ae405fcc770bb384f6d57b8b"
+  },
+  "result": {
+    "schema": 1,
+    "owner": "schema-manager.pclass-feedback",
+    "observation_scope": "consumer_report",
+    "evidence_validity": "VALID",
+    "behavior": {
+      "classification": "PASS",
+      "barriers": []
+    },
+    "authorizes_landing": false,
+    "effects": [],
+    "test_demand": null,
+    "selection_sha256": "ec61efc03bb6f6318efbd71dbb731646010abcd6ae405fcc770bb384f6d57b8b",
+    "sources": [
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/protocol.json",
+        "sha256": "7e0fbcd4e9f346050a93aba30915aa2e7e0fac10abef559e7395471f72ab6f0a"
+      },
+      {
+        "path": "/Users/neon/.codex/worktrees/landed-correction-import/soodles/.worktrees/soodles-264-d31e27633590-0-execute/.agents/skills/issue-atom/SKILL.md",
+        "sha256": "610f02637adda2914f709894139e0bbb991bc2457e09a243e6bb1878ab2eaa35"
+      },
+      {
+        "path": "/Users/neon/.codex/worktrees/landed-correction-import/soodles/.worktrees/soodles-264-d31e27633590-0-execute/contracts/system-v1/issue-atom.md",
+        "sha256": "72c0c218e1373d7a174a5f41b08095ca65c20e49451ba1b7ec28d7c48963b8a3"
+      },
+      {
+        "path": "/Users/neon/.codex/skills/eval-audit/SKILL.md",
+        "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/descendant_route.json",
+        "sha256": "9903e709662f723a1a741d4eb41339b7fb978c04f44eeda1f759d3645112e9a9"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/custody.json",
+        "sha256": "bd774e6b3724191047d5229faac36ced0a8ab099878397c36ac047f2f60d7c7b"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/unknown_completion.json",
+        "sha256": "51f3039210e7546c9456dbc167ffd2fe40e368e0e842ec990ae7505d424b1f0a"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/requirements.json",
+        "sha256": "c24c9381d1f954539292eec9e96d67d5f071fe496bdf46cb06c9adb521f7725c"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/criteria-review.json",
+        "sha256": "51f536f655b88aeaae8d066b2a8dbe33b502811662556527070a748929ef08d7"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/consumer/descendant_route-report.json",
+        "sha256": "18fef86310cd6181fa84ba9241f6119a3332cdd17d72d8cc74061613f7cfd780"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/consumer/descendant_route-trace.md",
+        "sha256": "69b4b78e6168e3925314ce44c31fdbb662adaccb5770e016fce1ecffd462fd57"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/consumer/custody-report.json",
+        "sha256": "8fda6911798738acf5bbbe34c5bc1f80b2e63de3edb43b9ea6158ca19c7b12c4"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/consumer/custody-trace.md",
+        "sha256": "7c0898e9e132f1ff0f90d822f1841483dd1006049e50bbc920adc67b280e8615"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/consumer/unknown_completion-report.json",
+        "sha256": "d935a517001e856ad28808f700ea6addd02a604074e632d25190d844094ba2cf"
+      },
+      {
+        "path": "/tmp/soodles-264-evidence/pclass/consumer/unknown_completion-trace.md",
+        "sha256": "fb788a4c7b5e66c705253580f87de8453eb0debac0d8b9dd89b759b6ed4e9c99"
+      }
+    ],
+    "cases": [
+      {
+        "id": "descendant_route",
+        "status": "passed",
+        "checks": {
+          "next_argv": true,
+          "new_order": true,
+          "replace_judge": true,
+          "reset_fault_budget": true
+        },
+        "observed": {
+          "next_argv": [
+            "/fixed/issue-atom",
+            "run",
+            "/fixed/correction/authorization.json"
+          ],
+          "new_order": false,
+          "replace_judge": false,
+          "reset_fault_budget": false
+        }
+      },
+      {
+        "id": "custody",
+        "status": "passed",
+        "checks": {
+          "selection_moves_git": true,
+          "active_control_ff": true,
+          "new_integration_owner": true,
+          "control_before_native": true
+        },
+        "observed": {
+          "selection_moves_git": false,
+          "active_control_ff": false,
+          "new_integration_owner": false,
+          "control_before_native": true
+        }
+      },
+      {
+        "id": "unknown_completion",
+        "status": "passed",
+        "checks": {
+          "repeat_native_reconcile": true,
+          "adopt_canonical_completion": true,
+          "reoffer_unknown_git": true,
+          "claim_parent_complete": true
+        },
+        "observed": {
+          "repeat_native_reconcile": false,
+          "adopt_canonical_completion": true,
+          "reoffer_unknown_git": false,
+          "claim_parent_complete": false
+        }
+      }
+    ],
+    "dag": {
+      "instructions": {
+        "status": "ready",
+        "requires": []
+      },
+      "criteria": {
+        "status": "ready",
+        "requires": [
+          "requirements",
+          "criteria_review"
+        ]
+      },
+      "case:descendant_route": {
+        "status": "passed",
+        "requires": [
+          "instructions",
+          "criteria"
+        ]
+      },
+      "case:custody": {
+        "status": "passed",
+        "requires": [
+          "instructions",
+          "criteria"
+        ]
+      },
+      "case:unknown_completion": {
+        "status": "passed",
+        "requires": [
+          "instructions",
+          "criteria"
+        ]
+      },
+      "feedback": {
+        "status": "ready",
+        "requires": [
+          "case:descendant_route",
+          "case:custody",
+          "case:unknown_completion"
+        ]
+      },
+      "verification": {
+        "status": "ready",
+        "requires": [
+          "criteria"
+        ]
+      }
+    },
+    "limits": [
+      "File digests bind bytes, not observer independence or complete capture.",
+      "Field equality checks reported behavior, not unobserved effects.",
+      "No formal writing compliance or comparative improvement is established."
+    ],
+    "subject": "Issue264 保存指引的 same-order correction、parked custody 與 unknown effect routing",
+    "protocol": {
+      "path": "/tmp/soodles-264-evidence/pclass/protocol.json",
+      "sha256": "7e0fbcd4e9f346050a93aba30915aa2e7e0fac10abef559e7395471f72ab6f0a"
+    },
+    "instructions": [
+      {
+        "path": "/Users/neon/.codex/worktrees/landed-correction-import/soodles/.worktrees/soodles-264-d31e27633590-0-execute/.agents/skills/issue-atom/SKILL.md",
+        "sha256": "610f02637adda2914f709894139e0bbb991bc2457e09a243e6bb1878ab2eaa35"
+      },
+      {
+        "path": "/Users/neon/.codex/worktrees/landed-correction-import/soodles/.worktrees/soodles-264-d31e27633590-0-execute/contracts/system-v1/issue-atom.md",
+        "sha256": "72c0c218e1373d7a174a5f41b08095ca65c20e49451ba1b7ec28d7c48963b8a3"
+      }
+    ],
+    "case_fingerprints": {
+      "descendant_route": "fd9ab66c8694712a57d4463969868f55f047b1f9a67dec8a270a0b7da175e422",
+      "custody": "674133e92834b1bc92a57823017ec439ac869cae954afad8811c9c4a08c17494",
+      "unknown_completion": "9f791de4d4868d525fef5788b34111fafbc2699df1549980761542a2727fb98a"
+    },
+    "criteria": {
+      "status": "SUPPORTED",
+      "required": [],
+      "reviewer": "/root original admitted writer",
+      "source": {
+        "path": "/tmp/soodles-264-evidence/pclass/criteria-review.json",
+        "sha256": "51f536f655b88aeaae8d066b2a8dbe33b502811662556527070a748929ef08d7"
+      },
+      "requirements": {
+        "path": "/tmp/soodles-264-evidence/requirements.json",
+        "sha256": "c24c9381d1f954539292eec9e96d67d5f071fe496bdf46cb06c9adb521f7725c"
+      },
+      "limits": "Agent reasoning bound to requirements; not independent authority or universal correctness."
+    },
+    "requirements": {
+      "path": "/tmp/soodles-264-evidence/requirements.json",
+      "sha256": "c24c9381d1f954539292eec9e96d67d5f071fe496bdf46cb06c9adb521f7725c"
+    },
+    "next": {
+      "owner": "task-owner",
+      "operation": "consume_verified_behavior",
+      "required": [],
+      "argv": null,
+      "input": null,
+      "evidence": {
+        "observe": [],
+        "reuse": [],
+        "verified": [
+          "descendant_route",
+          "custody",
+          "unknown_completion"
+        ]
+      }
+    },
+    "projection_ms": 0.06312481127679348,
+    "status": "passed",
+    "elapsed_ms": 5.183541914448142,
+    "failed_attempts": 0
+  },
+  "test_scope": {
+    "owner": "test-manager",
+    "mode": "focused",
+    "cases": [],
+    "reuse": [],
+    "verified": [
+      "descendant_route",
+      "custody",
+      "unknown_completion"
+    ],
+    "cost": {
+      "status": "observed",
+      "subject": "Issue264 保存指引的 same-order correction、parked custody 與 unknown effect routing",
+      "coverage": "current feedback projection only",
+      "cost": {
+        "schema_ms": 5.183541914448142,
+        "projection_ms": 0.06312481127679348,
+        "model_ms": null,
+        "tokens": null
+      },
+      "sources": [
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/protocol.json",
+          "sha256": "7e0fbcd4e9f346050a93aba30915aa2e7e0fac10abef559e7395471f72ab6f0a"
+        },
+        {
+          "path": "/Users/neon/.codex/worktrees/landed-correction-import/soodles/.worktrees/soodles-264-d31e27633590-0-execute/.agents/skills/issue-atom/SKILL.md",
+          "sha256": "610f02637adda2914f709894139e0bbb991bc2457e09a243e6bb1878ab2eaa35"
+        },
+        {
+          "path": "/Users/neon/.codex/worktrees/landed-correction-import/soodles/.worktrees/soodles-264-d31e27633590-0-execute/contracts/system-v1/issue-atom.md",
+          "sha256": "72c0c218e1373d7a174a5f41b08095ca65c20e49451ba1b7ec28d7c48963b8a3"
+        },
+        {
+          "path": "/Users/neon/.codex/skills/eval-audit/SKILL.md",
+          "sha256": "c11338900d88d114c353a8865d9b7a4780d972bf740b80d5eb4e38357b1bf133"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/descendant_route.json",
+          "sha256": "9903e709662f723a1a741d4eb41339b7fb978c04f44eeda1f759d3645112e9a9"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/custody.json",
+          "sha256": "bd774e6b3724191047d5229faac36ced0a8ab099878397c36ac047f2f60d7c7b"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/unknown_completion.json",
+          "sha256": "51f3039210e7546c9456dbc167ffd2fe40e368e0e842ec990ae7505d424b1f0a"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/requirements.json",
+          "sha256": "c24c9381d1f954539292eec9e96d67d5f071fe496bdf46cb06c9adb521f7725c"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/criteria-review.json",
+          "sha256": "51f536f655b88aeaae8d066b2a8dbe33b502811662556527070a748929ef08d7"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/consumer/descendant_route-report.json",
+          "sha256": "18fef86310cd6181fa84ba9241f6119a3332cdd17d72d8cc74061613f7cfd780"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/consumer/descendant_route-trace.md",
+          "sha256": "69b4b78e6168e3925314ce44c31fdbb662adaccb5770e016fce1ecffd462fd57"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/consumer/custody-report.json",
+          "sha256": "8fda6911798738acf5bbbe34c5bc1f80b2e63de3edb43b9ea6158ca19c7b12c4"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/consumer/custody-trace.md",
+          "sha256": "7c0898e9e132f1ff0f90d822f1841483dd1006049e50bbc920adc67b280e8615"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/consumer/unknown_completion-report.json",
+          "sha256": "d935a517001e856ad28808f700ea6addd02a604074e632d25190d844094ba2cf"
+        },
+        {
+          "path": "/tmp/soodles-264-evidence/pclass/consumer/unknown_completion-trace.md",
+          "sha256": "fb788a4c7b5e66c705253580f87de8453eb0debac0d8b9dd89b759b6ed4e9c99"
+        }
+      ],
+      "review": null,
+      "hard_gate": {
+        "status": "unknown",
+        "basis": "original owner evidence unavailable"
+      },
+      "required": null,
+      "budget_basis": "original owner evidence unavailable",
+      "authorizes_landing": false,
+      "effects": [],
+      "test_demand": null
+    },
+    "modules": [],
+    "physical": [],
+    "full": false,
+    "reason": "Resolve criteria first; reuse matching passed observations; observe only affected cases.",
+    "authorizes_landing": false
+  },
+  "next": {
+    "owner": "task-owner",
+    "operation": "consume_verified_behavior",
+    "required": [],
+    "argv": null,
+    "input": null,
+    "evidence": {
+      "observe": [],
+      "reuse": [],
+      "verified": [
+        "descendant_route",
+        "custody",
+        "unknown_completion"
+      ]
+    }
+  },
+  "action_taken": "原 task owner 已讀回保存指引、criteria、consumer reports及trace，接受此三案 consumer_report 範圍結果。繼續原 writer 的軟體驗證與review。",
+  "carrier": {
+    "tool": "collaboration.spawn_agent",
+    "task_name": "/root/pclass_consumer",
+    "fork_turns": "none",
+    "model": "inherit-parent",
+    "complete_platform_transcript": false
+  },
+  "response": {
+    "path": "/tmp/soodles-264-evidence/pclass/complete.stdout",
+    "sha256": "f90a37aee4ed3bf9de67bca12f2a77c54bf0ed9e19c99812662569225092348c"
+  },
+  "authorizes_landing": false
+}

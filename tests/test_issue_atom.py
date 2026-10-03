@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+import copy
 import hashlib
 import json
 import os
@@ -811,7 +812,11 @@ class IssueAtomTests(unittest.TestCase):
     def test_correction_envelope_derives_hold_only_after_original_host_recovery(self):
         provider = Provider()
         self.ready_issue(provider)
-        self.authorization["prior_atom"] = {"path": "/external/prior", "sha256": "a" * 64}
+        parent = self.outer / "prior-authorization.json"
+        atom.save_json(parent, self.authorization)
+        self.authorization["prior_atom"] = {"path": str(parent), "sha256": atom.digest_file(parent)}
+        atom.save_json(atom.artifact_paths(parent)["state"], {
+            "authorization_sha256": self.authorization["prior_atom"]["sha256"]})
         paths = atom.artifact_paths(self.path)
         with patch.object(atom, "verify_prior_atom", return_value={"prior_loop_status": "stopped"}):
             with self.assertRaisesRegex(atom.AtomRefusal, "envelope.prior_host"):
@@ -845,7 +850,8 @@ class IssueAtomTests(unittest.TestCase):
         atom.save_json(paths["claim"], {"repository": "ed3c/soodles", "subject": "ed3c/soodles#131",
             "head": self.base, "tree": tree, "base_head": self.base, "order_id": oid,
             "worktree_name": name, "worktree_path": str(worker), "session_id": "latest"})
-        authorization = {**self.authorization, "issue": {**self.authorization["issue"], "number": 131},
+        authorization = {**self.authorization, "issue": {**self.authorization["issue"], "number": 131,
+                         "body": self.fixture_issue_body()},
             "prior_atom": {"path": str(self.path), "sha256": self.digest}, "prior_publication": publication}
         old_binding = {**binding, "issue_body": self.fixture_issue_body(),
                        "contract": atom.issue_admission.parse_contract(self.fixture_issue_body())}
@@ -1427,10 +1433,78 @@ class IssueAtomTests(unittest.TestCase):
             native.return_value = subprocess.CompletedProcess([], 0, '{}', '')
             with patch.object(atom.issue_execution, "completed_original_order", return_value={"order_id": claim["order_id"]}):
                 atom.complete_noodle(self.authorization, paths, state, transition)
-        self.assertEqual(native.call_count, 2)
-        self.assertEqual(native.call_args_list[0].args[0], native.call_args_list[1].args[0])
+        self.assertEqual(native.call_count, 1)
         self.assertEqual(state["noodle_reconciliation"]["status"], "observed")
-        self.assertEqual(state["noodle_reconciliation"]["process"]["status"], "completed")
+        self.assertEqual(state["noodle_reconciliation"]["process"]["status"], "unknown")
+
+    def test_unknown_native_completion_without_canonical_result_is_not_replayed(self):
+        paths, state, _, transition, owner = self.completion_fixture()
+        with patch.object(atom.issue_execution, "read_owner", return_value=owner), \
+                patch.object(atom.issue_execution, "quiescent_order"), \
+                patch.object(atom, "finish_host", return_value=True), patch.object(atom, "_git"), \
+                patch.object(atom.subprocess, "run", side_effect=subprocess.TimeoutExpired('reconcile', 30)) as native:
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.process"):
+                atom.complete_noodle(self.authorization, paths, state, transition)
+            offered = copy.deepcopy(state["noodle_reconciliation"])
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.completion.outcome"):
+                atom.complete_noodle(self.authorization, paths, state, transition)
+        self.assertEqual(native.call_count, 1)
+        self.assertEqual(state["noodle_reconciliation"], offered)
+
+    def test_run_adopts_lost_native_receipt_before_lander_resolves(self):
+        paths, state, claim, _, owner = self.completion_fixture()
+        state.update(schema_version=1, phase='landing', writes={}, issue={'number': 131},
+                     publication={'head': self.base}, host_finalization={})
+        _, _, intent = atom.noodle_completion_intent(self.authorization, paths, state)
+        state['noodle_reconciliation'] = {'intent': intent, 'status': 'offered',
+                                          'process': {'status': 'unknown'}}
+        atom.save_json(paths['state'], state)
+        provider = Provider()
+        self.ready_issue(provider)
+        landed = Mock()
+        landed.advance.return_value = {'action': 'reconcile'}
+        def reconcile(*args):
+            saved = atom.read_json(paths['state'], 'state')
+            self.assertEqual(saved['noodle_reconciliation']['status'], 'observed')
+            return {'classification': 'RESOLVED', 'phase': 'resolved', 'next': None}
+        landed.reconcile.side_effect = reconcile
+        with patch.object(atom, 'repair_controller', return_value=Mock()), \
+                patch.object(atom, 'require_available_owner', return_value=None), \
+                patch.object(atom, 'LandingOwner', return_value=landed), \
+                patch.object(atom, 'restore_publication', return_value=state['publication']), \
+                patch.object(atom, 'select_run', return_value=({'status': 'completed'}, {})), \
+                patch.object(atom.cost_telemetry, 'record_provider'), \
+                patch.object(atom, 'external_landing_activation', return_value=None), \
+                patch.object(atom, 'external_landing_resume', return_value=None), \
+                patch.object(atom, 'provider_snapshot', return_value={}), \
+                patch.object(atom.issue_execution, 'read_owner', return_value=owner), \
+                patch.object(atom.issue_execution, 'completed_original_order', return_value={'order_id': claim['order_id']}), \
+                patch.object(atom, 'finish_host', return_value=True), \
+                patch.object(atom, 'complete_noodle') as native, \
+                patch.object(atom, 'response', side_effect=lambda state, path, **kw: kw):
+            with self.assertRaisesRegex(atom.AtomRefusal, 'noodle.completion.outcome'):
+                atom._run_owned(self.path, self.authorization, self.digest, paths,
+                                environ=self.env, provider=provider)
+            landed.advance.assert_not_called()
+            self.assertEqual(atom.read_json(paths['state'], 'state')['noodle_reconciliation']['status'], 'offered')
+            owner['state']['orders'][claim['order_id']]['status'] = 'completed'
+            result = atom._run_owned(self.path, self.authorization, self.digest, paths,
+                                     environ=self.env, provider=provider)
+            checkpoint = atom.read_json(paths['landing'], 'landing')
+            checkpoint['phase'] = 'resolved'
+            atom.save_json(paths['landing'], checkpoint)
+            landed.advance.return_value = {'action': 'stop', 'classification': 'RESOLVED',
+                                           'phase': 'resolved', 'next': None}
+            with patch.object(atom, 'noodle_completion_intent', side_effect=AssertionError('already observed')):
+                terminal = atom._run_owned(self.path, self.authorization, self.digest, paths,
+                                           environ=self.env, provider=provider)
+            self.assertEqual(terminal['status'], 'resolved')
+            native.assert_not_called()
+        self.assertEqual(result['status'], 'resolved')
+        landed.reconcile.assert_called_once()
+        receipt = atom.read_json(paths['state'], 'state')['noodle_reconciliation']
+        self.assertEqual(receipt['status'], 'observed')
+        self.assertEqual(receipt['process'], {'status': 'unknown'})
 
     def test_repair_diagnostic_gap_preserves_original_unknown_process_refusal(self):
         paths, state = self.startup_fixture()
@@ -2538,6 +2612,220 @@ class PrewriteScopeRefusalTests(unittest.TestCase):
                 atom.save_json(paths['landing'], {'phase': 'offered'})
                 self.assertFalse(atom.prewrite_scope_refusal(authorization, run, jobs))
             self.assertFalse(atom.prewrite_scope_refusal({}, run, jobs))
+
+
+class ControlAlignmentTests(unittest.TestCase):
+    def setUp(self):
+        self.f = IssueAtomTests()
+        self.f.setUp()
+        self.addCleanup(self.f.doCleanups)
+        f = self.f
+        (f.root / 'new-base').write_text('selected descendant\n')
+        subprocess.run(['git', 'add', 'new-base'], cwd=f.root, check=True, capture_output=True)
+        subprocess.run(['git', 'commit', '-m', 'selected base'], cwd=f.root, check=True, capture_output=True)
+        target = atom._git(f.root, 'rev-parse', 'HEAD')
+        control = f.outer / 'control'
+        subprocess.run(['git', 'worktree', 'add', '--detach', str(control), target],
+                       cwd=f.root, check=True, capture_output=True)
+        f.root = control
+        f.authorization.update(control_root=str(control), base_head=target)
+        contract = atom.issue_admission.parse_contract(f.authorization['issue']['body'])
+        contract['base_head'] = target
+        f.authorization['issue']['body'] = ('<!-- soodles:execution-v1 -->\n```json\n' +
+            json.dumps(contract) + '\n```\n<!-- /soodles:execution-v1 -->')
+        f.path.write_text(json.dumps(f.authorization))
+        f.digest = atom.digest_file(f.path)
+        self.paths, self.state = f.startup_fixture()
+        subprocess.run(['git', 'checkout', '--detach', f.base], cwd=control, check=True, capture_output=True)
+        parent = {**f.authorization, 'base_head': f.base}
+        parent_path = f.outer / 'parent.json'
+        atom.save_json(parent_path, parent)
+        f.authorization['prior_atom'] = {'path': str(parent_path), 'sha256': atom.digest_file(parent_path)}
+        self.state.update(phase='landing', noodle_start={'status': 'started'})
+        self.claim = {'base_head': target, 'head': target, 'tree': atom._git(control, 'rev-parse', target + '^{tree}')}
+        atom.save_json(self.paths['claim'], self.claim)
+        atom.save_json(self.paths['landing'], {'phase': 'awaiting_reconcile', 'claim': self.claim,
+            'writes_offered': ['merge', 'close'], 'merge_sha': target, 'issue_closed_at': 'fixture'})
+        self.binding = atom.issue_admission.load_external_envelope(
+            self.paths['envelope'], self.state['envelope_sha256'], control)
+        self.owner = {'state': {'orders': {}}}
+        (control / '.noodle/noodle.lock').touch()
+        (control / '.noodle.toml').write_bytes((self.paths['envelope'].parent / 'noodle.toml').read_bytes())
+        atom.save_json(self.paths['state'], self.state)
+
+    def test_detached_source_is_aligned_before_fixed_landing_gate(self):
+        import landing
+        f = self.f
+        checkpoint = atom.read_json(self.paths['landing'], 'landing')
+        with self.assertRaisesRegex(landing.Refusal, 'local.detached_head'):
+            landing.require_control_checkout(f.root, self.claim, checkpoint,
+                {'head': f.base}, self.binding, 'main')
+        with patch.object(atom, 'postwrite_parked_custody', return_value=(self.binding, self.owner)), \
+                patch.object(atom, 'finish_host', return_value=True) as finish, \
+                patch.object(atom.issue_execution, 'read_owner', return_value=self.owner):
+            self.assertTrue(atom.ensure_reconcile_control(f.authorization, self.paths, self.state))
+        self.assertEqual(atom._git(f.root, 'rev-parse', 'HEAD'), self.claim['base_head'])
+        self.assertEqual(self.state['control_alignment']['status'], 'observed')
+        self.assertEqual((f.root / '.noodle.toml').read_bytes(), (self.paths['envelope'].parent / 'noodle.toml').read_bytes())
+        finish.assert_called_once_with(f.authorization, self.paths, self.state, stop_only=True)
+        landing.require_control_checkout(f.root, self.claim, checkpoint,
+            {'head': self.claim['base_head']}, self.binding, 'main')
+
+
+    def alignment_mocks(self, *, stopped=True):
+        from contextlib import ExitStack
+        stack = ExitStack()
+        stack.enter_context(patch.object(atom, 'postwrite_parked_custody', return_value=(self.binding, self.owner)))
+        stack.enter_context(patch.object(atom, 'postwrite_lifecycle', return_value=(self.binding, self.owner)))
+        stack.enter_context(patch.object(atom, 'finish_host', return_value=stopped))
+        stack.enter_context(patch.object(atom.issue_execution, 'read_owner', return_value=self.owner))
+        stack.enter_context(patch.object(atom.issue_execution, 'completed_original_order', return_value={}))
+        return stack
+
+    def test_existing_activation_and_restored_host_remain_with_landing_owner(self):
+        original = copy.deepcopy(self.state)
+        for case in ('activation', 'restored', 'no_owned_loop'):
+            state = copy.deepcopy(original)
+            if case == 'activation':
+                state['landing_activation'] = {'manifest': '/external/manifest.json'}
+            elif case == 'restored':
+                state['noodle_start']['restored'] = True
+            else:
+                state.pop('noodle_start', None)
+            before = copy.deepcopy(state)
+            with self.subTest(case=case), patch.object(atom, 'read_json') as read, \
+                    patch.object(atom, 'postwrite_parked_custody') as parked, \
+                    patch.object(atom, 'finish_host') as stop:
+                self.assertTrue(atom.ensure_reconcile_control(self.f.authorization, self.paths, state))
+                read.assert_not_called()
+                parked.assert_not_called()
+                stop.assert_not_called()
+            self.assertEqual(state, before)
+
+    def test_same_base_still_validates_custody_and_stops_before_landing(self):
+        f = self.f
+        atom._git(f.root, 'merge', '--ff-only', self.claim['base_head'])
+        f.authorization.pop('prior_atom')
+        with self.alignment_mocks(), patch.object(atom, 'postwrite_parked_custody',
+                return_value=(self.binding, self.owner)) as custody, \
+                patch.object(atom, 'finish_host', return_value=True) as stop:
+            self.assertTrue(atom.ensure_reconcile_control(f.authorization, self.paths, self.state))
+        self.assertEqual(custody.call_count, 2)
+        stop.assert_called_once_with(f.authorization, self.paths, self.state, stop_only=True)
+        self.assertNotIn('control_alignment', self.state)
+        self.assertTrue((f.root / '.noodle.toml').exists())
+        with patch.object(atom, 'postwrite_parked_custody',
+                side_effect=atom.AtomRefusal('noodle.order.attempt', 'active')), \
+                patch.object(atom, 'finish_host') as stop:
+            with self.assertRaisesRegex(atom.AtomRefusal, 'noodle.order.attempt'):
+                atom.ensure_reconcile_control(f.authorization, self.paths, self.state)
+        stop.assert_not_called()
+
+    def test_stop_wait_precedes_alignment_and_preserves_config(self):
+        with self.alignment_mocks(stopped=False):
+            self.assertFalse(atom.ensure_reconcile_control(self.f.authorization, self.paths, self.state))
+        self.assertNotIn('control_alignment', self.state)
+        self.assertEqual(atom._git(self.f.root, 'rev-parse', 'HEAD'), self.f.base)
+        self.assertTrue((self.f.root / '.noodle.toml').is_file())
+
+    def test_lost_alignment_response_reads_target_without_repeating_and_keeps_fresh_observations(self):
+        actual = atom.subprocess.run
+        calls = []
+        def lost(command, *args, **kwargs):
+            if command[:3] == ['git', 'merge', '--ff-only']:
+                calls.append(command)
+                actual(command, *args, **kwargs)
+                raise subprocess.TimeoutExpired(command, 30)
+            return actual(command, *args, **kwargs)
+        with self.alignment_mocks(), patch.object(atom.subprocess, 'run', side_effect=lost):
+            with self.assertRaisesRegex(atom.AtomRefusal, 'control_alignment.outcome'):
+                atom.ensure_reconcile_control(self.f.authorization, self.paths, self.state)
+            self.assertEqual(self.state['control_alignment']['status'], 'offered')
+            checkpoint = atom.read_json(self.paths['landing'], 'landing')
+            checkpoint['observations'] = ['new-provider-snapshot']
+            atom.save_json(self.paths['landing'], checkpoint)
+            self.assertTrue(atom.ensure_reconcile_control(self.f.authorization, self.paths, self.state))
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(self.state['control_alignment']['status'], 'observed')
+        checkpoint['merge_sha'] = 'f' * 40
+        atom.save_json(self.paths['landing'], checkpoint)
+        with self.alignment_mocks(), self.assertRaisesRegex(atom.AtomRefusal, 'control_alignment.identity'):
+            atom.ensure_reconcile_control(self.f.authorization, self.paths, self.state)
+
+    def test_unknown_alignment_without_head_change_never_repeats(self):
+        actual = atom.subprocess.run
+        calls = []
+        def lost(command, *args, **kwargs):
+            if command[:3] == ['git', 'merge', '--ff-only']:
+                calls.append(command)
+                raise OSError('unknown fixture outcome')
+            return actual(command, *args, **kwargs)
+        with self.alignment_mocks(), patch.object(atom.subprocess, 'run', side_effect=lost):
+            for _ in range(2):
+                with self.assertRaisesRegex(atom.AtomRefusal, 'control_alignment.outcome'):
+                    atom.ensure_reconcile_control(self.f.authorization, self.paths, self.state)
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(atom._git(self.f.root, 'rev-parse', 'HEAD'), self.f.base)
+
+    def test_control_residue_operation_and_unowned_target_refuse_before_stop(self):
+        root = self.f.root
+        with self.alignment_mocks(), patch.object(atom, 'finish_host') as stop:
+            (root / 'dirty').write_text('retain')
+            with self.assertRaisesRegex(atom.AtomRefusal, 'control_alignment.residue'):
+                atom.ensure_reconcile_control(self.f.authorization, self.paths, self.state)
+            (root / 'dirty').unlink()
+            operation = Path(atom._git(root, 'rev-parse', '--absolute-git-dir')) / 'MERGE_HEAD'
+            operation.write_text(self.claim['base_head'])
+            with self.assertRaisesRegex(atom.AtomRefusal, 'control_alignment.busy'):
+                atom.ensure_reconcile_control(self.f.authorization, self.paths, self.state)
+            operation.unlink()
+            atom._git(root, 'merge', '--ff-only', self.claim['base_head'])
+            with self.assertRaisesRegex(atom.AtomRefusal, 'control_alignment.head'):
+                atom.ensure_reconcile_control(self.f.authorization, self.paths, self.state)
+            stop.assert_not_called()
+        self.assertNotIn('control_alignment', self.state)
+
+    def integration_fixture(self):
+        with self.alignment_mocks():
+            atom.ensure_reconcile_control(self.f.authorization, self.paths, self.state)
+        atom._git(self.f.root, 'commit', '--allow-empty', '-m', 'Confirmed merge fixture')
+        merge = atom._git(self.f.root, 'rev-parse', 'HEAD')
+        checkpoint = atom.read_json(self.paths['landing'], 'landing')
+        checkpoint.update(phase='reconciling', merge_sha=merge)
+        atom.save_json(self.paths['landing'], checkpoint)
+        self.claim['order_id'] = self.binding['execution']['order_id']
+        atom.save_json(self.paths['claim'], self.claim)
+        _, _, intent = atom.noodle_completion_intent(self.f.authorization, self.paths, self.state)
+        self.state['noodle_reconciliation'] = {'status': 'observed', 'intent': intent}
+        return self.f.outer / 'project', merge
+
+
+    def test_offered_native_completion_pending_stays_with_original_owner(self):
+        main, _ = self.integration_fixture()
+        before = atom._git(main, 'rev-parse', 'HEAD')
+        self.state['noodle_reconciliation']['status'] = 'offered'
+        self.owner['state']['orders'][self.claim['order_id']] = {'status': 'active'}
+        with self.alignment_mocks(), patch.object(atom, 'complete_noodle') as native:
+            _, publication, intent = atom.noodle_completion_intent(self.f.authorization, self.paths, self.state)
+            self.assertFalse(atom.adopt_noodle_completion(
+                self.paths, self.state, self.binding, self.owner, publication, intent))
+            native.assert_not_called()
+        self.assertNotIn('integration_alignment', self.state)
+        self.assertEqual(self.state['noodle_reconciliation']['status'], 'offered')
+        self.assertEqual(atom._git(main, 'rev-parse', 'HEAD'), before)
+        self.state['noodle_reconciliation']['intent']['argv'].append('foreign')
+        with self.alignment_mocks(), self.assertRaisesRegex(atom.AtomRefusal, 'noodle.completion.intent'):
+            atom.noodle_completion_intent(self.f.authorization, self.paths, self.state)
+
+    def test_scope_projection_uses_original_control_source_for_any_validated_scope_schema(self):
+        f = self.f
+        reference = f.authorization.pop('prior_atom')
+        self.state['scope_amendment'] = {'status': 'released'}
+        packet = {'authorization': reference, 'selection': {'schema': 1}}
+        with self.alignment_mocks(), patch.object(atom, 'scope_packet', return_value=packet):
+            atom.ensure_reconcile_control(f.authorization, self.paths, self.state)
+        self.assertEqual(self.state['control_alignment']['before'], f.base)
+        self.assertEqual(atom._git(f.root, 'rev-parse', 'HEAD'), f.authorization['base_head'])
 
 
 if __name__ == "__main__":

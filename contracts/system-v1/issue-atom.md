@@ -140,12 +140,22 @@ Issue-atom Noodle and candidate children receive neither write credentials nor
 host supplier/App configuration. The existing start wrapper supplies only its
 independently scoped issues-read credential.
 
-After the landing owner confirms closure and local fast-forward, the entry stops
-its own loop. Noodle's existing `publication reconcile` owner checks the original
+After the landing owner confirms closure, the entry validates and stops its own
+loop. For a same-root descendant correction, the entry records intent before
+fast-forwarding the clean registered detached control from its original source
+to the selected base. It retains installed config and pending effect history.
+The fixed lander checks original quiescent custody before advancing control to
+include the confirmed merge. Active, foreign or missing session custody refuses
+before that Git effect. This ordering satisfies the native merge-ancestry
+prerequisite. Noodle's existing `publication reconcile` owner checks the original
 claim and merged ancestry. It completes the original order and preserves its
 attempt history, including a prior merge error. It performs no merge and starts
 no writer. A legacy merge acknowledgement proves command acceptance only.
-The entry reads Noodle's completed order before cleanup. Only the entry's own
+When a native response is lost, the entry adopts only exact canonical completion.
+It does not repeat publication reconciliation. After native completion, the
+existing landing integration owner synchronizes the unique registered integration
+checkout, then performs cleanup. Git effects have durable intent. Unknown
+outcomes require exact readback. Only the entry's own
 measured loop may receive shutdown. Config restoration requires that loop's absence, the existing
 instance lock, and unchanged installed bytes. Missing or ambiguous mutation
 responses never authorize repetition. Unchanged failed candidate heads, foreign
@@ -215,20 +225,26 @@ admission producer's correction command. Each authorization has one fixed
 selection and continuation. The producer follows the immutable `prior_atom`
 chain to the original task. It checks every parent publication and distinct head.
 It preserves the Issue, PR, Noodle order, parsed contract, task, control root,
-base, carrier, external judge, and selected runtime.
+original source, prior target, carrier, external judge, and selected runtime.
+A descendant provider base requires the parent-selected native revision capability.
+The producer seals the new target in a typed CI revision entry. The consumer
+validates the original envelope, failed head, complete prompt and attempt history
+before release. Base movement neither spends nor resets fault repair budgets.
 It permits three automatic corrections. If all three fail, the owner requires
 cause reassessment within the same task. Missing evidence and repeated readback
 do not consume attempts. Cycles, scope changes, repeated heads, and unknown
 ancestor effects refuse. External nonautomatic lineage cannot reset this history.
 
-已發布的 schema-2 typed revision candidate 停在 `phase=ci` 時，
+已發布的 schema-2 scope revision 或已驗證 typed CI correction candidate 停在 `phase=ci` 時，
 supervisor 可透過既有
 `issue-atom resume AUTH DESCRIPTOR SHA256` 選定 immutable lifecycle bytes。
 這讓原 correction producer 使用修正後的讀取邏輯，保留原 Issue 與 PR。
 Owner 要求原 completed review、quiescent writer sessions、exact claim 與
 publication source、prepared bundle、config 及完整 control ACK history。
-Owner 要求已採納的 schema-2 scope amendment，先驗固定 revision entry 與
-canonical attempts 前綴，再比對包含 revision context 的完整 prompt。
+若來源是 schema-2 scope amendment，owner 先驗該固定 revision entry。
+若來源是 typed CI correction，owner 先驗原 parent 與 correction entry。
+兩者都核對 canonical attempts 前綴與包含 revision context 的完整 prompt。
+Correction 的 control ACK prefix 和 tail 必須與原 history 一致。
 已有 correction output、landing、host finalization 或未知 effect 時，
 owner 拒絕選取，保留原 owner 的 readback 義務。
 通過後，owner 只保存 lifecycle selection edge，回傳原 `run` continuation。
@@ -339,8 +355,11 @@ source-bound controls, one native timing observation and itemized gaps are under
 A supervisor may select the existing prior-publication-only admission on a
 fresh clean root at the exact current descendant provider base. Issue, PR,
 branch, and failed head remain fixed. The old quiescent Noodle owner and history
-remain intact. `prior_atom` still means same-root, same-base original-order
-correction. Fresh-root instruction pins resolve at the new base. Same-root
+remain intact. `prior_atom` retains same-root original-order correction. A selected descendant
+base does not replace its original control source or prior target. The existing
+correction producer returns the unique continuation. Missing selected native
+capability or unknown effects refuse that continuation; they do not select a
+fresh-root replacement. Fresh-root instruction pins resolve at the new base. Same-root
 correction pins resolve at the prior published head.
 
 Before adoption or execution, Issue-atom alone may rebind that numbered open
