@@ -4,6 +4,7 @@ import io
 import json
 from pathlib import Path
 import tempfile
+import shutil
 import unittest
 from unittest.mock import Mock, patch
 
@@ -11,6 +12,7 @@ import cost_telemetry as cost
 import issue_atom as atom
 import schema_manager
 import soodles
+from test_admission_revision import RevisionFixture
 
 
 class CostTests(unittest.TestCase):
@@ -194,6 +196,33 @@ class CostTests(unittest.TestCase):
         self.assertEqual(result['summary']['statuses']['pending'], 4)
         self.assertIsNone(result['summary']['parallel_worker_seconds'])
 
+    def test_report_feedback_uses_only_bound_owner_result_and_preserves_next(self):
+        for owner in (None,
+                      {'owner': 'soodles.issue-atom', 'status': 'resolved', 'next': None},
+                      {'owner': 'soodles.issue-atom', 'status': 'pending', 'phase': 'ci',
+                       'next': {'argv': ['original-owner', 'readback'], 'environment': {'PIN': 'fixed'}}}):
+            with self.subTest(owner=owner):
+                if owner is not None:
+                    self.manifest['owner_result'] = self.write('owner.json', owner)
+                result = cost.report(self.auth, self.write('manifest.json', self.manifest)['path'])
+                feedback = result['feedback']
+                self.assertEqual(feedback['cost_review'], result['schema_projection']['review'])
+                self.assertEqual(feedback['dag']['cost_review']['status'], 'observed')
+                self.assertEqual(feedback['next'], (owner or {}).get('next'))
+                self.assertEqual(feedback['state'], (owner or {}).get('status'))
+                self.assertEqual(feedback['effects'], [])
+                self.assertIsNone(feedback['test_demand'])
+                self.assertFalse(feedback['authorizes_landing'])
+                if owner is None:
+                    self.assertEqual(feedback['dag']['owner_transition']['status'], 'unknown')
+                else:
+                    self.assertIn(self.manifest['owner_result'], result['evidence'])
+        for owner in ({'owner': 'foreign'}, {'owner': 'soodles.issue-atom', 'issue': {'number': 216}},
+                      {'owner': 'soodles.issue-atom', 'publication': {'head': 'c' * 40}}):
+            self.manifest['owner_result'] = self.write('owner.json', owner)
+            with self.subTest(owner=owner), self.assertRaisesRegex(cost.CostRefusal, 'owner_result'):
+                cost.report(self.auth, self.write('manifest.json', self.manifest)['path'])
+
     def test_native_reported_usage_requires_original_claim_and_finite_numbers(self):
         claim = {'repository': 'ed3c/soodles', 'subject': 'ed3c/soodles#215',
                  'head': 'b'*40, 'base_head': 'a'*40, 'session_id': 'session', 'order_id': 'order'}
@@ -233,6 +262,8 @@ class CostTests(unittest.TestCase):
             first = cost.report(self.auth)
             cost.record_provider(self.auth, self.state, run, jobs, atom.save_json)
             second = cost.report(self.auth)
+        for result in (first, second):
+            self.assertGreaterEqual(result['feedback'].pop('elapsed_ms'), 0)
         self.assertEqual(first, second)
         self.assertEqual(first['summary']['provider_job_seconds'], 10)
         self.assertIsNone(first['summary']['parallel_worker_seconds'])
@@ -266,12 +297,16 @@ class CostTests(unittest.TestCase):
         with patch.object(atom, '_run', return_value=result):
             first = atom.run(self.auth, environ=env)
         self.assertEqual(first['cost']['summary']['statuses']['pending'], 2)
+        self.assertIs(first['feedback'], first['cost']['feedback'])
+        self.assertIs(first['feedback']['next'], result['next'])
         refusal = atom.AtomRefusal('github.issue.outcome', 'unknown', 'fresh_readback')
         with patch.object(atom, '_run', side_effect=refusal), self.assertRaises(atom.AtomRefusal) as caught:
             atom.run(self.auth, environ=env)
         refused = atom.refusal_output(caught.exception, self.auth)
         self.assertEqual(refused['invalid']['field'], 'github.issue.outcome')
         self.assertEqual(refused['next']['required'], ['fresh_readback'])
+        self.assertIs(refused['feedback'], refused['cost']['feedback'])
+        self.assertIs(refused['feedback']['next'], refused['next'])
         self.assertGreater(refused['cost']['summary']['observations'], first['cost']['summary']['observations'])
         with patch.object(atom, '_run', return_value={'status': 'resolved', 'next': None}), \
                 patch.object(cost, 'begin', side_effect=OSError('disk unavailable')):
@@ -279,6 +314,9 @@ class CostTests(unittest.TestCase):
         self.assertEqual(final['status'], 'resolved')
         self.assertIsNone(final['next'])
         self.assertEqual(final['cost']['status'], 'refused')
+        self.assertEqual(final['feedback']['state'], 'resolved')
+        self.assertIsNone(final['feedback']['next'])
+        self.assertEqual(final['feedback']['dag']['cost_review']['status'], 'unknown')
 
     def test_untyped_owner_response_preserves_payload_and_exposes_cost_on_stderr(self):
         env = {'SOODLES_AUTHORIZATION_SHA256': self.identity['authorization']}
@@ -383,6 +421,178 @@ class CostTests(unittest.TestCase):
         with self.assertRaises(schema_manager.SchemaRefusal):
             schema_manager.project_cost(facts)
         self.assertTrue(handle[0].exists())
+
+
+class CostLineageTests(unittest.TestCase):
+    def setUp(self):
+        self.f = RevisionFixture()
+        self.addCleanup(self.f.temp.cleanup)
+        self.owner = patch.object(atom, 'validate_lifecycle_owner')
+        self.owner.start()
+        self.addCleanup(self.owner.stop)
+        self.auth = self.f.save('authorization.json', self.f.auth)
+        self.raw = self.auth.read_bytes()
+        self.state = {'authorization_sha256': cost.digest(self.raw), 'issue': {'number': 18},
+                      'phase': 'resolved', 'writes': {}, 'publication': {'head': self.f.candidate}}
+        self.identity = cost.subject(self.f.auth, self.raw, self.state)
+        self.claim = {'repository': 'ed3c/soodles', 'subject': 'ed3c/soodles#18',
+                      'head': self.f.candidate, 'base_head': self.f.base,
+                      'session_id': 'cost-session', 'order_id': self.f.selection['order_id']}
+        self.state_path = self.auth.with_name(self.auth.name + '.state.json')
+        self.claim_path = self.auth.parent / (self.auth.name + '.d/publication-claim.json')
+        self.claim_path.parent.mkdir()
+        self.manifest_path = self.f.directory / 'manifest.json'
+        self.ack_path = self.f.root / '.noodle/control-ack.ndjson'
+        self.ack_path.parent.mkdir()
+
+    def released(self, *, selection=None, authorization=None, index=0):
+        entry = self.f.released_scope(self.auth, authorization, selection, index)
+        self.state.update(scope_amendment=entry['amendment'], **entry['controls'],
+                          admission_sha256=entry['amendment']['prepared']['sha256'])
+        self.state['writes']['issue_scope'] = entry['issue_write']
+        self.ack_path.write_text(''.join(json.dumps(ack) + '\n' for ack in entry['acks']))
+        return entry
+
+    def save(self):
+        self.state_path.write_text(json.dumps(self.state))
+        self.claim_path.write_text(json.dumps(self.claim))
+        manifest = {'schema': 1, 'authorization_sha256': self.identity['authorization'],
+                    'subject': self.identity, 'state': cost.file_ref(self.state_path),
+                    'claim': cost.file_ref(self.claim_path), 'head': self.claim['head']}
+        self.manifest_path.write_text(json.dumps(manifest))
+
+    def report(self, automatic=False):
+        self.save()
+        return cost.report(self.auth, None if automatic else self.manifest_path)
+
+    def test_original_and_released_claim_share_subject_and_readonly_report_paths(self):
+        record = {'subject': self.identity, 'observations': [cost.observation(
+            self.identity, cost.file_ref(self.auth), 'original-cost', family='processing',
+            kind='foreground', phase='execution', outcome='passed', seconds=7)]}
+        record_path = self.claim_path.parent / 'cost/original.json'
+        record_path.parent.mkdir()
+        record_path.write_text(json.dumps(record))
+        record_raw = record_path.read_bytes()
+        self.assertEqual(self.report()['subject'], self.identity)
+        self.released()
+        for automatic in (False, True):
+            with self.subTest(automatic=automatic), self.assertRaisesRegex(cost.CostRefusal, 'claim_base'):
+                self.report(automatic)
+        self.claim['base_head'] = self.f.target
+        shutil.rmtree(self.f.wt)
+        with self.ack_path.open('a') as stream:
+            stream.write(json.dumps({'id': 'later-operation', 'action': 'mode', 'status': 'ok'}) + '\n')
+        self.save()
+        before = {str(p): p.read_bytes() for p in self.f.directory.rglob('*') if p.is_file()}
+        with patch.object(atom, 'save_json', side_effect=AssertionError('state write')), \
+                patch.object(atom, 'amendment_control', side_effect=AssertionError('control effect')), \
+                patch.object(atom, 'scope_control_readback', side_effect=AssertionError('lock')), \
+                patch('fcntl.flock', side_effect=AssertionError('lock')), \
+                patch('urllib.request.urlopen', side_effect=AssertionError('provider')):
+            for manifest in (self.manifest_path, None):
+                result = cost.report(self.auth, manifest)
+                self.assertEqual(result['subject'], self.identity)
+                self.assertEqual(result['status'], 'reported')
+                self.assertEqual(result['summary']['observations'], 1)
+                self.assertEqual(result['summary']['phase_costs'][0]['inclusive_seconds'], 7)
+                self.assertEqual(record_path.read_bytes(), record_raw)
+                self.assertEqual(result['schema_projection']['review']['owner'], 'test-manager')
+                self.assertIn(cost.file_ref(self.ack_path), result['evidence'])
+        self.assertEqual(before, {str(p): p.read_bytes() for p in self.f.directory.rglob('*') if p.is_file()})
+
+    def test_unreleased_target_uses_previous_accepted_base(self):
+        entry = self.released()
+        self.state['scope_amendment']['status'] = 'prepared'
+        self.assertEqual(self.report()['subject'], self.identity)
+        self.claim['base_head'] = self.f.target
+        for automatic in (False, True):
+            with self.subTest(automatic=automatic), self.assertRaisesRegex(cost.CostRefusal, 'claim_base'):
+                self.report(automatic)
+        entry['amendment']['status'] = 'released'
+        self.state['scope_history'] = [entry]
+        self.state['scope_amendment'] = {'status': 'prepared', 'selection': {'unaccepted': True}}
+        for name in entry['controls']:
+            self.state.pop(name)
+        self.state['writes'] = {}
+        self.ack_path.unlink()
+        self.assertEqual(self.report()['subject'], self.identity)
+
+    def test_history_and_current_release_validate_contract_chain(self):
+        first = self.released(selection=self.f.criteria())
+        self.state['scope_history'] = [first]
+        effective = atom.scope_history_authority(self.f.auth, self.state)
+        self.released(authorization=effective, index=1)
+        self.claim['base_head'] = self.f.target
+        self.assertEqual(self.report()['subject'], self.identity)
+        self.state['scope_history'][0]['issue_write']['previous_body_sha256'] = '0' * 64
+        with self.assertRaisesRegex(atom.AtomRefusal, 'revision.history.issue'):
+            self.report()
+
+    def test_missing_conflicting_and_mismatched_ack_refuse_current_and_history(self):
+        entry = self.released()
+        self.claim['base_head'] = self.f.target
+        original = copy.deepcopy(entry['acks'])
+        bad_sets = [original[:-1], [*original, original[0]],
+                    [*original, {**original[0], 'status': 'error'}],
+                    [{**original[0], 'action': 'foreign'}, *original[1:]],
+                    [{**original[0], 'status': 'error'}, *original[1:]], [*original, 'malformed']]
+        for history in (False, True):
+            if history:
+                self.state['scope_history'] = [entry]
+                self.state.pop('scope_amendment')
+            for acks in bad_sets:
+                with self.subTest(history=history, acks=acks):
+                    if history:
+                        entry['acks'] = acks
+                    else:
+                        self.ack_path.write_text(''.join(json.dumps(ack) + '\n' for ack in acks))
+                    with self.assertRaisesRegex(atom.AtomRefusal, 'revision.history.ack'):
+                        self.report()
+
+    def test_foreign_tampered_and_missing_lineage_never_fall_back_to_claim(self):
+        entry = self.released()
+        original_state = copy.deepcopy(self.state)
+        for mutate in (
+                lambda: self.state.update(authorization_sha256='0' * 64),
+                lambda: self.state.update(scope_amendment='malformed'),
+                lambda: self.state.update(base_recovery='malformed'),
+                lambda: self.state['scope_amendment']['selection'].update(sha256='0' * 64),
+                lambda: self.state['scope_amendment']['prepared'].update(sha256='0' * 64),
+                lambda: self.state['scope_amendment'].pop('prepared'),
+                lambda: self.state.update(admission_sha256='0' * 64),
+                lambda: self.state['writes']['issue_scope'].update(status='offered'),
+                lambda: self.state['scope_edit'].update(action='mode')):
+            self.state = copy.deepcopy(original_state)
+            mutate()
+            with self.assertRaises((atom.AtomRefusal, cost.CostRefusal)):
+                self.report()
+        self.state = copy.deepcopy(original_state)
+        packet_path = Path(entry['amendment']['selection']['path'])
+        packet = json.loads(packet_path.read_text())
+        foreign = self.f.save('foreign-auth.json', {**self.f.auth, 'repository': 'foreign/repository'})
+        packet['authorization'] = cost.file_ref(foreign)
+        packet_path.write_text(json.dumps(packet))
+        self.state['scope_amendment']['selection'] = cost.file_ref(packet_path)
+        with self.assertRaisesRegex(atom.AtomRefusal, 'scope.authorization'):
+            self.report()
+        packet_path.unlink()
+        with self.assertRaisesRegex(atom.AtomRefusal, 'prior_atom.path'):
+            self.report()
+
+    def test_prepared_base_recovery_has_no_typed_release_proof(self):
+        self.state['base_recovery'] = {'prepared': {'path': '/not-accepted'}}
+        with self.assertRaisesRegex(atom.AtomRefusal, 'cost.lineage.base_recovery'):
+            self.report()
+
+    def test_state_change_during_report_refuses_snapshot(self):
+        self.save()
+        original = cost.project
+        def changed(*args, **kwargs):
+            result = original(*args, **kwargs)
+            self.state_path.write_text(json.dumps({**self.state, 'phase': 'changed'}))
+            return result
+        with patch.object(cost, 'project', side_effect=changed), self.assertRaisesRegex(cost.CostRefusal, 'digest'):
+            cost.report(self.auth, self.manifest_path)
 
 
 if __name__ == '__main__':

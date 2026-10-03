@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 248
+  },
+  "instructions": [
+    {
+      "path": "cost_telemetry.py",
+      "baseline_sha256": "3c7adec459c4f6bb0bcaf4ce9ddcb908d3f5aff08533255cf3566f25eb92c743",
+      "treatment_sha256": "1fbf62ef395ff3e11b690ed63291dfd3715f1823816e61faddd304bef004e691"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tests/test_cost_telemetry.py",
+      "role": "Accepted lineage and read-only owner feedback controls",
+      "sha256": "7c192a867cdf2cad83cf40630c54578ec4924d3ee176cc894bb8d8b02329aac6"
+    },
+    {
+      "path": "docs/experiments/cost-lineage-feedback/results.md",
+      "role": "Observed historical CLI readback, scoped controls and delivery limits",
+      "sha256": "17b5bc08fc9c2caf010446ae234ec2a8bc14dd492045352d7e64c7a3b1b8e7ee"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#248"
+  },
+  "authorizes_landing": false
+}
