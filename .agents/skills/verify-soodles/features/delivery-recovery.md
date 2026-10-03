@@ -114,3 +114,31 @@ manifest 變動當成新的恢復指令。原 session hashes 改變必須拒絕�
 在 edit 或 release ack 之後重新讀 owner，核對 prompt 或 mode。
 驗證 ack 到達前後的重入不重送 control、prepare、start 或 dispatch。
 工程 source、fixture 或落地成功，都不是原 Issue 的 publication、landing 或正常使用證據。
+
+
+## Typed revision 的 stopped continuation
+
+當 task 選定 accepted Noodle #106 的 typed prepublication revision 時，
+使用 `docs/experiments/failed-order-restart/observer.py` 的 disposable fixture。
+Supervisor 固定 binary 與 acceptance descriptor。先核對兩者的 SHA-256。
+此控制使用真實 native process 與 sentinel worker，不呼叫模型或 live provider。
+它不要求執行上方所有 oracles，也不替換 task 已選的 carrier。
+
+Fixture 必須驅動 production revision owner continuation。
+只手動發送 native controls 不能證明 Soodles 會啟動 replacement process。
+分別在 request-changes 後、edit 後、requeue 後停止 fixture loop。
+保存原 process 已消失的證據，再讓原 owner 啟動一次 manual replacement。
+讀回完整 custody、原 terminal 四檔 hash、HEAD、tree、branch、所有 attempts、
+control request 與 ACK。Release 前沒有 successor。Release 後恰有一個 successor。
+
+保留每次 argv、exit、stdout、stderr、故障訊號、前後 snapshot 與 cleanup。
+驗證未知 start 或 write 不重送、外來或 live process 拒絕、bytes 與 config 漂移拒絕。
+驗證 foreign control、explicit reject、missing custody 和 unsupported carrier 拒絕。
+若部分拒絕使用 deterministic software fixture，明確標示其觀測範圍。
+不得以 mock liveness predicate 取代本節的真實停止與重啟。
+
+重入只讀回原 intent。不能藉 replay 增加 restart、request-changes 或 attempt。
+Release 已 offered 的未知結果需原 execution readback，不得重新取得 restart 資格。
+保存 Test Manager scope，送出 P-class feedback，並消費 Schema Manager next。
+完成 fixture cleanup 後，保留證據與限制。結果始終 `authorizes_landing: false`。
+原 Issue 的 publication、Linux CI、landing 和 reconciliation 由原 owners 接續。

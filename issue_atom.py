@@ -2367,6 +2367,71 @@ def adopt_scope_amendment(authorization_path, selection_path, selection_sha256, 
                      "environment": {"SOODLES_AUTHORIZATION_SHA256": digest}}}
 
 
+def scope_control_readback(authorization, state, commands):
+    amendment = state["scope_amendment"]
+    runtime = Path(authorization["control_root"]) / ".noodle"
+    with (runtime / "control.lock").open("a+b") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        raw = (runtime / "control-ack.ndjson").read_text() if (runtime / "control-ack.ndjson").exists() else ""
+        require(raw.startswith(amendment["ack_prefix"]), "scope.control.history", "changed")
+        allowed = {command["id"]: command for key, command in commands.items() if key in state}
+        acks = [json.loads(line) for line in raw[len(amendment["ack_prefix"]):].splitlines() if line.strip()]
+        require(all(ack.get("id") in allowed and ack.get("action") == allowed[ack["id"]]["action"]
+                    and ack.get("status") == "ok" for ack in acks),
+                "scope.control.foreign", acks, "exclusive_scope_control_readback")
+        mailbox = runtime / "control.ndjson"
+        pending = [json.loads(line) for line in mailbox.read_text().splitlines() if line.strip()] if mailbox.exists() else []
+        require(all(command == allowed.get(command.get("id")) for command in pending),
+                "scope.control.pending", pending, "exclusive_scope_control_readback")
+        require(len({ack["id"] for ack in acks}) == len(acks)
+                and len({command["id"] for command in pending}) == len(pending)
+                and not ({ack["id"] for ack in acks} & {command["id"] for command in pending}),
+                "scope.control.duplicate", "duplicate_or_acked_pending")
+        require(all(state[key] == command for key, command in commands.items() if key in state),
+                "scope.control.intent", "changed", "original_control_intent")
+    return {"acks": acks, "pending": pending}
+
+
+def scope_continuation_readback(binding, owner, amendment, state, prompt):
+    """Recognize only the retained typed revision before its release effect."""
+    execution = binding["execution"]
+    entry = binding["revision_entry"]["context"]
+    order_id = execution["order_id"]
+    order = owner["state"]["orders"][order_id]
+    stage = order["stages"][0]
+    root = Path(execution["control_root"]) / ".worktrees" / execution["worktree"]
+    issue_execution.validate_worktree(root, binding)
+    require("scope_request" in state and "scope_release" not in state
+            and stage.get("attempts") == entry["prior_attempts"],
+            "scope.continuation.lineage", "changed_or_released", "original_unreleased_revision")
+    receipt = stage.get("extra", {}).get("request_changes_requeued")
+    if stage.get("status") == "pending":
+        require(order.get("status") == "active" and "scope_requeue" in state
+                and order_id not in owner["state"].get("pending_reviews", {})
+                and isinstance(receipt, dict),
+                "scope.continuation.pending", "missing_custody", "native_requeued_receipt")
+        review = receipt.get("review")
+    else:
+        require(order.get("status") == "failed" and stage.get("status") == "failed"
+                and receipt is None, "scope.continuation.failed", "unsupported_state",
+                "native_request_changes_custody")
+        review = owner["state"].get("pending_reviews", {}).get(order_id)
+    custody = issue_execution.validate_revision_custody(binding, stage, review, root)
+    saved = amendment.get("native_review")
+    require(isinstance(saved, dict) and isinstance(amendment.get("session_sha256"), dict),
+            "scope.continuation.history", "missing", "original_review_and_session_custody")
+    edited = "scope_edit" in state and stage.get("prompt") == prompt
+    expected_review = {**saved, "prompt": prompt} if edited else saved
+    require(review == expected_review and stage.get("prompt") == expected_review["prompt"]
+            and custody["binding"]["session_sha256"] == amendment["session_sha256"]
+            and order.get("plan") == review.get("plan"),
+            "scope.continuation.custody", "changed", "exact_retained_review_and_session_bytes")
+    require(stage.get("status") != "pending" or edited,
+            "scope.continuation.prompt", "unedited_pending", "original_edit_readback")
+    return {"position": "pending" if stage["status"] == "pending" else "edited" if edited else "failed",
+            "custody": custody, "stage": stage}
+
+
 def advance_scope_amendment(authorization, paths, state, provider, environ):
     """Continue the original blocked order through existing provider and native controls."""
     packet = scope_packet(authorization, state)
@@ -2483,8 +2548,7 @@ def advance_scope_amendment(authorization, paths, state, provider, environ):
     require(state.get("noodle_start", {}).get("status") == "started",
             "scope.start.outcome", state.get("noodle_start", {}).get("status"),
             "original_process_readback_without_restart")
-    require(observe_prior_loop(effective, state) == "running",
-            "scope.process", "stopped", "original_process_readback_without_restart")
+    process_status = observe_prior_loop(effective, state)
     require(host_config_identity(authorization["control_root"]) == state["noodle_start"]["config_sha256"],
             "scope.config", "changed", "unchanged_scope_owner_configuration")
     owner = issue_execution.read_owner(binding)
@@ -2505,34 +2569,40 @@ def advance_scope_amendment(authorization, paths, state, provider, environ):
     if revision:
         commands["scope_request"] = {"id": prefix + "-request", "action": "request-changes",
                                      "order_id": order_id, "prompt": selection["reason"].strip()}
-    runtime = Path(authorization["control_root"]) / ".noodle"
-    with (runtime / "control.lock").open("a+b") as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX)
-        raw = (runtime / "control-ack.ndjson").read_text() if (runtime / "control-ack.ndjson").exists() else ""
-        require(raw.startswith(amendment["ack_prefix"]), "scope.control.history", "changed")
-        allowed = {command["id"]: command for key, command in commands.items() if key in state}
-        acks = [json.loads(line) for line in raw[len(amendment["ack_prefix"]):].splitlines() if line.strip()]
-        require(all(ack.get("id") in allowed and ack.get("action") == allowed[ack["id"]]["action"]
-                    and ack.get("status") == "ok" for ack in acks),
-                "scope.control.foreign", acks, "exclusive_scope_control_readback")
-        mailbox = runtime / "control.ndjson"
-        pending = [json.loads(line) for line in mailbox.read_text().splitlines() if line.strip()] if mailbox.exists() else []
-        require(all(command == allowed.get(command.get("id")) for command in pending),
-                "scope.control.pending", pending, "exclusive_scope_control_readback")
+    controls = scope_control_readback(authorization, state, commands)
+    if revision and "scope_release" not in state:
+        if "scope_request" not in state:
+            require(process_status == "running" and stage == amendment["prior"]["stage"],
+                    "scope.continuation.origin", "changed", "original_completed_review")
+            review = owner["state"].get("pending_reviews", {}).get(order_id)
+            require(isinstance(review, dict), "scope.continuation.review", "missing")
+            session = binding["revision_entry"]["context"]["terminal"]["session_id"]
+            directory = Path(authorization["control_root"]) / ".noodle/sessions" / session
+            files = {name: digest_file(directory / name) for name in
+                     ("spawn.json", "prompt.txt", "events.ndjson", "process.json")}
+            amendment["native_review"] = json.loads(json.dumps(review))
+            amendment["session_sha256"] = files
+            save_json(paths["state"], state)
+        elif stage.get("status") != "review":
+            observation = scope_continuation_readback(binding, owner, amendment, state, prompt)
+            if process_status == "stopped":
+                require(amendment.get("continuation_restart") is None,
+                        "scope.continuation.restart", "already_offered", "original_replacement_start_readback")
+                acknowledged = {ack["id"] for ack in controls["acks"]}
+                pending = {command["id"] for command in controls["pending"]}
+                require(all(command["id"] in acknowledged | pending for key, command in commands.items() if key in state),
+                        "scope.continuation.control", "unknown", "original_control_ack_or_mailbox_readback")
+                return ensure_noodle(effective, selected_paths, state, {"action": "scope_continuation"},
+                                     environ, scope_continuation={**observation, "controls": controls})
+    require(process_status == "running", "scope.process", "stopped",
+            "original_process_readback_without_restart")
     original_attempts = amendment["prior"]["stage"]["attempts"]
     if revision:
         ack = amendment_control(authorization, paths, state, "scope_request", commands["scope_request"])
         if ack is None:
             return {"action": "revision_request_changes_pending"}
-        expected_attempts = binding["revision_entry"]["context"]["prior_attempts"]
-        custody = stage.get("extra", {}).get("request_changes_recovery")
-        if "scope_requeue" not in state:
-            require(stage.get("status") == "failed" and stage.get("attempts") == expected_attempts
-                    and isinstance(custody, dict)
-                    and custody.get("candidate_head") == selection["candidate_head"]
-                    and custody.get("session_id") == selection["terminal_session"]
-                    and custody.get("attempt_id") == amendment["prior"]["blocked"]["attempt_id"],
-                    "revision.native.custody", custody, "canonical_request_changes_readback")
+        require("scope_release" in state or stage.get("status") != "review", "revision.native.custody", "unapplied_request",
+                "canonical_request_changes_readback")
     if "scope_requeue" not in state and not revision:
         require(stage.get("attempts") == original_attempts,
                 "scope.attempts", "changed", "original_retained_attempts")
@@ -2752,16 +2822,25 @@ def bootstrap_noodle(authorization, paths, state, environ):
 
 
 def ensure_noodle(authorization, paths, state, admission, environ, *, correction=False, scope_restart=False,
-                  correction_restart=False, interruption_restart=False, base_restart=False):
+                  correction_restart=False, interruption_restart=False, base_restart=False, scope_continuation=None):
     """Consume the producer's start once; Noodle's lock remains process authority."""
     root = Path(authorization["control_root"])
     prior = None
-    restarting = scope_restart or correction_restart or interruption_restart or base_restart
+    continuing = scope_continuation is not None
+    restarting = scope_restart or correction_restart or interruption_restart or base_restart or continuing
     held = correction or restarting
-    amendment = state.get("scope_amendment") if scope_restart else None
+    amendment = state.get("scope_amendment") if scope_restart or continuing else None
     recovery = state.get("correction_start_recovery") if correction_restart else None
     interrupted = state.get("interruption") if interruption_restart else None
     base = state.get("base_recovery") if base_restart else None
+    if continuing:
+        require(amendment is not None and amendment.get("restart_offered")
+                and amendment.get("continuation_restart") is None and "scope_release" not in state
+                and admission.get("action") == "scope_continuation",
+                "scope.continuation.restart", "already_offered_or_released", "original_start_readback")
+        require(observe_prior_loop(authorization, state) == "stopped",
+                "scope.continuation.process", "live", "confirmed_original_process_absence")
+        retained_continuation_start = state["noodle_start"]
     if base_restart:
         require(base is not None and not base.get("start_offered")
                 and state.get("noodle_start") == base["prior"]["noodle_start"]
@@ -2811,7 +2890,7 @@ def ensure_noodle(authorization, paths, state, admission, environ, *, correction
         # Popen response. Its current owner must supply recovery/readback.
         require("noodle_start" not in state or restarting, "noodle.start.outcome", "stopped_or_unknown",
                 "current_noodle_owner_readback_without_restart")
-        require(admission.get("action") in ({"base_review"} if base_restart else {"interruption_prepared"} if interruption_restart else {"scope_review"} if scope_restart else {"correction_review"} if correction or correction_restart
+        require(admission.get("action") in ({"scope_continuation"} if continuing else {"base_review"} if base_restart else {"interruption_prepared"} if interruption_restart else {"scope_review"} if scope_restart else {"correction_review"} if correction or correction_restart
                 else {"proposal_pending"}), "noodle.start.admission",
                 admission.get("action"), "original_noodle_owner_continuation")
         binding = read_json(paths["envelope"], "envelope")
@@ -2825,10 +2904,10 @@ def ensure_noodle(authorization, paths, state, admission, environ, *, correction
             if held and order_id == "schedule" and native_idle_schedule(
                     order, authorization["carrier"]["codex"]["model"]):
                 continue
-            if held and order_id == (binding["execution"]["order_id"] if scope_restart or interruption_restart or base_restart else prior["order_id"]):
+            if held and order_id == (binding["execution"]["order_id"] if scope_restart or interruption_restart or base_restart or continuing else prior["order_id"]):
                 require(isinstance(order, dict)
                         and len(order.get("stages", [])) == 1
-                        and order["stages"][0].get("status") == ("pending" if interruption_restart else "review"),
+                        and order["stages"][0].get("status") == (scope_continuation["stage"]["status"] if continuing else "pending" if interruption_restart else "review"),
                         "noodle.start.prior_review", order_id,
                         "original_pending_review")
             else:
@@ -2838,10 +2917,24 @@ def ensure_noodle(authorization, paths, state, admission, environ, *, correction
                         "noodle.start.orders", "nonquiescent", "quiescent_noodle_owner")
         for process in sorted((runtime / "sessions").glob("*/process.json")):
             issue_execution._absent_process(process.parent, process.parent.name)
+        if continuing:
+            binding = issue_admission.validate_issue(amendment["preparation"]["issue"], binding)
+            revision_path = paths["envelope"].parent / "revision-entry.json"
+            binding = issue_execution.revision_context(binding,
+                {"path": str(revision_path), "sha256": digest_file(revision_path)}, state["envelope_sha256"])
+            prompt = json.dumps(issue_execution.projection(binding, state["envelope_sha256"], "supervised"), sort_keys=True)
+            fresh = scope_continuation_readback(binding, owner, amendment, state, prompt)
+            require(fresh == {key: value for key, value in scope_continuation.items() if key != "controls"},
+                    "scope.continuation.race", "changed", "fresh_native_custody_readback")
+            require(retained_continuation_start.get("argv") == start
+                    and retained_continuation_start.get("process_argv") == noodle_process_argv(authorization, prepared)
+                    and retained_continuation_start.get("config_sha256") == digest_file(paths["envelope"].parent / "noodle.toml")
+                    and not any(retained_continuation_start.get(key) for key in ("stop_offered", "restore_offered", "restored")),
+                    "scope.continuation.prepared", "changed", "original_prepared_manual_owner")
         if base_restart:
             require(owner["state"]["orders"][prior["order_id"]]["stages"][0] == base["prior"]["stage"],
                     "base_recovery.start.stage", "changed", "original_completed_review")
-        retained_start = (base["prior"]["noodle_start"] if base_restart else interrupted["prior_start"] if interruption_restart else amendment["prior"]["noodle_start"]
+        retained_start = (retained_continuation_start if continuing else base["prior"]["noodle_start"] if base_restart else interrupted["prior_start"] if interruption_restart else amendment["prior"]["noodle_start"]
                           if scope_restart else record["noodle_start"] if correction_restart else None)
         expected_config = retained_start["config_sha256"] if restarting else authorization["host_config_sha256"]
         require(host_config_identity(root) == expected_config,
@@ -2877,11 +2970,26 @@ def ensure_noodle(authorization, paths, state, admission, environ, *, correction
             with (runtime / "control.lock").open("a+b") as control_lock:
                 fcntl.flock(control_lock, fcntl.LOCK_EX)
                 mailbox = runtime / "control.ndjson"
-                require(not mailbox.exists() or not mailbox.read_bytes().strip(),
-                        "amendment.control.pending", "foreign", "pending_control_readback")
+                if continuing:
+                    raw_pending = [json.loads(line) for line in mailbox.read_text().splitlines() if line.strip()] if mailbox.exists() else []
+                    require(raw_pending == scope_continuation["controls"]["pending"],
+                            "scope.continuation.control", "changed", "original_control_mailbox_readback")
+                else:
+                    require(not mailbox.exists() or not mailbox.read_bytes().strip(),
+                            "amendment.control.pending", "foreign", "pending_control_readback")
                 ack_path = runtime / "control-ack.ndjson"
                 prefix = ack_path.read_text() if ack_path.exists() else ""
-            if base_restart:
+            if continuing:
+                expected_ack = amendment["ack_prefix"]
+                require(prefix.startswith(expected_ack)
+                        and [json.loads(line) for line in prefix[len(expected_ack):].splitlines() if line.strip()]
+                        == scope_continuation["controls"]["acks"],
+                        "scope.continuation.control", "changed", "original_control_ack_readback")
+                amendment["continuation_restart"] = {
+                    "prior_start": retained_continuation_start,
+                    "prepared": amendment["prepared"], "observation": scope_continuation,
+                    "owner_snapshot_sha256": digest_file(runtime / "state.snapshot.json")}
+            elif base_restart:
                 base["start_offered"] = True
                 state["correction_ack_prefix"] = prefix
                 state["correction_prior"] = prior
@@ -2903,11 +3011,17 @@ def ensure_noodle(authorization, paths, state, admission, environ, *, correction
         # bounded config replacement. Noodle itself acquires it on child start.
         config.write_bytes(generated)
     log_root = paths["envelope"].parent.parent if restarting else paths["directory"]
-    stdout_path = log_root / "noodle.stdout"
-    stderr_path = log_root / "noodle.stderr"
-    with stdout_path.open("xb") as stdout, stderr_path.open("xb") as stderr:
-        child = subprocess.Popen(start, cwd=root, env=dict(environ), stdin=subprocess.DEVNULL,
-                                 stdout=stdout, stderr=stderr, start_new_session=True)
+    stdout_path = log_root / ("continuation-noodle.stdout" if continuing else "noodle.stdout")
+    stderr_path = log_root / ("continuation-noodle.stderr" if continuing else "noodle.stderr")
+    try:
+        with stdout_path.open("xb") as stdout, stderr_path.open("xb") as stderr:
+            child = subprocess.Popen(start, cwd=root, env=dict(environ), stdin=subprocess.DEVNULL,
+                                     stdout=stdout, stderr=stderr, start_new_session=True)
+    except OSError as error:
+        if continuing:
+            raise AtomRefusal("scope.continuation.start", type(error).__name__,
+                              "original_replacement_process_readback_without_restart", owner="Noodle") from error
+        raise
     state["noodle_start"].update(pid=child.pid, status="started",
                                 stdout=str(stdout_path), stderr=str(stderr_path))
     save_json(paths["state"], state)

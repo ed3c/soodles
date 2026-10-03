@@ -573,3 +573,49 @@ Revision worker 的 completed outcome 要求 clean candidate 已包含 target。
 本路徑不授權另一個 writer、scheduler 或外部 judge。
 Disposable fixture 證據只支持其所觀察的邊界。
 Root 仍負責選定 runtime 的 activation、原 atom 接續與正常交付讀回。
+
+
+## Typed revision 在 release 前停止
+
+本節只處理上一節已接納的 typed prepublication revision。
+Supervisor 必須已固定接受的 Noodle #106 binary 與 descriptor。
+新 main 或停止狀態本身不能替換原 carrier，也不能授予重啟權限。
+舊 carrier 仍受原契約約束。已歸檔且缺少完整 custody 的 order，
+仍需要原 owner 提供證據。本節不恢復任意 failed order 或 explicit reject。
+
+原需求是讓同一 order 在 request-changes、edit 或 requeue 後停止時接續。
+Noodle #106 保存原 session、attempt、worktree 和 candidate 的 custody。
+這些證據讓原 revision owner 區分合法停止與身分漂移。
+只放寬 failed 狀態檢查不夠。未知 start 或 control 仍可能已產生效果。
+因此 caller 仍使用 owner 回傳的同一 `issue-atom run`，不選 restart 命令。
+
+在 release 尚未 offered 時，owner 讀取原 process 與 native snapshot。
+Owner 必須確認 process 和 session process group 已消失。
+它比對乾淨 candidate 的 HEAD、tree、branch、原 terminal session 四檔 hash、
+完整 attempts、request-changes reason、review 與 native custody。
+Failed 與 edited 狀態使用 `request_changes_recovery`。
+Pending 狀態使用 `request_changes_requeued` 內保留的 binding 與 review。
+合法 edit 只改 prompt。Requeue 不新增 attempt。
+
+驗證通過後，既有 start owner 保存一次 held restart intent。
+它沿用原 prepared launcher、config、authorization 與 immutable authority。
+它為 replacement process 使用新的 stdout 和 stderr 檔案，保留原 start 紀錄。
+同一 revision 只允許這一次 continuation restart。再次停止需要原 owner 輸入。
+Owner 不重設 `restart_offered`、ACK prefix 或 control intent。
+重啟後，owner 再讀 native custody，才接續原 edit、requeue 與 release。
+Release 前仍須驗證目前完整 custody，不能只引用先前 requeue 成功。
+只有必要 controls 的 ACK 與狀態讀回都相符，owner 才解除 manual hold。
+Noodle 隨後在原 order 與 worktree 派發唯一 successor，保留全部 prior attempts。
+
+若原 control 仍在 mailbox，owner 等待 Noodle 讀取同一 command。
+若 command 已消失且沒有 exact ACK，結果仍未知。
+未知 process、start、control 或 provider write 只允許原 readback，不可重送。
+Live 或 foreign process、session bytes 改變、candidate 或 config 漂移、
+foreign control、missing custody 和 explicit rejection 都不能取得重啟資格。
+若 release 已 offered 或 successor 已派發，沿原 execution owner 讀回。
+本節不把該狀態轉成新的 restart permission。
+
+Test Manager 的 scoped observations 必須送至 Schema Manager，並消費其 next。
+Fixture 證據只涵蓋所測邊界。P-class feedback 只涵蓋保存文字與指定 consumer。
+Publication、Linux exact-head CI、landing 和 local reconciliation 仍由原 owners 完成。
+已 resolved 的 #235 保留為歷史證據，不因本次修正重新開啟。
