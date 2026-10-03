@@ -90,9 +90,12 @@ class Plan:
                     "source_changed:" + name)
 
 
-def compile_plan(root):
+def compile_plan(root, *, read_bytes=None):
     root = Path(root)
-    raw = (root / PLAN_PATH).read_bytes()
+    if read_bytes is None:
+        def read_bytes(name):
+            return (root / name).read_bytes()
+    raw = read_bytes(PLAN_PATH)
     value = json.loads(raw, object_pairs_hook=unique_object)
     require(isinstance(value, dict) and type(value.get("schema")) is int
             and value["schema"] in (1, 2), "plan.schema")
@@ -116,17 +119,17 @@ def compile_plan(root):
             for key, item in expected.items():
                 require(field[key] == item, "catalog." + name + "." + key)
             require(all(type(v) is bool for v in field["legal_values"]), "catalog." + name + ".legal_values")
-        source = ast.parse((root / "issue_atom.py").read_text())
+        source = ast.parse(read_bytes("issue_atom.py").decode("utf-8"))
         owner = next((n for n in source.body if isinstance(n, ast.FunctionDef) and n.name == "finish_host"), None)
         require(owner is not None, "catalog.producer:issue_atom.py:finish_host")
         require(any(isinstance(n, ast.FunctionDef) and n.name == "confirm" for n in owner.body),
                 "catalog.producer:issue_atom.py:finish_host.confirm")
-    context = compile_repair(root)["cleanup_residue"]
+    context = compile_repair(root, read=lambda name: read_bytes(name).decode("utf-8"))["cleanup_residue"]
     require(context["consumer"] == "issue_atom.finish_host", "consumer")
     names = ["schema_manager.py", PLAN_PATH, "issue_atom.py", "system_context.py",
              "atom_repair.py", "policy/repair-policy.json", "contracts/system-v1/routes.json"]
     names += context["requires"]
-    sources = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in names}
+    sources = {name: hashlib.sha256(read_bytes(name)).hexdigest() for name in names}
     return Plan(digest(sources), context, sources, value["nodes"],
                 {fact: tuple(node for node, rule in RULES.items() if fact in rule) for fact in FACTS}, catalog)
 

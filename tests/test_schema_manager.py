@@ -1,5 +1,6 @@
 """Fixed protocol controls; no model/provider effects or recurring timing gate."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -108,6 +109,23 @@ class SchemaManagerTests(unittest.TestCase):
         self.assertEqual(self.plan.context["consumer"], "issue_atom.finish_host")
         self.assertEqual(self.plan.context["requires"], [
             "contracts/system-v1/common.md", "contracts/system-v1/issue-atom.md"])
+
+    def test_byte_reader_compiles_exact_source_without_filesystem_or_execution(self):
+        names = set(self.plan.sources) | {
+            "candidate_publication.py", "provider_readback.py", "issue-atom",
+            "soodles", "soodles.py", "provider-readback",
+            "contracts/system-v1/candidate.md", "contracts/system-v1/readback.md"}
+        sources = {name: (ROOT / name).read_bytes() for name in names}
+        with patch.object(Path, "read_bytes", side_effect=AssertionError("filesystem")), \
+                patch.object(Path, "read_text", side_effect=AssertionError("filesystem")):
+            plan = manager.compile_plan(ROOT, read_bytes=sources.__getitem__)
+        self.assertEqual(plan, self.plan)
+        sources["issue_atom.py"] += b'\nraise RuntimeError("historical Python executed")\n'
+        changed = manager.compile_plan(ROOT, read_bytes=sources.__getitem__)
+        self.assertNotEqual(changed.identity, plan.identity)
+        self.assertEqual(changed.rules, plan.rules)
+        self.assertEqual(changed.sources["issue_atom.py"],
+                         hashlib.sha256(sources["issue_atom.py"]).hexdigest())
 
     def test_catalog_names_missing_and_wrong_producers_and_entries(self):
         with tempfile.TemporaryDirectory() as directory:

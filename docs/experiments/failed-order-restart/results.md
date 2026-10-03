@@ -157,3 +157,68 @@ Publication、exact-head Linux CI、landing 與 local Git/Noodle reconciliation
 仍由 supervisor 沿原 owners 完成。
 既有 resolved #235 保留為歷史證據，不重新開啟。
 所有本地證據的 `authorizes_landing` 都是 false。
+
+## 指定 base advance 的接續
+
+Publication owner 因 provider main 前進而拒絕原 candidate `e8cdabc`。
+Supervisor 隨後接納 exact target
+`5b0a73eae31fb414deeed4ffdf8082a71aee4e3d`。
+Writer 在原 worktree 合併此 target，保留原 candidate commit 與失敗 attempt。
+Revision context 位於
+`/Users/neon/soodles-audits/failed-order-restart/base-revision/admission/revision-entry.json`。
+Writer 驗證其 SHA-256 為
+`881bdeb7b114ba84279aa90970ceea24b5d9bed55079172fc51ef18cd75f786d`。
+本段的工作紀錄與 receipts 位於 `/tmp/soodles-243-base-integration/`。
+
+Git 自動合併沒有衝突。新基底只在 `issue_atom.py` 加入或修改
+`original_host_plan` 與 `resume_host_finalization`。
+它也修改 `schema_manager.compile_plan`，使原 host plan 可從固定 Git bytes 編譯。
+`source-comparison.json` 記錄 AST 與 hash 比對。
+本次 stopped continuation 的函式、module statements、`issue_execution.py`
+與 native observer 均保留原內容。
+因此本次沒有重新設計 restart，也沒有新增 native process 實驗。
+前面的三個 native case 仍是原 source 的觀察，不能改稱本次合併 head 的執行。
+合併後的 software controls 另外驗證目前 source 與 host plan consumer。
+
+原 Feature 計畫保留。Writer 單獨處理 Git 與 N-class 證據。
+獨立原生 reviewer 只讀取 source，並寫入外部 review 紀錄。
+此 carrier 沒有 Grok、Claude 或 Comment Sicko wrapper。
+本次使用原生 review，不宣稱多模型或指定 wrapper 驗證。
+`methods.json` 與 `plan.md` 保存方法身分、工作分配及 writer 停止點。
+
+目前 admission 的 task 與原 task 相同。
+Contract 只有 `base_head` 改變。
+三份 P-class 指令、三個 case inputs、expected values 與 eval method 均未改變。
+獨立 reviewer 重新以目前 requirements 核對全部 12 個條件。
+`criteria-review.json` 綁定新 protocol，原 consumer reports 與 raw responses 保留。
+Writer 沒有把重用觀察稱為新 consumer 執行。
+本 session 的 `./stage-outcome feedback` 回傳 VALID、SUPPORTED 與 PASS。
+Test Manager verified stopped、unknown、legacy，沒有要求新 observations。
+Writer 已消費 `consume_verified_behavior`。
+`feedback.stdout` 與 `consumed.json` 保存 response、digest、next 與採取的行動。
+此 PASS 只支持原案例的指令行為，不授權 publication 或 landing。
+
+Test Manager 對指定 target 選取 21 個受影響模組，共 407 個 tests。
+Writer 另選 `test_schema_manager` 的 17 個 controls，驗證合併後的 host plan reader。
+此 CLI 的 `--module` 會使用明列範圍，不會附加 base 自動選取的模組。
+因此兩組範圍分開執行，未使用 full suite。
+
+首次受影響模組執行中，9 個模組留下完整 PASS 紀錄。
+`test_interruption_recovery` 留下 exit 1，但詳細輸出仍在 manager buffer。
+工具隨後回報整個執行程序 exit 143，manager 未寫出最後 receipt。
+Writer 沒有取得 SIGTERM 原因或該模組的首次失敗診斷。
+`interrupted-run.json` 與原 stdout、stderr 保留這個缺口。
+
+Writer 先隔離執行該失敗模組，13 個 tests 全數通過。
+接著只執行尚無完整觀察的 11 個模組，全部通過。
+兩次執行均保留 stdout、stderr、exit code 與 process receipt。
+`verification-summary.json` 將原 9 個 PASS、單模組診斷與後續 11 個 PASS
+連回 Test Manager 的完整選取，合計 407 個 tests。
+另有 17 個 schema controls 通過，總計覆蓋 22 個模組、424 個 tests。
+這是多次執行的觀察聯集，不是首次中斷執行的 PASS。
+後續成功不解釋原失敗原因，也不刪除失敗歷史。
+
+獨立 review 未發現合併引入的 correctness、comment 或 deslop 缺陷。
+`independent-review.md` 保存 source 判斷與當時尚待補足的驗證範圍。
+本次不修改 publication、judge、carrier 或原 owner 的交付權限。
+Supervisor 仍須執行 exact-head Linux acceptance，並沿原 owner 完成後續交付。

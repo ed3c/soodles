@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 237
+  },
+  "instructions": [
+    {
+      "path": "issue_atom.py",
+      "baseline_sha256": "06c3588da019fc6cc8d7d56fa767edf87c34990e3831ce7a79348b5a7e51651d",
+      "treatment_sha256": "13fff27a9d48acd097467369cf661fced3eb955ae4a9436e461ec917cbf2c146"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/implicit-host-source/design.md",
+      "role": "N-class engineering evidence",
+      "sha256": "1b3d253a55c8bf224efca3af15f669dfbe8e3d39841e00389773bf5c985f3e57"
+    },
+    {
+      "path": "docs/experiments/implicit-host-source/handoff.md",
+      "role": "N-class engineering evidence",
+      "sha256": "c15f374bb621c30a4d98014c4b7204d2d7893da9bb1eb8fd74e8540b13cd9854"
+    },
+    {
+      "path": "docs/experiments/implicit-host-source/results.md",
+      "role": "N-class engineering evidence",
+      "sha256": "463c0b3922460b6d8e1d31ec7a7dfbd81008574ba8a23da409a90386769d6a9a"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue execution",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#237"
+  },
+  "authorizes_landing": false
+}
