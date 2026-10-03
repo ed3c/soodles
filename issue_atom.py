@@ -3240,6 +3240,24 @@ def host_manager(authorization, state):
         raise AtomRefusal("host_finalization", str(error), "original_owner_readback") from error
 
 
+def original_host_plan(authorization, owner):
+    """Compile pinned historical bytes as data with the current validator."""
+    if owner is not None:
+        root = Path(validate_lifecycle_owner({**authorization, "lifecycle_owner": owner})).parent
+        plan = schema_manager.compiled(root)
+        plan.validate_sources(root)
+        return plan
+    root, head = Path(authorization["control_root"]), authorization["base_head"]
+    require(isinstance(head, str) and SHA40.fullmatch(head), "lifecycle.resume.host_source", head,
+            "original_base_git_objects")
+    try:
+        return schema_manager.compile_plan(root, read_bytes=lambda name:
+                                          issue_admission.git_bytes(root, head, name))
+    except (issue_admission.AdmissionRefusal, OSError, subprocess.SubprocessError) as error:
+        raise AtomRefusal("lifecycle.resume.host_source", str(error),
+                          "original_base_git_objects") from error
+
+
 def resume_host_finalization(authorization, state):
     """Carry the original facts/sequence across an explicitly selected source change."""
     record = state.get("host_finalization")
@@ -3247,28 +3265,48 @@ def resume_host_finalization(authorization, state):
         return
     resumed_lifecycle(authorization, state)
     previous = state["lifecycle_resume"]["from"]
-    require(previous is not None, "lifecycle.resume.host_source", "missing",
-            "original_pinned_host_finalization_source")
-    old_root = Path(validate_lifecycle_owner({**authorization, "lifecycle_owner": previous})).parent
     try:
-        old_plan = schema_manager.compiled(old_root)
-        old_plan.validate_sources(old_root)
+        old_plan = original_host_plan(authorization, previous)
         current = host_manager(authorization, {k: v for k, v in state.items() if k != "host_finalization"})
-        require(old_plan.rules == current.plan.rules
-                and all(old_plan.context[key] == current.plan.context[key] for key in ("consumer", "requires"))
-                and old_plan.affected == current.plan.affected,
-                "lifecycle.resume.host_plan", "changed semantics", "unchanged_host_finalization_rules")
+
+        def unchanged_plan(source, target):
+            require(source.rules == target.rules
+                    and all(source.context[key] == target.context[key] for key in ("consumer", "requires"))
+                    and source.affected == target.affected,
+                    "lifecycle.resume.host_plan", "changed semantics", "unchanged_host_finalization_rules")
+
+        unchanged_plan(old_plan, current.plan)
         schema_manager.Manager(old_plan, {**current.identity, "plan": old_plan.identity}, record)
         history = state.get("host_finalization_resume")
-        require(history is None or (isinstance(history, dict)
-                and history.get("identity") == record.get("identity")),
-                "lifecycle.resume.host_history", "changed", "previous_host_projection_identity")
+        prior_history, successor, successor_plan = history, record, old_plan
+        edge = state["lifecycle_resume"].get("previous")
+        while prior_history is not None:
+            require(isinstance(prior_history, dict)
+                    and set(prior_history) in ({"prior", "identity"}, {"prior", "identity", "previous"})
+                    and edge is not None and prior_history["identity"] == successor["identity"],
+                    "lifecycle.resume.host_history", "changed", "previous_host_projection_identity")
+            target_plan = original_host_plan(authorization, edge["to"])
+            require(prior_history["identity"] == {**current.identity, "plan": target_plan.identity},
+                    "lifecycle.resume.host_history", "changed", "previous_host_projection_identity")
+            source_plan = original_host_plan(authorization, edge["from"])
+            prior = prior_history["prior"]
+            schema_manager.Manager(source_plan, {**current.identity, "plan": source_plan.identity}, prior)
+            unchanged_plan(source_plan, successor_plan)
+            require(prior["sequence"] <= successor["sequence"]
+                    and (prior["sequence"] != successor["sequence"] or prior["facts"] == successor["facts"]),
+                    "lifecycle.resume.host_history", "changed sequence or facts", "previous_host_projection_identity")
+            prior_history, successor, successor_plan = prior_history.get("previous"), prior, source_plan
+            edge = edge.get("previous")
+        translated = {**record, "identity": current.identity}
+        schema_manager.Manager(current.plan, current.identity, translated)
         transferred = {"prior": record, "identity": current.identity}
         if history is not None:
             transferred["previous"] = history
         state["host_finalization_resume"] = transferred
-        state["host_finalization"] = {**record, "identity": current.identity}
-    except schema_manager.SchemaRefusal as error:
+        state["host_finalization"] = translated
+    except (ValueError, SyntaxError, TypeError) as error:
+        if isinstance(error, AtomRefusal):
+            raise
         raise AtomRefusal("lifecycle.resume.host_finalization", str(error), "original_owner_readback") from error
 
 
