@@ -39,6 +39,7 @@ jobs:
           python-version: '3.12'
 
       - name: Verify exact candidate evidence from fresh Issue readback
+        id: candidate
         if: github.event_name == 'pull_request'
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -57,12 +58,41 @@ jobs:
           PY
           )"
           ./soodles github issue ed3c/soodles "$issue" > "$RUNNER_TEMP/soodles-runtime/issue-readback.json"
-          ./soodles candidate verify "$RUNNER_TEMP/soodles-runtime/issue-readback.json" "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/soodles-runtime/candidate-evidence.json"
+          python3 -B - "$issue" <<'PY'
+          import json, os, subprocess, sys
+          from pathlib import Path
+          from issue_admission import AdmissionRefusal
+          from runtime_candidate import verify_pull_request
+          directory = Path(os.environ['RUNNER_TEMP']) / 'soodles-runtime'
+          output = directory / 'candidate-evidence.json'
+          try:
+              receipt = verify_pull_request(
+                  Path.cwd(), os.environ['BASE_SHA'], os.environ['HEAD_SHA'],
+                  json.loads((directory / 'issue-readback.json').read_text()),
+                  issue_number=int(sys.argv[1]), repository='ed3c/soodles')
+          except (AdmissionRefusal, OSError, ValueError, TypeError, KeyError, subprocess.TimeoutExpired) as error:
+              receipt = {
+                  'owner': 'candidate.verify', 'status': 'refused',
+                  'invalid': getattr(error, 'invalid', {'field': 'input', 'value': str(error)}),
+                  'next': getattr(error, 'next', {
+                      'kind': 'input', 'owner': 'supervisor', 'required': ['valid_candidate_evidence']}),
+                  'authorizes_landing': False,
+              }
+              if getattr(error, 'comparison', None) is not None:
+                  receipt['comparison'] = error.comparison
+              output.write_text(json.dumps(receipt, indent=2) + '\n')
+              print('REFUSED: runtime candidate: ' + str(error), file=sys.stderr)
+              raise SystemExit(1)
+          output.write_text(json.dumps(receipt, indent=2) + '\n')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('base=' + receipt['base_head'] + '\n')
+          PY
 
       - name: Request verification scope from Test Manager
         id: scope
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base }}
+          VERIFIED_PR_BASE: ${{ steps.candidate.outputs.base }}
+          DISPATCH_BASE: ${{ inputs.base }}
           REQUEST_REASON: ${{ inputs.reason }}
         run: |
           mkdir -p "$RUNNER_TEMP/soodles-runtime"
@@ -70,7 +100,10 @@ jobs:
           import json, os
           from pathlib import Path
           from test_manager import ci_request, plan, require_ready
-          request = ci_request('runtime', os.environ['GITHUB_EVENT_NAME'], os.environ.get('BASE_SHA', ''), os.environ.get('REQUEST_REASON'))
+          event = os.environ['GITHUB_EVENT_NAME']
+          base = (os.environ.get('VERIFIED_PR_BASE', '') if event == 'pull_request'
+                  else os.environ.get('DISPATCH_BASE', ''))
+          request = ci_request('runtime', event, base, os.environ.get('REQUEST_REASON'))
           base = request['base']
           selection = plan(Path.cwd(), base, require_base=True)
           selection['request'] = request
