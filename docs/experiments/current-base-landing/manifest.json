@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 256
+  },
+  "instructions": [
+    {
+      "path": "landing.py",
+      "baseline_sha256": "7d0405f57c5b4ee56e2c7c7ce42a043b58b0427aa3fd4f1f494167cd48ba7318",
+      "treatment_sha256": "76f73a22874320bde07ca68c1da3f5499499018e5ddd7aff4b2ebacc6acca5ce"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "landing_supervisor.py",
+      "role": "Same causal source integration, targeted fixture control or N-class evidence",
+      "sha256": "bf357d7226b6995bd366da300017847998ff4b17ca652342a0af6f2c1e2ff199"
+    },
+    {
+      "path": "tests/test_landing.py",
+      "role": "Same causal source integration, targeted fixture control or N-class evidence",
+      "sha256": "7a23eb009ae00629625d1c072f50f3ff201978a289701cd987b65e8c2945f9d4"
+    },
+    {
+      "path": "tests/test_landing_supervisor.py",
+      "role": "Same causal source integration, targeted fixture control or N-class evidence",
+      "sha256": "a0166b6a53b7ba9a436b9605c738a7d21ea7d63323b3dcc66053a3c58d22c305"
+    },
+    {
+      "path": "tests/test_landing_continuation.py",
+      "role": "Same causal source integration, targeted fixture control or N-class evidence",
+      "sha256": "63616bb72d4545bfe65098bc901a2221542902ef9ccbf79797c9e36716d52076"
+    },
+    {
+      "path": "docs/experiments/current-base-landing/design.md",
+      "role": "Same causal source integration, targeted fixture control or N-class evidence",
+      "sha256": "502a5de945aae276206b59a3d0f1163430ab0f5268b0d89b4e5897a44d9b90a6"
+    },
+    {
+      "path": "docs/experiments/current-base-landing/results.md",
+      "role": "Same causal source integration, targeted fixture control or N-class evidence",
+      "sha256": "053766e07cd28075bc0213df7fdf055ed6840ba3e79ec95852012f64624c4f14"
+    }
+  ],
+  "owner": {
+    "name": "Existing landing-supervisor producer and landing owner",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#256"
+  },
+  "authorizes_landing": false
+}

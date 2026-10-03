@@ -471,7 +471,8 @@ def validate_snapshot(claim, snapshot, *, operation, checkpoint):
     if not pr.get("merged"):
         require(pr.get("state") == "open" and not pr.get("draft"), "pr.state", {"state": pr.get("state"), "draft": pr.get("draft")})
         require(issue.get("state") == "open", "issue.state", issue.get("state"))
-        require(snapshot["branch"]["commit"]["sha"] == claim["base_head"] and pr["base"]["sha"] == claim["base_head"], "base.head", snapshot["branch"]["commit"]["sha"])
+        require(snapshot["branch"]["commit"]["sha"] == claim["base_head"],
+                "base.head", snapshot["branch"]["commit"]["sha"])
     else:
         require(pr.get("state") == "closed" and pr.get("merged_at"), "pr.merge_readback", pr.get("state"))
         validate_merge_commit(claim, snapshot, operation=operation, checkpoint=checkpoint)
@@ -576,9 +577,8 @@ def observe_base(path, state, snapshot, operation):
     if snapshot["pr"].get("merged"):
         return None
     base = snapshot["branch"]["commit"]["sha"]
-    if base == claim["base_head"] and snapshot["pr"]["base"]["sha"] == base:
+    if base == claim["base_head"]:
         return None
-    require(base == snapshot["pr"]["base"]["sha"], "base.head", base)
     # All original subject/run/target checks still apply. Only base is separately proved.
     validate_snapshot({**claim, "base_head": base}, snapshot, operation=operation, checkpoint=path)
     validate_comparison(snapshot, "base_comparison", claim["base_head"], base,
