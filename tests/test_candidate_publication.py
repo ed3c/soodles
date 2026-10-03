@@ -125,6 +125,19 @@ class CandidatePublicationTests(unittest.TestCase):
             return Result(result)
         return operation
 
+    def test_final_claim_requires_integrated_selected_target(self):
+        (self.project / 'advanced.txt').write_text('selected provider target\n')
+        self.command(self.project, 'git', 'add', 'advanced.txt')
+        self.command(self.project, 'git', 'commit', '-m', 'Advance fixture provider base')
+        target = self.value(self.project, 'git', 'rev-parse', 'HEAD')
+        claim = {**self.claim, 'base_head': target}
+        with self.assertRaisesRegex(publication.PublicationRefusal, 'git.base'):
+            publication.validate_claim(self.root, claim)
+        self.command(self.root, 'git', 'merge', '--no-edit', target)
+        claim.update(head=self.value(self.root, 'git', 'rev-parse', 'HEAD'),
+                     tree=self.value(self.root, 'git', 'rev-parse', 'HEAD^{tree}'))
+        self.assertEqual(publication.validate_claim(self.root, claim), (self.root, 128))
+
     def test_creates_exact_branch_and_pr(self):
         result = publication.publish(self.root, self.acceptance, self.claim,
                                      self.provider, push=self.push())

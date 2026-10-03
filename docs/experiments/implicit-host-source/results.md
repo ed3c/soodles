@@ -52,7 +52,7 @@ Projection 要求 `original_owner_readback`，且 ready 清單不包含 stop。
 | `contracts/system-v1/common.md` | `f77ba6c4cc733a07a6f15e9697403041f197786fe785e4205e79f8899c65ea15` |
 | `contracts/system-v1/issue-atom.md` | `049557bfbccd335bbf3c3bcef9fc9014f9ec8ae26234dcc5c40d2d6f98fb2512` |
 
-## 必要 controls
+## 原候選的必要 controls
 
 Test Manager 選定 `test_lifecycle_activation` 與 `test_schema_manager`。
 執行入口如下。
@@ -102,7 +102,7 @@ History 植錯 fixture 的 deepcopy 保留共享 facts alias，沒有模擬持�
 | `tests/test_lifecycle_activation.py` | `c3b1abe07a3aac9b4f6a051edaf152af5a286a1c828182cbbf15b06bd4d12e2b` |
 | `tests/test_schema_manager.py` | `0a5eea3c29625013353516b415cc31675b7d588100ab316b7bbd249000e0bc66` |
 
-## 方法與能力界限
+## 原候選的方法與能力界限
 
 本 session 讀取 `execute` 的已選 instruction context，並採用 Poteto Bug Fix。
 `how` 與 `architect` 追查 compiler、source reader、projection 與 owner 邊界。
@@ -127,4 +127,66 @@ Frozen contract 仍為 `229258a611bcde90973fe5cb1e5573cab626354f73f684ec5f4f4c43
 原 #232 activation、stop readback 與本機收尾尚未執行。
 #229 與跨 repository 需求仍為 pending。
 本工程沒有執行 publication、exact-head CI、landing 或 reconciliation。
-目前另有 candidate validator 的 admitted scope 缺口，詳見 [handoff](handoff.md)。
+前一輪的 admission 選項錯誤已由 supervisor 修訂，詳見 [handoff](handoff.md)。
+原拒絕與錯誤歸因仍保存在原 commit 與外部紀錄。
+
+## Criteria correction 後的整合驗證
+
+本輪 session 是 `soodles-237-92e049f919db-0-execute-20261003-125649-451dd9`。
+指定 base 是 `a2e6f36bdffa893c6d9d31ad31b4880551634d80`。
+Git 無衝突整合該 base，並保留原候選 `8f3b3a6d53b951cc4d4cb1eb22cd044eec256f25`。
+相對指定 base，source 與 controls 的修改內容和原候選相同。
+目前 contract bytes 與指定 base 相同，並非沿用舊 base 的 hash。
+原 instruction pins 與外部 judge 未更換。
+
+Test Manager 以指定 base 選定三個模組。
+`test_lifecycle_activation` 的 22 tests、`test_schema_manager` 的 17 tests、
+`test_candidate_verification` 的 3 tests 全部通過。
+Runner 回傳 `exit=0`、`count=42`，正常執行耗時 76.732 秒。
+沒有執行 full suite 或 physical controls。
+本輪沒有改變原 source 演算法或 test assertions。
+
+```sh
+./soodles test --base a2e6f36bdffa893c6d9d31ad31b4880551634d80 --module test_lifecycle_activation --module test_schema_manager --module test_candidate_verification --reason 'Issue 237 integrates selected base and corrects source manifest criteria'
+```
+
+整合後重新執行原只讀診斷。
+Plan identity 仍為 `68bdd7fdd085aa98d8db89ff1b35c6af6fc3af9190d5d5f2bafb9cd8da902a3b`。
+Sequence 仍為 4，結果仍要求 `original_owner_readback`。
+Authorization、state 與原 refusal 的檢查前後 hashes 相同。
+本輪沒有執行 live #232 resume 或 run。
+這是 Prove It Works 原則的實際應用，直接驗證保存的 identity 與候選 bytes。
+
+外部證據目錄為 `/var/folders/l6/44bf7nvs64j60f1mpyy88hdm0000gn/T/soodles-237-revision-xp4xf7jh`。
+
+| 檔案 | SHA-256 |
+| --- | --- |
+| `controls.txt` | `8472d6ca89fc097cbb42704ec8fa218b13b0a570e289a87443b33b9a4bf48852` |
+| `original-source-result.json` | `a4c41e5da1b584de41d61023eba501d581084aa992cbe61ed6ee58b2052e4aa7` |
+| `check_original.py` | `b46e631d05b14a39ddfdd9dd9b86e951a048d735bcdabbd8518313bd230beaef` |
+| `binding.json` | `3227df5e3337f64ca9bd654c48432757813ebacf4d44468fea5509f5c464d696` |
+| `methods.json` | `0f62cfef68a68e28b65e01e2821f3d70fa2ee45ea8f1e973ac4db2ea406dd5b4` |
+
+本輪通過 controls 的 source 如下。
+
+| 檔案 | SHA-256 |
+| --- | --- |
+| `issue_atom.py` | `13fff27a9d48acd097467369cf661fced3eb955ae4a9436e461ec917cbf2c146` |
+| `schema_manager.py` | `012f755a296b1ef9e5a336e7636cebe9f77d2c6f4361baf16adda3337ae2ab3f` |
+| `tests/test_lifecycle_activation.py` | `c3b1abe07a3aac9b4f6a051edaf152af5a286a1c828182cbbf15b06bd4d12e2b` |
+| `tests/test_schema_manager.py` | `29817781c33016e07962d381ca2996cdcf356251a46f87036b3fe14faf535174` |
+
+原生只讀子代理審查了來源與整合邊界。
+它沒有找到影響原 #232 implicit source 恢復的具體缺陷。
+它指出另一條路徑的靜態風險。
+若先完成 base revision，再產生 host record，最後更換 lifecycle owner，subject 可能使用不同 base。
+這條路徑沒有 runtime 重現證據。
+原 #232 沒有 scope revision 或 base recovery，因此不符合該前提。
+本工程保留這個限制，不改變原來源或 subject 權限。
+
+review-writing 修正了 handoff 對 validator 的錯誤歸因。
+原文存於本輪外部證據的 `original-docs/`，原失敗 receipt 保持不變。
+更新只涵蓋 N-class 設計、結果、handoff 與 manifest。
+相對指定 base 沒有 P-class diff，沒有新增 Agent 行為主張。
+Poteto 的專用 Cursor Task、Comment Sicko 與模型別名在本 carrier 不可用。
+原生審查不宣稱等同那些專用能力。

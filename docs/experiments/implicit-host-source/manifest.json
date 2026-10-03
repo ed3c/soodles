@@ -6,26 +6,26 @@
   },
   "instructions": [
     {
-      "path": "contracts/system-v1/issue-atom.md",
-      "baseline_sha256": "229258a611bcde90973fe5cb1e5573cab626354f73f684ec5f4f4c4324bcd7aa",
-      "treatment_sha256": "229258a611bcde90973fe5cb1e5573cab626354f73f684ec5f4f4c4324bcd7aa"
+      "path": "issue_atom.py",
+      "baseline_sha256": "06c3588da019fc6cc8d7d56fa767edf87c34990e3831ce7a79348b5a7e51651d",
+      "treatment_sha256": "13fff27a9d48acd097467369cf661fced3eb955ae4a9436e461ec917cbf2c146"
     }
   ],
   "artifacts": [
     {
       "path": "docs/experiments/implicit-host-source/design.md",
       "role": "N-class engineering evidence",
-      "sha256": "554ce85e998b5994e4ad98fb767ab719c7f31afc925fc1cb074d175357cbd87d"
+      "sha256": "1b3d253a55c8bf224efca3af15f669dfbe8e3d39841e00389773bf5c985f3e57"
     },
     {
       "path": "docs/experiments/implicit-host-source/handoff.md",
       "role": "N-class engineering evidence",
-      "sha256": "7f3c848e2b68e83460082ac6389d2b2106f2b933575fd06a9c4831be0a3d31a8"
+      "sha256": "c15f374bb621c30a4d98014c4b7204d2d7893da9bb1eb8fd74e8540b13cd9854"
     },
     {
       "path": "docs/experiments/implicit-host-source/results.md",
       "role": "N-class engineering evidence",
-      "sha256": "88291e11831a7a1a8efabe65fdbc5fbf0a1fcedb8dee5c3b44a682e4f69c8883"
+      "sha256": "463c0b3922460b6d8e1d31ec7a7dfbd81008574ba8a23da409a90386769d6a9a"
     }
   ],
   "owner": {

@@ -286,7 +286,10 @@ try:
     envelope = load_external_envelope(ROOT / "envelope.json", {envelope_digest!r}, CONTROL)
     if {operation!r} == "worker":
         issue_execution.worker(ROOT / "envelope.json", {envelope_digest!r},
-                               Path.cwd(), sys.argv[1:])
+                               Path.cwd(), sys.argv[1:],
+                               entry_reference=({{"path": str(ROOT / "revision-entry.json"),
+                                                 "sha256": HASHES["revision-entry.json"]}}
+                                                if "revision-entry.json" in HASHES else None))
     else:
         argv = sys.argv[1:]
         order = envelope["execution"]["order_id"]
@@ -337,7 +340,7 @@ def _config_bytes(output, carrier, *, bootstrap=False):
 
 def prepare(issue_readback, carrier, control_root, output, *,
             interpreter=None, environ=None, task=None, wire_host=False, instruction_pins=None,
-            correction=False, failure_context=None, runtime_root=None, readback=False, recovery_context=None):
+            correction=False, failure_context=None, runtime_root=None, readback=False, recovery_context=None, revision_entry=None):
     """Create one immutable external bundle and return the only start continuation."""
     environ = os.environ if environ is None else environ
     require(type(correction) is bool and (not correction or wire_host),
@@ -382,7 +385,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
     body = issue_readback.get("body")
     contract = parse_contract(body)
     head = _git(root, "rev-parse", "HEAD")
-    if contract.get("schema", 0) >= 3 and recovery_context is None:
+    if contract.get("schema", 0) >= 3 and recovery_context is None and revision_entry is None:
         require(head == contract["base_head"], "supervisor.control_root.head", head,
                 owner="supervisor", required="fresh_issue_base_checkout")
     base_head = contract["base_head"] if contract.get("schema", 0) >= 3 else head
@@ -418,7 +421,17 @@ def prepare(issue_readback, carrier, control_root, output, *,
             "source_head": worker_head,
         },
     }
-    if instruction_pins is not None:
+    if revision_entry is not None:
+        require(correction and runtime_root is not None and recovery_context is None, "revision.prepare.mode", "invalid")
+        from issue_admission import load_external_envelope
+        original = load_external_envelope(revision_entry["original_envelope"]["path"],
+                                         revision_entry["original_envelope"]["sha256"], root)
+        envelope = {**original, "body_sha256": body_digest(body), "body_updated_at": issue_readback["updated_at"],
+                    "base_head": base_head, "execution": {key: value for key, value in original["execution"].items()
+                                                            if key != "recovery_context"}}
+        envelope["execution"] = {**envelope["execution"], "carrier": carrier}
+        worker_head = original["execution"]["source_head"]
+    if instruction_pins is not None and revision_entry is None:
         envelope["schema"] = 2
         envelope["execution"]["instruction_context"] = resolve_instruction_context(root, worker_head, instruction_pins)
     if failure_context is not None:
@@ -435,7 +448,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
         require(_git(worktree, "rev-parse", "HEAD") == worker_head,
                 "supervisor.recovery.head", "changed", required="original_candidate_head")
     validate_issue(issue_readback, envelope)
-    if correction and recovery_context is None:
+    if correction and recovery_context is None and revision_entry is None:
         import issue_execution
         issue_execution.validate_worktree(worktree, envelope)
     require(isinstance(envelope["execution"]["task"], str)
@@ -466,16 +479,21 @@ def prepare(issue_readback, carrier, control_root, output, *,
             "supervisor.interpreter", interpreter,
             owner="supervisor", required="executable_python_interpreter")
     host_files = {}
+    if revision_entry is not None:
+        from issue_execution import validate_revision_entry
+        entry_bytes = _canonical(validate_revision_entry(envelope, {**revision_entry, "envelope_sha256": envelope_digest}, envelope_digest))
+        host_files["revision-entry.json"] = entry_bytes
+        runtime.append({"path": "revision-entry.json", "sha256": _sha256(entry_bytes)})
     if wire_host:
         pins = {item["path"]: item["sha256"] for item in runtime}
         pins["envelope.json"] = envelope_digest
-        host_files = {
+        host_files.update({
             "provider/codex": _entry_text(root, envelope_digest, pins, interpreter, "worker").encode(),
             "backlog": _entry_text(root, envelope_digest, pins, interpreter, "backlog").encode(),
             "noodle.toml": _config_bytes(output, carrier),
             "bootstrap-noodle.toml": _config_bytes(output, carrier, bootstrap=True),
-        }
-        runtime.extend({"path": path, "sha256": _sha256(data)} for path, data in host_files.items())
+        })
+        runtime.extend({"path": path, "sha256": _sha256(data)} for path, data in host_files.items() if path != "revision-entry.json")
 
     manifest = {
         "schema": 1,
@@ -556,7 +574,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
             target = temporary / path
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
-            target.chmod(0o600 if path.endswith("noodle.toml") else 0o755)
+            target.chmod(0o600 if path.endswith(("noodle.toml", ".json")) else 0o755)
         for path, data in runtime_bytes.items():
             target = runtime_dir / path
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -1070,7 +1088,14 @@ def scope_amendment(authorization_path, expected_sha256, selection_path, selecti
             and _sha256(source.read_bytes()) == selection_sha256,
             "scope.selection", str(source), required="pinned_external_scope_selection")
     selection = json.loads(source.read_bytes(), object_pairs_hook=_unique_object)
-    issue_atom.validate_scope_request(authorization, selection)
+    state = issue_atom.read_json(issue_atom.artifact_paths(authorization_path)["state"], "scope.state")
+    pending = state.get("scope_amendment")
+    same_selection = (pending is not None and issue_atom.scope_packet(authorization, state)["selection"] == selection)
+    if same_selection or pending is not None and not pending.get("preparation") and "issue_scope" not in state.get("writes", {}):
+        effective = issue_atom.scope_history_authority(authorization, state)
+    else:
+        effective, _ = issue_atom.scope_projection(authorization, state, issue_atom.artifact_paths(authorization_path))
+    issue_atom.validate_scope_request(effective, selection)
     target = Path(output)
     require(target.is_absolute() and target.parent.is_dir()
             and not target.resolve().is_relative_to(root),

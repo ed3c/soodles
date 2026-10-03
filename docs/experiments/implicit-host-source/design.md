@@ -57,3 +57,12 @@ Facts、sequence、subject、authorization 與 repair ledger 不因轉移而重�
 產品 controls 使用小型 disposable fixtures。
 原 #232 資料只提供只讀 identity 證據。
 本工程不執行其 live resume 或 run，也不修改原 state。
+
+## Criteria correction 的設計判斷
+
+原任務要求保留 contract reference，但原 required paths 要求它有 net diff。
+Validator 對原選項的拒絕符合實作。修改 validator 會改變未授權的驗收語義。
+Supervisor 已提供修訂，將 required source 改為實際修改的 `issue_atom.py`。
+因此本輪只整合指定 base，更新實際 hashes，並驗證相同功能。
+既有 manifest 欄位名稱不授予 Agent 指令或外部效果權限。
+未修改的 contract 在候選中保持與新 base 相同。

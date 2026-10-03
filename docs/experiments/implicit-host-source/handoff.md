@@ -3,7 +3,9 @@
 本工程 writer 屬於 ed3c/soodles#237。
 Order 為 `soodles-237-92e049f919db`。
 Carrier 是原 Noodle 管理的本機 isolated worktree。
-Admission base 是 `5e2cd1b0f11de685dab26c5370c566b508062857`。
+原 admission base 是 `5e2cd1b0f11de685dab26c5370c566b508062857`。
+Criteria correction 選定的目前 base 是 `a2e6f36bdffa893c6d9d31ad31b4880551634d80`。
+本候選以 merge 保留原提交 `8f3b3a6d53b951cc4d4cb1eb22cd044eec256f25`。
 本階段只交付 source、必要 controls、原來源 identity 證據與這份 handoff。
 
 Publication owner 接收原 stage outcome 與 candidate。
@@ -27,15 +29,23 @@ Supervisor 仍須讀取 owner 當下返回的 continuation。
 原 #229 與跨 repository 的整體要求仍為 pending。
 #237 的 writer completed 或後續 resolved 都不能替代那些結果。
 
-## Candidate admission 的已知缺口
+## Criteria correction 與保留的失敗歷史
 
-原 contract 把 `contracts/system-v1/issue-atom.md` 同時列為 required path 與 frozen base reference。
-使用者明確要求保留原 bytes。
-現有 `issue_admission.validate_delivery_paths` 只把 changed paths 傳給 evidence validator。
-`validate_candidate_evidence` 則要求每個 required path 都出現在該清單。
-因此未修改的 reference 會觸發 `candidate.missing_required_paths`。
+前一輪回報把 `candidate.missing_required_paths` 歸因於 validator 的錯誤假設。
+該推論的前提是 required path 可以只作為未修改的 reference。
+實際 validator 要求 required path 出現在 net diff 中。
+原任務卻明確要求 contract reference 不變。
+因此錯誤是 supervisor 的選項，不是 validator 對該選項的拒絕。
+原 commit、stage failure 與 `/tmp/soodles-237-ohkgmap9/candidate-refusal.json` 保留前一輪證據。
 
-本工程保留原文件。新增空白或改寫文件不能修正 validator 對 required reference 的錯誤假設。
-`issue_admission.py` 不在本次 write paths。
-原 admission owner 必須處理這個範圍缺口，並保留原 task、candidate、judge 與修正歷史。
-本 writer 不自行更改 envelope，也不繞過 candidate validation。
+Supervisor 的 `criteria-237-context.json` 修正這個前提。
+修訂從 required paths 移除未修改的 contract，並把實際修改的 `issue_atom.py` 固定到指定 base。
+新 envelope SHA-256 是 `349ca5c6f5d24acc9c4d8dda810b0a8c2dc51fe2b175e4025c3c1eb0a5711c82`。
+原 instruction source 仍是 `5e2cd1b0f11de685dab26c5370c566b508062857`。
+本候選沒有修改 validator，也沒有為了通過驗收製造 P-class diff。
+Manifest 的既有 `instructions` 欄位現在記錄 `issue_atom.py` 的 baseline 與 treatment hashes。
+這是 source bytes 的驗證資料，不是新增 Agent 指令或行為改善證據。
+
+本 writer 使用外部 `SOODLES_ADMISSION_LAUNCHER` 的 stage-outcome entry。
+Publication、exact-head CI、landing 與 reconciliation 仍由原 owners 接續。
+原 #232 activation 與 #229 整體結果仍未完成。

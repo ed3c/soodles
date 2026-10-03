@@ -132,8 +132,14 @@ class IssueAtomTests(unittest.TestCase):
         self.env = {"SOODLES_AUTHORIZATION_SHA256": self.digest, "GH_TOKEN": "fixture",
                     "NOODLES_TOKEN_COMMAND": "printf fixture-installation-token"}
 
+    def fixture_issue_body(self):
+        body = self.authorization["issue"]["body"]
+        if "number" in self.authorization["issue"]:
+            return body
+        return body.rstrip() + "\n\n" + atom.marker(self.digest) + "\n"
+
     def ready_issue(self, provider):
-        body = self.authorization["issue"]["body"].rstrip() + "\n\n" + atom.marker(self.digest) + "\n"
+        body = self.fixture_issue_body()
         provider.value = {"number": 131, "title": self.authorization["issue"]["title"],
                           "body": body, "state": "open",
                           "updated_at": "2026-09-22T00:00:00Z",
@@ -163,6 +169,7 @@ class IssueAtomTests(unittest.TestCase):
         """Disposable canonical/process fixture, never live process attestation."""
         paths, state = self.startup_fixture()
         binding = atom.read_json(paths["envelope"], "envelope")
+        binding["issue_body"] = self.fixture_issue_body()
         binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
         oid = binding["execution"]["order_id"]
         config = paths["envelope"].parent / "noodle.toml"
@@ -269,6 +276,18 @@ class IssueAtomTests(unittest.TestCase):
                             atom.run(self.path, environ=self.env)
                     finally:
                         path.write_bytes(original)
+            supplier.assert_not_called()
+
+    def test_owner_binding_preserves_adopted_body_and_rejects_digest_mismatch(self):
+        self.authorization["issue"]["number"] = 131
+        self.authorization["issue"]["body"] += "\n\nAdopted Issue text.\n\n"
+        paths, state, _ = self.own_wait_fixture()
+        with self.own_wait_processes(), patch.object(atom.provider_credential, "supply_token") as supplier:
+            observed = atom.require_available_owner(self.authorization, paths, state)
+            self.assertEqual(observed["action"], "own_start_wait")
+            self.authorization["issue"]["body"] += "Changed text.\n"
+            with self.assertRaisesRegex(atom.AtomRefusal, "noodle.binding"):
+                atom.require_available_owner(self.authorization, paths, state)
             supplier.assert_not_called()
 
     def test_own_wait_requires_consistent_dispatch_and_pending_attempts(self):
@@ -430,6 +449,7 @@ class IssueAtomTests(unittest.TestCase):
         atom.save_json(paths["state"], state)
         (self.root / ".noodle.toml").write_bytes((paths["envelope"].parent / "noodle.toml").read_bytes())
         binding = atom.read_json(paths["envelope"], "envelope")
+        binding["issue_body"] = self.fixture_issue_body()
         binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
         stage = {"status": "running", "skill": "execute", "provider": "codex", "model": "fixture-model",
                  "prompt": json.dumps(atom.issue_execution.projection(binding, state["envelope_sha256"], "supervised")),
@@ -453,6 +473,7 @@ class IssueAtomTests(unittest.TestCase):
         state.update(issue={"number": 131}, noodle_start={"status": "started"})
         (self.root / ".noodle.toml").write_bytes((paths["envelope"].parent / "noodle.toml").read_bytes())
         binding = atom.read_json(paths["envelope"], "envelope")
+        binding["issue_body"] = self.fixture_issue_body()
         binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
         order_id = binding["execution"]["order_id"]
         stage = {"status": "running", "skill": "execute", "provider": "codex",
@@ -481,6 +502,7 @@ class IssueAtomTests(unittest.TestCase):
         paths, state = self.startup_fixture()
         state.update(issue={"number": 131}, noodle_start={"stop_offered": True})
         binding = atom.read_json(paths["envelope"], "envelope")
+        binding["issue_body"] = self.fixture_issue_body()
         binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
         oid = binding["execution"]["order_id"]
         stage = {"status": "completed", "skill": "execute", "provider": "codex",
@@ -539,8 +561,10 @@ class IssueAtomTests(unittest.TestCase):
         (fixture.root / ".noodle.toml").write_bytes(config)
         (fixture.path.parent / "noodle.toml").write_bytes(config)
         authorization = {"control_root": str(fixture.root), "repository": "ed3c/soodles",
-                         "base_head": fixture.envelope["base_head"], "issue": {"body": fixture.issue["body"]}}
+                         "base_head": fixture.envelope["base_head"],
+                         "issue": {"number": 18, "body": fixture.issue["body"]}}
         state = {"phase": "landing", "issue": {"number": 18},
+                 "authorization_sha256": atom.digest_bytes(json.dumps(authorization).encode()),
                  "envelope_sha256": fixture.pin, "noodle_completion": {"order_id": "soodles-18"}}
         with (fixture.runtime / "noodle.lock").open("a+b") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -645,6 +669,87 @@ class IssueAtomTests(unittest.TestCase):
         with self.assertRaisesRegex(atom.issue_admission.AdmissionRefusal, "selection.fields"):
             fixture.run_authorize()
 
+    def selected_lifecycle_fixture(self):
+        runtime = self.outer / "selected-lifecycle"
+        for name in atom.LIFECYCLE_FILES:
+            target = runtime / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes((Path(atom.__file__).parent / name).read_bytes())
+        for name in ("issue-atom", "soodles"):
+            (runtime / name).chmod(0o755)
+        with (runtime / "issue_execution.py").open("a") as stream:
+            stream.write("\n# Selected lifecycle fixture bytes.\n")
+        hashes = {name: atom.digest_file(runtime / name) for name in atom.LIFECYCLE_FILES}
+        self.authorization["lifecycle_owner"] = {
+            "path": str(runtime / "issue-atom"), "sha256": hashes["issue-atom"],
+            "source_sha256": atom.digest_bytes(json.dumps(
+                hashes, sort_keys=True, separators=(",", ":")).encode()),
+        }
+        return runtime
+
+    def test_initial_envelope_uses_selected_lifecycle_bundle_and_prompt(self):
+        runtime = self.selected_lifecycle_fixture()
+        provider = Provider()
+        self.ready_issue(provider)
+        paths = atom.artifact_paths(self.path)
+        landing_owner = dict(self.authorization["landing_owner"])
+        skill = ".agents/skills/execute/SKILL.md"
+        committed_skill = (self.root / skill).read_bytes()
+        (self.root / skill).write_text("Uncommitted instructions must not enter the bundle.\n")
+        with patch.object(atom, "__file__", str(runtime / "issue_atom.py")), \
+                patch.object(atom, "verify_prior_atom", side_effect=AssertionError("initial admission")), \
+                patch.object(atom, "save_json", side_effect=AssertionError("duplicate prepared receipt")):
+            envelope, digest = atom.create_envelope(self.authorization, provider.value,
+                provider.value["body"], paths["envelope"], environ=self.env)
+        bundle = paths["envelope"].parent
+        for name in atom.supervisor_admission.BUNDLE_PATHS:
+            self.assertEqual((bundle / "runtime" / name).read_bytes(), (runtime / name).read_bytes())
+        self.assertNotEqual((bundle / "runtime/issue_execution.py").read_bytes(),
+                            (self.root / "issue_execution.py").read_bytes())
+        self.assertEqual((bundle / "runtime" / skill).read_bytes(), committed_skill)
+        self.assertEqual(self.authorization["landing_owner"], landing_owner)
+        prepared = atom.read_json(bundle / "prepared.json", "prepared")
+        self.assertEqual(prepared["envelope_sha256"], digest)
+        self.assertIn("bootstrap", prepared)
+        self.assertNotIn("process_argv", prepared)
+        binding = {**envelope, "contract": atom.issue_admission.parse_contract(provider.value["body"]),
+                   "issue_body": provider.value["body"]}
+        prompt = subprocess.check_output([
+            sys.executable, "-B", "-c",
+            "import json, sys, issue_execution; "
+            "print(json.dumps(issue_execution.projection(json.load(sys.stdin), sys.argv[1], 'supervised')))",
+            digest], input=json.dumps(binding), text=True, cwd=bundle / "runtime")
+        self.assertEqual(json.loads(prompt)["issue_body"], provider.value["body"])
+
+    def test_initial_envelope_without_lifecycle_uses_committed_runtime(self):
+        provider = Provider()
+        self.ready_issue(provider)
+        paths = atom.artifact_paths(self.path)
+        source = self.root / "issue_execution.py"
+        committed = source.read_bytes()
+        source.write_text("Uncommitted runtime must not enter the bundle.\n")
+        with patch.object(atom, "validate_lifecycle_owner", side_effect=AssertionError("no selection")):
+            _, digest = atom.create_envelope(self.authorization, provider.value,
+                provider.value["body"], paths["envelope"], environ=self.env)
+        bundle = paths["envelope"].parent
+        self.assertEqual((bundle / "runtime/issue_execution.py").read_bytes(), committed)
+        self.assertEqual(atom.read_json(bundle / "prepared.json", "prepared")["envelope_sha256"], digest)
+
+    def test_initial_envelope_rejects_changed_lifecycle_before_preparation(self):
+        runtime = self.selected_lifecycle_fixture()
+        with (runtime / "issue_execution.py").open("a") as stream:
+            stream.write("\n# Changed after selection.\n")
+        provider = Provider()
+        self.ready_issue(provider)
+        paths = atom.artifact_paths(self.path)
+        with patch.object(atom, "__file__", str(runtime / "issue_atom.py")), \
+                patch.object(atom.supervisor_admission, "prepare") as prepare:
+            with self.assertRaisesRegex(atom.AtomRefusal, "authorization.lifecycle_owner.source_sha256"):
+                atom.create_envelope(self.authorization, provider.value,
+                    provider.value["body"], paths["envelope"], environ=self.env)
+        prepare.assert_not_called()
+        self.assertFalse(paths["envelope"].parent.exists())
+
     def test_correction_envelope_derives_hold_only_after_original_host_recovery(self):
         provider = Provider()
         self.ready_issue(provider)
@@ -684,7 +789,8 @@ class IssueAtomTests(unittest.TestCase):
             "worktree_name": name, "worktree_path": str(worker), "session_id": "latest"})
         authorization = {**self.authorization, "issue": {**self.authorization["issue"], "number": 131},
             "prior_atom": {"path": str(self.path), "sha256": self.digest}, "prior_publication": publication}
-        old_binding = {**binding, "contract": atom.issue_admission.parse_contract(self.authorization["issue"]["body"])}
+        old_binding = {**binding, "issue_body": self.fixture_issue_body(),
+                       "contract": atom.issue_admission.parse_contract(self.fixture_issue_body())}
         stage = {"status": "review", "skill": "execute", "provider": "codex", "model": "fixture-model",
                  "prompt": json.dumps(atom.issue_execution.projection(old_binding, state["envelope_sha256"], "supervised"))}
         snapshot = {"state": {"orders": {oid: {"status": "active", "stages": [stage]}},
@@ -708,6 +814,12 @@ class IssueAtomTests(unittest.TestCase):
             stage["attempts"] = [{"status": "completed", "session_id": "foreign"}]
             atom.save_json(self.root / ".noodle/state.snapshot.json", snapshot)
             with self.assertRaisesRegex(atom.AtomRefusal, "prior_review"):
+                atom.verify_prior_atom(authorization)
+            binding["body_sha256"] = "0" * 64
+            atom.save_json(paths["envelope"], binding)
+            state["envelope_sha256"] = atom.digest_file(paths["envelope"])
+            atom.save_json(paths["state"], state)
+            with self.assertRaisesRegex(atom.AtomRefusal, "amendment.prior_envelope.body_sha256"):
                 atom.verify_prior_atom(authorization)
 
     def test_corrected_start_reuses_only_the_unchanged_parked_review(self):
@@ -808,6 +920,12 @@ class IssueAtomTests(unittest.TestCase):
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             binding, _ = atom.correction_owner(self.authorization, paths, state)
             self.assertIn("contract", binding)
+            self.assertEqual(binding["issue_body"], self.fixture_issue_body())
+            original_body = self.authorization["issue"]["body"]
+            self.authorization["issue"]["body"] += "\nChanged body."
+            with self.assertRaisesRegex(atom.AtomRefusal, "amendment.envelope.body_sha256"):
+                atom.correction_owner(self.authorization, paths, state)
+            self.authorization["issue"]["body"] = original_body
             ack = runtime / "control-ack.ndjson"
             ack.write_text('{"id":"foreign","action":"mode","status":"ok"}\n')
             with self.assertRaisesRegex(atom.AtomRefusal, "amendment.control.foreign"):
@@ -860,6 +978,7 @@ class IssueAtomTests(unittest.TestCase):
     def correction_fixture(self):
         paths, state = self.startup_fixture()
         binding = atom.read_json(paths["envelope"], "envelope")
+        binding["issue_body"] = self.fixture_issue_body()
         binding["contract"] = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
         oid = binding["execution"]["order_id"]
         stage = {"status": "review", "prompt": json.dumps({"original": True}),
@@ -1605,6 +1724,7 @@ class IssueAtomTests(unittest.TestCase):
                 receipt = json.loads(result.stdout)
                 self.assertEqual(receipt["status"], "refused")
                 self.assertEqual(receipt["invalid"]["field"], "authorization.path")
+                self.assertEqual(receipt["continuation_state"], "input_required")
                 self.assertEqual(receipt["next"]["owner"], "external-supervisor")
                 self.assertEqual(receipt["next"]["required"], ["readable_external_authorization"])
                 self.assertEqual(receipt["next"]["argv"], command)
@@ -1702,6 +1822,8 @@ class IssueAtomTests(unittest.TestCase):
             self.addCleanup(item.stop)
         first = atom.run(self.path, environ=self.env, provider=provider)
         self.assertEqual(first["waiting_on"], "fresh provider readback")
+        self.assertEqual(first["continuation_state"], "waiting")
+        self.assertEqual(first["feedback"]["review_disposition"], "wait_for_owner_change")
         self.assertEqual(first["next"]["argv"], atom.same_command(self.path))
         self.assertEqual(provider.merge_calls, 1)
         observed = atom.run(self.path, environ=self.env, provider=provider)
@@ -1711,9 +1833,13 @@ class IssueAtomTests(unittest.TestCase):
         self.assertEqual(stopped["status"], "refused")
         self.assertEqual(stopped["repair"]["classification"], "no_legal_next")
         self.assertEqual(stopped["landing"], deadlock)
+        self.assertEqual(stopped["continuation_state"], "unknown")
+        self.assertEqual(stopped["feedback"]["review_disposition"], "owner_readback_required")
         self.assertEqual(provider.merge_calls, 1)
         second = atom.run(self.path, environ=self.env, provider=provider)
         self.assertEqual(second["status"], "resolved")
+        self.assertEqual(second["continuation_state"], "complete")
+        self.assertEqual(second["feedback"]["review_disposition"], "history_retained")
         self.assertIsNone(second["next"])
         self.assertFalse(second["authorizes_landing"])
         projection = second["host_finalization_projection"]
@@ -1952,6 +2078,296 @@ class IssueAtomTests(unittest.TestCase):
         self.assertEqual(state["landing_resume"]["status"], "offered")
         self.assertEqual(atom.read_json(paths["landing"], "checkpoint")["phase"],
                          "awaiting_reconcile")
+
+
+    def base_recovery_fixture(self):
+        contract = atom.issue_admission.parse_contract(self.authorization["issue"]["body"])
+        contract["frozen_paths"] = [{"path": "allowed.py", "revision": "head",
+                                    "sha256": atom.digest_bytes(b"candidate\n")}]
+        self.authorization["issue"]["body"] = ("<!-- soodles:execution-v1 -->\n```json\n" +
+            json.dumps(contract) + "\n```\n<!-- /soodles:execution-v1 -->")
+        self.path.write_text(json.dumps(self.authorization))
+        self.digest = atom.digest_file(self.path)
+        self.env["SOODLES_AUTHORIZATION_SHA256"] = self.digest
+        paths, state = self.startup_fixture()
+        binding = atom.read_json(paths["envelope"], "envelope")
+        binding.update(contract=contract, issue_body=self.fixture_issue_body())
+        oid, name = binding["execution"]["order_id"], binding["execution"]["worktree"]
+        worktree = self.root / ".worktrees" / name
+        atom._git(self.root, "worktree", "add", "-b", name, str(worktree), self.base)
+        (worktree / "allowed.py").write_text("candidate\n")
+        atom._git(worktree, "add", "allowed.py")
+        atom._git(worktree, "commit", "-m", "candidate")
+        head = atom._git(worktree, "rev-parse", "HEAD")
+        target = atom._git(self.root, "commit-tree", self.base + "^{tree}", "-p", self.base, "-m", "provider advances")
+        integration = atom._git(self.root, "commit-tree", head + "^{tree}", "-p", head, "-p", target, "-m", "integrate")
+        session = "original-session"
+        stage = {"stage_index": 0, "task_key": "execute", "skill": "execute", "provider": "codex",
+            "model": "fixture-model", "runtime": "process", "status": "review",
+            "prompt": json.dumps(atom.issue_execution.projection(binding, state["envelope_sha256"], "supervised")),
+            "attempts": [{"attempt_id": "original-attempt", "session_id": session,
+                          "status": "completed", "worktree_name": name}]}
+        owner = {"state": {"orders": {oid: {"status": "active", "stages": [stage]}},
+            "mode": "supervised", "mode_epoch": 4,
+            "pending_reviews": {oid: {"order_id": oid, "stage_index": 0, "session_id": session,
+                "worktree_name": name, "worktree_path": str(worktree)}}}, "effect_ledger": []}
+        events = self.root / ".noodle/sessions" / session / "events.ndjson"
+        events.parent.mkdir(parents=True)
+        events.write_text(json.dumps({"type": "stage_message", "session_id": session,
+            "payload": {"order_id": oid, "stage_index": 0, "outcome": "completed", "blocking": False}}) + "\n")
+        config = paths["envelope"].parent / "noodle.toml"
+        (self.root / ".noodle.toml").write_bytes(config.read_bytes())
+        state.update(schema_version=1, issue={"number": 131, "url": "https://github.com/ed3c/soodles/issues/131"},
+            publication=None, writes={"issue_create": {"status": "offered"}},
+            noodle_start={"status": "started", "pid": 424242, "original_config": None,
+                "argv": [str(config.parent / "start-noodle")], "config_sha256": atom.digest_file(config)})
+        atom.save_json(self.root / ".noodle/state.snapshot.json", owner)
+        atom.save_json(paths["state"], state)
+        source = Path(atom.__file__).parent
+        hashes = {name: atom.digest_file(source / name) for name in atom.LIFECYCLE_FILES}
+        selected = {"path": str(source / "issue-atom"), "sha256": hashes["issue-atom"],
+            "source_sha256": atom.digest_bytes(json.dumps(hashes, sort_keys=True, separators=(",", ":")).encode())}
+        packet = {"schema": 1, "kind": "prepublication_base_recovery",
+            "authorization": {"path": str(self.path), "sha256": self.digest},
+            "original_envelope": {"path": str(paths["envelope"]), "sha256": state["envelope_sha256"]},
+            "candidate_head": head, "target_base": target, "integration_head": integration,
+            "lifecycle_owner": selected, "output": str(self.outer / "base-recovery")}
+        descriptor = self.outer / "base-selection.json"
+        atom.save_json(descriptor, packet)
+        provider = Provider()
+        self.ready_issue(provider)
+        provider.repository_info = lambda: {"full_name": "ed3c/soodles", "default_branch": "main"}
+        provider.base_head = lambda _: target
+        self.addCleanup(patch.stopall)
+        patch.object(atom.issue_execution, "quiescent_order", return_value=[]).start()
+        patch.object(atom, "observe_prior_loop", return_value="running").start()
+        return paths, state, binding, owner, packet, descriptor, provider
+
+    def test_base_resume_preserves_identity_and_same_entry_dispatches_new_owner(self):
+        paths, state, binding, owner, packet, descriptor, provider = self.base_recovery_fixture()
+        raw = self.path.read_bytes()
+        result = atom.resume(self.path, descriptor, atom.digest_file(descriptor), environ=self.env)
+        self.assertEqual(result["continuation_state"], "ready")
+        self.assertEqual(result["next"]["argv"], atom.same_command(self.path))
+        self.assertEqual(result["next"]["environment"], {"SOODLES_AUTHORIZATION_SHA256": self.digest})
+        selected = atom.read_json(paths["state"], "state")
+        self.assertEqual(selected["authorization_sha256"], self.digest)
+        self.assertEqual(self.path.read_bytes(), raw)
+        self.assertIsNone(selected["publication"])
+        self.assertEqual(atom._git(Path(packet["output"]).parent / "project", "rev-parse", "HEAD"), self.base)
+        controller = Mock()
+        with patch.object(atom, "repair_controller", return_value=controller), \
+             patch.object(atom, "advance_base_recovery", return_value={"action": "base_hold_ack_pending"}) as advance, \
+             patch.object(atom, "response", return_value={"status": "pending"}), \
+             patch.object(atom, "_run_claim") as claim:
+            atom.run(self.path, environ=result["next"]["environment"], provider=provider)
+        advance.assert_called_once()
+        claim.assert_not_called()
+        atom.resume(self.path, descriptor, atom.digest_file(descriptor), environ=self.env)
+        self.assertEqual(atom.read_json(paths["state"], "state"), selected)
+
+    def test_base_selection_refuses_foreign_parent_scope_and_effect_before_adoption(self):
+        paths, state, binding, owner, packet, descriptor, provider = self.base_recovery_fixture()
+        for field, value in (("integration_head", packet["candidate_head"]), ("target_base", self.base)):
+            changed = {**packet, field: value}
+            atom.save_json(descriptor, changed)
+            with self.subTest(field=field), self.assertRaises(atom.AtomRefusal):
+                atom.resume(self.path, descriptor, atom.digest_file(descriptor), environ=self.env)
+            self.assertNotIn("base_recovery", atom.read_json(paths["state"], "state"))
+        for invalid in ({key: value for key, value in packet.items() if key != "lifecycle_owner"},
+                        {**packet, "replacement_judge": {}}):
+            atom.save_json(descriptor, invalid)
+            with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.selection"):
+                atom.resume(self.path, descriptor, atom.digest_file(descriptor), environ=self.env)
+            self.assertNotIn("base_recovery", atom.read_json(paths["state"], "state"))
+        atom.save_json(descriptor, packet)
+        atom.save_json(paths["claim"], {"head": packet["candidate_head"]})
+        with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.phase"):
+            atom.resume(self.path, descriptor, atom.digest_file(descriptor), environ=self.env)
+        self.assertFalse((self.root / ".noodle/control.ndjson").exists())
+
+    def test_base_recovery_holds_review_then_stops_before_git_or_provider_effect(self):
+        paths, state, binding, owner, packet, descriptor, provider = self.base_recovery_fixture()
+        atom.resume(self.path, descriptor, atom.digest_file(descriptor), environ=self.env)
+        state = atom.read_json(paths["state"], "state")
+        snapshot = self.root / ".noodle/state.snapshot.json"
+        with patch.object(atom, "base_recovery_sync") as sync, patch.object(atom.os, "kill") as stop:
+            self.assertEqual(atom.advance_base_recovery(self.authorization, paths, state, provider, self.env)["action"], "base_hold_ack_pending")
+            self.correction_ack(state, "base_hold")
+            owner["state"].update(mode="manual", mode_epoch=5)
+            atom.save_json(snapshot, owner)
+            self.assertEqual(atom.advance_base_recovery(self.authorization, paths, state, provider, self.env)["action"], "base_stop_readback_pending")
+            self.assertNotIn("base_review", state)
+            self.assertEqual(owner["state"]["orders"][binding["execution"]["order_id"]]["stages"][0]["status"], "review")
+            stop.assert_called_once_with(424242, atom.signal.SIGTERM)
+            sync.assert_not_called()
+            with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.stop"):
+                atom.advance_base_recovery(self.authorization, paths, state, provider, self.env)
+            self.assertEqual(stop.call_count, 1)
+        self.assertEqual(provider.value["body"], self.fixture_issue_body())
+
+    def test_base_sync_adopts_exact_readback_and_never_repeats_unknown_effect(self):
+        paths, state, binding, owner, packet, descriptor, provider = self.base_recovery_fixture()
+        state["base_recovery"] = {"control_branch": "main"}
+        with patch.object(atom.subprocess, "run", wraps=atom.subprocess.run) as run:
+            atom.base_recovery_sync(self.authorization, paths, state, "control_sync", self.root, self.base, packet["target_base"])
+            atom.base_recovery_sync(self.authorization, paths, state, "control_sync", self.root, self.base, packet["target_base"])
+        effects = [call for call in run.call_args_list if call.args[0][:3] == ["git", "merge", "--ff-only"]]
+        self.assertEqual(len(effects), 1)
+        self.assertEqual(state["base_recovery"]["control_sync"]["status"], "observed")
+        state["base_recovery"]["unknown"] = {"before": packet["target_base"], "after": packet["integration_head"],
+            "root": str(self.root), "status": "offered"}
+        with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.sync.outcome"):
+            atom.base_recovery_sync(self.authorization, paths, state, "unknown", self.root, packet["target_base"], packet["integration_head"])
+        self.assertEqual(atom._git(self.root, "rev-parse", "HEAD"), packet["target_base"])
+
+    def test_base_publication_gate_rejects_original_completed_session(self):
+        paths, state, binding, owner, packet, descriptor, provider = self.base_recovery_fixture()
+        atom.resume(self.path, descriptor, atom.digest_file(descriptor), environ=self.env)
+        state = atom.read_json(paths["state"], "state")
+        with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.publication"):
+            atom.base_recovery_final(self.authorization, paths, state)
+        state["base_recovery"]["released"] = True
+        state["base_recovery"]["failed_stage"] = json.loads(json.dumps(owner["state"]["orders"][binding["execution"]["order_id"]]["stages"][0]))
+        with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.successor"):
+            atom.base_recovery_final(self.authorization, paths, state)
+        self.assertNotIn("terminal", state["base_recovery"])
+
+
+    def test_base_recovery_refuses_same_head_branch_drift_after_adoption(self):
+        paths, state, binding, owner, packet, descriptor, provider = self.base_recovery_fixture()
+        atom.resume(self.path, descriptor, atom.digest_file(descriptor), environ=self.env)
+        state = atom.read_json(paths["state"], "state")
+        self.assertEqual(state["base_recovery"]["control_branch"], "main")
+        atom._git(self.root, "checkout", "--detach", self.base)
+        with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.control_branch"):
+            atom.advance_base_recovery(self.authorization, paths, state, provider, self.env)
+        self.assertFalse((self.root / ".noodle/control.ndjson").exists())
+        self.assertEqual(atom._git(self.root, "rev-parse", "HEAD"), self.base)
+
+    def test_base_sync_preserves_detached_control_root(self):
+        paths, state, binding, owner, packet, descriptor, provider = self.base_recovery_fixture()
+        atom._git(self.root, "checkout", "--detach", self.base)
+        state["base_recovery"] = {"control_branch": None}
+        self.assertIsNone(atom.base_recovery_branch(self.root))
+        atom.base_recovery_sync(self.authorization, paths, state, "control_sync", self.root, self.base, packet["target_base"])
+        self.assertIsNone(atom.base_recovery_branch(self.root))
+        self.assertEqual(state["base_recovery"]["control_sync"]["process"]["exit_status"], 0)
+
+    def test_base_completed_requires_exact_review_and_frozen_input(self):
+        paths, state, binding, owner, packet, descriptor, provider = self.base_recovery_fixture()
+        missing = json.loads(json.dumps(owner))
+        missing["state"]["pending_reviews"] = {}
+        with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.review.identity"):
+            atom.base_recovery_completed(binding, missing)
+        foreign = json.loads(json.dumps(owner))
+        foreign["state"]["pending_reviews"][binding["execution"]["order_id"]]["session_id"] = "foreign-session"
+        with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.review.identity"):
+            atom.base_recovery_completed(binding, foreign)
+        changed = json.loads(json.dumps(self.authorization))
+        contract = atom.issue_admission.parse_contract(changed["issue"]["body"])
+        contract["frozen_paths"][0]["sha256"] = "0" * 64
+        changed["issue"]["body"] = changed["issue"]["body"].replace(atom.digest_bytes(b"candidate\n"), "0" * 64)
+        with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.frozen"):
+            atom.base_recovery_integration(changed, packet)
+
+    def test_base_recovery_rebinds_then_releases_one_verified_new_successor(self):
+        paths, state, binding, owner, packet, descriptor, provider = self.base_recovery_fixture()
+        atom.resume(self.path, descriptor, atom.digest_file(descriptor), environ=self.env)
+        state = atom.read_json(paths["state"], "state")
+        snapshot = self.root / ".noodle/state.snapshot.json"
+        oid = binding["execution"]["order_id"]
+        order = owner["state"]["orders"][oid]
+        stage = order["stages"][0]
+        def advance():
+            return atom.advance_base_recovery(self.authorization, paths, state, provider, self.env)
+        self.assertEqual(advance()["action"], "base_hold_ack_pending")
+        self.correction_ack(state, "base_hold")
+        owner["state"].update(mode="manual", mode_epoch=5)
+        atom.save_json(snapshot, owner)
+        with patch.object(atom.os, "kill") as stop:
+            self.assertEqual(advance()["action"], "base_stop_readback_pending")
+        stop.assert_called_once()
+        self.assertEqual(stage["status"], "review")
+        updates = []
+        def update(number, body):
+            updates.append((number, body))
+            raise atom.MutationUnknown("effect has no current readback")
+        provider.update_issue_body = update
+        actual_run = atom.subprocess.run
+        def process_run(argv, *args, **kwargs):
+            if argv[:3] == [self.authorization["noodle"]["path"], "worktree", "exec"]:
+                self.assertEqual(kwargs["cwd"], self.authorization["control_root"])
+                kwargs["cwd"] = self.root / ".worktrees" / argv[3]
+                return actual_run(argv[4:], *args, **kwargs)
+            return actual_run(argv, *args, **kwargs)
+        (self.root / ".noodle/noodle.lock").touch()
+        with patch.object(atom, "observe_prior_loop", return_value="stopped"), \
+             patch.object(atom.subprocess, "run", side_effect=process_run):
+            self.assertEqual(advance()["action"], "base_issue_readback_pending")
+            with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.issue.outcome"):
+                advance()
+            self.assertEqual(len(updates), 1)
+            provider.value["body"] = updates[0][1]
+            self.assertEqual(advance()["action"], "base_bundle_prepared")
+            self.assertEqual(len(updates), 1)
+            prepared = state["base_recovery"]["prepared"]
+            self.assertEqual(atom.digest_file(prepared["path"]), prepared["sha256"])
+            actual_popen = atom.subprocess.Popen
+            starts = []
+            def start_process(argv, *args, **kwargs):
+                if str(argv[0]).endswith("start-noodle"):
+                    starts.append(argv)
+                    return Mock(pid=424243)
+                return actual_popen(argv, *args, **kwargs)
+            with patch.object(atom.subprocess, "Popen", side_effect=start_process), \
+                 patch.object(atom.issue_execution, "_absent_process"):
+                self.assertEqual(advance()["action"], "started")
+            self.assertEqual(len(starts), 1)
+        effective, selected_paths = atom.base_recovery_projection(self.authorization, state, paths)
+        new_binding = atom.issue_execution.context(selected_paths["envelope"], state["envelope_sha256"], self.root, lambda *_: provider.value)
+        self.assertEqual(new_binding["base_head"], packet["target_base"])
+        self.assertEqual(new_binding["execution"]["source_head"], packet["integration_head"])
+        self.assertTrue(new_binding["execution"]["task"].startswith(self.authorization["task"]))
+        self.assertIn("Do not apply the original patch again", new_binding["execution"]["task"])
+        self.assertEqual(advance()["action"], "correction_review_pending")
+        self.correction_ack(state, "correction_review")
+        order["status"] = stage["status"] = "failed"
+        stage["attempts"][0]["status"] = "failed"
+        owner["state"]["pending_reviews"] = {}
+        atom.save_json(snapshot, owner)
+        self.assertEqual(advance()["action"], "correction_proposal_pending")
+        self.assertTrue((self.root / ".noodle/orders-next.json").is_file())
+        self.assertEqual(advance()["action"], "correction_proposal_pending")
+        (self.root / ".noodle/orders-next.json").unlink()
+        order["status"] = "active"
+        stage["status"] = "pending"
+        stage["prompt"] = json.dumps(atom.issue_execution.projection(new_binding, state["envelope_sha256"], "supervised"))
+        atom.save_json(snapshot, owner)
+        self.assertEqual(advance()["action"], "correction_release_pending")
+        self.correction_ack(state, "correction_release")
+        owner["state"].update(mode="supervised", mode_epoch=6)
+        atom.save_json(snapshot, owner)
+        self.assertEqual(advance()["action"], "correction_released")
+        self.assertTrue(state["base_recovery"]["released"])
+        with self.assertRaisesRegex(atom.AtomRefusal, "base_recovery.review"):
+            atom.base_recovery_final(effective, selected_paths, state)
+        session = "new-session"
+        events = self.root / ".noodle/sessions" / session / "events.ndjson"
+        events.parent.mkdir()
+        events.write_text(json.dumps({"type": "stage_message", "session_id": session,
+            "payload": {"order_id": oid, "stage_index": 0, "outcome": "completed", "blocking": False}}) + "\n")
+        stage["status"] = "review"
+        stage["attempts"].append({"attempt_id": "new-attempt", "session_id": session,
+            "status": "completed", "worktree_name": binding["execution"]["worktree"]})
+        owner["state"]["pending_reviews"] = {oid: {"order_id": oid, "stage_index": 0, "session_id": session,
+            "worktree_name": binding["execution"]["worktree"],
+            "worktree_path": str(self.root / ".worktrees" / binding["execution"]["worktree"])}}
+        atom.save_json(snapshot, owner)
+        atom.base_recovery_final(effective, selected_paths, state)
+        self.assertEqual(state["base_recovery"]["terminal"]["stage"]["attempts"][-1]["session_id"], session)
+        self.assertEqual(self.path.read_bytes(), json.dumps(self.authorization).encode())
+        self.assertIsNone(state["publication"])
 
 
 class PrewriteScopeRefusalTests(unittest.TestCase):

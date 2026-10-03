@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "evidence_kind": "deterministic_fixture",
+  "scope": "Specified policy examples and planted report errors; not actual Agent traces or provider truth",
+  "split": "regression_examples_not_held_out",
+  "cases": [
+    {
+      "id": "whole_atom",
+      "input": {
+        "scope": "whole_issue",
+        "stop": "verified_candidate"
+      },
+      "requirement": "A whole Issue atom uses poteto-mode as its engineering entry.",
+      "expected": {
+        "entry": "poteto-mode"
+      },
+      "samples": {
+        "conforming": {
+          "entry": "poteto-mode"
+        },
+        "planted_error": {
+          "entry": "how"
+        }
+      },
+      "provenance": {
+        "kind": "explicit_requirement_fixture",
+        "source_path": ".agents/skills/execute/SKILL.md",
+        "source_quote": "For a whole Issue atom, use `poteto-mode` as the engineering entry."
+      },
+      "reason": "The input fixes the prerequisite. The expected field preserves the stated requirement; the planted error contradicts it."
+    },
+    {
+      "id": "finite_explanation",
+      "input": {
+        "scope": "explain_only",
+        "selected_leaf": "how",
+        "writes": false
+      },
+      "requirement": "An explicitly admitted explain-only subtask uses its selected how skill and stops after the explanation.",
+      "expected": {
+        "entry": "how",
+        "continued_writing": false
+      },
+      "samples": {
+        "conforming": {
+          "entry": "how",
+          "continued_writing": false
+        },
+        "planted_error": {
+          "entry": "poteto-mode",
+          "continued_writing": true
+        }
+      },
+      "provenance": {
+        "kind": "explicit_requirement_fixture",
+        "source_path": ".agents/skills/execute/SKILL.md",
+        "source_quote": "Use a leaf skill directly only when the admitted task itself is an explicit,"
+      },
+      "reason": "The input fixes the prerequisite. The expected field preserves the stated requirement; the planted error contradicts it."
+    },
+    {
+      "id": "missing_skill",
+      "input": {
+        "selected_skill": "architect",
+        "selected_bytes_available": false
+      },
+      "requirement": "Missing required selected skill bytes block the dependent work.",
+      "expected": {
+        "blocked": true
+      },
+      "samples": {
+        "conforming": {
+          "blocked": true
+        },
+        "planted_error": {
+          "blocked": false
+        }
+      },
+      "provenance": {
+        "kind": "explicit_requirement_fixture",
+        "source_path": ".agents/skills/execute/SKILL.md",
+        "source_quote": "If a required skill or capability is unavailable, preserve the work and evidence."
+      },
+      "reason": "The input fixes the prerequisite. The expected field preserves the stated requirement; the planted error contradicts it."
+    },
+    {
+      "id": "unknown_route",
+      "input": {
+        "observed_valid_example": "supervised",
+        "authoritative_route_policy": null
+      },
+      "requirement": "Without an authoritative complete route policy, route_policy stays null.",
+      "expected": {
+        "route_policy": null
+      },
+      "samples": {
+        "conforming": {
+          "route_policy": null
+        },
+        "planted_error": {
+          "route_policy": [
+            "automatic",
+            "supervised"
+          ]
+        }
+      },
+      "provenance": {
+        "kind": "explicit_requirement_fixture",
+        "source_path": "AGENTS.md",
+        "source_quote": "Do not replace missing data with a guessed success or an invented time estimate."
+      },
+      "reason": "The input fixes the prerequisite. The expected field preserves the stated requirement; the planted error contradicts it."
+    },
+    {
+      "id": "candidate_changed",
+      "input": {
+        "candidate_head": "candidate-B",
+        "verdict_head": "candidate-A"
+      },
+      "requirement": "A verdict for candidate-A does not establish verification of candidate-B.",
+      "expected": {
+        "verdict_usable": false
+      },
+      "samples": {
+        "conforming": {
+          "verdict_usable": false
+        },
+        "planted_error": {
+          "verdict_usable": true
+        }
+      },
+      "provenance": {
+        "kind": "explicit_requirement_fixture",
+        "source_path": "AGENTS.md",
+        "source_quote": "Preserve exact-head provider evidence and external landing authority."
+      },
+      "reason": "The input fixes the prerequisite. The expected field preserves the stated requirement; the planted error contradicts it."
+    },
+    {
+      "id": "unknown_write",
+      "input": {
+        "publication_result": "unknown",
+        "original_owner": "publication"
+      },
+      "requirement": "An unknown publication write requires original-owner readback before another effect.",
+      "expected": {
+        "readback_owner": "publication",
+        "readback_before_next_effect": true
+      },
+      "samples": {
+        "conforming": {
+          "readback_owner": "publication",
+          "readback_before_next_effect": true
+        },
+        "planted_error": {
+          "readback_owner": "replacement-owner",
+          "readback_before_next_effect": false
+        }
+      },
+      "provenance": {
+        "kind": "explicit_requirement_fixture",
+        "source_path": "AGENTS.md",
+        "source_quote": "If a write outcome is unknown, obtain owner readback before another effect."
+      },
+      "reason": "The input names publication as the original owner. The requirement orders its readback before another effect. These fields check identity and order without assuming an undocumented effect label."
+    }
+  ]
+}

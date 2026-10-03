@@ -1,16 +1,22 @@
 ### Complete admitted child contract — ed3c/soodles#135
 
-Soodles Issue admission validates the structured Issue contract.
-`issue_execution.projection` supplies the complete `binding['contract']` with
-the existing exact identity and bounded task. Both automatic and supervised
-stage prompts receive it. The implementation child consumes that contract
+Soodles Issue admission validates the structured Issue contract and full body digest.
+`issue_execution.projection` supplies the complete `binding['contract']` and
+`binding['issue_body']` with the existing exact identity and bounded task.
+Both automatic and supervised stage prompts receive them. The body preserves
+task information outside the structured contract, including the six Issue sections.
+It does not grant authority or establish a separate routing schema.
+The implementation child consumes these inputs
 without a mandatory duplicate GitHub read. If the contract is missing, the
 existing admission owner handles the missing input. An amended body requires
 the supervisor's fresh envelope.
 
 The installed entry still enforces provider freshness and exact worker and
-owner prompt comparisons. If the contract is omitted or altered, the entry
-refuses before worker execution. `tests/test_issue_execution.py` uses local
+owner prompt comparisons. If the contract or body is omitted or altered, the entry
+refuses before worker execution. The live observer also rejects that changed prompt.
+Existing orders retain their selected immutable runtime. Do not treat a missing
+body under the new runtime as a legacy prompt or silently reconstruct it.
+`tests/test_issue_execution.py` uses local
 provider and owner fixtures to check full delivery, prompt tampering, stale
 provider refusal, and legal unchanged execution. Those controls do not prove
 child behavior. The externally prepared bounded comparison supports only its

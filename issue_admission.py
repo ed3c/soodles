@@ -29,7 +29,7 @@ ENVELOPE_FIELDS = {
     "owner", "write_paths", "base_head", "execution",
 }
 INSTRUCTION_MAX_FILES = 32
-INSTRUCTION_MAX_FILE_BYTES = 256 * 1024
+INSTRUCTION_MAX_FILE_BYTES = 512 * 1024
 INSTRUCTION_MAX_TOTAL_BYTES = 1024 * 1024
 
 
@@ -244,6 +244,27 @@ def validate_instruction_context(context, source_head):
     validate_instruction_files(context["files"], content=True)
 
 
+def load_revision_native(reference, control_root):
+    """Read the supervisor's accepted carrier and recheck its fixed artifacts."""
+    def read(ref):
+        exact_object(ref, {"path", "sha256"}, "revision.native.reference")
+        require(isinstance(ref["path"], str), "revision.native.path", ref["path"])
+        path = Path(ref["path"])
+        require(path.is_absolute() and path.is_file() and not path.is_symlink()
+                and not path.resolve().is_relative_to(Path(control_root).resolve()),
+                "revision.native.path", str(path))
+        raw = path.read_bytes()
+        require(hashlib.sha256(raw).hexdigest() == ref["sha256"], "revision.native.digest", str(path))
+        return raw
+    accepted = json.loads(read(reference))
+    require(isinstance(accepted, dict) and type(accepted.get("schema")) is int and accepted["schema"] == 1
+            and accepted.get("issue") == 106 and nonempty(accepted.get("accepted_at"))
+            and {"binary", "acceptance", "interface"} <= accepted.keys(), "revision.native.acceptance", accepted)
+    for key in ("binary", "acceptance", "interface"):
+        read(accepted[key])
+    return accepted["binary"]
+
+
 def failure_digest(data):
     return hashlib.sha256(json.dumps(data, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
@@ -449,7 +470,8 @@ def validate_issue(readback, envelope, *, completed=False):
         "repository": repository, "issue": number, "body_sha256": envelope["body_sha256"],
         "body_updated_at": envelope["body_updated_at"], "owner": contract["owner"],
         "write_paths": envelope["write_paths"], "base_head": envelope["base_head"],
-        "execution": envelope["execution"], "contract": contract, "authorizes_landing": False,
+        "execution": envelope["execution"], "contract": contract,
+        "issue_body": body, "authorizes_landing": False,
     }
 
 
