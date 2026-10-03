@@ -221,6 +221,21 @@ cause reassessment within the same task. Missing evidence and repeated readback
 do not consume attempts. Cycles, scope changes, repeated heads, and unknown
 ancestor effects refuse. External nonautomatic lineage cannot reset this history.
 
+已發布的 schema-2 typed revision candidate 停在 `phase=ci` 時，
+supervisor 可透過既有
+`issue-atom resume AUTH DESCRIPTOR SHA256` 選定 immutable lifecycle bytes。
+這讓原 correction producer 使用修正後的讀取邏輯，保留原 Issue 與 PR。
+Owner 要求原 completed review、quiescent writer sessions、exact claim 與
+publication source、prepared bundle、config 及完整 control ACK history。
+Owner 要求已採納的 schema-2 scope amendment，先驗固定 revision entry 與
+canonical attempts 前綴，再比對包含 revision context 的完整 prompt。
+已有 correction output、landing、host finalization 或未知 effect 時，
+owner 拒絕選取，保留原 owner 的 readback 義務。
+通過後，owner 只保存 lifecycle selection edge，回傳原 `run` continuation。
+它保留 authorization、receipt history、prompt、carrier、external judge 和 repair budget。
+原 correction owner 負責後續停止 parked loop、啟動 successor 與更新原 PR。
+這個 CI 階段的 source selection 先於 merge 與 closure，沒有 provider effect。
+
 The producer pins the exact failed run, jobs, and steps as `failure_context`.
 It saves the raw diagnostic log in the immutable external preparation output.
 The context carries the log path, SHA-256, and byte size. The writer reads needed
@@ -361,8 +376,9 @@ the integration head nor a cleanup retry trigger. Unchanged cleanup inputs
 cause refusal. Existing exact ancestry, clean tree, candidate, lock release,
 unknown outcome, and no-op discriminators remain in force.
 
+For a stopped original post-write checkpoint,
 `issue-atom resume AUTH DESCRIPTOR SHA256` admits one externally selected
-immutable lifecycle bundle to a stopped original post-write checkpoint.
+immutable lifecycle bundle.
 It requires the original authorization digest, exact native claim, envelope,
 and order, confirmed landing merge and closure, quiescent sessions, and free
 authorization, atom, and native locks. Only the exact native idle schedule shape
@@ -570,6 +586,14 @@ Provider entry、manifest 與 preparation readback 都包含這份檔案。
 Worker 收到 `revision_context` 引用及 `admission_revision` 資料。
 這些資料補充一次 integration 的輸入，不替換原 task 或 instruction bytes。
 
+本輪 preparation 完成後，advance owner 先驗 selected envelope 的 digest，
+再驗 provider Issue 與本輪 prepared `revision-entry.json` 的 binding。
+連續 revision 的 native prompt 在 edit 前仍引用上一輪 entry。
+先用普通 worker context 載入該舊引用，會把合法的新 envelope 判成漂移。
+因此 advance owner 使用本輪 prepared entry。它仍驗原 envelope 引用與 terminal lineage。
+Selected bytes 或 binding 不符時，owner 在 start 與 native controls 前拒絕。
+此順序不修改普通 worker 的 context、ancestry 或 instruction 驗證。
+
 原 Noodle owner 在 manual hold 下執行 request-changes、edit-item、requeue，
 再切回 supervised。每個 command 先保存 intent，再讀其唯一 acknowledgement。
 無 acknowledgement 只允許讀回，不能再 append 或重建 command ID。
@@ -594,13 +618,16 @@ Supervisor 必須已固定接受的 Noodle #106 binary 與 descriptor。
 舊 carrier 仍受原契約約束。已歸檔且缺少完整 custody 的 order，
 仍需要原 owner 提供證據。本節不恢復任意 failed order 或 explicit reject。
 
-原需求是讓同一 order 在 request-changes、edit 或 requeue 後停止時接續。
+原需求是讓同一 order 在已記錄 manual start 後、release 前停止時接續。
+這包括首次 request-changes 前保留的 completed review，
+以及 request-changes、edit 或 requeue 後保留的 custody。
 Noodle #106 保存原 session、attempt、worktree 和 candidate 的 custody。
 這些證據讓原 revision owner 區分合法停止與身分漂移。
 只放寬 failed 狀態檢查不夠。未知 start 或 control 仍可能已產生效果。
 因此 caller 仍使用 owner 回傳的同一 `issue-atom run`，不選 restart 命令。
 
 在 release 尚未 offered 時，owner 讀取原 process 與 native snapshot。
+Start 必須已記錄為 `started`。Offered 或未知 start 不取得 replacement 資格。
 Owner 必須確認 process 和 session process group 已消失。
 它比對乾淨 candidate 的 HEAD、tree、branch、原 terminal session 四檔 hash、
 完整 attempts、request-changes reason、review 與 native custody。
@@ -608,12 +635,24 @@ Failed 與 edited 狀態使用 `request_changes_recovery`。
 Pending 狀態使用 `request_changes_requeued` 內保留的 binding 與 review。
 合法 edit 只改 prompt。Requeue 不新增 attempt。
 
+首次 request-changes 前，owner 要求 order 仍 active，stage 與原 completed review 相同，
+且 `scope_request`、`scope_edit`、`scope_requeue`、`scope_release` 均不存在。
+Owner 以原 envelope 重驗 completed terminal、attempt history、review 與 session 四檔。
+若已有保存的 review 與 session hashes，本次讀回必須相同。
+`issue_scope` 必須已 observed。既有 `issue_create` 記錄可以保留。
+Owner 拒絕 publication、push receipt、landing checkpoint 或未確認 repair effects。
+Standalone journal 只能不存在，或符合既有空 writes 與空 push receipts 格式。
+經 typed revision 驗證保留的 claim/readiness 維持原 bytes 與歷史 refs。
+它們不等於 publication effect。Owner 不能刪除或改寫它們來取得 continuation 資格。
+
 驗證通過後，既有 start owner 保存一次 held restart intent。
+Start owner 在 native lock 內再讀 custody 與 controls，才保存該 intent。
 它沿用原 prepared launcher、config、authorization 與 immutable authority。
 它為 replacement process 使用新的 stdout 和 stderr 檔案，保留原 start 紀錄。
 同一 revision 只允許這一次 continuation restart。再次停止需要原 owner 輸入。
 Owner 不重設 `restart_offered`、ACK prefix 或 control intent。
-重啟後，owner 再讀 native custody，才接續原 edit、requeue 與 release。
+重啟後，owner 再讀 native custody，才發送尚未 offered 的 request-changes、
+edit、requeue 或 release。已 offered 的 control 沿原 ID 讀回。
 Release 前仍須驗證目前完整 custody，不能只引用先前 requeue 成功。
 只有必要 controls 的 ACK 與狀態讀回都相符，owner 才解除 manual hold。
 Noodle 隨後在原 order 與 worktree 派發唯一 successor，保留全部 prior attempts。

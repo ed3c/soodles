@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 254
+  },
+  "instructions": [
+    {
+      "path": "issue_atom.py",
+      "baseline_sha256": "f4b64d8c38d7e1d9c1ee5f71c6246dd05c1e0a8a7ec976d9f1bc80427b6db126",
+      "treatment_sha256": "a9eaea6ec7aac1246ab885200ee6b9216ee6778915dad2fbdbdfae41e1cfd5c6"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "cost_telemetry.py",
+      "role": "Current and retained receipt cost consumers",
+      "sha256": "2d89d0a03b3f0ff17f69756d4b730c078ff925b784b09218801f1a32a7946f56"
+    },
+    {
+      "path": "docs/experiments/publication-receipts/results.md",
+      "role": "Observed correction, evidence, failures and limits",
+      "sha256": "f110bcc064bd3c20fffae5f8cec06688d84e5f90de615852bb632f798d9cc211"
+    },
+    {
+      "path": "tests/test_admission_revision.py",
+      "role": "Typed revision custody and history controls",
+      "sha256": "7f88003df9d8481b043708d2ff3f72d2bfafc54ade50e58944f638ad62b0b854"
+    },
+    {
+      "path": "tests/test_cost_telemetry.py",
+      "role": "Original cost subject and effective receipt controls",
+      "sha256": "81592281351561a49bad81d7fb5ef41ed59836ea34466c35e6e60046bc3dc0d0"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#254"
+  },
+  "authorizes_landing": false
+}

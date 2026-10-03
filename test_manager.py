@@ -57,6 +57,8 @@ BOUNDARIES = (
      ("candidate_verification",), ()),
     (("docs/owner-base-continuation-evidence.json",), ("candidate_verification",), ()),
     (("docs/cleanup-integration-evidence.json",), ("candidate_verification", "cleanup_continuation"), ()),
+    # This N-class feedback summary has no executable consumer.
+    (("docs/experiments/publication-receipts/pclass-feedback.json",), (), ()),
     (("soodles", "soodles.py", ".github/workflows/runtime.yml"),
      ("admission", "test_suite", "delivery_refs"), ()),
     (("runtime_candidate.py", ".github/workflows/runtime.yml"), ("runtime_base",), ()),

@@ -126,10 +126,21 @@ Supervisor 固定 binary 與 acceptance descriptor。先核對兩者的 SHA-256�
 
 Fixture 必須驅動 production revision owner continuation。
 只手動發送 native controls 不能證明 Soodles 會啟動 replacement process。
-分別在 request-changes 後、edit 後、requeue 後停止 fixture loop。
+停止位置包含已記錄 manual start、首次 request-changes 前的 completed review，
+以及 request-changes 後、edit 後、requeue 後。Test Manager 選取本次所需位置。
 保存原 process 已消失的證據，再讓原 owner 啟動一次 manual replacement。
 讀回完整 custody、原 terminal 四檔 hash、HEAD、tree、branch、所有 attempts、
 control request 與 ACK。Release 前沒有 successor。Release 後恰有一個 successor。
+
+對首次 control 前的邊界，驗證原 completed review 與 session bytes 未變。
+保留經 typed revision 驗證的歷史 claim/readiness。驗證 owner 不把它們當作
+publication effect，也不重用為 successor receipts。未知 start、publication、
+landing、repair effect 或已用過的 continuation restart 仍須拒絕。
+對連續 revision 的 binding，保留上一輪 native prompt，提供本輪 prepared
+envelope 與 entry。驗證 owner 先驗本輪 binding，再進入 start 或 controls。
+植入不符的 entry/envelope，確認 owner 在 start 與 controls 前拒絕。
+這些軟體判別可使用 deterministic fixture。它們不替代上方的真實 process 觀測，
+也不證明真實 successor 已完成。
 
 保留每次 argv、exit、stdout、stderr、故障訊號、前後 snapshot 與 cleanup。
 驗證未知 start 或 write 不重送、外來或 live process 拒絕、bytes 與 config 漂移拒絕。

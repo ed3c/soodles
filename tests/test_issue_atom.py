@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -9,6 +10,22 @@ import unittest
 from unittest.mock import Mock, patch
 
 import issue_atom as atom
+
+
+@contextmanager
+def typed_revision_receipts(authorization_path, state, output, *, body=None):
+    """Fix the admitted packet while exercising the real receipt projection."""
+    authorization = atom.read_json(authorization_path, "fixture.authorization")
+    packet = {"authorization": {"path": str(authorization_path)}, "output": str(output),
+              "selection": {"schema": 2, "target_base": authorization["base_head"],
+                            "native_acceptance": {}}}
+    state["scope_amendment"] = {"status": "released"}
+    body = body or atom.authorized_issue_body(authorization, state["authorization_sha256"])
+    with patch.object(atom, "scope_packet", return_value=packet), \
+            patch.object(atom, "scope_history_authority", side_effect=lambda original, _: original), \
+            patch.object(atom, "revision_body", return_value=body), \
+            patch.object(atom.issue_admission, "load_revision_native", return_value=authorization["noodle"]):
+        yield atom.scope_projection(authorization, state, atom.artifact_paths(authorization_path))[1]
 
 
 class Result:
@@ -588,7 +605,10 @@ class IssueAtomTests(unittest.TestCase):
         event = json.loads(events.read_text())
         event["session_id"] = fixture.session
         events.write_text(json.dumps(event) + "\n")
-        claim_path = fixture.path.parent / "publication-claim.json"
+        retained_path = fixture.path.parent / "publication-claim.json"
+        atom.save_json(retained_path, {"session_id": "retained", "attempt_id": "old"})
+        retained = retained_path.read_bytes()
+        claim_path = fixture.path.parent / "revision/publication/publication-claim.json"
         atom.save_json(claim_path, {
             "order_id": "soodles-18", "stage_index": 0,
             "worktree_name": fixture.envelope["execution"]["worktree"],
@@ -617,6 +637,7 @@ class IssueAtomTests(unittest.TestCase):
                 atom.require_available_owner(authorization, paths, state)
         self.assertEqual(caught.exception.invalid["field"], "completion.typed_outcome")
         self.assertEqual(caught.exception.owner, "Noodle")
+        self.assertEqual(retained_path.read_bytes(), retained)
 
     def test_exact_existing_issue_adoption_never_creates_or_rewrites(self):
         provider = Provider()
@@ -1324,6 +1345,49 @@ class IssueAtomTests(unittest.TestCase):
         self.assertEqual(json.loads(ack_path.read_text()), ack)
         self.assertFalse((self.root / ".noodle/control.ndjson").exists())
 
+    def test_revision_reconciliation_uses_current_claim_path_hash_and_readback(self):
+        paths, state, claim, transition, owner = self.completion_fixture()
+        state["issue"] = {"number": 131}
+        with typed_revision_receipts(self.path, state, self.outer / "revision") as current:
+            atom.save_json(current["claim"], claim)
+            atom.save_json(paths["claim"], {**claim, "head": "retained", "session_id": "old"})
+            retained = paths["claim"].read_bytes()
+            with patch.object(atom.issue_execution, "read_owner", return_value=owner), \
+                    patch.object(atom.issue_execution, "quiescent_order"), \
+                    patch.object(atom.issue_execution, "completed_original_order", return_value={}) as readback, \
+                    patch.object(atom, "finish_host", return_value=True), \
+                    patch.object(atom, "_git"), \
+                    patch.object(atom.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, '{}', '')) as native:
+                atom.complete_noodle(self.authorization, current, state, transition)
+            self.assertEqual(native.call_args.args[0][-3:],
+                             [str(current["claim"]), atom.digest_file(current["claim"]), self.base])
+            self.assertEqual(readback.call_args.args[2], claim)
+            self.assertEqual(current["landing"], paths["landing"])
+            self.assertEqual(paths["claim"].read_bytes(), retained)
+            current["claim"].unlink()
+            with patch.object(atom, "_git"), patch.object(atom.subprocess, "run") as native:
+                with self.assertRaisesRegex(atom.AtomRefusal, "publication.claim"):
+                    atom.complete_noodle(self.authorization, current, state, transition)
+            native.assert_not_called()
+
+    def test_repair_hashes_and_validates_the_same_current_receipt_pair(self):
+        paths, state = self.startup_fixture()
+        state["issue"] = {"number": 131}
+        with typed_revision_receipts(self.path, state, self.outer / "revision") as current:
+            claim = {"head": "current", "worktree_path": str(self.root)}
+            acceptance = {"candidate": {"head": "current"}}
+            for key, value in (("claim", claim), ("acceptance", acceptance)):
+                atom.save_json(current[key], value)
+                atom.save_json(paths[key], {"head": "retained"})
+            with patch("system_context.compile_repair", return_value={}), \
+                    patch.object(atom.candidate_publication, "validate_inputs") as validate:
+                controller = atom.repair_controller(self.authorization, state, paths, authorization_path=self.path)
+                observed = controller.invariants()
+            validate.assert_called_once_with(self.root, acceptance, claim)
+            for key in ("claim", "acceptance"):
+                self.assertEqual(observed["files"][key], atom.digest_file(current[key]))
+                self.assertNotEqual(observed["files"][key], atom.digest_file(paths[key]))
+
     def test_reconciliation_waits_for_original_loop_shutdown(self):
         paths, state, _, transition, owner = self.completion_fixture()
         with patch.object(atom.issue_execution, "read_owner", return_value=owner), \
@@ -1793,7 +1857,15 @@ class IssueAtomTests(unittest.TestCase):
     def test_one_entry_routes_publication_landing_and_resolution(self):
         provider = Provider()
         self.ready_issue(provider)
+        with patch.object(atom.issue_execution, "supervised", return_value={"action": "running"}):
+            atom.run(self.path, environ=self.env, provider=provider)
         paths = atom.artifact_paths(self.path)
+        state = atom.read_json(paths["state"], "fixture.state")
+        current = self.enterContext(typed_revision_receipts(self.path, state, self.outer / "revision"))
+        atom.save_json(paths["state"], state)
+        for key in ("claim", "acceptance"):
+            atom.save_json(paths[key], {"head": "retained"})
+        retained = {key: paths[key].read_bytes() for key in ("claim", "acceptance")}
         claim = {
             "repository": "ed3c/soodles", "subject": "ed3c/soodles#131",
             "session_id": "fixture-session",
@@ -1803,11 +1875,14 @@ class IssueAtomTests(unittest.TestCase):
         }
 
         def claim_ready(_authorization, _subject, output, order_id):
+            self.assertEqual(output, current["claim"])
             self.assertEqual(order_id, atom.issue_admission.scoped_order_id(131, self.root))
             atom.save_json(output, claim, fresh=True)
             return Result(0)
 
         def accepted(_authorization, _claim, output):
+            self.assertEqual(_claim, claim)
+            self.assertEqual(output, current["acceptance"])
             value = {"repository": "ed3c/soodles",
                      "scope": "candidate runtime acceptance",
                      "candidate": {"head": "b" * 40, "tree": "c" * 40},
@@ -1825,6 +1900,9 @@ class IssueAtomTests(unittest.TestCase):
         jobs = {"jobs": []}
 
         def start(landing_claim, _snapshot, checkpoint):
+            self.assertEqual(checkpoint, paths["landing"])
+            self.assertEqual(landing_claim["head"], claim["head"])
+            self.assertEqual(landing_claim["tree"], claim["tree"])
             atom.save_json(checkpoint, {"claim": landing_claim}, fresh=True)
             return {"action": "readback"}
 
@@ -1842,10 +1920,16 @@ class IssueAtomTests(unittest.TestCase):
         dispatch = {"request": {"action": "merge", "pr_number": 132,
                                 "expected_head_sha": "b" * 40, "merge_method": "merge"}}
         resolved = {"classification": "RESOLVED", "phase": "resolved", "next": None}
+        # The packet fixture fixes admission history; cost still consumes its current paths.
+        receipt_view = {"current": {"paths": current, "lineage": {
+            "authorization_sha256": self.digest, "base_head": self.base,
+            "sources": [{"path": str(self.path), "sha256": self.digest}]}}, "retained": []}
         patches = [
+            patch("issue_atom.publication_receipt_view", return_value=receipt_view),
             patch("issue_atom.issue_execution.supervised", return_value={"published": True}),
             patch("issue_atom._run_claim", side_effect=claim_ready),
             patch("issue_atom._accept", side_effect=accepted),
+            patch("issue_atom.validate_revision_publication"),
             patch("issue_atom.candidate_publication.publish", return_value=publication),
             patch("issue_atom.select_run", return_value=(run, jobs)),
             patch("issue_atom.provider_snapshot", return_value={"fixture": True}),
@@ -1895,6 +1979,12 @@ class IssueAtomTests(unittest.TestCase):
         self.assertEqual(cost_projection["effects"], [])
         print(json.dumps({"event": "schema_plan_fields.owner_response", "response": second}, sort_keys=True))
         self.assertTrue(paths["landing"].exists())
+        for key in ("claim", "acceptance"):
+            self.assertEqual(paths[key].read_bytes(), retained[key])
+        published = atom.candidate_publication.publish.call_args.args
+        self.assertEqual(published[0], self.root)
+        self.assertEqual(published[1], atom.read_json(current["acceptance"], "fixture.acceptance"))
+        self.assertEqual(published[2], atom.read_json(current["claim"], "fixture.claim"))
 
     def test_owner_drift_refuses_before_provider_write_or_checkpoint(self):
         (self.owner_root / "landing.py").write_text("# drift\n")
