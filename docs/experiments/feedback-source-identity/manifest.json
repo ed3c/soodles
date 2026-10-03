@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 253
+  },
+  "instructions": [
+    {
+      "path": "stage_outcome.py",
+      "baseline_sha256": "74db56a7da5a157a0ef02ebc17968439ca758176b10090d34bd72297e85c5e56",
+      "treatment_sha256": "963233a2d2988678e31c41d8a33a89b0f6fa9553abe4e42dda144d970aa83128"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/feedback-source-identity/design.md",
+      "role": "Root cause, source identity design, runtime and refusal boundary",
+      "sha256": "3348010a38a8b710d6c3f39b0454a0d2828519f1617dfce4813618460569f406"
+    },
+    {
+      "path": "docs/experiments/feedback-source-identity/results.md",
+      "role": "Original evidence identities, failing and passing receipts, selected controls and limits",
+      "sha256": "318b8796326e1354b4a9999f3d78fe7a696590b9ab87a7455d7be970ce984368"
+    },
+    {
+      "path": "tests/test_feedback_owner.py",
+      "role": "Public feedback and completion controls using disposable Git worktrees",
+      "sha256": "699524aef2f08ac7f7a23d85bddfdf90128f6752ac9b3bbcd97c6de4095a55b9"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#253"
+  },
+  "authorizes_landing": false
+}
