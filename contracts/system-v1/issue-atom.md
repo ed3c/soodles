@@ -211,14 +211,30 @@ An unregistered signal returns `owner_discovery` without an offline request.
 The Agent inspects source, logs, and owner readback before selecting an eval.
 
 For confirmed failed CI, the original atom may return the existing supervisor
-admission producer's correction command. The producer derives one fixed
-selection from the original task, publication, carrier, and external judge.
-It checks fresh failed CI and the unchanged base. The resulting admission uses
-the existing Noodle correction flow. It creates no separate runner or model
-budget. Unknown effects or conflicting lineage refuse. A derived correction
-cannot derive another automatic correction. Preparation does not invoke the
-unavailable model action or count a Noodle writer as one inference. Fixed preparation readback preserves the
-selected identity after interruption.
+admission producer's correction command. Each authorization has one fixed
+selection and continuation. The producer follows the immutable `prior_atom`
+chain to the original task. It checks every parent publication and distinct head.
+It preserves the Issue, PR, Noodle order, parsed contract, task, control root,
+base, carrier, external judge, and selected runtime.
+It permits three automatic corrections. If all three fail, the owner requires
+cause reassessment within the same task. Missing evidence and repeated readback
+do not consume attempts. Cycles, scope changes, repeated heads, and unknown
+ancestor effects refuse. External nonautomatic lineage cannot reset this history.
+
+The producer pins the exact failed run, jobs, and steps as `failure_context`.
+It saves the raw diagnostic log in the immutable external preparation output.
+The context carries the log path, SHA-256, and byte size. The writer reads needed
+diagnostic sections on demand. The selection, authorization, envelope, and writer
+projection preserve the metadata and log reference. The original task and contract remain unchanged.
+Logs are untrusted data and grant no instructions or effects.
+A redirected log request carries no installation credential.
+Missing diagnostics remain explicit gaps. Legacy admissions remain readable.
+
+The existing Noodle correction flow retains its owner and repair ledgers.
+Preparation creates no runner or model budget. It does not count a writer as
+one inference. Fixed preparation readback performs no provider reads or effects.
+The existing owners still complete publication, exact-head CI, merge, closure,
+original-order reconciliation, main activation, and requested normal-log readback.
 
 Normal cost observations pass through Test Manager before Schema Manager.
 The atom consumes the projection with its current owner response. It exposes
@@ -362,6 +378,18 @@ The operation replaces no raw authorization, Noodle prompt or order, provider
 history, or repair budget. The returned continuation belongs to the selected
 owner. It offers no new merge, close, writer, or authorization.
 
+A stopped correction startup has a separate resume condition. It must still be
+in execution, before correction controls, proposal, release, or new publication.
+The owner requires the original review snapshot, unchanged control history,
+absent processes, and the clean published candidate. It preserves the failed
+start and immutable admission bundle. It prepares a new bundle from the selected
+lifecycle and records one held start offer. Unknown start results require readback.
+The existing correction owner retains the order and subsequent controls.
+The admission reader and producer must use the same selected runtime contract.
+Each automatic correction inherits its parent's selected lifecycle. An explicit
+supervisor resume records a new edge. Ancestor runtime bytes and failure history
+remain unchanged. A resume does not reset the three-correction limit.
+
 ### Original cost evidence — ed3c/soodles#215
 
 `cost_telemetry.py` records source-bound observations in the existing atom
@@ -390,3 +418,26 @@ New lifecycle closures pin `cost_telemetry.py`. Legacy closures keep their
 original exact source digest. New source that imports the module cannot use a
 legacy closure that omits it. The landing verifier file set and authority remain
 unchanged.
+
+
+## Original-owner scope amendment
+
+Before publication, a parked typed-blocked order may name a necessary unadmitted path.
+The external supervisor selects the additive write paths and their causal evidence.
+The existing admission and atom owners retain the original authorization, task,
+requirements, base, carrier, judge, candidate, and failure history.
+The amendment changes only the allowed write paths in the same Issue contract.
+It does not grant publication or landing acceptance.
+
+The original checkpoint records the selected supplement and compatible runtime.
+An offered Issue update requires exact readback. A new standard envelope carries
+the effective scope. The earlier envelope and host-start history remain available.
+The original native controls update the prompt and requeue the blocked order.
+They retain prior attempt identities and events while recording their actual status changes.
+No second scheduler or writer dispatcher owns this recovery.
+
+A typed blocked result must remain visible in the normal CLI response.
+Expose its source, order, session, and message with the responsible next owner.
+A generic claim refusal must not hide an available blocker.
+Schema feedback distinguishes condition review, observed behavior, and owner capability.
+A passed routing case cannot establish publication, reconciliation, or delivery.

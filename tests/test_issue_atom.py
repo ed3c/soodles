@@ -525,6 +525,16 @@ class IssueAtomTests(unittest.TestCase):
         fixture.setUp()
         self.addCleanup(fixture.doCleanups)
         session = fixture.archived_completion()
+        events = session / "events.ndjson"
+        event = json.loads(events.read_text())
+        event["session_id"] = fixture.session
+        events.write_text(json.dumps(event) + "\n")
+        claim_path = fixture.path.parent / "publication-claim.json"
+        atom.save_json(claim_path, {
+            "order_id": "soodles-18", "stage_index": 0,
+            "worktree_name": fixture.envelope["execution"]["worktree"],
+            "attempt_id": "soodles-18-0-attempt-0", "session_id": fixture.session})
+        paths = {"envelope": fixture.path, "claim": claim_path}
         config = b"fixture installed config\n"
         (fixture.root / ".noodle.toml").write_bytes(config)
         (fixture.path.parent / "noodle.toml").write_bytes(config)
@@ -534,16 +544,16 @@ class IssueAtomTests(unittest.TestCase):
                  "envelope_sha256": fixture.pin, "noodle_completion": {"order_id": "soodles-18"}}
         with (fixture.runtime / "noodle.lock").open("a+b") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
+            atom.require_available_owner(authorization, paths, state)
             del state["noodle_completion"]
             state["noodle_reconciliation"] = {"status": "observed"}
-            atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
+            atom.require_available_owner(authorization, paths, state)
             events = session / "events.ndjson"
             bad = json.loads(events.read_text())
             bad["payload"].update(outcome="blocked", blocking=True)
             events.write_text(json.dumps(bad) + "\n")
             with self.assertRaises(atom.AtomRefusal) as caught:
-                atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
+                atom.require_available_owner(authorization, paths, state)
         self.assertEqual(caught.exception.invalid["field"], "completion.typed_outcome")
         self.assertEqual(caught.exception.owner, "Noodle")
 
@@ -1405,6 +1415,38 @@ class IssueAtomTests(unittest.TestCase):
         self.assertTrue(observe.call_args.kwargs["observe_live"])
         claim.assert_not_called()
         self.assertEqual(provider.create_calls, 0)
+
+    def test_blocked_admission_stops_before_claim_or_cached_candidate_publication(self):
+        provider = Provider()
+        self.ready_issue(provider)
+        blocked = {"message": {"outcome": "blocked", "message": "Missing admitted adapter"},
+                   "session_id": "original-session", "attempt_id": "original-attempt",
+                   "source": {"path": "/original/events.ndjson", "sha256": "a" * 64}}
+        order_id = atom.issue_admission.scoped_order_id(131, self.root)
+        observed = {"action": "blocked", "blocked": blocked,
+                    "binding": {"execution": {"order_id": order_id}}}
+        paths = atom.artifact_paths(self.path)
+        with patch.object(atom.issue_execution, "supervised", return_value=observed), \
+                patch.object(atom.issue_execution, "read_owner") as owner, \
+                patch.object(atom, "_run_claim") as claim, \
+                patch.object(atom, "_accept") as accept, \
+                patch.object(atom.candidate_publication, "publish") as publish:
+            for cached in (False, True):
+                with self.subTest(cached=cached):
+                    if cached:
+                        atom.save_json(paths["claim"], {"head": "b" * 40})
+                    with self.assertRaises(atom.AtomRefusal) as caught:
+                        atom.run(self.path, environ=self.env, provider=provider)
+                    receipt = atom.refusal_output(caught.exception, self.path)
+                    self.assertEqual(receipt["invalid"]["field"], "noodle.stage.blocked")
+                    self.assertEqual(receipt["next"]["owner"], "original-admission-owner")
+                    self.assertEqual(receipt["next"]["known"]["blocked"], blocked)
+                    self.assertEqual(receipt["next"]["known"]["order_id"], order_id)
+            owner.assert_not_called()
+            claim.assert_not_called()
+            accept.assert_not_called()
+            publish.assert_not_called()
+        self.assertEqual(provider.merge_calls, 0)
 
     def test_failed_claim_stops_drive_before_wait_or_publication(self):
         provider = Provider()

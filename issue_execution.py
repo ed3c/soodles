@@ -450,6 +450,54 @@ def read_owner(binding):
     return state
 
 
+def blocked_outcome(binding, owner):
+    """Read the exact terminal blocked message from the retained native session."""
+    execution = binding["execution"]
+    order_id = execution["order_id"]
+    order = owner["state"]["orders"].get(order_id, {})
+    stages = order.get("stages", [])
+    if len(stages) != 1 or stages[0].get("status") != "review":
+        return None
+    attempts = stages[0].get("attempts", [])
+    if not attempts or attempts[-1].get("status") != "completed":
+        return None
+    reviews = owner["state"].get("pending_reviews", {})
+    if order_id not in reviews:
+        return None
+    session = attempts[-1].get("session_id")
+    require(isinstance(session, str) and re.fullmatch(r"[a-zA-Z0-9-]+", session),
+            "blocked.session", session, owner="Noodle", required="original_session_readback")
+    review = reviews[order_id]
+    require(isinstance(review, dict) and review.get("order_id") == order_id
+            and review.get("stage_index") == execution["stage_index"]
+            and review.get("session_id") == session
+            and review.get("worktree_name") == execution["worktree"] == attempts[-1].get("worktree_name")
+            and review.get("worktree_path") == str(Path(execution["control_root"]) / ".worktrees" / execution["worktree"]),
+            "blocked.review.identity", session, owner="Noodle", required="exact_original_pending_review")
+    source = Path(execution["control_root"]) / ".noodle/sessions" / session / "events.ndjson"
+    try:
+        raw = source.read_bytes()
+        events = [json.loads(line) for line in raw.splitlines() if line.strip()]
+    except (OSError, ValueError) as error:
+        raise AdmissionRefusal("blocked.events", str(source), "Noodle",
+                               "original_session_readback") from error
+    messages = [event for event in events if event.get("type") == "stage_message"]
+    terminal = [event for event in messages if event.get("payload", {}).get("outcome")]
+    require(len(terminal) == 1 and messages[-1] == terminal[0],
+            "blocked.terminal", len(terminal), owner="Noodle", required="exact_terminal_stage_outcome")
+    payload = terminal[0]["payload"]
+    require(terminal[0].get("session_id") == session and payload.get("order_id") == order_id
+            and payload.get("stage_index") == execution["stage_index"],
+            "blocked.identity", payload, owner="Noodle", required="exact_terminal_stage_outcome")
+    if payload.get("outcome") != "blocked":
+        return None
+    require(payload.get("blocking") is True, "blocked.blocking", payload,
+            owner="Noodle", required="exact_terminal_stage_outcome")
+    return {"session_id": session, "attempt_id": attempts[-1]["attempt_id"],
+            "source": {"path": str(source), "sha256": hashlib.sha256(raw).hexdigest()},
+            "message": payload}
+
+
 def context(envelope_path, envelope_digest, root, reader):
     envelope = load_external_envelope(envelope_path, envelope_digest, root)
     try:
@@ -537,9 +585,16 @@ def _absent_process(directory, session):
     return {"session_id": session, "pid": process["pid"], "process_and_group_absent": True}
 
 
-def completed_original_order(binding, state):
+def completed_original_order(binding, state, publication=None):
     """Prove completion from the current row or Noodle's retained projection history."""
     order_id = binding["execution"]["order_id"]
+    if publication is not None:
+        require(publication.get("order_id") == order_id
+                and publication.get("stage_index") == binding["execution"]["stage_index"]
+                and publication.get("worktree_name") == binding["execution"]["worktree"]
+                and isinstance(publication.get("attempt_id"), str)
+                and isinstance(publication.get("session_id"), str),
+                "completion.publication", publication, owner="Noodle", required="original_publication_claim")
     order = state["state"]["orders"].get(order_id)
     if isinstance(order, dict):
         require(order.get("status") == "completed", "completion.order.status", order.get("status"),
@@ -561,6 +616,9 @@ def completed_original_order(binding, state):
 
     dispatches = [record for record in _matching_effects(state, order_id, "dispatch")
                   if record["effect"].get("payload", {}).get("stage_index") == binding["execution"]["stage_index"]]
+    if publication is not None:
+        dispatches = [record for record in dispatches if record["effect"].get("payload", {}).get("attempt_id")
+                      == publication["attempt_id"]]
     require(len(dispatches) == 1, "completion.dispatch", len(dispatches),
             owner="Noodle", required="canonical_attempt_readback")
     projections = _matching_effects(state, order_id, "write_projection")
@@ -595,6 +653,16 @@ def completed_original_order(binding, state):
         if (spawn.get("skill") == "execute" and spawn.get("worktree_path") == expected_worktree
                 and spawn.get("provider") == "codex" and spawn.get("model") == expected_model):
             sessions.append((directory, spawn))
+    retained = []
+    if publication is not None:
+        for directory, spawn in sessions:
+            session = spawn.get("session_id")
+            require(isinstance(session, str) and directory.name == session,
+                    "completion.session_id", session, owner="Noodle", required="original_session_readback")
+            if session != publication["session_id"]:
+                retained.append(_absent_process(directory, session))
+        sessions = [(directory, spawn) for directory, spawn in sessions
+                    if spawn.get("session_id") == publication["session_id"]]
     require(len(sessions) == 1, "completion.sessions", len(sessions),
             owner="Noodle", required="original_session_readback")
     directory, spawn = sessions[0]
@@ -614,6 +682,10 @@ def completed_original_order(binding, state):
                 and event.get("payload", {}).get("stage_index") == binding["execution"]["stage_index"]]
     require(len(terminal) == 1, "completion.typed_outcome", len(terminal),
             owner="Noodle", required="completed_typed_outcome")
+    if publication is not None:
+        require(terminal[0].get("session_id") == publication["session_id"],
+                "completion.event_session", terminal[0].get("session_id"),
+                owner="Noodle", required="original_session_readback")
     require([event for event in events if event.get("type") == "stage_message"][-1] == terminal[0],
             "completion.last_stage_message", terminal[0],
             owner="Noodle", required="completed_typed_outcome")
@@ -630,7 +702,8 @@ def completed_original_order(binding, state):
             "initial_admission_effect": admitted["effect_id"] if admitted else None,
             "dispatch_effect": dispatches[0]["effect_id"],
             "projection_effects": [projections[0]["effect_id"], acknowledgements[0]["effect_id"]],
-            "typed_outcome": payload, "quiescent_sessions": [quiescent]}
+            "typed_outcome": payload, "quiescent_sessions": [quiescent],
+            **({"retained_quiescent_sessions": retained} if publication is not None else {})}
 
 
 def projection(binding, envelope_digest, route):
@@ -640,6 +713,13 @@ def projection(binding, envelope_digest, route):
             "contract": binding["contract"]}
     if "instruction_context" in binding["execution"]:
         subject["instruction_context"] = binding["execution"]["instruction_context"]
+    if "failure_context" in binding["execution"]:
+        context = binding["execution"]["failure_context"]
+        from issue_admission import validate_failure_context, validate_failure_logs
+        validate_failure_context(context, binding["repository"], binding["issue"],
+                                 binding["execution"]["source_head"])
+        validate_failure_logs(context, binding["execution"]["control_root"])
+        subject["failure_context"] = context
     return subject
 
 
@@ -718,6 +798,14 @@ def _admit(envelope_path, envelope_digest, root, reader, route, *, observe_live=
             require(not live, "takeover.prior_writer", live,
                     owner="Noodle", required="quiescent_writer_and_session_readback")
             quiescent_order(binding, state)
+            if observe_live:
+                blocked = blocked_outcome(binding, state)
+                if blocked is not None:
+                    return {"owner": "Noodle", "action": "blocked", "binding": binding,
+                            "blocked": blocked, "published": False,
+                            "next": continuation({"kind": "input", "owner": "original-admission-owner",
+                                "required": ["original_owner_input_for_blocked_stage"],
+                                "known": {"order_id": order_id, "blocked": blocked}}, route)}
         return {"owner": "Noodle", "action": "owned", "binding": binding,
                 "next": continuation({"kind": "input", "owner": "Noodle", "required": ["current_order_and_session_readback"],
                          "known": {"order_id": order_id}}, route), "published": False}

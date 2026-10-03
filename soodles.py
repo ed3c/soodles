@@ -407,6 +407,11 @@ Every result has authorizes_landing=false; no delivery or landing authority.""")
     atom_resume.add_argument("authorization")
     atom_resume.add_argument("descriptor")
     atom_resume.add_argument("sha256")
+    atom_scope = atom_verbs.add_parser(
+        "scope-amend", description="Adopt a pinned supervisor scope supplement on the original atom.")
+    atom_scope.add_argument("authorization")
+    atom_scope.add_argument("selection")
+    atom_scope.add_argument("sha256")
     atom_report = atom_verbs.add_parser("cost-report", description="Read original cost evidence without lifecycle or provider effects.")
     atom_report.add_argument("authorization")
     atom_report.add_argument("manifest")
@@ -553,8 +558,12 @@ def main():
                     print(json.dumps(cost_telemetry.failure(error), indent=2))
                     return 1
             else:
-                result = (issue_atom.resume(args.authorization, args.descriptor, args.sha256)
-                          if args.verb == "resume" else issue_atom.drive(args.authorization))
+                if args.verb == "resume":
+                    result = issue_atom.resume(args.authorization, args.descriptor, args.sha256)
+                elif args.verb == "scope-amend":
+                    result = issue_atom.adopt_scope_amendment(args.authorization, args.selection, args.sha256)
+                else:
+                    result = issue_atom.drive(args.authorization)
         elif args.group == "issue":
             import issue_execution
             if args.verb == "inspect":
@@ -668,6 +677,10 @@ def main():
             return getattr(exc, "exit_code", 1)
         if args.group == "atom":
             import issue_atom
+            from issue_admission import AdmissionRefusal
+            if isinstance(exc, AdmissionRefusal):
+                exc = issue_atom.AtomRefusal(exc.invalid["field"], exc.invalid["value"],
+                    exc.next["required"][0], owner=exc.next["owner"])
             if isinstance(exc, issue_atom.AtomRefusal):
                 result = issue_atom.refusal_output(exc, args.authorization)
                 if "cost" not in result:

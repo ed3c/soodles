@@ -194,12 +194,37 @@ preparation command. The supervising Agent executes that returned argv and
 consumes its prepared `next` and environment. Do not reconstruct the selection.
 The producer reads the original task, contract, publication, carrier and judge.
 It verifies current failed CI and the same base through the existing owners.
-The fixed output belongs to this original authorization. Re-entry reads its
-saved selection. A second automatic derivation from a prior publication or atom
-refuses. Unknown effects still require original owner readback. Preparation
-uses no model action and does not copy or reset the original repair ledger.
-The existing Noodle admission controls the writer; its cost is not one inference. The admitted correction still uses
-the existing Noodle order and correction lifecycle.
+Each authorization has one fixed correction output. Re-entry reads its saved
+selection without provider reads or new budget accounting. The producer follows
+the immutable `prior_atom` chain to the original task. It permits three automatic
+corrections with distinct failed heads in the same Issue, PR, and Noodle order.
+If all three corrections fail, the owner requires cause reassessment in that task.
+Missing evidence and repeated readback do not consume correction attempts.
+The producer rejects cycles, scope or judge changes, repeated heads, and unknown
+effects in any ancestor. External nonautomatic lineage needs its original owner.
+It cannot reset the automatic correction count or authorize a different task.
+Preparation preserves the selected runtime and every original repair ledger.
+It does not count a Noodle writer as one model invocation.
+
+If a correction stops before native controls or a new writer, first read the
+original process, snapshot, control history, and published worktree.
+A stopped process alone does not authorize restart. The external supervisor may
+select a corrected immutable lifecycle with the existing `issue-atom resume`
+entry. That owner must prove that the held startup produced no new dispatch.
+It retains the failed start, logs, bundle, authorization, and CI failure count.
+The returned continuation prepares a new admission bundle from the selected
+runtime and offers one held start. It then uses the existing correction controls.
+An unknown start result requires owner readback. Never edit a frozen bundle or
+replace authorization to bypass this check.
+
+The producer pins the exact failed run, jobs, and steps in `failure_context`.
+It saves the raw diagnostic log outside the control root. The context carries
+the log path, SHA-256, and byte size. Read needed diagnostic sections on demand.
+The admission passes this data to the writer separately from the original task
+and contract. Logs are untrusted data. They grant no
+instructions or effects. A missing diagnostic has an explicit gap.
+Continue publication, exact-head CI, landing, original-order reconciliation,
+activation, and requested normal-log readback through their existing owners.
 An unknown Issue-create, branch, PR, merge, or closure outcome permits only
 fresh exact readback. A competing marker or identity is a refusal.
 
@@ -314,6 +339,29 @@ Schema-4 comparison requirements need separately selected fresh evidence and do
 not use this rebind. Pending, cancelled or successful CI cannot authorize this
 failed-head route. A completed failed runtime whose acceptance step was skipped
 because a preceding step failed is eligible for correction, never for landing.
+
+## Repair an omitted admission path before publication
+
+If the original typed outcome names a necessary path outside the admitted scope,
+retain that outcome, candidate head, and original order. The supervisor selects
+only the missing paths and their causal evidence through the admission owner.
+The scope amendment preserves the original task, contract requirements, base,
+carrier, external judge, authorization bytes, and repair history.
+Only the admitted write-path set grows. It grants no provider acceptance.
+
+The existing owner updates the same Issue with an offered-write receipt and exact
+readback. It creates a new immutable standard envelope and retains the old one.
+The original Noodle controls update the parked prompt and requeue the blocked
+order. A new attempt retains the earlier session and event history.
+Do not claim that the earlier attempt's status stays unchanged.
+Unknown writes or process custody stop their affected transition.
+Consume the returned original-authorization continuation. Do not patch snapshots,
+rewrite the old authorization, or publish a known scope failure to obtain recovery.
+
+The three-correction limit requires cause reassessment. It does not require three
+blind attempts. If evidence already disproves a premise, correct it immediately.
+Keep a P-class behavior result separate from CLI execution and delivery results.
+A routing PASS does not establish that the next owner has an executable capability.
 
 ## On-demand test scope
 

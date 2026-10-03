@@ -24,6 +24,8 @@ REPLACEMENTS = {
 # scope decision for the supervising Session, never an instruction to run all.
 BOUNDARIES = (
     (("supervisor_admission.py", "issue_atom.py"), ("correction_preparation",), ()),
+    (("supervisor_admission.py", "issue_atom.py", "issue_admission.py",
+      "issue_execution.py", "soodles.py"), ("scope_amendment",), ()),
     (("stage_outcome.py", "stage-outcome", "schema_manager.py", "issue_execution.py", "handoff_oracle.py"),
      ("feedback_owner", "stage_outcome"), ()),
     (("schema_manager.py", "soodles.py", "stage_outcome.py"), ("pclass_feedback",), ()),
@@ -148,6 +150,22 @@ def fixture_imports(files):
     return imports
 
 
+
+def candidate_evidence_input(root, path):
+    source = root / path
+    if not path.startswith("docs/") or source.suffix != ".json" or source.is_symlink():
+        return False
+    try:
+        value = json.loads(source.read_text())
+    except (OSError, UnicodeError, ValueError):
+        return False
+    return (isinstance(value, dict) and set(value) == {
+        "schema", "issue", "instructions", "artifacts", "owner", "authorizes_landing"}
+        and type(value.get("schema")) is int and value["schema"] == 1
+        and value.get("authorizes_landing") is False
+        and isinstance(value.get("owner"), dict)
+        and value["owner"].get("tool") == "issue_admission.validate_delivery_paths")
+
 def select(root, changed, *, base=None, full=False, modules=(), controls=(), reason=None):
     root = Path(root)
     files = {".".join(p.relative_to(root / "tests").with_suffix("").parts): p
@@ -197,6 +215,9 @@ def select(root, changed, *, base=None, full=False, modules=(), controls=(), rea
                     physical.update(probes)
             if matched:
                 reasons.append(f"{path}: traced owner and consumers")
+            elif candidate_evidence_input(root, path):
+                selected.add("test_candidate_verification")
+                reasons.append(f"{path}: candidate evidence input; existing admission discriminator")
             elif path.endswith(".md") or path == "LICENSE":
                 reasons.append(f"{path}: review meaning; no runtime regression claim")
             else:
@@ -214,6 +235,29 @@ def select(root, changed, *, base=None, full=False, modules=(), controls=(), rea
             "reasons": reasons or ["no changed runtime behavior selected"],
             "unresolved": unresolved, "authorizes_landing": False}
 
+
+
+def admission_scope(root, contract):
+    paths = contract.get("required_paths", contract["write_paths"])
+    evidence = contract.get("evidence_manifest")
+    root = Path(root)
+    planned_tests = [path for path in paths if path.startswith("tests/")
+        and Path(path).name.startswith("test_") and path.endswith(".py")
+        and not (root / path).exists()]
+    decision = select(root, [path for path in paths if path != evidence and path not in planned_tests])
+    for path in planned_tests:
+        module = ".".join(Path(path).relative_to("tests").with_suffix("").parts)
+        decision["modules"] = sorted(set(decision["modules"]) | {module})
+        decision["reasons"].append(f"{path}: planned test module; writer must supply it before execution")
+        decision["mode"] = "focused"
+    if evidence in paths:
+        decision["modules"] = sorted(set(decision["modules"]) | {"test_candidate_verification"})
+        decision["reasons"].append(f"{evidence}: declared candidate evidence uses the existing discriminator")
+        decision["mode"] = "focused"
+    decision["required_write_paths"] = (["test_manager.py"] if decision["unresolved"]
+        and "test_manager.py" not in contract["write_paths"] else [])
+    decision["reason"] = "Resolve unmapped required behavior within the admitted owner; do not request a full suite."
+    return decision
 
 def plan(root, base=None, *, full=False, modules=(), controls=(), reason=None, require_base=False):
     """Use the supplied comparison; missing input never requests a full run."""
