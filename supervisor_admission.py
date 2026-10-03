@@ -25,7 +25,7 @@ import tempfile
 from issue_admission import (AdmissionRefusal, body_digest, parse_contract, require,
                              scoped_order_id, validate_issue, resolve_instruction_context)
 from issue_execution import validate_carrier
-from repository_binding import git_origins, issue_urls
+from repository_binding import git_origins, issue_urls, selected as target_profile
 
 REPOSITORY = "ed3c/soodles"
 TOKEN_COMMAND_ENV = "NOODLES_TOKEN_COMMAND"
@@ -104,7 +104,7 @@ def refuse(field, value):
 
 
 def main():
-    if sys.argv[1:] != ["automatic"]:
+    if sys.argv[1:] not in (["automatic"], ["inspect"]):
         return refuse("launcher.argv", sys.argv[1:])
     manifest_path = ROOT / "manifest.json"
     try:
@@ -127,8 +127,11 @@ def main():
     import issue_execution
     from issue_admission import AdmissionRefusal
     try:
-        result = issue_execution.automatic(
-            str(ROOT / "envelope.json"), ENVELOPE_SHA256, CONTROL_ROOT)
+        if sys.argv[1:] == ["inspect"]:
+            result = issue_execution.inspect_schedule(CONTROL_ROOT)
+        else:
+            result = issue_execution.automatic(
+                str(ROOT / "envelope.json"), ENVELOPE_SHA256, CONTROL_ROOT)
     except AdmissionRefusal as error:
         result = issue_execution.refusal_output(error, "automatic")
         print(json.dumps(result, indent=2))
@@ -225,7 +228,8 @@ def main():
     sys.path.insert(0, str(ROOT / "runtime"))
     from provider_credential import CredentialRefusal, clean_child_env, supply_token
     try:
-        token = supply_token("ed3c/soodles", {{"issues": "read"}})
+        envelope = json.loads((ROOT / "envelope.json").read_bytes())
+        token = supply_token(envelope["repository"], {{"issues": "read"}})
     except CredentialRefusal as error:
         return refuse("start." + error.field, error.value, error.required)
 
@@ -276,7 +280,13 @@ from issue_admission import load_external_envelope, validate_issue, AdmissionRef
 import issue_execution
 try:
     envelope = load_external_envelope(ROOT / "envelope.json", {envelope_digest!r}, CONTROL)
-    if {operation!r} == "worker":
+    if {operation!r} == "outcome":
+        import stage_outcome
+        raise SystemExit(stage_outcome.main())
+    elif {operation!r} == "test":
+        import test_manager
+        raise SystemExit(test_manager.worker_test(Path.cwd(), sys.argv[1:]))
+    elif {operation!r} == "worker":
         issue_execution.worker(ROOT / "envelope.json", {envelope_digest!r},
                                Path.cwd(), sys.argv[1:])
     else:
@@ -285,7 +295,7 @@ try:
         if argv == ["done", "schedule"]:
             print("{{}}")
         elif argv == ["sync"] or argv == ["done", order]:
-            issue = issue_execution.fetch_issue(envelope["repository"], envelope["issue"])
+            issue = issue_execution.fetch_issue(envelope["repository"], envelope["issue"], binding=envelope)
             completed = issue.get("state") == "closed"
             validate_issue(issue, envelope, completed=completed)
             if argv == ["sync"]:
@@ -328,9 +338,15 @@ def _config_bytes(output, carrier, *, bootstrap=False):
 
 def prepare(issue_readback, carrier, control_root, output, *,
             interpreter=None, environ=None, task=None, wire_host=False, instruction_pins=None,
-            correction=False, failure_context=None, runtime_root=None, readback=False):
+            correction=False, failure_context=None, runtime_root=None, readback=False, target_binding=None):
     """Create one immutable external bundle and return the only start continuation."""
     environ = os.environ if environ is None else environ
+    repository = REPOSITORY
+    if target_binding is not None:
+        require(runtime_root is not None, "supervisor.runtime", None, required="selected_external_lifecycle_source")
+        selected_bytes = _read_json(target_binding["path"], "binding")
+        repository = selected_bytes.get("repository")
+        target_profile({"repository": repository, "target_binding": target_binding, "control_root": str(control_root)}, require)
     require(type(correction) is bool and (not correction or wire_host),
             "supervisor.correction", correction,
             owner="supervisor", required="host_wired_correction_bundle")
@@ -363,7 +379,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
     number = issue_readback.get("number")
     require(type(number) is int and number > 0, "supervisor.issue.number", number,
             owner="GitHub", required="fresh_issue_readback")
-    api_url, html_url = issue_urls(REPOSITORY, number)
+    api_url, html_url = issue_urls(repository, number)
     require(issue_readback.get("url") == api_url
             and issue_readback.get("html_url") == html_url,
             "supervisor.issue.identity",
@@ -378,7 +394,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
                 owner="supervisor", required="fresh_issue_base_checkout")
     base_head = contract["base_head"] if contract.get("schema", 0) >= 3 else head
     origin = _git(root, "remote", "get-url", "origin")
-    require(origin in git_origins(REPOSITORY), "supervisor.control_root.origin", origin,
+    require(origin in git_origins(repository), "supervisor.control_root.origin", origin,
             owner="Git", required="admitted_repository_identity")
 
     require(isinstance(carrier, dict), "supervisor.carrier", type(carrier).__name__,
@@ -392,7 +408,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
     worker_head = _git(worktree, "rev-parse", "HEAD") if correction else head
     envelope = {
         "schema": 1,
-        "repository": REPOSITORY,
+        "repository": repository,
         "issue": number,
         "body_sha256": body_digest(body),
         "body_updated_at": issue_readback.get("updated_at"),
@@ -405,10 +421,15 @@ def prepare(issue_readback, carrier, control_root, output, *,
             "order_id": order_id,
             "stage_index": 0,
             "carrier": carrier,
-            "task": task if task is not None else f"Execute externally admitted {REPOSITORY}#{number}.",
+            "task": task if task is not None else f"Execute externally admitted {repository}#{number}.",
             "source_head": worker_head,
         },
     }
+    if target_binding is not None:
+        envelope["target_binding"] = target_binding
+        envelope["execution"]["runtime"] = {
+            "stage_outcome_argv": [str(output / "stage-outcome")],
+            "test_argv": [str(output / "test")]}
     if instruction_pins is not None:
         envelope["schema"] = 2
         envelope["execution"]["instruction_context"] = resolve_instruction_context(root, worker_head, instruction_pins)
@@ -429,8 +450,11 @@ def prepare(issue_readback, carrier, control_root, output, *,
     runtime_bytes = {}
     bundle_paths = BUNDLE_PATHS + ((".agents/skills/execute/SKILL.md",
                                   ".agents/skills/schedule/SKILL.md") if wire_host else ())
+    if target_binding is not None:
+        from issue_atom import GENERIC_LIFECYCLE_FILES
+        bundle_paths = GENERIC_LIFECYCLE_FILES
     for path in bundle_paths:
-        if runtime_root is not None and path in BUNDLE_PATHS:
+        if runtime_root is not None and (target_binding is not None or path in BUNDLE_PATHS):
             source = Path(runtime_root) / path
             require(not Path(runtime_root).resolve().is_relative_to(root)
                     and source.is_file() and not source.is_symlink(),
@@ -456,11 +480,14 @@ def prepare(issue_readback, carrier, control_root, output, *,
             "noodle.toml": _config_bytes(output, carrier),
             "bootstrap-noodle.toml": _config_bytes(output, carrier, bootstrap=True),
         }
+        if target_binding is not None:
+            host_files["stage-outcome"] = _entry_text(root, envelope_digest, pins, interpreter, "outcome").encode()
+            host_files["test"] = _entry_text(root, envelope_digest, pins, interpreter, "test").encode()
         runtime.extend({"path": path, "sha256": _sha256(data)} for path, data in host_files.items())
 
     manifest = {
         "schema": 1,
-        "repository": REPOSITORY,
+        "repository": repository,
         "issue": number,
         "source_head": head,
         "envelope_sha256": envelope_digest,
@@ -485,7 +512,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
     result = {
         "owner": "supervisor.admission",
         "action": "ready",
-        "repository": REPOSITORY,
+        "repository": repository,
         "issue": number,
         "source_head": head,
         "bundle": str(output),
@@ -671,7 +698,8 @@ def _committed_preparation(target, selection, selection_digest, root):
     fields = (issue_atom.AUTH_FIELDS | {"landing_owner"}
               | ({"instruction_pins"} if pins else set())
               | ({"prior_publication", "prior_atom", "failure_context"} & selection.keys())
-              | ({"lifecycle_owner"} if "lifecycle_owner" in selection else set()))
+              | ({"lifecycle_owner"} if "lifecycle_owner" in selection else set())
+              | ({"target_binding"} if "target_binding" in selection else set()))
     require(isinstance(auth, dict) and set(auth) == fields
             and type(auth.get("schema_version")) is int and auth["schema_version"] == schema,
             "authorization.bundle.schema", auth)
@@ -680,7 +708,11 @@ def _committed_preparation(target, selection, selection_digest, root):
                 "task": selection["task"], "landing_owner": selection["landing_owner"],
                 "noodle": selection["carrier"]["noodle"],
                 "carrier": {k: selection["carrier"][k] for k in ("platform", "codex")},
-                "workflow": CANONICAL_WORKFLOW}
+                "workflow": ({"path": target_profile(selection, require)["workflow_path"],
+                              "jobs": target_profile(selection, require)["jobs"]}
+                             if "target_binding" in selection else CANONICAL_WORKFLOW)}
+    if "target_binding" in selection:
+        selected["target_binding"] = selection["target_binding"]
     require(all(auth[k] == v for k, v in selected.items()),
             "authorization.bundle.selection", str(target))
     if "lifecycle_owner" in selection:
@@ -734,7 +766,7 @@ def authorize(selection_path, expected_sha256, output):
             "selection.sha256", _sha256(raw), owner="supervisor",
             required="unchanged_selected_bytes")
     selection = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object)
-    required_fields = AUTHORIZATION_SELECTION_FIELDS | (
+    required_fields = AUTHORIZATION_SELECTION_FIELDS | ({"target_binding"} if isinstance(selection, dict) and "target_binding" in selection else set()) | (
         {"lifecycle_owner"} if isinstance(selection, dict) and "lifecycle_owner" in selection else set())
     required_fields |= {"failure_context"} if isinstance(selection, dict) and "failure_context" in selection else set()
     require(isinstance(selection, dict) and set(selection) in
@@ -755,16 +787,25 @@ def authorize(selection_path, expected_sha256, output):
             required="external_output_with_existing_parent")
     if os.path.lexists(target):
         return _committed_preparation(target, selection, expected_sha256, root)
-    if "prior_atom" not in selection and "prior_publication" not in selection:
+    if "target_binding" in selection or ("prior_atom" not in selection and "prior_publication" not in selection):
         import test_manager
-        decision = test_manager.admission_scope(root, parse_contract(selection["issue"]["body"]))
+        decision = test_manager.admission_scope(root, parse_contract(selection["issue"]["body"]),
+                                                target=selection if "target_binding" in selection else None)
+        if "target_binding" in selection:
+            require(decision["status"] == "ready", "authorization.target_scope", decision,
+                    owner=decision["scope_owner"], required="selected_target_scope")
         require(not decision.get("required_write_paths"), "authorization.test_scope", decision,
                 owner="supervisor", required="admit_required_write_paths:test_manager.py")
     require(root.is_dir(), "selection.control_root", str(root))
     require(Path(_git(root, "rev-parse", "--show-toplevel")).resolve() == root,
             "selection.control_root", str(root), owner="supervisor",
             required="exact_git_control_root")
-    entry = root / "issue-atom"
+    if "target_binding" in selection:
+        require(isinstance(selection.get("lifecycle_owner"), dict)
+                and isinstance(selection["lifecycle_owner"].get("path"), str),
+                "selection.lifecycle_owner", selection.get("lifecycle_owner"),
+                owner="supervisor", required="immutable_external_lifecycle_owner")
+    entry = Path(selection["lifecycle_owner"]["path"]) if "target_binding" in selection else root / "issue-atom"
     require(entry.is_file() and not entry.is_symlink() and os.access(entry, os.X_OK),
             "authorization.next.entry", str(entry), owner="supervisor",
             required="executable_issue_atom_entry")
@@ -798,9 +839,18 @@ def authorize(selection_path, expected_sha256, output):
     require(isinstance(carrier, dict) and set(carrier) == {"platform", "noodle", "codex"},
             "selection.carrier", carrier)
     validate_carrier({"execution": {"carrier": carrier}}, worker=True)
-    workflow = dict(CANONICAL_WORKFLOW)
+    acceptance = target_profile(selection, require)
+    if "target_binding" in selection:
+        require(_git(root, "symbolic-ref", "--short", "refs/remotes/origin/HEAD") == "origin/" + acceptance["base_ref"]
+                and _git(root, "rev-parse", "refs/remotes/origin/" + acceptance["base_ref"]) == head,
+                "authorization.noodle_base", acceptance["base_ref"],
+                owner="supervisor", required="selected_base_supported_by_noodle_claim")
+    workflow = ({"path": acceptance["workflow_path"], "jobs": acceptance["jobs"]}
+                if "target_binding" in selection else dict(CANONICAL_WORKFLOW))
     workflow_bytes = _git_bytes(root, head, workflow["path"]).decode("utf-8")
-    require(all(workflow[key] in workflow_bytes for key in ("job", "step")),
+    require(all(name in workflow_bytes for name in
+                ([*workflow["jobs"], *(step for steps in workflow["jobs"].values() for step in steps)]
+                 if "jobs" in workflow else [workflow["job"], workflow["step"]])),
             "authorization.workflow", workflow, owner="supervisor",
             required="committed_canonical_workflow")
     paths = selection["instruction_paths"]
@@ -826,6 +876,8 @@ def authorize(selection_path, expected_sha256, output):
         "host_config_sha256": host_config,
         "landing_owner": selection["landing_owner"],
     }
+    if "target_binding" in selection:
+        authorization["target_binding"] = selection["target_binding"]
     if "lifecycle_owner" in selection:
         authorization["lifecycle_owner"] = selection["lifecycle_owner"]
     if pins:
@@ -877,6 +929,8 @@ def _correction_selection(authorization, reference, issue, publication, failure_
     }
     if failure_context is not None:
         selection["failure_context"] = failure_context
+    if "target_binding" in authorization:
+        selection["target_binding"] = authorization["target_binding"]
     if "lifecycle_owner" in authorization:
         selection["lifecycle_owner"] = authorization["lifecycle_owner"]
     return selection

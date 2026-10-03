@@ -11,9 +11,10 @@ import shlex
 import sys
 import subprocess
 import tempfile
+from urllib.parse import quote
 
 from soodles import Refusal, checked, clean_env, runtime_check, source_identity
-from repository_binding import PROFILES, git_origins, profile
+from repository_binding import PROFILES, git_origins, profile, selected
 from dependency_binding import (dependencies as claim_dependencies,
                                 requests as dependency_requests,
                                 validate as validate_dependency)
@@ -54,13 +55,17 @@ def input_next(operation, required, checkpoint=None):
 
 def provider_next(claim, operation, checkpoint):
     base = "https://api.github.com/repos/" + claim["repository"] + "/"
-    base_ref = profile(claim["repository"])["base_ref"]
+    base_ref = selected(claim, require)["base_ref"]
     paths = {"pr": f"pulls/{claim['pr']}", "issue": f"issues/{claim['issue']}",
-             "commit": f"git/commits/{claim['head']}", "branch": "branches/" + base_ref,
+             "commit": f"git/commits/{claim['head']}", "branch": "branches/" + quote(base_ref, safe=""),
              "run": f"actions/runs/{claim['run_id']}", "jobs": f"actions/runs/{claim['run_id']}/jobs"}
     requests = {key: {"method": "GET", "url": base + path} for key, path in paths.items()}
     requests.update(dependency_requests(claim, require))
+    subjects = [claim, *claim.get("dependencies", [])]
+    bindings = [{key: subject[key] for key in ("repository", "target_binding") if key in subject}
+                for subject in subjects]
     return {**input_next(operation, ["readback"], checkpoint), "kind": "provider_readback", "owner": "GitHub",
+            **({"bindings": bindings} if any("target_binding" in subject for subject in subjects) else {}),
             "requests": requests,
             "merge_commit": "If pr.merged, GET git/commits/{pr.merge_commit_sha} in this repository."}
 
@@ -149,7 +154,7 @@ def save(path, state):
 def validate_claim(claim, *, verify_verifier=True):
     local_fields = COMMON_CLAIM_FIELDS | {"control_root"}
     dependency_local_fields = DEPENDENCY_CLAIM_FIELDS | {"control_root"}
-    require(isinstance(claim, dict) and (set(claim) - {"publication_branch"}) in
+    require(isinstance(claim, dict) and (set(claim) - {"publication_branch", "target_binding"}) in
             (COMMON_CLAIM_FIELDS, DEPENDENCY_CLAIM_FIELDS,
              local_fields, dependency_local_fields,
              local_fields | {"execution_envelope"},
@@ -180,7 +185,9 @@ def validate_claim(claim, *, verify_verifier=True):
         require(isinstance(ref["path"], str) and Path(ref["path"]).is_absolute(), "claim.custody.path", ref["path"])
         require(isinstance(ref["sha256"], str) and re.fullmatch("[0-9a-f]{64}", ref["sha256"]),
                 "claim.custody.sha256", ref["sha256"])
-    require(profile(claim["repository"]) is not None, "claim.repository", claim["repository"])
+    if "target_binding" not in claim:
+        require(profile(claim["repository"]) is not None, "claim.repository", claim["repository"])
+    selected(claim, require)
     for key in ("issue", "pr", "run_id", "run_attempt"):
         require(type(claim[key]) is int and claim[key] > 0, "claim." + key, claim[key])
     for key in ("head", "tree", "base_head"):
@@ -274,6 +281,8 @@ def execution_binding(claim, issue=None, *, operation="start", checkpoint=None):
         envelope = load_external_envelope(ref["path"], ref["sha256"], root)
         require(envelope["repository"] == claim["repository"],
                 "claim.envelope.repository", envelope["repository"])
+        require(envelope.get("target_binding") == claim.get("target_binding"),
+                "claim.envelope.target_binding", claim.get("target_binding"))
         require(envelope["issue"] == claim["issue"], "claim.envelope.issue", envelope["issue"])
         for key in ("control_root", "worktree"):
             require(envelope["execution"][key] == claim[key], "claim.envelope." + key, envelope["execution"][key])
@@ -413,7 +422,7 @@ def reconcile_next(claim, checkpoint):
 
 def validate_snapshot(claim, snapshot, *, operation, checkpoint):
     repository = claim["repository"]
-    acceptance = profile(repository)
+    acceptance = selected(claim, require)
     base_ref = acceptance["base_ref"]
     dependency_next = provider_next(claim, operation, checkpoint)
     dependency_next["reason"] = ("Supply every registered producer GET in next.requests, then re-enter "
@@ -439,6 +448,9 @@ def validate_snapshot(claim, snapshot, *, operation, checkpoint):
     require(run.get("head_sha") == claim["head"], "run.head_sha", run.get("head_sha"))
     require(run.get("event") == "pull_request" and run.get("path") == acceptance["workflow_path"], "run.workflow", run.get("path"))
     require(run.get("status") == "completed" and run.get("conclusion") == "success", "run.conclusion", run.get("conclusion"))
+    if "target_binding" in claim:
+        from repository_binding import validate_run
+        validate_run(claim, run, jobs, claim["head"], require)
     expected_jobs = acceptance["jobs"]
     require(jobs.get("total_count") == len(jobs.get("jobs", [])) == len(expected_jobs), "jobs.count", jobs.get("total_count"))
     observed_jobs = {job.get("name"): job for job in jobs["jobs"]}
@@ -771,13 +783,13 @@ def resume(checkpoint, claim):
                         next_action, provider_requests=[])
 
 
-def fetch_main(root):
+def fetch_main(root, base_ref="main"):
     # Network Git needs the carrier's proxy route, unlike isolated runtime fixtures.
     env = clean_env()
     for key in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY", "http_proxy", "https_proxy", "all_proxy", "no_proxy"):
         if key in os.environ:
             env[key] = os.environ[key]
-    result = subprocess.run(["git", "fetch", "origin", "main"], cwd=root, env=env, stdin=subprocess.DEVNULL,
+    result = subprocess.run(["git", "fetch", "origin", base_ref], cwd=root, env=env, stdin=subprocess.DEVNULL,
                             text=True, capture_output=True, timeout=45)
     require(result.returncode == 0, "git.fetch.exit", result.returncode)
 
@@ -842,7 +854,7 @@ def reconcile(checkpoint, binary):
         require(state["phase"] in {"awaiting_reconcile", "reconciling", "resolved"}, "checkpoint.phase", state["phase"])
         root = Path(claim["control_root"]).resolve()
         require(not path.is_relative_to(root), "checkpoint.path", "must be outside source/worktree lifecycle")
-        acceptance = profile(claim["repository"])
+        acceptance = selected(claim, require)
         base_ref = acceptance["base_ref"]
         origins = git_origins(claim["repository"])
         require(checked(["git", "remote", "get-url", "origin"], root) in origins, "origin", "unexpected; no automatic correction")
@@ -911,7 +923,7 @@ def reconcile(checkpoint, binary):
                     require(registration["worktree"] == str(worktree), "cleanup.checkout", registration["worktree"])
         state["phase"] = "reconciling"
         save(path, state)
-        fetch_main(root)
+        fetch_main(root, base_ref)
         remote_ref = "origin/" + base_ref
         checked(["git", "merge-base", "--is-ancestor", state["merge_sha"], remote_ref], root)
         checked(["git", "merge-base", "--is-ancestor", before["head"], remote_ref], root)

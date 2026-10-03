@@ -397,8 +397,9 @@ Keep the selected external judge fixed for its acceptance.
 Correct its source or erroneous controls through a fresh supervisor boundary.
 
 For authenticated Issue reads, use `./soodles github issue OWNER/REPOSITORY NUMBER`.
-The envelope selects a repository registered by
-[cross-repository delivery](.agents/skills/verify-soodles/features/cross-repository-delivery.md).
+Legacy envelope 使用已註冊 repository。Generic envelope 使用 supervisor 在 admission 前固定的 `target_binding`。
+Generic reader 由原 owner 傳入同一 reference，不使用未綁定的 standalone Issue read。
+格式與限制見 [cross-repository delivery](.agents/skills/verify-soodles/features/cross-repository-delivery.md).
 The [GitHub read recipe](.agents/skills/verify-soodles/features/github-read.md)
 owns credential and quota behavior. The supervisor supplies the scoped
 installation credential. The shared reader never falls back to anonymous API.

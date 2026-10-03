@@ -23,6 +23,11 @@ Run exactly:
 
 Then consume the returned current next exactly.
 
+若 owner 回傳 `next.bindings`，adapter 會核對每份外部 binding 的 digest 與 repository。
+它只讀取同一 `next.requests` 指定的 GET。不要自行增加 repository 或 binding。
+使用 supervisor 已選定 external runtime 的 `provider-readback` entry。
+Target 不需要這個程式。Context 仍固定原 publisher 或 next-Issue consumer。
+
 The executable adapter owns these read-only operations:
 
 - It executes only owner-emitted `GET` requests to supported GitHub repository API URLs.

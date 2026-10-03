@@ -9,6 +9,12 @@ An active Issue atom calls this owner through its existing continuation.
 Do not invoke standalone publication in parallel or after that same atom call.
 The entry below is for a separately admitted standalone publication.
 
+若 readiness 含 `target_binding`，使用 supervisor 已選定的外部 publication entry。
+Target checkout 不需要 `candidate-publish` 或 `soodles.py`。
+Owner 以 Noodle claim 的 worktree、base 與 candidate 核對這個 binding。
+Readiness 保留同一 reference；它不修改 Noodle claim，也不選擇另一份 acceptance 設定。
+外部 entry 缺失時，取得原 supervisor 的 input，不要從 target 或預設分支載入 owner。
+
 Before using this entry, obtain two matching records. Native publication
 readiness (or canonical acceptance) must provide a receipt for the current clean
 candidate. The Noodle supervisor must provide its publication claim.

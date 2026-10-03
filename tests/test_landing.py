@@ -563,7 +563,7 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(interrupted["cleanup_intent"]["mode"], "no_op")
         with patch.object(landing, "runtime_check", return_value=runtime), patch.object(landing, "fetch_main") as fetch:
             result = landing.reconcile(self.checkpoint, "/unused")
-        fetch.assert_called_once_with(root.resolve())
+            fetch.assert_called_once_with(root.resolve(), "main")
         self.assertEqual(result["classification"], "RESOLVED")
         self.assertIsNone(result["next"])
         self.assertEqual(result["writes_offered"], ["merge", "close"])

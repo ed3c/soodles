@@ -34,7 +34,16 @@ and its own execution location before creating lifecycle state or effects.
 Committed preparation readback preserves the selection even when runtime files
 are unavailable; execution still requires fresh byte validation. This is a
 supervisor selection input, never a candidate-selected judge or a CLI policy flag.
-This file contains no credentials or alternative workflow selector.
+Selection 不含 credentials。
+若要選定 generic target，加入 `target_binding: {path, sha256}` 並提供 `lifecycle_owner`。
+Binding schema 1 的欄位是 `schema`、`repository`、`base_ref`、`workflow_path`、`jobs`、`verification`。
+`verification` 使用 `owner`、`paths` 與 `commands`。所有 bytes 在 authorization 前固定。
+`lifecycle_owner.source_sha256` 使用 `issue_atom.GENERIC_LIFECYCLE_FILES` 的檔案 digest map。
+Map 以排序 keys 的 compact JSON 編碼，再計算 SHA-256。缺少任何檔案都拒絕。
+Legacy selection 保留原 `LIFECYCLE_FILES` 與固定 workflow 行為。
+Generic target 的 `base_ref` 必須符合當前 carrier 的 `origin/HEAD`。
+Producer 核對選定 workflow 的 jobs 與 steps。Target scope 缺失會回傳其具名 owner。
+使用所選 runtime 的 producer 絕對路徑。下面相對命令只描述 Soodles checkout 的入口。
 
 ```sh
 python3 -B ./supervisor-admission authorize /absolute/selection.json SELECTED_SHA256 /absolute/new-output
@@ -43,7 +52,7 @@ python3 -B ./supervisor-admission authorize /absolute/selection.json SELECTED_SH
 The command uses existing validators to check the selection digest, exact clean
 Git toplevel and origin, executable continuation entry, Issue base, executable
 carrier and external publisher. It derives committed instruction digests and
-host configuration identity. The canonical runtime workflow remains fixed.
+host configuration identity. Legacy admission 的 canonical runtime workflow 保持原設定。Generic admission 使用固定 binding 的 workflow。
 The command writes complete `authorization.json`, `prepared.json` and
 `selection-binding.json` files in unique private staging. All receipt paths name
 the original final output. It fsyncs the files and staging before publishing the

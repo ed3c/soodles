@@ -31,7 +31,7 @@ import issue_admission
 import issue_execution
 import provider_credential
 import supervisor_admission
-from repository_binding import git_origins
+from repository_binding import git_origins, selected as target_profile
 
 
 SHA40 = re.compile(r"[0-9a-f]{40}")
@@ -55,6 +55,13 @@ LIFECYCLE_FILES = ("issue-atom", "soodles", "soodles.py", "issue_atom.py",
                    "contracts/system-v1/readback.md", "provider-readback",
                    "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py",
                    "test_manager.py")
+GENERIC_LIFECYCLE_FILES = LIFECYCLE_FILES + (
+    "stage-outcome", "stage_outcome.py", "next-issue", "next_issue.py", "provider-execute",
+    ".agents/skills/execute/SKILL.md", ".agents/skills/schedule/SKILL.md",
+    ".agents/skills/test-manager/SKILL.md", ".agents/skills/review-writing/SKILL.md",
+    ".agents/skills/review-writing/features/writing-review.md",
+    ".agents/skills/review-writing/features/pclass-feedback.md",
+)
 MARKER_PREFIX = "<!-- soodles:local-atom-v1:"
 
 
@@ -191,6 +198,7 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
                        | ({"instruction_pins"} if schema == 3 else set()))
     amendment_fields = {"prior_publication", "prior_atom"}
     expected_fields |= {"failure_context"} if "failure_context" in value else set()
+    expected_fields |= {"target_binding"} if "target_binding" in value else set()
     expected_fields |= {"lifecycle_owner"} if "lifecycle_owner" in value else set()
     require(set(value) in (expected_fields, expected_fields | {"prior_publication"},
                            expected_fields | amendment_fields),
@@ -200,8 +208,9 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
             "authorization.owner", [value["schema_version"], value["owner"]])
     repository = value["repository"]
     require(isinstance(repository, str) and REPOSITORY.fullmatch(repository)
-            and repository == supervisor_admission.REPOSITORY,
+            and ("target_binding" in value or repository == supervisor_admission.REPOSITORY),
             "authorization.repository", repository)
+    acceptance = target_profile(value, require)
     root = Path(value["control_root"]).resolve()
     require(Path(value["control_root"]).is_absolute() and root.is_dir(),
             "authorization.control_root", value["control_root"])
@@ -277,9 +286,13 @@ def _validate_authorization(path, expected_digest, *, allow_advanced=False):
             and isinstance(codex["argv"], list) and all(isinstance(v, str) for v in codex["argv"]),
             "authorization.carrier.codex", codex, "exact_worker_carrier")
     workflow = value["workflow"]
-    require(isinstance(workflow, dict) and set(workflow) == {"path", "job", "step"},
+    if "target_binding" in value:
+        require(workflow == {"path": acceptance["workflow_path"], "jobs": acceptance["jobs"]},
+                "authorization.workflow.binding", workflow)
+    require(isinstance(workflow, dict) and set(workflow) ==
+            ({"path", "jobs"} if "target_binding" in value else {"path", "job", "step"}),
             "authorization.workflow", workflow)
-    require(all(isinstance(workflow[key], str) and workflow[key].strip() for key in workflow),
+    require(all(isinstance(workflow[key], str) and workflow[key].strip() for key in workflow if key != "jobs"),
             "authorization.workflow", workflow)
     require(isinstance(value["task"], str) and value["task"].strip(),
             "authorization.task", value["task"])
@@ -307,6 +320,8 @@ def validate_authorization_failure(authorization):
     require("prior_atom" in authorization and "prior_publication" in authorization,
             "failure_context.lineage", "missing", "original_correction_lineage")
     prior = authorization["prior_publication"]
+    require(authorization["failure_context"].get("data", {}).get("target_binding") == authorization.get("target_binding"),
+            "failure_context.target_binding", "changed")
     try:
         issue_admission.validate_failure_context(
             authorization["failure_context"], authorization["repository"],
@@ -341,6 +356,7 @@ def validate_correction_lineage(authorization, reference, state):
         effective, paths = scope_projection(current, checkpoint, paths)
         resumed_lifecycle(current, checkpoint)
         require(all(effective.get(k) == authorization.get(k) for k in identity)
+                and effective.get("target_binding") == authorization.get("target_binding")
                 and effective["issue"]["title"] == authorization["issue"]["title"]
                 and issue_admission.parse_contract(effective["issue"]["body"]) == contract
                 and effective["issue"].get("number", number) == number,
@@ -461,6 +477,8 @@ def validate_lifecycle_owner(authorization, *, executing=False):
     """Validate supervisor-selected runtime bytes separately from the landing judge."""
     spec = authorization.get("lifecycle_owner")
     if spec is None:
+        require("target_binding" not in authorization, "authorization.lifecycle_owner", None,
+                "immutable_external_lifecycle_owner")
         return Path(authorization["control_root"]) / "issue-atom"
     require(isinstance(spec, dict) and set(spec) == {"path", "sha256", "source_sha256"},
             "authorization.lifecycle_owner", spec, "immutable_external_lifecycle_owner")
@@ -477,12 +495,12 @@ def validate_lifecycle_owner(authorization, *, executing=False):
             "authorization.lifecycle_owner.file", "issue_atom.py", "fixed_regular_runtime_files")
     hashes = {}
     # Old immutable descriptors retain their original exact source closure.
-    names = LIFECYCLE_FILES
-    if not (path.parent / "cost_telemetry.py").exists():
+    names = GENERIC_LIFECYCLE_FILES if "target_binding" in authorization else LIFECYCLE_FILES
+    if "target_binding" not in authorization and not (path.parent / "cost_telemetry.py").exists():
         require(b"import cost_telemetry" not in (path.parent / "issue_atom.py").read_bytes(),
                 "authorization.lifecycle_owner.file", "cost_telemetry.py")
         names = tuple(name for name in names if name != "cost_telemetry.py")
-    if not (path.parent / "test_manager.py").exists():
+    if "target_binding" not in authorization and not (path.parent / "test_manager.py").exists():
         cost_source = path.parent / "cost_telemetry.py"
         require(not cost_source.exists() or b"from test_manager import" not in cost_source.read_bytes(),
                 "authorization.lifecycle_owner.file", "test_manager.py")
@@ -555,7 +573,8 @@ def postwrite_lifecycle(authorization, state, paths, *, allow_resolved=False):
     body = authorization["issue"]["body"]
     if "number" not in authorization["issue"]:
         body = body.rstrip() + "\n\n" + marker(state["authorization_sha256"]) + "\n"
-    require(binding["repository"] == authorization["repository"]
+    require(binding.get("target_binding") == authorization.get("target_binding")
+            and binding["repository"] == authorization["repository"]
             and binding["issue"] == number
             and binding["base_head"] == authorization["base_head"]
             and binding["body_sha256"] == digest_bytes(body.encode())
@@ -589,6 +608,7 @@ def postwrite_lifecycle(authorization, state, paths, *, allow_resolved=False):
             and checkpoint.get("merge_sha") and checkpoint.get("issue_closed_at")
             and all(landed.get(key) == claim.get(key) for key in
                     ("repository", "head", "tree", "base_head"))
+            and landed.get("target_binding") == authorization.get("target_binding")
             and landed.get("issue") == number and landed.get("pr") == publication["pr"]["number"]
             and landed.get("publication_branch") == publication["branch"]
             and landed.get("worktree") == execution["worktree"]
@@ -856,6 +876,8 @@ def external_landing_activation(authorization, state, paths, environ,
         "execution_envelope": {"path": str(paths["envelope"]),
                                "sha256": state["envelope_sha256"]},
     }
+    if "target_binding" in authorization:
+        expected_claim["target_binding"] = authorization["target_binding"]
     require(external_claim == expected_claim,
             "landing_activation.claim", external_claim, "same_terminal_candidate_and_order")
     publisher_root = Path(manifest["publisher_root"]).resolve()
@@ -971,9 +993,13 @@ def external_landing_resume(authorization, state, paths, environ):
 
 
 class GitHubProvider(candidate_publication.GitHubProvider):
+    def __init__(self, repository, token=None, target_binding=None):
+        super().__init__(repository, token)
+        self.target_binding = target_binding
+
     def repair_pull(self, number, timeout):
         from provider_readback import bounded_pull
-        return bounded_pull(self.repository, number, self.token, timeout)
+        return bounded_pull(self.repository, number, self.token, timeout, target_binding=self.target_binding)
 
     def issues(self):
         return self.request("GET", "/issues?state=all&sort=created&direction=desc&per_page=100")
@@ -1356,7 +1382,11 @@ def advance_correction_start(authorization, paths, state, provider, environ):
         result = supervisor_admission.prepare(issue, {**authorization["carrier"], "noodle": authorization["noodle"]},
             authorization["control_root"], output, environ=environ, task=authorization["task"], wire_host=True,
             instruction_pins=selected_instruction_pins(authorization), correction=True,
-            failure_context=authorization["failure_context"], runtime_root=source, readback=output.exists())
+            failure_context=authorization["failure_context"], runtime_root=source, readback=output.exists(), target_binding=authorization.get("target_binding"))
+        if "target_binding" in authorization:
+            envelope = {**envelope, "execution": {**envelope["execution"], "runtime": {
+                "stage_outcome_argv": [str(output / "stage-outcome")],
+                "test_argv": [str(output / "test")]}}}
         require(read_json(output / "envelope.json", "correction.start.envelope") == envelope,
                 "correction.start.semantics", "changed", "unchanged_original_correction_envelope")
         recovery["prepared"] = {"path": str(output / "prepared.json"), "sha256": digest_file(output / "prepared.json")}
@@ -1543,7 +1573,7 @@ def advance_scope_amendment(authorization, paths, state, provider, environ):
             preparation["issue"], {**authorization["carrier"], "noodle": authorization["noodle"]},
             authorization["control_root"], output, environ=environ, task=authorization["task"],
             wire_host=True, instruction_pins=pins, correction=True,
-            runtime_root=source, readback=output.exists())
+            runtime_root=source, readback=output.exists(), target_binding=authorization.get("target_binding"))
         amendment["prepared"] = {"path": str(output / "prepared.json"),
                                  "sha256": digest_file(output / "prepared.json")}
         state["envelope_sha256"] = prepared["envelope_sha256"]
@@ -1672,6 +1702,8 @@ def create_envelope(authorization, issue, body, path, *, environ=None):
     pins = selected_instruction_pins(authorization)
     correction = "prior_atom" in authorization
     runtime_root = None
+    if "target_binding" in authorization:
+        runtime_root = Path(validate_lifecycle_owner(authorization, executing=True)).parent
     if correction:
         prior = verify_prior_atom(authorization)
         require(prior["prior_loop_status"] == "restored",
@@ -1684,7 +1716,8 @@ def create_envelope(authorization, issue, body, path, *, environ=None):
         issue, {**authorization["carrier"], "noodle": authorization["noodle"]},
         root, path.parent, environ=environ, task=authorization["task"], wire_host=True,
         instruction_pins=pins, correction=correction,
-        failure_context=authorization.get("failure_context"), runtime_root=runtime_root)
+        failure_context=authorization.get("failure_context"), runtime_root=runtime_root,
+        target_binding=authorization.get("target_binding"))
     if runtime_root is None:
         save_json(path.parent / "prepared.json", result, fresh=True)
     return read_json(path, "envelope"), result["envelope_sha256"]
@@ -2456,12 +2489,15 @@ def _run_claim(authorization, subject, output, order_id):
 
 def _accept(authorization, claim, output):
     result = candidate_publication.native_readiness(
-        Path(claim["worktree_path"]), claim, authorization["noodle"])
+        Path(claim["worktree_path"]), claim, authorization["noodle"],
+        **({"target_binding": authorization["target_binding"]} if "target_binding" in authorization else {}))
     save_json(output, result, fresh=True)
     return result
 
 
 def publish_candidate(authorization, state, paths, claim, acceptance, provider, repair=None):
+    require(acceptance.get("target_binding") == authorization.get("target_binding"),
+            "publication.target_binding", acceptance.get("target_binding"))
     # The existing checkpoint owns process evidence as well as write intent.
     receipts = state.setdefault("publication_push_receipts", [])
     def record(receipt):
@@ -2531,9 +2567,11 @@ def repair_binding(authorization, policy, *, source_root=None):
     fixed = {key: authorization.get(key) for key in (
         "repository", "control_root", "base_head", "noodle", "carrier", "workflow",
         "landing_owner", "lifecycle_owner")}
+    if "target_binding" in authorization:
+        fixed["target_binding"] = authorization["target_binding"]
     fixed["issue"] = {key: authorization["issue"][key] for key in ("title", "body")}
     root = Path(__file__).resolve().parent if source_root is None else Path(source_root)
-    source = {name: digest_file(root / name) for name in LIFECYCLE_FILES}
+    source = {name: digest_file(root / name) for name in (GENERIC_LIFECYCLE_FILES if "target_binding" in authorization else LIFECYCLE_FILES)}
     return atom_repair.digest({"authorization": fixed, "policy": policy, "source": source})
 
 
@@ -2723,6 +2761,12 @@ def select_run(provider, authorization, head, *, allow_failure=False):
         return run, jobs
     require(run.get("status") == "completed", "github.workflow.status", run.get("status"),
             "fresh_exact_head_ci")
+    if "target_binding" in authorization:
+        from repository_binding import validate_run
+        passed = validate_run(authorization, run, jobs, head, require, allow_failure=True)
+        require(passed or allow_failure, "github.workflow.conclusion",
+                ["failure", "failure", "failure"], "new_candidate_head_after_failed_ci")
+        return run, jobs
     target = [job for job in values if job.get("name") == authorization["workflow"]["job"]]
     require(len(target) == 1, "github.workflow_job.count", len(target), "one_exact_runtime_job")
     steps = target[0].get("steps")
@@ -2749,7 +2793,7 @@ def verify_failed_prior(provider, authorization, *, failed_ci_only=False):
     number = authorization["issue"]["number"]
     branch = prior["branch"]
     repository = provider.repository_info()
-    base_branch = repository.get("default_branch") if isinstance(repository, dict) else None
+    base_branch = target_profile(authorization, require)["base_ref"]
     require(isinstance(repository, dict)
             and repository.get("full_name") == authorization["repository"]
             and isinstance(base_branch, str)
@@ -2782,12 +2826,16 @@ def failed_ci_context(provider, authorization, run_value, jobs, diagnostic_path)
     """Pin observed failure metadata and return raw log bytes for atomic preparation."""
     prior = authorization["prior_publication"]
     number = authorization["issue"]["number"]
-    job = next(job for job in jobs["jobs"] if job.get("name") == authorization["workflow"]["job"])
+    job = next(job for job in jobs["jobs"] if
+               (job.get("conclusion") == "failure" if "target_binding" in authorization
+                else job.get("name") == authorization["workflow"]["job"]))
     data = {"schema": 1, "repository": authorization["repository"], "issue": number,
             "pr": prior["pr"]["number"], "head": prior["head"],
             "workflow": authorization["workflow"], "run": run_value, "jobs": jobs,
             "diagnostics": [{"job_id": job.get("id"), "log": None,
                              "gap": "diagnostic_not_fetched"}]}
+    if "target_binding" in authorization:
+        data["target_binding"] = authorization["target_binding"]
     context = {"data": data, "sha256": issue_admission.failure_digest(data)}
     issue_admission.validate_failure_context(context, authorization["repository"], number,
                                              prior["head"], authorization["workflow"], prior["pr"]["number"])
@@ -3052,7 +3100,7 @@ def provider_snapshot(provider, claim, run, jobs):
     snapshot = {
         "pr": pull, "issue": issue, "run": run, "jobs": jobs,
         "commit": provider.git_commit(claim["head"]),
-        "branch": provider.branch_info("main"),
+        "branch": provider.branch_info(target_profile(claim, require)["base_ref"]),
     }
     merge_sha = pull.get("merge_commit_sha") if pull.get("merged") else None
     if isinstance(merge_sha, str) and SHA40.fullmatch(merge_sha):
@@ -3092,6 +3140,16 @@ def run(authorization_path, *, environ=None, provider=None):
             raise
         cost = cost_response(authorization_path, handle, result, telemetry_error)
         if isinstance(result.get("status"), str):
+            authorization = read_json(authorization_path, "authorization")
+            if "target_binding" in authorization:
+                from test_manager import target_scope
+                try:
+                    scope = target_scope(Path(authorization["control_root"]), authorization,
+                                         issue_admission.parse_contract(authorization["issue"]["body"]))
+                    result["target_scope"] = schema_manager.project_target_scope(scope, result.get("next"))
+                except issue_admission.AdmissionRefusal as error:
+                    result["target_scope"] = {"state": "unknown", "invalid": error.invalid,
+                                              "next": error.next, "authorizes_landing": False}
             result["cost"] = cost
             result["feedback"] = schema_manager.project_owner_feedback(result)
         else:
@@ -3486,7 +3544,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
         if provider is None:
             environ = provider_credential.resolve_host_environment(authorization["control_root"], environ=environ)
             token = provider_credential.supply_token(authorization["repository"], {"issues": "read"}, environ=environ)
-            provider = GitHubProvider(authorization["repository"], token=token)
+            provider = GitHubProvider(authorization["repository"], token=token,
+                **({"target_binding": authorization["target_binding"]} if "target_binding" in authorization else {}))
         execution = advance_correction_start(authorization, paths, state, provider, environ)
         return response(state, authorization_path, repair=repair, waiting_on="correction startup readback",
                         details={"execution": execution})
@@ -3494,7 +3553,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
         if provider is None:
             environ = provider_credential.resolve_host_environment(authorization["control_root"], environ=environ)
             token = provider_credential.supply_token(authorization["repository"], {"issues": "write"}, environ=environ)
-            provider = GitHubProvider(authorization["repository"], token=token)
+            provider = GitHubProvider(authorization["repository"], token=token,
+                **({"target_binding": authorization["target_binding"]} if "target_binding" in authorization else {}))
         execution = advance_scope_amendment(authorization, paths, state, provider, environ)
         return response(state, authorization_path, repair=repair, waiting_on="scope owner readback",
                         details={"execution": execution})
@@ -3535,7 +3595,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                 authorization["repository"], permissions, environ=environ)
         except provider_credential.CredentialRefusal as error:
             raise AtomRefusal(error.field, error.value, error.required) from None
-        provider = GitHubProvider(authorization["repository"], token=token)
+        provider = GitHubProvider(authorization["repository"], token=token,
+                **({"target_binding": authorization["target_binding"]} if "target_binding" in authorization else {}))
     if not state_path.exists():
         save_json(state_path, state, fresh=True)
     readmit_issue_base(provider, authorization, state, paths)
@@ -3691,6 +3752,8 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
             "execution_envelope": {"path": str(paths["envelope"]),
                                    "sha256": state["envelope_sha256"]},
         }
+        if "target_binding" in authorization:
+            landing_claim["target_binding"] = authorization["target_binding"]
         snapshot = provider_snapshot(provider, landing_claim, run_value, jobs)
         landing_owner.start(landing_claim, snapshot, paths["landing"])
         state["phase"] = "landing"

@@ -22,11 +22,12 @@ from issue_admission import (AdmissionRefusal, load_external_envelope,
 from repository_binding import git_origins
 
 
-def fetch_issue(repository, number):
+def fetch_issue(repository, number, *, binding=None):
     # Landing consumes supplied readbacks and must not load a credential reader.
     # Automatic/supervised/worker retain the same default callable boundary.
     from github_reader import fetch_issue as read
-    return read(repository, number)
+    return (read(repository, number, binding=binding) if binding and "target_binding" in binding
+            else read(repository, number))
 
 
 def inspect_schedule(root, environ=None):
@@ -501,7 +502,9 @@ def blocked_outcome(binding, owner):
 def context(envelope_path, envelope_digest, root, reader):
     envelope = load_external_envelope(envelope_path, envelope_digest, root)
     try:
-        readback = reader(envelope["repository"], envelope["issue"])
+        readback = (reader(envelope["repository"], envelope["issue"], binding=envelope)
+                    if reader is fetch_issue and "target_binding" in envelope
+                    else reader(envelope["repository"], envelope["issue"]))
         return validate_issue(readback, envelope)
     except AdmissionRefusal as error:
         # Retain only externally pinned identity, never identity from the rejected
@@ -711,6 +714,9 @@ def projection(binding, envelope_digest, route):
             "body_sha256": binding["body_sha256"], "body_updated_at": binding["body_updated_at"],
             "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"],
             "contract": binding["contract"]}
+    if "target_binding" in binding:
+        subject["target_binding"] = binding["target_binding"]
+        subject["runtime"] = binding["execution"]["runtime"]
     if "instruction_context" in binding["execution"]:
         subject["instruction_context"] = binding["execution"]["instruction_context"]
     if "failure_context" in binding["execution"]:
