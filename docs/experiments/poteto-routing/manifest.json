@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 230
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/execute/SKILL.md",
+      "baseline_sha256": "e88b604ff406bb13cf460deac617eca21aec20416e65803bdc501829538ff6d3",
+      "treatment_sha256": "9d1463fba7145d61674331805b9e2bb1130dad8bbb7aa5fabfcffc5daac9eaf2"
+    },
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "682381bdc4120063d9598191db38d9211d9a58ac6f64f226c32eef99f2a4d959",
+      "treatment_sha256": "ac83f02f731265cb9787e73e5d967bee90efa7151b1cd57b7aa45c75cae46da8"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/poteto-routing/design.md",
+      "role": "scoped method and behavior evidence",
+      "sha256": "c1d3aa69abacdac7e11cd3531d3017f8bee183f5052d75de838c8c25eb75a248"
+    },
+    {
+      "path": "docs/experiments/poteto-routing/results.md",
+      "role": "scoped method and behavior evidence",
+      "sha256": "855f42ce074448f1950dac2cbab8bebd51b200a0bcdbc93fe39406d1ec967915"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#230"
+  },
+  "authorizes_landing": false
+}
