@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 229
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/cross-repository-delivery.md",
+      "baseline_sha256": "49f3e441a4328e3deb2f32220c5c0c9251858a10a7bbfdf93af59e023a4298cc",
+      "treatment_sha256": "896ee639825acf03977199153a96b57595d448d766fe82f0836240ec9294fe1a"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "candidate_publication.py",
+      "role": "Generic target lifecycle implementation or executable control",
+      "sha256": "018367d69ac6e4754774b39171e6b98e69906bb9ca2aadbb1c512faa0b5bb6e5"
+    },
+    {
+      "path": "docs/experiments/cross-repo-factory/design.md",
+      "role": "Saved design and observed evidence",
+      "sha256": "b3619809050505321400c855d006395adfb9d71655b360874e9f7c1631965077"
+    },
+    {
+      "path": "docs/experiments/cross-repo-factory/results.md",
+      "role": "Saved design and observed evidence",
+      "sha256": "5cf71d84befa71088e038c0c7a940dd4c1b002ba419e6a239d25db3888d805ef"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "Generic target lifecycle implementation or executable control",
+      "sha256": "74217b476ed78e1c0741e8b3c446e7f5e67d7ef4c336465c3257c76d0a7be0fc"
+    },
+    {
+      "path": "repository_binding.py",
+      "role": "Generic target lifecycle implementation or executable control",
+      "sha256": "ae44f95ab4e2e0c476ae3b180e2cbf1ddd49875b653915ca3c785f1f15c55f22"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "Generic target lifecycle implementation or executable control",
+      "sha256": "fec19cdcec0f596d6d9af6e9703476cc67c7361875d1c8adec5f91e6bbeef537"
+    },
+    {
+      "path": "test_manager.py",
+      "role": "Generic target lifecycle implementation or executable control",
+      "sha256": "5632c746186fe2bce9a017c68676a6cdd284a61e8f4be7eb85e608a78d538cfb"
+    },
+    {
+      "path": "tests/test_generic_repository_binding.py",
+      "role": "Generic target lifecycle implementation or executable control",
+      "sha256": "f401ec8be44b1d93063e62520cb035d2456932dae50932f33982a22794e85125"
+    }
+  ],
+  "owner": {
+    "name": "Original Issue 229 Noodle writer",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#229"
+  },
+  "authorizes_landing": false
+}

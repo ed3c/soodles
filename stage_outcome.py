@@ -326,6 +326,11 @@ def feedback(selection_path, expected_sha256, root=None, environ=None):
         require(requirements == {"task": execution["task"], "contract": binding["contract"]},
                 "worker.feedback.requirements", "changed task or contract",
                 owner="supervisor", required="original_admitted_requirements")
+        if "target_binding" in binding:
+            from test_manager import target_scope
+            from schema_manager import project_target_scope
+            result["target_scope"] = project_target_scope(
+                target_scope(root, binding, binding["contract"]), result.get("next"))
         identity = feedback_identity(result)
         if records and identity == records[-1]["identity"]:
             recorded = records[-1]
