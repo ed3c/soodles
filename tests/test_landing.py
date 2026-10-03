@@ -132,7 +132,7 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(landing.read(self.checkpoint)["writes_offered"], [])
         changed = copy.deepcopy(self.snapshot)
         changed["branch"]["commit"]["sha"] = "f" * 40
-        with self.assertRaisesRegex(soodles.Refusal, "base.head"):
+        with self.assertRaisesRegex(soodles.Refusal, "base_comparison"):
             landing.dispatch(self.checkpoint, changed)
         self.assertEqual(self.checkpoint.read_bytes(), before)
         landing.dispatch(self.checkpoint, self.snapshot)
@@ -220,8 +220,9 @@ class LandingTests(unittest.TestCase):
                 self.assertFalse(self.checkpoint.exists())
 
     def test_foreign_repository_tree_base_and_skipped_step_refuse(self):
-        for case in range(5):
+        for case in range(8):
             data = copy.deepcopy(self.snapshot)
+            data["pr"]["base"]["sha"] = "9" * 40
             if case == 0:
                 data["pr"]["head"]["repo"] = {"full_name": "other/repo"}
             elif case == 1:
@@ -230,8 +231,14 @@ class LandingTests(unittest.TestCase):
                 data["branch"]["commit"]["sha"] = "e" * 40
             elif case == 3:
                 data["jobs"]["jobs"][0]["steps"][0]["conclusion"] = "skipped"
-            else:
+            elif case == 4:
                 data["jobs"]["jobs"][0]["head_sha"] = "e" * 40
+            elif case == 5:
+                data["pr"]["base"]["repo"] = {"full_name": "other/repo"}
+            elif case == 6:
+                data["pr"]["base"]["ref"] = "other"
+            else:
+                data["branch"]["name"] = "other"
             with self.subTest(case=case), self.assertRaises(soodles.Refusal):
                 landing.start(self.claim, data, self.checkpoint)
             self.assertFalse(self.checkpoint.exists())
@@ -618,7 +625,7 @@ class LandingTests(unittest.TestCase):
             return {"base_commit": {"sha": base}, "merge_base_commit": {"sha": base},
                     "status": "ahead", "total_commits": 1, "commits": [{"sha": head}]}
         moved = copy.deepcopy(self.snapshot)
-        moved["branch"]["commit"]["sha"] = moved["pr"]["base"]["sha"] = "f" * 40
+        moved["branch"]["commit"]["sha"] = "f" * 40
         moved["base_comparison"] = comparison("c" * 40, "f" * 40)
         claim = {**self.claim, "base_head": "f" * 40, "head": "e" * 40, "tree": "d" * 40, "run_id": 20}
         fresh = copy.deepcopy(moved)

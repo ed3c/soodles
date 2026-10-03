@@ -117,7 +117,7 @@ def _derive_claim(snapshot, route, verifier_sha256):
             "pr": pr["number"],
             "head": pr["head"]["sha"],
             "tree": commit["tree"]["sha"],
-            "base_head": pr["base"]["sha"],
+            "base_head": branch["commit"]["sha"],
             "run_id": run["id"],
             "run_attempt": run["run_attempt"],
             "worktree": pr["head"]["ref"],
@@ -133,9 +133,6 @@ def _derive_claim(snapshot, route, verifier_sha256):
             "snapshot.pr.identity", pr.get("html_url"), "matching_pr_readback")
     require(commit.get("sha") == claim["head"], "snapshot.commit.head",
             commit.get("sha"), "exact_candidate_commit")
-    require(branch.get("commit", {}).get("sha") == claim["base_head"],
-            "snapshot.base.head", branch.get("commit", {}).get("sha"),
-            "exact_base_readback")
     require(run.get("head_sha") == claim["head"],
             "snapshot.run.head_sha", run.get("head_sha"), "exact_head_runtime")
     require(run.get("status") == "completed" and run.get("conclusion") == "success",

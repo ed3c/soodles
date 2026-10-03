@@ -212,6 +212,8 @@ class LandingSupervisorTests(unittest.TestCase):
         self.addCleanup(self.f.close)
 
     def test_cloud_terminal_candidate_activates_current_landing_owner(self):
+        self.f.snapshot["pr"]["base"]["sha"] = "9" * 40
+        original = json.dumps(self.f.snapshot, sort_keys=True)
         output, result = self.f.prepare("cloud")
         self.assertEqual(result["owner"], "landing-supervisor")
         self.assertEqual(result["action"], "activated")
@@ -235,6 +237,10 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(claim["head"], self.f.head)
         self.assertEqual(claim["tree"], self.f.tree)
         self.assertEqual(claim["run_id"], 55)
+        self.assertEqual(claim["base_head"], self.f.base)
+        self.assertEqual(json.dumps(self.f.snapshot, sort_keys=True), original)
+        self.assertEqual(json.loads((output / "readback.json").read_text()),
+                         self.f.snapshot)
         self.assertTrue((output / "checkpoint.json").is_file())
         self.assertFalse(result["authorizes_landing"])
 
@@ -274,10 +280,15 @@ class LandingSupervisorTests(unittest.TestCase):
 
     def test_local_terminal_candidate_binds_supplied_execution_identity(self):
         snapshot, route = self.f.local_case()
+        snapshot["pr"]["base"]["sha"] = "9" * 40
+        original = json.dumps(snapshot, sort_keys=True)
         output, result = self.f.prepare("local", snapshot=snapshot, route=route)
         self.assertEqual(result["route"], "local")
         claim = json.loads((output / "claim.json").read_text())
         self.assertEqual(claim["control_root"], route["control_root"])
+        self.assertEqual(claim["base_head"], snapshot["branch"]["commit"]["sha"])
+        self.assertEqual(json.dumps(snapshot, sort_keys=True), original)
+        self.assertEqual(json.loads((output / "readback.json").read_text()), snapshot)
         self.assertEqual(claim["worktree"], "issue-122-local")
         self.assertEqual(claim["publication_branch"], snapshot["pr"]["head"]["ref"])
         self.assertEqual(
@@ -289,6 +300,15 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(result["landing_owner"]["next"]["kind"], "provider_readback")
         self.assertEqual(result["landing_owner"]["next"]["argv"][-2:],
                          [str(output / "checkpoint.json"), str(output / "readback.json")])
+
+    def test_local_current_branch_must_match_native_candidate_base(self):
+        snapshot, route = self.f.local_case()
+        snapshot["branch"]["commit"]["sha"] = "f" * 40
+        with self.assertRaises(landing_supervisor.SupervisorRefusal) as caught:
+            self.f.prepare("wrong-native-base", snapshot=snapshot, route=route)
+        self.assertEqual(caught.exception.invalid["field"],
+                         "route.publication_claim.identity")
+        self.assertFalse((self.f.external / "wrong-native-base").exists())
 
     def test_local_corrected_head_keeps_the_original_pr_branch(self):
         snapshot, route = self.f.local_case()
