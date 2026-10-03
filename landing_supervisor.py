@@ -117,7 +117,7 @@ def _derive_claim(snapshot, route, verifier_sha256):
             "pr": pr["number"],
             "head": pr["head"]["sha"],
             "tree": commit["tree"]["sha"],
-            "base_head": branch["commit"]["sha"],
+            "base_head": branch["commit"]["sha"] if kind == "local" else pr["base"]["sha"],
             "run_id": run["id"],
             "run_attempt": run["run_attempt"],
             "worktree": pr["head"]["ref"],
@@ -141,6 +141,9 @@ def _derive_claim(snapshot, route, verifier_sha256):
             "snapshot.jobs", jobs.get("total_count"), "complete_runtime_jobs")
 
     if kind == "cloud":
+        require(branch.get("commit", {}).get("sha") == claim["base_head"],
+                "snapshot.base.head", branch.get("commit", {}).get("sha"),
+                "exact_base_readback")
         publication_branch = pr["head"]["ref"]
         require(isinstance(publication_branch, str) and publication_branch
                 and len(publication_branch) <= 255,

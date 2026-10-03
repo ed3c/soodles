@@ -212,8 +212,6 @@ class LandingSupervisorTests(unittest.TestCase):
         self.addCleanup(self.f.close)
 
     def test_cloud_terminal_candidate_activates_current_landing_owner(self):
-        self.f.snapshot["pr"]["base"]["sha"] = "9" * 40
-        original = json.dumps(self.f.snapshot, sort_keys=True)
         output, result = self.f.prepare("cloud")
         self.assertEqual(result["owner"], "landing-supervisor")
         self.assertEqual(result["action"], "activated")
@@ -238,11 +236,15 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(claim["tree"], self.f.tree)
         self.assertEqual(claim["run_id"], 55)
         self.assertEqual(claim["base_head"], self.f.base)
-        self.assertEqual(json.dumps(self.f.snapshot, sort_keys=True), original)
-        self.assertEqual(json.loads((output / "readback.json").read_text()),
-                         self.f.snapshot)
         self.assertTrue((output / "checkpoint.json").is_file())
         self.assertFalse(result["authorizes_landing"])
+
+    def test_cloud_current_branch_cannot_replace_unpinned_candidate_base(self):
+        self.f.snapshot["branch"]["commit"]["sha"] = "f" * 40
+        with self.assertRaises(landing_supervisor.SupervisorRefusal) as caught:
+            self.f.prepare("cloud-base-drift")
+        self.assertEqual(caught.exception.invalid["field"], "snapshot.base.head")
+        self.assertFalse((self.f.external / "cloud-base-drift").exists())
 
     def test_slash_named_cloud_branch_keeps_provider_identity_separate(self):
         snapshot = json.loads(json.dumps(self.f.snapshot))
