@@ -843,6 +843,104 @@ def same_cleanup_input(previous, observation):
         {k: v for k, v in observation.items() if k != "control_head"})
 
 
+def integration_checkout(root, claim, base_ref, target_head, merge_sha, path):
+    """Read the registered checkout whose branch Noodle uses for cleanup."""
+    next_action = input_next("reconcile", ["unchanged_registered_integration_checkout_readback"], path)
+    ref = "refs/heads/" + base_ref
+    try:
+        common_dir = Path(checked(["git", "rev-parse", "--path-format=absolute",
+                                   "--git-common-dir"], root)).resolve()
+        entries = checked(["git", "worktree", "list", "--porcelain", "-z"], root).split("\0\0")
+        registrations = [entry.split("\0") for entry in entries if entry]
+        matches = [lines for lines in registrations if "branch " + ref in lines]
+        require(len(matches) == 1, "integration_sync.registration", matches)
+        lines = matches[0]
+        locations = [line[9:] for line in lines if line.startswith("worktree ")]
+        require(len(locations) == 1, "integration_sync.checkout", locations)
+        checkout = Path(locations[0]).resolve()
+        require(checkout.is_dir() and str(checkout) == locations[0],
+                "integration_sync.checkout", locations[0])
+        require(sum("worktree " + str(checkout) in entry for entry in registrations) == 1,
+                "integration_sync.registration", str(checkout))
+        require(not any(line == "locked" or line.startswith("locked ")
+                        or line == "prunable" or line.startswith("prunable ") for line in lines),
+                "integration_sync.registration_locked", lines)
+        require(checked(["git", "rev-parse", "--show-toplevel"], checkout) == str(checkout),
+                "integration_sync.root", str(checkout))
+        observed_common = Path(checked(["git", "rev-parse", "--path-format=absolute",
+                                       "--git-common-dir"], checkout)).resolve()
+        require(observed_common == common_dir, "integration_sync.common_dir", str(observed_common))
+        require(checked(["git", "remote", "get-url", "origin"], checkout) in git_origins(claim["repository"]),
+                "integration_sync.origin", "unexpected; no automatic correction")
+        require(checked(["git", "symbolic-ref", "HEAD"], checkout) == ref,
+                "integration_sync.branch", ref)
+        head = checked(["git", "rev-parse", "HEAD"], checkout)
+        require([line for line in lines if line.startswith("HEAD ")] == ["HEAD " + head]
+                and [line for line in lines if line.startswith("branch ")] == ["branch " + ref]
+                and checked(["git", "rev-parse", "--verify", ref + "^{commit}"], root) == head,
+                "integration_sync.head", head)
+        residue = checked(["git", "status", "--porcelain", "--untracked-files=all"], checkout)
+        require(not residue, "integration_sync.residue", residue)
+        for name in (ref + ".lock", "HEAD.lock", "index.lock", "packed-refs.lock"):
+            lock = checked(["git", "rev-parse", "--path-format=absolute", "--git-path", name], checkout)
+            require(not os.path.lexists(lock), "integration_sync.lock", lock)
+        for field, ancestor in (("integration_sync.ancestry", head),
+                                ("integration_sync.merge_ancestry", merge_sha)):
+            try:
+                checked(["git", "merge-base", "--is-ancestor", ancestor, target_head], checkout)
+            except Refusal as error:
+                raise LandingRefusal(field, {"ancestor": ancestor, "target": target_head,
+                                             "error": str(error)}) from error
+        return {"checkout": str(checkout), "common_dir": str(common_dir),
+                "integration_ref": ref, "before_head": head,
+                "target_head": target_head, "merge_sha": merge_sha}
+    except (Refusal, OSError, subprocess.SubprocessError) as error:
+        invalid = getattr(error, "invalid", {"field": "integration_sync.readback", "value": str(error)})
+        raise LandingRefusal(invalid["field"], invalid["value"], next_action) from error
+
+
+def sync_integration(path, state, root, base_ref, target_head):
+    observation = integration_checkout(root, state["claim"], base_ref, target_head, state["merge_sha"], path)
+    intent = state.get("integration_sync")
+    next_action = input_next("reconcile", ["material_integration_sync_readback_without_retry"], path)
+    next_action["known"].update(observation)
+    if intent is not None:
+        next_action["known"]["integration_sync"] = intent
+        fields = set(observation) | {"status"}
+        require(isinstance(intent, dict) and fields <= set(intent)
+                and set(intent) <= fields | {"confirmation"}
+                and intent["status"] in {"intent", "confirmed"}
+                and intent.get("confirmation", "observed") == "observed"
+                and isinstance(intent["before_head"], str)
+                and re.fullmatch(r"[0-9a-f]{40}", intent["before_head"]) is not None
+                and all(intent[key] == value for key, value in observation.items() if key != "before_head"),
+                "integration_sync.intent", intent, next_action)
+        try:
+            checked(["git", "merge-base", "--is-ancestor", intent["before_head"], target_head], root)
+        except Refusal as error:
+            raise LandingRefusal("integration_sync.intent", str(error), next_action) from error
+        require(observation["before_head"] == target_head,
+                "integration_sync.outcome", "unknown or changed; intent cannot be resent", next_action)
+    else:
+        intent = {**observation, "status": "intent"}
+        state["integration_sync"] = intent
+        save(path, state)
+        require(integration_checkout(root, state["claim"], base_ref, target_head, state["merge_sha"], path)
+                == observation, "integration_sync.observation", "changed before effect", next_action)
+        if observation["before_head"] != target_head:
+            try:
+                checked(["git", "merge", "--ff-only", target_head], Path(observation["checkout"]))
+            except (Refusal, OSError, subprocess.SubprocessError) as error:
+                raise LandingRefusal("integration_sync.outcome", str(error), next_action) from error
+        after = integration_checkout(root, state["claim"], base_ref, target_head, state["merge_sha"], path)
+        require(after == {**observation, "before_head": target_head},
+                "integration_sync.observation", "changed after effect", next_action)
+    # The observed target proves completion. It does not identify which process moved the ref.
+    state["integration_sync"] = {**intent, "status": "confirmed", "confirmation": "observed"}
+    save(path, state)
+    return Path(observation["checkout"])
+
+
 def reconcile(checkpoint, binary):
     with locked(checkpoint) as path, contextlib.ExitStack() as custody:
         state = read(path)
@@ -928,9 +1026,15 @@ def reconcile(checkpoint, binary):
         else:
             fetch_main(root)
         remote_ref = "origin/" + base_ref
-        checked(["git", "merge-base", "--is-ancestor", state["merge_sha"], remote_ref], root)
-        checked(["git", "merge-base", "--is-ancestor", before["head"], remote_ref], root)
-        checked(["git", "merge", "--ff-only", remote_ref], root)
+        target_head = checked(["git", "rev-parse", "--verify", remote_ref + "^{commit}"], root)
+        for field, ancestor in (("reconcile.merge_ancestry", state["merge_sha"]),
+                                ("local.ancestry", before["head"])):
+            try:
+                checked(["git", "merge-base", "--is-ancestor", ancestor, target_head], root)
+            except Refusal as error:
+                raise LandingRefusal(field, {"ancestor": ancestor, "target": target_head,
+                                             "error": str(error)},
+                                     input_next("reconcile", ["confirmed_merge_and_fetched_target_readback"], path)) from error
         if envelope is not None:
             from issue_execution import completed_original_order, read_owner
             try:
@@ -955,6 +1059,15 @@ def reconcile(checkpoint, binary):
                     "help_argv": cli_argv("reconcile", "--help")})
             state["noodle_reconciliation"] = completion
             save(path, state)
+        require(state.get("issue_closed_at") and state.get("writes_offered") == ["merge", "close"],
+                "reconcile.provider_confirmation", "merge and closure must belong to this checkpoint")
+        if worktree.exists() or branch:
+            cleanup_integration(root, base_ref)
+        integration_root = sync_integration(path, state, root, base_ref, target_head)
+        if integration_root != root:
+            require(source_identity(root) == before, "local.observation", "changed before fast-forward")
+            if before["head"] != target_head:
+                checked(["git", "merge", "--ff-only", target_head], root)
         if worktree.exists() or branch:
             git_path = shutil.which("git")
             require(git_path is not None, "cleanup.git", "not found")
