@@ -409,7 +409,7 @@ Every result has authorizes_landing=false; no delivery or landing authority.""")
     atom_resume.add_argument("descriptor")
     atom_resume.add_argument("sha256")
     atom_scope = atom_verbs.add_parser(
-        "scope-amend", description="Adopt a pinned supervisor scope supplement on the original atom.")
+        "scope-amend", description="Adopt a pinned scope supplement or typed admission revision on the original atom.")
     atom_scope.add_argument("authorization")
     atom_scope.add_argument("selection")
     atom_scope.add_argument("sha256")

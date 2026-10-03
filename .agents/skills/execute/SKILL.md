@@ -169,3 +169,19 @@ The supplied context does not prove that a model followed it.
 Legacy prompts without this field retain their admitted task and contract.
 They make no selected-instruction activation claim.
 Return missing or inconsistent required context to the existing admission owner.
+
+## 使用 typed revision entry
+
+若 stage prompt 含 `revision_context` 與 `admission_revision`，先讀固定的 context。
+原 provider entry 已驗證其 bytes、native custody 與本次 successor。
+`execution.source_head` 仍表示原 admission source。
+`candidate_head` 與 `candidate_tree` 表示本次保留的 committed candidate。
+兩者不同不代表原 instruction pins 可以重選。
+
+在原 worktree 整合 context 的 exact `target_base`，再完成原 task。
+若發生衝突，在原 admitted write scope 內處理。
+若必要路徑超出範圍，保留 candidate 並回報原 blocked owner。
+不要改用目前 main、另一個 target、另一組 instructions 或另一個 judge。
+Completed 前，candidate 必須 clean 且包含 target。
+Native interruption history 不授予本次 worker 保留 dirty entry 的例外。
+Publication 與 landing 仍由原 owners 接續。

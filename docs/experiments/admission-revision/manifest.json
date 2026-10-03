@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 238
+  },
+  "instructions": [
+    {
+      "path": "contracts/system-v1/issue-atom.md",
+      "baseline_sha256": "229258a611bcde90973fe5cb1e5573cab626354f73f684ec5f4f4c4324bcd7aa",
+      "treatment_sha256": "c9f848a21d2788026dcbc99fa6d62c33c06a9c88e40b2958142c7d61e4159811"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/admission-revision/design.md",
+      "role": "Design and corrected premises",
+      "sha256": "94b249cb8edb38777950777949146b5f8398df50b47d33fcf6ccc19f46e91312"
+    },
+    {
+      "path": "docs/experiments/admission-revision/handoff.md",
+      "role": "Original owner continuation and pending outcomes",
+      "sha256": "56b20371cb7b3f04d0b95787809238fcef1d9b61bb4a68a245e11f97dd3504a5"
+    },
+    {
+      "path": "docs/experiments/admission-revision/results.md",
+      "role": "Scoped evidence and limitations",
+      "sha256": "41af5baba355cd1061cf58594c48b08b2e3d56b35b1e481b4268dbf0989d188b"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "Bounded admission revision owner source",
+      "sha256": "06c3588da019fc6cc8d7d56fa767edf87c34990e3831ce7a79348b5a7e51651d"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#238"
+  },
+  "authorizes_landing": false
+}

@@ -16,7 +16,7 @@ import sys
 from issue_admission import (AdmissionRefusal, load_external_envelope, nonempty,
                              parse_contract, require, body_digest)
 from issue_execution import (projection, read_owner, spawn_readback,
-                             validate_carrier, interruption_readback)
+                             validate_carrier, interruption_readback, revision_context, validate_revision_successor)
 from repository_binding import git_origins
 
 
@@ -108,6 +108,8 @@ def worker_context(root, environ):
     require(parse_contract(body) == contract, "worker.issue_body.contract",
             "body and selected contract differ", **DISPATCH)
     binding = {**envelope, "contract": contract, "issue_body": body}
+    if "revision_context" in subject:
+        binding = revision_context(binding, subject["revision_context"], digest)
     execution = binding["execution"]
     expected_root = (Path(execution["control_root"]) / ".worktrees" / execution["worktree"]).resolve()
     require(root == expected_root, "worker.worktree", str(root), **DISPATCH)
@@ -138,6 +140,8 @@ def worker_context(root, environ):
         require(spawn.get(key) == expected, "worker.spawn." + key, spawn.get(key), **DISPATCH)
     require(stage.get("model") == spawn.get("model"),
             "worker.stage.model", stage.get("model"), **DISPATCH)
+    if "revision_entry" in binding:
+        validate_revision_successor(binding, stage, session, root)
     binary = validate_carrier(binding, worker=True)["noodle"]
     registered_worktree(root, binding)
     if "recovery_context" in execution:
@@ -394,6 +398,14 @@ def report(outcome, message, root=None, environ=None):
     before, events = session_events(path, initial=True)
     require(not typed_events(events), "worker.events.existing_outcome", typed_events(events), **READBACK)
     if outcome == "completed":
+        if "revision_entry" in binding:
+            candidate = Path(root or Path.cwd())
+            ancestry = subprocess.run(["git", "merge-base", "--is-ancestor", binding["base_head"], "HEAD"],
+                                      cwd=candidate, capture_output=True, timeout=30)
+            clean = subprocess.run(["git", "status", "--porcelain=v1", "--untracked-files=all"],
+                                   cwd=candidate, capture_output=True, timeout=30)
+            require(ancestry.returncode == 0 and clean.returncode == 0 and not clean.stdout,
+                    "revision.completion.candidate", "not_integrated_or_dirty", required="clean_integrated_candidate")
         require_feedback_completion(root or Path.cwd(), binding, session, events)
     payload = {"message": message, "outcome": outcome, "blocking": outcome != "completed",
                "order_id": execution["order_id"], "stage_index": execution["stage_index"]}
