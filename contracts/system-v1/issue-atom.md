@@ -378,6 +378,18 @@ The operation replaces no raw authorization, Noodle prompt or order, provider
 history, or repair budget. The returned continuation belongs to the selected
 owner. It offers no new merge, close, writer, or authorization.
 
+A stopped correction startup has a separate resume condition. It must still be
+in execution, before correction controls, proposal, release, or new publication.
+The owner requires the original review snapshot, unchanged control history,
+absent processes, and the clean published candidate. It preserves the failed
+start and immutable admission bundle. It prepares a new bundle from the selected
+lifecycle and records one held start offer. Unknown start results require readback.
+The existing correction owner retains the order and subsequent controls.
+The admission reader and producer must use the same selected runtime contract.
+Each automatic correction inherits its parent's selected lifecycle. An explicit
+supervisor resume records a new edge. Ancestor runtime bytes and failure history
+remain unchanged. A resume does not reset the three-correction limit.
+
 ### Original cost evidence — ed3c/soodles#215
 
 `cost_telemetry.py` records source-bound observations in the existing atom

@@ -315,6 +315,50 @@ class IssueExecutionTests(unittest.TestCase):
         self.assertEqual(result["action"], "owned")
         self.assertFalse(result["published"])
 
+    def test_owner_observation_delivers_blocked_outcome_before_claim(self):
+        self.admit("supervised")
+        self.promote_fixture()
+        stage = self.snapshot["state"]["orders"]["soodles-18"]["stages"][0]
+        stage["status"] = "review"
+        stage["attempts"][0].update(status="completed", session_id=self.session,
+                                    attempt_id="original-attempt", worktree_name=self.worktree.name)
+        self.snapshot["state"]["pending_reviews"] = {"soodles-18": {
+            "order_id": "soodles-18", "stage_index": 0, "session_id": self.session,
+            "worktree_name": self.worktree.name, "worktree_path": str(self.worktree)}}
+        ended = subprocess.Popen(["/bin/sh", "-c", "exit 0"], start_new_session=True)
+        ended.wait()
+        directory = self.runtime / "sessions" / self.session
+        (directory / "process.json").write_text(json.dumps({"pid": ended.pid, "session_id": self.session}))
+        self.save_owner()
+        before = (self.runtime / "state.snapshot.json").read_bytes()
+        for outcome in ("blocked", "completed"):
+            with self.subTest(outcome=outcome):
+                payload = {"order_id": "soodles-18", "stage_index": 0, "outcome": outcome,
+                           "blocking": outcome == "blocked", "message": "Exact original outcome"}
+                event = {"type": "stage_message", "session_id": self.session, "payload": payload}
+                events = directory / "events.ndjson"
+                events.write_text(json.dumps(event) + "\n")
+                result = execution.supervised(self.path, self.pin, self.root,
+                                              reader=self.reader, observe_live=True)
+                if outcome == "blocked":
+                    self.assertEqual(result["action"], "blocked")
+                    self.assertEqual(result["blocked"], {
+                        "session_id": self.session, "attempt_id": "original-attempt",
+                        "source": {"path": str(events),
+                                   "sha256": hashlib.sha256(events.read_bytes()).hexdigest()},
+                        "message": payload})
+                    self.assertEqual(result["next"]["owner"], "original-admission-owner")
+                else:
+                    self.assertEqual(result["action"], "owned")
+                    self.assertNotIn("blocked", result)
+                self.assertFalse(result["published"])
+                self.assertEqual((self.runtime / "state.snapshot.json").read_bytes(), before)
+                self.assertFalse((self.runtime / "orders-next.json").exists())
+                self.assertFalse(self.effect.exists())
+        events.unlink()
+        with self.assertRaisesRegex(admission.AdmissionRefusal, "blocked.events"):
+            execution.supervised(self.path, self.pin, self.root, reader=self.reader, observe_live=True)
+
     def test_supervised_correction_reuses_only_the_failed_original_order(self):
         self.admit("supervised")
         self.promote_fixture()

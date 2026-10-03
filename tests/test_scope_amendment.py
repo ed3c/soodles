@@ -81,6 +81,86 @@ class ScopeAmendmentTests(unittest.TestCase):
         with self.assertRaisesRegex(issue_admission.AdmissionRefusal, 'blocked.identity'):
             issue_execution.blocked_outcome(self.envelope, original)
 
+    def test_supervised_observation_transfers_blocker_from_its_single_owner_read(self):
+        owner, _, event = self.blocked_fixture()
+        with patch.object(issue_execution, 'context', return_value=self.envelope), \
+                patch.object(issue_execution, 'validate_carrier'), \
+                patch.object(issue_execution, 'quiescent_order'), \
+                patch.object(issue_execution, 'read_owner', return_value=owner) as read:
+            result = issue_execution.supervised('/selected/envelope', 'a' * 64,
+                self.envelope['execution']['control_root'], observe_live=True)
+        read.assert_called_once_with(self.envelope)
+        self.assertEqual(result['blocked']['message'], event['payload'])
+        owner['state']['pending_reviews'] = {}
+        with patch.object(issue_execution, 'context', return_value=self.envelope), \
+                patch.object(issue_execution, 'validate_carrier'), \
+                patch.object(issue_execution, 'quiescent_order'), \
+                patch.object(issue_execution, 'read_owner', return_value=owner) as read:
+            result = issue_execution.supervised('/selected/envelope', 'a' * 64,
+                self.envelope['execution']['control_root'], observe_live=True)
+        read.assert_called_once_with(self.envelope)
+        self.assertNotIn('blocked', result)
+
+    def test_correction_bundle_uses_selected_reader_and_keeps_atomic_receipt(self):
+        auth = {'schema_version': 2, 'control_root': str(self.directory / 'control'),
+                'carrier': {}, 'noodle': {}, 'task': 'Original task', 'prior_atom': {},
+                'lifecycle_owner': {'path': '/selected/issue-atom'}, 'failure_context': {'fixed': True}}
+        path = self.directory / 'new-admission/envelope.json'
+        def produce(*args, **kwargs):
+            self.assertEqual(kwargs['runtime_root'], self.directory / 'selected')
+            self.assertEqual(kwargs['failure_context'], auth['failure_context'])
+            path.parent.mkdir()
+            path.write_text(json.dumps(self.envelope))
+            (path.parent / 'prepared.json').write_text('{"atomic": true}')
+            return {'envelope_sha256': atom.digest_file(path)}
+        with patch.object(atom, 'verify_prior_atom', return_value={'prior_loop_status': 'restored'}), \
+                patch.object(atom, 'validate_lifecycle_owner', return_value=self.directory / 'selected/issue-atom') as selected, \
+                patch.object(supervisor_admission, 'prepare', side_effect=produce), \
+                patch.object(atom, 'save_json', side_effect=AssertionError('duplicate receipt write')):
+            envelope, digest = atom.create_envelope(auth, self.issue, self.issue['body'], path)
+        selected.assert_called_once_with(auth, executing=True)
+        self.assertEqual(envelope, self.envelope)
+        self.assertEqual(digest, atom.digest_file(path))
+        self.assertEqual(json.loads((path.parent / 'prepared.json').read_text()), {'atomic': True})
+
+    def test_unknown_recovered_start_never_offers_another_process(self):
+        state = {'correction_start_recovery': {'start_offered': True}, 'noodle_start': {'status': 'offered'}}
+        before = copy.deepcopy(state)
+        with patch.object(atom, 'correction_start_record', return_value={}), \
+                patch.object(atom, 'ensure_noodle', side_effect=AssertionError('repeated start')), \
+                patch.object(atom, 'correction_owner', side_effect=AssertionError('unknown process')):
+            for _ in range(2):
+                with self.assertRaisesRegex(atom.AtomRefusal, 'correction.start.outcome'):
+                    atom.advance_correction_start({}, {}, state, Mock(), {})
+        self.assertEqual(state, before)
+
+    def test_startup_recovery_selection_is_limited_to_unchanged_predispatch_state(self):
+        paths = atom.artifact_paths(self.directory / 'authorization.json')
+        auth = {'prior_atom': {}, 'failure_context': {}, 'lifecycle_owner': {'path': '/old/issue-atom'}}
+        stdout, stderr = self.directory / 'old.stdout', self.directory / 'old.stderr'
+        stdout.write_text('original output\n')
+        stderr.write_text('original failure\n')
+        state = {'phase': 'execution', 'publication': None, 'writes': {}, 'authorization_sha256': 'a' * 64,
+                 'prior_host_recovery': {'status': 'restored'}, 'envelope_sha256': 'b' * 64,
+                 'admission_sha256': 'c' * 64, 'correction_prior': {'owner_snapshot_sha256': 'd' * 64},
+                 'correction_ack_prefix': 'original acks',
+                 'noodle_start': {'stdout': str(stdout), 'stderr': str(stderr), 'status': 'started'}}
+        selected = {'path': '/new/issue-atom'}
+        with patch.object(atom, 'stopped_correction_start', return_value=(self.envelope, {})) as custody:
+            record, _, _ = atom.correction_start_selection(
+                self.directory / 'authorization.json', auth, state, paths, selected)
+            self.assertEqual(record['noodle_start'], state['noodle_start'])
+            self.assertEqual(record['correction_prior'], state['correction_prior'])
+            self.assertEqual(record['runtime'], selected)
+            self.assertEqual(record['logs'], [
+                {'path': str(path), 'sha256': atom.digest_file(path)} for path in (stdout, stderr)])
+            custody.assert_called_once_with(auth, record)
+            for key in ('correction_review', 'correction_proposal', 'correction_release', 'noodle_amendment'):
+                with self.subTest(key=key), self.assertRaisesRegex(atom.AtomRefusal, 'correction.start.phase'):
+                    atom.correction_start_selection(
+                        self.directory / 'authorization.json', auth, {**state, key: {}}, paths, selected)
+            custody.assert_called_once()
+
     def test_unknown_issue_write_stops_without_second_provider_effect(self):
         auth = {'control_root': self.envelope['execution']['control_root'], 'repository': 'ed3c/soodles',
                 'issue': {'title': 'Original', 'body': self.issue['body']}}

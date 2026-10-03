@@ -798,6 +798,14 @@ def _admit(envelope_path, envelope_digest, root, reader, route, *, observe_live=
             require(not live, "takeover.prior_writer", live,
                     owner="Noodle", required="quiescent_writer_and_session_readback")
             quiescent_order(binding, state)
+            if observe_live:
+                blocked = blocked_outcome(binding, state)
+                if blocked is not None:
+                    return {"owner": "Noodle", "action": "blocked", "binding": binding,
+                            "blocked": blocked, "published": False,
+                            "next": continuation({"kind": "input", "owner": "original-admission-owner",
+                                "required": ["original_owner_input_for_blocked_stage"],
+                                "known": {"order_id": order_id, "blocked": blocked}}, route)}
         return {"owner": "Noodle", "action": "owned", "binding": binding,
                 "next": continuation({"kind": "input", "owner": "Noodle", "required": ["current_order_and_session_readback"],
                          "known": {"order_id": order_id}}, route), "published": False}

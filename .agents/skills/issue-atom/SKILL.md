@@ -206,6 +206,17 @@ It cannot reset the automatic correction count or authorize a different task.
 Preparation preserves the selected runtime and every original repair ledger.
 It does not count a Noodle writer as one model invocation.
 
+If a correction stops before native controls or a new writer, first read the
+original process, snapshot, control history, and published worktree.
+A stopped process alone does not authorize restart. The external supervisor may
+select a corrected immutable lifecycle with the existing `issue-atom resume`
+entry. That owner must prove that the held startup produced no new dispatch.
+It retains the failed start, logs, bundle, authorization, and CI failure count.
+The returned continuation prepares a new admission bundle from the selected
+runtime and offers one held start. It then uses the existing correction controls.
+An unknown start result requires owner readback. Never edit a frozen bundle or
+replace authorization to bypass this check.
+
 The producer pins the exact failed run, jobs, and steps in `failure_context`.
 It saves the raw diagnostic log outside the control root. The context carries
 the log path, SHA-256, and byte size. Read needed diagnostic sections on demand.

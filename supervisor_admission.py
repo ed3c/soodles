@@ -299,7 +299,9 @@ try:
         else:
             raise SystemExit("unsupported exact-Issue adapter operation")
 except AdmissionRefusal as error:
-    print(json.dumps(issue_execution.refusal_output(error, {operation!r})))
+    diagnostic = json.dumps(issue_execution.refusal_output(error, {operation!r}))
+    print(diagnostic)
+    print(diagnostic, file=sys.stderr)
     raise SystemExit(getattr(error, "exit_code", 1))
 '''
 
@@ -913,7 +915,7 @@ def _correction_readback(target, authorization, reference):
     prior_paths = issue_atom.artifact_paths(reference["path"])
     if prior_paths["state"].exists():
         prior_state = issue_atom.read_json(prior_paths["state"], "correction.prior_state")
-        if prior_state.get("scope_amendment") is not None:
+        if prior_state.get("scope_amendment") is not None or prior_state.get("lifecycle_resume") is not None:
             selected_owner = issue_atom.resumed_lifecycle(authorization, prior_state).get("lifecycle_owner")
             authorization, _ = issue_atom.scope_projection(authorization, prior_state, prior_paths)
             authorization = {**authorization, "lifecycle_owner": selected_owner}
@@ -981,7 +983,7 @@ def _prepare_correction(authorization_path, expected_sha256, output, *, environ,
             "correction.state", state.get("phase"), owner="soodles.issue-atom",
             required="exact_prelanding_failed_candidate")
     correction_count = issue_atom.validate_correction_lineage(authorization, reference, state)
-    if state.get("scope_amendment") is not None:
+    if state.get("scope_amendment") is not None or state.get("lifecycle_resume") is not None:
         selected_owner = issue_atom.resumed_lifecycle(authorization, state).get("lifecycle_owner")
         authorization, paths = issue_atom.scope_projection(authorization, state, paths)
         authorization = {**authorization, "lifecycle_owner": selected_owner}
