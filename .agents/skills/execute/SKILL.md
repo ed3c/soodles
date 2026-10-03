@@ -25,6 +25,17 @@ If the task requires normal use, retain that work until normal use is observed.
 A generated report alone does not meet either requirement.
 The prompt is not permission to invent a new Issue, route, worktree or envelope.
 
+若 stage prompt 含 `target_binding`，target 與 lifecycle runtime 分開保存。
+使用 prompt 的 `runtime.stage_outcome_argv` 作為本文件所有 stage-outcome 操作的入口。
+將 `feedback` 或 outcome 與其參數接到這個原始 argv 後。
+使用 `runtime.test_argv` 執行 target 已選定的檢查。加上 `--plan` 可先讀取 scope。
+這些外部入口會核對 runtime bytes、envelope、session 與 worktree。
+若入口或 scope 缺失，保留原 owner 的拒絕並回報具名 input。
+不要在 target 補入 Soodles 程式或自行選擇替代入口。
+若 task 明確固定 launcher 的 `stage-outcome` 入口，所有 feedback 與 outcome 使用該入口。
+這也適用於沒有 `target_binding` 的 admission。先保留已選定的外部 owner，不能以 candidate entry 取代。
+只有未提供外部 outcome 入口的既有 admission，才使用以下 repository entries。
+
 ## Engineering entry
 
 For a whole Issue atom, use `poteto-mode` as the engineering entry.
@@ -137,6 +148,7 @@ follow this stage in the same owner call, without a supervisor review pause.
 For P-class writing, use [review-writing](../review-writing/SKILL.md).
 Within this original running session, submit its schema-2 feedback through
 `./stage-outcome feedback /absolute/selection.json SHA256`.
+有 `target_binding` 時，以前述 `runtime.stage_outcome_argv` 取代 `./stage-outcome`。
 Read the condition review, behavior result, and Test Manager scope.
 Continue the indicated correction within the admitted file and effect boundary.
 Do not ask the user to repeat an existing instruction to continue that work.
@@ -148,6 +160,7 @@ A refusal preserves the original owner. Missing authority or unknown effects are
 
 At the end of this stage, use the repository's `./stage-outcome OUTCOME MESSAGE`
 entry from the admitted worktree. Choose exactly one outcome.
+有 `target_binding` 時，從同一 worktree 呼叫前述外部 outcome entry。
 Use `completed` when this stage's admitted work, required checks and evidence are complete.
 Use `blocked` when a required owner input or capability is missing.
 Use `failed` when the task fails.

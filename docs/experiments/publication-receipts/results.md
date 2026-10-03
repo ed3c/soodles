@@ -152,3 +152,92 @@ Native 同模型獨立 reviewer 已讀回整合 source、註解、測試範圍�
 審查保存在 `base-advance-3ef2436/review.md`。
 其 SHA-256 是 `5cec1e5fbd0abeeadff86a0d4e8ae9267c95341d3e437af441cd185463edeaaf`。
 此審查沒有使用 Comment Sicko wrapper、跨模型比較或完整平台 transcript。
+
+
+## 第二次固定 base 與已觀察的 continuation 修正
+
+本輪原 candidate 是 `410876f744c2615dcc4e92fb2bbfbe48ae502724`。
+本輪 exact target 是 `2fdc87afdb21d1512dab67da93bfea41939dc530`。
+Writer 在原 Noodle worktree 合併該 target，沒有衝突。
+原 authorization、order、judge、instruction pins 和兩次先前 attempt 紀錄保持不變。
+目前 writer session 是 `soodles-254-fea40a356a25-0-execute-20261003-175208-088da8`。
+
+Supervisor 在第二輪正常接續時保存兩個新故障。
+原 advance owner 先從舊 native prompt 載入上一輪 revision entry，
+因此在替換 prompt 前以 `revision.entry.envelope=changed` 拒絕本輪有效 envelope。
+另一個 manual start 已保存 PID，但程序在首次 request-changes 前停止。
+原 completed stage、session、candidate 與 controls 沒變。
+舊 continuation 仍以 `scope.continuation.origin=changed` 拒絕。
+程序停止的原因未確定。這不是 publication 已發生的證據。
+
+本輪整合外部修正 `0c285e01e4a0bc0cd3531c54f2dca08d547958ab`
+與 `b839cb6d4ddae44820cf33dcda033a4c5a4f19ce` 的 exact patch。
+Source、保存故障及兩修正的控制結果位於原設計所指的
+`/Users/neon/soodles-audits/manager-coverage-loops/publication-receipts/context-fix/`。
+這些外部控制保留原觀察範圍。本輪另驗整合後的 candidate。
+
+Advance owner 現在先驗本輪 selected envelope digest 與 provider Issue。
+它再讀同一 prepared output 的 revision entry，保留原 terminal lineage 檢查。
+普通 worker context 不變。直接改 native prompt 會跳過原 edit control，故未採用。
+本輪 entry 或 envelope 不符時，owner 仍在 start 與 controls 前拒絕。
+
+首個 control 前停止時，原 continuation owner 要求 active order 仍有原 completed review。
+它核對 terminal、attempts、session 四檔、乾淨 candidate、prepared start 與 config。
+它也拒絕未確認 publication、repair、landing 或 control effects。
+Start owner 在 native lock 內重讀 custody 與 controls，先保存 intent，再啟動 replacement。
+同一 revision 仍只允許一次 replacement。未知 start 結果需要原 owner readback。
+Owner 保留歷史 receipts。它不以舊 readiness 代替新 current receipt。
+
+獨立 source review 發現原新增案例 mock 了 projection，沒有驗證其與 receipt history 聯通。
+本輪補上真實 scope packet、projection 和 history 的整合控制。
+它驗證兩輪 retained bytes、新 current paths、一次 replacement、同一 request ID 和 ACK。
+整合案例第二輪是同 target 的 `criteria_correction`。
+第二次 base advance 由另一個案例驗證。兩者不是實體兩輪 lifecycle 的證據。
+Fixture 的 prepared bundle 是合成輸入，Popen 由 mock 取代。
+
+本輪 Test Manager 選定九個 module，共有 255 個不同案例的通過證據。
+沒有 full suite 或 physical acceptance。
+
+| Module | 通過案例 | 本輪保存結果 |
+| --- | ---: | --- |
+| test_admission_revision | 28 | source-review/test-1.stdout |
+| test_candidate_publication | 14 | tests.stderr 的完整 module receipt |
+| test_cleanup_continuation | 10 | tests.stderr 的完整 module receipt |
+| test_correction_preparation | 28 | tests.stderr 的完整 module receipt |
+| test_cost_telemetry | 32 | tests.stderr 的完整 module receipt |
+| test_scope_amendment | 12 | tests.stderr 的完整 module receipt |
+| test_issue_atom | 96 | remaining-tests.stdout |
+| test_lifecycle_activation | 22 | remaining-tests.stdout |
+| test_supervisor_admission | 13 | remaining-tests.stdout |
+
+八 module invocation 以 exit 143 中斷，原因未知，沒有整體終端 receipt。
+它在中斷前已保存上表五個 module 的完整通過結果，共 96 個案例。
+只讀 process 檢查確認已無測試程序，之後只補跑缺少結果的三個 module。
+該次 131 個案例通過。正常 process wall time 是 94.454 秒。
+Typed revision 的 28 個案例首跑通過，process wall time 是 71.470 秒。
+這些數值不是效能或決策改善證據，不能把重疊 worker 時間相加為端到端時間。
+
+Source/comment review 未發現未處理的實作 blocker。
+Root 刪除既有兩行無條件禁止 respawn 的誤導註解。
+原 predicate 明確允許已核准的 bounded restart，故該註解不符 source。
+刪除前後的 Python AST 相同。沒有因此追加測試。
+先前 223 與 59 個案例的紀錄仍保留，各自只代表當時 source 和 inputs。
+
+本輪 evidence 根目錄是
+`/Users/neon/soodles-audits/manager-coverage-loops/issue254-writer/base-advance-2fdc87a/`。
+`source-review.md`、`comment-readback.json` 與測試輸出保存本輪 source 證據。
+本輪三份 P-class guidance 有改動。前段「P-class 文件沒有改動」只描述原 attempt。
+本輪 P-class 結果以隨附 `pclass-feedback.json` 與 external feedback 原始輸出為準。
+
+本輪 writer 不操作原 251 或 248，也不執行 push、PR create、provider merge 或 close。
+Supervisor 仍需完成本 head 的 exact-head CI、publication、landing 和本機 reconciliation。
+接受後，原 251 與 248 仍須各自由原 owner 接續及取得終端 readback。
+Parent 的 CLI、完整 lifecycle 成本、owner decision 和 matched decision measurement 仍未完成。
+
+本輪三份 P-class guidance 的 saved bytes 經 writing review 與獨立 criteria review。
+兩個無繼承對話的 native 同模型 consumer 分別觀察合法接續與拒絕/證據界線。
+Schema Manager 第一輪要求補齊拒絕情境，並保留已驗證的 ready observation。
+第二輪回傳 `VALID`、`criteria=SUPPORTED` 與 `behavior.classification=PASS`。
+Writer 已讀回兩份 capture，消費 `consume_verified_behavior`。
+本地 receipt script 曾誤把 behavior 物件當字串。修正只讀原成功 response，沒有重送 feedback。
+P feedback 只支持這兩組 consumer reports。它不證明完整平台行為或決策改善。

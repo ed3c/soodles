@@ -5,6 +5,15 @@ description: Advance one externally authorized local Soodles plus Noodle Issue t
 
 # Local Issue atom
 
+若 initial selection 含 `target_binding`，supervisor 同時固定外部 `lifecycle_owner`。
+Binding 以一份 `{path, sha256}` reference 指定 repository、base、workflow、jobs 與 target scope。
+使用 producer 回傳的絕對 `next.argv` 和 `next.environment`。
+Target checkout 不需要本文件後述的相對程式入口。
+Correction、publication 與 landing 沿原 authorization 保留相同 reference。
+Runtime bytes、target 身分或 owner lineage 不符時，停止受影響的 effect 並消費具名拒絕。
+Factory fixture 與 factory PR merge 不能證明真實 target 已交付。
+原 supervisor 仍須以獨立 target admission 完成啟用與正常使用讀回。
+
 ## 透過 Noodle 執行 Poteto Mode
 
 本 skill 用 Poteto Mode 選擇工程方法。`issue-atom` 保留生命週期與授權責任。
@@ -549,15 +558,30 @@ acceptance, publication permission or a replacement landing identity.
 ## 接續停止的 typed revision
 
 本節只適用於 supervisor 已固定接受 Noodle #106 的 prepublication typed revision。
-其 request-changes、edit 或 requeue 已開始，但 release 尚未 offered。
+其 manual start 已記錄為 `started`，但 release 尚未 offered。
+停止可以發生在首次 request-changes 前，也可以發生在 request-changes、edit 或 requeue 後。
 繼續消費原 owner 回傳的同一 `issue-atom run`，不拼接 native controls。
 Noodle 保留 custody 不等於允許重啟。Soodles 必須先驗證目前證據。
 
+本輪 admission 已準備時，owner 先驗 selected envelope、provider Issue 與
+prepared `revision-entry.json` 的 binding。連續 revision 的原 native prompt
+在 edit 前仍指向上一輪 entry。Owner 不以該舊引用取代本輪 prepared entry。
+這不放寬普通 worker 的 context 驗證。任一 selected binding 不符仍須拒絕。
+
+首次 request-changes 前，owner 要求原 active order 仍有完全相同的 completed review。
+原 stage、terminal、attempts、review 與 session 四檔必須吻合，且尚無 scope controls。
+`issue_scope` 必須已 observed。其餘 publication、landing 或未確認 repair effects
+仍須由原 owner 讀回。經原 typed revision 驗證保留的 claim/readiness 是歷史證據，
+不代表 publication effect，也不能授予重啟。不得刪除它們以通過檢查。
+
 原 owner 比對 process absence、完整 custody、terminal session hashes、
 clean candidate、prepared launcher、config、control intent 與 ACK。
+Owner 在 native lock 內再驗 session custody 與 controls。
+首次 control 前的 continuation 同時重驗 publication 邊界。
 通過後，owner 保存一次 held restart intent，啟動原 prepared bundle。
 Owner 保留先前 start、所有 attempts、ACK prefix、原 authorization 和 judge。
-它重讀 native state，再接續原 controls。完整 requeue 讀回通過後才能 release。
+它重讀 native state，再發送尚未 offered 的 control 或讀回既有 control。
+完整 requeue 讀回通過後才能 release。
 Successor 只能在原 order 與 worktree 派發一次。
 
 未知 start、control 或 write 必須取得原 readback。不要重送同一 effect。

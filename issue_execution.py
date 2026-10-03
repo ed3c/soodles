@@ -23,11 +23,12 @@ from issue_admission import (AdmissionRefusal, load_external_envelope,
 from repository_binding import git_origins
 
 
-def fetch_issue(repository, number):
+def fetch_issue(repository, number, *, binding=None):
     # Landing consumes supplied readbacks and must not load a credential reader.
     # Automatic/supervised/worker retain the same default callable boundary.
     from github_reader import fetch_issue as read
-    return read(repository, number)
+    return (read(repository, number, binding=binding) if binding and "target_binding" in binding
+            else read(repository, number))
 
 
 def inspect_schedule(root, environ=None):
@@ -529,7 +530,11 @@ def validate_revision_entry(binding, entry, envelope_digest):
                     for key in ("order_id", "stage_index", "worktree"))
             and all(binding[key] == original[key] for key in ("repository", "issue", "owner", "write_paths")),
             "revision.entry.identity", "changed")
+    require(binding.get("target_binding") == original.get("target_binding"),
+            "revision.entry.target_binding", "changed")
     old_execution = {key: value for key, value in original["execution"].items() if key != "recovery_context"}
+    if "target_binding" in original:
+        old_execution["runtime"] = binding["execution"]["runtime"]
     from issue_admission import load_revision_native
     native = load_revision_native(entry["native_acceptance"], control)
     old_execution["carrier"] = {**old_execution["carrier"], "noodle": native}
@@ -548,7 +553,9 @@ def validate_revision_entry(binding, entry, envelope_digest):
 def context(envelope_path, envelope_digest, root, reader):
     envelope = load_external_envelope(envelope_path, envelope_digest, root)
     try:
-        readback = reader(envelope["repository"], envelope["issue"])
+        readback = (reader(envelope["repository"], envelope["issue"], binding=envelope)
+                    if reader is fetch_issue and "target_binding" in envelope
+                    else reader(envelope["repository"], envelope["issue"]))
         binding = validate_issue(readback, envelope)
         if (Path(envelope_path).parent / "revision-entry.json").exists():
             owner = read_owner(binding)
@@ -769,6 +776,9 @@ def projection(binding, envelope_digest, route):
     if "revision_entry" in binding:
         subject["revision_context"] = binding["revision_entry"]["reference"]
         subject["admission_revision"] = binding["revision_entry"]["context"]
+    if "target_binding" in binding:
+        subject["target_binding"] = binding["target_binding"]
+        subject["runtime"] = binding["execution"]["runtime"]
     if "instruction_context" in binding["execution"]:
         subject["instruction_context"] = binding["execution"]["instruction_context"]
     if "recovery_context" in binding["execution"]:

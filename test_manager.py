@@ -34,6 +34,7 @@ BOUNDARIES = (
       "issue_execution.py", "soodles.py"), ("scope_amendment",), ()),
     (("stage_outcome.py", "stage-outcome", "schema_manager.py", "issue_execution.py", "handoff_oracle.py"),
      ("feedback_owner", "stage_outcome"), ()),
+    (("stage_outcome.py",), ("generic_repository_binding",), ()),
     (("schema_manager.py", "soodles.py", "stage_outcome.py"), ("pclass_feedback",), ()),
     (("schema_manager.py", "issue_atom.py"), ("cost_telemetry",), ()),
     (("cost_telemetry.py", "docs/loop-cost/evidence.json"),
@@ -70,7 +71,7 @@ BOUNDARIES = (
       "issue_atom", "instruction_context", "landing"),
      ("order_handoff", "interruption_resume")),
     (("repository_binding.py", "dependency_binding.py"),
-     ("cross_repository_dependency", "cross_repository_delivery", "issue_admission",
+     ("generic_repository_binding", "cross_repository_dependency", "cross_repository_delivery", "issue_admission",
       "candidate_publication", "landing", "next_issue", "provider_readback"),
      ("delivery_recovery",)),
     (("provider_credential.py",),
@@ -244,7 +245,66 @@ def select(root, changed, *, base=None, full=False, modules=(), controls=(), rea
 
 
 
-def admission_scope(root, contract):
+def target_scope(root, subject, contract):
+    from repository_binding import selected
+    from issue_admission import require
+    binding = selected(subject, require)
+    scope = binding["verification"]
+    require(set(scope) == {"owner", "paths", "commands"}
+            and isinstance(scope["owner"], str) and scope["owner"].strip(),
+            "target_scope.owner", scope)
+    require(isinstance(scope["paths"], list) and bool(scope["paths"])
+            and all(isinstance(path, str) and path and not path.startswith("/")
+                    and ".." not in path.split("/") for path in scope["paths"]),
+            "target_scope.paths", scope.get("paths"))
+    commands = scope["commands"]
+    require(isinstance(commands, list) and bool(commands)
+            and all(isinstance(argv, list) and bool(argv)
+                    and all(isinstance(arg, str) and arg and "\0" not in arg for arg in argv)
+                    for argv in commands), "target_scope.commands", commands)
+    missing = [path for path in contract["write_paths"]
+               if not any(path.startswith(prefix) if prefix.endswith("/") else path == prefix
+                          for prefix in scope["paths"])]
+    return {"owner": "test-manager", "scope_owner": scope["owner"],
+            "status": "needs_scope" if missing else "ready", "mode": "target",
+            "target_binding": subject["target_binding"], "repository": subject["repository"],
+            "commands": commands, "modules": [], "physical": [],
+            "unresolved": missing, "required_write_paths": [],
+            "next": {"owner": scope["owner"], "required": ["selected_target_scope"]} if missing else None,
+            "authorizes_landing": False}
+
+
+def worker_test(root, argv):
+    from stage_outcome import worker_context
+    from provider_credential import clean_child_env
+    from issue_admission import require
+    binding, session, _ = worker_context(root, os.environ)
+    require("target_binding" in binding, "target_scope.binding", None)
+    require(argv in ([], ["--plan"]), "target_scope.argv", argv)
+    decision = target_scope(root, binding, binding["contract"])
+    if argv or decision["status"] != "ready":
+        print(json.dumps(decision, indent=2))
+        return 0 if decision["status"] == "ready" else 2
+    results = []
+    for command in decision["commands"]:
+        started = time.monotonic()
+        process = subprocess.run(command, cwd=root, env=clean_child_env(),
+                                 stdin=subprocess.DEVNULL, capture_output=True, text=True)
+        results.append({"argv": command, "exit_status": process.returncode,
+                        "stdout": process.stdout, "stderr": process.stderr,
+                        "elapsed_ms": (time.monotonic() - started) * 1000})
+        if process.returncode:
+            break
+    require(target_scope(root, binding, binding["contract"]) == decision,
+            "target_scope.changed", decision["target_binding"])
+    print(json.dumps({"scope": decision, "session": session, "results": results,
+                      "authorizes_landing": False}, indent=2))
+    return 0 if all(result["exit_status"] == 0 for result in results) else 1
+
+
+def admission_scope(root, contract, *, target=None):
+    if target is not None:
+        return target_scope(root, target, contract)
     paths = contract.get("required_paths", contract["write_paths"])
     evidence = contract.get("evidence_manifest")
     root = Path(root)

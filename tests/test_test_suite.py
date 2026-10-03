@@ -131,6 +131,15 @@ class TestSuiteTests(unittest.TestCase):
                                              "test_schema_manager", "test_system_context"])
         self.assertEqual(decision["physical"], [])
 
+    def test_stage_outcome_selects_external_runtime_consumer(self):
+        decision = test_manager.select(ROOT, ["stage_outcome.py"])
+        self.assertEqual(decision["status"], "ready")
+        self.assertEqual(decision["mode"], "focused")
+        self.assertEqual(decision["modules"], ["test_admission_revision", "test_feedback_owner",
+            "test_generic_repository_binding", "test_pclass_feedback", "test_stage_outcome"])
+        self.assertEqual(decision["physical"], [])
+        self.assertFalse(decision["authorizes_landing"])
+
     def test_cost_evidence_uses_affected_controls_without_full_demand(self):
         decision = test_manager.select(ROOT, ["cost_telemetry.py", "docs/loop-cost/evidence.json"])
         self.assertEqual(decision["status"], "ready")

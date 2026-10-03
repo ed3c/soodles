@@ -442,6 +442,17 @@ A generic claim refusal must not hide an available blocker.
 Schema feedback distinguishes condition review, observed behavior, and owner capability.
 A passed routing case cannot establish publication, reconciliation, or delivery.
 
+### 外部 target binding 與 lifecycle runtime
+
+Supervisor 在 initial selection 固定 `target_binding` 的絕對 path 與 SHA-256。
+同一 reference 沿 authorization、envelope、correction 與 landing claim 傳遞。
+Owner 在 effect 前重新核對 bytes、repository、base、runtime 與原 lineage。
+Generic authorization 必須固定外部 lifecycle owner 的完整 `GENERIC_LIFECYCLE_FILES`。
+Target checkout 不提供 lifecycle 實作。Noodle 仍獨占 order、session 與 worktree。
+Worker prompt 回傳固定的 outcome 與 target-test argv。Scheduler 使用固定 launcher 的 inspect 操作。
+Legacy authorization 沒有這個欄位，保留原 source profile 與 source closure。
+Factory 交付不等於 target activation。原 supervisor 保留獨立 target admission 與正常使用結果的責任。
+
 ### Prepublication interruption selection
 
 原 order 的 process 消失不代表 writer 成功或失敗。若 native custody
@@ -559,6 +570,14 @@ Provider entry、manifest 與 preparation readback 都包含這份檔案。
 Worker 收到 `revision_context` 引用及 `admission_revision` 資料。
 這些資料補充一次 integration 的輸入，不替換原 task 或 instruction bytes。
 
+本輪 preparation 完成後，advance owner 先驗 selected envelope 的 digest，
+再驗 provider Issue 與本輪 prepared `revision-entry.json` 的 binding。
+連續 revision 的 native prompt 在 edit 前仍引用上一輪 entry。
+先用普通 worker context 載入該舊引用，會把合法的新 envelope 判成漂移。
+因此 advance owner 使用本輪 prepared entry。它仍驗原 envelope 引用與 terminal lineage。
+Selected bytes 或 binding 不符時，owner 在 start 與 native controls 前拒絕。
+此順序不修改普通 worker 的 context、ancestry 或 instruction 驗證。
+
 原 Noodle owner 在 manual hold 下執行 request-changes、edit-item、requeue，
 再切回 supervised。每個 command 先保存 intent，再讀其唯一 acknowledgement。
 無 acknowledgement 只允許讀回，不能再 append 或重建 command ID。
@@ -583,13 +602,16 @@ Supervisor 必須已固定接受的 Noodle #106 binary 與 descriptor。
 舊 carrier 仍受原契約約束。已歸檔且缺少完整 custody 的 order，
 仍需要原 owner 提供證據。本節不恢復任意 failed order 或 explicit reject。
 
-原需求是讓同一 order 在 request-changes、edit 或 requeue 後停止時接續。
+原需求是讓同一 order 在已記錄 manual start 後、release 前停止時接續。
+這包括首次 request-changes 前保留的 completed review，
+以及 request-changes、edit 或 requeue 後保留的 custody。
 Noodle #106 保存原 session、attempt、worktree 和 candidate 的 custody。
 這些證據讓原 revision owner 區分合法停止與身分漂移。
 只放寬 failed 狀態檢查不夠。未知 start 或 control 仍可能已產生效果。
 因此 caller 仍使用 owner 回傳的同一 `issue-atom run`，不選 restart 命令。
 
 在 release 尚未 offered 時，owner 讀取原 process 與 native snapshot。
+Start 必須已記錄為 `started`。Offered 或未知 start 不取得 replacement 資格。
 Owner 必須確認 process 和 session process group 已消失。
 它比對乾淨 candidate 的 HEAD、tree、branch、原 terminal session 四檔 hash、
 完整 attempts、request-changes reason、review 與 native custody。
@@ -597,12 +619,24 @@ Failed 與 edited 狀態使用 `request_changes_recovery`。
 Pending 狀態使用 `request_changes_requeued` 內保留的 binding 與 review。
 合法 edit 只改 prompt。Requeue 不新增 attempt。
 
+首次 request-changes 前，owner 要求 order 仍 active，stage 與原 completed review 相同，
+且 `scope_request`、`scope_edit`、`scope_requeue`、`scope_release` 均不存在。
+Owner 以原 envelope 重驗 completed terminal、attempt history、review 與 session 四檔。
+若已有保存的 review 與 session hashes，本次讀回必須相同。
+`issue_scope` 必須已 observed。既有 `issue_create` 記錄可以保留。
+Owner 拒絕 publication、push receipt、landing checkpoint 或未確認 repair effects。
+Standalone journal 只能不存在，或符合既有空 writes 與空 push receipts 格式。
+經 typed revision 驗證保留的 claim/readiness 維持原 bytes 與歷史 refs。
+它們不等於 publication effect。Owner 不能刪除或改寫它們來取得 continuation 資格。
+
 驗證通過後，既有 start owner 保存一次 held restart intent。
+Start owner 在 native lock 內再讀 custody 與 controls，才保存該 intent。
 它沿用原 prepared launcher、config、authorization 與 immutable authority。
 它為 replacement process 使用新的 stdout 和 stderr 檔案，保留原 start 紀錄。
 同一 revision 只允許這一次 continuation restart。再次停止需要原 owner 輸入。
 Owner 不重設 `restart_offered`、ACK prefix 或 control intent。
-重啟後，owner 再讀 native custody，才接續原 edit、requeue 與 release。
+重啟後，owner 再讀 native custody，才發送尚未 offered 的 request-changes、
+edit、requeue 或 release。已 offered 的 control 沿原 ID 讀回。
 Release 前仍須驗證目前完整 custody，不能只引用先前 requeue 成功。
 只有必要 controls 的 ACK 與狀態讀回都相符，owner 才解除 manual hold。
 Noodle 隨後在原 order 與 worktree 派發唯一 successor，保留全部 prior attempts。

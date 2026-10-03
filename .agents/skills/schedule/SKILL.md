@@ -6,7 +6,11 @@ schedule: When Noodle requests a Soodles schedule decision.
 
 # Schedule the admitted Issue
 
-From the current checkout, run `./soodles issue inspect`. This read-only entry
+若目前 admission 提供 `SOODLES_ADMISSION_LAUNCHER`，執行該絕對路徑並傳入 `inspect`。
+入口會先驗證固定的 manifest、envelope 與 runtime bytes，再檢查目前 Noodle role。
+不要掃描 PATH 或從歷史輸出重建 launcher。Target 不需要 `./soodles`。
+若沒有這個 admission，既有 Soodles checkout 使用 `./soodles issue inspect`。
+This read-only entry
 reads the current Noodle role before checking the supervisor-selected launcher.
 Use the returned result:
 

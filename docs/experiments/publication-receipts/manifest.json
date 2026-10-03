@@ -7,8 +7,8 @@
   "instructions": [
     {
       "path": "issue_atom.py",
-      "baseline_sha256": "29b20a4c2dfa16d2afeddbe8ac4c1851376b86aaaff70d04bf605a1943bbbadd",
-      "treatment_sha256": "d86ad8e7e78229e98008d84aec82b1fbe6e849bca929e59f14c9bae94177a4b2"
+      "baseline_sha256": "f4b64d8c38d7e1d9c1ee5f71c6246dd05c1e0a8a7ec976d9f1bc80427b6db126",
+      "treatment_sha256": "f4491196a86eaf7522606cb5eeabfafc52aaa9e1a36b117eb173aa56e2d20261"
     }
   ],
   "artifacts": [
@@ -20,12 +20,12 @@
     {
       "path": "docs/experiments/publication-receipts/results.md",
       "role": "Observed correction, evidence, failures and limits",
-      "sha256": "9d7204e2f14bf439e44bd7ba0306be8a51ff45d2419a95a2de1e69a7ea643ce2"
+      "sha256": "e0e6cda46df642d51d88d51538e3c5aeade381d8f6f7cc5c6a2c47e4a07ef722"
     },
     {
       "path": "tests/test_admission_revision.py",
       "role": "Typed revision custody and history controls",
-      "sha256": "a335b1182a0958713b0a42d3e5cced1999eed8965ba4edca959bbbac84fa3a40"
+      "sha256": "7f88003df9d8481b043708d2ff3f72d2bfafc54ade50e58944f638ad62b0b854"
     },
     {
       "path": "tests/test_cost_telemetry.py",

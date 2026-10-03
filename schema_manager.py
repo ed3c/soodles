@@ -353,6 +353,7 @@ def project_owner_feedback(result):
             "phase": result.get("phase"), "transition_owner": result.get("owner"),
             "next": result.get("next"), "cost_review": review,
             "review_disposition": "history_retained" if legacy_terminal else dispositions[transition["status"]],
+            **({"target_scope": result["target_scope"]} if "target_scope" in result else {}),
             "dag": {
                 "cost_review": {"status": "observed" if review else "unknown",
                                 "requires": ["normal_execution_logs", "test_manager_review"]},
@@ -364,6 +365,18 @@ def project_owner_feedback(result):
                        "Unknown projection does not invalidate the original owner response."],
             "elapsed_ms": (time.perf_counter() - started) * 1000,
             "effects": [], "test_demand": None, "authorizes_landing": False}
+
+
+def project_target_scope(scope, next_action):
+    """Expose the selected scope without claiming that its commands ran."""
+    return {"owner": "schema-manager", "repository": scope["repository"],
+            "target_binding": scope["target_binding"], "scope_owner": scope["scope_owner"],
+            "state": scope["status"], "facts": {"commands": scope["commands"],
+                                                "unresolved": scope["unresolved"]},
+            "unknowns": ["target_command_execution", "target_normal_use"],
+            "next": next_action, "dag": {"scope": {"status": scope["status"],
+                "requires": ["supervisor_selected_binding", "target_scope_owner"]}},
+            "authorizes_landing": False}
 
 
 class FeedbackRefusal(ValueError):
