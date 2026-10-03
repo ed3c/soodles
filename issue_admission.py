@@ -29,7 +29,7 @@ ENVELOPE_FIELDS = {
     "owner", "write_paths", "base_head", "execution",
 }
 INSTRUCTION_MAX_FILES = 32
-INSTRUCTION_MAX_FILE_BYTES = 256 * 1024
+INSTRUCTION_MAX_FILE_BYTES = 512 * 1024
 INSTRUCTION_MAX_TOTAL_BYTES = 1024 * 1024
 
 
@@ -470,7 +470,8 @@ def validate_issue(readback, envelope, *, completed=False):
         "repository": repository, "issue": number, "body_sha256": envelope["body_sha256"],
         "body_updated_at": envelope["body_updated_at"], "owner": contract["owner"],
         "write_paths": envelope["write_paths"], "base_head": envelope["base_head"],
-        "execution": envelope["execution"], "contract": contract, "authorizes_landing": False,
+        "execution": envelope["execution"], "contract": contract,
+        "issue_body": body, "authorizes_landing": False,
     }
 
 

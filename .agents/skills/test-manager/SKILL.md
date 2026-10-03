@@ -186,7 +186,7 @@ Incomplete starts and uninstrumented old owners retain unknown coverage.
 When evidence is unavailable, tokens, price, API-call accounting and human
 attribution remain unknown. If a source contains a measurement that the
 requested consumer lacks, treat that as an integration gap.
-The source data is available. Prioritize actual end-to-end costs, including
+The source data is available. Review actual end-to-end costs, including
 writer, waits, rework and collection overhead. CI duration alone does not
 establish delivery speed. Use the issue-atom
 [completion guidance](../issue-atom/SKILL.md#preserve-the-request-through-admission-and-delivery)
@@ -194,6 +194,24 @@ when reconciling cost observations with the requested outcome. Repair seconds
 remain elapsed since first repair; no cost projection creates new thresholds or
 resets/reserves counters. Fixture gate observations are CI product controls,
 never measurements of live exhaustion or independent acceptance authority.
+
+For shortest-path work, move fact-determined workflow choices into the existing
+CLI owner. When the task requests a decision comparison, use observable workflow
+choices as the primary measure. Compare the same task, inputs, authority and legal completion boundary.
+Count an externally visible choice once at its declared boundary. Do not count
+JSON fields, file reads or tool calls as choices. Following the owner's fixed
+decision adds no choice. Keep necessary engineering judgment separate from
+avoidable workflow choices. Incomplete capture leaves the total unknown.
+An added response field does not itself establish fewer Agent decisions.
+
+An ordinary correction does not require a counter or comparison run.
+Inspect the existing CLI. When facts already determine
+the operation or input identities, correct that owner's input/output contract.
+The CLI must select the operation and provide those identities. Missing evidence
+remains a named input. Engineering corrections remain work for the named owner.
+Use scoped controls to check the legal and rejected transitions. Use consumer
+observations only for the unresolved behavior claim. Send both results and their
+limits to Schema Manager. The original owner retains its continuation and effects.
 
 
 ## P-class feedback scope

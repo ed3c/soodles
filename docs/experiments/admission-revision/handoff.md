@@ -1,10 +1,15 @@
 # #238 candidate handoff
 
 本 writer 留在原 Noodle order `soodles-238-8dc5cc45b0c0`。
-原 session 是 `soodles-238-8dc5cc45b0c0-0-execute-20261003-105713-6f2018`。
-Repository 是 `ed3c/soodles`。本 unit 的 admitted base 是
-`5e2cd1b0f11de685dab26c5370c566b508062857`。
-最後 candidate head/tree 由外部 candidate-receipt.json 和 stage outcome 記錄。
+前次 session 是 `soodles-238-8dc5cc45b0c0-0-execute-20261003-105713-6f2018`。
+本次 base integration session 是 `soodles-238-8dc5cc45b0c0-0-execute-20261003-123121-36b228`。
+Repository 是 `ed3c/soodles`。原 admitted base 是
+`5e2cd1b0f11de685dab26c5370c566b508062857`。本次有效 base 是
+`a90adfde0e0208e76183f8420aa7b0075d9edaf3`。Supervisor 的 typed revision
+保留原 authorization、task、judge 與 instruction source。原 candidate
+`e1a99cf95ecedabfbeb570067076f134654f5ce2` 保留在 merge ancestry。
+最後 candidate head/tree 由外部
+`soodles-238-integration-evidence/candidate-receipt.json` 和 stage outcome 記錄。
 本文件不把寫入自身的 commit hash 當成可固定的內容。
 
 ## 已交回的範圍

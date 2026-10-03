@@ -71,3 +71,16 @@ Writer 在原 worktree 整合 target。Completed 要求 clean 且 target 已是�
 [results.md](results.md) 區分 source controls、fixed reader、native dispatcher
 與 P-class consumer report。Fixture 不代表 #229/#237 已接續。
 [handoff.md](handoff.md) 保留 root 的 runtime activation、真實交付與 medium replay。
+
+## 固定 base 的整合
+
+本次 supervisor 選定 `a90adfde0e0208e76183f8420aa7b0075d9edaf3`。
+Writer 將它合併到原 retained candidate。新的 base 要求 stage prompt 帶完整
+`issue_body`。Typed revision 仍須攜帶 sealed context。這兩個輸入不能互相替代。
+前者讓 worker 驗證 body digest 與 contract。後者讓 worker 驗證 retained
+candidate、原 instructions 與 exact successor。Projection 同時保留兩者。
+
+`scope_projection` 保留 base 的已 prepared `base_recovery` 路徑。
+Typed revision 仍由 scope history 還原有效 authorization。Body marker 由既有
+`authorized_issue_body` 產生。這沿用新 base 的 body 規則，並保留原 revision
+歷史。Worker 完成時仍須 clean，且 target 必須是最終 candidate 的祖先。

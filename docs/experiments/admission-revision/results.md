@@ -111,3 +111,41 @@ Poteto Bug Fix 方法記錄於 methods.json 和 plan.md。
 原始 receipts、logs、instruction snapshots 和失敗結果保留原 bytes。
 候選 head/tree 與乾淨狀態由完成後的 candidate-receipt.json 記錄。
 本 unit 的 publication、Linux acceptance 與原 atom 正常使用讀回仍屬 root。
+
+## Exact base integration 的目前結果
+
+本輪把原 candidate 合併到 supervisor 指定的
+`a90adfde0e0208e76183f8420aa7b0075d9edaf3`。本節的 evidence 位於外部
+`prepublication-base-owner/soodles-238-integration-evidence`。前面各節保留原輪次。
+
+Test Manager 的 `controls-1.json` 選取 232 個 controls。220 個通過。
+Revision 模組的 12 個 controls 中有一個 fixture 失敗。它缺少新 base 要求的
+`issue_body`。補齊後，第二輪發現同一 fixture 還缺 `authorization_sha256`。
+兩個欄位都屬 canonical binding/state。修正沒有放寬 production 檢查。
+`controls-3.json` 的 12 個 controls 全部通過，耗時 13.672 秒。
+它們也驗證 projection 同時保留完整 body、有效 contract 與 sealed revision。
+未變動的其餘 220 個 controls 沿用首輪結果。沒有執行 full suite。
+
+`external-reader/results.json` 以原固定 external reader 執行同一組正負例。
+整合後 candidate 被接受。缺 manifest、錯 digest、換 instruction source 與
+未整合 target 都被拒絕。各例的範圍與前述限制不變。
+
+第一次 native run 在進入 revision 前收到終止訊號。`native/failure.json`
+保留 process 與 readback。現有證據無法識別 signal 發送者。它不算通過。
+下一次 run 增加 fixture 發送 signal 的實際 call-stack 記錄，並單獨執行。
+`native-2/result.json` 記錄通過。Revision successor 與 marker history 各一次，
+提前 dispatch 為零，dirty exception 為 false。原 instruction context 保留。
+`native-2-signals.jsonl` 記錄該輪正常停止 daemon 的 fixture 呼叫。
+新結果支持本輪 native 路徑，不解釋第一次未知的 signal 來源。
+
+合併後 execute 指令 bytes 已變。Writer 沒有把舊 P-class pass 當成本輪結果。
+原 session 的固定 launcher 記錄新的 feedback。Round 1 要求三個 observations。
+Fresh native consumer 讀取保存後的指令和原案例，沒有取得 expected values。
+Round 2 回傳 VALID、SUPPORTED、PASS。Writer 已消費
+`consume_verified_behavior`。`pclass/review-readback.json` 保存回應和限制。
+這仍是 consumer_report，沒有完整平台 transcript 或比較改善 claim。
+
+本輪 outcome 與 feedback 使用 supervisor 指定的
+`"$SOODLES_ADMISSION_LAUNCHER" stage-outcome`。此機械入口保留本輪原 prompt
+格式與固定 owner。Candidate 的新 body-aware adapter 用於後續按新格式
+建立的 sessions。本次不更換原 admission 的 instruction source 或 judge。

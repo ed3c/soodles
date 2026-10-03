@@ -765,7 +765,7 @@ def projection(binding, envelope_digest, route):
     subject = {"repository": binding["repository"], "issue": binding["issue"],
             "body_sha256": binding["body_sha256"], "body_updated_at": binding["body_updated_at"],
             "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"],
-            "contract": binding["contract"]}
+            "contract": binding["contract"], "issue_body": binding["issue_body"]}
     if "revision_entry" in binding:
         subject["revision_context"] = binding["revision_entry"]["reference"]
         subject["admission_revision"] = binding["revision_entry"]["context"]

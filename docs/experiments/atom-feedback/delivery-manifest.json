@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 235
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "8b9f9a683094b369eb2362e71ccbfcedab80b822a0af9f33c51a36080a5628e3",
+      "treatment_sha256": "f6b48da60a469b730bdfb573434ca018538cde69091aba0cf32e68b4f871cde0"
+    },
+    {
+      "path": ".agents/skills/execute/SKILL.md",
+      "baseline_sha256": "9d1463fba7145d61674331805b9e2bb1130dad8bbb7aa5fabfcffc5daac9eaf2",
+      "treatment_sha256": "ffb91182f2ace6e63f1bbf7e7139ab79e5cc998f4e789a3d88fce7cb5dc9699f"
+    },
+    {
+      "path": ".agents/skills/issue-atom/SKILL.md",
+      "baseline_sha256": "ac83f02f731265cb9787e73e5d967bee90efa7151b1cd57b7aa45c75cae46da8",
+      "treatment_sha256": "bba913cbc9ee3ffda53ed956ba90c3343eae2364ab7a68444307bce2667f2e89"
+    },
+    {
+      "path": ".agents/skills/review-writing/features/pclass-feedback.md",
+      "baseline_sha256": "72b2d2377678a04f05d17696ae960ed4ab0870366592b06ba809924fa93802f3",
+      "treatment_sha256": "068792db262a27a2e4af333afa5edfd1719854f621b7498fe0a41e5a9329568d"
+    },
+    {
+      "path": ".agents/skills/test-manager/SKILL.md",
+      "baseline_sha256": "f0a675cda94eda1b8f0de9472529f5c4f5e81e91bf745994108ffa602ce0c894",
+      "treatment_sha256": "4f52741d304d1deea012b41194a61bdd5ed64001182e3fd4838f362ba95e4372"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/execution.yml",
+      "baseline_sha256": "e0626eb4f8a4da42d5fbeee1c5b33900ddfcf73b244a4f72bc50bff494f05520",
+      "treatment_sha256": "26c8aab866165203731e3e5d0fb28877882a26fb3082017e9576297ea1c345f6"
+    },
+    {
+      "path": "contracts/system-v1/instruction-context.md",
+      "baseline_sha256": "74be6d40a0a642be8afca96cc3b8a5f2b3f57f782f5d0ebf4b4ca3e1e729642f",
+      "treatment_sha256": "ee7858ae4dce227dc9c387d527eee771317ef93259ac1f59541fad250cbb4100"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/atom-feedback/README.md",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "56f658fc200a7be64c5faee8bea48a29f6405fe52f689729e3602883960000e5"
+    },
+    {
+      "path": "docs/experiments/atom-feedback/cli-input-loop.md",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "bb3f5335fd0be61f9133e36e781d73b830d6b3c1de6b653aabef208fa16c0da6"
+    },
+    {
+      "path": "docs/experiments/atom-feedback/decision-metric.md",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "075b687a0d81c4f8e4b2de138fa229879ed9336ed78d3c0b984b7608494b1fb6"
+    },
+    {
+      "path": "docs/experiments/atom-feedback/owner-next-delivery.md",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "9e8ae6024d802cbd81bb041d1ba97dc3e23afe8e4df03da3743729baa9d04352"
+    },
+    {
+      "path": "docs/experiments/atom-feedback/real-evidence.md",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "981ca34a0e0920985b6f0ee36cc9e68510b1f0b8ea54021a21947fd173033053"
+    },
+    {
+      "path": "issue_admission.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "f4440bc24e8635c1883555f0f31ad21c84fc4efd021f86c9197f2c1249b89921"
+    },
+    {
+      "path": "issue_atom.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "c2e21b230abd06be756f4a4fc1ea38671227c31e08f8b8ec829be3398a5f2dc4"
+    },
+    {
+      "path": "issue_execution.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "05bf5e7ec43ab7b33237882dfbd58f865699d06277a5a259597ba551646292bb"
+    },
+    {
+      "path": "schema_manager.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "48b875a6d4e0bf9ac1d4228cc03de199a87f2a812ca91e21effdbe74c43ab72f"
+    },
+    {
+      "path": "soodles.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "e94d5f57bd074b6bcbebf39b135327ee24b372742fc1322a272c0c5f36fa8596"
+    },
+    {
+      "path": "stage_outcome.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "bdef3e820d4629fb7c6c1e5910c118520ee48b9f21b19f1b1301b182d706b0ab"
+    },
+    {
+      "path": "test_manager.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "442132cacc60de6ff5222f506101dff4f3cbaf76d0032ac143e24674a01736f2"
+    },
+    {
+      "path": "tests/fixtures/atom-feedback/cases.json",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "e9c76a6832dfdbfa791e992cd33180557a761048442720a2dddad16c184add07"
+    },
+    {
+      "path": "tests/test_atom_feedback.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "0b3ab8125b654720c8c8affe5633cb6707007794533fadd3dd6c79e9a87cc258"
+    },
+    {
+      "path": "tests/test_feedback_owner.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "15ff35a9553eba52fa96c84358c477f41b5101bafb4582df2baa9dbfecf826de"
+    },
+    {
+      "path": "tests/test_issue_admission.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "058c6b3bc725233753f2e171151771299927653d9df4bc8c16eaa7fa5478a511"
+    },
+    {
+      "path": "tests/test_issue_atom.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "f37904569587d4fabb6521e9ef35ec3fb1ec7875f53370c1fd265499a502a50d"
+    },
+    {
+      "path": "tests/test_issue_execution.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "9d1a48b34f128466bbcdd6e4cc5407087d224c4b97ed7bd6927e4a81d13aebd4"
+    },
+    {
+      "path": "tests/test_pclass_feedback.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "bed5555febf4a56902c31c9e376e92dc5d9032aaaad85bbc1c38d9c6dc2f8784"
+    },
+    {
+      "path": "tests/test_schema_manager.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "f78f0c0fe642b215484752906caffbce5df29300b0ec32fb0b6f008e06957a78"
+    },
+    {
+      "path": "tests/test_stage_outcome.py",
+      "role": "admitted writer source, control or scoped observation",
+      "sha256": "a4f16011c7557aaad5535767f60cef18863ca0c99a2b38624feb7b08675af066"
+    }
+  ],
+  "owner": {
+    "name": "Soodles issue-atom supervisor; Noodle admitted writer",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#235"
+  },
+  "authorizes_landing": false
+}

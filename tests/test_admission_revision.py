@@ -252,7 +252,12 @@ class AdmissionRevisionTests(unittest.TestCase):
 
     def test_sealed_entry_preserves_instructions_and_limits_preintegration_exception(self):
         f = self.f
-        _, envelope, binding, path = f.entry()
+        issue, envelope, binding, path = f.entry()
+        projected = execution.projection(binding, sha(f.directory / 'effective-envelope.json'), 'supervised')
+        self.assertEqual(projected['issue_body'], issue['body'])
+        self.assertEqual(admission.parse_contract(projected['issue_body']), projected['contract'])
+        self.assertEqual(projected['admission_revision']['candidate_head'], f.candidate)
+        self.assertEqual(projected['revision_context'], ref(path))
         self.assertEqual(envelope['execution']['instruction_context'], f.envelope['execution']['instruction_context'])
         self.assertEqual(envelope['execution']['source_head'], f.base)
         execution.validate_worktree(f.wt, binding)
@@ -300,13 +305,13 @@ class AdmissionRevisionTests(unittest.TestCase):
 
     def test_custody_uses_original_envelope_carrier_and_exact_selected_identity(self):
         f = self.f
-        binding = {**f.envelope, 'contract': f.contract}
+        binding = {**f.envelope, 'contract': f.contract, 'issue_body': f.issue['body']}
         stage = {'status': 'review', 'attempts': [],
                  'prompt': json.dumps(execution.projection(binding, sha(f.original), 'supervised'))}
         owner = {'state': {'orders': {f.selection['order_id']: {'stages': [stage]}}}}
         terminal = {'session_id': 'original-session', 'message': {'outcome': 'completed', 'blocking': False}}
         state = {'phase': 'execution', 'issue': {'number': 18}, 'envelope_sha256': sha(f.original),
-                 'admission_sha256': 'b' * 64, 'noodle_start': {'status': 'started'}}
+                 'authorization_sha256': 'a' * 64, 'admission_sha256': 'b' * 64, 'noodle_start': {'status': 'started'}}
         paths = {key: f.directory / key for key in ('landing', 'claim', 'acceptance')}
         paths['envelope'] = f.original
         stale = {**f.auth, 'noodle': {'path': '/prior/bootstrap/noodle', 'sha256': 'c' * 64}}

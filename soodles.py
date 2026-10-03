@@ -36,6 +36,7 @@ class Parser(argparse.ArgumentParser):
                               "problem": {"field": "arguments", "reason": message},
                               "next": {"owner": "caller", "operation": "supply_bound_evidence",
                                        "required": ["valid_arguments"],
+                                       "argv": None, "input": None,
                                        "help_argv": ["./soodles", "schema", "pclass-feedback", "--help"]}}, indent=2))
             self.exit(2)
         if self.prog.startswith("./soodles eval"):
