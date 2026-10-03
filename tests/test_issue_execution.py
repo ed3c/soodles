@@ -102,6 +102,18 @@ class IssueExecutionTests(unittest.TestCase):
         return execution.worker(self.path, self.pin, self.worktree, self.argv,
                                 reader=self.reader, environ=self.env, execute=sentinel, **kwargs)
 
+    def pending_fixture(self, route):
+        self.admit(route)
+        proposal = json.loads((self.runtime / "orders-next.json").read_text())
+        stage = proposal["orders"][0]["stages"][0]
+        self.snapshot["state"]["orders"]["soodles-18"] = {
+            "order_id": "soodles-18", "status": "active", "stages": [{
+                "stage_index": 0, "task_key": "execute", "skill": stage["do"],
+                "provider": stage["with"], "model": stage["model"], "runtime": stage["runtime"],
+                "prompt": stage["prompt"], "status": "pending", "attempts": None,
+                "session_id": None, "worktree_name": None}]}
+        self.save_owner()
+
     def test_both_real_entry_functions_consume_same_normalized_binding(self):
         automatic = self.admit("automatic")
         proposal = json.loads((self.runtime / "orders-next.json").read_text())
@@ -275,6 +287,118 @@ class IssueExecutionTests(unittest.TestCase):
         self.assertFalse(self.effect.exists())
         with self.assertRaisesRegex(admission.AdmissionRefusal, "takeover.prior_writer"):
             self.admit("supervised")
+
+    def test_initial_pending_observation_keeps_owner_until_original_dispatch(self):
+        for prompt_route in ("automatic", "supervised"):
+            self.snapshot["state"]["orders"] = {}
+            self.save_owner()
+            self.pending_fixture(prompt_route)
+            stage = self.snapshot["state"]["orders"]["soodles-18"]["stages"][0]
+            mailbox = self.runtime / "orders-next.json"
+            proposal = mailbox.read_bytes()
+            for attempts in (None, []):
+                stage["attempts"] = attempts
+                self.save_owner()
+                before = (self.runtime / "state.snapshot.json").read_bytes()
+                for route in ("automatic", "supervised"):
+                    with self.subTest(prompt_route=prompt_route, attempts=attempts, route=route):
+                        if route == "automatic":
+                            result = self.admit(route)
+                        else:
+                            result = execution.supervised(self.path, self.pin, self.root,
+                                reader=self.reader, observe_live=True)
+                        self.assertEqual(result["action"], "owned")
+                        self.assertFalse(result["published"])
+                        self.assertEqual(result["next"]["owner"], "Noodle")
+                        self.assertEqual(result["next"]["required"], ["current_order_and_session_readback"])
+                        self.assertEqual(result["next"]["known"], {"order_id": "soodles-18"})
+                        self.assertEqual(result["next"]["operation"], route)
+                        self.assertNotIn("argv", result["next"])
+                        self.assertEqual((self.runtime / "state.snapshot.json").read_bytes(), before)
+                        self.assertEqual(mailbox.read_bytes(), proposal)
+                        self.assertFalse(self.effect.exists())
+                with self.assertRaises(admission.AdmissionRefusal):
+                    self.admit("supervised")
+            mailbox.unlink()
+            stage.update(status="running", attempts=[{"status": "running", "session_id": self.session}])
+            self.save_owner()
+            result = execution.supervised(self.path, self.pin, self.root,
+                reader=self.reader, observe_live=True)
+            self.assertEqual(result["action"], "running")
+            self.assertEqual(result["attempt"], {"status": "running", "session_id": self.session})
+            self.assertFalse(result["published"])
+            self.assertFalse(mailbox.exists())
+            self.assertFalse(self.effect.exists())
+
+    def test_initial_pending_observation_rejects_inexact_or_contradictory_owner(self):
+        self.pending_fixture("automatic")
+        original = copy.deepcopy(self.snapshot)
+        mailbox = self.runtime / "orders-next.json"
+        proposal = mailbox.read_bytes()
+        changes = [
+            ("order", "order_id", "foreign"), ("order", "status", "completed"),
+            ("stage", "stage_index", 1), ("stage", "stage_index", False),
+            ("stage", "task_key", "schedule"), ("stage", "skill", "schedule"),
+            ("stage", "provider", "foreign"), ("stage", "model", "foreign"),
+            ("stage", "runtime", "foreign"), ("stage", "prompt", "{}"),
+            ("stage", "prompt", "not json"), ("stage", "session_id", "foreign-session"),
+            ("stage", "worktree_name", "foreign-worktree"),
+            *[("stage", "status", status) for status in ("running", "dispatching", "completed", "failed", "cancelled")],
+            *[("stage", "attempts", attempts) for attempts in ({}, "", [None], ["running"])],
+            *[("missing", field, None) for field in ("stage_index", "task_key", "skill", "provider",
+                                                    "model", "runtime", "prompt", "attempts")],
+            ("missing_order", "order_id", None), ("missing_order", "status", None),
+            ("order", "stages", []),
+            ("duplicate", "stages", None),
+        ]
+        for attempts in (None, []):
+            for target, field, value in changes:
+                self.snapshot = copy.deepcopy(original)
+                order = self.snapshot["state"]["orders"]["soodles-18"]
+                stage = order["stages"][0]
+                stage["attempts"] = attempts
+                if target == "missing":
+                    del stage[field]
+                elif target == "missing_order":
+                    del order[field]
+                elif target == "duplicate":
+                    order["stages"].append(copy.deepcopy(stage))
+                else:
+                    (order if target == "order" else stage)[field] = value
+                self.save_owner()
+                before = (self.runtime / "state.snapshot.json").read_bytes()
+                for route in ("automatic", "supervised"):
+                    with self.subTest(attempts=attempts, target=target, field=field, value=value, route=route):
+                        with self.assertRaises(admission.AdmissionRefusal) as caught:
+                            if route == "automatic":
+                                self.admit(route)
+                            else:
+                                execution.supervised(self.path, self.pin, self.root,
+                                    reader=self.reader, observe_live=True)
+                        self.assertEqual(caught.exception.next["owner"], "Noodle")
+                        self.assertEqual((self.runtime / "state.snapshot.json").read_bytes(), before)
+                        self.assertEqual(mailbox.read_bytes(), proposal)
+                        self.assertFalse(self.effect.exists())
+
+    def test_initial_pending_requires_admitted_model_before_observation(self):
+        self.pending_fixture("automatic")
+        before = (self.runtime / "state.snapshot.json").read_bytes()
+        proposal = (self.runtime / "orders-next.json").read_bytes()
+        for codex in (None, {}, {"model": ""}):
+            self.envelope["execution"]["carrier"]["codex"] = codex
+            self.bind_envelope()
+            for route in ("automatic", "supervised"):
+                with self.subTest(codex=codex, route=route):
+                    with self.assertRaises(admission.AdmissionRefusal) as caught:
+                        if route == "automatic":
+                            self.admit(route)
+                        else:
+                            execution.supervised(self.path, self.pin, self.root,
+                                reader=self.reader, observe_live=True)
+                    self.assertEqual(caught.exception.invalid["field"], "carrier.codex")
+                    self.assertEqual((self.runtime / "state.snapshot.json").read_bytes(), before)
+                    self.assertEqual((self.runtime / "orders-next.json").read_bytes(), proposal)
+                    self.assertFalse(self.effect.exists())
 
     def test_live_observer_does_not_mistake_proposal_fields_for_canonical_state(self):
         self.admit("supervised")
