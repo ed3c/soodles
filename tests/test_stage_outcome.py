@@ -87,7 +87,8 @@ if mode == 'write-failure': sys.exit(7)
         f.bind_envelope()
         prompt = json.loads(self.stage["prompt"])
         self.stage["prompt"] = json.dumps(stage_outcome.projection(
-            {**f.envelope, "contract": prompt["contract"]}, f.pin, prompt["route"]))
+            {**f.envelope, "contract": prompt["contract"], "issue_body": prompt["issue_body"]},
+            f.pin, prompt["route"]))
         self.stage["attempts"][-1]["attempt_id"] = "successor-attempt"
         f.save_owner()
         self.interruption = f.directory / "interruption.json"

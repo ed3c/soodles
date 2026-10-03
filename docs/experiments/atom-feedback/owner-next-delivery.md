@@ -97,3 +97,42 @@ Supervisor 在隔離 checkout 準備整合輸入。整合 commit 保留原候選
 Test Manager 選定 `test_issue_atom` 的 93 個控制，全部通過。Runner 回報 68.529 秒，physical list 為空。接合 fixture 使用真正的 `correction_owner`，以一次性 snapshot 模擬 Noodle 回報；它沒有啟動產品 writer。另一次唯讀檢查以原 session 的實際 events 和 pending review 通過 completed custody 檢查。這些結果不證明 live base recovery 已完成。
 
 準備證據位於 `/Users/neon/soodles-audits/owner-next-k9dj8l1s/base-owner-loop/`。實作測試與失敗歷史位於同一根目錄的 `evidence/base-owner-loop/`。新的指引仍須在後續 admitted session 取得目前保存文字的 consumer evidence，並經 stage-outcome feedback 交由 Schema Manager 消費。此準備紀錄不取代該結果，也不證明 PR 已合併。
+
+
+## Base recovery 後的 admitted writer
+
+本次 session 是 `soodles-235-080a81e6b92f-0-execute-20261003-102013-056a97`。原 order 與 Noodle worktree 保持不變。`stage_outcome.worker_context` 已核對目前 running attempt、原 owner、正文與 envelope。新 base 是 `5e2cd1b0f11de685dab26c5370c566b508062857`。起始 integration head 是 `ee7fa3318491b59e2073ffcc5384c7b18eb03593`。本次 Issue body SHA-256 是 `4a0d6a36096042d12196c893ee1cc0c6ccb4622d9a8518e1eeb7f9807732641d`。
+
+原 patch 已在 integration 的祖先中，因此 writer 沒有再次套用。Poteto Mode 先以 Session pickup 找回既有設計、source review 與失敗歷史，再接續 Feature 的驗證與修正步驟。依原 task，writer 沒有重做設計競賽。`method-loads.json` 保存本次實際讀取的路徑與 SHA-256。`playbook.md` 保存步驟、續行點與範圍取捨。
+
+Prove It Works 原則使 writer 重新核對整合後的實際來源與 controls。Model the Domain 原則保留既有 binding 的 `contract` 與 `issue_body`，沒有為恢復建立另一份狀態。原生 `collaboration.spawn_agent` 支援 `fork_turns: none`。獨立 source reviewer、criteria reviewer、修正 writer 與各 consumer 使用自己的證據檔案。只有修正 writer 在指定四個 repository 檔案寫入，主 writer 隨後接手紀錄與 manifest。這次沒有宣稱具備 Cursor Task、特殊 subagent_type、跨模型家族 review 或完整平台 transcript。
+
+### 整合失敗與修正
+
+第一輪 Test Manager 依目前 admitted base 選出 35 個模組、538 個 controls。命令 exit 1，wall time 約 118.73 秒。三個模組失敗，其餘 32 個模組通過。原始 stdout、stderr 與 process receipt 均保留，後續成功不覆寫這次結果。
+
+`adopt_interruption` 已核對 Issue body digest，卻沒有把正文加入交給 projection 的 binding。另一個 recovered stage fixture 也只傳 contract。新 projection 要求 exact body，因此兩個 consumer 出現 `KeyError: issue_body`。修正把已驗證正文傳入既有 binding，並讓 fixture 保留原 prompt 正文。沒有用空值或略過驗證來消除錯誤。
+
+`system-context` 使用共同的有限讀取器來固定 source bytes。整合後的 `issue_atom.py` 是 284362 bytes，超過原 256 KiB 單檔上限。正式 entry 與其 control 都拒絕這個來源。拆分 owner 會擴大這次修正與固定 runtime 的檔案邊界。這次將既有單檔上限調為 512 KiB，總量仍限制為 1 MiB。新增控制涵蓋有效的大檔、上限值與超過上限一個 byte 的拒絕。這項改動讓現有來源可讀，沒有移除有限容量檢查。
+
+修正後，Test Manager 選出的七個受影響模組共 88 個 controls 全部通過，命令約 43.79 秒。它們涵蓋 admission、instruction context、system context、interruption recovery、stage outcome、feedback owner 與 atom feedback。正式 `./system-context entry issue-atom run` 也回傳 `ready`。這份 readback 的 source head 仍是起始 integration commit，不能宣稱已驗證未來的 commit。
+
+獨立 comment review 建議移除兩個重述 helper 動作的 docstrings。主 writer 接受這兩項建議。它們沒有外部限制或 public API 契約。沒有 MUST KILL 項目或未處理的 suppression。其餘 source/prose review 與修正後 readback 保存在 `integration-review.md`。最終 owner controls 與 feedback 結果另記於下段。
+
+本次外部證據目錄是 `/Users/neon/soodles-audits/owner-next-k9dj8l1s/writer-235-resume/`。所有新的紀錄與原 `writer-235/` 分開。完整 atom 決策總數、模型時間、tokens 與價格仍是 unknown。沒有 benchmark 或同條件勝出比較。
+
+
+### 本次 owner controls 與 consumer 續行
+
+移除兩行 docstrings 後，Test Manager 對最終 owner source 執行 `test_issue_atom`。94 個 controls 全部通過，命令約 70.64 秒。這項結果與前述 88 個 controls 各自保留輸入與 scope，不把重跑次數當成新的驗收需求。最初 32 個模組的成功仍是當時來源的歷史結果。這次依修正影響選定必要重驗，沒有宣稱所有 35 個模組都在最終來源上重新執行。
+
+本次 protocol 使用 schema 2。requirements 從目前 `worker_context` 取得，與 admitted task 及 contract 相同。protocol 綁定全部七份 changed P-class instructions。獨立 `/root/criteria_review` 先核對四組案例的 25 個 expected fields，全部 supported。第一輪真實 stage feedback 回 `review_criteria`。第二輪回 `supply_behavior_evidence`，CLI 提供 selection 草稿及四個 requests。主 writer 沿用這份草稿，不另組固定輸入。
+
+四組 fresh consumers 由原生 `collaboration.spawn_agent` 建立，均使用 `fork_turns: none`。每組只取得 task、pinned instructions、必要 method 與自己的輸出目錄。預期值與 protocol 留在 supervising writer。第三次 consumer 派發曾回 `agent thread limit reached`。兩個既有 consumers 結束後，原工具成功建立其餘 consumers。`capability-readback.json` 保留原拒絕及後續 readback。沒有改用另一個 runner。
+
+
+第三輪真實 `./stage-outcome feedback` 已記錄 round 3。Schema Manager 回 `SUPPORTED / VALID / PASS`，next 是 `consume_verified_behavior`。Test Manager 的 observe 與 reuse 均為空，四組 cases 全部 verified。主 writer 已讀取四份 reports 及 captures，並於 `owner-consumption.json` 保存回覆 digest、承接動作與限制。這份結果綁定目前七份 P-class saved bytes，沒有改寫原 observations。
+
+四份 reports 保留 whole-atom 入口、五態 continuation、CLI feedback input 及未發布 base recovery 的邊界。它們是對指定情境的實際解讀，不是真實 owner effects 的執行。部分合併工具輸出曾被截斷，consumer 已補讀並在 trace 記錄。完整平台 transcript 與 consumer 全程耗時仍未知。Schema 本輪讀取及驗證約 8.250 ms，decision projection 約 0.0964 ms。後者是前者的一部分，不能重複加總。
+
+當前 writer 的 source、必要 controls、獨立 review 與 scoped feedback 已有證據。`delivery-manifest.json` 已綁定目前 admitted base、Issue 235 與保存檔案。原 typed outcome 仍由 `./stage-outcome completed` 記錄。這些 writer 證據不授予 publication 或 landing。後續 native readiness、Linux exact-head acceptance、push、PR、merge、Issue closure 及 Git/Noodle reconciliation 仍由原 supervising issue-atom、publication 與 independent landing owners 執行。

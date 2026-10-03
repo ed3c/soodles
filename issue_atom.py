@@ -1785,7 +1785,7 @@ def adopt_interruption(authorization_path, authorization, state, paths, ref, pac
             "interruption.original_binding", "changed")
     old_binding = issue_admission.load_external_envelope(
         packet["original_envelope"]["path"], packet["original_envelope"]["sha256"], authorization["control_root"])
-    old_binding["contract"] = issue_admission.parse_contract(body)
+    old_binding.update(contract=issue_admission.parse_contract(body), issue_body=body)
     owner = issue_execution.read_owner(old_binding)
     stage = owner["state"]["orders"][old_binding["execution"]["order_id"]]["stages"][0]
     try:
@@ -2814,7 +2814,6 @@ def advance_correction(authorization, paths, state, provider):
 
 
 def retire_completed_review(authorization, paths, state, owner, prior, reason):
-    """Retire a validated review while its held native owner stays alive."""
     order_id = prior["order_id"]
     order = owner["state"]["orders"][order_id]
     stage = order["stages"][0]
@@ -2842,7 +2841,6 @@ def retire_completed_review(authorization, paths, state, owner, prior, reason):
 
 
 def advance_correction_replacement(authorization, paths, state, binding, owner, prior, provider):
-    """Replace an already validated failed order and release its held successor."""
     order_id = binding["execution"]["order_id"]
     order = owner["state"]["orders"][order_id]
     stage = order["stages"][0]
