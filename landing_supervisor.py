@@ -93,13 +93,14 @@ def _repository(snapshot):
 
 def _derive_claim(snapshot, route, verifier_sha256):
     repository = _repository(snapshot)
-    require(set(route) in (
+    route_fields = set(route) - {"target_binding"}
+    require(route_fields in (
         {"kind"},
         {"kind", "control_root", "execution_envelope", "publication_claim"},
     ), "route.fields", sorted(route))
     kind = route.get("kind")
     require(kind in {"cloud", "local"}, "route.kind", kind, "cloud_or_local_route")
-    require((kind == "cloud") == (set(route) == {"kind"}),
+    require((kind == "cloud") == (route_fields == {"kind"}),
             "route.shape", sorted(route), "route_specific_identity")
     require((kind == "local") == ("control_root" in route),
             "route.shape", sorted(route), "route_specific_identity")
@@ -127,6 +128,11 @@ def _derive_claim(snapshot, route, verifier_sha256):
         raise SupervisorRefusal("snapshot.fields", type(error).__name__,
                                 "complete_provider_snapshot") from error
 
+    if "target_binding" in route:
+        from repository_binding import selected
+        claim["target_binding"] = route["target_binding"]
+        acceptance = selected(claim, require)
+        require(pr["base"].get("ref") == acceptance["base_ref"], "snapshot.base.ref", pr["base"].get("ref"))
     require(issue.get("html_url") == f"https://github.com/{repository}/issues/{claim['issue']}",
             "snapshot.issue.identity", issue.get("html_url"), "matching_issue_readback")
     require(pr.get("html_url") == f"https://github.com/{repository}/pull/{claim['pr']}",

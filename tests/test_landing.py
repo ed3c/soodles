@@ -105,12 +105,13 @@ class LandingTests(unittest.TestCase):
         envelope = {"execution": {"carrier": {"noodle": {"sha256": "f" * 64}},
                                   "order_id": "fixture-order"}}
         with patch("landing.execution_binding", return_value=envelope), \
-                patch("landing.fetch_main"), \
+                patch("landing.fetch_main", side_effect=lambda root: None) as fetch, \
                 patch("issue_execution.validate_carrier", return_value={"noodle": binary}), \
                 patch("issue_execution.read_owner", return_value={"fixture": True}), \
                 patch("issue_execution.completed_original_order",
                       return_value={"order_id": "fixture-order"}):
             result = landing.reconcile(self.checkpoint, binary)
+        fetch.assert_called_once_with(detached)
         self.assertEqual(result["classification"], "RESOLVED")
         self.assertEqual(soodles.checked(["git", "rev-parse", "HEAD"], detached), merged)
         self.assertEqual(soodles.checked(["git", "branch", "--show-current"], detached), "")
@@ -563,7 +564,7 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(interrupted["cleanup_intent"]["mode"], "no_op")
         with patch.object(landing, "runtime_check", return_value=runtime), patch.object(landing, "fetch_main") as fetch:
             result = landing.reconcile(self.checkpoint, "/unused")
-        fetch.assert_called_once_with(root.resolve())
+            fetch.assert_called_once_with(root.resolve())
         self.assertEqual(result["classification"], "RESOLVED")
         self.assertIsNone(result["next"])
         self.assertEqual(result["writes_offered"], ["merge", "close"])

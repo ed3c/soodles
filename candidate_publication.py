@@ -18,7 +18,7 @@ import urllib.parse
 import urllib.request
 
 from issue_admission import parse_contract
-from repository_binding import git_origins, issue_urls, profile, valid_name
+from repository_binding import git_origins, issue_urls, profile, selected, valid_name
 
 
 SHA40 = re.compile(r"[0-9a-f]{40}")
@@ -90,7 +90,7 @@ def _git_value(root, *args):
     return _git(root, *args).stdout.strip()
 
 
-def validate_claim(root, claim):
+def validate_claim(root, claim, target_binding=None):
     root = Path(root).resolve()
     _require(set(claim) == CLAIM_FIELDS, "claim.fields", sorted(claim))
     for field in ("head", "tree", "base_head"):
@@ -107,9 +107,13 @@ def validate_claim(root, claim):
     match = SUBJECT.fullmatch(claim["subject"] if isinstance(claim["subject"], str) else "")
     _require(match is not None and match.group(1) == claim["repository"],
              "claim.subject", claim["subject"])
-    _require(valid_name(claim["repository"]) and profile(claim["repository"]) is not None,
+    binding = {"repository": claim["repository"], "control_root": str(root.parent.parent)}
+    if target_binding is not None:
+        binding["target_binding"] = target_binding
+    acceptance = selected(binding, _require)
+    _require(target_binding is not None or claim["repository"] == "ed3c/soodles",
              "claim.repository", claim["repository"])
-    _require(claim["repository"] == "ed3c/soodles", "claim.repository", claim["repository"])
+    _require(claim["base_branch"] == acceptance["base_ref"], "claim.base_branch", claim["base_branch"])
     _require(all(isinstance(claim[field], str) and claim[field].strip() for field in (
         "order_id", "attempt_id", "session_id", "worktree_name", "worktree_path",
         "branch", "base_branch", "push_remote", "remote_url")), "claim.identity", claim)
@@ -142,7 +146,7 @@ def validate_claim(root, claim):
     return root, int(match.group(2))
 
 
-def native_readiness(root, claim, noodle):
+def native_readiness(root, claim, noodle, target_binding=None):
     """Produce non-authorizing, native-only evidence before PR publication.
 
     Claim custody and clean source are checked on both sides of execution. Raw
@@ -151,7 +155,7 @@ def native_readiness(root, claim, noodle):
     from concurrent.futures import ThreadPoolExecutor
     from soodles import measured
 
-    root, _ = measured("native_readiness.claim_before", validate_claim, root, claim,
+    root, _ = measured("native_readiness.claim_before", validate_claim, root, claim, target_binding,
                        head=claim.get("head") if isinstance(claim, dict) else None)
     binary = measured("native_readiness.binary_before", _native_binary, noodle, head=claim["head"])
     checks = []
@@ -181,9 +185,10 @@ def native_readiness(root, claim, noodle):
                 check=" ".join(argv[1:])), commands))
         for result in checks:
             _require(result["exit_status"] == 0, "readiness.check", result, "changed_candidate_or_native_capability")
-    measured("native_readiness.claim_after", validate_claim, root, claim, head=claim["head"])
+    measured("native_readiness.claim_after", validate_claim, root, claim, target_binding, head=claim["head"])
     measured("native_readiness.binary_after", _native_binary, noodle, head=claim["head"])
     return {"schema_version": 2, "scope": NATIVE_SCOPE,
+            **({"target_binding": target_binding} if target_binding is not None else {}),
             "repository": claim["repository"], "subject": claim["subject"],
             "candidate": {"head": claim["head"], "tree": claim["tree"]},
             "platform": platform.system().lower() + "_" + platform.machine().lower(),
@@ -211,7 +216,7 @@ def validate_inputs(root, acceptance, claim):
              and isinstance(candidate, dict), "acceptance.identity", acceptance)
     _require(candidate.get("head") == claim.get("head") and candidate.get("tree") == claim.get("tree"),
              "acceptance.candidate", candidate)
-    root, number = validate_claim(root, claim)
+    root, number = validate_claim(root, claim, acceptance.get("target_binding"))
     if scope == NATIVE_SCOPE:
         _require(acceptance.get("schema_version") in (1, 2) and acceptance.get("subject") == claim["subject"],
                  "readiness.identity", acceptance.get("subject"))
@@ -324,7 +329,7 @@ def _read_exact_pull(provider, branch, head, base, body):
     return competing[0] if competing else None
 
 
-def _comparison_before_effect(root, claim, issue, number, expected_body=None):
+def _comparison_before_effect(root, claim, issue, number, expected_body=None, target_binding=None):
     _require(issue.get("number") == number and issue.get("state") == "open"
              and "pull_request" not in issue, "github.issue", issue, "current_open_issue")
     if expected_body is not None and issue.get("body") != expected_body:
@@ -332,7 +337,7 @@ def _comparison_before_effect(root, claim, issue, number, expected_body=None):
         raise ComparisonRefusal("comparison.issue.body", "changed", "fresh_issue_contract")
     contract = parse_contract(issue.get("body"))
     _require(contract["base_head"] == claim["base_head"], "github.issue.base_head", contract["base_head"])
-    if contract["schema"] == 4:
+    if contract["schema"] == 4 or target_binding is not None:
         from issue_admission import verify_candidate
         from issue_admission import comparison_require
         api, html = issue_urls(claim["repository"], number)
@@ -340,7 +345,7 @@ def _comparison_before_effect(root, claim, issue, number, expected_body=None):
                            "comparison.issue.identity", [issue.get("url"), issue.get("html_url")],
                            "fresh_exact_issue_readback")
         # Schema 4 requires provider URL identity in the fresh readback.
-        receipt = verify_candidate(root, claim["base_head"], claim["head"], issue)
+        receipt = verify_candidate(root, claim["base_head"], claim["head"], issue, target_binding=target_binding)
         _require(receipt["issue"] == number and receipt["tree"] == claim["tree"],
                  "comparison.candidate", receipt)
     return contract
@@ -410,13 +415,14 @@ def publish(root, acceptance, claim, provider, push=None, before_effect=None, re
     root, number = validate_inputs(root, acceptance, claim)
     repository = provider.repository_info()
     _require(repository.get("full_name") == claim["repository"]
-             and repository.get("default_branch") == claim["base_branch"],
+             and (acceptance.get("target_binding") is not None
+                  or repository.get("default_branch") == claim["base_branch"]),
              "github.repository", repository, "exact_provider_repository")
     issue = provider.issue(number)
     _require(issue.get("number") == number and issue.get("state") == "open"
              and "pull_request" not in issue and isinstance(issue.get("title"), str),
              "github.issue", issue, "current_open_issue")
-    _comparison_before_effect(root, claim, issue, number)
+    _comparison_before_effect(root, claim, issue, number, target_binding=acceptance.get("target_binding"))
     _require(provider.base_head(claim["base_branch"]) == claim["base_head"],
              "github.base_head", claim["base_head"], "fresh_provider_base")
 
@@ -426,7 +432,7 @@ def publish(root, acceptance, claim, provider, push=None, before_effect=None, re
         _require(remote.get("object", {}).get("sha") == claim["head"],
                  "github.branch.head", remote.get("object", {}).get("sha"), "exact_provider_branch")
     else:
-        _comparison_before_effect(root, claim, provider.issue(number), number, issue["body"])
+        _comparison_before_effect(root, claim, provider.issue(number), number, issue["body"], acceptance.get("target_binding"))
         if before_effect is not None:
             before_effect("branch_push")
         push = push or _git
@@ -442,7 +448,7 @@ def publish(root, acceptance, claim, provider, push=None, before_effect=None, re
     pull = _read_exact_pull(provider, branch, claim["head"], claim["base_branch"], body)
     created = False
     if pull is None:
-        _comparison_before_effect(root, claim, provider.issue(number), number, issue["body"])
+        _comparison_before_effect(root, claim, provider.issue(number), number, issue["body"], acceptance.get("target_binding"))
         if before_effect is not None:
             before_effect("pr_create")
         try:
@@ -486,10 +492,11 @@ def publish_amendment(root, acceptance, claim, provider, prior, *, offered, push
 
     repository = provider.repository_info()
     _require(repository.get("full_name") == claim["repository"]
-             and repository.get("default_branch") == claim["base_branch"],
+             and (acceptance.get("target_binding") is not None
+                  or repository.get("default_branch") == claim["base_branch"]),
              "github.repository", repository)
     issue = provider.issue(number)
-    _comparison_before_effect(root, claim, issue, number)
+    _comparison_before_effect(root, claim, issue, number, target_binding=acceptance.get("target_binding"))
     _require(provider.base_head(claim["base_branch"]) == claim["base_head"],
              "github.base_head", claim["base_head"], "fresh_provider_base")
     body = "Refs " + claim["subject"]
@@ -567,6 +574,10 @@ def validate_amendment_prior(prior, repository, subject, number):
 def run(root, acceptance_path, claim_path):
     acceptance = _read(acceptance_path, "acceptance")
     claim = _read(claim_path, "claim")
+    if "target_binding" in acceptance:
+        _require(isinstance(claim.get("worktree_path"), str), "claim.worktree_path", "missing")
+        root = Path(claim["worktree_path"])
+        validate_claim(root, claim, target_binding=acceptance["target_binding"])
     # Standalone publication retains the same one-offer/readback contract.
     # Store its process evidence beside the external readiness receipt, never
     # in the candidate whose clean identity is being published.

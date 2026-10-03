@@ -13,7 +13,7 @@ import sys
 import tempfile
 
 from soodles import Refusal
-from repository_binding import issue_urls, profile, valid_name
+from repository_binding import issue_urls, profile, selected as target_profile, valid_name
 
 MARKER = "soodles:execution-v1"
 CONTRACT_V1_FIELDS = {
@@ -274,7 +274,7 @@ def validate_failure_context(context, repository, issue, head, workflow=None, pr
     exact_object(context, {"sha256", "data"}, "failure_context.fields")
     data = context["data"]
     exact_object(data, {"schema", "repository", "issue", "pr", "head", "workflow",
-                        "run", "jobs", "diagnostics"}, "failure_context.data")
+                        "run", "jobs", "diagnostics"} | ({"target_binding"} if "target_binding" in data else set()), "failure_context.data")
     require(context["sha256"] == failure_digest(data), "failure_context.sha256", "changed")
     require(type(data["schema"]) is int and data["schema"] == 1
             and data["repository"] == repository and type(data["issue"]) is int
@@ -282,8 +282,9 @@ def validate_failure_context(context, repository, issue, head, workflow=None, pr
             and type(data["pr"]) is int and data["pr"] > 0
             and (pr is None or data["pr"] == pr), "failure_context.subject", "mismatch")
     selected = data["workflow"]
-    exact_object(selected, {"path", "job", "step"}, "failure_context.workflow")
-    require(all(nonempty(v) for v in selected.values())
+    generic = "target_binding" in data
+    exact_object(selected, {"path", "jobs"} if generic else {"path", "job", "step"}, "failure_context.workflow")
+    require(all(nonempty(v) for k, v in selected.items() if k != "jobs")
             and (workflow is None or selected == workflow), "failure_context.workflow", "mismatch")
     run, jobs = data["run"], data["jobs"]
     require(isinstance(run, dict) and type(run.get("id")) is int and run["id"] > 0
@@ -293,7 +294,19 @@ def validate_failure_context(context, repository, issue, head, workflow=None, pr
             and run.get("conclusion") == "failure", "failure_context.run", "mismatch")
     require(isinstance(jobs, dict) and isinstance(jobs.get("jobs"), list)
             and all(isinstance(j, dict) for j in jobs["jobs"]), "failure_context.jobs", "invalid")
-    targets = [j for j in jobs["jobs"] if j.get("name") == selected["job"]]
+    if generic:
+        from repository_binding import validate_run
+        acceptance = target_profile(data, require)
+        require(selected == {"path": acceptance["workflow_path"], "jobs": acceptance["jobs"]},
+                "failure_context.workflow.binding", selected)
+        validate_run(data, run, jobs, head, require, allow_failure=True)
+        require(isinstance(data["diagnostics"], list)
+                and all(isinstance(item, dict) for item in data["diagnostics"]),
+                "failure_context.diagnostics", "invalid")
+        diagnostic_ids = [item.get("job_id") for item in data["diagnostics"]]
+        targets = [j for j in jobs["jobs"] if j.get("id") in diagnostic_ids]
+    else:
+        targets = [j for j in jobs["jobs"] if j.get("name") == selected["job"]]
     require(len(targets) == 1, "failure_context.job", "ambiguous")
     job = targets[0]
     require(type(job.get("id")) is int and job["id"] > 0
@@ -303,8 +316,9 @@ def validate_failure_context(context, repository, issue, head, workflow=None, pr
             and job.get("status") == "completed" and job.get("conclusion") == "failure"
             and isinstance(job.get("steps"), list)
             and all(isinstance(step, dict) for step in job["steps"]), "failure_context.job", "mismatch")
-    steps = [step for step in job["steps"] if step.get("name") == selected["step"]]
-    require(len(steps) == 1 and steps[0].get("status") == "completed"
+    steps = [step for step in job["steps"] if
+             (step.get("conclusion") == "failure" if generic else step.get("name") == selected["step"])]
+    require((bool(steps) if generic else len(steps) == 1) and steps[0].get("status") == "completed"
             and steps[0].get("conclusion") in {"failure", "skipped"}
             and any(step.get("status") == "completed" and step.get("conclusion") == "failure"
                     for step in job["steps"]), "failure_context.steps", "missing failed step")
@@ -352,9 +366,9 @@ def validate_failure_logs(context, control_root):
 
 
 def validate_envelope(envelope):
-    exact_object(envelope, ENVELOPE_FIELDS, "envelope.fields")
+    exact_object(envelope, ENVELOPE_FIELDS | ({"target_binding"} if "target_binding" in envelope else set()), "envelope.fields")
     require(type(envelope["schema"]) is int and envelope["schema"] in (1, 2), "envelope.schema", envelope["schema"])
-    require(valid_name(envelope["repository"]) and profile(envelope["repository"]) is not None,
+    require(valid_name(envelope["repository"]) and target_profile(envelope, require) is not None,
             "envelope.repository", envelope["repository"],
             owner="supervisor", required="supported_repository_envelope")
     require(type(envelope["issue"]) is int and envelope["issue"] > 0, "envelope.issue", envelope["issue"])
@@ -366,12 +380,19 @@ def validate_envelope(envelope):
     paths = path_set(envelope["write_paths"], "envelope.write_paths")
     execution = envelope["execution"]
     context_fields = {"instruction_context"} if envelope["schema"] == 2 else set()
+    context_fields |= {"runtime"} if "target_binding" in envelope else set()
     context_fields |= {"failure_context"} if isinstance(execution, dict) and "failure_context" in execution else set()
     context_fields |= {"recovery_context"} if isinstance(execution, dict) and "recovery_context" in execution else set()
     exact_object(execution, {"control_root", "worktree", "order_id", "stage_index", "carrier", "task", "source_head"} | context_fields,
                  "envelope.execution.fields")
     require(isinstance(execution["source_head"], str) and re.fullmatch(r"[0-9a-f]{40}", execution["source_head"]),
             "envelope.execution.source_head", execution["source_head"])
+    if "target_binding" in envelope:
+        runtime = execution["runtime"]
+        exact_object(runtime, {"stage_outcome_argv", "test_argv"}, "envelope.runtime")
+        for argv in runtime.values():
+            require(isinstance(argv, list) and len(argv) == 1 and isinstance(argv[0], str)
+                    and Path(argv[0]).is_absolute(), "envelope.runtime.argv", argv)
     if envelope["schema"] == 2:
         validate_instruction_context(execution["instruction_context"], execution["source_head"])
     require(nonempty(execution["task"]), "envelope.execution.task", execution["task"])
@@ -417,6 +438,8 @@ def validate_recovery_context(envelope):
     projected = {**envelope, "execution": {key: value for key, value in execution.items()
                                            if key != "recovery_context"}}
     projected["execution"]["carrier"] = original["execution"]["carrier"]
+    if "target_binding" in original:
+        projected["execution"]["runtime"] = original["execution"]["runtime"]
     require(projected == original, "recovery.original_binding", "changed")
     custody = recovery["custody"]
     require(isinstance(custody, dict), "recovery.custody", "missing")
@@ -467,6 +490,7 @@ def validate_issue(readback, envelope, *, completed=False):
     require(contract["owner"] == envelope["owner"], "envelope.owner", envelope["owner"])
     require(contract["write_paths"] == envelope["write_paths"], "envelope.write_paths", envelope["write_paths"])
     return {
+        **({"target_binding": envelope["target_binding"]} if "target_binding" in envelope else {}),
         "repository": repository, "issue": number, "body_sha256": envelope["body_sha256"],
         "body_updated_at": envelope["body_updated_at"], "owner": contract["owner"],
         "write_paths": envelope["write_paths"], "base_head": envelope["base_head"],
@@ -482,7 +506,12 @@ def load_external_envelope(path, expected_digest, subject_root):
     data = path.read_bytes()
     actual = hashlib.sha256(data).hexdigest()
     require(actual == expected_digest, "envelope.sha256", actual)
-    return validate_envelope(json.loads(data))
+    envelope = validate_envelope(json.loads(data))
+    if "target_binding" in envelope:
+        require(envelope["execution"]["runtime"] == {
+            "stage_outcome_argv": [str(path.parent / "stage-outcome")],
+            "test_argv": [str(path.parent / "test")]}, "envelope.runtime.bundle", "foreign_entry")
+    return envelope
 
 
 def changed_paths(root, base, head):
@@ -528,7 +557,7 @@ def candidate_repository(binding):
                 owner="Soodles Issue admission",
                 required="repository_bound_candidate")
         return "ed3c/soodles"
-    require(profile(repository) is not None,
+    require(target_profile(binding, require) is not None,
             "candidate.binding.repository", repository,
             owner="Soodles Issue admission",
             required="supported_repository_binding")
@@ -660,7 +689,7 @@ def validate_delivery_paths(root, base, head, binding):
             "authorizes_landing": False}
 
 
-def verify_candidate(root, base, head, readback):
+def verify_candidate(root, base, head, readback, *, target_binding=None):
     """Verify exact Git objects against one fresh, read-only Issue readback."""
     if isinstance(readback, dict) and readback.get("owner") == "github.issue":
         require(readback.get("status") == "read"
@@ -678,7 +707,8 @@ def verify_candidate(root, base, head, readback):
     match = re.fullmatch(r"https://api\.github\.com/repos/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)/issues/[0-9]+",
                          str(readback.get("url")))
     repository = match.group(1) if match else None
-    require(repository is not None and profile(repository) is not None,
+    require(repository is not None and target_profile(
+                {"repository": repository, **({"target_binding": target_binding} if target_binding else {})}, require) is not None,
             "candidate.issue.repository", repository,
             owner="supervisor", required="supported_repository_readback")
     api_url, html_url = issue_urls(repository, number)
@@ -713,6 +743,8 @@ def verify_candidate(root, base, head, readback):
         "write_paths": contract["write_paths"],
         "contract": contract,
     }
+    if target_binding is not None:
+        binding["target_binding"] = target_binding
     receipt = validate_delivery_paths(root, base, head, binding)
     frozen_receipts = []
     for pin in contract.get("frozen_paths", []):

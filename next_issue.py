@@ -19,7 +19,7 @@ import urllib.error
 import urllib.request
 
 import issue_admission
-from repository_binding import profile
+from repository_binding import profile, selected as target_profile
 
 
 FINGERPRINT_PREFIX = "<!-- soodles:causal-atom-sha256:"
@@ -70,6 +70,8 @@ def _fingerprint(candidate):
         "write_paths": sorted(contract["write_paths"]),
         "dependencies": contract["dependencies"],
     }
+    if "target_binding" in candidate:
+        material["target_binding"] = candidate["target_binding"]
     return hashlib.sha256(
         json.dumps(material, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
@@ -104,12 +106,13 @@ def _validate_resolved(receipt):
             required="resolved_landing_claim")
     repository = claim.get("repository")
     issue = claim.get("issue")
-    require(isinstance(repository, str) and profile(repository) is not None,
+    require(isinstance(repository, str) and target_profile(claim, require) is not None,
             "resolved.claim.repository", repository,
             required="supported_resolved_repository")
     require(type(issue) is int and issue > 0, "resolved.claim.issue", issue,
             required="resolved_issue_identity")
-    return {"repository": repository, "issue": issue}
+    return {"repository": repository, "issue": issue,
+            **({"target_binding": claim["target_binding"]} if "target_binding" in claim else {})}
 
 
 def _validate_packet(packet):
@@ -125,7 +128,7 @@ def _validate_packet(packet):
     normalized = []
     for index, candidate in enumerate(values):
         field = f"candidates[{index}]"
-        require(isinstance(candidate, dict) and set(candidate) == CANDIDATE_FIELDS,
+        require(isinstance(candidate, dict) and set(candidate) - {"target_binding"} == CANDIDATE_FIELDS,
                 field + ".fields", sorted(candidate) if isinstance(candidate, dict) else candidate)
         candidate_id = candidate["candidate_id"]
         repository = candidate["repository"]
@@ -134,7 +137,7 @@ def _validate_packet(packet):
                 field + ".candidate_id", candidate_id)
         require(candidate_id not in ids, "candidates.candidate_id", candidate_id)
         ids.append(candidate_id)
-        require(isinstance(repository, str) and profile(repository) is not None,
+        require(isinstance(repository, str) and target_profile(candidate, require) is not None,
                 field + ".repository", repository,
                 required="supported_candidate_repository")
         require(isinstance(title, str) and bool(title.strip()) and "\n" not in title,
@@ -157,7 +160,7 @@ def _validate_packet(packet):
     return selected, normalized
 
 
-def _validate_frontier(frontier):
+def _validate_frontier(frontier, bindings=None):
     require(set(frontier) == FRONTIER_FIELDS,
             "frontier.fields", sorted(frontier))
     require(frontier["schema"] == 1, "frontier.schema", frontier["schema"])
@@ -174,7 +177,8 @@ def _validate_frontier(frontier):
                 field + ".fields", sorted(issue) if isinstance(issue, dict) else issue,
                 owner="GitHub", required="exact_provider_issue_readback")
         repository, number = issue["repository"], issue["number"]
-        require(isinstance(repository, str) and profile(repository) is not None,
+        require(isinstance(repository, str) and target_profile({"repository": repository,
+                    **({"target_binding": bindings[repository]} if bindings and repository in bindings else {})}, require) is not None,
                 field + ".repository", repository,
                 owner="GitHub", required="supported_provider_issue")
         require(type(number) is int and number > 0, field + ".number", number,
@@ -282,7 +286,14 @@ def _persist(output, intent, report):
 def prepare(resolved, packet, frontier, route, output):
     predecessor = _validate_resolved(resolved)
     selected, candidates = _validate_packet(packet)
-    issues = _validate_frontier(frontier)
+    bindings = {}
+    for subject in [predecessor, *candidates]:
+        if "target_binding" in subject:
+            repository = subject["repository"]
+            require(repository not in bindings or bindings[repository] == subject["target_binding"],
+                    "candidates.binding_conflict", repository)
+            bindings[repository] = subject["target_binding"]
+    issues = _validate_frontier(frontier, bindings)
     kind = _route(route)
 
     reports = []
@@ -349,6 +360,8 @@ def prepare(resolved, packet, frontier, route, output):
         "status": "prepared",
         "authorizes_landing": False,
     }
+    if "target_binding" in chosen:
+        intent["target_binding"] = chosen["target_binding"]
     output = _persist(output, intent, {
         "schema": 1,
         "qualification": reports,
@@ -454,6 +467,7 @@ def _terminal(issue, intent):
         "action": "created",
         "candidate_id": intent["candidate_id"],
         "fingerprint": intent["fingerprint"],
+        **({"target_binding": intent["target_binding"]} if "target_binding" in intent else {}),
         "issue": {
             "repository": intent["request"]["repository_full_name"],
             "number": issue["number"],
@@ -468,6 +482,8 @@ def _readback_next(intent_path, intent):
     repository = intent["request"]["repository_full_name"]
     return {
         "kind": "provider_readback",
+        **({"bindings": [{"repository": repository, "target_binding": intent["target_binding"]}]}
+           if "target_binding" in intent else {}),
         "owner": "GitHub",
         "operation": "reconcile",
         "required": ["frontier"],
@@ -497,7 +513,28 @@ def execute(intent_path, *, environ=None, api=None):
             required="prepared_create_intent")
     token = _token(environ)
     request = intent["request"]
+    target_profile({"repository": request["repository_full_name"],
+        **({"target_binding": intent["target_binding"]} if "target_binding" in intent else {})}, require)
     url = f"https://api.github.com/repos/{request['repository_full_name']}/issues"
+    offered = intent_path.with_name("create-offered.json")
+    identity = hashlib.sha256(_canonical(intent)).hexdigest()
+    try:
+        descriptor = os.open(offered, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    except FileExistsError:
+        require(_read_json(offered, "intent.offered") == {"intent_sha256": identity},
+                "intent.offered", str(offered), required="original_create_owner_readback")
+        return {"owner": "next-issue.execute", "action": "unknown",
+                "provider_mutations": None, "next": _readback_next(intent_path, intent),
+                "authorizes_landing": False}
+    with os.fdopen(descriptor, "wb") as stream:
+        stream.write(_canonical({"intent_sha256": identity}))
+        stream.flush()
+        os.fsync(stream.fileno())
+    directory = os.open(intent_path.parent, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(directory)
+    finally:
+        os.close(directory)
     try:
         issue = _api(
             api, "POST", url,
@@ -521,7 +558,8 @@ def execute(intent_path, *, environ=None, api=None):
 def reconcile(intent_path, frontier):
     intent_path = Path(intent_path).resolve()
     intent = _read_json(intent_path, "intent")
-    issues = _validate_frontier(frontier)
+    issues = _validate_frontier(frontier, {intent["request"]["repository_full_name"]: intent["target_binding"]}
+                                if "target_binding" in intent else None)
     marker = _marker(intent["fingerprint"])
     matches = [
         issue for issue in issues
