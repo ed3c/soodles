@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 232
+  },
+  "instructions": [
+    {
+      "path": ".agents/skills/verify-soodles/features/local-supervisor-admission.md",
+      "baseline_sha256": "6ef5fcf6bf65440fe8277cda7e67d93a2ad50fecd4b2f75078ded808fd4937c7",
+      "treatment_sha256": "f11b1979b979609f4e384013034ad17f2ad750e71ff219a8236eb5e67d161309"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/admitted-backlog/design.md",
+      "role": "evidence",
+      "sha256": "20b3da90ba2ab16cafc726f04fb314fc025ae8b8b1befb340c00cbf34f8c0cf4"
+    },
+    {
+      "path": "docs/experiments/admitted-backlog/results.md",
+      "role": "evidence",
+      "sha256": "d314e2b9f4390227afb6947e927c89d3e89c784291ca80335b8d0ebf204f9188"
+    },
+    {
+      "path": "supervisor_admission.py",
+      "role": "implementation",
+      "sha256": "0298106b3788be064971974d289dd80d15f1b7f91d6a4af32413c25c3939b90f"
+    },
+    {
+      "path": "tests/test_supervisor_admission.py",
+      "role": "hard_controls",
+      "sha256": "17bd8695cb5dc7146c634ecdc5d38a3f827f0b215c7c30c484d88d92e3259511"
+    }
+  ],
+  "owner": {
+    "name": "Soodles supervisor admission producer；Noodle retains loop/session；原provider owners保留admission/done/publication/landing readback。",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#232"
+  },
+  "authorizes_landing": false
+}

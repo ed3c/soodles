@@ -239,6 +239,41 @@ Execute that argv once and consume the existing admission owner's result.
 Before calling the existing automatic boundary, the launcher revalidates the
 envelope and runtime digests.
 
+### 已接納 order 的 backlog 投影
+
+Noodle 定期呼叫產生的 `backlog sync`，以取得已接納的單一 order。
+這個輸入只需要固定的 admission 身分與 task，不需要 GitHub 的目前狀態。
+若每次 sync 都 GET Issue，token 失效會讓固定身分的讀取失敗。
+延長 token 或快取 provider 回應仍保留這項不必要的依賴。
+因此 adapter 直接投影通過 hash 驗證的 admission envelope。
+
+每次 sync 先驗證 runtime 檔案與 envelope 的原始 digests。
+驗證成功後，adapter 輸出唯一的 order、repository、issue 與 task。
+`id` 是原 order，`title` 使用該 order，`plan` 是原 task。
+輸出標記 `source=admission_snapshot`，不包含 provider `status`。
+Noodle 讀取這項 backlog 資料。sync 不建立新 admission，也不變更 provider。
+即使沒有 token，或 token 在輪詢期間失效，sync 也不呼叫 transport。
+這項成功只證明固定 admission 的投影可讀。
+不要把它當成 GitHub Issue 目前仍 open 或已 completed 的證據。
+
+若 runtime 或 envelope bytes 改變，adapter 拒絕投影。
+`add`、`edit` 與 foreign-order `done` 仍拒絕。
+對原 order 執行 `done` 時，adapter 仍 GET 目前 Issue。
+它必須驗證原 Issue 身分、body 與 `closed/completed`，才可回傳完成讀回。
+401、錯誤身分、body 變更、仍 open 或非 completed closure 都不能用 snapshot 放行。
+worker 與 admission 也保留原本的 fresh provider validation。
+已 closed 的 Issue 不能通過它們的 open-Issue admission。
+缺少憑證或 provider 讀回時，使用原 owner 的 refusal 與 continuation。
+
+若 Test Manager 選到這項變更，使用原 adapter subprocess 驗證重複 sync。
+使用無 token 與會回傳 401 的 fixture transport，要求相同身分與零呼叫。
+同時保留上述 tamper、operation、done 與 fresh admission 拒絕控制。
+這些 controls 不重演 live provider failure，也不請求 full suite。
+publication、exact-head CI、landing 與 reconciliation 仍由既有 owners 接續。
+只有後續新 admission 實際讀取修正 bundle，才可宣稱 activation。
+既有 session 的 immutable bundle 不會因候選 source 改變而更新。
+這項修正不恢復 #229，也不授權重啟其 writer。
+
 When Test Manager selects verification of this producer, use the affected
 directions below. These are behavior controls, not steps for every admission:
 
