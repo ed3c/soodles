@@ -1,4 +1,4 @@
-"""Source-bound cost evidence. No credentials, subprocesses or effect decisions.
+"""Source-bound cost evidence. No credentials or effect decisions.
 
 Raw records are observational, never an acceptance or spending authority. The
 atom supplies its existing lock and durable writer; reports only read files.
@@ -409,12 +409,13 @@ def report(authorization_path, manifest_path=None, *, state=None, result=None):
         claim = decode(read_ref(claim_ref))
         session = claim.get("session_id")
         require(isinstance(session, str) and re.fullmatch(r"[A-Za-z0-9_.-]+", session), "native_session_path")
+        observed = {"claim": claim_ref, "head": claim.get("head")}
         native_path = Path(authorization["control_root"]) / ".noodle" / "sessions" / session / "raw.ndjson"
         if native_path.is_file():
-            observed = {"claim": claim_ref, "head": claim.get("head"), "native": [{
+            observed["native"] = [{
                 "file": file_ref(native_path), "kind": "codex_raw", "session_id": session,
-                "order_id": claim.get("order_id")} ]}
-            observations.extend(external(observed, identity, state, path, sources, authorization))
+                "order_id": claim.get("order_id")} ]
+        observations.extend(external(observed, identity, state, path, sources, authorization))
     if manifest_path is not None:
         require(manifest.get("subject") == identity, "manifest_subject")
         observations.extend(external(manifest, identity, state, path, sources, authorization))
@@ -440,8 +441,13 @@ def report(authorization_path, manifest_path=None, *, state=None, result=None):
             phase=state.get("phase", "unknown"), outcome="unknown",
             reason="reserved repair history; elapsed repair deadline is not processing cost"))
     projection = project(identity, observations, gate_from_state(state, source, result))
-    return {"status": "reported", **projection, "evidence": sources,
-            "artifacts": str(directory / "cost")}
+    if source:
+        read_ref(source)
+    require(path.read_bytes() == raw, "authorization_changed")
+    report = {"status": "reported", **projection, "evidence": sources,
+              "artifacts": str(directory / "cost")}
+    from schema_manager import project_owner_feedback
+    return {**report, "feedback": project_owner_feedback({**(result or {}), "cost": report})}
 
 
 def external(manifest, identity, state, authorization_path, sources, authorization):
@@ -454,7 +460,11 @@ def external(manifest, identity, state, authorization_path, sources, authorizati
         require(claim.get("repository") == identity["repository"]
                 and claim.get("subject") == identity["repository"] + "#" + str(issue_number), "claim_subject")
         require(head is None or claim.get("head") == head, "claim_head")
-        require(claim.get("base_head") == identity["base_head"], "claim_base")
+        from issue_atom import accepted_claim_lineage
+        lineage = accepted_claim_lineage(authorization_path, Path(authorization_path).read_bytes(), state)
+        require(lineage["authorization_sha256"] == identity["authorization"], "claim_authorization")
+        require(claim.get("base_head") == lineage["base_head"], "claim_base")
+        sources.extend(lineage["sources"])
         head = claim.get("head")
         sources.append(claim_ref)
     require(manifest.get("head") == head, "manifest_head")

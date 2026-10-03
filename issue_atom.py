@@ -1340,55 +1340,111 @@ def validate_scope_request(authorization, selection):
     validate_lifecycle_owner({**authorization, "lifecycle_owner": selection["lifecycle_owner"]})
 
 
-def scope_history_authority(original, state):
+def released_scope_authority(authorization, state, previous, sources):
+    amendment = previous["amendment"]
+    ref = amendment["selection"]
+    packet = scope_selection_packet(authorization, state, ref)
+    require(amendment.get("status") == "released", "revision.history.identity", "unreleased")
+    prepared = amendment.get("prepared")
+    validate_prior_atom_ref(prepared, authorization["control_root"])
+    selection = packet["selection"]
+    validate_scope_request(authorization, selection)
+    body = (revision_body(authorization, selection) if selection.get("schema") == 2
+            else issue_admission.supplemented_body(authorization["issue"]["body"], selection["added_write_paths"]))
+    intent = previous["issue_write"]
+    require(intent.get("status") == "observed"
+            and intent.get("selection_sha256") == ref["sha256"]
+            and intent.get("previous_body_sha256") == digest_bytes(authorization["issue"]["body"].encode())
+            and intent.get("body_sha256") == digest_bytes(body.encode()), "revision.history.issue", "changed")
+    controls = previous["controls"]
+    actions = {"scope_edit": "edit-item", "scope_requeue": "requeue", "scope_release": "mode"}
+    if selection.get("schema") == 2:
+        actions["scope_request"] = "request-changes"
+    require(set(controls) == set(actions), "revision.history.controls", sorted(controls))
+    require(len({command["id"] for command in controls.values()}) == len(controls),
+            "revision.history.controls", "duplicate_ids")
+    require(isinstance(previous["acks"], list) and all(isinstance(ack, dict) for ack in previous["acks"]),
+            "revision.history.ack", "invalid_readback")
+    for name, command in controls.items():
+        matching = [ack for ack in previous["acks"] if ack.get("id") == command["id"]]
+        require(command["id"].startswith("soodles-scope-" + ref["sha256"][:24] + "-")
+                and command["action"] == actions[name]
+                and len(matching) == 1 and matching[0].get("action") == command["action"]
+                and matching[0].get("status") == "ok", "revision.history.ack", name)
+    sources.extend((ref, packet["authorization"], prepared, selection["evidence"]))
+    authorization = {**authorization, "issue": {**authorization["issue"], "body": body}}
+    if selection.get("schema") == 2:
+        sources.extend(selection[name] for name in ("original_envelope", "provider_readback", "native_acceptance"))
+        authorization = {**authorization, "base_head": selection["target_base"],
+                         "noodle": issue_admission.load_revision_native(selection["native_acceptance"], authorization["control_root"])}
+    return authorization
+
+
+def scope_history_authority(original, state, *, sources=None):
     authorization = original
     if "number" not in original["issue"] and state.get("issue") is not None:
         authorization = {**original, "issue": {**original["issue"], "number": state["issue"]["number"],
             "body": original["issue"]["body"].rstrip() + "\n\n" + marker(state["authorization_sha256"]) + "\n"}}
+    sources = [] if sources is None else sources
     for previous in state.get("scope_history", []):
-        ref = previous["amendment"]["selection"]
-        validate_prior_atom_ref(ref, original["control_root"])
-        packet = read_json(ref["path"], "revision.history")
-        require(packet["authorization"]["sha256"] == state["authorization_sha256"]
-                and previous["amendment"]["status"] == "released", "revision.history.identity", "changed")
-        selection = packet["selection"]
-        validate_scope_request(authorization, selection)
-        body = (revision_body(authorization, selection) if selection.get("schema") == 2
-                else issue_admission.supplemented_body(authorization["issue"]["body"], selection["added_write_paths"]))
-        intent = previous["issue_write"]
-        require(intent.get("status") == "observed"
-                and intent.get("selection_sha256") == ref["sha256"]
-                and intent.get("previous_body_sha256") == digest_bytes(authorization["issue"]["body"].encode())
-                and intent.get("body_sha256") == digest_bytes(body.encode()), "revision.history.issue", "changed")
-        controls = previous["controls"]
-        names = {"scope_edit", "scope_requeue", "scope_release"}
-        if selection.get("schema") == 2:
-            names.add("scope_request")
-        require(set(controls) == names, "revision.history.controls", sorted(controls))
-        for name, command in controls.items():
-            require(command["id"].startswith("soodles-scope-" + ref["sha256"][:24] + "-")
-                    and len([ack for ack in previous["acks"] if ack.get("id") == command["id"]
-                             and ack.get("action") == command["action"] and ack.get("status") == "ok"]) == 1,
-                    "revision.history.ack", name)
-        authorization = {**authorization, "issue": {**authorization["issue"], "body": body}}
-        if selection.get("schema") == 2:
-            authorization = {**authorization, "base_head": selection["target_base"],
-                             "noodle": issue_admission.load_revision_native(selection["native_acceptance"], authorization["control_root"])}
+        authorization = released_scope_authority(authorization, state, previous, sources)
     return authorization
+
+
+def scope_selection_packet(authorization, state, ref):
+    validate_prior_atom_ref(ref, authorization["control_root"])
+    packet = read_json(ref["path"], "scope.selection")
+    require(set(packet) == {"schema", "authorization", "selection", "output"}
+            and packet["schema"] == 1, "scope.authorization", "invalid_packet")
+    validate_prior_atom_ref(packet["authorization"], authorization["control_root"])
+    require(packet["authorization"]["sha256"] == state["authorization_sha256"]
+            and Path(ref["path"]).parent == Path(packet["output"]),
+            "scope.authorization", "changed", "original_authorization_bytes")
+    return packet
+
+
+def accepted_claim_lineage(authorization_path, authorization_raw, state):
+    digest = digest_bytes(authorization_raw)
+    require(digest_file(authorization_path) == digest
+            and state.get("authorization_sha256", digest) == digest,
+            "cost.lineage.authorization", "changed", "original_authorization_bytes")
+    original = json.loads(authorization_raw)
+    sources = [{"path": str(authorization_path), "sha256": digest}]
+    recovery = state.get("base_recovery")
+    require(recovery is None or isinstance(recovery, dict), "cost.lineage.base_recovery", "invalid_record")
+    require(not (recovery or {}).get("prepared"),
+            "cost.lineage.base_recovery", "acceptance_unavailable", "accepted_base_recovery_readback")
+    amendment = state.get("scope_amendment")
+    require(amendment is None or isinstance(amendment, dict), "scope.amendment", "invalid_record")
+    if not state.get("scope_history") and amendment is None:
+        return {"authorization_sha256": digest, "base_head": original["base_head"], "sources": sources}
+    effective = scope_history_authority(original, state, sources=sources)
+    if amendment is not None and amendment.get("status") == "released":
+        commands = {name: state[name] for name in ("scope_request", "scope_edit", "scope_requeue", "scope_release")
+                    if name in state}
+        ack_path = Path(original["control_root"]) / ".noodle/control-ack.ndjson"
+        raw = ack_path.read_bytes()
+        ids = {command["id"] for command in commands.values()}
+        acks = [json.loads(line) for line in raw.decode().splitlines() if line.strip()]
+        require(all(isinstance(ack, dict) for ack in acks), "revision.history.ack", "invalid_readback")
+        acks = [ack for ack in acks if ack.get("id") in ids]
+        entry = {"amendment": amendment, "controls": commands, "acks": acks,
+                 "issue_write": state.get("writes", {}).get("issue_scope", {})}
+        effective = released_scope_authority(effective, state, entry, sources)
+        require(state.get("admission_sha256") == amendment["prepared"]["sha256"],
+                "scope.admission", "changed", "original_prepared_scope_admission")
+        sources.append({"path": str(ack_path), "sha256": digest_bytes(raw)})
+    for source in sources:
+        require(digest_file(source["path"]) == source["sha256"],
+                "cost.lineage.source", source["path"], "unchanged_lineage_readback")
+    return {"authorization_sha256": digest, "base_head": effective["base_head"], "sources": sources}
 
 
 def scope_packet(authorization, state):
     amendment = state.get("scope_amendment")
     require(isinstance(amendment, dict), "scope.amendment", amendment, "original_scope_selection")
     ref = amendment["selection"]
-    validate_prior_atom_ref(ref, authorization["control_root"])
-    packet = read_json(ref["path"], "scope.selection")
-    require(set(packet) == {"schema", "authorization", "selection", "output"}
-            and packet["schema"] == 1
-            and packet["authorization"]["sha256"] == state["authorization_sha256"]
-            and digest_file(packet["authorization"]["path"]) == state["authorization_sha256"]
-            and Path(ref["path"]).parent == Path(packet["output"]),
-            "scope.authorization", "changed", "original_authorization_bytes")
+    packet = scope_selection_packet(authorization, state, ref)
     raw_original = read_json(packet["authorization"]["path"], "scope.authorization")
     original = scope_history_authority(raw_original, state)
     body = original["issue"]["body"]
@@ -4254,13 +4310,15 @@ def run(authorization_path, *, environ=None, provider=None):
         except AtomRefusal as error:
             result = refusal_output(error, authorization_path)
             result["cost"] = cost_response(authorization_path, handle, result, telemetry_error)
-            result["feedback"] = schema_manager.project_owner_feedback(result)
+            result["feedback"] = (result["cost"]["feedback"] if "feedback" in result["cost"]
+                                  else schema_manager.project_owner_feedback(result))
             error.owner_result = result
             raise
         cost = cost_response(authorization_path, handle, result, telemetry_error)
         if isinstance(result.get("status"), str):
             result["cost"] = cost
-            result["feedback"] = schema_manager.project_owner_feedback(result)
+            result["feedback"] = (result["cost"]["feedback"] if "feedback" in result["cost"]
+                                  else schema_manager.project_owner_feedback(result))
         else:
             print(json.dumps({"event": "soodles.cost", **cost}), file=sys.stderr)
         return result

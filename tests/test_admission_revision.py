@@ -96,6 +96,28 @@ class RevisionFixture:
         path.write_text(json.dumps(value))
         return path
 
+    def released_scope(self, original_path, authorization=None, selection=None, index=0):
+        authorization = authorization or self.auth
+        selection = selection or self.selection
+        selected = {**selection, 'before_contract': admission.parse_contract(authorization['issue']['body'])}
+        provider = self.save(f'provider-{index}.json', {'repository': {
+            'full_name': 'ed3c/soodles', 'default_branch': 'main'},
+            'branch': {'name': 'main', 'commit': {'sha': selected['target_base']}}})
+        selected['provider_readback'] = ref(provider)
+        after_body = atom.revision_body(authorization, selected)
+        packet = self.save(f'history-{index}.json', {'schema': 1, 'authorization': ref(original_path),
+            'selection': selected, 'output': str(self.directory)})
+        packet_ref = ref(packet)
+        prepared = self.save(f'prepared-{index}.json', {'envelope_sha256': sha(self.original)})
+        controls = {name: {'id': 'soodles-scope-' + packet_ref['sha256'][:24] + '-' + name, 'action': action}
+            for name, action in (('scope_request', 'request-changes'), ('scope_edit', 'edit-item'),
+                                 ('scope_requeue', 'requeue'), ('scope_release', 'mode'))}
+        return {'amendment': {'selection': packet_ref, 'status': 'released', 'prepared': ref(prepared)},
+            'issue_write': {'status': 'observed', 'selection_sha256': packet_ref['sha256'],
+                'previous_body_sha256': admission.body_digest(authorization['issue']['body']),
+                'body_sha256': admission.body_digest(after_body)}, 'controls': controls,
+            'acks': [{**command, 'status': 'ok'} for command in controls.values()]}
+
     def custody(self, entry):
         directory = self.root / '.noodle/sessions/original-session'
         directory.mkdir(parents=True, exist_ok=True)
@@ -361,21 +383,9 @@ class AdmissionRevisionTests(unittest.TestCase):
         self.assertIn(atom.marker(sha(original_path)), effective['issue']['body'])
         with patch.object(atom, 'validate_lifecycle_owner'):
             for index, selected in enumerate((f.criteria(), f.selection)):
-                selected = {**selected, 'before_contract': admission.parse_contract(effective['issue']['body'])}
-                provider = f.save(f'provider-{index}.json', {'repository': {'full_name': 'ed3c/soodles', 'default_branch': 'main'},
-                    'branch': {'name': 'main', 'commit': {'sha': selected['target_base']}}})
-                selected['provider_readback'] = ref(provider)
-                after_body = atom.revision_body(effective, selected)
-                packet = f.save(f'history-{index}.json', {'authorization': ref(original_path), 'selection': selected})
-                packet_ref = ref(packet)
-                controls = {name: {'id': 'soodles-scope-' + packet_ref['sha256'][:24] + '-' + name, 'action': action}
-                    for name, action in (('scope_request', 'request-changes'), ('scope_edit', 'edit-item'),
-                                         ('scope_requeue', 'requeue'), ('scope_release', 'mode'))}
-                state['scope_history'].append({'amendment': {'selection': packet_ref, 'status': 'released'},
-                    'issue_write': {'status': 'observed', 'selection_sha256': packet_ref['sha256'],
-                        'previous_body_sha256': admission.body_digest(effective['issue']['body']),
-                        'body_sha256': admission.body_digest(after_body)}, 'controls': controls,
-                    'acks': [{**command, 'status': 'ok'} for command in controls.values()]})
+                entry = f.released_scope(original_path, effective, selected, index)
+                after_body = atom.revision_body(effective, json.loads(Path(entry['amendment']['selection']['path']).read_text())['selection'])
+                state['scope_history'].append(entry)
                 effective = atom.scope_history_authority(original, state)
                 self.assertEqual(effective['issue']['body'], after_body)
             self.assertEqual(effective['base_head'], f.target)
