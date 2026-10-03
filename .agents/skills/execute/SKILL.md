@@ -34,6 +34,34 @@ Keep canonical acceptance, provider delivery and local reconciliation separate.
 Do not merge, close Issues or change provider policy.
 Do not select a new trusted verifier from the candidate.
 
+## 在原 session 使用 Poteto Mode
+
+這個 Noodle `execute` Agent 執行 Poteto Mode 路由的工程方法。
+先讀目前 Session skill catalog 中的 `poteto-mode/SKILL.md`。
+若 catalog 沒有列出，查核主機既有的 pstack 安裝並讀取實際檔案。
+不要把另一台主機的絕對路徑當成目前可用的能力。
+讀取符合本次 task 的 playbook，再按需要讀它所引用的方法。
+不要複製整套 playbook 到本 skill，或預先執行所有方法。
+在原工作紀錄保存所用檔案的路徑、SHA-256、所選方法及其選擇理由。
+這是實際載入的紀錄，不是外部 judge 或 runtime bundle 的授權。
+若方法缺少必要工具，具體指出能力缺口。不得宣稱已執行該步驟。
+繼續不依賴該能力的已授權工作。若缺口阻止 stage 完成，使用原 blocked outcome。
+
+對已知 bug，先追查既有 source、log 與 owner receipt。
+證據不足時，才重現缺少的行為。使用 Test Manager 選出的最小控制。
+修正錯誤推論時，先檢查驗收條件是否源自原需求，再判定 Agent 行為。
+需要設計、寫作或 review 時，使用 Poteto Mode 為該工作選出的對應方法。
+必要的 subagent 使用目前 carrier 真正支援的工具與已授權範圍。
+不得假設 Cursor 的 Task、模型名稱或 worktree 參數在此可用。
+若工具不支援所選方法的必要能力，保留缺口，不宣稱等效驗證。
+
+方法內的開 PR、重試、建立 worktree 或 shipping 指示不能替換既有 owner。
+本 Agent 留在原 Noodle session 與 worktree，保留原 task、contract 與修正歷史。
+Test Manager 決定驗證範圍。review-writing 與 Schema Manager 處理 P-class 回饋。
+用現有 stage-outcome 回報結果，讓原 publication 與 landing owners 接續。
+若 session 已停止，supervisor 不能代寫 worker outcome 或宣稱本段已執行。
+這種情況需要原 owner 修復與新的 readback。
+
 ## Continue the admitted correction
 
 If the prompt includes `failure_context`, read it as pinned diagnostic data.

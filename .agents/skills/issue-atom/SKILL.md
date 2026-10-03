@@ -5,6 +5,46 @@ description: Advance one externally authorized local Soodles plus Noodle Issue t
 
 # Local Issue atom
 
+## 透過 Noodle 執行 Poteto Mode
+
+本 skill 用 Poteto Mode 選擇工程方法。`issue-atom` 保留生命週期與授權責任。
+Noodle 保留 writer、worktree、session 與事件紀錄的責任。
+工程方法決定如何追查、設計、修改與驗證。它不授予 restart、publication 或 landing 權限。
+
+Supervisor 先讀目前可用的 `poteto-mode/SKILL.md`，再讀符合任務的 playbook。
+將原始需求、已知失敗與必要證據放入既有 task 與 contract。
+Noodle 派出的 `execute` Agent 依照
+[工程方法交接](../execute/SKILL.md#在原-session-使用-poteto-mode) 執行該方法。
+不要把 stage 改名為 `poteto-mode`，或由 supervisor 另開 implementation writer。
+現有 admission 會封存 `execute` skill。該 skill 才是 writer 的交接入口。
+僅在 supervisor 載入 Poteto Mode，不能證明 writer 已收到或執行它。
+記錄實際載入的方法與必要依賴。方法使用紀錄與產品驗收證據分開保留。
+
+若原 atom 已選定 authorization，保留它和目前的 owner continuation。
+修改 skill 不會更新既有封存 bundle，也不會恢復停止的 session。
+Supervisor 繼續處理授權範圍內的診斷與 owner 修正。
+跨 repository 或不同 rollback 邊界的修正由各自 owner 接受 admission。
+它們不得冒充原 atom 的替代授權。
+
+## 修正拒絕後的錯誤推論
+
+Owner 的拒絕停止其所指的操作。它不停止所有已授權的工程工作。
+先區分命令的實際拒絕與 Agent 對拒絕的解釋。
+保留原 response，指出原主張、前提、來源與缺少的證據。
+用原需求檢查推論，再讀取原 owner 的狀態、程序與事件紀錄。
+若兩者矛盾，記錄矛盾並追查產生 readback 的 owner。
+不要把 snapshot 的 `running` 當作活程序的證明。
+程序消失也不能證明所有 effects 已知，或授予重啟權限。
+
+若現有證據已定位錯誤，修正授權範圍內的原因。
+不要為取得相同證據重演 provider write。
+若必須修改 owner，交由該 owner 的工程工作處理，保留原待完成需求。
+Test Manager 選擇必要控制。P-class 修正使用 review-writing 的行為回饋。
+消費 Schema Manager 的 next，再依原 owner 的新 readback 繼續。
+沒有材料變更時，不重試原拒絕。
+身分、權限、能力或未知 effect 的缺口，只阻擋依賴該輸入的操作。
+報告缺口時，同時記錄已完成的診斷、可繼續的修正與仍待 owner 處理的事項。
+
 ## Preserve the request through admission and delivery
 
 Before selecting authorization, compare the user's requested outcomes with the
@@ -208,7 +248,12 @@ It does not count a Noodle writer as one model invocation.
 
 If a correction stops before native controls or a new writer, first read the
 original process, snapshot, control history, and published worktree.
-A stopped process alone does not authorize restart. The external supervisor may
+A stopped process alone does not authorize restart. This rule limits restart,
+not authorized diagnosis, inference correction, or owner repair. This recovery
+entry applies only to the predispatched correction described here. An interrupted
+active writer needs its original owner recovery and readback. Do not infer that
+this paragraph authorizes that recovery or prohibits repairing its missing capability.
+The external supervisor may
 select a corrected immutable lifecycle with the existing `issue-atom resume`
 entry. That owner must prove that the held startup produced no new dispatch.
 It retains the failed start, logs, bundle, authorization, and CI failure count.
