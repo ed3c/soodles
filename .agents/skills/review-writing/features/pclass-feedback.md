@@ -97,6 +97,7 @@ Read `evidence_validity` before `behavior`.
 | `VALID` and `FAIL`, exit `1` | `review-writing` examines the failed fields and actual capture. Correct the demonstrated instruction defect. If the protocol is wrong, preserve that result and select a corrected protocol before new observations. |
 | `INCONCLUSIVE`, exit `2` | Supply the evidence named by `next.required`. Keep behavior unknown. Continue independent work. |
 | `INVALID`, exit `2` | Repair the named identity or format problem. Preserve the refused input and response. Do not score invalid evidence. |
+| `VALID`, `behavior=null`, `status=criteria_pending`, exit `2` | Follow `review_criteria`. The conditions still need review. No behavior PASS exists. |
 
 After a correction, re-read the saved instructions. Bind the new bytes and obtain
 observations for the affected decisions. Submit them and consume the new response.
@@ -185,13 +186,33 @@ The event links its previous round, current source identities, Schema response,
 Test Manager scope, and measured projection cost. The original event log owns history.
 No additional mutable checkpoint or retry engine is created.
 
-Read `next` and `feedback.test_scope` together. When criteria need review, obtain
-that review first. When behavior fails, correct the demonstrated instruction defect.
-When evidence is missing, supply the named observation. Test Manager lists matching
-passed cases under `reuse`; carry their original report and capture references into
-the next selection. It lists already passed current cases under `verified`.
-Only `cases` requests further consumer observations. None requests a full software suite.
-Schema Manager still requires complete selected evidence before PASS.
+`next.operation` is the owner's decision label, not a shell command. In this
+feedback interface, `next.argv` is null. The selected operation needs evidence,
+engineering work, or a handoff. Do not invent a command from its name.
+Follow the returned `next.operation`. When criteria need review, obtain that review
+first. When behavior fails, correct the demonstrated instruction defect.
+Test Manager selects the needed observations. Schema Manager exposes that selection
+in `next.evidence`. Its `observe` list names cases that need new evidence. Its `reuse`
+list provides original report and capture references for matching passed cases.
+Its `verified` list names current passed cases. For `supply_behavior_evidence`,
+use the CLI-produced `next.input.selection` draft. It contains the fixed protocol,
+condition review when applicable, and observations that the owner has selected
+to preserve. The stage adapter includes both current passed observations and
+validated reusable observations. Do not reconstruct that union from case names.
+`next.input.requests` lists the remaining cases, their inputs, report identities,
+and required output fields. Produce actual observations for those requests.
+Add their report and trace references to the draft, save the completed selection,
+and calculate its digest before submission. The draft is incomplete until the
+requested evidence exists. Do not fill missing outputs with expected answers.
+When criteria are supported, a current failed behavior check cannot reuse an
+older pass. Follow the correction request before supplying new bound evidence.
+Reuse does not change an incomplete result to PASS. Schema Manager validates the
+complete next selection before PASS. These lists request no full software suite.
+When criteria or instructions need correction, the old draft is not a repair
+plan. Follow the returned work request. Bind the changed files before observing
+behavior again. On `consume_verified_behavior`, return the covered result to the
+task owner. That operation does not emit a terminal stage outcome or authorize delivery.
+The event retains the Test Manager decision in `feedback.test_scope` for readback.
 
 Continue these steps within the same authorized task. Do not wait for another
 user prompt for an ordinary correction. An identical submission returns readback.

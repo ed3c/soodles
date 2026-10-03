@@ -6,6 +6,38 @@ body:
       value: |
         Fill the contract with concrete behavior and evidence. The entire Issue body is revision-bound.
         This form does not authorize execution; the supervisor separately selects the envelope.
+        A whole atom enters poteto-mode. Its playbook uses these sections together.
+        State unknown inputs explicitly. Reference evidence once instead of copying it across sections.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem & Evidence
+      description: State the observed problem and link its evidence. Separate observations from suspected causes.
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome & Scope
+      description: State the required result, included work and exclusions. For a finite subtask, state its output and stopping point.
+  - type: textarea
+    id: context
+    attributes:
+      label: Context & Entry Points
+      description: Identify the repository, selected revision, relevant source and product entry. Link any selected verification recipe.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance
+      description: State observable success and failure conditions. Link matching existing evidence and name missing observations.
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Execution Boundaries
+      description: Identify the writer and later owners, allowed effects, file boundary and stopping point. Keep these consistent with the admitted contract.
+  - type: textarea
+    id: delivery
+    attributes:
+      label: Delivery & Evidence
+      description: Identify any existing candidate or PR, its evidence and remaining owner work. State the requested final delivery.
   - type: textarea
     id: contract
     attributes:

@@ -87,7 +87,8 @@ if mode == 'write-failure': sys.exit(7)
         f.bind_envelope()
         prompt = json.loads(self.stage["prompt"])
         self.stage["prompt"] = json.dumps(stage_outcome.projection(
-            {**f.envelope, "contract": prompt["contract"]}, f.pin, prompt["route"]))
+            {**f.envelope, "contract": prompt["contract"], "issue_body": prompt["issue_body"]},
+            f.pin, prompt["route"]))
         self.stage["attempts"][-1]["attempt_id"] = "successor-attempt"
         f.save_owner()
         self.interruption = f.directory / "interruption.json"
@@ -276,13 +277,20 @@ if mode == 'write-failure': sys.exit(7)
 
     def test_missing_pin_and_changed_prompt_contract(self):
         prompt = json.loads(self.stage["prompt"])
-        for key in ("envelope_sha256", "contract", "task"):
+        for key in ("envelope_sha256", "contract", "task", "issue_body"):
             with self.subTest(key=key):
                 altered = dict(prompt)
                 altered.pop(key)
                 self.stage["prompt"] = json.dumps(altered)
                 self.fixture.save_owner()
                 self.refused(self.invoke())
+
+    def test_changed_body_refuses_before_event_write(self):
+        prompt = json.loads(self.stage["prompt"])
+        prompt['issue_body'] += '\nChanged scope'
+        self.stage['prompt'] = json.dumps(prompt)
+        self.fixture.save_owner()
+        self.refused(self.invoke())
 
     def test_malformed_admitted_carrier_is_a_json_refusal(self):
         f = self.fixture
