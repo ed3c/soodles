@@ -247,6 +247,54 @@ def pclass_paths(root, binding):
             and (Path(root) / name).is_file()]
 
 
+def _relocated_feedback_coverage(root, instructions, changed):
+    """Match validated instructions by repository, relative path, and bytes."""
+    source = {"owner": "Git", "required": "registered_worktree_readback"}
+
+    def git(cwd, *args):
+        try:
+            run = subprocess.run(["git", *args], cwd=cwd, capture_output=True, timeout=30)
+        except (OSError, subprocess.SubprocessError) as error:
+            raise AdmissionRefusal("worker.feedback.git", str(error), **source) from error
+        require(run.returncode == 0, "worker.feedback.git", os.fsdecode(run.stderr), **source)
+        return os.fsdecode(run.stdout)
+
+    root = Path(root).resolve()
+    common_args = ("rev-parse", "--path-format=absolute", "--git-common-dir")
+    common = Path(git(root, *common_args).removesuffix("\n")).resolve()
+    registered = {Path(field[len("worktree "):]).resolve()
+                  for field in git(root, "worktree", "list", "--porcelain", "-z").split("\0")
+                  if field.startswith("worktree ")}
+    require(root in registered, "worker.feedback.git.registration", str(root), **source)
+
+    def identity(path, digest, expected_root=None):
+        path = Path(path).resolve()
+        if not any(path.is_relative_to(worktree) for worktree in registered):
+            return None
+        worktree = Path(git(path.parent, "rev-parse", "--show-toplevel").removesuffix("\n")).resolve()
+        if worktree not in registered or (expected_root is not None and worktree != expected_root):
+            return None
+        if Path(git(path.parent, *common_args).removesuffix("\n")).resolve() != common:
+            return None
+        return common, path.relative_to(worktree), digest
+
+    instructions = {identity(ref["path"], ref["sha256"]) for ref in instructions}
+    instructions.discard(None)
+    covered = set()
+    for name in changed:
+        path = Path(name).resolve()
+        if not path.is_relative_to(root):
+            continue
+        try:
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        except OSError as error:
+            raise AdmissionRefusal("worker.feedback.instruction", str(error),
+                                   owner="review-writing", required="current_pclass_feedback") from error
+        if identity(path, digest, root) in instructions:
+            covered.add(name)
+    return covered
+
+
 def require_feedback_completion(root, binding, session, events):
     records = feedback_records(events, session, binding["execution"])
     changed = pclass_paths(root, binding)
@@ -264,6 +312,8 @@ def require_feedback_completion(root, binding, session, events):
             and feedback_identity(current) == record["identity"],
             "worker.feedback.incomplete", current, owner="review-writing", required="current_pclass_feedback")
     covered = {str(Path(ref["path"]).resolve()) for ref in current["instructions"]}
+    if set(changed) - covered:
+        covered.update(_relocated_feedback_coverage(root, current["instructions"], set(changed) - covered))
     require(set(changed) <= covered, "worker.feedback.coverage", sorted(set(changed) - covered),
             owner="review-writing", required="changed_pclass_behavior_coverage")
 
