@@ -326,7 +326,7 @@ def _config_bytes(output, carrier, *, bootstrap=False):
 
 def prepare(issue_readback, carrier, control_root, output, *,
             interpreter=None, environ=None, task=None, wire_host=False, instruction_pins=None,
-            correction=False, failure_context=None):
+            correction=False, failure_context=None, runtime_root=None, readback=False):
     """Create one immutable external bundle and return the only start continuation."""
     environ = os.environ if environ is None else environ
     require(type(correction) is bool and (not correction or wire_host),
@@ -340,7 +340,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
             owner="supervisor", required="existing_control_root")
 
     token_command = environ.get(TOKEN_COMMAND_ENV)
-    require(isinstance(token_command, str) and bool(token_command.strip()),
+    require(readback or isinstance(token_command, str) and bool(token_command.strip()),
             "supervisor.provider_credential_supplier",
             "absent" if not token_command else "empty",
             owner="supervisor", required=TOKEN_COMMAND_ENV)
@@ -351,7 +351,7 @@ def prepare(issue_readback, carrier, control_root, output, *,
     output = output.resolve()
     require(not output.is_relative_to(root), "supervisor.output", str(output),
             owner="supervisor", required="external_output_outside_control_root")
-    require(not output.exists(), "supervisor.output.exists", str(output),
+    require(output.exists() if readback else not output.exists(), "supervisor.output.exists", str(output),
             owner="supervisor", required="new_external_output")
     require(output.parent.is_dir(), "supervisor.output.parent", str(output.parent),
             owner="supervisor", required="existing_external_output_parent")
@@ -428,7 +428,14 @@ def prepare(issue_readback, carrier, control_root, output, *,
     bundle_paths = BUNDLE_PATHS + ((".agents/skills/execute/SKILL.md",
                                   ".agents/skills/schedule/SKILL.md") if wire_host else ())
     for path in bundle_paths:
-        data = _git_bytes(root, head, path)
+        if runtime_root is not None and path in BUNDLE_PATHS:
+            source = Path(runtime_root) / path
+            require(not Path(runtime_root).resolve().is_relative_to(root)
+                    and source.is_file() and not source.is_symlink(),
+                    "scope.runtime_source", path, required="selected_external_lifecycle_source")
+            data = source.read_bytes()
+        else:
+            data = _git_bytes(root, worker_head if runtime_root is not None else head, path)
         runtime_bytes[path] = data
         runtime.append({"path": "runtime/" + path, "sha256": _sha256(data)})
 
@@ -471,6 +478,54 @@ def prepare(issue_readback, carrier, control_root, output, *,
         _sha256(host_files["bootstrap-noodle.toml"]) if wire_host else None,
         correction=correction).encode()
 
+    launcher = output / "launcher"
+    start = output / "start-noodle"
+    result = {
+        "owner": "supervisor.admission",
+        "action": "ready",
+        "repository": REPOSITORY,
+        "issue": number,
+        "source_head": head,
+        "bundle": str(output),
+        "envelope_sha256": envelope_digest,
+        "launcher": str(launcher),
+        "launcher_sha256": launcher_digest,
+        "start": str(start),
+        "start_sha256": _sha256(start_bytes),
+        **({"process_argv": [carrier["noodle"]["path"], "--project-dir", str(root),
+                             "start", "--mode", "manual"]} if correction else {}),
+        **({"bootstrap": {"argv": [str(start), "--once"], "owner": "supervisor",
+                           "config": str(output / "bootstrap-noodle.toml") if wire_host else None,
+                           "config_sha256": _sha256(host_files["bootstrap-noodle.toml"]) if wire_host else None}}
+           if not correction else {}),
+        "provider_identity": {
+            "owner": "supervisor",
+            "supplier": TOKEN_COMMAND_ENV,
+            "in_argv": False,
+            "persisted_token": False,
+        },
+        "authorizes_landing": False,
+        "next": {
+            "kind": "executable",
+            "owner": "supervisor",
+            "operation": "start_noodle",
+            "argv": [str(start)],
+        },
+    }
+
+    if readback:
+        require(runtime_root is not None and correction and wire_host,
+                "scope.prepared.readback", "unsupported", required="original_scope_preparation")
+        expected = {"envelope.json": envelope_bytes, "manifest.json": manifest_bytes,
+                    "launcher": launcher_bytes, "start-noodle": start_bytes,
+                    "prepared.json": _canonical(result), **host_files,
+                    **{"runtime/" + name: data for name, data in runtime_bytes.items()}}
+        for name, data in expected.items():
+            path = output / name
+            require(path.is_file() and not path.is_symlink() and path.read_bytes() == data,
+                    "scope.prepared.component", name, required="original_prepared_scope_admission")
+        return result
+
     temporary = Path(tempfile.mkdtemp(prefix="." + output.name + "-", dir=output.parent))
     try:
         runtime_dir = temporary / "runtime"
@@ -492,45 +547,15 @@ def prepare(issue_readback, carrier, control_root, output, *,
         start = temporary / "start-noodle"
         start.write_bytes(start_bytes)
         start.chmod(0o755)
+        if runtime_root is not None:
+            _write_durable(temporary / "prepared.json", _canonical(result))
+            _sync_directory(temporary)
         os.rename(temporary, output)
     except BaseException:
         shutil.rmtree(temporary, ignore_errors=True)
         raise
 
-    launcher = output / "launcher"
-    start = output / "start-noodle"
-    return {
-        "owner": "supervisor.admission",
-        "action": "ready",
-        "repository": REPOSITORY,
-        "issue": number,
-        "source_head": head,
-        "bundle": str(output),
-        "envelope_sha256": envelope_digest,
-        "launcher": str(launcher),
-        "launcher_sha256": _sha256(launcher.read_bytes()),
-        "start": str(start),
-        "start_sha256": _sha256(start.read_bytes()),
-        **({"process_argv": [carrier["noodle"]["path"], "--project-dir", str(root),
-                             "start", "--mode", "manual"]} if correction else {}),
-        **({"bootstrap": {"argv": [str(start), "--once"], "owner": "supervisor",
-                           "config": str(output / "bootstrap-noodle.toml") if wire_host else None,
-                           "config_sha256": _sha256(host_files["bootstrap-noodle.toml"]) if wire_host else None}}
-           if not correction else {}),
-        "provider_identity": {
-            "owner": "supervisor",
-            "supplier": TOKEN_COMMAND_ENV,
-            "in_argv": False,
-            "persisted_token": False,
-        },
-        "authorizes_landing": False,
-        "next": {
-            "kind": "executable",
-            "owner": "supervisor",
-            "operation": "start_noodle",
-            "argv": [str(start)],
-        },
-    }
+    return result
 
 
 AUTHORIZATION_SELECTION_FIELDS = {
@@ -728,6 +753,11 @@ def authorize(selection_path, expected_sha256, output):
             required="external_output_with_existing_parent")
     if os.path.lexists(target):
         return _committed_preparation(target, selection, expected_sha256, root)
+    if "prior_atom" not in selection and "prior_publication" not in selection:
+        import test_manager
+        decision = test_manager.admission_scope(root, parse_contract(selection["issue"]["body"]))
+        require(not decision.get("required_write_paths"), "authorization.test_scope", decision,
+                owner="supervisor", required="admit_required_write_paths:test_manager.py")
     require(root.is_dir(), "selection.control_root", str(root))
     require(Path(_git(root, "rev-parse", "--show-toplevel")).resolve() == root,
             "selection.control_root", str(root), owner="supervisor",
@@ -852,6 +882,9 @@ def _correction_selection(authorization, reference, issue, publication, failure_
 
 def _correction_readback(target, authorization, reference):
     """Read fixed selection bytes before consulting any mutable owner."""
+    import issue_atom
+    issue_atom.validate_prior_atom_ref(reference, authorization["control_root"])
+    authorization = issue_atom.read_json(reference["path"], "correction.original_authorization")
     require(stat.S_ISDIR(target.lstat().st_mode), "correction.output", str(target),
             required="original_correction_selection")
     values, hashes = {}, {}
@@ -877,7 +910,13 @@ def _correction_readback(target, authorization, reference):
     require(isinstance(selection, dict) and isinstance(selection.get("issue"), dict),
             "correction.selection", selection, required="original_correction_selection")
     issue = selection["issue"]
-    import issue_atom
+    prior_paths = issue_atom.artifact_paths(reference["path"])
+    if prior_paths["state"].exists():
+        prior_state = issue_atom.read_json(prior_paths["state"], "correction.prior_state")
+        if prior_state.get("scope_amendment") is not None:
+            selected_owner = issue_atom.resumed_lifecycle(authorization, prior_state).get("lifecycle_owner")
+            authorization, _ = issue_atom.scope_projection(authorization, prior_state, prior_paths)
+            authorization = {**authorization, "lifecycle_owner": selected_owner}
     expected_body = authorization["issue"]["body"]
     if "number" not in authorization["issue"]:
         expected_body = expected_body.rstrip() + "\n\n" + issue_atom.marker(reference["sha256"]) + "\n"
@@ -942,6 +981,10 @@ def _prepare_correction(authorization_path, expected_sha256, output, *, environ,
             "correction.state", state.get("phase"), owner="soodles.issue-atom",
             required="exact_prelanding_failed_candidate")
     correction_count = issue_atom.validate_correction_lineage(authorization, reference, state)
+    if state.get("scope_amendment") is not None:
+        selected_owner = issue_atom.resumed_lifecycle(authorization, state).get("lifecycle_owner")
+        authorization, paths = issue_atom.scope_projection(authorization, state, paths)
+        authorization = {**authorization, "lifecycle_owner": selected_owner}
     number = state.get("issue", {}).get("number")
     require(type(number) is int and number > 0, "correction.issue", number,
             owner="soodles.issue-atom", required="original_issue_checkpoint")
@@ -993,6 +1036,50 @@ def _prepare_correction(authorization_path, expected_sha256, output, *, environ,
     return _correction_readback(target, authorization, reference)
 
 
+def scope_amendment(authorization_path, expected_sha256, selection_path, selection_sha256, output):
+    """Pin a supervisor supplement without replacing authorization or executing it."""
+    import issue_atom
+
+    authorization, digest = issue_atom.validate_authorization(
+        authorization_path, expected_sha256, allow_advanced=True)
+    source = Path(selection_path)
+    root = Path(authorization["control_root"]).resolve()
+    require(source.is_absolute() and source.is_file() and not source.is_symlink()
+            and not source.resolve().is_relative_to(root)
+            and _sha256(source.read_bytes()) == selection_sha256,
+            "scope.selection", str(source), required="pinned_external_scope_selection")
+    selection = json.loads(source.read_bytes(), object_pairs_hook=_unique_object)
+    issue_atom.validate_scope_request(authorization, selection)
+    target = Path(output)
+    require(target.is_absolute() and target.parent.is_dir()
+            and not target.resolve().is_relative_to(root),
+            "scope.output", str(target), required="new_external_scope_output")
+    target = target.parent.resolve() / target.name
+    packet = {"schema": 1, "authorization": {"path": str(Path(authorization_path).resolve()),
+              "sha256": digest}, "selection": selection, "output": str(target)}
+    data = _canonical(packet)
+    path = target / "scope-selection.json"
+    if target.exists():
+        require(path.is_file() and not path.is_symlink() and path.read_bytes() == data,
+                "scope.output", str(target), required="original_scope_selection")
+    else:
+        staging = Path(tempfile.mkdtemp(prefix=".scope-", dir=target.parent))
+        try:
+            _write_durable(staging / path.name, data)
+            _sync_directory(staging)
+            _publish_directory(staging, target)
+            _sync_directory(target.parent)
+        finally:
+            if staging.exists():
+                shutil.rmtree(staging)
+    return {"owner": "supervisor.admission", "status": "prepared", "authorizes_landing": False,
+            "selection": {"path": str(path), "sha256": _sha256(data)},
+            "next": {"kind": "executable", "owner": "soodles.issue-atom",
+                "argv": [selection["lifecycle_owner"]["path"], "scope-amend",
+                         str(Path(authorization_path).resolve()), str(path), _sha256(data)],
+                "environment": {"SOODLES_AUTHORIZATION_SHA256": digest}}}
+
+
 def parser():
     value = argparse.ArgumentParser(
         description="Materialize one externally selected local Soodles admission bundle.")
@@ -1010,6 +1097,9 @@ def parser():
     correction_parser.add_argument("authorization")
     correction_parser.add_argument("expected_sha256")
     correction_parser.add_argument("output")
+    scope_parser = sub.add_parser("scope-amendment")
+    for name in ("authorization", "expected_sha256", "selection", "selection_sha256", "output"):
+        scope_parser.add_argument(name)
     return value
 
 
@@ -1020,6 +1110,9 @@ def main():
             result = authorize(args.selection, args.expected_sha256, args.output)
         elif args.verb == "correction":
             result = correction(args.authorization, args.expected_sha256, args.output)
+        elif args.verb == "scope-amendment":
+            result = scope_amendment(args.authorization, args.expected_sha256,
+                                     args.selection, args.selection_sha256, args.output)
         else:
             result = prepare(
                 _read_json(args.issue_readback, "supervisor.issue_readback"),
@@ -1033,7 +1126,7 @@ def main():
             "kind": "input", "owner": getattr(error, "owner", "supervisor"),
             "required": [getattr(error, "required", "valid_supervisor_input")]})
         print(json.dumps({
-            "owner": "supervisor.authorization" if args.verb in {"authorize", "correction"} else "supervisor.admission",
+            "owner": "supervisor.authorization" if args.verb in {"authorize", "correction", "scope-amendment"} else "supervisor.admission",
             "status": "refused",
             "invalid": invalid,
             "next": next_action,

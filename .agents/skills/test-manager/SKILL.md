@@ -55,6 +55,20 @@ Do not reduce the task to code preparation or infer permission for a test run.
 Distinguish prohibited tests from separately authorized normal CI, and report
 unexecuted checks without calling an unmet outcome complete.
 
+Before initial admission, review the contract's required paths with Test Manager.
+The declared candidate manifest uses the existing candidate-verification controls.
+A new manifest filename does not require a new boundary-map entry.
+For an unmapped required behavior, include its necessary scope consumer in the
+admitted write paths. The writer must resolve that mapping before publication.
+A scope plan does not certify the future artifact or authorize its effects.
+
+During an admitted task, a scope omission is a known owner input.
+Do not run an eval to discover that deterministic omission. Preserve the original
+candidate and route it to the original admission owner's scope amendment.
+Use scoped evals only when source and normal readback leave an Agent behavior
+question unanswered. Missing evidence and unknown write outcomes are separate
+conditions. An unknown write always needs its original owner's readback.
+
 ## Request once, consume everywhere
 
 ```sh

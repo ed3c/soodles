@@ -525,6 +525,16 @@ class IssueAtomTests(unittest.TestCase):
         fixture.setUp()
         self.addCleanup(fixture.doCleanups)
         session = fixture.archived_completion()
+        events = session / "events.ndjson"
+        event = json.loads(events.read_text())
+        event["session_id"] = fixture.session
+        events.write_text(json.dumps(event) + "\n")
+        claim_path = fixture.path.parent / "publication-claim.json"
+        atom.save_json(claim_path, {
+            "order_id": "soodles-18", "stage_index": 0,
+            "worktree_name": fixture.envelope["execution"]["worktree"],
+            "attempt_id": "soodles-18-0-attempt-0", "session_id": fixture.session})
+        paths = {"envelope": fixture.path, "claim": claim_path}
         config = b"fixture installed config\n"
         (fixture.root / ".noodle.toml").write_bytes(config)
         (fixture.path.parent / "noodle.toml").write_bytes(config)
@@ -534,16 +544,16 @@ class IssueAtomTests(unittest.TestCase):
                  "envelope_sha256": fixture.pin, "noodle_completion": {"order_id": "soodles-18"}}
         with (fixture.runtime / "noodle.lock").open("a+b") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
+            atom.require_available_owner(authorization, paths, state)
             del state["noodle_completion"]
             state["noodle_reconciliation"] = {"status": "observed"}
-            atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
+            atom.require_available_owner(authorization, paths, state)
             events = session / "events.ndjson"
             bad = json.loads(events.read_text())
             bad["payload"].update(outcome="blocked", blocking=True)
             events.write_text(json.dumps(bad) + "\n")
             with self.assertRaises(atom.AtomRefusal) as caught:
-                atom.require_available_owner(authorization, {"envelope": fixture.path}, state)
+                atom.require_available_owner(authorization, paths, state)
         self.assertEqual(caught.exception.invalid["field"], "completion.typed_outcome")
         self.assertEqual(caught.exception.owner, "Noodle")
 

@@ -49,6 +49,22 @@ def body_digest(body):
     return hashlib.sha256(body.encode("utf-8")).hexdigest()
 
 
+def supplemented_body(body, added_paths):
+    """Add explicit write paths while retaining every other contract requirement."""
+    contract = parse_contract(body)
+    paths = path_set(added_paths, "scope.added_write_paths")
+    require(bool(paths) and not set(paths) & set(contract["write_paths"]),
+            "scope.added_write_paths", paths, required="new_explicit_write_paths")
+    amended = {**contract, "write_paths": sorted(set(contract["write_paths"]) | set(paths))}
+    pattern = (r"(<!--\s*" + re.escape(MARKER) + r"\s*-->\s*```json\s*\n)"
+               r".*?(\n\s*```\s*<!--\s*/" + re.escape(MARKER) + r"\s*-->)")
+    updated, count = re.subn(pattern, lambda match: match[1] + json.dumps(
+        amended, indent=2, ensure_ascii=False) + match[2], body, flags=re.DOTALL)
+    require(count == 1 and parse_contract(updated) == amended,
+            "scope.contract", count, required="one_original_execution_contract")
+    return updated
+
+
 def scoped_order_id(issue, control_root):
     """Keep a retained Noodle worktree from blocking a fresh Issue control root."""
     root = str(Path(control_root).resolve())

@@ -64,6 +64,55 @@ class TestSuiteTests(unittest.TestCase):
                 self.assertNotEqual(process.returncode, 0)
                 self.assertTrue('test discovery' in process.stderr or 'discovery found no tests' in process.stderr)
 
+    def test_new_candidate_manifest_uses_existing_control_without_full_scope(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / 'tests').mkdir()
+            (root / 'tests/test_candidate_verification.py').write_text('')
+            (root / 'docs').mkdir()
+            path = root / 'docs/new-candidate.json'
+            manifest = {'schema': 1, 'issue': {'repository': 'ed3c/soodles', 'number': 225},
+                        'instructions': [], 'artifacts': [],
+                        'owner': {'tool': 'issue_admission.validate_delivery_paths'},
+                        'authorizes_landing': False}
+            path.write_text(json.dumps(manifest))
+            decision = test_manager.select(root, ['docs/new-candidate.json'])
+            self.assertEqual(decision['status'], 'ready')
+            self.assertEqual(decision['mode'], 'focused')
+            self.assertEqual(decision['modules'], ['test_candidate_verification'])
+            self.assertEqual(decision['physical'], [])
+            self.assertFalse(decision['authorizes_landing'])
+            for body in ('{}', '{invalid', json.dumps({**manifest, 'authorizes_landing': True})):
+                path.write_text(body)
+                self.assertEqual(test_manager.select(root, ['docs/new-candidate.json'])['status'],
+                                 'needs_scope')
+
+    def test_admission_names_missing_scope_consumer_before_freezing_contract(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / 'tests').mkdir()
+            (root / 'tests/test_candidate_verification.py').write_text('')
+            contract = {'write_paths': ['new_boundary.py', 'docs/new-evidence.json'],
+                        'required_paths': ['new_boundary.py', 'docs/new-evidence.json'],
+                        'evidence_manifest': 'docs/new-evidence.json'}
+            decision = test_manager.admission_scope(root, contract)
+            self.assertEqual(decision['required_write_paths'], ['test_manager.py'])
+            self.assertEqual(decision['unresolved'], [
+                {'path': 'new_boundary.py', 'reason': 'trace the changed behavior and name its controls'}])
+            self.assertEqual(decision['modules'], ['test_candidate_verification'])
+            self.assertEqual(decision['physical'], [])
+            contract['write_paths'].append('test_manager.py')
+            self.assertEqual(test_manager.admission_scope(root, contract)['required_write_paths'], [])
+            contract['required_paths'] = ['docs/new-evidence.json']
+            self.assertEqual(test_manager.admission_scope(root, contract)['status'], 'ready')
+            contract['write_paths'] = ['docs/new-evidence.json', 'tests/test_new_behavior.py']
+            contract['required_paths'].append('tests/test_new_behavior.py')
+            planned = test_manager.admission_scope(root, contract)
+            self.assertEqual(planned['status'], 'ready')
+            self.assertEqual(planned['required_write_paths'], [])
+            self.assertEqual(planned['modules'], ['test_candidate_verification', 'test_new_behavior'])
+            self.assertFalse((root / 'tests/test_new_behavior.py').exists())
+
     def test_repair_inputs_use_existing_boundary_scope(self):
         decision = test_manager.select(ROOT, ["atom_repair.py", "policy/repair-policy.json",
             "system_context.py", "contracts/system-v1/routes.json",

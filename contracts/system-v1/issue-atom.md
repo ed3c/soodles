@@ -406,3 +406,26 @@ New lifecycle closures pin `cost_telemetry.py`. Legacy closures keep their
 original exact source digest. New source that imports the module cannot use a
 legacy closure that omits it. The landing verifier file set and authority remain
 unchanged.
+
+
+## Original-owner scope amendment
+
+Before publication, a parked typed-blocked order may name a necessary unadmitted path.
+The external supervisor selects the additive write paths and their causal evidence.
+The existing admission and atom owners retain the original authorization, task,
+requirements, base, carrier, judge, candidate, and failure history.
+The amendment changes only the allowed write paths in the same Issue contract.
+It does not grant publication or landing acceptance.
+
+The original checkpoint records the selected supplement and compatible runtime.
+An offered Issue update requires exact readback. A new standard envelope carries
+the effective scope. The earlier envelope and host-start history remain available.
+The original native controls update the prompt and requeue the blocked order.
+They retain prior attempt identities and events while recording their actual status changes.
+No second scheduler or writer dispatcher owns this recovery.
+
+A typed blocked result must remain visible in the normal CLI response.
+Expose its source, order, session, and message with the responsible next owner.
+A generic claim refusal must not hide an available blocker.
+Schema feedback distinguishes condition review, observed behavior, and owner capability.
+A passed routing case cannot establish publication, reconciliation, or delivery.

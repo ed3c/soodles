@@ -329,6 +329,29 @@ not use this rebind. Pending, cancelled or successful CI cannot authorize this
 failed-head route. A completed failed runtime whose acceptance step was skipped
 because a preceding step failed is eligible for correction, never for landing.
 
+## Repair an omitted admission path before publication
+
+If the original typed outcome names a necessary path outside the admitted scope,
+retain that outcome, candidate head, and original order. The supervisor selects
+only the missing paths and their causal evidence through the admission owner.
+The scope amendment preserves the original task, contract requirements, base,
+carrier, external judge, authorization bytes, and repair history.
+Only the admitted write-path set grows. It grants no provider acceptance.
+
+The existing owner updates the same Issue with an offered-write receipt and exact
+readback. It creates a new immutable standard envelope and retains the old one.
+The original Noodle controls update the parked prompt and requeue the blocked
+order. A new attempt retains the earlier session and event history.
+Do not claim that the earlier attempt's status stays unchanged.
+Unknown writes or process custody stop their affected transition.
+Consume the returned original-authorization continuation. Do not patch snapshots,
+rewrite the old authorization, or publish a known scope failure to obtain recovery.
+
+The three-correction limit requires cause reassessment. It does not require three
+blind attempts. If evidence already disproves a premise, correct it immediately.
+Keep a P-class behavior result separate from CLI execution and delivery results.
+A routing PASS does not establish that the next owner has an executable capability.
+
 ## On-demand test scope
 
 Use the [Test Manager](../test-manager/SKILL.md) as the sole scope owner. Native
