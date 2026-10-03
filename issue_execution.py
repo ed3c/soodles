@@ -6,6 +6,7 @@ lock or retry loop is introduced. An installed supervisor launcher fixes the
 external envelope path/digest and this implementation before executing it.
 """
 import hashlib
+import fcntl
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -451,8 +452,8 @@ def read_owner(binding):
     return state
 
 
-def blocked_outcome(binding, owner):
-    """Read the exact terminal blocked message from the retained native session."""
+def blocked_outcome(binding, owner, *, completed=False):
+    """Read the exact admitted terminal outcome from the retained native session."""
     execution = binding["execution"]
     order_id = execution["order_id"]
     order = owner["state"]["orders"].get(order_id, {})
@@ -490,13 +491,63 @@ def blocked_outcome(binding, owner):
     require(terminal[0].get("session_id") == session and payload.get("order_id") == order_id
             and payload.get("stage_index") == execution["stage_index"],
             "blocked.identity", payload, owner="Noodle", required="exact_terminal_stage_outcome")
-    if payload.get("outcome") != "blocked":
+    accepted = {"blocked": True, **({"completed": False} if completed else {})}
+    if payload.get("outcome") not in accepted:
         return None
-    require(payload.get("blocking") is True, "blocked.blocking", payload,
+    require(payload.get("blocking") is accepted[payload["outcome"]], "blocked.blocking", payload,
             owner="Noodle", required="exact_terminal_stage_outcome")
     return {"session_id": session, "attempt_id": attempts[-1]["attempt_id"],
             "source": {"path": str(source), "sha256": hashlib.sha256(raw).hexdigest()},
             "message": payload}
+
+
+def revision_context(binding, reference, envelope_digest):
+    """Consume a producer pin from the entry or canonical native prompt."""
+    require(isinstance(reference, dict) and set(reference) == {"path", "sha256"}, "revision.entry.reference", reference)
+    path = Path(reference["path"])
+    control = Path(binding["execution"]["control_root"])
+    require(path.is_absolute() and not path.is_symlink() and not path.resolve().is_relative_to(control.resolve()),
+            "revision.entry.path", str(path))
+    raw = path.read_bytes()
+    require(hashlib.sha256(raw).hexdigest() == reference["sha256"], "revision.entry.digest", "changed")
+    entry = json.loads(raw)
+    validate_revision_entry(binding, entry, envelope_digest)
+    return {**binding, "revision_entry": {"reference": reference, "context": entry}}
+
+
+def validate_revision_entry(binding, entry, envelope_digest):
+    control = Path(binding["execution"]["control_root"])
+    require(isinstance(entry, dict) and set(entry) == {"schema", "kind", "original_envelope", "envelope_sha256",
+            "selection_sha256", "candidate_head", "candidate_tree", "old_base", "target_base", "terminal",
+            "prior_attempts", "order_id", "stage_index", "worktree", "native_acceptance"}
+            and type(entry["schema"]) is int and entry["schema"] == 1
+            and entry["kind"] in {"base_advance", "criteria_correction"}, "revision.entry.fields", entry)
+    require(entry["envelope_sha256"] == envelope_digest and entry["target_base"] == binding["base_head"],
+            "revision.entry.envelope", "changed")
+    original = load_external_envelope(entry["original_envelope"]["path"], entry["original_envelope"]["sha256"], control)
+    require(entry["old_base"] == original["base_head"]
+            and all(entry[key] == binding["execution"][key] == original["execution"][key]
+                    for key in ("order_id", "stage_index", "worktree"))
+            and all(binding[key] == original[key] for key in ("repository", "issue", "owner", "write_paths")),
+            "revision.entry.identity", "changed")
+    require(binding.get("target_binding") == original.get("target_binding"),
+            "revision.entry.target_binding", "changed")
+    old_execution = {key: value for key, value in original["execution"].items() if key != "recovery_context"}
+    if "target_binding" in original:
+        old_execution["runtime"] = binding["execution"]["runtime"]
+    from issue_admission import load_revision_native
+    native = load_revision_native(entry["native_acceptance"], control)
+    old_execution["carrier"] = {**old_execution["carrier"], "noodle": native}
+    require(binding["execution"] == old_execution, "revision.entry.instructions", "changed")
+    for key in ("candidate_head", "candidate_tree", "old_base", "target_base"):
+        require(isinstance(entry[key], str) and re.fullmatch(r"[0-9a-f]{40}", entry[key]), "revision.entry." + key, entry[key])
+    terminal = entry["terminal"]
+    require(isinstance(terminal, dict) and terminal.get("message", {}).get("outcome") in {"blocked", "completed"},
+            "revision.entry.terminal", terminal)
+    source = terminal["source"]
+    require(hashlib.sha256(Path(source["path"]).read_bytes()).hexdigest() == source["sha256"],
+            "revision.entry.history", "changed")
+    return entry
 
 
 def context(envelope_path, envelope_digest, root, reader):
@@ -505,7 +556,15 @@ def context(envelope_path, envelope_digest, root, reader):
         readback = (reader(envelope["repository"], envelope["issue"], binding=envelope)
                     if reader is fetch_issue and "target_binding" in envelope
                     else reader(envelope["repository"], envelope["issue"]))
-        return validate_issue(readback, envelope)
+        binding = validate_issue(readback, envelope)
+        if (Path(envelope_path).parent / "revision-entry.json").exists():
+            owner = read_owner(binding)
+            stage = owner["state"]["orders"].get(binding["execution"]["order_id"], {}).get("stages", [])
+            if stage:
+                subject = json.loads(stage[0]["prompt"])
+                if "revision_context" in subject:
+                    binding = revision_context(binding, subject["revision_context"], envelope_digest)
+        return binding
     except AdmissionRefusal as error:
         # Retain only externally pinned identity, never identity from the rejected
         # provider payload. These values locate prior input; they do not renew it.
@@ -713,12 +772,26 @@ def projection(binding, envelope_digest, route):
     subject = {"repository": binding["repository"], "issue": binding["issue"],
             "body_sha256": binding["body_sha256"], "body_updated_at": binding["body_updated_at"],
             "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"],
-            "contract": binding["contract"]}
+            "contract": binding["contract"], "issue_body": binding["issue_body"]}
+    if "revision_entry" in binding:
+        subject["revision_context"] = binding["revision_entry"]["reference"]
+        subject["admission_revision"] = binding["revision_entry"]["context"]
     if "target_binding" in binding:
         subject["target_binding"] = binding["target_binding"]
         subject["runtime"] = binding["execution"]["runtime"]
     if "instruction_context" in binding["execution"]:
         subject["instruction_context"] = binding["execution"]["instruction_context"]
+    if "recovery_context" in binding["execution"]:
+        subject["recovery_context"] = {**binding["execution"]["recovery_context"],
+            "stage_outcome": {
+                "entry_environment": "SOODLES_ADMISSION_LAUNCHER",
+                "outcome_command": '"$SOODLES_ADMISSION_LAUNCHER" stage-outcome OUTCOME MESSAGE',
+                "feedback_command": '"$SOODLES_ADMISSION_LAUNCHER" stage-outcome feedback /absolute/selection.json SHA256',
+                "instruction": (
+                    "在本次恢復的 session，原選定指令要求 ./stage-outcome 時，使用以上命令。"
+                    "這只替換機械入口。保留原 task、instruction pins、outcome 規則與 feedback 要求。"
+                    "目前 admission launcher 提供已固定來源的 adapter。"
+                    "不要修改 candidate 入口，也不要自行組裝 event payload。")}}
     if "failure_context" in binding["execution"]:
         context = binding["execution"]["failure_context"]
         from issue_admission import validate_failure_context, validate_failure_logs
@@ -996,7 +1069,7 @@ def resume(checkpoint, envelope_path, envelope_digest, root, reader=fetch_issue)
     return result
 
 
-def validate_worktree(root, binding):
+def validate_worktree(root, binding, *, successor=None):
     execution = binding["execution"]
     control = Path(execution["control_root"]).resolve()
     def git(cwd, *args):
@@ -1014,13 +1087,29 @@ def validate_worktree(root, binding):
     require(branch == execution["worktree"], "worker.git.branch", branch,
             owner="Git", required="registered_worktree_readback")
     head = git(root, "rev-parse", "HEAD")
-    require(head == execution["source_head"], "worker.git.head", head,
+    entry = binding.get("revision_entry", {}).get("context")
+    require(head == (entry["candidate_head"] if entry else execution["source_head"]), "worker.git.head", head,
             owner="supervisor", required="fresh_execution_envelope")
     origin = git(root, "remote", "get-url", "origin")
     require(origin in git_origins(binding["repository"]),
             "worker.git.origin", origin, owner="Git", required="admitted_repository_identity")
     residue = git(root, "status", "--porcelain=v1", "--untracked-files=all")
-    require(not residue, "worker.git.residue", residue, owner="Git", required="clean_worker_subject")
+    require(not residue or successor is not None, "worker.git.residue", residue,
+            owner="Git", required="clean_worker_subject")
+    if successor is not None:
+        require(successor.get("status") == "dispatched" and successor.get("candidate_unchanged") is True
+                and not successor.get("candidate_invalid")
+                and successor.get("custody") == execution["recovery_context"]["custody"],
+                "worker.recovery.candidate", successor.get("candidate_invalid"),
+                owner="Noodle", required="unchanged_native_candidate")
+    if entry is not None:
+        require(not residue and git(root, "rev-parse", "HEAD^{tree}") == entry["candidate_tree"],
+                "revision.entry.candidate", "dirty_or_changed")
+        for revision in (head, entry["target_base"]):
+            ancestor = subprocess.run(["git", "merge-base", "--is-ancestor", entry["old_base"], revision],
+                                      cwd=root, capture_output=True, timeout=30)
+            require(ancestor.returncode == 0, "revision.entry.ancestry", revision)
+        return
     result = subprocess.run(["git", "merge-base", "--is-ancestor", binding["base_head"], "HEAD"],
                             cwd=root, capture_output=True, text=True, timeout=30)
     require(result.returncode == 0, "worker.git.base", binding["base_head"],
@@ -1044,6 +1133,70 @@ def spawn_readback(binding, session):
     return spawn
 
 
+def interruption_readback(binding):
+    execution = binding["execution"]
+    recovery = execution["recovery_context"]
+    binary = executable_identity(execution["carrier"]["noodle"], "carrier.noodle")
+    result = subprocess.run([binary, "--project-dir", execution["control_root"], "interruption", "inspect",
+                             execution["order_id"], recovery["custody"]["subject"]],
+                            capture_output=True, text=True, timeout=30)
+    try:
+        receipt = json.loads(result.stdout)
+    except ValueError as error:
+        raise AdmissionRefusal("interruption.inspect", result.stderr, "Noodle", "native_interruption_readback") from error
+    require(isinstance(receipt, dict) and receipt.get("owner") == "Noodle interrupted execution"
+            and receipt.get("status") in {"recoverable", "prepared", "dispatched"},
+            "interruption.inspect", receipt, owner="Noodle", required="native_interruption_readback")
+    require(all(receipt.get(key) == recovery[key] for key in ("custody", "custody_sha256", "evidence_path")),
+            "interruption.custody", "changed", owner="Noodle", required="original_interruption_custody")
+    return receipt
+
+
+def interruption_successor(binding, session, spawn, deadline):
+    execution = binding["execution"]
+    recovery = execution["recovery_context"]
+    evidence = Path(recovery["evidence_path"])
+    for key, value in {"session_id": session, "skill": "execute", "provider": "codex", "runtime": "process",
+                       "worktree_path": recovery["custody"]["worktree_path"],
+                       "model": execution["carrier"]["codex"]["model"]}.items():
+        require(spawn.get(key) == value, "worker.spawn." + key, spawn.get(key))
+    while True:
+        owner = read_owner(binding)
+        stage = owner["state"]["orders"][execution["order_id"]]["stages"][execution["stage_index"]]
+        current = stage["attempts"][-1]
+        offered = json.loads((evidence / "dispatch-offered.json").read_bytes())
+        require(offered == {"custody_sha256": recovery["custody_sha256"], "attempt_id": current["attempt_id"]}
+                and current.get("status") in {"launching", "running"}
+                and current.get("session_id") in ("", session),
+                "worker.recovery.offer", offered, owner="Noodle", required="original_offered_successor")
+        with (Path(execution["control_root"]) / ".noodle/noodle.lock").open("rb") as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                pass
+            else:
+                raise AdmissionRefusal("worker.recovery.owner", "absent", "Noodle", "current_live_owner")
+        try:
+            result = json.loads((evidence / "dispatch-result.json").read_bytes())
+        except FileNotFoundError as error:
+            if time.monotonic() >= deadline:
+                raise AdmissionRefusal("worker.recovery.result", "timeout", "Noodle", "original_dispatch_readback") from error
+            time.sleep(0.01)
+            continue
+        require(result == {**offered, "session_id": session}, "worker.recovery.result", result,
+                owner="Noodle", required="exact_native_successor")
+        receipt = interruption_readback(binding)
+        require(receipt["status"] == "dispatched" and receipt.get("candidate_unchanged") is True
+                and not receipt.get("candidate_invalid")
+                and receipt.get("successor") == {"attempt_id": current["attempt_id"], "session_id": session},
+                "worker.recovery.candidate", receipt, owner="Noodle", required="unchanged_native_successor")
+        fresh = read_owner(binding)["state"]["orders"][execution["order_id"]]["stages"][execution["stage_index"]]
+        require(fresh["attempts"][-1].get("session_id") == session
+                and fresh["attempts"][-1].get("attempt_id") == result["attempt_id"],
+                "worker.recovery.current", "changed", owner="Noodle", required="exact_native_successor")
+        return receipt
+
+
 def launch_checked(binding, session, root, spawn, argv, execute):
     carrier = binding["execution"]["carrier"]
     for key, expected in (("session_id", session), ("provider", "codex"), ("runtime", "process"),
@@ -1056,14 +1209,37 @@ def launch_checked(binding, session, root, spawn, argv, execute):
     return {"owner": "Noodle", "action": "worker_started", "binding": binding, "session_id": session}
 
 
-def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, environ=None, execute=os.execv):
+def validate_revision_successor(binding, stage, session, root):
+    execution = binding["execution"]
+    attempts = stage["attempts"]
+    current = attempts[-1]
+    entry = binding["revision_entry"]["context"]
+    require(len(attempts) == len(entry["prior_attempts"]) + 1
+            and attempts[:-1] == entry["prior_attempts"]
+            and current.get("session_id") == session
+            and current.get("attempt_id") not in {a["attempt_id"] for a in entry["prior_attempts"]},
+            "revision.entry.successor", current, owner="Noodle", required="exact_revision_successor")
+    receipt = stage.get("extra", {}).get("request_changes_requeued", {})
+    custody = receipt.get("binding", {})
+    require(custody.get("session_id") == entry["terminal"]["session_id"]
+            and custody.get("attempt_id") == entry["terminal"]["attempt_id"]
+            and custody.get("candidate_head") == entry["candidate_head"]
+            and custody.get("worktree_name") == execution["worktree"]
+            and custody.get("worktree_path") == str(root),
+            "revision.entry.custody", custody)
+
+
+def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, environ=None, execute=os.execv, entry_reference=None):
     environ = os.environ if environ is None else environ
     root = Path(root).resolve()
     binding = context(envelope_path, envelope_digest, root, reader)
+    if entry_reference is not None:
+        binding = revision_context(binding, entry_reference, envelope_digest)
     execution = binding["execution"]
     session = environ.get("NOODLE_SESSION_ID")
     require(isinstance(session, str) and re.fullmatch(r"[a-zA-Z0-9-]+", session),
             "worker.session_id", session, owner="Noodle", required="current_dispatch_identity")
+    deadline = time.monotonic() + 2
     spawn = spawn_readback(binding, session)
     state = read_owner(binding)
     if spawn.get("skill") == "schedule":
@@ -1086,7 +1262,11 @@ def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, en
         return launch_checked(binding, session, root, spawn, argv, execute)
     expected_root = (Path(execution["control_root"]) / ".worktrees" / execution["worktree"]).resolve()
     require(root == expected_root, "worker.worktree", str(root))
-    validate_worktree(root, binding)
+    successor = (interruption_successor(binding, session, spawn, deadline)
+                 if "recovery_context" in execution else None)
+    if successor is not None:
+        state = read_owner(binding)
+    validate_worktree(root, binding, successor=successor)
     for key, expected in (("NOODLE_PROJECT_DIR", execution["control_root"]),
                           ("NOODLE_WORKTREE", str(expected_root)),
                           ("NOODLE_ORDER_ID", execution["order_id"]),
@@ -1115,6 +1295,8 @@ def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, en
             and current.get("session_id") in ("", session)
             and not any(a.get("status") in ("launching", "running") for a in attempts[:-1]),
             "worker.attempt", attempts, owner="Noodle", required="quiescent_prior_attempt")
+    if "revision_entry" in binding:
+        validate_revision_successor(binding, stage, session, root)
     # This replaces the Noodle-owned process; it cannot create a parallel writer.
     require(spawn.get("skill") == "execute", "worker.spawn.skill", spawn.get("skill"),
             owner="Noodle", required="current_dispatch_identity")

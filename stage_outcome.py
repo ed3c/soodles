@@ -14,9 +14,9 @@ import subprocess
 import sys
 
 from issue_admission import (AdmissionRefusal, load_external_envelope, nonempty,
-                             parse_contract, require)
+                             parse_contract, require, body_digest)
 from issue_execution import (projection, read_owner, spawn_readback,
-                             validate_carrier)
+                             validate_carrier, interruption_readback, revision_context, validate_revision_successor)
 from repository_binding import git_origins
 
 
@@ -102,7 +102,14 @@ def worker_context(root, environ):
     if contract["schema"] >= 3:
         require(contract["base_head"] == envelope["base_head"],
                 "worker.contract.base_head", contract["base_head"], **DISPATCH)
-    binding = {**envelope, "contract": contract}
+    body = subject.get("issue_body")
+    require(isinstance(body, str) and body_digest(body) == envelope["body_sha256"],
+            "worker.issue_body", "missing or changed body", **DISPATCH)
+    require(parse_contract(body) == contract, "worker.issue_body.contract",
+            "body and selected contract differ", **DISPATCH)
+    binding = {**envelope, "contract": contract, "issue_body": body}
+    if "revision_context" in subject:
+        binding = revision_context(binding, subject["revision_context"], digest)
     execution = binding["execution"]
     expected_root = (Path(execution["control_root"]) / ".worktrees" / execution["worktree"]).resolve()
     require(root == expected_root, "worker.worktree", str(root), **DISPATCH)
@@ -133,8 +140,29 @@ def worker_context(root, environ):
         require(spawn.get(key) == expected, "worker.spawn." + key, spawn.get(key), **DISPATCH)
     require(stage.get("model") == spawn.get("model"),
             "worker.stage.model", stage.get("model"), **DISPATCH)
+    if "revision_entry" in binding:
+        validate_revision_successor(binding, stage, session, root)
     binary = validate_carrier(binding, worker=True)["noodle"]
     registered_worktree(root, binding)
+    if "recovery_context" in execution:
+        receipt = interruption_readback(binding)
+        current = attempts[-1]
+        require(nonempty(current.get("attempt_id")) and receipt["status"] == "dispatched"
+                and receipt.get("successor") == {
+                    "attempt_id": current.get("attempt_id"), "session_id": session},
+                "worker.recovery.successor", receipt, owner="Noodle",
+                required="exact_native_successor")
+        fresh = read_owner(binding)["state"]["orders"][order_id]["stages"][0]
+        active = fresh.get("attempts", [])
+        require(all(fresh.get(key) == stage.get(key) for key in (
+                    "stage_index", "skill", "provider", "runtime", "status", "model", "prompt"))
+                and bool(active) and all(isinstance(item, dict) for item in active)
+                and active[-1].get("status") == "running"
+                and active[-1].get("session_id") == session
+                and active[-1].get("attempt_id") == current["attempt_id"]
+                and not any(item.get("status") in ("launching", "running") for item in active[:-1]),
+                "worker.recovery.current", "changed", owner="Noodle",
+                required="exact_native_successor")
     return binding, session, binary
 
 
@@ -240,9 +268,42 @@ def require_feedback_completion(root, binding, session, events):
             owner="review-writing", required="changed_pclass_behavior_coverage")
 
 
+def validate_feedback_reuse(observations):
+    from schema_manager import feedback_bytes, FeedbackRefusal
+    try:
+        for item in observations:
+            for key in ("report", "trace"):
+                feedback_bytes(item[key], "reuse." + item["case_id"] + "." + key)
+    except FeedbackRefusal as error:
+        raise AdmissionRefusal("worker.feedback.reuse", str(error), owner="review-writing",
+                               required="intact_prior_evidence_or_new_observations") from error
+
+
+def feedback_reuse(scope, previous):
+    if not scope["reuse"]:
+        return []
+    from schema_manager import feedback_bytes, feedback_json, FeedbackRefusal
+    require(previous is not None, "worker.feedback.reuse", "previous feedback record is missing",
+            owner="review-writing", required="intact_prior_evidence_or_new_observations")
+    try:
+        prior = feedback_json(feedback_bytes(previous["selection"], "previous_selection"),
+                              "previous_selection")
+        reusable = [item for item in prior["observations"] if item["case_id"] in scope["reuse"]]
+    except FeedbackRefusal as error:
+        raise AdmissionRefusal("worker.feedback.reuse", str(error), owner="review-writing",
+                               required="intact_prior_evidence_or_new_observations") from error
+    require(len(reusable) == len(scope["reuse"])
+            and {item["case_id"] for item in reusable} == set(scope["reuse"]),
+            "worker.feedback.reuse", "previous selection does not cover recorded reuse",
+            owner="review-writing", required="intact_prior_evidence_or_new_observations")
+    validate_feedback_reuse(reusable)
+    return reusable
+
+
 def feedback(selection_path, expected_sha256, root=None, environ=None):
     """Consume one observation through Noodle's existing session event writer."""
-    from schema_manager import pclass_feedback, feedback_bytes, feedback_json, project_feedback_history
+    from schema_manager import (pclass_feedback, feedback_bytes, feedback_json,
+                                project_feedback_history, project_feedback_scope)
     from test_manager import feedback_scope
     root = Path(root or Path.cwd()).resolve()
     binding, session, binary = worker_context(root, os.environ if environ is None else environ)
@@ -272,8 +333,33 @@ def feedback(selection_path, expected_sha256, root=None, environ=None):
                 target_scope(root, binding, binding["contract"]), result.get("next"))
         identity = feedback_identity(result)
         if records and identity == records[-1]["identity"]:
-            return {"status": "readback", "round": records[-1]["round"],
-                    "feedback": records[-1], "next": records[-1]["result"]["next"],
+            recorded = records[-1]
+            original = pclass_feedback(recorded["selection"]["path"], recorded["selection"]["sha256"])
+            require("problem" not in original, "worker.feedback.evidence", original,
+                    owner="review-writing", required="intact_recorded_selection_and_evidence")
+            require(feedback_identity(original) == identity,
+                    "worker.feedback.readback", "recorded behavior identity changed", **READBACK)
+            scope = recorded.get("test_scope")
+            evidence = recorded["result"]["next"].get("evidence")
+            require(isinstance(scope, dict) and all(isinstance(scope.get(key), list)
+                    for key in ("cases", "reuse", "verified")),
+                    "worker.feedback.readback", "recorded evidence scope is missing", **READBACK)
+            previous = records[-2] if len(records) > 1 else None
+            current_scope = feedback_scope(original, previous["result"] if previous else None)
+            require(all(scope[key] == current_scope[key] for key in ("cases", "reuse", "verified")),
+                    "worker.feedback.readback", "recorded evidence scope conflicts with current observations",
+                    **READBACK)
+            reusable = feedback_reuse(scope, previous)
+            require(evidence is None or evidence == {
+                "observe": scope["cases"], "reuse": reusable, "verified": scope["verified"]},
+                "worker.feedback.readback", "recorded evidence does not match its scope and sources", **READBACK)
+            original = project_feedback_history(original, recorded["failed_attempts"])
+            original = project_feedback_scope(original, scope, reusable)
+            require(original["next"]["operation"] == recorded["result"]["next"]["operation"],
+                    "worker.feedback.readback", "recorded continuation changed", **READBACK)
+            readback = {**recorded, "result": original}
+            return {"status": "readback", "round": recorded["round"],
+                    "feedback": readback, "next": original["next"],
                     "authorizes_landing": False}
         failures = sum(failed_feedback(record["result"]) for record in records)
         require(failures < 3 or not failed_feedback(result), "worker.feedback.budget", failures,
@@ -281,11 +367,14 @@ def feedback(selection_path, expected_sha256, root=None, environ=None):
         require(identity not in {r["identity"] for r in records}, "worker.feedback.cycle", identity,
                 owner="review-writing", required="material_evidence_without_replaying_failed_state")
         result = project_feedback_history(result, failures + int(failed_feedback(result)))
+        scope = feedback_scope(result, records[-1]["result"] if records else None)
+        reusable = feedback_reuse(scope, records[-1] if records else None)
+        result = project_feedback_scope(result, scope, reusable)
         record = {"round": len(records) + 1, "previous": records[-1]["identity"] if records else None,
                   "identity": identity, "selection": {"path": str(Path(selection_path).resolve()),
                                                        "sha256": expected_sha256},
                   "result": result, "failed_attempts": failures + int(failed_feedback(result)),
-                  "test_scope": feedback_scope(result, records[-1]["result"] if records else None)}
+                  "test_scope": scope}
         payload = {"message": FEEDBACK_PREFIX + json.dumps(record, sort_keys=True),
                    "blocking": False, "order_id": execution["order_id"], "stage_index": execution["stage_index"]}
         argv = [binary, "--project-dir", execution["control_root"], "event", "emit", "stage_message",
@@ -314,6 +403,14 @@ def report(outcome, message, root=None, environ=None):
     before, events = session_events(path, initial=True)
     require(not typed_events(events), "worker.events.existing_outcome", typed_events(events), **READBACK)
     if outcome == "completed":
+        if "revision_entry" in binding:
+            candidate = Path(root or Path.cwd())
+            ancestry = subprocess.run(["git", "merge-base", "--is-ancestor", binding["base_head"], "HEAD"],
+                                      cwd=candidate, capture_output=True, timeout=30)
+            clean = subprocess.run(["git", "status", "--porcelain=v1", "--untracked-files=all"],
+                                   cwd=candidate, capture_output=True, timeout=30)
+            require(ancestry.returncode == 0 and clean.returncode == 0 and not clean.stdout,
+                    "revision.completion.candidate", "not_integrated_or_dirty", required="clean_integrated_candidate")
         require_feedback_completion(root or Path.cwd(), binding, session, events)
     payload = {"message": message, "outcome": outcome, "blocking": outcome != "completed",
                "order_id": execution["order_id"], "stage_index": execution["stage_index"]}

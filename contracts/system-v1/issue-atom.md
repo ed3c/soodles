@@ -452,3 +452,135 @@ Target checkout 不提供 lifecycle 實作。Noodle 仍獨占 order、session �
 Worker prompt 回傳固定的 outcome 與 target-test argv。Scheduler 使用固定 launcher 的 inspect 操作。
 Legacy authorization 沒有這個欄位，保留原 source profile 與 source closure。
 Factory 交付不等於 target activation。原 supervisor 保留獨立 target admission 與正常使用結果的責任。
+
+### Prepublication interruption selection
+
+原 order 的 process 消失不代表 writer 成功或失敗。若 native custody
+仍綁定同一個 running attempt，supervisor 可選定
+`prepublication_interruption` descriptor。既有
+`issue-atom resume AUTH DESCRIPTOR SHA256` 接受這個分支。
+普通 postwrite、scope 與 correction-start resume 保留原入口和条件。
+
+Descriptor schema 1 包含 `kind`、原 `authorization` reference、
+`original_envelope` reference、`lifecycle_owner`、`carrier`、`custody`、
+`custody_sha256` 和 `evidence_path`。Reference 包含絕對 `path` 與 `sha256`。
+Supervisor 從原生 inspect 選定 custody。新 Noodle 使用另一個固定 binary
+路徑。它不覆寫原 binary。Descriptor 必須使用原 Issue identity。
+工程 Issue 的完成不能替代原 Issue 的恢復。
+
+Resume 只保存 selection。它不 prepare、start、dispatch 或修改 Issue。
+Run 先讀取 fresh Issue，再消費 native inspect 的 exact prepare argv。
+Soodles 先保存 intent。若結果未知，Soodles 只讀取原 owner 的結果。
+Noodle prepare 擁有原 attempt 的 cancelled 與 exit unknown 更新。
+它保留 dirty candidate，並將原 stage 改成 pending。Prepare 不 dispatch。
+
+Prepared readback 允許新 lifecycle 產生外部 recovery bundle。
+Envelope 保留原 task、instruction context、source head、Issue body 和 write paths。
+它只投影選定的新 carrier 與 typed recovery context。不同 HEAD 必須拒絕。
+新 start 使用現有一次性 intent，先以 manual mode 持有原 order。
+Edit-item 的 ack、prompt 和 interruption marker 相符後，既有 mode owner 才 release。
+Soodles 不 requeue。Native owner 負責唯一 successor。
+
+普通 worker 仍拒絕 dirty worktree。Recovery worker 必須驗證 exact native
+successor、session、attempt、candidate_unchanged=true，以及原 Git identity。
+若 dispatch-result 尚未出現，worker 只在 existing spawn、current live owner
+和原 offered identity 相符時等待。等待與 spawn 初始化共用兩秒期限。
+它不啟動模型，也不重送 prepare、start 或 dispatch。Timeout、foreign receipt、
+owner 消失或 candidate_invalid 均拒絕。Supervisor 只要求 dispatched lineage
+保持有效。Writer 開始合法修改後，candidate_unchanged=false 不代表 lineage 失效。
+原 session immutable hash 改變仍由 native owner refused。
+
+原 authorization 沒有 lifecycle_owner 時，原 auth.base_head 的 Git objects
+可提供 original repair source。Reader 只解析原 issue_atom.py 的 literal
+LIFECYCLE_FILES。它不執行歷史 Python，也不使用新 runtime 的 closure 清單。
+Reader 比對原 binding、policy、context、lineage 和全部 counters/history。
+任何缺失、不符或未確認 effect 都拒絕。Explicit lifecycle_owner 仍使用其固定
+external bytes。這個讀取方式同時供 postwrite 與 interruption resume 使用。
+新 owner 不重設 history、used、started、last_time、limits 或原 binding。
+
+Recovery prompt 提供 outcome 與 feedback 的外部入口。
+原 candidate 的 `./stage-outcome` 可能仍載入舊 validator，無法讀 recovery envelope。
+因此 recovery writer 使用 `"$SOODLES_ADMISSION_LAUNCHER" stage-outcome`，
+再附上原 outcome/message 或 feedback/selection/digest 參數。
+這只替代當次回報的程式入口。原 task、instruction pins、要求和 outcome 語義不變。
+普通 writer 保留 `./stage-outcome`。
+
+Launcher 先驗證 envelope、manifest 和 runtime bytes，再載入已選定的 outcome reader。
+新 lifecycle closure 包含 stage_outcome.py。Bundle 同時包含 feedback 的直接依賴。
+Outcome reader 核對 current stage、session、spawn 和 native successor lineage。
+Writer 已合法修改 candidate 時，reader 不重用模型前的 candidate_unchanged 條件。
+Foreign successor、原 immutable session 變動或 bundle bytes 不符都拒絕，不寫事件。
+它仍使用 Noodle event writer。未知 event write 仍要求原 owner readback。
+Worker admission 成功本身不證明 outcome 回報成功。
+原 process readback 使用原 carrier。新 process、reconciliation 和 cleanup
+使用投影後 carrier。Publication、judge 和 unknown provider write 規則不變。
+
+## 原 owner 的 typed admission revision
+
+本路徑修正 publication 前的 base 或驗收引用。原 authorization 不變。
+`supervisor-admission scope-amendment` 接收 supervisor 固定的 schema-2 selection。
+它回傳原 `issue-atom scope-amend` 接續。採納後仍用原 `issue-atom run`。
+這些入口保留既有 checkpoint、repair ledger、task、judge 與 session 歷史。
+
+Selection 的 `type` 是 `base_advance` 或 `criteria_correction`。
+它不是 JSON patch。兩者都綁 `original_envelope` 的 path 和 SHA-256、
+`order_id`、`stage_index`、`terminal_session`、`candidate_head`、`candidate_tree`，
+以及完整 `before_contract`。`reason` 說明修正原因。`evidence` 固定原拒絕證據。
+`lifecycle_owner` 固定執行實作。`native_acceptance` 固定 supervisor 接受的
+Noodle #106 receipt。該 receipt 包含 binary、acceptance、interface 的 path 和 SHA-256。
+Producer 與 worker 都重新驗證這些 bytes。
+
+`target_base` 固定目標 commit。`provider_readback` 固定一份含 `repository`
+與 `branch` 的 JSON。repository 的 full_name、default_branch 與 branch 的
+name、commit.sha 必須對應本 Issue 與 target。原有效 base 必須同時是
+retained candidate 與 target 的祖先。
+
+`base_advance` 的 `references` 必須為空。它只改 base 與原 base frozen hashes。
+`criteria_correction` 的 `references` 明列每個需修正的 path。
+每筆包含 `path`、布林 `required` 與 `frozen`。
+`frozen` 是 null，或含 `revision` 與 `source_head` 的物件。
+revision 是 base 或 head。Owner 從指定 Git object 讀取 hash。
+base 引用必須指向 target。head 引用不能由本次 candidate 自選。
+未列出的 required paths 與 frozen paths 保持原值。新引用必須在原 write paths 中。
+Manifest 本身不能從 required paths 移除。
+若舊 judge 要求 frozen path 同時是 required path，修正仍須滿足該規則。
+例如，錯選的 unchanged reference 可從兩組引用中明確移除。
+其餘 required artifact 仍須交付。不能用空白修改滿足 net-change 檢查。
+criteria correction 可同時前進 base。Owner 另驗 ancestry 並重算 base hashes。
+其他 contract 欄位全部保持原值。
+
+Owner 只接收 typed blocked 或 completed nonblocking 的 pending review。
+它要求原 loop、session 與 process group 已停止，且 candidate clean、committed。
+Completed 不得改報 blocked。未知 publication、landing、Issue write 或 native
+control 結果必須先讀回。修正不繼承 interruption 的 dirty-worktree 例外。
+
+Owner 在第一次 Issue patch 前刷新 provider target，並保存 exact before/after intent。
+只有原 body 或選定的新 body 可收斂。未知 patch 不重送。
+若尚未有任何 effect，新的 supervisor selection 可取代未執行的 selection。
+Owner 保留被取代的 selection。若已開始 effect，先完成其原 readback。
+已固定的 integration 始終使用該 target。後續 publication 若發現 base 再前進，
+回到同一 owner 的新 selection。Writer 與 publisher 都不自選另一個 base。
+完成一次 revision 後，owner 保留 body intent、control acknowledgements 與原 custody，
+再從原 authorization 及依序接受的 revision 重建下一個有效 contract。
+
+Standard envelope 保留原 admission source 與原 instruction context。
+它如實更新有效 base 與 Issue body binding。Retained candidate 是另一個身分。
+Producer 將 `revision-entry.json` 與其 digest 封存到既有 external bundle。
+Provider entry、manifest 與 preparation readback 都包含這份檔案。
+Worker 收到 `revision_context` 引用及 `admission_revision` 資料。
+這些資料補充一次 integration 的輸入，不替換原 task 或 instruction bytes。
+
+原 Noodle owner 在 manual hold 下執行 request-changes、edit-item、requeue，
+再切回 supervised。每個 command 先保存 intent，再讀其唯一 acknowledgement。
+無 acknowledgement 只允許讀回，不能再 append 或重建 command ID。
+Worker 驗證 sealed context、原 terminal evidence、native requeue custody、
+prior attempts 及唯一當前 successor session。它再驗 retained head/tree 與 clean state。
+只有這個 entry 可在 target 尚未成為 candidate 祖先時啟動。
+Writer 在原 worktree 整合固定 target，並處理衝突。
+普通 worker 仍保留原 ancestry 檢查。
+Revision worker 的 completed outcome 要求 clean candidate 已包含 target。
+普通 claim、publication、CI 與 landing 的最終 ancestry 與外部 judge 不變。
+
+本路徑不授權另一個 writer、scheduler 或外部 judge。
+Disposable fixture 證據只支持其所觀察的邊界。
+Root 仍負責選定 runtime 的 activation、原 atom 接續與正常交付讀回。

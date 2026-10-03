@@ -36,6 +36,7 @@ class Parser(argparse.ArgumentParser):
                               "problem": {"field": "arguments", "reason": message},
                               "next": {"owner": "caller", "operation": "supply_bound_evidence",
                                        "required": ["valid_arguments"],
+                                       "argv": None, "input": None,
                                        "help_argv": ["./soodles", "schema", "pclass-feedback", "--help"]}}, indent=2))
             self.exit(2)
         if self.prog.startswith("./soodles eval"):
@@ -403,12 +404,12 @@ Every result has authorizes_landing=false; no delivery or landing authority.""")
         description="Advance one authorized local atom through its exact next owner transition.")
     atom_run.add_argument("authorization")
     atom_resume = atom_verbs.add_parser(
-        "resume", description="Bind an external runtime to the original stopped post-write atom.")
+        "resume", description="Bind a selected runtime to original post-write, correction-start or interruption custody.")
     atom_resume.add_argument("authorization")
     atom_resume.add_argument("descriptor")
     atom_resume.add_argument("sha256")
     atom_scope = atom_verbs.add_parser(
-        "scope-amend", description="Adopt a pinned supervisor scope supplement on the original atom.")
+        "scope-amend", description="Adopt a pinned scope supplement or typed admission revision on the original atom.")
     atom_scope.add_argument("authorization")
     atom_scope.add_argument("selection")
     atom_scope.add_argument("sha256")

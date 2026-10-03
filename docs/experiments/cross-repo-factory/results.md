@@ -34,7 +34,7 @@ Fixture 的 `setUp` 從這個 source revision 複製 `GENERIC_LIFECYCLE_FILES` �
 驗證命令使用本次 Python interpreter 執行 `target.py`。
 不同 interpreter 路徑與暫存目錄會改變 reference bytes；重播比較行為斷言，不比較這些路徑。
 
-預期結果是全部 15 個 generic controls 成功。它們核對以下邊界：
+目前預期結果是全部 18 個 generic controls 成功。原有 15 個 controls 核對以下邊界，新增 3 個 controls 見下方 base integration 記錄：
 
 - 兩個 target 不含 Soodles 程式，仍能 authorize、prepare 及讀回同一 admission。
 - 外部 worker test/outcome entries 核對原 session、worktree 與 owner。Foreign lineage 被拒絕。
@@ -186,3 +186,81 @@ Test Manager 選出的 physical controls 是 `cleanup_recovery`、`cleanup_lock_
 它也須取得正常使用、實際 replay 與跨 target 並行證據。
 本次沒有其他 target 的真實 source/provider mutation。
 Factory fixture 通過或 factory PR 合併都不能代替這些 outcomes。整體使用者需求仍未完成。
+
+## 指定 base 的整合記錄
+
+本次保留原 candidate `847e8637ddd97f0aae0de911236512766066b3cb`。
+原 admission owner 選定 `5b0a73eae31fb414deeed4ffdf8082a71aee4e3d` 為整合 base。
+Writer 在同一 Noodle worktree 建立 merge。它沒有重套 generic patch。
+原 instruction source、judge、interruption 與 failed session 歷史都保留。
+此段補充前面的原始執行記錄，不把舊結果改標為新 source。
+
+初次整合通過 565 個 controls。獨立 source review 仍發現三項缺口。
+新加入的 base recovery 與 interruption producer 沒有傳遞 target binding。
+Generic revision 產生新 runtime 路徑，但原 validator 要求 execution 完全相等。
+Original repair source 只讀 legacy closure，導致 generic history 的 binding hash 改變。
+因此，「兩側 controls 都通過」不足以證明兩側 producer 和 consumer 已接合。
+Writer 修正這三個交界，並加入三個最小 fixture controls。
+
+Recovery producer 現在傳遞原 target reference。
+Producer 保留原 task、instructions、owner lineage，再將 runtime argv 綁至新的 admission bundle。
+Loader 要求 outcome 和 test argv 都指向目前 envelope 所在目錄的固定入口。
+Recovery 與 revision 比對仍拒絕原要求或 target reference 改變。
+若只保留舊 argv，consumer 會讀到舊 envelope，無法接受新 session 的 binding。
+若任意略過 runtime identity，foreign entry 可能被接受。因此 loader 另核對新 bundle 路徑。
+
+Repair reader 使用 AST 讀取外部固定原始碼的完整 closure。
+AST 是 Python 語法樹。Reader 只接受 literal `LIFECYCLE_FILES` 與它加上 literal generic tuple 的運算。
+它不執行或 import 歷史 Python。非法 expression、缺少檔案或 bytes 不符都拒絕。
+使用目前 runtime 的常數比較簡單，但會改變原 repair history 的身分，所以不採用。
+
+新 controls 核對新 bundle argv、舊 argv 拒絕、revision readback idempotency、target reference 竄改拒絕。
+它們也核對原 generic closure 不受目前常數漂移影響，以及 generic-only bytes 的竄改拒絕。
+既有相鄰 controls 保留 legacy history、counters 與 unknown effects 的原規則。
+獨立 reviewer 再次讀取修正與 controls，沒有提出未處理缺陷。
+這是 source review 與本機 fixture 證據，不是 provider acceptance。
+
+本次 normal Test Manager 執行如下。各列有重疊，不相加作為 unique coverage。
+
+| Log | Cases | Exit | Manager seconds |
+| --- | ---: | ---: | ---: |
+| `test-round-1.log` | 565 | 0 | 125.452 |
+| `generic-round-2.log` | 18 | 0 | 19.677 |
+| `affected-round-2.log` | 130 | 0 | 82.294 |
+| `generic-replay.log` | 18 | 0 | 32.174 |
+
+初次選擇使用 `./soodles test --base 5b0a73eae31fb414deeed4ffdf8082a71aee4e3d`。
+修正後只執行 `test_generic_repository_binding` 與 9 個相鄰 modules。
+完整 selection、reason、case timing 與 stdout 保存在各 log。
+最後 replay 仍由 Test Manager 選 `test_generic_repository_binding`，共 18 cases。
+Replay 使用相同 fixture inputs 與程式行為。期間只移除一個未使用 import，沒有改變執行邏輯。
+這是原可重建需求的實際 replay，沒有啟動模型或 provider。
+
+目前 13 份 P-class saved bytes 由一個 fresh native consumer 處理原三個 cases。
+Test Manager 先要求這三個 observations，沒有要求 software suite。
+原 launcher 在本次 revision session 記錄 schema-2 feedback。
+Schema Manager 回傳 `VALID/PASS`，writer 已消費 `consume_verified_behavior`。
+Consumer capture 不是完整平台 transcript。它不支持 wording improvement 或整體正確率。
+Hypothetical input 未提供 carrier origin/HEAD，故該輸入的 admission 合法性仍未知。
+這個缺口不允許將選定 stable 改成 main，也不影響缺少 job 時拒絕 landing 的結論。
+
+本次外部證據目錄是：
+
+`/Users/neon/.codex/experiments/cross-repo-factory-kvlba2k1/writer-229-base`
+
+| 相對檔名 | SHA-256 |
+| --- | --- |
+| `test-round-1.log` | `e68c1191d255c5fe439822165e4f067f8b02e0cb18ba8377529a356506804fa5` |
+| `generic-round-2.log` | `f9f9dee0c8737bc5195f44b227cccf6cd92a84339b436c3f9d393f64e898e61c` |
+| `affected-round-2.log` | `68735ed2762af4d9e0414372b6ca2eea816b8cfd6a529a7d5ad853be0ba3d244` |
+| `generic-replay.log` | `3171b90fc88e202db8a8fcd1bc1fb053fafe073696b790f4c0c2672a1566b4ea` |
+| `work-record.json` | `7a9961a6c71215293c650aa8eb599acb68c9bef6928c804757e30b9fed7f6f1e` |
+| `writing-review.json` | `d7f9dd405d28b24e4b221ab2e9306aa79e761f0d429844ab19be36a4ad97a09c` |
+| `feedback/protocol.json` | `2e3e0e2018e5a3d0637364080924530e49208382e2a5e91776fe0c2fb297c6db` |
+| `feedback/selection-observed.json` | `dfce2124f447c7e9f90687e8d6e24ef78f5c1d2fba60d4b0039cfb535510d19a` |
+| `feedback/observed-response.json` | `0392bc1a06db5e314ad86faded9e80d4ee2b3de07e54290b1471ca896607ce63` |
+
+這些本機 custody references 需要另外交付 raw files 才能跨機器核對。
+Manifest 綁定本次保存的 required artifacts。Writer 未執行 publication 或 provider mutation。
+Factory delivery、Linux exact-head CI、reconciliation，以及各 target 的真實正常生產與並行結果仍由原 owners 接續。
+整體使用者需求尚未完成。

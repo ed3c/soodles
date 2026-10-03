@@ -163,7 +163,7 @@ class ScopeAmendmentTests(unittest.TestCase):
 
     def test_unknown_issue_write_stops_without_second_provider_effect(self):
         auth = {'control_root': self.envelope['execution']['control_root'], 'repository': 'ed3c/soodles',
-                'issue': {'title': 'Original', 'body': self.issue['body']}}
+                'issue': {'number': 18, 'title': 'Original', 'body': self.issue['body']}}
         updated = issue_admission.supplemented_body(self.issue['body'], ['test_manager.py'])
         selected = {**auth, 'issue': {'title': 'Original', 'body': updated, 'number': 18}}
         stage = {'status': 'review', 'attempts': []}

@@ -23,6 +23,11 @@ REPLACEMENTS = {
 # Traced owner/consumer coverage for bounded changes. A missing mapping is a
 # scope decision for the supervising Session, never an instruction to run all.
 BOUNDARIES = (
+    (("issue_atom.py", "issue_execution.py", "issue_admission.py", "supervisor_admission.py", "stage_outcome.py"),
+     ("admission_revision",), ()),
+    (("issue_atom.py", "issue_execution.py", "issue_admission.py", "supervisor_admission.py"),
+     ("interruption_recovery",), ()),
+    (("tests/fixtures/atom-feedback/",), ("atom_feedback",), ()),
     (("supervisor_admission.py", "issue_atom.py"), ("correction_preparation",), ()),
     (("supervisor_admission.py", "issue_atom.py", "issue_admission.py",
       "issue_execution.py", "soodles.py"), ("scope_amendment",), ()),
@@ -218,7 +223,7 @@ def select(root, changed, *, base=None, full=False, modules=(), controls=(), rea
             elif candidate_evidence_input(root, path):
                 selected.add("test_candidate_verification")
                 reasons.append(f"{path}: candidate evidence input; existing admission discriminator")
-            elif path.endswith(".md") or path == "LICENSE":
+            elif path.endswith(".md") or path in ("LICENSE", ".github/ISSUE_TEMPLATE/execution.yml"):
                 reasons.append(f"{path}: review meaning; no runtime regression claim")
             else:
                 unresolved.append({"path": path, "reason": "trace the changed behavior and name its controls"})
@@ -506,6 +511,9 @@ def feedback_scope(result, previous=None):
                     and prior_cases.get(name, {}).get("status") == "passed")
         if current_cases.get(name, {}).get("status") == "passed":
             verified.append(name)
+        elif (current_cases.get(name, {}).get("status") == "failed"
+              or any(value is False for value in current_cases.get(name, {}).get("checks", {}).values())):
+            needed.append(name)
         else:
             (reuse if reusable else needed).append(name)
     if result.get("criteria", {}).get("status") != "SUPPORTED":

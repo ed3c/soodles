@@ -14,6 +14,46 @@ Runtime bytes、target 身分或 owner lineage 不符時，停止受影響的 ef
 Factory fixture 與 factory PR merge 不能證明真實 target 已交付。
 原 supervisor 仍須以獨立 target admission 完成啟用與正常使用讀回。
 
+## 透過 Noodle 執行 Poteto Mode
+
+本 skill 用 Poteto Mode 選擇工程方法。`issue-atom` 保留生命週期與授權責任。
+Noodle 保留 writer、worktree、session 與事件紀錄的責任。
+工程方法決定如何追查、設計、修改與驗證。它不授予 restart、publication 或 landing 權限。
+
+Supervisor 先讀目前可用的 `poteto-mode/SKILL.md`，再讀符合任務的 playbook。
+將原始需求、已知失敗與必要證據放入既有 task 與 contract。
+Noodle 派出的 `execute` Agent 依照
+[工程方法交接](../execute/SKILL.md#在原-session-使用-poteto-mode) 執行該方法。
+不要把 stage 改名為 `poteto-mode`，或由 supervisor 另開 implementation writer。
+現有 admission 會封存 `execute` skill。該 skill 才是 writer 的交接入口。
+僅在 supervisor 載入 Poteto Mode，不能證明 writer 已收到或執行它。
+記錄實際載入的方法與必要依賴。方法使用紀錄與產品驗收證據分開保留。
+
+若原 atom 已選定 authorization，保留它和目前的 owner continuation。
+修改 skill 不會更新既有封存 bundle，也不會恢復停止的 session。
+Supervisor 繼續處理授權範圍內的診斷與 owner 修正。
+跨 repository 或不同 rollback 邊界的修正由各自 owner 接受 admission。
+它們不得冒充原 atom 的替代授權。
+
+## 修正拒絕後的錯誤推論
+
+Owner 的拒絕停止其所指的操作。它不停止所有已授權的工程工作。
+先區分命令的實際拒絕與 Agent 對拒絕的解釋。
+保留原 response，指出原主張、前提、來源與缺少的證據。
+用原需求檢查推論，再讀取原 owner 的狀態、程序與事件紀錄。
+若兩者矛盾，記錄矛盾並追查產生 readback 的 owner。
+不要把 snapshot 的 `running` 當作活程序的證明。
+程序消失也不能證明所有 effects 已知，或授予重啟權限。
+
+若現有證據已定位錯誤，修正授權範圍內的原因。
+不要為取得相同證據重演 provider write。
+若必須修改 owner，交由該 owner 的工程工作處理，保留原待完成需求。
+Test Manager 選擇必要控制。P-class 修正使用 review-writing 的行為回饋。
+消費 Schema Manager 的 next，再依原 owner 的新 readback 繼續。
+沒有材料變更時，不重試原拒絕。
+身分、權限、能力或未知 effect 的缺口，只阻擋依賴該輸入的操作。
+報告缺口時，同時記錄已完成的診斷、可繼續的修正與仍待 owner 處理的事項。
+
 ## Preserve the request through admission and delivery
 
 Before selecting authorization, compare the user's requested outcomes with the
@@ -24,6 +64,14 @@ or convenient implementation. One atom bounds the causal change and its landing.
 Only the user can accept a narrower requested outcome. Retain the outcome, its
 evidence and remaining work in the existing task or handoff. No new schema,
 checklist file, approval step or full test run is required.
+
+For a whole Issue atom, retain `poteto-mode` as the engineering entry in
+[execute](../execute/SKILL.md#engineering-entry). Preserve the Issue's six sections
+as task information and constraints. Do not turn them into separate skill routes.
+Only an explicitly finite subtask may select a leaf skill as its direct entry.
+Keep required delegation and review within roles that have those capabilities.
+If a required capability is missing, use the existing blocked owner path.
+The engineering entry does not grant publication or landing authority.
 
 Before admission, carry the requested outcomes and the division of writer versus
 later owner work in the existing task/contract. The writer reconciles its work
@@ -78,6 +126,13 @@ On `status=prepared`, hand off the receipt's `authorization` and `next`
 unchanged. Its digest, executable argv and environment are the validated result.
 Do not reconstruct a second continuation or guess internal authorization fields.
 For lifecycle execution, consume `next.argv` and `next.environment` unchanged.
+An explicitly selected external `lifecycle_owner` supplies the executable bundle
+for initial admission and correction. The owner validates its immutable bytes
+before preparation. Without that selection, preparation uses the control ref.
+Repository instruction pins still use their admitted revision. The independent
+landing owner remains separate. This prevents the prompt producer and its
+launcher validator from using different projection rules.
+
 The CLI derives the committed base, instruction pins and host config identity,
 validates them through the existing authorization owner, and returns the one
 `issue-atom run` continuation. Do not hand-assemble derived authorization fields
@@ -217,7 +272,12 @@ It does not count a Noodle writer as one model invocation.
 
 If a correction stops before native controls or a new writer, first read the
 original process, snapshot, control history, and published worktree.
-A stopped process alone does not authorize restart. The external supervisor may
+A stopped process alone does not authorize restart. This rule limits restart,
+not authorized diagnosis, inference correction, or owner repair. This recovery
+entry applies only to the predispatched correction described here. An interrupted
+active writer needs its original owner recovery and readback. Do not infer that
+this paragraph authorizes that recovery or prohibits repairing its missing capability.
+The external supervisor may
 select a corrected immutable lifecycle with the existing `issue-atom resume`
 entry. That owner must prove that the held startup produced no new dispatch.
 It retains the failed start, logs, bundle, authorization, and CI failure count.
@@ -349,6 +409,39 @@ not use this rebind. Pending, cancelled or successful CI cannot authorize this
 failed-head route. A completed failed runtime whose acceptance step was skipped
 because a preceding step failed is eligible for correction, never for landing.
 
+## 已完成但尚未發布的候選遇到 base 前進
+
+候選已完成且尚未發布時，原 completed 紀錄只涵蓋原候選。
+若 provider base 已前進，不能先更新 envelope，再要求舊候選 writer 合併。
+普通 worker entry 要求新 base 已是起始候選的祖先。
+
+Supervisor 先在隔離工程 checkout 準備固定整合 commit。
+它保留原 candidate 與選定 target 作為兩個 parents。
+這份 commit 是待接納輸入，不是 publication readiness。
+Supervisor 透過既有 resume 選定修正 lifecycle 與有限 base recovery descriptor。
+原 authorization、Issue、order、worktree、judge 與失敗歷史保持不變。
+不要修改原 authorization 或已固定的 runtime 檔案。
+
+原 owner 驗證 completed custody、clean candidate、ancestry、原寫入範圍及 frozen pins。
+Owner 自接納時阻擋舊完成紀錄的 publication。
+Owner 先暫停派發，在原 review 狀態停止 loop，再執行固定 fast-forward。
+Owner 更新同一 Issue 的 base 與既有 base pins，讀回精確正文後建立新 envelope。
+新 loop 在 manual 模式恢復原 review，再執行 request-changes、替換任務與恢復派發。
+不要讓 failed order 跨越重啟。固定的 Noodle 版本會在啟動時移除這類 order。
+後續操作由原 owner 的 next 提供。Agent 不拼接 phase 命令。
+
+後續 writer 接納並驗證整合後的原工作。
+原 patch 已在候選祖先中。不要重新套用首次匯入的 patch。
+原 task 的成果與驗收要求仍有效。新 envelope 固定這次執行的 base。
+Writer 完成必要 controls、獨立 review 與目前保存文字的 feedback，才回報 completed。
+只有這個後續 attempt 完成，原 owner 才能取得新 claim 並繼續交付。
+
+若來源、範圍、process 或 target 不符，保留 refusal 與具名缺口。
+若任一寫入結果未知，消費原 owner 的 readback。不要重送該 effect。
+若新 loop 在 request-changes 後中斷，保留原 refusal 與讀回證據。
+本路徑不能自動恢復跨重啟的 failed order。
+整合 commit、resume 成功或本地 controls 通過，都不代表 PR 已交付。
+
 ## Repair an omitted admission path before publication
 
 If the original typed outcome names a necessary path outside the admitted scope,
@@ -403,6 +496,32 @@ its refusal, with redacted receipt diagnostics. Correct a named capability befor
 re-entry after a confirmed rejection; there is no automatic retry in the wait
 loop. One additional exact-lease offer is the limit. Missing legacy process
 receipts stay unknown; do not replace authorization or reconstruct their outcome.
+
+## Continuation readback
+
+The original owner emits `continuation_state` beside its unchanged `next`.
+This field describes when to consume that continuation. It does not authorize
+an effect. The called owner still checks current identity, evidence and authority.
+Schema Manager validates this field and projects the result in
+`feedback.dag.owner_transition`. It does not choose another operation.
+
+| State | Consumer action |
+| --- | --- |
+| `ready` | Consume the returned continuation with its supplied inputs and environment. |
+| `waiting` | Preserve the continuation. Wait for its named material change before re-entry. |
+| `input_required` | Obtain the input named by `next.required` from `next.owner`. Re-enter after that input changes. |
+| `complete` | Retain the terminal owner evidence. Check the original requested outcomes before reporting task completion. |
+| `unknown` | Inspect the named gap and obtain current original-owner evidence. Do not invent readiness, a command or a replacement route. |
+
+A failed operation can return a ready correction-preparation command.
+An input refusal can retain the original command for later use.
+Therefore, neither top-level `status=refused` nor the presence of `argv` decides
+whether the continuation can run now. Use the validated continuation state.
+Missing or conflicting metadata stays unknown. A historical resolved receipt
+with `next=null` retains its terminal history. Missing metadata alone does not
+reopen that work. This projection does not invalidate a historical receipt,
+reset a budget or add a lifecycle gate.
+Keep the original owner's requirements and unknown-effect readback obligations.
 
 ## Cost readback
 

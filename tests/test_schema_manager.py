@@ -1,11 +1,13 @@
 """Fixed protocol controls; no model/provider effects or recurring timing gate."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
 
+import issue_atom as atom
 import schema_manager as manager
 
 ROOT = Path(manager.__file__).parent
@@ -108,6 +110,23 @@ class SchemaManagerTests(unittest.TestCase):
         self.assertEqual(self.plan.context["requires"], [
             "contracts/system-v1/common.md", "contracts/system-v1/issue-atom.md"])
 
+    def test_byte_reader_compiles_exact_source_without_filesystem_or_execution(self):
+        names = set(self.plan.sources) | {
+            "candidate_publication.py", "provider_readback.py", "issue-atom",
+            "soodles", "soodles.py", "provider-readback",
+            "contracts/system-v1/candidate.md", "contracts/system-v1/readback.md"}
+        sources = {name: (ROOT / name).read_bytes() for name in names}
+        with patch.object(Path, "read_bytes", side_effect=AssertionError("filesystem")), \
+                patch.object(Path, "read_text", side_effect=AssertionError("filesystem")):
+            plan = manager.compile_plan(ROOT, read_bytes=sources.__getitem__)
+        self.assertEqual(plan, self.plan)
+        sources["issue_atom.py"] += b'\nraise RuntimeError("historical Python executed")\n'
+        changed = manager.compile_plan(ROOT, read_bytes=sources.__getitem__)
+        self.assertNotEqual(changed.identity, plan.identity)
+        self.assertEqual(changed.rules, plan.rules)
+        self.assertEqual(changed.sources["issue_atom.py"],
+                         hashlib.sha256(sources["issue_atom.py"]).hexdigest())
+
     def test_catalog_names_missing_and_wrong_producers_and_entries(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -186,6 +205,118 @@ class SchemaManagerTests(unittest.TestCase):
                       {"cleanup_allowed": {"value": 1, "evidence": "a" * 64}}):
             with self.assertRaises(manager.SchemaRefusal):
                 self.owner.apply({"identity": self.identity, "sequence": 1, "facts": facts})
+
+
+class OwnerFeedbackTests(unittest.TestCase):
+    authorization = "/external/original-authorization.json"
+
+    def correction(self, *, known=True):
+        return atom.refusal_output(atom.AtomRefusal(
+            "workflow.conclusion", "failure", "new_candidate_head_after_failed_ci",
+            known={"authorization_sha256": "a" * 64} if known else None), self.authorization)
+
+    def project(self, result, state, disposition):
+        before = copy.deepcopy(result)
+        with patch.object(Path, "read_bytes", side_effect=AssertionError("filesystem")), \
+                patch("subprocess.run", side_effect=AssertionError("process")), \
+                patch("socket.socket", side_effect=AssertionError("network")):
+            feedback = manager.project_owner_feedback(result)
+        self.assertEqual(result, before)
+        self.assertIs(feedback["next"], result.get("next"))
+        self.assertEqual(feedback["state"], result["status"])
+        self.assertEqual(feedback["transition_owner"], result["owner"])
+        self.assertEqual(feedback["dag"]["owner_transition"]["status"], state)
+        self.assertEqual(feedback["review_disposition"], disposition)
+        self.assertEqual(feedback["effects"], [])
+        self.assertIsNone(feedback["test_demand"])
+        self.assertFalse(feedback["authorizes_landing"])
+        return feedback["dag"]["owner_transition"]
+
+    def test_pending_preserves_material_change_condition_and_owner(self):
+        result = atom.response({"phase": "ci"}, self.authorization, waiting_on="GitHub Actions")
+        transition = self.project(result, "waiting", "wait_for_owner_change")
+        self.assertEqual(result["continuation_state"], "waiting")
+        self.assertEqual(transition["requires"], ["material_owner_or_provider_state_change"])
+        self.assertEqual(transition["continuation_owner"], result["next"]["owner"])
+        self.assertEqual(transition["waiting_on"], "GitHub Actions")
+        self.assertEqual(transition["gaps"], [])
+
+    def test_failed_ci_correction_is_ready_only_with_selected_digest(self):
+        result = self.correction()
+        transition = self.project(result, "ready", "consume_current_owner_next")
+        self.assertEqual(result["status"], "refused")
+        self.assertEqual(result["continuation_state"], "ready")
+        self.assertEqual(result["next"]["argv"][3:6], ["correction", self.authorization, "a" * 64])
+        self.assertEqual(transition["continuation_owner"], "supervisor.authorization")
+        self.assertEqual(transition["gaps"], [])
+        missing = self.correction(known=False)
+        self.project(missing, "input_required", "supply_owner_input")
+        self.assertNotIn("argv", missing["next"])
+
+    def test_refusal_preserves_named_input_even_with_argv(self):
+        result = atom.refusal_output(atom.AtomRefusal(
+            "authorization.path", "FileNotFoundError", "readable_external_authorization"), self.authorization)
+        transition = self.project(result, "input_required", "supply_owner_input")
+        self.assertEqual(result["next"]["argv"], atom.same_command(self.authorization))
+        self.assertEqual(transition["requires"], ["readable_external_authorization"])
+        self.assertEqual(transition["continuation_owner"], "external-supervisor")
+
+    def test_structural_deadlock_and_resolved_are_distinct(self):
+        stopped = atom.response({"phase": "landing"}, self.authorization, status="refused",
+                                details={"landing": {"next": None}})
+        transition = self.project(stopped, "unknown", "owner_readback_required")
+        self.assertTrue(transition["gaps"])
+        self.assertEqual(stopped["next"]["argv"], atom.same_command(self.authorization))
+        resolved = atom.response({"phase": "resolved"}, self.authorization, status="resolved")
+        transition = self.project(resolved, "complete", "history_retained")
+        self.assertIsNone(resolved["next"])
+        self.assertEqual(transition["requires"], [])
+        self.assertEqual(transition["gaps"], [])
+
+    def test_legacy_does_not_infer_readiness_or_completion(self):
+        results = [self.correction(), atom.response({"phase": "resolved"}, self.authorization, status="resolved")]
+        for result in results:
+            result.pop("continuation_state")
+            disposition = "history_retained" if result["status"] == "resolved" else "owner_readback_required"
+            transition = self.project(result, "unknown", disposition)
+            self.assertIn("continuation_state: missing or invalid owner declaration", transition["gaps"])
+
+    def test_ready_command_accepts_empty_arguments_and_environment_values(self):
+        result = self.correction()
+        result["next"]["argv"].append("")
+        result["next"]["environment"] = {"OPTIONAL_VALUE": ""}
+        self.project(result, "ready", "consume_current_owner_next")
+
+    def test_malformed_readiness_keeps_original_owner_response(self):
+        ready = self.correction()
+        waiting = atom.response({"phase": "ci"}, self.authorization, waiting_on="GitHub Actions")
+        complete = atom.response({"phase": "resolved"}, self.authorization, status="resolved")
+        cases = [
+            ({**ready, "continuation_state": []}, "continuation_state"),
+            ({**ready, "owner": None}, "owner:"),
+            ({**ready, "next": None}, "next:"),
+            ({**ready, "next": {**ready["next"], "argv": []}}, "next.argv"),
+            ({**ready, "next": {**ready["next"], "argv": [""]}}, "next.argv"),
+            ({**ready, "next": {**ready["next"], "argv": ["command", 1]}}, "next.argv"),
+            ({**ready, "next": {**ready["next"], "argv": ["bad\0command"]}}, "next.argv"),
+            ({**ready, "next": {**ready["next"], "environment": []}}, "next.environment"),
+            ({**ready, "next": {**ready["next"], "environment": {"TOKEN": None}}}, "next.environment"),
+            ({**ready, "next": {**ready["next"], "environment": {"BAD=NAME": "value"}}}, "next.environment"),
+            ({**ready, "next": {**ready["next"], "required": ["missing_input"]}}, "next.required"),
+            ({**ready, "next": {**ready["next"], "kind": "input"}}, "next.kind"),
+            ({**ready, "waiting_on": "provider"}, "waiting_on"),
+            ({**waiting, "next": {**waiting["next"], "required": []}}, "next.required"),
+            ({**waiting, "next": {**waiting["next"], "required": "changed"}}, "next.required"),
+            ({**waiting, "continuation_state": "ready"}, "status:"),
+            ({**waiting, "continuation_state": "input_required"}, "status:"),
+            ({**complete, "next": ready["next"]}, "complete:"),
+            ({**complete, "status": "pending"}, "complete:"),
+            ({**complete, "waiting_on": "provider"}, "waiting_on"),
+        ]
+        for result, gap in cases:
+            with self.subTest(result=result, gap=gap):
+                transition = self.project(result, "unknown", "owner_readback_required")
+                self.assertTrue(any(item.startswith(gap) for item in transition["gaps"]))
 
 
 if __name__ == "__main__":

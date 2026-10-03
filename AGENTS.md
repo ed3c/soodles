@@ -79,6 +79,14 @@ request evals, physical execution, or a full suite.
 ## Cost and decision principles
 
 Use the shortest supported path that completes the user's requested outcome.
+Move fact-determined workflow choices into the existing CLI owner.
+When the task requests a decision comparison, measure observable Agent workflow
+decisions at the same starting state and legal completion boundary. Elapsed time, tokens, tool calls,
+and document length are separate measurements. They do not establish fewer decisions.
+Following an owner-selected continuation does not add a workflow choice.
+Keep necessary engineering judgment and required verification. An incomplete
+path or work transferred to an uncounted Agent cannot win the comparison.
+An ordinary correction does not require a new counter or comparison run.
 The following requirements guide engineering work.
 They do not claim that the current implementation already meets them.
 Test Manager owns cost review across the whole Soodles lifecycle.
@@ -105,6 +113,15 @@ The state-transition owner uses these records to determine the supported next ac
 Producing a report alone does not complete this feedback path.
 
 P-class guidance and CLI responses use the same validated schema data.
+P-class prose states the requirements. It does not enforce a state transition.
+When the available facts and policy determine the next operation, the existing
+CLI owner must select it and validate its inputs. Do not ask the Agent to
+reconstruct that state machine from prose or choose an equivalent route.
+The response must carry the fixed identities and data needed by the next input.
+Return executable argv only when the required inputs and authority are present.
+Otherwise, name the missing input or engineering work and its owner. Do not emit
+placeholder commands as executable continuations. A feedback PASS covers its
+selected observations; it does not authorize stage completion or delivery.
 Each response identifies the current state and the responsible owner.
 It lists the applicable prerequisites and their evidence.
 It returns the supported next action or names the missing input.

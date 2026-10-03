@@ -29,7 +29,7 @@ class LifecycleActivationTests(unittest.TestCase):
             "contracts/system-v1/routes.json", "contracts/system-v1/common.md",
             "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
             "contracts/system-v1/readback.md", "provider-readback",
-            "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py", "test_manager.py"}
+            "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py", "test_manager.py", "stage_outcome.py"}
         self.assertEqual(set(atom.LIFECYCLE_FILES), expected_files)
         for name in expected_files:
             destination = self.runtime / name
@@ -159,6 +159,15 @@ class LifecycleActivationTests(unittest.TestCase):
         self.assertEqual(state, before)
         self.assertEqual(state['repair']['used']['readback'], 1)
 
+    def test_explicit_original_closure_does_not_follow_new_runtime_file_list(self):
+        path, auth, state, root, _ = self.resumed_repair_fixture()
+        before = copy.deepcopy(state)
+        with patch.object(atom, 'LIFECYCLE_FILES', ('new-runtime-only.py',)), \
+                patch.object(atom, '__file__', str(root / 'issue_atom.py')), patch.object(atom, 'postwrite_lifecycle'):
+            controller = atom.resumed_repair_controller(auth, state, atom.artifact_paths(path), path)
+        self.assertEqual(controller.binding, state['repair']['binding'])
+        self.assertEqual(state, before)
+
     def test_postwrite_resume_refuses_foreign_binding_lineage_limits_and_unknown_effects(self):
         path, auth, state, root, _ = self.resumed_repair_fixture()
         original = copy.deepcopy(state['repair'])
@@ -191,6 +200,50 @@ class LifecycleActivationTests(unittest.TestCase):
             controller = atom.repair_controller(auth, state, atom.artifact_paths(path), authorization_path=path)
         self.assertIsNotNone(controller.disabled)
         self.assertNotIn('repair', state)
+
+    def test_implicit_original_git_source_survives_control_drift_and_new_closure(self):
+        from system_context import compile_repair
+        path, auth, state, root, _ = self.resumed_repair_fixture()
+        control = Path(auth['control_root'])
+        for name in atom.LIFECYCLE_FILES:
+            destination = control / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(self.runtime / name, destination)
+        def git(*args):
+            return subprocess.check_output(['git', *args], cwd=control, text=True, stderr=subprocess.PIPE).strip()
+        git('add', *atom.LIFECYCLE_FILES)
+        git('-c', 'user.name=Fixture', '-c', 'user.email=test@example.invalid', 'commit', '-m', 'pin original repair source')
+        auth.pop('lifecycle_owner')
+        auth['base_head'] = git('rev-parse', 'HEAD')
+        path.write_text(json.dumps(auth))
+        digest = atom.digest_file(path)
+        policy = atom.atom_repair.load((control / atom.atom_repair.POLICY_PATH).read_bytes())
+        history = state['repair']
+        history.update(lineage=digest, binding=atom.repair_binding(auth, policy, source_root=control),
+                       context=compile_repair(control))
+        state['authorization_sha256'] = digest
+        state['lifecycle_resume'].update({'from': None, 'authorization_sha256': digest})
+        before = copy.deepcopy(state)
+        (control / 'supervisor_admission.py').write_text('control source advanced\n')
+        with patch.object(atom, 'LIFECYCLE_FILES', ('new-runtime-only.py',)):
+            self.assertEqual(atom.original_repair_source(auth)[2], history['binding'])
+        with patch.object(atom, '__file__', str(root / 'issue_atom.py')), \
+                patch.object(atom, 'postwrite_lifecycle'):
+            controller = atom.resumed_repair_controller(auth, state, atom.artifact_paths(path), path)
+        self.assertEqual(controller.binding, history['binding'])
+        self.assertEqual(state, before)
+        original_base = auth['base_head']
+        for bad in ('f' * 40, git('hash-object', 'supervisor_admission.py')):
+            auth['base_head'] = bad
+            with self.assertRaises(atom.AtomRefusal):
+                atom.original_repair_source(auth)
+        auth['base_head'] = original_base
+        for field in ('binding', 'context', 'policy'):
+            state['repair'] = copy.deepcopy(before['repair'])
+            state['repair'][field] = {} if field == 'context' else 'f' * 64
+            with patch.object(atom, '__file__', str(root / 'issue_atom.py')), patch.object(atom, 'postwrite_lifecycle'):
+                with self.assertRaises(atom.atom_repair.RepairRefusal):
+                    atom.resumed_repair_controller(auth, state, atom.artifact_paths(path), path)
 
     def test_second_resume_persists_previous_selection_without_repair_or_projection_reset(self):
         path, auth, state, _, first = self.resumed_repair_fixture()
@@ -289,6 +342,236 @@ class LifecycleActivationTests(unittest.TestCase):
         with patch.object(atom, '__file__', str(new_root / 'issue_atom.py')):
             with self.assertRaises(atom.AtomRefusal):
                 atom.host_manager(auth, state)
+
+    def implicit_host_fixture(self, *, legacy=False):
+        path, auth, state, root, selected = self.resumed_repair_fixture()
+        control = Path(auth['control_root'])
+        for name in atom.LIFECYCLE_FILES:
+            destination = control / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(self.runtime / name, destination)
+        source = control / 'issue_atom.py'
+        source.write_text(source.read_text() + '\nraise RuntimeError("historical Python executed")\n')
+        if legacy:
+            plan_path = control / atom.schema_manager.PLAN_PATH
+            plan = json.loads(plan_path.read_text())
+            plan.update(schema=1, facts=list(atom.schema_manager.FACTS))
+            plan.pop('entry')
+            plan_path.write_text(json.dumps(plan))
+        subprocess.run(['git', 'add', *atom.LIFECYCLE_FILES], cwd=control, check=True, capture_output=True)
+        subprocess.run(['git', '-c', 'user.name=Fixture', '-c', 'user.email=test@example.invalid',
+                        'commit', '-m', 'Pin the implicit original host source'],
+                       cwd=control, check=True, capture_output=True)
+        auth.pop('lifecycle_owner')
+        auth['base_head'] = subprocess.check_output(
+            ['git', 'rev-parse', 'HEAD'], cwd=control, text=True).strip()
+        path.write_text(json.dumps(auth))
+        digest = atom.digest_file(path)
+        state['authorization_sha256'] = digest
+        state['envelope_sha256'] = 'b' * 64
+        resume = {'from': None, 'to': selected, 'authorization_sha256': digest}
+        state.pop('lifecycle_resume')
+        with patch.object(atom, '__file__', str(control / 'issue_atom.py')):
+            manager = atom.host_manager(auth, state)
+        manager.observe({name: {'value': value, 'evidence': 'c' * 64,
+                               **({} if legacy else {'producer': 'issue_atom.py:finish_host'})} for name, value in {
+            'cleanup_allowed': True, 'loop_live': True, 'stop_offered': True,
+            'restore_offered': True, 'config_restored': False}.items()})
+        state['host_finalization'] = manager.record()
+        state['lifecycle_resume'] = resume
+        return path, auth, state, root
+
+    def test_implicit_legacy_host_facts_keep_missing_producer_metadata(self):
+        _, auth, state, root = self.implicit_host_fixture(legacy=True)
+        prior = copy.deepcopy(state['host_finalization'])
+        with patch.object(atom, '__file__', str(root / 'issue_atom.py')):
+            atom.resume_host_finalization(auth, state)
+            manager = atom.host_manager(auth, state)
+        self.assertEqual(manager.facts, prior['facts'])
+        self.assertEqual(manager.sequence, prior['sequence'])
+        self.assertEqual(manager.project()['facts']['stop_offered']['provenance'], 'legacy_without_producer')
+        self.assertEqual(manager.project()['status'], 'stop')
+
+    def test_implicit_host_resume_uses_original_git_bytes_and_preserves_unknown_effects(self):
+        path, auth, state, root = self.implicit_host_fixture()
+        before = copy.deepcopy(state)
+        original_auth = path.read_bytes()
+        control = Path(auth['control_root'])
+        for name in ('issue_atom.py', 'schema_manager.py', atom.schema_manager.PLAN_PATH):
+            (control / name).write_text('uncommitted control drift\n')
+        with patch.object(atom, '__file__', str(root / 'issue_atom.py')):
+            atom.resume_host_finalization(auth, state)
+            manager = atom.host_manager(auth, state)
+        self.assertEqual(state['host_finalization_resume']['prior'], before['host_finalization'])
+        self.assertEqual(manager.sequence, before['host_finalization']['sequence'])
+        self.assertEqual(manager.facts, before['host_finalization']['facts'])
+        self.assertEqual(manager.project()['status'], 'stop')
+        self.assertEqual(manager.project()['required'], 'original_owner_readback')
+        self.assertNotIn('stop', manager.project()['ready'])
+        self.assertNotIn('restore', manager.project()['ready'])
+        self.assertEqual(state['repair'], before['repair'])
+        self.assertEqual(path.read_bytes(), original_auth)
+        self.assertNotEqual(manager.identity['plan'], before['host_finalization']['identity']['plan'])
+        second_root, second = self.selected_copy('implicit-second-host-resume')
+        first = copy.deepcopy(state)
+        state['lifecycle_resume'] = {'from': state['lifecycle_resume']['to'], 'to': second,
+            'authorization_sha256': state['authorization_sha256'], 'previous': state['lifecycle_resume']}
+        with patch.object(atom, '__file__', str(second_root / 'issue_atom.py')):
+            atom.resume_host_finalization(auth, state)
+            manager = atom.host_manager(auth, state)
+        self.assertEqual(state['host_finalization_resume']['previous'], first['host_finalization_resume'])
+        self.assertEqual(manager.facts, before['host_finalization']['facts'])
+        self.assertEqual(manager.sequence, before['host_finalization']['sequence'])
+        self.assertEqual(state['repair'], before['repair'])
+
+    def test_implicit_host_resume_refuses_foreign_records_without_mutating_state(self):
+        _, auth, state, root = self.implicit_host_fixture()
+        cases = [(field, lambda s, field=field: s['host_finalization']['identity'].update({field: 'f' * 64}))
+                 for field in ('authorization', 'subject', 'plan')]
+        cases += [
+            ('sequence', lambda s: s['host_finalization'].update(sequence=0)),
+            ('producer', lambda s: s['host_finalization']['facts']['stop_offered'].update(producer='foreign:owner')),
+            ('history', lambda s: s.update(host_finalization_resume={'identity': {'plan': 'f' * 64}})),
+        ]
+        for name, mutate in cases:
+            with self.subTest(name=name):
+                changed = copy.deepcopy(state)
+                mutate(changed)
+                before = copy.deepcopy(changed)
+                with patch.object(atom, '__file__', str(root / 'issue_atom.py')):
+                    with self.assertRaises(atom.AtomRefusal):
+                        atom.resume_host_finalization(auth, changed)
+                self.assertEqual(changed, before)
+
+    def test_implicit_host_resume_refuses_missing_or_wrong_original_git_objects(self):
+        _, auth, state, root = self.implicit_host_fixture()
+        control = Path(auth['control_root'])
+        blob = subprocess.check_output(['git', 'hash-object', 'issue_atom.py'], cwd=control, text=True).strip()
+        initial = subprocess.check_output(['git', 'rev-list', '--max-parents=0', 'HEAD'],
+                                          cwd=control, text=True).strip()
+        for base in ('not-a-head', 'f' * 40, blob, initial):
+            with self.subTest(base=base):
+                before = copy.deepcopy(state)
+                with patch.object(atom, '__file__', str(root / 'issue_atom.py')):
+                    with self.assertRaises(atom.AtomRefusal):
+                        atom.resume_host_finalization({**auth, 'base_head': base}, state)
+                self.assertEqual(state, before)
+
+    def test_implicit_host_resume_refuses_changed_plan_semantics(self):
+        _, auth, state, root = self.implicit_host_fixture()
+        current = atom.schema_manager.compiled(root)
+        from dataclasses import replace
+        changed_plans = (
+            replace(current, rules={**current.rules, 'stop': {}}),
+            replace(current, context={**current.context, 'consumer': 'foreign.owner'}),
+            replace(current, context={**current.context, 'requires': []}),
+            replace(current, affected={}),
+        )
+        for plan in changed_plans:
+            before = copy.deepcopy(state)
+            with patch.object(atom, '__file__', str(root / 'issue_atom.py')), \
+                    patch.object(atom.schema_manager, 'compiled', return_value=plan):
+                with self.assertRaisesRegex(atom.AtomRefusal, 'host_plan'):
+                    atom.resume_host_finalization(auth, state)
+            self.assertEqual(state, before)
+
+    def test_implicit_host_resume_refuses_malformed_original_data(self):
+        _, auth, state, root = self.implicit_host_fixture()
+        control = Path(auth['control_root'])
+        plan_path = atom.schema_manager.PLAN_PATH
+        routes_path = 'contracts/system-v1/routes.json'
+        originals = {name: (control / name).read_bytes() for name in (plan_path, 'issue_atom.py', routes_path)}
+        wrong_producer = json.loads(originals[plan_path])
+        wrong_producer['facts']['stop_offered']['producer']['function'] = 'foreign_owner'
+        cases = ((plan_path, b'{', 'Expecting'),
+                 (plan_path, b'\xff', 'codec'),
+                 ('issue_atom.py', b'def broken(:', 'invalid syntax'),
+                 (plan_path, json.dumps(wrong_producer).encode(), 'stop_offered.producer'),
+                 (routes_path, b'{"schema": NaN}', 'non-JSON number'))
+        for name, raw, reason in cases:
+            with self.subTest(name=name, reason=reason):
+                for source, data in originals.items():
+                    (control / source).write_bytes(data)
+                (control / name).write_bytes(raw)
+                subprocess.run(['git', 'add', *originals], cwd=control, check=True, capture_output=True)
+                subprocess.run(['git', '-c', 'user.name=Fixture', '-c', 'user.email=test@example.invalid',
+                                'commit', '-m', 'Plant invalid original host data'],
+                               cwd=control, check=True, capture_output=True)
+                base = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=control, text=True).strip()
+                before = copy.deepcopy(state)
+                with patch.object(atom, '__file__', str(root / 'issue_atom.py')):
+                    with self.assertRaisesRegex(atom.AtomRefusal, reason):
+                        atom.resume_host_finalization({**auth, 'base_head': base}, state)
+                self.assertEqual(state, before)
+
+    def test_implicit_host_history_validates_each_link_and_accepts_new_observations(self):
+        _, auth, state, root = self.implicit_host_fixture()
+        with patch.object(atom, '__file__', str(root / 'issue_atom.py')):
+            atom.resume_host_finalization(auth, state)
+            manager = atom.host_manager(auth, state)
+        state = json.loads(json.dumps(state))
+        second_root, second = self.selected_copy('history-host-resume')
+        state['lifecycle_resume'] = {'from': state['lifecycle_resume']['to'], 'to': second,
+            'authorization_sha256': state['authorization_sha256'], 'previous': state['lifecycle_resume']}
+        cases = [(field, lambda h, field=field: h['prior']['identity'].update({field: 'f' * 64}))
+                 for field in ('authorization', 'subject', 'plan')]
+        cases += [
+            ('target', lambda h: h['identity'].update(plan='f' * 64)),
+            ('sequence', lambda h: h['prior'].update(sequence=2)),
+            ('facts', lambda h: h['prior']['facts']['stop_offered'].update(value=False)),
+            ('producer', lambda h: h['prior']['facts']['stop_offered'].update(producer='foreign:owner')),
+            ('shape', lambda h: h.update(extra=True)),
+            ('previous', lambda h: h.update(previous=copy.deepcopy(h))),
+        ]
+        for name, mutate in cases:
+            with self.subTest(name=name):
+                changed = copy.deepcopy(state)
+                mutate(changed['host_finalization_resume'])
+                before = copy.deepcopy(changed)
+                with patch.object(atom, '__file__', str(second_root / 'issue_atom.py')):
+                    with self.assertRaises(atom.AtomRefusal):
+                        atom.resume_host_finalization(auth, changed)
+                self.assertEqual(changed, before)
+        prior_history = copy.deepcopy(state['host_finalization_resume'])
+        manager.observe({'cleanup_allowed': {'value': True, 'evidence': 'd' * 64,
+                                             'producer': 'issue_atom.py:finish_host'}})
+        state['host_finalization'] = manager.record()
+        with patch.object(atom, '__file__', str(second_root / 'issue_atom.py')):
+            atom.resume_host_finalization(auth, state)
+        self.assertEqual(state['host_finalization_resume']['previous'], prior_history)
+        self.assertEqual(state['host_finalization']['sequence'], manager.sequence)
+        self.assertEqual(state['host_finalization']['facts'], manager.facts)
+
+    def test_host_history_can_start_after_first_resume_and_same_owner_reentry_is_unchanged(self):
+        path, auth, state, root, _ = self.resumed_repair_fixture()
+        with patch.object(atom, '__file__', str(root / 'issue_atom.py')):
+            manager = atom.host_manager(auth, state)
+        manager.observe({'stop_offered': {'value': True, 'evidence': 'c' * 64,
+                                         'producer': 'issue_atom.py:finish_host'}})
+        state['host_finalization'] = manager.record()
+        second_root, second = self.selected_copy('late-host-resume')
+        descriptor = second_root.parent / 'late-host-selection.json'
+        descriptor.write_text(json.dumps(second))
+        paths = atom.artifact_paths(path)
+        atom.save_json(paths['state'], state)
+        (Path(auth['control_root']) / '.noodle').mkdir(exist_ok=True)
+        owner = {'state': {'orders': {}}}
+        with patch.object(atom, '__file__', str(second_root / 'issue_atom.py')), \
+                patch.object(atom, 'postwrite_lifecycle', return_value=({'execution': {}}, owner)), \
+                patch.object(atom.issue_execution, 'read_owner', return_value=owner):
+            result = atom.resume(path, str(descriptor), atom.digest_file(descriptor),
+                                environ={'SOODLES_AUTHORIZATION_SHA256': state['authorization_sha256']})
+            once = paths['state'].read_bytes()
+            atom.resume(path, str(descriptor), atom.digest_file(descriptor),
+                        environ={'SOODLES_AUTHORIZATION_SHA256': state['authorization_sha256']})
+        saved = json.loads(once)
+        self.assertEqual(result['status'], 'resumed')
+        self.assertEqual(paths['state'].read_bytes(), once)
+        self.assertEqual(saved['host_finalization_resume']['prior'], state['host_finalization'])
+        self.assertNotIn('previous', saved['host_finalization_resume'])
+        self.assertEqual(saved['host_finalization']['facts'], manager.facts)
+        self.assertEqual(saved['host_finalization']['sequence'], manager.sequence)
+        self.assertEqual(saved['repair'], state['repair'])
 
 
 if __name__ == '__main__':

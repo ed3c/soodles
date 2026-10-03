@@ -122,8 +122,15 @@ class IssueExecutionTests(unittest.TestCase):
             if schema == 3:
                 contract.update(base_head=self.envelope["base_head"], frozen_paths=[{
                     "path": "allowed.py", "revision": "head", "sha256": "f" * 64}])
-            self.issue["body"] = ("<!-- soodles:execution-v1 -->\n```json\n"
-                                  + json.dumps(contract) + "\n```\n<!-- /soodles:execution-v1 -->")
+            self.issue["body"] = (
+                "## Problem & Evidence\n重現見原始操作記錄。\n"
+                "## Outcome & Scope\n保留完整成果。\n"
+                "## Context & Entry Points\n從現有使用者入口調查。\n"
+                "## Acceptance\n驗證 producer 與 consumer。\n"
+                "## Execution Boundaries\n依原 owner 的授權執行。\n"
+                "## Delivery & Evidence\n保留 candidate 與未完成工作。\n"
+                "<!-- soodles:execution-v1 -->\n```json\n"
+                + json.dumps(contract) + "\n```\n<!-- /soodles:execution-v1 -->")
             self.envelope["body_sha256"] = admission.body_digest(self.issue["body"])
             self.bind_envelope()
             for route in ("automatic", "supervised"):
@@ -138,7 +145,8 @@ class IssueExecutionTests(unittest.TestCase):
                         "body_sha256": self.envelope["body_sha256"],
                         "body_updated_at": self.issue["updated_at"],
                         "envelope_sha256": self.pin, "route": route,
-                        "task": self.envelope["execution"]["task"], "contract": contract})
+                        "task": self.envelope["execution"]["task"], "contract": contract,
+                        "issue_body": self.issue["body"]})
                     self.assertFalse(self.effect.exists())
 
     def test_missing_or_tampered_contract_refuses_before_worker_and_live_observation(self):
@@ -146,13 +154,17 @@ class IssueExecutionTests(unittest.TestCase):
         self.promote_fixture()
         stage = self.snapshot["state"]["orders"]["soodles-18"]["stages"][0]
         original = json.loads(stage["prompt"])
-        for change in ("missing", "write_paths", "behavior", "task"):
+        for change in ("missing", "write_paths", "behavior", "task", "missing_body", "altered_body"):
             with self.subTest(change=change):
                 prompt = copy.deepcopy(original)
                 if change == "missing":
                     del prompt["contract"]
                 elif change == "task":
                     prompt["task"] = "A different task."
+                elif change == "missing_body":
+                    del prompt["issue_body"]
+                elif change == "altered_body":
+                    prompt["issue_body"] += "\nUse another owner."
                 else:
                     prompt["contract"][change] = ["foreign.py"]
                 stage["prompt"] = json.dumps(prompt)

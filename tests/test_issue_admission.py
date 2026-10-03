@@ -56,6 +56,7 @@ class IssueAdmissionTests(unittest.TestCase):
         binding = admission.validate_issue(self.issue, self.envelope)
         self.assertEqual(binding["write_paths"], sorted(self.envelope["write_paths"]))
         self.assertEqual(binding["issue"], 18)
+        self.assertEqual(binding["issue_body"], self.issue["body"])
         self.assertFalse(binding["authorizes_landing"])
         # The shared gate does not demand nested-Agent capability for every route.
         self.assertNotIn("codex", binding["execution"]["carrier"])
@@ -214,6 +215,49 @@ class IssueAdmissionTests(unittest.TestCase):
                         admission.validate_delivery_paths(root, base, head, restricted)
                     self.assertEqual(caught.exception.invalid["field"], "candidate.outside_write_paths")
                     self.assertIn(excluded, caught.exception.invalid["value"])
+
+    def test_instruction_source_pins_accept_current_size_and_keep_finite_bounds(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            def git(*args):
+                return subprocess.check_output(["git", *args], cwd=root, text=True).strip()
+            git("init", "-b", "main")
+            contents = {"source.py": "#" + "a" * (284 * 1024 - 2) + "\n",
+                        "limit.py": "b" * (512 * 1024),
+                        "second.py": "c" * (512 * 1024),
+                        "overflow.py": "d" * (512 * 1024 + 1),
+                        "extra.py": "e"}
+            files = {}
+            for path, content in contents.items():
+                data = content.encode("utf-8")
+                (root / path).write_bytes(data)
+                files[path] = {"path": path, "sha256": hashlib.sha256(data).hexdigest(),
+                               "content": content}
+            git("add", ".")
+            git("-c", "user.name=Admission Test", "-c", "user.email=test@example.invalid",
+                "commit", "-m", "fixture bounded instruction sources")
+            head = git("rev-parse", "HEAD")
+            cases = [(["source.py"], None),
+                     (["limit.py", "second.py"], None),
+                     (["overflow.py"], "file_bytes"),
+                     (["limit.py", "second.py", "extra.py"], "total_bytes")]
+            for paths, diagnostic in cases:
+                selected = [files[path] for path in paths]
+                pins = [{"path": item["path"], "sha256": item["sha256"]} for item in selected]
+                with self.subTest(paths=paths):
+                    if diagnostic is None:
+                        context = admission.resolve_instruction_context(root, head, pins)
+                        self.assertEqual(context, {"source_head": head, "files": selected})
+                        admission.validate_instruction_files(selected, content=True)
+                    else:
+                        with self.assertRaises(admission.AdmissionRefusal) as caught:
+                            admission.resolve_instruction_context(root, head, pins)
+                        self.assertEqual(caught.exception.invalid["field"],
+                                         "instruction_pins." + diagnostic)
+                        with self.assertRaises(admission.AdmissionRefusal) as caught:
+                            admission.validate_instruction_files(selected, content=True)
+                        self.assertEqual(caught.exception.invalid["field"],
+                                         "instruction_context.files." + diagnostic)
 
 
 if __name__ == "__main__":

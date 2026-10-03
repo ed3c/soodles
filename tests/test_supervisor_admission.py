@@ -23,7 +23,7 @@ def _sha(data):
 
 
 class SupervisorFixture:
-    def __init__(self):
+    def __init__(self, *, provider_transport=False):
         self.temp = tempfile.TemporaryDirectory()
         self.directory = Path(self.temp.name).resolve()
         self.root = self.directory / "control"
@@ -36,7 +36,21 @@ class SupervisorFixture:
         for path in BUNDLE_PATHS + (".agents/skills/execute/SKILL.md", ".agents/skills/schedule/SKILL.md"):
             target = self.root / path
             target.parent.mkdir(parents=True, exist_ok=True)
-            if path == "github_reader.py":
+            if path == "github_reader.py" and provider_transport:
+                target.write_text((ROOT / path).read_text() + '''
+def _request(request):
+    from io import BytesIO
+    from urllib.error import HTTPError
+    from urllib.response import addinfourl
+    with Path(os.environ["FIXTURE_TRANSPORT_CALLS"]).open("a") as stream:
+        stream.write(request.full_url + "\\n")
+    status = int(os.environ.get("FIXTURE_HTTP_STATUS", "200"))
+    if status != 200:
+        raise HTTPError(request.full_url, status, "fixture response", {}, BytesIO())
+    return addinfourl(BytesIO(Path(os.environ["FIXTURE_ISSUE_READBACK"]).read_bytes()),
+                     {}, request.full_url, 200)
+''')
+            elif path == "github_reader.py":
                 target.write_text(
                     "import json, os\n"
                     "from pathlib import Path\n"
@@ -346,6 +360,119 @@ def observe_sensitivity():
     return results
 
 
+class HostBacklogTests(unittest.TestCase):
+    def setUp(self):
+        self.fixture = SupervisorFixture(provider_transport=True)
+        self.addCleanup(self.fixture.close)
+        self.fixture.carrier["codex"]["argv"] = [
+            "exec", "--skip-git-repo-check", "--json", "--model", "fixture-model"]
+        self.output, _ = self.fixture.prepare(task="One exact supplied task.", wire_host=True)
+        self.envelope = json.loads((self.output / "envelope.json").read_text())
+        self.order = self.envelope["execution"]["order_id"]
+        self.calls = self.fixture.external / "transport-calls"
+        self.env = {key: value for key, value in os.environ.items()
+                    if key not in ("GH_TOKEN", "GITHUB_TOKEN", TOKEN_COMMAND_ENV)}
+        self.env.update(FIXTURE_TRANSPORT_CALLS=str(self.calls),
+                        FIXTURE_ISSUE_READBACK=str(self.fixture.issue_path),
+                        FIXTURE_CHILD_STARTED=str(self.fixture.child_marker),
+                        XDG_CACHE_HOME=str(self.fixture.external / "cache"))
+
+    def run_backlog(self, *argv):
+        return subprocess.run([str(self.output / "backlog"), *argv], env=self.env,
+                              capture_output=True, text=True, timeout=10)
+
+    def test_repeated_sync_projects_admission_without_credentials_or_transport(self):
+        expected = {"id": self.order, "title": self.order,
+                    "plan": "One exact supplied task.", "repository": "ed3c/soodles",
+                    "issue": 118, "source": "admission_snapshot"}
+        for credentials in ({}, {"GH_TOKEN": "fixture-token", "FIXTURE_HTTP_STATUS": "200"},
+                            {"GH_TOKEN": "fixture-token", "FIXTURE_HTTP_STATUS": "401"},
+                            {"GH_TOKEN": ""}):
+            self.env.update(credentials)
+            for _ in range(2):
+                run = self.run_backlog("sync")
+                self.assertEqual(run.returncode, 0, run.stdout + run.stderr)
+                self.assertEqual(json.loads(run.stdout), expected)
+                self.assertFalse(self.calls.exists())
+        self.fixture.issue_path.unlink()
+        self.assertEqual(json.loads(self.run_backlog("sync").stdout), expected)
+        for argv in (("sync", "foreign"), ("done", "foreign"),
+                     ("add", self.order), ("edit", self.order)):
+            run = self.run_backlog(*argv)
+            self.assertNotEqual(run.returncode, 0)
+            self.assertIn("unsupported exact-Issue adapter operation", run.stderr)
+        self.assertFalse(self.calls.exists())
+
+    def test_sync_refuses_tampered_envelope_and_runtime_before_transport(self):
+        for path, diagnostic in ((self.output / "envelope.json", "changed admission bytes: envelope.json"),
+                                 (self.output / "runtime/issue_execution.py", "changed admission bytes")):
+            with self.subTest(path=path.name):
+                original = path.read_bytes()
+                path.write_bytes(original + b"\n")
+                try:
+                    run = self.run_backlog("sync")
+                    self.assertNotEqual(run.returncode, 0)
+                    self.assertIn(diagnostic, run.stderr)
+                    self.assertFalse(self.calls.exists())
+                finally:
+                    path.write_bytes(original)
+
+    def test_done_worker_and_admission_keep_fresh_provider_refusals(self):
+        import sys
+        digest = _sha((self.output / "envelope.json").read_bytes())
+        admission = [sys.executable, "-c",
+                     "import sys; from pathlib import Path; "
+                     f"sys.path.insert(0, {str(self.output / 'runtime')!r}); "
+                     "import issue_execution; "
+                     f"issue_execution.supervised({str(self.output / 'envelope.json')!r}, "
+                     f"{digest!r}, Path({str(self.fixture.root)!r}))"]
+        commands = {
+            "done": [str(self.output / "backlog"), "done", self.order],
+            "worker": [str(self.output / "provider/codex"), *self.fixture.carrier["codex"]["argv"]],
+            "admission": admission,
+        }
+        closed = {"state": "closed", "state_reason": "completed", "closed_at": "2026-10-03T07:35:01Z"}
+        cases = (("missing-token", {}, "", "200", "github.credential"),
+                 ("401", {}, "fixture-token", "401", "github.credential"),
+                 ("wrong-issue", {"number": 119}, "fixture-token", "200", "issue.provider_readback"),
+                 ("wrong-repository", {"html_url": "https://github.com/foreign/repo/issues/118"},
+                  "fixture-token", "200", "issue.html_url"),
+                 ("changed-body", {"body": self.fixture.issue["body"] + "\nchanged"},
+                  "fixture-token", "200", "issue.body_sha256"))
+        count = 0
+        for name, command in commands.items():
+            for case, changes, token, status, diagnostic in cases:
+                with self.subTest(consumer=name, case=case):
+                    readback = {**self.fixture.issue, **(closed if name == "done" else {}), **changes}
+                    self.fixture.issue_path.write_text(json.dumps(readback))
+                    self.env.update(GH_TOKEN=token, FIXTURE_HTTP_STATUS=status)
+                    run = subprocess.run(command, cwd=self.fixture.root, env=self.env,
+                                         capture_output=True, text=True, timeout=10)
+                    self.assertNotEqual(run.returncode, 0)
+                    self.assertIn(diagnostic, run.stdout + run.stderr)
+                    count += bool(token)
+                    self.assertEqual(len(self.calls.read_text().splitlines()) if self.calls.exists() else 0, count)
+            for state in (closed, {**closed, "state_reason": "not_planned"}):
+                self.fixture.issue_path.write_text(json.dumps({**self.fixture.issue, **state}))
+                self.env.update(GH_TOKEN="fixture-token", FIXTURE_HTTP_STATUS="200")
+                run = subprocess.run(command, cwd=self.fixture.root, env=self.env,
+                                     capture_output=True, text=True, timeout=10)
+                count += 1
+                self.assertEqual(len(self.calls.read_text().splitlines()), count)
+                if name == "done" and state["state_reason"] == "completed":
+                    self.assertEqual(run.returncode, 0, run.stdout + run.stderr)
+                    self.assertEqual(json.loads(run.stdout), {"readback": "closed/completed", "issue": 118})
+                else:
+                    self.assertNotEqual(run.returncode, 0)
+                    self.assertIn("issue.closure" if name == "done" else "issue.state", run.stdout + run.stderr)
+        self.fixture.issue_path.write_text(json.dumps(self.fixture.issue))
+        run = self.run_backlog("done", self.order)
+        self.assertNotEqual(run.returncode, 0)
+        self.assertIn("provider Issue is not completed", run.stderr)
+        self.assertFalse(self.fixture.child_marker.exists())
+        self.assertFalse((self.fixture.root / ".noodle/orders-next.json").exists())
+
+
 class SupervisorAdmissionTests(unittest.TestCase):
     def test_correction_preparation_binds_the_existing_candidate_not_control_base(self):
         import issue_execution
@@ -442,7 +569,8 @@ class SupervisorAdmissionTests(unittest.TestCase):
         self.assertEqual(sync.returncode, 0, sync.stderr)
         self.assertEqual(json.loads(sync.stdout)["id"], binding["execution"]["order_id"])
         self.assertEqual(json.loads(sync.stdout)["plan"], "One exact supplied task.")
-        for argv in (["add", "foreign"], ["done", "soodles-119"],
+        for argv in (["add", "foreign"], ["edit", binding["execution"]["order_id"]],
+                     ["done", "soodles-119"],
                      ["done", binding["execution"]["order_id"]]):
             result = subprocess.run([str(output / "backlog"), *argv], env=env, capture_output=True)
             self.assertNotEqual(result.returncode, 0)
@@ -465,6 +593,27 @@ class SupervisorAdmissionTests(unittest.TestCase):
         with self.assertRaisesRegex(AdmissionRefusal, "supervisor.worker.argv"):
             fixture.prepare(wire_host=True)
         self.assertFalse((fixture.external / "bundle").exists())
+
+    def test_prepared_launcher_binds_outcome_and_feedback_dependencies(self):
+        fixture = SupervisorFixture()
+        self.addCleanup(fixture.close)
+        output, prepared = fixture.prepare("outcome-entry")
+        manifest = json.loads((output / "manifest.json").read_bytes())
+        pinned = {entry["path"] for entry in manifest["runtime"]}
+        for name in ("stage_outcome.py", "schema_manager.py", "system_context.py", "test_manager.py"):
+            self.assertIn("runtime/" + name, pinned)
+        help_run = subprocess.run([prepared["launcher"], "stage-outcome", "--help"],
+                                  cwd=fixture.root, capture_output=True, text=True)
+        self.assertEqual(help_run.returncode, 0, help_run.stderr)
+        self.assertIn("feedback", help_run.stdout)
+        module = output / "runtime/stage_outcome.py"
+        module.write_bytes(module.read_bytes() + b"\n# changed\n")
+        refused = subprocess.run([prepared["launcher"], "stage-outcome", "blocked", "gap"],
+                                 cwd=fixture.root, capture_output=True, text=True)
+        self.assertEqual(refused.returncode, 64)
+        self.assertEqual(json.loads(refused.stdout)["invalid"]["field"], "launcher.runtime_sha256")
+        self.assertFalse(fixture.child_marker.exists())
+        self.assertFalse((fixture.root / ".noodle/orders-next.json").exists())
 
     def test_bootstrap_injects_provider_identity_then_uses_exact_launcher(self):
         observed = observe_baseline_and_treatment()

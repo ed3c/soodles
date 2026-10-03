@@ -116,6 +116,102 @@ class GenericBindingTests(unittest.TestCase):
         path.write_text(json.dumps(selection))
         return supervisor_admission.authorize(str(path), self.ref(path)["sha256"], str(self.outer / name))
 
+    def prepared_target(self):
+        root, selection, _ = self.target()
+        receipt = self.authorize(selection)
+        authorization = json.loads(Path(receipt["authorization"]["path"]).read_text())
+        repo = selection["repository"]
+        issue = {**selection["issue"], "state": "open", "updated_at": "2026-10-03T00:00:00Z",
+                 "url": f"https://api.github.com/repos/{repo}/issues/7",
+                 "html_url": f"https://github.com/{repo}/issues/7"}
+        output = self.outer / "admission"
+        supervisor_admission.prepare(issue, self.carrier, root, output,
+            environ={"NOODLES_TOKEN_COMMAND": "fixture supplier"}, wire_host=True,
+            runtime_root=self.runtime, target_binding=selection["target_binding"],
+            instruction_pins=authorization["instruction_pins"])
+        envelope = json.loads((output / "envelope.json").read_text())
+        worktree = root / ".worktrees" / envelope["execution"]["worktree"]
+        self.git(root, "worktree", "add", "-b", worktree.name, str(worktree))
+        return root, selection, authorization, issue, output, envelope, worktree
+
+    def test_generic_interruption_rebinds_entries_to_current_bundle(self):
+        root, selection, _, issue, original, envelope, worktree = self.prepared_target()
+        execution = envelope["execution"]
+        reference = self.ref(original / "envelope.json")
+        subject = selection["repository"] + "#7"
+        recovery = {"kind": "prepublication_interruption", "original_envelope": reference,
+            "custody_sha256": "a" * 64,
+            "custody": {"order_id": execution["order_id"], "stage_index": 0, "subject": subject,
+                "envelope_sha256": reference["sha256"], "worktree_name": worktree.name,
+                "worktree_path": str(worktree), "branch": worktree.name, "head": execution["source_head"]},
+            "evidence_path": str(root / ".noodle/interruptions" / hashlib.sha256(
+                (execution["order_id"] + "\n" + subject).encode()).hexdigest())}
+        (worktree / "target.py").write_text("retained dirty progress\n")
+        output = self.outer / "recovery"
+        result = supervisor_admission.prepare(issue, self.carrier, root, output,
+            environ={"NOODLES_TOKEN_COMMAND": "fixture supplier"}, wire_host=True, correction=True,
+            runtime_root=self.runtime, target_binding=selection["target_binding"], recovery_context=recovery)
+        actual = issue_admission.load_external_envelope(output / "envelope.json", result["envelope_sha256"], root)
+        self.assertEqual(issue_admission.validate_recovery_context(actual), envelope)
+        self.assertEqual(actual["execution"]["runtime"], {
+            "stage_outcome_argv": [str(output / "stage-outcome")], "test_argv": [str(output / "test")]})
+        self.assertEqual((worktree / "target.py").read_text(), "retained dirty progress\n")
+        actual["execution"]["runtime"] = execution["runtime"]
+        (output / "envelope.json").write_text(json.dumps(actual))
+        with self.assertRaisesRegex(issue_admission.AdmissionRefusal, "envelope.runtime.bundle"):
+            issue_admission.load_external_envelope(output / "envelope.json", self.ref(output / "envelope.json")["sha256"], root)
+
+    def test_generic_revision_preserves_instructions_and_rebinds_entries(self):
+        root, selection, _, issue, original, envelope, worktree = self.prepared_target()
+        execution = envelope["execution"]
+        (root / "base.txt").write_text("selected provider base\n")
+        self.git(root, "add", "base.txt")
+        self.git(root, "commit", "-m", "Advance the fixture provider base")
+        target = self.git(root, "rev-parse", "HEAD")
+        contract = issue_admission.parse_contract(issue["body"])
+        contract["base_head"] = target
+        issue["body"] = "<!-- soodles:execution-v1 -->\n```json\n" + json.dumps(contract) + "\n```\n<!-- /soodles:execution-v1 -->"
+        history = self.outer / "terminal.ndjson"
+        history.write_text(json.dumps({"outcome": "completed"}))
+        accepted = self.outer / "native.json"
+        accepted.write_text(json.dumps({"schema": 1, "issue": 106, "accepted_at": "fixture",
+            "binary": self.ref(self.binary), "acceptance": self.ref(history), "interface": self.ref(history)}))
+        entry = {"schema": 1, "kind": "base_advance", "original_envelope": self.ref(original / "envelope.json"),
+            "selection_sha256": "b" * 64, "candidate_head": execution["source_head"],
+            "candidate_tree": self.git(worktree, "rev-parse", "HEAD^{tree}"), "old_base": envelope["base_head"],
+            "target_base": target, "terminal": {"source": self.ref(history), "message": {"outcome": "completed"}},
+            "prior_attempts": [], "native_acceptance": self.ref(accepted),
+            **{key: execution[key] for key in ("order_id", "stage_index", "worktree")}}
+        output = self.outer / "revision"
+        options = dict(environ={"NOODLES_TOKEN_COMMAND": "fixture supplier"}, wire_host=True, correction=True,
+            runtime_root=self.runtime, target_binding=selection["target_binding"], revision_entry=entry)
+        result = supervisor_admission.prepare(issue, self.carrier, root, output, **options)
+        self.assertEqual(supervisor_admission.prepare(issue, self.carrier, root, output, readback=True, **options), result)
+        actual = issue_admission.load_external_envelope(output / "envelope.json", result["envelope_sha256"], root)
+        bound = issue_execution.revision_context(actual, self.ref(output / "revision-entry.json"), result["envelope_sha256"])
+        self.assertEqual(bound["execution"]["instruction_context"], execution["instruction_context"])
+        self.assertEqual(bound["target_binding"], selection["target_binding"])
+        self.assertEqual(bound["execution"]["runtime"]["test_argv"], [str(output / "test")])
+        changed = copy.deepcopy(actual)
+        changed["target_binding"] = {**selection["target_binding"], "sha256": "f" * 64}
+        with self.assertRaisesRegex(issue_admission.AdmissionRefusal, "revision.entry.target_binding"):
+            issue_execution.revision_context(changed, self.ref(output / "revision-entry.json"), result["envelope_sha256"])
+
+    def test_original_generic_repair_closure_uses_pinned_source(self):
+        _, selection, _ = self.target()
+        receipt = self.authorize(selection)
+        authorization = json.loads(Path(receipt["authorization"]["path"]).read_text())
+        policy, _, identity = issue_atom.original_repair_source(authorization)
+        self.assertEqual(identity, issue_atom.repair_binding(authorization, policy, source_root=self.runtime))
+        with patch.object(issue_atom, "LIFECYCLE_FILES", ("new-only.py",)), \
+                patch.object(issue_atom, "GENERIC_LIFECYCLE_FILES", ("other-only.py",)):
+            self.assertEqual(issue_atom.original_repair_source(authorization)[2], identity)
+        (self.runtime / ".agents/skills/execute/SKILL.md").write_text("changed generic-only bytes")
+        with self.assertRaises(issue_atom.AtomRefusal):
+            issue_atom.original_repair_source(authorization)
+        with self.assertRaises(issue_atom.AtomRefusal):
+            issue_atom.literal_lifecycle_files(b"LIFECYCLE_FILES = ('a',)\nGENERIC_LIFECYCLE_FILES = dangerous()", generic=True)
+
     def test_two_targets_authorize_and_prepare_without_factory_files(self):
         for index, (repo, branch) in enumerate((("example/first-target", "trunk"), ("other/second-target", "stable"))):
             root, selection, binding = self.target(repo, branch)
