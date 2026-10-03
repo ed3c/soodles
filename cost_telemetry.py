@@ -178,7 +178,8 @@ def project(identity, observations, gate=None):
     for item in observations:
         validate(item, identity)
         # Same physical span cannot be relabeled through another manifest entry.
-        key = (item["source"]["sha256"], item["span"])
+        session = item["attempt"] if item["span"] == "native" and item["family"] == "writer_model" else None
+        key = (item["source"]["sha256"], item["span"], session)
         previous = seen.get(key)
         comparable = {**item, "source": {"sha256": item["source"]["sha256"]}}
         require(previous is None or {**previous, "source": {"sha256": previous["source"]["sha256"]}}
@@ -393,6 +394,8 @@ def report(authorization_path, manifest_path=None, *, state=None, result=None):
         source = file_ref(state_path) if state_path.exists() else None
         state = decode(read_ref(source)) if source else {}
     identity = subject(authorization, raw, state)
+    from issue_atom import publication_receipt_view
+    receipts = publication_receipt_view(path, raw, state)
     observations = []
     sources = []
     for record in sorted((directory / "cost").glob("*.json")):
@@ -404,21 +407,27 @@ def report(authorization_path, manifest_path=None, *, state=None, result=None):
             sources.append(item["source"])
         observations.extend(entry["observations"])
         sources.append(ref)
-    if manifest_path is None and (directory / "publication-claim.json").exists():
-        claim_ref = file_ref(directory / "publication-claim.json")
-        claim = decode(read_ref(claim_ref))
-        session = claim.get("session_id")
-        require(isinstance(session, str) and re.fullmatch(r"[A-Za-z0-9_.-]+", session), "native_session_path")
-        observed = {"claim": claim_ref, "head": claim.get("head")}
-        native_path = Path(authorization["control_root"]) / ".noodle" / "sessions" / session / "raw.ndjson"
-        if native_path.is_file():
-            observed["native"] = [{
-                "file": file_ref(native_path), "kind": "codex_raw", "session_id": session,
-                "order_id": claim.get("order_id")} ]
-        observations.extend(external(observed, identity, state, path, sources, authorization))
+    if manifest_path is None:
+        claim_refs = [entry["claim"] for entry in receipts["retained"]]
+        current_path = Path(receipts["current"]["paths"]["claim"])
+        if current_path.exists():
+            claim_refs.append(file_ref(current_path))
+        for claim_ref in claim_refs:
+            claim = decode(read_ref(claim_ref))
+            session = claim.get("session_id")
+            require(isinstance(session, str) and re.fullmatch(r"[A-Za-z0-9_.-]+", session), "native_session_path")
+            observed = {"claim": claim_ref, "head": claim.get("head")}
+            native_path = Path(authorization["control_root"]) / ".noodle" / "sessions" / session / "raw.ndjson"
+            if native_path.is_file():
+                observed["native"] = [{
+                    "file": file_ref(native_path), "kind": "codex_raw", "session_id": session,
+                    "order_id": claim.get("order_id")} ]
+            observations.extend(external(observed, identity, state, path, sources, authorization,
+                                         receipts=receipts))
     if manifest_path is not None:
         require(manifest.get("subject") == identity, "manifest_subject")
-        observations.extend(external(manifest, identity, state, path, sources, authorization))
+        observations.extend(external(manifest, identity, state, path, sources, authorization,
+                                     receipts=receipts))
         if manifest.get("owner_result"):
             result_ref = manifest["owner_result"]
             owner_result = decode(read_ref(result_ref))
@@ -450,23 +459,40 @@ def report(authorization_path, manifest_path=None, *, state=None, result=None):
     return {**report, "feedback": project_owner_feedback({**(result or {}), "cost": report})}
 
 
-def external(manifest, identity, state, authorization_path, sources, authorization):
+def receipt_claim(claim_ref, identity, state, receipts, sources, authorization):
+    claim = decode(read_ref(claim_ref))
+    issue_number = bound_issue(authorization, identity, state)
+    require(claim.get("repository") == identity["repository"]
+            and claim.get("subject") == identity["repository"] + "#" + str(issue_number), "claim_subject")
+    retained = next((entry for entry in receipts["retained"] if entry["claim"] == claim_ref), None)
+    if retained is not None:
+        lineage = retained["lineage"]
+    else:
+        current = receipts["current"]
+        if state.get("scope_amendment") is not None or state.get("scope_history") or state.get("scope_superseded"):
+            current_path = Path(current["paths"]["claim"])
+            require(current_path.is_file() and claim_ref == file_ref(current_path), "claim_receipt")
+        head = (state.get("publication") or {}).get("head")
+        require(head is None or claim.get("head") == head, "claim_head")
+        lineage = current["lineage"]
+    require(lineage["authorization_sha256"] == identity["authorization"], "claim_authorization")
+    require(claim.get("base_head") == lineage["base_head"], "claim_base")
+    sources.extend(lineage["sources"])
+    sources.append(claim_ref)
+    return claim
+
+
+def external(manifest, identity, state, authorization_path, sources, authorization, *, receipts=None):
     result = []
     head = (state.get("publication") or {}).get("head")
     issue_number = bound_issue(authorization, identity, state)
     claim_ref = manifest.get("claim")
     if claim_ref:
-        claim = decode(read_ref(claim_ref))
-        require(claim.get("repository") == identity["repository"]
-                and claim.get("subject") == identity["repository"] + "#" + str(issue_number), "claim_subject")
-        require(head is None or claim.get("head") == head, "claim_head")
-        from issue_atom import accepted_claim_lineage
-        lineage = accepted_claim_lineage(authorization_path, Path(authorization_path).read_bytes(), state)
-        require(lineage["authorization_sha256"] == identity["authorization"], "claim_authorization")
-        require(claim.get("base_head") == lineage["base_head"], "claim_base")
-        sources.extend(lineage["sources"])
+        if receipts is None:
+            from issue_atom import publication_receipt_view
+            receipts = publication_receipt_view(authorization_path, Path(authorization_path).read_bytes(), state)
+        claim = receipt_claim(claim_ref, identity, state, receipts, sources, authorization)
         head = claim.get("head")
-        sources.append(claim_ref)
     require(manifest.get("head") == head, "manifest_head")
     for entry in manifest.get("intents", []):
         require(isinstance(entry, dict) and set(entry) == {"intent", "input", "observer"}, "intent_fields")
@@ -622,12 +648,16 @@ def finish(authorization_path, handle, result, save):
     item.update(seconds=time.monotonic()-started, finished=time.time(), status=status(result),
                 phase=result.get("phase", item["phase"]), reason="normal locked owner invocation")
     item["head"] = (result.get("publication") or {}).get("head")
-    claim_path = path.parent.parent / "publication-claim.json"
+    authority_path = Path(authorization_path).resolve()
+    raw = authority_path.read_bytes()
+    state_path = authority_path.with_name(authority_path.name + ".state.json")
+    state = decode(state_path.read_bytes()) if state_path.exists() else {}
+    from issue_atom import publication_receipt_view
+    receipts = publication_receipt_view(authority_path, raw, state)
+    claim_path = Path(receipts["current"]["paths"]["claim"])
     if claim_path.exists():
-        claim = decode(claim_path.read_bytes())
-        require(claim.get("repository") == record["subject"]["repository"], "normal_claim_repository")
-        if record["subject"]["issue"] is not None:
-            require(claim.get("subject") == record["subject"]["repository"] + "#" + str(record["subject"]["issue"]), "normal_claim_subject")
+        claim = receipt_claim(file_ref(claim_path), record["subject"], state, receipts, [], decode(raw))
+        require(item["head"] is None or item["head"] == claim.get("head"), "normal_claim_head")
         item["attempt"] = claim.get("session_id")
         item["head"] = claim.get("head", item["head"])
     phase_family = {"issue": "startup", "execution": "writer_model", "ci": "verification",

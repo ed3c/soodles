@@ -1349,6 +1349,7 @@ def released_scope_authority(authorization, state, previous, sources):
     validate_prior_atom_ref(prepared, authorization["control_root"])
     selection = packet["selection"]
     validate_scope_request(authorization, selection)
+    sources.extend(validate_retained_publication(authorization, selection, amendment.get("prior", {}), packet["output"]))
     body = (revision_body(authorization, selection) if selection.get("schema") == 2
             else issue_admission.supplemented_body(authorization["issue"]["body"], selection["added_write_paths"]))
     intent = previous["issue_write"]
@@ -1389,6 +1390,16 @@ def scope_history_authority(original, state, *, sources=None):
     for previous in state.get("scope_history", []):
         authorization = released_scope_authority(authorization, state, previous, sources)
     return authorization
+
+
+def scope_prior_authority(original, state, selection):
+    authorization = scope_history_authority(original, {**state, "scope_history": []})
+    for previous in [None, *state.get("scope_history", [])]:
+        if previous is not None:
+            authorization = released_scope_authority(authorization, state, previous, [])
+        if issue_admission.parse_contract(authorization["issue"]["body"]) == selection["before_contract"]:
+            return authorization
+    raise AtomRefusal("revision.history.contract", "missing", "original_revision_lineage")
 
 
 def scope_selection_packet(authorization, state, ref):
@@ -1458,7 +1469,45 @@ def scope_packet(authorization, state):
         effective["noodle"] = issue_admission.load_revision_native(packet["selection"]["native_acceptance"], authorization["control_root"])
     require(authorization in (raw_original, original, effective), "scope.authority", "changed", "original_authorization_bytes")
     validate_scope_request(original, packet["selection"])
+    validate_retained_publication(original, packet["selection"], amendment.get("prior", {}), packet["output"])
+    for superseded in state.get("scope_superseded", []):
+        superseded_packet = scope_selection_packet(original, state, superseded["selection"])
+        if superseded_packet["selection"].get("schema") != 2:
+            require(not superseded.get("prior", {}).get("retained_publication"),
+                    "revision.publication.refs", "legacy_scope")
+            continue
+        prior_authority = scope_prior_authority(raw_original, state, superseded_packet["selection"])
+        validate_scope_request(prior_authority, superseded_packet["selection"])
+        validate_retained_publication(prior_authority, superseded_packet["selection"], superseded.get("prior", {}), superseded_packet["output"])
     return packet
+
+
+def scope_output_directory(output, name, control_root):
+    output = Path(output)
+    directory = output / name
+    require(output.is_absolute() and output.resolve() == output
+            and not output.is_symlink() and not output.is_relative_to(Path(control_root).resolve())
+            and directory.resolve() == directory and not directory.is_symlink()
+            and (not directory.exists() or directory.is_dir()),
+            "revision.publication.path", str(directory), "external_owner_output_without_symlinks")
+    return directory
+
+
+def scope_publication_paths(packet, paths, control_root):
+    if packet["selection"].get("schema") == 2:
+        directory = scope_output_directory(packet["output"], "publication", control_root)
+        receipts = {"claim": directory / "publication-claim.json", "acceptance": directory / "acceptance.json"}
+        require(all(not path.is_symlink() and path.resolve() == path for path in receipts.values()),
+                "revision.publication.path", "symlink_receipt")
+        return {**paths, **receipts}
+    return paths
+
+
+def scope_history_paths(authorization, state, paths):
+    for previous in state.get("scope_history", []):
+        packet = scope_selection_packet(authorization, state, previous["amendment"]["selection"])
+        paths = scope_publication_paths(packet, paths, authorization["control_root"])
+    return paths
 
 
 def scope_projection(authorization, state, paths):
@@ -1476,7 +1525,13 @@ def scope_projection(authorization, state, paths):
         if state["correction_start_recovery"].get("prepared"):
             paths = {**paths, "envelope": Path(recovery["output"]) / "admission/envelope.json"}
     if state.get("scope_amendment") is None:
+        if state.get("scope_history"):
+            authorization = scope_history_authority(authorization, state)
+            paths = scope_history_paths(authorization, state, paths)
+            last = scope_selection_packet(authorization, state, state["scope_history"][-1]["amendment"]["selection"])
+            paths = {**paths, "envelope": Path(last["output"]) / "admission/envelope.json"}
         return authorization, paths
+    paths = scope_history_paths(authorization, state, paths)
     packet = scope_packet(authorization, state)
     amendment = state["scope_amendment"]
     authorization = scope_history_authority(read_json(packet["authorization"]["path"], "scope.authorization"), state)
@@ -1491,7 +1546,68 @@ def scope_projection(authorization, state, paths):
     if packet["selection"].get("schema") == 2:
         effective["base_head"] = packet["selection"]["target_base"]
         effective["noodle"] = issue_admission.load_revision_native(packet["selection"]["native_acceptance"], authorization["control_root"])
+    paths = scope_publication_paths(packet, paths, authorization["control_root"])
     return effective, paths
+
+
+def publication_receipt_view(authorization_path, authorization_raw, state):
+    digest = digest_bytes(authorization_raw)
+    require(digest_file(authorization_path) == digest
+            and state.get("authorization_sha256", digest) == digest,
+            "cost.lineage.authorization", "changed", "original_authorization_bytes")
+    original = json.loads(authorization_raw)
+    recovery = state.get("base_recovery")
+    require(recovery is None or isinstance(recovery, dict), "cost.lineage.base_recovery", "invalid_record")
+    require(not (recovery or {}).get("prepared"),
+            "cost.lineage.base_recovery", "acceptance_unavailable", "accepted_base_recovery_readback")
+    amendment = state.get("scope_amendment")
+    require(amendment is None or isinstance(amendment, dict), "scope.amendment", "invalid_record")
+    sources = [{"path": str(authorization_path), "sha256": digest}]
+    effective = scope_history_authority(original, {**state, "scope_history": []})
+    retained = []
+    contexts = []
+
+    def retain(amendment, authority, lineage_sources):
+        packet = scope_selection_packet(authority, state, amendment["selection"])
+        refs = validate_retained_publication(authority, packet["selection"], amendment.get("prior", {}), packet["output"])
+        if refs:
+            retained.append({**amendment["prior"]["retained_publication"], "lineage": {
+                "authorization_sha256": digest, "base_head": authority["base_head"],
+                "sources": [*lineage_sources, amendment["selection"], *refs]}})
+
+    for previous in state.get("scope_history", []):
+        contexts.append((effective, list(sources)))
+        retain(previous["amendment"], effective, sources)
+        effective = released_scope_authority(effective, state, previous, sources)
+    contexts.append((effective, list(sources)))
+    amendment = state.get("scope_amendment")
+    if amendment is not None:
+        retain(amendment, effective, sources)
+    for superseded in state.get("scope_superseded", []):
+        packet = scope_selection_packet(original, state, superseded["selection"])
+        if packet["selection"].get("schema") != 2:
+            require(not superseded.get("prior", {}).get("retained_publication"),
+                    "revision.publication.refs", "legacy_scope")
+            continue
+        matches = [(authority, refs) for authority, refs in contexts
+                   if issue_admission.parse_contract(authority["issue"]["body"]) == packet["selection"]["before_contract"]]
+        require(bool(matches), "revision.history.contract", "missing")
+        authority, refs = matches[-1]
+        validate_scope_request(authority, packet["selection"])
+        retain(superseded, authority, refs)
+    current, paths = scope_projection(original, state, artifact_paths(authorization_path))
+    if amendment is not None and amendment.get("status") != "released":
+        require(not paths["claim"].exists() and not paths["acceptance"].exists(),
+                "revision.publication.pending", "unexpected_receipt")
+        lineage = {"authorization_sha256": digest, "base_head": current["base_head"], "sources": sources}
+    else:
+        lineage = accepted_claim_lineage(authorization_path, authorization_raw, state)
+    unique = {}
+    for record in retained:
+        for source in record["lineage"]["sources"]:
+            require(digest_file(source["path"]) == source["sha256"], "cost.lineage.source", source["path"])
+        unique.setdefault(record["claim"]["sha256"], record)
+    return {"current": {"paths": paths, "lineage": lineage}, "retained": list(unique.values())}
 
 
 def validate_base_recovery_selection(packet):
@@ -2281,14 +2397,104 @@ def advance_correction_start(authorization, paths, state, provider, environ):
                          environ, correction_restart=True)
 
 
+def publication_custody_identity(authorization, selection, prior, claim):
+    envelope = issue_admission.load_external_envelope(
+        prior["envelope"]["path"], prior["envelope"]["sha256"], authorization["control_root"])
+    execution = envelope["execution"]
+    terminal = prior["blocked"]
+    expected = {"repository": authorization["repository"],
+                "subject": authorization["repository"] + "#" + str(envelope["issue"]),
+                "base_head": envelope["base_head"], "head": selection["candidate_head"],
+                "tree": selection["candidate_tree"], "order_id": execution["order_id"],
+                "stage_index": execution["stage_index"], "session_id": terminal["session_id"],
+                "attempt_id": terminal["attempt_id"], "worktree_name": execution["worktree"],
+                "worktree_path": str(Path(authorization["control_root"]) / ".worktrees" / execution["worktree"])}
+    require(selection.get("schema") == 2 and terminal["message"].get("outcome") == "completed"
+            and terminal["message"].get("blocking") is False
+            and prior["envelope"] == selection["original_envelope"]
+            and envelope["base_head"] == authorization["base_head"]
+            and envelope["base_head"] == selection["before_contract"]["base_head"]
+            and all(claim.get(key) == value for key, value in expected.items()),
+            "revision.publication.identity", "changed", "exact_completed_prepublication_receipts")
+
+
+def validate_retained_publication(authorization, selection, prior, output=None):
+    retained = prior.get("retained_publication")
+    if retained is None:
+        return []
+    require(isinstance(retained, dict) and set(retained) == {"claim", "acceptance", "snapshot", "events"},
+            "revision.publication.refs", "invalid")
+    for ref in retained.values():
+        validate_prior_atom_ref(ref, authorization["control_root"])
+    if output is not None:
+        require(all(Path(retained[key]["path"]) == Path(output) / "retained-publication" / name
+                    for key, name in (("snapshot", "state.snapshot.json"), ("events", "events.ndjson"))),
+                "revision.publication.copy", "foreign_path")
+    claim = read_json(retained["claim"]["path"], "revision.publication.claim")
+    publication_custody_identity(authorization, selection, prior, claim)
+    require(claim.get("evidence") == {"canonical_snapshot_sha256": retained["snapshot"]["sha256"],
+                "session_events_sha256": retained["events"]["sha256"]}
+            and retained["events"]["sha256"] == prior["blocked"]["source"]["sha256"],
+            "revision.publication.evidence", "changed")
+    acceptance = read_json(retained["acceptance"]["path"], "revision.publication.acceptance")
+    require(acceptance.get("candidate") == {"head": claim["head"], "tree": claim["tree"]}
+            and acceptance.get("repository") == claim["repository"]
+            and acceptance.get("authorizes_landing") is False,
+            "revision.publication.acceptance", "changed")
+    return [prior["envelope"], *retained.values()]
+
+
+def retain_publication(prior, output, control_root):
+    retained = prior.get("retained_publication")
+    if retained is None:
+        return
+    directory = scope_output_directory(output, "retained-publication", control_root)
+    directory.mkdir(mode=0o700, parents=True, exist_ok=True)
+    for key, name in (("snapshot", "state.snapshot.json"), ("events", "events.ndjson")):
+        ref = retained[key]
+        raw = Path(ref["path"]).read_bytes()
+        require(digest_bytes(raw) == ref["sha256"], "revision.publication.race", key)
+        path = directory / name
+        require(not path.is_symlink(), "revision.publication.copy", str(path))
+        if not path.exists():
+            fd, temporary = tempfile.mkstemp(prefix=".retained-", dir=directory)
+            try:
+                with os.fdopen(fd, "wb") as stream:
+                    stream.write(raw)
+                    stream.flush()
+                    os.fsync(stream.fileno())
+                try:
+                    os.link(temporary, path)
+                except FileExistsError:
+                    pass
+            finally:
+                os.unlink(temporary)
+        require(path.read_bytes() == raw, "revision.publication.copy", "changed")
+        retained[key] = {"path": str(path), "sha256": ref["sha256"]}
+    fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
 def scope_custody(authorization, state, paths, selection):
+    revision = selection.get("schema") == 2
+    receipt_present = any(os.path.lexists(paths[key]) for key in ("claim", "acceptance"))
     require(state.get("phase") == "execution" and state.get("publication") is None
-            and not paths["landing"].exists() and not paths["claim"].exists()
-            and not paths["acceptance"].exists() and not state.get("host_finalization")
+            and not paths["landing"].exists()
+            and (revision or not receipt_present)
+            and not state.get("publication_push_receipts")
+            and not any(state.get(key) is not None for key in ("publication_source",
+                "landing_activation", "landing_resume", "host_finalization", "noodle_amendment", "noodle_reconciliation"))
             and not ({"prior_atom", "prior_publication"} & authorization.keys()),
             "scope.phase", state.get("phase"), "stopped_original_prepublication_atom")
+    require(not os.path.lexists(paths["acceptance"].with_name(paths["acceptance"].name + ".publication.json")),
+            "scope.publication_journal", "present", "original_publication_owner_readback")
     require(set(state.get("writes", {})) <= {"issue_create"},
             "scope.writes", state.get("writes"), "original_write_readback_before_scope_amendment")
+    require(all(entry.get("status") == "confirmed" for entry in (state.get("repair") or {}).get("history", [])),
+            "scope.repair_effect", "unresolved", "original_repair_owner_readback_without_retry")
     envelope = issue_admission.load_external_envelope(
         paths["envelope"], state["envelope_sha256"], authorization["control_root"])
     old_body = authorized_issue_body(authorization, state["authorization_sha256"])
@@ -2301,7 +2507,6 @@ def scope_custody(authorization, state, paths, selection):
     binding = {**envelope, "contract": issue_admission.parse_contract(old_body),
                "issue_body": old_body}
     owner = issue_execution.read_owner(binding)
-    revision = selection.get("schema") == 2
     blocked = issue_execution.blocked_outcome(binding, owner, completed=True) if revision else issue_execution.blocked_outcome(binding, owner)
     require(blocked is not None, "scope.blocked", "missing", "original_typed_blocked_outcome")
     order_id = envelope["execution"]["order_id"]
@@ -2331,9 +2536,27 @@ def scope_custody(authorization, state, paths, selection):
                 and selection["terminal_session"] == blocked["session_id"]
                 and _git(worktree, "rev-parse", "HEAD^{tree}") == selection["candidate_tree"],
                 "revision.custody", "changed", "exact_original_terminal_candidate")
-    return {"envelope": {"path": str(paths["envelope"]), "sha256": state["envelope_sha256"]},
+    prior = {"envelope": {"path": str(paths["envelope"]), "sha256": state["envelope_sha256"]},
             "admission_sha256": state["admission_sha256"], "issue": state["issue"],
             "noodle_start": state["noodle_start"], "stage": stage, "blocked": blocked}
+    if revision and receipt_present:
+        require(paths["claim"].is_file() and paths["acceptance"].is_file(),
+                "revision.publication.pair", "partial", "complete_original_publication_receipts")
+        claim = read_json(paths["claim"], "revision.publication.claim")
+        acceptance = read_json(paths["acceptance"], "revision.publication.acceptance")
+        candidate_publication.validate_inputs(worktree, acceptance, claim)
+        publication_custody_identity(authorization, selection, prior, claim)
+        if acceptance.get("scope") == candidate_publication.NATIVE_SCOPE:
+            require(acceptance.get("noodle") == envelope["execution"]["carrier"]["noodle"],
+                    "revision.publication.noodle", "changed", "original_receipt_carrier")
+        prior["retained_publication"] = {
+            key: {"path": str(path), "sha256": digest_file(path)} for key, path in (
+                ("claim", paths["claim"]), ("acceptance", paths["acceptance"]),
+                ("snapshot", Path(authorization["control_root"]) / ".noodle/state.snapshot.json"),
+                ("events", Path(blocked["source"]["path"])))}
+        for key in ("claim", "acceptance"):
+            validate_prior_atom_ref(prior["retained_publication"][key], authorization["control_root"])
+    return prior
 
 
 def adopt_scope_amendment(authorization_path, selection_path, selection_sha256, *, environ=None):
@@ -2355,7 +2578,8 @@ def adopt_scope_amendment(authorization_path, selection_path, selection_sha256, 
                      and "issue_scope" not in checkpoint.get("writes", {}) and not pending.get("restart_offered"))
         if untouched:
             current_authorization = scope_history_authority(authorization, checkpoint)
-            current_paths = {**paths, "envelope": Path(pending["prior"]["envelope"]["path"])}
+            current_paths = {**scope_history_paths(authorization, checkpoint, paths),
+                             "envelope": Path(pending["prior"]["envelope"]["path"])}
         else:
             current_authorization, current_paths = scope_projection(authorization, checkpoint, paths)
         request_authority = (scope_history_authority(authorization, checkpoint)
@@ -2395,12 +2619,14 @@ def adopt_scope_amendment(authorization_path, selection_path, selection_sha256, 
                 scope_packet(authorization, state)
             else:
                 prior_authorization, prior_paths = current_authorization, current_paths
-                prior = scope_custody(prior_authorization, state, prior_paths, packet["selection"])
                 fcntl.flock(native_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                prior = scope_custody(prior_authorization, state, prior_paths, packet["selection"])
                 envelope = read_json(prior_paths["envelope"], "scope.envelope")
                 owner = issue_execution.read_owner(envelope)
                 require(owner["state"]["orders"][envelope["execution"]["order_id"]]["stages"][0]
                         == prior["stage"], "scope.owner.race", "changed", "fresh_canonical_checkpoint")
+                retain_publication(prior, packet["output"], authorization["control_root"])
+                validate_retained_publication(prior_authorization, packet["selection"], prior, packet["output"])
                 current = resumed_lifecycle(authorization, state)
                 intent = {"from": current.get("lifecycle_owner"),
                           "to": selected["lifecycle_owner"], "authorization_sha256": digest}
@@ -3651,6 +3877,43 @@ def _accept(authorization, claim, output):
     return result
 
 
+def validate_revision_publication(authorization, state, paths, claim):
+    amendment = state.get("scope_amendment")
+    if amendment is None:
+        return
+    packet = scope_packet(authorization, state)
+    if packet["selection"].get("schema") != 2:
+        return
+    require(amendment.get("status") == "released", "revision.publication.state", "not_released")
+    envelope = issue_admission.load_external_envelope(paths["envelope"], state["envelope_sha256"], authorization["control_root"])
+    entry = Path(packet["output"]) / "admission/revision-entry.json"
+    binding = issue_execution.revision_context(
+        {**envelope, "contract": issue_admission.parse_contract(authorization["issue"]["body"]),
+         "issue_body": authorization["issue"]["body"]},
+        {"path": str(entry), "sha256": digest_file(entry)}, state["envelope_sha256"])
+    owner = issue_execution.read_owner(binding)
+    terminal = issue_execution.blocked_outcome(binding, owner, completed=True)
+    require(terminal is not None and terminal["message"].get("outcome") == "completed",
+            "revision.publication.terminal", "missing", "completed_revision_successor")
+    stage = owner["state"]["orders"][envelope["execution"]["order_id"]]["stages"][0]
+    subject = json.loads(stage["prompt"])
+    require(subject.get("route") in {"automatic", "supervised"}
+            and subject == issue_execution.projection(binding, state["envelope_sha256"], subject["route"]),
+            "revision.publication.prompt", "changed", "admitted_revision_successor")
+    issue_execution.validate_revision_successor(binding, stage, terminal["session_id"], Path(claim["worktree_path"]))
+    require(claim.get("attempt_id") == terminal["attempt_id"]
+            and claim.get("session_id") == terminal["session_id"]
+            and claim.get("order_id") == envelope["execution"]["order_id"]
+            and claim.get("stage_index") == envelope["execution"]["stage_index"]
+            and claim.get("base_head") == authorization["base_head"]
+            and claim.get("repository") == authorization["repository"]
+            and claim.get("subject") == authorization["repository"] + "#" + str(envelope["issue"])
+            and claim.get("worktree_name") == envelope["execution"]["worktree"]
+            and claim.get("worktree_path") == str(Path(authorization["control_root"]) / ".worktrees" / envelope["execution"]["worktree"]),
+            "revision.publication.successor", "changed", "exact_revision_successor_claim")
+    candidate_publication.validate_claim(Path(claim["worktree_path"]), claim)
+
+
 def publish_candidate(authorization, state, paths, claim, acceptance, provider, repair=None):
     # The existing checkpoint owns process evidence as well as write intent.
     receipts = state.setdefault("publication_push_receipts", [])
@@ -3850,8 +4113,8 @@ def repair_controller(authorization, state, paths, *, fresh=False, authorization
             require(evidence_paths[name].is_file(), "repair.evidence." + name, str(evidence_paths[name]),
                     "unchanged_required_publication_evidence")
             files[name] = digest_file(evidence_paths[name])
-        claim = read_json(paths["claim"], "publication_claim")
-        acceptance = read_json(paths["acceptance"], "acceptance")
+        claim = read_json(evidence_paths["claim"], "publication_claim")
+        acceptance = read_json(evidence_paths["acceptance"], "acceptance")
         candidate_publication.validate_inputs(Path(claim["worktree_path"]), acceptance, claim)
         require(files["envelope"] == state.get("envelope_sha256"),
                 "repair.evidence.envelope", "changed", "original_execution_envelope")
@@ -4867,6 +5130,10 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                        "order_id": admission["binding"]["execution"]["order_id"],
                        "subject": subject, "blocked": blocked})
         base_recovery_final(authorization, paths, state)
+        if (state.get("scope_amendment") is not None and state.get("failed_candidate_head")
+                and paths["claim"].exists()
+                and scope_packet(authorization, state)["selection"].get("schema") == 2):
+            require(False, "revision.publication.retry", "receipt_already_saved", "new_bounded_revision_selection")
         if not paths["claim"].exists() or state.get("failed_candidate_head"):
             order_id = read_json(paths["envelope"], "envelope")["execution"]["order_id"]
             claim_result = _run_claim(authorization, subject, paths["claim"], order_id)
@@ -4879,6 +5146,7 @@ def _run_owned(authorization_path, authorization, authorization_digest, paths, *
                     known={"control_root": authorization["control_root"],
                            "order_id": order_id, "subject": subject})
         claim = read_json(paths["claim"], "publication_claim")
+        validate_revision_publication(authorization, state, paths, claim)
         if state.get("failed_candidate_head"):
             require(claim.get("head") != state["failed_candidate_head"],
                     "acceptance.head", claim.get("head"), "changed_candidate_head")

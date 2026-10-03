@@ -243,6 +243,22 @@ class PostwriteLifecycleTests(unittest.TestCase):
         with self.assertRaisesRegex(atom.AtomRefusal, "lifecycle.resume.selection"):
             self.resume()
 
+    def test_postwrite_reads_current_claim_and_preserves_retained_pair(self):
+        f = self.fixture
+        claim = atom.read_json(self.paths["claim"], "fixture.claim")
+        with atom_tests.typed_revision_receipts(f.path, self.state, f.outer / "revision") as current:
+            atom.save_json(current["claim"], claim)
+            atom.save_json(self.paths["claim"], {**claim, "head": "retained", "session_id": "old"})
+            retained = self.paths["claim"].read_bytes()
+            with patch.object(atom.os, "kill", side_effect=ProcessLookupError):
+                binding, owner = atom.postwrite_lifecycle(f.authorization, self.state, self.paths)
+            self.assertEqual(binding["execution"], self.binding["execution"])
+            self.assertEqual(owner["state"]["orders"], self.snapshot["state"]["orders"])
+            self.assertEqual(self.paths["claim"].read_bytes(), retained)
+            current["claim"].unlink()
+            with self.assertRaisesRegex(atom.AtomRefusal, "publication.claim"):
+                atom.postwrite_lifecycle(f.authorization, self.state, self.paths)
+
     def test_missing_confirmation_identity_drift_sessions_and_locks_block_selection(self):
         f = self.fixture
         for field in ("merge_sha", "issue_closed_at"):

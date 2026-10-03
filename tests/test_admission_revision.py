@@ -3,7 +3,9 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+import platform
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import Mock, patch
@@ -12,6 +14,7 @@ import issue_admission as admission
 import issue_atom as atom
 import issue_execution as execution
 import supervisor_admission as supervisor
+import candidate_publication as publication
 from test_issue_admission import issue_fixture
 
 
@@ -105,8 +108,10 @@ class RevisionFixture:
             'branch': {'name': 'main', 'commit': {'sha': selected['target_base']}}})
         selected['provider_readback'] = ref(provider)
         after_body = atom.revision_body(authorization, selected)
-        packet = self.save(f'history-{index}.json', {'schema': 1, 'authorization': ref(original_path),
-            'selection': selected, 'output': str(self.directory)})
+        output = self.directory / f'history-{index}'
+        output.mkdir(exist_ok=True)
+        packet = self.save(f'history-{index}/scope-selection.json', {'schema': 1, 'authorization': ref(original_path),
+            'selection': selected, 'output': str(output)})
         packet_ref = ref(packet)
         prepared = self.save(f'prepared-{index}.json', {'envelope_sha256': sha(self.original)})
         controls = {name: {'id': 'soodles-scope-' + packet_ref['sha256'][:24] + '-' + name, 'action': action}
@@ -170,6 +175,332 @@ class AdmissionRevisionTests(unittest.TestCase):
     def setUp(self):
         self.f = RevisionFixture()
         self.addCleanup(self.f.temp.cleanup)
+
+    def receipt_fixture(self):
+        f = self.f
+        binary = ref(Path(sys.executable).resolve())
+        f.envelope['execution']['carrier']['noodle'] = binary
+        f.original = f.save('receipt-envelope.json', f.envelope)
+        f.selection['original_envelope'] = ref(f.original)
+        f.auth['noodle'] = binary
+        accepted = f.save('receipt-native-accepted.json', {'schema': 1, 'issue': 106,
+            'accepted_at': 'fixture', 'binary': binary, 'acceptance': ref(f.original), 'interface': ref(f.original)})
+        f.selection['native_acceptance'] = ref(accepted)
+        binding = {**f.envelope, 'contract': f.contract, 'issue_body': f.issue['body']}
+        attempt = {'attempt_id': 'attempt-0', 'session_id': 'original-session',
+                   'status': 'completed', 'worktree_name': f.wt.name}
+        stage = {'status': 'review', 'attempts': [attempt],
+                 'prompt': json.dumps(execution.projection(binding, sha(f.original), 'supervised'))}
+        owner = {'state': {'orders': {f.selection['order_id']: {'stages': [stage]}},
+                          'pending_reviews': {f.selection['order_id']: f.review(stage)}}, 'effect_ledger': []}
+        session = f.root / '.noodle/sessions/original-session'
+        session.mkdir(parents=True)
+        event = {'type': 'stage_message', 'session_id': 'original-session', 'payload': {
+            'order_id': f.selection['order_id'], 'stage_index': 0, 'outcome': 'completed', 'blocking': False}}
+        (session / 'events.ndjson').write_text(json.dumps(event) + '\n')
+        exited = subprocess.Popen(['true'])
+        exited.wait()
+        (session / 'process.json').write_text(json.dumps({'session_id': 'original-session', 'pid': exited.pid}))
+        snapshot = f.root / '.noodle/state.snapshot.json'
+        snapshot.write_text(json.dumps(owner))
+        authorization = f.save('authorization.json', f.auth)
+        paths = atom.artifact_paths(authorization)
+        paths['envelope'].parent.mkdir(parents=True)
+        paths['envelope'].write_bytes(f.original.read_bytes())
+        f.selection['original_envelope'] = ref(paths['envelope'])
+        state = {'schema_version': 1, 'phase': 'execution', 'issue': {'number': 18}, 'writes': {},
+                 'authorization_sha256': sha(authorization), 'envelope_sha256': sha(paths['envelope']),
+                 'admission_sha256': 'b' * 64, 'noodle_start': {'status': 'started'}}
+        claim = {'schema_version': 1, 'owner': 'Noodle', 'repository': f.auth['repository'],
+            'subject': f.auth['repository'] + '#18', 'order_id': f.selection['order_id'], 'stage_index': 0,
+            'attempt_id': 'attempt-0', 'session_id': 'original-session', 'worktree_name': f.wt.name,
+            'worktree_path': str(f.wt), 'branch': f.wt.name, 'head': f.candidate, 'tree': f.tree,
+            'base_branch': 'main', 'base_head': f.base, 'push_remote': 'origin',
+            'remote_url': 'https://github.com/ed3c/soodles.git',
+            'evidence': {'canonical_snapshot_sha256': sha(snapshot), 'session_events_sha256': sha(session / 'events.ndjson')},
+            'authorizes_provider_write': False, 'authorizes_landing': False}
+        acceptance = {'schema_version': 2, 'scope': publication.NATIVE_SCOPE, 'repository': f.auth['repository'],
+            'subject': claim['subject'], 'candidate': {'head': f.candidate, 'tree': f.tree},
+            'platform': platform.system().lower() + '_' + platform.machine().lower(), 'noodle': binary,
+            'checks': [{'argv': [binary['path'], *argv], 'exit_status': 0, 'stdout': '', 'stderr': ''}
+                       for argv in (['publication', 'claim', '--help'], ['worktree', 'cleanup', '--help'])],
+            'authorizes_landing': False}
+        atom.save_json(paths['claim'], claim)
+        atom.save_json(paths['acceptance'], acceptance)
+        atom.save_json(paths['state'], state)
+        output = f.directory / 'adopted-receipts'
+        output.mkdir()
+        packet_path = output / 'scope-selection.json'
+        atom.save_json(packet_path, {'schema': 1, 'authorization': ref(authorization),
+            'selection': f.selection, 'output': str(output)})
+        return authorization, paths, state, claim, acceptance, packet_path
+
+    def adopt_receipts(self, authorization, packet):
+        with patch.object(atom, 'validate_authorization', return_value=(self.f.auth, sha(authorization))), \
+                patch.object(atom, 'validate_lifecycle_owner'), \
+                patch.object(atom, 'resumed_lifecycle', return_value={}), \
+                patch.object(atom, 'repair_controller'), \
+                patch.object(atom, 'observe_prior_loop', return_value='stopped'):
+            return atom.adopt_scope_amendment(authorization, packet, sha(packet))
+
+    def test_base_refusal_pair_adopts_once_and_history_survives_live_successor(self):
+        authorization, paths, state, claim, acceptance, packet = self.receipt_fixture()
+        provider = Mock()
+        provider.repository_info.return_value = {'full_name': self.f.auth['repository'], 'default_branch': 'main'}
+        provider.issue.return_value = self.f.issue
+        provider.base_head.return_value = self.f.target
+        effect = Mock()
+        with self.assertRaisesRegex(publication.PublicationRefusal, 'github.base_head'):
+            publication.publish(self.f.wt, acceptance, claim, provider, before_effect=effect)
+        effect.assert_not_called()
+        original = {key: paths[key].read_bytes() for key in ('claim', 'acceptance')}
+        result = self.adopt_receipts(authorization, packet)
+        saved = paths['state'].read_bytes()
+        self.assertEqual(self.adopt_receipts(authorization, packet), result)
+        self.assertEqual(paths['state'].read_bytes(), saved)
+        adopted = json.loads(saved)
+        prior = adopted['scope_amendment']['prior']
+        refs = prior['retained_publication']
+        for key in ('claim', 'acceptance'):
+            self.assertEqual(paths[key].read_bytes(), original[key])
+            self.assertEqual(refs[key], ref(paths[key]))
+        (self.f.root / '.noodle/state.snapshot.json').write_text('{"successor":true}')
+        (self.f.root / '.noodle/sessions/original-session/events.ndjson').write_text('{"changed":true}')
+        with patch.object(atom, 'validate_lifecycle_owner'):
+            _, projected = atom.scope_projection(self.f.auth, adopted, paths)
+            view = atom.publication_receipt_view(authorization, authorization.read_bytes(), adopted)
+        self.assertEqual(projected['claim'], packet.parent / 'publication/publication-claim.json')
+        self.assertEqual(projected['landing'], paths['landing'])
+        self.assertFalse(projected['claim'].exists())
+        self.assertEqual(view['retained'][0]['lineage']['base_head'], self.f.base)
+        self.assertEqual(view['current']['lineage']['base_head'], self.f.target)
+        with self.assertRaises(publication.PublicationRefusal):
+            publication.validate_inputs(self.f.wt, acceptance, claim)
+        Path(refs['snapshot']['path']).write_text('tampered')
+        with patch.object(atom, 'validate_lifecycle_owner'), self.assertRaises(atom.AtomRefusal):
+            atom.scope_projection(self.f.auth, adopted, paths)
+
+    def test_retained_pair_rejects_partial_foreign_and_effect_custody_without_state_write(self):
+        authorization, paths, state, claim, acceptance, packet = self.receipt_fixture()
+        saved = paths['state'].read_bytes()
+        for key in ('claim', 'acceptance'):
+            original = paths[key].read_bytes()
+            paths[key].unlink()
+            with self.subTest(partial=key), self.assertRaisesRegex(atom.AtomRefusal, 'revision.publication.pair'):
+                self.adopt_receipts(authorization, packet)
+            paths[key].write_bytes(original)
+        for key, value in (('session_id', 'foreign'), ('attempt_id', 'foreign'), ('order_id', 'foreign'),
+                           ('base_head', self.f.target), ('tree', self.f.base)):
+            atom.save_json(paths['claim'], {**claim, key: value})
+            with self.subTest(claim=key), self.assertRaises((atom.AtomRefusal, publication.PublicationRefusal)):
+                self.adopt_receipts(authorization, packet)
+            atom.save_json(paths['claim'], claim)
+        for key, value in (('publication_source', {}), ('publication_push_receipts', [{'process': 'rejected'}]),
+                           ('landing_activation', {}), ('landing_resume', {}), ('noodle_reconciliation', {}),
+                           ('writes', {'publication_branch_push': {'status': 'offered'}})):
+            atom.save_json(paths['state'], {**state, key: value})
+            before = paths['state'].read_bytes()
+            with self.subTest(effect=key), self.assertRaises(atom.AtomRefusal):
+                self.adopt_receipts(authorization, packet)
+            self.assertEqual(paths['state'].read_bytes(), before)
+        paths['state'].write_bytes(saved)
+        journal = paths['acceptance'].with_name(paths['acceptance'].name + '.publication.json')
+        journal.write_text('{}')
+        with self.assertRaisesRegex(atom.AtomRefusal, 'scope.publication_journal'):
+            self.adopt_receipts(authorization, packet)
+        self.assertEqual(paths['state'].read_bytes(), saved)
+        self.assertFalse((packet.parent / 'retained-publication').exists())
+
+    def test_fixed_copy_interruption_reenters_same_bytes_and_rejects_different_bytes(self):
+        authorization, paths, _, _, _, packet = self.receipt_fixture()
+        saved = paths['state'].read_bytes()
+        real_save = atom.save_json
+        def interrupted(path, value, **kwargs):
+            if Path(path) == paths['state']:
+                raise OSError('fixture interruption before state commit')
+            return real_save(path, value, **kwargs)
+        with patch.object(atom, 'save_json', side_effect=interrupted), self.assertRaises(OSError):
+            self.adopt_receipts(authorization, packet)
+        self.assertEqual(paths['state'].read_bytes(), saved)
+        copy_path = packet.parent / 'retained-publication/state.snapshot.json'
+        original = copy_path.read_bytes()
+        copy_path.write_text('foreign')
+        with self.assertRaisesRegex(atom.AtomRefusal, 'revision.publication.copy'):
+            self.adopt_receipts(authorization, packet)
+        self.assertEqual(paths['state'].read_bytes(), saved)
+        copy_path.write_bytes(original)
+        self.adopt_receipts(authorization, packet)
+        self.assertEqual(copy_path.read_bytes(), original)
+
+    def test_revision_output_symlinks_refuse_before_writing_control_root(self):
+        authorization, paths, _, _, _, packet = self.receipt_fixture()
+        saved = paths['state'].read_bytes()
+        before = sorted(str(path.relative_to(self.f.root)) for path in self.f.root.rglob('*'))
+        retained = packet.parent / 'retained-publication'
+        retained.symlink_to(self.f.root, target_is_directory=True)
+        with self.assertRaisesRegex(atom.AtomRefusal, 'revision.publication.path'):
+            self.adopt_receipts(authorization, packet)
+        self.assertEqual(paths['state'].read_bytes(), saved)
+        self.assertEqual(sorted(str(path.relative_to(self.f.root)) for path in self.f.root.rglob('*')),
+                         sorted([*before, '.noodle/issue-atom.lock', '.noodle/noodle.lock']))
+        retained.unlink()
+        self.adopt_receipts(authorization, packet)
+        selected = packet.parent / 'publication'
+        selected.symlink_to(self.f.root, target_is_directory=True)
+        with patch.object(atom, 'validate_lifecycle_owner'), self.assertRaisesRegex(atom.AtomRefusal, 'revision.publication.path'):
+            atom.scope_projection(self.f.auth, json.loads(paths['state'].read_text()), paths)
+        self.assertFalse((self.f.root / 'publication-claim.json').exists())
+
+    def test_untouched_reselection_retains_and_revalidates_both_histories(self):
+        authorization, paths, _, _, _, packet = self.receipt_fixture()
+        self.adopt_receipts(authorization, packet)
+        first = json.loads(paths['state'].read_text())['scope_amendment']
+        output = self.f.directory / 'replacement'
+        output.mkdir()
+        replacement = output / 'scope-selection.json'
+        atom.save_json(replacement, {'schema': 1, 'authorization': ref(authorization),
+            'selection': self.f.criteria(advance=True), 'output': str(output)})
+        self.adopt_receipts(authorization, replacement)
+        state = json.loads(paths['state'].read_text())
+        self.assertEqual(state['scope_superseded'], [first])
+        self.assertEqual(state['scope_amendment']['prior']['retained_publication']['claim'],
+                         first['prior']['retained_publication']['claim'])
+        with patch.object(atom, 'validate_lifecycle_owner'):
+            view = atom.publication_receipt_view(authorization, authorization.read_bytes(), state)
+        self.assertEqual(len(view['retained']), 1)
+        self.assertEqual(view['current']['paths']['claim'], output / 'publication/publication-claim.json')
+        Path(first['prior']['retained_publication']['events']['path']).write_text('tampered old revision')
+        with patch.object(atom, 'validate_lifecycle_owner'), self.assertRaises(atom.AtomRefusal):
+            atom.scope_projection(self.f.auth, state, paths)
+
+    def test_current_claim_requires_completed_exact_successor_and_live_evidence(self):
+        f = self.f
+        issue, envelope, binding, entry_path = f.entry()
+        entry = binding['revision_entry']['context']
+        entry['prior_attempts'] = [{'attempt_id': 'attempt-0', 'session_id': 'original-session',
+            'status': 'failed', 'worktree_name': f.wt.name, 'error': 'changes requested: exact target'}]
+        entry_path.write_text(json.dumps(entry))
+        output = f.directory / 'current'
+        admission_path = output / 'admission'
+        admission_path.mkdir(parents=True)
+        envelope_path = admission_path / 'envelope.json'
+        envelope_path.write_text(json.dumps(envelope))
+        (admission_path / 'revision-entry.json').write_bytes(entry_path.read_bytes())
+        binding = execution.revision_context(admission.validate_issue(issue, envelope),
+            ref(admission_path / 'revision-entry.json'), sha(envelope_path))
+        custody = f.custody(entry)
+        stage = {'status': 'review', 'attempts': [*entry['prior_attempts'], {
+            'attempt_id': 'attempt-1', 'session_id': 'successor-session', 'status': 'completed', 'worktree_name': f.wt.name}],
+            'prompt': json.dumps(execution.projection(binding, sha(envelope_path), 'supervised'))}
+        stage['extra'] = {'request_changes_requeued': {'binding': custody, 'review': f.review(stage)}}
+        owner = {'state': {'orders': {f.selection['order_id']: {'stages': [stage]}}, 'pending_reviews': {
+            f.selection['order_id']: {**f.review(stage), 'session_id': 'successor-session'}}}, 'effect_ledger': []}
+        snapshot = f.root / '.noodle/state.snapshot.json'
+        snapshot.write_text(json.dumps(owner))
+        events = f.root / '.noodle/sessions/successor-session/events.ndjson'
+        events.parent.mkdir()
+        events.write_text(json.dumps({'type': 'stage_message', 'session_id': 'successor-session', 'payload': {
+            'order_id': f.selection['order_id'], 'stage_index': 0, 'outcome': 'completed', 'blocking': False}}))
+        f.git('merge', '--no-edit', f.target, cwd=f.wt)
+        claim = {'schema_version': 1, 'owner': 'Noodle', 'repository': f.auth['repository'],
+            'subject': f.auth['repository'] + '#18', 'order_id': f.selection['order_id'], 'stage_index': 0,
+            'attempt_id': 'attempt-1', 'session_id': 'successor-session', 'worktree_name': f.wt.name,
+            'worktree_path': str(f.wt), 'branch': f.wt.name, 'head': f.git('rev-parse', 'HEAD', cwd=f.wt),
+            'tree': f.git('rev-parse', 'HEAD^{tree}', cwd=f.wt), 'base_branch': 'main', 'base_head': f.target,
+            'push_remote': 'origin', 'remote_url': 'https://github.com/ed3c/soodles.git',
+            'evidence': {'canonical_snapshot_sha256': sha(snapshot), 'session_events_sha256': sha(events)},
+            'authorizes_provider_write': False, 'authorizes_landing': False}
+        state = {'scope_amendment': {'status': 'released'}, 'envelope_sha256': sha(envelope_path)}
+        authorization = {**f.auth, 'base_head': f.target, 'issue': issue}
+        with patch.object(atom, 'scope_packet', return_value={'output': str(output), 'selection': f.selection}):
+            atom.validate_revision_publication(authorization, state, {'envelope': envelope_path}, claim)
+            for key, value in (('attempt_id', 'attempt-0'), ('session_id', 'original-session'),
+                               ('base_head', f.base), ('order_id', 'foreign')):
+                with self.subTest(field=key), self.assertRaises(atom.AtomRefusal):
+                    atom.validate_revision_publication(authorization, state, {'envelope': envelope_path}, {**claim, key: value})
+            snapshot.write_text(snapshot.read_text() + '\n')
+            with self.assertRaisesRegex(publication.PublicationRefusal, 'canonical_snapshot_sha256'):
+                atom.validate_revision_publication(authorization, state, {'envelope': envelope_path}, claim)
+
+    def test_second_revision_archives_complete_receipts_with_each_original_base_and_usage(self):
+        import cost_telemetry
+        f = self.f
+        authorization, paths, _, claim, acceptance, packet = self.receipt_fixture()
+        self.adopt_receipts(authorization, packet)
+        state = json.loads(paths['state'].read_text())
+        amendment = state['scope_amendment']
+        body_after = atom.revision_body(f.auth, json.loads(packet.read_text())['selection'])
+        current_envelope = copy.deepcopy(f.envelope)
+        current_envelope.update(base_head=f.target, body_sha256=admission.body_digest(body_after))
+        admission_dir = packet.parent / 'admission'
+        admission_dir.mkdir()
+        current_envelope_path = admission_dir / 'envelope.json'
+        atom.save_json(current_envelope_path, current_envelope)
+        prepared_path = admission_dir / 'prepared.json'
+        atom.save_json(prepared_path, {'envelope_sha256': sha(current_envelope_path)})
+        amendment.update(status='released', prepared=ref(prepared_path))
+        controls = {name: {'id': 'soodles-scope-' + sha(packet)[:24] + '-' + name, 'action': action}
+            for name, action in (('scope_request', 'request-changes'), ('scope_edit', 'edit-item'),
+                                 ('scope_requeue', 'requeue'), ('scope_release', 'mode'))}
+        state.update(controls)
+        state.update(envelope_sha256=sha(current_envelope_path), admission_sha256=sha(prepared_path))
+        state['writes']['issue_scope'] = {'status': 'observed', 'selection_sha256': sha(packet),
+            'previous_body_sha256': admission.body_digest(f.issue['body']), 'body_sha256': admission.body_digest(body_after)}
+        (f.root / '.noodle/control-ack.ndjson').write_text(''.join(json.dumps({**value, 'status': 'ok'}) + '\n'
+            for value in controls.values()))
+        f.git('merge', '--no-edit', f.target, cwd=f.wt)
+        head, tree = f.git('rev-parse', 'HEAD', cwd=f.wt), f.git('rev-parse', 'HEAD^{tree}', cwd=f.wt)
+        binding = {**current_envelope, 'contract': admission.parse_contract(body_after), 'issue_body': body_after}
+        stage = {'status': 'review', 'attempts': [
+            {**amendment['prior']['stage']['attempts'][0], 'status': 'failed', 'error': 'changes requested: integrate'},
+            {'attempt_id': 'attempt-1', 'session_id': 'successor-session', 'status': 'completed', 'worktree_name': f.wt.name}],
+            'prompt': json.dumps(execution.projection(binding, sha(current_envelope_path), 'supervised'))}
+        owner = {'state': {'orders': {f.selection['order_id']: {'stages': [stage]}}, 'pending_reviews': {
+            f.selection['order_id']: {**f.review(stage), 'session_id': 'successor-session'}}}, 'effect_ledger': []}
+        snapshot = f.root / '.noodle/state.snapshot.json'
+        snapshot.write_text(json.dumps(owner))
+        session = f.root / '.noodle/sessions/successor-session'
+        session.mkdir()
+        (session / 'events.ndjson').write_text(json.dumps({'type': 'stage_message', 'session_id': 'successor-session',
+            'payload': {'order_id': f.selection['order_id'], 'stage_index': 0, 'outcome': 'completed', 'blocking': False}}))
+        (session / 'process.json').write_text(json.dumps({'session_id': 'successor-session',
+            'pid': json.loads((f.root / '.noodle/sessions/original-session/process.json').read_text())['pid']}))
+        current_claim = {**claim, 'head': head, 'tree': tree, 'base_head': f.target,
+            'attempt_id': 'attempt-1', 'session_id': 'successor-session',
+            'evidence': {'canonical_snapshot_sha256': sha(snapshot), 'session_events_sha256': sha(session / 'events.ndjson')}}
+        with patch.object(atom, 'validate_lifecycle_owner'):
+            _, current_paths = atom.scope_projection(f.auth, state, paths)
+        atom.save_json(current_paths['claim'], current_claim)
+        atom.save_json(current_paths['acceptance'], {**acceptance, 'candidate': {'head': head, 'tree': tree}})
+        atom.save_json(paths['state'], state)
+        original_refs = copy.deepcopy(amendment['prior']['retained_publication'])
+        selection = {**f.criteria(advance=True), 'candidate_head': head, 'candidate_tree': tree,
+            'original_envelope': ref(current_envelope_path), 'terminal_session': 'successor-session',
+            'before_contract': admission.parse_contract(body_after)}
+        second_output = f.directory / 'second-revision'
+        second_output.mkdir()
+        second = second_output / 'scope-selection.json'
+        atom.save_json(second, {'schema': 1, 'authorization': ref(authorization),
+            'selection': selection, 'output': str(second_output)})
+        self.adopt_receipts(authorization, second)
+        saved = json.loads(paths['state'].read_text())
+        self.assertEqual(saved['scope_history'][0]['amendment']['prior']['retained_publication'], original_refs)
+        for session_id, tokens in (('original-session', 100), ('successor-session', 200)):
+            (f.root / '.noodle/sessions' / session_id / 'raw.ndjson').write_text(json.dumps({
+                'type': 'turn.completed', 'usage': {'input_tokens': tokens, 'output_tokens': 10}}) + '\n')
+        with patch.object(atom, 'validate_lifecycle_owner'):
+            view = atom.publication_receipt_view(authorization, authorization.read_bytes(), saved)
+            report = cost_telemetry.report(authorization)
+        self.assertEqual([item['lineage']['base_head'] for item in view['retained']], [f.base, f.target])
+        self.assertEqual([json.loads(Path(item['claim']['path']).read_text())['session_id'] for item in view['retained']],
+                         ['original-session', 'successor-session'])
+        self.assertEqual(view['current']['paths']['claim'], second_output / 'publication/publication-claim.json')
+        self.assertFalse(view['current']['paths']['claim'].exists())
+        self.assertEqual(report['summary']['tokens']['input_tokens'], 300)
+        self.assertEqual(report['summary']['tokens']['output_tokens'], 20)
+        Path(original_refs['snapshot']['path']).write_text('changed historical snapshot')
+        with patch.object(atom, 'validate_lifecycle_owner'), self.assertRaises(atom.AtomRefusal):
+            atom.scope_projection(f.auth, saved, paths)
 
     def continuation_fixture(self):
         f = self.f

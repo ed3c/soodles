@@ -10,6 +10,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 import issue_atom as atom
+import test_issue_atom as atom_tests
 import supervisor_admission as admission
 import test_supervisor_authorization as authorization_tests
 
@@ -107,6 +108,25 @@ class CorrectionPreparationTests(unittest.TestCase):
         self.assertFalse(result['authorizes_landing'])
         for operation in ('create_issue', 'update_issue_body', 'merge', 'close_issue'):
             getattr(self.provider, operation).assert_not_called()
+
+    def test_revision_correction_preserves_effective_scope_and_original_lineage(self):
+        body = self.issue['body'] + '\nRevision criteria apply to the successor.\n'
+        original = self.source.read_bytes()
+        with atom_tests.typed_revision_receipts(self.source, self.state,
+                self.paths['directory'] / 'revision', body=body) as current:
+            atom.save_json(self.paths['state'], self.state)
+            atom.save_json(self.paths['claim'], {'head': 'retained'})
+            atom.save_json(current['claim'], {'head': self.publication['head']})
+            self.issue['body'] = body
+            result = self.prepare()
+            corrected = atom.read_json(result['authorization']['path'], 'fixture.authorization')
+            self.assertEqual(corrected['issue']['body'], body)
+            self.assertEqual(corrected['prior_atom'], {'path': str(self.source), 'sha256': self.digest})
+            self.assertEqual(corrected['prior_publication'], self.publication)
+            self.assertEqual(corrected['landing_owner'], self.auth['landing_owner'])
+            self.assertEqual(self.owner.call_args.args[0]['issue']['body'], body)
+            self.assertEqual(self.source.read_bytes(), original)
+            self.assertEqual(atom.read_json(self.paths['claim'], 'fixture.retained'), {'head': 'retained'})
 
     def test_prepared_failure_reaches_envelope_and_writer_projection_as_data(self):
         head = self.auth['base_head']
