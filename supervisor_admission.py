@@ -36,6 +36,10 @@ BUNDLE_PATHS = (
     "github_reader.py",
     "repository_binding.py",
     "provider_credential.py",
+    "stage_outcome.py",
+    "schema_manager.py",
+    "system_context.py",
+    "test_manager.py",
 )
 
 
@@ -104,7 +108,8 @@ def refuse(field, value):
 
 
 def main():
-    if sys.argv[1:] != ["automatic"]:
+    outcome = len(sys.argv) > 1 and sys.argv[1] == "stage-outcome"
+    if sys.argv[1:] != ["automatic"] and not outcome:
         return refuse("launcher.argv", sys.argv[1:])
     manifest_path = ROOT / "manifest.json"
     try:
@@ -124,6 +129,9 @@ def main():
         return refuse("launcher.bundle", type(error).__name__)
 
     sys.path.insert(0, str(ROOT / "runtime"))
+    if outcome:
+        import stage_outcome
+        return stage_outcome.main(sys.argv[2:])
     import issue_execution
     from issue_admission import AdmissionRefusal
     try:

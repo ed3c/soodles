@@ -594,6 +594,27 @@ class SupervisorAdmissionTests(unittest.TestCase):
             fixture.prepare(wire_host=True)
         self.assertFalse((fixture.external / "bundle").exists())
 
+    def test_prepared_launcher_binds_outcome_and_feedback_dependencies(self):
+        fixture = SupervisorFixture()
+        self.addCleanup(fixture.close)
+        output, prepared = fixture.prepare("outcome-entry")
+        manifest = json.loads((output / "manifest.json").read_bytes())
+        pinned = {entry["path"] for entry in manifest["runtime"]}
+        for name in ("stage_outcome.py", "schema_manager.py", "system_context.py", "test_manager.py"):
+            self.assertIn("runtime/" + name, pinned)
+        help_run = subprocess.run([prepared["launcher"], "stage-outcome", "--help"],
+                                  cwd=fixture.root, capture_output=True, text=True)
+        self.assertEqual(help_run.returncode, 0, help_run.stderr)
+        self.assertIn("feedback", help_run.stdout)
+        module = output / "runtime/stage_outcome.py"
+        module.write_bytes(module.read_bytes() + b"\n# changed\n")
+        refused = subprocess.run([prepared["launcher"], "stage-outcome", "blocked", "gap"],
+                                 cwd=fixture.root, capture_output=True, text=True)
+        self.assertEqual(refused.returncode, 64)
+        self.assertEqual(json.loads(refused.stdout)["invalid"]["field"], "launcher.runtime_sha256")
+        self.assertFalse(fixture.child_marker.exists())
+        self.assertFalse((fixture.root / ".noodle/orders-next.json").exists())
+
     def test_bootstrap_injects_provider_identity_then_uses_exact_launcher(self):
         observed = observe_baseline_and_treatment()
         baseline = observed["baseline"]

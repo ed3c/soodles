@@ -487,8 +487,19 @@ Reader 比對原 binding、policy、context、lineage 和全部 counters/history
 external bytes。這個讀取方式同時供 postwrite 與 interruption resume 使用。
 新 owner 不重設 history、used、started、last_time、limits 或原 binding。
 
-Activation 還需要原 writer 的 stage-outcome consumer 能讀 recovery envelope。
-若該 consumer 仍從舊 candidate 載入不接受 recovery_context 的 validator，
-保留原 admission owner 的 scope 缺口。不得把 worker admission 通過當成完整恢復。
+Recovery prompt 提供 outcome 與 feedback 的外部入口。
+原 candidate 的 `./stage-outcome` 可能仍載入舊 validator，無法讀 recovery envelope。
+因此 recovery writer 使用 `"$SOODLES_ADMISSION_LAUNCHER" stage-outcome`，
+再附上原 outcome/message 或 feedback/selection/digest 參數。
+這只替代當次回報的程式入口。原 task、instruction pins、要求和 outcome 語義不變。
+普通 writer 保留 `./stage-outcome`。
+
+Launcher 先驗證 envelope、manifest 和 runtime bytes，再載入已選定的 outcome reader。
+新 lifecycle closure 包含 stage_outcome.py。Bundle 同時包含 feedback 的直接依賴。
+Outcome reader 核對 current stage、session、spawn 和 native successor lineage。
+Writer 已合法修改 candidate 時，reader 不重用模型前的 candidate_unchanged 條件。
+Foreign successor、原 immutable session 變動或 bundle bytes 不符都拒絕，不寫事件。
+它仍使用 Noodle event writer。未知 event write 仍要求原 owner readback。
+Worker admission 成功本身不證明 outcome 回報成功。
 原 process readback 使用原 carrier。新 process、reconciliation 和 cleanup
 使用投影後 carrier。Publication、judge 和 unknown provider write 規則不變。

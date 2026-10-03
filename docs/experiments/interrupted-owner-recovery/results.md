@@ -1,7 +1,117 @@
 # #234 接入觀察
 
-本結果是未完成工程 candidate 的證據。整條 Soodles 恢復路徑尚未驗證。
-Stage-outcome consumer 的 scope 缺口阻止 writer completion。
+本輪完成 recovery outcome consumer 與 control ack 修正。
+本輪 admission 已包含原先缺少的 adapter、activation 和 controls。
+工程 candidate 的 source、必要控制和 scoped P-class feedback 已齊備。
+Publication、exact-head CI、landing 和本機 reconciliation 仍由原 owners 接續。
+未操作 live #229／#232。以下結果不宣稱它們已恢復，也不宣稱總需求完成。
+
+## 本輪控制
+
+原始結果保存在 `/tmp/soodles-234-resume-evidence/`。
+Test Manager 選取下列必要模組，沒有要求 full suite。
+表格只列各範圍的最後一輪結果。先前輪次保留，不累加為獨立 coverage。
+
+| Evidence | 結果 | 支持範圍 |
+| --- | --- | --- |
+| closure-controls.log | 14 passed | 新 outcome closure、舊 explicit／implicit 原 repair identity |
+| outcome-controls.log | 32 passed | Launcher bytepin、outcome／feedback imports、唯一 successor 和普通入口 |
+| ordinary-controls.log | 59 passed | 普通 worker、scope resume、authorization 和 feedback owner 相容性 |
+| control-review.log | 13 passed | Ack 重入、未知控制、外來 ack、兩個 snapshot 競態 |
+
+首次 ack fixture 缺少 contract，失敗已保存在 control-review-fixture-failure.log。
+補上 fixture 後，control-review-before-fix.log 重現正確 ack 搭配舊 snapshot 的誤拒絕。
+修正後，edit 與 release 都在 ack 成功後重讀 owner。重入不重送控制。
+
+`native-adapter-2/result.json` 記錄 supervisor-selected binary 的實際接入。
+Prepare 和 manual hold 的 dispatch count 均為 0。Release 後只有一個 successor。
+Generated external provider adapter 通過 worker admission 後才執行 sentinel。
+Sentinel 讀取 exact native receipt，合法修改 candidate，再經 external launcher
+寫入同 session 的一個 completed event。原 candidate outcome 檔案 bytes 保留。
+原 session events 和 untracked 內容保留。沒有啟動 Codex 模型。
+Provider 使用明示的本機 reader，沒有 live GitHub effects。此配置不是網路封包測量。
+`native-regression-1/result.json` 同時保留原 `--native` 入口相容性。
+
+可重跑的接入 fixture 入口如下。三個參數由當次 supervisor 選定。
+
+```text
+PYTHONPATH=. python3 -B tests/test_interruption_recovery.py --native-adapter BINARY SHA NEW_EXTERNAL_OUTPUT
+```
+
+`native-adapter-2/cleanup.json` 記錄 daemon returncode=1。
+SIGTERM 與 backlog.done 發生競爭，stderr 保留 signal:killed。
+`process-readback.json` 確認 daemon 51678 與 sentinel 51824 均不存在。
+這個 fixture 只證明 native／worker／outcome 接線。它不證明 daemon terminal success，
+也不執行完整 issue-atom resume/run、schema-3 feedback、publication 或 provider closure。
+Python controls 分別覆蓋採用 selection、intent、ack 和相容性。
+原 carrier 到新 carrier 的 publication／cleanup 傳遞另有 source trace，沒有 live 執行主張。
+
+## 本輪 P-class feedback
+
+使用 review-writing、technical-writing、unslop 和 eval-audit。
+修改後的兩份 Markdown 與 issue_execution.py projection 均綁定 exact bytes。
+Fresh native consumer 沒有 inherited conversation，也未取得期待值。
+四案覆蓋 dirty worker／supervisor lineage、implicit source、unknown prepare、outcome route。
+Schema-2 條件直接引用當次 task／contract，沒有語意模型 judge 或比較改善主張。
+
+`feedback/response.json` 已寫入當次 Noodle session 的非終態 feedback event。
+Criteria 為 SUPPORTED，evidence 為 VALID，behavior 為 PASS。
+本 writer 已消費 next.operation=consume_verified_behavior，記錄在 feedback/consumed.json。
+Test Manager 沒有要求額外 consumer、software module、physical control 或 full suite。
+Schema 為 3.425 ms，projection 為 0.053 ms。模型時間、tokens 和價格未知。
+四個 report／trace 是 consumer 自錄證據，不是完整平台 transcript。
+原先三案與失敗紀錄均保留，沒有把舊指令的 PASS 冒充新 bytes 的結果。
+
+第一次 fresh consumer spawn 因 thread limit 被拒絕。
+待實際完成的 threads 可讀回後，新 fresh consumer 成功。沒有換 runner 或繼承舊consumer。
+Poteto 指定的 Cursor roles、Comment Sicko、跨模型 arena 和 deslop 不在可用能力中。
+本輪只使用 native 同模型 tasks，不宣稱完成那些方法。
+Model the Domain 原則使回報沿用既有 envelope、launcher 和 outcome owner。
+Prove It Works 原則要求讀取同 session 事件與實際 process cleanup 結果。
+方法載入記錄在 methods.json；分工與理由在 plan.md 和 decisions.tsv。
+
+## 本輪 source 與 evidence bytepins
+
+以下 source hashes 是保存後的檔案。它們不授予 verifier 或 landing authority。
+
+| Source path | SHA-256 |
+| --- | --- |
+| `issue_atom.py` | `929b86e32aad384f846f5be1e562ce0062b1e979ecead0389de3788c5bc2fa80` |
+| `issue_execution.py` | `3a665e8914924222832550f850d8cd9d4ff1abf54144df34aed6872f43c3dc28` |
+| `stage_outcome.py` | `7fab44e6c1ea67351b49a3aaf13194d57ca92b08ec09e5f1ead3facf940b756b` |
+| `supervisor_admission.py` | `b7ded57890e05df25db8192838302a30061f513bb84019989e49a91d21b8e42b` |
+| `tests/test_interruption_recovery.py` | `d77dd9cfc5630348fe15492b5eea59792ea6677f15052ba8efd64a1d04332241` |
+| `tests/test_lifecycle_activation.py` | `fc131805a434fc32efbb112bab1e82f896d7fdc7b1f7fc9685d161dfb9763543` |
+| `tests/test_stage_outcome.py` | `33869059151a7486fbfc47a42aa022197701e4101a346c6b097583526f4f5df2` |
+| `tests/test_supervisor_admission.py` | `df8f24d5b9c63805327c6b1201b3e7dbb406c6ed0db41f7b065ee0619b882e4d` |
+
+下列相對路徑以 `/tmp/soodles-234-resume-evidence/` 為根。
+
+| Evidence path | SHA-256 |
+| --- | --- |
+| `closure-controls.log` | `cb14ef280cb69685d05342b1bd1c852b5b7b068e55504c5706025db22404d5c9` |
+| `outcome-controls.log` | `ffaaafacc317a44f4e7587c814c1a810793b505547e90493f8f16e91addb8520` |
+| `ordinary-controls.log` | `296145b4995aed7eedc5a733385e6aff4f481cd286ee6660fbe9f0454c085d8b` |
+| `control-review.log` | `f7213c9a011c47d9918675f45d05a5edfa5312baef70bedd47e17fe04da5e26c` |
+| `control-review-before-fix.log` | `7e1839b2c2b2b212cb9dc561dfac03a2648b6f47e40be65a26b3175f13f49ad8` |
+| `control-review-fixture-failure.log` | `ea89487fe8eea42b8eadcf529eb0c4d73bea03419c7f738b206a2221ebd22598` |
+| `native-adapter-2/result.json` | `3a440396c7d6f9b61a37a665a311c62b35085b847533dcc35e85d71509842e15` |
+| `native-adapter-2/11-outcome-readback.json` | `8f0a667a8306b746e88fc86f14f75ef28db979c11d3873cd0797699c63851b32` |
+| `native-adapter-2/cleanup.json` | `d340ad82cbe6140fc9fe0e423cb9cb6ae4b52fa70fe14c3e302aa3264a058e82` |
+| `native-adapter-2/process-readback.json` | `e96558c800f433d313011d5966488f132b9931f2205322e03025756d35cbc2a6` |
+| `native-adapter-2/scope.json` | `c5a9bde759d2e95ed2c8d551654737bf0437276f8ddbb8ac98f61d43669f63b3` |
+| `native-regression-1/result.json` | `14bdeaba33d12207f67b3399a7c503acb28a890fc7f25b83395ba66d05bf6acf` |
+| `feedback/protocol.json` | `3d4f61b8090a01d25fbcf9f62458ea3da75a3aa16401a71695f78f87fd4c13a5` |
+| `feedback/selection.json` | `af252593238138c8ce5d747cf76cd8e68073eee564af347367db0645af48dedb` |
+| `feedback/response.json` | `98383a9dbe78a83a758628094b7e7d21cc8c6f540096c1665de6286293a94e42` |
+| `feedback/consumed.json` | `49e1a3ad5b545a119c005136f471860e1c11021a09cb28ade8feec09cf79c78d` |
+| `methods.json` | `3f1a2045f36f25e39d1eee494752e80acb3fff284ab6a6edab5cae84030a9d8b` |
+| `decisions.tsv` | `53da923f04615bd7af42f28c8cdb048cdc1261d4ab2d2e25133f97ee427c7739` |
+
+# 首輪 writer 的觀察
+
+以下保留首輪 commit 36c80cc 的結果。當時 candidate 未完成。
+當時 Stage-outcome consumer 的 scope 缺口阻止 writer completion。
 未操作 live #229／#232，未建立或修改 provider Issue、PR、judge 或 authorization。
 
 ## 已觀察的控制

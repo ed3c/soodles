@@ -8,33 +8,33 @@
     {
       "path": "contracts/system-v1/issue-atom.md",
       "baseline_sha256": "049557bfbccd335bbf3c3bcef9fc9014f9ec8ae26234dcc5c40d2d6f98fb2512",
-      "treatment_sha256": "03391f27a4cedb40aa80e44e7bc45a3bde6aab0f713e6022080a2a5a0aa28368"
+      "treatment_sha256": "229258a611bcde90973fe5cb1e5573cab626354f73f684ec5f4f4c4324bcd7aa"
     },
     {
       "path": ".agents/skills/verify-soodles/features/delivery-recovery.md",
       "baseline_sha256": "d530630358c275e011aafe3c26bef2d628ae0df2786c6904d05ccef1ab41caa8",
-      "treatment_sha256": "6ba36c6a32588c7dea822146c4ac2710928c276ccaa98bccf9a2564d7b01f4c1"
+      "treatment_sha256": "564193ee35aaa824b782e55b446d9e0a4f1c12fced8e3ff998f72778210bf527"
     }
   ],
   "artifacts": [
     {
       "path": "docs/experiments/interrupted-owner-recovery/design.md",
       "role": "evidence",
-      "sha256": "767e0e20fb6438cd6d1ea3a1c8d820d9a1cceab43928f4aed3c5c9702d0c0745"
+      "sha256": "c4bc7cd6a16381f970e7f79c968fbb0fc6800f5240a575731ca3573292f91f61"
     },
     {
       "path": "docs/experiments/interrupted-owner-recovery/handoff.md",
       "role": "evidence",
-      "sha256": "98b3e87d0a2012be978e23129a8ec3471732b2434c143980eb99347f94019b34"
+      "sha256": "7fab8ebd26d4ae4779d466af2537508171f8ec0b14e2502bb459ea69c42af214"
     },
     {
       "path": "docs/experiments/interrupted-owner-recovery/results.md",
       "role": "evidence",
-      "sha256": "9dc5b8c0900c991d6f4696422961276e440b4f4275f6fbd01fc2e5a632ef176b"
+      "sha256": "2adb8ea0dd177f071fc10e0b8b4ab21e8efb7b5b5a84a830c499b0846239c769"
     }
   ],
   "owner": {
-    "name": "Original issue-atom and Noodle interruption owners; incomplete adapter admission retained",
+    "name": "Original issue-atom and Noodle interruption owners; external outcome consumer connected",
     "tool": "issue_admission.validate_delivery_paths",
     "authorization": "ed3c/soodles#234"
   },

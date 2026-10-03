@@ -40,16 +40,34 @@ Implicit reader 解析原 issue_atom.py 的 literal LIFECYCLE_FILES，再讀該 
 Policy、context、binding、lineage、history 和 counters 必須完全匹配。
 新 owner 保留原 ledger，且不取得新的 repair effect allowance。
 
-## 尚未閉合的 consumer
+## 原 candidate 的 outcome consumer
 
 原 writer 的 execute 指令要求 `./stage-outcome`。
-原 source 的 shell entry 直接執行同目錄 stage_outcome.py。
-該模組從舊 candidate 載入 issue_admission；舊 exact-object validator
-不接受 recovery_context。外部 worker bundle 更新不能改變這個 import。
-因此 worker admission 成功不足以證明 writer 能回報 outcome。
+原 source 的 shell entry 執行同目錄 stage_outcome.py，再載入舊 validator。
+該 validator 不接受 recovery_context。只更新外部 worker bundle 不能改變這個 import。
+首輪 writer 因此保留 consumer scope 缺口。本輪 contract 已納入所需 adapter 和 controls。
 
-本 Issue 的 write_paths 未含 stage-outcome、stage_outcome.py 或其直接 controls。
-目前必須由原 admission owner 補足 consumer／activation 範圍。
-候選 writer 不自行修改原 instruction pins 或新增 authority。
-完整 resume、run、bundle、native dispatch、worker adapter、stage-outcome
-整合尚未驗證。這個 candidate 保留 blocked，不可當成 activation-ready。
+接入必須保留原 candidate bytes 和 instruction pins，同時讓 writer 完成 feedback 與 outcome。
+本輪選擇由現有 external launcher 轉交 stage_outcome.main。
+另一個方案是另建 outcome executable，再把其路徑和 bytepin 投影給 writer。
+既有 launcher 已有 manifest 驗證和環境入口。沿用它可避免第二份入口 identity。
+
+Recovery prompt 在 typed recovery_context 中提供兩個命令。
+兩者使用 `"$SOODLES_ADMISSION_LAUNCHER" stage-outcome`，再附上原回報參數。
+它明確替代當次機械入口，保留原 task、instruction pins 和回報規則。
+Launcher 先檢查 bundle bytes，再從選定 runtime 載入 outcome reader 和 feedback 依賴。
+Reader 驗證 current stage、session、spawn 和 native successor。
+此時 writer 可已修改 candidate，因此 reader 驗 lineage，不重用模型前的 unchanged 條件。
+錯誤 identity 或變動 bundle 會在 event write 前拒絕。未知 event write 仍只做 owner readback。
+
+## Ack 到達次序
+
+原實作先讀 stage，再讀 control ack，最後以先前 stage 判斷 ack 的效果。
+控制可能在兩次讀取之間完成。此時新 ack 配上舊 prompt 或 mode，造成誤拒絕。
+重現控制取得 `interruption.prompt=changed`，但 fixture owner 已保存正確 prompt。
+
+修正後，supervisor 在 edit ack 成功後重讀 prompt，在 release ack 成功後重讀 mode。
+既有 intent 仍阻止重复 append。沒有 ack 時只等待 readback。
+測試覆蓋兩種 ack 競態、未知控制、外來 ack，以及 writer 修改後的 dispatched lineage。
+原生 fixture 另驗證 external bundle、native dispatch、worker admission 和同 session outcome。
+它不執行 live resume、publication 或 provider closure，也不證明完整 live lifecycle。

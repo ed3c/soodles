@@ -715,7 +715,16 @@ def projection(binding, envelope_digest, route):
     if "instruction_context" in binding["execution"]:
         subject["instruction_context"] = binding["execution"]["instruction_context"]
     if "recovery_context" in binding["execution"]:
-        subject["recovery_context"] = binding["execution"]["recovery_context"]
+        subject["recovery_context"] = {**binding["execution"]["recovery_context"],
+            "stage_outcome": {
+                "entry_environment": "SOODLES_ADMISSION_LAUNCHER",
+                "outcome_command": '"$SOODLES_ADMISSION_LAUNCHER" stage-outcome OUTCOME MESSAGE',
+                "feedback_command": '"$SOODLES_ADMISSION_LAUNCHER" stage-outcome feedback /absolute/selection.json SHA256',
+                "instruction": (
+                    "在本次恢復的 session，原選定指令要求 ./stage-outcome 時，使用以上命令。"
+                    "這只替換機械入口。保留原 task、instruction pins、outcome 規則與 feedback 要求。"
+                    "目前 admission launcher 提供已固定來源的 adapter。"
+                    "不要修改 candidate 入口，也不要自行組裝 event payload。")}}
     if "failure_context" in binding["execution"]:
         context = binding["execution"]["failure_context"]
         from issue_admission import validate_failure_context, validate_failure_logs

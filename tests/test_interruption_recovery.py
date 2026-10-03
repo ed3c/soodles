@@ -222,6 +222,105 @@ class InterruptionTests(unittest.TestCase):
                     {'action': 'interruption_prepared'}, {}, interruption_restart=True)
         self.assertEqual(state, before)
 
+    def held_control(self):
+        f = self.fixture
+        paths = atom.artifact_paths(f.directory / 'authorization.json')
+        output = f.directory / 'interruption-recovery'
+        (output / 'admission').mkdir(parents=True)
+        config = output / 'admission/noodle.toml'
+        config.write_text('mode="supervised"\n')
+        (f.root / '.noodle.toml').write_bytes(config.read_bytes())
+        auth = {'control_root': str(f.root), 'noodle': f.envelope['execution']['carrier']['noodle']}
+        packet = {**self.recovery, 'carrier': f.envelope['execution']['carrier']}
+        binding = admission.validate_issue(f.issue, f.envelope)
+        state = {'issue': {'number': 18}, 'envelope_sha256': f.pin,
+            'noodle_start': {'status': 'started', 'config_sha256': atom.digest_file(config),
+                'process_argv': [auth['noodle']['path'], '--project-dir', str(f.root), 'start', '--mode', 'manual']},
+            'interruption': {'logs': [], 'start_offered': True, 'prepare': {'status': 'observed'},
+                'prepared': {'path': str(output / 'admission/prepared.json')},
+                'output': str(output), 'selection': {'sha256': 'd' * 64}, 'ack_prefix': ''}}
+        self.stage.update(status='pending', prompt='original prompt',
+            extra={'interrupted_execution': {'custody_sha256': self.recovery['custody_sha256'],
+                'prior_attempt_id': self.recovery['custody']['attempt_id']}})
+        f.snapshot['state'].update(mode='manual', mode_epoch=4)
+        f.save_owner()
+        native = {**self.receipt, 'status': 'prepared'}
+        for target, name, kwargs in (
+                (atom, 'interruption_record', {'return_value': packet}),
+                (atom, 'interruption_binding', {'return_value': f.envelope}),
+                (atom, 'validate_prior_atom_ref', {}),
+                (atom, 'scope_projection', {'return_value': (auth, paths)}),
+                (atom, 'observe_prior_loop', {'return_value': 'running'}),
+                (execution, 'context', {'return_value': binding}),
+                (execution, 'interruption_readback', {'return_value': native}),
+                (atom.subprocess, 'Popen', {'side_effect': AssertionError('another start')})):
+            context = patch.object(target, name, **kwargs)
+            context.start()
+            self.addCleanup(context.stop)
+        return state, native, lambda: atom.advance_interruption(auth, paths, state,
+            Mock(issue=lambda _: f.issue), {})
+
+    def acknowledge_control(self, state, name):
+        command = state[name]
+        (self.fixture.runtime / 'control.ndjson').write_text('')
+        with (self.fixture.runtime / 'control-ack.ndjson').open('a') as stream:
+            stream.write(json.dumps({'id': command['id'], 'action': command['action'], 'status': 'ok'}) + '\n')
+        if name == 'interruption_edit':
+            self.stage['prompt'] = command['prompt']
+        else:
+            self.fixture.snapshot['state'].update(mode='supervised', mode_epoch=5)
+        self.fixture.save_owner()
+
+    def test_control_ack_reentry_releases_once_and_accepts_successor_writes(self):
+        state, native, advance = self.held_control()
+        mailbox = self.fixture.runtime / 'control.ndjson'
+        self.assertEqual(advance()['action'], 'interruption_edit_pending')
+        offered = mailbox.read_bytes()
+        self.assertEqual(advance()['action'], 'interruption_edit_pending')
+        self.assertEqual(mailbox.read_bytes(), offered)
+        self.acknowledge_control(state, 'interruption_edit')
+        self.assertEqual(advance()['action'], 'interruption_release_pending')
+        offered = mailbox.read_bytes()
+        self.assertEqual(advance()['action'], 'interruption_release_pending')
+        self.assertEqual(mailbox.read_bytes(), offered)
+        self.acknowledge_control(state, 'interruption_release')
+        self.assertEqual(advance()['action'], 'interruption_dispatch_pending')
+        native.update(status='dispatched', candidate_unchanged=False)
+        self.stage['status'] = 'running'
+        self.fixture.save_owner()
+        self.assertEqual(advance()['action'], 'interruption_released')
+        self.assertEqual(state['interruption']['status'], 'released')
+        self.assertEqual(mailbox.read_bytes(), b'')
+        self.assertEqual(set(state) & {'interruption_edit', 'interruption_release'},
+                         {'interruption_edit', 'interruption_release'})
+
+    def test_unknown_or_foreign_control_never_resends(self):
+        state, _, advance = self.held_control()
+        mailbox = self.fixture.runtime / 'control.ndjson'
+        self.assertEqual(advance()['action'], 'interruption_edit_pending')
+        mailbox.write_text('')
+        self.assertEqual(advance()['action'], 'interruption_edit_pending')
+        self.assertEqual(mailbox.read_bytes(), b'')
+        foreign = {'id': 'foreign', 'action': 'mode', 'status': 'ok'}
+        (self.fixture.runtime / 'control-ack.ndjson').write_text(json.dumps(foreign) + '\n')
+        with self.assertRaisesRegex(atom.AtomRefusal, 'interruption.control.foreign'):
+            advance()
+        self.assertEqual(mailbox.read_bytes(), b'')
+        self.assertNotIn('interruption_release', state)
+
+    def test_ack_arriving_after_owner_snapshot_uses_fresh_readback(self):
+        state, _, advance = self.held_control()
+        self.assertEqual(advance()['action'], 'interruption_edit_pending')
+        control = atom.amendment_control
+        for name, expected in (('interruption_edit', 'interruption_release_pending'),
+                               ('interruption_release', 'interruption_dispatch_pending')):
+            def acknowledge_then_read(authorization, paths, current, key, command):
+                if key == name:
+                    self.acknowledge_control(state, name)
+                return control(authorization, paths, current, key, command)
+            with patch.object(atom, 'amendment_control', side_effect=acknowledge_then_read):
+                self.assertEqual(advance()['action'], expected)
+
 
 class RecoveryBundleTests(unittest.TestCase):
     def test_bundle_preserves_original_task_and_instructions_on_dirty_candidate(self):
@@ -260,10 +359,15 @@ class RecoveryBundleTests(unittest.TestCase):
             'plan': 'original task', 'repository': 'ed3c/soodles', 'issue': 118, 'source': 'admission_snapshot'})
 
 
-def native_control(root, binary, digest):
+def native_control(root, binary, digest, *, adapter=False):
     root=Path(root).resolve(); root.mkdir(parents=True,exist_ok=False)
     assert hashlib.sha256(Path(binary).read_bytes()).hexdigest()==digest
-    project=root/'project'; runtime=project/'.noodle'; wt=project/'.worktrees/order-1-0-execute'
+    project=root/'project'; runtime=project/'.noodle'
+    order=admission.scoped_order_id(18, project) if adapter else 'order-1'
+    repository='ed3c/soodles' if adapter else 'example/project'
+    number=18 if adapter else 7
+    subject=repository+'#'+str(number)
+    wt=project/'.worktrees'/(order+'-0-execute')
     log=root/'commands.ndjson'; process=None
     env={k:v for k,v in os.environ.items() if not any(s in k.upper() for s in ('TOKEN','API_KEY','SECRET'))}
     env.update(NOODLE_NO_BROWSER='1',GIT_TERMINAL_PROMPT='0',GIT_CONFIG_NOSYSTEM='1',GIT_CONFIG_GLOBAL='/dev/null')
@@ -277,7 +381,7 @@ def native_control(root, binary, digest):
         return p
     def cli(*args): return run([binary,'--project-dir',project,*args])
     def inspect(label):
-        obj=json.loads(cli('interruption','inspect','order-1','example/project#7').stdout); js(root/(label+'.json'),obj); return obj
+        obj=json.loads(cli('interruption','inspect',order,subject).stdout); js(root/(label+'.json'),obj); return obj
     def wait(predicate, label, timeout=20):
         until=time.monotonic()+timeout
         while time.monotonic()<until:
@@ -307,31 +411,99 @@ def native_control(root, binary, digest):
         write(project/'.gitignore','.noodle/\n.worktrees/\n')
         sentinel=root/'fixture-bin/codex'
         write(sentinel,'#!'+sys.executable+'\nimport json,os,pathlib,sys,time\nprompt=sys.stdin.read()\np=pathlib.Path('+repr(str(root/'sentinel.ndjson'))+')\nwith p.open("a") as f: f.write(json.dumps({"pid":os.getpid(),"argv":sys.argv,"cwd":os.getcwd(),"prompt":prompt})+"\\n")\nprint(json.dumps({"type":"thread.started","thread_id":"fixture-"+str(os.getpid())}),flush=True)\nwhile True: time.sleep(1)\n'); sentinel.chmod(0o755)
+        if adapter:
+            write(sentinel, '#!'+sys.executable+'\n'+"""
+import json, os, pathlib, subprocess, sys, time
+root = pathlib.Path(ROOT)
+prompt = sys.stdin.read()
+with (root / 'sentinel.ndjson').open('a') as stream:
+    stream.write(json.dumps({'pid': os.getpid(), 'argv': sys.argv, 'cwd': os.getcwd(), 'prompt': prompt})+'\\n')
+print(json.dumps({'type': 'thread.started', 'thread_id': 'fixture-'+str(os.getpid())}), flush=True)
+deadline = time.monotonic()+20
+while not (root / 'allow-outcome').exists():
+    if time.monotonic() >= deadline:
+        raise SystemExit('fixture exact-receipt readback timeout')
+    time.sleep(.05)
+receipt = json.loads((root / '07-dispatched.json').read_text())
+assert receipt['candidate_unchanged'] is True
+assert receipt['successor']['session_id'] == os.environ['NOODLE_SESSION_ID']
+envelope = json.loads((pathlib.Path(os.environ['SOODLES_ADMISSION_LAUNCHER']).parent/'envelope.json').read_text())
+recovery = envelope['execution']['recovery_context']
+dispatched = json.loads((pathlib.Path(recovery['evidence_path'])/'dispatch-result.json').read_text())
+assert dispatched == {'custody_sha256': recovery['custody_sha256'], **receipt['successor']}
+argv = [envelope['execution']['carrier']['noodle']['path'], '--project-dir', os.environ['NOODLE_PROJECT_DIR'],
+        'interruption', 'inspect', os.environ['NOODLE_ORDER_ID'], envelope['repository']+'#'+str(envelope['issue'])]
+readback = subprocess.run(argv, capture_output=True, text=True, timeout=20)
+(root/'sentinel-native-readback.json').write_text(json.dumps({'argv': argv, 'returncode': readback.returncode,
+    'stdout': readback.stdout, 'stderr': readback.stderr}))
+assert readback.returncode == 0 and json.loads(readback.stdout)['candidate_unchanged'] is True
+pathlib.Path('candidate.txt').write_text('successor writer progress\\n')
+argv = [os.environ['SOODLES_ADMISSION_LAUNCHER'], 'stage-outcome', 'completed',
+        'Disposable native worker preserved original candidate and recorded the completed outcome.']
+result = subprocess.run(argv, capture_output=True, text=True, timeout=20)
+(root / 'outcome-process.json').write_text(json.dumps({'argv': argv, 'returncode': result.returncode,
+    'stdout': result.stdout, 'stderr': result.stderr}))
+assert result.returncode == 0, result.stdout+result.stderr
+assert json.loads(result.stdout)['status'] == 'recorded', result.stdout
+print(json.dumps({'type': 'turn.completed', 'usage': {'input_tokens': 0, 'output_tokens': 0}}), flush=True)
+while True:
+    time.sleep(1)
+""".replace('ROOT', repr(str(root))))
+            for name in supervisor_admission.BUNDLE_PATHS:
+                write(project/name, (Path(atom.__file__).parent/name).read_text())
+            reader = "import json, os\nfrom pathlib import Path\ndef fetch_issue(repository, number):\n    with Path(os.environ['FIXTURE_PROVIDER_CALLS']).open('a') as stream:\n        stream.write(json.dumps({'repository': repository, 'issue': number})+'\\n')\n    return json.loads(Path(os.environ['FIXTURE_ISSUE_READBACK']).read_text())\n"
+            write(project/'github_reader.py', reader)
+            for name in ('stage-outcome', 'stage_outcome.py'):
+                write(project/name, run(['git', 'show', 'HEAD:'+name], Path(atom.__file__).parent).stdout)
+            (project/'stage-outcome').chmod(0o755)
+            write(project/'candidate.txt', 'candidate\n')
         for skill in ('execute','schedule'):
             write(project/'.agents/skills'/skill/'SKILL.md',f'---\nname: {skill}\ndescription: Local process fixture only.\nschedule: Local fixture only.\n---\nRemain idle.\n')
-        adapter=root/'backlog-sync'; write(adapter,'#!/bin/sh\nexit 0\n'); adapter.chmod(0o755)
-        write(project/'.noodle.toml',f'mode = "manual"\n[routing.defaults]\nprovider = "codex"\nmodel = "fixture"\n[agents.codex]\npath = {json.dumps(str(sentinel.parent))}\n[server]\nenabled = false\n[concurrency]\nmax_concurrency = 1\n[adapters.backlog.scripts]\nsync = {json.dumps(str(adapter))}\nadd = {json.dumps(str(adapter))}\ndone = {json.dumps(str(adapter))}\nedit = {json.dumps(str(adapter))}\n')
+        backlog_script=root/'backlog-sync'; write(backlog_script,'#!/bin/sh\nexit 0\n'); backlog_script.chmod(0o755)
+        write(project/'.noodle.toml',f'mode = "manual"\n[routing.defaults]\nprovider = "codex"\nmodel = "fixture"\n[agents.codex]\npath = {json.dumps(str(sentinel.parent))}\n[server]\nenabled = false\n[concurrency]\nmax_concurrency = 1\n[adapters.backlog.scripts]\nsync = {json.dumps(str(backlog_script))}\nadd = {json.dumps(str(backlog_script))}\ndone = {json.dumps(str(backlog_script))}\nedit = {json.dumps(str(backlog_script))}\n')
         run(['git','add','.'],project); run(['git','commit','-m','Keep local fixture inputs reproducible'],project)
-        run(['git','remote','add','origin','git@github.com:example/project.git'],project)
+        run(['git','remote','add','origin','git@github.com:'+repository+'.git'],project)
         base=run(['git','rev-parse','HEAD'],project).stdout.strip()
         run(['git','update-ref','refs/remotes/origin/main',base],project)
         run(['git','symbolic-ref','refs/remotes/origin/HEAD','refs/remotes/origin/main'],project)
-        run(['git','worktree','add','-b','order-1-0-execute',wt,base],project)
-        write(wt/'candidate.txt','candidate\n'); run(['git','add','candidate.txt'],wt); run(['git','commit','-m','Keep candidate for interruption recovery'],wt)
+        if adapter:
+            from test_issue_admission import issue_fixture
+            import platform
+            issue, _ = issue_fixture()
+            contract = admission.parse_contract(issue['body'])
+            contract['write_paths'] = ['candidate.txt', 'new.txt']
+            issue['body'] = '<!-- soodles:execution-v1 -->\n```json\n'+json.dumps(contract)+'\n```\n<!-- /soodles:execution-v1 -->'
+            js(root/'issue-readback.json', issue)
+            env.update(FIXTURE_ISSUE_READBACK=str(root/'issue-readback.json'),
+                       FIXTURE_PROVIDER_CALLS=str(root/'provider-fixture.ndjson'),
+                       NOODLES_TOKEN_COMMAND='printf fixture-installation-token')
+            carrier={'platform': platform.system().lower()+'_'+platform.machine().lower(),
+                'noodle': {'path': binary, 'sha256': digest},
+                'codex': {'path': str(sentinel), 'sha256': atom.digest_file(sentinel), 'model': 'fixture',
+                          'argv': ['exec', '--skip-git-repo-check', '--json', '--model', 'fixture']}}
+            original=root/'original-bundle'
+            supervisor_admission.prepare(issue, carrier, project, original, environ=env, wire_host=True,
+                                         task='Retain this disposable candidate and report one completed outcome.')
+            original_envelope=json.loads((original/'envelope.json').read_bytes())
+        run(['git','worktree','add','-b',wt.name,wt,base],project)
+        if not adapter:
+            write(wt/'candidate.txt','candidate\n'); run(['git','add','candidate.txt'],wt); run(['git','commit','-m','Keep candidate for interruption recovery'],wt)
         write(wt/'candidate.txt','uncommitted writer progress\n'); write(wt/'new.txt','untracked writer progress\n')
-        stamp='2026-10-03T00:00:00Z'; prompt=json.dumps(dict(repository='example/project',issue=7,envelope_sha256='a'*64),separators=(',',':'))
-        stage=dict(stage_index=0,task_key='execute',status='running',provider='codex',model='fixture',runtime='process',skill='execute',prompt=prompt,attempts=[dict(attempt_id='order-1-0-attempt-0',session_id='session-1',status='running',worktree_name=wt.name)])
-        canonical=dict(orders={'order-1':dict(order_id='order-1',status='active',stages=[stage])},pending_reviews={},mode='supervised',schema_version=1,last_event_id='1')
-        ledger=[dict(effect_id='dispatch-1',effect=dict(effect_id='dispatch-1',type='dispatch',payload=dict(order_id='order-1',stage_index=0,attempt_id='order-1-0-attempt-0')),status='pending')]
+        stamp='2026-10-03T00:00:00Z'; prompt=json.dumps(dict(repository=repository,issue=number,envelope_sha256='a'*64),separators=(',',':'))
+        if adapter:
+            prompt=json.dumps(execution.projection(admission.validate_issue(issue, original_envelope), atom.digest_file(original/'envelope.json'), 'supervised'))
+        stage=dict(stage_index=0,task_key='execute',status='running',provider='codex',model='fixture',runtime='process',skill='execute',prompt=prompt,attempts=[dict(attempt_id=order+'-0-attempt-0',session_id='session-1',status='running',worktree_name=wt.name)])
+        canonical=dict(orders={order:dict(order_id=order,status='active',stages=[stage])},pending_reviews={},mode='supervised',schema_version=1,last_event_id='1')
+        ledger=[dict(effect_id='dispatch-1',effect=dict(effect_id='dispatch-1',type='dispatch',payload=dict(order_id=order,stage_index=0,attempt_id=order+'-0-attempt-0')),status='pending')]
         js(runtime/'state.snapshot.json',dict(order_revision='a'*32,state=canonical,effect_ledger=ledger,generated_at=stamp))
         projection={k:v for k,v in stage.items() if k not in ('stage_index','attempts')}; projection['status']='active'
-        js(runtime/'orders.json',dict(generated_at=stamp,orders=[dict(id='order-1',status='active',stages=[projection])]))
+        js(runtime/'orders.json',dict(generated_at=stamp,orders=[dict(id=order,status='active',stages=[projection])]))
         js(runtime/'pending-review.json',[])
         child=subprocess.Popen(['git','--version'],stdout=subprocess.DEVNULL); dead_pid=child.pid; assert child.wait()==0
         session=runtime/'sessions/session-1'
         js(session/'process.json',dict(session_id='session-1',pid=dead_pid)); js(session/'meta.json',dict(session_id='session-1',status='exited',runtime='process'))
         js(session/'spawn.json',dict(session_id='session-1',worktree_path=str(wt),provider='codex',model='fixture',runtime='process',retry_count=0))
-        write(session/'prompt.txt','[order:order-1] Work backlog item order-1\n\n'+prompt)
+        write(session/'prompt.txt','[order:'+order+'] Work backlog item '+order+'\n\n'+prompt)
         write(session/'raw.ndjson','{"type":"thread.started","thread_id":"fixture"}\n')
         write(session/'events.ndjson','{"type":"stage_message","session_id":"session-1","payload":{"message":"feedback only"}}\n')
         old_events=(session/'events.ndjson').read_bytes()
@@ -341,31 +513,70 @@ def native_control(root, binary, digest):
         prepared=json.loads(run(read['next']['argv']).stdout); js(root/'02-prepare.json',prepared)
         assert prepared['status']=='prepared' and not prepared['successor'] and not prepared['next']['argv'],prepared
         assert launches()==[]; preserved()
-        saved=snapshot()['state']['orders']['order-1']['stages'][0]
+        saved=snapshot()['state']['orders'][order]['stages'][0]
         assert saved['status']=='pending' and len(saved['attempts'])==1 and saved['attempts'][0]['status']=='cancelled' and saved['attempts'][0]['exit_code'] is None
         js(root/'03-prepared-snapshot.json',snapshot())
+        if adapter:
+            selected=root/'selected-runtime'; selected.mkdir()
+            for name in supervisor_admission.BUNDLE_PATHS:
+                write(selected/name, reader if name=='github_reader.py' else (Path(atom.__file__).parent/name).read_text())
+            recovery={'kind': 'prepublication_interruption',
+                'original_envelope': {'path': str(original/'envelope.json'), 'sha256': atom.digest_file(original/'envelope.json')},
+                **{key: prepared[key] for key in ('custody', 'custody_sha256', 'evidence_path')}}
+            bundle=root/'recovery-bundle'
+            bundle_receipt=supervisor_admission.prepare(issue, carrier, project, bundle, environ=env, wire_host=True,
+                correction=True, runtime_root=selected, recovery_context=recovery)
+            write(project/'.noodle.toml', (bundle/'noodle.toml').read_text())
+            env['SOODLES_ADMISSION_LAUNCHER']=str(bundle/'launcher')
+            new_envelope=json.loads((bundle/'envelope.json').read_bytes())
+            assert (wt/'stage-outcome').read_bytes()==(project/'stage-outcome').read_bytes()
+            assert (wt/'stage_outcome.py').read_bytes()==(project/'stage_outcome.py').read_bytes()
         out=(root/'daemon.stdout').open('w'); err=(root/'daemon.stderr').open('w')
-        process=subprocess.Popen([binary,'--project-dir',str(project),'start','--mode','manual'],env=env,stdout=out,stderr=err,start_new_session=True)
-        js(root/'daemon-launch.json',dict(pid=process.pid,argv=[binary,'--project-dir',str(project),'start','--mode','manual']))
+        start_argv=bundle_receipt['next']['argv'] if adapter else [binary,'--project-dir',str(project),'start','--mode','manual']
+        process=subprocess.Popen(start_argv,env=env,stdout=out,stderr=err,start_new_session=True)
+        js(root/'daemon-launch.json',dict(pid=process.pid,argv=start_argv))
         wait(lambda: (runtime/'status.json').exists(),'native status')
         time.sleep(1)
         assert launches()==[], launches()
         read=inspect('04-manual-held'); assert read['status']=='prepared',read
-        new_prompt=json.dumps(dict(repository='example/project',issue=7,envelope_sha256='b'*64),separators=(',',':'))
-        control(dict(id='05-edit-ack',action='edit-item',order_id='order-1',prompt=new_prompt))
-        assert launches()==[]; assert snapshot()['state']['orders']['order-1']['stages'][0]['prompt']==new_prompt
+        new_prompt=json.dumps(dict(repository=repository,issue=number,envelope_sha256='b'*64),separators=(',',':'))
+        if adapter:
+            new_prompt=json.dumps(execution.projection(admission.validate_issue(issue, new_envelope), atom.digest_file(bundle/'envelope.json'), 'supervised'))
+        control(dict(id='05-edit-ack',action='edit-item',order_id=order,prompt=new_prompt))
+        assert launches()==[]; assert snapshot()['state']['orders'][order]['stages'][0]['prompt']==new_prompt
         control(dict(id='06-mode-ack',action='mode',value='supervised'))
         wait(lambda: len(launches())>0,'native dispatch')
-        read=wait(lambda: (r if (r:=json.loads(cli('interruption','inspect','order-1','example/project#7').stdout))['status']=='dispatched' else None),'successor readback')
+        read=wait(lambda: (r if (r:=json.loads(cli('interruption','inspect',order,subject).stdout))['status']=='dispatched' else None),'successor readback')
         js(root/'07-dispatched.json',read)
-        assert read['candidate_unchanged'] and read['successor']['attempt_id']=='order-1-0-attempt-1',read
+        assert read['candidate_unchanged'] and read['successor']['attempt_id']==order+'-0-attempt-1',read
         assert len(launches())==1 and new_prompt in launches()[0]['prompt'],launches()
         assert launches()[0]['cwd']==str(wt)
         preserved()
         time.sleep(1)
         again=inspect('08-repeat-readback'); assert again['successor']==read['successor'] and len(launches())==1
+        if adapter:
+            control(dict(id='10-hold-ack',action='mode',value='manual'))
+            write(root/'allow-outcome', 'exact successor observed\n')
+            outcome=wait(lambda: json.loads((root/'outcome-process.json').read_text()) if (root/'outcome-process.json').exists() else None, 'external outcome')
+            assert outcome['returncode']==0, outcome
+            recorded=json.loads(outcome['stdout'])
+            assert recorded['status']=='recorded' and recorded['event']['payload']['outcome']=='completed',recorded
+            assert (wt/'stage-outcome').read_bytes()==(project/'stage-outcome').read_bytes()
+            assert (wt/'stage_outcome.py').read_bytes()==(project/'stage_outcome.py').read_bytes()
+            assert (wt/'candidate.txt').read_text()=='successor writer progress\n'
+            assert (wt/'new.txt').read_text()=='untracked writer progress\n'
+            assert (runtime/'sessions/session-1/events.ndjson').read_bytes()==old_events
+            events=runtime/'sessions'/read['successor']['session_id']/'events.ndjson'
+            write(root/'successor-events.ndjson', events.read_text())
+            assert len([json.loads(line) for line in events.read_text().splitlines()
+                        if json.loads(line).get('payload',{}).get('outcome')=='completed'])==1
+            js(root/'11-outcome-readback.json',recorded)
         js(root/'09-dispatched-snapshot.json',snapshot())
         result=dict(status='passed',binary=binary,binary_sha256=digest,prepare_dispatch_count=0,manual_dispatch_count=0,edit_ack='ok',mode_ack='ok',successor_count=1,successor=read['successor'],dirty_preserved=True,original_events_preserved=True,model_calls=0,provider_calls=0)
+        if adapter:
+            result.update(worker_adapter=str(bundle/'provider/codex'), external_outcome=recorded,
+                candidate_outcome_unchanged=True, provider_scope='local fixture Issue reader; no live provider calls',
+                provider_fixture_calls=len((root/'provider-fixture.ndjson').read_text().splitlines()))
         js(root/'result.json',result)
         return result
     except Exception as exc:
@@ -385,10 +596,20 @@ def native_control(root, binary, digest):
                     if str(root/'fixture-bin/codex') in command: os.kill(pid,signal.SIGTERM)
                 except ProcessLookupError: pass
             js(root/'cleanup.json',dict(daemon_pid=process.pid,daemon_returncode=process.returncode,sentinel_pids=[r['pid'] for r in launches()]))
+            pids=[process.pid, *[r['pid'] for r in launches()]]
+            remaining=[]
+            deadline=time.monotonic()+3
+            while time.monotonic()<deadline:
+                remaining=[pid for pid in pids if subprocess.run(['ps','-p',str(pid),'-o','pid='],
+                    capture_output=True,text=True).stdout.strip()]
+                if not remaining: break
+                time.sleep(.05)
+            js(root/'process-readback.json',{'pids': pids, 'remaining': remaining})
+            assert not remaining, remaining
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 5 and sys.argv[1] == '--native':
-        print(json.dumps(native_control(sys.argv[4], sys.argv[2], sys.argv[3]), indent=2))
+    if len(sys.argv) == 5 and sys.argv[1] in ('--native', '--native-adapter'):
+        print(json.dumps(native_control(sys.argv[4], sys.argv[2], sys.argv[3], adapter=sys.argv[1]=='--native-adapter'), indent=2))
     else:
         unittest.main()

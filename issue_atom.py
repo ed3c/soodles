@@ -55,7 +55,7 @@ LIFECYCLE_FILES = ("issue-atom", "soodles", "soodles.py", "issue_atom.py",
                    "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
                    "contracts/system-v1/readback.md", "provider-readback",
                    "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py",
-                   "test_manager.py")
+                   "test_manager.py", "stage_outcome.py")
 MARKER_PREFIX = "<!-- soodles:local-atom-v1:"
 
 
@@ -1475,12 +1475,15 @@ def advance_interruption(authorization, paths, state, provider, environ):
                 "interruption.hold", "changed", "manual_pending_original_stage")
     if amendment_control(effective, paths, state, "interruption_edit", edit) is None:
         return {"action": "interruption_edit_pending"}
+    owner = issue_execution.read_owner(binding)
+    stage = owner["state"]["orders"][packet["custody"]["order_id"]]["stages"][0]
     require(stage.get("prompt") == prompt, "interruption.prompt", "changed", "edited_prompt_readback")
     if "interruption_release" not in state:
         recovery["release_epoch"] = owner["state"]["mode_epoch"]
         save_json(paths["state"], state)
     if amendment_control(effective, paths, state, "interruption_release", release) is None:
         return {"action": "interruption_release_pending"}
+    owner = issue_execution.read_owner(binding)
     require(owner["state"].get("mode") == "supervised"
             and owner["state"].get("mode_epoch") == recovery["release_epoch"] + 1,
             "interruption.release", "changed", "supervised_release_readback")

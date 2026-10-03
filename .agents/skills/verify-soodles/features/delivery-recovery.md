@@ -103,7 +103,14 @@ manifest 變動當成新的恢復指令。原 session hashes 改變必須拒絕�
 缺少原 object、binding/context/policy 不符或未確認 effect 必須拒絕。
 新 runtime closure 的增減不得重定義歷史 source identity。
 
-完成 worker 接入後，追查原 writer 的 `./stage-outcome` 到其 validator。
-若舊 candidate 的 validator 不接受 recovery_context，保留此 consumer 缺口，
-交回原 admission owner 補足範圍。不要修改未准許的 adapter，也不要宣稱整條恢復完成。
+完成 worker 接入後，驗證 recovery prompt 指定的外部 outcome 入口。
+使用 `"$SOODLES_ADMISSION_LAUNCHER" stage-outcome`，附上原 outcome 或 feedback 參數。
+這個當次機械入口取代舊 candidate 的 `./stage-outcome`，保留原 instruction pins。
+普通 writer 仍使用原入口。若缺少選定入口，向原 admission owner 保留 consumer 缺口。
+
+以 sentinel 經實際 worker adapter 啟動，再合法修改 candidate 並回報 outcome。
+驗證 bundle bytes 變動、foreign successor 和原 session hash 變動時不寫事件。
+驗證 feedback imports 與普通 outcome 仍相容。Sentinel 不呼叫模型。
+在 edit 或 release ack 之後重新讀 owner，核對 prompt 或 mode。
+驗證 ack 到達前後的重入不重送 control、prepare、start 或 dispatch。
 工程 source、fixture 或落地成功，都不是原 Issue 的 publication、landing 或正常使用證據。
