@@ -673,8 +673,91 @@ def postwrite_lifecycle(authorization, state, paths, *, allow_resolved=False):
     return binding, owner
 
 
+def prelanding_lifecycle(authorization_path, authorization, state, paths):
+    """Read one published review before selecting source bytes; issue no effects."""
+    require(state.get("scope_amendment") is not None
+            and scope_packet(authorization, state)["selection"].get("schema") == 2,
+            "lifecycle.resume.scope", "unsupported", "original_typed_revision_context")
+    reference = {"path": str(Path(authorization_path).resolve()),
+                 "sha256": state["authorization_sha256"]}
+    require(not (paths["directory"] / "correction").exists()
+            and not state.get("host_finalization"),
+            "lifecycle.resume.correction", "already_selected", "original_correction_owner_readback")
+    validate_correction_lineage(authorization, reference, state)
+    effective, selected_paths = scope_projection(authorization, state, paths)
+    candidate = {**effective, "issue": {**effective["issue"], "number": state["issue"]["number"]},
+                 "prior_atom": reference, "prior_publication": state["publication"]}
+    prior = verify_prior_atom(candidate)
+    binding = issue_admission.load_external_envelope(selected_paths["envelope"],
+        state["envelope_sha256"], authorization["control_root"])
+    owner = issue_execution.read_owner(binding)
+    base_recovery_completed(binding, owner)
+    claim = read_json(selected_paths["claim"], "publication.claim")
+    source = state.get("publication_source")
+    require(source == {"claim_sha256": atom_repair.digest(claim),
+                      "value": state["publication"], "sha256": atom_repair.digest(state["publication"])},
+            "lifecycle.resume.publication", "changed", "original_publication_owner_readback")
+    try:
+        candidate_publication.validate_claim(Path(claim["worktree_path"]), claim)
+    except candidate_publication.PublicationRefusal as error:
+        raise AtomRefusal(error.invalid["field"], error.invalid["value"],
+                          "original_published_claim") from error
+    publication = state["publication"]
+    lease = effective.get("prior_publication", {}).get("head", "")
+    push_argv = ["git", "push", "--porcelain",
+        "--force-with-lease=refs/heads/" + publication["branch"] + ":" + lease,
+        "https://github.com/" + claim["repository"] + ".git",
+        claim["head"] + ":refs/heads/" + publication["branch"]]
+    receipts = state.get("publication_push_receipts", [])
+    require(isinstance(receipts, list) and all(isinstance(item, dict)
+            and item.get("argv") == push_argv and item.get("cwd") == claim["worktree_path"]
+            and item.get("process") == "completed"
+            and (item.get("exit_status") == 0 or candidate_publication.push_disposition(item) == "rejected")
+            for item in receipts), "lifecycle.resume.push", "unknown", "original_push_process_readback")
+    start = state["noodle_start"]
+    prepared_path = selected_paths["envelope"].parent / "prepared.json"
+    prepared = read_json(prepared_path, "lifecycle.resume.prepared")
+    require(digest_file(prepared_path) == state["admission_sha256"]
+            and prepared.get("envelope_sha256") == state["envelope_sha256"]
+            and prepared.get("next", {}).get("argv") == start["argv"]
+            and digest_file(prepared["start"]) == prepared["start_sha256"]
+            and noodle_process_argv(effective, prepared) == noodle_process_argv(effective, start)
+            and digest_file(selected_paths["envelope"].parent / "noodle.toml") == start["config_sha256"]
+            and host_config_identity(authorization["control_root"]) == (
+                authorization["host_config_sha256"] if prior["prior_loop_status"] == "restored" else start["config_sha256"]),
+            "lifecycle.resume.prepared", "changed", "original_start_bundle_and_configuration")
+    require_available_owner(effective, selected_paths, state)
+    runtime = Path(authorization["control_root"]) / ".noodle"
+    for process in sorted((runtime / "sessions").glob("*/process.json")):
+        issue_execution._absent_process(process.parent, process.parent.name)
+    require(not any(state.get(key) for key in ("base_recovery", "interruption", "correction_start_recovery")),
+            "lifecycle.resume.recovery", "selected", "original_recovery_owner_readback")
+    prefix = state["scope_amendment"].get("ack_prefix")
+    keys = ("scope_request", "scope_edit", "scope_requeue", "scope_release")
+    commands = [state[key] for key in keys if key in state]
+    allowed = {command["id"]: command for command in commands}
+    ack_path = runtime / "control-ack.ndjson"
+    raw = ack_path.read_text() if ack_path.exists() else ""
+    require(isinstance(prefix, str) and raw.startswith(prefix),
+            "lifecycle.resume.control_history", "changed", "original_control_history")
+    acknowledgements = [json.loads(line) for line in raw[len(prefix):].splitlines() if line.strip()]
+    require(len(allowed) == len(commands) == len(keys) == len(acknowledgements)
+            and {ack.get("id") for ack in acknowledgements} == set(allowed)
+            and all(ack.get("action") == allowed[ack["id"]]["action"] and ack.get("status") == "ok"
+                    for ack in acknowledgements),
+            "lifecycle.resume.controls", "unconfirmed", "original_control_ack_readback")
+    mailbox = runtime / "control.ndjson"
+    require((not mailbox.exists() or not mailbox.read_bytes().strip())
+            and not (runtime / "orders-next.json").exists(),
+            "lifecycle.resume.mailbox", "pending", "original_control_and_proposal_readback")
+    require(issue_execution.read_owner(binding) == owner
+            and digest_file(runtime / "state.snapshot.json") == prior["owner_snapshot_sha256"]
+            and read_json(paths["state"], "state") == state,
+            "lifecycle.resume.owner", "changed", "fresh_canonical_checkpoint")
+
+
 def resume(authorization_path, selected_owner, selected_digest, *, environ=None):
-    """Select one immutable runtime for a stopped post-write original atom."""
+    """Select immutable source after original execution, CI or landing custody."""
     environ = os.environ if environ is None else environ
     paths = artifact_paths(authorization_path)
     with Path(authorization_path).open("rb") as auth_lock:
@@ -727,6 +810,17 @@ def resume(authorization_path, selected_owner, selected_digest, *, environ=None)
             if previous is not None:
                 intent["previous"] = previous
             if current.get("lifecycle_owner") != spec:
+                if state.get("phase") == "ci":
+                    with (runtime / "control.lock").open("a+b") as control:
+                        fcntl.flock(control, fcntl.LOCK_EX)
+                        prelanding_lifecycle(authorization_path, authorization, state, paths)
+                        state["lifecycle_resume"] = intent
+                        resumed_lifecycle(authorization, state)
+                        save_json(paths["state"], state)
+                    return {"owner": "soodles.issue-atom", "status": "resumed", "continuation_state": "ready",
+                            "authorizes_landing": False,
+                            "next": {"argv": same_command(authorization_path),
+                                     "environment": {"SOODLES_AUTHORIZATION_SHA256": auth_digest}}}
                 scoped = state.get("scope_amendment") is not None and state.get("phase") == "execution"
                 startup = (not scoped and state.get("phase") == "execution"
                            and {"prior_atom", "failure_context"} <= authorization.keys())
@@ -4582,6 +4676,32 @@ def verify_prior_atom(authorization):
         prompt = json.loads(stage.get("prompt", ""))
     except (TypeError, ValueError):
         prompt = None
+    if prior_state.get("scope_amendment") is not None:
+        packet = scope_packet(prior_auth, prior_state)
+        selection = packet["selection"]
+        if selection.get("schema") == 2:
+            amendment = prior_state["scope_amendment"]
+            revision_path = Path(packet["output"]) / "admission/revision-entry.json"
+            reference = {"path": str(revision_path), "sha256": digest_file(revision_path)}
+            require(isinstance(prompt, dict) and prompt.get("revision_context") == reference,
+                    "amendment.prior_revision.reference", "changed",
+                    "original_scope_revision_entry")
+            old_binding = issue_execution.revision_context(
+                old_binding, reference, prior_state["envelope_sha256"])
+            entry = old_binding["revision_entry"]["context"]
+            attempts = amendment["prior"]["stage"]["attempts"]
+            expected = {"kind": selection["type"],
+                "selection_sha256": amendment["selection"]["sha256"],
+                **{key: selection[key] for key in ("original_envelope", "candidate_head",
+                    "candidate_tree", "target_base", "native_acceptance")},
+                "terminal": amendment["prior"]["blocked"],
+                "prior_attempts": [*attempts[:-1], {**attempts[-1], "status": "failed",
+                    "error": "changes requested: " + selection["reason"].strip()}]}
+            require(all(entry.get(key) == value for key, value in expected.items()),
+                    "amendment.prior_revision.selection", "changed",
+                    "original_scope_revision_entry")
+            require(stage["attempts"][:len(entry["prior_attempts"])] == entry["prior_attempts"],
+                    "amendment.prior_revision.attempts", "changed", "retained_original_attempt_history")
     require(prompt == issue_execution.projection(
         old_binding, prior_state["envelope_sha256"], "supervised"),
         "amendment.prior_prompt", prompt, "original_admitted_task")

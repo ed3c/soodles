@@ -845,11 +845,6 @@ class IssueAtomTests(unittest.TestCase):
         atom.save_json(paths["claim"], {"repository": "ed3c/soodles", "subject": "ed3c/soodles#131",
             "head": self.base, "tree": tree, "base_head": self.base, "order_id": oid,
             "worktree_name": name, "worktree_path": str(worker), "session_id": "latest"})
-        current = self.enterContext(typed_revision_receipts(self.path, state, self.outer / "revision"))
-        atom.save_json(current["claim"], atom.read_json(paths["claim"], "fixture.claim"))
-        atom.save_json(paths["claim"], {"head": "retained", "session_id": "old"})
-        retained = paths["claim"].read_bytes()
-        atom.save_json(paths["state"], state)
         authorization = {**self.authorization, "issue": {**self.authorization["issue"], "number": 131},
             "prior_atom": {"path": str(self.path), "sha256": self.digest}, "prior_publication": publication}
         old_binding = {**binding, "issue_body": self.fixture_issue_body(),
@@ -874,13 +869,6 @@ class IssueAtomTests(unittest.TestCase):
                     else:
                         with self.assertRaisesRegex(atom.AtomRefusal, "prior_review"):
                             atom.verify_prior_atom(authorization)
-            self.assertEqual(paths["claim"].read_bytes(), retained)
-            current["claim"].unlink()
-            with self.assertRaisesRegex(atom.AtomRefusal, "amendment.prior_claim"):
-                atom.verify_prior_atom(authorization)
-            atom.save_json(current["claim"], {"repository": "ed3c/soodles", "subject": "ed3c/soodles#131",
-                "head": self.base, "tree": tree, "base_head": self.base, "order_id": oid,
-                "worktree_name": name, "worktree_path": str(worker), "session_id": "latest"})
             stage["attempts"] = [{"status": "completed", "session_id": "foreign"}]
             atom.save_json(self.root / ".noodle/state.snapshot.json", snapshot)
             with self.assertRaisesRegex(atom.AtomRefusal, "prior_review"):

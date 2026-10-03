@@ -284,3 +284,89 @@ Root 讀回該報告並核對相關 source，沒有未處理 blocker，也不需
 Supervisor 仍負責新 head 的 exact-head CI、publication、landing 和本機 reconciliation。
 接受後，supervisor 才能由原 owners 接續 251 與 248。
 Parent 的完整 CLI、lifecycle cost、owner decision 與 matched decision measurement 仍待完成。
+
+## PR262 的 CI correction
+
+本輪保留失敗 head `e01a70d487da6ed602d164087be35ac41460fbb4`。
+原 run `37144226123` 的 job `111264760366` 在 Test Manager 選取範圍時停止。
+唯一 unresolved path 是 `docs/experiments/publication-receipts/pclass-feedback.json`。
+Unit tests 與 canonical acceptance 尚未執行。
+這個失敗不能否定先前局部測試，也不能證明局部測試涵蓋正常 CI selection。
+
+Source 追蹤顯示該 JSON 是 N-class 摘要，沒有 executable consumer。
+Schema Manager 讀取的是摘要所引用的 selection，而不是摘要本身。
+Test Manager 現在以精確路徑映射空的 module 與 physical scope。
+未知 JSON 仍回傳 `needs_scope`。其他 changed paths 仍選取原 controls。
+這個映射不驗證摘要主張，也不授予 publication 或 landing 權限。
+
+Writer 在原 worktree 整合 exact target
+`bd3223161e58bf0e49f0b5158a734546b0380bc2`。
+Git 無衝突合併 cleanup tests，保留 target 的 integration controls 與本 Issue 的 current claim control。
+既有 source、authorization、judge 與失敗歷史保留。
+
+設計文件末節要求整合固定 correction
+`f1ce19986024d55123a85b2a00414e6d603089a4`。
+Writer 保存 exact patch，再整合 `issue_atom.py` 與 `tests/test_correction_preparation.py`。
+原 `verify_prior_atom` 只重建普通 prompt，因此拒絕合法 typed revision 的兩個 context 欄位。
+修正先驗固定 revision entry、selection 及 canonical attempts 前綴，再比較完整 prompt。
+Changed task、foreign entry、entry tampering 與 attempt history 缺失仍拒絕。
+
+既有 `resume` 也可在已發布的 schema-2 typed revision 停於 CI 時選取 immutable lifecycle bytes。
+Owner 驗證 claim、publication source、原 prepared/config 與 control ACK，然後只保存 selection edge。
+原 correction owner 仍負責後續 writer 與 provider effects。
+獨立 source review 發現固定 patch 額外接受 unscoped CI resume，
+但其 returned run 會進入只接受 postwrite 的 repair consumer。
+本 Issue 不需要新增一般 CI resume。
+Writer 將新增入口限於已採納的 schema-2 typed revision，並加入 mutation 前的拒絕 control。
+這個修正保留原 typed receipt recovery，也保留既有 postwrite 與 correction-start branches。
+固定 patch、發現與縮限紀錄均保存，不把最後 source 宣稱為原 patch 的逐字副本。
+
+初讀大型設計輸出遭截斷，writer 在首輪測試後補讀末節。
+首輪 122 個案例與 78.203 秒 process wall time 保留其原 scope。
+它們涵蓋 selector 與 target cleanup 交集，不作為之後 custody source 的驗證。
+本輪所有詳細證據在
+`/Users/neon/soodles-audits/manager-coverage-loops/issue254-writer/ci-correction-bd3223/`。
+`verify_scope.py` 驗證精確摘要、未知 JSON 拒絕及正常 CI plan。
+`scope-fix.md` 與 `source-review.md` 保存實際 source 與 native 同模型獨立審查。
+無 Comment Sicko wrapper、跨模型比較或完整平台 transcript 主張。
+
+合約新增 typed CI source selection 的條件，並明確限定原 postwrite 段的適用情況。
+初次重用的 P feedback 只涵蓋修改前的 contract bytes。
+保存文字改變後，writer 另走原 stage feedback 的 scoped observations。
+兩份 skill 未修改。原 observations 與 feedback 不覆寫。
+本候選內的 stage adapter 不認得外部 owner 新增的 `ci_correction` entry。
+Writer 使用派發本 session 的固定 launcher 執行 feedback 與 outcome。
+該 launcher 驗證其 manifest、runtime、envelope、session 與 worktree。
+候選沒有因此修改自身 authority 或替換外部 judge。
+
+Supervisor 仍負責此新 head 的 exact-head CI、原 PR262 publication、landing 與本機 reconciliation。
+接受後，supervisor 由原 owners 恢復 251，再接續 248。
+Parent 的完整 CLI、lifecycle cost、owner decision 與 matched decision measurement 仍待完成。
+
+本輪最後驗證涵蓋五個 module 的 180 個不同案例。
+`test_test_suite` 的 13 案與 `test_cleanup_continuation` 的 12 案在首輪通過。
+它們覆蓋的 selector 與 postwrite consumers 隨後未變。
+`test_lifecycle_activation` 的 22 案在 custody 整合輪通過。
+該輪的 correction 與 atom fixtures 失敗，不能把整輪 154 案宣稱為通過。
+兩種 fixture 問題分別是 legacy claim 路徑，以及缺少真實 revision entry。
+Writer 修正 fixture，沒有放寬 product 的 current claim 或 typed context 檢查。
+`test_issue_atom` 的 97 案重驗通過，process wall time 為 69.869 秒。
+`test_correction_preparation` 最後 36 案通過，process wall time 為 71.860 秒。
+先前 35 案通過的中間結果也保留，其 70.113 秒不算新的不同案例。
+失敗的 custody 整合輪耗時 80.180 秒。所有時間只表示各次正常 process wall time。
+不把平行 module 秒數相加，也不據此主張成本或決策改善。
+
+新的真實 typed fixture 確認 current claim 缺失時拒絕，舊 receipt bytes 保持不變。
+正向 resume 隨後呼叫實際 repair consumer，保持原 scope repair authority 且不改 state。
+未使用 scope 或 schema 1 的輸入在 selection mutation 前拒絕。
+`final-ci-plan.json` 對實際指定 base 回傳 `ready`，選出 17 個 module，沒有 physical demand。
+這是後續 CI 的 scope plan，不是這 17 個 module 已全部在本輪執行。
+本輪未跑 full suite、live provider、physical acceptance 或原 251/248。
+
+更新後的 contract 由一個無繼承對話的 native 同模型 consumer 觀察三組 cases。
+三組是原 ready、refusals 與新 typed CI source selection。
+Consumer 的首次 report 多兩個頂層欄位，writer 在送出前要求修正格式。
+原 report 保存為 `report.original.json`，actual output 沒有改變。
+Schema Manager 最終回傳 `VALID`、`SUPPORTED` 與 `PASS`。
+Writer 已重讀 captures 並消費 `consume_verified_behavior`。
+結果保存在 `pclass-current/consumed.json`，只支持指定 consumer reports。

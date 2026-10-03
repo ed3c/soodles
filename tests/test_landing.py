@@ -1,4 +1,6 @@
+import contextlib
 import copy
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -951,6 +953,364 @@ class LandingTests(unittest.TestCase):
         self.assertEqual(landing.read(self.checkpoint)["scope"],
                          "supervised single-Issue cloud landing")
         self.assertNotIn("execution_envelope", landing.read(self.checkpoint)["claim"])
+
+
+class IntegrationReconciliationTests(unittest.TestCase):
+    """Real Git effects with fixture provider and original-order readbacks."""
+
+    def setUp(self):
+        self.fixture = LandingTests()
+        self.fixture.setUp()
+        self.addCleanup(self.fixture.doCleanups)
+        self.primary, self.claim, _, self.base = self.fixture.cloud_control("integration-primary")
+        self.primary = self.primary.resolve()
+        self.directory = Path(self.fixture.temp.name).resolve()
+        self.checkpoint = self.fixture.checkpoint
+        (self.primary / ".git/info/exclude").write_text(".worktrees/\n")
+        self.root = self.directory / "detached-control"
+        self.git(self.primary, "worktree", "add", "--detach", str(self.root), self.base)
+        self.worktree = self.root / ".worktrees" / self.claim["worktree"]
+        self.git(self.root, "worktree", "add", "-b", self.claim["worktree"], str(self.worktree), self.base)
+        (self.worktree / "candidate").write_text("candidate change\n")
+        self.git(self.worktree, "add", "candidate")
+        self.commit(self.worktree, "candidate")
+        self.candidate = self.git(self.worktree, "rev-parse", "HEAD")
+        self.git(self.root, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                 "merge", "--no-ff", "-m", "confirmed provider merge", self.candidate)
+        self.target = self.git(self.root, "rev-parse", "HEAD")
+        self.git(self.root, "update-ref", "refs/remotes/origin/main", self.target)
+        self.claim.update(control_root=str(self.root), head=self.candidate,
+                          tree=self.git(self.worktree, "rev-parse", "HEAD^{tree}"),
+                          execution_envelope={"path": str(self.directory / "envelope.json"), "sha256": "f" * 64})
+        self.state = {"schema": 2, "claim": self.claim, "phase": "reconciling", "classification": None,
+                      "writes_offered": ["merge", "close"], "merge_sha": self.target, "issue_closed_at": "now",
+                      "observations": [{"provider": "retained"}], "prior_verifiers": ["e" * 64]}
+        landing.save(self.checkpoint, self.state)
+        self.binary = str(Path("/bin/true").resolve())
+        self.envelope = {"execution": {"control_root": str(self.root), "order_id": "original-order",
+                         "carrier": {"noodle": {"sha256": "f" * 64}}}}
+        self.events = []
+        self.base_ref = "main"
+
+    def git(self, root, *args):
+        return soodles.checked(["git", *args], root)
+
+    def commit(self, root, message):
+        return self.git(root, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                        "commit", "--allow-empty", "-m", message)
+
+    def complete(self, envelope, owner):
+        self.events.append("completed-and-quiescent")
+        return {"order_id": "original-order"}
+
+    def checked(self, argv, cwd):
+        if argv[0] == self.binary:
+            self.events.append("cleanup")
+            self.assertEqual(argv[1:], ["worktree", "cleanup", self.claim["worktree"]])
+            self.assertEqual(self.git(self.primary, "branch", "--show-current"), self.base_ref)
+            self.assertEqual(self.git(self.primary, "rev-parse", "HEAD"), self.target)
+            self.git(self.root, "merge-base", "--is-ancestor", self.candidate, "refs/heads/" + self.base_ref)
+            self.git(self.root, "worktree", "remove", str(self.worktree))
+            self.git(self.root, "branch", "-d", self.claim["worktree"])
+            return ""
+        if argv[:3] == ["git", "merge", "--ff-only"]:
+            self.events.append(("ff", str(cwd), argv[-1]))
+            self.assertIn("completed-and-quiescent", self.events)
+        return soodles.checked(argv, cwd)
+
+    @contextlib.contextmanager
+    def owners(self, *, checked=None, completion=None):
+        with patch("landing.execution_binding", return_value=self.envelope), \
+                patch("landing.fetch_main") as fetch, \
+                patch("issue_execution.validate_carrier", return_value={"noodle": self.binary}), \
+                patch("issue_execution.read_owner", return_value={}), \
+                patch("issue_execution.completed_original_order", side_effect=completion or self.complete), \
+                patch("landing.checked", side_effect=checked or self.checked):
+            yield fetch
+
+    def observe(self):
+        return {"heads": {str(root): self.git(root, "rev-parse", "HEAD", "HEAD^{tree}")
+                          for root in (self.primary, self.root, self.worktree)},
+                "primary_branch": self.git(self.primary, "branch", "--show-current"),
+                "refs": self.git(self.root, "show-ref"),
+                "files": {str(path): path.read_bytes() for root in (self.primary, self.root, self.worktree)
+                          for path in root.iterdir() if path.is_file() and path.name != ".git"}}
+
+    def reconcile(self):
+        return landing.reconcile(self.checkpoint, self.binary)
+
+    def test_detached_target_advances_primary_before_real_cleanup_guard(self):
+        self.assertEqual(self.git(self.primary, "rev-parse", "HEAD"), self.base)
+        self.assertEqual(self.git(self.root, "rev-parse", "HEAD"), self.target)
+        self.assertEqual(len(self.git(self.root, "rev-list", "--parents", "-n", "1", self.target).split()), 3)
+        before_branch = self.git(self.primary, "symbolic-ref", "HEAD")
+        before_common = self.git(self.primary, "rev-parse", "--path-format=absolute", "--git-common-dir")
+        with self.owners() as fetch:
+            result = self.reconcile()
+        fetch.assert_called_once_with(self.root)
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertEqual(self.git(self.primary, "symbolic-ref", "HEAD"), before_branch)
+        self.assertEqual(self.git(self.primary, "rev-parse", "--path-format=absolute", "--git-common-dir"), before_common)
+        self.assertEqual(self.git(self.root, "branch", "--show-current"), "")
+        self.assertEqual([event for event in self.events if isinstance(event, tuple)],
+                         [("ff", str(self.primary), self.target)])
+        self.assertLess(self.events.index("completed-and-quiescent"), self.events.index("cleanup"))
+        self.assertEqual(result["integration_sync"]["status"], "confirmed")
+        self.assertEqual(result["observations"], self.state["observations"])
+        self.assertEqual(result["prior_verifiers"], self.state["prior_verifiers"])
+        self.assertEqual(result["writes_offered"], ["merge", "close"])
+        self.assertFalse(self.worktree.exists())
+
+    def test_already_target_is_noop_before_cleanup(self):
+        self.git(self.primary, "merge", "--ff-only", self.target)
+        with self.owners():
+            self.assertEqual(self.reconcile()["classification"], "RESOLVED")
+        self.assertFalse(any(isinstance(event, tuple) for event in self.events))
+        self.assertEqual(self.events.count("cleanup"), 1)
+
+    def test_control_itself_on_integration_branch_uses_one_fast_forward(self):
+        old_worktree = self.worktree
+        self.root = self.primary
+        self.worktree = self.primary / ".worktrees" / self.claim["worktree"]
+        self.worktree.parent.mkdir()
+        self.git(self.primary, "worktree", "move", str(old_worktree), str(self.worktree))
+        self.claim["control_root"] = str(self.primary)
+        self.envelope["execution"]["control_root"] = str(self.primary)
+        landing.save(self.checkpoint, self.state)
+        with self.owners():
+            self.assertEqual(self.reconcile()["classification"], "RESOLVED")
+        self.assertEqual([event for event in self.events if isinstance(event, tuple)],
+                         [("ff", str(self.primary), self.target)])
+
+    def test_generic_base_ref_uses_bound_fetch_and_cleanup_branch(self):
+        self.base_ref = "trunk"
+        self.git(self.primary, "branch", "-m", "main", "trunk")
+        self.git(self.primary, "update-ref", "refs/remotes/origin/trunk", self.target)
+        self.git(self.primary, "symbolic-ref", "refs/remotes/origin/HEAD", "refs/remotes/origin/trunk")
+        binding = self.directory / "binding.json"
+        landing.save(binding, {"schema": 1, "repository": self.claim["repository"], "base_ref": "trunk",
+                     "workflow_path": ".github/workflows/runtime.yml", "jobs": {"runtime": ["accept"]},
+                     "verification": {}})
+        self.claim["target_binding"] = {"path": str(binding), "sha256": hashlib.sha256(binding.read_bytes()).hexdigest()}
+        landing.save(self.checkpoint, self.state)
+        with self.owners() as fetch:
+            result = self.reconcile()
+        fetch.assert_called_once_with(self.root, "trunk")
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertEqual(result["integration_sync"]["integration_ref"], "refs/heads/trunk")
+
+    def test_incomplete_order_or_active_sessions_make_no_git_or_cleanup_effect(self):
+        self.git(self.root, "checkout", "--detach", self.base)
+        for condition in ("order_not_completed", "sessions_not_quiescent"):
+            with self.subTest(condition=condition):
+                before = self.observe()
+                with self.owners(completion=landing.LandingRefusal(condition, "fixture")):
+                    result = self.reconcile()
+                self.assertEqual(result["action"], "noodle_reconcile")
+                self.assertEqual(self.observe(), before)
+                self.assertEqual(self.events, [])
+                self.assertNotIn("integration_sync", landing.read(self.checkpoint))
+
+    def test_dirty_primary_preserves_tracked_and_untracked_bytes(self):
+        for name in ("file", "untracked"):
+            with self.subTest(name=name):
+                target = self.primary / name
+                original = target.read_bytes() if target.exists() else None
+                target.write_bytes(b"user bytes must survive\n")
+                before = self.observe()
+                with self.owners(), self.assertRaises(soodles.Refusal):
+                    self.reconcile()
+                self.assertEqual(self.observe(), before)
+                self.assertNotIn("cleanup", self.events)
+                if original is None:
+                    target.unlink()
+                else:
+                    target.write_bytes(original)
+
+    def test_foreign_origin_refuses_without_effect(self):
+        self.git(self.primary, "remote", "set-url", "origin", "https://github.com/foreign/repository.git")
+        before = self.observe()
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "origin"):
+            self.reconcile()
+        self.assertEqual(self.observe(), before)
+        self.assertEqual(self.events, [])
+
+    def test_diverged_primary_and_missing_confirmed_merge_refuse_without_effect(self):
+        self.commit(self.primary, "independent primary change")
+        before = self.observe()
+        with self.owners(), self.assertRaises(landing.LandingRefusal) as diverged:
+            self.reconcile()
+        self.assertEqual(diverged.exception.invalid["field"], "integration_sync.ancestry")
+        self.assertEqual(self.observe(), before)
+        self.assertNotIn("cleanup", self.events)
+        self.state["merge_sha"] = self.git(self.primary, "rev-parse", "HEAD")
+        landing.save(self.checkpoint, self.state)
+        with self.owners(), self.assertRaises(landing.LandingRefusal) as missing_merge:
+            self.reconcile()
+        self.assertEqual(missing_merge.exception.invalid["field"], "reconcile.merge_ancestry")
+        self.assertEqual(self.observe(), before)
+        self.assertNotIn("cleanup", self.events)
+        self.assertFalse(any(isinstance(event, tuple) for event in self.events))
+
+    def test_unknown_intent_at_before_head_never_reissues_fast_forward(self):
+        def interrupted(argv, cwd):
+            if argv[:3] == ["git", "merge", "--ff-only"] and Path(cwd) == self.primary:
+                intent = landing.read(self.checkpoint)["integration_sync"]
+                self.assertEqual(intent["status"], "intent")
+                self.assertEqual(intent["before_head"], self.base)
+                self.assertEqual(intent["target_head"], self.target)
+                self.assertNotIn("process_result", intent)
+                raise RuntimeError("lost dispatch acknowledgement")
+            return self.checked(argv, cwd)
+        with self.owners(checked=interrupted), self.assertRaisesRegex(RuntimeError, "lost dispatch"):
+            self.reconcile()
+        before = self.observe()
+        saved = landing.read(self.checkpoint)["integration_sync"]
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "integration_sync.outcome") as caught:
+            self.reconcile()
+        self.assertEqual(caught.exception.next_action["required"], ["material_integration_sync_readback_without_retry"])
+        self.assertEqual(self.observe(), before)
+        self.assertEqual(landing.read(self.checkpoint)["integration_sync"], saved)
+        self.assertNotIn("cleanup", self.events)
+        self.assertFalse(any(isinstance(event, tuple) for event in self.events))
+
+    def test_lost_success_acknowledgement_confirms_readback_without_repeating_effect(self):
+        def lost_ack(argv, cwd):
+            output = self.checked(argv, cwd)
+            if argv[:3] == ["git", "merge", "--ff-only"] and Path(cwd) == self.primary:
+                raise RuntimeError("success acknowledgement lost")
+            return output
+        with self.owners(checked=lost_ack), self.assertRaisesRegex(RuntimeError, "acknowledgement lost"):
+            self.reconcile()
+        self.assertEqual(landing.read(self.checkpoint)["integration_sync"]["status"], "intent")
+        with self.owners():
+            result = self.reconcile()
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertEqual(result["integration_sync"]["status"], "confirmed")
+        self.assertEqual(result["integration_sync"]["confirmation"], "observed")
+        self.assertEqual(len([event for event in self.events if isinstance(event, tuple)]), 1)
+        self.assertEqual(result["observations"], self.state["observations"])
+
+    def test_missing_ambiguous_locked_or_wrong_branch_registry_refuses_without_effect(self):
+        actual = self.git(self.root, "worktree", "list", "--porcelain", "-z")
+        blocks = actual.split("\0\0")
+        selected = next(block for block in blocks if "branch refs/heads/main" in block)
+        cases = {
+            "missing": actual.replace(selected + "\0\0", ""),
+            "ambiguous": actual + "\0\0" + selected,
+            "locked": actual.replace(selected, selected + "\0locked fixture"),
+            "wrong_branch": actual.replace("worktree " + str(self.primary), "worktree " + str(self.worktree))
+                .replace("worktree " + str(self.worktree) + "\0HEAD " + self.candidate,
+                         "worktree " + str(self.directory / "unused") + "\0HEAD " + self.candidate),
+        }
+        expected = {"missing": "integration_sync.registration", "ambiguous": "integration_sync.registration",
+                    "locked": "integration_sync.registration_locked", "wrong_branch": "integration_sync.branch"}
+        for name, registry in cases.items():
+            with self.subTest(name=name):
+                def planted(argv, cwd):
+                    if argv == ["git", "worktree", "list", "--porcelain", "-z"]:
+                        return registry
+                    return self.checked(argv, cwd)
+                before = self.observe()
+                with self.owners(checked=planted), self.assertRaisesRegex(landing.LandingRefusal, expected[name]):
+                    self.reconcile()
+                self.assertEqual(self.observe(), before)
+                self.assertNotIn("cleanup", self.events)
+                self.assertFalse(any(isinstance(event, tuple) for event in self.events))
+
+    def test_foreign_common_directory_registry_refuses_without_effect(self):
+        foreign, _, _, foreign_head = self.fixture.cloud_control("foreign-common-dir")
+        foreign = foreign.resolve()
+        def planted(argv, cwd):
+            if argv == ["git", "worktree", "list", "--porcelain", "-z"]:
+                return "worktree " + str(foreign) + "\0HEAD " + foreign_head + "\0branch refs/heads/main\0\0"
+            return self.checked(argv, cwd)
+        before = self.observe()
+        foreign_before = soodles.source_identity(foreign)
+        with self.owners(checked=planted), self.assertRaisesRegex(landing.LandingRefusal, "integration_sync.common_dir"):
+            self.reconcile()
+        self.assertEqual(self.observe(), before)
+        self.assertEqual(soodles.source_identity(foreign), foreign_before)
+        self.assertNotIn("cleanup", self.events)
+
+    def test_saved_intent_rejects_changed_checkout_and_preserves_history(self):
+        def stop(argv, cwd):
+            if argv[:3] == ["git", "merge", "--ff-only"]:
+                raise RuntimeError("intent saved")
+            return self.checked(argv, cwd)
+        with self.owners(checked=stop), self.assertRaisesRegex(RuntimeError, "intent saved"):
+            self.reconcile()
+        saved = landing.read(self.checkpoint)
+        (self.primary / "untracked").write_text("new owner bytes\n")
+        before = self.observe()
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "integration_sync.residue"):
+            self.reconcile()
+        self.assertEqual(self.observe(), before)
+        self.assertEqual(landing.read(self.checkpoint)["integration_sync"], saved["integration_sync"])
+        (self.primary / "untracked").unlink()
+        changed = copy.deepcopy(saved)
+        changed["integration_sync"]["checkout"] = str(self.directory / "different-checkout")
+        landing.save(self.checkpoint, changed)
+        before = self.observe()
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "integration_sync.intent"):
+            self.reconcile()
+        self.assertEqual(self.observe(), before)
+        self.assertEqual(landing.read(self.checkpoint)["integration_sync"], changed["integration_sync"])
+        self.assertNotIn("cleanup", self.events)
+
+    def test_missing_provider_confirmation_refuses_before_local_effect(self):
+        for field in ("issue_closed_at", "writes_offered"):
+            with self.subTest(field=field):
+                changed = copy.deepcopy(self.state)
+                changed.pop(field)
+                landing.save(self.checkpoint, changed)
+                before = self.observe()
+                with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "reconcile.provider_confirmation"):
+                    self.reconcile()
+                self.assertEqual(self.observe(), before)
+                self.assertNotIn("cleanup", self.events)
+                self.assertFalse(any(isinstance(event, tuple) for event in self.events))
+
+    def test_immutable_binding_bytes_drift_refuses_saved_intent_without_effect(self):
+        binding = self.directory / "binding.json"
+        landing.save(binding, {"schema": 1, "repository": self.claim["repository"], "base_ref": "main",
+                     "workflow_path": ".github/workflows/runtime.yml", "jobs": {"runtime": ["accept"]},
+                     "verification": {}})
+        self.claim["target_binding"] = {"path": str(binding), "sha256": hashlib.sha256(binding.read_bytes()).hexdigest()}
+        landing.save(self.checkpoint, self.state)
+        def stop(argv, cwd):
+            if argv[:3] == ["git", "merge", "--ff-only"]:
+                raise RuntimeError("intent saved")
+            return self.checked(argv, cwd)
+        with self.owners(checked=stop), self.assertRaisesRegex(RuntimeError, "intent saved"):
+            self.reconcile()
+        checkpoint_bytes = self.checkpoint.read_bytes()
+        binding.write_text("{}\n")
+        before = self.observe()
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "binding.sha256"):
+            self.reconcile()
+        self.assertEqual(self.observe(), before)
+        self.assertEqual(self.checkpoint.read_bytes(), checkpoint_bytes)
+        self.assertEqual(binding.read_text(), "{}\n")
+        self.assertNotIn("cleanup", self.events)
+
+    def test_saved_intent_rejects_fetched_target_or_identity_drift(self):
+        def stop(argv, cwd):
+            if argv[:3] == ["git", "merge", "--ff-only"]:
+                raise RuntimeError("intent saved")
+            return self.checked(argv, cwd)
+        with self.owners(checked=stop), self.assertRaisesRegex(RuntimeError, "intent saved"):
+            self.reconcile()
+        saved = landing.read(self.checkpoint)
+        self.commit(self.root, "later remote target")
+        later = self.git(self.root, "rev-parse", "HEAD")
+        self.git(self.root, "update-ref", "refs/remotes/origin/main", later)
+        before = self.observe()
+        with self.owners(), self.assertRaisesRegex(landing.LandingRefusal, "integration_sync.intent"):
+            self.reconcile()
+        self.assertEqual(self.observe(), before)
+        self.assertEqual(landing.read(self.checkpoint)["integration_sync"], saved["integration_sync"])
+        self.assertNotIn("cleanup", self.events)
 
 
 class BoundLandingTests(unittest.TestCase):

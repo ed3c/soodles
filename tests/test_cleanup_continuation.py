@@ -57,50 +57,64 @@ class CleanupIntegrationTests(unittest.TestCase):
         with self.assertRaisesRegex(landing.LandingRefusal, "cleanup.integration_ref"):
             landing.cleanup_integration(self.root, "main")
 
-    def test_reconcile_reoffers_only_after_actual_integration_input_advances(self):
-        merged = self.advance_main()
-        # Detached control and remote already advanced while the local main ref lagged.
-        self.git("update-ref", "refs/heads/main", self.base)
-        self.git("update-ref", "refs/remotes/origin/main", merged)
-        soodles.checked(["git", "merge", "--ff-only", merged], self.root)
-        self.claim.update(control_root=str(self.root), base_head=self.base, head=merged,
-                          tree=self.git("rev-parse", merged + "^{tree}"))
-        worktree = self.root / ".worktrees" / self.claim["worktree"]
-        soodles.checked(["git", "worktree", "add", "-b", self.claim["worktree"], str(worktree), merged], self.root)
-        self.claim["execution_envelope"] = {"path": str(self.root.parent / "envelope"), "sha256": "f" * 64}
-        checkpoint = self.fixture.checkpoint
-        landing.save(checkpoint, {"schema": 2, "claim": self.claim, "phase": "reconciling",
-                     "writes_offered": ["merge", "close"], "merge_sha": merged, "issue_closed_at": "now"})
-        binary = str(Path("/bin/true").resolve())
-        envelope = {"execution": {"carrier": {"noodle": {"sha256": "f" * 64}}, "order_id": "original"}}
-        original = landing.checked
+    def reconciliation_fixture(self):
+        fixture = landing_tests.IntegrationReconciliationTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        return fixture
+
+    def test_cleanup_refusal_is_not_reoffered_without_material_readback(self):
+        fixture = self.reconciliation_fixture()
         calls = []
-        def cleanup(argv, cwd):
-            if argv[0] == binary:
+        def refuse(argv, cwd):
+            if argv[0] == fixture.binary:
                 calls.append(argv)
-                if len(calls) == 1:
-                    raise soodles.Refusal("fixture unmerged local main")
-                original(["git", "worktree", "remove", str(worktree)], self.root)
-                original(["git", "branch", "-d", self.claim["worktree"]], self.root)
-                return ""
-            return original(argv, cwd)
-        with patch("landing.execution_binding", return_value=envelope), patch("landing.fetch_main"), \
-                patch("issue_execution.validate_carrier", return_value={"noodle": binary}), \
-                patch("issue_execution.read_owner", return_value={}), \
-                patch("issue_execution.completed_original_order", return_value={"order_id": "original"}), \
-                patch("landing.checked", side_effect=cleanup):
-            with self.assertRaisesRegex(soodles.Refusal, "fixture unmerged"):
-                landing.reconcile(checkpoint, binary)
-            intent = landing.read(checkpoint)["cleanup_intent"]
+                raise soodles.Refusal("fixture cleanup response unavailable")
+            return fixture.checked(argv, cwd)
+        with fixture.owners(checked=refuse):
+            with self.assertRaisesRegex(soodles.Refusal, "cleanup response unavailable"):
+                fixture.reconcile()
+            intent = landing.read(fixture.checkpoint)["cleanup_intent"]
+            self.assertEqual(intent["main_head"], fixture.target)
             with self.assertRaisesRegex(landing.LandingRefusal, "cleanup.observation"):
-                landing.reconcile(checkpoint, binary)
-            self.assertEqual(len(calls), 1)
-            self.git("update-ref", "refs/heads/main", merged)
-            result = landing.reconcile(checkpoint, binary)
-        self.assertEqual(len(calls), 2)
+                fixture.reconcile()
+        self.assertEqual(len(calls), 1)
+        self.assertTrue(fixture.worktree.exists())
+        self.assertEqual(landing.read(fixture.checkpoint)["cleanup_intent"], intent)
+
+    def test_cleanup_ref_lock_release_preserves_integration_intent_and_then_cleans(self):
+        fixture = self.reconciliation_fixture()
+        lock = Path(fixture.git(fixture.root, "rev-parse", "--path-format=absolute", "--git-path",
+                               "refs/heads/" + fixture.claim["worktree"] + ".lock"))
+        lock.write_text("another owner holds the ref\n")
+        with fixture.owners():
+            with self.assertRaisesRegex(landing.LandingRefusal, "cleanup.ref_lock"):
+                fixture.reconcile()
+            self.assertEqual(lock.read_text(), "another owner holds the ref\n")
+            self.assertNotIn("cleanup", fixture.events)
+            previous = landing.read(fixture.checkpoint)
+            lock.unlink()
+            result = fixture.reconcile()
         self.assertEqual(result["classification"], "RESOLVED")
-        self.assertEqual(result["writes_offered"], ["merge", "close"])
-        self.assertEqual(intent["control_head"], result["cleanup_intent"]["control_head"])
+        self.assertEqual(result["integration_sync"], previous["integration_sync"])
+        self.assertEqual(fixture.events.count("cleanup"), 1)
+
+    def test_actual_unmerged_candidate_guard_still_refuses_after_integration_sync(self):
+        fixture = self.reconciliation_fixture()
+        fixture.commit(fixture.worktree, "candidate not included in provider merge")
+        fixture.candidate = fixture.git(fixture.worktree, "rev-parse", "HEAD")
+        fixture.claim.update(head=fixture.candidate,
+                             tree=fixture.git(fixture.worktree, "rev-parse", "HEAD^{tree}"))
+        landing.save(fixture.checkpoint, fixture.state)
+        with fixture.owners():
+            with self.assertRaises(soodles.Refusal):
+                fixture.reconcile()
+            self.assertEqual(fixture.git(fixture.primary, "rev-parse", "HEAD"), fixture.target)
+            self.assertTrue(fixture.worktree.exists())
+            self.assertEqual(fixture.git(fixture.worktree, "rev-parse", "HEAD"), fixture.candidate)
+            with self.assertRaisesRegex(landing.LandingRefusal, "cleanup.observation"):
+                fixture.reconcile()
+        self.assertEqual(fixture.events.count("cleanup"), 1)
 
 
 class PostwritePublisherTests(unittest.TestCase):

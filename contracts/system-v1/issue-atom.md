@@ -221,6 +221,21 @@ cause reassessment within the same task. Missing evidence and repeated readback
 do not consume attempts. Cycles, scope changes, repeated heads, and unknown
 ancestor effects refuse. External nonautomatic lineage cannot reset this history.
 
+已發布的 schema-2 typed revision candidate 停在 `phase=ci` 時，
+supervisor 可透過既有
+`issue-atom resume AUTH DESCRIPTOR SHA256` 選定 immutable lifecycle bytes。
+這讓原 correction producer 使用修正後的讀取邏輯，保留原 Issue 與 PR。
+Owner 要求原 completed review、quiescent writer sessions、exact claim 與
+publication source、prepared bundle、config 及完整 control ACK history。
+Owner 要求已採納的 schema-2 scope amendment，先驗固定 revision entry 與
+canonical attempts 前綴，再比對包含 revision context 的完整 prompt。
+已有 correction output、landing、host finalization 或未知 effect 時，
+owner 拒絕選取，保留原 owner 的 readback 義務。
+通過後，owner 只保存 lifecycle selection edge，回傳原 `run` continuation。
+它保留 authorization、receipt history、prompt、carrier、external judge 和 repair budget。
+原 correction owner 負責後續停止 parked loop、啟動 successor 與更新原 PR。
+這個 CI 階段的 source selection 先於 merge 與 closure，沒有 provider effect。
+
 The producer pins the exact failed run, jobs, and steps as `failure_context`.
 It saves the raw diagnostic log in the immutable external preparation output.
 The context carries the log path, SHA-256, and byte size. The writer reads needed
@@ -361,8 +376,9 @@ the integration head nor a cleanup retry trigger. Unchanged cleanup inputs
 cause refusal. Existing exact ancestry, clean tree, candidate, lock release,
 unknown outcome, and no-op discriminators remain in force.
 
+For a stopped original post-write checkpoint,
 `issue-atom resume AUTH DESCRIPTOR SHA256` admits one externally selected
-immutable lifecycle bundle to a stopped original post-write checkpoint.
+immutable lifecycle bundle.
 It requires the original authorization digest, exact native claim, envelope,
 and order, confirmed landing merge and closure, quiescent sessions, and free
 authorization, atom, and native locks. Only the exact native idle schedule shape
