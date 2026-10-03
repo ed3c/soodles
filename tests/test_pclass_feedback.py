@@ -50,6 +50,9 @@ class PclassFeedbackTests(unittest.TestCase):
         self.assertFalse(result["authorizes_landing"])
         self.assertEqual(result["effects"], [])
         self.assertIsNone(result["test_demand"])
+        self.assertIsNone(result["next"]["argv"])
+        if result["next"]["operation"] != "supply_behavior_evidence":
+            self.assertIsNone(result["next"]["input"])
         return run.returncode, result
 
     def test_feedback_routes_pass_and_real_behavior_failure(self):
@@ -69,10 +72,19 @@ class PclassFeedbackTests(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertEqual(result["evidence_validity"], "INCONCLUSIVE")
         self.assertIsNone(result["behavior"])
+        self.assertEqual(result["next"]["operation"], "supply_behavior_evidence")
+        supplied = result["next"]["input"]
+        self.assertEqual(supplied["selection"], {"schema": 1, "protocol": self.protocol,
+                                                "observations": []})
+        self.assertEqual(supplied["requests"], [{
+            "case_id": "missing", "input": self.input,
+            "report_identity": {key: value for key, value in self.report.items() if key != "output"},
+            "required_output_fields": ["complete"]}])
         self.report["output"] = {}
         code, result = self.cli(self.select())
         self.assertEqual(code, 2)
         self.assertIn("missing.output.complete", result["next"]["required"])
+        self.assertEqual(result["next"]["input"]["selection"]["observations"], [])
 
     def test_invalid_identity_and_modified_bytes_cannot_be_scored(self):
         self.report["input_sha256"] = "f" * 64
@@ -80,6 +92,7 @@ class PclassFeedbackTests(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertEqual(result["evidence_validity"], "INVALID")
         self.assertIsNone(result["behavior"])
+        self.assertEqual(result["next"]["required"], ["report.identity"])
         self.report["input_sha256"] = self.input["sha256"]
         selection = self.select()
         Path(self.instruction["path"]).write_text("Changed instructions")
@@ -109,4 +122,9 @@ class PclassFeedbackTests(unittest.TestCase):
         run = subprocess.run([str(ROOT / "soodles"), "schema", "pclass-feedback", "--unknown"],
                              capture_output=True, text=True)
         self.assertEqual(run.returncode, 2)
-        self.assertEqual(json.loads(run.stdout)["problem"]["field"], "arguments")
+        malformed = json.loads(run.stdout)
+        self.assertEqual(malformed["problem"]["field"], "arguments")
+        self.assertEqual(malformed["next"]["operation"], "supply_bound_evidence")
+        self.assertEqual(malformed["next"]["required"], ["valid_arguments"])
+        self.assertIsNone(malformed["next"]["argv"])
+        self.assertIsNone(malformed["next"]["input"])

@@ -273,26 +273,92 @@ def project_cost(facts, gate=None, *, review=None):
             "authorizes_landing": False, "effects": [], "test_demand": None}
 
 
+def owner_transition(result):
+    state = result.get("continuation_state")
+    next_action = result.get("next")
+    action = next_action if isinstance(next_action, dict) else {}
+    required = action.get("required", [])
+    gaps = []
+    if state not in ("ready", "waiting", "input_required", "complete", "unknown"):
+        gaps.append("continuation_state: missing or invalid owner declaration")
+    if not isinstance(result.get("owner"), str) or not result["owner"]:
+        gaps.append("owner: missing transition owner")
+    if state == "complete":
+        if result.get("status") != "resolved" or "next" not in result or next_action is not None:
+            gaps.append("complete: requires status=resolved and next=null")
+        if result.get("waiting_on") is not None:
+            gaps.append("waiting_on: conflicts with complete")
+    elif state in ("ready", "waiting", "input_required"):
+        if not isinstance(next_action, dict) or not next_action:
+            gaps.append("next: requires the original owner continuation")
+        if not isinstance(required, list) or any(not isinstance(item, str) or not item for item in required):
+            gaps.append("next.required: requires a list of named prerequisites")
+        if "owner" in action and (not isinstance(action["owner"], str) or not action["owner"]):
+            gaps.append("next.owner: requires a named owner")
+        if state == "ready":
+            if result.get("status") not in ("refused", "resumed", "prepared"):
+                gaps.append("status: inconsistent with ready continuation")
+            if required:
+                gaps.append("next.required: ready continuation has unmet prerequisites")
+            if result.get("waiting_on") is not None:
+                gaps.append("waiting_on: conflicts with ready")
+            if "kind" in action and action["kind"] != "executable":
+                gaps.append("next.kind: ready continuation must be executable")
+            argv = action.get("argv")
+            if not isinstance(argv, list) or not argv or not argv[0] or any(
+                    not isinstance(arg, str) or "\0" in arg for arg in argv):
+                gaps.append("next.argv: requires a nonempty executable and string arguments without NUL")
+            environment = action.get("environment", {})
+            if not isinstance(environment, dict) or any(
+                    not isinstance(key, str) or not key or "=" in key or "\0" in key
+                    or not isinstance(value, str) or "\0" in value
+                    for key, value in environment.items()):
+                gaps.append("next.environment: requires valid string names and string values without NUL")
+        else:
+            if result.get("status") != ("pending" if state == "waiting" else "refused"):
+                gaps.append("status: inconsistent with " + state)
+            if not required:
+                gaps.append("next.required: missing wait condition or owner input")
+            if state == "waiting" and action.get("kind") != "executable":
+                gaps.append("next.kind: waiting must retain its executable continuation")
+            if state == "input_required" and not action.get("owner"):
+                gaps.append("next.owner: missing input owner")
+            if state == "input_required" and action.get("kind") != "input":
+                gaps.append("next.kind: input_required must name an input")
+            if "waiting_on" in result and (
+                    state != "waiting" or not isinstance(result["waiting_on"], str) or not result["waiting_on"]):
+                gaps.append("waiting_on: inconsistent with " + state)
+    if state == "unknown":
+        gaps.append("continuation_state: owner has not established continuation readiness")
+    return {"status": "unknown" if gaps else state, "owner": result.get("owner"),
+            "continuation_owner": action.get("owner"), "requires": required,
+            "waiting_on": result.get("waiting_on"), "gaps": gaps}
+
+
 def project_owner_feedback(result):
     """Bind cost findings to the current owner's continuation, without effects."""
     started = time.perf_counter()
     cost = result.get("cost") or {}
     review = (cost.get("schema_projection") or {}).get("review")
-    terminal = result.get("status") == "resolved"
-    next_action = result.get("next")
+    transition = owner_transition(result)
+    legacy_terminal = ("continuation_state" not in result and result.get("status") == "resolved"
+                       and "next" in result and result["next"] is None)
+    dispositions = {"ready": "consume_current_owner_next", "waiting": "wait_for_owner_change",
+                    "input_required": "supply_owner_input", "complete": "history_retained",
+                    "unknown": "owner_readback_required"}
     return {"owner": "schema-manager", "state": result.get("status"),
             "phase": result.get("phase"), "transition_owner": result.get("owner"),
-            "next": next_action, "cost_review": review,
-            "review_disposition": "history_retained" if terminal else
-                "consume_current_owner_next" if next_action else "owner_readback_required",
+            "next": result.get("next"), "cost_review": review,
+            "review_disposition": "history_retained" if legacy_terminal else dispositions[transition["status"]],
             "dag": {
                 "cost_review": {"status": "observed" if review else "unknown",
                                 "requires": ["normal_execution_logs", "test_manager_review"]},
-                "owner_transition": {"status": "complete" if terminal else
-                    "available" if next_action else "unknown", "requires": ["current_owner_readback"]},
+                "owner_transition": transition,
                 "effectiveness": {"status": "unknown", "requires": ["task_selected_normal_use_evidence"]}},
             "limits": ["Historical failures do not prove a current defect.",
-                       "Owner resolution does not prove all requested outcomes or reduced cost."],
+                       "Owner resolution does not prove all requested outcomes or reduced cost.",
+                       "Ready permits invoking the original continuation, not its effects.",
+                       "Unknown projection does not invalidate the original owner response."],
             "elapsed_ms": (time.perf_counter() - started) * 1000,
             "effects": [], "test_demand": None, "authorizes_landing": False}
 
@@ -350,6 +416,19 @@ def feedback_bytes(ref, field):
         raise FeedbackRefusal(field, str(error)) from error
     feedback_require(hashlib.sha256(raw).hexdigest() == ref["sha256"], field, "file digest mismatch")
     return raw
+
+
+def feedback_input(selection, selected, instructions, cases):
+    passed = {case["id"] for case in cases if case["status"] == "passed"}
+    draft = {**selection, "observations": [item for item in selection["observations"]
+                                          if item["case_id"] in passed]}
+    requests = [{"case_id": name, "input": case["input"],
+                 "report_identity": {"schema": 1, "case_id": name,
+                                     "instructions": instructions,
+                                     "input_sha256": case["input"]["sha256"]},
+                 "required_output_fields": list(case["expected"])}
+                for name, case in selected.items() if name not in passed]
+    return {"selection": draft, "requests": requests}
 
 
 def pclass_feedback(selection_path, expected_sha256):
@@ -426,7 +505,7 @@ def pclass_feedback(selection_path, expected_sha256):
             if result["criteria"]["status"] != "SUPPORTED":
                 result.update(evidence_validity="VALID", status="criteria_pending",
                     next={"owner": "review-writing", "operation": "review_criteria",
-                          "required": result["criteria"]["required"]})
+                          "required": result["criteria"]["required"], "argv": None, "input": None})
                 result["dag"]["criteria"] = {"status": "unknown", "requires": ["requirements", "criteria_review"]}
                 result["dag"]["feedback"] = {"status": "unknown", "requires": ["criteria"]}
                 result["elapsed_ms"] = (time.perf_counter() - started) * 1000
@@ -473,7 +552,9 @@ def pclass_feedback(selection_path, expected_sha256):
             result["behavior"] = {"classification": "FAIL" if failed else "PASS", "barriers": failed}
         operation = "supply_behavior_evidence" if missing else "correct_pclass" if failed else "consume_verified_behavior"
         result["next"] = {"owner": "evals" if missing else "review-writing" if failed else "task-owner",
-                          "operation": operation, "required": missing or failed}
+                          "operation": operation, "required": missing or failed, "argv": None,
+                          "input": feedback_input(selection, selected, instructions, result["cases"])
+                              if missing else None}
         result["dag"]["feedback"] = {"status": "unknown" if missing else "failed" if failed else "ready",
                                       "requires": ["case:" + name for name in selected]}
         result["projection_ms"] = (time.perf_counter() - projection_started) * 1000
@@ -482,7 +563,7 @@ def pclass_feedback(selection_path, expected_sha256):
         result["behavior"] = None
         result["problem"] = {"field": error.field, "reason": error.reason}
         result["next"] = {"owner": "supervisor", "operation": "supply_bound_evidence",
-                          "required": [error.field]}
+                          "required": [error.field], "argv": None, "input": None}
         result["dag"]["feedback"] = {"status": "unknown" if error.validity == "INCONCLUSIVE" else "invalid",
                                       "requires": [error.field]}
     result["status"] = ("inconclusive" if result["evidence_validity"] == "INCONCLUSIVE" else
@@ -492,13 +573,35 @@ def pclass_feedback(selection_path, expected_sha256):
     return result
 
 
+def project_feedback_scope(result, scope, reusable_observations):
+    """Expose the manager's evidence plan without treating reuse as a verdict."""
+    evidence = {"observe": scope["cases"], "reuse": reusable_observations,
+                "verified": scope["verified"]}
+    pending = scope["cases"] + scope["reuse"]
+    dag = {**result["dag"], "verification": {
+        "status": "unknown" if pending or result["criteria"]["status"] != "SUPPORTED" else "ready",
+        "requires": ["case:" + name for name in pending] or ["criteria"]}}
+    next_action = {**result["next"], "evidence": evidence}
+    if next_action["operation"] == "supply_behavior_evidence":
+        current_input = next_action["input"]
+        draft = current_input["selection"]
+        observations = {item["case_id"]: item for item in reusable_observations}
+        observations.update({item["case_id"]: item for item in draft["observations"]})
+        next_action["input"] = {
+            "selection": {**draft, "observations": list(observations.values())},
+            "requests": [item for item in current_input["requests"]
+                         if item["case_id"] not in observations]}
+    return {**result, "dag": dag, "next": next_action}
+
+
 def project_feedback_history(result, failed_attempts):
     """Expose the existing owner's failure history and its required reassessment."""
     result = {**result, "failed_attempts": failed_attempts}
     if failed_attempts >= 3 and (result.get("criteria", {}).get("status") == "REVISION_REQUIRED"
             or (result.get("behavior") or {}).get("classification") == "FAIL"):
         result["next"] = {"owner": "review-writing", "operation": "reassess_cause",
-                          "required": ["root_cause_review_with_original_requirements"]}
+                          "required": ["root_cause_review_with_original_requirements"],
+                          "argv": None, "input": None}
     return result
 
 

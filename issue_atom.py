@@ -552,9 +552,7 @@ def postwrite_lifecycle(authorization, state, paths, *, allow_resolved=False):
     execution = binding["execution"]
     claim = read_json(paths["claim"], "publication.claim")
     number = state["issue"]["number"]
-    body = authorization["issue"]["body"]
-    if "number" not in authorization["issue"]:
-        body = body.rstrip() + "\n\n" + marker(state["authorization_sha256"]) + "\n"
+    body = authorized_issue_body(authorization, state["authorization_sha256"])
     require(binding["repository"] == authorization["repository"]
             and binding["issue"] == number
             and binding["base_head"] == authorization["base_head"]
@@ -706,7 +704,8 @@ def resume(authorization_path, selected_owner, selected_digest, *, environ=None)
                         repair_controller(authorization, state, paths, authorization_path=authorization_path)
                     resume_host_finalization(authorization, state)
                     save_json(paths["state"], state)
-    return {"owner": "soodles.issue-atom", "status": "resumed", "authorizes_landing": False,
+    return {"owner": "soodles.issue-atom", "status": "resumed", "continuation_state": "ready",
+            "authorizes_landing": False,
             "next": {"argv": same_command(authorization_path),
                      "environment": {"SOODLES_AUTHORIZATION_SHA256": auth_digest}}}
 
@@ -1058,6 +1057,13 @@ def marker(authorization_digest):
     return MARKER_PREFIX + authorization_digest + " -->"
 
 
+def authorized_issue_body(authorization, authorization_digest):
+    body = authorization["issue"]["body"]
+    if "number" in authorization["issue"]:
+        return body
+    return body.rstrip() + "\n\n" + marker(authorization_digest) + "\n"
+
+
 def exact_issue(provider, authorization, authorization_digest):
     selected = authorization["issue"]
     if "number" in selected:
@@ -1070,7 +1076,7 @@ def exact_issue(provider, authorization, authorization_digest):
                 "github.issue.adoption", selected["number"], "exact_provider_issue")
         return issue, selected["body"]
     expected_marker = marker(authorization_digest)
-    expected_body = authorization["issue"]["body"].rstrip() + "\n\n" + expected_marker + "\n"
+    expected_body = authorized_issue_body(authorization, authorization_digest)
     issues = provider.issues()
     require(isinstance(issues, list), "github.issues", issues, "fresh_provider_readback")
     matches = [item for item in issues if isinstance(item, dict)
@@ -1223,9 +1229,7 @@ def scope_projection(authorization, state, paths):
     packet = scope_packet(authorization, state)
     amendment = state["scope_amendment"]
     authorization = read_json(packet["authorization"]["path"], "scope.authorization")
-    old_body = authorization["issue"]["body"]
-    if "number" not in authorization["issue"]:
-        old_body = old_body.rstrip() + "\n\n" + marker(state["authorization_sha256"]) + "\n"
+    old_body = authorized_issue_body(authorization, state["authorization_sha256"])
     body = issue_admission.supplemented_body(old_body, packet["selection"]["added_write_paths"])
     effective = {**authorization, "issue": {**authorization["issue"],
                  "number": state["issue"]["number"], "body": body}}
@@ -1380,16 +1384,15 @@ def scope_custody(authorization, state, paths, selection):
             "scope.writes", state.get("writes"), "original_write_readback_before_scope_amendment")
     envelope = issue_admission.load_external_envelope(
         paths["envelope"], state["envelope_sha256"], authorization["control_root"])
-    old_body = authorization["issue"]["body"]
-    if "number" not in authorization["issue"]:
-        old_body = old_body.rstrip() + "\n\n" + marker(state["authorization_sha256"]) + "\n"
+    old_body = authorized_issue_body(authorization, state["authorization_sha256"])
     require(envelope["repository"] == authorization["repository"]
             and envelope["issue"] == state["issue"]["number"]
             and envelope["base_head"] == authorization["base_head"]
             and envelope["body_sha256"] == digest_bytes(old_body.encode())
             and envelope["execution"]["task"] == authorization["task"],
             "scope.original_binding", "changed", "original_execution_envelope")
-    binding = {**envelope, "contract": issue_admission.parse_contract(old_body)}
+    binding = {**envelope, "contract": issue_admission.parse_contract(old_body),
+               "issue_body": old_body}
     owner = issue_execution.read_owner(binding)
     blocked = issue_execution.blocked_outcome(binding, owner)
     require(blocked is not None, "scope.blocked", "missing", "original_typed_blocked_outcome")
@@ -1465,7 +1468,8 @@ def adopt_scope_amendment(authorization_path, selection_path, selection_sha256, 
                             (state.get("repair") or {}).get("history", [])),
                         "scope.repair_effect", "unresolved", "original_repair_owner_readback_without_retry")
                 save_json(paths["state"], state)
-    return {"owner": "soodles.issue-atom", "status": "prepared", "authorizes_landing": False,
+    return {"owner": "soodles.issue-atom", "status": "prepared", "continuation_state": "ready",
+            "authorizes_landing": False,
             "next": {"kind": "executable", "owner": "soodles.issue-atom",
                      "argv": same_command(authorization_path),
                      "environment": {"SOODLES_AUTHORIZATION_SHA256": digest}}}
@@ -1645,6 +1649,8 @@ def host_projection(record):
 def response(state, authorization_path, *, status="pending", waiting_on=None, details=None, repair=None):
     result = {
         "owner": "soodles.issue-atom", "status": status,
+        "continuation_state": "complete" if status == "resolved" else
+            "waiting" if status == "pending" else "unknown",
         "phase": state["phase"], "issue": state.get("issue"),
         "publication": state.get("publication"),
         "next": None if status == "resolved" else {
@@ -1677,8 +1683,8 @@ def create_envelope(authorization, issue, body, path, *, environ=None):
         require(prior["prior_loop_status"] == "restored",
                 "envelope.prior_host", prior["prior_loop_status"],
                 "original_host_recovery_readback")
-        if authorization.get("lifecycle_owner") is not None:
-            runtime_root = Path(validate_lifecycle_owner(authorization, executing=True)).parent
+    if authorization.get("lifecycle_owner") is not None:
+        runtime_root = Path(validate_lifecycle_owner(authorization, executing=True)).parent
     path.parent.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     result = supervisor_admission.prepare(
         issue, {**authorization["carrier"], "noodle": authorization["noodle"]},
@@ -2027,7 +2033,11 @@ def correction_owner(authorization, paths, state):
         require(all(command == allowed.get(command.get("id")) for command in pending),
                 "amendment.control.pending", pending, "exclusive_correction_control_readback")
         binding = read_json(paths["envelope"], "envelope")
-        binding["contract"] = issue_admission.parse_contract(authorization["issue"]["body"])
+        body = authorized_issue_body(authorization, state["authorization_sha256"])
+        require(binding["body_sha256"] == digest_bytes(body.encode()),
+                "amendment.envelope.body_sha256", "changed", "unchanged_execution_envelope")
+        binding["contract"] = issue_admission.parse_contract(body)
+        binding["issue_body"] = body
         owner = issue_execution.read_owner(binding)
     order_id = binding["execution"]["order_id"]
     orders = owner["state"]["orders"]
@@ -2945,8 +2955,11 @@ def verify_prior_atom(authorization):
             and prior_claim.get("worktree_path") == str(worktree_path)
             and worktree_path.is_dir(),
             "amendment.prior_order", order_id, "exact_original_noodle_order")
-    old_binding = {**prior_envelope,
-                   "contract": issue_admission.parse_contract(prior_auth["issue"]["body"])}
+    prior_body = authorized_issue_body(prior_auth, prior_state["authorization_sha256"])
+    require(prior_envelope["body_sha256"] == digest_bytes(prior_body.encode()),
+            "amendment.prior_envelope.body_sha256", "changed", "original_execution_envelope")
+    old_binding = {**prior_envelope, "contract": issue_admission.parse_contract(prior_body),
+                   "issue_body": prior_body}
     try:
         owner = issue_execution.read_owner(old_binding)
         order = owner["state"]["orders"].get(order_id)
@@ -3306,12 +3319,15 @@ def require_available_owner(authorization, paths, state):
         if state.get("envelope_sha256"):
             binding = issue_admission.load_external_envelope(
                 paths["envelope"], state["envelope_sha256"], root)
+            body = authorized_issue_body(authorization, state["authorization_sha256"])
             if (binding["repository"] != authorization["repository"]
                     or binding["issue"] != (state.get("issue") or {}).get("number")
                     or Path(binding["execution"]["control_root"]).resolve() != root.resolve()
-                    or binding["base_head"] != authorization["base_head"]):
+                    or binding["base_head"] != authorization["base_head"]
+                    or binding["body_sha256"] != digest_bytes(body.encode())):
                 refuse("noodle.binding", "mismatch", "admitted_order_readback")
-            binding["contract"] = issue_admission.parse_contract(authorization["issue"]["body"])
+            binding["contract"] = issue_admission.parse_contract(body)
+            binding["issue_body"] = body
         own_id = binding["execution"]["order_id"] if binding else None
         model = (binding["execution"]["carrier"]["codex"]["model"]
                  if binding else None)
@@ -3438,6 +3454,7 @@ def _run(authorization_path, *, environ=None, provider=None):
                 result = refusal_output(error, authorization_path)
             else:
                 result = {"owner": "soodles.issue-atom", "status": "refused",
+                          "continuation_state": "input_required",
                           "invalid": getattr(error, "invalid", {"field": "process", "value": type(error).__name__}),
                           "next": getattr(error, "next", {
                               "kind": "input", "owner": "external-supervisor",
@@ -3813,6 +3830,7 @@ def refusal_output(error, authorization_path):
                   "never choose a phase-specific route.")
     result = {
         "owner": "soodles.issue-atom", "status": "refused",
+        "continuation_state": "input_required",
         "invalid": error.invalid,
         "next": {
             "kind": "input", "owner": error.owner,
@@ -3827,6 +3845,7 @@ def refusal_output(error, authorization_path):
     }
     selected_digest = (error.known or {}).get("authorization_sha256") if isinstance(error.known, dict) else None
     if correction_required and isinstance(selected_digest, str) and SHA64.fullmatch(selected_digest):
+        result["continuation_state"] = "ready"
         result["next"] = {
             "kind": "executable", "owner": "supervisor.authorization", "required": [],
             "argv": [sys.executable, "-B", str(Path(__file__).resolve().with_name("supervisor_admission.py")),

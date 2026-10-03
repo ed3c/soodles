@@ -410,7 +410,8 @@ def validate_issue(readback, envelope, *, completed=False):
         "repository": repository, "issue": number, "body_sha256": envelope["body_sha256"],
         "body_updated_at": envelope["body_updated_at"], "owner": contract["owner"],
         "write_paths": envelope["write_paths"], "base_head": envelope["base_head"],
-        "execution": envelope["execution"], "contract": contract, "authorizes_landing": False,
+        "execution": envelope["execution"], "contract": contract,
+        "issue_body": body, "authorizes_landing": False,
     }
 
 

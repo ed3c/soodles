@@ -56,6 +56,14 @@ Only the user can accept a narrower requested outcome. Retain the outcome, its
 evidence and remaining work in the existing task or handoff. No new schema,
 checklist file, approval step or full test run is required.
 
+For a whole Issue atom, retain `poteto-mode` as the engineering entry in
+[execute](../execute/SKILL.md#engineering-entry). Preserve the Issue's six sections
+as task information and constraints. Do not turn them into separate skill routes.
+Only an explicitly finite subtask may select a leaf skill as its direct entry.
+Keep required delegation and review within roles that have those capabilities.
+If a required capability is missing, use the existing blocked owner path.
+The engineering entry does not grant publication or landing authority.
+
 Before admission, carry the requested outcomes and the division of writer versus
 later owner work in the existing task/contract. The writer reconciles its work
 with those outcomes before reporting `completed`, as specified by
@@ -109,6 +117,13 @@ On `status=prepared`, hand off the receipt's `authorization` and `next`
 unchanged. Its digest, executable argv and environment are the validated result.
 Do not reconstruct a second continuation or guess internal authorization fields.
 For lifecycle execution, consume `next.argv` and `next.environment` unchanged.
+An explicitly selected external `lifecycle_owner` supplies the executable bundle
+for initial admission and correction. The owner validates its immutable bytes
+before preparation. Without that selection, preparation uses the control ref.
+Repository instruction pins still use their admitted revision. The independent
+landing owner remains separate. This prevents the prompt producer and its
+launcher validator from using different projection rules.
+
 The CLI derives the committed base, instruction pins and host config identity,
 validates them through the existing authorization owner, and returns the one
 `issue-atom run` continuation. Do not hand-assemble derived authorization fields
@@ -439,6 +454,32 @@ its refusal, with redacted receipt diagnostics. Correct a named capability befor
 re-entry after a confirmed rejection; there is no automatic retry in the wait
 loop. One additional exact-lease offer is the limit. Missing legacy process
 receipts stay unknown; do not replace authorization or reconstruct their outcome.
+
+## Continuation readback
+
+The original owner emits `continuation_state` beside its unchanged `next`.
+This field describes when to consume that continuation. It does not authorize
+an effect. The called owner still checks current identity, evidence and authority.
+Schema Manager validates this field and projects the result in
+`feedback.dag.owner_transition`. It does not choose another operation.
+
+| State | Consumer action |
+| --- | --- |
+| `ready` | Consume the returned continuation with its supplied inputs and environment. |
+| `waiting` | Preserve the continuation. Wait for its named material change before re-entry. |
+| `input_required` | Obtain the input named by `next.required` from `next.owner`. Re-enter after that input changes. |
+| `complete` | Retain the terminal owner evidence. Check the original requested outcomes before reporting task completion. |
+| `unknown` | Inspect the named gap and obtain current original-owner evidence. Do not invent readiness, a command or a replacement route. |
+
+A failed operation can return a ready correction-preparation command.
+An input refusal can retain the original command for later use.
+Therefore, neither top-level `status=refused` nor the presence of `argv` decides
+whether the continuation can run now. Use the validated continuation state.
+Missing or conflicting metadata stays unknown. A historical resolved receipt
+with `next=null` retains its terminal history. Missing metadata alone does not
+reopen that work. This projection does not invalidate a historical receipt,
+reset a budget or add a lifecycle gate.
+Keep the original owner's requirements and unknown-effect readback obligations.
 
 ## Cost readback
 

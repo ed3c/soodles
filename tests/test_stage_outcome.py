@@ -129,13 +129,20 @@ if mode == 'write-failure': sys.exit(7)
 
     def test_missing_pin_and_changed_prompt_contract(self):
         prompt = json.loads(self.stage["prompt"])
-        for key in ("envelope_sha256", "contract", "task"):
+        for key in ("envelope_sha256", "contract", "task", "issue_body"):
             with self.subTest(key=key):
                 altered = dict(prompt)
                 altered.pop(key)
                 self.stage["prompt"] = json.dumps(altered)
                 self.fixture.save_owner()
                 self.refused(self.invoke())
+
+    def test_changed_body_refuses_before_event_write(self):
+        prompt = json.loads(self.stage["prompt"])
+        prompt['issue_body'] += '\nChanged scope'
+        self.stage['prompt'] = json.dumps(prompt)
+        self.fixture.save_owner()
+        self.refused(self.invoke())
 
     def test_malformed_admitted_carrier_is_a_json_refusal(self):
         f = self.fixture

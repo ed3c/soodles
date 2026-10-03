@@ -56,6 +56,7 @@ class IssueAdmissionTests(unittest.TestCase):
         binding = admission.validate_issue(self.issue, self.envelope)
         self.assertEqual(binding["write_paths"], sorted(self.envelope["write_paths"]))
         self.assertEqual(binding["issue"], 18)
+        self.assertEqual(binding["issue_body"], self.issue["body"])
         self.assertFalse(binding["authorizes_landing"])
         # The shared gate does not demand nested-Agent capability for every route.
         self.assertNotIn("codex", binding["execution"]["carrier"])
