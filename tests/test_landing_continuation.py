@@ -16,6 +16,7 @@ class LandingContinuationTests(unittest.TestCase):
     def test_emitted_argv_requires_fresh_readback_and_never_repeats_unknown_writes(self):
         fixture = test_landing.LandingTests()
         fixture.setUp()
+        fixture.snapshot['pr']['base']['sha'] = '9' * 40
         self.addCleanup(fixture.doCleanups)
         lane = Path(fixture.temp.name).resolve()
         checkpoint = lane / 'checkpoint with spaces.json'

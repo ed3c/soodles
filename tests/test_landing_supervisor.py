@@ -235,8 +235,16 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(claim["head"], self.f.head)
         self.assertEqual(claim["tree"], self.f.tree)
         self.assertEqual(claim["run_id"], 55)
+        self.assertEqual(claim["base_head"], self.f.base)
         self.assertTrue((output / "checkpoint.json").is_file())
         self.assertFalse(result["authorizes_landing"])
+
+    def test_cloud_current_branch_cannot_replace_unpinned_candidate_base(self):
+        self.f.snapshot["branch"]["commit"]["sha"] = "f" * 40
+        with self.assertRaises(landing_supervisor.SupervisorRefusal) as caught:
+            self.f.prepare("cloud-base-drift")
+        self.assertEqual(caught.exception.invalid["field"], "snapshot.base.head")
+        self.assertFalse((self.f.external / "cloud-base-drift").exists())
 
     def test_slash_named_cloud_branch_keeps_provider_identity_separate(self):
         snapshot = json.loads(json.dumps(self.f.snapshot))
@@ -274,10 +282,15 @@ class LandingSupervisorTests(unittest.TestCase):
 
     def test_local_terminal_candidate_binds_supplied_execution_identity(self):
         snapshot, route = self.f.local_case()
+        snapshot["pr"]["base"]["sha"] = "9" * 40
+        original = json.dumps(snapshot, sort_keys=True)
         output, result = self.f.prepare("local", snapshot=snapshot, route=route)
         self.assertEqual(result["route"], "local")
         claim = json.loads((output / "claim.json").read_text())
         self.assertEqual(claim["control_root"], route["control_root"])
+        self.assertEqual(claim["base_head"], snapshot["branch"]["commit"]["sha"])
+        self.assertEqual(json.dumps(snapshot, sort_keys=True), original)
+        self.assertEqual(json.loads((output / "readback.json").read_text()), snapshot)
         self.assertEqual(claim["worktree"], "issue-122-local")
         self.assertEqual(claim["publication_branch"], snapshot["pr"]["head"]["ref"])
         self.assertEqual(
@@ -289,6 +302,55 @@ class LandingSupervisorTests(unittest.TestCase):
         self.assertEqual(result["landing_owner"]["next"]["kind"], "provider_readback")
         self.assertEqual(result["landing_owner"]["next"]["argv"][-2:],
                          [str(output / "checkpoint.json"), str(output / "readback.json")])
+
+    def test_local_current_branch_must_match_native_candidate_base(self):
+        snapshot, route = self.f.local_case()
+        snapshot["branch"]["commit"]["sha"] = "f" * 40
+        with self.assertRaises(landing_supervisor.SupervisorRefusal) as caught:
+            self.f.prepare("wrong-native-base", snapshot=snapshot, route=route)
+        self.assertEqual(caught.exception.invalid["field"],
+                         "route.publication_claim.identity")
+        self.assertFalse((self.f.external / "wrong-native-base").exists())
+
+    def test_generic_local_historical_pr_base_preserves_target_binding(self):
+        snapshot, route = self.f.local_case()
+        binding = {
+            "schema": 1, "repository": self.f.repository, "base_ref": "trunk",
+            "workflow_path": ".github/workflows/target.yml",
+            "jobs": {"target-checks": ["Target acceptance"]},
+            "verification": {},
+        }
+        binding_path = self.f.external / "target-binding.json"
+        binding_path.write_text(json.dumps(binding))
+        reference = {"path": str(binding_path), "sha256": _sha(binding_path)}
+        route["target_binding"] = reference
+        envelope_path = Path(route["execution_envelope"]["path"])
+        envelope = json.loads(envelope_path.read_text())
+        envelope["target_binding"] = reference
+        envelope["execution"]["runtime"] = {
+            "stage_outcome_argv": [str(envelope_path.parent / "stage-outcome")],
+            "test_argv": [str(envelope_path.parent / "test")],
+        }
+        envelope_path.write_text(json.dumps(envelope))
+        route["execution_envelope"]["sha256"] = _sha(envelope_path)
+        snapshot["pr"]["base"].update(ref="trunk", sha="9" * 40)
+        snapshot["branch"]["name"] = "trunk"
+        snapshot["run"]["path"] = binding["workflow_path"]
+        job = snapshot["jobs"]["jobs"][0]
+        job.update(name="target-checks", run_attempt=snapshot["run"]["run_attempt"])
+        job["steps"][0]["name"] = "Target acceptance"
+        original = json.dumps(snapshot, sort_keys=True)
+
+        output, result = self.f.prepare("generic-local", snapshot=snapshot, route=route)
+
+        self.assertEqual(result["action"], "activated")
+        claim = result["claim"]
+        self.assertEqual(claim["target_binding"], reference)
+        self.assertEqual(claim["execution_envelope"], route["execution_envelope"])
+        self.assertEqual(claim["base_head"], snapshot["branch"]["commit"]["sha"])
+        self.assertEqual(json.dumps(snapshot, sort_keys=True), original)
+        self.assertEqual(json.loads((output / "readback.json").read_text()), snapshot)
+        self.assertEqual(json.loads(envelope_path.read_text()), envelope)
 
     def test_local_corrected_head_keeps_the_original_pr_branch(self):
         snapshot, route = self.f.local_case()
