@@ -1199,8 +1199,53 @@ def launch_checked(binding, session, root, spawn, argv, execute):
     return {"owner": "Noodle", "action": "worker_started", "binding": binding, "session_id": session}
 
 
-def validate_revision_successor(binding, stage, session, root):
+def validate_revision_custody(binding, stage, review, root):
+    """Validate native retained custody against the immutable revision and session."""
     execution = binding["execution"]
+    entry = binding["revision_entry"]["context"]
+    extra = stage.get("extra", {})
+    receipt = extra.get("request_changes_requeued")
+    custody = receipt.get("binding") if isinstance(receipt, dict) else extra.get("request_changes_recovery")
+    attempts = entry["prior_attempts"]
+    require(bool(attempts) and isinstance(custody, dict), "revision.entry.custody", custody)
+    session = entry["terminal"]["session_id"]
+    directory = Path(execution["control_root"]) / ".noodle/sessions" / session
+    expected = {"reason": attempts[-1].get("error"), "session_id": session,
+                "attempt_id": entry["terminal"]["attempt_id"], "attempt": len(attempts) - 1,
+                "worktree_name": execution["worktree"], "worktree_path": str(root),
+                "branch": execution["worktree"], "candidate_head": entry["candidate_head"]}
+    require(set(custody) == set(expected) | {"session_sha256"}
+            and all(custody.get(key) == value for key, value in expected.items())
+            and isinstance(expected["reason"], str) and expected["reason"].startswith("changes requested: "),
+            "revision.entry.custody", custody)
+    files = custody.get("session_sha256")
+    names = {"spawn.json", "prompt.txt", "events.ndjson", "process.json"}
+    require(isinstance(files, dict) and set(files) == names,
+            "revision.entry.custody", "missing_session_digests")
+    for name in names:
+        path = directory / name
+        require(path.is_file() and not path.is_symlink()
+                and hashlib.sha256(path.read_bytes()).hexdigest() == files[name],
+                "revision.entry.custody", "changed_session_" + name)
+    terminal = entry["terminal"]["source"]
+    require(hashlib.sha256(Path(terminal["path"]).read_bytes()).hexdigest() == terminal["sha256"],
+            "revision.entry.custody", "changed_terminal_bytes")
+    _absent_process(directory, session)
+    expected_review = {"order_id": execution["order_id"], "stage_index": execution["stage_index"],
+                       "session_id": session, "worktree_name": execution["worktree"],
+                       "worktree_path": str(root),
+                       **{key: stage.get(key) for key in ("task_key", "skill", "provider", "model", "runtime", "prompt")}}
+    require(isinstance(review, dict)
+            and all(review.get(key) == value for key, value in expected_review.items()),
+            "revision.entry.review", review)
+    if receipt is not None:
+        require(set(receipt) == {"binding", "review"} and receipt["review"] == review
+                and "request_changes_recovery" not in extra,
+                "revision.entry.custody", "conflicting_requeued_receipt")
+    return {"binding": custody, "review": review}
+
+
+def validate_revision_successor(binding, stage, session, root):
     attempts = stage["attempts"]
     current = attempts[-1]
     entry = binding["revision_entry"]["context"]
@@ -1210,13 +1255,7 @@ def validate_revision_successor(binding, stage, session, root):
             and current.get("attempt_id") not in {a["attempt_id"] for a in entry["prior_attempts"]},
             "revision.entry.successor", current, owner="Noodle", required="exact_revision_successor")
     receipt = stage.get("extra", {}).get("request_changes_requeued", {})
-    custody = receipt.get("binding", {})
-    require(custody.get("session_id") == entry["terminal"]["session_id"]
-            and custody.get("attempt_id") == entry["terminal"]["attempt_id"]
-            and custody.get("candidate_head") == entry["candidate_head"]
-            and custody.get("worktree_name") == execution["worktree"]
-            and custody.get("worktree_path") == str(root),
-            "revision.entry.custody", custody)
+    validate_revision_custody(binding, stage, receipt.get("review"), root)
 
 
 def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, environ=None, execute=os.execv, entry_reference=None):

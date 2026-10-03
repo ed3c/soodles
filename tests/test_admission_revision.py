@@ -96,6 +96,27 @@ class RevisionFixture:
         path.write_text(json.dumps(value))
         return path
 
+    def custody(self, entry):
+        directory = self.root / '.noodle/sessions/original-session'
+        directory.mkdir(parents=True, exist_ok=True)
+        child = subprocess.Popen(['true'])
+        child.wait()
+        files = {'spawn.json': {'session_id': 'original-session', 'worktree_path': str(self.wt), 'retry_count': 0},
+                 'process.json': {'session_id': 'original-session', 'pid': child.pid},
+                 'events.ndjson': {'terminal': 'completed'}, 'prompt.txt': {'prompt': 'original'}}
+        for name, value in files.items():
+            (directory / name).write_text(json.dumps(value))
+        return {'reason': entry['prior_attempts'][-1]['error'], 'session_id': 'original-session',
+                'attempt_id': 'attempt-0', 'attempt': len(entry['prior_attempts']) - 1,
+                'candidate_head': self.candidate, 'branch': self.wt.name,
+                'worktree_name': self.wt.name, 'worktree_path': str(self.wt),
+                'session_sha256': {name: sha(directory / name) for name in files}}
+
+    def review(self, stage):
+        return {'order_id': self.selection['order_id'], 'stage_index': 0, 'session_id': 'original-session',
+                'worktree_name': self.wt.name, 'worktree_path': str(self.wt), 'plan': [], 'reason': 'completed',
+                **{key: stage.get(key) for key in ('task_key', 'skill', 'provider', 'model', 'runtime', 'prompt')}}
+
     def criteria(self, advance=False):
         return {**self.selection, 'type': 'criteria_correction',
                 'target_base': self.target if advance else self.base,
@@ -127,6 +148,156 @@ class AdmissionRevisionTests(unittest.TestCase):
     def setUp(self):
         self.f = RevisionFixture()
         self.addCleanup(self.f.temp.cleanup)
+
+    def continuation_fixture(self):
+        f = self.f
+        issue, envelope, binding, entry_path = f.entry()
+        entry = binding['revision_entry']['context']
+        attempt = {'attempt_id': 'attempt-0', 'session_id': 'original-session', 'status': 'failed',
+                   'worktree_name': f.wt.name, 'error': 'changes requested: exact target'}
+        entry['prior_attempts'] = [attempt]
+        entry_path.write_text(json.dumps(entry))
+        binding['revision_entry']['reference'] = ref(entry_path)
+        stage = {'task_key': 'execute', 'skill': 'execute', 'provider': 'codex', 'model': 'fixture',
+                 'runtime': 'process', 'prompt': 'original prompt', 'attempts': [attempt], 'status': 'failed'}
+        custody = f.custody(entry)
+        stage['extra'] = {'request_changes_recovery': custody}
+        review = f.review(stage)
+        order_id = entry['order_id']
+        owner = {'state': {'orders': {order_id: {'status': 'failed', 'plan': [], 'stages': [stage]}},
+                           'pending_reviews': {order_id: review}}}
+        amendment = {'native_review': copy.deepcopy(review), 'session_sha256': copy.deepcopy(custody['session_sha256']),
+                     'restart_offered': True, 'ack_prefix': ''}
+        state = {'scope_amendment': amendment, 'scope_request': {'id': 'request', 'action': 'request-changes'}}
+        return issue, envelope, binding, owner, state
+
+    def test_continuation_distinguishes_failed_edited_and_pending_without_new_attempt(self):
+        f = self.f
+        _, _, binding, owner, state = self.continuation_fixture()
+        amendment = state['scope_amendment']
+        order_id = binding['execution']['order_id']
+        stage = owner['state']['orders'][order_id]['stages'][0]
+        before = copy.deepcopy(stage['attempts'])
+        observe = lambda: atom.scope_continuation_readback(binding, owner, amendment, state, 'new prompt')
+        self.assertEqual(observe()['position'], 'failed')
+        state['scope_edit'] = {'id': 'edit'}
+        stage['prompt'] = 'new prompt'
+        owner['state']['pending_reviews'][order_id]['prompt'] = 'new prompt'
+        self.assertEqual(observe()['position'], 'edited')
+        state['scope_requeue'] = {'id': 'requeue'}
+        receipt = {'binding': stage['extra']['request_changes_recovery'],
+                   'review': owner['state']['pending_reviews'].pop(order_id)}
+        stage['extra'] = {'request_changes_requeued': receipt}
+        stage['status'] = 'pending'
+        owner['state']['orders'][order_id]['status'] = 'active'
+        self.assertEqual(observe()['position'], 'pending')
+        self.assertEqual(stage['attempts'], before)
+        for key in ('reason', 'branch', 'session_id', 'candidate_head', 'attempt_id', 'attempt'):
+            original = receipt['binding'][key]
+            receipt['binding'][key] = 'foreign'
+            with self.subTest(key=key), self.assertRaises(admission.AdmissionRefusal):
+                observe()
+            receipt['binding'][key] = original
+        receipt['review']['reason'] = 'explicit rejection'
+        with self.assertRaisesRegex(atom.AtomRefusal, 'scope.continuation.custody'):
+            observe()
+
+    def test_continuation_rejects_changed_candidate_session_history_and_released_state(self):
+        f = self.f
+        _, _, binding, owner, state = self.continuation_fixture()
+        amendment = state['scope_amendment']
+        observe = lambda: atom.scope_continuation_readback(binding, owner, amendment, state, 'new prompt')
+        for name in ('spawn.json', 'prompt.txt', 'events.ndjson', 'process.json'):
+            path = f.root / '.noodle/sessions/original-session' / name
+            original = path.read_bytes()
+            path.write_bytes(original + b' ')
+            with self.subTest(file=name), self.assertRaises(admission.AdmissionRefusal):
+                observe()
+            path.write_bytes(original)
+        (f.wt / 'dirty.txt').write_text('dirty')
+        with self.assertRaisesRegex(admission.AdmissionRefusal, 'worker.git.residue'):
+            observe()
+        (f.wt / 'dirty.txt').unlink()
+        state['scope_release'] = {'id': 'release'}
+        with self.assertRaisesRegex(atom.AtomRefusal, 'scope.continuation.lineage'):
+            observe()
+        del state['scope_release']
+        amendment.pop('native_review')
+        with self.assertRaisesRegex(atom.AtomRefusal, 'scope.continuation.history'):
+            observe()
+
+    def test_control_readback_retains_intents_and_rejects_foreign_or_rejected_ack(self):
+        f = self.f
+        runtime = f.root / '.noodle'
+        runtime.mkdir()
+        state = {'scope_amendment': {'ack_prefix': ''},
+                 'scope_request': {'id': 'request', 'action': 'request-changes'}}
+        commands = {'scope_request': state['scope_request']}
+        mailbox = runtime / 'control.ndjson'
+        mailbox.write_text(json.dumps(commands['scope_request']) + '\n')
+        before = mailbox.read_bytes()
+        result = atom.scope_control_readback(f.auth, state, commands)
+        self.assertEqual(result, {'acks': [], 'pending': [commands['scope_request']]})
+        self.assertEqual(mailbox.read_bytes(), before)
+        for ack in ({'id': 'foreign', 'action': 'request-changes', 'status': 'ok'},
+                    {'id': 'request', 'action': 'request-changes', 'status': 'error'}):
+            (runtime / 'control-ack.ndjson').write_text(json.dumps(ack) + '\n')
+            with self.subTest(ack=ack), self.assertRaisesRegex(atom.AtomRefusal, 'scope.control.foreign'):
+                atom.scope_control_readback(f.auth, state, commands)
+
+    def test_held_continuation_persists_one_start_before_unknown_spawn_and_never_retries(self):
+        f = self.f
+        issue, envelope, binding, owner, state = self.continuation_fixture()
+        amendment = state['scope_amendment']
+        bundle = f.directory / 'owner/admission'
+        bundle.mkdir(parents=True)
+        envelope_path = bundle / 'envelope.json'
+        envelope_path.write_text(json.dumps(envelope))
+        (bundle / 'revision-entry.json').write_text(json.dumps(binding['revision_entry']['context']))
+        (bundle / 'noodle.toml').write_text('mode = "supervised"\n')
+        (f.root / '.noodle.toml').write_bytes((bundle / 'noodle.toml').read_bytes())
+        with (f.root / '.git/info/exclude').open('a') as stream:
+            stream.write('\n.noodle.toml\n')
+        launcher = bundle / 'start'
+        launcher.write_text('fixture start')
+        auth = {**f.auth, 'noodle': envelope['execution']['carrier']['noodle']}
+        process_argv = [auth['noodle']['path'], '--project-dir', str(f.root), 'start', '--mode', 'manual']
+        prepared = {'next': {'argv': [str(launcher)]}, 'start': str(launcher), 'start_sha256': sha(launcher),
+                    'process_argv': process_argv}
+        (bundle / 'prepared.json').write_text(json.dumps(prepared))
+        child = subprocess.Popen(['true']); child.wait()
+        prior = {'status': 'started', 'pid': child.pid, 'argv': [str(launcher)], 'process_argv': process_argv,
+                 'config_sha256': sha(bundle / 'noodle.toml'), 'original_config': None}
+        state.update(noodle_start=prior, admission_sha256=sha(bundle / 'prepared.json'), envelope_sha256=sha(envelope_path))
+        amendment.update(prepared=ref(bundle / 'prepared.json'), preparation={'issue': issue})
+        runtime = f.root / '.noodle'
+        (runtime / 'noodle.lock').touch()
+        (runtime / 'state.snapshot.json').write_text(json.dumps(owner))
+        command = state['scope_request']
+        ack = {**command, 'status': 'ok'}
+        (runtime / 'control-ack.ndjson').write_text(json.dumps(ack) + '\n')
+        prompt = json.dumps(execution.projection(binding, state['envelope_sha256'], 'supervised'), sort_keys=True)
+        observation = atom.scope_continuation_readback(binding, owner, amendment, state, prompt)
+        observation['controls'] = {'acks': [ack], 'pending': []}
+        paths = {'state': f.directory / 'checkpoint.json', 'envelope': envelope_path, 'directory': f.directory}
+        real_popen = subprocess.Popen
+        offers = []
+        def popen(argv, *args, **kwargs):
+            if argv == [str(launcher)]:
+                offers.append(argv)
+                raise OSError('lost replacement spawn response')
+            return real_popen(argv, *args, **kwargs)
+        with patch.object(execution, 'read_owner', return_value=owner), patch.object(subprocess, 'Popen', side_effect=popen):
+            with self.assertRaisesRegex(atom.AtomRefusal, 'scope.continuation.start'):
+                atom.ensure_noodle(auth, paths, state, {'action': 'scope_continuation'}, {}, scope_continuation=observation)
+            saved = json.loads(paths['state'].read_text())
+            self.assertEqual(saved['noodle_start']['status'], 'offered')
+            self.assertEqual(saved['scope_amendment']['continuation_restart']['prior_start'], prior)
+            self.assertEqual(saved['scope_amendment']['ack_prefix'], '')
+            self.assertEqual(saved['scope_request'], command)
+            with self.assertRaisesRegex(atom.AtomRefusal, 'scope.continuation.restart'):
+                atom.ensure_noodle(auth, paths, state, {'action': 'scope_continuation'}, {}, scope_continuation=observation)
+            self.assertEqual(len(offers), 1)
 
     def test_base_criteria_and_combined_preserve_every_other_requirement(self):
         f = self.f
@@ -281,12 +452,12 @@ class AdmissionRevisionTests(unittest.TestCase):
         f = self.f
         _, _, binding, _ = f.entry()
         entry = binding['revision_entry']['context']
-        prior = {'session_id': 'original-session', 'attempt_id': 'attempt-0', 'status': 'failed'}
+        prior = {'session_id': 'original-session', 'attempt_id': 'attempt-0', 'status': 'failed', 'error': 'changes requested: exact target'}
         entry['prior_attempts'] = [prior]
         current = {'session_id': 'successor-session', 'attempt_id': 'attempt-1', 'status': 'running'}
-        custody = {'session_id': 'original-session', 'attempt_id': 'attempt-0',
-                   'candidate_head': f.candidate, 'worktree_name': f.wt.name, 'worktree_path': str(f.wt)}
-        stage = {'attempts': [prior, current], 'extra': {'request_changes_requeued': {'binding': custody}}}
+        stage = {'attempts': [prior, current]}
+        custody = f.custody(entry)
+        stage['extra'] = {'request_changes_requeued': {'binding': custody, 'review': f.review(stage)}}
         execution.validate_revision_successor(binding, stage, 'successor-session', f.wt)
         for key in custody:
             changed = copy.deepcopy(stage)
@@ -390,10 +561,12 @@ class AdmissionRevisionTests(unittest.TestCase):
         stage = {'task_key': 'execute', 'skill': 'execute', 'provider': 'codex', 'model': 'fixture', 'runtime': 'process',
                  'status': 'review', 'attempts': [attempt], 'prompt': '{}'}
         order = selection['order_id']
-        owner = {'state': {'orders': {order: {'stages': [copy.deepcopy(stage)]}}, 'pending_reviews': {order: {}},
+        owner = {'state': {'orders': {order: {'stages': [copy.deepcopy(stage)], 'status': 'active', 'plan': []}}, 'pending_reviews': {order: f.review(stage)},
                            'mode': 'manual', 'mode_epoch': 1}}
+        expected_attempts = [{**attempt, 'status': 'failed', 'error': 'changes requested: ' + selection['reason']}]
+        custody = f.custody({'prior_attempts': expected_attempts})
         runtime = f.root / '.noodle'
-        runtime.mkdir()
+        runtime.mkdir(exist_ok=True)
         (runtime / 'control-ack.ndjson').write_text('')
         output = f.directory / 'amendment'
         output.mkdir()
@@ -459,11 +632,15 @@ class AdmissionRevisionTests(unittest.TestCase):
                 current = owner['state']['orders'][order]['stages'][0]
                 if action == 'request-changes':
                     current.update(status='failed', attempts=[{**attempt, 'status': 'failed', 'error': 'changes requested: ' + selection['reason']}],
-                        extra={'request_changes_recovery': {'candidate_head': f.candidate, 'session_id': 'original-session', 'attempt_id': 'attempt-0'}})
+                        extra={'request_changes_recovery': custody})
+                    owner['state']['orders'][order]['status'] = 'failed'
                 elif action == 'edit-item':
                     current['prompt'] = command['prompt']
+                    owner['state']['pending_reviews'][order]['prompt'] = command['prompt']
                 elif action == 'requeue':
                     current['status'] = 'pending'
+                    current['extra'] = {'request_changes_requeued': {'binding': custody, 'review': copy.deepcopy(owner['state']['pending_reviews'][order])}}
+                    owner['state']['orders'][order]['status'] = 'active'
                     owner['state']['pending_reviews'] = {}
                 else:
                     owner['state'].update(mode='supervised', mode_epoch=2)

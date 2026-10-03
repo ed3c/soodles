@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 243
+  },
+  "instructions": [
+    {
+      "path": "contracts/system-v1/issue-atom.md",
+      "baseline_sha256": "c9f848a21d2788026dcbc99fa6d62c33c06a9c88e40b2958142c7d61e4159811",
+      "treatment_sha256": "a2d19d7c6c22872d2239e5ae4c1eb62a89a45d51213e70d689f4ad6f46d1074b"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "issue_atom.py",
+      "role": "Original typed revision and bounded start owner",
+      "sha256": "d23b3c2a31c8be5e1e37811e2488237edc91530f1f145e1b830a1efddf0ad7dd"
+    },
+    {
+      "path": "tests/test_admission_revision.py",
+      "role": "Nearest native custody and continuation refusal controls",
+      "sha256": "bdea1c0a517260fd2bcd17b76182bcb668e837fd8ff551c5c15deea104b26a35"
+    },
+    {
+      "path": "docs/experiments/failed-order-restart/results.md",
+      "role": "Source-bound observations, feedback and delivery limits",
+      "sha256": "04503cc7812c99699016a215086710b81155bf928690af6e3a3943989d89f1c3"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#243"
+  },
+  "authorizes_landing": false
+}

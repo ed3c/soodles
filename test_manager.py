@@ -23,7 +23,8 @@ REPLACEMENTS = {
 # Traced owner/consumer coverage for bounded changes. A missing mapping is a
 # scope decision for the supervising Session, never an instruction to run all.
 BOUNDARIES = (
-    (("issue_atom.py", "issue_execution.py", "issue_admission.py", "supervisor_admission.py", "stage_outcome.py"),
+    (("issue_atom.py", "issue_execution.py", "issue_admission.py", "supervisor_admission.py", "stage_outcome.py",
+      "docs/experiments/failed-order-restart/observer.py"),
      ("admission_revision",), ()),
     (("issue_atom.py", "issue_execution.py", "issue_admission.py", "supervisor_admission.py"),
      ("interruption_recovery",), ()),

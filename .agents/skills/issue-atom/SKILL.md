@@ -418,7 +418,8 @@ Owner 自接納時阻擋舊完成紀錄的 publication。
 Owner 先暫停派發，在原 review 狀態停止 loop，再執行固定 fast-forward。
 Owner 更新同一 Issue 的 base 與既有 base pins，讀回精確正文後建立新 envelope。
 新 loop 在 manual 模式恢復原 review，再執行 request-changes、替換任務與恢復派發。
-不要讓 failed order 跨越重啟。固定的 Noodle 版本會在啟動時移除這類 order。
+這條 legacy base recovery 路徑仍受其固定舊 Noodle 版本約束。
+不要讓該路徑的 failed order 跨越重啟。不能以新 main 替换已選 carrier。
 後續操作由原 owner 的 next 提供。Agent 不拼接 phase 命令。
 
 後續 writer 接納並驗證整合後的原工作。
@@ -430,7 +431,8 @@ Writer 完成必要 controls、獨立 review 與目前保存文字的 feedback�
 若來源、範圍、process 或 target 不符，保留 refusal 與具名缺口。
 若任一寫入結果未知，消費原 owner 的 readback。不要重送該 effect。
 若新 loop 在 request-changes 後中斷，保留原 refusal 與讀回證據。
-本路徑不能自動恢復跨重啟的 failed order。
+這條 legacy 路徑不能自動恢復跨重啟的 failed order。
+已接納的 typed revision 使用下節的獨立條件。
 整合 commit、resume 成功或本地 controls 通過，都不代表 PR 已交付。
 
 ## Repair an omitted admission path before publication
@@ -542,3 +544,32 @@ normal-use readback as remaining work through the existing authorized owner.
 A partial historical report does not complete that requirement.
 A report validates evidence correlation, not truth,
 acceptance, publication permission or a replacement landing identity.
+
+
+## 接續停止的 typed revision
+
+本節只適用於 supervisor 已固定接受 Noodle #106 的 prepublication typed revision。
+其 request-changes、edit 或 requeue 已開始，但 release 尚未 offered。
+繼續消費原 owner 回傳的同一 `issue-atom run`，不拼接 native controls。
+Noodle 保留 custody 不等於允許重啟。Soodles 必須先驗證目前證據。
+
+原 owner 比對 process absence、完整 custody、terminal session hashes、
+clean candidate、prepared launcher、config、control intent 與 ACK。
+通過後，owner 保存一次 held restart intent，啟動原 prepared bundle。
+Owner 保留先前 start、所有 attempts、ACK prefix、原 authorization 和 judge。
+它重讀 native state，再接續原 controls。完整 requeue 讀回通過後才能 release。
+Successor 只能在原 order 與 worktree 派發一次。
+
+未知 start、control 或 write 必須取得原 readback。不要重送同一 effect。
+如果 mailbox 缺 command 且沒有 ACK，不能從 custody 猜測成功。
+如果 release 已 offered，不能假設尚未 dispatch，應沿原 execution owner 讀回。
+如果 process 仍在、custody 被拒絕或 bytes 漂移，保留拒絕與原 continuation。
+一次 continuation restart 後再次停止，仍需要原 owner 的具名輸入。
+不要手改 canonical state、重設 intent、另建 order、改 carrier 或選另一個 judge。
+
+舊 carrier 與缺少完整 custody 的已歸檔 order 保留能力或 owner-input 缺口。
+此路徑不遷移一般 failed-CI correction，也不恢復 explicit reject。
+必要 controls 與保存文字的 consumer observations 由 Test Manager 選取。
+將 observations 送到 Schema Manager，並消費其 next。
+Local controls 和 P feedback 不代表交付完成。原 owners 繼續 publication、
+Linux exact-head CI、landing 和 local reconciliation。不要重開歷史 #235。
