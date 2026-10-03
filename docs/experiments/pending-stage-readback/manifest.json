@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 258
+  },
+  "instructions": [
+    {
+      "path": "issue_execution.py",
+      "baseline_sha256": "86759220d3667ebfcc30c0e4ba04c3387cfe0980e2e7b7dd227dab74fb162b82",
+      "treatment_sha256": "10b0bab6926b98417c13ca67940fd7f37f5139505d04712b7dc4444296ad2979"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tests/test_issue_execution.py",
+      "role": "公開 admission 入口的初始 pending 正反控制與無重複效果斷言",
+      "sha256": "78b2143da0af2bd6dc2b06977e36413fcab0928d847b138430f604452285ed68"
+    },
+    {
+      "path": "docs/experiments/pending-stage-readback/results.md",
+      "role": "原始失敗來源、修正原因、驗證結果與交付界線",
+      "sha256": "032c274a5207b5cc4c9601204c8e30ec00a889292c378032d288ac6ae33b71ae"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#258"
+  },
+  "authorizes_landing": false
+}

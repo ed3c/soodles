@@ -844,14 +844,42 @@ def _admit(envelope_path, envelope_digest, root, reader, route, *, observe_live=
     orders = state["state"]["orders"]
     if order_id in orders:
         order = orders[order_id]
-        require(isinstance(order, dict) and isinstance(order.get("stages"), list),
+        require(isinstance(order, dict) and isinstance(order.get("stages"), list) and bool(order["stages"]),
                 "noodle.order", order, owner="Noodle", required="canonical_order_readback")
+        initial_pending = False
+        live = []
         for stage in order["stages"]:
+            if isinstance(stage, dict) and stage.get("attempts") in (None, []):
+                codex = execution["carrier"].get("codex")
+                require(isinstance(codex, dict) and isinstance(codex.get("model"), str) and bool(codex["model"]),
+                        "carrier.codex", codex)
+                require((route == "automatic" or observe_live)
+                        and order.get("order_id") == order_id and order.get("status") == "active"
+                        and len(order["stages"]) == 1,
+                        "observe.pending_order", order_id, owner="Noodle", required="canonical_order_readback")
+                require("attempts" in stage and stage.get("status") == "pending"
+                        and type(stage.get("stage_index")) is int
+                        and stage["stage_index"] == execution["stage_index"]
+                        and stage.get("task_key") == "execute" and stage.get("skill") == "execute"
+                        and stage.get("provider") == "codex"
+                        and stage.get("model") == codex["model"]
+                        and stage.get("runtime") == "process"
+                        and stage.get("session_id") in (None, "")
+                        and stage.get("worktree_name") in (None, ""),
+                        "observe.pending_stage", stage, owner="Noodle", required="current_dispatch_identity")
+                try:
+                    subject = json.loads(stage.get("prompt", ""))
+                except (ValueError, TypeError) as error:
+                    raise AdmissionRefusal("observe.binding", order_id, "Noodle", "admitted_order_readback") from error
+                require(isinstance(subject, dict) and subject.get("route") in ("automatic", "supervised")
+                        and subject == projection(binding, envelope_digest, subject["route"]),
+                        "observe.binding", order_id, owner="Noodle", required="admitted_order_readback")
+                initial_pending = True
+                continue
             require(isinstance(stage, dict) and isinstance(stage.get("attempts"), list)
                     and all(isinstance(a, dict) for a in stage["attempts"]),
                     "noodle.stage", stage, owner="Noodle", required="canonical_order_readback")
-        live = [a for stage in order["stages"] for a in stage.get("attempts", [])
-                if a.get("status") in ("launching", "running")]
+            live.extend(a for a in stage["attempts"] if a.get("status") in ("launching", "running"))
         if route == "supervised" and observe_live and live:
             # The Issue-atom foreground continuation observes the existing owner;
             # it is not the stopped-writer takeover entry. Never start or reset
@@ -873,7 +901,7 @@ def _admit(envelope_path, envelope_digest, root, reader, route, *, observe_live=
             return {"owner": "Noodle", "action": "running", "binding": binding, "published": False,
                     "attempt": live[0], "next": continuation({"kind": "input", "owner": "Noodle",
                     "required": ["current_order_and_session_readback"], "known": {"order_id": order_id}}, route)}
-        if route == "supervised":
+        if route == "supervised" and not initial_pending:
             require(not live, "takeover.prior_writer", live,
                     owner="Noodle", required="quiescent_writer_and_session_readback")
             quiescent_order(binding, state)
