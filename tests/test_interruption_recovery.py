@@ -359,7 +359,7 @@ class RecoveryBundleTests(unittest.TestCase):
             'plan': 'original task', 'repository': 'ed3c/soodles', 'issue': 118, 'source': 'admission_snapshot'})
 
 
-def native_control(root, binary, digest, *, adapter=False):
+def native_control(root, binary, digest, *, adapter=False, completed_review=None):
     root=Path(root).resolve(); root.mkdir(parents=True,exist_ok=False)
     assert hashlib.sha256(Path(binary).read_bytes()).hexdigest()==digest
     project=root/'project'; runtime=project/'.noodle'
@@ -419,6 +419,11 @@ prompt = sys.stdin.read()
 with (root / 'sentinel.ndjson').open('a') as stream:
     stream.write(json.dumps({'pid': os.getpid(), 'argv': sys.argv, 'cwd': os.getcwd(), 'prompt': prompt})+'\\n')
 print(json.dumps({'type': 'thread.started', 'thread_id': 'fixture-'+str(os.getpid())}), flush=True)
+if (pathlib.Path(os.environ['SOODLES_ADMISSION_LAUNCHER']).parent / 'revision-entry.json').exists():
+    sys.path.insert(0, str(root / 'fixture-code'))
+    from test_admission_revision import native_successor
+    native_successor(root)
+    raise SystemExit(0)
 deadline = time.monotonic()+20
 while not (root / 'allow-outcome').exists():
     if time.monotonic() >= deadline:
@@ -438,6 +443,9 @@ readback = subprocess.run(argv, capture_output=True, text=True, timeout=20)
     'stdout': readback.stdout, 'stderr': readback.stderr}))
 assert readback.returncode == 0 and json.loads(readback.stdout)['candidate_unchanged'] is True
 pathlib.Path('candidate.txt').write_text('successor writer progress\\n')
+if (root / 'complete-review-fixture').exists():
+    subprocess.run(['git', 'add', '.'], check=True)
+    subprocess.run(['git', 'commit', '-m', 'Retain completed candidate before revision'], check=True, capture_output=True)
 argv = [os.environ['SOODLES_ADMISSION_LAUNCHER'], 'stage-outcome', 'completed',
         'Disposable native worker preserved original candidate and recorded the completed outcome.']
 result = subprocess.run(argv, capture_output=True, text=True, timeout=20)
@@ -446,6 +454,8 @@ result = subprocess.run(argv, capture_output=True, text=True, timeout=20)
 assert result.returncode == 0, result.stdout+result.stderr
 assert json.loads(result.stdout)['status'] == 'recorded', result.stdout
 print(json.dumps({'type': 'turn.completed', 'usage': {'input_tokens': 0, 'output_tokens': 0}}), flush=True)
+if (root / 'complete-review-fixture').exists():
+    raise SystemExit(0)
 while True:
     time.sleep(1)
 """.replace('ROOT', repr(str(root))))
@@ -457,6 +467,8 @@ while True:
                 write(project/name, run(['git', 'show', 'HEAD:'+name], Path(atom.__file__).parent).stdout)
             (project/'stage-outcome').chmod(0o755)
             write(project/'candidate.txt', 'candidate\n')
+        if completed_review is not None:
+            write(root/'complete-review-fixture', 'commit and exit after the original outcome\n')
         for skill in ('execute','schedule'):
             write(project/'.agents/skills'/skill/'SKILL.md',f'---\nname: {skill}\ndescription: Local process fixture only.\nschedule: Local fixture only.\n---\nRemain idle.\n')
         backlog_script=root/'backlog-sync'; write(backlog_script,'#!/bin/sh\nexit 0\n'); backlog_script.chmod(0o755)
@@ -472,6 +484,10 @@ while True:
             issue, _ = issue_fixture()
             contract = admission.parse_contract(issue['body'])
             contract['write_paths'] = ['candidate.txt', 'new.txt']
+            if completed_review is not None:
+                contract.update(schema=3, base_head=base, required_paths=['candidate.txt', 'new.txt'],
+                    evidence_manifest='new.txt', frozen_paths=[{'path':'candidate.txt', 'revision':'base',
+                                                              'sha256':atom.digest_file(project/'candidate.txt')}])
             issue['body'] = '<!-- soodles:execution-v1 -->\n```json\n'+json.dumps(contract)+'\n```\n<!-- /soodles:execution-v1 -->'
             js(root/'issue-readback.json', issue)
             env.update(FIXTURE_ISSUE_READBACK=str(root/'issue-readback.json'),
@@ -483,7 +499,9 @@ while True:
                           'argv': ['exec', '--skip-git-repo-check', '--json', '--model', 'fixture']}}
             original=root/'original-bundle'
             supervisor_admission.prepare(issue, carrier, project, original, environ=env, wire_host=True,
-                                         task='Retain this disposable candidate and report one completed outcome.')
+                                         task='Retain this disposable candidate and report one completed outcome.',
+                                         instruction_pins=[{'path': '.agents/skills/execute/SKILL.md',
+                                             'sha256': atom.digest_file(project/'.agents/skills/execute/SKILL.md')}] if completed_review else None)
             original_envelope=json.loads((original/'envelope.json').read_bytes())
         run(['git','worktree','add','-b',wt.name,wt,base],project)
         if not adapter:
@@ -577,6 +595,12 @@ while True:
             result.update(worker_adapter=str(bundle/'provider/codex'), external_outcome=recorded,
                 candidate_outcome_unchanged=True, provider_scope='local fixture Issue reader; no live provider calls',
                 provider_fixture_calls=len((root/'provider-fixture.ndjson').read_text().splitlines()))
+        if completed_review is not None:
+            wait(lambda: snapshot()['state']['orders'][order]['stages'][0]['status'] == 'review', 'completed native review')
+            process.send_signal(signal.SIGTERM)
+            process.wait(timeout=15)
+            out.close(); err.close()
+            result['revision'] = completed_review(root, project, wt, bundle, selected, issue, carrier, env)
         js(root/'result.json',result)
         return result
     except Exception as exc:

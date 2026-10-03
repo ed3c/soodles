@@ -451,8 +451,8 @@ def read_owner(binding):
     return state
 
 
-def blocked_outcome(binding, owner):
-    """Read the exact terminal blocked message from the retained native session."""
+def blocked_outcome(binding, owner, *, completed=False):
+    """Read the exact admitted terminal outcome from the retained native session."""
     execution = binding["execution"]
     order_id = execution["order_id"]
     order = owner["state"]["orders"].get(order_id, {})
@@ -490,20 +490,74 @@ def blocked_outcome(binding, owner):
     require(terminal[0].get("session_id") == session and payload.get("order_id") == order_id
             and payload.get("stage_index") == execution["stage_index"],
             "blocked.identity", payload, owner="Noodle", required="exact_terminal_stage_outcome")
-    if payload.get("outcome") != "blocked":
+    accepted = {"blocked": True, **({"completed": False} if completed else {})}
+    if payload.get("outcome") not in accepted:
         return None
-    require(payload.get("blocking") is True, "blocked.blocking", payload,
+    require(payload.get("blocking") is accepted[payload["outcome"]], "blocked.blocking", payload,
             owner="Noodle", required="exact_terminal_stage_outcome")
     return {"session_id": session, "attempt_id": attempts[-1]["attempt_id"],
             "source": {"path": str(source), "sha256": hashlib.sha256(raw).hexdigest()},
             "message": payload}
 
 
+def revision_context(binding, reference, envelope_digest):
+    """Consume a producer pin from the entry or canonical native prompt."""
+    require(isinstance(reference, dict) and set(reference) == {"path", "sha256"}, "revision.entry.reference", reference)
+    path = Path(reference["path"])
+    control = Path(binding["execution"]["control_root"])
+    require(path.is_absolute() and not path.is_symlink() and not path.resolve().is_relative_to(control.resolve()),
+            "revision.entry.path", str(path))
+    raw = path.read_bytes()
+    require(hashlib.sha256(raw).hexdigest() == reference["sha256"], "revision.entry.digest", "changed")
+    entry = json.loads(raw)
+    validate_revision_entry(binding, entry, envelope_digest)
+    return {**binding, "revision_entry": {"reference": reference, "context": entry}}
+
+
+def validate_revision_entry(binding, entry, envelope_digest):
+    control = Path(binding["execution"]["control_root"])
+    require(isinstance(entry, dict) and set(entry) == {"schema", "kind", "original_envelope", "envelope_sha256",
+            "selection_sha256", "candidate_head", "candidate_tree", "old_base", "target_base", "terminal",
+            "prior_attempts", "order_id", "stage_index", "worktree", "native_acceptance"}
+            and type(entry["schema"]) is int and entry["schema"] == 1
+            and entry["kind"] in {"base_advance", "criteria_correction"}, "revision.entry.fields", entry)
+    require(entry["envelope_sha256"] == envelope_digest and entry["target_base"] == binding["base_head"],
+            "revision.entry.envelope", "changed")
+    original = load_external_envelope(entry["original_envelope"]["path"], entry["original_envelope"]["sha256"], control)
+    require(entry["old_base"] == original["base_head"]
+            and all(entry[key] == binding["execution"][key] == original["execution"][key]
+                    for key in ("order_id", "stage_index", "worktree"))
+            and all(binding[key] == original[key] for key in ("repository", "issue", "owner", "write_paths")),
+            "revision.entry.identity", "changed")
+    old_execution = {key: value for key, value in original["execution"].items() if key != "recovery_context"}
+    from issue_admission import load_revision_native
+    native = load_revision_native(entry["native_acceptance"], control)
+    old_execution["carrier"] = {**old_execution["carrier"], "noodle": native}
+    require(binding["execution"] == old_execution, "revision.entry.instructions", "changed")
+    for key in ("candidate_head", "candidate_tree", "old_base", "target_base"):
+        require(isinstance(entry[key], str) and re.fullmatch(r"[0-9a-f]{40}", entry[key]), "revision.entry." + key, entry[key])
+    terminal = entry["terminal"]
+    require(isinstance(terminal, dict) and terminal.get("message", {}).get("outcome") in {"blocked", "completed"},
+            "revision.entry.terminal", terminal)
+    source = terminal["source"]
+    require(hashlib.sha256(Path(source["path"]).read_bytes()).hexdigest() == source["sha256"],
+            "revision.entry.history", "changed")
+    return entry
+
+
 def context(envelope_path, envelope_digest, root, reader):
     envelope = load_external_envelope(envelope_path, envelope_digest, root)
     try:
         readback = reader(envelope["repository"], envelope["issue"])
-        return validate_issue(readback, envelope)
+        binding = validate_issue(readback, envelope)
+        if (Path(envelope_path).parent / "revision-entry.json").exists():
+            owner = read_owner(binding)
+            stage = owner["state"]["orders"].get(binding["execution"]["order_id"], {}).get("stages", [])
+            if stage:
+                subject = json.loads(stage[0]["prompt"])
+                if "revision_context" in subject:
+                    binding = revision_context(binding, subject["revision_context"], envelope_digest)
+        return binding
     except AdmissionRefusal as error:
         # Retain only externally pinned identity, never identity from the rejected
         # provider payload. These values locate prior input; they do not renew it.
@@ -712,6 +766,9 @@ def projection(binding, envelope_digest, route):
             "body_sha256": binding["body_sha256"], "body_updated_at": binding["body_updated_at"],
             "envelope_sha256": envelope_digest, "route": route, "task": binding["execution"]["task"],
             "contract": binding["contract"]}
+    if "revision_entry" in binding:
+        subject["revision_context"] = binding["revision_entry"]["reference"]
+        subject["admission_revision"] = binding["revision_entry"]["context"]
     if "instruction_context" in binding["execution"]:
         subject["instruction_context"] = binding["execution"]["instruction_context"]
     if "recovery_context" in binding["execution"]:
@@ -1020,7 +1077,8 @@ def validate_worktree(root, binding, *, successor=None):
     require(branch == execution["worktree"], "worker.git.branch", branch,
             owner="Git", required="registered_worktree_readback")
     head = git(root, "rev-parse", "HEAD")
-    require(head == execution["source_head"], "worker.git.head", head,
+    entry = binding.get("revision_entry", {}).get("context")
+    require(head == (entry["candidate_head"] if entry else execution["source_head"]), "worker.git.head", head,
             owner="supervisor", required="fresh_execution_envelope")
     origin = git(root, "remote", "get-url", "origin")
     require(origin in git_origins(binding["repository"]),
@@ -1034,6 +1092,14 @@ def validate_worktree(root, binding, *, successor=None):
                 and successor.get("custody") == execution["recovery_context"]["custody"],
                 "worker.recovery.candidate", successor.get("candidate_invalid"),
                 owner="Noodle", required="unchanged_native_candidate")
+    if entry is not None:
+        require(not residue and git(root, "rev-parse", "HEAD^{tree}") == entry["candidate_tree"],
+                "revision.entry.candidate", "dirty_or_changed")
+        for revision in (head, entry["target_base"]):
+            ancestor = subprocess.run(["git", "merge-base", "--is-ancestor", entry["old_base"], revision],
+                                      cwd=root, capture_output=True, timeout=30)
+            require(ancestor.returncode == 0, "revision.entry.ancestry", revision)
+        return
     result = subprocess.run(["git", "merge-base", "--is-ancestor", binding["base_head"], "HEAD"],
                             cwd=root, capture_output=True, text=True, timeout=30)
     require(result.returncode == 0, "worker.git.base", binding["base_head"],
@@ -1133,10 +1199,32 @@ def launch_checked(binding, session, root, spawn, argv, execute):
     return {"owner": "Noodle", "action": "worker_started", "binding": binding, "session_id": session}
 
 
-def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, environ=None, execute=os.execv):
+def validate_revision_successor(binding, stage, session, root):
+    execution = binding["execution"]
+    attempts = stage["attempts"]
+    current = attempts[-1]
+    entry = binding["revision_entry"]["context"]
+    require(len(attempts) == len(entry["prior_attempts"]) + 1
+            and attempts[:-1] == entry["prior_attempts"]
+            and current.get("session_id") == session
+            and current.get("attempt_id") not in {a["attempt_id"] for a in entry["prior_attempts"]},
+            "revision.entry.successor", current, owner="Noodle", required="exact_revision_successor")
+    receipt = stage.get("extra", {}).get("request_changes_requeued", {})
+    custody = receipt.get("binding", {})
+    require(custody.get("session_id") == entry["terminal"]["session_id"]
+            and custody.get("attempt_id") == entry["terminal"]["attempt_id"]
+            and custody.get("candidate_head") == entry["candidate_head"]
+            and custody.get("worktree_name") == execution["worktree"]
+            and custody.get("worktree_path") == str(root),
+            "revision.entry.custody", custody)
+
+
+def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, environ=None, execute=os.execv, entry_reference=None):
     environ = os.environ if environ is None else environ
     root = Path(root).resolve()
     binding = context(envelope_path, envelope_digest, root, reader)
+    if entry_reference is not None:
+        binding = revision_context(binding, entry_reference, envelope_digest)
     execution = binding["execution"]
     session = environ.get("NOODLE_SESSION_ID")
     require(isinstance(session, str) and re.fullmatch(r"[a-zA-Z0-9-]+", session),
@@ -1197,6 +1285,8 @@ def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, en
             and current.get("session_id") in ("", session)
             and not any(a.get("status") in ("launching", "running") for a in attempts[:-1]),
             "worker.attempt", attempts, owner="Noodle", required="quiescent_prior_attempt")
+    if "revision_entry" in binding:
+        validate_revision_successor(binding, stage, session, root)
     # This replaces the Noodle-owned process; it cannot create a parallel writer.
     require(spawn.get("skill") == "execute", "worker.spawn.skill", spawn.get("skill"),
             owner="Noodle", required="current_dispatch_identity")
