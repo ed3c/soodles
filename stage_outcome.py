@@ -16,7 +16,7 @@ import sys
 from issue_admission import (AdmissionRefusal, load_external_envelope, nonempty,
                              parse_contract, require)
 from issue_execution import (projection, read_owner, spawn_readback,
-                             validate_carrier)
+                             validate_carrier, interruption_readback)
 from repository_binding import git_origins
 
 
@@ -135,6 +135,25 @@ def worker_context(root, environ):
             "worker.stage.model", stage.get("model"), **DISPATCH)
     binary = validate_carrier(binding, worker=True)["noodle"]
     registered_worktree(root, binding)
+    if "recovery_context" in execution:
+        receipt = interruption_readback(binding)
+        current = attempts[-1]
+        require(nonempty(current.get("attempt_id")) and receipt["status"] == "dispatched"
+                and receipt.get("successor") == {
+                    "attempt_id": current.get("attempt_id"), "session_id": session},
+                "worker.recovery.successor", receipt, owner="Noodle",
+                required="exact_native_successor")
+        fresh = read_owner(binding)["state"]["orders"][order_id]["stages"][0]
+        active = fresh.get("attempts", [])
+        require(all(fresh.get(key) == stage.get(key) for key in (
+                    "stage_index", "skill", "provider", "runtime", "status", "model", "prompt"))
+                and bool(active) and all(isinstance(item, dict) for item in active)
+                and active[-1].get("status") == "running"
+                and active[-1].get("session_id") == session
+                and active[-1].get("attempt_id") == current["attempt_id"]
+                and not any(item.get("status") in ("launching", "running") for item in active[:-1]),
+                "worker.recovery.current", "changed", owner="Noodle",
+                required="exact_native_successor")
     return binding, session, binary
 
 

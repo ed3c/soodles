@@ -441,3 +441,65 @@ Expose its source, order, session, and message with the responsible next owner.
 A generic claim refusal must not hide an available blocker.
 Schema feedback distinguishes condition review, observed behavior, and owner capability.
 A passed routing case cannot establish publication, reconciliation, or delivery.
+
+### Prepublication interruption selection
+
+原 order 的 process 消失不代表 writer 成功或失敗。若 native custody
+仍綁定同一個 running attempt，supervisor 可選定
+`prepublication_interruption` descriptor。既有
+`issue-atom resume AUTH DESCRIPTOR SHA256` 接受這個分支。
+普通 postwrite、scope 與 correction-start resume 保留原入口和条件。
+
+Descriptor schema 1 包含 `kind`、原 `authorization` reference、
+`original_envelope` reference、`lifecycle_owner`、`carrier`、`custody`、
+`custody_sha256` 和 `evidence_path`。Reference 包含絕對 `path` 與 `sha256`。
+Supervisor 從原生 inspect 選定 custody。新 Noodle 使用另一個固定 binary
+路徑。它不覆寫原 binary。Descriptor 必須使用原 Issue identity。
+工程 Issue 的完成不能替代原 Issue 的恢復。
+
+Resume 只保存 selection。它不 prepare、start、dispatch 或修改 Issue。
+Run 先讀取 fresh Issue，再消費 native inspect 的 exact prepare argv。
+Soodles 先保存 intent。若結果未知，Soodles 只讀取原 owner 的結果。
+Noodle prepare 擁有原 attempt 的 cancelled 與 exit unknown 更新。
+它保留 dirty candidate，並將原 stage 改成 pending。Prepare 不 dispatch。
+
+Prepared readback 允許新 lifecycle 產生外部 recovery bundle。
+Envelope 保留原 task、instruction context、source head、Issue body 和 write paths。
+它只投影選定的新 carrier 與 typed recovery context。不同 HEAD 必須拒絕。
+新 start 使用現有一次性 intent，先以 manual mode 持有原 order。
+Edit-item 的 ack、prompt 和 interruption marker 相符後，既有 mode owner 才 release。
+Soodles 不 requeue。Native owner 負責唯一 successor。
+
+普通 worker 仍拒絕 dirty worktree。Recovery worker 必須驗證 exact native
+successor、session、attempt、candidate_unchanged=true，以及原 Git identity。
+若 dispatch-result 尚未出現，worker 只在 existing spawn、current live owner
+和原 offered identity 相符時等待。等待與 spawn 初始化共用兩秒期限。
+它不啟動模型，也不重送 prepare、start 或 dispatch。Timeout、foreign receipt、
+owner 消失或 candidate_invalid 均拒絕。Supervisor 只要求 dispatched lineage
+保持有效。Writer 開始合法修改後，candidate_unchanged=false 不代表 lineage 失效。
+原 session immutable hash 改變仍由 native owner refused。
+
+原 authorization 沒有 lifecycle_owner 時，原 auth.base_head 的 Git objects
+可提供 original repair source。Reader 只解析原 issue_atom.py 的 literal
+LIFECYCLE_FILES。它不執行歷史 Python，也不使用新 runtime 的 closure 清單。
+Reader 比對原 binding、policy、context、lineage 和全部 counters/history。
+任何缺失、不符或未確認 effect 都拒絕。Explicit lifecycle_owner 仍使用其固定
+external bytes。這個讀取方式同時供 postwrite 與 interruption resume 使用。
+新 owner 不重設 history、used、started、last_time、limits 或原 binding。
+
+Recovery prompt 提供 outcome 與 feedback 的外部入口。
+原 candidate 的 `./stage-outcome` 可能仍載入舊 validator，無法讀 recovery envelope。
+因此 recovery writer 使用 `"$SOODLES_ADMISSION_LAUNCHER" stage-outcome`，
+再附上原 outcome/message 或 feedback/selection/digest 參數。
+這只替代當次回報的程式入口。原 task、instruction pins、要求和 outcome 語義不變。
+普通 writer 保留 `./stage-outcome`。
+
+Launcher 先驗證 envelope、manifest 和 runtime bytes，再載入已選定的 outcome reader。
+新 lifecycle closure 包含 stage_outcome.py。Bundle 同時包含 feedback 的直接依賴。
+Outcome reader 核對 current stage、session、spawn 和 native successor lineage。
+Writer 已合法修改 candidate 時，reader 不重用模型前的 candidate_unchanged 條件。
+Foreign successor、原 immutable session 變動或 bundle bytes 不符都拒絕，不寫事件。
+它仍使用 Noodle event writer。未知 event write 仍要求原 owner readback。
+Worker admission 成功本身不證明 outcome 回報成功。
+原 process readback 使用原 carrier。新 process、reconciliation 和 cleanup
+使用投影後 carrier。Publication、judge 和 unknown provider write 規則不變。

@@ -6,6 +6,7 @@ lock or retry loop is introduced. An installed supervisor launcher fixes the
 external envelope path/digest and this implementation before executing it.
 """
 import hashlib
+import fcntl
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -713,6 +714,17 @@ def projection(binding, envelope_digest, route):
             "contract": binding["contract"]}
     if "instruction_context" in binding["execution"]:
         subject["instruction_context"] = binding["execution"]["instruction_context"]
+    if "recovery_context" in binding["execution"]:
+        subject["recovery_context"] = {**binding["execution"]["recovery_context"],
+            "stage_outcome": {
+                "entry_environment": "SOODLES_ADMISSION_LAUNCHER",
+                "outcome_command": '"$SOODLES_ADMISSION_LAUNCHER" stage-outcome OUTCOME MESSAGE',
+                "feedback_command": '"$SOODLES_ADMISSION_LAUNCHER" stage-outcome feedback /absolute/selection.json SHA256',
+                "instruction": (
+                    "在本次恢復的 session，原選定指令要求 ./stage-outcome 時，使用以上命令。"
+                    "這只替換機械入口。保留原 task、instruction pins、outcome 規則與 feedback 要求。"
+                    "目前 admission launcher 提供已固定來源的 adapter。"
+                    "不要修改 candidate 入口，也不要自行組裝 event payload。")}}
     if "failure_context" in binding["execution"]:
         context = binding["execution"]["failure_context"]
         from issue_admission import validate_failure_context, validate_failure_logs
@@ -990,7 +1002,7 @@ def resume(checkpoint, envelope_path, envelope_digest, root, reader=fetch_issue)
     return result
 
 
-def validate_worktree(root, binding):
+def validate_worktree(root, binding, *, successor=None):
     execution = binding["execution"]
     control = Path(execution["control_root"]).resolve()
     def git(cwd, *args):
@@ -1014,7 +1026,14 @@ def validate_worktree(root, binding):
     require(origin in git_origins(binding["repository"]),
             "worker.git.origin", origin, owner="Git", required="admitted_repository_identity")
     residue = git(root, "status", "--porcelain=v1", "--untracked-files=all")
-    require(not residue, "worker.git.residue", residue, owner="Git", required="clean_worker_subject")
+    require(not residue or successor is not None, "worker.git.residue", residue,
+            owner="Git", required="clean_worker_subject")
+    if successor is not None:
+        require(successor.get("status") == "dispatched" and successor.get("candidate_unchanged") is True
+                and not successor.get("candidate_invalid")
+                and successor.get("custody") == execution["recovery_context"]["custody"],
+                "worker.recovery.candidate", successor.get("candidate_invalid"),
+                owner="Noodle", required="unchanged_native_candidate")
     result = subprocess.run(["git", "merge-base", "--is-ancestor", binding["base_head"], "HEAD"],
                             cwd=root, capture_output=True, text=True, timeout=30)
     require(result.returncode == 0, "worker.git.base", binding["base_head"],
@@ -1038,6 +1057,70 @@ def spawn_readback(binding, session):
     return spawn
 
 
+def interruption_readback(binding):
+    execution = binding["execution"]
+    recovery = execution["recovery_context"]
+    binary = executable_identity(execution["carrier"]["noodle"], "carrier.noodle")
+    result = subprocess.run([binary, "--project-dir", execution["control_root"], "interruption", "inspect",
+                             execution["order_id"], recovery["custody"]["subject"]],
+                            capture_output=True, text=True, timeout=30)
+    try:
+        receipt = json.loads(result.stdout)
+    except ValueError as error:
+        raise AdmissionRefusal("interruption.inspect", result.stderr, "Noodle", "native_interruption_readback") from error
+    require(isinstance(receipt, dict) and receipt.get("owner") == "Noodle interrupted execution"
+            and receipt.get("status") in {"recoverable", "prepared", "dispatched"},
+            "interruption.inspect", receipt, owner="Noodle", required="native_interruption_readback")
+    require(all(receipt.get(key) == recovery[key] for key in ("custody", "custody_sha256", "evidence_path")),
+            "interruption.custody", "changed", owner="Noodle", required="original_interruption_custody")
+    return receipt
+
+
+def interruption_successor(binding, session, spawn, deadline):
+    execution = binding["execution"]
+    recovery = execution["recovery_context"]
+    evidence = Path(recovery["evidence_path"])
+    for key, value in {"session_id": session, "skill": "execute", "provider": "codex", "runtime": "process",
+                       "worktree_path": recovery["custody"]["worktree_path"],
+                       "model": execution["carrier"]["codex"]["model"]}.items():
+        require(spawn.get(key) == value, "worker.spawn." + key, spawn.get(key))
+    while True:
+        owner = read_owner(binding)
+        stage = owner["state"]["orders"][execution["order_id"]]["stages"][execution["stage_index"]]
+        current = stage["attempts"][-1]
+        offered = json.loads((evidence / "dispatch-offered.json").read_bytes())
+        require(offered == {"custody_sha256": recovery["custody_sha256"], "attempt_id": current["attempt_id"]}
+                and current.get("status") in {"launching", "running"}
+                and current.get("session_id") in ("", session),
+                "worker.recovery.offer", offered, owner="Noodle", required="original_offered_successor")
+        with (Path(execution["control_root"]) / ".noodle/noodle.lock").open("rb") as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                pass
+            else:
+                raise AdmissionRefusal("worker.recovery.owner", "absent", "Noodle", "current_live_owner")
+        try:
+            result = json.loads((evidence / "dispatch-result.json").read_bytes())
+        except FileNotFoundError as error:
+            if time.monotonic() >= deadline:
+                raise AdmissionRefusal("worker.recovery.result", "timeout", "Noodle", "original_dispatch_readback") from error
+            time.sleep(0.01)
+            continue
+        require(result == {**offered, "session_id": session}, "worker.recovery.result", result,
+                owner="Noodle", required="exact_native_successor")
+        receipt = interruption_readback(binding)
+        require(receipt["status"] == "dispatched" and receipt.get("candidate_unchanged") is True
+                and not receipt.get("candidate_invalid")
+                and receipt.get("successor") == {"attempt_id": current["attempt_id"], "session_id": session},
+                "worker.recovery.candidate", receipt, owner="Noodle", required="unchanged_native_successor")
+        fresh = read_owner(binding)["state"]["orders"][execution["order_id"]]["stages"][execution["stage_index"]]
+        require(fresh["attempts"][-1].get("session_id") == session
+                and fresh["attempts"][-1].get("attempt_id") == result["attempt_id"],
+                "worker.recovery.current", "changed", owner="Noodle", required="exact_native_successor")
+        return receipt
+
+
 def launch_checked(binding, session, root, spawn, argv, execute):
     carrier = binding["execution"]["carrier"]
     for key, expected in (("session_id", session), ("provider", "codex"), ("runtime", "process"),
@@ -1058,6 +1141,7 @@ def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, en
     session = environ.get("NOODLE_SESSION_ID")
     require(isinstance(session, str) and re.fullmatch(r"[a-zA-Z0-9-]+", session),
             "worker.session_id", session, owner="Noodle", required="current_dispatch_identity")
+    deadline = time.monotonic() + 2
     spawn = spawn_readback(binding, session)
     state = read_owner(binding)
     if spawn.get("skill") == "schedule":
@@ -1080,7 +1164,11 @@ def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, en
         return launch_checked(binding, session, root, spawn, argv, execute)
     expected_root = (Path(execution["control_root"]) / ".worktrees" / execution["worktree"]).resolve()
     require(root == expected_root, "worker.worktree", str(root))
-    validate_worktree(root, binding)
+    successor = (interruption_successor(binding, session, spawn, deadline)
+                 if "recovery_context" in execution else None)
+    if successor is not None:
+        state = read_owner(binding)
+    validate_worktree(root, binding, successor=successor)
     for key, expected in (("NOODLE_PROJECT_DIR", execution["control_root"]),
                           ("NOODLE_WORKTREE", str(expected_root)),
                           ("NOODLE_ORDER_ID", execution["order_id"]),

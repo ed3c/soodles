@@ -346,6 +346,7 @@ def validate_envelope(envelope):
     execution = envelope["execution"]
     context_fields = {"instruction_context"} if envelope["schema"] == 2 else set()
     context_fields |= {"failure_context"} if isinstance(execution, dict) and "failure_context" in execution else set()
+    context_fields |= {"recovery_context"} if isinstance(execution, dict) and "recovery_context" in execution else set()
     exact_object(execution, {"control_root", "worktree", "order_id", "stage_index", "carrier", "task", "source_head"} | context_fields,
                  "envelope.execution.fields")
     require(isinstance(execution["source_head"], str) and re.fullmatch(r"[0-9a-f]{40}", execution["source_head"]),
@@ -371,7 +372,45 @@ def validate_envelope(envelope):
             "envelope.execution.stage_index", execution["stage_index"])
     require(isinstance(execution["carrier"], dict) and bool(execution["carrier"]),
             "envelope.execution.carrier", execution["carrier"])
+    if "recovery_context" in execution:
+        validate_recovery_context(envelope)
     return {**envelope, "write_paths": paths}
+
+
+def validate_recovery_context(envelope):
+    execution = envelope["execution"]
+    recovery = execution["recovery_context"]
+    exact_object(recovery, {"kind", "original_envelope", "custody", "custody_sha256", "evidence_path"},
+                 "recovery.fields")
+    require(recovery["kind"] == "prepublication_interruption", "recovery.kind", recovery["kind"])
+    ref = recovery["original_envelope"]
+    exact_object(ref, {"path", "sha256"}, "recovery.original_envelope")
+    path = Path(ref["path"])
+    require(path.is_absolute() and not path.resolve().is_relative_to(Path(execution["control_root"]).resolve())
+            and not path.is_symlink(), "recovery.original_envelope.path", str(path))
+    raw = path.read_bytes()
+    require(hashlib.sha256(raw).hexdigest() == ref["sha256"], "recovery.original_envelope.sha256", "changed")
+    original = json.loads(raw)
+    require("recovery_context" not in original.get("execution", {}), "recovery.original_envelope", "recursive")
+    validate_envelope(original)
+    projected = {**envelope, "execution": {key: value for key, value in execution.items()
+                                           if key != "recovery_context"}}
+    projected["execution"]["carrier"] = original["execution"]["carrier"]
+    require(projected == original, "recovery.original_binding", "changed")
+    custody = recovery["custody"]
+    require(isinstance(custody, dict), "recovery.custody", "missing")
+    subject = envelope["repository"] + "#" + str(envelope["issue"])
+    for key, value in {"order_id": execution["order_id"], "stage_index": execution["stage_index"],
+            "subject": subject, "envelope_sha256": ref["sha256"], "worktree_name": execution["worktree"],
+            "worktree_path": str(Path(execution["control_root"]) / ".worktrees" / execution["worktree"]),
+            "branch": execution["worktree"], "head": execution["source_head"]}.items():
+        require(custody.get(key) == value, "recovery.custody." + key, custody.get(key))
+    require(isinstance(recovery["custody_sha256"], str)
+            and re.fullmatch(r"[0-9a-f]{64}", recovery["custody_sha256"]), "recovery.custody_sha256", "invalid")
+    evidence = Path(execution["control_root"]) / ".noodle/interruptions" / hashlib.sha256(
+        (execution["order_id"] + "\n" + subject).encode()).hexdigest()
+    require(recovery["evidence_path"] == str(evidence), "recovery.evidence_path", recovery["evidence_path"])
+    return original
 
 
 def validate_issue(readback, envelope, *, completed=False):

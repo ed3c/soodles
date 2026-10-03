@@ -29,7 +29,7 @@ class LifecycleActivationTests(unittest.TestCase):
             "contracts/system-v1/routes.json", "contracts/system-v1/common.md",
             "contracts/system-v1/issue-atom.md", "contracts/system-v1/candidate.md",
             "contracts/system-v1/readback.md", "provider-readback",
-            "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py", "test_manager.py"}
+            "schema_manager.py", "policy/host-finalization.json", "cost_telemetry.py", "test_manager.py", "stage_outcome.py"}
         self.assertEqual(set(atom.LIFECYCLE_FILES), expected_files)
         for name in expected_files:
             destination = self.runtime / name
@@ -159,6 +159,15 @@ class LifecycleActivationTests(unittest.TestCase):
         self.assertEqual(state, before)
         self.assertEqual(state['repair']['used']['readback'], 1)
 
+    def test_explicit_original_closure_does_not_follow_new_runtime_file_list(self):
+        path, auth, state, root, _ = self.resumed_repair_fixture()
+        before = copy.deepcopy(state)
+        with patch.object(atom, 'LIFECYCLE_FILES', ('new-runtime-only.py',)), \
+                patch.object(atom, '__file__', str(root / 'issue_atom.py')), patch.object(atom, 'postwrite_lifecycle'):
+            controller = atom.resumed_repair_controller(auth, state, atom.artifact_paths(path), path)
+        self.assertEqual(controller.binding, state['repair']['binding'])
+        self.assertEqual(state, before)
+
     def test_postwrite_resume_refuses_foreign_binding_lineage_limits_and_unknown_effects(self):
         path, auth, state, root, _ = self.resumed_repair_fixture()
         original = copy.deepcopy(state['repair'])
@@ -191,6 +200,50 @@ class LifecycleActivationTests(unittest.TestCase):
             controller = atom.repair_controller(auth, state, atom.artifact_paths(path), authorization_path=path)
         self.assertIsNotNone(controller.disabled)
         self.assertNotIn('repair', state)
+
+    def test_implicit_original_git_source_survives_control_drift_and_new_closure(self):
+        from system_context import compile_repair
+        path, auth, state, root, _ = self.resumed_repair_fixture()
+        control = Path(auth['control_root'])
+        for name in atom.LIFECYCLE_FILES:
+            destination = control / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(self.runtime / name, destination)
+        def git(*args):
+            return subprocess.check_output(['git', *args], cwd=control, text=True, stderr=subprocess.PIPE).strip()
+        git('add', *atom.LIFECYCLE_FILES)
+        git('-c', 'user.name=Fixture', '-c', 'user.email=test@example.invalid', 'commit', '-m', 'pin original repair source')
+        auth.pop('lifecycle_owner')
+        auth['base_head'] = git('rev-parse', 'HEAD')
+        path.write_text(json.dumps(auth))
+        digest = atom.digest_file(path)
+        policy = atom.atom_repair.load((control / atom.atom_repair.POLICY_PATH).read_bytes())
+        history = state['repair']
+        history.update(lineage=digest, binding=atom.repair_binding(auth, policy, source_root=control),
+                       context=compile_repair(control))
+        state['authorization_sha256'] = digest
+        state['lifecycle_resume'].update({'from': None, 'authorization_sha256': digest})
+        before = copy.deepcopy(state)
+        (control / 'supervisor_admission.py').write_text('control source advanced\n')
+        with patch.object(atom, 'LIFECYCLE_FILES', ('new-runtime-only.py',)):
+            self.assertEqual(atom.original_repair_source(auth)[2], history['binding'])
+        with patch.object(atom, '__file__', str(root / 'issue_atom.py')), \
+                patch.object(atom, 'postwrite_lifecycle'):
+            controller = atom.resumed_repair_controller(auth, state, atom.artifact_paths(path), path)
+        self.assertEqual(controller.binding, history['binding'])
+        self.assertEqual(state, before)
+        original_base = auth['base_head']
+        for bad in ('f' * 40, git('hash-object', 'supervisor_admission.py')):
+            auth['base_head'] = bad
+            with self.assertRaises(atom.AtomRefusal):
+                atom.original_repair_source(auth)
+        auth['base_head'] = original_base
+        for field in ('binding', 'context', 'policy'):
+            state['repair'] = copy.deepcopy(before['repair'])
+            state['repair'][field] = {} if field == 'context' else 'f' * 64
+            with patch.object(atom, '__file__', str(root / 'issue_atom.py')), patch.object(atom, 'postwrite_lifecycle'):
+                with self.assertRaises(atom.atom_repair.RepairRefusal):
+                    atom.resumed_repair_controller(auth, state, atom.artifact_paths(path), path)
 
     def test_second_resume_persists_previous_selection_without_repair_or_projection_reset(self):
         path, auth, state, _, first = self.resumed_repair_fixture()
