@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 227
+  },
+  "instructions": [
+    {
+      "path": "AGENTS.md",
+      "baseline_sha256": "d91987b536f6c9a4efa7a1edbb5cf098885401e5b3f6b43e892c70eb03440b3b",
+      "treatment_sha256": "8b9f9a683094b369eb2362e71ccbfcedab80b822a0af9f33c51a36080a5628e3"
+    },
+    {
+      "path": ".agents/skills/review-writing/SKILL.md",
+      "baseline_sha256": "fbc1f479ba625511de1a89973aca2109463ce28581d7097141cda929eed4e37a",
+      "treatment_sha256": "49d9161bb04733e1cbc99d85b4b463661f206d5a98c0b9b47c09c255a5e9591f"
+    },
+    {
+      "path": ".agents/skills/review-writing/features/writing-review.md",
+      "baseline_sha256": "e2370667f57a4c610f63eff39a41bcea8d0ce5fb417606483036dd9bcaad5766",
+      "treatment_sha256": "12c2c486930e9185342bdb35806fc121de10d179577ec781576e673dbba45c0c"
+    },
+    {
+      "path": ".agents/skills/review-writing/features/pclass-feedback.md",
+      "baseline_sha256": "b4eaaaab04a3ea286460b3fe597fe0c359d3fe203bb54a1ad1f9e029e1b7cb78",
+      "treatment_sha256": "72b2d2377678a04f05d17696ae960ed4ab0870366592b06ba809924fa93802f3"
+    }
+  ],
+  "artifacts": [],
+  "owner": {
+    "name": "Existing Soodles Issue atom and Noodle writer",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#227"
+  },
+  "authorizes_landing": false
+}
