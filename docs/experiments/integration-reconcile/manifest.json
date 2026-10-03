@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "issue": {
+    "repository": "ed3c/soodles",
+    "number": 260
+  },
+  "instructions": [
+    {
+      "path": "landing.py",
+      "baseline_sha256": "76f73a22874320bde07ca68c1da3f5499499018e5ddd7aff4b2ebacc6acca5ce",
+      "treatment_sha256": "7ac687d2768897b588ba05e1fce95db3504f50b882e40612e2fecc6fd0ea3bf7"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/experiments/integration-reconcile/results.md",
+      "role": "observed_evidence",
+      "sha256": "b508d5c04331fb4a81809e8ddca5c9b443856e9e2de6f2affa948b02db48fb73"
+    },
+    {
+      "path": "tests/test_cleanup_continuation.py",
+      "role": "control",
+      "sha256": "38cdcaf9342220a9ebd015aebe466eeef82b3f31ce0ed9b41777e22567e7d96b"
+    },
+    {
+      "path": "tests/test_landing.py",
+      "role": "control",
+      "sha256": "3b0d0581c72e61f9b51a128be1dffc4a0852a07f6bd85499e2d5bd2235a829d8"
+    }
+  ],
+  "owner": {
+    "name": "Soodles Issue admission",
+    "tool": "issue_admission.validate_delivery_paths",
+    "authorization": "ed3c/soodles#260"
+  },
+  "authorizes_landing": false
+}
