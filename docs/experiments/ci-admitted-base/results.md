@@ -170,3 +170,34 @@ Root 仍須透過原 #229 continuation 驗證真實後續 PR。
 獨立 source 與 control review 未發現 correctness must-fix。
 review 未自行執行測試。
 本次沒有 P-class Markdown 變更，因此沒有新 P-class behavior claim 或 feedback round。
+
+## 指定 base 整合
+
+本次 revision 保留原候選 `1820dc1feab3bffde597172e0109a7eead0f00e8`。
+原 owner 將 admitted base 推進到 `55e13edf6dba5e6886b5b9796b1fe6058299b4b2`。
+writer 在原 worktree 合併此 exact target，沒有衝突。
+原 instruction source 仍是 `4b60629a44a503637c93207a03cc81717148a076`。
+原 judge、task 與前次 attempt 記錄均保留。
+
+目標 base 的變更只有成本紀錄、atom 整合及其 controls 與證據。
+原 caller、workflow、strict verifier、Test Manager 與五個測試模組的 bytes 未變。
+writer 也比對 fixture 依賴、analyzer、synthetic JSON 與 runtime lock，均與原候選相同。
+`soodles.py` 只在 atom CLI 分支載入新增的成本邏輯。
+本 Issue 的五個控制模組不執行該分支。
+
+Test Manager 對新 admitted base 回傳相同五個模組，`physical=[]`。
+writer 因此重用上述 43 項歷史通過證據，沒有重跑。
+這些結果仍屬原 source 與 fixture inputs，不是新 head 的測試執行紀錄。
+原 `tests.json` 與 `tests.log` 的 SHA-256 均已重新核對。
+新的整合檢查使用原 pinned admission runtime，檢查提交後的實際 manifest、write scope 與 frozen pin。
+Git 檢查確認候選包含原候選與指定 target。
+workflow 的 baseline 與 treatment bytes 均未改變，所以 manifest 保留原兩個雜湊。
+manifest 更新本 results 文件的雜湊。
+
+本次外部證據位於 `/Users/neon/.codex/experiments/ci-admitted-base-250-writer/revision-55e/`。
+`plan.json` 保存本次 Test Manager 選擇。
+`source-reuse.json` 與 `reuse-dependencies.json` 保存重用判斷。
+`integration-review.md` 保存同模型的獨立原生審查。
+`candidate-local.json` 保存新提交的本機檢查，不授予 landing 權限。
+本次沒有新 P-class Markdown 變更，也沒有新的模型行為改善主張。
+原 publication、Linux exact-head CI、landing、reconciliation 及後續 #229 驗證仍待各 owner 接續。
