@@ -45,6 +45,15 @@ class ScopeAmendmentTests(unittest.TestCase):
         with self.assertRaises(issue_admission.AdmissionRefusal):
             issue_admission.validate_issue(self.issue, envelope)
 
+    def test_legacy_correction_body_preserves_same_base_and_refuses_advance(self):
+        authorization = {'base_head': self.envelope['base_head']}
+        self.assertEqual(issue_admission.correction_base_body(
+            authorization, self.body, authorization['base_head'], 'b' * 40), self.body)
+        for target in ('c' * 40, None):
+            with self.subTest(target=target), self.assertRaisesRegex(
+                    issue_admission.AdmissionRefusal, 'correction.base.target'):
+                issue_admission.correction_base_body(authorization, self.body, target, 'b' * 40)
+
     def blocked_fixture(self):
         execution = self.envelope['execution']
         session = 'original-session'
@@ -109,16 +118,19 @@ class ScopeAmendmentTests(unittest.TestCase):
         def produce(*args, **kwargs):
             self.assertEqual(kwargs['runtime_root'], self.directory / 'selected')
             self.assertEqual(kwargs['failure_context'], auth['failure_context'])
+            self.assertIsNone(kwargs['revision_entry'])
             path.parent.mkdir()
             path.write_text(json.dumps(self.envelope))
             (path.parent / 'prepared.json').write_text('{"atomic": true}')
             return {'envelope_sha256': atom.digest_file(path)}
         with patch.object(atom, 'verify_prior_atom', return_value={'prior_loop_status': 'restored'}), \
+                patch.object(atom, 'correction_revision_source', return_value=(None, None, None, None)) as revision, \
                 patch.object(atom, 'validate_lifecycle_owner', return_value=self.directory / 'selected/issue-atom') as selected, \
                 patch.object(supervisor_admission, 'prepare', side_effect=produce), \
                 patch.object(atom, 'save_json', side_effect=AssertionError('duplicate receipt write')):
             envelope, digest = atom.create_envelope(auth, self.issue, self.issue['body'], path)
         selected.assert_called_once_with(auth, executing=True)
+        revision.assert_called_once_with(auth)
         self.assertEqual(envelope, self.envelope)
         self.assertEqual(digest, atom.digest_file(path))
         self.assertEqual(json.loads((path.parent / 'prepared.json').read_text()), {'atomic': True})
@@ -219,6 +231,7 @@ class ScopeAmendmentTests(unittest.TestCase):
 
     def test_correction_readback_starts_from_raw_authority_after_scope_projection(self):
         raw = {'repository': 'ed3c/soodles', 'control_root': str(self.directory / 'control'),
+               'base_head': self.envelope['base_head'],
                'issue': {'title': 'Original', 'body': self.issue['body']}, 'task': 'Original task',
                'carrier': {}, 'noodle': {}, 'landing_owner': {'fixed': True},
                'lifecycle_owner': {'path': '/original/issue-atom'}}

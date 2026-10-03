@@ -13,6 +13,33 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class LandingContinuationTests(unittest.TestCase):
+    def test_local_control_then_native_then_integration_uses_same_checkpoint(self):
+        fixture = test_landing.IntegrationReconciliationTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        fixture.parked_fixture()
+        with fixture.owners():
+            first = fixture.reconcile()
+            continuation = first["next"]
+            self.assertEqual(continuation["owner"], "Noodle")
+            self.assertEqual(continuation["known"]["checkpoint"], str(fixture.checkpoint))
+            self.assertEqual(continuation["known"]["order_id"], "original-order")
+            self.assertEqual(fixture.git(fixture.root, "rev-parse", "HEAD"), fixture.target)
+            self.assertEqual(fixture.git(fixture.primary, "rev-parse", "HEAD"), fixture.base)
+            pending = fixture.reconcile()
+            self.assertEqual(pending["next"], continuation)
+            self.assertTrue(fixture.worktree.exists())
+            # Native execution is a fixture boundary; the Git owners are real.
+            fixture.owner["state"]["orders"]["original-order"]["status"] = "completed"
+            result = fixture.reconcile()
+        self.assertEqual(result["classification"], "RESOLVED")
+        self.assertIsNone(result["next"])
+        self.assertEqual([event for event in fixture.events if isinstance(event, tuple)],
+                         [("ff", str(fixture.root), fixture.target),
+                          ("ff", str(fixture.primary), fixture.target)])
+        self.assertEqual(fixture.events.count("cleanup"), 1)
+        self.assertEqual(result["control_sync"]["target_head"], result["integration_sync"]["target_head"])
+
     def test_emitted_argv_requires_fresh_readback_and_never_repeats_unknown_writes(self):
         fixture = test_landing.LandingTests()
         fixture.setUp()

@@ -257,7 +257,10 @@ For a confirmed failed CI, the current atom can return an executable correction
 preparation command. The supervising Agent executes that returned argv and
 consumes its prepared `next` and environment. Do not reconstruct the selection.
 The producer reads the original task, contract, publication, carrier and judge.
-It verifies current failed CI and the same base through the existing owners.
+It verifies current failed CI and the selected provider base through the existing owners.
+For a descendant base, the producer keeps the original control source separate
+from the prior target and the new target. It requires the parent-selected native
+revision capability. Missing capability returns to the original owner.
 Each authorization has one fixed correction output. Re-entry reads its saved
 selection without provider reads or new budget accounting. The producer follows
 the immutable `prior_atom` chain to the original task. It permits three automatic
@@ -335,13 +338,18 @@ local head separately from detached control HEAD. Another offer requires changed
 cleanup inputs or the existing lock-release readback. Movement of a remote-tracking
 ref or detached HEAD alone is insufficient. No-op cleanup keeps its existing safeguards.
 
-An immutable old lifecycle cannot acquire new code through `run`. For a stopped
-original atom after confirmed merge and closure, the external supervisor may
+An immutable old lifecycle cannot acquire new code through `run`.
+For an original atom after confirmed merge and closure, the external supervisor may
 invoke the independently selected runtime's `issue-atom resume AUTH DESCRIPTOR
 SHA256`. The descriptor pins `path`, `sha256` and `source_sha256` using the existing
 lifecycle bundle contract; retain `SOODLES_AUTHORIZATION_SHA256`. This owner checks
-the original native claim/envelope/order, absent sessions and free native/atom
-locks, allowing only the exact idle schedule shape and admitted base ancestry.
+the original native claim/envelope/order, absent sessions and admitted base ancestry.
+停止的 owner 需要空閒的原 native lock。仍在 parked review 的 exact 原 loop，
+則由既有 process identity 與 lock readback 核對。兩者都要取得原 atom lock。
+合法 parked published review 也可選 immutable lifecycle bytes。Owner 先驗原
+completed writer、prepared bundle、installed config、control ACK history 和空 mailbox。
+Active 或 foreign session、config drift 和 control tail mismatch 均拒絕。
+選 source 本身不停止 loop、不移動 Git，也不產生 provider write。
 It records `from`/`to`/authorization digest without editing authorization or raw
 Noodle history. Existing host-finalization facts and sequence carry forward only
 under unchanged rules. The complete prior projection is retained. No unresolved
@@ -357,12 +365,22 @@ This selection does not choose the landing verifier or authorize new writes.
 `status=resolved` is legal only after the landing owner reports
 `classification=RESOLVED` and local reconciliation has completed. Earlier
 receipts retain `authorizes_landing=false`.
-After confirmed provider closure and local fast-forward, the entry stops its own
-loop and uses Noodle's existing `publication reconcile` owner. That owner checks
+After confirmed provider closure, the entry validates and stops its own loop.
+For a same-root descendant correction, it records intent and fast-forwards the
+clean registered detached control from the original source to the selected base.
+It preserves installed config. The fixed lander then verifies exact parked custody
+and advances control to include the confirmed merge before native completion.
+This order satisfies the merged-ancestry prerequisite of Noodle's existing
+`publication reconcile` owner. That owner checks
 the original claim and merged ancestry, then completes the original order.
 It preserves the original attempt and any merge error. It starts no writer and
 performs no merge. A legacy merge acknowledgement proves command acceptance,
-not completion. The entry reads the completed order before cleanup. It restores
+not completion. A lost native response requires canonical completion readback.
+The entry adopts exact completion without repeating `publication reconcile`.
+After native completion, the existing landing integration owner synchronizes the
+unique registered integration checkout, then runs cleanup. Unknown Git effects
+require exact readback. They cannot be offered again. This current-source route
+does not certify unselected historical lifecycle and judge pairs. The entry restores
 unchanged installed config to the pinned bytes after the owned loop is absent.
 
 Issue #131 is the bootstrap deployment: its Issue was created by the existing
@@ -386,16 +404,19 @@ recipes and observing model behavior remain supervisor responsibilities.
 
 ## Failed PR when the base advances
 
-Read the exact current provider base and original publication. If the same-root
-correction refuses because that base advanced, use the existing fresh-root
-`prior_publication` admission in the [authorization recipe](../verify-soodles/features/local-supervisor-admission.md).
-Keep the same Issue, PR and publication branch. Select a clean control root at
-the exact descendant provider base and omit `prior_atom`; that field means
-resuming the original order on its unchanged base, not history migration.
-Keep the old owner quiescent and retain its authorization, attempts, worktree
-and failure receipts. The new root gets its own Noodle order; prior repair
-history is not copied or reset into a new automatic repair allowance.
+原 failed PR 的 base 前進時，先使用原 owner 回傳的 correction preparation argv。
+Producer 讀取固定 repository binding 的 provider base，再驗證 descendant ancestry。
+原 authorization source、先前 target 和新 target 各自保留。
+`prior_atom` 保留同一 control root、Issue、PR、order、attempts 和 repair history。
+Producer 只更新 schema-3 contract 的 base 與既有 base pins。
+它封存 typed CI revision entry，包含原 prompt、failed-CI context 和 selected native capability。
+Worker 驗證該 entry，先整合固定 target，再完成原 task。
 
+若缺少原選定 capability、lineage 或確定的 effect readback，原 owner 拒絕受影響操作。
+不要改用新 authorization、fresh root 或另一個 judge 來避開拒絕。
+已另行授權的 prior-publication-only fresh-root admission 保留其原邊界。
+它不能取代已選的 same-order correction。
+正常 base movement 不消耗或重設 fault repair budget。
 The selected schema-3 Issue may change only `base_head` and the SHA-256 of
 existing `revision=base` frozen paths. Read both revisions to bind those bytes.
 Preserve all scope, head pins, prose and the original marker. The lifecycle

@@ -447,7 +447,12 @@ def prepare(issue_readback, carrier, control_root, output, *,
                                                             if key != "recovery_context"}}
         envelope["execution"] = {**envelope["execution"], "carrier": carrier}
         worker_head = original["execution"]["source_head"]
-    if instruction_pins is not None and revision_entry is None:
+        if revision_entry["kind"] == "ci_correction":
+            worker_head = revision_entry["candidate_head"]
+            envelope["execution"]["source_head"] = worker_head
+            envelope["execution"].pop("instruction_context", None)
+            envelope["execution"].pop("failure_context", None)
+    if instruction_pins is not None and (revision_entry is None or revision_entry["kind"] == "ci_correction"):
         envelope["schema"] = 2
         envelope["execution"]["instruction_context"] = resolve_instruction_context(root, worker_head, instruction_pins)
     if failure_context is not None:
@@ -875,9 +880,10 @@ def authorize(selection_path, expected_sha256, output):
             "selection.carrier", carrier)
     validate_carrier({"execution": {"carrier": carrier}}, worker=True)
     acceptance = target_profile(selection, require)
+    base_head = parse_contract(selection["issue"]["body"]).get("base_head", head) if "prior_atom" in selection else head
     if "target_binding" in selection:
         require(_git(root, "symbolic-ref", "--short", "refs/remotes/origin/HEAD") == "origin/" + acceptance["base_ref"]
-                and _git(root, "rev-parse", "refs/remotes/origin/" + acceptance["base_ref"]) == head,
+                and _git(root, "rev-parse", "refs/remotes/origin/" + acceptance["base_ref"]) == base_head,
                 "authorization.noodle_base", acceptance["base_ref"],
                 owner="supervisor", required="selected_base_supported_by_noodle_claim")
     workflow = ({"path": acceptance["workflow_path"], "jobs": acceptance["jobs"]}
@@ -903,7 +909,7 @@ def authorize(selection_path, expected_sha256, output):
         "schema_version": 3 if pins else 2,
         "owner": "external-supervisor",
         "repository": selection["repository"],
-        "control_root": str(root), "base_head": head,
+        "control_root": str(root), "base_head": base_head,
         "issue": selection["issue"], "task": selection["task"],
         "noodle": carrier["noodle"],
         "carrier": {"platform": carrier["platform"], "codex": carrier["codex"]},
@@ -1011,6 +1017,9 @@ def _correction_readback(target, authorization, reference):
     expected_body = authorization["issue"]["body"]
     if "number" not in authorization["issue"]:
         expected_body = expected_body.rstrip() + "\n\n" + issue_atom.marker(reference["sha256"]) + "\n"
+    expected_body = issue_atom.correction_base_body(authorization, expected_body,
+        parse_contract(issue["body"]).get("base_head", authorization.get("base_head")),
+        selection["prior_publication"]["head"])
     require(set(issue) == {"number", "title", "body"}
             and type(issue["number"]) is int and issue["number"] > 0
             and issue["number"] == authorization["issue"].get("number", issue["number"])
@@ -1024,7 +1033,7 @@ def _correction_readback(target, authorization, reference):
 
 
 def correction(authorization_path, expected_sha256, output, *, environ=None, provider=None):
-    """Prepare one same-base correction through the existing authorization owner."""
+    """Prepare one correction through the existing authorization owner."""
     import issue_atom
     import provider_credential
     try:
@@ -1100,6 +1109,16 @@ def _prepare_correction(authorization_path, expected_sha256, output, *, environ,
     require(isinstance(current, dict) and current.get("number") == number
             and current.get("state") == "open" and body == expected_body,
             "correction.issue", number, owner="GitHub", required="exact_open_original_issue")
+    repository = provider.repository_info()
+    require(isinstance(repository, dict) and repository.get("full_name") == authorization["repository"],
+            "correction.repository", repository.get("full_name") if isinstance(repository, dict) else None,
+            owner="GitHub", required="exact_selected_repository")
+    target_base = provider.base_head(target_profile(authorization, require)["base_ref"])
+    issue = {**issue, "body": issue_atom.correction_base_body(
+        authorization, expected_body, target_base, publication["head"])}
+    candidate = {**candidate, "base_head": target_base, "issue": issue}
+    if target_base != authorization["base_head"]:
+        issue_atom.correction_revision_source(candidate)
     failed_run, failed_jobs = issue_atom.verify_failed_prior(provider, candidate, failed_ci_only=True)
     require(correction_count < 3, "correction.lineage.limit", correction_count,
             owner="soodles.issue-atom", required="reassess_cause_after_three_failed_corrections")

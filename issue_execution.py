@@ -517,11 +517,13 @@ def revision_context(binding, reference, envelope_digest):
 
 def validate_revision_entry(binding, entry, envelope_digest):
     control = Path(binding["execution"]["control_root"])
+    correction = isinstance(entry, dict) and entry.get("kind") == "ci_correction"
     require(isinstance(entry, dict) and set(entry) == {"schema", "kind", "original_envelope", "envelope_sha256",
             "selection_sha256", "candidate_head", "candidate_tree", "old_base", "target_base", "terminal",
             "prior_attempts", "order_id", "stage_index", "worktree", "native_acceptance"}
+            | ({"correction_authorization", "original_issue"} if correction else set())
             and type(entry["schema"]) is int and entry["schema"] == 1
-            and entry["kind"] in {"base_advance", "criteria_correction"}, "revision.entry.fields", entry)
+            and entry["kind"] in {"base_advance", "criteria_correction", "ci_correction"}, "revision.entry.fields", entry)
     require(entry["envelope_sha256"] == envelope_digest and entry["target_base"] == binding["base_head"],
             "revision.entry.envelope", "changed")
     original = load_external_envelope(entry["original_envelope"]["path"], entry["original_envelope"]["sha256"], control)
@@ -538,12 +540,82 @@ def validate_revision_entry(binding, entry, envelope_digest):
     from issue_admission import load_revision_native
     native = load_revision_native(entry["native_acceptance"], control)
     old_execution["carrier"] = {**old_execution["carrier"], "noodle": native}
+    if correction:
+        def pinned(reference):
+            require(isinstance(reference, dict) and set(reference) == {"path", "sha256"},
+                    "correction.entry.reference", reference)
+            path = Path(reference["path"])
+            require(path.is_absolute() and path.is_file() and not path.is_symlink()
+                    and not path.resolve().is_relative_to(control.resolve()), "correction.entry.path", str(path))
+            raw = path.read_bytes()
+            require(hashlib.sha256(raw).hexdigest() == reference["sha256"], "correction.entry.digest", str(path))
+            return json.loads(raw)
+        authorization = pinned(entry["correction_authorization"])
+        require(entry["selection_sha256"] == entry["correction_authorization"]["sha256"]
+                and authorization.get("base_head") == entry["target_base"]
+                and authorization.get("repository") == binding["repository"]
+                and authorization.get("target_binding") == binding.get("target_binding")
+                and authorization.get("control_root") == str(control)
+                and authorization.get("task") == old_execution["task"]
+                and authorization.get("noodle") == native
+                and authorization.get("carrier") == {key: value for key, value in old_execution["carrier"].items() if key != "noodle"}
+                and authorization.get("prior_publication", {}).get("head") == entry["candidate_head"]
+                and authorization["prior_publication"].get("tree") == entry["candidate_tree"],
+                "correction.entry.identity", "changed")
+        parent = pinned(authorization["prior_atom"])
+        parent_path = Path(authorization["prior_atom"]["path"])
+        parent_state = json.loads(parent_path.with_name(parent_path.name + ".state.json").read_bytes())
+        require(parent_state.get("authorization_sha256") == authorization["prior_atom"]["sha256"]
+                and parent_state.get("publication") == authorization["prior_publication"]
+                and parent.get("repository") == binding["repository"] and parent.get("control_root") == str(control)
+                and parent.get("target_binding") == binding.get("target_binding"),
+                "correction.entry.parent", "changed")
+        amendment = parent_state.get("scope_amendment")
+        if amendment is not None:
+            packet = pinned(amendment["selection"])
+            require(packet["selection"].get("native_acceptance") == entry["native_acceptance"]
+                    and entry["original_envelope"]["path"] == str(Path(packet["output"]) / "admission/envelope.json"),
+                    "correction.entry.native", "changed")
+        else:
+            prior_path = parent_path.parent / (parent_path.name + ".d") / "admission/revision-entry.json"
+            prior_entry = json.loads(prior_path.read_bytes())
+            require(prior_entry.get("correction_authorization") == authorization["prior_atom"]
+                    and prior_entry.get("native_acceptance") == entry["native_acceptance"],
+                    "correction.entry.native", "changed")
+            validate_revision_entry(original, prior_entry, entry["original_envelope"]["sha256"])
+        require(entry["original_envelope"]["sha256"] == parent_state.get("envelope_sha256"),
+                "correction.entry.parent_envelope", "changed")
+        from issue_admission import correction_base_body, resolve_instruction_context, validate_failure_context, validate_failure_logs
+        original_issue = entry["original_issue"]
+        require(original_issue.get("number") == original["issue"]
+                and hashlib.sha256(original_issue["body"].encode()).hexdigest() == original["body_sha256"],
+                "correction.entry.original_issue", "changed")
+        body = correction_base_body(authorization, entry["original_issue"]["body"],
+                                    entry["target_base"], entry["candidate_head"])
+        require(authorization["issue"]["body"] == body and binding["body_sha256"] == hashlib.sha256(body.encode()).hexdigest(),
+                "correction.entry.scope", "changed")
+        old_execution["source_head"] = entry["candidate_head"]
+        old_execution.pop("instruction_context", None)
+        if authorization.get("instruction_pins") is not None:
+            old_execution["instruction_context"] = resolve_instruction_context(control, entry["candidate_head"], authorization["instruction_pins"])
+        failure = authorization.get("failure_context")
+        validate_failure_context(failure, binding["repository"], binding["issue"], entry["candidate_head"],
+                                 authorization["workflow"], authorization["prior_publication"]["pr"]["number"])
+        validate_failure_logs(failure, control)
+        old_execution["failure_context"] = failure
     require(binding["execution"] == old_execution, "revision.entry.instructions", "changed")
     for key in ("candidate_head", "candidate_tree", "old_base", "target_base"):
         require(isinstance(entry[key], str) and re.fullmatch(r"[0-9a-f]{40}", entry[key]), "revision.entry." + key, entry[key])
     terminal = entry["terminal"]
     require(isinstance(terminal, dict) and terminal.get("message", {}).get("outcome") in {"blocked", "completed"},
             "revision.entry.terminal", terminal)
+    if correction:
+        require(terminal["message"].get("outcome") == "completed" and terminal["message"].get("blocking") is False
+                and isinstance(entry["prior_attempts"], list) and bool(entry["prior_attempts"])
+                and all(isinstance(attempt, dict) for attempt in entry["prior_attempts"])
+                and entry["prior_attempts"][-1].get("session_id") == terminal["session_id"]
+                and entry["prior_attempts"][-1].get("error") == "changes requested: Correct the selected failed exact-head runtime",
+                "correction.entry.terminal", "changed")
     source = terminal["source"]
     require(hashlib.sha256(Path(source["path"]).read_bytes()).hexdigest() == source["sha256"],
             "revision.entry.history", "changed")
@@ -1299,8 +1371,14 @@ def validate_revision_successor(binding, stage, session, root):
 def worker(envelope_path, envelope_digest, root, argv, *, reader=fetch_issue, environ=None, execute=os.execv, entry_reference=None):
     environ = os.environ if environ is None else environ
     root = Path(root).resolve()
-    binding = context(envelope_path, envelope_digest, root, reader)
-    if entry_reference is not None:
+    if entry_reference is None:
+        binding = context(envelope_path, envelope_digest, root, reader)
+    else:
+        envelope = load_external_envelope(envelope_path, envelope_digest, root)
+        readback = (reader(envelope["repository"], envelope["issue"], binding=envelope)
+                    if reader is fetch_issue and "target_binding" in envelope
+                    else reader(envelope["repository"], envelope["issue"]))
+        binding = validate_issue(readback, envelope)
         binding = revision_context(binding, entry_reference, envelope_digest)
     execution = binding["execution"]
     session = environ.get("NOODLE_SESSION_ID")
